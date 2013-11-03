@@ -1847,7 +1847,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '2520427958',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:01'
+                        MAC          => '00:24:13:CE:D7:01',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/2',
@@ -1860,7 +1861,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '1444296343',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:02'
+                        MAC          => '00:24:13:CE:D7:02',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/3',
@@ -1873,7 +1875,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '3697736928',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:03'
+                        MAC          => '00:24:13:CE:D7:03',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/4',
@@ -1886,7 +1889,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '2874278107',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:04'
+                        MAC          => '00:24:13:CE:D7:04',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/5',
@@ -1899,7 +1903,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '2097721511',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:05'
+                        MAC          => '00:24:13:CE:D7:05',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/6',
@@ -1912,7 +1917,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '7517632',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:06'
+                        MAC          => '00:24:13:CE:D7:06',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/7',
@@ -1925,7 +1931,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '356275802',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:07'
+                        MAC          => '00:24:13:CE:D7:07',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/8',
@@ -1938,7 +1945,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '1849411001',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:08'
+                        MAC          => '00:24:13:CE:D7:08',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/9',
@@ -1951,7 +1959,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '4060044107',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:09'
+                        MAC          => '00:24:13:CE:D7:09',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/10',
@@ -1964,7 +1973,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '650135037',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:0A'
+                        MAC          => '00:24:13:CE:D7:0A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/11',
@@ -1977,7 +1987,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:0B'
+                        MAC          => '00:24:13:CE:D7:0B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/12',
@@ -1990,7 +2001,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '680136759',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:0C'
+                        MAC          => '00:24:13:CE:D7:0C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/13',
@@ -2003,7 +2015,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '828899275',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:0D'
+                        MAC          => '00:24:13:CE:D7:0D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/14',
@@ -2016,7 +2029,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '1855427971',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:0E'
+                        MAC          => '00:24:13:CE:D7:0E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/15',
@@ -2029,7 +2043,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '1133282038',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:0F'
+                        MAC          => '00:24:13:CE:D7:0F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/16',
@@ -2042,7 +2057,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '857357031',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:10'
+                        MAC          => '00:24:13:CE:D7:10',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/17',
@@ -2055,7 +2071,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '209932792',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:11'
+                        MAC          => '00:24:13:CE:D7:11',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/18',
@@ -2068,7 +2085,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '1032329852',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:12'
+                        MAC          => '00:24:13:CE:D7:12',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/19',
@@ -2081,7 +2099,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '1865203761',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:13'
+                        MAC          => '00:24:13:CE:D7:13',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/20',
@@ -2094,7 +2113,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '37991943',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:14'
+                        MAC          => '00:24:13:CE:D7:14',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/21',
@@ -2107,7 +2127,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '2845209002',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:15'
+                        MAC          => '00:24:13:CE:D7:15',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/22',
@@ -2120,7 +2141,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '2428516158',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:16'
+                        MAC          => '00:24:13:CE:D7:16',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/23',
@@ -2133,7 +2155,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:17'
+                        MAC          => '00:24:13:CE:D7:17',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/24',
@@ -2147,6 +2170,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '00:24:13:CE:D7:18',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'GigabitEthernet0/1',
@@ -2159,7 +2183,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:24:13:CE:D7:19'
+                        MAC          => '00:24:13:CE:D7:19',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -2173,6 +2198,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '00:24:13:CE:D7:1A',
+                        TRUNK        => 1,
                         CONNECTIONS  => {
                             CDP        => 1,
                             CONNECTION => {
@@ -2268,7 +2294,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '926844080',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:01'
+                        MAC          => '00:1B:54:D6:39:01',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/2',
@@ -2281,7 +2308,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:02'
+                        MAC          => '00:1B:54:D6:39:02',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/3',
@@ -2294,7 +2322,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '3227489290',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:03'
+                        MAC          => '00:1B:54:D6:39:03',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/4',
@@ -2307,7 +2336,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:04'
+                        MAC          => '00:1B:54:D6:39:04',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/5',
@@ -2320,7 +2350,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '2052899224',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:05'
+                        MAC          => '00:1B:54:D6:39:05',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/6',
@@ -2333,7 +2364,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:06'
+                        MAC          => '00:1B:54:D6:39:06',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/7',
@@ -2346,7 +2378,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '2698203912',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:07'
+                        MAC          => '00:1B:54:D6:39:07',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/8',
@@ -2359,7 +2392,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '1553262039',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:08'
+                        MAC          => '00:1B:54:D6:39:08',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/9',
@@ -2372,7 +2406,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '3992264533',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:09'
+                        MAC          => '00:1B:54:D6:39:09',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/10',
@@ -2385,7 +2420,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '654794463',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:0A'
+                        MAC          => '00:1B:54:D6:39:0A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/11',
@@ -2398,7 +2434,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '4219065024',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:0B'
+                        MAC          => '00:1B:54:D6:39:0B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/12',
@@ -2411,7 +2448,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '347903192',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:0C'
+                        MAC          => '00:1B:54:D6:39:0C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/13',
@@ -2424,7 +2462,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '191680982',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:0D'
+                        MAC          => '00:1B:54:D6:39:0D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/14',
@@ -2437,7 +2476,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:0E'
+                        MAC          => '00:1B:54:D6:39:0E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/15',
@@ -2450,7 +2490,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '2383669184',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:0F'
+                        MAC          => '00:1B:54:D6:39:0F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/16',
@@ -2463,7 +2504,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '631494',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:10'
+                        MAC          => '00:1B:54:D6:39:10',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/17',
@@ -2476,7 +2518,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '469166891',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:11'
+                        MAC          => '00:1B:54:D6:39:11',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/18',
@@ -2489,7 +2532,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:12'
+                        MAC          => '00:1B:54:D6:39:12',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/19',
@@ -2502,7 +2546,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '3400637521',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:13'
+                        MAC          => '00:1B:54:D6:39:13',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/20',
@@ -2515,7 +2560,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '756432620',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:14'
+                        MAC          => '00:1B:54:D6:39:14',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/21',
@@ -2528,7 +2574,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:15'
+                        MAC          => '00:1B:54:D6:39:15',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/22',
@@ -2541,7 +2588,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '2733536359',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:16'
+                        MAC          => '00:1B:54:D6:39:16',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/23',
@@ -2554,7 +2602,8 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '00:1B:54:D6:39:17'
+                        MAC          => '00:1B:54:D6:39:17',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/24',
@@ -2568,6 +2617,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '00:1B:54:D6:39:18',
+                        TRUNK        => 1,
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -2588,6 +2638,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '00:1B:54:D6:39:19',
+                        TRUNK        => 1,
                         CONNECTIONS  => {
                             CONNECTION => {
                                 MAC => [
@@ -2608,6 +2659,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '00:1B:54:D6:39:1A',
+                        TRUNK        => 1,
                         CONNECTIONS  => {
                             CDP        => 1,
                             CONNECTION => {
@@ -2716,7 +2768,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:01'
+                        MAC              => 'C4:0A:CB:CD:86:01',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/2',
@@ -2733,7 +2786,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:02'
+                        MAC              => 'C4:0A:CB:CD:86:02',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/3',
@@ -2750,7 +2804,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:03'
+                        MAC              => 'C4:0A:CB:CD:86:03',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/4',
@@ -2767,7 +2822,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:04'
+                        MAC              => 'C4:0A:CB:CD:86:04',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/5',
@@ -2784,7 +2840,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:05'
+                        MAC              => 'C4:0A:CB:CD:86:05',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/6',
@@ -2801,7 +2858,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:06'
+                        MAC              => 'C4:0A:CB:CD:86:06',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/7',
@@ -2818,7 +2876,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:07'
+                        MAC              => 'C4:0A:CB:CD:86:07',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/8',
@@ -2835,7 +2894,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:08'
+                        MAC              => 'C4:0A:CB:CD:86:08',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/9',
@@ -2852,7 +2912,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:09'
+                        MAC              => 'C4:0A:CB:CD:86:09',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/10',
@@ -2869,7 +2930,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:0A'
+                        MAC              => 'C4:0A:CB:CD:86:0A',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/11',
@@ -2886,7 +2948,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:0B'
+                        MAC              => 'C4:0A:CB:CD:86:0B',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/12',
@@ -2903,7 +2966,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:0C'
+                        MAC              => 'C4:0A:CB:CD:86:0C',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/13',
@@ -2920,7 +2984,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:0D'
+                        MAC              => 'C4:0A:CB:CD:86:0D',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/14',
@@ -2937,7 +3002,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:0E'
+                        MAC              => 'C4:0A:CB:CD:86:0E',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/15',
@@ -2954,7 +3020,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:0F'
+                        MAC              => 'C4:0A:CB:CD:86:0F',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/16',
@@ -2971,7 +3038,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:10'
+                        MAC              => 'C4:0A:CB:CD:86:10',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/17',
@@ -2988,7 +3056,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:11'
+                        MAC              => 'C4:0A:CB:CD:86:11',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/18',
@@ -3005,7 +3074,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:12'
+                        MAC              => 'C4:0A:CB:CD:86:12',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/19',
@@ -3022,7 +3092,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:13'
+                        MAC              => 'C4:0A:CB:CD:86:13',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/20',
@@ -3039,7 +3110,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:14'
+                        MAC              => 'C4:0A:CB:CD:86:14',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/21',
@@ -3056,7 +3128,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:15'
+                        MAC              => 'C4:0A:CB:CD:86:15',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/22',
@@ -3073,7 +3146,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:16'
+                        MAC              => 'C4:0A:CB:CD:86:16',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/23',
@@ -3090,7 +3164,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:17'
+                        MAC              => 'C4:0A:CB:CD:86:17',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/24',
@@ -3107,7 +3182,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:18'
+                        MAC              => 'C4:0A:CB:CD:86:18',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/25',
@@ -3124,7 +3200,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:19'
+                        MAC              => 'C4:0A:CB:CD:86:19',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/26',
@@ -3141,7 +3218,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:1A'
+                        MAC              => 'C4:0A:CB:CD:86:1A',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/27',
@@ -3158,7 +3236,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:1B'
+                        MAC              => 'C4:0A:CB:CD:86:1B',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/28',
@@ -3175,7 +3254,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:1C'
+                        MAC              => 'C4:0A:CB:CD:86:1C',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/29',
@@ -3192,7 +3272,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:1D'
+                        MAC              => 'C4:0A:CB:CD:86:1D',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/30',
@@ -3209,7 +3290,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:1E'
+                        MAC              => 'C4:0A:CB:CD:86:1E',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/31',
@@ -3226,7 +3308,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:1F'
+                        MAC              => 'C4:0A:CB:CD:86:1F',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/32',
@@ -3243,7 +3326,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:20'
+                        MAC              => 'C4:0A:CB:CD:86:20',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/33',
@@ -3260,7 +3344,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:21'
+                        MAC              => 'C4:0A:CB:CD:86:21',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/34',
@@ -3277,7 +3362,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:22'
+                        MAC              => 'C4:0A:CB:CD:86:22',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/35',
@@ -3294,7 +3380,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:23'
+                        MAC              => 'C4:0A:CB:CD:86:23',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/36',
@@ -3311,7 +3398,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:24'
+                        MAC              => 'C4:0A:CB:CD:86:24',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/37',
@@ -3328,7 +3416,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:25'
+                        MAC              => 'C4:0A:CB:CD:86:25',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/38',
@@ -3345,7 +3434,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:26'
+                        MAC              => 'C4:0A:CB:CD:86:26',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/39',
@@ -3362,7 +3452,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:27'
+                        MAC              => 'C4:0A:CB:CD:86:27',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/40',
@@ -3379,7 +3470,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:28'
+                        MAC              => 'C4:0A:CB:CD:86:28',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/41',
@@ -3396,7 +3488,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:29'
+                        MAC              => 'C4:0A:CB:CD:86:29',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/42',
@@ -3413,7 +3506,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:2A'
+                        MAC              => 'C4:0A:CB:CD:86:2A',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/43',
@@ -3430,7 +3524,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:2B'
+                        MAC              => 'C4:0A:CB:CD:86:2B',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/44',
@@ -3447,7 +3542,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:2C'
+                        MAC              => 'C4:0A:CB:CD:86:2C',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/45',
@@ -3464,7 +3560,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:2D'
+                        MAC              => 'C4:0A:CB:CD:86:2D',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/46',
@@ -3481,7 +3578,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:2E'
+                        MAC              => 'C4:0A:CB:CD:86:2E',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/47',
@@ -3498,7 +3596,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:2F'
+                        MAC              => 'C4:0A:CB:CD:86:2F',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'FastEthernet0/48',
@@ -3515,7 +3614,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:30'
+                        MAC              => 'C4:0A:CB:CD:86:30',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'GigabitEthernet0/1',
@@ -3532,7 +3632,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:31'
+                        MAC              => 'C4:0A:CB:CD:86:31',
+                        TRUNK            => 1,
                     },
                     {
                         CONNECTIONS => {
@@ -3559,7 +3660,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFSPEED          => '100000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'C4:0A:CB:CD:86:32'
+                        MAC              => 'C4:0A:CB:CD:86:32',
+                        TRUNK            => 1,
                     },
                     {
                         IFDESCR          => 'Null0',
@@ -3650,7 +3752,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:81'
+                        MAC          => '64:D9:89:8D:B1:81',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/2',
@@ -3663,7 +3766,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:82'
+                        MAC          => '64:D9:89:8D:B1:82',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/3',
@@ -3676,7 +3780,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:83'
+                        MAC          => '64:D9:89:8D:B1:83',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/4',
@@ -3689,7 +3794,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:84'
+                        MAC          => '64:D9:89:8D:B1:84',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/5',
@@ -3702,7 +3808,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:85'
+                        MAC          => '64:D9:89:8D:B1:85',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/6',
@@ -3715,7 +3822,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:86'
+                        MAC          => '64:D9:89:8D:B1:86',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/7',
@@ -3728,7 +3836,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:87'
+                        MAC          => '64:D9:89:8D:B1:87',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/8',
@@ -3741,7 +3850,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:88'
+                        MAC          => '64:D9:89:8D:B1:88',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/9',
@@ -3754,7 +3864,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:89'
+                        MAC          => '64:D9:89:8D:B1:89',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/10',
@@ -3767,7 +3878,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:8A'
+                        MAC          => '64:D9:89:8D:B1:8A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/11',
@@ -3780,7 +3892,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:8B'
+                        MAC          => '64:D9:89:8D:B1:8B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/12',
@@ -3793,7 +3906,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:8C'
+                        MAC          => '64:D9:89:8D:B1:8C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/13',
@@ -3806,7 +3920,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:8D'
+                        MAC          => '64:D9:89:8D:B1:8D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/14',
@@ -3819,7 +3934,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:8E'
+                        MAC          => '64:D9:89:8D:B1:8E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/15',
@@ -3832,7 +3948,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '2542256749',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:8F'
+                        MAC          => '64:D9:89:8D:B1:8F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/16',
@@ -3845,7 +3962,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:90'
+                        MAC          => '64:D9:89:8D:B1:90',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/17',
@@ -3858,7 +3976,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:91'
+                        MAC          => '64:D9:89:8D:B1:91',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/18',
@@ -3871,7 +3990,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:92'
+                        MAC          => '64:D9:89:8D:B1:92',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/19',
@@ -3884,7 +4004,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:93'
+                        MAC          => '64:D9:89:8D:B1:93',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/20',
@@ -3897,7 +4018,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:94'
+                        MAC          => '64:D9:89:8D:B1:94',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/21',
@@ -3910,7 +4032,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:95'
+                        MAC          => '64:D9:89:8D:B1:95',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/22',
@@ -3923,7 +4046,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:96'
+                        MAC          => '64:D9:89:8D:B1:96',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/23',
@@ -3936,7 +4060,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:97'
+                        MAC          => '64:D9:89:8D:B1:97',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/24',
@@ -3949,7 +4074,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:98'
+                        MAC          => '64:D9:89:8D:B1:98',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/25',
@@ -3962,7 +4088,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:99'
+                        MAC          => '64:D9:89:8D:B1:99',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/26',
@@ -3975,7 +4102,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:9A'
+                        MAC          => '64:D9:89:8D:B1:9A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/27',
@@ -3988,7 +4116,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:9B'
+                        MAC          => '64:D9:89:8D:B1:9B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/28',
@@ -4001,7 +4130,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:9C'
+                        MAC          => '64:D9:89:8D:B1:9C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/29',
@@ -4014,7 +4144,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:9D'
+                        MAC          => '64:D9:89:8D:B1:9D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/30',
@@ -4027,7 +4158,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:9E'
+                        MAC          => '64:D9:89:8D:B1:9E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/31',
@@ -4040,7 +4172,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:9F'
+                        MAC          => '64:D9:89:8D:B1:9F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/32',
@@ -4053,7 +4186,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:A0'
+                        MAC          => '64:D9:89:8D:B1:A0',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/33',
@@ -4066,7 +4200,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:A1'
+                        MAC          => '64:D9:89:8D:B1:A1',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/34',
@@ -4079,7 +4214,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:A2'
+                        MAC          => '64:D9:89:8D:B1:A2',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/35',
@@ -4092,7 +4228,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:A3'
+                        MAC          => '64:D9:89:8D:B1:A3',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/36',
@@ -4105,7 +4242,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:A4'
+                        MAC          => '64:D9:89:8D:B1:A4',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/37',
@@ -4118,7 +4256,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:A5'
+                        MAC          => '64:D9:89:8D:B1:A5',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/38',
@@ -4131,7 +4270,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:A6'
+                        MAC          => '64:D9:89:8D:B1:A6',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/39',
@@ -4144,7 +4284,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:A7'
+                        MAC          => '64:D9:89:8D:B1:A7',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/40',
@@ -4157,7 +4298,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:A8'
+                        MAC          => '64:D9:89:8D:B1:A8',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/41',
@@ -4170,7 +4312,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:A9'
+                        MAC          => '64:D9:89:8D:B1:A9',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/42',
@@ -4183,7 +4326,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:AA'
+                        MAC          => '64:D9:89:8D:B1:AA',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/43',
@@ -4196,7 +4340,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:AB'
+                        MAC          => '64:D9:89:8D:B1:AB',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/44',
@@ -4209,7 +4354,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:AC'
+                        MAC          => '64:D9:89:8D:B1:AC',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/45',
@@ -4222,7 +4368,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:AD'
+                        MAC          => '64:D9:89:8D:B1:AD',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/46',
@@ -4235,7 +4382,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:AE'
+                        MAC          => '64:D9:89:8D:B1:AE',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/47',
@@ -4248,7 +4396,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:AF'
+                        MAC          => '64:D9:89:8D:B1:AF',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/48',
@@ -4261,7 +4410,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:B0'
+                        MAC          => '64:D9:89:8D:B1:B0',
+                        TRUNK        => 1,
                     },
                     {
                         CONNECTIONS => {
@@ -4284,7 +4434,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '2755039325',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:B1'
+                        MAC          => '64:D9:89:8D:B1:B1',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -4297,7 +4448,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '64:D9:89:8D:B1:B2'
+                        MAC          => '64:D9:89:8D:B1:B2',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'Null0',
@@ -4385,7 +4537,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:01'
+                        MAC          => '2C:36:F8:7D:09:01',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/2',
@@ -4398,7 +4551,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:02'
+                        MAC          => '2C:36:F8:7D:09:02',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/3',
@@ -4411,7 +4565,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:03'
+                        MAC          => '2C:36:F8:7D:09:03',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/4',
@@ -4424,7 +4579,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:04'
+                        MAC          => '2C:36:F8:7D:09:04',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/5',
@@ -4437,7 +4593,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:05'
+                        MAC          => '2C:36:F8:7D:09:05',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/6',
@@ -4450,7 +4607,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:06'
+                        MAC          => '2C:36:F8:7D:09:06',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/7',
@@ -4463,7 +4621,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:07'
+                        MAC          => '2C:36:F8:7D:09:07',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/8',
@@ -4476,7 +4635,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:08'
+                        MAC          => '2C:36:F8:7D:09:08',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/9',
@@ -4489,7 +4649,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:09'
+                        MAC          => '2C:36:F8:7D:09:09',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/10',
@@ -4502,7 +4663,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:0A'
+                        MAC          => '2C:36:F8:7D:09:0A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/11',
@@ -4515,7 +4677,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:0B'
+                        MAC          => '2C:36:F8:7D:09:0B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/12',
@@ -4528,7 +4691,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:0C'
+                        MAC          => '2C:36:F8:7D:09:0C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/13',
@@ -4541,7 +4705,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:0D'
+                        MAC          => '2C:36:F8:7D:09:0D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/14',
@@ -4554,7 +4719,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '144458186',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:0E'
+                        MAC          => '2C:36:F8:7D:09:0E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/15',
@@ -4567,7 +4733,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:0F'
+                        MAC          => '2C:36:F8:7D:09:0F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/16',
@@ -4580,7 +4747,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:10'
+                        MAC          => '2C:36:F8:7D:09:10',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/17',
@@ -4593,7 +4761,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '977154644',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:11'
+                        MAC          => '2C:36:F8:7D:09:11',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/18',
@@ -4606,7 +4775,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:12'
+                        MAC          => '2C:36:F8:7D:09:12',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/19',
@@ -4619,7 +4789,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '3438774464',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:13'
+                        MAC          => '2C:36:F8:7D:09:13',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/20',
@@ -4632,7 +4803,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '36851033',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:14'
+                        MAC          => '2C:36:F8:7D:09:14',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/21',
@@ -4645,7 +4817,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:15'
+                        MAC          => '2C:36:F8:7D:09:15',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/22',
@@ -4658,7 +4831,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:16'
+                        MAC          => '2C:36:F8:7D:09:16',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/23',
@@ -4671,7 +4845,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:17'
+                        MAC          => '2C:36:F8:7D:09:17',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/24',
@@ -4684,7 +4859,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:18'
+                        MAC          => '2C:36:F8:7D:09:18',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/25',
@@ -4697,7 +4873,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '1349888727',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:19'
+                        MAC          => '2C:36:F8:7D:09:19',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/26',
@@ -4710,7 +4887,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:1A'
+                        MAC          => '2C:36:F8:7D:09:1A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/27',
@@ -4723,7 +4901,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:1B'
+                        MAC          => '2C:36:F8:7D:09:1B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/28',
@@ -4736,7 +4915,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:1C'
+                        MAC          => '2C:36:F8:7D:09:1C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/29',
@@ -4749,7 +4929,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:1D'
+                        MAC          => '2C:36:F8:7D:09:1D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/30',
@@ -4762,7 +4943,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:1E'
+                        MAC          => '2C:36:F8:7D:09:1E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/31',
@@ -4775,7 +4957,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:1F'
+                        MAC          => '2C:36:F8:7D:09:1F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/32',
@@ -4788,7 +4971,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:20'
+                        MAC          => '2C:36:F8:7D:09:20',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/33',
@@ -4801,7 +4985,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:21'
+                        MAC          => '2C:36:F8:7D:09:21',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/34',
@@ -4814,7 +4999,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:22'
+                        MAC          => '2C:36:F8:7D:09:22',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/35',
@@ -4827,7 +5013,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:23'
+                        MAC          => '2C:36:F8:7D:09:23',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/36',
@@ -4840,7 +5027,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:24'
+                        MAC          => '2C:36:F8:7D:09:24',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/37',
@@ -4853,7 +5041,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:25'
+                        MAC          => '2C:36:F8:7D:09:25',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/38',
@@ -4866,7 +5055,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:26'
+                        MAC          => '2C:36:F8:7D:09:26',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/39',
@@ -4879,7 +5069,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '2691288013',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:27'
+                        MAC          => '2C:36:F8:7D:09:27',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/40',
@@ -4892,7 +5083,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:28'
+                        MAC          => '2C:36:F8:7D:09:28',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/41',
@@ -4905,7 +5097,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:29'
+                        MAC          => '2C:36:F8:7D:09:29',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/42',
@@ -4918,7 +5111,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:2A'
+                        MAC          => '2C:36:F8:7D:09:2A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/43',
@@ -4931,7 +5125,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:2B'
+                        MAC          => '2C:36:F8:7D:09:2B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/44',
@@ -4944,7 +5139,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:2C'
+                        MAC          => '2C:36:F8:7D:09:2C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/45',
@@ -4957,7 +5153,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:2D'
+                        MAC          => '2C:36:F8:7D:09:2D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/46',
@@ -4970,7 +5167,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '157324648',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:2E'
+                        MAC          => '2C:36:F8:7D:09:2E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/47',
@@ -4983,7 +5181,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:2F'
+                        MAC          => '2C:36:F8:7D:09:2F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/48',
@@ -4996,7 +5195,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:30'
+                        MAC          => '2C:36:F8:7D:09:30',
+                        TRUNK        => 1,
                     },
                     {
                         CONNECTIONS => {
@@ -5019,7 +5219,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '2490856586',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:31'
+                        MAC          => '2C:36:F8:7D:09:31',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -5032,7 +5233,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:09:32'
+                        MAC          => '2C:36:F8:7D:09:32',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'Null0',
@@ -5120,7 +5322,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:81'
+                        MAC          => '2C:36:F8:7D:06:81',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/2',
@@ -5133,7 +5336,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:82'
+                        MAC          => '2C:36:F8:7D:06:82',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/3',
@@ -5146,7 +5350,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:83'
+                        MAC          => '2C:36:F8:7D:06:83',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/4',
@@ -5159,7 +5364,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:84'
+                        MAC          => '2C:36:F8:7D:06:84',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/5',
@@ -5172,7 +5378,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:85'
+                        MAC          => '2C:36:F8:7D:06:85',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/6',
@@ -5185,7 +5392,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:86'
+                        MAC          => '2C:36:F8:7D:06:86',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/7',
@@ -5198,7 +5406,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:87'
+                        MAC          => '2C:36:F8:7D:06:87',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/8',
@@ -5211,7 +5420,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '2434568578',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:88'
+                        MAC          => '2C:36:F8:7D:06:88',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/9',
@@ -5224,7 +5434,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '3168236376',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:89'
+                        MAC          => '2C:36:F8:7D:06:89',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/10',
@@ -5237,7 +5448,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:8A'
+                        MAC          => '2C:36:F8:7D:06:8A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/11',
@@ -5250,7 +5462,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:8B'
+                        MAC          => '2C:36:F8:7D:06:8B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/12',
@@ -5263,7 +5476,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '2095312613',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:8C'
+                        MAC          => '2C:36:F8:7D:06:8C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/13',
@@ -5276,7 +5490,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:8D'
+                        MAC          => '2C:36:F8:7D:06:8D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/14',
@@ -5289,7 +5504,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '3945616377',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:8E'
+                        MAC          => '2C:36:F8:7D:06:8E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/15',
@@ -5302,7 +5518,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:8F'
+                        MAC          => '2C:36:F8:7D:06:8F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/16',
@@ -5315,7 +5532,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:90'
+                        MAC          => '2C:36:F8:7D:06:90',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/17',
@@ -5328,7 +5546,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:91'
+                        MAC          => '2C:36:F8:7D:06:91',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/18',
@@ -5341,7 +5560,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:92'
+                        MAC          => '2C:36:F8:7D:06:92',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/19',
@@ -5354,7 +5574,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '2678286274',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:93'
+                        MAC          => '2C:36:F8:7D:06:93',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/20',
@@ -5367,7 +5588,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:94'
+                        MAC          => '2C:36:F8:7D:06:94',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/21',
@@ -5380,7 +5602,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:95'
+                        MAC          => '2C:36:F8:7D:06:95',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/22',
@@ -5393,7 +5616,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:96'
+                        MAC          => '2C:36:F8:7D:06:96',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/23',
@@ -5406,7 +5630,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:97'
+                        MAC          => '2C:36:F8:7D:06:97',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/24',
@@ -5419,7 +5644,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:98'
+                        MAC          => '2C:36:F8:7D:06:98',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/25',
@@ -5432,7 +5658,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:99'
+                        MAC          => '2C:36:F8:7D:06:99',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/26',
@@ -5445,7 +5672,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:9A'
+                        MAC          => '2C:36:F8:7D:06:9A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/27',
@@ -5458,7 +5686,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '1640684234',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:9B'
+                        MAC          => '2C:36:F8:7D:06:9B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/28',
@@ -5471,7 +5700,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:9C'
+                        MAC          => '2C:36:F8:7D:06:9C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/29',
@@ -5484,7 +5714,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '2548890840',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:9D'
+                        MAC          => '2C:36:F8:7D:06:9D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/30',
@@ -5497,7 +5728,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:9E'
+                        MAC          => '2C:36:F8:7D:06:9E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/31',
@@ -5510,7 +5742,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:9F'
+                        MAC          => '2C:36:F8:7D:06:9F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/32',
@@ -5523,7 +5756,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:A0'
+                        MAC          => '2C:36:F8:7D:06:A0',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/33',
@@ -5536,7 +5770,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:A1'
+                        MAC          => '2C:36:F8:7D:06:A1',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/34',
@@ -5549,7 +5784,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:A2'
+                        MAC          => '2C:36:F8:7D:06:A2',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/35',
@@ -5562,7 +5798,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:A3'
+                        MAC          => '2C:36:F8:7D:06:A3',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/36',
@@ -5575,7 +5812,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:A4'
+                        MAC          => '2C:36:F8:7D:06:A4',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/37',
@@ -5588,7 +5826,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:A5'
+                        MAC          => '2C:36:F8:7D:06:A5',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/38',
@@ -5601,7 +5840,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:A6'
+                        MAC          => '2C:36:F8:7D:06:A6',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/39',
@@ -5614,7 +5854,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:A7'
+                        MAC          => '2C:36:F8:7D:06:A7',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/40',
@@ -5627,7 +5868,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:A8'
+                        MAC          => '2C:36:F8:7D:06:A8',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/41',
@@ -5640,7 +5882,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:A9'
+                        MAC          => '2C:36:F8:7D:06:A9',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/42',
@@ -5653,7 +5896,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:AA'
+                        MAC          => '2C:36:F8:7D:06:AA',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/43',
@@ -5666,7 +5910,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:AB'
+                        MAC          => '2C:36:F8:7D:06:AB',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/44',
@@ -5679,7 +5924,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:AC'
+                        MAC          => '2C:36:F8:7D:06:AC',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/45',
@@ -5692,7 +5938,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:AD'
+                        MAC          => '2C:36:F8:7D:06:AD',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/46',
@@ -5705,7 +5952,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:AE'
+                        MAC          => '2C:36:F8:7D:06:AE',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/47',
@@ -5718,7 +5966,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:AF'
+                        MAC          => '2C:36:F8:7D:06:AF',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/48',
@@ -5731,7 +5980,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:B0'
+                        MAC          => '2C:36:F8:7D:06:B0',
+                        TRUNK        => 1,
                     },
                     {
                         CONNECTIONS => {
@@ -5754,7 +6004,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '3489062289',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:B1'
+                        MAC          => '2C:36:F8:7D:06:B1',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -5767,7 +6018,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => '2C:36:F8:7D:06:B2'
+                        MAC          => '2C:36:F8:7D:06:B2',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'Null0',
@@ -5855,7 +6107,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:81'
+                        MAC          => 'C4:0A:CB:22:E5:81',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/2',
@@ -5868,7 +6121,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:82'
+                        MAC          => 'C4:0A:CB:22:E5:82',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/3',
@@ -5881,7 +6135,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:83'
+                        MAC          => 'C4:0A:CB:22:E5:83',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/4',
@@ -5894,7 +6149,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:84'
+                        MAC          => 'C4:0A:CB:22:E5:84',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/5',
@@ -5907,7 +6163,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:85'
+                        MAC          => 'C4:0A:CB:22:E5:85',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/6',
@@ -5920,7 +6177,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:86'
+                        MAC          => 'C4:0A:CB:22:E5:86',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/7',
@@ -5933,7 +6191,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:87'
+                        MAC          => 'C4:0A:CB:22:E5:87',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/8',
@@ -5946,7 +6205,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:88'
+                        MAC          => 'C4:0A:CB:22:E5:88',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/9',
@@ -5959,7 +6219,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:89'
+                        MAC          => 'C4:0A:CB:22:E5:89',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/10',
@@ -5972,7 +6233,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:8A'
+                        MAC          => 'C4:0A:CB:22:E5:8A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/11',
@@ -5985,7 +6247,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:8B'
+                        MAC          => 'C4:0A:CB:22:E5:8B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/12',
@@ -5998,7 +6261,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:8C'
+                        MAC          => 'C4:0A:CB:22:E5:8C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/13',
@@ -6011,7 +6275,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:8D'
+                        MAC          => 'C4:0A:CB:22:E5:8D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/14',
@@ -6024,7 +6289,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '3483278393',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:8E'
+                        MAC          => 'C4:0A:CB:22:E5:8E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/15',
@@ -6037,7 +6303,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:8F'
+                        MAC          => 'C4:0A:CB:22:E5:8F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/16',
@@ -6050,7 +6317,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '2696552369',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:90'
+                        MAC          => 'C4:0A:CB:22:E5:90',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/17',
@@ -6063,7 +6331,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:91'
+                        MAC          => 'C4:0A:CB:22:E5:91',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/18',
@@ -6076,7 +6345,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:92'
+                        MAC          => 'C4:0A:CB:22:E5:92',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/19',
@@ -6089,7 +6359,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:93'
+                        MAC          => 'C4:0A:CB:22:E5:93',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/20',
@@ -6102,7 +6373,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:94'
+                        MAC          => 'C4:0A:CB:22:E5:94',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/21',
@@ -6115,7 +6387,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:95'
+                        MAC          => 'C4:0A:CB:22:E5:95',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/22',
@@ -6128,7 +6401,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:96'
+                        MAC          => 'C4:0A:CB:22:E5:96',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/23',
@@ -6141,7 +6415,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '916141211',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:97'
+                        MAC          => 'C4:0A:CB:22:E5:97',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/24',
@@ -6154,7 +6429,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:98'
+                        MAC          => 'C4:0A:CB:22:E5:98',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/25',
@@ -6167,7 +6443,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '993850547',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:99'
+                        MAC          => 'C4:0A:CB:22:E5:99',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/26',
@@ -6180,7 +6457,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:9A'
+                        MAC          => 'C4:0A:CB:22:E5:9A',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/27',
@@ -6193,7 +6471,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:9B'
+                        MAC          => 'C4:0A:CB:22:E5:9B',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/28',
@@ -6206,7 +6485,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '1382513486',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:9C'
+                        MAC          => 'C4:0A:CB:22:E5:9C',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/29',
@@ -6219,7 +6499,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:9D'
+                        MAC          => 'C4:0A:CB:22:E5:9D',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/30',
@@ -6232,7 +6513,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '28180240',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:9E'
+                        MAC          => 'C4:0A:CB:22:E5:9E',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/31',
@@ -6245,7 +6527,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:9F'
+                        MAC          => 'C4:0A:CB:22:E5:9F',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/32',
@@ -6258,7 +6541,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '1145076',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:A0'
+                        MAC          => 'C4:0A:CB:22:E5:A0',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/33',
@@ -6271,7 +6555,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:A1'
+                        MAC          => 'C4:0A:CB:22:E5:A1',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/34',
@@ -6284,7 +6569,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '2034868762',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:A2'
+                        MAC          => 'C4:0A:CB:22:E5:A2',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/35',
@@ -6297,7 +6583,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:A3'
+                        MAC          => 'C4:0A:CB:22:E5:A3',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/36',
@@ -6310,7 +6597,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '10636434',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:A4'
+                        MAC          => 'C4:0A:CB:22:E5:A4',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/37',
@@ -6323,7 +6611,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:A5'
+                        MAC          => 'C4:0A:CB:22:E5:A5',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/38',
@@ -6336,7 +6625,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '3882553',
                         IFSPEED      => '100000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:A6'
+                        MAC          => 'C4:0A:CB:22:E5:A6',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/39',
@@ -6349,7 +6639,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:A7'
+                        MAC          => 'C4:0A:CB:22:E5:A7',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/40',
@@ -6362,7 +6653,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:A8'
+                        MAC          => 'C4:0A:CB:22:E5:A8',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/41',
@@ -6375,7 +6667,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:A9'
+                        MAC          => 'C4:0A:CB:22:E5:A9',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/42',
@@ -6388,7 +6681,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:AA'
+                        MAC          => 'C4:0A:CB:22:E5:AA',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/43',
@@ -6401,7 +6695,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:AB'
+                        MAC          => 'C4:0A:CB:22:E5:AB',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/44',
@@ -6414,7 +6709,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:AC'
+                        MAC          => 'C4:0A:CB:22:E5:AC',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/45',
@@ -6427,7 +6723,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:AD'
+                        MAC          => 'C4:0A:CB:22:E5:AD',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/46',
@@ -6440,7 +6737,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:AE'
+                        MAC          => 'C4:0A:CB:22:E5:AE',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/47',
@@ -6453,7 +6751,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:AF'
+                        MAC          => 'C4:0A:CB:22:E5:AF',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'FastEthernet0/48',
@@ -6466,7 +6765,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:B0'
+                        MAC          => 'C4:0A:CB:22:E5:B0',
+                        TRUNK        => 1,
                     },
                     {
                         CONNECTIONS => {
@@ -6489,7 +6789,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '4095281856',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:B1'
+                        MAC          => 'C4:0A:CB:22:E5:B1',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'GigabitEthernet0/2',
@@ -6502,7 +6803,8 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS  => '0',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
-                        MAC          => 'C4:0A:CB:22:E5:B2'
+                        MAC          => 'C4:0A:CB:22:E5:B2',
+                        TRUNK        => 1,
                     },
                     {
                         IFDESCR      => 'Null0',
@@ -20608,6 +20910,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:01',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20636,6 +20939,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:02',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20664,6 +20968,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:03',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20692,6 +20997,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:04',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20713,6 +21019,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:05',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20734,6 +21041,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:06',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20755,6 +21063,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:07',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20783,6 +21092,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:08',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20811,6 +21121,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:09',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20839,6 +21150,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:0A',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20867,6 +21179,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:0B',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20895,6 +21208,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:0C',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20923,6 +21237,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:0D',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20951,6 +21266,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:0E',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -20979,6 +21295,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:0F',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21007,6 +21324,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:10',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21035,6 +21353,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:11',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21063,6 +21382,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:12',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21091,6 +21411,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:13',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21119,6 +21440,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:14',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21147,6 +21469,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:15',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21175,6 +21498,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:16',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21203,6 +21527,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:17',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21231,6 +21556,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:18',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21252,6 +21578,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '10000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:19',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21396,6 +21723,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '1000000000',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:1A',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21428,6 +21756,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '4294967295',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:1B',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21449,6 +21778,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED      => '4294967295',
                         IFTYPE       => 'ethernetCsmacd(6)',
                         MAC          => '18:33:9D:E7:15:1C',
+                        TRUNK        => '1',
                         VLANS        => {
                             VLAN => [
                                 {
@@ -21615,6 +21945,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:81',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21640,6 +21971,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:82',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21665,6 +21997,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:83',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21690,6 +22023,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:84',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21715,6 +22049,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:85',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21740,6 +22075,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:86',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21765,6 +22101,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:87',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21790,6 +22127,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:88',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21815,6 +22153,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:89',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21840,6 +22179,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:8A',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21865,6 +22205,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:8B',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21890,6 +22231,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:8C',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21915,6 +22257,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:8D',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21940,6 +22283,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:8E',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21965,6 +22309,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:8F',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -21990,6 +22335,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:90',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -22014,7 +22360,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED          => '1000000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'B4:14:89:38:2D:91'
+                        MAC              => 'B4:14:89:38:2D:91',
+                        TRUNK            => '1',
                     },
                     {
                         IFDESCR          => 'GigabitEthernet1/0/18',
@@ -22031,7 +22378,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'B4:14:89:38:2D:92'
+                        MAC              => 'B4:14:89:38:2D:92',
+                        TRUNK            => '1',
                     },
                     {
                         CONNECTIONS => {
@@ -22059,7 +22407,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED          => '1000000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'B4:14:89:38:2D:93'
+                        MAC              => 'B4:14:89:38:2D:93',
+                        TRUNK            => '1',
                     },
                     {
                         CONNECTIONS => {
@@ -22089,7 +22438,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED          => '1000000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'B4:14:89:38:2D:94'
+                        MAC              => 'B4:14:89:38:2D:94',
+                        TRUNK            => '1',
                     },
                     {
                         CONNECTIONS => {
@@ -22117,7 +22467,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED          => '1000000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'B4:14:89:38:2D:95'
+                        MAC              => 'B4:14:89:38:2D:95',
+                        TRUNK            => '1',
                     },
                     {
                         CONNECTIONS => {
@@ -22145,7 +22496,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED          => '1000000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'B4:14:89:38:2D:96'
+                        MAC              => 'B4:14:89:38:2D:96',
+                        TRUNK            => '1',
                     },
                     {
                         CONNECTIONS => {
@@ -22173,7 +22525,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED          => '1000000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'B4:14:89:38:2D:97'
+                        MAC              => 'B4:14:89:38:2D:97',
+                        TRUNK            => '1',
                     },
                     {
                         CONNECTIONS => {
@@ -22201,7 +22554,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED          => '1000000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'B4:14:89:38:2D:98'
+                        MAC              => 'B4:14:89:38:2D:98',
+                        TRUNK            => '1',
                     },
                     {
                         CONNECTIONS => {
@@ -22229,7 +22583,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED          => '1000000000',
                         IFSTATUS         => 'up(1)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'B4:14:89:38:2D:99'
+                        MAC              => 'B4:14:89:38:2D:99',
+                        TRUNK            => '1',
                     },
                     {
                         IFDESCR          => 'GigabitEthernet1/0/26',
@@ -22246,7 +22601,8 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSPEED          => '10000000',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
-                        MAC              => 'B4:14:89:38:2D:9A'
+                        MAC              => 'B4:14:89:38:2D:9A',
+                        TRUNK            => '1',
                     },
                     {
                         IFDESCR          => 'TenGigabitEthernet1/0/1',
@@ -22264,6 +22620,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:9B',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {
@@ -22289,6 +22646,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFSTATUS         => 'down(2)',
                         IFTYPE           => 'ethernetCsmacd(6)',
                         MAC              => 'B4:14:89:38:2D:9C',
+                        TRUNK            => '1',
                         VLANS            => {
                             VLAN => [
                                 {

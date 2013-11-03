@@ -238,7 +238,10 @@ sub _getTrunkPorts {
     my $model  = $params{model};
 
     my $results;
-    my $vlanStatus = $snmp->walk($model->{oids}->{vlanTrunkPortDynamicStatus});
+    my $vlanStatus = $snmp->walk(
+        $model->{oids}->{vlanTrunkPortDynamicStatus} ||
+        '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
+    );
     while (my ($suffix, $trunk) = each %{$vlanStatus}) {
         my $port_id = getElement($suffix, -1);
         $results->{$port_id} = $trunk ? 1 : 0;
