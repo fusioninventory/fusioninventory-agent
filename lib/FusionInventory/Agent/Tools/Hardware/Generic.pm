@@ -125,11 +125,21 @@ sub _getConnectedDevicesInfoCDP {
     my $model  = $params{model};
 
     my $results;
-    my $cdpCacheAddress    = $snmp->walk($model->{oids}->{cdpCacheAddress});
-    my $cdpCacheDeviceId   = $snmp->walk($model->{oids}->{cdpCacheDeviceId});
-    my $cdpCacheDevicePort = $snmp->walk($model->{oids}->{cdpCacheDevicePort});
-    my $cdpCacheVersion    = $snmp->walk($model->{oids}->{cdpCacheVersion});
-    my $cdpCachePlatform   = $snmp->walk($model->{oids}->{cdpCachePlatform});
+    my $cdpCacheAddress    = $snmp->walk(
+        $model->{oids}->{cdpCacheAddress}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.4'
+    );
+    my $cdpCacheDeviceId   = $snmp->walk(
+        $model->{oids}->{cdpCacheDeviceId}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.6'
+    );
+    my $cdpCacheDevicePort = $snmp->walk(
+        $model->{oids}->{cdpCacheDevicePort} || '.1.3.6.1.4.1.9.9.23.1.2.1.1.7'
+    );
+    my $cdpCacheVersion    = $snmp->walk(
+        $model->{oids}->{cdpCacheVersion}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.5'
+    );
+    my $cdpCachePlatform   = $snmp->walk(
+        $model->{oids}->{cdpCachePlatform}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.8'
+    );
 
     # each cdp variable matches the following scheme:
     # $prefix.x.y = $value
