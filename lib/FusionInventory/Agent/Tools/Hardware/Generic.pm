@@ -91,12 +91,9 @@ sub _getConnectedDevicesMacAddresses {
 sub setConnectedDevicesInfo {
     my (%params) = @_;
 
-    my $model = $params{model};
-
     my $info =
-        $model->{oids}->{cdpCacheAddress}  ? _getConnectedDevicesInfoCDP(%params) :
-        $model->{oids}->{lldpRemChassisId} ? _getConnectedDevicesInfoLLDP(%params) :
-                                             undef;
+        _getConnectedDevicesInfoCDP(%params) ||
+        _getConnectedDevicesInfoLLDP(%params);
     return unless $info;
 
     my $logger = $params{logger};
