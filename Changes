@@ -9,7 +9,7 @@ inventory task
 
 netinventory task
 * fix SNMP reconnection when issuing VLAN-specific queries on some Cisco
-  devices
+  devices (#2178)
 * use longer default SNMP timeout, and make them configurable
 * handle MAC addresses with embedded VLAN identifier
 
