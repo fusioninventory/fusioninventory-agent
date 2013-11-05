@@ -753,24 +753,6 @@ PORTS => {
                 MODEL        => 'Phaser 8560DN',
                 UPTIME       => '(184090216) 21 days, 7:21:42.16'
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IP       => '127.0.0.1',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        MAC      => '00:00:AA:D2:C6:82'
-                    },
-                    {
-                        IP       => '128.93.22.37',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:00:AA:D2:C6:82'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 WASTETONER     => 100,
                 MAINTENANCEKIT => 14,
@@ -1018,7 +1000,7 @@ PORTS => {
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
             },
-           PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -1272,7 +1254,7 @@ PORTS => {
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
             },
-PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -1343,24 +1325,6 @@ PORTS => {
                 MEMORY       => 0,
                 MODEL        => 'Phaser 8560DN',
                 UPTIME       => '(504016756) 58 days, 8:02:47.56',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.82',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '1',
-                        MAC      => '00:00:AA:AB:95:BE'
-                    },
-                    {
-                        IFNUMBER => '2',
-                        MAC      => '00:00:AA:AB:95:BE',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IP       => '127.0.0.1'
-                    }
-                ]
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -1444,24 +1408,6 @@ PORTS => {
                 MODEL        => 'Phaser 8560DN',
                 MEMORY       => 0,
                 UPTIME       => '(72059111) 8 days, 8:09:51.11',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        MAC      => '00:00:AA:C4:27:0F',
-                        IP       => '127.0.0.1',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '1'
-                    },
-                    {
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '2',
-                        IP       => '128.93.22.60',
-                        MAC      => '00:00:AA:C4:27:0F'
-                    }
-                ]
             },
             CARTRIDGES => {
                 WASTETONER     => 100,
@@ -1766,7 +1712,7 @@ PORTS => {
                 TONERYELLOW    => 100,
                 TONERCYAN      => 100
             },
-PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -1992,7 +1938,7 @@ PORTS => {
                 TONERYELLOW    => 100,
                 TONERCYAN      => 100
             },
-PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -2072,7 +2018,7 @@ PORTS => {
                 WASTETONER     => 100,
                 TONERYELLOW    => 100
             },
-PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
