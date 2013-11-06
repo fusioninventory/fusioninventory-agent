@@ -13,26 +13,32 @@ sub setTrunkPorts {
     my $model = $params{model};
     my $ports = $params{ports};
 
-    my $results = $snmp->walk($model->{oids}->{PortVlanIndex});
+    my $vlanIndex = $snmp->walk($model->{oids}->{PortVlanIndex});
 
     my $myports;
 
-    while (my ($oid, $vlan) = sort each %{$results}) {
-        $myports->{getElement($oid, -2)}->{getElement($oid, -1)} = $vlan;
+    # each result matches the following scheme:
+    # $prefix.x.y = $value
+    # whereas x is the port number, y the vlan number, $value the vlan name
+
+    while (my ($suffix, $vlan_name) = sort each %{$vlanIndex}) {
+        my $port_id = getElement($suffix, -2);
+        my $vlan_id = getElement($suffix, -1);
+        $myports->{$port_id}->{$vlan_id} = $vlan_name;
     }
 
-    while (my ($portnumber, $vlans) = sort each %{$myports}) {
+    while (my ($port_id, $vlans) = sort each %{$myports}) {
         if (keys %{$vlans} == 1) {
             # a single vlan
             while (my ($id, $name) = sort each %{$vlans}) {
-                $ports->{$ports->{$portnumber}}->{VLANS}->{VLAN}->[0] = {
+                $ports->{$port_id}->{VLANS}->{VLAN}->[0] = {
                     NAME   => $name,
                     NUMBER => $id
                 };
             }
         } else {
             # trunk
-            $ports->{$ports->{$portnumber}}->{TRUNK} = 1;
+            $ports->{$port_id}->{TRUNK} = 1;
         }
     }
 }
