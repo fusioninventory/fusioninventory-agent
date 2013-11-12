@@ -254,6 +254,126 @@ my %tests = (
             },
         }
     ],
+    'konica/bizhub_C224.2.walk' => [
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
+            MAC          => '00:20:6B:8A:DC:EC',
+        },
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
+            MAC          => '00:20:6B:8A:DC:EC',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Konica',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+                COMMENTS     => 'KONICA MINOLTA bizhub C224e',
+                MEMORY       => '0',
+                UPTIME       => '(7570291) 21:01:42.91',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet 10/100/1000 Base-T',
+                        IFDESCR          => 'Ethernet 10/100/1000 Base-T',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:20:6B:8A:DC:EC',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '121600165',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '5488983',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Software Loopback',
+                        IFDESCR          => 'Software Loopback',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '16436',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2408',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2408',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'konica/bizhub_C554.1.walk' => [
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub C554e',
+            MAC          => '00:20:6B:82:91:78',
+        },
+        {
+            MANUFACTURER => 'Konica',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'KONICA MINOLTA bizhub C554e',
+            MAC          => '00:20:6B:82:91:78',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Konica',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+                COMMENTS     => 'KONICA MINOLTA bizhub C554e',
+                MEMORY       => '0',
+                UPTIME       => '(43193657) 4 days, 23:58:56.57',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet 10/100/1000 Base-T',
+                        IFDESCR          => 'Ethernet 10/100/1000 Base-T',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:20:6B:82:91:78',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '278301121',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '147959264',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Software Loopback',
+                        IFDESCR          => 'Software Loopback',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '16436',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1945',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1945',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
 );
 
 setPlan(scalar keys %tests);
