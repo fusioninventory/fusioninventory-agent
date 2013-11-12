@@ -55,9 +55,15 @@ sub _getConnectedDevicesMacAddresses {
     my $model  = $params{model};
 
     my $results;
-    my $dot1dTpFdbAddress    = $snmp->walk($model->{oids}->{dot1dTpFdbAddress});
-    my $dot1dTpFdbPort       = $snmp->walk($model->{oids}->{dot1dTpFdbPort});
-    my $dot1dBasePortIfIndex = $snmp->walk($model->{oids}->{dot1dBasePortIfIndex});
+    my $dot1dTpFdbAddress    = $snmp->walk(
+        $model->{oids}->{dot1dTpFdbAddress}    || '.1.3.6.1.2.1.17.4.3.1.1'
+    );
+    my $dot1dTpFdbPort       = $snmp->walk(
+        $model->{oids}->{dot1dTpFdbPort}       || '.1.3.6.1.2.1.17.4.3.1.2'
+    );
+    my $dot1dBasePortIfIndex = $snmp->walk(
+        $model->{oids}->{dot1dBasePortIfIndex} || '.1.3.6.1.2.1.17.1.4.1.2'
+    );
 
     foreach my $suffix (sort keys %{$dot1dTpFdbAddress}) {
         my $mac = $dot1dTpFdbAddress->{$suffix};
@@ -85,12 +91,9 @@ sub _getConnectedDevicesMacAddresses {
 sub setConnectedDevicesInfo {
     my (%params) = @_;
 
-    my $model = $params{model};
-
     my $info =
-        $model->{oids}->{cdpCacheAddress}  ? _getConnectedDevicesInfoCDP(%params) :
-        $model->{oids}->{lldpRemChassisId} ? _getConnectedDevicesInfoLLDP(%params) :
-                                             undef;
+        _getConnectedDevicesInfoCDP(%params) ||
+        _getConnectedDevicesInfoLLDP(%params);
     return unless $info;
 
     my $logger = $params{logger};
@@ -119,11 +122,21 @@ sub _getConnectedDevicesInfoCDP {
     my $model  = $params{model};
 
     my $results;
-    my $cdpCacheAddress    = $snmp->walk($model->{oids}->{cdpCacheAddress});
-    my $cdpCacheDeviceId   = $snmp->walk($model->{oids}->{cdpCacheDeviceId});
-    my $cdpCacheDevicePort = $snmp->walk($model->{oids}->{cdpCacheDevicePort});
-    my $cdpCacheVersion    = $snmp->walk($model->{oids}->{cdpCacheVersion});
-    my $cdpCachePlatform   = $snmp->walk($model->{oids}->{cdpCachePlatform});
+    my $cdpCacheAddress    = $snmp->walk(
+        $model->{oids}->{cdpCacheAddress}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.4'
+    );
+    my $cdpCacheVersion    = $snmp->walk(
+        $model->{oids}->{cdpCacheVersion}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.5'
+    );
+    my $cdpCacheDeviceId   = $snmp->walk(
+        $model->{oids}->{cdpCacheDeviceId}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.6'
+    );
+    my $cdpCacheDevicePort = $snmp->walk(
+        $model->{oids}->{cdpCacheDevicePort} || '.1.3.6.1.4.1.9.9.23.1.2.1.1.7'
+    );
+    my $cdpCachePlatform   = $snmp->walk(
+        $model->{oids}->{cdpCachePlatform}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.8'
+    );
 
     # each cdp variable matches the following scheme:
     # $prefix.x.y = $value
@@ -161,11 +174,21 @@ sub _getConnectedDevicesInfoLLDP {
     my $model  = $params{model};
 
     my $results;
-    my $lldpRemChassisId = $snmp->walk($model->{oids}->{lldpRemChassisId});
-    my $lldpRemPortId    = $snmp->walk($model->{oids}->{lldpRemPortId});
-    my $lldpRemPortDesc  = $snmp->walk($model->{oids}->{lldpRemPortDesc});
-    my $lldpRemSysDesc   = $snmp->walk($model->{oids}->{lldpRemSysDesc});
-    my $lldpRemSysName   = $snmp->walk($model->{oids}->{lldpRemSysName});
+    my $lldpRemChassisId = $snmp->walk(
+        $model->{oids}->{lldpRemChassisId} || '.1.0.8802.1.1.2.1.4.1.1.5'
+    );
+    my $lldpRemPortId    = $snmp->walk(
+        $model->{oids}->{lldpRemPortId}    || '.1.0.8802.1.1.2.1.4.1.1.7'
+    );
+    my $lldpRemPortDesc  = $snmp->walk(
+        $model->{oids}->{lldpRemPortDesc}  || '.1.0.8802.1.1.2.1.4.1.1.8'
+    );
+    my $lldpRemSysName   = $snmp->walk(
+        $model->{oids}->{lldpRemSysName}   || '.1.0.8802.1.1.2.1.4.1.1.9'
+    );
+    my $lldpRemSysDesc   = $snmp->walk(
+        $model->{oids}->{lldpRemSysDesc}   || '.1.0.8802.1.1.2.1.4.1.1.10'
+    );
 
     # each lldp variable matches the following scheme:
     # $prefix.x.y.z = $value
@@ -215,7 +238,10 @@ sub _getTrunkPorts {
     my $model  = $params{model};
 
     my $results;
-    my $vlanStatus = $snmp->walk($model->{oids}->{vlanTrunkPortDynamicStatus});
+    my $vlanStatus = $snmp->walk(
+        $model->{oids}->{vlanTrunkPortDynamicStatus} ||
+        '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
+    );
     while (my ($suffix, $trunk) = each %{$vlanStatus}) {
         my $port_id = getElement($suffix, -1);
         $results->{$port_id} = $trunk ? 1 : 0;

@@ -35,16 +35,27 @@ my %tests = (
                 MEMORY       => 32,
                 MODEL        => 'DocuPrint N2125',
                 ID           => undef,
-                SERIAL       => '3510349171'
+                SERIAL       => '3510349171',
+                UPTIME       => '(16986889) 1 day, 23:11:08.89'
             },
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'Xerox DocuPrint N21 Ethernet Interface',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:00:AA:5C:1C:8C'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox DocuPrint N21 Ethernet Interface',
+                        IFDESCR          => 'Xerox DocuPrint N21 Ethernet Interface',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:00:AA:5C:1C:8C',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -78,18 +89,39 @@ my %tests = (
                 MEMORY       => 0,
                 ID           => undef,
                 MODEL        => 'Phaser 5550DT',
-                NAME         => 'Phaser 5550DT'
+                NAME         => 'Phaser 5550DT',
+                UPTIME       => '(7088810) 19:41:28.10'
             },
-            PORTS => {
+PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFDESCR          => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)'
-                    }
+                        IFNUMBER         => '2',
+                        IFDESCR          => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -123,18 +155,39 @@ my %tests = (
                 SERIAL       => 'KNB015753',
                 MODEL        => 'Phaser 5550DT',
                 NAME         => 'Phaser 5550DT-1',
-                MEMORY       => 0
+                MEMORY       => 0,
+                UPTIME       => '(52327401) 6 days, 1:21:14.01'
             },
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)'
+                        IFNUMBER         => '1',
+                        IFDESCR          => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                    }
+                        IFNUMBER         => '2',
+                        IFDESCR          => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -166,7 +219,8 @@ my %tests = (
                 SERIAL       => 'GPX259705',
                 ID           => undef,
                 NAME         => 'Phaser 6180MFP-D-E360D7',
-                MODEL        => 'Xerox Phaser 6180MFP-D'
+                MODEL        => 'Xerox Phaser 6180MFP-D',
+                UPTIME       => '(119016820) 13 days, 18:36:08.20'
             },
             CARTRIDGES => {
                 TONERMAGENTA => 25,
@@ -174,15 +228,19 @@ my %tests = (
                 TONERBLACK   => 5,
                 TONERYELLOW  => 40
             },
-            PORTS => {
+PORTS => {
                 PORT => [
                     {
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '172.16.3.61',
-                        IFNUMBER => '1',
-                        MAC      => '00:00:AA:E3:60:D7',
-                        IFNAME   => 'XEROX Ethernet Interface Controller, 10/100 Mbps, RJ45, v1.0, 100Mbps full duplex'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'XEROX Ethernet Interface Controller, 10/100 Mbps, RJ45, v1.0, 100Mbps full duplex',
+                        IFDESCR          => 'XEROX Ethernet Interface Controller, 10/100 Mbps, RJ45, v1.0, 100Mbps full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFMTU            => '1500',
+                        IP               => '172.16.3.61',
+                        MAC              => '00:00:AA:E3:60:D7',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                    },
                 ]
             },
             PAGECOUNTERS => {
@@ -223,7 +281,8 @@ my %tests = (
                 CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
                 LOCATION     => 'machine location not set',
                 NAME         => 'SO007XN',
-                SERIAL       => '3641509891'
+                SERIAL       => '3641509891',
+                UPTIME       => '(36879516) 4 days, 6:26:35.16'
             },
             CARTRIDGES => {
                 TONERBLACK => 45
@@ -231,21 +290,40 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        MAC      => '00:00:AA:CF:9E:5A',
-                        IFNUMBER => '1',
-                        IFTYPE   => '6',
-                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
-                        IP       => '129.181.20.136'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
+                        IFDESCR          => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '129.181.20.136',
+                        MAC              => '00:00:AA:CF:9E:5A',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '174621423',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '15497831',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        MAC      => '00:00:00:00:00:00',
-                        IFNUMBER => '2',
-                        IFTYPE   => '24',
-                        IFNAME   => 'Xerox internal TCP Software Loopback Interface, v2.0',
-                        IP       => '127.0.0.1'
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox internal TCP Software Loopback Interface, v2.0',
+                        IFDESCR          => 'Xerox internal TCP Software Loopback Interface, v2.0',
+                        IFTYPE           => '24',
+                        IFMTU            => '16436',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:00:00:00:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '21653217',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '21653217',
+                        IFOUTERRORS      => '0',
                     },
                 ]
-            }
+            },
         }
     ],
     'xerox/WorkCentre_5632.2.walk' => [
@@ -279,28 +357,48 @@ my %tests = (
                 MODEL        => 'WorkCentre 5632 v1',
                 SERIAL       => '3641504792',
                 MEMORY       => 0,
-                ID           => undef
+                ID           => undef,
+                UPTIME       => '(717880872) 83 days, 2:06:48.72'
+            },
+            CARTRIDGES => {
+                TONERBLACK => 90
             },
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
-                        MAC      => '00:00:AA:CF:84:10',
-                        IFTYPE   => '6',
-                        IP       => '129.181.20.135'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
+                        IFDESCR          => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '129.181.20.135',
+                        MAC              => '00:00:AA:CF:84:10',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3111470450',
+                        IFINERRORS       => '5',
+                        IFOUTOCTETS      => '279825127',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFTYPE   => '24',
-                        MAC      => '00:00:00:00:00:00',
-                        IFNAME   => 'Xerox internal TCP Software Loopback Interface, v2.0',
-                        IFNUMBER => '2',
-                        IP       => '127.0.0.1'
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox internal TCP Software Loopback Interface, v2.0',
+                        IFDESCR          => 'Xerox internal TCP Software Loopback Interface, v2.0',
+                        IFTYPE           => '24',
+                        IFMTU            => '16436',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:00:00:00:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '200465217',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '200465217',
+                        IFOUTERRORS      => '0',
                     },
                 ]
-            },
-            CARTRIDGES => {
-                TONERBLACK => 90
             },
         }
     ],
@@ -332,26 +430,7 @@ my %tests = (
                 MODEL        => undef,
                 MEMORY       => 2,
                 NAME         => 'XEROX WorkCentre 7125',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFTYPE   => 'iso88023Csmacd(7)',
-                        IFNUMBER => '1',
-                        IFNAME   => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
-                        MAC      => '08:00:37:B9:16:5D'
-                    },
-                    {
-                        IFTYPE   => 'usb(160)',
-                        IFNAME   => 'Xerox USB-1 - Network Interface',
-                        IFNUMBER => '2',
-                    },
-                    {
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IFNUMBER => '3',
-                        IFNAME => 'Xerox Internal TCP Software Loopback Interface',
-                    }
-                ]
+                UPTIME       => '(9495100) 1 day, 2:22:31.00'
             },
             PAGECOUNTERS => {
                 COLOR      => '6964',
@@ -364,8 +443,58 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERMAGENTA => 58,
-                TONERBLACK => 31
-            }
+                TONERBLACK   => 31
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
+                        IFDESCR          => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
+                        IFTYPE           => 'iso88023Csmacd(7)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1518',
+                        MAC              => '08:00:37:B9:16:5D',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox USB-1 - Network Interface',
+                        IFDESCR          => 'Xerox USB-1 - Network Interface',
+                        IFTYPE           => 'usb(160)',
+                        IFSPEED          => '480000000',
+                        IFMTU            => '0',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '3',
+                        IFNAME           => 'Xerox Internal TCP Software Loopback Interface',
+                        IFDESCR          => 'Xerox Internal TCP Software Loopback Interface',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '4096',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'xerox/WorkCentre_7435.walk' => [
@@ -391,6 +520,52 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => 'WorkCentre 7435',
+                COMMENTS     => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
+                NAME         => 'WorkCentre 7435',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
+                        IFDESCR          => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
+                        IFTYPE           => 'iso88023Csmacd(7)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1518',
+                        MAC              => '08:00:37:9B:8F:CA',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox USB-1 - Network Interface',
+                        IFDESCR          => 'Xerox USB-1 - Network Interface',
+                        IFTYPE           => 'usb(160)',
+                        IFSPEED          => '12000000',
+                        IFMTU            => '0',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '3',
+                        IFNAME           => 'Xerox Internal TCP Software Loopback Interface',
+                        IFDESCR          => 'Xerox Internal TCP Software Loopback Interface',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '4096',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -423,7 +598,8 @@ my %tests = (
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 MODEL        => 'Phaser 8560DN',
                 SERIAL       => 'FBT261926',
-                NAME         => 'c0211a'
+                NAME         => 'c0211a',
+                UPTIME       => '(9827360) 1 day, 3:17:53.60'
             },
             CARTRIDGES => {
                 MAINTENANCEKIT => 22,
@@ -436,21 +612,41 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IP       => '127.0.0.1',
-                        MAC      => '00:00:AA:C4:27:C4'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:C4:27:C4',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.18',
-                        MAC      => '00:00:AA:C4:27:C4',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '2'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.18',
+                        MAC              => '00:00:AA:C4:27:C4',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'xerox/ColorQube_8570DN.1.walk' => [
@@ -479,10 +675,49 @@ my %tests = (
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
                 MODEL        => 'ColorQube 8570DN',
-                NAME         => 'c0500a'
+                NAME         => 'c0500a',
+                UPTIME       => '(457023) 1:16:10.23',
+                COMMENTS     => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
+                MEMORY       => 0,
             },
             PAGECOUNTERS => {
                 TOTAL => '401'
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox ColorQube 8570DN Ethernet Interface, 10/100/1000 Mbps, v42.40.09.02.2011, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox ColorQube 8570DN Ethernet Interface, 10/100/1000 Mbps, v42.40.09.02.2011, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        MAC              => '9C:93:4E:02:92:55',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox ColorQube 8570DN Ethernet Interface, 10/100/1000 Mbps, v42.40.09.02.2011, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox ColorQube 8570DN Ethernet Interface, 10/100/1000 Mbps, v42.40.09.02.2011, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '9C:93:4E:02:92:55',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '67204097',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '851549',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -516,24 +751,7 @@ my %tests = (
                 MEMORY       => 0,
                 NAME         => 'c1309a',
                 MODEL        => 'Phaser 8560DN',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IP       => '127.0.0.1',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        MAC      => '00:00:AA:D2:C6:82'
-                    },
-                    {
-                        IP       => '128.93.22.37',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:00:AA:D2:C6:82'
-                    }
-                ]
+                UPTIME       => '(184090216) 21 days, 7:21:42.16'
             },
             CARTRIDGES => {
                 WASTETONER     => 100,
@@ -542,6 +760,44 @@ my %tests = (
                 TONERCYAN      => 100,
                 TONERYELLOW    => 100,
                 TONERMAGENTA   => 100
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:D2:C6:82',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.37',
+                        MAC              => '00:00:AA:D2:C6:82',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -575,6 +831,7 @@ my %tests = (
                 MEMORY       => 0,
                 MODEL        => 'Phaser 8560DN',
                 SERIAL       => 'FBT133984',
+                UPTIME       => '(745557553) 86 days, 6:59:35.53'
             },
             CARTRIDGES => {
                 TONERCYAN      => 100,
@@ -590,19 +847,39 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        MAC      => '00:00:AA:A7:E4:D3',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.65',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '1'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.65',
+                        MAC              => '00:00:AA:A7:E4:D3',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNUMBER => '2',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IP       => '127.0.0.1',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        MAC      => '00:00:AA:A7:E4:D3'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:A7:E4:D3',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -637,6 +914,7 @@ my %tests = (
                 MEMORY       => 0,
                 NAME         => 'c1715a',
                 MODEL        => 'Phaser 8560DN',
+                UPTIME       => '(745560805) 86 days, 7:00:08.05'
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -652,21 +930,41 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IP       => '128.93.22.17',
-                        IFNUMBER => '1',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:00:AA:A7:E5:B6'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.17',
+                        MAC              => '00:00:AA:A7:E5:B6',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        MAC      => '00:00:AA:A7:E5:B6',
-                        IP       => '127.0.0.1',
-                        IFNUMBER => '2'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:A7:E5:B6',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'xerox/Phaser_8560DP.1.walk' => [
@@ -696,7 +994,8 @@ my %tests = (
                 NAME         => 'c1A110a-1',
                 MODEL        => 'Xerox Phaser 8550DP;PS3.11.0,Net24.38.04.28,Eng18.P1.3.11.0',
                 SERIAL       => 'WYP050086',
-                MEMORY       => 0
+                MEMORY       => 0,
+                UPTIME       => '(339691530) 39 days, 7:35:15.30'
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -704,21 +1003,41 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IP       => '128.93.22.95',
-                        MAC      => '00:00:AA:95:17:A7',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.95',
+                        MAC              => '00:00:AA:95:17:A7',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IP       => '127.0.0.1',
-                        IFNAME   => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '2',
-                        MAC      => '00:00:AA:95:17:A7'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '32768',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:95:17:A7',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '4294967295',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4294967295',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'xerox/Phaser_8560DN.8.walk' => [
@@ -750,7 +1069,8 @@ my %tests = (
                 NAME         => 'c0400a',
                 MEMORY       => 0,
                 MODEL        => 'Phaser 8560DN',
-                SERIAL       => 'FBT261925'
+                SERIAL       => 'FBT261925',
+                UPTIME       => '(537900356) 62 days, 6:10:03.56'
             },
             PORTS => {
                 PORT => [
@@ -777,7 +1097,45 @@ my %tests = (
                 TONERMAGENTA   => 100,
                 WASTETONER     => 100,
                 TONERBLACK     => 100
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, half duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, half duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:C4:27:29',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, half duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, half duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.114',
+                        MAC              => '00:00:AA:C4:27:29',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'xerox/Phaser_8560DN.9.walk' => [
@@ -810,6 +1168,7 @@ my %tests = (
                 MODEL        => 'Phaser 8560DN',
                 SERIAL       => 'FBT133950',
                 MEMORY       => 0,
+                UPTIME       => '(53965840) 6 days, 5:54:18.40'
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -825,21 +1184,41 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        MAC      => '00:00:AA:A8:12:CF',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IP       => '128.93.22.150',
-                        IFTYPE   => 'ethernetCsmacd(6)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.150',
+                        MAC              => '00:00:AA:A8:12:CF',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IP       => '127.0.0.1',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IFNUMBER => '2',
-                        MAC      => '00:00:AA:A8:12:CF',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:A8:12:CF',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'xerox/Phaser_8560DP.2.walk' => [
@@ -869,7 +1248,8 @@ my %tests = (
                 MEMORY       => 0,
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER'
+                TYPE         => 'PRINTER',
+                UPTIME       => '(284944040) 32 days, 23:30:40.40'
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -877,21 +1257,41 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '1',
-                        IP       => '128.93.22.40',
-                        MAC      => '00:00:AA:95:16:50',
-                        IFTYPE   => 'ethernetCsmacd(6)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.40',
+                        MAC              => '00:00:AA:95:16:50',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IP       => '127.0.0.1',
-                        MAC      => '00:00:AA:95:16:50',
-                        IFNUMBER => '2',
-                        IFNAME   => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '32768',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:95:16:50',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '4294967295',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4294967295',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'xerox/Phaser_8560DN.10.walk' => [
@@ -924,24 +1324,7 @@ my %tests = (
                 NAME         => 'c2206a',
                 MEMORY       => 0,
                 MODEL        => 'Phaser 8560DN',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IP       => '128.93.22.82',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '1',
-                        MAC      => '00:00:AA:AB:95:BE'
-                    },
-                    {
-                        IFNUMBER => '2',
-                        MAC      => '00:00:AA:AB:95:BE',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IP       => '127.0.0.1'
-                    }
-                ]
+                UPTIME       => '(504016756) 58 days, 8:02:47.56',
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -953,6 +1336,44 @@ my %tests = (
                 TONERMAGENTA   => 100,
                 MAINTENANCEKIT => 14,
                 TONERYELLOW    => 100
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.82',
+                        MAC              => '00:00:AA:AB:95:BE',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:AB:95:BE',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -985,25 +1406,8 @@ my %tests = (
                 NAME         => 'c2410a',
                 SERIAL       => 'FBT261951',
                 MODEL        => 'Phaser 8560DN',
-                MEMORY       => 0
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        MAC      => '00:00:AA:C4:27:0F',
-                        IP       => '127.0.0.1',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '1'
-                    },
-                    {
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '2',
-                        IP       => '128.93.22.60',
-                        MAC      => '00:00:AA:C4:27:0F'
-                    }
-                ]
+                MEMORY       => 0,
+                UPTIME       => '(72059111) 8 days, 8:09:51.11',
             },
             CARTRIDGES => {
                 WASTETONER     => 100,
@@ -1012,7 +1416,45 @@ my %tests = (
                 TONERMAGENTA   => 100,
                 TONERYELLOW    => 100,
                 TONERBLACK     => 100
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:C4:27:0F',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.60',
+                        MAC              => '00:00:AA:C4:27:0F',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'xerox/Phaser_8560DP.3.walk' => [
@@ -1042,28 +1484,49 @@ my %tests = (
                 NAME         => 'Phaser 8550DP',
                 MEMORY       => 0,
                 SERIAL       => 'WYP050085',
-                MODEL        => 'Xerox Phaser 8550DP;PS3.11.0,Net24.38.04.28,Eng18.P1.3.11.0'
+                MODEL        => 'Xerox Phaser 8550DP;PS3.11.0,Net24.38.04.28,Eng18.P1.3.11.0',
+                UPTIME       => '(543157724) 62 days, 20:46:17.24',
+            },
+            PAGECOUNTERS => {
+                BLACK => 'Black Impressions'
             },
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IP       => '128.93.22.54',
-                        MAC      => '00:00:AA:95:17:A8',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IFNUMBER => '1'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.54',
+                        MAC              => '00:00:AA:95:17:A8',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IP       => '127.0.0.1',
-                        MAC      => '00:00:AA:95:17:A8',
-                        IFNUMBER => '2'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '32768',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:95:17:A8',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '4294967295',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4294967295',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            },
-            PAGECOUNTERS => {
-                BLACK => 'Black Impressions'
             },
         }
     ],
@@ -1098,25 +1561,46 @@ my %tests = (
                 MEMORY       => 0,
                 NAME         => 'c2700a',
                 SERIAL       => 'WYP050251',
+                UPTIME       => '(543164034) 62 days, 20:47:20.34',
             },
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        MAC      => '00:00:AA:95:15:B8',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IFNAME   => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IP       => '128.93.22.207'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.207',
+                        MAC              => '00:00:AA:95:15:B8',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        MAC      => '00:00:AA:95:15:B8',
-                        IFNUMBER => '2',
-                        IFNAME   => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IP       => '127.0.0.1'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '32768',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:95:15:B8',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '4294967295',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4294967295',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'xerox/Phaser_8560DN.12.walk' => [
@@ -1142,7 +1626,47 @@ my %tests = (
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
                 MODEL        => 'Phaser 8560DN',
-            }
+                UPTIME       => '(80535700) 9 days, 7:42:37.00',
+                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+                NAME         => 'c3003a',
+                MEMORY       => 0,
+            },
+PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.58.08.31.2009, RJ-45, Ethernet, 100 Mbps, half duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.58.08.31.2009, RJ-45, Ethernet, 100 Mbps, half duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        MAC              => '00:00:AA:C4:28:2C',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.58.08.31.2009, RJ-45, Ethernet, 100 Mbps, half duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.58.08.31.2009, RJ-45, Ethernet, 100 Mbps, half duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:00:AA:C4:28:2C',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'xerox/Phaser_8560DN.13.walk' => [
@@ -1175,6 +1699,7 @@ my %tests = (
                 NAME         => 'c3111a',
                 MEMORY       => 0,
                 MODEL        => 'Phaser 8560DN',
+                UPTIME       => '(182596303) 21 days, 3:12:43.03'
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
@@ -1190,21 +1715,41 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        MAC      => '00:00:AA:AB:96:82',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IP       => '128.93.22.94',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.94',
+                        MAC              => '00:00:AA:AB:96:82',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFTYPE   => 'softwareLoopback(24)',
-                        MAC      => '00:00:AA:AB:96:82',
-                        IFNUMBER => '2',
-                        IP       => '127.0.0.1',
-                        IFNAME   => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:AB:96:82',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'xerox/Phaser_8560DN.14.walk' => [
@@ -1236,25 +1781,8 @@ my %tests = (
                 ID           => undef,
                 MODEL        => 'Phaser 8560DN',
                 TYPE         => 'PRINTER',
-                MANUFACTURER => 'Xerox'
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER => '1',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        MAC      => '00:00:AA:AB:92:93',
-                        IP       => '127.0.0.1'
-                    },
-                    {
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IFNUMBER => '2',
-                        IP       => '128.93.22.218',
-                        MAC      => '00:00:AA:AB:92:93'
-                    }
-                ]
+                MANUFACTURER => 'Xerox',
+                UPTIME       => '(745216738) 86 days, 6:02:47.38'
             },
             CARTRIDGES => {
                 MAINTENANCEKIT => 28,
@@ -1263,6 +1791,44 @@ my %tests = (
                 TONERMAGENTA   => 100,
                 TONERBLACK     => 100,
                 WASTETONER     => 100
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:AB:92:93',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.218',
+                        MAC              => '00:00:AA:AB:92:93',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -1288,8 +1854,48 @@ my %tests = (
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
                 MODEL        => 'Phaser 8560DT',
-                ID           => undef
-            }
+                ID           => undef,
+                UPTIME       => '(132190381) 15 days, 7:11:43.81',
+                COMMENTS     => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+                NAME         => 'ciT400a',
+                MEMORY       => 0,
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560DT Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DT Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        MAC              => '00:00:AA:D2:C5:EB',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560DT Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DT Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:00:AA:D2:C5:EB',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'xerox/Phaser_8560DN.1.walk' => [
@@ -1321,7 +1927,8 @@ my %tests = (
                 SERIAL       => 'FBT261947',
                 NAME         => 'cIT510a',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                ID           => undef
+                ID           => undef,
+                UPTIME       => '(8607383) 23:54:33.83'
             },
             CARTRIDGES => {
                 WASTETONER     => 100,
@@ -1334,21 +1941,41 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
-                        MAC      => '00:00:AA:D7:5B:A0',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IP       => '127.0.0.1',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '1'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:D7:5B:A0',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:00:AA:D7:5B:A0',
-                        IP       => '128.93.22.227'
-                    }
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.227',
+                        MAC              => '00:00:AA:D7:5B:A0',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            }
+            },
         }
     ],
     'xerox/Phaser_8560DN.2.walk' => [
@@ -1380,25 +2007,8 @@ my %tests = (
                 MODEL        => 'Phaser 8560DN',
                 MANUFACTURER => 'Xerox',
                 ID           => undef,
-                MEMORY       => 0
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IFNUMBER => '1',
-                        IP       => '127.0.0.1',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        MAC      => '00:00:AA:C4:26:B0'
-                    },
-                    {
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IP       => '128.93.22.228',
-                        MAC      => '00:00:AA:C4:26:B0',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IFNUMBER => '2'
-                    }
-                ]
+                MEMORY       => 0,
+                UPTIME       => '(262695935) 30 days, 9:42:39.35'
             },
             CARTRIDGES => {
                 TONERCYAN      => 100,
@@ -1407,7 +2017,45 @@ my %tests = (
                 TONERBLACK     => 100,
                 WASTETONER     => 100,
                 TONERYELLOW    => 100
-            }
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:C4:26:B0',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.228',
+                        MAC              => '00:00:AA:C4:26:B0',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
     ],
     'xerox/Phaser_8560DN.3.walk' => [
@@ -1439,25 +2087,8 @@ my %tests = (
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 SERIAL       => 'FBT261946',
                 MEMORY       => 0,
-                NAME         => 'Phaser 8560DN'
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE   => 'softwareLoopback(24)',
-                        IP       => '127.0.0.1',
-                        MAC      => '00:00:AA:C4:26:61',
-                        IFNUMBER => '1'
-                    },
-                    {
-                        IFNUMBER => '2',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:00:AA:C4:26:61',
-                        IP       => '128.93.22.229',
-                        IFNAME   => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex'
-                    }
-                ]
+                NAME         => 'Phaser 8560DN',
+                UPTIME       => '(1056921) 2:56:09.21'
             },
             CARTRIDGES => {
                 MAINTENANCEKIT => 71,
@@ -1467,8 +2098,45 @@ my %tests = (
                 TONERBLACK     => 100,
                 TONERCYAN      => 100
             },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'softwareLoopback(24)',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IP               => '127.0.0.1',
+                        MAC              => '00:00:AA:C4:26:61',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.229',
+                        MAC              => '00:00:AA:C4:26:61',
+                        IFSTATUS         => 'up(1)',
+                        IFINTERNALSTATUS => 'up(1)',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
         }
-
     ],
 );
 

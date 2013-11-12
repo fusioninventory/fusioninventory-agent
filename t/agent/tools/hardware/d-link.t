@@ -29,7 +29,27 @@ my %tests = (
                 ID           => undef,
                 MANUFACTURER => 'D-Link',
                 TYPE         => 'NETWORKING',
-                MODEL        => undef
+                MODEL        => undef,
+                COMMENTS     => 'D-Link DP-303 Print Server',
+                NAME         => 'Print Server PS-57B3C4',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => '10/100M Fast Ethernet Port',
+                        IFDESCR          => '10/100M Fast Ethernet Port',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1518',
+                        MAC              => '00:05:5D:57:B3:C4',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3313005088',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '124761128',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -53,7 +73,27 @@ my %tests = (
                 ID           => undef,
                 MANUFACTURER => 'D-Link',
                 TYPE         => 'NETWORKING',
-                MODEL        => undef
+                MODEL        => undef,
+                COMMENTS     => 'D-Link DP-303 Print Server',
+                NAME         => 'Print Server PS-57B3C7',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => '10/100M Fast Ethernet Port',
+                        IFDESCR          => '10/100M Fast Ethernet Port',
+                        IFTYPE           => 'ethernetCsmacd(6)',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1518',
+                        MAC              => '00:05:5D:57:B3:C7',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '13974939',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '301006',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],

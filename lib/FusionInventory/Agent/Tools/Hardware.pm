@@ -6,6 +6,7 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use List::Util qw(first);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
@@ -253,37 +254,115 @@ my @connected_devices_rules = (
 
 # common base variables
 my %base_variables = (
-    MAC          => 'macaddr',
-    CPU          => 'cpu',
-    LOCATION     => 'location',
-    CONTACT      => 'contact',
-    COMMENTS     => 'comments',
-    UPTIME       => 'uptime',
-    SERIAL       => 'serial',
-    NAME         => 'name',
-    MANUFACTURER => 'enterprise',
-    OTHERSERIAL  => 'otherserial',
-    MEMORY       => 'memory',
-    RAM          => 'ram',
+    MAC          => {
+        mapping => 'macaddr'
+    },
+    CPU          => {
+        mapping => 'cpu',
+        default => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1'
+    },
+    LOCATION     => {
+        mapping => 'location',
+        default => '.1.3.6.1.2.1.1.6.0'
+    },
+    CONTACT      => {
+        mapping => 'contact',
+        default => '.1.3.6.1.2.1.1.4.0'
+    },
+    COMMENTS     => {
+        mapping => 'comments',
+        default => '.1.3.6.1.2.1.1.1.0'
+    },
+    UPTIME       => {
+        mapping => 'uptime',
+        default => '.1.3.6.1.2.1.1.3.0'
+    },
+    SERIAL       => {
+        mapping => 'serial'
+    },
+    NAME         => {
+        mapping => 'name',
+        default => '.1.3.6.1.2.1.1.5.0'
+    },
+    MANUFACTURER => {
+        mapping => 'enterprise',
+        default => '.1.3.6.1.2.1.43.8.2.1.14.1.1'
+    },
+    OTHERSERIAL  => {
+        mapping => 'otherserial'
+    },
+    MEMORY       => {
+        mapping => 'memory',
+        default => '.1.3.6.1.2.1.25.2.3.1.5.1'
+    },
+    RAM          => {
+        mapping => 'ram',
+        default => '.1.3.6.1.4.1.9.3.6.6.0'
+    },
 );
 
 # common interface variables
 my %interface_variables = (
-    IFNUMBER         => 'ifIndex',
-    IFDESCR          => 'ifdescr',
-    IFNAME           => 'ifName',
-    IFTYPE           => 'ifType',
-    IFMTU            => 'ifmtu',
-    IFSPEED          => 'ifspeed',
-    IFSTATUS         => 'ifstatus',
-    IFINTERNALSTATUS => 'ifinternalstatus',
-    IFLASTCHANGE     => 'iflastchange',
-    IFINOCTETS       => 'ifinoctets',
-    IFOUTOCTETS      => 'ifoutoctets',
-    IFINERRORS       => 'ifinerrors',
-    IFOUTERRORS      => 'ifouterrors',
-    MAC              => 'ifPhysAddress',
-    IFPORTDUPLEX     => 'portDuplex',
+    IFNUMBER         => {
+        mapping => 'ifIndex',
+        default => '.1.3.6.1.2.1.2.2.1.1'
+    },
+    IFDESCR          => {
+        mapping => 'ifdescr',
+        default => '.1.3.6.1.2.1.2.2.1.2',
+    },
+    IFNAME           => {
+        mapping => 'ifName',
+        default => '.1.3.6.1.2.1.2.2.1.2',
+    },
+    IFTYPE           => {
+        mapping => 'ifType',
+        default => '.1.3.6.1.2.1.2.2.1.3',
+    },
+    IFMTU            => {
+        mapping => 'ifmtu',
+        default => '.1.3.6.1.2.1.2.2.1.4',
+    },
+    IFSPEED          => {
+        mapping => 'ifspeed',
+        default => '.1.3.6.1.2.1.2.2.1.5',
+    },
+    IFSTATUS         => {
+        mapping => 'ifstatus',
+        default => '.1.3.6.1.2.1.2.2.1.8',
+    },
+    IFINTERNALSTATUS => {
+        mapping => 'ifinternalstatus',
+        default => '.1.3.6.1.2.1.2.2.1.7',
+    },
+    IFLASTCHANGE     => {
+        mapping => 'iflastchange',
+        default => '.1.3.6.1.2.1.2.2.1.9',
+    },
+    IFINOCTETS       => {
+        mapping => 'ifinoctets',
+        default => '.1.3.6.1.2.1.2.2.1.10',
+    },
+    IFOUTOCTETS      => {
+        mapping => 'ifoutoctets',
+        default => '.1.3.6.1.2.1.2.2.1.16',
+    },
+    IFINERRORS       => {
+        mapping => 'ifinerrors',
+        default => '.1.3.6.1.2.1.2.2.1.14',
+    },
+    IFOUTERRORS      => {
+        mapping => 'ifouterrors',
+        default => '.1.3.6.1.2.1.2.2.1.20',
+    },
+    MAC              => {
+        mapping => 'ifPhysAddress',
+        default => '.1.3.6.1.2.1.2.2.1.6',
+    },
+    IFPORTDUPLEX     => {
+        mapping => 'portDuplex',
+        default => '.1.3.6.1.2.1.10.7.2.1.19'
+    },
 );
 
 # printer-specific cartridge simple variables
@@ -694,9 +773,11 @@ sub _setGenericProperties {
 
         # skip undefined variable
         my $variable = $base_variables{$key};
-        next unless $model->{oids}->{$variable};
+        my $oid = $model->{oids}->{$variable->{mapping}} ||
+                  $variable->{default};
+        next unless $oid;
 
-        my $raw_value = $snmp->get($model->{oids}->{$variable});
+        my $raw_value = $snmp->get($oid);
         next unless defined $raw_value;
         my $value =
             $key eq 'NAME'        ? hex2char($raw_value)                           :
@@ -730,7 +811,10 @@ sub _setGenericProperties {
 
     foreach my $key (keys %interface_variables) {
         my $variable = $interface_variables{$key};
-        my $results = $snmp->walk($model->{oids}->{$variable});
+        my $oid = $model->{oids}->{$variable->{mapping}} ||
+                  $variable->{default};
+        next unless $oid;
+        my $results = $snmp->walk($oid);
         next unless $results;
         # each result matches the following scheme:
         # $prefix.$i = $value, with $i as port id
@@ -865,6 +949,9 @@ sub _setNetworkingProperties {
     _setTrunkPorts($comments, $snmp, $model, $ports, $logger);
 
     _setConnectedDevicesInfo($comments, $snmp, $model, $ports, $logger);
+
+    # ensure module is loaded
+    FusionInventory::Agent::Tools::Hardware::Generic->require();
 
     # check if vlan-specific queries are needed
     my $vlan_query =
