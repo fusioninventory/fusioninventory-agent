@@ -10,7 +10,7 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Test::Hardware;
 
 my %tests = (
-    'juniper/ex2200.1.walk' => [
+    'juniper/ex2200.01.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
@@ -1319,7 +1319,7 @@ my %tests = (
             },
         }
     ],
-    'juniper/ex2200.2.walk' => [
+    'juniper/ex2200.02.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
@@ -3318,7 +3318,7 @@ my %tests = (
             }
         }
     ],
-    'juniper/ex2200.3.walk' => [
+    'juniper/ex2200.03.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
@@ -4086,7 +4086,7 @@ my %tests = (
             }
         }
     ],
-    'juniper/ex2200.4.walk' => [
+    'juniper/ex2200.04.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
@@ -6032,7 +6032,7 @@ my %tests = (
             },
         }
     ],
-    'juniper/ex2200.5.walk' => [
+    'juniper/ex2200.05.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
@@ -6800,7 +6800,7 @@ my %tests = (
             }
         }
     ],
-    'juniper/ex2200.6.walk' => [
+    'juniper/ex2200.06.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
@@ -9750,7 +9750,7 @@ my %tests = (
             },
         }
     ],
-    'juniper/ex4200.walk' => [
+    'juniper/ex4200.01.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
@@ -20437,7 +20437,7 @@ my %tests = (
             },
         }
     ],
-    'juniper/ex4200.2.walk' => [
+    'juniper/ex4200.02.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
@@ -31116,7 +31116,7 @@ my %tests = (
             },
         }
     ],
-    'juniper/srx3400.1.walk' => [
+    'juniper/srx3400.01.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
@@ -31735,7 +31735,7 @@ my %tests = (
             },
         }
     ],
-    'juniper/srx3400.2.walk' => [
+    'juniper/srx3400.02.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
@@ -32340,7 +32340,7 @@ my %tests = (
             },
         }
     ],
-    'juniper/srx3400.3.walk' => [
+    'juniper/srx3400.03.walk' => [
         {
             MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
