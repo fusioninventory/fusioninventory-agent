@@ -3481,6 +3481,80 @@ PORTS => {
             },
         }
     ],
+    'hewlett-packard/LaserJet_CP3525.03.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP3525',
+            SNMPHOSTNAME => 'nerium',
+            MAC          => 'D4:85:64:40:4D:93',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP3525',
+            SNMPHOSTNAME => 'nerium',
+            MAC          => 'D4:85:64:40:4D:93',
+            MODELSNMP    => 'Printer0388',
+            FIRMWARE     => undef,
+            SERIAL       => 'CBAFTBDG66',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP3525',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80,CIDATE 11/03/2009',
+                NAME         => 'nerium',
+                MEMORY       => '384',
+                SERIAL       => 'CBAFTBDG66',
+                UPTIME       => '(457735283) 52 days, 23:29:12.83',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '7',
+                TONERCYAN        => '52',
+                TONERMAGENTA     => '60',
+                TONERYELLOW      => '84',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '192.168.1.41',
+                        MAC              => 'D4:85:64:40:4D:93',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3638074715',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '167843585',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
     'hewlett-packard/LaserJet_CP4520.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
