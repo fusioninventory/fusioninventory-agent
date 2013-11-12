@@ -25638,6 +25638,1383 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
             },
         }
     ],
+    'cisco/C3750.walk' => [
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C3750 Software (C3750-IPBASE-M), Version 12.2(25)SEB4, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2005 by Cisco Systems, Inc.
+Compiled Tue 30-Aug-05 15:47 by yenanh',
+            SNMPHOSTNAME => 'c37hgcr5C2r01',
+            MAC          => '00:0F:90:75:48:00',
+            MODEL        => 'Catalyst 3750-24/48',
+        },
+        {
+            MANUFACTURER => 'Cisco',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'Cisco IOS Software, C3750 Software (C3750-IPBASE-M), Version 12.2(25)SEB4, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2005 by Cisco Systems, Inc.
+Compiled Tue 30-Aug-05 15:47 by yenanh',
+            SNMPHOSTNAME => 'c37hgcr5C2r01',
+            MAC          => '00:0F:90:75:48:00',
+            MODELSNMP    => 'Networking2055',
+            MODEL        => 'Catalyst 3750-24/48',
+            FIRMWARE     => undef,
+            SERIAL       => 'CAT0813Y2AL',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Cisco',
+                TYPE         => 'NETWORKING',
+                MODEL        => 'Catalyst 3750-24/48',
+                COMMENTS     => 'Cisco IOS Software, C3750 Software (C3750-IPBASE-M), Version 12.2(25)SEB4, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2005 by Cisco Systems, Inc.
+Compiled Tue 30-Aug-05 15:47 by yenanh',
+                NAME         => 'c37hgcr5C2r01',
+                MEMORY       => '66',
+                LOCATION     => 'HGCR RACK01',
+                SERIAL       => 'CAT0813Y2AL',
+                FIRMWARE     => 'CW_VERSION$12.2(25)SEB4$',
+                MAC          => '00:0F:90:75:48:00',
+                UPTIME       => '(149654295) 17 days, 7:42:22.95',
+                CPU          => '56',
+                RAM          => '116',
+                IPS          => {
+                    IP => [ '10.36.16.51' ]
+                },
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Vl1',
+                        IFDESCR          => 'Vlan1',
+                        IFTYPE           => '53',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:40',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '2',
+                        IFLASTCHANGE     => '(6545) 0:01:05.45',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '16',
+                        IFNAME           => 'Vl16',
+                        IFDESCR          => 'Vlan16',
+                        IFTYPE           => '53',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:41',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(7373) 0:01:13.73',
+                        IFINOCTETS       => '381753208',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '413290860',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '10001',
+                        IFNAME           => 'Fa1/0/1',
+                        IFDESCR          => 'FastEthernet1/0/1',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:03',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6603) 0:01:06.03',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10002',
+                        IFNAME           => 'Fa1/0/2',
+                        IFDESCR          => 'FastEthernet1/0/2',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:04',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6603) 0:01:06.03',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10003',
+                        IFNAME           => 'Fa1/0/3',
+                        IFDESCR          => 'FastEthernet1/0/3',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:05',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6603) 0:01:06.03',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10004',
+                        IFNAME           => 'Fa1/0/4',
+                        IFDESCR          => 'FastEthernet1/0/4',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:06',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6603) 0:01:06.03',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10005',
+                        IFNAME           => 'Fa1/0/5',
+                        IFDESCR          => 'FastEthernet1/0/5',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:07',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6604) 0:01:06.04',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10006',
+                        IFNAME           => 'Fa1/0/6',
+                        IFDESCR          => 'FastEthernet1/0/6',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:08',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6604) 0:01:06.04',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10007',
+                        IFNAME           => 'Fa1/0/7',
+                        IFDESCR          => 'FastEthernet1/0/7',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:09',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6604) 0:01:06.04',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10008',
+                        IFNAME           => 'Fa1/0/8',
+                        IFDESCR          => 'FastEthernet1/0/8',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:0A',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6604) 0:01:06.04',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10009',
+                        IFNAME           => 'Fa1/0/9',
+                        IFDESCR          => 'FastEthernet1/0/9',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:0B',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6604) 0:01:06.04',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10010',
+                        IFNAME           => 'Fa1/0/10',
+                        IFDESCR          => 'FastEthernet1/0/10',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:0C',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6604) 0:01:06.04',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10011',
+                        IFNAME           => 'Fa1/0/11',
+                        IFDESCR          => 'FastEthernet1/0/11',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:0D',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(128705854) 14 days, 21:30:58.54',
+                        IFINOCTETS       => '13248',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '67419327',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'PREWIMAX',
+                                    NUMBER => '5',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10012',
+                        IFNAME           => 'Fa1/0/12',
+                        IFDESCR          => 'FastEthernet1/0/12',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:0E',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6605) 0:01:06.05',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10013',
+                        IFNAME           => 'Fa1/0/13',
+                        IFDESCR          => 'FastEthernet1/0/13',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:0F',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6605) 0:01:06.05',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10014',
+                        IFNAME           => 'Fa1/0/14',
+                        IFDESCR          => 'FastEthernet1/0/14',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:10',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6605) 0:01:06.05',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10015',
+                        IFNAME           => 'Fa1/0/15',
+                        IFDESCR          => 'FastEthernet1/0/15',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:11',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6605) 0:01:06.05',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10016',
+                        IFNAME           => 'Fa1/0/16',
+                        IFDESCR          => 'FastEthernet1/0/16',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:12',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6605) 0:01:06.05',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10017',
+                        IFNAME           => 'Fa1/0/17',
+                        IFDESCR          => 'FastEthernet1/0/17',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:13',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6605) 0:01:06.05',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10018',
+                        IFNAME           => 'Fa1/0/18',
+                        IFDESCR          => 'FastEthernet1/0/18',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:14',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6605) 0:01:06.05',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10019',
+                        IFNAME           => 'Fa1/0/19',
+                        IFDESCR          => 'FastEthernet1/0/19',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:15',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10020',
+                        IFNAME           => 'Fa1/0/20',
+                        IFDESCR          => 'FastEthernet1/0/20',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:16',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10021',
+                        IFNAME           => 'Fa1/0/21',
+                        IFDESCR          => 'FastEthernet1/0/21',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:17',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10022',
+                        IFNAME           => 'Fa1/0/22',
+                        IFDESCR          => 'FastEthernet1/0/22',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:18',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10023',
+                        IFNAME           => 'Fa1/0/23',
+                        IFDESCR          => 'FastEthernet1/0/23',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:19',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10024',
+                        IFNAME           => 'Fa1/0/24',
+                        IFDESCR          => 'FastEthernet1/0/24',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:1A',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10025',
+                        IFNAME           => 'Fa1/0/25',
+                        IFDESCR          => 'FastEthernet1/0/25',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:1D',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10026',
+                        IFNAME           => 'Fa1/0/26',
+                        IFDESCR          => 'FastEthernet1/0/26',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:1E',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10027',
+                        IFNAME           => 'Fa1/0/27',
+                        IFDESCR          => 'FastEthernet1/0/27',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:1F',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10028',
+                        IFNAME           => 'Fa1/0/28',
+                        IFDESCR          => 'FastEthernet1/0/28',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:20',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10029',
+                        IFNAME           => 'Fa1/0/29',
+                        IFDESCR          => 'FastEthernet1/0/29',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:21',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10030',
+                        IFNAME           => 'Fa1/0/30',
+                        IFDESCR          => 'FastEthernet1/0/30',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:22',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10031',
+                        IFNAME           => 'Fa1/0/31',
+                        IFDESCR          => 'FastEthernet1/0/31',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:23',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10032',
+                        IFNAME           => 'Fa1/0/32',
+                        IFDESCR          => 'FastEthernet1/0/32',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:24',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10033',
+                        IFNAME           => 'Fa1/0/33',
+                        IFDESCR          => 'FastEthernet1/0/33',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:25',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6606) 0:01:06.06',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10034',
+                        IFNAME           => 'Fa1/0/34',
+                        IFDESCR          => 'FastEthernet1/0/34',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:26',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6607) 0:01:06.07',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10035',
+                        IFNAME           => 'Fa1/0/35',
+                        IFDESCR          => 'FastEthernet1/0/35',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:27',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6607) 0:01:06.07',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10036',
+                        IFNAME           => 'Fa1/0/36',
+                        IFDESCR          => 'FastEthernet1/0/36',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:28',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6607) 0:01:06.07',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10037',
+                        IFNAME           => 'Fa1/0/37',
+                        IFDESCR          => 'FastEthernet1/0/37',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:29',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6607) 0:01:06.07',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10038',
+                        IFNAME           => 'Fa1/0/38',
+                        IFDESCR          => 'FastEthernet1/0/38',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:2A',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6607) 0:01:06.07',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10039',
+                        IFNAME           => 'Fa1/0/39',
+                        IFDESCR          => 'FastEthernet1/0/39',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:2B',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6607) 0:01:06.07',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10040',
+                        IFNAME           => 'Fa1/0/40',
+                        IFDESCR          => 'FastEthernet1/0/40',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:2C',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6607) 0:01:06.07',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10041',
+                        IFNAME           => 'Fa1/0/41',
+                        IFDESCR          => 'FastEthernet1/0/41',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:2D',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6608) 0:01:06.08',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10042',
+                        IFNAME           => 'Fa1/0/42',
+                        IFDESCR          => 'FastEthernet1/0/42',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:2E',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6608) 0:01:06.08',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'OFIMATICA4',
+                                    NUMBER => '4',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '10043',
+                        IFNAME           => 'Fa1/0/43',
+                        IFDESCR          => 'FastEthernet1/0/43',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:2F',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(7366) 0:01:13.66',
+                        IFINOCTETS       => '63483644',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1375074943',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        CONNECTIONS      => {
+                            CDP        => 1,
+                            CONNECTION => {
+                                IFDESCR  => 'FastEthernet0',
+                                SYSNAME  => 'ap11hgcr-p(6)-002-i',
+                                SYSDESCR => '"Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)',
+                                IP       => '10.36.21.21',
+                                MODEL    => 'cisco AIR-AP1131AG-E-K9   ',
+                            }
+                        }
+                    },
+                    {
+                        IFNUMBER         => '10044',
+                        IFNAME           => 'Fa1/0/44',
+                        IFDESCR          => 'FastEthernet1/0/44',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:30',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6608) 0:01:06.08',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                    },
+                    {
+                        IFNUMBER         => '10045',
+                        IFNAME           => 'Fa1/0/45',
+                        IFDESCR          => 'FastEthernet1/0/45',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:31',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6608) 0:01:06.08',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                    },
+                    {
+                        IFNUMBER         => '10046',
+                        IFNAME           => 'Fa1/0/46',
+                        IFDESCR          => 'FastEthernet1/0/46',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:32',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(7331) 0:01:13.31',
+                        IFINOCTETS       => '74287104',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1375207826',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        CONNECTIONS      => {
+                            CDP        => 1,
+                            CONNECTION => {
+                                IFDESCR  => 'FastEthernet0',
+                                SYSNAME  => 'ap11hgcr-p(5)-002-i',
+                                SYSDESCR => '"Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)',
+                                IP       => '10.36.21.2',
+                                MODEL    => 'cisco AIR-AP1131AG-E-K9   ',
+                            }
+                        }
+                    },
+                    {
+                        IFNUMBER         => '10047',
+                        IFNAME           => 'Fa1/0/47',
+                        IFDESCR          => 'FastEthernet1/0/47',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:33',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(7366) 0:01:13.66',
+                        IFINOCTETS       => '70672373',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1375677749',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        CONNECTIONS      => {
+                            CDP        => 1,
+                            CONNECTION => {
+                                IFDESCR  => 'FastEthernet0',
+                                SYSNAME  => 'ap11hgcr-p(5)-004-i',
+                                SYSDESCR => '"Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)',
+                                IP       => '10.36.21.4',
+                                MODEL    => 'cisco AIR-AP1131AG-E-K9   ',
+                            }
+                        }
+                    },
+                    {
+                        IFNUMBER         => '10048',
+                        IFNAME           => 'Fa1/0/48',
+                        IFDESCR          => 'FastEthernet1/0/48',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:34',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(7371) 0:01:13.71',
+                        IFINOCTETS       => '69677228',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1375656343',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        CONNECTIONS      => {
+                            CDP        => 1,
+                            CONNECTION => {
+                                IFDESCR  => 'FastEthernet0',
+                                SYSNAME  => 'ap11hgcr-p(5)-003-i',
+                                SYSDESCR => '"Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)',
+                                IP       => '10.36.21.3',
+                                MODEL    => 'cisco AIR-AP1131AG-E-K9   ',
+                            }
+                        }
+                    },
+                    {
+                        IFNUMBER         => '10101',
+                        IFNAME           => 'Gi1/0/1',
+                        IFDESCR          => 'GigabitEthernet1/0/1',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:01',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6603) 0:01:06.03',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                    },
+                    {
+                        IFNUMBER         => '10102',
+                        IFNAME           => 'Gi1/0/2',
+                        IFDESCR          => 'GigabitEthernet1/0/2',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:02',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(6603) 0:01:06.03',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                    },
+                    {
+                        IFNUMBER         => '10103',
+                        IFNAME           => 'Gi1/0/3',
+                        IFDESCR          => 'GigabitEthernet1/0/3',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:1B',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(7292) 0:01:12.92',
+                        IFINOCTETS       => '3966197882',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2193031247',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        CONNECTIONS      => {
+                            CDP        => 1,
+                            CONNECTION => {
+                                IFDESCR  => 'GigabitEthernet1/1',
+                                SYSNAME  => 'c65hgcr2.sescam.jclm.es',
+                                SYSDESCR => '"Cisco Internetwork Operating System Software ',
+                                IP       => '10.36.2.3',
+                                MODEL    => 'cisco WS-C6509-E',
+                            }
+                        }
+                    },
+                    {
+                        IFNUMBER         => '10104',
+                        IFNAME           => 'Gi1/0/4',
+                        IFDESCR          => 'GigabitEthernet1/0/4',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:0F:90:75:48:1C',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(10141359) 1 day, 4:10:13.59',
+                        IFINOCTETS       => '1134098222',
+                        IFINERRORS       => '1329377',
+                        IFOUTOCTETS      => '13814163',
+                        IFOUTERRORS      => '0',
+                        TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'default',
+                                    NUMBER => '1',
+                                }
+                            ]
+                        },
+                    },
+                    {
+                        IFNUMBER         => '14501',
+                        IFNAME           => 'Nu0',
+                        IFDESCR          => 'Null0',
+                        IFTYPE           => '1',
+                        IFSPEED          => '4294967295',
+                        IFMTU            => '1500',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
 );
 
 setPlan(scalar keys %tests);
