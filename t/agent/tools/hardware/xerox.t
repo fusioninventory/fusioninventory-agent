@@ -132,6 +132,71 @@ my %tests = (
             },
         }
     ],
+    'xerox/Phaser_3320.01.walk' => [
+        {
+            MANUFACTURER => 'Xerox',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
+            SNMPHOSTNAME => 'AS_STEXU_IMP02',
+            MAC          => '9C:93:4E:21:3C:A2',
+        },
+        {
+            MANUFACTURER => 'Xerox',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
+            SNMPHOSTNAME => 'AS_STEXU_IMP02',
+            MAC          => '9C:93:4E:21:3C:A2',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Xerox',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+                COMMENTS     => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
+                CONTACT      => 'Administrator',
+                NAME         => 'AS_STEXU_IMP02',
+                MEMORY       => '0',
+                UPTIME       => '(1018900) 2:49:49.00',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ-45, connector A1, 10 Mbps half duplex',
+                        IFDESCR          => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ-45, connector A1, 10 Mbps half duplex',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '9C:93:4E:21:3C:A2',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1671569',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1762641',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Xerox internal TCP Software Loopback Interface, v2.0',
+                        IFDESCR          => 'Xerox internal TCP Software Loopback Interface, v2.0',
+                        IFTYPE           => '24',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:00:00:00:00:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3744775',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
     'xerox/Phaser_5550DT.01.walk' => [
         {
             MANUFACTURER => 'Xerox',
@@ -2170,4 +2235,3 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
 }
-use Data::Dumper;
