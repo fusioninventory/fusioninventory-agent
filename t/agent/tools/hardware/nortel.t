@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Test::Hardware;
 
 my %tests = (
-    'nortel/baystack_470.walk' => [
+    'nortel/baystack_470.01.walk' => [
         {
             MANUFACTURER => 'Nortel',
             TYPE         => 'NETWORKING',
@@ -590,7 +590,7 @@ my %tests = (
             }
         }
     ],
-    'nortel/unknown2.walk' => [
+    'nortel/baystack_470.02.walk' => [
         {
             MANUFACTURER => 'Nortel',
             TYPE         => 'NETWORKING',
