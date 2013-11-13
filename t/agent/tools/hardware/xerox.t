@@ -139,6 +139,7 @@ my %tests = (
             DESCRIPTION  => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
             SNMPHOSTNAME => 'AS_STEXU_IMP02',
             MAC          => '9C:93:4E:21:3C:A2',
+            MODEL        => 'Phaser 3320',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -146,13 +147,14 @@ my %tests = (
             DESCRIPTION  => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
             SNMPHOSTNAME => 'AS_STEXU_IMP02',
             MAC          => '9C:93:4E:21:3C:A2',
+            MODEL        => 'Phaser 3320',
         },
         {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
-                MODEL        => undef,
+                MODEL        => 'Phaser 3320',
                 COMMENTS     => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
                 CONTACT      => 'Administrator',
                 NAME         => 'AS_STEXU_IMP02',
@@ -336,6 +338,7 @@ PORTS => {
             DESCRIPTION  => 'Xerox Phaser 6180MFP-D; Net 11.74,ESS 200802151717,IOT 05.09.00,Boot 200706151125',
             SNMPHOSTNAME => 'Phaser 6180MFP-D-E360D7',
             MAC          => '00:00:AA:E3:60:D7',
+            MODEL        => 'Phaser 6180 MFP',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -343,6 +346,7 @@ PORTS => {
             DESCRIPTION  => 'Xerox Phaser 6180MFP-D; Net 11.74,ESS 200802151717,IOT 05.09.00,Boot 200706151125',
             SNMPHOSTNAME => 'Phaser 6180MFP-D-E360D7',
             MAC          => '00:00:AA:E3:60:D7',
+            MODEL        => 'Phaser 6180 MFP',
             MODELSNMP    => 'Printer0370',
             FIRMWARE     => undef,
             SERIAL       => 'GPX259705',
@@ -356,7 +360,7 @@ PORTS => {
                 SERIAL       => 'GPX259705',
                 ID           => undef,
                 NAME         => 'Phaser 6180MFP-D-E360D7',
-                MODEL        => 'Xerox Phaser 6180MFP-D',
+                MODEL        => 'Phaser 6180 MFP',
                 UPTIME       => '(119016820) 13 days, 18:36:08.20'
             },
             CARTRIDGES => {
@@ -1533,6 +1537,7 @@ PORTS => {
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
             SNMPHOSTNAME => 'c1A110a-1',
             MAC          => '00:00:AA:95:17:A7',
+            MODEL        => 'Phaser 8560DP',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -1540,6 +1545,7 @@ PORTS => {
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
             SNMPHOSTNAME => 'c1A110a-1',
             MAC          => '00:00:AA:95:17:A7',
+            MODEL        => 'Phaser 8560DP',
             FIRMWARE     => undef,
             SERIAL       => 'WYP050086',
             MODELSNMP    => 'Printer0451'
@@ -1551,7 +1557,7 @@ PORTS => {
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
                 NAME         => 'c1A110a-1',
-                MODEL        => 'Xerox Phaser 8550DP;PS3.11.0,Net24.38.04.28,Eng18.P1.3.11.0',
+                MODEL        => 'Phaser 8560DP',
                 SERIAL       => 'WYP050086',
                 MEMORY       => 0,
                 UPTIME       => '(339691530) 39 days, 7:35:15.30'
@@ -1606,6 +1612,7 @@ PORTS => {
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
             SNMPHOSTNAME => 'c2009a',
             MAC          => '00:00:AA:95:16:50',
+            MODEL        => 'Phaser 8560DP',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -1613,6 +1620,7 @@ PORTS => {
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
             SNMPHOSTNAME => 'c2009a',
             MAC          => '00:00:AA:95:16:50',
+            MODEL        => 'Phaser 8560DP',
             MODELSNMP    => 'Printer0451',
             SERIAL       => 'WYP050250',
             FIRMWARE     => undef,
@@ -1620,7 +1628,7 @@ PORTS => {
         {
             INFO => {
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-                MODEL        => 'Xerox Phaser 8550DP;PS3.11.0,Net24.38.04.28,Eng18.P1.3.11.0',
+                MODEL        => 'Phaser 8560DP',
                 SERIAL       => 'WYP050250',
                 NAME         => 'c2009a',
                 MEMORY       => 0,
@@ -1678,7 +1686,8 @@ PORTS => {
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
             SNMPHOSTNAME => 'Phaser 8550DP',
-            MAC          => '00:00:AA:95:17:A8'
+            MAC          => '00:00:AA:95:17:A8',
+            MODEL        => 'Phaser 8560DP',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -1688,7 +1697,8 @@ PORTS => {
             SNMPHOSTNAME => 'Phaser 8550DP',
             SERIAL       => 'WYP050085',
             FIRMWARE     => undef,
-            MAC          => '00:00:AA:95:17:A8'
+            MAC          => '00:00:AA:95:17:A8',
+            MODEL        => 'Phaser 8560DP',
         },
         {
             INFO => {
@@ -1699,7 +1709,7 @@ PORTS => {
                 NAME         => 'Phaser 8550DP',
                 MEMORY       => 0,
                 SERIAL       => 'WYP050085',
-                MODEL        => 'Xerox Phaser 8550DP;PS3.11.0,Net24.38.04.28,Eng18.P1.3.11.0',
+                MODEL        => 'Phaser 8560DP',
                 UPTIME       => '(543157724) 62 days, 20:46:17.24',
             },
             PAGECOUNTERS => {
@@ -1751,7 +1761,8 @@ PORTS => {
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
             SNMPHOSTNAME => 'c2700a',
-            MAC          => '00:00:AA:95:15:B8'
+            MAC          => '00:00:AA:95:15:B8',
+            MODEL        => 'Phaser 8560DP',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -1761,6 +1772,7 @@ PORTS => {
             SNMPHOSTNAME => 'c2700a',
             MODELSNMP    => 'Printer0451',
             MAC          => '00:00:AA:95:15:B8',
+            MODEL        => 'Phaser 8560DP',
             FIRMWARE     => undef
         },
         {
@@ -1772,7 +1784,7 @@ PORTS => {
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-                MODEL        => 'Xerox Phaser 8550DP;PS3.11.0,Net24.38.04.28,Eng18.P1.3.11.0',
+                MODEL        => 'Phaser 8560DP',
                 MEMORY       => 0,
                 NAME         => 'c2700a',
                 SERIAL       => 'WYP050251',
@@ -2043,6 +2055,7 @@ PORTS => {
             DESCRIPTION  => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
             SNMPHOSTNAME => 'XEROX WorkCentre 7125',
             MAC          => '08:00:37:B9:16:5D',
+            MODEL        => 'WorkCentre 7125',
         },
         {
             MANUFACTURER  => 'Xerox',
@@ -2050,6 +2063,7 @@ PORTS => {
             DESCRIPTION   => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
             SNMPHOSTNAME  => 'XEROX WorkCentre 7125',
             MAC           => '08:00:37:B9:16:5D',
+            MODEL        => 'WorkCentre 7125',
             MODELSNMP     => 'Printer0690',
             FIRMWARE      => undef,
             SERIAL        => '3325295030',
@@ -2061,7 +2075,7 @@ PORTS => {
                 COMMENTS     => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
                 SERIAL       => '3325295030',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'WorkCentre 7125',
                 MEMORY       => 2,
                 NAME         => 'XEROX WorkCentre 7125',
                 UPTIME       => '(9495100) 1 day, 2:22:31.00'
