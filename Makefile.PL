@@ -51,7 +51,6 @@ test_requires 'Test::MockModule'             => undef;
 test_requires 'Test::More'                   => '0.93'; # subtest
 test_requires 'Test::NoWarnings'             => undef;
 test_requires 'LWP::Protocol::https'         => undef;
-test_requires 'Clone'                        => undef;
 test_requires 'Test::MockObject'             => undef;
 test_requires 'JSON'                         => undef;
 test_requires 'Net::SNMP'                    => undef;
