@@ -262,19 +262,21 @@ PORTS => {
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'EPSON AL-C3900',
             MAC          => '00:26:AB:9F:78:8B',
+            MODEL        => 'AL-C3900',
         },
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'EPSON AL-C3900',
             MAC          => '00:26:AB:9F:78:8B',
+            MODEL        => 'AL-C3900',
         },
         {
             INFO => {
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'AL-C3900',
                 COMMENTS     => 'EPSON AL-C3900',
             },
 PORTS => {
@@ -317,6 +319,7 @@ PORTS => {
             DESCRIPTION  => 'AL-C1100',
             SNMPHOSTNAME => 'AL-C1100-0DBECC',
             MAC          => '00:00:48:0D:BE:CC',
+            MODEL        => 'AL-C1100',
         },
         {
             MANUFACTURER => 'Epson',
@@ -324,13 +327,14 @@ PORTS => {
             DESCRIPTION  => 'AL-C1100',
             SNMPHOSTNAME => 'AL-C1100-0DBECC',
             MAC          => '00:00:48:0D:BE:CC',
+            MODEL        => 'AL-C1100',
         },
         {
             INFO => {
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'AL-C1100',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-C1100-0DBECC',
             },
@@ -360,21 +364,23 @@ PORTS => {
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => '00:26:AB:7F:DD:AF'
+            MAC          => '00:26:AB:7F:DD:AF',
+            MODEL        => 'AL-M2400',
         },
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => '00:26:AB:7F:DD:AF'
+            MAC          => '00:26:AB:7F:DD:AF',
+            MODEL        => 'AL-M2400',
         },
         {
             INFO => {
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'AL-M2400',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-M2400-7FDDAF',
             },
@@ -405,6 +411,7 @@ PORTS => {
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
             MAC          => '00:26:AB:7F:DD:AF',
+            MODEL        => 'AL-M2400',
         },
         {
             MANUFACTURER => 'Epson',
@@ -412,13 +419,14 @@ PORTS => {
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
             MAC          => '00:26:AB:7F:DD:AF',
+            MODEL        => 'AL-M2400',
         },
         {
             INFO => {
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'AL-M2400',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-M2400-7FDDAF',
             },
