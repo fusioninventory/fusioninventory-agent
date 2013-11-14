@@ -22,7 +22,6 @@ my %setup = (
 );
 
 my $options = {
-    community => 'public'
 };
 
 GetOptions(
@@ -31,6 +30,7 @@ GetOptions(
     'host=s',
     'file=s',
     'community=s',
+    'credentials=s',
     'entity=s',
     'target=s',
     'timeout=i',
@@ -73,6 +73,20 @@ my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     deviceid => $agent->{deviceid},
 );
 
+my $credentials = { ID => 1 };
+
+if (defined $options->{community}) {
+    $credentials->{COMMUNITY} = $options->{community};
+} elsif (defined $options->{credentials}) {
+    foreach my $parameter (split(',', $options->{credentials})) {
+        my ($key, $value) = split(':', $parameter);
+        $key = uc($key);
+        $credentials->{$key} = $value;
+    }
+} else {
+    $credentials->{COMMUNITY} = 'public';
+}
+
 $inventory->{options} = {
     NAME => 'SNMPQUERY',
     PARAM => [
@@ -93,13 +107,9 @@ $inventory->{options} = {
         }
     ],
     MODEL => [ $model ],
-    AUTHENTICATION => [
-        {
-            ID        => 1,
-            COMMUNITY => $options->{community},
-        }
-    ]
+    AUTHENTICATION => [ $credentials ]
 };
+
 if (defined($options->{entity})) {
     $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};
 }
@@ -131,6 +141,7 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --file file    snmpwalk output file
     --model model  XML model file
     --community    community string (default: public)
+    --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)
     --entity       GLPI entity
     --target target where to send result (default: stdout)
