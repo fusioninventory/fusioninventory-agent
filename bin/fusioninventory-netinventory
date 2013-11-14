@@ -12,7 +12,14 @@ use XML::TreePP;
 use FusionInventory::Agent;
 use FusionInventory::Agent::Broker;
 use FusionInventory::Agent::Task::NetInventory;
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
+
+my %types = (
+    1 => 'COMPUTER',
+    2 => 'NETWORKING',
+    3 => 'PRINTER',
+);
 
 my %setup = (
     confdir => './etc',
@@ -27,6 +34,7 @@ my $options = {
 GetOptions(
     $options,
     'model=s',
+    'type=s',
     'host=s',
     'file=s',
     'community=s',
@@ -47,23 +55,30 @@ if ($options->{version}) {
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 pod2usage(
-    -message => "no model given, aborting\n", -verbose => 0
-) unless $options->{model};
-pod2usage(
-    -message => "invalid file '$options->{model}', aborting\n", -verbose => 0
-) unless -f $options->{model};
-pod2usage(
     -message => "no host nor file given, aborting\n", -verbose => 0
 ) unless $options->{host} or $options->{file};
 
 my $agent = FusionInventory::Agent->new(%setup);
 
-my $model = loadModel($options->{model});
-my $type =
-    $model->{TYPE} == 1 ? 'COMPUTER'   :
-    $model->{TYPE} == 2 ? 'NETWORKING' :
-    $model->{TYPE} == 3 ? 'PRINTER'    :
-                          undef        ;
+my ($model, $type);
+if ($options->{model}) {
+    pod2usage(
+        -message => "invalid file '$options->{model}', aborting\n",
+        -verbose => 0
+    ) unless -f $options->{model};
+    $model = loadModel($options->{model});
+    $type = $types{$model->{TYPE}};
+} else {
+    pod2usage(
+        -message => "no type given, aborting\n",
+        -verbose => 0
+    ) unless $options->{type};
+    pod2usage(
+        -message => "invalid type '$options->{type}', aborting\n",
+        -verbose => 0
+    ) unless any { $options->{type} eq $_ } values %types;
+    $type = $options->{type};
+}
 
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     config   => $agent->{config},
@@ -140,6 +155,7 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --host host    device host name
     --file file    snmpwalk output file
     --model model  XML model file
+    --type type    device type
     --community    community string (default: public)
     --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)
