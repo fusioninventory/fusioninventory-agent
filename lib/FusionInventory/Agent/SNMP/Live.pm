@@ -26,30 +26,32 @@ sub new {
         community => $params{community}
     };
 
-    my $error;
+    # shared options
+    my %options = (
+        -retries  => 0,
+        -version  => $version,
+        -hostname => $params{hostname},
+    );
+    $options{'-timeout'} = $params{timeout} if $params{timeout};
+
+    # version-specific options
     if ($version eq 'snmpv3') {
-        ($self->{session}, $error) = Net::SNMP->session(
-            -retries      => 0,
-            -version      => $version,
-            -hostname     => $params{hostname},
-            -username     => $params{username},
-            -authpassword => $params{authpassword},
-            -authprotocol => $params{authprotocol},
-            -privpassword => $params{privpassword},
-            -privprotocol => $params{privprotocol},
-        );
+        # only username is mandatory
+        $options{'-username'}     = $params{username};
+        $options{'-authprotocol'} = $params{authprotocol}
+            if $params{authprotocol};
+        $options{'-authpassword'} = $params{authpassword}
+            if $params{authpassword};
+        $options{'-privprotocol'} = $params{privprotocol}
+            if $params{privprotocol};
+        $options{'-privpassword'} = $params{privpassword}
+            if $params{privpassword};
     } else { # snmpv2c && snmpv1 #
-        ($self->{session}, $error) = Net::SNMP->session(
-            -retries   => 0,
-            -version   => $version,
-            -hostname  => $params{hostname},
-            -community => $params{community},
-        );
+        $options{'-community'} = $params{community};
     }
 
+    ($self->{session}, my $error) = Net::SNMP->session(%options);
     die $error unless $self->{session};
-
-    $self->{session}->timeout($params{timeout}) if $params{timeout};
 
     bless $self, $class;
 
