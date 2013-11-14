@@ -14,7 +14,6 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Logger;
 
 my $options = {
-    community => 'public'
 };
 
 my %setup = (
@@ -24,13 +23,13 @@ my %setup = (
     vardir  => './var',
 );
 
-
 GetOptions(
     $options,
     'model=s',
     'host=s',
     'file=s',
     'community=s',
+    'credentials=s',
     'entity=s',
     'timeout=i',
     'verbose',
@@ -70,6 +69,20 @@ my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     )
 );
 
+my $credentials = { ID => 1 };
+
+if (defined $options->{community}) {
+    $credentials->{COMMUNITY} = $options->{community};
+} elsif (defined $options->{credentials}) {
+    foreach my $parameter (split(',', $options->{credentials})) {
+        my ($key, $value) = split(':', $parameter);
+        $key = uc($key);
+        $credentials->{$key} = $value;
+    }
+} else {
+    $credentials->{COMMUNITY} = 'public';
+}
+
 $inventory->{options} = {
     NAME => 'SNMPQUERY',
     PARAM => [
@@ -90,13 +103,9 @@ $inventory->{options} = {
         }
     ],
     MODEL => [ $model ],
-    AUTHENTICATION => [
-        {
-            ID        => 1,
-            COMMUNITY => $options->{community},
-        }
-    ]
+    AUTHENTICATION => [ $credentials ]
 };
+
 if (defined($options->{entity})) {
     $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};
 }
@@ -160,6 +169,7 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --file         snmpwalk output file
     --model model  XML model file
     --community    community string (default: public)
+    --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)
     --entity       GLPI entity
     --verbose      verbose output (control messages)
