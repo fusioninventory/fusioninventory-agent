@@ -799,12 +799,12 @@ sub _setGenericProperties {
         $device->{INFO}->{$key} = $value if defined $value;
     }
 
-    if ($model->{oids}->{ipAdEntAddr}) {
-        my $results = $snmp->walk($model->{oids}->{ipAdEntAddr});
-        $device->{INFO}->{IPS}->{IP} =  [
-            sort values %{$results}
-        ] if $results;
-    }
+    my $results = $snmp->walk(
+        $model->{oids}->{ipAdEntAddr} || '.1.3.6.1.2.1.4.20.1.1'
+    );
+    $device->{INFO}->{IPS}->{IP} =  [
+        sort values %{$results}
+    ] if $results;
 
     # ports is a sparse list of network ports, indexed by native port number
     my $ports;

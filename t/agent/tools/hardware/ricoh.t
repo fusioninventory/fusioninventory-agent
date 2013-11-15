@@ -34,6 +34,12 @@ my %tests = (
                 NAME         => 'Aficio AP3800C',
                 COMMENTS     => 'RICOH Aficio AP3800C 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model',
                 MEMORY       => '192',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '172.20.3.63',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -99,6 +105,13 @@ my %tests = (
                 LOCATION     => 'Schoelcher - 1er',
                 ID           => undef,
                 MODEL        => undef,
+                IPS          => {
+                    IP => [
+                        '0.0.0.0',
+                        '10.75.14.27',
+                        '127.0.0.1',
+                    ],
+                },
                 UPTIME       => '(234064600) 27 days, 2:10:46.00'
             },
             CARTRIDGES => {

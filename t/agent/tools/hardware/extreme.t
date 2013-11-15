@@ -36,6 +36,13 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xtb12-2',
                 LOCATION     => 'PMF-B12',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '192.168.100.9',
+                        '192.168.254.72',
+                    ],
+                },
                 UPTIME       => '(447891453) 51 days, 20:08:34.53',
             },
             PORTS => {
@@ -808,6 +815,13 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xtc13',
                 LOCATION     => 'PMF-C13',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '192.168.100.7',
+                        '192.168.254.72',
+                    ],
+                },
                 UPTIME       => '(447912326) 51 days, 20:12:03.26',
             },
             PORTS => {
@@ -2416,6 +2430,12 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xtc6',
                 LOCATION     => 'PMF - C6',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '192.168.100.5',
+                    ],
+                },
                 UPTIME       => '(364479986) 42 days, 4:26:39.86',
             },
             PORTS => {
@@ -4798,6 +4818,14 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xt17t',
                 LOCATION     => '17-Tolbiac',
+                IPS          => {
+                    IP => [
+                        '10.16.2.72',
+                        '127.0.0.1',
+                        '192.168.100.11',
+                        '194.214.30.129',
+                    ],
+                },
                 UPTIME       => '(2602571760) 301 days, 5:21:57.60',
             },
             PORTS => {
@@ -5836,6 +5864,12 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xta6',
                 LOCATION     => 'PMF-A6',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '192.168.100.3',
+                    ],
+                },
                 UPTIME       => '(447894395) 51 days, 20:09:03.95',
             },
             PORTS => {
@@ -7172,6 +7206,12 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xtb12-1',
                 LOCATION     => 'PMF-B12',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '192.168.100.6',
+                    ],
+                },
                 UPTIME       => '(447894875) 51 days, 20:09:08.75',
             },
             PORTS => {

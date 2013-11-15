@@ -36,6 +36,11 @@ my %tests = (
                 ID           => undef,
                 NAME         => 'HPIJ2800-02',
                 MODEL        => 'HP Business Inkjet 2800',
+                IPS          => {
+                    IP => [
+                        '10.104.102.194',
+                    ],
+                },
                 UPTIME       => '(45821440) 5 days, 7:16:54.40',
             },
             CARTRIDGES => {
@@ -109,6 +114,11 @@ my %tests = (
                 MEMORY       => 96,
                 ID           => undef,
                 NAME         => 'HPIJ2800-01',
+                IPS          => {
+                    IP => [
+                        '10.104.109.230',
+                    ],
+                },
                 UPTIME       => '(85884840) 9 days, 22:34:08.40',
             },
             CARTRIDGES => {
@@ -541,6 +551,7 @@ my %tests = (
                 MODEL        => undef,
                 LOCATION     => 'impbe92',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
+                UPTIME       => '(745729650) 86 days, 7:28:16.50',
             },
             PORTS => {
                 PORT => [
@@ -626,6 +637,11 @@ my %tests = (
                 UPTIME       => '(319831420) 37 days, 0:25:14.20',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
                 MEMORY       => '8',
+                IPS          => {
+                    IP => [
+                        '128.93.22.63',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -671,6 +687,11 @@ my %tests = (
                 UPTIME       => '(165740930) 19 days, 4:23:29.30',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
                 MEMORY       => '8',
+                IPS          => {
+                    IP => [
+                        '128.93.22.61',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -719,6 +740,11 @@ my %tests = (
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM C.25.80,JETDIRECT,JD115,EEPROM V.28.06,CIDATE 04/27/2004',
                 MEMORY       => '8',
                 NAME         => 'l1618a',
+                IPS          => {
+                    IP => [
+                        '128.93.22.29',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -779,6 +805,11 @@ my %tests = (
                 UPTIME       => '(20422550) 2 days, 8:43:45.50',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD30,EEPROM G.08.20',
                 MEMORY       => '8',
+                IPS          => {
+                    IP => [
+                        '128.93.22.144',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -828,6 +859,11 @@ my %tests = (
                 MEMORY       => '16',
                 SERIAL       => 'FRFRH43314',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.20',
+                    ],
+                },
                 UPTIME       => '(745729650) 86 days, 7:28:16.50',
             },
             CARTRIDGES => {
@@ -888,6 +924,11 @@ my %tests = (
                 MEMORY       => '48',
                 SERIAL       => 'CNCDF57941',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.126',
+                    ],
+                },
                 UPTIME       => '(313714810) 36 days, 7:25:48.10',
             },
             CARTRIDGES => {
@@ -960,6 +1001,11 @@ my %tests = (
                 MEMORY       => '48',
                 SERIAL       => 'CNCHM24955',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.66',
+                    ],
+                },
                 UPTIME       => '(3052880) 8:28:48.80',
             },
             CARTRIDGES => {
@@ -1327,6 +1373,11 @@ my %tests = (
                 MEMORY       => '16',
                 SERIAL       => 'NL7V061384',
                 OTHERSERIAL  => '0x011520',
+                IPS          => {
+                    IP => [
+                        '128.93.22.64',
+                    ],
+                },
                 UPTIME       => '(130640030) 15 days, 2:53:20.30',
             },
             CARTRIDGES => {
@@ -1523,6 +1574,11 @@ my %tests = (
                 MEMORY       => '256',
                 SERIAL       => 'CNHXH84872',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.88',
+                    ],
+                },
                 UPTIME       => '(22322645) 2 days, 14:00:26.45',
             },
             CARTRIDGES => {
@@ -1596,6 +1652,11 @@ PORTS => {
                 MEMORY       => '208',
                 SERIAL       => 'CNHXG83836',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.8.82',
+                    ],
+                },
                 UPTIME       => '(22683627) 2 days, 15:00:36.27'
             },
             CARTRIDGES => {
@@ -1669,6 +1730,11 @@ PORTS => {
                 MEMORY       => '208',
                 SERIAL       => 'CNHXB71032',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.90',
+                    ],
+                },
                 UPTIME       => '(23418928) 2 days, 17:03:09.28',
             },
             CARTRIDGES => {
@@ -1742,6 +1808,11 @@ PORTS => {
                 MEMORY       => '208',
                 SERIAL       => 'CNHXC68053',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.13.25',
+                    ],
+                },
                 UPTIME       => '(23191049) 2 days, 16:25:10.49',
             },
             CARTRIDGES => {
@@ -1815,6 +1886,11 @@ PORTS => {
                 MEMORY       => '208',
                 SERIAL       => 'CNHXH84870',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.59',
+                    ],
+                },
                 UPTIME       => '(22810882) 2 days, 15:21:48.82',
             },
             CARTRIDGES => {
@@ -1888,6 +1964,11 @@ PORTS => {
                 MEMORY       => '208',
                 SERIAL       => 'CNHXB68748',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.41',
+                    ],
+                },
                 UPTIME       => '(23402944) 2 days, 17:00:29.44',
             },
             CARTRIDGES => {
@@ -1961,6 +2042,11 @@ PORTS => {
                 MEMORY       => '208',
                 SERIAL       => 'CNHXB71050',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.123',
+                    ],
+                },
                 UPTIME       => '(22641038) 2 days, 14:53:30.38',
             },
             CARTRIDGES => {
@@ -2034,6 +2120,11 @@ PORTS => {
                 MEMORY       => '208',
                 SERIAL       => 'CNHXJ45092',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.10.59',
+                    ],
+                },
                 UPTIME       => '(1097769844) 127 days, 1:21:38.44',
             },
             CARTRIDGES => {
@@ -3509,6 +3600,11 @@ PORTS => {
                 NAME         => 'nerium',
                 MEMORY       => '384',
                 SERIAL       => 'CBAFTBDG66',
+                IPS          => {
+                    IP => [
+                        '192.168.1.41',
+                    ],
+                },
                 UPTIME       => '(457735283) 52 days, 23:29:12.83',
             },
             CARTRIDGES => {
@@ -3654,6 +3750,13 @@ PORTS => {
                 CONTACT      => ' ',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 NAME         => 'l2407a',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.58',
+                        '192.168.223.1',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -3951,6 +4054,11 @@ PORTS => {
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW87R2XX',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.213',
+                    ],
+                },
                 UPTIME       => '(200046302) 23 days, 3:41:03.02',
             },
             CARTRIDGES => {
@@ -4029,6 +4137,11 @@ PORTS => {
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW6DW3R8',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.14',
+                    ],
+                },
                 UPTIME       => '(180819074) 20 days, 22:16:30.74',
             },
             CARTRIDGES => {
@@ -4107,6 +4220,11 @@ PORTS => {
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW7171V8',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.22',
+                    ],
+                },
                 UPTIME       => '(138093688) 15 days, 23:35:36.88'
             },
             CARTRIDGES => {
@@ -4185,6 +4303,11 @@ PORTS => {
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW6DW37G',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.122',
+                    ],
+                },
                 UPTIME       => '(71190989) 8 days, 5:45:09.89',
             },
             CARTRIDGES => {
@@ -4263,6 +4386,11 @@ PORTS => {
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW76W0B8',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.220',
+                    ],
+                },
                 UPTIME       => '(59927764) 6 days, 22:27:57.64',
             },
             CARTRIDGES => {
@@ -4341,6 +4469,11 @@ PORTS => {
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW74K7GP',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.197',
+                    ],
+                },
                 UPTIME       => '(2901531) 8:03:35.31'
             },
             CARTRIDGES => {
@@ -4419,6 +4552,11 @@ PORTS => {
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW84P402',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.233',
+                    ],
+                },
                 UPTIME       => '(2821021) 7:50:10.21',
             },
             CARTRIDGES => {
@@ -4655,6 +4793,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG38S',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.92',
+                    ],
+                },
                 UPTIME       => '(22362085) 2 days, 14:07:00.85',
             },
             CARTRIDGES => {
@@ -4723,6 +4866,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DF0WL',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.5.49',
+                    ],
+                },
                 UPTIME       => '(21658724) 2 days, 12:09:47.24',
             },
             CARTRIDGES => {
@@ -4791,6 +4939,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG39Q',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.4.22',
+                    ],
+                },
                 UPTIME       => '(37718618) 4 days, 8:46:26.18',
             },
             CARTRIDGES => {
@@ -4859,6 +5012,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG38L',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.198',
+                    ],
+                },
                 UPTIME       => '(11522734) 1 day, 8:00:27.34',
             },
             CARTRIDGES => {
@@ -4927,6 +5085,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG3DP',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.31.3',
+                    ],
+                },
                 UPTIME       => '(29663349) 3 days, 10:23:53.49'
             },
             CARTRIDGES => {
@@ -4995,6 +5158,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG37P',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.17.16',
+                    ],
+                },
                 UPTIME       => '(30521576) 3 days, 12:46:55.76'
             },
             CARTRIDGES => {
@@ -5063,6 +5231,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG1MH',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.18.47',
+                    ],
+                },
                 UPTIME       => '(33056147) 3 days, 19:49:21.47',
             },
             CARTRIDGES => {
@@ -5131,6 +5304,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG1LP',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.102',
+                    ],
+                },
                 UPTIME       => '(31793654) 3 days, 16:18:56.54',
             },
             CARTRIDGES => {
@@ -5199,6 +5377,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DF0XF',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.9.35',
+                    ],
+                },
                 UPTIME       => '(15263036) 1 day, 18:23:50.36',
             },
             CARTRIDGES => {
@@ -5267,6 +5450,11 @@ PORTS => {
                 MEMORY       => '192',
                 SERIAL       => 'CNFW6DG394',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.13',
+                    ],
+                },
                 UPTIME       => '(11824269) 1 day, 8:50:42.69'
             },
             CARTRIDGES => {
@@ -5335,6 +5523,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG1NP',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.111',
+                    ],
+                },
                 UPTIME       => '(745416056) 86 days, 6:36:00.56',
             },
             CARTRIDGES => {
@@ -5403,6 +5596,11 @@ PORTS => {
                 MEMORY       => '320',
                 SERIAL       => 'CNFW6DG1M8',
                 OTHERSERIAL  => '0x0115',
+                IPS          => {
+                    IP => [
+                        '128.93.22.132',
+                    ],
+                },
                 UPTIME       => '(35620617) 4 days, 2:56:46.17'
             },
             CARTRIDGES => {
@@ -6386,6 +6584,11 @@ PORTS => {
                 MEMORY       => '128',
                 SERIAL       => '20040201',
                 OTHERSERIAL  => '0xFDE8',
+                IPS          => {
+                    IP => [
+                        '128.93.22.7',
+                    ],
+                },
                 UPTIME       => '(20267234) 2 days, 8:17:52.34',
             },
             CARTRIDGES => {
@@ -6457,6 +6660,11 @@ PORTS => {
                 MEMORY       => '128',
                 SERIAL       => '20040201',
                 OTHERSERIAL  => '0xFDE8',
+                IPS          => {
+                    IP => [
+                        '128.93.22.238',
+                    ],
+                },
                 UPTIME       => '(3967795) 11:01:17.95'
             },
             CARTRIDGES => {
@@ -6528,6 +6736,11 @@ PORTS => {
                 MEMORY       => '128',
                 SERIAL       => '20040201',
                 OTHERSERIAL  => '0xFDE8',
+                IPS          => {
+                    IP => [
+                        '128.93.22.113',
+                    ],
+                },
                 UPTIME       => '(19326743) 2 days, 5:41:07.43'
             },
             CARTRIDGES => {
@@ -6599,6 +6812,11 @@ PORTS => {
                 MEMORY       => '128',
                 SERIAL       => '20040201',
                 OTHERSERIAL  => '0xFDE8',
+                IPS          => {
+                    IP => [
+                        '128.93.22.57',
+                    ],
+                },
                 UPTIME       => '(22020083) 2 days, 13:10:00.83'
             },
             CARTRIDGES => {
@@ -6669,6 +6887,11 @@ PORTS => {
                 MODEL        => 'HP LaserJet P4014',
                 SERIAL       => 'CNFX409800',
                 MEMORY       => 384,
+                IPS          => {
+                    IP => [
+                        '10.75.13.175',
+                    ],
+                },
                 UPTIME       => '(705273859) 81 days, 15:05:38.59',
             },
             CARTRIDGES => {
@@ -21512,6 +21735,12 @@ PORTS => {
                 MODEL        => 'ProCurve 2900-48g (J9050A)',
                 COMMENTS     => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
                 LOCATION     => 'salle serveur',
+                IPS          => {
+                    IP => [
+                        '10.100.205.43',
+                        '127.0.0.1',
+                    ],
+                },
                 UPTIME       => '(485451519) 56 days, 4:28:35.19',
             },
             PORTS => {
@@ -28540,6 +28769,11 @@ PORTS => {
                 UPTIME       => '(27930670) 3 days, 5:35:06.70',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'l0214a',
+                IPS          => {
+                    IP => [
+                        '128.93.22.125',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -28602,6 +28836,11 @@ PORTS => {
                 UPTIME       => '(40406032) 4 days, 16:14:20.32',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI934D66',
+                IPS          => {
+                    IP => [
+                        '128.93.22.1',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -28664,6 +28903,11 @@ PORTS => {
                 UPTIME       => '(4016837) 11:09:28.37',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI9195E8',
+                IPS          => {
+                    IP => [
+                        '128.93.22.78',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -28726,6 +28970,11 @@ PORTS => {
                 UPTIME       => '(13141846) 1 day, 12:30:18.46',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI810884',
+                IPS          => {
+                    IP => [
+                        '128.93.22.101',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -28788,6 +29037,11 @@ PORTS => {
                 UPTIME       => '(3561333) 9:53:33.33',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI934D6D',
+                IPS          => {
+                    IP => [
+                        '128.93.10.40',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [

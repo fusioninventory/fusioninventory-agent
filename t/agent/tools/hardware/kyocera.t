@@ -28,6 +28,11 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                IPS          => {
+                    IP => [
+                        '172.20.3.24',
+                    ],
+                },
                 UPTIME       => '(11310876) 1 day, 7:25:08.76',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },
@@ -68,6 +73,11 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                IPS          => {
+                    IP => [
+                        '172.20.3.38',
+                    ],
+                },
                 UPTIME       => '(17673056) 2 days, 1:05:30.56',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },
@@ -114,6 +124,11 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 MEMORY       => 0,
                 TYPE         => 'PRINTER',
+                IPS          => {
+                    IP => [
+                        '172.20.3.51',
+                    ],
+                },
                 UPTIME       => '(19416556) 2 days, 5:56:05.56'
             },
             CARTRIDGES => {
@@ -164,6 +179,11 @@ my %tests = (
                 MODEL        => 'FS-2000D',
                 ID           => undef,
                 MEMORY       => 0,
+                IPS          => {
+                    IP => [
+                        '172.20.3.4',
+                    ],
+                },
                 UPTIME       => '(749216) 2:04:52.16'
             },
             CARTRIDGES  => {
@@ -213,6 +233,11 @@ my %tests = (
                 MODEL        => undef,
                 SERIAL       => 'Q250Z01068',
                 COMMENTS     => 'UTAX_TA Printing System',
+                IPS          => {
+                    IP => [
+                        '10.104.154.211',
+                    ],
+                },
                 UPTIME       => '(281437) 0:46:54.37',
             },
             PORTS => {
@@ -257,6 +282,11 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                IPS          => {
+                    IP => [
+                        '128.93.22.16',
+                    ],
+                },
                 UPTIME       => '(55544038) 6 days, 10:17:20.38',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },
@@ -301,6 +331,11 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                IPS          => {
+                    IP => [
+                        '128.93.22.52',
+                    ],
+                },
                 UPTIME       => '(44432286) 5 days, 3:25:22.86',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },
@@ -345,6 +380,11 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 ID           => undef,
                 MODEL        => undef,
+                IPS          => {
+                    IP => [
+                        '128.93.22.70',
+                    ],
+                },
                 UPTIME       => '(3145468) 8:44:14.68',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },

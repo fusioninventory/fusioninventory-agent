@@ -34,6 +34,12 @@ my %tests = (
                 COMMENTS     => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
                 MEMORY       => '64',
                 NAME         => 'LXKE6E33E-2',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '172.31.201.13',
+                    ],
+                }
             },
             PORTS => {
                 PORT => [
@@ -98,6 +104,13 @@ my %tests = (
                 COMMENTS     => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
                 MEMORY       => '64',
                 NAME         => 'LXKB92115',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '172.31.201.52',
+                    ],
+                },
+                
             },
             PORTS => {
                 PORT => [
@@ -163,6 +176,11 @@ my %tests = (
                 COMMENTS     => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
                 MEMORY       => '0',
                 NAME         => 'DEL0000f0aceaa9',
+                IPS          => {
+                    IP => [
+                        '172.31.201.47',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [

@@ -40,6 +40,11 @@ my %tests = (
                 ID           => undef,
                 SERIAL       => 'GMYZ106952',
                 NAME         => 'AL-C4200-0ED50E',
+                IPS          => {
+                    IP => [
+                        '172.17.3.81',
+                    ],
+                },
                 UPTIME       => '(166086480) 19 days, 5:21:04.80'
             },
             CARTRIDGES => {
@@ -102,6 +107,11 @@ my %tests = (
                 ID           => undef,
                 SERIAL       => 'GMYZ106565',
                 NAME         => 'AL-C4200-D14BC7',
+                IPS          => {
+                    IP => [
+                        '172.17.3.212',
+                    ],
+                },
                 UPTIME       => '(17442921) 2 days, 0:27:09.21'
             },
             CARTRIDGES => {
@@ -191,6 +201,11 @@ my %tests = (
                 LOCATION     => 'PPV - 1er Etage',
                 MODEL        => 'AL-C4200',
                 ID           => undef,
+                IPS          => {
+                    IP => [
+                        '172.17.3.213',
+                    ],
+                },
                 UPTIME       => '(311511314) 36 days, 1:18:33.14'
             }
         }
@@ -225,6 +240,11 @@ my %tests = (
                 SERIAL       => 'GMYZ108184',
                 MEMORY       => 128,
                 NAME         => 'AL-C4200-D362D2',
+                IPS          => {
+                    IP => [
+                        '172.17.3.102',
+                    ],
+                },
                 UPTIME       => '(140436577) 16 days, 6:06:05.77'
             },
 PORTS => {

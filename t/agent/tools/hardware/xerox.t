@@ -39,6 +39,12 @@ my %tests = (
                 UPTIME       => '(457023) 1:16:10.23',
                 COMMENTS     => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
                 MEMORY       => 0,
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.42',
+                    ]
+                },
             },
             PAGECOUNTERS => {
                 TOTAL => '401'
@@ -108,6 +114,11 @@ my %tests = (
                 MODEL        => 'DocuPrint N2125',
                 ID           => undef,
                 SERIAL       => '3510349171',
+                IPS          => {
+                    IP => [
+                        '172.16.3.53',
+                    ]
+                },
                 UPTIME       => '(16986889) 1 day, 23:11:08.89'
             },
             PORTS => {
@@ -159,6 +170,11 @@ my %tests = (
                 CONTACT      => 'Administrator',
                 NAME         => 'AS_STEXU_IMP02',
                 MEMORY       => '0',
+                IPS          => {
+                    IP => [
+                        '192.168.89.51',
+                    ]
+                },
                 UPTIME       => '(1018900) 2:49:49.00',
             },
             PORTS => {
@@ -229,6 +245,12 @@ my %tests = (
                 ID           => undef,
                 MODEL        => 'Phaser 5550DT',
                 NAME         => 'Phaser 5550DT',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '172.16.3.51',
+                    ]
+                },
                 UPTIME       => '(7088810) 19:41:28.10'
             },
 PORTS => {
@@ -295,6 +317,12 @@ PORTS => {
                 MODEL        => 'Phaser 5550DT',
                 NAME         => 'Phaser 5550DT-1',
                 MEMORY       => 0,
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '172.16.3.52',
+                    ]
+                },
                 UPTIME       => '(52327401) 6 days, 1:21:14.01'
             },
             PORTS => {
@@ -361,6 +389,11 @@ PORTS => {
                 ID           => undef,
                 NAME         => 'Phaser 6180MFP-D-E360D7',
                 MODEL        => 'Phaser 6180 MFP',
+                IPS          => {
+                    IP => [
+                        '172.16.3.61',
+                    ]
+                },
                 UPTIME       => '(119016820) 13 days, 18:36:08.20'
             },
             CARTRIDGES => {
@@ -421,6 +454,12 @@ PORTS => {
                 NAME         => 'cIT510a',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 ID           => undef,
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.227',
+                    ]
+                },
                 UPTIME       => '(8607383) 23:54:33.83'
             },
             CARTRIDGES => {
@@ -501,6 +540,12 @@ PORTS => {
                 MANUFACTURER => 'Xerox',
                 ID           => undef,
                 MEMORY       => 0,
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.228',
+                    ]
+                },
                 UPTIME       => '(262695935) 30 days, 9:42:39.35'
             },
             CARTRIDGES => {
@@ -581,6 +626,12 @@ PORTS => {
                 SERIAL       => 'FBT261946',
                 MEMORY       => 0,
                 NAME         => 'Phaser 8560DN',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.229',
+                    ]
+                },
                 UPTIME       => '(1056921) 2:56:09.21'
             },
             CARTRIDGES => {
@@ -661,6 +712,12 @@ PORTS => {
                 MODEL        => 'Phaser 8560DN',
                 SERIAL       => 'FBT261926',
                 NAME         => 'c0211a',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.18',
+                    ]
+                },
                 UPTIME       => '(9827360) 1 day, 3:17:53.60'
             },
             CARTRIDGES => {
@@ -741,6 +798,12 @@ PORTS => {
                 MEMORY       => 0,
                 NAME         => 'c1309a',
                 MODEL        => 'Phaser 8560DN',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.37',
+                    ]
+                },
                 UPTIME       => '(184090216) 21 days, 7:21:42.16'
             },
             CARTRIDGES => {
@@ -821,6 +884,12 @@ PORTS => {
                 SERIAL       => 'FBT261951',
                 MODEL        => 'Phaser 8560DN',
                 MEMORY       => 0,
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.60',
+                    ]
+                },
                 UPTIME       => '(72059111) 8 days, 8:09:51.11',
             },
             CARTRIDGES => {
@@ -901,6 +970,12 @@ PORTS => {
                 MODEL        => 'Phaser 8560DN',
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.218',
+                    ]
+                },
                 UPTIME       => '(745216738) 86 days, 6:02:47.38'
             },
             CARTRIDGES => {
@@ -981,6 +1056,12 @@ PORTS => {
                 MEMORY       => 0,
                 MODEL        => 'Phaser 8560DN',
                 SERIAL       => 'FBT261925',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.114',
+                    ]
+                },
                 UPTIME       => '(537900356) 62 days, 6:10:03.56'
             },
             PORTS => {
@@ -1079,6 +1160,12 @@ PORTS => {
                 MODEL        => 'Phaser 8560DN',
                 SERIAL       => 'FBT133950',
                 MEMORY       => 0,
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.150',
+                    ]
+                },
                 UPTIME       => '(53965840) 6 days, 5:54:18.40'
             },
             PAGECOUNTERS => {
@@ -1162,6 +1249,12 @@ PORTS => {
                 NAME         => 'c2206a',
                 MEMORY       => 0,
                 MODEL        => 'Phaser 8560DN',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.82',
+                    ]
+                },
                 UPTIME       => '(504016756) 58 days, 8:02:47.56',
             },
             PAGECOUNTERS => {
@@ -1245,6 +1338,12 @@ PORTS => {
                 MEMORY       => 0,
                 MODEL        => 'Phaser 8560DN',
                 SERIAL       => 'FBT133984',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.65',
+                    ]
+                },
                 UPTIME       => '(745557553) 86 days, 6:59:35.53'
             },
             CARTRIDGES => {
@@ -1328,6 +1427,12 @@ PORTS => {
                 MEMORY       => 0,
                 NAME         => 'c1715a',
                 MODEL        => 'Phaser 8560DN',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.17',
+                    ]
+                },
                 UPTIME       => '(745560805) 86 days, 7:00:08.05'
             },
             PAGECOUNTERS => {
@@ -1411,6 +1516,12 @@ PORTS => {
                 NAME         => 'c3111a',
                 MEMORY       => 0,
                 MODEL        => 'Phaser 8560DN',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.94',
+                    ]
+                },
                 UPTIME       => '(182596303) 21 days, 3:12:43.03'
             },
             PAGECOUNTERS => {
@@ -1490,6 +1601,12 @@ PORTS => {
                 UPTIME       => '(80535700) 9 days, 7:42:37.00',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c3003a',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.221',
+                    ]
+                },
                 MEMORY       => 0,
             },
 PORTS => {
@@ -1560,6 +1677,12 @@ PORTS => {
                 MODEL        => 'Phaser 8560DP',
                 SERIAL       => 'WYP050086',
                 MEMORY       => 0,
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.95',
+                    ]
+                },
                 UPTIME       => '(339691530) 39 days, 7:35:15.30'
             },
             PAGECOUNTERS => {
@@ -1635,6 +1758,12 @@ PORTS => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.40',
+                    ]
+                },
                 UPTIME       => '(284944040) 32 days, 23:30:40.40'
             },
             PAGECOUNTERS => {
@@ -1710,6 +1839,12 @@ PORTS => {
                 MEMORY       => 0,
                 SERIAL       => 'WYP050085',
                 MODEL        => 'Phaser 8560DP',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.54',
+                    ]
+                },
                 UPTIME       => '(543157724) 62 days, 20:46:17.24',
             },
             PAGECOUNTERS => {
@@ -1788,6 +1923,12 @@ PORTS => {
                 MEMORY       => 0,
                 NAME         => 'c2700a',
                 SERIAL       => 'WYP050251',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.207',
+                    ]
+                },
                 UPTIME       => '(543164034) 62 days, 20:47:20.34',
             },
             PORTS => {
@@ -1856,6 +1997,12 @@ PORTS => {
                 UPTIME       => '(132190381) 15 days, 7:11:43.81',
                 COMMENTS     => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'ciT400a',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '128.93.22.240',
+                    ]
+                },
                 MEMORY       => 0,
             },
             PORTS => {
@@ -1928,6 +2075,12 @@ PORTS => {
                 LOCATION     => 'machine location not set',
                 NAME         => 'SO007XN',
                 SERIAL       => '3641509891',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '129.181.20.136',
+                    ]
+                },
                 UPTIME       => '(36879516) 4 days, 6:26:35.16'
             },
             CARTRIDGES => {
@@ -2004,6 +2157,12 @@ PORTS => {
                 SERIAL       => '3641504792',
                 MEMORY       => 0,
                 ID           => undef,
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '129.181.20.135',
+                    ]
+                },
                 UPTIME       => '(717880872) 83 days, 2:06:48.72'
             },
             CARTRIDGES => {
@@ -2078,6 +2237,12 @@ PORTS => {
                 MODEL        => 'WorkCentre 7125',
                 MEMORY       => 2,
                 NAME         => 'XEROX WorkCentre 7125',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '172.16.3.54',
+                    ],
+                },
                 UPTIME       => '(9495100) 1 day, 2:22:31.00'
             },
             PAGECOUNTERS => {

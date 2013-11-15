@@ -32,6 +32,12 @@ my %tests = (
                 MODEL        => 'bizhub 421',
                 UPTIME       => '(80180925) 9 days, 6:43:29.25',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '172.18.3.93',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -93,6 +99,12 @@ my %tests = (
                 MODEL        => 'bizhub 421',
                 UPTIME       => '(105584922) 12 days, 5:17:29.22',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '172.18.3.95',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -154,6 +166,12 @@ my %tests = (
                 MODEL        => 'bizhub 421',
                 UPTIME       => '(8072382) 22:25:23.82',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '172.18.3.97',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -216,6 +234,12 @@ my %tests = (
                 UPTIME       => '(17995666) 2 days, 1:59:16.66',
                 COMMENTS     => 'KONICA MINOLTA bizhub C224e',
                 MEMORY       => '0',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '192.168.200.18',
+                    ],
+                },
             },
             PORTS => {
                 PORT => [
@@ -277,6 +301,12 @@ my %tests = (
                 MODEL        => 'bizhub C224',
                 COMMENTS     => 'KONICA MINOLTA bizhub C224e',
                 MEMORY       => '0',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '192.168.200.18',
+                    ],
+                },
                 UPTIME       => '(7570291) 21:01:42.91',
             },
             PORTS => {
@@ -339,6 +369,12 @@ my %tests = (
                 MODEL        => 'bizhub C554',
                 COMMENTS     => 'KONICA MINOLTA bizhub C554e',
                 MEMORY       => '0',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '192.168.150.26',
+                    ],
+                },
                 UPTIME       => '(43193657) 4 days, 23:58:56.57',
             },
             PORTS => {

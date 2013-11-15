@@ -37,6 +37,12 @@ my %tests = (
                 NAME         => 'LXK3936A4',
                 MODEL        => 'Lexmark T622 41XT225  543.006',
                 SERIAL       => 'LXK3936A4',
+                IPS          => {
+                    IP => [
+                        '127.0.0.1',
+                        '172.31.201.21',
+                    ],
+                },
                 UPTIME       => '(256604241) 29 days, 16:47:22.41'
             },
             CARTRIDGES => {

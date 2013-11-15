@@ -41,6 +41,11 @@ my %tests = (
                 MEMORY       => 0,
                 NAME         => 'KENET - DPE2',
                 LOCATION     => 'RDC - apers escalier en bois',
+                IPS          => {
+                    IP => [
+                        '172.31.201.114',
+                    ],
+                },
                 UPTIME       => '(8649373) 1 day, 0:01:33.73'
             },
             CARTRIDGES => {
@@ -105,6 +110,11 @@ my %tests = (
                 NAME         => 'WASAI -- DFP',
                 ID           => undef,
                 LOCATION     => '1er etage couloir',
+                IPS          => {
+                    IP => [
+                        '172.31.201.116',
+                    ],
+                },
                 UPTIME       => '(28125680) 3 days, 6:07:36.80'
             },
 PORTS => {
@@ -160,6 +170,11 @@ PORTS => {
                 MEMORY       => 0,
                 ID           => undef,
                 MANUFACTURER => 'Sharp',
+                IPS          => {
+                    IP => [
+                        '172.31.201.119',
+                    ],
+                },
                 UPTIME       => '(1486295) 4:07:42.95'
             },
             CARTRIDGES => {
@@ -223,6 +238,11 @@ PORTS => {
                 ID           => undef,
                 MODEL        => 'MX-2600N',
                 LOCATION     => '2eme etage Bureau POTHIN',
+                IPS          => {
+                    IP => [
+                        '172.31.201.123',
+                    ],
+                },
                 UPTIME       => '(94252230) 10 days, 21:48:42.30'
             },
    PORTS => {
