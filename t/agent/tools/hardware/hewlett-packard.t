@@ -551,7 +551,6 @@ my %tests = (
                 MODEL        => undef,
                 LOCATION     => 'impbe92',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
-                UPTIME       => '(745729650) 86 days, 7:28:16.50',
             },
             PORTS => {
                 PORT => [
