@@ -898,8 +898,11 @@ sub _setPrinterProperties {
     my $snmp   = $params{snmp};
     my $model  = $params{model};
 
-    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{model})
-        if !$device->{INFO}->{MODEL};
+    if (!$device->{INFO}->{MODEL}) {
+        $device->{INFO}->{MODEL} = $snmp->get(
+            $model->{oids}->{model} || '.1.3.6.1.2.1.25.3.2.1.3.1'
+        );
+    }
 
     # consumable levels
 
@@ -983,8 +986,11 @@ sub _setNetworkingProperties {
     my $model  = $params{model};
     my $logger = $params{logger};
 
-    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{entPhysicalModelName})
-        if !$device->{INFO}->{MODEL};
+    if (!$device->{INFO}->{MODEL}) {
+        $device->{INFO}->{MODEL} = $snmp->get(
+            $model->{oids}->{entPhysicalModelName} || '.1.3.6.1.2.1.47.1.1.1.1.13.1'
+        )
+    }
 
     my $comments = $device->{INFO}->{DESCRIPTION} || $device->{INFO}->{COMMENTS};
     my $ports    = $device->{PORTS}->{PORT};

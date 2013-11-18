@@ -27,7 +27,7 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'CD 1182_DC 2182',
                 IPS          => {
                     IP => [
                         '172.20.3.24',
@@ -75,7 +75,7 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'CD 1218_DC 2218',
                 IPS          => {
                     IP => [
                         '172.20.3.38',
@@ -287,7 +287,7 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'FS-C5350DN',
                 IPS          => {
                     IP => [
                         '128.93.22.16',
@@ -339,7 +339,7 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'FS-C5350DN',
                 IPS          => {
                     IP => [
                         '128.93.22.52',
@@ -391,7 +391,7 @@ my %tests = (
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'FS-C5350DN',
                 IPS          => {
                     IP => [
                         '128.93.22.70',

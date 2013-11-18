@@ -79,7 +79,7 @@ my %tests = (
                 MANUFACTURER => 'Canon',
                 TYPE         => 'PRINTER',
                 ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'Canon MF4500 Series',
                 COMMENTS     => 'Canon MF4500 Series /P',
                 NAME         => 'MF4500 Series'
             },
