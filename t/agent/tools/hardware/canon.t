@@ -36,6 +36,9 @@ my %tests = (
                 MODEL        => 'Canon LBP7660C',
                 COMMENTS     => 'Canon LBP7660C /P',
             },
+            CARTRIDGES => {
+                WASTETONER   => '100',
+            },
             PORTS => {
                 PORT => [
                     {

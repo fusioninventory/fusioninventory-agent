@@ -350,7 +350,6 @@ my %tests = (
                 NAME         => 'NPI61044B',
             },
             CARTRIDGES => {
-                CARTRIDGEBLACK => 0,
                 TONERBLACK     => 0
             },
             PAGECOUNTERS => {
@@ -420,7 +419,6 @@ my %tests = (
                 MODEL        => 'hp LaserJet 1320 series'
             },
             CARTRIDGES => {
-                CARTRIDGEBLACK => 92,
                 TONERBLACK     => 92
             },
             PAGECOUNTERS => {
@@ -495,7 +493,6 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK     => 34,
-                CARTRIDGEBLACK => 34
             },
             PORTS => {
                 PORT => [
@@ -1063,6 +1060,12 @@ my %tests = (
                 MODEL        => undef,
                 ID           => undef,
             },
+            CARTRIDGES => {
+                TONERBLACK   => 72,
+                TONERCYAN    => 82,
+                TONERMAGENTA => 87,
+                TONERYELLOW  => 65,
+            },
             PORTS => {
                 PORT => [
                     {
@@ -1258,9 +1261,9 @@ my %tests = (
                 PRINTTOTAL => '541',
             },
             CARTRIDGES => {
-                TONERMAGENTA => 73,
-                TONERCYAN => 68,
-                TONERBLACK => 53
+                TONERMAGENTA    => 73,
+                TONERCYAN       => 68,
+                TONERBLACK      => 53,
             },
             PORTS => {
                 PORT => [
@@ -1323,7 +1326,6 @@ my %tests = (
                 RECTOVERSO => '0',
             },
             CARTRIDGES => {
-                CARTRIDGEBLACK => 0,
                 TONERBLACK     => 0
             },
            PORTS => {
@@ -1380,7 +1382,6 @@ my %tests = (
                 UPTIME       => '(130640030) 15 days, 2:53:20.30',
             },
             CARTRIDGES => {
-                CARTRIDGEBLACK   => '0',
                 TONERBLACK       => '0',
             },
             PAGECOUNTERS => {

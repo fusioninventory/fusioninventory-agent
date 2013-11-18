@@ -299,7 +299,13 @@ PORTS => {
                 MODEL        => 'AL-C3900',
                 COMMENTS     => 'EPSON AL-C3900',
             },
-PORTS => {
+            CARTRIDGES => {
+                TONERBLACK   => '20',
+                TONERMAGENTA => '23',
+                TONERCYAN    => '45',
+                TONERYELLOW  => '25',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -404,6 +410,9 @@ PORTS => {
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-M2400-7FDDAF',
             },
+            CARTRIDGES => {
+                MAINTENANCEKIT   => '100',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -449,6 +458,9 @@ PORTS => {
                 MODEL        => 'AL-M2400',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-M2400-7FDDAF',
+            },
+            CARTRIDGES => {
+                MAINTENANCEKIT   => '99',
             },
             PORTS => {
                 PORT => [

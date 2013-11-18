@@ -365,26 +365,92 @@ my %interface_variables = (
     },
 );
 
-# printer-specific cartridge simple variables
-my %printer_cartridges_simple_variables = (
-    TONERBLACK            => 'tonerblack',
-    TONERBLACK2           => 'tonerblack2',
-    TONERCYAN             => 'tonercyan',
-    TONERMAGENTA          => 'tonermagenta',
-    TONERYELLOW           => 'toneryellow',
-    WASTETONER            => 'wastetoner',
-    CARTRIDGEBLACK        => 'cartridgeblack',
-    CARTRIDGEBLACKPHOTO   => 'cartridgeblackphoto',
-    CARTRIDGECYAN         => 'cartridgecyan',
-    CARTRIDGECYANLIGHT    => 'cartridgecyanlight',
-    CARTRIDGEMAGENTA      => 'cartridgemagenta',
-    CARTRIDGEMAGENTALIGHT => 'cartridgemagentalight',
-    CARTRIDGEYELLOW       => 'cartridgeyellow',
-    MAINTENANCEKIT        => 'maintenancekit',
-    DRUMBLACK             => 'drumblack',
-    DRUMCYAN              => 'drumcyan',
-    DRUMMAGENTA           => 'drummagenta',
-    DRUMYELLOW            => 'drumyellow',
+my @consumable_type_rules = (
+    {
+        match => qr/cyan/i,
+        value => 'cyan'
+    },
+    {
+        match => qr/magenta/i,
+        value => 'magenta'
+    },
+    {
+        match => qr/(black|noir)/i,
+        value => 'black'
+    },
+    {
+        match => qr/(yellow|jaune)/i,
+        value => 'yellow'
+    },
+    {
+        match => qr/waste/i,
+        value => 'waste'
+    },
+    {
+        match => qr/maintenance/i,
+        value => 'maintenance'
+    },
+);
+
+my @consumable_subtype_rules = (
+    {
+        match => qr/toner/i,
+        value => 'toner'
+    },
+    {
+        match => qr/drum/i,
+        value => 'drum'
+    },
+    {
+        match => qr/ink/i,
+        value => 'cartridge'
+    },
+);
+
+my %consumable_variables_from_type = (
+    cyan => {
+        toner     => 'TONERCYAN',
+        drum      => 'DRUMCYAN',
+        cartridge => 'CARTRIDGECYAN',
+    },
+    magenta     => {
+        toner     => 'TONERMAGENTA',
+        drum      => 'DRUMMAGENTA',
+        cartridge => 'CARTRIDGEMAGENTA',
+    },
+    black     => {
+        toner     => 'TONERBLACK',
+        drum      => 'DRUMBLACK',
+        cartridge => 'CARTRIDGEBLACK',
+    },
+    yellow     => {
+        toner     => 'TONERYELLOW',
+        drum      => 'DRUMYELLOW',
+        cartridge => 'CARTRIDGEYELLOW',
+    },
+    waste       => 'WASTETONER',
+    maintenance => 'MAINTENANCEKIT',
+);
+
+my %consumable_variables_from_mappings = (
+    tonerblack            => 'TONERBLACK',
+    tonerblack2           => 'TONERBLACK2',
+    tonercyan             => 'TONERCYAN',
+    tonermagenta          => 'TONERMAGENTA',
+    toneryellow           => 'TONERYELLOW',
+    wastetoner            => 'WASTETONER',
+    cartridgeblack        => 'CARTRIDGEBLACK',
+    cartridgeblackphoto   => 'CARTRIDGEBLACKPHOTO',
+    cartridgecyan         => 'CARTRIDGECYAN',
+    cartridgecyanlight    => 'CARTRIDGECYANLIGHT',
+    cartridgemagenta      => 'CARTRIDGEMAGENTA',
+    cartridgemagentalight => 'CARTRIDGEMAGENTALIGHT',
+    cartridgeyellow       => 'CARTRIDGEYELLOW',
+    maintenancekit        => 'MAINTENANCEKIT',
+    drumblack             => 'DRUMBLACK',
+    drumcyan              => 'DRUMCYAN',
+    drummagenta           => 'DRUMMAGENTA',
+    drumyellow            => 'DRUMYELLOW',
 );
 
 # printer-specific page counter variables
@@ -836,28 +902,39 @@ sub _setPrinterProperties {
         if !$device->{INFO}->{MODEL};
 
     # consumable levels
-    foreach my $key (keys %printer_cartridges_simple_variables) {
-        my $variable = $printer_cartridges_simple_variables{$key};
-        next unless $model->{oids}->{$variable};
 
-        my $type_oid = $model->{oids}->{$variable};
-        $type_oid =~ s/43.11.1.1.6/43.11.1.1.8/;
-        my $type_value  = $snmp->get($type_oid);
+    # index model-provided mappings
+    my %consumable_variables_from_oids;
+    foreach my $key (sort keys %consumable_variables_from_mappings) {
+        next unless $model->{oids}->{$key};
+        my $variable = $consumable_variables_from_mappings{$key};
+        $consumable_variables_from_oids{$model->{oids}->{$key}} = $variable;
+    }
 
-        my $level_oid = $model->{oids}->{$variable};
-        $level_oid =~ s/43.11.1.1.6/43.11.1.1.9/;
-        my $level_value = $snmp->get($level_oid);
-        next unless defined $level_value;
+    # enumerate consumables
+    foreach my $index (1 .. 10) {
+        my $description_oid = '.1.3.6.1.2.1.43.11.1.1.6.1.' . $index;
+        my $description = hex2char($snmp->get($description_oid));
+        last unless $description;
 
-        my $value =
-            $level_value == -3 ?
-                100 :
-                _getPercentValue(
-                    $type_value,
-                    $level_value,
-                );
+        my $max_oid     = '.1.3.6.1.2.1.43.11.1.1.8.1.' . $index;
+        my $current_oid = '.1.3.6.1.2.1.43.11.1.1.9.1.' . $index;
+        my $max     = $snmp->get($max_oid);
+        my $current = $snmp->get($current_oid);
+        next unless defined $max and defined $current;
+
+        my $value = $current == -3 ?
+            100 : _getPercentValue($max, $current);
         next unless defined $value;
-        $device->{CARTRIDGES}->{$key} = $value;
+
+        # consumable identification
+        my $variable =
+            $consumable_variables_from_oids{$description_oid} ||
+            _getConsumableVariableFromDescription($description);
+
+        next unless $variable;
+
+        $device->{CARTRIDGES}->{$variable} = $value;
     }
 
     # page counters
@@ -867,6 +944,35 @@ sub _setPrinterProperties {
         next unless defined $value;
         $device->{PAGECOUNTERS}->{$key} = $value;
     }
+}
+
+sub _getConsumableVariableFromDescription {
+    my ($description) = @_;
+
+    # find type
+    my $type;
+    foreach my $rule (@consumable_type_rules) {
+        next unless $description =~ $rule->{match};
+        $type = $rule->{value};
+        last;
+    }
+    return unless $type;
+
+    my $result = $consumable_variables_from_type{$type};
+    # for waste and toner, type is enough
+    return $result unless ref $result;
+
+    # otherwise, let's find subtype
+
+    my $subtype;
+    foreach my $rule (@consumable_subtype_rules) {
+        next unless $description =~ $rule->{match};
+        $subtype = $rule->{value};
+        last;
+    }
+    return unless $subtype;
+
+    return $consumable_variables_from_type{$type}->{$subtype};
 }
 
 sub _setNetworkingProperties {

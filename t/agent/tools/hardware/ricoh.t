@@ -41,6 +41,12 @@ my %tests = (
                     ],
                 },
             },
+            CARTRIDGES => {
+                TONERBLACK       => '100',
+                TONERCYAN        => '100',
+                TONERMAGENTA     => '100',
+                TONERYELLOW      => '100',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -201,6 +207,12 @@ PORTS => {
                 NAME         => 'Aficio SP C420DN',
                 COMMENTS     => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
             },
+            CARTRIDGES => {
+                TONERBLACK       => '100',
+                TONERCYAN        => '100',
+                TONERMAGENTA     => '100',
+                TONERYELLOW      => '100',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -271,6 +283,12 @@ PORTS => {
                 LOCATION     => 'Ugo',
                 NAME         => 'Aficio SP C420DN',
                 COMMENTS     => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '100',
+                TONERCYAN        => '100',
+                TONERMAGENTA     => '100',
+                TONERYELLOW      => '100',
             },
             PORTS => {
                 PORT => [

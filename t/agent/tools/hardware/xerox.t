@@ -49,6 +49,10 @@ my %tests = (
             PAGECOUNTERS => {
                 TOTAL => '401'
             },
+            CARTRIDGES => {
+                WASTETONER     => '100',
+                MAINTENANCEKIT => '99',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -253,7 +257,10 @@ my %tests = (
                 },
                 UPTIME       => '(7088810) 19:41:28.10'
             },
-PORTS => {
+            CARTRIDGES => {
+                MAINTENANCEKIT  => '67',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -324,6 +331,9 @@ PORTS => {
                     ]
                 },
                 UPTIME       => '(52327401) 6 days, 1:21:14.01'
+            },
+            CARTRIDGES => {
+                MAINTENANCEKIT  => '57',
             },
             PORTS => {
                 PORT => [
@@ -1609,7 +1619,15 @@ PORTS => {
                 },
                 MEMORY       => 0,
             },
-PORTS => {
+            CARTRIDGES => {
+                WASTETONER       => '100',
+                MAINTENANCEKIT   => '93',
+                CARTRIDGEBLACK   => '100',
+                CARTRIDGECYAN    => '100',
+                CARTRIDGEMAGENTA => '100',
+                CARTRIDGEYELLOW  => '100',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -1687,6 +1705,14 @@ PORTS => {
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
+            },
+            CARTRIDGES => {
+                WASTETONER       => '100',
+                MAINTENANCEKIT   => '100',
+                CARTRIDGEBLACK   => '100',
+                CARTRIDGECYAN    => '100',
+                CARTRIDGEMAGENTA => '100',
+                CARTRIDGEYELLOW  => '100',
             },
             PORTS => {
                 PORT => [
@@ -1769,6 +1795,14 @@ PORTS => {
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
             },
+            CARTRIDGES => {
+                WASTETONER       => '100',
+                MAINTENANCEKIT   => '100',
+                CARTRIDGEBLACK   => '100',
+                CARTRIDGECYAN    => '100',
+                CARTRIDGEMAGENTA => '100',
+                CARTRIDGEYELLOW  => '100',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -1849,6 +1883,14 @@ PORTS => {
             },
             PAGECOUNTERS => {
                 BLACK => 'Black Impressions'
+            },
+            CARTRIDGES => {
+                WASTETONER       => '100',
+                MAINTENANCEKIT   => '100',
+                CARTRIDGEBLACK   => '100',
+                CARTRIDGECYAN    => '100',
+                CARTRIDGEMAGENTA => '100',
+                CARTRIDGEYELLOW  => '100',
             },
             PORTS => {
                 PORT => [
@@ -1931,6 +1973,14 @@ PORTS => {
                 },
                 UPTIME       => '(543164034) 62 days, 20:47:20.34',
             },
+            CARTRIDGES => {
+                WASTETONER      => '100',
+                MAINTENANCEKIT  => '100',
+                CARTRIDGEBLACK   => '100',
+                CARTRIDGECYAN    => '100',
+                CARTRIDGEMAGENTA => '100',
+                CARTRIDGEYELLOW  => '100',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -2004,6 +2054,14 @@ PORTS => {
                     ]
                 },
                 MEMORY       => 0,
+            },
+            CARTRIDGES => {
+                WASTETONER       => '100',
+                MAINTENANCEKIT   => '56',
+                CARTRIDGEBLACK   => '100',
+                CARTRIDGECYAN    => '100',
+                CARTRIDGEMAGENTA => '100',
+                CARTRIDGEYELLOW  => '100',
             },
             PORTS => {
                 PORT => [
@@ -2084,7 +2142,8 @@ PORTS => {
                 UPTIME       => '(36879516) 4 days, 6:26:35.16'
             },
             CARTRIDGES => {
-                TONERBLACK => 45
+                TONERBLACK => 45,
+                WASTETONER => '100',
             },
             PORTS => {
                 PORT => [
@@ -2166,7 +2225,8 @@ PORTS => {
                 UPTIME       => '(717880872) 83 days, 2:06:48.72'
             },
             CARTRIDGES => {
-                TONERBLACK => 90
+                TONERBLACK => 90,
+                WASTETONER => '100',
             },
             PORTS => {
                 PORT => [
@@ -2255,8 +2315,15 @@ PORTS => {
                 COPYBLACK  => '1311'
             },
             CARTRIDGES => {
-                TONERMAGENTA => 58,
-                TONERBLACK   => 31
+                DRUMBLACK    => '79',
+                DRUMCYAN     => '83',
+                DRUMMAGENTA  => '83',
+                DRUMYELLOW   => '83',
+                TONERBLACK   => '31',
+                TONERCYAN    => '48',
+                TONERMAGENTA => '58',
+                TONERYELLOW  => '45',
+                WASTETONER   => '100',
             },
             PORTS => {
                 PORT => [
@@ -2335,6 +2402,17 @@ PORTS => {
                 MODEL        => 'WorkCentre 7435',
                 COMMENTS     => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
                 NAME         => 'WorkCentre 7435',
+            },
+            CARTRIDGES => {
+                DRUMBLACK    => '90',
+                DRUMCYAN     => '90',
+                DRUMMAGENTA  => '91',
+                DRUMYELLOW   => '91',
+                TONERBLACK   => '33',
+                TONERCYAN    => '62',
+                TONERMAGENTA => '76',
+                TONERYELLOW  => '74',
+                WASTETONER   => '100',
             },
             PORTS => {
                 PORT => [

@@ -41,6 +41,10 @@ my %tests = (
                     ],
                 }
             },
+            CARTRIDGES => {
+                TONERBLACK       => '0',
+                MAINTENANCEKIT   => '100',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -111,6 +115,10 @@ my %tests = (
                     ],
                 },
                 
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '0',
+                MAINTENANCEKIT   => '100',
             },
             PORTS => {
                 PORT => [

@@ -36,6 +36,9 @@ my %tests = (
                 UPTIME       => '(11310876) 1 day, 7:25:08.76',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },
+            CARTRIDGES => {
+                WASTETONER       => '100',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -80,6 +83,9 @@ my %tests = (
                 },
                 UPTIME       => '(17673056) 2 days, 1:05:30.56',
                 COMMENTS     => 'KYOCERA MITA Printing System'
+            },
+            CARTRIDGES => {
+                WASTETONER       => '100',
             },
             PORTS => {
                 PORT => [
@@ -290,6 +296,9 @@ my %tests = (
                 UPTIME       => '(55544038) 6 days, 10:17:20.38',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },
+            CARTRIDGES => {
+                WASTETONER       => '100',
+            },
             PORTS => {
                PORT => [
                     {
@@ -339,6 +348,9 @@ my %tests = (
                 UPTIME       => '(44432286) 5 days, 3:25:22.86',
                 COMMENTS     => 'KYOCERA MITA Printing System'
             },
+            CARTRIDGES => {
+                WASTETONER       => '100',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -387,6 +399,9 @@ my %tests = (
                 },
                 UPTIME       => '(3145468) 8:44:14.68',
                 COMMENTS     => 'KYOCERA MITA Printing System'
+            },
+            CARTRIDGES => {
+                WASTETONER       => '100',
             },
             PORTS => {
                 PORT => [

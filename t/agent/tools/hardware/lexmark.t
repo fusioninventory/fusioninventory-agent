@@ -48,7 +48,7 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 100
             },
-PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -113,6 +113,12 @@ PORTS => {
                 MODEL        => 'X792',
                 COMMENTS     => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
                 NAME         => 'ET0021B7427721',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '90',
+                TONERCYAN        => '90',
+                TONERMAGENTA     => '90',
+                TONERYELLOW      => '90',
             },
             PORTS => {
                 PORT => [
