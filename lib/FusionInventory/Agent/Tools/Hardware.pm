@@ -387,30 +387,6 @@ my %printer_cartridges_simple_variables = (
     DRUMYELLOW            => 'drumyellow',
 );
 
-# printer-specific cartridge percent variables
-my %printer_cartridges_percent_variables = (
-    BLACK                 => 'cartridgesblack',
-    CYAN                  => 'cartridgescyan',
-    YELLOW                => 'cartridgesyellow',
-    MAGENTA               => 'cartridgesmagenta',
-    CYANLIGHT             => 'cartridgescyanlight',
-    MAGENTALIGHT          => 'cartridgesmagentalight',
-    PHOTOCONDUCTOR        => 'cartridgesphotoconductor',
-    PHOTOCONDUCTORBLACK   => 'cartridgesphotoconductorblack',
-    PHOTOCONDUCTORCOLOR   => 'cartridgesphotoconductorcolor',
-    PHOTOCONDUCTORCYAN    => 'cartridgesphotoconductorcyan',
-    PHOTOCONDUCTORYELLOW  => 'cartridgesphotoconductoryellow',
-    PHOTOCONDUCTORMAGENTA => 'cartridgesphotoconductormagenta',
-    UNITTRANSFERBLACK     => 'cartridgesunittransfertblack',
-    UNITTRANSFERCYAN      => 'cartridgesunittransfertcyan',
-    UNITTRANSFERYELLOW    => 'cartridgesunittransfertyellow',
-    UNITTRANSFERMAGENTA   => 'cartridgesunittransfertmagenta',
-    WASTE                 => 'cartridgeswaste',
-    FUSER                 => 'cartridgesfuser',
-    BELTCLEANER           => 'cartridgesbeltcleaner',
-    MAINTENANCEKIT        => 'cartridgesmaintenancekit',
-);
-
 # printer-specific page counter variables
 my %printer_pagecounters_variables = (
     TOTAL      => 'pagecountertotalpages',
@@ -880,15 +856,6 @@ sub _setPrinterProperties {
                     $type_value,
                     $level_value,
                 );
-        next unless defined $value;
-        $device->{CARTRIDGES}->{$key} = $value;
-    }
-
-    foreach my $key (keys %printer_cartridges_percent_variables) {
-        my $variable     = $printer_cartridges_percent_variables{$key};
-        my $max_value    = $snmp->get($model->{oids}->{$variable . 'MAX'});
-        my $remain_value = $snmp->get($model->{oids}->{$variable . 'REMAIN'});
-        my $value = _getPercentValue($max_value, $remain_value);
         next unless defined $value;
         $device->{CARTRIDGES}->{$key} = $value;
     }
