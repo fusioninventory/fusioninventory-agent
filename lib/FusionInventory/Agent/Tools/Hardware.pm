@@ -868,24 +868,25 @@ sub _setGenericProperties {
         }
     }
 
-    if ($model->{oids}->{ifaddr}) {
-        my $results = $snmp->walk($model->{oids}->{ifaddr});
-        # each result matches the following scheme:
-        # $prefix.$i.$j.$k.$l = $value
-        # with $i.$j.$k.$l as IP address, and $value as port id
-        while (my ($suffix, $value) = each %{$results}) {
-            next unless $value;
-            # safety checks
-            if (!$ports->{$value}) {
-                $logger->error("non-existing port $value, check ifaddr mapping") if $logger;
-                last;
-            }
-            if ($suffix !~ /^$ip_address_pattern$/) {
-                $logger->error("invalid IP address $suffix, check ifaddr mapping") if $logger;
-                last;
-            }
-            $ports->{$value}->{IP} = $suffix;
+    $results = $snmp->walk(
+        $model->{oids}->{ifaddr} || '.1.3.6.1.2.1.4.20.1.2'
+    );
+    # each result matches the following scheme:
+    # $prefix.$i.$j.$k.$l = $value
+    # with $i.$j.$k.$l as IP address, and $value as port id
+    foreach my $suffix (sort keys %{$results}) {
+        my $value = $results->{$suffix};
+        next unless $value;
+        # safety checks
+        if (!$ports->{$value}) {
+            $logger->error("non-existing port $value, check ifaddr mapping") if $logger;
+            last;
         }
+        if ($suffix !~ /^$ip_address_pattern$/) {
+            $logger->error("invalid IP address $suffix, check ifaddr mapping") if $logger;
+            last;
+        }
+        $ports->{$value}->{IP} = $suffix;
     }
 
     $device->{PORTS}->{PORT} = $ports;

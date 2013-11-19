@@ -59,6 +59,7 @@ my %tests = (
                         IFDESCR =>
                           'Nortel Networks <unknown> Ethernet Switch Module - Port 1  ',
                         IFNAME           => 'ifc1 (Slot: 1 Port: 1)',
+                        IP               => '10.97.9.231',
                         MAC              => '00:15:40:94:75:A0',
                         IFINERRORS       => '0',
                         IFLASTCHANGE     => '(55) 0:00:00.55',

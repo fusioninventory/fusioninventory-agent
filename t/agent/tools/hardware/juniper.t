@@ -219,6 +219,7 @@ my %tests = (
                     IFSPEED          => '0'
                 },
                 {
+                    IP               => '128.0.0.32',
                     MAC              => '00:0B:CA:FE:00:00',
                     IFSTATUS         => 'up(1)',
                     IFINOCTETS       => '0',
@@ -251,6 +252,7 @@ my %tests = (
                     IFINTERNALSTATUS => 'up(1)'
                 },
                 {
+                    IP               => '128.0.0.127',
                     MAC              => '78:FE:3D:DF:20:00',
                     IFMTU            => '1500',
                     IFLASTCHANGE     => '(795719864) 92 days, 2:19:58.64',
@@ -759,6 +761,7 @@ my %tests = (
                     IFPORTDUPLEX     => '3',
                 },
                 {
+                    IP               => '192.168.1.23',
                     MAC              => '78:FE:3D:DF:20:01',
                     IFTYPE           => 'propVirtual(53)',
                     IFNAME           => 'vlan.0',
@@ -987,6 +990,7 @@ my %tests = (
                     IFOUTOCTETS      => '534363148'
                 },
                 {
+                    IP               => '128.0.0.32',
                     MAC              => '00:0B:CA:FE:00:00',
                     IFMTU            => '1562',
                     IFLASTCHANGE     => '(1377) 0:00:13.77',
@@ -1019,6 +1023,7 @@ my %tests = (
                     IFSPEED          => '1000000000'
                 },
                 {
+                    IP               => '128.0.0.127',
                     MAC              => '64:87:88:B0:39:C0',
                     IFNUMBER         => '502',
                     IFNAME           => 'jsrv.1',
@@ -1527,6 +1532,7 @@ my %tests = (
                     IFINTERNALSTATUS => 'up(1)'
                 },
                 {
+                    IP               => '192.168.1.236',
                     MAC              => '64:87:88:B0:39:C1',
                     IFSPEED          => '1000000000',
                     IFINERRORS       => '0',
@@ -1749,6 +1755,7 @@ my %tests = (
                     IFOUTERRORS      => '0',
                     IFINERRORS       => '0',
                     IFSPEED          => '100000000',
+                    IP               => '192.168.1.219',
                     MAC              => '78:FE:3D:D5:0E:FF',
                     IFINOCTETS       => '14638898',
                     IFSTATUS         => 'up(1)',
@@ -1782,6 +1789,7 @@ my %tests = (
                     IFINERRORS       => '0',
                     IFSPEED          => '0',
                     IFSTATUS         => 'up(1)',
+                    IP               => '128.0.0.32',
                     MAC              => '00:0B:CA:FE:00:00',
                     IFINOCTETS       => '3337783',
                     IFTYPE           => 'propVirtual(53)',
@@ -2773,6 +2781,7 @@ my %tests = (
                     IFNAME           => 'jsrv.1',
                     IFTYPE           => 'propVirtual(53)',
                     IFINOCTETS       => '0',
+                    IP               => '128.0.0.127',
                     MAC              => '78:FE:3D:D5:0E:C0',
                     IFSTATUS         => 'up(1)',
                     IFDESCR          => 'jsrv.1',
@@ -3070,6 +3079,7 @@ my %tests = (
                     IFINERRORS       => '0'
                 },
                 {
+                    IP               => '128.0.0.32',
                     MAC              => '00:0B:CA:FE:00:00',
                     IFINERRORS       => '0',
                     IFSPEED          => '0',
@@ -4496,6 +4506,7 @@ my %tests = (
                     IFSTATUS         => 'up(1)'
                 },
                 {
+                    IP               => '128.0.0.127',
                     MAC              => '78:FE:3D:37:5E:C0',
                     IFDESCR          => 'jsrv.1',
                     IFNUMBER         => '584',
@@ -4782,6 +4793,7 @@ my %tests = (
                     IFINERRORS       => '0'
                 },
                 {
+                    IP               => '192.168.1.132',
                     MAC              => '78:FE:3D:37:5E:C0',
                     IFSTATUS         => 'up(1)',
                     IFINOCTETS       => '1771189919',
@@ -5018,6 +5030,7 @@ my %tests = (
                     IFOUTOCTETS      => '126',
                     IFNAME           => 'bme0.32768',
                     IFTYPE           => '53',
+                    IP               => '128.0.0.32',
                     MAC => '00:0B:CA:FE:00:00',
                     IFINOCTETS       => '901244274',
                     IFSTATUS         => '1',
@@ -6697,6 +6710,7 @@ my %tests = (
                     IFNAME           => 'vlan.0',
                     IFTYPE           => '53',
                     IFINOCTETS       => '1782820862',
+                    IP               => '192.168.100.65',
                     MAC => '78:FE:3D:36:F7:01',
                     IFSTATUS         => '1'
                 },
@@ -7893,6 +7907,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '0',
                         IFMTU            => '1562',
+                        IP               => '128.0.0.32',
                         MAC              => '00:0B:CA:FE:00:00',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -9661,6 +9676,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '1000000000',
                         IFMTU            => '1500',
+                        IP               => '192.168.100.140',
                         MAC              => '78:FE:3D:35:14:41',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -9986,6 +10002,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '0',
                         IFMTU            => '1562',
+                        IP               => '128.0.0.32',
                         MAC              => '00:0B:CA:FE:00:00',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -11670,6 +11687,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '1000000000',
                         IFMTU            => '1500',
+                        IP               => '192.168.100.55',
                         MAC              => '5C:5E:AB:6A:3B:81',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -11909,6 +11927,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '1000000000',
                         IFMTU            => '1500',
+                        IP               => '172.21.10.251',
                         MAC              => '5C:5E:AB:6A:3B:81',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -11925,6 +11944,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '1000000000',
                         IFMTU            => '1500',
+                        IP               => '172.21.12.251',
                         MAC              => '5C:5E:AB:6A:3B:81',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -12171,6 +12191,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '0',
                         IFMTU            => '1562',
+                        IP               => '128.0.0.32',
                         MAC              => '00:0B:CA:FE:00:00',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -12305,6 +12326,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '1000000000',
                         IFMTU            => '1500',
+                        IP               => '128.0.0.127',
                         MAC              => '5C:5E:AB:6A:2A:80',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -13887,6 +13909,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '1000000000',
                         IFMTU            => '1500',
+                        IP               => '192.168.100.56',
                         MAC              => '5C:5E:AB:6A:2A:80',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -13999,6 +14022,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '1000000000',
                         IFMTU            => '1500',
+                        IP               => '172.21.10.252',
                         MAC              => '5C:5E:AB:6A:2A:80',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -14015,6 +14039,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '1000000000',
                         IFMTU            => '1500',
+                        IP               => '172.21.12.252',
                         MAC              => '5C:5E:AB:6A:2A:80',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -14272,6 +14297,7 @@ my %tests = (
                         IFSPEED          => '0',
                         IFSTATUS         => '1',
                         IFTYPE           => '53',
+                        IP               => '128.0.0.32',
                         MAC              => '00:0B:CA:FE:00:00'
                     },
                     {
@@ -16076,6 +16102,7 @@ my %tests = (
                         IFSPEED          => '1000000000',
                         IFSTATUS         => '1',
                         IFTYPE           => '53',
+                        IP               => '192.168.100.44',
                         MAC              => '2C:6B:F5:9A:7E:80'
                     },
                     {
@@ -16108,6 +16135,7 @@ my %tests = (
                         IFSPEED          => '1000000000',
                         IFSTATUS         => '1',
                         IFTYPE           => '53',
+                        IP               => '128.0.0.127',
                         MAC              => '2C:6B:F5:9A:7E:80'
                     }
                 ]
@@ -16373,6 +16401,7 @@ my %tests = (
                         IFSPEED          => '0',
                         IFSTATUS         => '1',
                         IFTYPE           => '53',
+                        IP               => '128.0.0.32',
                         MAC              => '00:0B:CA:FE:00:00'
                     },
                     {
@@ -18217,6 +18246,7 @@ my %tests = (
                         IFSPEED          => '1000000000',
                         IFINTERNALSTATUS => '1',
                         IFOUTERRORS      => '0',
+                        IP               => '192.168.100.31',
                         MAC              => '2C:6B:F5:9B:48:80'
                     },
                     {
@@ -26793,6 +26823,7 @@ my %tests = (
                         IFDESCR          => 'jsrv.1',
                         IFNUMBER         => '1096',
                         IFLASTCHANGE     => '(665) 0:00:06.65',
+                        IP               => '128.0.0.127',
                         IFMTU            => '1500',
                         IFOUTOCTETS      => '0',
                         MAC              => '2C:6B:F5:9B:05:80'
@@ -27053,6 +27084,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '0',
                         IFMTU            => '1562',
+                        IP               => '128.0.0.32',
                         MAC              => '00:0B:CA:FE:00:00',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -28897,6 +28929,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '1000000000',
                         IFMTU            => '1500',
+                        IP               => '192.168.100.31',
                         MAC              => '2C:6B:F5:9B:48:80',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',
@@ -37467,6 +37500,7 @@ my %tests = (
                         IFTYPE           => 'propVirtual(53)',
                         IFSPEED          => '1000000000',
                         IFMTU            => '1500',
+                        IP               => '128.0.0.127',
                         MAC              => '2C:6B:F5:9B:48:80',
                         IFSTATUS         => 'up(1)',
                         IFINTERNALSTATUS => 'up(1)',

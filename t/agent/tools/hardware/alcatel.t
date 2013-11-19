@@ -1428,7 +1428,8 @@ my %tests = (
                         IFOUTOCTETS      => '205881648',
                         IFOUTERRORS      => '0',
                         IFSTATUS         => 'up(1)',
-                        IFINTERNALSTATUS => 'up(1)'
+                        IFINTERNALSTATUS => 'up(1)',
+                        IP               => '192.168.1.127',
                     },
                     {
                         IFNUMBER         => '13600154',
@@ -1443,7 +1444,8 @@ my %tests = (
                         IFSPEED          => '0',
                         IFDESCR          => 'Loopback',
                         IFINOCTETS       => '1305305095',
-                        IFMTU            => '32768'
+                        IFMTU            => '32768',
+                        IP               => '127.0.0.1',
                     }
                 ]
             },
