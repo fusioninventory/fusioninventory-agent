@@ -1,5 +1,13 @@
 Revision history for FusionInventory agent
 
+2.3.4
+netinventory and netdiscovery tasks:
+* install missing sysobjectid database files
+* fix infinite recursion in mac address canonicalisation, leading to memory
+  exhaustion (#2336)
+* fix SNMPv3 usage without optional parameters
+* allow SNMPv3 usage with command-line tools
+
 2.3.3  Wed, 06 Nov 2013 21:00:25 +0100
 core
 * clean up in the distribution, thanks Olivier Mengué <dolmen@cpan.org>
