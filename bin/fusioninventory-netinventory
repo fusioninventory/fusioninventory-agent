@@ -131,7 +131,7 @@ if (defined($options->{entity})) {
 
 my $broker = FusionInventory::Agent::Broker->create(
     target  => $options->{target},
-    task    => 'netdiscovery',
+    task    => 'netinventory',
     verbose => $options->{verbose}
 );
 
