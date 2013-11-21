@@ -3300,6 +3300,7 @@ my %tests = (
                         IFNUMBER         => '51',
                         IFNAME           => 'Management Port',
                         IFDESCR          => 'Management Port',
+                        IFALIAS          => 'MgmtPort',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '1500',

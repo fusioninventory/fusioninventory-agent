@@ -376,6 +376,7 @@ my %tests = (
                     {
                         IFINOCTETS       => '2695194882',
                         IFDESCR          => 'Alcatel-Lucent 1/20',
+                        IFALIAS          => 'wifi-RDC-ascenseur-203',
                         IFSPEED          => '1000000000',
                         IFMTU            => '9216',
                         IFINTERNALSTATUS => '1',
@@ -409,6 +410,7 @@ my %tests = (
                     {
                         IFINOCTETS       => '2824635082',
                         IFDESCR          => 'Alcatel-Lucent 1/21',
+                        IFALIAS          => 'wifi-c005-espaceOne-205',
                         IFSPEED          => '1000000000',
                         IFMTU            => '9216',
                         IFOUTOCTETS      => '464602515',
@@ -436,6 +438,7 @@ my %tests = (
                         IFMTU            => '9216',
                         IFSPEED          => '1000000000',
                         IFDESCR          => 'Alcatel-Lucent 1/22',
+                        IFALIAS          => 'wifi-rdc-acceuil-47',
                         IFINOCTETS       => '1952393561',
                         IFTYPE           => '6',
                         MAC              => 'E8:E7:32:2B:C1:F9',
@@ -482,6 +485,7 @@ my %tests = (
                     {
                         IFINOCTETS       => '826699557',
                         IFDESCR          => 'Alcatel-Lucent 1/24',
+                        IFALIAS          => 'CB-C005-202',
                         IFSPEED          => '1000000000',
                         IFMTU            => '9216',
                         IFINERRORS       => '0',

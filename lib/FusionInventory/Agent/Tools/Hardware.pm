@@ -363,6 +363,10 @@ my %interface_variables = (
         mapping => 'portDuplex',
         default => '.1.3.6.1.2.1.10.7.2.1.19'
     },
+    IFALIAS          => {
+        mapping => 'ifAlias',
+        default => '.1.3.6.1.2.1.31.1.1.1.18',
+    },
 );
 
 my @consumable_type_rules = (
@@ -869,6 +873,9 @@ sub _setGenericProperties {
             }
             if ($key eq 'IFSTATUS' or $key eq 'IFTYPE' or $key eq 'IFINTERNALSTATUS') {
                 $value = getCanonicalNumber($value);
+            }
+            if ($key eq 'IFALIAS') {
+                next unless $value;
             }
             $ports->{$suffix}->{$key} = $value if defined $value;
         }
