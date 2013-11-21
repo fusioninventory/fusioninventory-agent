@@ -45,6 +45,9 @@ my %tests = (
                 TONERBLACK       => '0',
                 MAINTENANCEKIT   => '100',
             },
+            PAGECOUNTERS => {
+                TOTAL      => '146399',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -122,6 +125,9 @@ my %tests = (
                 TONERBLACK       => '0',
                 MAINTENANCEKIT   => '100',
             },
+            PAGECOUNTERS => {
+                TOTAL      => '46925',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -193,6 +199,9 @@ my %tests = (
                         '172.31.201.47',
                     ],
                 },
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '140725',
             },
             PORTS => {
                 PORT => [

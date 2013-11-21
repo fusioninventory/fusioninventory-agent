@@ -49,7 +49,10 @@ my %tests = (
                 CARTRIDGECYAN    => 32,
                 CARTRIDGEYELLOW  => 33
             },
-           PORTS => {
+            PAGECOUNTERS => {
+                TOTAL => '24724',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -127,7 +130,10 @@ my %tests = (
                 CARTRIDGEYELLOW  => 27,
                 CARTRIDGECYAN    => 32
             },
-        PORTS => {
+            PAGECOUNTERS => {
+                TOTAL => '24304',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -286,6 +292,9 @@ my %tests = (
                 MODEL        => 'hp LaserJet 1300n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14,CIDATE 09/24/2003',
                 NAME         => 'impbe94',
+            },
+            PAGECOUNTERS => {
+                TOTAL => '49530',
             },
             PORTS => {
                 PORT => [
@@ -549,6 +558,9 @@ my %tests = (
                 LOCATION     => 'impbe92',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
             },
+            PAGECOUNTERS => {
+                TOTAL => '65436',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -590,6 +602,9 @@ my %tests = (
                 MODEL        => 'HP LaserJet 2100 Series',
                 LOCATION     => 'impbe92',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
+            },
+            PAGECOUNTERS => {
+                TOTAL => '65516',
             },
             PORTS => {
                 PORT => [
@@ -638,6 +653,9 @@ my %tests = (
                         '128.93.22.63',
                     ],
                 },
+            },
+            PAGECOUNTERS => {
+                TOTAL => '27649',
             },
             PORTS => {
                 PORT => [
@@ -689,6 +707,9 @@ my %tests = (
                         '128.93.22.61',
                     ],
                 },
+            },
+            PAGECOUNTERS => {
+                TOTAL => '46041',
             },
             PORTS => {
                 PORT => [
@@ -743,6 +764,9 @@ my %tests = (
                         '128.93.22.29',
                     ],
                 },
+            },
+            PAGECOUNTERS => {
+                TOTAL => '3846',
             },
             PORTS => {
                 PORT => [
@@ -810,6 +834,9 @@ my %tests = (
                     ],
                 },
             },
+            PAGECOUNTERS => {
+                TOTAL => '15352',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -871,6 +898,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '12873',
+                TOTAL      => '38972',
             },
             PORTS => {
                 PORT => [
@@ -936,6 +964,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '2066',
+                TOTAL      => '23551',
             },
            PORTS => {
                 PORT => [
@@ -1013,6 +1042,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '219',
+                TOTAL      => '17090',
             },
             PORTS => {
                 PORT => [
@@ -1134,6 +1164,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 COLOR      => '9946',
+                TOTAL      => '11012',
             },
             CARTRIDGES => {
                 TONERMAGENTA => 46,
@@ -1206,6 +1237,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '152',
+                TOTAL      => '20653',
             },
             CARTRIDGES => {
                 TONERBLACK => 100
@@ -1263,6 +1295,7 @@ my %tests = (
                 COLOR      => '507',
                 RECTOVERSO => '0',
                 PRINTTOTAL => '541',
+                TOTAL      => '541',
             },
             CARTRIDGES => {
                 TONERMAGENTA    => 73,
@@ -1445,6 +1478,7 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '0',
+                TOTAL      => '60803',
             },
             CARTRIDGES => {
                 TONERBLACK     => 95,
@@ -1511,6 +1545,9 @@ my %tests = (
                 OTHERSERIAL  => '0x0115',
                 ID           => undef,
                 MODEL        => 'hp LaserJet 4250',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '99802',
             },
             CARTRIDGES => {
                 TONERBLACK     => 52,
@@ -1589,7 +1626,10 @@ my %tests = (
                 TONERBLACK       => '86',
                 MAINTENANCEKIT  => '73',
             },
-PORTS => {
+            PAGECOUNTERS => {
+                TOTAL      => '60480',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -1666,6 +1706,9 @@ PORTS => {
             CARTRIDGES => {
                 TONERBLACK       => '61',
                 MAINTENANCEKIT  => '25',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '167089',
             },
             PORTS => {
                 PORT => [
@@ -1745,6 +1788,9 @@ PORTS => {
                 TONERBLACK       => '25',
                 MAINTENANCEKIT  => '41',
             },
+            PAGECOUNTERS => {
+                TOTAL      => '131919',
+            },
              PORTS => {
                 PORT => [
                     {
@@ -1822,6 +1868,9 @@ PORTS => {
             CARTRIDGES => {
                 TONERBLACK       => '23',
                 MAINTENANCEKIT  => '55',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '101394',
             },
             PORTS => {
                 PORT => [
@@ -1901,6 +1950,9 @@ PORTS => {
                 TONERBLACK       => '84',
                 MAINTENANCEKIT  => '87',
             },
+            PAGECOUNTERS => {
+                TOTAL      => '27635',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -1978,6 +2030,9 @@ PORTS => {
             CARTRIDGES => {
                 TONERBLACK       => '58',
                 MAINTENANCEKIT  => '57',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '95148',
             },
             PORTS => {
                 PORT => [
@@ -2057,6 +2112,9 @@ PORTS => {
                 TONERBLACK       => '5',
                 MAINTENANCEKIT  => '53',
             },
+            PAGECOUNTERS => {
+                TOTAL      => '104887',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -2135,6 +2193,9 @@ PORTS => {
                 TONERBLACK       => '83',
                 MAINTENANCEKIT  => '81',
             },
+            PAGECOUNTERS => {
+                TOTAL      => '41756',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -2204,6 +2265,7 @@ PORTS => {
             PAGECOUNTERS => {
                 BLACK      => '1685',
                 COLOR      => '6601',
+                TOTAL      => '8514',
             },
             PORTS => {
                 PORT => [
@@ -2276,9 +2338,10 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '0',
                 BLACK      => '102279',
-                COLOR      => '92447'
+                COLOR      => '92447',
+                TOTAL      => '194821',
             },
-                        PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -2334,6 +2397,9 @@ PORTS => {
                 MODEL        => 'HP LaserJet 600 M603',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
                 NAME         => 'lj1',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '26784',
             },
             PORTS => {
                 PORT => [
@@ -2391,6 +2457,9 @@ PORTS => {
                 MODEL        => 'HP LaserJet 600 M603',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
                 NAME         => 'lj2',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '51894',
             },
             PORTS => {
                 PORT => [
@@ -2460,6 +2529,9 @@ PORTS => {
                 TONERBLACK   => 68,
                 TONERMAGENTA => 89,
                 TONERYELLOW  => 59
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '20179',
             },
             PORTS => {
                 PORT => [
@@ -2531,7 +2603,8 @@ PORTS => {
             PAGECOUNTERS => {
                 BLACK      => '760',
                 COLOR      => '4720',
-                RECTOVERSO => '0'
+                RECTOVERSO => '0',
+                TOTAL      => '5480',
             },
             PORTS => {
                 PORT => [
@@ -2602,6 +2675,9 @@ PORTS => {
                 TONERYELLOW  => 18,
                 TONERCYAN    => 46
             },
+            PAGECOUNTERS => {
+                TOTAL => '25632',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -2670,6 +2746,9 @@ PORTS => {
                 TONERMAGENTA => 46,
                 TONERYELLOW  => 15,
                 TONERCYAN    => 52
+            },
+            PAGECOUNTERS => {
+                TOTAL => '21862',
             },
             PORTS => {
                 PORT => [
@@ -2740,6 +2819,9 @@ PORTS => {
                 TONERCYAN    => 96,
                 TONERYELLOW  => 17
             },
+            PAGECOUNTERS => {
+                TOTAL => '7308',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -2807,6 +2889,7 @@ PORTS => {
                 COLOR      => '789',
                 BLACK      => '141',
                 RECTOVERSO => '0',
+                TOTAL      => '930',
             },
             CARTRIDGES => {
                 TONERYELLOW  => 56,
@@ -2878,6 +2961,7 @@ PORTS => {
             },
             PAGECOUNTERS => {
                 BLACK      => '91',
+                TOTAL      => '402',
             },
             PORTS => {
                 PORT => [
@@ -2945,7 +3029,8 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '2584',
                 BLACK      => '9817',
-                COLOR      => '21930'
+                COLOR      => '21930',
+                TOTAL      => '31747',
             },
             CARTRIDGES => {
                 TONERYELLOW  => 34,
@@ -3020,6 +3105,7 @@ PORTS => {
                 BLACK      => '1198',
                 RECTOVERSO => '1',
                 COLOR      => '7501',
+                TOTAL      => '8699',
             },
             CARTRIDGES => {
                 TONERYELLOW => 24,
@@ -3100,6 +3186,7 @@ PORTS => {
                 COLOR      => '2309',
                 BLACK      => '1145',
                 RECTOVERSO => '0',
+                TOTAL      => '3454',
             },
            PORTS => {
                 PORT => [
@@ -3174,6 +3261,7 @@ PORTS => {
                 BLACK      => '3459',
                 COLOR      => '11263',
                 RECTOVERSO => '0',
+                TOTAL      => '14722',
             },
             PORTS => {
                 PORT => [
@@ -3242,6 +3330,7 @@ PORTS => {
                 RECTOVERSO => '0',
                 BLACK      => '3896',
                 COLOR      => '12731',
+                TOTAL      => '16627',
             },
             CARTRIDGES => {
                 TONERBLACK   => 83,
@@ -3322,6 +3411,7 @@ PORTS => {
                 COLOR      => '16450',
                 BLACK      => '5506',
                 RECTOVERSO => '0',
+                TOTAL      => '21956',
             },
            PORTS => {
                 PORT => [
@@ -3389,7 +3479,8 @@ PORTS => {
             PAGECOUNTERS => {
                 COLOR      => '5758',
                 BLACK      => '3843',
-                RECTOVERSO => '0'
+                RECTOVERSO => '0',
+                TOTAL      => '9601'
             },
             CARTRIDGES => {
                 TONERBLACK   => 55,
@@ -3469,6 +3560,7 @@ PORTS => {
                 BLACK      => '7603',
                 COLOR      => '9127',
                 RECTOVERSO => '0',
+                TOTAL      => '16740',
             },
             PORTS => {
                 PORT => [
@@ -3536,6 +3628,7 @@ PORTS => {
                 RECTOVERSO => '49',
                 BLACK      => '7256',
                 COLOR      => '11905',
+                TOTAL      => '19183',
             },
             CARTRIDGES => {
                 TONERYELLOW  => 8,
@@ -3617,6 +3710,9 @@ PORTS => {
                 TONERMAGENTA     => '60',
                 TONERYELLOW      => '84',
             },
+            PAGECOUNTERS => {
+                TOTAL      => '16808',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -3689,7 +3785,8 @@ PORTS => {
                 BLACK      => '8881',
                 PRINTCOLOR => '5839',
                 PRINTBLACK => '8765',
-                PRINTTOTAL => '14610'
+                PRINTTOTAL => '14610',
+                TOTAL      => '14604',
             },
             CARTRIDGES => {
                 TONERMAGENTA => 44,
@@ -3761,6 +3858,9 @@ PORTS => {
                         '192.168.223.1',
                     ],
                 },
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '919',
             },
             PORTS => {
                 PORT => [
@@ -3854,7 +3954,8 @@ PORTS => {
             PAGECOUNTERS => {
                 COLOR      => '0',
                 RECTOVERSO => '0',
-                BLACK      => '36596'
+                BLACK      => '36596',
+                TOTAL      => '36596'
             },
             PORTS => {
                 PORT => [
@@ -3923,6 +4024,7 @@ PORTS => {
                 COLOR      => '0',
                 RECTOVERSO => '0',
                 BLACK      => '25333',
+                TOTAL      => '25333',
             },
             CARTRIDGES => {
                 TONERBLACK => 59
@@ -3994,6 +4096,7 @@ PORTS => {
                 COLOR      => '0',
                 RECTOVERSO => '0',
                 BLACK      => '36301',
+                TOTAL      => '36301',
             },
             CARTRIDGES => {
                 TONERBLACK => 50
@@ -4075,6 +4178,7 @@ PORTS => {
                 BLACK      => '129336',
                 COLOR      => '0',
                 RECTOVERSO => '0',
+                TOTAL      => '129336',
             },
             PORTS => {
                 PORT => [
@@ -4158,6 +4262,7 @@ PORTS => {
                 BLACK      => '45078',
                 COLOR      => '0',
                 RECTOVERSO => '20379',
+                TOTAL      => '45078',
             },
             PORTS => {
                 PORT => [
@@ -4241,6 +4346,7 @@ PORTS => {
                 BLACK      => '16610',
                 COLOR      => '0',
                 RECTOVERSO => '423',
+                TOTAL      => '16610',
             },
             PORTS => {
                 PORT => [
@@ -4324,6 +4430,7 @@ PORTS => {
                 BLACK      => '5943',
                 COLOR      => '0',
                 RECTOVERSO => '930',
+                TOTAL      => '5943',
             },
             PORTS => {
                 PORT => [
@@ -4407,6 +4514,7 @@ PORTS => {
                 BLACK      => '96192',
                 COLOR      => '0',
                 RECTOVERSO => '620',
+                TOTAL      => '96192',
             },
             PORTS => {
                 PORT => [
@@ -4490,6 +4598,7 @@ PORTS => {
                 BLACK      => '30412',
                 COLOR      => '0',
                 RECTOVERSO => '65',
+                TOTAL      => '30412',
             },
             PORTS => {
                 PORT => [
@@ -4573,6 +4682,7 @@ PORTS => {
                 BLACK      => '8880',
                 COLOR      => '0',
                 RECTOVERSO => '2115',
+                TOTAL      => '8880',
             },
             PORTS => {
                 PORT => [
@@ -4689,6 +4799,9 @@ PORTS => {
                 CARTRIDGEMAGENTA => 20,
                 CARTRIDGEBLACK   => 9
             },
+            PAGECOUNTERS => {
+                TOTAL      => '10947',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -4744,6 +4857,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '0',
                 PRINTTOTAL => '20949',
+                TOTAL      => '20979',
             },
             PORTS => {
                 PORT => [
@@ -4813,6 +4927,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
                 PRINTTOTAL => '150',
+                TOTAL      => '150',
             },
             PORTS => {
                 PORT => [
@@ -4886,6 +5001,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
                 PRINTTOTAL => '13324',
+                TOTAL      => '13322',
             },
            PORTS => {
                 PORT => [
@@ -4959,6 +5075,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '566',
                 PRINTTOTAL => '13193',
+                TOTAL      => '13193',
             },
             PORTS => {
                 PORT => [
@@ -5032,6 +5149,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '105',
                 PRINTTOTAL => '15807',
+                TOTAL      => '15802',
             },
             PORTS => {
                 PORT => [
@@ -5105,6 +5223,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
                 PRINTTOTAL => '53053',
+                TOTAL      => '53058',
             },
             PORTS => {
                 PORT => [
@@ -5178,6 +5297,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '21',
                 PRINTTOTAL => '130480',
+                TOTAL      => '130481',
             },
             PORTS => {
                 PORT => [
@@ -5251,6 +5371,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '814',
                 PRINTTOTAL => '45077',
+                TOTAL      => '45068',
             },
             PORTS => {
                 PORT => [
@@ -5324,6 +5445,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '12',
                 PRINTTOTAL => '11083',
+                TOTAL      => '11075',
             },
             PORTS => {
                 PORT => [
@@ -5397,6 +5519,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
                 PRINTTOTAL => '17204',
+                TOTAL      => '17190',
             },
             PORTS => {
                 PORT => [
@@ -5470,6 +5593,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
                 PRINTTOTAL => '100796',
+                TOTAL      => '100795',
             },
             PORTS => {
                 PORT => [
@@ -5543,6 +5667,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '22',
                 PRINTTOTAL => '65087',
+                TOTAL      => '65082',
             },
             PORTS => {
                 PORT => [
@@ -5616,6 +5741,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '7',
                 PRINTTOTAL => '5388',
+                TOTAL      => '5385',
             },
             PORTS => {
                 PORT => [
@@ -5679,6 +5805,7 @@ PORTS => {
             PAGECOUNTERS => {
                 RECTOVERSO => '74',
                 BLACK      => '15265',
+                TOTAL      => '15265',
             },
             CARTRIDGES => {
                 TONERBLACK => 84
@@ -5746,6 +5873,7 @@ PORTS => {
             PAGECOUNTERS => {
                 BLACK      => '6386',
                 RECTOVERSO => '772',
+                TOTAL      => '6386',
             },
             CARTRIDGES => {
                 TONERBLACK => 1
@@ -5819,6 +5947,7 @@ PORTS => {
                 PRINTBLACK => '30965',
                 PRINTTOTAL => '30965',
                 BLACK      => '30965',
+                TOTAL      => '30965',
             },
             PORTS => {
                 PORT => [
@@ -5880,7 +6009,8 @@ PORTS => {
                 PRINTBLACK => '36105',
                 PRINTTOTAL => '36105',
                 COLOR      => '0',
-                RECTOVERSO => '8379'
+                RECTOVERSO => '8379',
+                TOTAL      => '36105'
             },
             CARTRIDGES => {
                 TONERBLACK => 88
@@ -5948,7 +6078,8 @@ PORTS => {
                 COLOR      => '0',
                 PRINTTOTAL => '3837',
                 PRINTBLACK => '3837',
-                BLACK      => '3837'
+                BLACK      => '3837',
+                TOTAL      => '3837'
             },
             PORTS => {
                 PORT => [
@@ -6011,6 +6142,7 @@ PORTS => {
                 PRINTTOTAL => '11057',
                 PRINTBLACK => '11057',
                 BLACK      => '11057',
+                TOTAL      => '11057',
             },
             CARTRIDGES => {
                 TONERBLACK => 45
@@ -6080,6 +6212,7 @@ PORTS => {
                 RECTOVERSO => '3761',
                 PRINTBLACK => '19402',
                 PRINTTOTAL => '19402',
+                TOTAL      => '19402',
             },
             PORTS => {
                 PORT => [
@@ -6144,7 +6277,8 @@ PORTS => {
                 BLACK      => '17861',
                 COLOR      => '0',
                 PRINTBLACK => '17861',
-                RECTOVERSO => '3192'
+                RECTOVERSO => '3192',
+                TOTAL      => '17861'
             },
             PORTS => {
                 PORT => [
@@ -6210,6 +6344,7 @@ PORTS => {
                 RECTOVERSO => '1843',
                 PRINTTOTAL => '5696',
                 BLACK      => '5696',
+                TOTAL      => '5696',
             },
             PORTS => {
                 PORT => [
@@ -6274,7 +6409,8 @@ PORTS => {
                 PRINTBLACK => '26922',
                 COLOR      => '0',
                 BLACK      => '26922',
-                PRINTTOTAL => '26922'
+                PRINTTOTAL => '26922',
+                TOTAL      => '26922'
             },
             PORTS => {
                 PORT => [
@@ -6337,6 +6473,7 @@ PORTS => {
                 COLOR      => '0',
                 PRINTTOTAL => '4047',
                 PRINTBLACK => '4047',
+                TOTAL      => '4047',
             },
             CARTRIDGES => {
                 TONERBLACK => 20
@@ -6402,6 +6539,7 @@ PORTS => {
                 COLOR      => '0',
                 RECTOVERSO => '0',
                 BLACK      => '4944',
+                TOTAL      => '4944',
             },
             CARTRIDGES => {
                 TONERBLACK => 40
@@ -6466,7 +6604,8 @@ PORTS => {
                 PRINTBLACK => '4339',
                 PRINTTOTAL => '4339',
                 COLOR      => '0',
-                RECTOVERSO => '498'
+                RECTOVERSO => '498',
+                TOTAL      => '4339',
             },
             CARTRIDGES => {
                 TONERBLACK => 0
@@ -6531,7 +6670,8 @@ PORTS => {
                 COLOR      => '0',
                 PRINTBLACK => '89242',
                 PRINTTOTAL => '89242',
-                BLACK      => '89242'
+                BLACK      => '89242',
+                TOTAL      => '89242'
             },
             CARTRIDGES => {
                 TONERBLACK => 68
@@ -6607,6 +6747,7 @@ PORTS => {
                 COLOR      => '0',
                 RECTOVERSO => '0',
                 PRINTTOTAL => '3515',
+                TOTAL      => '3515',
             },
             PORTS => {
                 PORT => [
@@ -6683,6 +6824,7 @@ PORTS => {
                 COLOR      => '0',
                 RECTOVERSO => '2389',
                 PRINTTOTAL => '11344',
+                TOTAL      => '11344',
             },
             PORTS => {
                 PORT => [
@@ -6759,6 +6901,7 @@ PORTS => {
                 COLOR      => '0',
                 RECTOVERSO => '6832',
                 PRINTTOTAL => '22937',
+                TOTAL      => '22937',
             },
             PORTS => {
                 PORT => [
@@ -6835,6 +6978,7 @@ PORTS => {
                 COLOR      => '0',
                 RECTOVERSO => '504',
                 PRINTTOTAL => '4878',
+                TOTAL      => '4878',
             },
             PORTS => {
                 PORT => [
@@ -6904,6 +7048,9 @@ PORTS => {
             CARTRIDGES => {
                 TONERBLACK     => 18,
                 MAINTENANCEKIT => 32
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '151735',
             },
             PORTS => {
                 PORT => [
@@ -6978,6 +7125,7 @@ PORTS => {
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '26',
+                TOTAL      => '27320',
             },
             PORTS => {
                 PORT => [
@@ -7047,6 +7195,7 @@ PORTS => {
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '26',
+                TOTAL      => '86390',
             },
             PORTS => {
                 PORT => [
@@ -7116,6 +7265,7 @@ PORTS => {
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '52',
+                TOTAL      => '47319',
             },
             PORTS => {
                 PORT => [
@@ -7185,8 +7335,9 @@ PORTS => {
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '4',
+                TOTAL      => '212761',
             },
-          PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -7254,6 +7405,7 @@ PORTS => {
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '2096',
+                TOTAL      => '266350',
             },
             PORTS => {
                 PORT => [

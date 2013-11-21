@@ -127,6 +127,9 @@ my %tests = (
                 },
                 UPTIME       => '(16986889) 1 day, 23:11:08.89'
             },
+            PAGECOUNTERS => {
+                TOTAL  => '128652',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -183,6 +186,9 @@ my %tests = (
                     ]
                 },
                 UPTIME       => '(1018900) 2:49:49.00',
+            },
+            PAGECOUNTERS => {
+                TOTAL  => '94',
             },
             PORTS => {
                 PORT => [
@@ -264,6 +270,9 @@ my %tests = (
             CARTRIDGES => {
                 MAINTENANCEKIT  => '67',
             },
+            PAGECOUNTERS => {
+                TOTAL  => '724552',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -340,6 +349,9 @@ my %tests = (
             },
             CARTRIDGES => {
                 MAINTENANCEKIT  => '57',
+            },
+            PAGECOUNTERS => {
+                TOTAL  => '420312',
             },
             PORTS => {
                 PORT => [
@@ -420,7 +432,7 @@ my %tests = (
                 TONERBLACK   => 5,
                 TONERYELLOW  => 40
             },
-PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -439,6 +451,7 @@ PORTS => {
                 FAXTOTAL   => 'Faxed Impressions',
                 BLACK      => 'Black Impressions ',
                 COPYBLACK  => 'Black Copied Impressions',
+                TOTAL      => '31341',
             }
         }
     ],
@@ -487,6 +500,9 @@ PORTS => {
                 TONERBLACK     => 100,
                 TONERYELLOW    => 100,
                 TONERCYAN      => 100
+            },
+            PAGECOUNTERS => {
+                TOTAL => '199891',
             },
             PORTS => {
                 PORT => [
@@ -574,6 +590,9 @@ PORTS => {
                 WASTETONER     => 100,
                 TONERYELLOW    => 100
             },
+            PAGECOUNTERS => {
+                TOTAL => '84517',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -659,6 +678,9 @@ PORTS => {
                 WASTETONER     => 100,
                 TONERBLACK     => 100,
                 TONERCYAN      => 100
+            },
+            PAGECOUNTERS => {
+                TOTAL => '59388',
             },
             PORTS => {
                 PORT => [
@@ -746,6 +768,9 @@ PORTS => {
                 TONERCYAN      => 100,
                 TONERBLACK     => 100
             },
+            PAGECOUNTERS => {
+                TOTAL => '40802',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -831,6 +856,9 @@ PORTS => {
                 TONERCYAN      => 100,
                 TONERYELLOW    => 100,
                 TONERMAGENTA   => 100
+            },
+            PAGECOUNTERS => {
+                TOTAL => '147817',
             },
             PORTS => {
                 PORT => [
@@ -918,6 +946,9 @@ PORTS => {
                 TONERYELLOW    => 100,
                 TONERBLACK     => 100
             },
+            PAGECOUNTERS => {
+                TOTAL => '70041',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -1003,6 +1034,9 @@ PORTS => {
                 TONERMAGENTA   => 100,
                 TONERBLACK     => 100,
                 WASTETONER     => 100
+            },
+            PAGECOUNTERS => {
+                TOTAL => '31779',
             },
             PORTS => {
                 PORT => [
@@ -1108,6 +1142,9 @@ PORTS => {
                 WASTETONER     => 100,
                 TONERBLACK     => 100
             },
+            PAGECOUNTERS => {
+                TOTAL => '127444',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -1187,7 +1224,8 @@ PORTS => {
                 UPTIME       => '(53965840) 6 days, 5:54:18.40'
             },
             PAGECOUNTERS => {
-                BLACK => 'Black Impressions'
+                BLACK => 'Black Impressions',
+                TOTAL => '31873',
             },
             CARTRIDGES => {
                 TONERBLACK     => 100,
@@ -1276,7 +1314,8 @@ PORTS => {
                 UPTIME       => '(504016756) 58 days, 8:02:47.56',
             },
             PAGECOUNTERS => {
-                BLACK => 'Black Impressions'
+                BLACK => 'Black Impressions',
+                TOTAL => '35910',
             },
             CARTRIDGES => {
                 WASTETONER     => 100,
@@ -1373,7 +1412,8 @@ PORTS => {
                 MAINTENANCEKIT => 69
             },
             PAGECOUNTERS => {
-                BLACK => 'Black Impressions'
+                BLACK => 'Black Impressions',
+                TOTAL => '214103',
             },
             PORTS => {
                 PORT => [
@@ -1454,7 +1494,8 @@ PORTS => {
                 UPTIME       => '(745560805) 86 days, 7:00:08.05'
             },
             PAGECOUNTERS => {
-                BLACK => 'Black Impressions'
+                BLACK => 'Black Impressions',
+                TOTAL => '156798',
             },
             CARTRIDGES => {
                 TONERBLACK => 100,
@@ -1543,7 +1584,8 @@ PORTS => {
                 UPTIME       => '(182596303) 21 days, 3:12:43.03'
             },
             PAGECOUNTERS => {
-                BLACK => 'Black Impressions'
+                BLACK => 'Black Impressions',
+                TOTAL => '15725',
             },
             CARTRIDGES => {
                 WASTETONER     => 100,
@@ -1635,6 +1677,9 @@ PORTS => {
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
             },
+            PAGECOUNTERS => {
+                TOTAL => '42500',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -1714,7 +1759,8 @@ PORTS => {
                 UPTIME       => '(339691530) 39 days, 7:35:15.30'
             },
             PAGECOUNTERS => {
-                BLACK => 'Black Impressions'
+                BLACK => 'Black Impressions',
+                TOTAL => '68621',
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
@@ -1803,7 +1849,8 @@ PORTS => {
                 UPTIME       => '(284944040) 32 days, 23:30:40.40'
             },
             PAGECOUNTERS => {
-                BLACK => 'Black Impressions'
+                BLACK => 'Black Impressions',
+                TOTAL => '140861',
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
@@ -1892,7 +1939,8 @@ PORTS => {
                 UPTIME       => '(543157724) 62 days, 20:46:17.24',
             },
             PAGECOUNTERS => {
-                BLACK => 'Black Impressions'
+                BLACK => 'Black Impressions',
+                TOTAL => '36147',
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
@@ -1963,9 +2011,6 @@ PORTS => {
             FIRMWARE     => undef
         },
         {
-            PAGECOUNTERS => {
-                BLACK => 'Black Impressions'
-            },
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -1990,6 +2035,10 @@ PORTS => {
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
+            },
+            PAGECOUNTERS => {
+                BLACK => 'Black Impressions',
+                TOTAL => '138980',
             },
             PORTS => {
                 PORT => [
@@ -2072,6 +2121,9 @@ PORTS => {
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL => '17310',
             },
             PORTS => {
                 PORT => [
@@ -2157,6 +2209,9 @@ PORTS => {
                 TONERBLACK => 45,
                 WASTETONER => '100',
             },
+            PAGECOUNTERS => {
+                TOTAL => '127638'
+            },
             PORTS => {
                 PORT => [
                     {
@@ -2239,6 +2294,9 @@ PORTS => {
             CARTRIDGES => {
                 TONERBLACK => 90,
                 WASTETONER => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL => '72513'
             },
             PORTS => {
                 PORT => [
@@ -2324,7 +2382,8 @@ PORTS => {
                 BLACK      => '4086',
                 COPYCOLOR  => '1394',
                 PRINTCOLOR => '6964',
-                COPYBLACK  => '1311'
+                COPYBLACK  => '1311',
+                TOTAL      => '13755'
             },
             CARTRIDGES => {
                 DRUMBLACK    => '79',
@@ -2427,6 +2486,9 @@ PORTS => {
                 TONERMAGENTA => '76',
                 TONERYELLOW  => '74',
                 WASTETONER   => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL => '125346'
             },
             PORTS => {
                 PORT => [

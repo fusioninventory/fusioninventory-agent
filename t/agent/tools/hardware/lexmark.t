@@ -48,6 +48,9 @@ my %tests = (
             CARTRIDGES => {
                 TONERBLACK => 100
             },
+            PAGECOUNTERS => {
+                TOTAL => '68116',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -119,6 +122,9 @@ my %tests = (
                 TONERCYAN        => '90',
                 TONERMAGENTA     => '90',
                 TONERYELLOW      => '90',
+            },
+            PAGECOUNTERS => {
+                TOTAL => '25292',
             },
             PORTS => {
                 PORT => [

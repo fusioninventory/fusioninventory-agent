@@ -39,6 +39,9 @@ my %tests = (
             CARTRIDGES => {
                 WASTETONER       => '100',
             },
+            PAGECOUNTERS => {
+                TOTAL       => '561540',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -87,6 +90,9 @@ my %tests = (
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL       => '20100',
             },
             PORTS => {
                 PORT => [
@@ -143,6 +149,9 @@ my %tests = (
                 WASTETONER => 100,
                 TONERBLACK => 75
             },
+            PAGECOUNTERS => {
+                TOTAL       => '72657',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -198,7 +207,10 @@ my %tests = (
                 TONERBLACK => 37,
                 WASTETONER => 100
             },
-           PORTS => {
+            PAGECOUNTERS => {
+                TOTAL       => '13300',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -301,6 +313,9 @@ my %tests = (
             CARTRIDGES => {
                 WASTETONER       => '100',
             },
+            PAGECOUNTERS => {
+                TOTAL       => '66867',
+            },
             PORTS => {
                PORT => [
                     {
@@ -354,6 +369,9 @@ my %tests = (
             CARTRIDGES => {
                 WASTETONER       => '100',
             },
+            PAGECOUNTERS => {
+                TOTAL       => '59608',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -406,6 +424,9 @@ my %tests = (
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL       => '71686',
             },
             PORTS => {
                 PORT => [

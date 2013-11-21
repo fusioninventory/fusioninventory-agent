@@ -39,6 +39,9 @@ my %tests = (
             CARTRIDGES => {
                 WASTETONER   => '100',
             },
+            PAGECOUNTERS => {
+                TOTAL      => '3950',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -82,6 +85,9 @@ my %tests = (
                 MODEL        => 'Canon MF4500 Series',
                 COMMENTS     => 'Canon MF4500 Series /P',
                 NAME         => 'MF4500 Series'
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '659',
             },
             PORTS => {
                 PORT => [

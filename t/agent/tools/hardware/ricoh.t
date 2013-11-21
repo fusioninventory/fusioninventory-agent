@@ -47,6 +47,9 @@ my %tests = (
                 TONERMAGENTA     => '100',
                 TONERYELLOW      => '100',
             },
+            PAGECOUNTERS => {
+                TOTAL => '754777',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -129,7 +132,10 @@ my %tests = (
                 WASTETONER   => 100,
                 TONERYELLOW  => 100
             },
-PORTS => {
+            PAGECOUNTERS => {
+                TOTAL => '160668',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -215,6 +221,9 @@ PORTS => {
                 TONERMAGENTA     => '100',
                 TONERYELLOW      => '100',
             },
+            PAGECOUNTERS => {
+                TOTAL => '53694',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -291,6 +300,9 @@ PORTS => {
                 TONERCYAN        => '100',
                 TONERMAGENTA     => '100',
                 TONERYELLOW      => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL => '47295',
             },
             PORTS => {
                 PORT => [

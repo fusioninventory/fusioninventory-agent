@@ -59,6 +59,9 @@ my %tests = (
                 TONERYELLOW  => 75,
                 WASTETONER   => 0
             },
+            PAGECOUNTERS => {
+                TOTAL => '335341',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -118,7 +121,7 @@ my %tests = (
                 },
                 UPTIME       => '(28125680) 3 days, 6:07:36.80'
             },
-PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -189,6 +192,9 @@ PORTS => {
                 TONERMAGENTA => 25,
                 DRUMBLACK    => -2200,
                 WASTETONER   => 0
+            },
+            PAGECOUNTERS => {
+                TOTAL => '192047',
             },
             PORTS => {
                 PORT => [

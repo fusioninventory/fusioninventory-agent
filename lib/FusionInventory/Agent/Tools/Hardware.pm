@@ -455,18 +455,21 @@ my %consumable_variables_from_mappings = (
 
 # printer-specific page counter variables
 my %printer_pagecounters_variables = (
-    TOTAL      => 'pagecountertotalpages',
-    BLACK      => 'pagecounterblackpages',
-    COLOR      => 'pagecountercolorpages',
-    RECTOVERSO => 'pagecounterrectoversopages',
-    SCANNED    => 'pagecounterscannedpages',
-    PRINTTOTAL => 'pagecountertotalpages_print',
-    PRINTBLACK => 'pagecounterblackpages_print',
-    PRINTCOLOR => 'pagecountercolorpages_print',
-    COPYTOTAL  => 'pagecountertotalpages_copy',
-    COPYBLACK  => 'pagecounterblackpages_copy',
-    COPYCOLOR  => 'pagecountercolorpages_copy',
-    FAXTOTAL   => 'pagecountertotalpages_fax',
+    TOTAL      => {
+        mapping => 'pagecountertotalpages',
+        default => '.1.3.6.1.2.1.43.10.2.1.4.1.1'
+    },
+    BLACK      => { mapping => 'pagecounterblackpages'       },
+    COLOR      => { mapping => 'pagecountercolorpages'       },
+    RECTOVERSO => { mapping => 'pagecounterrectoversopages'  },
+    SCANNED    => { mapping => 'pagecounterscannedpages'     },
+    PRINTTOTAL => { mapping => 'pagecountertotalpages_print' },
+    PRINTBLACK => { mapping => 'pagecounterblackpages_print' },
+    PRINTCOLOR => { mapping => 'pagecountercolorpages_print' },
+    COPYTOTAL  => { mapping => 'pagecountertotalpages_copy'  },
+    COPYBLACK  => { mapping => 'pagecounterblackpages_copy'  },
+    COPYCOLOR  => { mapping => 'pagecountercolorpages_copy'  },
+    FAXTOTAL   => { mapping => 'pagecountertotalpages_fax'   },
 );
 
 sub getDeviceBaseInfo {
@@ -944,7 +947,9 @@ sub _setPrinterProperties {
     # page counters
     foreach my $key (keys %printer_pagecounters_variables) {
         my $variable = $printer_pagecounters_variables{$key};
-        my $value    = $snmp->get($model->{oids}->{$variable});
+        my $oid = $model->{oids}->{$variable->{mapping}} ||
+                  $variable->{default};
+        my $value = $snmp->get($oid);
         next unless defined $value;
         $device->{PAGECOUNTERS}->{$key} = $value;
     }

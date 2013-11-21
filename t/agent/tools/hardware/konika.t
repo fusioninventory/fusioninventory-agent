@@ -39,6 +39,9 @@ my %tests = (
                     ],
                 },
             },
+            PAGECOUNTERS => {
+                TOTAL => '463233',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -108,6 +111,9 @@ my %tests = (
                     ],
                 },
             },
+            PAGECOUNTERS => {
+                TOTAL => '312526',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -176,6 +182,9 @@ my %tests = (
                         '172.18.3.97',
                     ],
                 },
+            },
+            PAGECOUNTERS => {
+                TOTAL => '473611',
             },
             PORTS => {
                 PORT => [
@@ -256,6 +265,9 @@ my %tests = (
                 DRUMMAGENTA  => '99',
                 DRUMYELLOW   => '99',
             },
+            PAGECOUNTERS => {
+                TOTAL => '2441',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -335,6 +347,9 @@ my %tests = (
                 DRUMMAGENTA  => '90',
                 DRUMYELLOW   => '90',
             },
+            PAGECOUNTERS => {
+                TOTAL => '11202',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -413,6 +428,9 @@ my %tests = (
                 DRUMCYAN     => '94',
                 DRUMMAGENTA  => '94',
                 DRUMYELLOW   => '94',
+            },
+            PAGECOUNTERS => {
+                TOTAL => '32761',
             },
             PORTS => {
                 PORT => [

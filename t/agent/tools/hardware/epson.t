@@ -53,6 +53,9 @@ my %tests = (
                 TONERBLACK   => 45,
                 TONERMAGENTA => 99
             },
+            PAGECOUNTERS => {
+                TOTAL      => '73309',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -119,6 +122,9 @@ my %tests = (
                 TONERBLACK   => 96,
                 TONERCYAN    => 49,
                 TONERYELLOW  => 98
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '60163',
             },
             PORTS => {
                 PORT => [
@@ -191,6 +197,9 @@ my %tests = (
                 TONERBLACK   => 37,
                 TONERYELLOW  => 46
             },
+            PAGECOUNTERS => {
+                TOTAL      => '80918',
+            },
             INFO => {
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
@@ -247,7 +256,10 @@ my %tests = (
                 },
                 UPTIME       => '(140436577) 16 days, 6:06:05.77'
             },
-PORTS => {
+            PAGECOUNTERS => {
+                TOTAL      => '38054',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -304,6 +316,9 @@ PORTS => {
                 TONERMAGENTA => '23',
                 TONERCYAN    => '45',
                 TONERYELLOW  => '25',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '7758',
             },
             PORTS => {
                 PORT => [
@@ -364,7 +379,10 @@ PORTS => {
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-C1100-0DBECC',
             },
-PORTS => {
+            PAGECOUNTERS => {
+                TOTAL      => '43065',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -412,6 +430,9 @@ PORTS => {
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '319',
             },
             PORTS => {
                 PORT => [
@@ -461,6 +482,9 @@ PORTS => {
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '99',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '1346',
             },
             PORTS => {
                 PORT => [
