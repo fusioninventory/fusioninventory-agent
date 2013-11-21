@@ -1116,24 +1116,6 @@ my %tests = (
                 },
                 UPTIME       => '(537900356) 62 days, 6:10:03.56'
             },
-            PORTS => {
-                PORT => [
-                    {
-                        IP => '127.0.0.1',
-                        IFTYPE => 'softwareLoopback(24)',
-                        IFNAME => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, half duplex',
-                        IFNUMBER => '1',
-                        MAC => '00:00:AA:C4:27:29'
-                    },
-                    {
-                        IFNAME => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, half duplex',
-                        MAC => '00:00:AA:C4:27:29',
-                        IFNUMBER => '2',
-                        IFTYPE => 'ethernetCsmacd(6)',
-                        IP => '128.93.22.114'
-                    }
-                ]
-            },
             CARTRIDGES => {
                 MAINTENANCEKIT => 20,
                 TONERCYAN      => 100,
