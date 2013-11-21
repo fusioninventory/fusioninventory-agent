@@ -867,6 +867,9 @@ sub _setGenericProperties {
             if ($key eq 'MAC') {
                 $value = getCanonicalMacAddress($value);
             }
+            if ($key eq 'IFSTATUS' or $key eq 'IFTYPE' or $key eq 'IFINTERNALSTATUS') {
+                $value = getCanonicalNumber($value);
+            }
             $ports->{$suffix}->{$key} = $value if defined $value;
         }
     }
@@ -1086,6 +1089,13 @@ sub _getPercentValue {
 
 sub _isInteger {
     $_[0] =~ /^[+-]?\d+$/;
+}
+
+sub getCanonicalNumber {
+    my ($value) = @_;
+
+    return $value if _isInteger($value);
+    return $1 if $value =~ /\((\d+)\)$/;
 }
 
 sub loadModel {
