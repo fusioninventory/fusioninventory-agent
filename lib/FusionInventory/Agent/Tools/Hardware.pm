@@ -901,6 +901,7 @@ sub _setPrinterProperties {
     my $device = $params{device};
     my $snmp   = $params{snmp};
     my $model  = $params{model};
+    my $logger = $params{logger};
 
     if (!$device->{INFO}->{MODEL}) {
         $device->{INFO}->{MODEL} = $snmp->get(
@@ -951,6 +952,10 @@ sub _setPrinterProperties {
                   $variable->{default};
         my $value = $snmp->get($oid);
         next unless defined $value;
+        if (!_isInteger($value)) {
+            $logger->error("incorrect counter value $value, check $variable->{mapping} mapping") if $logger;
+            next;
+        }
         $device->{PAGECOUNTERS}->{$key} = $value;
     }
 }
