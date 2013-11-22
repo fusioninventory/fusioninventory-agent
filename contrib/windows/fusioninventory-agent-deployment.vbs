@@ -28,18 +28,19 @@
 '
 '  ------------------------------------------------------------------------
 '
-'  @package   FusionInventory Agent
-'  @file      .\contrib\windows\fusioninventory-agent-deployment.vbs
-'  @author(s) Benjamin Accary <meldrone@orange.fr>
-'             Christophe Pujol <chpujol@gmail.com>
-'             Marc Caissial <marc.caissial@zenitique.fr>
-'             Tomas Abad <tabadgp@gmail.com>
-'  @copyright Copyright (c) 2010-2013 FusionInventory Team
-'  @license   GNU GPL version 2 or (at your option) any later version
-'             http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html
-'  @link      http://www.fusioninventory.org/
-'  @link      http://forge.fusioninventory.org/projects/fusioninventory-agent
-'  @since     2012
+'  @package    FusionInventory Agent
+'  @file       .\contrib\windows\fusioninventory-agent-deployment.vbs
+'  @author(s)  Benjamin Accary <meldrone@orange.fr>
+'              Christophe Pujol <chpujol@gmail.com>
+'              Marc Caissial <marc.caissial@zenitique.fr>
+'              Tomas Abad <tabadgp@gmail.com>
+'  @maintainer Tomas Abad <tabadgp@gmail.com>
+'  @copyright  Copyright (c) 2010-2013 FusionInventory Team
+'  @license    GNU GPL version 2 or (at your option) any later version
+'              http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html
+'  @link       http://www.fusioninventory.org/
+'  @link       http://forge.fusioninventory.org/projects/fusioninventory-agent
+'  @since      2012
 '
 '  ------------------------------------------------------------------------
 '
