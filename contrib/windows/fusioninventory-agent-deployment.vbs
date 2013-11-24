@@ -54,7 +54,8 @@
 
 Option Explicit
 Dim Force, Verbose
-Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
+Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, _
+    SetupOptionsSmallMemory, SetupSmallMemory, SetupVersion
 
 '
 '
@@ -100,6 +101,32 @@ SetupArchitecture = "Auto"
 '    that require it; double quotes (") doesn't work with UNCs.
 '
 SetupOptions = "/acceptlicense /runnow /server='http://glpi.yourcompany.com/glpi/plugins/fusioninventory/' /S"
+
+' SetupOptionsSmallMemory
+'    Like SetupOptions but for systems with a small memory size.
+'
+'    Perhaps, in systems with a small memory, you prefer to do a different
+'    installation, for example, running the agent as a Windows Tasks instead of
+'    as a Windows Service, or installing only some agent tasks.
+'
+'    You can bypass this feature of three different ways:
+'
+'       By setting SetupSmallMemory to 0
+'       By setting SetupOptionsSmallMemory to SetupOptions
+'       Or both thing at time to be totally sure
+'
+SetupOptionsSmallMemory = "/acceptlicense /runnow /server='http://glpi.yourcompany.com/glpi/plugins/fusioninventory/' " & _
+                          "/execmode=task /task-hourly-modifier=4 /installtasks=inventory /S"
+
+' SetupSmallMemory
+'    Sets the memory limit in MiBytes below which SetupOptionsSmallMemory comes into play.
+'
+'    SetupOptions will be always used if
+'
+'       SetupSmallMemory is equal to 0 or
+'       SetupSmallMemory is great than the physical memory of the system
+'
+SetupSmallMemory = "1024"
 
 ' Setup
 '    The installer file name. You should not have to modify this variable ever.
@@ -272,6 +299,37 @@ Function IsInstallationNeeded(strSetupVersion, strSetupArchitecture, strSystemAr
    End If
 End Function
 
+Function IsThereEnoughMemory(nSmallMemorySize)
+   Dim colSettings, nTotalPhysicalMemory, objComputer, objWMIService
+   IsThereEnoughMemory = True
+   If (nSmallMemorySize = "") Then
+      Exit Function
+   ElseIf (CInt(nSmallMemorySize) <= 0) Then
+      Exit Function
+   End If
+   On Error Resume Next
+   Set objWMIService = GetObject("winmgmts:" & "{impersonationLevel=impersonate}!\\.\root\cimv2")
+   If Err.Number = 0 Then
+      Set colSettings = objWMIService.ExecQuery ("Select * from Win32_ComputerSystem")
+      If Err.Number = 0 Then
+         For Each objComputer in colSettings
+             nTotalPhysicalMemory = objComputer.TotalPhysicalMemory / (1024 * 1024)
+             If nTotalPhysicalMemory > Int(nTotalPhysicalMemory) Then
+                nTotalPhysicalMemory = Int(nTotalPhysicalMemory) + 1
+             End If
+             ShowMessage("Physical memory detected: " & nTotalPhysicalMemory & " MiB")
+             If nTotalPhysicalMemory < CInt(nSmallMemorySize) Then
+                IsThereEnoughMemory = False
+             End If
+         Next
+      Else
+         Err.Clear
+      End If
+   Else
+      Err.Clear
+   End If
+End Function
+
 Function IsSelectedForce()
    If LCase(Force) <> "no" Then
       ShowMessage("Installation forced: " & SetupVersion)
@@ -389,6 +447,15 @@ If (strSystemArchitecture = "x86") And (SetupArchitecture = "x64") Then
    ShowMessage("It isn't possible to execute a 64-bit setup on a 32-bit operative system.")
    ShowMessage("Deployment aborted!")
    WScript.Quit 3
+End If
+
+' Check whether there is enough memory to make use of SetupOptions
+If Not IsThereEnoughMemory(SetupSmallMemory) Then
+   ' There is not enough memory
+   ' Use SetupOptionsSmallMemory instead of SetupOptions
+   ShowMessage("There is not enough memory (less than " & SetupSmallMemory & " MiB).")
+   ShowMessage("  ->  Using SetupOptionsSmallMemory instead of SetupOptions...")
+   SetupOptions = SetupOptionsSmallMemory
 End If
 
 If IsSelectedForce() Or IsInstallationNeeded(SetupVersion, SetupArchitecture, strSystemArchitecture) Then
