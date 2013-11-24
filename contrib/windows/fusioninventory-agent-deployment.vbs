@@ -54,7 +54,8 @@
 
 Option Explicit
 Dim Force, Verbose
-Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
+Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, _
+    SetupOptionsLowMemory, SetupLowMemory, SetupVersion
 
 '
 '
@@ -86,7 +87,7 @@ SetupLocation = "http://freefr.dl.sourceforge.net/project/fiawi/2.3.x/2.3.4"
 SetupVersion = "2.3.4"
 
 ' SetupArchitecture
-'    The setup architecture can be 'x86', 'x64' or 'Auto'
+'    The setup architecture can be 'x86', 'x64' or 'Auto'.
 '
 '    If you set SetupArchitecture = "Auto" be sure that both installers are in
 '    the same SetupLocation.
@@ -95,11 +96,46 @@ SetupArchitecture = "Auto"
 
 ' SetupOptions
 '    Consult the installer documentation to know its list of options.
+'    You can find it in the following sites:
+'
+'       http://www.fusioninventory.org/documentation/agent/installation/windows/
+'       http://www.fusioninventory.org/documentation/agent/installation/windows/windows-installer-2.3.x-command-line
+'
+'    Remember that to realize a silent installation you must indicate at least
+'    the options '/S' and '/acceptlicense'.
+'
+'       SetupOptions = "/acceptlicense /S ..."
 '
 '    You should use simple quotes (') to set between quotation marks those values
 '    that require it; double quotes (") doesn't work with UNCs.
 '
 SetupOptions = "/acceptlicense /runnow /server='http://glpi.yourcompany.com/glpi/plugins/fusioninventory/' /S"
+
+' SetupOptionsLowMemory
+'    Like SetupOptions but for systems with a low memory size.
+'
+'    Perhaps, in systems with a low memory, you prefer to do a different
+'    installation, for example, running the agent as a Windows Tasks instead of
+'    as a Windows Service, or installing only some agent tasks.
+'
+'    You can bypass this feature of three different ways:
+'
+'       By setting SetupLowMemory to 0
+'       By setting SetupOptionsLowMemory to SetupOptions
+'       Or both thing at time to be totally sure
+'
+SetupOptionsLowMemory = "/acceptlicense /runnow /server='http://glpi.yourcompany.com/glpi/plugins/fusioninventory/' " & _
+                        "/execmode=task /task-hourly-modifier=4 /installtasks=inventory /S"
+
+' SetupLowMemory
+'    Sets the memory limit in MiBytes below which SetupOptionsLowMemory comes into play.
+'
+'    SetupOptions will be always used if
+'
+'       SetupLowMemory is equal to 0 or
+'       SetupLowMemory is great than the physical memory of the system
+'
+SetupLowMemory = "1024"
 
 ' Setup
 '    The installer file name. You should not have to modify this variable ever.
@@ -272,6 +308,37 @@ Function IsInstallationNeeded(strSetupVersion, strSetupArchitecture, strSystemAr
    End If
 End Function
 
+Function IsThereEnoughMemory(nLowMemorySize)
+   Dim colSettings, nTotalPhysicalMemory, objComputer, objWMIService
+   IsThereEnoughMemory = True
+   If (nLowMemorySize = "") Then
+      Exit Function
+   ElseIf (CInt(nLowMemorySize) <= 0) Then
+      Exit Function
+   End If
+   On Error Resume Next
+   Set objWMIService = GetObject("winmgmts:" & "{impersonationLevel=impersonate}!\\.\root\cimv2")
+   If Err.Number = 0 Then
+      Set colSettings = objWMIService.ExecQuery ("Select * from Win32_ComputerSystem")
+      If Err.Number = 0 Then
+         For Each objComputer in colSettings
+             nTotalPhysicalMemory = objComputer.TotalPhysicalMemory / (1024 * 1024)
+             If nTotalPhysicalMemory > Int(nTotalPhysicalMemory) Then
+                nTotalPhysicalMemory = Int(nTotalPhysicalMemory) + 1
+             End If
+             ShowMessage("Physical memory detected: " & nTotalPhysicalMemory & " MiB")
+             If nTotalPhysicalMemory < CInt(nLowMemorySize) Then
+                IsThereEnoughMemory = False
+             End If
+         Next
+      Else
+         Err.Clear
+      End If
+   Else
+      Err.Clear
+   End If
+End Function
+
 Function IsSelectedForce()
    If LCase(Force) <> "no" Then
       ShowMessage("Installation forced: " & SetupVersion)
@@ -389,6 +456,15 @@ If (strSystemArchitecture = "x86") And (SetupArchitecture = "x64") Then
    ShowMessage("It isn't possible to execute a 64-bit setup on a 32-bit operative system.")
    ShowMessage("Deployment aborted!")
    WScript.Quit 3
+End If
+
+' Check whether there is enough memory to make use of SetupOptions
+If Not IsThereEnoughMemory(SetupLowMemory) Then
+   ' There is not enough memory
+   ' Use SetupOptionsLowMemory instead of SetupOptions
+   ShowMessage("There is not enough memory (less than " & SetupLowMemory & " MiB).")
+   ShowMessage("  ->  Using SetupOptionsLowMemory instead of SetupOptions...")
+   SetupOptions = SetupOptionsLowMemory
 End If
 
 If IsSelectedForce() Or IsInstallationNeeded(SetupVersion, SetupArchitecture, strSystemArchitecture) Then
