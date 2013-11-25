@@ -1172,8 +1172,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => '',
-                        IFDESCR          => '',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
@@ -1591,8 +1589,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => '',
-                        IFDESCR          => '',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '0',

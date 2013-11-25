@@ -267,7 +267,7 @@ my %base_variables = (
     },
     CONTACT      => {
         mapping => 'contact',
-        default => '.1.3.6.1.2.1.1.4.0'
+        default => '.1.3.6.1.2.1.1.4.0',
     },
     COMMENTS     => {
         mapping => 'comments',
@@ -310,30 +310,37 @@ my %interface_variables = (
     IFDESCR          => {
         mapping => 'ifdescr',
         default => '.1.3.6.1.2.1.2.2.1.2',
+        type    => 'string',
     },
     IFNAME           => {
         mapping => 'ifName',
         default => '.1.3.6.1.2.1.2.2.1.2',
+        type    => 'string',
     },
     IFTYPE           => {
         mapping => 'ifType',
         default => '.1.3.6.1.2.1.2.2.1.3',
+        type    => 'constant',
     },
     IFMTU            => {
         mapping => 'ifmtu',
         default => '.1.3.6.1.2.1.2.2.1.4',
+        type    => 'count',
     },
     IFSPEED          => {
         mapping => 'ifspeed',
         default => '.1.3.6.1.2.1.2.2.1.5',
+        type    => 'count',
     },
     IFSTATUS         => {
         mapping => 'ifstatus',
         default => '.1.3.6.1.2.1.2.2.1.8',
+        type    => 'constant',
     },
     IFINTERNALSTATUS => {
         mapping => 'ifinternalstatus',
         default => '.1.3.6.1.2.1.2.2.1.7',
+        type    => 'constant',
     },
     IFLASTCHANGE     => {
         mapping => 'iflastchange',
@@ -342,30 +349,37 @@ my %interface_variables = (
     IFINOCTETS       => {
         mapping => 'ifinoctets',
         default => '.1.3.6.1.2.1.2.2.1.10',
+        type    => 'count',
     },
     IFOUTOCTETS      => {
         mapping => 'ifoutoctets',
         default => '.1.3.6.1.2.1.2.2.1.16',
+        type    => 'count',
     },
     IFINERRORS       => {
         mapping => 'ifinerrors',
         default => '.1.3.6.1.2.1.2.2.1.14',
+        type    => 'count',
     },
     IFOUTERRORS      => {
         mapping => 'ifouterrors',
         default => '.1.3.6.1.2.1.2.2.1.20',
+        type    => 'count',
     },
     MAC              => {
         mapping => 'ifPhysAddress',
         default => '.1.3.6.1.2.1.2.2.1.6',
+        type    => 'mac',
     },
     IFPORTDUPLEX     => {
         mapping => 'portDuplex',
-        default => '.1.3.6.1.2.1.10.7.2.1.19'
+        default => '.1.3.6.1.2.1.10.7.2.1.19',
+        type    => 'constant',
     },
     IFALIAS          => {
         mapping => 'ifAlias',
         default => '.1.3.6.1.2.1.31.1.1.1.18',
+        type    => 'string',
     },
 );
 
@@ -865,17 +879,21 @@ sub _setGenericProperties {
         next unless $oid;
         my $results = $snmp->walk($oid);
         next unless $results;
+
+        my $type = $variable->{type};
         # each result matches the following scheme:
         # $prefix.$i = $value, with $i as port id
         while (my ($suffix, $value) = each %{$results}) {
-            if ($key eq 'MAC') {
-                $value = getCanonicalMacAddress($value);
-            }
-            if ($key eq 'IFSTATUS' or $key eq 'IFTYPE' or $key eq 'IFINTERNALSTATUS') {
-                $value = getCanonicalNumber($value);
-            }
-            if ($key eq 'IFALIAS') {
-                next unless $value;
+            if ($type) {
+                if ($type eq 'mac') {
+                    $value = getCanonicalMacAddress($value);
+                } elsif ($type eq 'constant') {
+                    $value = getCanonicalConstant($value);
+                } elsif ($type eq 'string') {
+                    next unless $value;
+                } elsif ($type eq 'count') {
+                    next unless _isInteger($value);
+                }
             }
             $ports->{$suffix}->{$key} = $value if defined $value;
         }
@@ -1098,7 +1116,7 @@ sub _isInteger {
     $_[0] =~ /^[+-]?\d+$/;
 }
 
-sub getCanonicalNumber {
+sub getCanonicalConstant {
     my ($value) = @_;
 
     return $value if _isInteger($value);
