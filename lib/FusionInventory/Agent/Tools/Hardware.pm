@@ -317,7 +317,8 @@ my %base_variables = (
 my %interface_variables = (
     IFNUMBER         => {
         mapping => 'ifIndex',
-        default => '.1.3.6.1.2.1.2.2.1.1'
+        default => '.1.3.6.1.2.1.2.2.1.1',
+        type    => 'none'
     },
     IFDESCR          => {
         mapping => 'ifdescr',
@@ -357,6 +358,7 @@ my %interface_variables = (
     IFLASTCHANGE     => {
         mapping => 'iflastchange',
         default => '.1.3.6.1.2.1.2.2.1.9',
+        type    => 'none'
     },
     IFINOCTETS       => {
         mapping => 'ifinoctets',
@@ -888,18 +890,13 @@ sub _setGenericProperties {
         my $type = $variable->{type};
         # each result matches the following scheme:
         # $prefix.$i = $value, with $i as port id
-        while (my ($suffix, $value) = each %{$results}) {
-            if ($type) {
-                if ($type eq 'mac') {
-                    $value = getCanonicalMacAddress($value);
-                } elsif ($type eq 'constant') {
-                    $value = getCanonicalConstant($value);
-                } elsif ($type eq 'string') {
-                    next unless $value;
-                } elsif ($type eq 'count') {
-                    next unless _isInteger($value);
-                }
-            }
+        while (my ($suffix, $raw_value) = each %{$results}) {
+            my $value =
+                $type eq 'mac'      ? getCanonicalMacAddress($raw_value) :
+                $type eq 'constant' ? getCanonicalConstant($raw_value)   :
+                $type eq 'string'   ? getCanonicalString($raw_value)     :
+                $type eq 'count'    ? getCanonicalCount($raw_value)      :
+                                      $raw_value;
             $ports->{$suffix}->{$key} = $value if defined $value;
         }
     }
