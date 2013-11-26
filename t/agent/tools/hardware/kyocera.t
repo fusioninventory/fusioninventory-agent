@@ -9,280 +9,6 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Test::Hardware;
 
 my %tests = (
-    'kyocera/TASKalfa-820.walk' => [
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'TASKalfa 820',
-            MAC          => '00:C0:EE:31:84:6B'
-        },
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'TASKalfa 820',
-            MAC          => '00:C0:EE:31:84:6B'
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Kyocera',
-                TYPE         => 'PRINTER',
-                ID           => undef,
-                MODEL        => 'CD 1182_DC 2182',
-                IPS          => {
-                    IP => [
-                        '172.20.3.24',
-                    ],
-                },
-                UPTIME       => '(11310876) 1 day, 7:25:08.76',
-                COMMENTS     => 'KYOCERA MITA Printing System'
-            },
-            CARTRIDGES => {
-                WASTETONER       => '100',
-            },
-            PAGECOUNTERS => {
-                TOTAL       => '561540',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'eth0',
-                        IFDESCR          => 'eth0',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1514',
-                        IP               => '172.20.3.24',
-                        MAC              => '00:C0:EE:31:84:6B',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                    },
-                ]
-            },
-        }
-    ],
-    'kyocera/TASKalfa-181.walk' => [
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'TASKalfa 181',
-            MAC          => '00:C0:EE:2F:0D:D9'
-        },
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'TASKalfa 181',
-            MAC          => '00:C0:EE:2F:0D:D9'
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Kyocera',
-                TYPE         => 'PRINTER',
-                ID           => undef,
-                MODEL        => 'CD 1218_DC 2218',
-                IPS          => {
-                    IP => [
-                        '172.20.3.38',
-                    ],
-                },
-                UPTIME       => '(17673056) 2 days, 1:05:30.56',
-                COMMENTS     => 'KYOCERA MITA Printing System'
-            },
-            CARTRIDGES => {
-                WASTETONER       => '100',
-            },
-            PAGECOUNTERS => {
-                TOTAL       => '20100',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'eth0',
-                        IFDESCR          => 'eth0',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1514',
-                        IP               => '172.20.3.38',
-                        MAC              => '00:C0:EE:2F:0D:D9',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                    },
-                ]
-            },
-        }
-    ],
-    'kyocera/FS-2000D.1.walk' => [
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'FS-2000D',
-            MAC          => '00:C0:EE:6A:96:DD',
-        },
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'FS-2000D',
-            MAC          => '00:C0:EE:6A:96:DD',
-            MODELSNMP    => 'Printer0351',
-            FIRMWARE     => undef,
-            SERIAL       => 'XLM7Y21506',
-        },
-        {
-            INFO => {
-                SERIAL       => 'XLM7Y21506',
-                ID           => undef,
-                COMMENTS     => 'KYOCERA MITA Printing System',
-                MODEL        => 'FS-2000D',
-                MANUFACTURER => 'Kyocera',
-                MEMORY       => 0,
-                TYPE         => 'PRINTER',
-                IPS          => {
-                    IP => [
-                        '172.20.3.51',
-                    ],
-                },
-                UPTIME       => '(19416556) 2 days, 5:56:05.56'
-            },
-            CARTRIDGES => {
-                WASTETONER => 100,
-                TONERBLACK => 75
-            },
-            PAGECOUNTERS => {
-                TOTAL       => '72657',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'eth0',
-                        IFDESCR          => 'eth0',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1514',
-                        IP               => '172.20.3.51',
-                        MAC              => '00:C0:EE:6A:96:DD',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                    },
-                ]
-            },
-        }
-    ],
-    'kyocera/FS-2000D.2.walk' => [
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'FS-2000D',
-            MAC          => '00:C0:EE:6A:97:07',
-        },
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'FS-2000D',
-            MAC          => '00:C0:EE:6A:97:07',
-            MODELSNMP    => 'Printer0351',
-            FIRMWARE     => undef,
-            SERIAL       => 'XLM7Y21503',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Kyocera',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'KYOCERA MITA Printing System',
-                SERIAL       => 'XLM7Y21503',
-                MODEL        => 'FS-2000D',
-                ID           => undef,
-                MEMORY       => 0,
-                IPS          => {
-                    IP => [
-                        '172.20.3.4',
-                    ],
-                },
-                UPTIME       => '(749216) 2:04:52.16'
-            },
-            CARTRIDGES  => {
-                TONERBLACK => 37,
-                WASTETONER => 100
-            },
-            PAGECOUNTERS => {
-                TOTAL       => '13300',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'eth0',
-                        IFDESCR          => 'eth0',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1514',
-                        IP               => '172.20.3.4',
-                        MAC              => '00:C0:EE:6A:97:07',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                    },
-                ]
-            },
-        }
-    ],
-    'kyocera/utax_ta.walk' => [
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'UTAX_TA Printing System',
-            MAC          => '00:C0:EE:80:DD:2D',
-        },
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'UTAX_TA Printing System',
-            MAC          => '00:C0:EE:80:DD:2D',
-            MODELSNMP    => 'Networking2073',
-            FIRMWARE     => undef,
-            SERIAL       => 'Q250Z01068',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Kyocera',
-                TYPE         => 'NETWORKING',
-                MODEL        => undef,
-                SERIAL       => 'Q250Z01068',
-                COMMENTS     => 'UTAX_TA Printing System',
-                IPS          => {
-                    IP => [
-                        '10.104.154.211',
-                    ],
-                },
-                UPTIME       => '(281437) 0:46:54.37',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'eth0',
-                        IFDESCR          => 'eth0',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '10.104.154.211',
-                        MAC              => '00:C0:EE:80:DD:2D',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '25318524',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '18480',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
     'kyocera/F-5350DN.1.walk' => [
         {
             MANUFACTURER => 'Kyocera',
@@ -298,26 +24,26 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'FS-C5350DN',
+                COMMENTS     => 'KYOCERA MITA Printing System',
                 IPS          => {
                     IP => [
                         '128.93.22.16',
                     ],
                 },
                 UPTIME       => '(55544038) 6 days, 10:17:20.38',
-                COMMENTS     => 'KYOCERA MITA Printing System'
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
             },
             PAGECOUNTERS => {
-                TOTAL       => '66867',
+                TOTAL      => '66867',
             },
             PORTS => {
-               PORT => [
+                PORT => [
                     {
                         IFNUMBER         => '1',
                         IFNAME           => 'lnPci0',
@@ -336,7 +62,7 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                 ]
-            }
+            },
         }
     ],
     'kyocera/F-5350DN.2.walk' => [
@@ -354,23 +80,23 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'FS-C5350DN',
+                COMMENTS     => 'KYOCERA MITA Printing System',
                 IPS          => {
                     IP => [
                         '128.93.22.52',
                     ],
                 },
                 UPTIME       => '(44432286) 5 days, 3:25:22.86',
-                COMMENTS     => 'KYOCERA MITA Printing System'
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
             },
             PAGECOUNTERS => {
-                TOTAL       => '59608',
+                TOTAL      => '59608',
             },
             PORTS => {
                 PORT => [
@@ -410,23 +136,23 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Kyocera',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'FS-C5350DN',
+                COMMENTS     => 'KYOCERA MITA Printing System',
                 IPS          => {
                     IP => [
                         '128.93.22.70',
                     ],
                 },
                 UPTIME       => '(3145468) 8:44:14.68',
-                COMMENTS     => 'KYOCERA MITA Printing System'
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
             },
             PAGECOUNTERS => {
-                TOTAL       => '71686',
+                TOTAL      => '71686',
             },
             PORTS => {
                 PORT => [
@@ -445,6 +171,280 @@ my %tests = (
                         IFINOCTETS       => '0',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'kyocera/FS-2000D.1.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-2000D',
+            MAC          => '00:C0:EE:6A:96:DD',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-2000D',
+            MAC          => '00:C0:EE:6A:96:DD',
+            MODELSNMP    => 'Printer0351',
+            FIRMWARE     => undef,
+            SERIAL       => 'XLM7Y21506',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'PRINTER',
+                MODEL        => 'FS-2000D',
+                COMMENTS     => 'KYOCERA MITA Printing System',
+                MEMORY       => '0',
+                SERIAL       => 'XLM7Y21506',
+                IPS          => {
+                    IP => [
+                        '172.20.3.51',
+                    ],
+                },
+                UPTIME       => '(19416556) 2 days, 5:56:05.56',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '75',
+                WASTETONER       => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '72657',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1514',
+                        IP               => '172.20.3.51',
+                        MAC              => '00:C0:EE:6A:96:DD',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                    },
+                ]
+            },
+        }
+    ],
+    'kyocera/FS-2000D.2.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-2000D',
+            MAC          => '00:C0:EE:6A:97:07',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'FS-2000D',
+            MAC          => '00:C0:EE:6A:97:07',
+            MODELSNMP    => 'Printer0351',
+            FIRMWARE     => undef,
+            SERIAL       => 'XLM7Y21503',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'PRINTER',
+                MODEL        => 'FS-2000D',
+                COMMENTS     => 'KYOCERA MITA Printing System',
+                MEMORY       => '0',
+                SERIAL       => 'XLM7Y21503',
+                IPS          => {
+                    IP => [
+                        '172.20.3.4',
+                    ],
+                },
+                UPTIME       => '(749216) 2:04:52.16',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '37',
+                WASTETONER       => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '13300',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1514',
+                        IP               => '172.20.3.4',
+                        MAC              => '00:C0:EE:6A:97:07',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                    },
+                ]
+            },
+        }
+    ],
+    'kyocera/TASKalfa-181.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'TASKalfa 181',
+            MAC          => '00:C0:EE:2F:0D:D9',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'TASKalfa 181',
+            MAC          => '00:C0:EE:2F:0D:D9',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'PRINTER',
+                MODEL        => 'CD 1218_DC 2218',
+                COMMENTS     => 'KYOCERA MITA Printing System',
+                IPS          => {
+                    IP => [
+                        '172.20.3.38',
+                    ],
+                },
+                UPTIME       => '(17673056) 2 days, 1:05:30.56',
+            },
+            CARTRIDGES => {
+                WASTETONER       => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '20100',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1514',
+                        IP               => '172.20.3.38',
+                        MAC              => '00:C0:EE:2F:0D:D9',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                    },
+                ]
+            },
+        }
+    ],
+    'kyocera/TASKalfa-820.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'TASKalfa 820',
+            MAC          => '00:C0:EE:31:84:6B',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'TASKalfa 820',
+            MAC          => '00:C0:EE:31:84:6B',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'PRINTER',
+                MODEL        => 'CD 1182_DC 2182',
+                COMMENTS     => 'KYOCERA MITA Printing System',
+                IPS          => {
+                    IP => [
+                        '172.20.3.24',
+                    ],
+                },
+                UPTIME       => '(11310876) 1 day, 7:25:08.76',
+            },
+            CARTRIDGES => {
+                WASTETONER       => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '561540',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1514',
+                        IP               => '172.20.3.24',
+                        MAC              => '00:C0:EE:31:84:6B',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                    },
+                ]
+            },
+        }
+    ],
+    'kyocera/utax_ta.walk' => [
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'UTAX_TA Printing System',
+            MAC          => '00:C0:EE:80:DD:2D',
+        },
+        {
+            MANUFACTURER => 'Kyocera',
+            TYPE         => 'NETWORKING',
+            DESCRIPTION  => 'UTAX_TA Printing System',
+            MAC          => '00:C0:EE:80:DD:2D',
+            MODELSNMP    => 'Networking2073',
+            FIRMWARE     => undef,
+            SERIAL       => 'Q250Z01068',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Kyocera',
+                TYPE         => 'NETWORKING',
+                MODEL        => undef,
+                COMMENTS     => 'UTAX_TA Printing System',
+                SERIAL       => 'Q250Z01068',
+                IPS          => {
+                    IP => [
+                        '10.104.154.211',
+                    ],
+                },
+                UPTIME       => '(281437) 0:46:54.37',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth0',
+                        IFDESCR          => 'eth0',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        IP               => '10.104.154.211',
+                        MAC              => '00:C0:EE:80:DD:2D',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '25318524',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '18480',
                         IFOUTERRORS      => '0',
                     },
                 ]

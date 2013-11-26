@@ -9,6 +9,120 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Test::Hardware;
 
 my %tests = (
+    'epson/AL-C1100.walk' => [
+        {
+            MANUFACTURER => 'Epson',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'AL-C1100',
+            SNMPHOSTNAME => 'AL-C1100-0DBECC',
+            MAC          => '00:00:48:0D:BE:CC',
+            MODEL        => 'AL-C1100',
+        },
+        {
+            MANUFACTURER => 'Epson',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'AL-C1100',
+            SNMPHOSTNAME => 'AL-C1100-0DBECC',
+            MAC          => '00:00:48:0D:BE:CC',
+            MODEL        => 'AL-C1100',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Epson',
+                TYPE         => 'PRINTER',
+                MODEL        => 'AL-C1100',
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-C1100-0DBECC',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '43065',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'AL-C1100 Hard Ver.1.00 Firm Ver.2.30',
+                        IFDESCR          => 'AL-C1100 Hard Ver.1.00 Firm Ver.2.30',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:00:48:0D:BE:CC',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '7216616',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1030873',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'epson/AL-C3900.walk' => [
+        {
+            MANUFACTURER => 'Epson',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'EPSON AL-C3900',
+            MAC          => '00:26:AB:9F:78:8B',
+            MODEL        => 'AL-C3900',
+        },
+        {
+            MANUFACTURER => 'Epson',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'EPSON AL-C3900',
+            MAC          => '00:26:AB:9F:78:8B',
+            MODEL        => 'AL-C3900',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Epson',
+                TYPE         => 'PRINTER',
+                MODEL        => 'AL-C3900',
+                COMMENTS     => 'EPSON AL-C3900',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '20',
+                TONERCYAN        => '45',
+                TONERMAGENTA     => '23',
+                TONERYELLOW      => '25',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '7758',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet 10Base-T/100Base-TX/1000Base-T',
+                        IFDESCR          => 'Ethernet 10Base-T/100Base-TX/1000Base-T',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:26:AB:9F:78:8B',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2156405224',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '110909374',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Software Loopback',
+                        IFDESCR          => 'Software Loopback',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
     'epson/AL-C4200.1.walk' => [
         {
             MANUFACTURER => 'Epson',
@@ -24,34 +138,34 @@ my %tests = (
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-0ED50E',
             MAC          => '20:04:48:0E:D5:0E',
-            MODEL        => 'AL-C4200',
             MODELSNMP    => 'Printer0125',
+            MODEL        => 'AL-C4200',
             FIRMWARE     => undef,
-            SERIAL       => 'GMYZ106952'
+            SERIAL       => 'GMYZ106952',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
-                MEMORY       => 128,
                 MODEL        => 'AL-C4200',
-                LOCATION     => 'Aff. Generales',
-                ID           => undef,
-                SERIAL       => 'GMYZ106952',
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-C4200-0ED50E',
+                MEMORY       => '128',
+                LOCATION     => 'Aff. Generales',
+                SERIAL       => 'GMYZ106952',
                 IPS          => {
                     IP => [
                         '172.17.3.81',
                     ],
                 },
-                UPTIME       => '(166086480) 19 days, 5:21:04.80'
+                UPTIME       => '(166086480) 19 days, 5:21:04.80',
             },
             CARTRIDGES => {
-                TONERCYAN    => 100,
-                TONERYELLOW  => 84,
-                TONERBLACK   => 45,
-                TONERMAGENTA => 99
+                TONERBLACK       => '45',
+                TONERCYAN        => '100',
+                TONERMAGENTA     => '99',
+                TONERYELLOW      => '84',
             },
             PAGECOUNTERS => {
                 TOTAL      => '73309',
@@ -74,7 +188,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '19488839',
                         IFOUTERRORS      => '0',
-                    }
+                    },
                 ]
             },
         }
@@ -95,33 +209,33 @@ my %tests = (
             SNMPHOSTNAME => 'AL-C4200-D14BC7',
             MAC          => '00:00:48:D1:4B:C7',
             MODELSNMP    => 'Printer0125',
+            MODEL        => 'AL-C4200',
             FIRMWARE     => undef,
             SERIAL       => 'GMYZ106565',
-            MODEL        => 'AL-C4200',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
-                MEMORY       => 128,
                 MODEL        => 'AL-C4200',
-                LOCATION     => 'PPV - 2eme Etage',
-                ID           => undef,
-                SERIAL       => 'GMYZ106565',
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-C4200-D14BC7',
+                MEMORY       => '128',
+                LOCATION     => 'PPV - 2eme Etage',
+                SERIAL       => 'GMYZ106565',
                 IPS          => {
                     IP => [
                         '172.17.3.212',
                     ],
                 },
-                UPTIME       => '(17442921) 2 days, 0:27:09.21'
+                UPTIME       => '(17442921) 2 days, 0:27:09.21',
             },
             CARTRIDGES => {
-                TONERMAGENTA => 71,
-                TONERBLACK   => 96,
-                TONERCYAN    => 49,
-                TONERYELLOW  => 98
+                TONERBLACK       => '96',
+                TONERCYAN        => '49',
+                TONERMAGENTA     => '71',
+                TONERYELLOW      => '98',
             },
             PAGECOUNTERS => {
                 TOTAL      => '60163',
@@ -164,12 +278,38 @@ my %tests = (
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D1C30E',
             MAC          => '00:00:48:D1:C3:0E',
-            MODEL        => 'AL-C4200',
             MODELSNMP    => 'Printer0125',
+            MODEL        => 'AL-C4200',
             FIRMWARE     => undef,
-            SERIAL       => 'GMYZ106833'
+            SERIAL       => 'GMYZ106833',
         },
         {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Epson',
+                TYPE         => 'PRINTER',
+                MODEL        => 'AL-C4200',
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-C4200-D1C30E',
+                MEMORY       => '128',
+                LOCATION     => 'PPV - 1er Etage',
+                SERIAL       => 'GMYZ106833',
+                IPS          => {
+                    IP => [
+                        '172.17.3.213',
+                    ],
+                },
+                UPTIME       => '(311511314) 36 days, 1:18:33.14',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '37',
+                TONERCYAN        => '14',
+                TONERMAGENTA     => '63',
+                TONERYELLOW      => '46',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '80918',
+            },
             PORTS => {
                 PORT => [
                     {
@@ -191,32 +331,6 @@ my %tests = (
                     },
                 ]
             },
-            CARTRIDGES => {
-                TONERMAGENTA => 63,
-                TONERCYAN    => 14,
-                TONERBLACK   => 37,
-                TONERYELLOW  => 46
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '80918',
-            },
-            INFO => {
-                MANUFACTURER => 'Epson',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
-                MEMORY       => 128,
-                NAME         => 'AL-C4200-D1C30E',
-                SERIAL       => 'GMYZ106833',
-                LOCATION     => 'PPV - 1er Etage',
-                MODEL        => 'AL-C4200',
-                ID           => undef,
-                IPS          => {
-                    IP => [
-                        '172.17.3.213',
-                    ],
-                },
-                UPTIME       => '(311511314) 36 days, 1:18:33.14'
-            }
         }
     ],
     'epson/AL-C4200.4.walk' => [
@@ -234,27 +348,33 @@ my %tests = (
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D362D2',
             MAC          => '00:00:48:D3:62:D2',
-            MODEL        => 'AL-C4200',
             MODELSNMP    => 'Printer0125',
+            MODEL        => 'AL-C4200',
             FIRMWARE     => undef,
-            SERIAL       => 'GMYZ108184'
+            SERIAL       => 'GMYZ108184',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 MODEL        => 'AL-C4200',
-                ID           => undef,
-                SERIAL       => 'GMYZ108184',
-                MEMORY       => 128,
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-C4200-D362D2',
+                MEMORY       => '128',
+                SERIAL       => 'GMYZ108184',
                 IPS          => {
                     IP => [
                         '172.17.3.102',
                     ],
                 },
-                UPTIME       => '(140436577) 16 days, 6:06:05.77'
+                UPTIME       => '(140436577) 16 days, 6:06:05.77',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '32',
+                TONERCYAN        => '82',
+                TONERMAGENTA     => '65',
+                TONERYELLOW      => '64',
             },
             PAGECOUNTERS => {
                 TOTAL      => '38054',
@@ -280,126 +400,6 @@ my %tests = (
                     },
                 ]
             },
-            CARTRIDGES => {
-                TONERCYAN    => 82,
-                TONERMAGENTA => 65,
-                TONERBLACK   => 32,
-                TONERYELLOW  => 64
-            },
-        }
-    ],
-    'epson/AL-C3900.walk' => [
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'EPSON AL-C3900',
-            MAC          => '00:26:AB:9F:78:8B',
-            MODEL        => 'AL-C3900',
-        },
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'EPSON AL-C3900',
-            MAC          => '00:26:AB:9F:78:8B',
-            MODEL        => 'AL-C3900',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Epson',
-                TYPE         => 'PRINTER',
-                ID           => undef,
-                MODEL        => 'AL-C3900',
-                COMMENTS     => 'EPSON AL-C3900',
-            },
-            CARTRIDGES => {
-                TONERBLACK   => '20',
-                TONERMAGENTA => '23',
-                TONERCYAN    => '45',
-                TONERYELLOW  => '25',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '7758',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Ethernet 10Base-T/100Base-TX/1000Base-T',
-                        IFDESCR          => 'Ethernet 10Base-T/100Base-TX/1000Base-T',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        MAC              => '00:26:AB:9F:78:8B',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '2156405224',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '110909374',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Software Loopback',
-                        IFDESCR          => 'Software Loopback',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'epson/AL-C1100.walk' => [
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C1100',
-            SNMPHOSTNAME => 'AL-C1100-0DBECC',
-            MAC          => '00:00:48:0D:BE:CC',
-            MODEL        => 'AL-C1100',
-        },
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C1100',
-            SNMPHOSTNAME => 'AL-C1100-0DBECC',
-            MAC          => '00:00:48:0D:BE:CC',
-            MODEL        => 'AL-C1100',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Epson',
-                TYPE         => 'PRINTER',
-                ID           => undef,
-                MODEL        => 'AL-C1100',
-                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
-                NAME         => 'AL-C1100-0DBECC',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '43065',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'AL-C1100 Hard Ver.1.00 Firm Ver.2.30',
-                        IFDESCR          => 'AL-C1100 Hard Ver.1.00 Firm Ver.2.30',
-                        IFTYPE           => '6',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        MAC              => '00:00:48:0D:BE:CC',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '7216616',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '1030873',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
         }
     ],
     'epson/AL-M2400.1.walk' => [
@@ -421,9 +421,9 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'AL-M2400',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-M2400-7FDDAF',
@@ -473,9 +473,9 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'AL-M2400',
                 COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-M2400-7FDDAF',

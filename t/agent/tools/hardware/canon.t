@@ -15,7 +15,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Canon LBP7660C /P',
             SNMPHOSTNAME => 'LBP7660C',
-            MAC          => '88:87:17:82:CA:B1'
+            MAC          => '88:87:17:82:CA:B1',
         },
         {
             MANUFACTURER => 'Canon',
@@ -25,19 +25,19 @@ my %tests = (
             MAC          => '88:87:17:82:CA:B1',
             MODELSNMP    => 'Printer0790',
             FIRMWARE     => undef,
-            SERIAL       => undef
+            SERIAL       => undef,
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Canon',
                 TYPE         => 'PRINTER',
-                ID           => undef,
-                NAME         => 'LBP7660C',
                 MODEL        => 'Canon LBP7660C',
                 COMMENTS     => 'Canon LBP7660C /P',
+                NAME         => 'LBP7660C',
             },
             CARTRIDGES => {
-                WASTETONER   => '100',
+                WASTETONER       => '100',
             },
             PAGECOUNTERS => {
                 TOTAL      => '3950',
@@ -68,23 +68,23 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Canon MF4500 Series /P',
             SNMPHOSTNAME => 'MF4500 Series',
-            MAC          => '00:1E:8F:B0:9B:7D'
+            MAC          => '00:1E:8F:B0:9B:7D',
         },
         {
             MANUFACTURER => 'Canon',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Canon MF4500 Series /P',
             SNMPHOSTNAME => 'MF4500 Series',
-            MAC          => '00:1E:8F:B0:9B:7D'
+            MAC          => '00:1E:8F:B0:9B:7D',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Canon',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'Canon MF4500 Series',
                 COMMENTS     => 'Canon MF4500 Series /P',
-                NAME         => 'MF4500 Series'
+                NAME         => 'MF4500 Series',
             },
             PAGECOUNTERS => {
                 TOTAL      => '659',

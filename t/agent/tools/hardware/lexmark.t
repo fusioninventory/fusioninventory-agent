@@ -25,17 +25,17 @@ my %tests = (
             MAC          => '00:04:00:9C:6C:25',
             MODELSNMP    => 'Printer0643',
             FIRMWARE     => undef,
-            SERIAL       => 'LXK3936A4'
+            SERIAL       => 'LXK3936A4',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Lexmark',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
-                MEMORY       => 32,
-                ID           => undef,
-                NAME         => 'LXK3936A4',
                 MODEL        => 'Lexmark T622 41XT225  543.006',
+                COMMENTS     => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
+                NAME         => 'LXK3936A4',
+                MEMORY       => '32',
                 SERIAL       => 'LXK3936A4',
                 IPS          => {
                     IP => [
@@ -43,13 +43,13 @@ my %tests = (
                         '172.31.201.21',
                     ],
                 },
-                UPTIME       => '(256604241) 29 days, 16:47:22.41'
+                UPTIME       => '(256604241) 29 days, 16:47:22.41',
             },
             CARTRIDGES => {
-                TONERBLACK => 100
+                TONERBLACK       => '100',
             },
             PAGECOUNTERS => {
-                TOTAL => '68116',
+                TOTAL      => '68116',
             },
             PORTS => {
                 PORT => [
@@ -110,9 +110,9 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Lexmark',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'X792',
                 COMMENTS     => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
                 NAME         => 'ET0021B7427721',
@@ -124,7 +124,7 @@ my %tests = (
                 TONERYELLOW      => '90',
             },
             PAGECOUNTERS => {
-                TOTAL => '25292',
+                TOTAL      => '25292',
             },
             PORTS => {
                 PORT => [

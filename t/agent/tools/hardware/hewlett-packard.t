@@ -9,6 +9,600 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Test::Hardware;
 
 my %tests = (
+    'hewlett-packard/c0302a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            SNMPHOSTNAME => 'c0302a',
+            MAC          => '00:25:B3:FA:8F:83',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            SNMPHOSTNAME => 'c0302a',
+            MAC          => '00:25:B3:FA:8F:83',
+            MODELSNMP    => 'Printer0414',
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHS311977',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP2025dn',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311977,FN:MB14HZB,SVCID:20055,PID:HP Color LaserJet CP2025dn',
+                NAME         => 'c0302a',
+                MEMORY       => '64',
+                LOCATION     => 'HP Color LaserJet CP2025dn',
+                SERIAL       => 'CNHS311977',
+                IPS          => {
+                    IP => [
+                        '128.93.22.19',
+                    ],
+                },
+                UPTIME       => '(3731317) 10:21:53.17',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '50',
+                TONERCYAN        => '25',
+                TONERMAGENTA     => '50',
+                TONERYELLOW      => '50',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '2',
+                COLOR      => '55',
+                RECTOVERSO => '8',
+                TOTAL      => '57',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '15135176',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '15211522',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.19',
+                        MAC              => '00:25:B3:FA:8F:83',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(505) 0:00:05.05',
+                        IFINOCTETS       => '468693900',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2643170',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/c1c202a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            SNMPHOSTNAME => 'c1C202a',
+            MAC          => '00:25:B3:FA:8F:69',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            SNMPHOSTNAME => 'c1C202a',
+            MAC          => '00:25:B3:FA:8F:69',
+            MODELSNMP    => 'Printer0414',
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHS311991',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP2025dn',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311991,FN:MB14HYJ,SVCID:20048,PID:HP Color LaserJet CP2025dn',
+                NAME         => 'c1C202a',
+                MEMORY       => '64',
+                LOCATION     => 'HP Color LaserJet CP2025dn',
+                SERIAL       => 'CNHS311991',
+                IPS          => {
+                    IP => [
+                        '128.93.22.236',
+                    ],
+                },
+                UPTIME       => '(127613450) 14 days, 18:28:54.50',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '53',
+                TONERCYAN        => '97',
+                TONERMAGENTA     => '88',
+                TONERYELLOW      => '92',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '238',
+                COLOR      => '1788',
+                RECTOVERSO => '1',
+                TOTAL      => '2026',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '461172803',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '459898940',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.236',
+                        MAC              => '00:25:B3:FA:8F:69',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(505) 0:00:05.05',
+                        IFINOCTETS       => '472915891',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '26628688',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/c1c203a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            SNMPHOSTNAME => 'c1c203a',
+            MAC          => '00:25:B3:FA:8F:CC',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            SNMPHOSTNAME => 'c1c203a',
+            MAC          => '00:25:B3:FA:8F:CC',
+            MODELSNMP    => 'Printer0414',
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHS311990',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP2025dn',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311990,FN:MB14J1J,SVCID:20034,PID:c1c203a',
+                NAME         => 'c1c203a',
+                MEMORY       => '64',
+                LOCATION     => 'c1c203a',
+                SERIAL       => 'CNHS311990',
+                IPS          => {
+                    IP => [
+                        '128.93.22.87',
+                    ],
+                },
+                UPTIME       => '(79171032) 9 days, 3:55:10.32',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '58',
+                TONERCYAN        => '59',
+                TONERMAGENTA     => '48',
+                TONERYELLOW      => '63',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '13',
+                COLOR      => '1006',
+                RECTOVERSO => '5',
+                TOTAL      => '1019',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '286476140',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '321945244',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.87',
+                        MAC              => '00:25:B3:FA:8F:CC',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(505) 0:00:05.05',
+                        IFINOCTETS       => '3617972664',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '10805204',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/c1c205a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            SNMPHOSTNAME => 'NPIFA9F1C',
+            MAC          => '00:25:B3:FA:9F:1C',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            SNMPHOSTNAME => 'NPIFA9F1C',
+            MAC          => '00:25:B3:FA:9F:1C',
+            MODELSNMP    => 'Printer0414',
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHS311979',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP2025dn',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311979,FN:MB14J3Z,SVCID:20045,PID:c1c205a',
+                NAME         => 'NPIFA9F1C',
+                MEMORY       => '64',
+                LOCATION     => 'c1c205a',
+                SERIAL       => 'CNHS311979',
+                IPS          => {
+                    IP => [
+                        '128.93.22.225',
+                    ],
+                },
+                UPTIME       => '(3023313454) 349 days, 22:05:34.54',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '68',
+                TONERCYAN        => '95',
+                TONERMAGENTA     => '96',
+                TONERYELLOW      => '97',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '156',
+                COLOR      => '860',
+                RECTOVERSO => '257',
+                TOTAL      => '1016',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2236119563',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2235897962',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.225',
+                        MAC              => '00:25:B3:FA:9F:1C',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(286315045) 33 days, 3:19:10.45',
+                        IFINOCTETS       => '1769857822',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1974950967',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/c1c206a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            SNMPHOSTNAME => 'c1C206a',
+            MAC          => '00:25:B3:FA:9F:E6',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            SNMPHOSTNAME => 'c1C206a',
+            MAC          => '00:25:B3:FA:9F:E6',
+            MODELSNMP    => 'Printer0414',
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHS312016',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP2025dn',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS312016,FN:MB14JA3,SVCID:20045,PID:HP Color LaserJet CP2025dn',
+                NAME         => 'c1C206a',
+                MEMORY       => '64',
+                LOCATION     => 'HP Color LaserJet CP2025dn',
+                SERIAL       => 'CNHS312016',
+                IPS          => {
+                    IP => [
+                        '128.93.22.224',
+                    ],
+                },
+                UPTIME       => '(2665726) 7:24:17.26',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '91',
+                TONERCYAN        => '92',
+                TONERMAGENTA     => '91',
+                TONERYELLOW      => '93',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '0',
+                COLOR      => '0',
+                RECTOVERSO => '0',
+                TOTAL      => '0',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
+                        IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '9602930',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '9591687',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.224',
+                        MAC              => '00:25:B3:FA:9F:E6',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(505) 0:00:05.05',
+                        IFINOCTETS       => '419831787',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1072100',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/c2406a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Business Inkjet 2800',
+            SNMPHOSTNAME => 'NPIE6C1AF',
+            MAC          => '00:1B:78:E6:C1:AF',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Business Inkjet 2800',
+            SNMPHOSTNAME => 'NPIE6C1AF',
+            MAC          => '00:1B:78:E6:C1:AF',
+            MODELSNMP    => 'Printer0248',
+            FIRMWARE     => undef,
+            SERIAL       => 'SG7B302EAD',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP Business Inkjet 2800',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
+                NAME         => 'NPIE6C1AF',
+                MEMORY       => '96',
+                SERIAL       => 'SG7B302EAD',
+                IPS          => {
+                    IP => [
+                        '128.93.22.214',
+                    ],
+                },
+                UPTIME       => '(315536000) 36 days, 12:29:20.00',
+            },
+            CARTRIDGES => {
+                CARTRIDGEBLACK   => '9',
+                CARTRIDGECYAN    => '35',
+                CARTRIDGEMAGENTA => '35',
+                CARTRIDGEYELLOW  => '35',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '2978',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.214',
+                        MAC              => '00:1B:78:E6:C1:AF',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(4008636142) 463 days, 23:06:01.42',
+                        IFINOCTETS       => '3188012392',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '157851660',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFTYPE           => '24',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '32768',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(4008636142) 463 days, 23:06:01.42',
+                        IFINOCTETS       => '670842604',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '36631382',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/c2407a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Business Inkjet 2800',
+            SNMPHOSTNAME => 'NPIE6C19A',
+            MAC          => '00:1B:78:E6:C1:9A',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP Business Inkjet 2800',
+            SNMPHOSTNAME => 'NPIE6C19A',
+            MAC          => '00:1B:78:E6:C1:9A',
+            MODELSNMP    => 'Printer0248',
+            FIRMWARE     => undef,
+            SERIAL       => 'SG7B302E92',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP Business Inkjet 2800',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
+                NAME         => 'NPIE6C19A',
+                MEMORY       => '96',
+                SERIAL       => 'SG7B302E92',
+                IPS          => {
+                    IP => [
+                        '128.93.22.129',
+                    ],
+                },
+                UPTIME       => '(15951321) 1 day, 20:18:33.21',
+            },
+            CARTRIDGES => {
+                CARTRIDGEBLACK   => '13',
+                CARTRIDGECYAN    => '27',
+                CARTRIDGEMAGENTA => '34',
+                CARTRIDGEYELLOW  => '34',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '360',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.129',
+                        MAC              => '00:1B:78:E6:C1:9A',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(4008614593) 463 days, 23:02:25.93',
+                        IFINOCTETS       => '2901678960',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '284193866',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13',
+                        IFTYPE           => '24',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '32768',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '4008636142',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4008636142',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
     'hewlett-packard/Inkjet_2800.01.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -25,17 +619,17 @@ my %tests = (
             MAC          => '00:11:0A:F5:CC:DC',
             MODELSNMP    => 'Printer0248',
             FIRMWARE     => undef,
-            SERIAL       => undef
+            SERIAL       => undef,
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
-                MEMORY       => 96,
-                ID           => undef,
-                NAME         => 'HPIJ2800-02',
                 MODEL        => 'HP Business Inkjet 2800',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
+                NAME         => 'HPIJ2800-02',
+                MEMORY       => '96',
                 IPS          => {
                     IP => [
                         '10.104.102.194',
@@ -44,13 +638,13 @@ my %tests = (
                 UPTIME       => '(45821440) 5 days, 7:16:54.40',
             },
             CARTRIDGES => {
-                CARTRIDGEMAGENTA => 29,
-                CARTRIDGEBLACK   => 12,
-                CARTRIDGECYAN    => 32,
-                CARTRIDGEYELLOW  => 33
+                CARTRIDGEBLACK   => '12',
+                CARTRIDGECYAN    => '32',
+                CARTRIDGEMAGENTA => '29',
+                CARTRIDGEYELLOW  => '33',
             },
             PAGECOUNTERS => {
-                TOTAL => '24724',
+                TOTAL      => '24724',
             },
             PORTS => {
                 PORT => [
@@ -110,13 +704,13 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
                 MODEL        => 'HP Business Inkjet 2800',
-                MEMORY       => 96,
-                ID           => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
                 NAME         => 'HPIJ2800-01',
+                MEMORY       => '96',
                 IPS          => {
                     IP => [
                         '10.104.109.230',
@@ -125,13 +719,13 @@ my %tests = (
                 UPTIME       => '(85884840) 9 days, 22:34:08.40',
             },
             CARTRIDGES => {
-                CARTRIDGEMAGENTA => 32,
-                CARTRIDGEBLACK   => 10,
-                CARTRIDGEYELLOW  => 27,
-                CARTRIDGECYAN    => 32
+                CARTRIDGEBLACK   => '10',
+                CARTRIDGECYAN    => '32',
+                CARTRIDGEMAGENTA => '32',
+                CARTRIDGEYELLOW  => '27',
             },
             PAGECOUNTERS => {
-                TOTAL => '24304',
+                TOTAL      => '24304',
             },
             PORTS => {
                 PORT => [
@@ -171,13 +765,353 @@ my %tests = (
             },
         }
     ],
+    'hewlett-packard/l0214a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'l0214a',
+            MAC          => '00:17:08:91:95:E4',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'l0214a',
+            MAC          => '00:17:08:91:95:E4',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+                NAME         => 'l0214a',
+                IPS          => {
+                    IP => [
+                        '128.93.22.125',
+                    ],
+                },
+                UPTIME       => '(27930670) 3 days, 5:35:06.70',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.125',
+                        MAC              => '00:17:08:91:95:E4',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '4231070113',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '358458889',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/l0700a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI934D66',
+            MAC          => '00:17:A4:93:4D:66',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI934D66',
+            MAC          => '00:17:A4:93:4D:66',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+                NAME         => 'NPI934D66',
+                IPS          => {
+                    IP => [
+                        '128.93.22.1',
+                    ],
+                },
+                UPTIME       => '(40406032) 4 days, 16:14:20.32',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.1',
+                        MAC              => '00:17:A4:93:4D:66',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2697548956',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2323517464',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/l1803a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI9195E8',
+            MAC          => '00:17:08:91:95:E8',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI9195E8',
+            MAC          => '00:17:08:91:95:E8',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+                NAME         => 'NPI9195E8',
+                IPS          => {
+                    IP => [
+                        '128.93.22.78',
+                    ],
+                },
+                UPTIME       => '(4016837) 11:09:28.37',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.78',
+                        MAC              => '00:17:08:91:95:E8',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '518877292',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '326948288',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/l1b110a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI810884',
+            MAC          => '00:1B:78:21:EF:DF',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI810884',
+            MAC          => '00:1B:78:21:EF:DF',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+                NAME         => 'NPI810884',
+                IPS          => {
+                    IP => [
+                        '128.93.22.101',
+                    ],
+                },
+                UPTIME       => '(13141846) 1 day, 12:30:18.46',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.101',
+                        MAC              => '00:1B:78:21:EF:DF',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2493348234',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '107189645',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/l2520a.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI934D6D',
+            MAC          => '00:17:A4:93:4D:6D',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+            SNMPHOSTNAME => 'NPI934D6D',
+            MAC          => '00:17:A4:93:4D:6D',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+                NAME         => 'NPI934D6D',
+                IPS          => {
+                    IP => [
+                        '128.93.10.40',
+                    ],
+                },
+                UPTIME       => '(3561333) 9:53:33.33',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '128.93.10.40',
+                        MAC              => '00:17:A4:93:4D:6D',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2266764957',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '119345262',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
     'hewlett-packard/LaserJet_100_colorMFP_M175nw.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 100 colorMFP M175nw',
             SNMPHOSTNAME => 'NPIF6FA4A',
-            MAC          => 'B4:B5:2F:F6:FA:4A'
+            MAC          => 'B4:B5:2F:F6:FA:4A',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -191,20 +1125,20 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet 100 colorMFP M175nw',
-                ID           => undef,
-                NAME         => 'NPIF6FA4A',
                 MODEL        => 'HP LaserJet 100 colorMFP M175nw',
+                COMMENTS     => 'HP LaserJet 100 colorMFP M175nw',
+                NAME         => 'NPIF6FA4A',
                 SERIAL       => 'NPIF6FA4A',
             },
             CARTRIDGES => {
-                TONERBLACK   => 31,
-                TONERYELLOW  => 82,
-                TONERMAGENTA => 82,
-                DRUMBLACK    => 96,
-                TONERCYAN    => 83
+                TONERBLACK       => '31',
+                TONERCYAN        => '83',
+                TONERMAGENTA     => '82',
+                TONERYELLOW      => '82',
+                DRUMBLACK        => '96',
             },
             PAGECOUNTERS => {
                 TOTAL      => '367',
@@ -286,15 +1220,15 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'hp LaserJet 1300n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14,CIDATE 09/24/2003',
                 NAME         => 'impbe94',
             },
             PAGECOUNTERS => {
-                TOTAL => '49530',
+                TOTAL      => '49530',
             },
             PORTS => {
                 PORT => [
@@ -349,16 +1283,16 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
-                SERIAL       => 'CNHW59NG6N',
                 MODEL        => 'hp LaserJet 1320 series',
-                ID           => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
                 NAME         => 'NPI61044B',
+                SERIAL       => 'CNHW59NG6N',
             },
             CARTRIDGES => {
-                TONERBLACK     => 0
+                TONERBLACK       => '0',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '1935',
@@ -417,16 +1351,16 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 1320 series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
-                SERIAL       => 'CNHW625K6Z',
                 NAME         => 'NPI9A3FC7',
-                ID           => undef,
-                MODEL        => 'hp LaserJet 1320 series'
+                SERIAL       => 'CNHW625K6Z',
             },
             CARTRIDGES => {
-                TONERBLACK     => 92
+                TONERBLACK       => '92',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '2685',
@@ -485,20 +1419,20 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
-                SERIAL       => 'CNBW49FHC4',
-                NAME         => 'NPIC68F5E',
-                ID           => undef,
                 MODEL        => 'hp LaserJet 1320 series',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '5868',
-                RECTOVERSO => '258',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
+                NAME         => 'NPIC68F5E',
+                SERIAL       => 'CNBW49FHC4',
             },
             CARTRIDGES => {
-                TONERBLACK     => 34,
+                TONERBLACK       => '34',
+            },
+            PAGECOUNTERS => {
+                RECTOVERSO => '258',
+                TOTAL      => '5868',
             },
             PORTS => {
                 PORT => [
@@ -548,15 +1482,15 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'HP LaserJet 2100 Series',
-                LOCATION     => 'impbe92',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
+                LOCATION     => 'impbe92',
             },
             PAGECOUNTERS => {
-                TOTAL => '65436',
+                TOTAL      => '65436',
             },
             PORTS => {
                 PORT => [
@@ -593,15 +1527,15 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'HP LaserJet 2100 Series',
-                LOCATION     => 'impbe92',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
+                LOCATION     => 'impbe92',
             },
             PAGECOUNTERS => {
-                TOTAL => '65516',
+                TOTAL      => '65516',
             },
             PORTS => {
                 PORT => [
@@ -642,7 +1576,6 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => 'HP LaserJet 2100 Series',
-                UPTIME       => '(319831420) 37 days, 0:25:14.20',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
                 MEMORY       => '8',
                 IPS          => {
@@ -650,9 +1583,10 @@ my %tests = (
                         '128.93.22.63',
                     ],
                 },
+                UPTIME       => '(319831420) 37 days, 0:25:14.20',
             },
             PAGECOUNTERS => {
-                TOTAL => '27649',
+                TOTAL      => '27649',
             },
             PORTS => {
                 PORT => [
@@ -696,7 +1630,6 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => 'HP LaserJet 2100 Series',
-                UPTIME       => '(165740930) 19 days, 4:23:29.30',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
                 MEMORY       => '8',
                 IPS          => {
@@ -704,9 +1637,10 @@ my %tests = (
                         '128.93.22.61',
                     ],
                 },
+                UPTIME       => '(165740930) 19 days, 4:23:29.30',
             },
             PAGECOUNTERS => {
-                TOTAL => '46041',
+                TOTAL      => '46041',
             },
             PORTS => {
                 PORT => [
@@ -752,18 +1686,18 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => 'HP LaserJet 2100 Series',
-                UPTIME       => '(13841080) 1 day, 14:26:50.80',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM C.25.80,JETDIRECT,JD115,EEPROM V.28.06,CIDATE 04/27/2004',
-                MEMORY       => '8',
                 NAME         => 'l1618a',
+                MEMORY       => '8',
                 IPS          => {
                     IP => [
                         '128.93.22.29',
                     ],
                 },
+                UPTIME       => '(13841080) 1 day, 14:26:50.80',
             },
             PAGECOUNTERS => {
-                TOTAL => '3846',
+                TOTAL      => '3846',
             },
             PORTS => {
                 PORT => [
@@ -822,7 +1756,6 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => 'HP LaserJet 2100 Series',
-                UPTIME       => '(20422550) 2 days, 8:43:45.50',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD30,EEPROM G.08.20',
                 MEMORY       => '8',
                 IPS          => {
@@ -830,9 +1763,10 @@ my %tests = (
                         '128.93.22.144',
                     ],
                 },
+                UPTIME       => '(20422550) 2 days, 8:43:45.50',
             },
             PAGECOUNTERS => {
-                TOTAL => '15352',
+                TOTAL      => '15352',
             },
             PORTS => {
                 PORT => [
@@ -961,7 +1895,7 @@ my %tests = (
                 RECTOVERSO => '2066',
                 TOTAL      => '23551',
             },
-           PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -1077,22 +2011,22 @@ my %tests = (
             MAC          => '00:1A:4B:18:64:A0',
             MODELSNMP    => 'Printer0093',
             FIRMWARE     => undef,
-            SERIAL       => undef
+            SERIAL       => undef,
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet 2600n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 NAME         => 'NPI1864A0',
-                MODEL        => 'HP Color LaserJet 2600n',
-                ID           => undef,
             },
             CARTRIDGES => {
-                TONERBLACK   => 72,
-                TONERCYAN    => 82,
-                TONERMAGENTA => 87,
-                TONERYELLOW  => 65,
+                TONERBLACK       => '72',
+                TONERCYAN        => '82',
+                TONERMAGENTA     => '87',
+                TONERYELLOW      => '65',
             },
             PORTS => {
                 PORT => [
@@ -1147,23 +2081,23 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet 3600',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31,CIDATE 06/17/2005',
                 NAME         => 'NPI6F72C5',
-                MODEL        => 'HP Color LaserJet 3600',
-                ID           => undef,
                 SERIAL       => 'CNXJD65169',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '63',
+                TONERCYAN        => '44',
+                TONERMAGENTA     => '46',
+                TONERYELLOW      => '45',
             },
             PAGECOUNTERS => {
                 COLOR      => '9946',
                 TOTAL      => '11012',
-            },
-            CARTRIDGES => {
-                TONERMAGENTA => 46,
-                TONERYELLOW  => 45,
-                TONERBLACK   => 63,
-                TONERCYAN    => 44
             },
             PORTS => {
                 PORT => [
@@ -1218,21 +2152,21 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet 4000 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
+                NAME         => 'inspiron8',
                 LOCATION     => 'lwcompta',
                 SERIAL       => 'NLEW064384',
-                MODEL        => 'HP LaserJet 4000 Series',
-                ID           => undef,
-                NAME         => 'inspiron8',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '100',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '152',
                 TOTAL      => '20653',
-            },
-            CARTRIDGES => {
-                TONERBLACK => 100
             },
             PORTS => {
                 PORT => [
@@ -1274,24 +2208,24 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet 400 color M451dn',
                 COMMENTS     => 'HP LaserJet 400 color M451dn',
                 NAME         => 'NPIF67498',
-                ID           => undef,
-                MODEL        => 'HP LaserJet 400 color M451dn',
-                SERIAL       => 'CNCF300725'
+                SERIAL       => 'CNCF300725',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '53',
+                TONERCYAN        => '68',
+                TONERMAGENTA     => '73',
             },
             PAGECOUNTERS => {
                 COLOR      => '507',
                 RECTOVERSO => '0',
-                PRINTTOTAL => '541',
                 TOTAL      => '541',
-            },
-            CARTRIDGES => {
-                TONERMAGENTA    => 73,
-                TONERCYAN       => 68,
-                TONERBLACK      => 53,
+                PRINTTOTAL => '541',
             },
             PORTS => {
                 PORT => [
@@ -1335,27 +2269,27 @@ my %tests = (
             MAC          => '00:30:C1:8C:D5:6C',
             MODELSNMP    => 'Printer0615',
             FIRMWARE     => undef,
-            SERIAL       => 'NL7N093250'
+            SERIAL       => 'NL7N093250',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet 4050 Series ',
-                SERIAL       => 'NL7N093250',
-                NAME         => 'imprimanteBR',
                 MODEL        => 'HP LaserJet 4050 Series ',
-                ID           => undef,
-                LOCATION     => 'impbe93'
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '252311',
-                RECTOVERSO => '0',
+                COMMENTS     => 'HP LaserJet 4050 Series ',
+                NAME         => 'imprimanteBR',
+                LOCATION     => 'impbe93',
+                SERIAL       => 'NL7N093250',
             },
             CARTRIDGES => {
-                TONERBLACK     => 0
+                TONERBLACK       => '0',
             },
-           PORTS => {
+            PAGECOUNTERS => {
+                RECTOVERSO => '0',
+                TOTAL      => '252311',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -1452,25 +2386,25 @@ my %tests = (
             MAC          => '00:01:E6:A1:A7:81',
             MODELSNMP    => 'Printer0386',
             FIRMWARE     => undef,
-            SERIAL       => 'CNFX305387'
+            SERIAL       => 'CNFX305387',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4200',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09,CIDATE 07/24/2003',
-                SERIAL       => 'CNFX305387',
                 NAME         => 'IMP41200n0',
-                ID           => undef,
-                MODEL        => 'hp LaserJet 4200'
+                SERIAL       => 'CNFX305387',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '95',
+                MAINTENANCEKIT   => '71',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '0',
                 TOTAL      => '60803',
-            },
-            CARTRIDGES => {
-                TONERBLACK     => 95,
-                MAINTENANCEKIT => 71
             },
             PORTS => {
                 PORT => [
@@ -1521,24 +2455,24 @@ my %tests = (
             MAC          => '00:11:85:D9:F6:C7',
             MODELSNMP    => 'Printer0078',
             FIRMWARE     => undef,
-            SERIAL       => 'CNCXG01622'
+            SERIAL       => 'CNCXG01622',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43,CIDATE 06/23/2004',
                 NAME         => 'impKirat',
                 SERIAL       => 'CNCXG01622',
-                ID           => undef,
-                MODEL        => 'hp LaserJet 4250',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '52',
+                MAINTENANCEKIT   => '56',
             },
             PAGECOUNTERS => {
                 TOTAL      => '99802',
-            },
-            CARTRIDGES => {
-                TONERBLACK     => 52,
-                MAINTENANCEKIT => 56
             },
             PORTS => {
                 PORT => [
@@ -1610,7 +2544,7 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK       => '86',
-                MAINTENANCEKIT  => '73',
+                MAINTENANCEKIT   => '73',
             },
             PAGECOUNTERS => {
                 TOTAL      => '60480',
@@ -1686,11 +2620,11 @@ my %tests = (
                         '128.93.8.82',
                     ],
                 },
-                UPTIME       => '(22683627) 2 days, 15:00:36.27'
+                UPTIME       => '(22683627) 2 days, 15:00:36.27',
             },
             CARTRIDGES => {
                 TONERBLACK       => '61',
-                MAINTENANCEKIT  => '25',
+                MAINTENANCEKIT   => '25',
             },
             PAGECOUNTERS => {
                 TOTAL      => '167089',
@@ -1730,7 +2664,7 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/LaserJet_4250.04.walk' => [
@@ -1770,12 +2704,12 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK       => '25',
-                MAINTENANCEKIT  => '41',
+                MAINTENANCEKIT   => '41',
             },
             PAGECOUNTERS => {
                 TOTAL      => '131919',
             },
-             PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -1850,7 +2784,7 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK       => '23',
-                MAINTENANCEKIT  => '55',
+                MAINTENANCEKIT   => '55',
             },
             PAGECOUNTERS => {
                 TOTAL      => '101394',
@@ -1930,7 +2864,7 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK       => '84',
-                MAINTENANCEKIT  => '87',
+                MAINTENANCEKIT   => '87',
             },
             PAGECOUNTERS => {
                 TOTAL      => '27635',
@@ -2010,7 +2944,7 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK       => '58',
-                MAINTENANCEKIT  => '57',
+                MAINTENANCEKIT   => '57',
             },
             PAGECOUNTERS => {
                 TOTAL      => '95148',
@@ -2090,7 +3024,7 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK       => '5',
-                MAINTENANCEKIT  => '53',
+                MAINTENANCEKIT   => '53',
             },
             PAGECOUNTERS => {
                 TOTAL      => '104887',
@@ -2170,7 +3104,7 @@ my %tests = (
             },
             CARTRIDGES => {
                 TONERBLACK       => '83',
-                MAINTENANCEKIT  => '81',
+                MAINTENANCEKIT   => '81',
             },
             PAGECOUNTERS => {
                 TOTAL      => '41756',
@@ -2213,6 +3147,86 @@ my %tests = (
             },
         }
     ],
+    'hewlett-packard/LaserJet_4250dtn.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'L3000A',
+            MAC          => '00:14:38:E2:12:5F',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'hp LaserJet 4250',
+            SNMPHOSTNAME => 'L3000A',
+            MAC          => '00:14:38:E2:12:5F',
+            MODELSNMP    => 'Printer0078',
+            FIRMWARE     => undef,
+            SERIAL       => 'CNHXC65951',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'hp LaserJet 4250',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.25,CIDATE 01/09/2012',
+                NAME         => 'L3000A',
+                MEMORY       => '208',
+                SERIAL       => 'CNHXC65951',
+                IPS          => {
+                    IP => [
+                        '128.93.22.79',
+                    ],
+                },
+                UPTIME       => '(2286542) 6:21:05.42',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '24',
+                MAINTENANCEKIT   => '86',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '30844',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.25',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.25',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.25',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.25',
+                        IFTYPE           => '6',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IP               => '128.93.22.79',
+                        MAC              => '00:14:38:E2:12:5F',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '680237212',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2461952',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
     'hewlett-packard/LaserJet_500.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2229,17 +3243,17 @@ my %tests = (
             MAC          => '2C:76:8A:41:9F:6E',
             MODELSNMP    => 'Printer0628',
             FIRMWARE     => undef,
-            SERIAL       => 'SE00V4T'
+            SERIAL       => 'SE00V4T',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet 500 color M551',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
                 NAME         => 'NPI419F6E',
-                MODEL        => 'HP LaserJet 500 color M551',
                 SERIAL       => 'SE00V4T',
-                ID           => undef,
             },
             PAGECOUNTERS => {
                 BLACK      => '1685',
@@ -2295,28 +3309,28 @@ my %tests = (
             MAC          => '00:1B:78:F0:F4:47',
             MODELSNMP    => 'Printer0614',
             FIRMWARE     => undef,
-            SERIAL       => 'SG96304AD8'
+            SERIAL       => 'SG96304AD8',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'hp color LaserJet 5550 ',
-                ID           => undef,
-                SERIAL       => 'SG96304AD8',
                 MODEL        => 'hp color LaserJet 5550 ',
+                COMMENTS     => 'hp color LaserJet 5550 ',
                 NAME         => 'IDD116',
+                SERIAL       => 'SG96304AD8',
             },
             CARTRIDGES => {
-                TONERYELLOW  => 96,
-                TONERCYAN    => 95,
-                TONERBLACK   => 12,
-                TONERMAGENTA => 95
+                TONERBLACK       => '12',
+                TONERCYAN        => '95',
+                TONERMAGENTA     => '95',
+                TONERYELLOW      => '96',
             },
             PAGECOUNTERS => {
-                RECTOVERSO => '0',
                 BLACK      => '102279',
                 COLOR      => '92447',
+                RECTOVERSO => '0',
                 TOTAL      => '194821',
             },
             PORTS => {
@@ -2369,9 +3383,9 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'HP LaserJet 600 M603',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
                 NAME         => 'lj1',
@@ -2418,20 +3432,20 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj2',
-            MAC          => 'E8:39:35:90:22:AC'
+            MAC          => 'E8:39:35:90:22:AC',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj2',
-            MAC          => 'E8:39:35:90:22:AC'
+            MAC          => 'E8:39:35:90:22:AC',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'HP LaserJet 600 M603',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
                 NAME         => 'lj2',
@@ -2488,24 +3502,24 @@ my %tests = (
             MAC          => '00:1F:29:27:1E:90',
             MODELSNMP    => 'Printer0396',
             FIRMWARE     => undef,
-            SERIAL       => 'CNB885QNXP'
+            SERIAL       => 'CNB885QNXP',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CM1312nfi MFP',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNB885QNXP,FN:NL106CH,SVCID:18334,PID:HP Color LaserJet CM1312nfi MFP',
                 NAME         => 'NPI271E90',
                 LOCATION     => 'HP Color LaserJet CM1312nfi MFP',
-                MODEL        => 'HP Color LaserJet CM1312nfi MFP',
                 SERIAL       => 'CNB885QNXP',
-                ID           => undef
             },
             CARTRIDGES => {
-                TONERCYAN    => 35,
-                TONERBLACK   => 68,
-                TONERMAGENTA => 89,
-                TONERYELLOW  => 59
+                TONERBLACK       => '68',
+                TONERCYAN        => '35',
+                TONERMAGENTA     => '89',
+                TONERYELLOW      => '59',
             },
             PAGECOUNTERS => {
                 TOTAL      => '20179',
@@ -2559,22 +3573,22 @@ my %tests = (
             MAC          => '68:B5:99:AD:61:8E',
             MODELSNMP    => 'Printer0575',
             FIRMWARE     => undef,
-            SERIAL       => undef
+            SERIAL       => undef,
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNF8BC11FK,FN:QD30T49,SVCID:21055,PID:HP LaserJet CM1415fn',
-                ID           => undef,
                 MODEL        => 'HP LaserJet CM1415fn',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNF8BC11FK,FN:QD30T49,SVCID:21055,PID:HP LaserJet CM1415fn',
                 NAME         => 'B536-lwc237-Fax',
             },
             CARTRIDGES => {
-                TONERCYAN    => 35,
-                TONERMAGENTA => 31,
-                TONERYELLOW  => 33,
-                TONERBLACK   => 25
+                TONERBLACK       => '25',
+                TONERCYAN        => '35',
+                TONERMAGENTA     => '31',
+                TONERYELLOW      => '33',
             },
             PAGECOUNTERS => {
                 BLACK      => '760',
@@ -2631,27 +3645,27 @@ my %tests = (
             MAC          => '00:23:7D:7F:5D:71',
             MODELSNMP    => 'Printer0550',
             FIRMWARE     => undef,
-            SERIAL       => 'CNFN9BYG41'
+            SERIAL       => 'CNFN9BYG41',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CM2320fxi MFP',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
+                NAME         => 'NPI7F5D71',
                 LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
                 SERIAL       => 'CNFN9BYG41',
-                NAME         => 'NPI7F5D71',
-                MODEL        => 'HP Color LaserJet CM2320fxi MFP',
-                ID           => undef,
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
             },
             CARTRIDGES => {
-                TONERBLACK   => 43,
-                TONERMAGENTA => 41,
-                TONERYELLOW  => 18,
-                TONERCYAN    => 46
+                TONERBLACK       => '43',
+                TONERCYAN        => '46',
+                TONERMAGENTA     => '41',
+                TONERYELLOW      => '18',
             },
             PAGECOUNTERS => {
-                TOTAL => '25632',
+                TOTAL      => '25632',
             },
             PORTS => {
                 PORT => [
@@ -2702,27 +3716,27 @@ my %tests = (
             MAC          => '00:23:7D:7F:5D:71',
             MODELSNMP    => 'Printer0550',
             FIRMWARE     => undef,
-            SERIAL       => 'CNFN9BYG41'
+            SERIAL       => 'CNFN9BYG41',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                SERIAL       => 'CNFN9BYG41',
-                LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
-                NAME         => 'NPI7F5D71',
-                ID           => undef,
                 MODEL        => 'HP Color LaserJet CM2320fxi MFP',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
+                NAME         => 'NPI7F5D71',
+                LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
+                SERIAL       => 'CNFN9BYG41',
             },
             CARTRIDGES => {
-                TONERBLACK   => 46,
-                TONERMAGENTA => 46,
-                TONERYELLOW  => 15,
-                TONERCYAN    => 52
+                TONERBLACK       => '46',
+                TONERCYAN        => '52',
+                TONERMAGENTA     => '46',
+                TONERYELLOW      => '15',
             },
             PAGECOUNTERS => {
-                TOTAL => '21862',
+                TOTAL      => '21862',
             },
             PORTS => {
                 PORT => [
@@ -2773,27 +3787,27 @@ my %tests = (
             MAC          => '00:23:7D:82:88:33',
             MODELSNMP    => 'Printer0550',
             FIRMWARE     => undef,
-            SERIAL       => 'CNDN99YG0D'
+            SERIAL       => 'CNDN99YG0D',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                SERIAL       => 'CNDN99YG0D',
-                LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
-                NAME         => 'NPI828833',
-                ID           => undef,
                 MODEL        => 'HP Color LaserJet CM2320fxi MFP',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNDN99YG0D,FN:NN40AH0,SVCID:19312,PID:HP Color LaserJet CM2320fxi MFP',
+                NAME         => 'NPI828833',
+                LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
+                SERIAL       => 'CNDN99YG0D',
             },
             CARTRIDGES => {
-                TONERMAGENTA => 87,
-                TONERBLACK   => 31,
-                TONERCYAN    => 96,
-                TONERYELLOW  => 17
+                TONERBLACK       => '31',
+                TONERCYAN        => '96',
+                TONERMAGENTA     => '87',
+                TONERYELLOW      => '17',
             },
             PAGECOUNTERS => {
-                TOTAL => '7308',
+                TOTAL      => '7308',
             },
             PORTS => {
                 PORT => [
@@ -2848,26 +3862,26 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFTBDZ0FN,FN:PT60J59,SVCID:21046,PID:HP Color LaserJet CM2320nf MFP',
                 MODEL        => 'HP Color LaserJet CM2320nf MFP',
-                SERIAL       => 'CNFTBDZ0FN',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFTBDZ0FN,FN:PT60J59,SVCID:21046,PID:HP Color LaserJet CM2320nf MFP',
                 NAME         => 'NPIB302A7',
-                ID           => undef,
-                LOCATION     => 'HP Color LaserJet CM2320nf MFP'
-            },
-            PAGECOUNTERS => {
-                COLOR      => '789',
-                BLACK      => '141',
-                RECTOVERSO => '0',
-                TOTAL      => '930',
+                LOCATION     => 'HP Color LaserJet CM2320nf MFP',
+                SERIAL       => 'CNFTBDZ0FN',
             },
             CARTRIDGES => {
-                TONERYELLOW  => 56,
-                TONERMAGENTA => 55,
-                TONERBLACK   => 23,
-                TONERCYAN    => 50
+                TONERBLACK       => '23',
+                TONERCYAN        => '50',
+                TONERMAGENTA     => '55',
+                TONERYELLOW      => '56',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '141',
+                COLOR      => '789',
+                RECTOVERSO => '0',
+                TOTAL      => '930',
             },
             PORTS => {
                 PORT => [
@@ -2922,14 +3936,14 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 MODEL        => 'HP LaserJet CP1025nw',
-                LOCATION     => ' ',
-                ID           => undef,
-                NAME         => 'NPIA6032E',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 CONTACT      => ' ',
+                NAME         => 'NPIA6032E',
+                LOCATION     => ' ',
             },
             PAGECOUNTERS => {
                 BLACK      => '91',
@@ -2988,26 +4002,26 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP2025dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCSF01053,FN:MB01ZGH,SVCID:18347,PID:HP Color LaserJet CP2025dn',
-                LOCATION     => 'HP Color LaserJet CP2025dn',
                 NAME         => 'NPI2AD743',
-                ID           => undef,
+                LOCATION     => 'HP Color LaserJet CP2025dn',
                 SERIAL       => 'CNCSF01053',
-                MODEL        => 'HP Color LaserJet CP2025dn'
-            },
-            PAGECOUNTERS => {
-                RECTOVERSO => '2584',
-                BLACK      => '9817',
-                COLOR      => '21930',
-                TOTAL      => '31747',
             },
             CARTRIDGES => {
-                TONERYELLOW  => 34,
-                TONERCYAN    => 34,
-                TONERMAGENTA => 18,
-                TONERBLACK   => 19
+                TONERBLACK       => '19',
+                TONERCYAN        => '34',
+                TONERMAGENTA     => '18',
+                TONERYELLOW      => '34',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '9817',
+                COLOR      => '21930',
+                RECTOVERSO => '2584',
+                TOTAL      => '31747',
             },
             PORTS => {
                 PORT => [
@@ -3048,7 +4062,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPIC3D5FF',
-            MAC          => 'B4:99:BA:C3:D5:FF'
+            MAC          => 'B4:99:BA:C3:D5:FF',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3062,26 +4076,26 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS437790,FN:MB27295,SVCID:22039,PID:HP Color LaserJet CP2025dn',
                 MODEL        => 'HP Color LaserJet CP2025dn',
-                ID           => undef,
-                SERIAL       => 'CNHS437790',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS437790,FN:MB27295,SVCID:22039,PID:HP Color LaserJet CP2025dn',
                 NAME         => 'NPIC3D5FF',
-                LOCATION     => 'HP Color LaserJet CP2025dn'
+                LOCATION     => 'HP Color LaserJet CP2025dn',
+                SERIAL       => 'CNHS437790',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '89',
+                TONERCYAN        => '48',
+                TONERMAGENTA     => '33',
+                TONERYELLOW      => '24',
             },
             PAGECOUNTERS => {
                 BLACK      => '1198',
-                RECTOVERSO => '1',
                 COLOR      => '7501',
+                RECTOVERSO => '1',
                 TOTAL      => '8699',
-            },
-            CARTRIDGES => {
-                TONERYELLOW => 24,
-                TONERMAGENTA => 33,
-                TONERCYAN => 48,
-                TONERBLACK => 89
             },
             PORTS => {
                 PORT => [
@@ -3136,28 +4150,28 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP2025n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHSP65440,FN:MB303HX,SVCID:21236,PID:HP Color LaserJet CP2025n',
                 NAME         => 'NPI117008',
-                MODEL        => 'HP Color LaserJet CP2025n',
-                ID           => undef,
                 LOCATION     => 'HP Color LaserJet CP2025n',
-                SERIAL       => 'CNHSP65440'
+                SERIAL       => 'CNHSP65440',
             },
             CARTRIDGES => {
-                TONERYELLOW  => 87,
-                TONERCYAN    => 72,
-                TONERMAGENTA => 85,
-                TONERBLACK   => 41
+                TONERBLACK       => '41',
+                TONERCYAN        => '72',
+                TONERMAGENTA     => '85',
+                TONERYELLOW      => '87',
             },
             PAGECOUNTERS => {
-                COLOR      => '2309',
                 BLACK      => '1145',
+                COLOR      => '2309',
                 RECTOVERSO => '0',
                 TOTAL      => '3454',
             },
-           PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -3210,20 +4224,20 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP2025n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS404796,FN:MB04VB0,SVCID:19316,PID:HP Color LaserJet CP2025n',
-                ID           => undef,
+                NAME         => 'NPI84C481',
                 LOCATION     => 'HP Color LaserJet CP2025n',
                 SERIAL       => 'CNCS404796',
-                NAME         => 'NPI84C481',
-                MODEL        => 'HP Color LaserJet CP2025n',
             },
             CARTRIDGES => {
-                TONERBLACK   => 31,
-                TONERMAGENTA => 32,
-                TONERCYAN    => 69,
-                TONERYELLOW  => 77
+                TONERBLACK       => '31',
+                TONERCYAN        => '69',
+                TONERMAGENTA     => '32',
+                TONERYELLOW      => '77',
             },
             PAGECOUNTERS => {
                 BLACK      => '3459',
@@ -3284,26 +4298,26 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP2025n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS404796,FN:MB04VB0,SVCID:19316,PID:HP Color LaserJet CP2025n',
                 NAME         => 'NPI84C481',
-                MODEL        => 'HP Color LaserJet CP2025n',
                 LOCATION     => 'HP Color LaserJet CP2025n',
                 SERIAL       => 'CNCS404796',
-                ID           => undef
-            },
-            PAGECOUNTERS => {
-                RECTOVERSO => '0',
-                BLACK      => '3896',
-                COLOR      => '12731',
-                TOTAL      => '16627',
             },
             CARTRIDGES => {
-                TONERBLACK   => 83,
-                TONERMAGENTA => 93,
-                TONERCYAN    => 33,
-                TONERYELLOW  => 50
+                TONERBLACK       => '83',
+                TONERCYAN        => '33',
+                TONERMAGENTA     => '93',
+                TONERYELLOW      => '50',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '3896',
+                COLOR      => '12731',
+                RECTOVERSO => '0',
+                TOTAL      => '16627',
             },
             PORTS => {
                 PORT => [
@@ -3344,7 +4358,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI81E3A7',
-            MAC          => '00:21:5A:81:E3:A7'
+            MAC          => '00:21:5A:81:E3:A7',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3358,28 +4372,28 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS212370,FN:MB03SY2,SVCID:19127,PID:HP Color LaserJet CP2025n',
                 MODEL        => 'HP Color LaserJet CP2025n',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS212370,FN:MB03SY2,SVCID:19127,PID:HP Color LaserJet CP2025n',
                 NAME         => 'NPI81E3A7',
-                SERIAL       => 'CNCS212370',
                 LOCATION     => 'HP Color LaserJet CP2025n',
-                ID           => undef
+                SERIAL       => 'CNCS212370',
             },
             CARTRIDGES => {
-                TONERBLACK   => 41,
-                TONERMAGENTA => 47,
-                TONERYELLOW  => 63,
-                TONERCYAN    => 93
+                TONERBLACK       => '41',
+                TONERCYAN        => '93',
+                TONERMAGENTA     => '47',
+                TONERYELLOW      => '63',
             },
             PAGECOUNTERS => {
-                COLOR      => '16450',
                 BLACK      => '5506',
+                COLOR      => '16450',
                 RECTOVERSO => '0',
                 TOTAL      => '21956',
             },
-           PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -3432,26 +4446,26 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP2025n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHSN58554,FN:MB258FW,SVCID:21095,PID:HP Color LaserJet CP2025n',
+                NAME         => 'NPI8FA1DD',
                 LOCATION     => 'HP Color LaserJet CP2025n',
                 SERIAL       => 'CNHSN58554',
-                ID           => undef,
-                NAME         => 'NPI8FA1DD',
-                MODEL        => 'HP Color LaserJet CP2025n'
-            },
-            PAGECOUNTERS => {
-                COLOR      => '5758',
-                BLACK      => '3843',
-                RECTOVERSO => '0',
-                TOTAL      => '9601'
             },
             CARTRIDGES => {
-                TONERBLACK   => 55,
-                TONERMAGENTA => 23,
-                TONERYELLOW  => 29,
-                TONERCYAN    => 18
+                TONERBLACK       => '55',
+                TONERCYAN        => '18',
+                TONERMAGENTA     => '23',
+                TONERYELLOW      => '29',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '3843',
+                COLOR      => '5758',
+                RECTOVERSO => '0',
+                TOTAL      => '9601',
             },
             PORTS => {
                 PORT => [
@@ -3506,19 +4520,19 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67,CIDATE 06/17/2008',
-                ID           => undef,
-                SERIAL       => 'CNCT98DGJY',
-                NAME         => 'NPI85A57D',
                 MODEL        => 'HP Color LaserJet CP3525',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67,CIDATE 06/17/2008',
+                NAME         => 'NPI85A57D',
+                SERIAL       => 'CNCT98DGJY',
             },
             CARTRIDGES => {
-                TONERBLACK   => 67,
-                TONERYELLOW  => 30,
-                TONERCYAN    => 39,
-                TONERMAGENTA => 21
+                TONERBLACK       => '67',
+                TONERCYAN        => '39',
+                TONERMAGENTA     => '21',
+                TONERYELLOW      => '30',
             },
             PAGECOUNTERS => {
                 BLACK      => '7603',
@@ -3579,27 +4593,27 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP Color LaserJet CP3525',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80,CIDATE 11/03/2009',
                 NAME         => 'Corinne',
-                MODEL        => 'HP Color LaserJet CP3525',
                 SERIAL       => 'CNCTB9PHWG',
-                ID           => undef
-            },
-            PAGECOUNTERS => {
-                RECTOVERSO => '49',
-                BLACK      => '7256',
-                COLOR      => '11905',
-                TOTAL      => '19183',
             },
             CARTRIDGES => {
-                TONERYELLOW  => 8,
-                TONERCYAN    => 21,
-                TONERMAGENTA => 97,
-                TONERBLACK   => 53
+                TONERBLACK       => '53',
+                TONERCYAN        => '21',
+                TONERMAGENTA     => '97',
+                TONERYELLOW      => '8',
             },
-           PORTS => {
+            PAGECOUNTERS => {
+                BLACK      => '7256',
+                COLOR      => '11905',
+                RECTOVERSO => '49',
+                TOTAL      => '19183',
+            },
+            PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
@@ -3734,26 +4748,26 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99,CIDATE 11/26/2010',
-                ID           => undef,
-                SERIAL       => 'JPCTC8M0LJ',
                 MODEL        => 'HP Color LaserJet CP4520 Series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99,CIDATE 11/26/2010',
                 NAME         => 'NPI10DB2C',
-            },
-            PAGECOUNTERS => {
-                COLOR      => '5839',
-                BLACK      => '8881',
-                PRINTCOLOR => '5839',
-                PRINTBLACK => '8765',
-                PRINTTOTAL => '14610',
-                TOTAL      => '14604',
+                SERIAL       => 'JPCTC8M0LJ',
             },
             CARTRIDGES => {
-                TONERMAGENTA => 44,
-                TONERCYAN    => 47,
-                TONERYELLOW  => 50
+                TONERCYAN        => '47',
+                TONERMAGENTA     => '44',
+                TONERYELLOW      => '50',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '8881',
+                PRINTBLACK => '8765',
+                COLOR      => '5839',
+                PRINTCOLOR => '5839',
+                TOTAL      => '14604',
+                PRINTTOTAL => '14610',
             },
             PORTS => {
                 PORT => [
@@ -3809,9 +4823,8 @@ my %tests = (
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
                 MODEL        => 'HP LaserJet Professional M1217nfw MFP',
-                UPTIME       => '(261657629) 30 days, 6:49:36.29',
-                CONTACT      => ' ',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
+                CONTACT      => ' ',
                 NAME         => 'l2407a',
                 IPS          => {
                     IP => [
@@ -3820,6 +4833,7 @@ my %tests = (
                         '192.168.223.1',
                     ],
                 },
+                UPTIME       => '(261657629) 30 days, 6:49:36.29',
             },
             PAGECOUNTERS => {
                 TOTAL      => '919',
@@ -3900,23 +4914,23 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW898043,FN:JK5FJN3,SVCID:18327,PID:HP LaserJet P2015 Series',
-                SERIAL       => 'CNBW898043',
-                ID           => undef,
-                NAME         => 'NPI83EC85',
                 MODEL        => 'HP LaserJet P2015 Series',
-                LOCATION     => 'Boise, ID, USA'
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW898043,FN:JK5FJN3,SVCID:18327,PID:HP LaserJet P2015 Series',
+                NAME         => 'NPI83EC85',
+                LOCATION     => 'Boise, ID, USA',
+                SERIAL       => 'CNBW898043',
             },
             CARTRIDGES => {
-                TONERBLACK => 44
+                TONERBLACK       => '44',
             },
             PAGECOUNTERS => {
+                BLACK      => '36596',
                 COLOR      => '0',
                 RECTOVERSO => '0',
-                BLACK      => '36596',
-                TOTAL      => '36596'
+                TOTAL      => '36596',
             },
             PORTS => {
                 PORT => [
@@ -3957,7 +4971,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI13EE63',
-            MAC          => '00:1B:78:13:EE:63'
+            MAC          => '00:1B:78:13:EE:63',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3971,23 +4985,23 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW7BQ7BS,FN:JK44SRD,SVCID:18021,PID:HP LaserJet P2015 Series',
-                LOCATION     => 'Boise, ID, USA',
                 MODEL        => 'HP LaserJet P2015 Series',
-                SERIAL       => 'CNBW7BQ7BS',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW7BQ7BS,FN:JK44SRD,SVCID:18021,PID:HP LaserJet P2015 Series',
                 NAME         => 'NPI13EE63',
-                ID           => undef,
-            },
-            PAGECOUNTERS => {
-                COLOR      => '0',
-                RECTOVERSO => '0',
-                BLACK      => '25333',
-                TOTAL      => '25333',
+                LOCATION     => 'Boise, ID, USA',
+                SERIAL       => 'CNBW7BQ7BS',
             },
             CARTRIDGES => {
-                TONERBLACK => 59
+                TONERBLACK       => '59',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '25333',
+                COLOR      => '0',
+                RECTOVERSO => '0',
+                TOTAL      => '25333',
             },
             PORTS => {
                 PORT => [
@@ -4027,38 +5041,38 @@ my %tests = (
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2015 Series',
-            MAC          => '00:21:5A:83:EC:85',
             SNMPHOSTNAME => 'NPI83EC85',
+            MAC          => '00:21:5A:83:EC:85',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet P2015 Series',
-            MAC          => '00:21:5A:83:EC:85',
             SNMPHOSTNAME => 'NPI83EC85',
+            MAC          => '00:21:5A:83:EC:85',
             MODELSNMP    => 'Printer0394',
             FIRMWARE     => undef,
             SERIAL       => 'CNBW898043',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW898043,FN:JK5FJN3,SVCID:18327,PID:HP LaserJet P2015 Series',
                 MODEL        => 'HP LaserJet P2015 Series',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW898043,FN:JK5FJN3,SVCID:18327,PID:HP LaserJet P2015 Series',
+                NAME         => 'NPI83EC85',
                 LOCATION     => 'Boise, ID, USA',
                 SERIAL       => 'CNBW898043',
-                ID           => undef,
-                NAME         => 'NPI83EC85',
-            },
-            PAGECOUNTERS => {
-                COLOR      => '0',
-                RECTOVERSO => '0',
-                BLACK      => '36301',
-                TOTAL      => '36301',
             },
             CARTRIDGES => {
-                TONERBLACK => 50
+                TONERBLACK       => '50',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '36301',
+                COLOR      => '0',
+                RECTOVERSO => '0',
+                TOTAL      => '36301',
             },
             PORTS => {
                 PORT => [
@@ -4293,7 +5307,7 @@ my %tests = (
                         '128.93.22.22',
                     ],
                 },
-                UPTIME       => '(138093688) 15 days, 23:35:36.88'
+                UPTIME       => '(138093688) 15 days, 23:35:36.88',
             },
             CARTRIDGES => {
                 TONERBLACK       => '46',
@@ -4542,7 +5556,7 @@ my %tests = (
                         '128.93.22.197',
                     ],
                 },
-                UPTIME       => '(2901531) 8:03:35.31'
+                UPTIME       => '(2901531) 8:03:35.31',
             },
             CARTRIDGES => {
                 TONERBLACK       => '90',
@@ -4674,100 +5688,1084 @@ my %tests = (
             },
         }
     ],
-    'hewlett-packard/OfficeJet_Pro_8600.walk' => [
+    'hewlett-packard/LaserJet_P2055dn.01.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Officejet Pro 8600 N911g',
-            SNMPHOSTNAME => 'HP8C0C51',
-            MAC          => 'EC:9A:74:8C:0C:51',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI7E0932',
+            MAC          => '00:21:5A:7E:09:32',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Officejet Pro 8600 N911g',
-            SNMPHOSTNAME => 'HP8C0C51',
-            MAC          => 'EC:9A:74:8C:0C:51',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI7E0932',
+            MAC          => '00:21:5A:7E:09:32',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                ID           => undef,
-                MODEL        => 'Officejet Pro 8600 N911g',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
-                NAME         => 'HP8C0C51',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPI7E0932',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '6',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '30965',
+                PRINTBLACK => '30965',
+                COLOR      => '0',
+                RECTOVERSO => '433',
+                TOTAL      => '30965',
+                PRINTTOTAL => '30965',
             },
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Eth0',
-                        IFDESCR          => 'Eth0',
-                        IFTYPE           => '6',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
-                        MAC              => 'EC:9A:74:8C:0C:51',
-                        IFLASTCHANGE     => '(655) 0:00:06.55',
-                        IFINOCTETS       => '22514039',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2219679339',
                         IFINERRORS       => '0',
-                        IFOUTOCTETS      => '4313921',
+                        IFOUTOCTETS      => '123773898',
                         IFOUTERRORS      => '0',
                     },
                 ]
             },
         }
     ],
-    'hewlett-packard/OfficeJet_Pro_K5400.walk' => [
+    'hewlett-packard/LaserJet_P2055dn.02.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Officejet Pro K5400',
-            SNMPHOSTNAME => 'HP560332',
-            MAC          => '00:21:5A:56:03:32',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI8DDF43',
+            MAC          => '00:21:5A:8D:DF:43',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Officejet Pro K5400',
-            SNMPHOSTNAME => 'HP560332',
-            MAC          => '00:21:5A:56:03:32',
-            MODELSNMP    => 'Printer0285',
-            SERIAL       => undef,
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI8DDF43',
+            MAC          => '00:21:5A:8D:DF:43',
+            MODELSNMP    => 'Printer0611',
             FIRMWARE     => undef,
+            SERIAL       => '20040201',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
-                NAME         => 'HP560332',
-                ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPI8DDF43',
+                SERIAL       => '20040201',
             },
             CARTRIDGES => {
-                CARTRIDGEYELLOW  => 6,
-                CARTRIDGECYAN    => 290,
-                CARTRIDGEMAGENTA => 20,
-                CARTRIDGEBLACK   => 9
+                TONERBLACK       => '88',
             },
             PAGECOUNTERS => {
-                TOTAL      => '10947',
+                BLACK      => '36105',
+                PRINTBLACK => '36105',
+                COLOR      => '0',
+                RECTOVERSO => '8379',
+                TOTAL      => '36105',
+                PRINTTOTAL => '36105',
             },
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Eth0',
-                        IFDESCR          => 'Eth0',
-                        IFTYPE           => '6',
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
-                        MAC              => '00:21:5A:56:03:32',
-                        IFLASTCHANGE     => '(18259) 0:03:02.59',
-                        IFINOCTETS       => '201446672',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '200058917',
                         IFINERRORS       => '0',
-                        IFOUTOCTETS      => '2340353',
+                        IFOUTOCTETS      => '1869715',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.03.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI830993',
+            MAC          => '00:23:7D:83:09:93',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI830993',
+            MAC          => '00:23:7D:83:09:93',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPI830993',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '32',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '3837',
+                PRINTBLACK => '3837',
+                COLOR      => '0',
+                RECTOVERSO => '62',
+                TOTAL      => '3837',
+                PRINTTOTAL => '3837',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '683787528',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4718265',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.04.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI83E8D5',
+            MAC          => '00:23:7D:83:E8:D5',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI83E8D5',
+            MAC          => '00:23:7D:83:E8:D5',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPI83E8D5',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '45',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '11057',
+                PRINTBLACK => '11057',
+                COLOR      => '0',
+                RECTOVERSO => '5297',
+                TOTAL      => '11057',
+                PRINTTOTAL => '11057',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3240054009',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '6629940',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.05.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI886B5B',
+            MAC          => '00:23:7D:88:6B:5B',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI886B5B',
+            MAC          => '00:23:7D:88:6B:5B',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPI886B5B',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '56',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '19402',
+                PRINTBLACK => '19402',
+                COLOR      => '0',
+                RECTOVERSO => '3761',
+                TOTAL      => '19402',
+                PRINTTOTAL => '19402',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '226525511',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '5925070',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.06.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI886B5B',
+            MAC          => '00:23:7D:88:6B:5B',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI886B5B',
+            MAC          => '00:23:7D:88:6B:5B',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPI886B5B',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '78',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '17861',
+                PRINTBLACK => '17861',
+                COLOR      => '0',
+                RECTOVERSO => '3192',
+                TOTAL      => '17861',
+                PRINTTOTAL => '17861',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '561048360',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '14426521',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.07.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI80BDD9',
+            MAC          => '1C:C1:DE:80:BD:D9',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPI80BDD9',
+            MAC          => '1C:C1:DE:80:BD:D9',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPI80BDD9',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '46',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '5696',
+                PRINTBLACK => '5696',
+                COLOR      => '0',
+                RECTOVERSO => '1843',
+                TOTAL      => '5696',
+                PRINTTOTAL => '5696',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1574260753',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '44021940',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.08.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPICB3982',
+            MAC          => '1C:C1:DE:CB:39:82',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPICB3982',
+            MAC          => '1C:C1:DE:CB:39:82',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPICB3982',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '38',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '26922',
+                PRINTBLACK => '26922',
+                COLOR      => '0',
+                RECTOVERSO => '6952',
+                TOTAL      => '26922',
+                PRINTTOTAL => '26922',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '37368958',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '218905',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.09.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIC08394',
+            MAC          => '3C:4A:92:C0:83:94',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIC08394',
+            MAC          => '3C:4A:92:C0:83:94',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPIC08394',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '20',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '4047',
+                PRINTBLACK => '4047',
+                COLOR      => '0',
+                RECTOVERSO => '50',
+                TOTAL      => '4047',
+                PRINTTOTAL => '4047',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1911576981',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '48854545',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.10.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPICBD8B1',
+            MAC          => '1C:C1:DE:CB:D8:B1',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPICBD8B1',
+            MAC          => '1C:C1:DE:CB:D8:B1',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPICBD8B1',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '40',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '4944',
+                PRINTBLACK => '4944',
+                COLOR      => '0',
+                RECTOVERSO => '0',
+                TOTAL      => '4944',
+                PRINTTOTAL => '4944',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2220813285',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '51880468',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.11.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIB979A2',
+            MAC          => '08:2E:5F:B9:79:A2',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIB979A2',
+            MAC          => '08:2E:5F:B9:79:A2',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPIB979A2',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '0',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '4339',
+                PRINTBLACK => '4339',
+                COLOR      => '0',
+                RECTOVERSO => '498',
+                TOTAL      => '4339',
+                PRINTTOTAL => '4339',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '861281403',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4972936',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.12.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIC93D6D',
+            MAC          => '1C:C1:DE:C9:3D:6D',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIC93D6D',
+            MAC          => '1C:C1:DE:C9:3D:6D',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPIC93D6D',
+                SERIAL       => '20040201',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '68',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '89242',
+                PRINTBLACK => '89242',
+                COLOR      => '0',
+                RECTOVERSO => '1789',
+                TOTAL      => '89242',
+                PRINTTOTAL => '89242',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '20375229',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '380785',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.13.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'l1019a',
+            MAC          => '00:25:B3:EB:EA:20',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'l1019a',
+            MAC          => '00:25:B3:EB:EA:20',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'l1019a',
+                MEMORY       => '128',
+                SERIAL       => '20040201',
+                IPS          => {
+                    IP => [
+                        '128.93.22.7',
+                    ],
+                },
+                UPTIME       => '(20267234) 2 days, 8:17:52.34',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '74',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '3515',
+                PRINTBLACK => '3515',
+                COLOR      => '0',
+                RECTOVERSO => '0',
+                TOTAL      => '3515',
+                PRINTTOTAL => '3515',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '1045360896',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '66590530',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.14.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIEB8A8F',
+            MAC          => '00:25:B3:EB:8A:8F',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIEB8A8F',
+            MAC          => '00:25:B3:EB:8A:8F',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPIEB8A8F',
+                MEMORY       => '128',
+                SERIAL       => '20040201',
+                IPS          => {
+                    IP => [
+                        '128.93.22.238',
+                    ],
+                },
+                UPTIME       => '(3967795) 11:01:17.95',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '66',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '11344',
+                PRINTBLACK => '11344',
+                COLOR      => '0',
+                RECTOVERSO => '2389',
+                TOTAL      => '11344',
+                PRINTTOTAL => '11344',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2831933549',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '92564533',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.15.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'l1a220a',
+            MAC          => '00:25:B3:EB:7A:C7',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'l1a220a',
+            MAC          => '00:25:B3:EB:7A:C7',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'l1a220a',
+                MEMORY       => '128',
+                SERIAL       => '20040201',
+                IPS          => {
+                    IP => [
+                        '128.93.22.113',
+                    ],
+                },
+                UPTIME       => '(19326743) 2 days, 5:41:07.43',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '2',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '22937',
+                PRINTBLACK => '22937',
+                COLOR      => '0',
+                RECTOVERSO => '6832',
+                TOTAL      => '22937',
+                PRINTTOTAL => '22937',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2309963329',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '21666979',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/LaserJet_P2055dn.16.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIEB4B44',
+            MAC          => '00:25:B3:EB:4B:44',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'HP LaserJet P2055dn',
+            SNMPHOSTNAME => 'NPIEB4B44',
+            MAC          => '00:25:B3:EB:4B:44',
+            MODELSNMP    => 'Printer0611',
+            FIRMWARE     => undef,
+            SERIAL       => '20040201',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P2055dn',
+                COMMENTS     => 'HP LaserJet P2055dn',
+                NAME         => 'NPIEB4B44',
+                MEMORY       => '128',
+                SERIAL       => '20040201',
+                IPS          => {
+                    IP => [
+                        '128.93.22.57',
+                    ],
+                },
+                UPTIME       => '(22020083) 2 days, 13:10:00.83',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '60',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '4878',
+                PRINTBLACK => '4878',
+                COLOR      => '0',
+                RECTOVERSO => '504',
+                TOTAL      => '4878',
+                PRINTTOTAL => '4878',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3419623381',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '65027106',
                         IFOUTERRORS      => '0',
                     },
                 ]
@@ -4790,25 +6788,25 @@ my %tests = (
             MAC          => '00:21:5A:7A:5E:2D',
             MODELSNMP    => 'Printer0612',
             FIRMWARE     => undef,
-            SERIAL       => 'CNH1R06635'
+            SERIAL       => 'CNH1R06635',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => '0x0115513738313441',
                 COMMENTS     => 'HP LaserJet P3005',
-                ID           => undef,
                 NAME         => 'NPI7A5E2D',
                 SERIAL       => 'CNH1R06635',
-                MODEL        => '0x0115513738313441',
             },
             CARTRIDGES => {
-                TONERBLACK => 32
+                TONERBLACK       => '32',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '0',
-                PRINTTOTAL => '20949',
                 TOTAL      => '20979',
+                PRINTTOTAL => '20949',
             },
             PORTS => {
                 PORT => [
@@ -4876,8 +6874,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
-                PRINTTOTAL => '150',
                 TOTAL      => '150',
+                PRINTTOTAL => '150',
             },
             PORTS => {
                 PORT => [
@@ -4949,10 +6947,10 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
-                PRINTTOTAL => '13324',
                 TOTAL      => '13322',
+                PRINTTOTAL => '13324',
             },
-           PORTS => {
+            PORTS => {
                 PORT => [
                     {
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
@@ -5022,8 +7020,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '566',
-                PRINTTOTAL => '13193',
                 TOTAL      => '13193',
+                PRINTTOTAL => '13193',
             },
             PORTS => {
                 PORT => [
@@ -5095,8 +7093,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '105',
-                PRINTTOTAL => '15807',
                 TOTAL      => '15802',
+                PRINTTOTAL => '15807',
             },
             PORTS => {
                 PORT => [
@@ -5161,15 +7159,15 @@ my %tests = (
                         '128.93.31.3',
                     ],
                 },
-                UPTIME       => '(29663349) 3 days, 10:23:53.49'
+                UPTIME       => '(29663349) 3 days, 10:23:53.49',
             },
             CARTRIDGES => {
                 TONERBLACK       => '95',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
-                PRINTTOTAL => '53053',
                 TOTAL      => '53058',
+                PRINTTOTAL => '53053',
             },
             PORTS => {
                 PORT => [
@@ -5234,15 +7232,15 @@ my %tests = (
                         '128.93.17.16',
                     ],
                 },
-                UPTIME       => '(30521576) 3 days, 12:46:55.76'
+                UPTIME       => '(30521576) 3 days, 12:46:55.76',
             },
             CARTRIDGES => {
                 TONERBLACK       => '41',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '21',
-                PRINTTOTAL => '130480',
                 TOTAL      => '130481',
+                PRINTTOTAL => '130480',
             },
             PORTS => {
                 PORT => [
@@ -5314,8 +7312,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '814',
-                PRINTTOTAL => '45077',
                 TOTAL      => '45068',
+                PRINTTOTAL => '45077',
             },
             PORTS => {
                 PORT => [
@@ -5387,8 +7385,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '12',
-                PRINTTOTAL => '11083',
                 TOTAL      => '11075',
+                PRINTTOTAL => '11083',
             },
             PORTS => {
                 PORT => [
@@ -5460,8 +7458,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
-                PRINTTOTAL => '17204',
                 TOTAL      => '17190',
+                PRINTTOTAL => '17204',
             },
             PORTS => {
                 PORT => [
@@ -5526,15 +7524,15 @@ my %tests = (
                         '128.93.22.13',
                     ],
                 },
-                UPTIME       => '(11824269) 1 day, 8:50:42.69'
+                UPTIME       => '(11824269) 1 day, 8:50:42.69',
             },
             CARTRIDGES => {
                 TONERBLACK       => '11',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '1',
-                PRINTTOTAL => '100796',
                 TOTAL      => '100795',
+                PRINTTOTAL => '100796',
             },
             PORTS => {
                 PORT => [
@@ -5606,8 +7604,8 @@ my %tests = (
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '22',
-                PRINTTOTAL => '65087',
                 TOTAL      => '65082',
+                PRINTTOTAL => '65087',
             },
             PORTS => {
                 PORT => [
@@ -5672,15 +7670,15 @@ my %tests = (
                         '128.93.22.132',
                     ],
                 },
-                UPTIME       => '(35620617) 4 days, 2:56:46.17'
+                UPTIME       => '(35620617) 4 days, 2:56:46.17',
             },
             CARTRIDGES => {
                 TONERBLACK       => '53',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '7',
-                PRINTTOTAL => '5388',
                 TOTAL      => '5385',
+                PRINTTOTAL => '5388',
             },
             PORTS => {
                 PORT => [
@@ -5728,25 +7726,25 @@ my %tests = (
             MAC          => '00:9C:02:01:3B:81',
             MODELSNMP    => 'Printer0402',
             FIRMWARE     => undef,
-            SERIAL       => 'VNBQD3C0BF'
+            SERIAL       => 'VNBQD3C0BF',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P3010 Series',
-                ID           => undef,
-                SERIAL       => 'VNBQD3C0BF',
-                NAME         => 'NPI013B81',
                 MODEL        => 'HP LaserJet P3010 Series',
-            },
-            PAGECOUNTERS => {
-                RECTOVERSO => '74',
-                BLACK      => '15265',
-                TOTAL      => '15265',
+                COMMENTS     => 'HP LaserJet P3010 Series',
+                NAME         => 'NPI013B81',
+                SERIAL       => 'VNBQD3C0BF',
             },
             CARTRIDGES => {
-                TONERBLACK => 84
+                TONERBLACK       => '84',
+            },
+            PAGECOUNTERS => {
+                BLACK      => '15265',
+                RECTOVERSO => '74',
+                TOTAL      => '15265',
             },
             PORTS => {
                 PORT => [
@@ -5795,25 +7793,25 @@ my %tests = (
             MAC          => '00:9C:02:01:3B:81',
             MODELSNMP    => 'Printer0402',
             FIRMWARE     => undef,
-            SERIAL       => 'VNBQD3C0BF'
+            SERIAL       => 'VNBQD3C0BF',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P3010 Series',
-                ID           => undef,
-                SERIAL       => 'VNBQD3C0BF',
-                NAME         => 'NPI013B81',
                 MODEL        => 'HP LaserJet P3010 Series',
+                COMMENTS     => 'HP LaserJet P3010 Series',
+                NAME         => 'NPI013B81',
+                SERIAL       => 'VNBQD3C0BF',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '1',
             },
             PAGECOUNTERS => {
                 BLACK      => '6386',
                 RECTOVERSO => '772',
                 TOTAL      => '6386',
-            },
-            CARTRIDGES => {
-                TONERBLACK => 1
             },
             PORTS => {
                 PORT => [
@@ -5846,1091 +7844,6 @@ my %tests = (
             },
         }
     ],
-    'hewlett-packard/LaserJet_P2055dn.01.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI7E0932',
-            MAC          => '00:21:5A:7E:09:32',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI7E0932',
-            MAC          => '00:21:5A:7E:09:32',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                MODEL        => 'HP LaserJet P2055dn',
-                NAME         => 'NPI7E0932',
-                SERIAL       => '20040201',
-                ID           => undef
-            },
-            CARTRIDGES => {
-                TONERBLACK => 6
-            },
-            PAGECOUNTERS => {
-                RECTOVERSO => '433',
-                COLOR      => '0',
-                PRINTBLACK => '30965',
-                PRINTTOTAL => '30965',
-                BLACK      => '30965',
-                TOTAL      => '30965',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '2219679339',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '123773898',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.02.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI8DDF43',
-            MAC          => '00:21:5A:8D:DF:43',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI8DDF43',
-            MAC          => '00:21:5A:8D:DF:43',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                COMMENTS     => 'HP LaserJet P2055dn',
-                TYPE         => 'PRINTER',
-                MANUFACTURER => 'Hewlett-Packard',
-                MODEL        => 'HP LaserJet P2055dn',
-                ID           => undef,
-                SERIAL       => '20040201',
-                NAME         => 'NPI8DDF43',
-            },
-            PAGECOUNTERS => {
-                BLACK      => '36105',
-                PRINTBLACK => '36105',
-                PRINTTOTAL => '36105',
-                COLOR      => '0',
-                RECTOVERSO => '8379',
-                TOTAL      => '36105'
-            },
-            CARTRIDGES => {
-                TONERBLACK => 88
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '200058917',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '1869715',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.03.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI830993',
-            MAC          => '00:23:7D:83:09:93',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI830993',
-            MAC          => '00:23:7D:83:09:93',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                SERIAL       => '20040201',
-                NAME         => 'NPI830993',
-                ID           => undef,
-                MODEL        => 'HP LaserJet P2055dn',
-            },
-            CARTRIDGES => {
-                TONERBLACK => 32
-            },
-            PAGECOUNTERS => {
-                RECTOVERSO => '62',
-                COLOR      => '0',
-                PRINTTOTAL => '3837',
-                PRINTBLACK => '3837',
-                BLACK      => '3837',
-                TOTAL      => '3837'
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '683787528',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '4718265',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.04.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI83E8D5',
-            MAC          => '00:23:7D:83:E8:D5'
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI83E8D5',
-            MAC          => '00:23:7D:83:E8:D5',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                SERIAL       => '20040201',
-                NAME         => 'NPI83E8D5',
-                ID           => undef,
-                MODEL        => 'HP LaserJet P2055dn',
-            },
-            PAGECOUNTERS => {
-                COLOR      => '0',
-                RECTOVERSO => '5297',
-                PRINTTOTAL => '11057',
-                PRINTBLACK => '11057',
-                BLACK      => '11057',
-                TOTAL      => '11057',
-            },
-            CARTRIDGES => {
-                TONERBLACK => 45
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '3240054009',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '6629940',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.05.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI886B5B',
-            MAC          => '00:23:7D:88:6B:5B',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI886B5B',
-            MAC          => '00:23:7D:88:6B:5B',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                NAME         => 'NPI886B5B',
-                SERIAL       => '20040201',
-                ID           => undef,
-                MODEL        => 'HP LaserJet P2055dn',
-            },
-            CARTRIDGES => {
-                TONERBLACK => 56
-            },
-            PAGECOUNTERS => {
-                BLACK      => '19402',
-                COLOR      => '0',
-                RECTOVERSO => '3761',
-                PRINTBLACK => '19402',
-                PRINTTOTAL => '19402',
-                TOTAL      => '19402',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '226525511',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '5925070',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.06.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI886B5B',
-            MAC          => '00:23:7D:88:6B:5B',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI886B5B',
-            MAC          => '00:23:7D:88:6B:5B',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                SERIAL       => '20040201',
-                MODEL        => 'HP LaserJet P2055dn',
-                NAME         => 'NPI886B5B',
-                ID           => undef,
-            },
-            CARTRIDGES => {
-                TONERBLACK => 78
-            },
-            PAGECOUNTERS => {
-                PRINTTOTAL => '17861',
-                BLACK      => '17861',
-                COLOR      => '0',
-                PRINTBLACK => '17861',
-                RECTOVERSO => '3192',
-                TOTAL      => '17861'
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '561048360',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '14426521',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.07.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI80BDD9',
-            MAC          => '1C:C1:DE:80:BD:D9',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPI80BDD9',
-            MAC          => '1C:C1:DE:80:BD:D9',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                NAME         => 'NPI80BDD9',
-                ID           => undef,
-                SERIAL       => '20040201',
-                MODEL        => 'HP LaserJet P2055dn',
-            },
-            CARTRIDGES => {
-                TONERBLACK => 46
-            },
-            PAGECOUNTERS => {
-                COLOR      => '0',
-                PRINTBLACK => '5696',
-                RECTOVERSO => '1843',
-                PRINTTOTAL => '5696',
-                BLACK      => '5696',
-                TOTAL      => '5696',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '1574260753',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '44021940',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.08.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPICB3982',
-            MAC          => '1C:C1:DE:CB:39:82',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPICB3982',
-            MAC          => '1C:C1:DE:CB:39:82',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                ID           => undef,
-                NAME         => 'NPICB3982',
-                MODEL        => 'HP LaserJet P2055dn',
-                SERIAL       => '20040201',
-            },
-            CARTRIDGES => {
-                TONERBLACK => 38
-            },
-            PAGECOUNTERS => {
-                RECTOVERSO => '6952',
-                PRINTBLACK => '26922',
-                COLOR      => '0',
-                BLACK      => '26922',
-                PRINTTOTAL => '26922',
-                TOTAL      => '26922'
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '37368958',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '218905',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.09.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPIC08394',
-            MAC          => '3C:4A:92:C0:83:94',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPIC08394',
-            MAC          => '3C:4A:92:C0:83:94',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                MODEL        => 'HP LaserJet P2055dn',
-                NAME         => 'NPIC08394',
-                SERIAL       => '20040201',
-                ID           => undef,
-            },
-            PAGECOUNTERS => {
-                BLACK      => '4047',
-                RECTOVERSO => '50',
-                COLOR      => '0',
-                PRINTTOTAL => '4047',
-                PRINTBLACK => '4047',
-                TOTAL      => '4047',
-            },
-            CARTRIDGES => {
-                TONERBLACK => 20
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '1911576981',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '48854545',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.10.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPICBD8B1',
-            MAC          => '1C:C1:DE:CB:D8:B1',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPICBD8B1',
-            MAC          => '1C:C1:DE:CB:D8:B1',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                MODEL        => 'HP LaserJet P2055dn',
-                SERIAL       => '20040201',
-                NAME         => 'NPICBD8B1',
-                ID           => undef,
-            },
-            PAGECOUNTERS => {
-                PRINTTOTAL => '4944',
-                PRINTBLACK => '4944',
-                COLOR      => '0',
-                RECTOVERSO => '0',
-                BLACK      => '4944',
-                TOTAL      => '4944',
-            },
-            CARTRIDGES => {
-                TONERBLACK => 40
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '2220813285',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '51880468',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.11.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPIB979A2',
-            MAC          => '08:2E:5F:B9:79:A2',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPIB979A2',
-            MAC          => '08:2E:5F:B9:79:A2',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                ID           => undef,
-                SERIAL       => '20040201',
-                NAME         => 'NPIB979A2',
-                MODEL        => 'HP LaserJet P2055dn',
-            },
-            PAGECOUNTERS => {
-                BLACK      => '4339',
-                PRINTBLACK => '4339',
-                PRINTTOTAL => '4339',
-                COLOR      => '0',
-                RECTOVERSO => '498',
-                TOTAL      => '4339',
-            },
-            CARTRIDGES => {
-                TONERBLACK => 0
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '861281403',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '4972936',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.12.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPIC93D6D',
-            MAC          => '1C:C1:DE:C9:3D:6D'
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPIC93D6D',
-            MAC          => '1C:C1:DE:C9:3D:6D',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                NAME         => 'NPIC93D6D',
-                SERIAL       => '20040201',
-                ID           => undef,
-                MODEL        => 'HP LaserJet P2055dn',
-            },
-            PAGECOUNTERS => {
-                RECTOVERSO => '1789',
-                COLOR      => '0',
-                PRINTBLACK => '89242',
-                PRINTTOTAL => '89242',
-                BLACK      => '89242',
-                TOTAL      => '89242'
-            },
-            CARTRIDGES => {
-                TONERBLACK => 68
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '20375229',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '380785',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.13.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'l1019a',
-            MAC          => '00:25:B3:EB:EA:20',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'l1019a',
-            MAC          => '00:25:B3:EB:EA:20',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                MODEL        => 'HP LaserJet P2055dn',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                NAME         => 'l1019a',
-                MEMORY       => '128',
-                SERIAL       => '20040201',
-                IPS          => {
-                    IP => [
-                        '128.93.22.7',
-                    ],
-                },
-                UPTIME       => '(20267234) 2 days, 8:17:52.34',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '74',
-            },
-            PAGECOUNTERS => {
-                BLACK      => '3515',
-                PRINTBLACK => '3515',
-                COLOR      => '0',
-                RECTOVERSO => '0',
-                PRINTTOTAL => '3515',
-                TOTAL      => '3515',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '1045360896',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '66590530',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.14.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPIEB8A8F',
-            MAC          => '00:25:B3:EB:8A:8F',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPIEB8A8F',
-            MAC          => '00:25:B3:EB:8A:8F',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                MODEL        => 'HP LaserJet P2055dn',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                NAME         => 'NPIEB8A8F',
-                MEMORY       => '128',
-                SERIAL       => '20040201',
-                IPS          => {
-                    IP => [
-                        '128.93.22.238',
-                    ],
-                },
-                UPTIME       => '(3967795) 11:01:17.95'
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '66',
-            },
-            PAGECOUNTERS => {
-                BLACK      => '11344',
-                PRINTBLACK => '11344',
-                COLOR      => '0',
-                RECTOVERSO => '2389',
-                PRINTTOTAL => '11344',
-                TOTAL      => '11344',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '2831933549',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '92564533',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.15.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'l1a220a',
-            MAC          => '00:25:B3:EB:7A:C7',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'l1a220a',
-            MAC          => '00:25:B3:EB:7A:C7',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                MODEL        => 'HP LaserJet P2055dn',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                NAME         => 'l1a220a',
-                MEMORY       => '128',
-                SERIAL       => '20040201',
-                IPS          => {
-                    IP => [
-                        '128.93.22.113',
-                    ],
-                },
-                UPTIME       => '(19326743) 2 days, 5:41:07.43'
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '2',
-            },
-            PAGECOUNTERS => {
-                BLACK      => '22937',
-                PRINTBLACK => '22937',
-                COLOR      => '0',
-                RECTOVERSO => '6832',
-                PRINTTOTAL => '22937',
-                TOTAL      => '22937',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '2309963329',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '21666979',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/LaserJet_P2055dn.16.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPIEB4B44',
-            MAC          => '00:25:B3:EB:4B:44',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
-            SNMPHOSTNAME => 'NPIEB4B44',
-            MAC          => '00:25:B3:EB:4B:44',
-            MODELSNMP    => 'Printer0611',
-            FIRMWARE     => undef,
-            SERIAL       => '20040201',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                MODEL        => 'HP LaserJet P2055dn',
-                COMMENTS     => 'HP LaserJet P2055dn',
-                NAME         => 'NPIEB4B44',
-                MEMORY       => '128',
-                SERIAL       => '20040201',
-                IPS          => {
-                    IP => [
-                        '128.93.22.57',
-                    ],
-                },
-                UPTIME       => '(22020083) 2 days, 13:10:00.83'
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '60',
-            },
-            PAGECOUNTERS => {
-                BLACK      => '4878',
-                PRINTBLACK => '4878',
-                COLOR      => '0',
-                RECTOVERSO => '504',
-                PRINTTOTAL => '4878',
-                TOTAL      => '4878',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '3419623381',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '65027106',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
     'hewlett-packard/LaserJet_P4014.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6951,14 +7864,14 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MODEL        => 'HP LaserJet P4014',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41,CIDATE 06/12/2009',
                 NAME         => 'NPIFFF0F2',
-                ID           => undef,
-                MODEL        => 'HP LaserJet P4014',
+                MEMORY       => '384',
                 SERIAL       => 'CNFX409800',
-                MEMORY       => 384,
                 IPS          => {
                     IP => [
                         '10.75.13.175',
@@ -6967,8 +7880,8 @@ my %tests = (
                 UPTIME       => '(705273859) 81 days, 15:05:38.59',
             },
             CARTRIDGES => {
-                TONERBLACK     => 18,
-                MAINTENANCEKIT => 32
+                TONERBLACK       => '18',
+                MAINTENANCEKIT   => '32',
             },
             PAGECOUNTERS => {
                 TOTAL      => '151735',
@@ -7027,21 +7940,21 @@ my %tests = (
             MAC          => '00:21:5A:8F:EA:2B',
             MODELSNMP    => 'Printer0386',
             FIRMWARE     => undef,
-            SERIAL       => 'CNFY417951'
+            SERIAL       => 'CNFY417951',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36,CIDATE 04/10/2008',
-                ID           => undef,
                 MODEL        => 'HP LaserJet P4015',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36,CIDATE 04/10/2008',
                 NAME         => 'LJ30000000000000000000----------',
                 SERIAL       => 'CNFY417951',
             },
             CARTRIDGES => {
-                TONERBLACK     => 100,
-                MAINTENANCEKIT => 87
+                TONERBLACK       => '100',
+                MAINTENANCEKIT   => '87',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '26',
@@ -7096,21 +8009,21 @@ my %tests = (
             MAC          => '00:21:5A:8D:98:96',
             MODELSNMP    => 'Printer0386',
             FIRMWARE     => undef,
-            SERIAL       => 'CNFY409032'
+            SERIAL       => 'CNFY409032',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36,CIDATE 04/10/2008',
-                ID           => undef,
                 MODEL        => 'HP LaserJet P4015',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36,CIDATE 04/10/2008',
                 NAME         => 'NPI8D9896',
                 SERIAL       => 'CNFY409032',
             },
             CARTRIDGES => {
-                TONERBLACK     => 64,
-                MAINTENANCEKIT => 61
+                TONERBLACK       => '64',
+                MAINTENANCEKIT   => '61',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '26',
@@ -7165,21 +8078,21 @@ my %tests = (
             MAC          => '00:1F:29:22:C8:7C',
             MODELSNMP    => 'Printer0386',
             FIRMWARE     => undef,
-            SERIAL       => 'CNFY213364'
+            SERIAL       => 'CNFY213364',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35,CIDATE 09/18/2007',
-                ID           => undef,
                 MODEL        => 'HP LaserJet P4015',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35,CIDATE 09/18/2007',
                 NAME         => 'NPI22C87C',
                 SERIAL       => 'CNFY213364',
             },
             CARTRIDGES => {
-                TONERBLACK     => 34,
-                MAINTENANCEKIT => 79
+                TONERBLACK       => '34',
+                MAINTENANCEKIT   => '79',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '52',
@@ -7234,21 +8147,21 @@ my %tests = (
             MAC          => '00:21:5A:97:06:DE',
             MODELSNMP    => 'Printer0386',
             FIRMWARE     => undef,
-            SERIAL       => 'CNFY183496'
+            SERIAL       => 'CNFY183496',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40,CIDATE 02/24/2009',
-                ID           => undef,
                 MODEL        => 'HP LaserJet P4015',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40,CIDATE 02/24/2009',
                 NAME         => 'NPI9706DE',
                 SERIAL       => 'CNFY183496',
             },
             CARTRIDGES => {
-                MAINTENANCEKIT => 5,
-                TONERBLACK     => 1
+                TONERBLACK       => '1',
+                MAINTENANCEKIT   => '5',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '4',
@@ -7303,21 +8216,21 @@ my %tests = (
             MAC          => '00:25:B3:EA:DB:FB',
             MODELSNMP    => 'Printer0386',
             FIRMWARE     => undef,
-            SERIAL       => 'CNFY349204'
+            SERIAL       => 'CNFY349204',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41,CIDATE 06/12/2009',
-                ID           => undef,
                 MODEL        => 'HP LaserJet P4015',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41,CIDATE 06/12/2009',
                 NAME         => 'NPIEADBFB',
                 SERIAL       => 'CNFY349204',
             },
             CARTRIDGES => {
-                TONERBLACK     => 32,
-                MAINTENANCEKIT => 0
+                TONERBLACK       => '32',
+                MAINTENANCEKIT   => '0',
             },
             PAGECOUNTERS => {
                 RECTOVERSO => '2096',
@@ -7350,6 +8263,106 @@ my %tests = (
                         IFINOCTETS       => '4240914294',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '37809478',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/OfficeJet_Pro_8600.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'Officejet Pro 8600 N911g',
+            SNMPHOSTNAME => 'HP8C0C51',
+            MAC          => 'EC:9A:74:8C:0C:51',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'Officejet Pro 8600 N911g',
+            SNMPHOSTNAME => 'HP8C0C51',
+            MAC          => 'EC:9A:74:8C:0C:51',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => 'Officejet Pro 8600 N911g',
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
+                NAME         => 'HP8C0C51',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Eth0',
+                        IFDESCR          => 'Eth0',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => 'EC:9A:74:8C:0C:51',
+                        IFLASTCHANGE     => '(655) 0:00:06.55',
+                        IFINOCTETS       => '22514039',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4313921',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'hewlett-packard/OfficeJet_Pro_K5400.walk' => [
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'Officejet Pro K5400',
+            SNMPHOSTNAME => 'HP560332',
+            MAC          => '00:21:5A:56:03:32',
+        },
+        {
+            MANUFACTURER => 'Hewlett-Packard',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'Officejet Pro K5400',
+            SNMPHOSTNAME => 'HP560332',
+            MAC          => '00:21:5A:56:03:32',
+            MODELSNMP    => 'Printer0285',
+            FIRMWARE     => undef,
+            SERIAL       => undef,
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Hewlett-Packard',
+                TYPE         => 'PRINTER',
+                MODEL        => undef,
+                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
+                NAME         => 'HP560332',
+            },
+            CARTRIDGES => {
+                CARTRIDGEBLACK   => '9',
+                CARTRIDGECYAN    => '290',
+                CARTRIDGEMAGENTA => '20',
+                CARTRIDGEYELLOW  => '6',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '10947',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Eth0',
+                        IFDESCR          => 'Eth0',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:21:5A:56:03:32',
+                        IFLASTCHANGE     => '(18259) 0:03:02.59',
+                        IFINOCTETS       => '201446672',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2340353',
                         IFOUTERRORS      => '0',
                     },
                 ]
@@ -14891,25 +15904,23 @@ my %tests = (
             DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
             SNMPHOSTNAME => 'oyapock CR2',
             MAC          => '00:18:71:C1:E0:00',
-            MODEL        => 'ProCurve 5406zl (J8697A)',
             MODELSNMP    => 'Networking2063',
+            MODEL        => 'ProCurve 5406zl (J8697A)',
+            FIRMWARE     => undef,
             SERIAL       => 'SG707SU03Y',
-            FIRMWARE     => undef
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
-                COMMENTS     => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
                 MODEL        => 'ProCurve 5406zl (J8697A)',
-                UPTIME       => '(293555959) 33 days, 23:25:59.59',
+                COMMENTS     => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
                 CONTACT      => 'systeme@ac-guyane.fr',
+                NAME         => 'oyapock CR2',
                 LOCATION     => 'datacenter',
-                MAC          => '00:18:71:C1:E0:00',
                 SERIAL       => 'SG707SU03Y',
                 FIRMWARE     => 'K.15.28 K.15.04.0015m',
-                ID           => undef,
-                NAME         => 'oyapock CR2',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -14926,1277 +15937,1467 @@ my %tests = (
                         '172.31.204.253',
                         '172.31.205.125',
                         '172.31.205.253',
-                        '192.168.227.246'
-                    ]
+                        '192.168.227.246',
+                    ],
                 },
+                MAC          => '00:18:71:C1:E0:00',
+                UPTIME       => '(293555959) 33 days, 23:25:59.59',
             },
             PORTS => {
                 PORT => [
                     {
                         IFNUMBER         => '1',
                         IFNAME           => 'A1',
-                        IFOUTERRORS      => '0',
-                        IFSPEED          => '1000000000',
-                        IFLASTCHANGE     => '(137791) 0:22:57.91',
-                        IFPORTDUPLEX     => '3',
-                        MAC              => '00:18:71:C1:F0:FF',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '6',
                         IFDESCR          => 'A1',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:FF',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(137791) 0:22:57.91',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '2281257823',
-                        IFMTU            => '1500',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '1349379502',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.140',
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '141',
                                 SYSNAME  => '0x0019BB010B00',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR  => '141'
+                                IP       => '172.31.196.140',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '2',
-                        IFINOCTETS       => '1790849661',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '351638347',
-                        MAC              => '00:18:71:C1:F0:FE',
+                        IFNAME           => 'A2',
+                        IFDESCR          => 'A2',
                         IFTYPE           => '6',
-                        IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
-                        IFLASTCHANGE     => '(137791) 0:22:57.91',
-                        IFPORTDUPLEX     => '3',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:FE',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFDESCR          => 'A2',
+                        IFLASTCHANGE     => '(137791) 0:22:57.91',
+                        IFPORTDUPLEX     => '3',
+                        IFINOCTETS       => '1790849661',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '351638347',
                         IFOUTERRORS      => '0',
-                        IFNAME           => 'A2',
-                        CONNECTIONS => {
+                        CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.140',
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '143',
                                 SYSNAME  => '0x0019BB010B00',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR  => '143'
-                            },
-                            CDP => 1
-                        },
+                                IP       => '172.31.196.140',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '3',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:F0:FD',
+                        IFNAME           => 'A3',
+                        IFDESCR          => 'A3',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:FD',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(140056) 0:23:20.56',
                         IFPORTDUPLEX     => '3',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
-                        IFDESCR          => 'A3',
                         IFINOCTETS       => '2596611853',
-                        IFMTU            => '1500',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '1368455180',
-                        IFNAME           => 'A3',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS => {
+                        CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IFDESCR  => '141',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSNAME  => '0x0019BB0D8100',
-                                IP       => '172.31.196.141'
-                            },
-                            CDP => 1
-                        },
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.141',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '4',
-                        IFOUTOCTETS      => '205027037',
-                        IFINOCTETS       => '2096487256',
-                        IFMTU            => '1500',
+                        IFNAME           => 'A4',
                         IFDESCR          => 'A4',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:FC',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(140106) 0:23:21.06',
                         IFPORTDUPLEX     => '3',
-                        IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:FC',
+                        IFINOCTETS       => '2096487256',
                         IFINERRORS       => '0',
+                        IFOUTOCTETS      => '205027037',
                         IFOUTERRORS      => '0',
-                        IFNAME           => 'A4',
-                        CONNECTIONS => {
+                        CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                SYSNAME  => '0x0019BB0D8100',
                                 IFDESCR  => '143',
+                                SYSNAME  => '0x0019BB0D8100',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.141',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.141'
-                            },
-                            CDP => 1
-                        },
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '5',
-                        IFOUTOCTETS      => '2189748070',
-                        IFINOCTETS       => '2759835685',
-                        IFMTU            => '1500',
+                        IFNAME           => 'A5',
                         IFDESCR          => 'A5',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:FB',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(98419) 0:16:24.19',
                         IFPORTDUPLEX     => '3',
-                        MAC              => '00:18:71:C1:F0:FB',
-                        IFTYPE           => '6',
+                        IFINOCTETS       => '2759835685',
                         IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2189748070',
                         IFOUTERRORS      => '0',
-                        IFNAME           => 'A5',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME  => '0x0016B9138000',
                                 IFDESCR  => '141',
+                                SYSNAME  => '0x0016B9138000',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.142'
-                            },
-                            CDP => 1
-                        },
+                                IP       => '172.31.196.142',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '6',
                         IFNAME           => 'A6',
-                        IFOUTERRORS      => '0',
-                        MAC              => '00:18:71:C1:F0:FA',
-                        IFINERRORS       => '0',
+                        IFDESCR          => 'A6',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
-                        IFLASTCHANGE     => '(98419) 0:16:24.19',
-                        IFPORTDUPLEX     => '3',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:FA',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFDESCR          => 'A6',
+                        IFLASTCHANGE     => '(98419) 0:16:24.19',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '710340837',
-                        IFMTU            => '1500',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '1497261298',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
+                                IFDESCR  => '143',
                                 SYSNAME  => '0x0016B9138000',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR  => '143',
+                                IP       => '172.31.196.142',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.142'
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '7',
                         IFNAME           => 'A7',
-                        IFOUTERRORS      => '0',
-                        IFSPEED          => '1000000000',
-                        IFLASTCHANGE     => '(133722) 0:22:17.22',
-                        IFPORTDUPLEX     => '3',
-                        MAC              => '00:18:71:C1:F0:F9',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '6',
                         IFDESCR          => 'A7',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:F9',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(133722) 0:22:17.22',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '264235442',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '1045414825',
-                        CONNECTIONS => {
-                            CDP => 1,
+                        IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.143',
                                 IFDESCR  => '141',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSNAME  => '0x0016B9142B00',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.143',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '8',
                         IFNAME           => 'A8',
-                        IFOUTERRORS      => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'A8',
-                        MAC              => '00:18:71:C1:F0:F8',
                         IFTYPE           => '6',
-                        IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:F8',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(133722) 0:22:17.22',
                         IFPORTDUPLEX     => '3',
-                        IFOUTOCTETS      => '1496580095',
                         IFINOCTETS       => '2740877036',
-                        IFMTU            => '1500',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1496580095',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME  => '0x0016B9142B00',
                                 IFDESCR  => '143',
+                                SYSNAME  => '0x0016B9142B00',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.143'
-                            },
-                            CDP => 1
-                        },
+                                IP       => '172.31.196.143',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '9',
-                        IFLASTCHANGE     => '(171654) 0:28:36.54',
-                        IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        MAC              => '00:18:71:C1:F0:F7',
-                        IFTYPE           => '6',
-                        IFINERRORS       => '0',
+                        IFNAME           => 'A9',
                         IFDESCR          => 'A9',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:F7',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(171654) 0:28:36.54',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '1383661651',
-                        IFMTU            => '1500',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '1593815865',
-                        IFNAME           => 'A9',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
+                                IFDESCR  => '141',
+                                SYSNAME  => '0x0019BB1B4D00',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IP       => '172.31.196.150',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR  => '141',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME  => '0x0019BB1B4D00'
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '10',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '2224332599',
-                        IFOUTOCTETS      => '1552508202',
+                        IFNAME           => 'A10',
+                        IFDESCR          => 'A10',
                         IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:F6',
-                        IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
-                        IFLASTCHANGE     => '(171654) 0:28:36.54',
-                        IFPORTDUPLEX     => '3',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:F6',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFDESCR          => 'A10',
+                        IFLASTCHANGE     => '(171654) 0:28:36.54',
+                        IFPORTDUPLEX     => '3',
+                        IFINOCTETS       => '2224332599',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1552508202',
                         IFOUTERRORS      => '0',
-                        IFNAME           => 'A10',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
+                                IFDESCR  => '143',
+                                SYSNAME  => '0x0019BB1B4D00',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IP       => '172.31.196.150',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR  => '143',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME  => '0x0019BB1B4D00'
-                            },
-                            CDP => 1
-                        },
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '11',
+                        IFNAME           => 'A11',
                         IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:F5',
-                        IFINERRORS       => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '0',
+                        IFMTU            => '0',
+                        MAC              => '00:18:71:C1:F0:F5',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
-                        IFMTU            => '0',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFNAME           => 'A11',
                         IFOUTERRORS      => '0',
-                        VLANS            => {
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME => 'DEFAULT_VLAN'
-                                }
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '12',
-                        IFMTU            => '0',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFPORTDUPLEX     => '3',
+                        IFNAME           => 'A12',
                         IFTYPE           => '6',
+                        IFSPEED          => '0',
+                        IFMTU            => '0',
                         MAC              => '00:18:71:C1:F0:F4',
-                        IFINERRORS       => '0',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        IFNAME           => 'A12',
-                        VLANS            => {
+                        VLANS          => {
                             VLAN => [
                                 {
-                                    NAME => 'DEFAULT_VLAN',
-                                    NUMBER => '1'
-                                }
+                                    NAME   => 'DEFAULT_VLAN',
+                                    NUMBER => '1',
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '13',
                         IFNAME           => 'A13',
-                        IFOUTERRORS      => '0',
                         IFDESCR          => 'A13',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:F3',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(147598) 0:24:35.98',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:F3',
+                        IFINOCTETS       => '3735158120',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2302731832',
-                        IFINOCTETS       => '3735158120',
-                        IFMTU            => '1500',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.151',
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '141',
                                 SYSNAME  => '0x0019BB1ACC00',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR  => '141'
-                            },
-                            CDP => 1
-                        },
+                                IP       => '172.31.196.151',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '14',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '2',
+                        IFNAME           => 'A14',
+                        IFTYPE           => '6',
                         IFSPEED          => '0',
+                        IFMTU            => '0',
+                        MAC              => '00:18:71:C1:F0:F2',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFPORTDUPLEX     => '3',
-                        IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:F2',
+                        IFINOCTETS       => '0',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFMTU            => '0',
-                        IFINOCTETS       => '0',
-                        IFNAME           => 'A14',
                         IFOUTERRORS      => '0',
-                        VLANS            => {
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME => 'DEFAULT_VLAN'
-                                }
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '15',
                         IFNAME           => 'A15',
-                        IFOUTERRORS      => '0',
                         IFDESCR          => 'A15',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
+                        IFTYPE           => '6',
                         IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:F1',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(154728) 0:25:47.28',
                         IFPORTDUPLEX     => '3',
-                        MAC              => '00:18:71:C1:F0:F1',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '6',
-                        IFOUTOCTETS      => '284146569',
                         IFINOCTETS       => '3361365604',
-                        IFMTU            => '1500',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '284146569',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IFDESCR  => '118',
                                 SYSNAME  => '0x0019BB01A600',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.160',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.160'
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '16',
                         IFNAME           => 'A16',
-                        IFOUTERRORS      => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFPORTDUPLEX     => '3',
-                        IFSPEED          => '0',
                         IFTYPE           => '6',
+                        IFSPEED          => '0',
+                        IFMTU            => '0',
                         MAC              => '00:18:71:C1:F0:F0',
-                        IFINERRORS       => '0',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
-                        IFMTU            => '0',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        VLANS            => {
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
-                                    NAME => 'DEFAULT_VLAN',
-                                    NUMBER => '1'
-                                }
+                                    NAME   => 'DEFAULT_VLAN',
+                                    NUMBER => '1',
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '17',
-                        IFOUTOCTETS      => '2435360597',
-                        IFINOCTETS       => '348605692',
-                        IFMTU            => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
+                        IFNAME           => 'A17',
                         IFDESCR          => 'A17',
                         IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:EF',
-                        IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:EF',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(152568) 0:25:25.68',
                         IFPORTDUPLEX     => '3',
+                        IFINOCTETS       => '348605692',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2435360597',
                         IFOUTERRORS      => '0',
-                        IFNAME           => 'A17',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.161',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IFDESCR  => '118',
                                 SYSNAME  => '0x0019BB058200',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.161',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                            },
-                            CDP => 1
-                        },
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '18',
-                        IFOUTOCTETS      => '0',
-                        IFMTU            => '0',
-                        IFINOCTETS       => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '2',
+                        IFNAME           => 'A18',
+                        IFTYPE           => '6',
                         IFSPEED          => '0',
+                        IFMTU            => '0',
+                        MAC              => '00:18:71:C1:F0:EE',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFPORTDUPLEX     => '3',
-                        MAC              => '00:18:71:C1:F0:EE',
-                        IFTYPE           => '6',
+                        IFINOCTETS       => '0',
                         IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        IFNAME           => 'A18',
-                        VLANS            => {
+                        VLANS          => {
                             VLAN => [
                                 {
-                                    NAME => 'DEFAULT_VLAN',
-                                    NUMBER => '1'
-                                }
+                                    NAME   => 'DEFAULT_VLAN',
+                                    NUMBER => '1',
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '19',
+                        IFNAME           => 'A19',
                         IFDESCR          => 'A19',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:ED',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(143621) 0:23:56.21',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:ED',
+                        IFINOCTETS       => '28689859',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1786194494',
-                        IFINOCTETS       => '28689859',
-                        IFMTU            => '1500',
-                        IFNAME           => 'A19',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
-                                SYSNAME  => '0x0018FEF9A800',
                                 IFDESCR  => '262',
+                                SYSNAME  => '0x0018FEF9A800',
                                 SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.162',
                                 MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.162'
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '20',
-                        IFMTU            => '0',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFPORTDUPLEX     => '3',
-                        IFSPEED          => '0',
-                        MAC              => '00:18:71:C1:F0:EC',
-                        IFINERRORS       => '0',
+                        IFNAME           => 'A20',
                         IFTYPE           => '6',
+                        IFSPEED          => '0',
+                        IFMTU            => '0',
+                        MAC              => '00:18:71:C1:F0:EC',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        IFNAME           => 'A20',
-                        VLANS            => {
+                        VLANS          => {
                             VLAN => [
                                 {
-                                    NAME => 'DEFAULT_VLAN',
-                                    NUMBER => '1'
-                                }
+                                    NAME   => 'DEFAULT_VLAN',
+                                    NUMBER => '1',
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '21',
-                        IFOUTERRORS      => '0',
                         IFNAME           => 'A21',
-                        IFINOCTETS       => '2943397531',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '1009676074',
-                        IFSPEED          => '1000000000',
-                        IFLASTCHANGE     => '(94699) 0:15:46.99',
-                        IFPORTDUPLEX     => '3',
-                        MAC              => '00:18:71:C1:F0:EB',
-                        IFTYPE           => '6',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'A21',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:EB',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(94699) 0:15:46.99',
+                        IFPORTDUPLEX     => '3',
+                        IFINOCTETS       => '2943397531',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1009676074',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
+                                IFDESCR  => '262',
+                                SYSNAME  => '0x001C2EE58B00',
+                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IP       => '172.31.196.163',
                                 MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR  => '262',
-                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME  => '0x001C2EE58B00'
-                            },
-                            CDP => 1
-                        },
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '22',
                         IFNAME           => 'A22',
-                        IFOUTERRORS      => '0',
-                        IFSPEED          => '1000000000',
-                        IFLASTCHANGE     => '(57936) 0:09:39.36',
-                        IFPORTDUPLEX     => '3',
-                        IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:EA',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'A22',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:EA',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(57936) 0:09:39.36',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '3614341248',
-                        IFMTU            => '1500',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '372261477',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IFDESCR  => '22',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSNAME  => '0x0019BB172200',
-                                IP       => '172.31.192.245'
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.192.245',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '23',
-                        IFOUTERRORS      => '0',
                         IFNAME           => 'A23',
-                        IFOUTOCTETS      => '3322662505',
-                        IFINOCTETS       => '1968825162',
-                        IFMTU            => '1500',
                         IFDESCR          => 'A23',
-                        IFINTERNALSTATUS => '1',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:E9',
                         IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(57936) 0:09:39.36',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
+                        IFINOCTETS       => '1968825162',
                         IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:F0:E9',
-                        IFTYPE           => '6',
+                        IFOUTOCTETS      => '3322662505',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME  => '0x0019BB172200',
                                 IFDESCR  => '23',
+                                SYSNAME  => '0x0019BB172200',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.192.245'
+                                IP       => '172.31.192.245',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '24',
                         IFNAME           => 'A24',
-                        IFOUTERRORS      => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'A24',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:F0:E8',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:E8',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(57936) 0:09:39.36',
                         IFPORTDUPLEX     => '3',
-                        IFOUTOCTETS      => '2284145698',
                         IFINOCTETS       => '3412112397',
-                        IFMTU            => '1500',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2284145698',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
+                                IFDESCR  => '24',
+                                SYSNAME  => '0x0019BB172200',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IP       => '172.31.192.245',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME  => '0x0019BB172200',
-                                IFDESCR  => '24',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '25',
                         IFNAME           => 'B1',
-                        IFOUTERRORS      => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'B1',
                         IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:E7',
-                        IFINERRORS       => '0',
                         IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:E7',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(147667) 0:24:36.67',
                         IFPORTDUPLEX     => '3',
-                        IFOUTOCTETS      => '1169469549',
                         IFINOCTETS       => '1056898244',
-                        IFMTU            => '1500',
-                        CONNECTIONS => {
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1169469549',
+                        IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.151',
                                 IFDESCR  => '143',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSNAME  => '0x0019BB1ACC00',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.151',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                            },
-                            CDP => 1
-                        },
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '26',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
+                        IFNAME           => 'B2',
                         IFDESCR          => 'B2',
-                        MAC              => '00:18:71:C1:F0:E6',
-                        IFINERRORS       => '0',
                         IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:E6',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(147617) 0:24:36.17',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        IFOUTOCTETS      => '558861009',
-                        IFMTU            => '1500',
                         IFINOCTETS       => '3042721785',
-                        IFNAME           => 'B2',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '558861009',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.151',
                                 IFDESCR  => '118',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSNAME  => '0x0019BB1ACC00',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.151',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                            },
-                            CDP => 1
-                        },
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '27',
-                        IFLASTCHANGE     => '(154748) 0:25:47.48',
-                        IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:F0:E5',
-                        IFTYPE           => '6',
+                        IFNAME           => 'B3',
                         IFDESCR          => 'B3',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:E5',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(154748) 0:25:47.48',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '3237184662',
-                        IFMTU            => '1500',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '146927983',
-                        IFNAME           => 'B3',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
                                 IFDESCR  => '141',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSNAME  => '0x0019BB01A600',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.160',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.160'
-                            },
-                            CDP => 1
-                        },
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '28',
-                        IFLASTCHANGE     => '(154797) 0:25:47.97',
-                        IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        MAC              => '00:18:71:C1:F0:E4',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '6',
+                        IFNAME           => 'B4',
                         IFDESCR          => 'B4',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:E4',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(154797) 0:25:47.97',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '2288807394',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '3299335483',
-                        IFNAME           => 'B4',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IFDESCR  => '143',
                                 SYSNAME  => '0x0019BB01A600',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.160',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.160'
-                            },
-                            CDP => 1
-                        },
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '29',
+                        IFNAME           => 'B5',
                         IFDESCR          => 'B5',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:E3',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(152588) 0:25:25.88',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        MAC              => '00:18:71:C1:F0:E3',
-                        IFTYPE           => '6',
+                        IFINOCTETS       => '3318685559',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2809203793',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '3318685559',
-                        IFNAME           => 'B5',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME  => '0x0019BB058200',
                                 IFDESCR  => '141',
+                                SYSNAME  => '0x0019BB058200',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.161'
+                                IP       => '172.31.196.161',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '30',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
+                        IFNAME           => 'B6',
+                        IFDESCR          => 'B6',
                         IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:E2',
-                        IFINERRORS       => '0',
-                        IFLASTCHANGE     => '(2632) 0:00:26.32',
-                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:E2',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
-                        IFDESCR          => 'B6',
+                        IFLASTCHANGE     => '(2632) 0:00:26.32',
+                        IFPORTDUPLEX     => '3',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        IFNAME           => 'B6'
                     },
                     {
                         IFNUMBER         => '31',
-                        IFOUTOCTETS      => '2231577010',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '3012845819',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
+                        IFNAME           => 'B7',
                         IFDESCR          => 'B7',
-                        MAC              => '00:18:71:C1:F0:E1',
-                        IFINERRORS       => '0',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:E1',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(143699) 0:23:56.99',
                         IFPORTDUPLEX     => '3',
+                        IFINOCTETS       => '3012845819',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2231577010',
                         IFOUTERRORS      => '0',
-                        IFNAME           => 'B7',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.162',
-                                SYSNAME  => '0x0018FEF9A800',
                                 IFDESCR  => '285',
+                                SYSNAME  => '0x0018FEF9A800',
                                 SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
-                            },
-                            CDP => 1
-                        },
+                                IP       => '172.31.196.162',
+                                MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '32',
+                        IFNAME           => 'B8',
                         IFDESCR          => 'B8',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:E0',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(143699) 0:23:56.99',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:E0',
+                        IFINOCTETS       => '3323194516',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3764354101',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '3323194516',
-                        IFNAME           => 'B8',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.162',
                                 IFDESCR  => '287',
-                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSNAME  => '0x0018FEF9A800',
+                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.162',
                                 MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '33',
-                        IFLASTCHANGE     => '(94732) 0:15:47.32',
-                        IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:F0:DF',
-                        IFTYPE           => '6',
+                        IFNAME           => 'B9',
                         IFDESCR          => 'B9',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:DF',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(94732) 0:15:47.32',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '3754573618',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '20030667',
-                        IFNAME           => 'B9',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
                                 IFDESCR  => '285',
-                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSNAME  => '0x001C2EE58B00',
+                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.163',
                                 MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.163'
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '34',
                         IFNAME           => 'B10',
-                        IFOUTERRORS      => '0',
+                        IFDESCR          => 'B10',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:DE',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(94732) 0:15:47.32',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        MAC              => '00:18:71:C1:F0:DE',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '6',
-                        IFDESCR          => 'B10',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
-                        IFMTU            => '1500',
                         IFINOCTETS       => '1557689030',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '2884232004',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IFDESCR  => '287',
-                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSNAME  => '0x001C2EE58B00',
-                                IP       => '172.31.196.163'
-                            },
-                            CDP => 1
-                        },
+                                SYSDESCR => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.163',
+                                MODEL    => 'ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '35',
-                        IFOUTERRORS      => '0',
                         IFNAME           => 'B11',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '0',
-                        IFOUTOCTETS      => '0',
-                        MAC              => '00:18:71:C1:F0:DD',
-                        IFINERRORS       => '0',
                         IFTYPE           => '6',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFPORTDUPLEX     => '3',
                         IFSPEED          => '0',
+                        IFMTU            => '0',
+                        MAC              => '00:18:71:C1:F0:DD',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
-                        VLANS            => {
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
-                                    NAME => 'DEFAULT_VLAN',
-                                    NUMBER => '1'
-                                }
+                                    NAME   => 'DEFAULT_VLAN',
+                                    NUMBER => '1',
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '36',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '2',
+                        IFNAME           => 'B12',
+                        IFTYPE           => '6',
                         IFSPEED          => '0',
+                        IFMTU            => '0',
+                        MAC              => '00:18:71:C1:F0:DC',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFPORTDUPLEX     => '3',
-                        MAC              => '00:18:71:C1:F0:DC',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '6',
-                        IFOUTOCTETS      => '0',
                         IFINOCTETS       => '0',
-                        IFMTU            => '0',
-                        IFNAME           => 'B12',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        VLANS            => {
+                        VLANS          => {
                             VLAN => [
                                 {
-                                    NAME => 'DEFAULT_VLAN',
-                                    NUMBER => '1'
-                                }
+                                    NAME   => 'DEFAULT_VLAN',
+                                    NUMBER => '1',
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '37',
                         IFNAME           => 'B13',
-                        IFOUTERRORS      => '0',
+                        IFDESCR          => 'B13',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:DB',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFDESCR          => 'B13',
-                        MAC              => '00:18:71:C1:F0:DB',
-                        IFTYPE           => '6',
-                        IFINERRORS       => '0',
-                        IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(137672) 0:22:56.72',
                         IFPORTDUPLEX     => '3',
-                        IFOUTOCTETS      => '1019288656',
-                        IFMTU            => '1500',
                         IFINOCTETS       => '1205644070',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1019288656',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSNAME  => '0x0019BB010B00',
                                 IFDESCR  => '118',
+                                SYSNAME  => '0x0019BB010B00',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.196.140'
-                            },
-                            CDP => 1
-                        },
+                                IP       => '172.31.196.140',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '38',
                         IFNAME           => 'B14',
-                        IFOUTERRORS      => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '2',
+                        IFTYPE           => '6',
                         IFSPEED          => '0',
+                        IFMTU            => '0',
+                        MAC              => '00:18:71:C1:F0:DA',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFPORTDUPLEX     => '3',
-                        MAC              => '00:18:71:C1:F0:DA',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '6',
-                        IFOUTOCTETS      => '0',
                         IFINOCTETS       => '0',
-                        IFMTU            => '0',
-                        VLANS            => {
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
-                                    NAME => 'DEFAULT_VLAN',
-                                    NUMBER => '1'
-                                }
+                                    NAME   => 'DEFAULT_VLAN',
+                                    NUMBER => '1',
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '39',
+                        IFNAME           => 'B15',
                         IFDESCR          => 'B15',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
+                        IFTYPE           => '6',
                         IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:D9',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(139982) 0:23:19.82',
                         IFPORTDUPLEX     => '3',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:F0:D9',
-                        IFTYPE           => '6',
-                        IFOUTOCTETS      => '3131610378',
                         IFINOCTETS       => '2981067194',
-                        IFMTU            => '1500',
-                        IFNAME           => 'B15',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3131610378',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IFDESCR  => '118',
                                 SYSNAME  => '0x0019BB0D8100',
-                                IP       => '172.31.196.141'
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.141',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '40',
-                        IFOUTERRORS      => '0',
                         IFNAME           => 'B16',
-                        IFOUTOCTETS      => '0',
-                        IFMTU            => '0',
-                        IFINOCTETS       => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '2',
-                        MAC              => '00:18:71:C1:F0:D8',
                         IFTYPE           => '6',
-                        IFINERRORS       => '0',
+                        IFSPEED          => '0',
+                        IFMTU            => '0',
+                        MAC              => '00:18:71:C1:F0:D8',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '0',
-                        VLANS            => {
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
-                                    NAME => 'DEFAULT_VLAN',
-                                    NUMBER => '1'
-                                }
+                                    NAME   => 'DEFAULT_VLAN',
+                                    NUMBER => '1',
+                                },
                             ]
                         },
                     },
                     {
-                    IFNUMBER         => '41',
-                    IFSTATUS         => '1',
-                    IFINTERNALSTATUS => '1',
-                    IFDESCR          => 'B17',
-                    IFTYPE           => '6',
-                    MAC              => '00:18:71:C1:F0:D7',
-                    IFINERRORS       => '0',
-                    IFSPEED          => '1000000000',
-                    IFLASTCHANGE     => '(98347) 0:16:23.47',
+                        IFNUMBER         => '41',
+                        IFNAME           => 'B17',
+                        IFDESCR          => 'B17',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:D7',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(98347) 0:16:23.47',
                         IFPORTDUPLEX     => '3',
-                    IFOUTOCTETS      => '1435860196',
-                    IFINOCTETS       => '2496990832',
-                    IFMTU            => '1500',
-                    IFNAME           => 'B17',
-                    IFOUTERRORS      => '0',
-                    CONNECTIONS      => {
-                            CDP => 1,
+                        IFINOCTETS       => '2496990832',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1435860196',
+                        IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.142',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IFDESCR  => '118',
                                 SYSNAME  => '0x0016B9138000',
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.142',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '42',
                         IFNAME           => 'B18',
-                        IFOUTERRORS      => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '2',
-                        MAC              => '00:18:71:C1:F0:D6',
-                        IFINERRORS       => '0',
                         IFTYPE           => '6',
+                        IFSPEED          => '0',
+                        IFMTU            => '0',
+                        MAC              => '00:18:71:C1:F0:D6',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '0',
-                        IFOUTOCTETS      => '0',
-                        IFMTU            => '0',
                         IFINOCTETS       => '0',
-                        VLANS            => {
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME => 'DEFAULT_VLAN'
-                                }
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '43',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
+                        IFNAME           => 'B19',
                         IFDESCR          => 'B19',
-                        MAC              => '00:18:71:C1:F0:D5',
-                        IFINERRORS       => '0',
                         IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:D5',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(133655) 0:22:16.55',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        IFOUTOCTETS      => '2304461112',
                         IFINOCTETS       => '3225589631',
-                        IFMTU            => '1500',
-                        IFNAME           => 'B19',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2304461112',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 IFDESCR  => '118',
-                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                                 SYSNAME  => '0x0016B9142B00',
-                                IP       => '172.31.196.143'
+                                SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IP       => '172.31.196.143',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '44',
+                        IFNAME           => 'B20',
                         IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:D4',
-                        IFINERRORS       => '0',
                         IFSPEED          => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFPORTDUPLEX     => '3',
+                        IFMTU            => '0',
+                        MAC              => '00:18:71:C1:F0:D4',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '1',
-                        IFMTU            => '0',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFPORTDUPLEX     => '3',
                         IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFNAME           => 'B20',
                         IFOUTERRORS      => '0',
-                        VLANS            => {
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME => 'DEFAULT_VLAN'
-                                }
+                                },
                             ]
                         },
                     },
                     {
                         IFNUMBER         => '45',
+                        IFNAME           => 'B21',
+                        IFDESCR          => 'B21',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:D3',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFDESCR          => 'B21',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:F0:D3',
-                        IFTYPE           => '6',
                         IFLASTCHANGE     => '(171619) 0:28:36.19',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        IFOUTOCTETS      => '4215478562',
-                        IFMTU            => '1500',
                         IFINOCTETS       => '3403667845',
-                        IFNAME           => 'B21',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4215478562',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.196.150',
-                                SYSNAME  => '0x0019BB1B4D00',
                                 IFDESCR  => '118',
+                                SYSNAME  => '0x0019BB1B4D00',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
-                            },
-                            CDP => 1
-                        },
+                                IP       => '172.31.196.150',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '46',
                         IFNAME           => 'B22',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '2524887906',
-                        IFOUTOCTETS      => '986787144',
-                        IFLASTCHANGE     => '(57873) 0:09:38.73',
-                        IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        MAC              => '00:18:71:C1:F0:D2',
-                        IFTYPE           => '6',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'B22',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:D2',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(57873) 0:09:38.73',
+                        IFPORTDUPLEX     => '3',
+                        IFINOCTETS       => '2524887906',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '986787144',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
+                                IFDESCR  => '46',
                                 SYSNAME  => '0x0019BB172200',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR  => '46',
+                                IP       => '172.31.192.245',
                                 MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IP       => '172.31.192.245'
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '47',
                         IFNAME           => 'B23',
-                        IFOUTERRORS      => '0',
                         IFDESCR          => 'B23',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:D1',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(57873) 0:09:38.73',
                         IFPORTDUPLEX     => '3',
-                        IFSPEED          => '1000000000',
-                        IFTYPE           => '6',
-                        MAC              => '00:18:71:C1:F0:D1',
+                        IFINOCTETS       => '1647940696',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1527530290',
-                        IFINOCTETS       => '1647940696',
-                        IFMTU            => '1500',
+                        IFOUTERRORS      => '0',
                         CONNECTIONS      => {
+                            CDP        => 1,
                             CONNECTION => {
-                                IP       => '172.31.192.245',
+                                IFDESCR  => '47',
                                 SYSNAME  => '0x0019BB172200',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR  => '47',
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))'
-                            },
-                            CDP => 1
-                        },
+                                IP       => '172.31.192.245',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '48',
                         IFNAME           => 'B24',
-                        IFOUTOCTETS      => '2515291862',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '2411859653',
                         IFDESCR          => 'B24',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:F0:D0',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFSPEED          => '1000000000',
                         IFLASTCHANGE     => '(57873) 0:09:38.73',
                         IFPORTDUPLEX     => '3',
-                        MAC              => '00:18:71:C1:F0:D0',
-                        IFTYPE           => '6',
+                        IFINOCTETS       => '2411859653',
                         IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2515291862',
                         IFOUTERRORS      => '0',
                         CONNECTIONS      => {
-                            CDP => 1,
+                            CDP        => 1,
                             CONNECTION => {
-                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
+                                IFDESCR  => '48',
                                 SYSNAME  => '0x0019BB172200',
                                 SYSDESCR => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
-                                IFDESCR  => '48',
-                                IP       => '172.31.192.245'
+                                IP       => '172.31.192.245',
+                                MODEL    => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))',
                             }
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '291',
                         IFNAME           => 'Trk2',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(140222) 0:23:22.22',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '161',
-                        MAC              => '00:18:71:C1:E0:00',
                         IFDESCR          => 'Trk2',
-                        IFSTATUS         => '1',
-                        IFOUTERRORS      => '0',
-                        IFINOCTETS       => '3379199007',
-                        IFOUTOCTETS      => '410125299',
+                        IFTYPE           => '161',
                         IFSPEED          => '3000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(140222) 0:23:22.22',
+                        IFINOCTETS       => '3379199007',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '410125299',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'DEFAULT_VLAN',
+                                    NUMBER => '1',
+                                },
+                                {
+                                    NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
+                                },
+                                {
+                                    NAME   => 'DMZ227',
+                                    NUMBER => '14',
+                                },
+                                {
+                                    NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
+                                },
+                                {
+                                    NAME   => 'INTERCO-CSS',
+                                    NUMBER => '15',
+                                },
+                                {
+                                    NAME   => 'RENATER',
+                                    NUMBER => '150',
+                                },
+                                {
+                                    NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
+                                },
+                                {
+                                    NAME   => 'FW-VLAN-LIBRE',
+                                    NUMBER => '153',
+                                },
+                                {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
+                                    NUMBER => '154',
+                                },
+                                {
+                                    NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
+                                },
+                                {
+                                    NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
+                                },
+                                {
+                                    NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
+                                },
+                                {
+                                    NAME   => 'FW-DMZ-INFRA2',
+                                    NUMBER => '158',
+                                },
+                                {
+                                    NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
+                                },
+                                {
+                                    NAME   => 'SERVEUR-CSS',
+                                    NUMBER => '16',
+                                },
+                                {
+                                    NAME   => 'ToIP_RIHDA',
+                                    NUMBER => '160',
+                                },
+                                {
+                                    NAME   => 'LIBR_SERVICE',
+                                    NUMBER => '162',
+                                },
+                                {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
+                                    NUMBER => '17',
+                                },
+                                {
+                                    NAME   => 'DATA_RIHDA',
+                                    NUMBER => '170',
+                                },
+                                {
+                                    NAME   => 'DATA_POLY',
+                                    NUMBER => '171',
+                                },
+                                {
+                                    NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
+                                },
+                                {
+                                    NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
+                                },
+                                {
+                                    NAME   => 'video_RIHDA',
+                                    NUMBER => '180',
+                                },
+                                {
+                                    NAME   => 'postesIP_RIHDA',
+                                    NUMBER => '190',
+                                },
+                                {
+                                    NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
+                                },
+                                {
+                                    NAME   => 'SERVERS',
+                                    NUMBER => '2',
+                                },
+                                {
+                                    NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
+                                },
+                                {
+                                    NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
+                                },
+                                {
+                                    NAME   => 'UTIL_FORMATION',
+                                    NUMBER => '204',
+                                },
+                                {
+                                    NAME   => 'UTIL_CATI',
+                                    NUMBER => '205',
+                                },
+                                {
+                                    NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
+                                },
+                                {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
+                                    NUMBER => '215',
+                                },
+                                {
+                                    NAME   => 'DMZ_HD',
+                                    NUMBER => '22',
+                                },
+                                {
+                                    NAME   => 'ZONE_PUBLIQUE',
+                                    NUMBER => '3',
+                                },
+                                {
+                                    NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
+                                },
+                                {
+                                    NAME   => 'COLLECTE-TEST',
+                                    NUMBER => '3000',
+                                },
+                                {
+                                    NAME   => 'TEST-APPLI',
+                                    NUMBER => '3002',
+                                },
+                                {
+                                    NAME   => 'TEST-AGRIATE',
+                                    NUMBER => '3006',
+                                },
+                                {
+                                    NAME   => 'TEST-ETAB',
+                                    NUMBER => '3007',
+                                },
+                                {
+                                    NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
+                                },
+                                {
+                                    NAME   => 'VLAN401',
+                                    NUMBER => '401',
+                                },
+                                {
+                                    NAME   => 'wifi_recteur',
+                                    NUMBER => '402',
+                                },
+                                {
+                                    NAME   => 'DMZ_ELGG',
+                                    NUMBER => '403',
+                                },
+                                {
+                                    NAME   => 'DMZ',
+                                    NUMBER => '5',
+                                },
+                                {
+                                    NAME   => 'AGRIATES',
+                                    NUMBER => '6',
+                                },
+                                {
+                                    NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -16210,216 +17411,199 @@ my %tests = (
                                     '00:50:56:7B:AA:A5',
                                     '00:50:56:46:51:9D',
                                     '00:50:56:49:71:8C',
-                                    '02:A0:98:12:B5:20'
-                                ]
+                                    '02:A0:98:12:B5:20',
+                                ],
                             }
-                        },
-                        VLANS => {
+                        }
+                    },
+                    {
+                        IFNUMBER         => '293',
+                        IFNAME           => 'Trk4',
+                        IFDESCR          => 'Trk4',
+                        IFTYPE           => '161',
+                        IFSPEED          => '3000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(152649) 0:25:26.49',
+                        IFINOCTETS       => '3667291251',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '949597094',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
                                 },
                                 {
-                                    NUMBER => '13',
                                     NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
                                 },
                                 {
-                                    NUMBER => '14',
                                     NAME   => 'DMZ227',
+                                    NUMBER => '14',
                                 },
                                 {
-                                    NUMBER => '149',
                                     NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
                                 },
                                 {
+                                    NAME   => 'INTERCO-CSS',
                                     NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
                                 },
                                 {
+                                    NAME   => 'RENATER',
                                     NUMBER => '150',
-                                    NAME   => 'RENATER'
                                 },
-
                                 {
-                                    NUMBER => '152',
                                     NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
                                 },
                                 {
+                                    NAME   => 'FW-VLAN-LIBRE',
                                     NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
                                 },
                                 {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
                                     NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
                                 },
                                 {
-                                    NUMBER => '155',
                                     NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
                                 },
                                 {
-                                    NUMBER => '156',
                                     NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
                                 },
                                 {
-                                    NUMBER => '157',
                                     NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
                                 },
                                 {
+                                    NAME   => 'FW-DMZ-INFRA2',
                                     NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
                                 },
                                 {
-                                    NUMBER => '159',
                                     NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
                                 },
                                 {
+                                    NAME   => 'SERVEUR-CSS',
                                     NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
                                 },
                                 {
+                                    NAME   => 'ToIP_RIHDA',
                                     NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
                                 },
                                 {
+                                    NAME   => 'LIBR_SERVICE',
                                     NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
                                 },
                                 {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
                                     NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
                                 },
                                 {
+                                    NAME   => 'DATA_RIHDA',
                                     NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
                                 },
                                 {
+                                    NAME   => 'DATA_POLY',
                                     NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
                                 },
                                 {
-                                    NUMBER => '172',
                                     NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
                                 },
                                 {
-                                    NUMBER => '18',
                                     NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
                                 },
                                 {
+                                    NAME   => 'video_RIHDA',
                                     NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
                                 },
                                 {
+                                    NAME   => 'postesIP_RIHDA',
                                     NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
                                 },
                                 {
-                                    NUMBER => '196',
                                     NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
                                 },
                                 {
+                                    NAME   => 'SERVERS',
                                     NUMBER => '2',
-                                    NAME => 'SERVERS',
                                 },
                                 {
-                                    NUMBER => '201',
                                     NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
                                 },
                                 {
-                                    NUMBER => '202',
                                     NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
                                 },
                                 {
+                                    NAME   => 'UTIL_FORMATION',
                                     NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
                                 },
                                 {
+                                    NAME   => 'UTIL_CATI',
                                     NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
                                 },
                                 {
-                                    NUMBER => '214',
                                     NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
                                 },
                                 {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
                                     NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
                                 },
                                 {
+                                    NAME   => 'DMZ_HD',
                                     NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
                                 },
                                 {
+                                    NAME   => 'ZONE_PUBLIQUE',
                                     NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
                                 },
                                 {
-                                    NUMBER => '30',
                                     NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
                                 },
                                 {
-                                    NUMBER => '3000',
-                                    NAME   => 'COLLECTE-TEST'
-                                },
-                                {
-                                    NUMBER => '3002',
-                                    NAME => 'TEST-APPLI',
-                                },
-                                {
-                                    NUMBER => '3006',
-                                    NAME => 'TEST-AGRIATE',
-                                },
-                                {
-                                    NUMBER => '3007',
-                                    NAME   => 'TEST-ETAB',
-                                },
-                                {
-                                    NUMBER => '4',
                                     NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
                                 },
                                 {
                                     NAME   => 'VLAN401',
                                     NUMBER => '401',
                                 },
                                 {
+                                    NAME   => 'wifi_recteur',
                                     NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
                                 },
                                 {
+                                    NAME   => 'DMZ_ELGG',
                                     NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
                                 },
                                 {
+                                    NAME   => 'DMZ',
                                     NUMBER => '5',
-                                    NAME   => 'DMZ'
                                 },
                                 {
+                                    NAME   => 'AGRIATES',
                                     NUMBER => '6',
-                                    NAME   => 'AGRIATES'
                                 },
                                 {
-                                    NUMBER => '7',
                                     NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
                                 },
                             ]
                         },
-                    },
-                    {
-                        IFNUMBER         => '293',
-                        IFNAME           => 'Trk4',
-                        IFMTU            => '1500',
-                        IFLASTCHANGE     => '(152649) 0:25:26.49',
-                        IFTYPE           => '161',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFDESCR          => 'Trk4',
-                        IFSTATUS         => '1',
-                        IFINOCTETS       => '3667291251',
-                        IFOUTOCTETS      => '949597094',
-                        IFSPEED          => '3000000000',
-                        IFINTERNALSTATUS => '1',
-                        IFOUTERRORS      => '0',
-                        CONNECTIONS => {
+                        CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
                                     '00:00:F0:AC:EA:A9',
@@ -16438,199 +17622,198 @@ my %tests = (
                                     '00:08:5D:13:57:D2',
                                     '00:08:5D:2B:65:12',
                                     '00:08:5D:2C:C0:02',
-                                    '10:78:D2:E8:73:41'
-                                ]
+                                    '10:78:D2:E8:73:41',
+                                ],
                             }
-                        },
-                        VLANS => {
+                        }
+                    },
+                    {
+                        IFNUMBER         => '295',
+                        IFNAME           => 'Trk6',
+                        IFDESCR          => 'Trk6',
+                        IFTYPE           => '161',
+                        IFSPEED          => '3000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(147706) 0:24:37.06',
+                        IFINOCTETS       => '3539810853',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4031062390',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
                                 },
                                 {
-                                    NUMBER => '13',
                                     NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
                                 },
                                 {
-                                    NUMBER => '14',
                                     NAME   => 'DMZ227',
+                                    NUMBER => '14',
                                 },
                                 {
-                                    NUMBER => '149',
                                     NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
                                 },
                                 {
+                                    NAME   => 'INTERCO-CSS',
                                     NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
                                 },
                                 {
+                                    NAME   => 'RENATER',
                                     NUMBER => '150',
-                                    NAME   => 'RENATER'
                                 },
-
                                 {
-                                    NUMBER => '152',
                                     NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
                                 },
                                 {
+                                    NAME   => 'FW-VLAN-LIBRE',
                                     NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
                                 },
                                 {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
                                     NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
                                 },
                                 {
-                                    NUMBER => '155',
                                     NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
                                 },
                                 {
-                                    NUMBER => '156',
                                     NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
                                 },
                                 {
-                                    NUMBER => '157',
                                     NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
                                 },
                                 {
+                                    NAME   => 'FW-DMZ-INFRA2',
                                     NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
                                 },
                                 {
-                                    NUMBER => '159',
                                     NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
                                 },
                                 {
+                                    NAME   => 'SERVEUR-CSS',
                                     NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
                                 },
                                 {
+                                    NAME   => 'ToIP_RIHDA',
                                     NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
                                 },
                                 {
+                                    NAME   => 'LIBR_SERVICE',
                                     NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
                                 },
                                 {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
                                     NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
                                 },
                                 {
+                                    NAME   => 'DATA_RIHDA',
                                     NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
                                 },
                                 {
+                                    NAME   => 'DATA_POLY',
                                     NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
                                 },
                                 {
-                                    NUMBER => '172',
                                     NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
                                 },
                                 {
-                                    NUMBER => '18',
                                     NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
                                 },
                                 {
+                                    NAME   => 'video_RIHDA',
                                     NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
                                 },
                                 {
+                                    NAME   => 'postesIP_RIHDA',
                                     NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
                                 },
                                 {
-                                    NUMBER => '196',
                                     NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
                                 },
                                 {
+                                    NAME   => 'SERVERS',
                                     NUMBER => '2',
-                                    NAME => 'SERVERS',
                                 },
                                 {
-                                    NUMBER => '201',
                                     NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
                                 },
                                 {
-                                    NUMBER => '202',
                                     NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
                                 },
                                 {
+                                    NAME   => 'UTIL_FORMATION',
                                     NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
                                 },
                                 {
+                                    NAME   => 'UTIL_CATI',
                                     NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
                                 },
                                 {
-                                    NUMBER => '214',
                                     NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
                                 },
                                 {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
                                     NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
                                 },
                                 {
+                                    NAME   => 'DMZ_HD',
                                     NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
                                 },
                                 {
+                                    NAME   => 'ZONE_PUBLIQUE',
                                     NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
                                 },
                                 {
-                                    NUMBER => '30',
                                     NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
                                 },
                                 {
-                                    NUMBER => '4',
                                     NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
                                 },
                                 {
                                     NAME   => 'VLAN401',
                                     NUMBER => '401',
                                 },
                                 {
+                                    NAME   => 'wifi_recteur',
                                     NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
                                 },
                                 {
+                                    NAME   => 'DMZ_ELGG',
                                     NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
                                 },
                                 {
+                                    NAME   => 'DMZ',
                                     NUMBER => '5',
-                                    NAME   => 'DMZ'
                                 },
                                 {
+                                    NAME   => 'AGRIATES',
                                     NUMBER => '6',
-                                    NAME   => 'AGRIATES'
                                 },
                                 {
-                                    NUMBER => '7',
                                     NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
                                 },
                             ]
                         },
-                    },
-                    {
-                        IFNUMBER         => '295',
-                        IFNAME           => 'Trk6',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED          => '3000000000',
-                        IFOUTOCTETS      => '4031062390',
-                        IFINOCTETS       => '3539810853',
-                        IFOUTERRORS      => '0',
-                        IFSTATUS         => '1',
-                        IFDESCR          => 'Trk6',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '161',
-                        IFLASTCHANGE     => '(147706) 0:24:37.06',
-                        IFMTU            => '1500',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -16707,199 +17890,198 @@ my %tests = (
                                     'B8:AC:6F:25:C8:40',
                                     'B8:AC:6F:3E:36:5F',
                                     '08:00:71:03:DD:41',
-                                    '08:2E:5F:32:7A:91'
-                                ]
+                                    '08:2E:5F:32:7A:91',
+                                ],
                             }
-                        },
-                        VLANS => {
+                        }
+                    },
+                    {
+                        IFNUMBER         => '297',
+                        IFNAME           => 'Trk8',
+                        IFDESCR          => 'Trk8',
+                        IFTYPE           => '161',
+                        IFSPEED          => '3000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(171701) 0:28:37.01',
+                        IFINOCTETS       => '2716694799',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3066835333',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
                                 },
                                 {
-                                    NUMBER => '13',
                                     NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
                                 },
                                 {
-                                    NUMBER => '14',
                                     NAME   => 'DMZ227',
+                                    NUMBER => '14',
                                 },
                                 {
-                                    NUMBER => '149',
                                     NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
                                 },
                                 {
+                                    NAME   => 'INTERCO-CSS',
                                     NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
                                 },
                                 {
+                                    NAME   => 'RENATER',
                                     NUMBER => '150',
-                                    NAME   => 'RENATER'
                                 },
-
                                 {
-                                    NUMBER => '152',
                                     NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
                                 },
                                 {
+                                    NAME   => 'FW-VLAN-LIBRE',
                                     NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
                                 },
                                 {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
                                     NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
                                 },
                                 {
-                                    NUMBER => '155',
                                     NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
                                 },
                                 {
-                                    NUMBER => '156',
                                     NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
                                 },
                                 {
-                                    NUMBER => '157',
                                     NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
                                 },
                                 {
+                                    NAME   => 'FW-DMZ-INFRA2',
                                     NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
                                 },
                                 {
-                                    NUMBER => '159',
                                     NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
                                 },
                                 {
+                                    NAME   => 'SERVEUR-CSS',
                                     NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
                                 },
                                 {
+                                    NAME   => 'ToIP_RIHDA',
                                     NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
                                 },
                                 {
+                                    NAME   => 'LIBR_SERVICE',
                                     NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
                                 },
                                 {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
                                     NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
                                 },
                                 {
+                                    NAME   => 'DATA_RIHDA',
                                     NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
                                 },
                                 {
+                                    NAME   => 'DATA_POLY',
                                     NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
                                 },
                                 {
-                                    NUMBER => '172',
                                     NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
                                 },
                                 {
-                                    NUMBER => '18',
                                     NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
                                 },
                                 {
+                                    NAME   => 'video_RIHDA',
                                     NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
                                 },
                                 {
+                                    NAME   => 'postesIP_RIHDA',
                                     NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
                                 },
                                 {
-                                    NUMBER => '196',
                                     NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
                                 },
                                 {
+                                    NAME   => 'SERVERS',
                                     NUMBER => '2',
-                                    NAME => 'SERVERS',
                                 },
                                 {
-                                    NUMBER => '201',
                                     NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
                                 },
                                 {
-                                    NUMBER => '202',
                                     NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
                                 },
                                 {
+                                    NAME   => 'UTIL_FORMATION',
                                     NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
                                 },
                                 {
+                                    NAME   => 'UTIL_CATI',
                                     NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
                                 },
                                 {
-                                    NUMBER => '214',
                                     NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
                                 },
                                 {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
                                     NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
                                 },
                                 {
+                                    NAME   => 'DMZ_HD',
                                     NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
                                 },
                                 {
+                                    NAME   => 'ZONE_PUBLIQUE',
                                     NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
                                 },
                                 {
-                                    NUMBER => '30',
                                     NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
                                 },
                                 {
-                                    NUMBER => '4',
                                     NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
                                 },
                                 {
                                     NAME   => 'VLAN401',
                                     NUMBER => '401',
                                 },
                                 {
+                                    NAME   => 'wifi_recteur',
                                     NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
                                 },
                                 {
+                                    NAME   => 'DMZ_ELGG',
                                     NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
                                 },
                                 {
+                                    NAME   => 'DMZ',
                                     NUMBER => '5',
-                                    NAME   => 'DMZ'
                                 },
                                 {
+                                    NAME   => 'AGRIATES',
                                     NUMBER => '6',
-                                    NAME   => 'AGRIATES'
                                 },
                                 {
-                                    NUMBER => '7',
                                     NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
                                 },
                             ]
                         },
-                    },
-                    {
-                        IFNUMBER         => '297',
-                        IFNAME           => 'Trk8',
-                        IFLASTCHANGE     => '(171701) 0:28:37.01',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '161',
-                        IFDESCR          => 'Trk8',
-                        IFSTATUS         => '1',
-                        IFMTU            => '1500',
-                        IFOUTERRORS      => '0',
-                        IFSPEED          => '3000000000',
-                        IFINTERNALSTATUS => '1',
-                        IFINOCTETS       => '2716694799',
-                        IFOUTOCTETS      => '3066835333',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -16936,199 +18118,198 @@ my %tests = (
                                     '00:08:5D:2C:C7:32',
                                     '10:78:D2:E3:8B:C7',
                                     '10:78:D2:E6:E2:78',
-                                    'B8:AC:6F:23:19:08'
-                                ]
+                                    'B8:AC:6F:23:19:08',
+                                ],
                             }
-                        },
-                        VLANS => {
+                        }
+                    },
+                    {
+                        IFNUMBER         => '299',
+                        IFNAME           => 'Trk10',
+                        IFDESCR          => 'Trk10',
+                        IFTYPE           => '161',
+                        IFSPEED          => '3000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(143756) 0:23:57.56',
+                        IFINOCTETS       => '2069762898',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3487158309',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
                                 },
                                 {
-                                    NUMBER => '13',
                                     NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
                                 },
                                 {
-                                    NUMBER => '14',
                                     NAME   => 'DMZ227',
+                                    NUMBER => '14',
                                 },
                                 {
-                                    NUMBER => '149',
                                     NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
                                 },
                                 {
+                                    NAME   => 'INTERCO-CSS',
                                     NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
                                 },
                                 {
+                                    NAME   => 'RENATER',
                                     NUMBER => '150',
-                                    NAME   => 'RENATER'
                                 },
-
                                 {
-                                    NUMBER => '152',
                                     NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
                                 },
                                 {
+                                    NAME   => 'FW-VLAN-LIBRE',
                                     NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
                                 },
                                 {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
                                     NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
                                 },
                                 {
-                                    NUMBER => '155',
                                     NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
                                 },
                                 {
-                                    NUMBER => '156',
                                     NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
                                 },
                                 {
-                                    NUMBER => '157',
                                     NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
                                 },
                                 {
+                                    NAME   => 'FW-DMZ-INFRA2',
                                     NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
                                 },
                                 {
-                                    NUMBER => '159',
                                     NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
                                 },
                                 {
+                                    NAME   => 'SERVEUR-CSS',
                                     NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
                                 },
                                 {
+                                    NAME   => 'ToIP_RIHDA',
                                     NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
                                 },
                                 {
+                                    NAME   => 'LIBR_SERVICE',
                                     NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
                                 },
                                 {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
                                     NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
                                 },
                                 {
+                                    NAME   => 'DATA_RIHDA',
                                     NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
                                 },
                                 {
+                                    NAME   => 'DATA_POLY',
                                     NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
                                 },
                                 {
-                                    NUMBER => '172',
                                     NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
                                 },
                                 {
-                                    NUMBER => '18',
                                     NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
                                 },
                                 {
+                                    NAME   => 'video_RIHDA',
                                     NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
                                 },
                                 {
+                                    NAME   => 'postesIP_RIHDA',
                                     NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
                                 },
                                 {
-                                    NUMBER => '196',
                                     NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
                                 },
                                 {
+                                    NAME   => 'SERVERS',
                                     NUMBER => '2',
-                                    NAME => 'SERVERS',
                                 },
                                 {
-                                    NUMBER => '201',
                                     NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
                                 },
                                 {
-                                    NUMBER => '202',
                                     NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
                                 },
                                 {
+                                    NAME   => 'UTIL_FORMATION',
                                     NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
                                 },
                                 {
+                                    NAME   => 'UTIL_CATI',
                                     NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
                                 },
                                 {
-                                    NUMBER => '214',
                                     NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
                                 },
                                 {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
                                     NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
                                 },
                                 {
+                                    NAME   => 'DMZ_HD',
                                     NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
                                 },
                                 {
+                                    NAME   => 'ZONE_PUBLIQUE',
                                     NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
                                 },
                                 {
-                                    NUMBER => '30',
                                     NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
                                 },
                                 {
-                                    NUMBER => '4',
                                     NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
                                 },
                                 {
                                     NAME   => 'VLAN401',
                                     NUMBER => '401',
                                 },
                                 {
+                                    NAME   => 'wifi_recteur',
                                     NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
                                 },
                                 {
+                                    NAME   => 'DMZ_ELGG',
                                     NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
                                 },
                                 {
+                                    NAME   => 'DMZ',
                                     NUMBER => '5',
-                                    NAME   => 'DMZ'
                                 },
                                 {
+                                    NAME   => 'AGRIATES',
                                     NUMBER => '6',
-                                    NAME   => 'AGRIATES'
                                 },
                                 {
-                                    NUMBER => '7',
                                     NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
                                 },
                             ]
                         },
-                    },
-                    {
-                        IFNUMBER         => '299',
-                        IFNAME           => 'Trk10',
-                        IFOUTERRORS      => '0',
-                        IFDESCR          => 'Trk10',
-                        IFSTATUS         => '1',
-                        IFLASTCHANGE     => '(143756) 0:23:57.56',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '161',
-                        IFMTU            => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED          => '3000000000',
-                        IFOUTOCTETS      => '3487158309',
-                        IFINOCTETS       => '2069762898',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -17163,198 +18344,214 @@ my %tests = (
                                     '00:08:5D:2C:C0:CF',
                                     '00:08:5D:2C:C0:27',
                                     '10:78:D2:E9:8E:4B',
-                                    'B8:AC:6F:22:AA:E0'
-                                ]
+                                    'B8:AC:6F:22:AA:E0',
+                                ],
                             }
-                        },
-                        VLANS => {
+                        }
+                    },
+                    {
+                        IFNUMBER         => '301',
+                        IFNAME           => 'Trk12',
+                        IFDESCR          => 'Trk12',
+                        IFTYPE           => '161',
+                        IFSPEED          => '3000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(137833) 0:22:58.33',
+                        IFINOCTETS       => '982784258',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2720306505',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
                                 },
                                 {
-                                    NUMBER => '13',
                                     NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
                                 },
                                 {
-                                    NUMBER => '14',
                                     NAME   => 'DMZ227',
+                                    NUMBER => '14',
                                 },
                                 {
-                                    NUMBER => '149',
                                     NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
                                 },
                                 {
+                                    NAME   => 'INTERCO-CSS',
                                     NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
                                 },
                                 {
+                                    NAME   => 'RENATER',
                                     NUMBER => '150',
-                                    NAME   => 'RENATER'
                                 },
                                 {
-                                    NUMBER => '152',
                                     NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
                                 },
                                 {
+                                    NAME   => 'FW-VLAN-LIBRE',
                                     NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
                                 },
                                 {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
                                     NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
                                 },
                                 {
-                                    NUMBER => '155',
                                     NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
                                 },
                                 {
-                                    NUMBER => '156',
                                     NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
                                 },
                                 {
-                                    NUMBER => '157',
                                     NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
                                 },
                                 {
+                                    NAME   => 'FW-DMZ-INFRA2',
                                     NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
                                 },
                                 {
-                                    NUMBER => '159',
                                     NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
                                 },
                                 {
+                                    NAME   => 'SERVEUR-CSS',
                                     NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
                                 },
                                 {
+                                    NAME   => 'ToIP_RIHDA',
                                     NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
                                 },
                                 {
+                                    NAME   => 'LIBR_SERVICE',
                                     NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
                                 },
                                 {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
                                     NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
                                 },
                                 {
+                                    NAME   => 'DATA_RIHDA',
                                     NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
                                 },
                                 {
+                                    NAME   => 'DATA_POLY',
                                     NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
                                 },
                                 {
-                                    NUMBER => '172',
                                     NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
                                 },
                                 {
-                                    NUMBER => '18',
                                     NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
                                 },
                                 {
+                                    NAME   => 'video_RIHDA',
                                     NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
                                 },
                                 {
+                                    NAME   => 'postesIP_RIHDA',
                                     NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
                                 },
                                 {
-                                    NUMBER => '196',
                                     NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
                                 },
                                 {
+                                    NAME   => 'SERVERS',
                                     NUMBER => '2',
-                                    NAME => 'SERVERS',
                                 },
                                 {
-                                    NUMBER => '201',
                                     NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
                                 },
                                 {
-                                    NUMBER => '202',
                                     NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
                                 },
                                 {
+                                    NAME   => 'UTIL_FORMATION',
                                     NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
                                 },
                                 {
+                                    NAME   => 'UTIL_CATI',
                                     NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
                                 },
                                 {
-                                    NUMBER => '214',
                                     NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
                                 },
                                 {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
                                     NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
                                 },
                                 {
+                                    NAME   => 'DMZ_HD',
                                     NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
                                 },
                                 {
+                                    NAME   => 'ZONE_PUBLIQUE',
                                     NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
                                 },
                                 {
-                                    NUMBER => '30',
                                     NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
                                 },
                                 {
-                                    NUMBER => '4',
+                                    NAME   => 'COLLECTE-TEST',
+                                    NUMBER => '3000',
+                                },
+                                {
+                                    NAME   => 'TEST-APPLI',
+                                    NUMBER => '3002',
+                                },
+                                {
+                                    NAME   => 'TEST-AGRIATE',
+                                    NUMBER => '3006',
+                                },
+                                {
+                                    NAME   => 'TEST-ETAB',
+                                    NUMBER => '3007',
+                                },
+                                {
                                     NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
                                 },
                                 {
                                     NAME   => 'VLAN401',
                                     NUMBER => '401',
                                 },
                                 {
+                                    NAME   => 'wifi_recteur',
                                     NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
                                 },
                                 {
+                                    NAME   => 'DMZ_ELGG',
                                     NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
                                 },
                                 {
+                                    NAME   => 'DMZ',
                                     NUMBER => '5',
-                                    NAME   => 'DMZ'
                                 },
                                 {
+                                    NAME   => 'AGRIATES',
                                     NUMBER => '6',
-                                    NAME   => 'AGRIATES'
                                 },
                                 {
-                                    NUMBER => '7',
                                     NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
                                 },
                             ]
                         },
-                    },
-                    {
-                        IFNUMBER         => '301',
-                        IFNAME           => 'Trk12',
-                        IFOUTERRORS      => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED          => '3000000000',
-                        IFOUTOCTETS      => '2720306505',
-                        IFINOCTETS       => '982784258',
-                        IFSTATUS         => '1',
-                        IFDESCR          => 'Trk12',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '161',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFLASTCHANGE     => '(137833) 0:22:58.33',
-                        IFMTU            => '1500',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -17367,215 +18564,214 @@ my %tests = (
                                     '00:50:56:8B:65:0A',
                                     '00:50:56:8B:29:26',
                                     '00:50:56:44:71:B5',
-                                    '00:50:56:47:E1:B4'
-                                ]
+                                    '00:50:56:47:E1:B4',
+                                ],
                             }
-                        },
-                        VLANS => {
+                        }
+                    },
+                    {
+                        IFNUMBER         => '303',
+                        IFNAME           => 'Trk14',
+                        IFDESCR          => 'Trk14',
+                        IFTYPE           => '161',
+                        IFSPEED          => '3000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(133781) 0:22:17.81',
+                        IFINOCTETS       => '1935734813',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '551488736',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
                                 },
                                 {
-                                    NUMBER => '13',
                                     NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
                                 },
                                 {
-                                    NUMBER => '14',
                                     NAME   => 'DMZ227',
+                                    NUMBER => '14',
                                 },
                                 {
-                                    NUMBER => '149',
                                     NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
                                 },
                                 {
+                                    NAME   => 'INTERCO-CSS',
                                     NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
                                 },
                                 {
+                                    NAME   => 'RENATER',
                                     NUMBER => '150',
-                                    NAME   => 'RENATER'
                                 },
-
                                 {
-                                    NUMBER => '152',
                                     NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
                                 },
                                 {
+                                    NAME   => 'FW-VLAN-LIBRE',
                                     NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
                                 },
                                 {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
                                     NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
                                 },
                                 {
-                                    NUMBER => '155',
                                     NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
                                 },
                                 {
-                                    NUMBER => '156',
                                     NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
                                 },
                                 {
-                                    NUMBER => '157',
                                     NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
                                 },
                                 {
+                                    NAME   => 'FW-DMZ-INFRA2',
                                     NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
                                 },
                                 {
-                                    NUMBER => '159',
                                     NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
                                 },
                                 {
+                                    NAME   => 'SERVEUR-CSS',
                                     NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
                                 },
                                 {
+                                    NAME   => 'ToIP_RIHDA',
                                     NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
                                 },
                                 {
+                                    NAME   => 'LIBR_SERVICE',
                                     NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
                                 },
                                 {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
                                     NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
                                 },
                                 {
+                                    NAME   => 'DATA_RIHDA',
                                     NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
                                 },
                                 {
+                                    NAME   => 'DATA_POLY',
                                     NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
                                 },
                                 {
-                                    NUMBER => '172',
                                     NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
                                 },
                                 {
-                                    NUMBER => '18',
                                     NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
                                 },
                                 {
+                                    NAME   => 'video_RIHDA',
                                     NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
                                 },
                                 {
+                                    NAME   => 'postesIP_RIHDA',
                                     NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
                                 },
                                 {
-                                    NUMBER => '196',
                                     NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
                                 },
                                 {
+                                    NAME   => 'SERVERS',
                                     NUMBER => '2',
-                                    NAME => 'SERVERS',
                                 },
                                 {
-                                    NUMBER => '201',
                                     NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
                                 },
                                 {
-                                    NUMBER => '202',
                                     NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
                                 },
                                 {
+                                    NAME   => 'UTIL_FORMATION',
                                     NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
                                 },
                                 {
+                                    NAME   => 'UTIL_CATI',
                                     NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
                                 },
                                 {
-                                    NUMBER => '214',
                                     NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
                                 },
                                 {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
                                     NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
                                 },
                                 {
+                                    NAME   => 'DMZ_HD',
                                     NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
                                 },
                                 {
+                                    NAME   => 'ZONE_PUBLIQUE',
                                     NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
                                 },
                                 {
-                                    NUMBER => '30',
                                     NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
                                 },
                                 {
+                                    NAME   => 'COLLECTE-TEST',
                                     NUMBER => '3000',
-                                    NAME   => 'COLLECTE-TEST'
                                 },
                                 {
+                                    NAME   => 'TEST-APPLI',
                                     NUMBER => '3002',
-                                    NAME => 'TEST-APPLI',
                                 },
                                 {
+                                    NAME   => 'TEST-AGRIATE',
                                     NUMBER => '3006',
-                                    NAME => 'TEST-AGRIATE',
                                 },
                                 {
-                                    NUMBER => '3007',
                                     NAME   => 'TEST-ETAB',
+                                    NUMBER => '3007',
                                 },
                                 {
-                                    NUMBER => '4',
                                     NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
                                 },
                                 {
                                     NAME   => 'VLAN401',
                                     NUMBER => '401',
                                 },
                                 {
+                                    NAME   => 'wifi_recteur',
                                     NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
                                 },
                                 {
+                                    NAME   => 'DMZ_ELGG',
                                     NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
                                 },
                                 {
+                                    NAME   => 'DMZ',
                                     NUMBER => '5',
-                                    NAME   => 'DMZ'
                                 },
                                 {
+                                    NAME   => 'AGRIATES',
                                     NUMBER => '6',
-                                    NAME   => 'AGRIATES'
                                 },
                                 {
-                                    NUMBER => '7',
                                     NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
                                 },
                             ]
                         },
-                    },
-                    {
-                        IFNUMBER         => '303',
-                        IFNAME           => 'Trk14',
-                        IFOUTOCTETS      => '551488736',
-                        IFOUTERRORS      => '0',
-                        IFLASTCHANGE     => '(133781) 0:22:17.81',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '161',
-                        IFDESCR          => 'Trk14',
-                        IFSTATUS         => '1',
-                        IFMTU            => '1500',
-                        IFSPEED          => '3000000000',
-                        IFINTERNALSTATUS => '1',
-                        IFINOCTETS       => '1935734813',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -17586,215 +18782,214 @@ my %tests = (
                                     '00:1E:C9:B7:B8:B3',
                                     '00:1E:C9:B7:B8:F4',
                                     '00:50:56:72:D9:74',
-                                    '00:50:56:44:DF:2D'
-                                ]
+                                    '00:50:56:44:DF:2D',
+                                ],
                             }
-                        },
-                        VLANS => {
+                        }
+                    },
+                    {
+                        IFNUMBER         => '305',
+                        IFNAME           => 'Trk16',
+                        IFDESCR          => 'Trk16',
+                        IFTYPE           => '161',
+                        IFSPEED          => '3000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(98455) 0:16:24.55',
+                        IFINOCTETS       => '1672200058',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '827902268',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
                                 },
                                 {
-                                    NUMBER => '13',
                                     NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
                                 },
                                 {
-                                    NUMBER => '14',
                                     NAME   => 'DMZ227',
+                                    NUMBER => '14',
                                 },
                                 {
-                                    NUMBER => '149',
                                     NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
                                 },
                                 {
+                                    NAME   => 'INTERCO-CSS',
                                     NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
                                 },
                                 {
+                                    NAME   => 'RENATER',
                                     NUMBER => '150',
-                                    NAME   => 'RENATER'
                                 },
-
                                 {
-                                    NUMBER => '152',
                                     NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
                                 },
                                 {
+                                    NAME   => 'FW-VLAN-LIBRE',
                                     NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
                                 },
                                 {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
                                     NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
                                 },
                                 {
-                                    NUMBER => '155',
                                     NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
                                 },
                                 {
-                                    NUMBER => '156',
                                     NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
                                 },
                                 {
-                                    NUMBER => '157',
                                     NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
                                 },
                                 {
+                                    NAME   => 'FW-DMZ-INFRA2',
                                     NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
                                 },
                                 {
-                                    NUMBER => '159',
                                     NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
                                 },
                                 {
+                                    NAME   => 'SERVEUR-CSS',
                                     NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
                                 },
                                 {
+                                    NAME   => 'ToIP_RIHDA',
                                     NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
                                 },
                                 {
+                                    NAME   => 'LIBR_SERVICE',
                                     NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
                                 },
                                 {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
                                     NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
                                 },
                                 {
+                                    NAME   => 'DATA_RIHDA',
                                     NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
                                 },
                                 {
+                                    NAME   => 'DATA_POLY',
                                     NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
                                 },
                                 {
-                                    NUMBER => '172',
                                     NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
                                 },
                                 {
-                                    NUMBER => '18',
                                     NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
                                 },
                                 {
+                                    NAME   => 'video_RIHDA',
                                     NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
                                 },
                                 {
+                                    NAME   => 'postesIP_RIHDA',
                                     NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
                                 },
                                 {
-                                    NUMBER => '196',
                                     NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
                                 },
                                 {
+                                    NAME   => 'SERVERS',
                                     NUMBER => '2',
-                                    NAME => 'SERVERS',
                                 },
                                 {
-                                    NUMBER => '201',
                                     NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
                                 },
                                 {
-                                    NUMBER => '202',
                                     NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
                                 },
                                 {
+                                    NAME   => 'UTIL_FORMATION',
                                     NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
                                 },
                                 {
+                                    NAME   => 'UTIL_CATI',
                                     NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
                                 },
                                 {
-                                    NUMBER => '214',
                                     NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
                                 },
                                 {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
                                     NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
                                 },
                                 {
+                                    NAME   => 'DMZ_HD',
                                     NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
                                 },
                                 {
+                                    NAME   => 'ZONE_PUBLIQUE',
                                     NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
                                 },
                                 {
-                                    NUMBER => '30',
                                     NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
                                 },
                                 {
+                                    NAME   => 'COLLECTE-TEST',
                                     NUMBER => '3000',
-                                    NAME   => 'COLLECTE-TEST'
                                 },
                                 {
+                                    NAME   => 'TEST-APPLI',
                                     NUMBER => '3002',
-                                    NAME => 'TEST-APPLI',
                                 },
                                 {
+                                    NAME   => 'TEST-AGRIATE',
                                     NUMBER => '3006',
-                                    NAME => 'TEST-AGRIATE',
                                 },
                                 {
-                                    NUMBER => '3007',
                                     NAME   => 'TEST-ETAB',
+                                    NUMBER => '3007',
                                 },
                                 {
-                                    NUMBER => '4',
                                     NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
                                 },
                                 {
                                     NAME   => 'VLAN401',
                                     NUMBER => '401',
                                 },
                                 {
+                                    NAME   => 'wifi_recteur',
                                     NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
                                 },
                                 {
+                                    NAME   => 'DMZ_ELGG',
                                     NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
                                 },
                                 {
+                                    NAME   => 'DMZ',
                                     NUMBER => '5',
-                                    NAME   => 'DMZ'
                                 },
                                 {
+                                    NAME   => 'AGRIATES',
                                     NUMBER => '6',
-                                    NAME   => 'AGRIATES'
                                 },
                                 {
-                                    NUMBER => '7',
                                     NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
                                 },
                             ]
                         },
-                    },
-                    {
-                        IFNUMBER         => '305',
-                        IFNAME           => 'Trk16',
-                        IFOUTERRORS      => '0',
-                        IFSTATUS         => '1',
-                        IFDESCR          => 'Trk16',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '161',
-                        IFLASTCHANGE     => '(98455) 0:16:24.55',
-                        IFMTU            => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED          => '3000000000',
-                        IFOUTOCTETS      => '827902268',
-                        IFINOCTETS       => '1672200058',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -17812,215 +19007,198 @@ my %tests = (
                                     '00:50:56:42:5B:6B',
                                     '00:50:56:4D:F7:97',
                                     '00:50:56:4F:3B:1C',
-                                    '02:A0:98:12:7A:68'
-                                ]
+                                    '02:A0:98:12:7A:68',
+                                ],
                             }
-                        },
-                        VLANS => {
+                        }
+                    },
+                    {
+                        IFNUMBER         => '307',
+                        IFNAME           => 'Trk18',
+                        IFDESCR          => 'Trk18',
+                        IFTYPE           => '161',
+                        IFSPEED          => '3000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(94806) 0:15:48.06',
+                        IFINOCTETS       => '3960692883',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3913938745',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
                                 },
                                 {
-                                    NUMBER => '13',
                                     NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
                                 },
                                 {
-                                    NUMBER => '14',
                                     NAME   => 'DMZ227',
+                                    NUMBER => '14',
                                 },
                                 {
-                                    NUMBER => '149',
                                     NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
                                 },
                                 {
+                                    NAME   => 'INTERCO-CSS',
                                     NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
                                 },
                                 {
+                                    NAME   => 'RENATER',
                                     NUMBER => '150',
-                                    NAME   => 'RENATER'
                                 },
-
                                 {
-                                    NUMBER => '152',
                                     NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
                                 },
                                 {
+                                    NAME   => 'FW-VLAN-LIBRE',
                                     NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
                                 },
                                 {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
                                     NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
                                 },
                                 {
-                                    NUMBER => '155',
                                     NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
                                 },
                                 {
-                                    NUMBER => '156',
                                     NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
                                 },
                                 {
-                                    NUMBER => '157',
                                     NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
                                 },
                                 {
+                                    NAME   => 'FW-DMZ-INFRA2',
                                     NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
                                 },
                                 {
-                                    NUMBER => '159',
                                     NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
                                 },
                                 {
+                                    NAME   => 'SERVEUR-CSS',
                                     NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
                                 },
                                 {
+                                    NAME   => 'ToIP_RIHDA',
                                     NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
                                 },
                                 {
+                                    NAME   => 'LIBR_SERVICE',
                                     NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
                                 },
                                 {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
                                     NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
                                 },
                                 {
+                                    NAME   => 'DATA_RIHDA',
                                     NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
                                 },
                                 {
+                                    NAME   => 'DATA_POLY',
                                     NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
                                 },
                                 {
-                                    NUMBER => '172',
                                     NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
                                 },
                                 {
-                                    NUMBER => '18',
                                     NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
                                 },
                                 {
+                                    NAME   => 'video_RIHDA',
                                     NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
                                 },
                                 {
+                                    NAME   => 'postesIP_RIHDA',
                                     NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
                                 },
                                 {
-                                    NUMBER => '196',
                                     NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
                                 },
                                 {
+                                    NAME   => 'SERVERS',
                                     NUMBER => '2',
-                                    NAME => 'SERVERS',
                                 },
                                 {
-                                    NUMBER => '201',
                                     NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
                                 },
                                 {
-                                    NUMBER => '202',
                                     NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
                                 },
                                 {
+                                    NAME   => 'UTIL_FORMATION',
                                     NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
                                 },
                                 {
+                                    NAME   => 'UTIL_CATI',
                                     NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
                                 },
                                 {
-                                    NUMBER => '214',
                                     NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
                                 },
                                 {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
                                     NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
                                 },
                                 {
+                                    NAME   => 'DMZ_HD',
                                     NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
                                 },
                                 {
+                                    NAME   => 'ZONE_PUBLIQUE',
                                     NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
                                 },
                                 {
-                                    NUMBER => '30',
                                     NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
                                 },
                                 {
-                                    NUMBER => '3000',
-                                    NAME   => 'COLLECTE-TEST'
-                                },
-                                {
-                                    NUMBER => '3002',
-                                    NAME => 'TEST-APPLI',
-                                },
-                                {
-                                    NUMBER => '3006',
-                                    NAME => 'TEST-AGRIATE',
-                                },
-                                {
-                                    NUMBER => '3007',
-                                    NAME   => 'TEST-ETAB',
-                                },
-                                {
-                                    NUMBER => '4',
                                     NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
                                 },
                                 {
                                     NAME   => 'VLAN401',
                                     NUMBER => '401',
                                 },
                                 {
+                                    NAME   => 'wifi_recteur',
                                     NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
                                 },
                                 {
+                                    NAME   => 'DMZ_ELGG',
                                     NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
                                 },
                                 {
+                                    NAME   => 'DMZ',
                                     NUMBER => '5',
-                                    NAME   => 'DMZ'
                                 },
                                 {
+                                    NAME   => 'AGRIATES',
                                     NUMBER => '6',
-                                    NAME   => 'AGRIATES'
                                 },
                                 {
-                                    NUMBER => '7',
                                     NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
                                 },
                             ]
                         },
-                    },
-                    {
-                        IFNUMBER         => '307',
-                        IFNAME           => 'Trk18',
-                        IFINOCTETS       => '3960692883',
-                        IFOUTERRORS      => '0',
-                        IFSTATUS         => '1',
-                        IFDESCR          => 'Trk18',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '161',
-                        IFLASTCHANGE     => '(94806) 0:15:48.06',
-                        IFMTU            => '1500',
-                        IFINTERNALSTATUS => '1',
-                        IFSPEED          => '3000000000',
-                        IFOUTOCTETS      => '3913938745',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -18064,199 +19242,198 @@ my %tests = (
                                     'F0:DE:F1:00:E3:C5',
                                     '1C:75:08:75:F0:C2',
                                     '1C:C1:DE:CB:7D:95',
-                                    '44:1E:A1:34:0B:A0'
-                                ]
+                                    '44:1E:A1:34:0B:A0',
+                                ],
                             }
-                        },
-                        VLANS => {
+                        }
+                    },
+                    {
+                        IFNUMBER         => '309',
+                        IFNAME           => 'Trk20',
+                        IFDESCR          => 'Trk20',
+                        IFTYPE           => '161',
+                        IFSPEED          => '3000000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(154845) 0:25:48.45',
+                        IFINOCTETS       => '297423068',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '3730410035',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
                                 },
                                 {
-                                    NUMBER => '13',
                                     NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
                                 },
                                 {
-                                    NUMBER => '14',
                                     NAME   => 'DMZ227',
+                                    NUMBER => '14',
                                 },
                                 {
-                                    NUMBER => '149',
                                     NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
                                 },
                                 {
+                                    NAME   => 'INTERCO-CSS',
                                     NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
                                 },
                                 {
+                                    NAME   => 'RENATER',
                                     NUMBER => '150',
-                                    NAME   => 'RENATER'
                                 },
-
                                 {
-                                    NUMBER => '152',
                                     NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
                                 },
                                 {
+                                    NAME   => 'FW-VLAN-LIBRE',
                                     NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
                                 },
                                 {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
                                     NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
                                 },
                                 {
-                                    NUMBER => '155',
                                     NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
                                 },
                                 {
-                                    NUMBER => '156',
                                     NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
                                 },
                                 {
-                                    NUMBER => '157',
                                     NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
                                 },
                                 {
+                                    NAME   => 'FW-DMZ-INFRA2',
                                     NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
                                 },
                                 {
-                                    NUMBER => '159',
                                     NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
                                 },
                                 {
+                                    NAME   => 'SERVEUR-CSS',
                                     NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
                                 },
                                 {
+                                    NAME   => 'ToIP_RIHDA',
                                     NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
                                 },
                                 {
+                                    NAME   => 'LIBR_SERVICE',
                                     NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
                                 },
                                 {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
                                     NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
                                 },
                                 {
+                                    NAME   => 'DATA_RIHDA',
                                     NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
                                 },
                                 {
+                                    NAME   => 'DATA_POLY',
                                     NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
                                 },
                                 {
-                                    NUMBER => '172',
                                     NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
                                 },
                                 {
-                                    NUMBER => '18',
                                     NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
                                 },
                                 {
+                                    NAME   => 'video_RIHDA',
                                     NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
                                 },
                                 {
+                                    NAME   => 'postesIP_RIHDA',
                                     NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
                                 },
                                 {
-                                    NUMBER => '196',
                                     NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
                                 },
                                 {
+                                    NAME   => 'SERVERS',
                                     NUMBER => '2',
-                                    NAME => 'SERVERS',
                                 },
                                 {
-                                    NUMBER => '201',
                                     NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
                                 },
                                 {
-                                    NUMBER => '202',
                                     NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
                                 },
                                 {
+                                    NAME   => 'UTIL_FORMATION',
                                     NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
                                 },
                                 {
+                                    NAME   => 'UTIL_CATI',
                                     NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
                                 },
                                 {
-                                    NUMBER => '214',
                                     NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
                                 },
                                 {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
                                     NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
                                 },
                                 {
+                                    NAME   => 'DMZ_HD',
                                     NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
                                 },
                                 {
+                                    NAME   => 'ZONE_PUBLIQUE',
                                     NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
                                 },
                                 {
-                                    NUMBER => '30',
                                     NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
                                 },
                                 {
-                                    NUMBER => '4',
                                     NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
                                 },
                                 {
                                     NAME   => 'VLAN401',
                                     NUMBER => '401',
                                 },
                                 {
+                                    NAME   => 'wifi_recteur',
                                     NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
                                 },
                                 {
+                                    NAME   => 'DMZ_ELGG',
                                     NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
                                 },
                                 {
+                                    NAME   => 'DMZ',
                                     NUMBER => '5',
-                                    NAME   => 'DMZ'
                                 },
                                 {
+                                    NAME   => 'AGRIATES',
                                     NUMBER => '6',
-                                    NAME   => 'AGRIATES'
                                 },
                                 {
-                                    NUMBER => '7',
                                     NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
                                 },
                             ]
                         },
-                    },
-                    {
-                        IFNUMBER         => '309',
-                        IFNAME           => 'Trk20',
-                        IFINOCTETS       => '297423068',
-                        IFOUTOCTETS      => '3730410035',
-                        IFLASTCHANGE     => '(154845) 0:25:48.45',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '161',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFDESCR          => 'Trk20',
-                        IFSTATUS         => '1',
-                        IFMTU            => '1500',
-                        IFOUTERRORS      => '0',
-                        IFSPEED          => '3000000000',
-                        IFINTERNALSTATUS => '1',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -18277,199 +19454,198 @@ my %tests = (
                                     '00:21:5A:97:1B:32',
                                     '00:22:F3:9D:1F:3B',
                                     '00:08:5D:2B:F1:48',
-                                    'B8:AC:6F:3E:3A:C5'
-                                ]
+                                    'B8:AC:6F:3E:3A:C5',
+                                ],
                             }
-                        },
-                        VLANS => {
+                        }
+                    },
+                    {
+                        IFNUMBER         => '310',
+                        IFNAME           => 'Trk21',
+                        IFDESCR          => 'Trk21',
+                        IFTYPE           => '161',
+                        IFSPEED          => '4294967295',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(57970) 0:09:39.70',
+                        IFINOCTETS       => '2695065174',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '2418744384',
+                        IFOUTERRORS      => '0',
+                        VLANS          => {
                             VLAN => [
                                 {
+                                    NAME   => 'DEFAULT_VLAN',
                                     NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
                                 },
                                 {
-                                    NUMBER => '13',
                                     NAME   => 'VOIP_ASTERISK',
+                                    NUMBER => '13',
                                 },
                                 {
-                                    NUMBER => '14',
                                     NAME   => 'DMZ227',
+                                    NUMBER => '14',
                                 },
                                 {
-                                    NUMBER => '149',
                                     NAME   => 'COLLECTE_IP_RIHDA',
+                                    NUMBER => '149',
                                 },
                                 {
+                                    NAME   => 'INTERCO-CSS',
                                     NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
                                 },
                                 {
+                                    NAME   => 'RENATER',
                                     NUMBER => '150',
-                                    NAME   => 'RENATER'
                                 },
-
                                 {
-                                    NUMBER => '152',
                                     NAME   => 'FW-DMZ-INFRA',
+                                    NUMBER => '152',
                                 },
                                 {
+                                    NAME   => 'FW-VLAN-LIBRE',
                                     NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
                                 },
                                 {
+                                    NAME   => 'FW-INTERCO-FOUNDRY',
                                     NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
                                 },
                                 {
-                                    NUMBER => '155',
                                     NAME   => 'FW-DMZ',
+                                    NUMBER => '155',
                                 },
                                 {
-                                    NUMBER => '156',
                                     NAME   => 'FW-Libre_Service',
+                                    NUMBER => '156',
                                 },
                                 {
-                                    NUMBER => '157',
                                     NAME   => 'FW-DMZ-PEDA',
+                                    NUMBER => '157',
                                 },
                                 {
+                                    NAME   => 'FW-DMZ-INFRA2',
                                     NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
                                 },
                                 {
-                                    NUMBER => '159',
                                     NAME   => 'FW-PUG-DRRT',
+                                    NUMBER => '159',
                                 },
                                 {
+                                    NAME   => 'SERVEUR-CSS',
                                     NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
                                 },
                                 {
+                                    NAME   => 'ToIP_RIHDA',
                                     NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
                                 },
                                 {
+                                    NAME   => 'LIBR_SERVICE',
                                     NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
                                 },
                                 {
+                                    NAME   => 'INTER_EQUANT_RECTORAT',
                                     NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
                                 },
                                 {
+                                    NAME   => 'DATA_RIHDA',
                                     NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
                                 },
                                 {
+                                    NAME   => 'DATA_POLY',
                                     NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
                                 },
                                 {
-                                    NUMBER => '172',
                                     NAME   => 'DATA_CEPE',
+                                    NUMBER => '172',
                                 },
                                 {
-                                    NUMBER => '18',
                                     NAME   => 'INT_EQUANT_ETABLISSEMENTS',
+                                    NUMBER => '18',
                                 },
                                 {
+                                    NAME   => 'video_RIHDA',
                                     NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
                                 },
                                 {
+                                    NAME   => 'postesIP_RIHDA',
                                     NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
                                 },
                                 {
-                                    NUMBER => '196',
                                     NAME   => 'ADMIN_RESEAU',
+                                    NUMBER => '196',
                                 },
                                 {
+                                    NAME   => 'SERVERS',
                                     NUMBER => '2',
-                                    NAME => 'SERVERS',
                                 },
                                 {
-                                    NUMBER => '201',
                                     NAME   => 'PERIPHERIQUES',
+                                    NUMBER => '201',
                                 },
                                 {
-                                    NUMBER => '202',
                                     NAME   => 'UTIL_NVEAU_BAT',
+                                    NUMBER => '202',
                                 },
                                 {
+                                    NAME   => 'UTIL_FORMATION',
                                     NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
                                 },
                                 {
+                                    NAME   => 'UTIL_CATI',
                                     NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
                                 },
                                 {
-                                    NUMBER => '214',
                                     NAME   => 'UTIL_INVITES',
+                                    NUMBER => '214',
                                 },
                                 {
+                                    NAME   => 'UTIL_SYST_RESEAUX',
                                     NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
                                 },
                                 {
+                                    NAME   => 'DMZ_HD',
                                     NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
                                 },
                                 {
+                                    NAME   => 'ZONE_PUBLIQUE',
                                     NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
                                 },
                                 {
-                                    NUMBER => '30',
                                     NAME   => 'RESEAU_DRRT-PUG',
+                                    NUMBER => '30',
                                 },
                                 {
-                                    NUMBER => '4',
                                     NAME   => 'INTERCO_RACINE_API',
+                                    NUMBER => '4',
                                 },
                                 {
                                     NAME   => 'VLAN401',
                                     NUMBER => '401',
                                 },
                                 {
+                                    NAME   => 'wifi_recteur',
                                     NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
                                 },
                                 {
+                                    NAME   => 'DMZ_ELGG',
                                     NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
                                 },
                                 {
+                                    NAME   => 'DMZ',
                                     NUMBER => '5',
-                                    NAME   => 'DMZ'
                                 },
                                 {
+                                    NAME   => 'AGRIATES',
                                     NUMBER => '6',
-                                    NAME   => 'AGRIATES'
                                 },
                                 {
-                                    NUMBER => '7',
                                     NAME   => 'ACCUEIL_ETABLISSEMENTS',
+                                    NUMBER => '7',
                                 },
                             ]
                         },
-                    },
-                    {
-                        IFNUMBER         => '310',
-                        IFNAME           => 'Trk21',
-                        IFOUTERRORS      => '0',
-                        IFINOCTETS       => '2695065174',
-                        IFOUTOCTETS      => '2418744384',
-                        IFSPEED          => '4294967295',
-                        IFINTERNALSTATUS => '1',
-                        IFMTU            => '1500',
-                        IFTYPE           => '161',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFLASTCHANGE     => '(57970) 0:09:39.70',
-                        IFSTATUS         => '1',
-                        IFDESCR          => 'Trk21',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -18596,892 +19772,719 @@ my %tests = (
                                     '02:12:F2:62:E2:3B',
                                     '02:E0:52:76:0E:16',
                                     '02:E0:52:20:5E:10',
-                                    'D4:BE:D9:AF:75:1B'
-                                ]
+                                    'D4:BE:D9:AF:75:1B',
+                                ],
                             }
-                        },
-                        VLANS => {
-                            VLAN => [
-                                {
-                                    NUMBER => '1',
-                                    NAME   => 'DEFAULT_VLAN'
-                                },
-                                {
-                                    NUMBER => '13',
-                                    NAME   => 'VOIP_ASTERISK',
-                                },
-                                {
-                                    NUMBER => '14',
-                                    NAME   => 'DMZ227',
-                                },
-                                {
-                                    NUMBER => '149',
-                                    NAME   => 'COLLECTE_IP_RIHDA',
-                                },
-                                {
-                                    NUMBER => '15',
-                                    NAME   => 'INTERCO-CSS'
-                                },
-                                {
-                                    NUMBER => '150',
-                                    NAME   => 'RENATER'
-                                },
-
-                                {
-                                    NUMBER => '152',
-                                    NAME   => 'FW-DMZ-INFRA',
-                                },
-                                {
-                                    NUMBER => '153',
-                                    NAME   => 'FW-VLAN-LIBRE'
-                                },
-                                {
-                                    NUMBER => '154',
-                                    NAME   => 'FW-INTERCO-FOUNDRY'
-                                },
-                                {
-                                    NUMBER => '155',
-                                    NAME   => 'FW-DMZ',
-                                },
-                                {
-                                    NUMBER => '156',
-                                    NAME   => 'FW-Libre_Service',
-                                },
-                                {
-                                    NUMBER => '157',
-                                    NAME   => 'FW-DMZ-PEDA',
-                                },
-                                {
-                                    NUMBER => '158',
-                                    NAME   => 'FW-DMZ-INFRA2'
-                                },
-                                {
-                                    NUMBER => '159',
-                                    NAME   => 'FW-PUG-DRRT',
-                                },
-                                {
-                                    NUMBER => '16',
-                                    NAME   => 'SERVEUR-CSS'
-                                },
-                                {
-                                    NUMBER => '160',
-                                    NAME   => 'ToIP_RIHDA'
-                                },
-                                {
-                                    NUMBER => '162',
-                                    NAME   => 'LIBR_SERVICE'
-                                },
-                                {
-                                    NUMBER => '17',
-                                    NAME => 'INTER_EQUANT_RECTORAT'
-                                },
-                                {
-                                    NUMBER => '170',
-                                    NAME   => 'DATA_RIHDA'
-                                },
-                                {
-                                    NUMBER => '171',
-                                    NAME   => 'DATA_POLY'
-                                },
-                                {
-                                    NUMBER => '172',
-                                    NAME   => 'DATA_CEPE',
-                                },
-                                {
-                                    NUMBER => '18',
-                                    NAME   => 'INT_EQUANT_ETABLISSEMENTS',
-                                },
-                                {
-                                    NUMBER => '180',
-                                    NAME   => 'video_RIHDA'
-                                },
-                                {
-                                    NUMBER => '190',
-                                    NAME   => 'postesIP_RIHDA'
-                                },
-                                {
-                                    NUMBER => '196',
-                                    NAME   => 'ADMIN_RESEAU',
-                                },
-                                {
-                                    NUMBER => '2',
-                                    NAME => 'SERVERS',
-                                },
-                                {
-                                    NUMBER => '201',
-                                    NAME   => 'PERIPHERIQUES',
-                                },
-                                {
-                                    NUMBER => '202',
-                                    NAME   => 'UTIL_NVEAU_BAT',
-                                },
-                                {
-                                    NUMBER => '204',
-                                    NAME   => 'UTIL_FORMATION'
-                                },
-                                {
-                                    NUMBER => '205',
-                                    NAME   => 'UTIL_CATI'
-                                },
-                                {
-                                    NUMBER => '214',
-                                    NAME   => 'UTIL_INVITES',
-                                },
-                                {
-                                    NUMBER => '215',
-                                    NAME   => 'UTIL_SYST_RESEAUX'
-                                },
-                                {
-                                    NUMBER => '22',
-                                    NAME   => 'DMZ_HD'
-                                },
-                                {
-                                    NUMBER => '3',
-                                    NAME => 'ZONE_PUBLIQUE',
-                                },
-                                {
-                                    NUMBER => '30',
-                                    NAME   => 'RESEAU_DRRT-PUG',
-                                },
-                                {
-                                    NUMBER => '4',
-                                    NAME   => 'INTERCO_RACINE_API',
-                                },
-                                {
-                                    NAME   => 'VLAN401',
-                                    NUMBER => '401',
-                                },
-                                {
-                                    NUMBER => '402',
-                                    NAME   => 'wifi_recteur'
-                                },
-                                {
-                                    NUMBER => '403',
-                                    NAME   => 'DMZ_ELGG'
-                                },
-                                {
-                                    NUMBER => '5',
-                                    NAME   => 'DMZ'
-                                },
-                                {
-                                    NUMBER => '6',
-                                    NAME   => 'AGRIATES'
-                                },
-                                {
-                                    NUMBER => '7',
-                                    NAME   => 'ACCUEIL_ETABLISSEMENTS',
-                                },
-                            ]
-                        },
+                        }
                     },
                     {
                         IFNUMBER         => '578',
                         IFNAME           => 'DEFAULT_VLAN',
-                        IFOUTERRORS      => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'DEFAULT_VLAN',
                         IFALIAS          => 'DEFAULT_VLAN',
-                        MAC              => '00:18:71:C1:E0:00',
                         IFTYPE           => '53',
-                        IFINERRORS       => '0',
                         IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFOUTOCTETS      => '0',
                         IFINOCTETS       => '0',
-                        IFMTU            => '1500'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '579',
                         IFNAME           => 'VLAN2',
-                        IFOUTERRORS      => '0',
-                        IFOUTOCTETS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
                         IFDESCR          => 'VLAN2',
                         IFALIAS          => 'SERVERS',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
+                        IFTYPE           => '53',
                         IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFMTU            => '1500',
                         IP               => '172.31.192.244',
                         MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
                         IFINERRORS       => '0',
-                        IFTYPE           => '53'
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '580',
                         IFNAME           => 'VLAN3',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'VLAN3',
                         IFALIAS          => 'ZONE_PUBLIQUE',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '581',
                         IFNAME           => 'VLAN4',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN4',
                         IFALIAS          => 'INTERCO_RACINE_API',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
                         IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
                         IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '582',
                         IFNAME           => 'VLAN5',
-                        IFOUTERRORS      => '0',
                         IFDESCR          => 'VLAN5',
                         IFALIAS          => 'DMZ',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
-                        MAC              => '00:18:71:C1:E0:00',
                         IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '583',
                         IFNAME           => 'VLAN6',
-                        IFOUTERRORS      => '0',
                         IFDESCR          => 'VLAN6',
                         IFALIAS          => 'AGRIATES',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFSPEED          => '0',
                         IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
+                        IFINOCTETS       => '0',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '584',
                         IFNAME           => 'VLAN7',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN7',
                         IFALIAS          => 'ACCUEIL_ETABLISSEMENTS',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
                         IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
                         IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '590',
                         IFNAME           => 'VLAN13',
-                        IFOUTERRORS      => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'VLAN13',
                         IFALIAS          => 'VOIP_ASTERISK',
-                        IFINERRORS       => '0',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
                         IP               => '172.27.192.226',
                         MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
-                        IFOUTOCTETS      => '0',
                         IFINOCTETS       => '0',
-                        IFMTU            => '1500'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '591',
                         IFNAME           => 'VLAN14',
-                        IFOUTOCTETS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
                         IFDESCR          => 'VLAN14',
                         IFALIAS          => 'DMZ227',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
-                        IFTYPE           => '53',
-                        MAC              => '00:18:71:C1:E0:00',
+                        IFINOCTETS       => '0',
                         IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '592',
                         IFNAME           => 'VLAN15',
-                        IFOUTERRORS      => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '53',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN15',
                         IFALIAS          => 'INTERCO-CSS',
-                        IFINOCTETS       => '0',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
                         IFMTU            => '1500',
-                        IFOUTOCTETS      => '0'
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '593',
                         IFNAME           => 'VLAN16',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN16',
                         IFALIAS          => 'SERVEUR-CSS',
                         IFTYPE           => '53',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
                         IFSPEED          => '0',
-                        IFOUTOCTETS      => '0',
                         IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
                         IFINOCTETS       => '0',
-                        IFOUTERRORS      => '0'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '594',
                         IFNAME           => 'VLAN17',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN17',
                         IFALIAS          => 'INTER_EQUANT_RECTORAT',
-                        MAC              => '00:18:71:C1:E0:00',
                         IFTYPE           => '53',
-                        IFINERRORS       => '0',
                         IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFOUTOCTETS      => '0',
                         IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
                         IFINOCTETS       => '0',
-                        IFOUTERRORS      => '0'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '595',
                         IFNAME           => 'VLAN18',
                         IFDESCR          => 'VLAN18',
                         IFALIAS          => 'INT_EQUANT_ETABLISSEMENTS',
-                        IFOUTERRORS      => '0',
-                        IFOUTOCTETS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
                         IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0'
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '599',
                         IFNAME           => 'VLAN22',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'VLAN22',
                         IFALIAS          => 'DMZ_HD',
-                        IFINTERNALSTATUS => '1',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '607',
                         IFNAME           => 'VLAN30',
-                        IFOUTERRORS      => '0',
                         IFDESCR          => 'VLAN30',
                         IFALIAS          => 'RESEAU_DRRT-PUG',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
-                        IFTYPE           => '53',
-                        MAC              => '00:18:71:C1:E0:00',
+                        IFINOCTETS       => '0',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '726',
                         IFNAME           => 'VLAN149',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN149',
                         IFALIAS          => 'COLLECTE_IP_RIHDA',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFOUTOCTETS      => '0',
                         IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
                         IFINOCTETS       => '0',
-                        IFOUTERRORS      => '0'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '727',
                         IFNAME           => 'VLAN150',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFTYPE           => '53',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'VLAN150',
                         IFALIAS          => 'RENATER',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '729',
                         IFNAME           => 'VLAN152',
-                        IFOUTERRORS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
+                        IFDESCR          => 'VLAN152',
+                        IFALIAS          => 'FW-DMZ-INFRA',
                         IFTYPE           => '53',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
                         IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFDESCR          => 'VLAN152',
-                        IFALIAS          => 'FW-DMZ-INFRA'
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '730',
                         IFNAME           => 'VLAN153',
-                        IFOUTERRORS      => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN153',
                         IFALIAS          => 'FW-VLAN-LIBRE',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:E0:00',
                         IFTYPE           => '53',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
                         IFSPEED          => '0',
-                        IFOUTOCTETS      => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
                         IFINOCTETS       => '0',
-                        IFMTU            => '1500'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '731',
                         IFNAME           => 'VLAN154',
-                        IFOUTERRORS      => '0',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '53',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'VLAN154',
                         IFALIAS          => 'FW-INTERCO-FOUNDRY',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '732',
                         IFNAME           => 'VLAN155',
-                        IFOUTERRORS      => '0',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '53',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN155',
                         IFALIAS          => 'FW-DMZ',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '733',
                         IFNAME           => 'VLAN156',
-                        IFOUTOCTETS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
                         IFDESCR          => 'VLAN156',
                         IFALIAS          => 'FW-Libre_Service',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
+                        IFINOCTETS       => '0',
                         IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '734',
                         IFNAME           => 'VLAN157',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN157',
                         IFALIAS          => 'FW-DMZ-PEDA',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
-                        IFNAME           => 'VLAN158',
                         IFNUMBER         => '735',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFINERRORS       => '0',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
+                        IFNAME           => 'VLAN158',
                         IFDESCR          => 'VLAN158',
                         IFALIAS          => 'FW-DMZ-INFRA2',
-                        IFINOCTETS       => '0',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
                         IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '736',
                         IFNAME           => 'VLAN159',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '53',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'VLAN159',
                         IFALIAS          => 'FW-PUG-DRRT',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '737',
                         IFNAME           => 'VLAN160',
-                        IFOUTERRORS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IP               => '172.27.192.33',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '53',
                         IFDESCR          => 'VLAN160',
                         IFALIAS          => 'ToIP_RIHDA',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IP               => '172.27.192.33',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1'
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '739',
                         IFNAME           => 'VLAN162',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFINERRORS       => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(110183700) 12 days, 18:03:57.00',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'VLAN162',
                         IFALIAS          => 'LIBR_SERVICE',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(110183700) 12 days, 18:03:57.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '747',
                         IFNAME           => 'VLAN170',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '0',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFSPEED          => '0',
-                        IFTYPE           => '53',
-                        IP               => '172.31.203.253',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'VLAN170',
                         IFALIAS          => 'DATA_RIHDA',
-                        IFINTERNALSTATUS => '1',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IP               => '172.31.203.253',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '748',
                         IFNAME           => 'VLAN171',
-                        IFOUTERRORS      => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'VLAN171',
                         IFALIAS          => 'DATA_POLY',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
                         IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '0'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '749',
                         IFNAME           => 'VLAN172',
-                        IFOUTERRORS      => '0',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '0',
-                        IFINERRORS       => '0',
-                        IP               => '172.31.193.246',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFSPEED          => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'VLAN172',
                         IFALIAS          => 'DATA_CEPE',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IP               => '172.31.193.246',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '757',
                         IFNAME           => 'VLAN180',
-                        IFOUTOCTETS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN180',
                         IFALIAS          => 'video_RIHDA',
                         IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
                         IP               => '172.27.193.125',
                         MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFSPEED          => '0',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '767',
                         IFNAME           => 'VLAN190',
-                        IFOUTERRORS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IP               => '172.27.205.253',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFINERRORS       => '0',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFSPEED          => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'VLAN190',
                         IFALIAS          => 'postesIP_RIHDA',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IP               => '172.27.205.253',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '773',
                         IFNAME           => 'VLAN196',
                         IFDESCR          => 'VLAN196',
                         IFALIAS          => 'ADMIN_RESEAU',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFSPEED          => '0',
                         IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
                         IP               => '172.31.196.253',
                         MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
+                        IFINOCTETS       => '0',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFOUTERRORS      => '0'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '778',
                         IFNAME           => 'VLAN201',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN201',
                         IFALIAS          => 'PERIPHERIQUES',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
                         IP               => '172.31.201.253',
                         MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFINERRORS       => '0',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFSPEED          => '0',
-                        IFOUTOCTETS      => '0',
-                        IFMTU            => '1500',
                         IFINOCTETS       => '0',
-                        IFOUTERRORS      => '0'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '779',
                         IFNAME           => 'VLAN202',
-                        IFOUTERRORS      => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFTYPE           => '53',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'VLAN202',
                         IFALIAS          => 'UTIL_NVEAU_BAT',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
                         IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '0'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '781',
                         IFNAME           => 'VLAN204',
-                        IFOUTERRORS      => '0',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFSPEED          => '0',
-                        IFINERRORS       => '0',
-                        IP               => '172.31.204.125',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
                         IFDESCR          => 'VLAN204',
                         IFALIAS          => 'UTIL_FORMATION',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        IP               => '172.31.204.125',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
-                        IFMTU            => '1500',
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
                         IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '782',
                         IFNAME           => 'VLAN205',
-                        IFOUTERRORS      => '0',
-                        IFOUTOCTETS      => '0',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500',
                         IFDESCR          => 'VLAN205',
                         IFALIAS          => 'UTIL_CATI',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
+                        IFTYPE           => '53',
                         IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFINERRORS       => '0',
+                        IFMTU            => '1500',
                         IP               => '172.31.205.125',
                         MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53'
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '791',
                         IFNAME           => 'VLAN214',
-                        IP               => '172.31.204.253',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFINERRORS       => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'VLAN214',
                         IFALIAS          => 'UTIL_INVITES',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
                         IFMTU            => '1500',
+                        IP               => '172.31.204.253',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
                         IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '792',
                         IFNAME           => 'VLAN215',
-                        IFINERRORS       => '0',
-                        IP               => '172.31.205.253',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(2663) 0:00:26.63',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN215',
                         IFALIAS          => 'UTIL_SYST_RESEAUX',
-                        IFINOCTETS       => '0',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
                         IFMTU            => '1500',
+                        IP               => '172.31.205.253',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2663) 0:00:26.63',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '978',
                         IFNAME           => 'VLAN401',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFOUTOCTETS      => '0',
-                        IFLASTCHANGE     => '(110183690) 12 days, 18:03:56.90',
-                        IFSPEED          => '0',
-                        IFTYPE           => '53',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'VLAN401',
                         IFALIAS          => 'VLAN401',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(110183690) 12 days, 18:03:56.90',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '979',
                         IFNAME           => 'VLAN402',
-                        IFOUTOCTETS      => '0',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN402',
                         IFALIAS          => 'wifi_recteur',
-                        MAC              => '00:18:71:C1:E0:00',
                         IFTYPE           => '53',
-                        IFINERRORS       => '0',
                         IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
@@ -19489,223 +20492,218 @@ my %tests = (
                         IFNAME           => 'VLAN403',
                         IFDESCR          => 'VLAN403',
                         IFALIAS          => 'DMZ_ELGG',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
-                        IFLASTCHANGE     => '(2658) 0:00:26.58',
-                        IFSPEED          => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
                         IFTYPE           => '53',
-                        IFOUTOCTETS      => '0',
-                        IFINOCTETS       => '0',
+                        IFSPEED          => '0',
                         IFMTU            => '1500',
-                        IFOUTERRORS      => '0'
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(2658) 0:00:26.58',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '3577',
                         IFNAME           => 'VLAN3000',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'VLAN3000',
                         IFALIAS          => 'COLLECTE-TEST',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
                         IP               => '192.168.227.246',
                         MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFINERRORS       => '0',
-                        IFSPEED          => '0',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(57880) 0:09:38.80',
-                        IFOUTOCTETS      => '0',
                         IFINOCTETS       => '0',
-                        IFMTU            => '1500',
-                        IFOUTERRORS      => '0'
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '3579',
                         IFNAME           => 'VLAN3002',
-                        IFOUTERRORS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFTYPE           => '53',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(57880) 0:09:38.80',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'VLAN3002',
                         IFALIAS          => 'TEST-APPLI',
+                        IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(57880) 0:09:38.80',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '3583',
                         IFNAME           => 'VLAN3006',
-                        IFOUTERRORS      => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'VLAN3006',
                         IFALIAS          => 'TEST-AGRIATE',
-                        IFINERRORS       => '0',
-                        MAC              => '00:18:71:C1:E0:00',
                         IFTYPE           => '53',
-                        IFLASTCHANGE     => '(57880) 0:09:38.80',
                         IFSPEED          => '0',
-                        IFOUTOCTETS      => '0',
                         IFMTU            => '1500',
-                        IFINOCTETS       => '0'
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(57880) 0:09:38.80',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '3584',
                         IFNAME           => 'VLAN3007',
-                        IFOUTERRORS      => '0',
-                        IFOUTOCTETS      => '0',
-                        IFMTU            => '1500',
-                        IFINOCTETS       => '0',
-                        IFINTERNALSTATUS => '1',
-                        IFSTATUS         => '1',
                         IFDESCR          => 'VLAN3007',
                         IFALIAS          => 'TEST-ETAB',
-                        MAC              => '00:18:71:C1:E0:00',
-                        IFINERRORS       => '0',
                         IFTYPE           => '53',
+                        IFSPEED          => '0',
+                        IFMTU            => '1500',
+                        MAC              => '00:18:71:C1:E0:00',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(57880) 0:09:38.80',
-                        IFSPEED          => '0'
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '4672',
                         IFNAME           => 'lo0',
-                        IFMTU            => '65535',
-                        IP               => '127.0.0.1',
-                        IFINOCTETS       => '7893971',
-                        IFOUTOCTETS      => '7774747',
-                        IFTYPE           => '24',
-                        IFINERRORS       => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFSPEED          => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
-
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '65535',
+                        IP               => '127.0.0.1',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '7893971',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '7774747',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '4673',
                         IFNAME           => 'lo1',
-                        IFOUTERRORS      => '0',
-                        IFMTU            => '9198',
-                        IFINOCTETS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '24',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo1',
-
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '9198',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '2',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '4674',
                         IFNAME           => 'lo2',
-                        IFOUTERRORS      => '0',
-                        IFOUTOCTETS      => '0',
-                        IFINOCTETS       => '0',
+                        IFDESCR          => 'HP ProCurve Switch software loopback interface',
+                        IFALIAS          => 'lo2',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
                         IFMTU            => '9198',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '2',
-                        IFDESCR          => 'HP ProCurve Switch software loopback interface',
-                        IFALIAS          => 'lo2',
-
-                        IFTYPE           => '24',
-                        IFINERRORS       => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFSPEED          => '0'
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '4675',
                         IFNAME           => 'lo3',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '24',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFSPEED          => '0',
-                        IFINTERNALSTATUS => '2',
-                        IFSTATUS         => '2',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo3',
-
-                        IFINOCTETS       => '0',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
                         IFMTU            => '9198',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '2',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '4676',
                         IFNAME           => 'lo4',
-                        IFOUTOCTETS      => '0',
-                        IFINOCTETS       => '0',
+                        IFDESCR          => 'HP ProCurve Switch software loopback interface',
+                        IFALIAS          => 'lo4',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
                         IFMTU            => '9198',
                         IFSTATUS         => '2',
                         IFINTERNALSTATUS => '2',
-                        IFDESCR          => 'HP ProCurve Switch software loopback interface',
-                        IFALIAS          => 'lo4',
-
-                        IFTYPE           => '24',
-                        IFINERRORS       => '0',
-                        IFSPEED          => '0',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '4677',
                         IFNAME           => 'lo5',
-                        IFTYPE           => '24',
-                        IFINERRORS       => '0',
-                        IFSPEED          => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFSTATUS         => '2',
-                        IFINTERNALSTATUS => '2',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo5',
-                        IFINOCTETS       => '0',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
                         IFMTU            => '9198',
+                        IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '2',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0'
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '4678',
                         IFNAME           => 'lo6',
-                        IFOUTERRORS      => '0',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '9198',
-                        IFOUTOCTETS      => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFSPEED          => '0',
-                        IFTYPE           => '24',
-                        IFINERRORS       => '0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo6',
-                        IFINTERNALSTATUS => '2',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '9198',
                         IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '2',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
                     },
                     {
                         IFNUMBER         => '4679',
                         IFNAME           => 'lo7',
-                        IFINOCTETS       => '0',
-                        IFMTU            => '9198',
-                        IFOUTOCTETS      => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFSPEED          => '0',
-                        IFINERRORS       => '0',
-                        IFTYPE           => '24',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo7',
-                        IFINTERNALSTATUS => '2',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '9198',
                         IFSTATUS         => '2',
+                        IFINTERNALSTATUS => '2',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                    }
+                    },
                 ]
-            }
+            },
         }
     ],
     'hewlett-packard/ProCurve_J9022A.walk' => [
@@ -28920,366 +29918,26 @@ my %tests = (
             },
         }
     ],
-    'hewlett-packard/l0214a.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-            SNMPHOSTNAME => 'l0214a',
-            MAC          => '00:17:08:91:95:E4',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-            SNMPHOSTNAME => 'l0214a',
-            MAC          => '00:17:08:91:95:E4',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                MODEL        => undef,
-                UPTIME       => '(27930670) 3 days, 5:35:06.70',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-                NAME         => 'l0214a',
-                IPS          => {
-                    IP => [
-                        '128.93.22.125',
-                    ],
-                },
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFTYPE           => '6',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.125',
-                        MAC              => '00:17:08:91:95:E4',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '4231070113',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '358458889',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/l0700a.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-            SNMPHOSTNAME => 'NPI934D66',
-            MAC          => '00:17:A4:93:4D:66',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-            SNMPHOSTNAME => 'NPI934D66',
-            MAC          => '00:17:A4:93:4D:66',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                MODEL        => undef,
-                UPTIME       => '(40406032) 4 days, 16:14:20.32',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-                NAME         => 'NPI934D66',
-                IPS          => {
-                    IP => [
-                        '128.93.22.1',
-                    ],
-                },
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFTYPE           => '6',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.1',
-                        MAC              => '00:17:A4:93:4D:66',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '2697548956',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '2323517464',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/l1803a.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-            SNMPHOSTNAME => 'NPI9195E8',
-            MAC          => '00:17:08:91:95:E8',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-            SNMPHOSTNAME => 'NPI9195E8',
-            MAC          => '00:17:08:91:95:E8',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                MODEL        => undef,
-                UPTIME       => '(4016837) 11:09:28.37',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-                NAME         => 'NPI9195E8',
-                IPS          => {
-                    IP => [
-                        '128.93.22.78',
-                    ],
-                },
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFTYPE           => '6',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.78',
-                        MAC              => '00:17:08:91:95:E8',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '518877292',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '326948288',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/l1b110a.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-            SNMPHOSTNAME => 'NPI810884',
-            MAC          => '00:1B:78:21:EF:DF',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-            SNMPHOSTNAME => 'NPI810884',
-            MAC          => '00:1B:78:21:EF:DF',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                MODEL        => undef,
-                UPTIME       => '(13141846) 1 day, 12:30:18.46',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-                NAME         => 'NPI810884',
-                IPS          => {
-                    IP => [
-                        '128.93.22.101',
-                    ],
-                },
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFTYPE           => '6',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.101',
-                        MAC              => '00:1B:78:21:EF:DF',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '2493348234',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '107189645',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
-    'hewlett-packard/l2520a.walk' => [
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-            SNMPHOSTNAME => 'NPI934D6D',
-            MAC          => '00:17:A4:93:4D:6D',
-        },
-        {
-            MANUFACTURER => 'Hewlett-Packard',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-            SNMPHOSTNAME => 'NPI934D6D',
-            MAC          => '00:17:A4:93:4D:6D',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
-                TYPE         => 'PRINTER',
-                MODEL        => undef,
-                UPTIME       => '(3561333) 9:53:33.33',
-                COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
-                NAME         => 'NPI934D6D',
-                IPS          => {
-                    IP => [
-                        '128.93.10.40',
-                    ],
-                },
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
-                        IFTYPE           => '6',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.10.40',
-                        MAC              => '00:17:A4:93:4D:6D',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '2266764957',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '119345262',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        }
-    ],
     'hewlett-packard/unknown.walk' => [
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
             SNMPHOSTNAME => 'NPI419F6E',
-            MAC          => '2C:76:8A:41:9F:6E'
+            MAC          => '2C:76:8A:41:9F:6E',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
             SNMPHOSTNAME => 'NPI419F6E',
-            MAC          => '2C:76:8A:41:9F:6E'
+            MAC          => '2C:76:8A:41:9F:6E',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => undef,
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
                 NAME         => 'NPI419F6E',

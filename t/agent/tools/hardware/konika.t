@@ -26,11 +26,10 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'bizhub 421',
-                UPTIME       => '(80180925) 9 days, 6:43:29.25',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
                 IPS          => {
                     IP => [
@@ -38,9 +37,10 @@ my %tests = (
                         '172.18.3.93',
                     ],
                 },
+                UPTIME       => '(80180925) 9 days, 6:43:29.25',
             },
             PAGECOUNTERS => {
-                TOTAL => '463233',
+                TOTAL      => '463233',
             },
             PORTS => {
                 PORT => [
@@ -98,11 +98,10 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'bizhub 421',
-                UPTIME       => '(105584922) 12 days, 5:17:29.22',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
                 IPS          => {
                     IP => [
@@ -110,9 +109,10 @@ my %tests = (
                         '172.18.3.95',
                     ],
                 },
+                UPTIME       => '(105584922) 12 days, 5:17:29.22',
             },
             PAGECOUNTERS => {
-                TOTAL => '312526',
+                TOTAL      => '312526',
             },
             PORTS => {
                 PORT => [
@@ -170,11 +170,10 @@ my %tests = (
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
-                ID           => undef,
                 MODEL        => 'bizhub 421',
-                UPTIME       => '(8072382) 22:25:23.82',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
                 IPS          => {
                     IP => [
@@ -182,9 +181,10 @@ my %tests = (
                         '172.18.3.97',
                     ],
                 },
+                UPTIME       => '(8072382) 22:25:23.82',
             },
             PAGECOUNTERS => {
-                TOTAL => '473611',
+                TOTAL      => '473611',
             },
             PORTS => {
                 PORT => [
@@ -246,7 +246,6 @@ my %tests = (
                 MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
                 MODEL        => 'bizhub C224',
-                UPTIME       => '(17995666) 2 days, 1:59:16.66',
                 COMMENTS     => 'KONICA MINOLTA bizhub C224e',
                 MEMORY       => '0',
                 IPS          => {
@@ -255,18 +254,19 @@ my %tests = (
                         '192.168.200.18',
                     ],
                 },
+                UPTIME       => '(17995666) 2 days, 1:59:16.66',
             },
             CARTRIDGES => {
-                TONERBLACK   => '94',
-                TONERCYAN    => '97',
-                TONERMAGENTA => '98',
-                TONERYELLOW  => '98',
-                DRUMCYAN     => '99',
-                DRUMMAGENTA  => '99',
-                DRUMYELLOW   => '99',
+                TONERBLACK       => '94',
+                TONERCYAN        => '97',
+                TONERMAGENTA     => '98',
+                TONERYELLOW      => '98',
+                DRUMCYAN        => '99',
+                DRUMMAGENTA     => '99',
+                DRUMYELLOW      => '99',
             },
             PAGECOUNTERS => {
-                TOTAL => '2441',
+                TOTAL      => '2441',
             },
             PORTS => {
                 PORT => [
@@ -339,16 +339,16 @@ my %tests = (
                 UPTIME       => '(7570291) 21:01:42.91',
             },
             CARTRIDGES => {
-                TONERBLACK   => '71',
-                TONERCYAN    => '87',
-                TONERMAGENTA => '89',
-                TONERYELLOW  => '90',
-                DRUMCYAN     => '90',
-                DRUMMAGENTA  => '90',
-                DRUMYELLOW   => '90',
+                TONERBLACK       => '71',
+                TONERCYAN        => '87',
+                TONERMAGENTA     => '89',
+                TONERYELLOW      => '90',
+                DRUMCYAN        => '90',
+                DRUMMAGENTA     => '90',
+                DRUMYELLOW      => '90',
             },
             PAGECOUNTERS => {
-                TOTAL => '11202',
+                TOTAL      => '11202',
             },
             PORTS => {
                 PORT => [
@@ -421,16 +421,16 @@ my %tests = (
                 UPTIME       => '(43193657) 4 days, 23:58:56.57',
             },
             CARTRIDGES => {
-                TONERBLACK   => '96',
-                TONERCYAN    => '80',
-                TONERMAGENTA => '85',
-                TONERYELLOW  => '81',
-                DRUMCYAN     => '94',
-                DRUMMAGENTA  => '94',
-                DRUMYELLOW   => '94',
+                TONERBLACK       => '96',
+                TONERCYAN        => '80',
+                TONERMAGENTA     => '85',
+                TONERYELLOW      => '81',
+                DRUMCYAN        => '94',
+                DRUMMAGENTA     => '94',
+                DRUMYELLOW      => '94',
             },
             PAGECOUNTERS => {
-                TOTAL => '32761',
+                TOTAL      => '32761',
             },
             PORTS => {
                 PORT => [
