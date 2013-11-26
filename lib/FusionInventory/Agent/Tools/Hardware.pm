@@ -255,49 +255,61 @@ my @connected_devices_rules = (
 # common base variables
 my %base_variables = (
     MAC          => {
-        mapping => 'macaddr'
+        mapping => 'macaddr',
+        type    => 'mac',
     },
     CPU          => {
         mapping => 'cpu',
-        default => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1'
+        default => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1',
+        type    => 'count',
     },
     LOCATION     => {
         mapping => 'location',
-        default => '.1.3.6.1.2.1.1.6.0'
+        default => '.1.3.6.1.2.1.1.6.0',
+        type    => 'string',
     },
     CONTACT      => {
         mapping => 'contact',
         default => '.1.3.6.1.2.1.1.4.0',
+        type    => 'string',
     },
     COMMENTS     => {
         mapping => 'comments',
-        default => '.1.3.6.1.2.1.1.1.0'
+        default => '.1.3.6.1.2.1.1.1.0',
+        type    => 'string',
     },
     UPTIME       => {
         mapping => 'uptime',
-        default => '.1.3.6.1.2.1.1.3.0'
+        default => '.1.3.6.1.2.1.1.3.0',
+        type    => 'string',
     },
     SERIAL       => {
-        mapping => 'serial'
+        mapping => 'serial',
+        type    => 'serial',
     },
     NAME         => {
         mapping => 'name',
-        default => '.1.3.6.1.2.1.1.5.0'
+        default => '.1.3.6.1.2.1.1.5.0',
+        type    => 'string',
     },
     MANUFACTURER => {
         mapping => 'enterprise',
-        default => '.1.3.6.1.2.1.43.8.2.1.14.1.1'
+        default => '.1.3.6.1.2.1.43.8.2.1.14.1.1',
+        type    => 'string',
     },
     OTHERSERIAL  => {
-        mapping => 'otherserial'
+        mapping => 'otherserial',
+        type    => 'serial',
     },
     MEMORY       => {
         mapping => 'memory',
-        default => '.1.3.6.1.2.1.25.2.3.1.5.1'
+        default => '.1.3.6.1.2.1.25.2.3.1.5.1',
+        type    => 'memory',
     },
     RAM          => {
         mapping => 'ram',
-        default => '.1.3.6.1.4.1.9.3.6.6.0'
+        default => '.1.3.6.1.4.1.9.3.6.6.0',
+        type    => 'memory',
     },
 );
 
@@ -842,22 +854,15 @@ sub _setGenericProperties {
 
         my $raw_value = $snmp->get($oid);
         next unless defined $raw_value;
+
+        my $type = $variable->{type};
         my $value =
-            $key eq 'NAME'        ? hex2char($raw_value)                           :
-            $key eq 'LOCATION'    ? hex2char($raw_value)                           :
-            $key eq 'SERIAL'      ? getCanonicalSerialNumber(hex2char($raw_value)) :
-            # OTHERSERIAL can be either:
-            #  - a number in hex
-            #  - a number
-            #  - a string in hex
-            # if we use a number as a string, we can garbage char. For example for:
-            #  - 0x0115
-            #  - 0xfde8
-            $key eq 'OTHERSERIAL' ? getCanonicalSerialNumber($raw_value) :
-            $key eq 'RAM'         ? getCanonicalMemory($raw_value)       :
-            $key eq 'MEMORY'      ? getCanonicalMemory($raw_value)       :
-            $key eq 'MAC'         ? getCanonicalMacAddress($raw_value)   :
-                                    hex2char($raw_value)                 ;
+            $type eq 'mac'    ? getCanonicalMacAddress($raw_value)   :
+            $type eq 'memory' ? getCanonicalMemory($raw_value)       :
+            $type eq 'serial' ? getCanonicalSerialNumber($raw_value) :
+            $type eq 'string' ? getCanonicalString($raw_value)       :
+            $type eq 'count'  ? getCanonicalCount($raw_value)        :
+                                $raw_value;
 
         $device->{INFO}->{$key} = $value if defined $value;
     }
@@ -1116,12 +1121,6 @@ sub _isInteger {
     $_[0] =~ /^[+-]?\d+$/;
 }
 
-sub getCanonicalConstant {
-    my ($value) = @_;
-
-    return $value if _isInteger($value);
-    return $1 if $value =~ /\((\d+)\)$/;
-}
 
 sub loadModel {
     my ($file) = @_;
@@ -1191,16 +1190,30 @@ sub getCanonicalMacAddress {
     return $r;
 }
 
+sub getCanonicalString {
+    my ($value) = @_;
+
+    $value = hex2char($value);
+    return unless $value;
+
+    $value =~ s/^["']//;
+    $value =~ s/["']$//;
+    return unless $value;
+
+    return $value;
+}
+
 sub getCanonicalSerialNumber {
     my ($value) = @_;
 
+    $value = hex2char($value);
     return unless $value;
 
-    $value =~ s/\n//g;
-    $value =~ s/\r//g;
+    $value =~ s/[[:^print:]]//g;
     $value =~ s/^\s+//;
     $value =~ s/\s+$//;
     $value =~ s/\.{2,}//g;
+    return unless $value;
 
     return $value;
 }
@@ -1213,6 +1226,19 @@ sub getCanonicalMemory {
     } else {
         return int($value / 1024 / 1024);
     }
+}
+
+sub getCanonicalConstant {
+    my ($value) = @_;
+
+    return $value if _isInteger($value);
+    return $1 if $value =~ /\((\d+)\)$/;
+}
+
+sub getCanonicalCount {
+    my ($value) = @_;
+
+    return _isInteger($value) ? $value  : undef;
 }
 
 sub getElement {
