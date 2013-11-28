@@ -389,7 +389,7 @@ plan tests =>
 
 foreach my $test (@mac_tests) {
     is(
-        getCanonicalMacAddress($test->[0]),
+        FusionInventory::Agent::Tools::Hardware::_getCanonicalMacAddress($test->[0]),
         $test->[1],
         "$test->[0] normalisation"
     );

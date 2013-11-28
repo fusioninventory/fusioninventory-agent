@@ -15,11 +15,6 @@ our @EXPORT = qw(
     getDeviceInfo
     getDeviceFullInfo
     loadModel
-    getCanonicalSerialNumber
-    getCanonicalMacAddress
-    getCanonicalMemory
-    getElement
-    getElements
 );
 
 my %types = (
@@ -594,7 +589,7 @@ sub _getSerial {
     my ($snmp, $model) = @_;
 
     return unless $model->{SERIAL};
-    return getCanonicalSerialNumber($snmp->get($model->{SERIAL}));
+    return _getCanonicalSerialNumber($snmp->get($model->{SERIAL}));
 }
 
 sub _getMacAddress {
@@ -607,13 +602,13 @@ sub _getMacAddress {
         $model->{DYNMAC} ||
         ".1.3.6.1.2.1.2.2.1.6";  # IF-MIB::ifPhysAddress
 
-    my $address = getCanonicalMacAddress($snmp->get($mac_oid));
+    my $address = _getCanonicalMacAddress($snmp->get($mac_oid));
 
     if (!$address || $address !~ /^$mac_address_pattern$/) {
         my $macs = $snmp->walk($dynmac_oid);
         $address =
             first { $_ ne '00:00:00:00:00:00' }
-            map   { getCanonicalMacAddress($_) }
+            map   { _getCanonicalMacAddress($_) }
             grep  { $_ }
             sort  { $a cmp $b }
             values %{$macs};
@@ -792,11 +787,11 @@ sub _setGenericProperties {
 
         my $type = $variable->{type};
         my $value =
-            $type eq 'mac'    ? getCanonicalMacAddress($raw_value)   :
-            $type eq 'memory' ? getCanonicalMemory($raw_value)       :
-            $type eq 'serial' ? getCanonicalSerialNumber($raw_value) :
-            $type eq 'string' ? getCanonicalString($raw_value)       :
-            $type eq 'count'  ? getCanonicalCount($raw_value)        :
+            $type eq 'mac'    ? _getCanonicalMacAddress($raw_value)   :
+            $type eq 'memory' ? _getCanonicalMemory($raw_value)       :
+            $type eq 'serial' ? _getCanonicalSerialNumber($raw_value) :
+            $type eq 'string' ? _getCanonicalString($raw_value)       :
+            $type eq 'count'  ? _getCanonicalCount($raw_value)        :
                                 $raw_value;
 
         $device->{INFO}->{$key} = $value if defined $value;
@@ -825,10 +820,10 @@ sub _setGenericProperties {
         # $prefix.$i = $value, with $i as port id
         while (my ($suffix, $raw_value) = each %{$results}) {
             my $value =
-                $type eq 'mac'      ? getCanonicalMacAddress($raw_value) :
-                $type eq 'constant' ? getCanonicalConstant($raw_value)   :
-                $type eq 'string'   ? getCanonicalString($raw_value)     :
-                $type eq 'count'    ? getCanonicalCount($raw_value)      :
+                $type eq 'mac'      ? _getCanonicalMacAddress($raw_value) :
+                $type eq 'constant' ? _getCanonicalConstant($raw_value)   :
+                $type eq 'string'   ? _getCanonicalString($raw_value)     :
+                $type eq 'count'    ? _getCanonicalCount($raw_value)      :
                                       $raw_value;
             $ports->{$suffix}->{$key} = $value if defined $value;
         }
@@ -978,7 +973,7 @@ sub _setNetworkingProperties {
         # $prefix.$i.$j = $value, with $j as port id, and $value as vlan id
         # $prefix.$i    = $value, with $i as port id, and $value as vlan id
         foreach my $suffix (sort keys %{$results}) {
-            my $port_id = getElement($suffix, -1);
+            my $port_id = _getElement($suffix, -1);
             my $vlan_id = $results->{$suffix};
             my $name    = $vlans->{$vlan_id};
 
@@ -1082,7 +1077,7 @@ sub loadModel {
     }
 }
 
-sub getCanonicalMacAddress {
+sub _getCanonicalMacAddress {
     my ($value) = @_;
 
     return unless $value;
@@ -1106,7 +1101,7 @@ sub getCanonicalMacAddress {
     return $r;
 }
 
-sub getCanonicalString {
+sub _getCanonicalString {
     my ($value) = @_;
 
     $value = hex2char($value);
@@ -1119,7 +1114,7 @@ sub getCanonicalString {
     return $value;
 }
 
-sub getCanonicalSerialNumber {
+sub _getCanonicalSerialNumber {
     my ($value) = @_;
 
     $value = hex2char($value);
@@ -1134,7 +1129,7 @@ sub getCanonicalSerialNumber {
     return $value;
 }
 
-sub getCanonicalMemory {
+sub _getCanonicalMemory {
     my ($value) = @_;
 
     if ($value =~ /^(\d+) KBytes$/) {
@@ -1144,27 +1139,27 @@ sub getCanonicalMemory {
     }
 }
 
-sub getCanonicalConstant {
+sub _getCanonicalConstant {
     my ($value) = @_;
 
     return $value if _isInteger($value);
     return $1 if $value =~ /\((\d+)\)$/;
 }
 
-sub getCanonicalCount {
+sub _getCanonicalCount {
     my ($value) = @_;
 
     return _isInteger($value) ? $value  : undef;
 }
 
-sub getElement {
+sub _getElement {
     my ($oid, $index) = @_;
 
     my @array = split(/\./, $oid);
     return $array[$index];
 }
 
-sub getElements {
+sub _getElements {
     my ($oid, $first, $last) = @_;
 
     my @array = split(/\./, $oid);
@@ -1289,7 +1284,7 @@ sub _getConnectedDevicesInfoCDP {
     # whereas x is the port number
 
     while (my ($suffix, $ip) = each %{$cdpCacheAddress}) {
-        my $port_id = getElement($suffix, -2);
+        my $port_id = _getElement($suffix, -2);
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
@@ -1341,7 +1336,7 @@ sub _getConnectedDevicesInfoLLDP {
     # whereas y is the port number
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
-        my $port_id = getElement($suffix, -2);
+        my $port_id = _getElement($suffix, -2);
         $results->{$port_id} = {
             SYSMAC   => scalar alt2canonical($mac),
             IFDESCR  => $lldpRemPortDesc->{$suffix},
@@ -1389,7 +1384,7 @@ sub _getTrunkPorts {
         '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
     );
     while (my ($suffix, $trunk) = each %{$vlanStatus}) {
-        my $port_id = getElement($suffix, -1);
+        my $port_id = _getElement($suffix, -1);
         $results->{$port_id} = $trunk ? 1 : 0;
     }
 
@@ -1424,26 +1419,6 @@ the dictionary.
 
 return a full set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of a device-specific set of mappings, the model.
-
-=head2 getCanonicalSerialNumber($value)
-
-Return a canonical value for a serial number.
-
-=head2 getCanonicalMacAddress($value)
-
-Return a canonical value for a mac address.
-
-=head2 getCanonicalMemory($value)
-
-Return a canonical value for mac address, in bytes.
-
-=head2 getElement($oid, $index)
-
-return the $index element of an oid.
-
-=head2 getElements($oid, $first, $last)
-
-return all elements of index in range $first to $last of an oid.
 
 =head2 loadModel($file)
 
