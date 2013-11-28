@@ -1089,7 +1089,9 @@ sub _getCanonicalMacAddress {
     my $r;
     if ($value =~ /$mac_address_pattern/) {
         # this was stored as a string, it just has to be normalized
-        $r = join(':', map { sprintf "%02X", hex($_) } split(':', $value));
+        $r = sprintf
+            "%02X:%02X:%02X:%02X:%02X:%02X",
+            map { hex($_) } split(':', $value);
     } else {
         # this was stored as an hex-string
         # 0xD205A86C26D5 or 0x6001D205A86C26D5
