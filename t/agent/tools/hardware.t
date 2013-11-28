@@ -385,7 +385,7 @@ plan tests =>
     scalar @mac_addresses_extraction_tests +
     scalar @mac_addresses_addition_tests   +
     scalar @trunk_ports_extraction_tests   +
-    2;
+    7;
 
 foreach my $test (@mac_tests) {
     is(
@@ -513,3 +513,30 @@ foreach my $test (@trunk_ports_extraction_tests) {
         $test->[2]
     );
 }
+
+my $oid = '0.1.2.3.4.5.6.7.8.9';
+is(
+    FusionInventory::Agent::Tools::Hardware::_getElement($oid, 0),
+    0,
+    'index 0'
+);
+is(
+    FusionInventory::Agent::Tools::Hardware::_getElement($oid, -1),
+    9,
+    'index -1'
+);
+is(
+    FusionInventory::Agent::Tools::Hardware::_getElement($oid, -2),
+    8,
+    'index -2'
+);
+cmp_deeply(
+    [ FusionInventory::Agent::Tools::Hardware::_getElements($oid, 0, 3) ],
+    [ qw/0 1 2 3/ ],
+    'getElements with index 0 to 3'
+);
+cmp_deeply(
+    [ FusionInventory::Agent::Tools::Hardware::_getElements($oid, -4, -1) ],
+    [ qw/6 7 8 9/ ],
+    'getElements with index -4 to -1'
+);
