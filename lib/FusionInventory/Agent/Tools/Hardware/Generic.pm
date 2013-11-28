@@ -55,9 +55,6 @@ sub _getConnectedDevicesMacAddresses {
     my $model  = $params{model};
 
     my $results;
-    my $dot1dTpFdbAddress    = $snmp->walk(
-        $model->{oids}->{dot1dTpFdbAddress}    || '.1.3.6.1.2.1.17.4.3.1.1'
-    );
     my $dot1dTpFdbPort       = $snmp->walk(
         $model->{oids}->{dot1dTpFdbPort}       || '.1.3.6.1.2.1.17.4.3.1.2'
     );
@@ -65,24 +62,13 @@ sub _getConnectedDevicesMacAddresses {
         $model->{oids}->{dot1dBasePortIfIndex} || '.1.3.6.1.2.1.17.1.4.1.2'
     );
 
-    foreach my $suffix (sort keys %{$dot1dTpFdbAddress}) {
-        my $mac = $dot1dTpFdbAddress->{$suffix};
-        $mac = alt2canonical($mac);
-        next unless $mac;
+    foreach my $suffix (sort keys %{$dot1dTpFdbPort}) {
+        my $port_id      = $dot1dTpFdbPort->{$suffix};
+        my $interface_id = $dot1dBasePortIfIndex->{$port_id};
+        next unless $interface_id;
 
-        # get port key
-        my $portKey = $suffix;
-        next unless $portKey;
-
-        # get interface key from port key
-        my $ifKey = $dot1dTpFdbPort->{$portKey};
-        next unless defined $ifKey;
-
-        # get interface index
-        my $port_id = $dot1dBasePortIfIndex->{$ifKey};
-        next unless defined $port_id;
-
-        push @{$results->{$port_id}}, $mac;
+        push @{$results->{$interface_id}},
+            sprintf "%02X:%02X:%02X:%02X:%02X:%02X", split(/\./, $suffix)
     }
 
     return $results;
