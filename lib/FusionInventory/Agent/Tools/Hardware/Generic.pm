@@ -31,20 +31,15 @@ sub setConnectedDevicesMacAddresses {
         # connected device has already been identified through CDP/LLDP
         next if $port->{CONNECTIONS}->{CDP};
 
-        # get at list of already associated addresses, if any
-        # as well as the port own mac address, if known
-        my @known;
-        push @known, $port->{MAC} if $port->{MAC};
-        push @known, @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}}
-            if $port->{CONNECTIONS}->{CONNECTION}->{MAC};
+        # filter out the port own mac address, if known
+        my $addresses = $mac_addresses->{$port_id};
+        if (exists $port->{MAC}) {
+            $addresses = [ grep { $_ ne $port->{MAC} } @$addresses ];
+        }
 
-        # filter out those addresses from the additional ones
-        my %known = map { $_ => 1 } @known;
-        my @adresses = grep { !$known{$_} } @{$mac_addresses->{$port_id}};
-        next unless @adresses;
+        next unless @$addresses;
 
-        # add remaining ones
-        push @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}}, @adresses;
+        $port->{CONNECTIONS}->{CONNECTION}->{MAC} = $addresses;
     }
 }
 

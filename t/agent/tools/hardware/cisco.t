@@ -762,6 +762,34 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
                         IFINERRORS       => '1817884',
                         IFOUTOCTETS      => '2589712033',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:0B:5F:CC:D8:80',
+                                    '00:16:76:CF:94:62',
+                                    '00:20:A6:49:7E:FB',
+                                    '00:26:B6:15:20:23',
+                                    '00:26:08:F9:3D:C4',
+                                    '68:A8:6D:51:65:DA',
+                                    '7C:D1:C3:F4:E7:89',
+                                    '10:9A:DD:A5:32:33',
+                                    'BC:52:B7:38:91:13',
+                                    'E0:B9:BA:AF:AD:4F',
+                                    'E0:F8:47:34:4C:B4',
+                                    'E0:06:E6:96:D4:A1',
+                                    'E8:06:88:57:6D:7D',
+                                    '18:A9:05:E3:0C:F5',
+                                    'FC:25:3F:7B:7D:F6',
+                                    '28:6A:BA:59:82:44',
+                                    '34:15:9E:94:10:71',
+                                    '40:6C:8F:1D:C0:7F',
+                                    '4C:0F:6E:D5:3C:02',
+                                    '54:04:A6:96:01:E1',
+                                    '5C:96:9D:76:78:9D',
+                                    '5C:AC:4C:1A:0F:00',
+                                ],
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '4',
@@ -1000,6 +1028,34 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
                         IFINERRORS       => '1817884',
                         IFOUTOCTETS      => '2611425256',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:0B:5F:CC:D8:80',
+                                    '00:16:76:CF:94:62',
+                                    '00:20:A6:49:7E:FB',
+                                    '00:26:B6:15:20:23',
+                                    '00:26:08:F9:3D:C4',
+                                    '68:A8:6D:51:65:DA',
+                                    '7C:D1:C3:F4:E7:89',
+                                    '10:9A:DD:A5:32:33',
+                                    'BC:52:B7:38:91:13',
+                                    'E0:B9:BA:AF:AD:4F',
+                                    'E0:F8:47:34:4C:B4',
+                                    'E0:06:E6:96:D4:A1',
+                                    'E8:06:88:57:6D:7D',
+                                    '18:A9:05:E3:0C:F5',
+                                    'FC:25:3F:7B:7D:F6',
+                                    '28:6A:BA:59:82:44',
+                                    '34:15:9E:94:10:71',
+                                    '40:6C:8F:1D:C0:7F',
+                                    '4C:0F:6E:D5:3C:02',
+                                    '54:04:A6:96:01:E1',
+                                    '5C:96:9D:76:78:9D',
+                                    '5C:AC:4C:1A:0F:00',
+                                ],
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '4',
@@ -1207,6 +1263,20 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '287',
                         IFOUTOCTETS      => '2773240205',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:1B:21:2C:75:79',
+                                    '00:1B:21:2C:75:7D',
+                                    '00:1B:21:2C:76:65',
+                                    '00:1B:21:2C:76:61',
+                                    '00:1E:F7:0D:8F:C5',
+                                    'C4:64:13:11:31:81',
+                                    'C4:64:13:11:31:60',
+                                    'C4:64:13:2B:F2:25',
+                                ],
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '3',
@@ -1223,6 +1293,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '670',
                         IFOUTOCTETS      => '3165765220',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '4',
@@ -1239,6 +1310,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2297881053',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '5',
@@ -1255,6 +1327,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '769622527',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '6',
@@ -1271,6 +1344,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '635',
                         IFOUTOCTETS      => '3188808108',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '7',
@@ -1288,6 +1362,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1528986873',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '8',
@@ -1304,6 +1379,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '9',
@@ -1320,6 +1396,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '10',
@@ -1336,6 +1413,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '7',
                         IFOUTOCTETS      => '3427157577',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '11',
@@ -1352,6 +1430,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2095387873',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '12',
@@ -1368,6 +1447,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1184611073',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '13',
@@ -1384,6 +1464,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3752721734',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '14',
@@ -1401,6 +1482,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '85878063',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '15',
@@ -1417,6 +1499,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '16',
@@ -1434,6 +1517,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '568386769',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '17',
@@ -1450,6 +1534,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2515430057',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '18',
@@ -1466,6 +1551,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '19',
@@ -1482,6 +1568,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '20',
@@ -1498,6 +1585,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2768247810',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '21',
@@ -1515,6 +1603,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '22',
@@ -1531,6 +1620,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '23',
@@ -1547,6 +1637,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '24',
@@ -1563,6 +1654,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '25',
@@ -1579,6 +1671,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2594458902',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '26',
@@ -2055,6 +2148,19 @@ Compiled Fri 27-F',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2215441865',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:01:96:33:58:57',
+                                    '00:1B:21:2C:75:79',
+                                    '00:1B:21:2C:75:7D',
+                                    '00:1B:21:2C:76:65',
+                                    '00:1B:21:2C:76:61',
+                                    'C4:64:13:11:31:60',
+                                    'C4:64:13:2B:F2:25',
+                                ],
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '25',
@@ -4585,6 +4691,13 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1906464200',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CONNECTION => {
+                                MAC => [
+                                    'B4:39:D6:49:5B:A6',
+                                ],
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '10101',
@@ -4602,6 +4715,20 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '839081165',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:1B:21:2C:75:79',
+                                    '00:1B:21:2C:75:7D',
+                                    '00:1B:21:2C:76:65',
+                                    '00:1B:21:2C:76:61',
+                                    '00:1E:7A:F5:09:47',
+                                    'C4:64:13:11:31:81',
+                                    'C4:64:13:11:31:60',
+                                    'C4:64:13:2B:F2:25',
+                                ],
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '10102',
@@ -23311,6 +23438,20 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3077962672',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CONNECTION => {
+                                MAC => [
+                                    '00:1B:21:2C:75:79',
+                                    '00:1B:21:2C:75:7D',
+                                    '00:1B:21:2C:76:65',
+                                    '00:1B:21:2C:76:61',
+                                    '00:1E:7A:F5:0A:06',
+                                    'C4:64:13:11:31:81',
+                                    'C4:64:13:11:31:60',
+                                    'C4:64:13:2B:F2:25',
+                                ],
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '10122',

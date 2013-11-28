@@ -31,10 +31,6 @@ sub new {
     return $self;
 }
 
-sub switch_community {
-    my ($self) = @_;
-}
-
 sub _getIndexedValues {
     my ($file) = @_;
 
