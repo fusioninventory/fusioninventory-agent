@@ -1195,7 +1195,10 @@ sub _setConnectedDevicesMacAddresses {
         my $port = $ports->{$port_id};
 
         # connected device has already been identified through CDP/LLDP
-        next if $port->{CONNECTIONS}->{CDP};
+        next if
+            exists $port->{CONNECTIONS} &&
+            exists $port->{CONNECTIONS}->{CDP} &&
+            $port->{CONNECTIONS}->{CDP};
 
         # filter out the port own mac address, if known
         my $addresses = $mac_addresses->{$port_id};

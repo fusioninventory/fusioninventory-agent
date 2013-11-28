@@ -1293,7 +1293,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '670',
                         IFOUTOCTETS      => '3165765220',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '4',
@@ -1310,7 +1309,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2297881053',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '5',
@@ -1327,7 +1325,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '769622527',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '6',
@@ -1344,7 +1341,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '635',
                         IFOUTOCTETS      => '3188808108',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '7',
@@ -1362,7 +1358,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1528986873',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '8',
@@ -1379,7 +1374,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '9',
@@ -1396,7 +1390,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '10',
@@ -1413,7 +1406,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '7',
                         IFOUTOCTETS      => '3427157577',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '11',
@@ -1430,7 +1422,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2095387873',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '12',
@@ -1447,7 +1438,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1184611073',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '13',
@@ -1464,7 +1454,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3752721734',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '14',
@@ -1482,7 +1471,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '85878063',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '15',
@@ -1499,7 +1487,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '16',
@@ -1517,7 +1504,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '568386769',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '17',
@@ -1534,7 +1520,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2515430057',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '18',
@@ -1551,7 +1536,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '19',
@@ -1568,7 +1552,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '20',
@@ -1585,7 +1568,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2768247810',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '21',
@@ -1603,7 +1585,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '22',
@@ -1620,7 +1601,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '23',
@@ -1637,7 +1617,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '24',
@@ -1654,7 +1633,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '64',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '25',
@@ -1671,7 +1649,6 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2594458902',
                         IFOUTERRORS      => '0',
-                        CONNECTIONS      => { }
                     },
                     {
                         IFNUMBER         => '26',
