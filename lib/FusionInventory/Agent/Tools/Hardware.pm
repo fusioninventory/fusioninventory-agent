@@ -6,10 +6,10 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use List::Util qw(first);
-use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Hardware::Generic;
 
 our @EXPORT = qw(
     getDeviceBaseInfo
@@ -227,28 +227,6 @@ my @sysdescr_rules = (
         match       => qr/Nortel Networks$/,
         vendor      => { value    => 'Nortel' },
         type        => { value    => 'NETWORKING' }
-    },
-);
-
-my @trunk_ports_rules = (
-    {
-        match  => qr/Nortel/,
-        module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
-    },
-    {
-        match  => qr/.*/,
-        module => 'FusionInventory::Agent::Tools::Hardware::Generic',
-    },
-);
-
-my @connected_devices_rules = (
-    {
-        match  => qr/Nortel/,
-        module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
-    },
-    {
-        match  => qr/.*/,
-        module => 'FusionInventory::Agent::Tools::Hardware::Generic',
     },
 );
 
@@ -708,50 +686,6 @@ sub _apply_rule {
     }
 }
 
-sub _setTrunkPorts {
-    my ($description, $snmp, $model, $ports, $logger) = @_;
-
-    foreach my $rule (@trunk_ports_rules) {
-        next unless $description =~ $rule->{match};
-
-        runFunction(
-            module   => $rule->{module},
-            function => 'setTrunkPorts',
-            params   => {
-                snmp   => $snmp,
-                model  => $model,
-                ports  => $ports,
-                logger => $logger
-            },
-            load     => 1
-        );
-
-        last;
-    }
-
-}
-sub _setConnectedDevicesInfo {
-    my ($description, $snmp, $model, $ports, $logger) = @_;
-
-    foreach my $rule (@connected_devices_rules) {
-        next unless $description =~ $rule->{match};
-
-        runFunction(
-            module   => $rule->{module},
-            function => 'setConnectedDevicesInfo',
-            params   => {
-                snmp   => $snmp,
-                model  => $model,
-                ports  => $ports,
-                logger => $logger
-            },
-            load     => 1
-        );
-
-        last;
-    }
-}
-
 sub getDeviceFullInfo {
     my (%params) = @_;
 
@@ -1066,12 +1000,19 @@ sub _setNetworkingProperties {
     # everything else is vendor-specific, and requires device description
     return unless $comments;
 
-    _setTrunkPorts($comments, $snmp, $model, $ports, $logger);
+    FusionInventory::Agent::Tools::Hardware::Generic::setTrunkPorts(
+        snmp   => $snmp,
+        model  => $model,
+        ports  => $ports,
+        logger => $logger
+    );
 
-    _setConnectedDevicesInfo($comments, $snmp, $model, $ports, $logger);
-
-    # ensure module is loaded
-    FusionInventory::Agent::Tools::Hardware::Generic->require();
+    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesInfo(
+        snmp   => $snmp,
+        model  => $model,
+        ports  => $ports,
+        logger => $logger
+    );
 
     FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
         snmp   => $snmp,

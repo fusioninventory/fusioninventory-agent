@@ -124,7 +124,7 @@ sub _getConnectedDevicesInfoCDP {
     # whereas x is the port number
 
     while (my ($suffix, $ip) = each %{$cdpCacheAddress}) {
-        my $port_id = getElement($suffix, -2);
+        my $port_id = FusionInventory::Agent::Tools::Hardware::getElement($suffix, -2);
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
@@ -176,7 +176,7 @@ sub _getConnectedDevicesInfoLLDP {
     # whereas y is the port number
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
-        my $port_id = getElement($suffix, -2);
+        my $port_id = FusionInventory::Agent::Tools::Hardware::getElement($suffix, -2);
         $results->{$port_id} = {
             SYSMAC   => scalar alt2canonical($mac),
             IFDESCR  => $lldpRemPortDesc->{$suffix},
@@ -224,7 +224,7 @@ sub _getTrunkPorts {
         '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
     );
     while (my ($suffix, $trunk) = each %{$vlanStatus}) {
-        my $port_id = getElement($suffix, -1);
+        my $port_id = FusionInventory::Agent::Tools::Hardware::getElement($suffix, -1);
         $results->{$port_id} = $trunk ? 1 : 0;
     }
 
