@@ -65,7 +65,7 @@ sub _getConnectedDevicesMacAddresses {
     foreach my $suffix (sort keys %{$dot1dTpFdbPort}) {
         my $port_id      = $dot1dTpFdbPort->{$suffix};
         my $interface_id = $dot1dBasePortIfIndex->{$port_id};
-        next unless $interface_id;
+        next unless defined $interface_id;
 
         push @{$results->{$interface_id}},
             sprintf "%02X:%02X:%02X:%02X:%02X:%02X", split(/\./, $suffix)
