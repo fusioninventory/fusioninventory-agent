@@ -4,9 +4,10 @@
     <DEVICE>
       <INFO>
         <COMMENTS>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_</COMMENTS>
+        <CONTACT>systeme@example.com</CONTACT>
         <FIRMWARE>K.15.28 K.15.04.0015m</FIRMWARE>
-	<ID>0</ID>
-	<IPS>
+        <ID>0</ID>
+        <IPS>
           <IP>127.0.0.1</IP>
           <IP>172.27.192.226</IP>
           <IP>172.27.192.33</IP>
@@ -25,15 +26,25 @@
         </IPS>
         <LOCATION>datacenter</LOCATION>
         <MAC>00:18:71:C1:E0:00</MAC>
-	<MODEL>ProCurve 5406zl (J8697A)</MODEL>
+        <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        <MODEL>ProCurve 5406zl (J8697A)</MODEL>
         <NAME>thisisdog CR2</NAME>
         <SERIAL>SG707SU03Y</SERIAL>
         <TYPE>NETWORKING</TYPE>
         <UPTIME>(293555959) 33 days, 23:25:59.59</UPTIME>
-        <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
       </INFO>
       <PORTS>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.140</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB010B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A1</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2281257823</IFINOCTETS>
@@ -44,12 +55,23 @@
           <IFNUMBER>1</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1349379502</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:FF</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.140</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB010B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A2</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1790849661</IFINOCTETS>
@@ -60,12 +82,23 @@
           <IFNUMBER>2</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>351638347</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:FE</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.141</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB0D8100</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A3</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2596611853</IFINOCTETS>
@@ -76,12 +109,23 @@
           <IFNUMBER>3</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1368455180</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:FD</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.141</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB0D8100</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A4</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2096487256</IFINOCTETS>
@@ -92,12 +136,23 @@
           <IFNUMBER>4</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>205027037</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:FC</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.142</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9138000</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A5</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2759835685</IFINOCTETS>
@@ -108,12 +163,23 @@
           <IFNUMBER>5</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2189748070</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:FB</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.142</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9138000</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A6</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>710340837</IFINOCTETS>
@@ -124,12 +190,23 @@
           <IFNUMBER>6</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1497261298</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:FA</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.143</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9142B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A7</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>264235442</IFINOCTETS>
@@ -140,12 +217,23 @@
           <IFNUMBER>7</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1045414825</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:F9</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.143</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9142B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A8</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2740877036</IFINOCTETS>
@@ -156,12 +244,23 @@
           <IFNUMBER>8</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1496580095</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:F8</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.150</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1B4D00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A9</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1383661651</IFINOCTETS>
@@ -172,12 +271,23 @@
           <IFNUMBER>9</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1593815865</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:F7</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.150</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1B4D00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A10</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2224332599</IFINOCTETS>
@@ -188,6 +298,7 @@
           <IFNUMBER>10</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1552508202</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -203,6 +314,7 @@
           <IFNUMBER>11</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -218,12 +330,23 @@
           <IFNUMBER>12</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:F4</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.151</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1ACC00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A13</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3735158120</IFINOCTETS>
@@ -234,6 +357,7 @@
           <IFNUMBER>13</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2302731832</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -249,12 +373,23 @@
           <IFNUMBER>14</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:F2</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.160</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB01A600</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A15</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3361365604</IFINOCTETS>
@@ -265,6 +400,7 @@
           <IFNUMBER>15</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>284146569</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -280,12 +416,23 @@
           <IFNUMBER>16</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:F0</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.161</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB058200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A17</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>348605692</IFINOCTETS>
@@ -296,6 +443,7 @@
           <IFNUMBER>17</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2435360597</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -311,12 +459,23 @@
           <IFNUMBER>18</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:EE</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>262</IFDESCR>
+              <IP>172.31.196.162</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0018FEF9A800</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A19</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>28689859</IFINOCTETS>
@@ -327,6 +486,7 @@
           <IFNUMBER>19</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1786194494</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -342,12 +502,23 @@
           <IFNUMBER>20</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:EC</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>262</IFDESCR>
+              <IP>172.31.196.163</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x001C2EE58B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A21</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2943397531</IFINOCTETS>
@@ -358,12 +529,23 @@
           <IFNUMBER>21</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1009676074</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:EB</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>22</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A22</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3614341248</IFINOCTETS>
@@ -374,12 +556,23 @@
           <IFNUMBER>22</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>372261477</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:EA</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>23</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A23</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1968825162</IFINOCTETS>
@@ -390,12 +583,23 @@
           <IFNUMBER>23</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>3322662505</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:E9</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>24</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A24</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3412112397</IFINOCTETS>
@@ -406,12 +610,23 @@
           <IFNUMBER>24</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2284145698</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:E8</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.151</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1ACC00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B1</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1056898244</IFINOCTETS>
@@ -422,12 +637,23 @@
           <IFNUMBER>25</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1169469549</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:E7</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.151</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1ACC00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B2</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3042721785</IFINOCTETS>
@@ -438,12 +664,23 @@
           <IFNUMBER>26</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>558861009</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:E6</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.160</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB01A600</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B3</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3237184662</IFINOCTETS>
@@ -454,12 +691,23 @@
           <IFNUMBER>27</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>146927983</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:E5</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.160</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB01A600</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B4</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2288807394</IFINOCTETS>
@@ -470,12 +718,23 @@
           <IFNUMBER>28</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>3299335483</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:E4</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.161</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB058200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B5</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3318685559</IFINOCTETS>
@@ -486,6 +745,7 @@
           <IFNUMBER>29</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2809203793</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -502,12 +762,23 @@
           <IFNUMBER>30</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:E2</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>285</IFDESCR>
+              <IP>172.31.196.162</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0018FEF9A800</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B7</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3012845819</IFINOCTETS>
@@ -518,12 +789,23 @@
           <IFNUMBER>31</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2231577010</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:E1</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>287</IFDESCR>
+              <IP>172.31.196.162</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0018FEF9A800</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B8</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3323194516</IFINOCTETS>
@@ -534,12 +816,23 @@
           <IFNUMBER>32</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>3764354101</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:E0</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>285</IFDESCR>
+              <IP>172.31.196.163</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x001C2EE58B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B9</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3754573618</IFINOCTETS>
@@ -550,12 +843,23 @@
           <IFNUMBER>33</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>20030667</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:DF</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>287</IFDESCR>
+              <IP>172.31.196.163</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x001C2EE58B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B10</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1557689030</IFINOCTETS>
@@ -566,6 +870,7 @@
           <IFNUMBER>34</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2884232004</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -581,6 +886,7 @@
           <IFNUMBER>35</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -596,12 +902,23 @@
           <IFNUMBER>36</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:DC</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.140</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB010B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B13</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1205644070</IFINOCTETS>
@@ -612,6 +929,7 @@
           <IFNUMBER>37</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1019288656</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -627,12 +945,23 @@
           <IFNUMBER>38</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:DA</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.141</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB0D8100</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B15</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2981067194</IFINOCTETS>
@@ -643,6 +972,7 @@
           <IFNUMBER>39</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>3131610378</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -658,12 +988,23 @@
           <IFNUMBER>40</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:D8</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.142</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9138000</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B17</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2496990832</IFINOCTETS>
@@ -674,6 +1015,7 @@
           <IFNUMBER>41</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1435860196</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -689,12 +1031,23 @@
           <IFNUMBER>42</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:D6</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.143</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9142B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B19</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3225589631</IFINOCTETS>
@@ -705,6 +1058,7 @@
           <IFNUMBER>43</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2304461112</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -720,12 +1074,23 @@
           <IFNUMBER>44</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:D4</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.150</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1B4D00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B21</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3403667845</IFINOCTETS>
@@ -736,12 +1101,23 @@
           <IFNUMBER>45</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>4215478562</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:D3</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>46</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B22</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2524887906</IFINOCTETS>
@@ -752,12 +1128,23 @@
           <IFNUMBER>46</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>986787144</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:D2</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>47</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B23</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1647940696</IFINOCTETS>
@@ -768,12 +1155,23 @@
           <IFNUMBER>47</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1527530290</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:C1:F0:D1</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>48</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B24</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2411859653</IFINOCTETS>
@@ -784,6 +1182,7 @@
           <IFNUMBER>48</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2515291862</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
@@ -1394,6 +1793,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DEFAULT_VLAN</IFALIAS>
           <IFDESCR>DEFAULT_VLAN</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1410,6 +1810,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>SERVERS</IFALIAS>
           <IFDESCR>VLAN2</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1423,9 +1824,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.31.192.244</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>ZONE_PUBLIQUE</IFALIAS>
           <IFDESCR>VLAN3</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1442,6 +1845,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>INTERCO_RACINE_API</IFALIAS>
           <IFDESCR>VLAN4</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1458,6 +1862,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DMZ</IFALIAS>
           <IFDESCR>VLAN5</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1474,6 +1879,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>AGRIATES</IFALIAS>
           <IFDESCR>VLAN6</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1490,6 +1896,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>ACCUEIL_ETABLISSEMENTS</IFALIAS>
           <IFDESCR>VLAN7</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1506,6 +1913,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>VOIP_ASTERISK</IFALIAS>
           <IFDESCR>VLAN13</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1519,9 +1927,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.27.192.226</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DMZ227</IFALIAS>
           <IFDESCR>VLAN14</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1538,6 +1948,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>INTERCO-CSS</IFALIAS>
           <IFDESCR>VLAN15</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1554,6 +1965,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>SERVEUR-CSS</IFALIAS>
           <IFDESCR>VLAN16</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1570,6 +1982,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>INTER_EQUANT_RECTORAT</IFALIAS>
           <IFDESCR>VLAN17</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1586,6 +1999,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>INT_EQUANT_ETABLISSEMENTS</IFALIAS>
           <IFDESCR>VLAN18</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1602,6 +2016,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DMZ_HD</IFALIAS>
           <IFDESCR>VLAN22</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1618,6 +2033,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>RESEAU_DRRT-PUG</IFALIAS>
           <IFDESCR>VLAN30</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1634,6 +2050,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>COLLECTE_IP_RIHDA</IFALIAS>
           <IFDESCR>VLAN149</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1650,6 +2067,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>RENATER</IFALIAS>
           <IFDESCR>VLAN150</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1666,6 +2084,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-DMZ-INFRA</IFALIAS>
           <IFDESCR>VLAN152</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1682,6 +2101,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-VLAN-LIBRE</IFALIAS>
           <IFDESCR>VLAN153</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1698,6 +2118,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-INTERCO-FOUNDRY</IFALIAS>
           <IFDESCR>VLAN154</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1714,6 +2135,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-DMZ</IFALIAS>
           <IFDESCR>VLAN155</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1730,6 +2152,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-Libre_Service</IFALIAS>
           <IFDESCR>VLAN156</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1746,6 +2169,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-DMZ-PEDA</IFALIAS>
           <IFDESCR>VLAN157</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1762,6 +2186,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-DMZ-INFRA2</IFALIAS>
           <IFDESCR>VLAN158</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1778,6 +2203,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-PUG-DRRT</IFALIAS>
           <IFDESCR>VLAN159</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1794,6 +2220,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>ToIP_RIHDA</IFALIAS>
           <IFDESCR>VLAN160</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1807,9 +2234,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.27.192.33</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>LIBR_SERVICE</IFALIAS>
           <IFDESCR>VLAN162</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1826,6 +2255,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DATA_RIHDA</IFALIAS>
           <IFDESCR>VLAN170</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1839,9 +2269,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.31.203.253</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DATA_POLY</IFALIAS>
           <IFDESCR>VLAN171</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1858,6 +2290,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DATA_CEPE</IFALIAS>
           <IFDESCR>VLAN172</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1871,9 +2304,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.31.193.246</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>video_RIHDA</IFALIAS>
           <IFDESCR>VLAN180</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1887,9 +2322,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.27.193.125</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>postesIP_RIHDA</IFALIAS>
           <IFDESCR>VLAN190</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1903,9 +2340,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.27.205.253</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>ADMIN_RESEAU</IFALIAS>
           <IFDESCR>VLAN196</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1919,9 +2358,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.31.196.253</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>PERIPHERIQUES</IFALIAS>
           <IFDESCR>VLAN201</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1935,9 +2376,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.31.201.253</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>UTIL_NVEAU_BAT</IFALIAS>
           <IFDESCR>VLAN202</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1954,6 +2397,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>UTIL_FORMATION</IFALIAS>
           <IFDESCR>VLAN204</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1967,9 +2411,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.31.204.125</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>UTIL_CATI</IFALIAS>
           <IFDESCR>VLAN205</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1983,9 +2429,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.31.205.125</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>UTIL_INVITES</IFALIAS>
           <IFDESCR>VLAN214</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1999,9 +2447,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.31.204.253</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>UTIL_SYST_RESEAUX</IFALIAS>
           <IFDESCR>VLAN215</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2015,9 +2465,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>172.31.205.253</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>VLAN401</IFALIAS>
           <IFDESCR>VLAN401</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2034,6 +2486,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>wifi_recteur</IFALIAS>
           <IFDESCR>VLAN402</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2050,6 +2503,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DMZ_ELGG</IFALIAS>
           <IFDESCR>VLAN403</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2066,6 +2520,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>COLLECTE-TEST</IFALIAS>
           <IFDESCR>VLAN3000</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2079,9 +2534,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
+          <IP>192.168.227.246</IP>
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>TEST-APPLI</IFALIAS>
           <IFDESCR>VLAN3002</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2098,6 +2555,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>TEST-AGRIATE</IFALIAS>
           <IFDESCR>VLAN3006</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2114,6 +2572,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>TEST-ETAB</IFALIAS>
           <IFDESCR>VLAN3007</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2130,6 +2589,7 @@
           <MAC>00:18:71:C1:E0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>lo0</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>7893971</IFINOCTETS>
@@ -2143,8 +2603,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>24</IFTYPE>
+          <IP>127.0.0.1</IP>
         </PORT>
         <PORT>
+          <IFALIAS>lo1</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2160,6 +2622,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo2</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2175,6 +2638,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo3</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2190,6 +2654,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo4</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2205,6 +2670,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo5</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2220,6 +2686,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo6</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2235,6 +2702,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo7</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2251,9 +2719,8 @@
         </PORT>
       </PORTS>
     </DEVICE>
-    <MODULEVERSION>2.3.0</MODULEVERSION>
+    <MODULEVERSION>2.3.9901</MODULEVERSION>
     <PROCESSNUMBER>1</PROCESSNUMBER>
   </CONTENT>
-  <DEVICEID/>
-  <QUERY>SNMPQUERY</QUERY>
+  <DEVICEID />  <QUERY>SNMPQUERY</QUERY>
 </REQUEST>
