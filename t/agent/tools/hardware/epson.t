@@ -9,13 +9,127 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Test::Hardware;
 
 my %tests = (
+    'epson/AL-C1100.walk' => [
+        {
+            MANUFACTURER => 'Epson',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'AL-C1100',
+            SNMPHOSTNAME => 'AL-C1100-0DBECC',
+            MAC          => '00:00:48:0d:be:cc',
+            MODEL        => 'AL-C1100',
+        },
+        {
+            MANUFACTURER => 'Epson',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'AL-C1100',
+            SNMPHOSTNAME => 'AL-C1100-0DBECC',
+            MAC          => '00:00:48:0d:be:cc',
+            MODEL        => 'AL-C1100',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Epson',
+                TYPE         => 'PRINTER',
+                MODEL        => 'AL-C1100',
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-C1100-0DBECC',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '43065',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'AL-C1100 Hard Ver.1.00 Firm Ver.2.30',
+                        IFDESCR          => 'AL-C1100 Hard Ver.1.00 Firm Ver.2.30',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:00:48:0d:be:cc',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '7216616',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1030873',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
+    'epson/AL-C3900.walk' => [
+        {
+            MANUFACTURER => 'Epson',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'EPSON AL-C3900',
+            MAC          => '00:26:ab:9f:78:8b',
+            MODEL        => 'AL-C3900',
+        },
+        {
+            MANUFACTURER => 'Epson',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'EPSON AL-C3900',
+            MAC          => '00:26:ab:9f:78:8b',
+            MODEL        => 'AL-C3900',
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Epson',
+                TYPE         => 'PRINTER',
+                MODEL        => 'AL-C3900',
+                COMMENTS     => 'EPSON AL-C3900',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '20',
+                TONERCYAN        => '45',
+                TONERMAGENTA     => '23',
+                TONERYELLOW      => '25',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '7758',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet 10Base-T/100Base-TX/1000Base-T',
+                        IFDESCR          => 'Ethernet 10Base-T/100Base-TX/1000Base-T',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:26:ab:9f:78:8b',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2156405224',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '110909374',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Software Loopback',
+                        IFDESCR          => 'Software Loopback',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '1536',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '0',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '0',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        }
+    ],
     'epson/AL-C4200.1.walk' => [
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-0ED50E',
-            MAC          => '20:04:48:0E:D5:0E',
+            MAC          => '20:04:48:0e:d5:0e',
             MODEL        => 'AL-C4200',
         },
         {
@@ -23,39 +137,58 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-0ED50E',
-            MAC          => '20:04:48:0E:D5:0E',
-            MODEL        => 'AL-C4200',
+            MAC          => '20:04:48:0e:d5:0e',
             MODELSNMP    => 'Printer0125',
+            MODEL        => 'AL-C4200',
             FIRMWARE     => undef,
-            SERIAL       => 'GMYZ106952'
+            SERIAL       => 'GMYZ106952',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
-                MEMORY       => 128,
                 MODEL        => 'AL-C4200',
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-C4200-0ED50E',
+                MEMORY       => '128',
                 LOCATION     => 'Aff. Generales',
-                ID           => undef,
                 SERIAL       => 'GMYZ106952',
-                NAME         => 'AL-C4200-0ED50E'
+                IPS          => {
+                    IP => [
+                        '172.17.3.81',
+                    ],
+                },
+                UPTIME       => '(166086480) 19 days, 5:21:04.80',
             },
             CARTRIDGES => {
-                TONERCYAN    => 100,
-                TONERYELLOW  => 84,
-                TONERBLACK   => 45,
-                TONERMAGENTA => 99
+                TONERBLACK       => '45',
+                TONERCYAN        => '100',
+                TONERMAGENTA     => '99',
+                TONERYELLOW      => '84',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '73309',
             },
             PORTS => {
                 PORT => [
                     {
-                        IP       => '172.17.3.81',
-                        MAC      => '20:04:48:0E:D5:0E',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
-                        IFNUMBER => '1'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
+                        IFDESCR          => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '172.17.3.81',
+                        MAC              => '20:04:48:0e:d5:0e',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3564032475',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '19488839',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -66,7 +199,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D14BC7',
-            MAC          => '00:00:48:D1:4B:C7',
+            MAC          => '00:00:48:d1:4b:c7',
             MODEL        => 'AL-C4200',
         },
         {
@@ -74,39 +207,58 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D14BC7',
-            MAC          => '00:00:48:D1:4B:C7',
+            MAC          => '00:00:48:d1:4b:c7',
             MODELSNMP    => 'Printer0125',
+            MODEL        => 'AL-C4200',
             FIRMWARE     => undef,
             SERIAL       => 'GMYZ106565',
-            MODEL        => 'AL-C4200',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
-                MEMORY       => 128,
                 MODEL        => 'AL-C4200',
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-C4200-D14BC7',
+                MEMORY       => '128',
                 LOCATION     => 'PPV - 2eme Etage',
-                ID           => undef,
                 SERIAL       => 'GMYZ106565',
-                NAME         => 'AL-C4200-D14BC7'
+                IPS          => {
+                    IP => [
+                        '172.17.3.212',
+                    ],
+                },
+                UPTIME       => '(17442921) 2 days, 0:27:09.21',
             },
             CARTRIDGES => {
-                TONERMAGENTA => 71,
-                TONERBLACK   => 96,
-                TONERCYAN    => 49,
-                TONERYELLOW  => 98
+                TONERBLACK       => '96',
+                TONERCYAN        => '49',
+                TONERMAGENTA     => '71',
+                TONERYELLOW      => '98',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '60163',
             },
             PORTS => {
                 PORT => [
                     {
-                        IP       => '172.17.3.212',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        MAC      => '00:00:48:D1:4B:C7',
-                        IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
-                        IFNUMBER => '1'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
+                        IFDESCR          => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '172.17.3.212',
+                        MAC              => '00:00:48:d1:4b:c7',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '151879781',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1996995',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
         }
@@ -117,7 +269,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D1C30E',
-            MAC          => '00:00:48:D1:C3:0E',
+            MAC          => '00:00:48:d1:c3:0e',
             MODEL        => 'AL-C4200',
         },
         {
@@ -125,41 +277,60 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D1C30E',
-            MAC          => '00:00:48:D1:C3:0E',
-            MODEL        => 'AL-C4200',
+            MAC          => '00:00:48:d1:c3:0e',
             MODELSNMP    => 'Printer0125',
+            MODEL        => 'AL-C4200',
             FIRMWARE     => undef,
-            SERIAL       => 'GMYZ106833'
+            SERIAL       => 'GMYZ106833',
         },
         {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Epson',
+                TYPE         => 'PRINTER',
+                MODEL        => 'AL-C4200',
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-C4200-D1C30E',
+                MEMORY       => '128',
+                LOCATION     => 'PPV - 1er Etage',
+                SERIAL       => 'GMYZ106833',
+                IPS          => {
+                    IP => [
+                        '172.17.3.213',
+                    ],
+                },
+                UPTIME       => '(311511314) 36 days, 1:18:33.14',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '37',
+                TONERCYAN        => '14',
+                TONERMAGENTA     => '63',
+                TONERYELLOW      => '46',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '80918',
+            },
             PORTS => {
                 PORT => [
                     {
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)',
-                        IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
-                        MAC      => '00:00:48:D1:C3:0E',
-                        IP       => '172.17.3.213'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
+                        IFDESCR          => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '172.17.3.213',
+                        MAC              => '00:00:48:d1:c3:0e',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '2580632437',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '46784705',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
             },
-            CARTRIDGES => {
-                TONERMAGENTA => 63,
-                TONERCYAN    => 14,
-                TONERBLACK   => 37,
-                TONERYELLOW  => 46
-            },
-            INFO => {
-                MANUFACTURER => 'Epson',
-                TYPE         => 'PRINTER',
-                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
-                MEMORY       => 128,
-                NAME         => 'AL-C4200-D1C30E',
-                SERIAL       => 'GMYZ106833',
-                LOCATION     => 'PPV - 1er Etage',
-                MODEL        => 'AL-C4200',
-                ID           => undef,
-            }
         }
     ],
     'epson/AL-C4200.4.walk' => [
@@ -168,7 +339,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D362D2',
-            MAC          => '00:00:48:D3:62:D2',
+            MAC          => '00:00:48:d3:62:d2',
             MODEL        => 'AL-C4200',
         },
         {
@@ -176,85 +347,58 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-C4200',
             SNMPHOSTNAME => 'AL-C4200-D362D2',
-            MAC          => '00:00:48:D3:62:D2',
-            MODEL        => 'AL-C4200',
+            MAC          => '00:00:48:d3:62:d2',
             MODELSNMP    => 'Printer0125',
+            MODEL        => 'AL-C4200',
             FIRMWARE     => undef,
-            SERIAL       => 'GMYZ108184'
+            SERIAL       => 'GMYZ108184',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 MODEL        => 'AL-C4200',
-                ID           => undef,
-                SERIAL       => 'GMYZ108184',
-                MEMORY       => 128,
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
                 NAME         => 'AL-C4200-D362D2',
+                MEMORY       => '128',
+                SERIAL       => 'GMYZ108184',
+                IPS          => {
+                    IP => [
+                        '172.17.3.102',
+                    ],
+                },
+                UPTIME       => '(140436577) 16 days, 6:06:05.77',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '32',
+                TONERCYAN        => '82',
+                TONERMAGENTA     => '65',
+                TONERYELLOW      => '64',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '38054',
             },
             PORTS => {
                 PORT => [
                     {
-                        IP       => '172.17.3.102',
-                        MAC      => '00:00:48:D3:62:D2',
-                        IFNAME   => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
-                        IFNUMBER => '1',
-                        IFTYPE   => 'ethernetCsmacd(6)'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
+                        IFDESCR          => 'AL-C4200 Hard Ver.1.00 Firm Ver.2.40',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        IP               => '172.17.3.102',
+                        MAC              => '00:00:48:d3:62:d2',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '3110151478',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '4558450',
+                        IFOUTERRORS      => '0',
+                    },
                 ]
-            },
-            CARTRIDGES => {
-                TONERCYAN    => 82,
-                TONERMAGENTA => 65,
-                TONERBLACK   => 32,
-                TONERYELLOW  => 64
-            },
-        }
-    ],
-    'epson/AL-C3900.walk' => [
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'EPSON AL-C3900',
-            MAC          => '00:26:AB:9F:78:8B',
-        },
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'EPSON AL-C3900',
-            MAC          => '00:26:AB:9F:78:8B',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Epson',
-                TYPE         => 'PRINTER',
-                ID           => undef,
-                MODEL        => undef
-            },
-        }
-    ],
-    'epson/AL-C1100.walk' => [
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C1100',
-            SNMPHOSTNAME => 'AL-C1100-0DBECC',
-            MAC          => '00:00:48:0D:BE:CC',
-        },
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C1100',
-            SNMPHOSTNAME => 'AL-C1100-0DBECC',
-            MAC          => '00:00:48:0D:BE:CC',
-        },
-        {
-            INFO => {
-                MANUFACTURER => 'Epson',
-                TYPE         => 'PRINTER',
-                ID           => undef,
-                MODEL        => undef,
             },
         }
     ],
@@ -264,21 +408,49 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => '00:26:AB:7F:DD:AF'
+            MAC          => '00:26:ab:7f:dd:af',
+            MODEL        => 'AL-M2400',
         },
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => '00:26:AB:7F:DD:AF'
+            MAC          => '00:26:ab:7f:dd:af',
+            MODEL        => 'AL-M2400',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
-                ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'AL-M2400',
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-M2400-7FDDAF',
+            },
+            CARTRIDGES => {
+                MAINTENANCEKIT   => '100',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '319',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'AL-M2400 Hard Ver.19.00 Firm Ver.2.40',
+                        IFDESCR          => 'AL-M2400 Hard Ver.19.00 Firm Ver.2.40',
+                        IFTYPE           => '6',
+                        IFSPEED          => '100000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:26:ab:7f:dd:af',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '656509779',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '28072748',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],
@@ -288,21 +460,49 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => '00:26:AB:7F:DD:AF',
+            MAC          => '00:26:ab:7f:dd:af',
+            MODEL        => 'AL-M2400',
         },
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => '00:26:AB:7F:DD:AF',
+            MAC          => '00:26:ab:7f:dd:af',
+            MODEL        => 'AL-M2400',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Epson',
                 TYPE         => 'PRINTER',
-                ID           => undef,
-                MODEL        => undef,
+                MODEL        => 'AL-M2400',
+                COMMENTS     => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
+                NAME         => 'AL-M2400-7FDDAF',
+            },
+            CARTRIDGES => {
+                MAINTENANCEKIT   => '99',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '1346',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'AL-M2400 Hard Ver.19.00 Firm Ver.2.40',
+                        IFDESCR          => 'AL-M2400 Hard Ver.19.00 Firm Ver.2.40',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:26:ab:7f:dd:af',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '251210780',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '5941002',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
             },
         }
     ],

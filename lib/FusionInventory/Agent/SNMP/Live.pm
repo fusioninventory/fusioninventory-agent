@@ -22,10 +22,6 @@ sub new {
 
     die "invalid SNMP version $params{version}" unless $version;
 
-    my $self = {
-        community => $params{community}
-    };
-
     # shared options
     my %options = (
         -retries  => 0,
@@ -50,32 +46,13 @@ sub new {
         $options{'-community'} = $params{community};
     }
 
+    my $self = {};
     ($self->{session}, my $error) = Net::SNMP->session(%options);
     die $error unless $self->{session};
 
     bless $self, $class;
 
     return $self;
-}
-
-sub switch_community {
-    my ($self, $suffix) = @_;
-
-    my $version_id = $self->{session}->version();
-    my $version =
-        $version_id == 0 ? 'snmpv1'  :
-        $version_id == 1 ? 'snmpv2c' :
-        $version_id == 2 ? 'snmpv3'  :
-                             undef   ;
-    my $error;
-    ($self->{session}, $error) = Net::SNMP->session(
-            -timeout   => $self->{session}->timeout(),
-            -retries   => 0,
-            -version   => $version,
-            -hostname  => $self->{session}->hostname(),
-            -community => $self->{community} . $suffix
-    );
-    die $error unless $self->{session};
 }
 
 sub get {

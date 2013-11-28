@@ -4,9 +4,10 @@
     <DEVICE>
       <INFO>
         <COMMENTS>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_</COMMENTS>
+        <CONTACT>systeme@example.com</CONTACT>
         <FIRMWARE>K.15.28 K.15.04.0015m</FIRMWARE>
-	<ID>0</ID>
-	<IPS>
+        <ID>0</ID>
+        <IPS>
           <IP>127.0.0.1</IP>
           <IP>172.27.192.226</IP>
           <IP>172.27.192.33</IP>
@@ -24,16 +25,26 @@
           <IP>192.168.227.246</IP>
         </IPS>
         <LOCATION>datacenter</LOCATION>
-        <MAC>00:18:71:C1:E0:00</MAC>
+        <MAC>00:18:71:c1:e0:00</MAC>
+        <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
         <MODEL>ProCurve 5406zl (J8697A)</MODEL>
         <NAME>thisisdog CR2</NAME>
         <SERIAL>SG707SU03Y</SERIAL>
         <TYPE>NETWORKING</TYPE>
         <UPTIME>(293555959) 33 days, 23:25:59.59</UPTIME>
-        <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
       </INFO>
       <PORTS>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.140</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB010B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A1</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2281257823</IFINOCTETS>
@@ -44,12 +55,23 @@
           <IFNUMBER>1</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1349379502</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:FF</MAC>
+          <MAC>00:18:71:c1:f0:ff</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.140</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB010B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A2</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1790849661</IFINOCTETS>
@@ -60,12 +82,23 @@
           <IFNUMBER>2</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>351638347</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:FE</MAC>
+          <MAC>00:18:71:c1:f0:fe</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.141</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB0D8100</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A3</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2596611853</IFINOCTETS>
@@ -76,12 +109,23 @@
           <IFNUMBER>3</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1368455180</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:FD</MAC>
+          <MAC>00:18:71:c1:f0:fd</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.141</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB0D8100</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A4</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2096487256</IFINOCTETS>
@@ -92,12 +136,23 @@
           <IFNUMBER>4</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>205027037</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:FC</MAC>
+          <MAC>00:18:71:c1:f0:fc</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.142</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9138000</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A5</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2759835685</IFINOCTETS>
@@ -108,12 +163,23 @@
           <IFNUMBER>5</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2189748070</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:FB</MAC>
+          <MAC>00:18:71:c1:f0:fb</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.142</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9138000</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A6</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>710340837</IFINOCTETS>
@@ -124,12 +190,23 @@
           <IFNUMBER>6</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1497261298</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:FA</MAC>
+          <MAC>00:18:71:c1:f0:fa</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.143</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9142B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A7</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>264235442</IFINOCTETS>
@@ -140,12 +217,23 @@
           <IFNUMBER>7</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1045414825</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:F9</MAC>
+          <MAC>00:18:71:c1:f0:f9</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.143</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9142B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A8</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2740877036</IFINOCTETS>
@@ -156,12 +244,23 @@
           <IFNUMBER>8</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1496580095</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:F8</MAC>
+          <MAC>00:18:71:c1:f0:f8</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.150</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1B4D00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A9</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1383661651</IFINOCTETS>
@@ -172,12 +271,23 @@
           <IFNUMBER>9</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1593815865</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:F7</MAC>
+          <MAC>00:18:71:c1:f0:f7</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.150</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1B4D00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A10</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2224332599</IFINOCTETS>
@@ -188,10 +298,11 @@
           <IFNUMBER>10</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1552508202</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:F6</MAC>
+          <MAC>00:18:71:c1:f0:f6</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -203,10 +314,11 @@
           <IFNUMBER>11</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:F5</MAC>
+          <MAC>00:18:71:c1:f0:f5</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -218,12 +330,23 @@
           <IFNUMBER>12</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:F4</MAC>
+          <MAC>00:18:71:c1:f0:f4</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.151</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1ACC00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A13</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3735158120</IFINOCTETS>
@@ -234,10 +357,11 @@
           <IFNUMBER>13</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2302731832</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:F3</MAC>
+          <MAC>00:18:71:c1:f0:f3</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -249,12 +373,23 @@
           <IFNUMBER>14</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:F2</MAC>
+          <MAC>00:18:71:c1:f0:f2</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.160</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB01A600</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A15</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3361365604</IFINOCTETS>
@@ -265,10 +400,11 @@
           <IFNUMBER>15</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>284146569</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:F1</MAC>
+          <MAC>00:18:71:c1:f0:f1</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -280,12 +416,23 @@
           <IFNUMBER>16</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:F0</MAC>
+          <MAC>00:18:71:c1:f0:f0</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.161</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB058200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A17</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>348605692</IFINOCTETS>
@@ -296,10 +443,11 @@
           <IFNUMBER>17</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2435360597</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:EF</MAC>
+          <MAC>00:18:71:c1:f0:ef</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -311,12 +459,23 @@
           <IFNUMBER>18</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:EE</MAC>
+          <MAC>00:18:71:c1:f0:ee</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>262</IFDESCR>
+              <IP>172.31.196.162</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0018FEF9A800</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A19</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>28689859</IFINOCTETS>
@@ -327,10 +486,11 @@
           <IFNUMBER>19</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1786194494</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:ED</MAC>
+          <MAC>00:18:71:c1:f0:ed</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -342,12 +502,23 @@
           <IFNUMBER>20</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:EC</MAC>
+          <MAC>00:18:71:c1:f0:ec</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>262</IFDESCR>
+              <IP>172.31.196.163</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x001C2EE58B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A21</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2943397531</IFINOCTETS>
@@ -358,12 +529,23 @@
           <IFNUMBER>21</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1009676074</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:EB</MAC>
+          <MAC>00:18:71:c1:f0:eb</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>22</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A22</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3614341248</IFINOCTETS>
@@ -374,12 +556,23 @@
           <IFNUMBER>22</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>372261477</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:EA</MAC>
+          <MAC>00:18:71:c1:f0:ea</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>23</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A23</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1968825162</IFINOCTETS>
@@ -390,12 +583,23 @@
           <IFNUMBER>23</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>3322662505</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:E9</MAC>
+          <MAC>00:18:71:c1:f0:e9</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>24</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>A24</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3412112397</IFINOCTETS>
@@ -406,12 +610,23 @@
           <IFNUMBER>24</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2284145698</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:E8</MAC>
+          <MAC>00:18:71:c1:f0:e8</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.151</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1ACC00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B1</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1056898244</IFINOCTETS>
@@ -422,12 +637,23 @@
           <IFNUMBER>25</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1169469549</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:E7</MAC>
+          <MAC>00:18:71:c1:f0:e7</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.151</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1ACC00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B2</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3042721785</IFINOCTETS>
@@ -438,12 +664,23 @@
           <IFNUMBER>26</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>558861009</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:E6</MAC>
+          <MAC>00:18:71:c1:f0:e6</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.160</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB01A600</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B3</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3237184662</IFINOCTETS>
@@ -454,12 +691,23 @@
           <IFNUMBER>27</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>146927983</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:E5</MAC>
+          <MAC>00:18:71:c1:f0:e5</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>143</IFDESCR>
+              <IP>172.31.196.160</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB01A600</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B4</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2288807394</IFINOCTETS>
@@ -470,12 +718,23 @@
           <IFNUMBER>28</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>3299335483</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:E4</MAC>
+          <MAC>00:18:71:c1:f0:e4</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>141</IFDESCR>
+              <IP>172.31.196.161</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB058200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B5</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3318685559</IFINOCTETS>
@@ -486,10 +745,11 @@
           <IFNUMBER>29</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2809203793</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:E3</MAC>
+          <MAC>00:18:71:c1:f0:e3</MAC>
         </PORT>
         <PORT>
           <IFDESCR>B6</IFDESCR>
@@ -502,12 +762,23 @@
           <IFNUMBER>30</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:E2</MAC>
+          <MAC>00:18:71:c1:f0:e2</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>285</IFDESCR>
+              <IP>172.31.196.162</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0018FEF9A800</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B7</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3012845819</IFINOCTETS>
@@ -518,12 +789,23 @@
           <IFNUMBER>31</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2231577010</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:E1</MAC>
+          <MAC>00:18:71:c1:f0:e1</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>287</IFDESCR>
+              <IP>172.31.196.162</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0018FEF9A800</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B8</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3323194516</IFINOCTETS>
@@ -534,12 +816,23 @@
           <IFNUMBER>32</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>3764354101</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:E0</MAC>
+          <MAC>00:18:71:c1:f0:e0</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>285</IFDESCR>
+              <IP>172.31.196.163</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x001C2EE58B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B9</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3754573618</IFINOCTETS>
@@ -550,12 +843,23 @@
           <IFNUMBER>33</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>20030667</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:DF</MAC>
+          <MAC>00:18:71:c1:f0:df</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>287</IFDESCR>
+              <IP>172.31.196.163</IP>
+              <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x001C2EE58B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B10</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1557689030</IFINOCTETS>
@@ -566,10 +870,11 @@
           <IFNUMBER>34</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2884232004</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:DE</MAC>
+          <MAC>00:18:71:c1:f0:de</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -581,10 +886,11 @@
           <IFNUMBER>35</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:DD</MAC>
+          <MAC>00:18:71:c1:f0:dd</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -596,12 +902,23 @@
           <IFNUMBER>36</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:DC</MAC>
+          <MAC>00:18:71:c1:f0:dc</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.140</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB010B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B13</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1205644070</IFINOCTETS>
@@ -612,10 +929,11 @@
           <IFNUMBER>37</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1019288656</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:DB</MAC>
+          <MAC>00:18:71:c1:f0:db</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -627,12 +945,23 @@
           <IFNUMBER>38</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:DA</MAC>
+          <MAC>00:18:71:c1:f0:da</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.141</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB0D8100</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B15</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2981067194</IFINOCTETS>
@@ -643,10 +972,11 @@
           <IFNUMBER>39</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>3131610378</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:D9</MAC>
+          <MAC>00:18:71:c1:f0:d9</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -658,12 +988,23 @@
           <IFNUMBER>40</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:D8</MAC>
+          <MAC>00:18:71:c1:f0:d8</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.142</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9138000</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B17</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2496990832</IFINOCTETS>
@@ -674,10 +1015,11 @@
           <IFNUMBER>41</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1435860196</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:D7</MAC>
+          <MAC>00:18:71:c1:f0:d7</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -689,12 +1031,23 @@
           <IFNUMBER>42</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:D6</MAC>
+          <MAC>00:18:71:c1:f0:d6</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.143</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0016B9142B00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B19</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3225589631</IFINOCTETS>
@@ -705,10 +1058,11 @@
           <IFNUMBER>43</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2304461112</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:D5</MAC>
+          <MAC>00:18:71:c1:f0:d5</MAC>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -720,12 +1074,23 @@
           <IFNUMBER>44</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>0</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>2</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:D4</MAC>
+          <MAC>00:18:71:c1:f0:d4</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>118</IFDESCR>
+              <IP>172.31.196.150</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB1B4D00</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B21</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>3403667845</IFINOCTETS>
@@ -736,12 +1101,23 @@
           <IFNUMBER>45</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>4215478562</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:D3</MAC>
+          <MAC>00:18:71:c1:f0:d3</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>46</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B22</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2524887906</IFINOCTETS>
@@ -752,12 +1128,23 @@
           <IFNUMBER>46</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>986787144</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:D2</MAC>
+          <MAC>00:18:71:c1:f0:d2</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>47</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B23</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>1647940696</IFINOCTETS>
@@ -768,12 +1155,23 @@
           <IFNUMBER>47</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>1527530290</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:D1</MAC>
+          <MAC>00:18:71:c1:f0:d1</MAC>
         </PORT>
         <PORT>
+          <CONNECTIONS>
+            <CDP>1</CDP>
+            <CONNECTION>
+              <IFDESCR>48</IFDESCR>
+              <IP>172.31.192.245</IP>
+              <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
+              <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
+              <SYSNAME>0x0019BB172200</SYSNAME>
+            </CONNECTION>
+          </CONNECTIONS>
           <IFDESCR>B24</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>2411859653</IFINOCTETS>
@@ -784,25 +1182,26 @@
           <IFNUMBER>48</IFNUMBER>
           <IFOUTERRORS>0</IFOUTERRORS>
           <IFOUTOCTETS>2515291862</IFOUTOCTETS>
+          <IFPORTDUPLEX>3</IFPORTDUPLEX>
           <IFSPEED>1000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>6</IFTYPE>
-          <MAC>00:18:71:C1:F0:D0</MAC>
+          <MAC>00:18:71:c1:f0:d0</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:19:BB:0D:81:00</MAC>
-              <MAC>00:19:BB:0D:91:71</MAC>
-              <MAC>00:19:BB:0D:91:73</MAC>
-              <MAC>00:19:BB:0D:91:8A</MAC>
-              <MAC>00:05:1E:BF:07:E0</MAC>
+              <MAC>00:19:bb:0d:81:00</MAC>
+              <MAC>00:19:bb:0d:91:71</MAC>
+              <MAC>00:19:bb:0d:91:73</MAC>
+              <MAC>00:19:bb:0d:91:8a</MAC>
+              <MAC>00:05:1e:bf:07:e0</MAC>
               <MAC>00:50:56:00:00:06</MAC>
-              <MAC>00:50:56:70:C4:44</MAC>
-              <MAC>00:50:56:7B:AA:A5</MAC>
-              <MAC>00:50:56:46:51:9D</MAC>
-              <MAC>00:50:56:49:71:8C</MAC>
-              <MAC>02:A0:98:12:B5:20</MAC>
+              <MAC>00:50:56:70:c4:44</MAC>
+              <MAC>00:50:56:7b:aa:a5</MAC>
+              <MAC>00:50:56:46:51:9d</MAC>
+              <MAC>00:50:56:49:71:8c</MAC>
+              <MAC>02:a0:98:12:b5:20</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk2</IFDESCR>
@@ -818,28 +1217,28 @@
           <IFSPEED>3000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:00:F0:AC:EA:A9</MAC>
-              <MAC>00:19:BB:05:82:00</MAC>
-              <MAC>00:19:BB:05:92:73</MAC>
-              <MAC>00:19:BB:05:92:8A</MAC>
-              <MAC>00:19:DB:A9:28:04</MAC>
-              <MAC>00:1E:68:5D:33:46</MAC>
-              <MAC>00:1E:68:5E:3D:B6</MAC>
-              <MAC>00:21:5A:97:2A:B7</MAC>
-              <MAC>00:22:F3:9D:20:4B</MAC>
-              <MAC>00:22:F3:C7:D7:8B</MAC>
-              <MAC>00:23:7D:76:E3:8C</MAC>
-              <MAC>00:25:B3:F4:FC:F6</MAC>
-              <MAC>00:26:22:D3:A0:29</MAC>
-              <MAC>00:08:5D:13:57:D2</MAC>
-              <MAC>00:08:5D:2B:65:12</MAC>
-              <MAC>00:08:5D:2C:C0:02</MAC>
-              <MAC>10:78:D2:E8:73:41</MAC>
+              <MAC>00:00:f0:ac:ea:a9</MAC>
+              <MAC>00:19:bb:05:82:00</MAC>
+              <MAC>00:19:bb:05:92:73</MAC>
+              <MAC>00:19:bb:05:92:8a</MAC>
+              <MAC>00:19:db:a9:28:04</MAC>
+              <MAC>00:1e:68:5d:33:46</MAC>
+              <MAC>00:1e:68:5e:3d:b6</MAC>
+              <MAC>00:21:5a:97:2a:b7</MAC>
+              <MAC>00:22:f3:9d:20:4b</MAC>
+              <MAC>00:22:f3:c7:d7:8b</MAC>
+              <MAC>00:23:7d:76:e3:8c</MAC>
+              <MAC>00:25:b3:f4:fc:f6</MAC>
+              <MAC>00:26:22:d3:a0:29</MAC>
+              <MAC>00:08:5d:13:57:d2</MAC>
+              <MAC>00:08:5d:2b:65:12</MAC>
+              <MAC>00:08:5d:2c:c0:02</MAC>
+              <MAC>10:78:d2:e8:73:41</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk4</IFDESCR>
@@ -855,85 +1254,85 @@
           <IFSPEED>3000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:00:F0:A9:62:13</MAC>
-              <MAC>00:0B:84:00:6C:8A</MAC>
-              <MAC>00:13:72:F6:E2:4E</MAC>
-              <MAC>00:14:7C:2B:86:20</MAC>
-              <MAC>00:16:17:C2:E9:F0</MAC>
-              <MAC>00:18:71:85:A3:9B</MAC>
-              <MAC>00:19:BB:1A:CC:00</MAC>
-              <MAC>00:19:BB:1A:DC:71</MAC>
-              <MAC>00:19:BB:1A:DC:73</MAC>
-              <MAC>00:19:BB:1A:DC:8A</MAC>
-              <MAC>00:19:DB:7A:B6:94</MAC>
-              <MAC>00:19:DB:88:99:46</MAC>
-              <MAC>00:19:DB:BC:81:F8</MAC>
-              <MAC>00:19:DB:BC:82:F3</MAC>
-              <MAC>00:1A:4B:19:26:0D</MAC>
-              <MAC>00:1D:92:DC:F6:68</MAC>
-              <MAC>00:1D:92:DD:6B:F0</MAC>
-              <MAC>00:1D:92:DF:6F:AE</MAC>
-              <MAC>00:1F:29:99:CB:BB</MAC>
-              <MAC>00:1F:29:99:DB:41</MAC>
-              <MAC>00:1F:29:14:87:74</MAC>
-              <MAC>00:21:85:D0:32:C9</MAC>
-              <MAC>00:21:85:D0:32:08</MAC>
-              <MAC>00:21:85:D0:33:7B</MAC>
-              <MAC>00:22:F3:9D:1F:C7</MAC>
-              <MAC>00:22:F3:C7:D7:86</MAC>
-              <MAC>00:22:F3:C8:02:CF</MAC>
-              <MAC>00:22:F3:C8:02:2E</MAC>
-              <MAC>00:22:F3:C8:04:16</MAC>
-              <MAC>00:23:EA:DB:05:48</MAC>
-              <MAC>00:23:47:25:AA:C0</MAC>
-              <MAC>00:04:00:9D:44:34</MAC>
-              <MAC>00:04:00:B9:19:C4</MAC>
-              <MAC>00:04:00:CD:D3:85</MAC>
-              <MAC>00:08:5D:86:D5:65</MAC>
-              <MAC>00:08:5D:86:D7:64</MAC>
-              <MAC>00:08:5D:13:42:22</MAC>
-              <MAC>00:08:5D:13:56:D1</MAC>
-              <MAC>00:08:5D:13:57:E1</MAC>
-              <MAC>00:08:5D:13:57:F4</MAC>
-              <MAC>00:08:5D:13:58:16</MAC>
-              <MAC>00:08:5D:13:58:1B</MAC>
-              <MAC>00:08:5D:13:58:1C</MAC>
-              <MAC>00:08:5D:13:58:1D</MAC>
-              <MAC>00:08:5D:13:58:1E</MAC>
-              <MAC>00:08:5D:13:58:1F</MAC>
-              <MAC>00:08:5D:13:58:22</MAC>
-              <MAC>00:08:5D:13:58:25</MAC>
-              <MAC>00:08:5D:13:59:97</MAC>
-              <MAC>00:08:5D:1B:73:36</MAC>
-              <MAC>00:08:5D:1B:75:0F</MAC>
-              <MAC>00:08:5D:1B:75:14</MAC>
-              <MAC>00:08:5D:1B:7B:33</MAC>
-              <MAC>00:08:5D:24:CE:50</MAC>
-              <MAC>00:08:5D:24:CF:84</MAC>
-              <MAC>00:08:5D:24:CF:89</MAC>
-              <MAC>00:08:5D:24:CF:A4</MAC>
-              <MAC>00:08:5D:24:CF:5F</MAC>
-              <MAC>00:08:5D:24:CF:62</MAC>
-              <MAC>00:08:5D:2B:F1:8B</MAC>
-              <MAC>00:08:5D:2B:F1:91</MAC>
-              <MAC>00:08:5D:2C:C2:68</MAC>
-              <MAC>00:50:FC:6D:A5:52</MAC>
-              <MAC>00:60:2E:02:13:61</MAC>
-              <MAC>10:78:D2:E3:8B:91</MAC>
-              <MAC>10:78:D2:E3:8B:B9</MAC>
-              <MAC>10:78:D2:E6:DF:CB</MAC>
-              <MAC>10:78:D2:E9:8F:BC</MAC>
-              <MAC>10:1F:74:47:EF:CF</MAC>
-              <MAC>B8:AC:6F:23:1A:05</MAC>
-              <MAC>B8:AC:6F:25:C8:40</MAC>
-              <MAC>B8:AC:6F:3E:36:5F</MAC>
-              <MAC>08:00:71:03:DD:41</MAC>
-              <MAC>08:2E:5F:32:7A:91</MAC>
+              <MAC>00:00:f0:a9:62:13</MAC>
+              <MAC>00:0b:84:00:6c:8a</MAC>
+              <MAC>00:13:72:f6:e2:4e</MAC>
+              <MAC>00:14:7c:2b:86:20</MAC>
+              <MAC>00:16:17:c2:e9:f0</MAC>
+              <MAC>00:18:71:85:a3:9b</MAC>
+              <MAC>00:19:bb:1a:cc:00</MAC>
+              <MAC>00:19:bb:1a:dc:71</MAC>
+              <MAC>00:19:bb:1a:dc:73</MAC>
+              <MAC>00:19:bb:1a:dc:8a</MAC>
+              <MAC>00:19:db:7a:b6:94</MAC>
+              <MAC>00:19:db:88:99:46</MAC>
+              <MAC>00:19:db:bc:81:f8</MAC>
+              <MAC>00:19:db:bc:82:f3</MAC>
+              <MAC>00:1a:4b:19:26:0d</MAC>
+              <MAC>00:1d:92:dc:f6:68</MAC>
+              <MAC>00:1d:92:dd:6b:f0</MAC>
+              <MAC>00:1d:92:df:6f:ae</MAC>
+              <MAC>00:1f:29:99:cb:bb</MAC>
+              <MAC>00:1f:29:99:db:41</MAC>
+              <MAC>00:1f:29:14:87:74</MAC>
+              <MAC>00:21:85:d0:32:c9</MAC>
+              <MAC>00:21:85:d0:32:08</MAC>
+              <MAC>00:21:85:d0:33:7b</MAC>
+              <MAC>00:22:f3:9d:1f:c7</MAC>
+              <MAC>00:22:f3:c7:d7:86</MAC>
+              <MAC>00:22:f3:c8:02:cf</MAC>
+              <MAC>00:22:f3:c8:02:2e</MAC>
+              <MAC>00:22:f3:c8:04:16</MAC>
+              <MAC>00:23:ea:db:05:48</MAC>
+              <MAC>00:23:47:25:aa:c0</MAC>
+              <MAC>00:04:00:9d:44:34</MAC>
+              <MAC>00:04:00:b9:19:c4</MAC>
+              <MAC>00:04:00:cd:d3:85</MAC>
+              <MAC>00:08:5d:86:d5:65</MAC>
+              <MAC>00:08:5d:86:d7:64</MAC>
+              <MAC>00:08:5d:13:42:22</MAC>
+              <MAC>00:08:5d:13:56:d1</MAC>
+              <MAC>00:08:5d:13:57:e1</MAC>
+              <MAC>00:08:5d:13:57:f4</MAC>
+              <MAC>00:08:5d:13:58:16</MAC>
+              <MAC>00:08:5d:13:58:1b</MAC>
+              <MAC>00:08:5d:13:58:1c</MAC>
+              <MAC>00:08:5d:13:58:1d</MAC>
+              <MAC>00:08:5d:13:58:1e</MAC>
+              <MAC>00:08:5d:13:58:1f</MAC>
+              <MAC>00:08:5d:13:58:22</MAC>
+              <MAC>00:08:5d:13:58:25</MAC>
+              <MAC>00:08:5d:13:59:97</MAC>
+              <MAC>00:08:5d:1b:73:36</MAC>
+              <MAC>00:08:5d:1b:75:0f</MAC>
+              <MAC>00:08:5d:1b:75:14</MAC>
+              <MAC>00:08:5d:1b:7b:33</MAC>
+              <MAC>00:08:5d:24:ce:50</MAC>
+              <MAC>00:08:5d:24:cf:84</MAC>
+              <MAC>00:08:5d:24:cf:89</MAC>
+              <MAC>00:08:5d:24:cf:a4</MAC>
+              <MAC>00:08:5d:24:cf:5f</MAC>
+              <MAC>00:08:5d:24:cf:62</MAC>
+              <MAC>00:08:5d:2b:f1:8b</MAC>
+              <MAC>00:08:5d:2b:f1:91</MAC>
+              <MAC>00:08:5d:2c:c2:68</MAC>
+              <MAC>00:50:fc:6d:a5:52</MAC>
+              <MAC>00:60:2e:02:13:61</MAC>
+              <MAC>10:78:d2:e3:8b:91</MAC>
+              <MAC>10:78:d2:e3:8b:b9</MAC>
+              <MAC>10:78:d2:e6:df:cb</MAC>
+              <MAC>10:78:d2:e9:8f:bc</MAC>
+              <MAC>10:1f:74:47:ef:cf</MAC>
+              <MAC>b8:ac:6f:23:1a:05</MAC>
+              <MAC>b8:ac:6f:25:c8:40</MAC>
+              <MAC>b8:ac:6f:3e:36:5f</MAC>
+              <MAC>08:00:71:03:dd:41</MAC>
+              <MAC>08:2e:5f:32:7a:91</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk6</IFDESCR>
@@ -949,45 +1348,45 @@
           <IFSPEED>3000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:0B:82:08:65:49</MAC>
-              <MAC>00:0B:84:00:6D:33</MAC>
-              <MAC>00:11:0A:FC:D2:D4</MAC>
-              <MAC>00:16:17:5C:BE:45</MAC>
-              <MAC>00:E0:D8:0A:A8:E1</MAC>
-              <MAC>00:E0:D8:0A:A8:E2</MAC>
-              <MAC>00:E0:D8:0A:2E:1F</MAC>
-              <MAC>00:18:FE:A5:0D:FD</MAC>
-              <MAC>00:19:BB:1B:4D:00</MAC>
-              <MAC>00:19:BB:1B:5D:71</MAC>
-              <MAC>00:19:BB:1B:5D:73</MAC>
-              <MAC>00:19:BB:1B:5D:8A</MAC>
-              <MAC>00:19:DB:7A:B5:F3</MAC>
-              <MAC>00:19:DB:C0:D8:AE</MAC>
-              <MAC>00:1D:92:DC:F6:BA</MAC>
-              <MAC>00:1D:92:DD:74:B6</MAC>
-              <MAC>00:1F:29:25:4C:AD</MAC>
-              <MAC>00:22:F3:C7:D6:A2</MAC>
-              <MAC>00:23:18:91:DB:8D</MAC>
-              <MAC>00:24:21:0C:3A:FB</MAC>
-              <MAC>00:24:21:0C:3D:6A</MAC>
-              <MAC>00:24:21:0C:3D:5B</MAC>
-              <MAC>00:04:F2:E4:26:4F</MAC>
-              <MAC>00:08:5D:1B:7B:25</MAC>
-              <MAC>00:08:5D:1B:7B:2D</MAC>
-              <MAC>00:08:5D:1B:7B:34</MAC>
-              <MAC>00:08:5D:1B:7B:38</MAC>
-              <MAC>00:08:5D:1B:7C:66</MAC>
-              <MAC>00:08:5D:2C:C7:00</MAC>
-              <MAC>00:08:5D:2C:C7:1F</MAC>
-              <MAC>00:08:5D:2C:C7:32</MAC>
-              <MAC>10:78:D2:E3:8B:C7</MAC>
-              <MAC>10:78:D2:E6:E2:78</MAC>
-              <MAC>B8:AC:6F:23:19:08</MAC>
+              <MAC>00:0b:82:08:65:49</MAC>
+              <MAC>00:0b:84:00:6d:33</MAC>
+              <MAC>00:11:0a:fc:d2:d4</MAC>
+              <MAC>00:16:17:5c:be:45</MAC>
+              <MAC>00:e0:d8:0a:a8:e1</MAC>
+              <MAC>00:e0:d8:0a:a8:e2</MAC>
+              <MAC>00:e0:d8:0a:2e:1f</MAC>
+              <MAC>00:18:fe:a5:0d:fd</MAC>
+              <MAC>00:19:bb:1b:4d:00</MAC>
+              <MAC>00:19:bb:1b:5d:71</MAC>
+              <MAC>00:19:bb:1b:5d:73</MAC>
+              <MAC>00:19:bb:1b:5d:8a</MAC>
+              <MAC>00:19:db:7a:b5:f3</MAC>
+              <MAC>00:19:db:c0:d8:ae</MAC>
+              <MAC>00:1d:92:dc:f6:ba</MAC>
+              <MAC>00:1d:92:dd:74:b6</MAC>
+              <MAC>00:1f:29:25:4c:ad</MAC>
+              <MAC>00:22:f3:c7:d6:a2</MAC>
+              <MAC>00:23:18:91:db:8d</MAC>
+              <MAC>00:24:21:0c:3a:fb</MAC>
+              <MAC>00:24:21:0c:3d:6a</MAC>
+              <MAC>00:24:21:0c:3d:5b</MAC>
+              <MAC>00:04:f2:e4:26:4f</MAC>
+              <MAC>00:08:5d:1b:7b:25</MAC>
+              <MAC>00:08:5d:1b:7b:2d</MAC>
+              <MAC>00:08:5d:1b:7b:34</MAC>
+              <MAC>00:08:5d:1b:7b:38</MAC>
+              <MAC>00:08:5d:1b:7c:66</MAC>
+              <MAC>00:08:5d:2c:c7:00</MAC>
+              <MAC>00:08:5d:2c:c7:1f</MAC>
+              <MAC>00:08:5d:2c:c7:32</MAC>
+              <MAC>10:78:d2:e3:8b:c7</MAC>
+              <MAC>10:78:d2:e6:e2:78</MAC>
+              <MAC>b8:ac:6f:23:19:08</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk8</IFDESCR>
@@ -1003,43 +1402,43 @@
           <IFSPEED>3000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:14:38:4A:D0:31</MAC>
-              <MAC>00:16:17:A5:09:24</MAC>
-              <MAC>00:16:17:C4:6E:55</MAC>
-              <MAC>00:16:17:E3:9C:68</MAC>
-              <MAC>00:16:17:E3:23:EE</MAC>
-              <MAC>00:17:08:86:1A:84</MAC>
-              <MAC>00:18:71:88:A6:54</MAC>
-              <MAC>00:18:FE:F9:A8:00</MAC>
-              <MAC>00:18:FE:F9:A8:E1</MAC>
-              <MAC>00:18:FE:F9:A8:E3</MAC>
-              <MAC>00:18:FE:F9:A8:FA</MAC>
-              <MAC>00:1B:78:25:73:B6</MAC>
-              <MAC>00:1B:78:09:58:79</MAC>
-              <MAC>00:1D:92:DD:6B:EC</MAC>
-              <MAC>00:1D:92:DD:6F:B1</MAC>
-              <MAC>00:1D:92:DD:75:8E</MAC>
-              <MAC>00:1E:0B:0C:89:DB</MAC>
-              <MAC>00:1F:29:99:BB:9D</MAC>
-              <MAC>00:1F:29:16:44:44</MAC>
-              <MAC>00:21:85:D0:32:F9</MAC>
-              <MAC>00:22:F3:9D:0F:D9</MAC>
-              <MAC>00:22:F3:9D:20:56</MAC>
-              <MAC>00:22:F3:C7:D8:20</MAC>
-              <MAC>00:04:00:9D:84:A8</MAC>
-              <MAC>00:04:00:9D:F8:E0</MAC>
-              <MAC>00:04:00:AD:E9:50</MAC>
-              <MAC>00:08:5D:13:57:05</MAC>
-              <MAC>00:08:5D:2C:C0:6A</MAC>
-              <MAC>00:08:5D:2C:C0:CF</MAC>
-              <MAC>00:08:5D:2C:C0:27</MAC>
-              <MAC>10:78:D2:E9:8E:4B</MAC>
-              <MAC>B8:AC:6F:22:AA:E0</MAC>
+              <MAC>00:14:38:4a:d0:31</MAC>
+              <MAC>00:16:17:a5:09:24</MAC>
+              <MAC>00:16:17:c4:6e:55</MAC>
+              <MAC>00:16:17:e3:9c:68</MAC>
+              <MAC>00:16:17:e3:23:ee</MAC>
+              <MAC>00:17:08:86:1a:84</MAC>
+              <MAC>00:18:71:88:a6:54</MAC>
+              <MAC>00:18:fe:f9:a8:00</MAC>
+              <MAC>00:18:fe:f9:a8:e1</MAC>
+              <MAC>00:18:fe:f9:a8:e3</MAC>
+              <MAC>00:18:fe:f9:a8:fa</MAC>
+              <MAC>00:1b:78:25:73:b6</MAC>
+              <MAC>00:1b:78:09:58:79</MAC>
+              <MAC>00:1d:92:dd:6b:ec</MAC>
+              <MAC>00:1d:92:dd:6f:b1</MAC>
+              <MAC>00:1d:92:dd:75:8e</MAC>
+              <MAC>00:1e:0b:0c:89:db</MAC>
+              <MAC>00:1f:29:99:bb:9d</MAC>
+              <MAC>00:1f:29:16:44:44</MAC>
+              <MAC>00:21:85:d0:32:f9</MAC>
+              <MAC>00:22:f3:9d:0f:d9</MAC>
+              <MAC>00:22:f3:9d:20:56</MAC>
+              <MAC>00:22:f3:c7:d8:20</MAC>
+              <MAC>00:04:00:9d:84:a8</MAC>
+              <MAC>00:04:00:9d:f8:e0</MAC>
+              <MAC>00:04:00:ad:e9:50</MAC>
+              <MAC>00:08:5d:13:57:05</MAC>
+              <MAC>00:08:5d:2c:c0:6a</MAC>
+              <MAC>00:08:5d:2c:c0:cf</MAC>
+              <MAC>00:08:5d:2c:c0:27</MAC>
+              <MAC>10:78:d2:e9:8e:4b</MAC>
+              <MAC>b8:ac:6f:22:aa:e0</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk10</IFDESCR>
@@ -1055,21 +1454,21 @@
           <IFSPEED>3000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:19:BB:01:0B:00</MAC>
-              <MAC>00:19:BB:01:1B:71</MAC>
-              <MAC>00:19:BB:01:1B:73</MAC>
-              <MAC>00:19:BB:01:1B:8A</MAC>
-              <MAC>00:50:56:72:2C:1A</MAC>
-              <MAC>00:50:56:7E:E7:85</MAC>
-              <MAC>00:50:56:8B:65:0A</MAC>
-              <MAC>00:50:56:8B:29:26</MAC>
-              <MAC>00:50:56:44:71:B5</MAC>
-              <MAC>00:50:56:47:E1:B4</MAC>
+              <MAC>00:19:bb:01:0b:00</MAC>
+              <MAC>00:19:bb:01:1b:71</MAC>
+              <MAC>00:19:bb:01:1b:73</MAC>
+              <MAC>00:19:bb:01:1b:8a</MAC>
+              <MAC>00:50:56:72:2c:1a</MAC>
+              <MAC>00:50:56:7e:e7:85</MAC>
+              <MAC>00:50:56:8b:65:0a</MAC>
+              <MAC>00:50:56:8b:29:26</MAC>
+              <MAC>00:50:56:44:71:b5</MAC>
+              <MAC>00:50:56:47:e1:b4</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk12</IFDESCR>
@@ -1085,19 +1484,19 @@
           <IFSPEED>3000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:16:B9:14:2B:00</MAC>
-              <MAC>00:16:B9:14:3B:71</MAC>
-              <MAC>00:16:B9:14:3B:73</MAC>
-              <MAC>00:16:B9:14:3B:8A</MAC>
-              <MAC>00:1E:C9:B7:B8:B3</MAC>
-              <MAC>00:1E:C9:B7:B8:F4</MAC>
-              <MAC>00:50:56:72:D9:74</MAC>
-              <MAC>00:50:56:44:DF:2D</MAC>
+              <MAC>00:16:b9:14:2b:00</MAC>
+              <MAC>00:16:b9:14:3b:71</MAC>
+              <MAC>00:16:b9:14:3b:73</MAC>
+              <MAC>00:16:b9:14:3b:8a</MAC>
+              <MAC>00:1e:c9:b7:b8:b3</MAC>
+              <MAC>00:1e:c9:b7:b8:f4</MAC>
+              <MAC>00:50:56:72:d9:74</MAC>
+              <MAC>00:50:56:44:df:2d</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk14</IFDESCR>
@@ -1113,26 +1512,26 @@
           <IFSPEED>3000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:16:B9:13:80:00</MAC>
-              <MAC>00:16:B9:13:90:71</MAC>
-              <MAC>00:16:B9:13:90:73</MAC>
-              <MAC>00:16:B9:13:90:8A</MAC>
-              <MAC>00:E0:86:07:6B:79</MAC>
-              <MAC>00:05:1E:BD:62:DB</MAC>
-              <MAC>00:50:56:73:17:D4</MAC>
-              <MAC>00:50:56:76:7E:16</MAC>
-              <MAC>00:50:56:76:FC:2F</MAC>
-              <MAC>00:50:56:8B:72:94</MAC>
-              <MAC>00:50:56:8B:45:38</MAC>
-              <MAC>00:50:56:42:5B:6B</MAC>
-              <MAC>00:50:56:4D:F7:97</MAC>
-              <MAC>00:50:56:4F:3B:1C</MAC>
-              <MAC>02:A0:98:12:7A:68</MAC>
+              <MAC>00:16:b9:13:80:00</MAC>
+              <MAC>00:16:b9:13:90:71</MAC>
+              <MAC>00:16:b9:13:90:73</MAC>
+              <MAC>00:16:b9:13:90:8a</MAC>
+              <MAC>00:e0:86:07:6b:79</MAC>
+              <MAC>00:05:1e:bd:62:db</MAC>
+              <MAC>00:50:56:73:17:d4</MAC>
+              <MAC>00:50:56:76:7e:16</MAC>
+              <MAC>00:50:56:76:fc:2f</MAC>
+              <MAC>00:50:56:8b:72:94</MAC>
+              <MAC>00:50:56:8b:45:38</MAC>
+              <MAC>00:50:56:42:5b:6b</MAC>
+              <MAC>00:50:56:4d:f7:97</MAC>
+              <MAC>00:50:56:4f:3b:1c</MAC>
+              <MAC>02:a0:98:12:7a:68</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk16</IFDESCR>
@@ -1148,52 +1547,52 @@
           <IFSPEED>3000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:00:85:BB:5F:E9</MAC>
-              <MAC>00:14:38:E1:1D:33</MAC>
-              <MAC>00:15:99:1F:52:CD</MAC>
-              <MAC>00:16:17:E2:35:6A</MAC>
-              <MAC>00:19:DB:A7:6F:DC</MAC>
-              <MAC>00:19:DB:A7:70:84</MAC>
-              <MAC>00:19:DB:AA:F4:65</MAC>
-              <MAC>00:19:DB:AD:68:BB</MAC>
-              <MAC>00:19:DB:BC:82:DC</MAC>
-              <MAC>00:1A:4B:32:21:62</MAC>
-              <MAC>00:1C:2E:E5:8B:00</MAC>
-              <MAC>00:1C:2E:E5:8B:E1</MAC>
-              <MAC>00:1C:2E:E5:8B:E3</MAC>
-              <MAC>00:1C:2E:E5:8B:FA</MAC>
-              <MAC>00:1D:92:DD:6B:F5</MAC>
-              <MAC>00:1D:92:DD:6E:3B</MAC>
-              <MAC>00:1D:92:DD:75:F5</MAC>
-              <MAC>00:1D:92:DD:76:D1</MAC>
-              <MAC>00:1F:29:16:34:B2</MAC>
-              <MAC>00:21:85:D0:32:DD</MAC>
-              <MAC>00:22:F3:9D:1B:8F</MAC>
-              <MAC>00:22:F3:C7:D7:03</MAC>
-              <MAC>00:22:F3:C8:04:99</MAC>
-              <MAC>00:23:7D:75:A5:00</MAC>
-              <MAC>00:23:7D:76:E3:42</MAC>
-              <MAC>00:25:B3:F4:EC:86</MAC>
-              <MAC>00:04:00:67:C7:7C</MAC>
-              <MAC>00:04:00:9C:6C:25</MAC>
-              <MAC>00:30:05:5D:68:4F</MAC>
-              <MAC>00:08:5D:13:42:8C</MAC>
-              <MAC>00:08:5D:24:D0:DD</MAC>
-              <MAC>00:08:5D:2C:C0:D2</MAC>
-              <MAC>78:E7:D1:AA:AF:A3</MAC>
-              <MAC>10:78:D2:E3:8B:66</MAC>
-              <MAC>B8:AC:6F:25:D9:BC</MAC>
-              <MAC>B8:AC:6F:3E:3B:09</MAC>
-              <MAC>F0:DE:F1:00:E3:76</MAC>
-              <MAC>F0:DE:F1:00:E3:C5</MAC>
-              <MAC>1C:75:08:75:F0:C2</MAC>
-              <MAC>1C:C1:DE:CB:7D:95</MAC>
-              <MAC>44:1E:A1:34:0B:A0</MAC>
+              <MAC>00:00:85:bb:5f:e9</MAC>
+              <MAC>00:14:38:e1:1d:33</MAC>
+              <MAC>00:15:99:1f:52:cd</MAC>
+              <MAC>00:16:17:e2:35:6a</MAC>
+              <MAC>00:19:db:a7:6f:dc</MAC>
+              <MAC>00:19:db:a7:70:84</MAC>
+              <MAC>00:19:db:aa:f4:65</MAC>
+              <MAC>00:19:db:ad:68:bb</MAC>
+              <MAC>00:19:db:bc:82:dc</MAC>
+              <MAC>00:1a:4b:32:21:62</MAC>
+              <MAC>00:1c:2e:e5:8b:00</MAC>
+              <MAC>00:1c:2e:e5:8b:e1</MAC>
+              <MAC>00:1c:2e:e5:8b:e3</MAC>
+              <MAC>00:1c:2e:e5:8b:fa</MAC>
+              <MAC>00:1d:92:dd:6b:f5</MAC>
+              <MAC>00:1d:92:dd:6e:3b</MAC>
+              <MAC>00:1d:92:dd:75:f5</MAC>
+              <MAC>00:1d:92:dd:76:d1</MAC>
+              <MAC>00:1f:29:16:34:b2</MAC>
+              <MAC>00:21:85:d0:32:dd</MAC>
+              <MAC>00:22:f3:9d:1b:8f</MAC>
+              <MAC>00:22:f3:c7:d7:03</MAC>
+              <MAC>00:22:f3:c8:04:99</MAC>
+              <MAC>00:23:7d:75:a5:00</MAC>
+              <MAC>00:23:7d:76:e3:42</MAC>
+              <MAC>00:25:b3:f4:ec:86</MAC>
+              <MAC>00:04:00:67:c7:7c</MAC>
+              <MAC>00:04:00:9c:6c:25</MAC>
+              <MAC>00:30:05:5d:68:4f</MAC>
+              <MAC>00:08:5d:13:42:8c</MAC>
+              <MAC>00:08:5d:24:d0:dd</MAC>
+              <MAC>00:08:5d:2c:c0:d2</MAC>
+              <MAC>78:e7:d1:aa:af:a3</MAC>
+              <MAC>10:78:d2:e3:8b:66</MAC>
+              <MAC>b8:ac:6f:25:d9:bc</MAC>
+              <MAC>b8:ac:6f:3e:3b:09</MAC>
+              <MAC>f0:de:f1:00:e3:76</MAC>
+              <MAC>f0:de:f1:00:e3:c5</MAC>
+              <MAC>1c:75:08:75:f0:c2</MAC>
+              <MAC>1c:c1:de:cb:7d:95</MAC>
+              <MAC>44:1e:a1:34:0b:a0</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk18</IFDESCR>
@@ -1209,29 +1608,29 @@
           <IFSPEED>3000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:0B:84:00:1F:7D</MAC>
-              <MAC>00:13:21:EF:3F:59</MAC>
-              <MAC>00:16:76:2D:72:2F</MAC>
-              <MAC>00:16:35:65:BF:8C</MAC>
-              <MAC>00:19:BB:01:A6:00</MAC>
-              <MAC>00:19:BB:01:B6:71</MAC>
-              <MAC>00:19:BB:01:B6:73</MAC>
-              <MAC>00:19:BB:01:B6:8A</MAC>
-              <MAC>00:1D:92:DC:F5:DE</MAC>
-              <MAC>00:1D:92:DD:6B:C6</MAC>
-              <MAC>00:1D:92:DD:6B:D5</MAC>
-              <MAC>00:1D:92:DD:6B:E0</MAC>
-              <MAC>00:1F:29:28:88:E4</MAC>
-              <MAC>00:21:5A:7C:EC:35</MAC>
-              <MAC>00:21:5A:97:1B:32</MAC>
-              <MAC>00:22:F3:9D:1F:3B</MAC>
-              <MAC>00:08:5D:2B:F1:48</MAC>
-              <MAC>B8:AC:6F:3E:3A:C5</MAC>
+              <MAC>00:0b:84:00:1f:7d</MAC>
+              <MAC>00:13:21:ef:3f:59</MAC>
+              <MAC>00:16:76:2d:72:2f</MAC>
+              <MAC>00:16:35:65:bf:8c</MAC>
+              <MAC>00:19:bb:01:a6:00</MAC>
+              <MAC>00:19:bb:01:b6:71</MAC>
+              <MAC>00:19:bb:01:b6:73</MAC>
+              <MAC>00:19:bb:01:b6:8a</MAC>
+              <MAC>00:1d:92:dc:f5:de</MAC>
+              <MAC>00:1d:92:dd:6b:c6</MAC>
+              <MAC>00:1d:92:dd:6b:d5</MAC>
+              <MAC>00:1d:92:dd:6b:e0</MAC>
+              <MAC>00:1f:29:28:88:e4</MAC>
+              <MAC>00:21:5a:7c:ec:35</MAC>
+              <MAC>00:21:5a:97:1b:32</MAC>
+              <MAC>00:22:f3:9d:1f:3b</MAC>
+              <MAC>00:08:5d:2b:f1:48</MAC>
+              <MAC>b8:ac:6f:3e:3a:c5</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk20</IFDESCR>
@@ -1247,135 +1646,135 @@
           <IFSPEED>3000000000</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
           <CONNECTIONS>
             <CONNECTION>
-              <MAC>00:00:00:00:FE:00</MAC>
-              <MAC>00:00:00:00:FE:01</MAC>
-              <MAC>00:00:5E:00:01:01</MAC>
-              <MAC>00:00:5E:00:01:0A</MAC>
-              <MAC>00:00:5E:00:01:0B</MAC>
-              <MAC>00:00:5E:00:01:0C</MAC>
-              <MAC>00:00:5E:00:01:0D</MAC>
-              <MAC>00:00:5E:00:01:02</MAC>
-              <MAC>00:00:5E:00:01:17</MAC>
-              <MAC>00:00:5E:00:01:1A</MAC>
-              <MAC>00:00:5E:00:01:1B</MAC>
-              <MAC>00:00:5E:00:01:1E</MAC>
-              <MAC>00:00:5E:00:01:1F</MAC>
-              <MAC>00:00:5E:00:01:07</MAC>
-              <MAC>00:00:5E:00:01:08</MAC>
-              <MAC>00:0C:29:21:58:A3</MAC>
-              <MAC>00:0D:A2:10:26:66</MAC>
-              <MAC>00:90:FB:2E:03:32</MAC>
-              <MAC>00:90:FB:2E:03:33</MAC>
-              <MAC>00:90:FB:2E:03:34</MAC>
-              <MAC>00:90:FB:2E:03:35</MAC>
-              <MAC>00:90:FB:2E:03:36</MAC>
-              <MAC>00:12:F2:7C:72:30</MAC>
-              <MAC>00:12:F2:7C:39:D0</MAC>
-              <MAC>00:13:7F:F5:55:D8</MAC>
-              <MAC>00:13:D4:81:69:4B</MAC>
-              <MAC>00:14:5E:DE:C3:4F</MAC>
-              <MAC>00:19:BB:17:22:00</MAC>
-              <MAC>00:19:BB:17:32:D0</MAC>
-              <MAC>00:19:BB:17:32:D1</MAC>
-              <MAC>00:19:BB:17:32:D2</MAC>
-              <MAC>00:19:BB:17:32:E8</MAC>
-              <MAC>00:19:BB:17:32:E9</MAC>
-              <MAC>00:19:BB:17:32:EA</MAC>
-              <MAC>00:1A:4B:30:67:61</MAC>
-              <MAC>00:03:A0:8A:52:18</MAC>
-              <MAC>00:1E:C9:B9:0C:6E</MAC>
-              <MAC>00:1E:C9:B9:11:CD</MAC>
-              <MAC>00:22:19:5C:65:F6</MAC>
-              <MAC>00:26:B9:8A:F1:0A</MAC>
-              <MAC>00:26:B9:8E:4A:11</MAC>
+              <MAC>00:00:00:00:fe:00</MAC>
+              <MAC>00:00:00:00:fe:01</MAC>
+              <MAC>00:00:5e:00:01:01</MAC>
+              <MAC>00:00:5e:00:01:0a</MAC>
+              <MAC>00:00:5e:00:01:0b</MAC>
+              <MAC>00:00:5e:00:01:0c</MAC>
+              <MAC>00:00:5e:00:01:0d</MAC>
+              <MAC>00:00:5e:00:01:02</MAC>
+              <MAC>00:00:5e:00:01:17</MAC>
+              <MAC>00:00:5e:00:01:1a</MAC>
+              <MAC>00:00:5e:00:01:1b</MAC>
+              <MAC>00:00:5e:00:01:1e</MAC>
+              <MAC>00:00:5e:00:01:1f</MAC>
+              <MAC>00:00:5e:00:01:07</MAC>
+              <MAC>00:00:5e:00:01:08</MAC>
+              <MAC>00:0c:29:21:58:a3</MAC>
+              <MAC>00:0d:a2:10:26:66</MAC>
+              <MAC>00:90:fb:2e:03:32</MAC>
+              <MAC>00:90:fb:2e:03:33</MAC>
+              <MAC>00:90:fb:2e:03:34</MAC>
+              <MAC>00:90:fb:2e:03:35</MAC>
+              <MAC>00:90:fb:2e:03:36</MAC>
+              <MAC>00:12:f2:7c:72:30</MAC>
+              <MAC>00:12:f2:7c:39:d0</MAC>
+              <MAC>00:13:7f:f5:55:d8</MAC>
+              <MAC>00:13:d4:81:69:4b</MAC>
+              <MAC>00:14:5e:de:c3:4f</MAC>
+              <MAC>00:19:bb:17:22:00</MAC>
+              <MAC>00:19:bb:17:32:d0</MAC>
+              <MAC>00:19:bb:17:32:d1</MAC>
+              <MAC>00:19:bb:17:32:d2</MAC>
+              <MAC>00:19:bb:17:32:e8</MAC>
+              <MAC>00:19:bb:17:32:e9</MAC>
+              <MAC>00:19:bb:17:32:ea</MAC>
+              <MAC>00:1a:4b:30:67:61</MAC>
+              <MAC>00:03:a0:8a:52:18</MAC>
+              <MAC>00:1e:c9:b9:0c:6e</MAC>
+              <MAC>00:1e:c9:b9:11:cd</MAC>
+              <MAC>00:22:19:5c:65:f6</MAC>
+              <MAC>00:26:b9:8a:f1:0a</MAC>
+              <MAC>00:26:b9:8e:4a:11</MAC>
               <MAC>00:30:05:38:78:53</MAC>
-              <MAC>00:30:05:38:78:5B</MAC>
+              <MAC>00:30:05:38:78:5b</MAC>
               <MAC>00:50:56:00:00:01</MAC>
               <MAC>00:50:56:00:00:02</MAC>
               <MAC>00:50:56:00:00:03</MAC>
               <MAC>00:50:56:00:00:04</MAC>
               <MAC>00:50:56:00:00:08</MAC>
-              <MAC>00:50:56:8B:64:98</MAC>
-              <MAC>00:50:56:8B:64:F3</MAC>
-              <MAC>00:50:56:8B:68:41</MAC>
-              <MAC>00:50:56:8B:6A:F8</MAC>
-              <MAC>00:50:56:8B:6B:43</MAC>
-              <MAC>00:50:56:8B:70:48</MAC>
-              <MAC>00:50:56:8B:72:CB</MAC>
-              <MAC>00:50:56:8B:76:A6</MAC>
-              <MAC>00:50:56:8B:78:F1</MAC>
-              <MAC>00:50:56:8B:7E:A7</MAC>
-              <MAC>00:50:56:8B:7F:71</MAC>
-              <MAC>00:50:56:8B:0E:1F</MAC>
-              <MAC>00:50:56:8B:10:D2</MAC>
-              <MAC>00:50:56:8B:13:0E</MAC>
-              <MAC>00:50:56:8B:1B:1B</MAC>
-              <MAC>00:50:56:8B:1D:11</MAC>
-              <MAC>00:50:56:8B:03:D4</MAC>
-              <MAC>00:50:56:8B:21:BA</MAC>
-              <MAC>00:50:56:8B:23:4F</MAC>
-              <MAC>00:50:56:8B:24:E6</MAC>
-              <MAC>00:50:56:8B:29:6D</MAC>
-              <MAC>00:50:56:8B:30:70</MAC>
-              <MAC>00:50:56:8B:32:35</MAC>
-              <MAC>00:50:56:8B:35:1C</MAC>
-              <MAC>00:50:56:8B:38:FE</MAC>
-              <MAC>00:50:56:8B:3A:66</MAC>
-              <MAC>00:50:56:8B:3E:65</MAC>
-              <MAC>00:50:56:8B:42:2B</MAC>
-              <MAC>00:50:56:8B:4D:90</MAC>
-              <MAC>00:50:56:8B:52:11</MAC>
-              <MAC>00:50:56:8B:5C:9A</MAC>
-              <MAC>00:50:56:8B:5D:3F</MAC>
-              <MAC>00:50:56:8B:5E:39</MAC>
-              <MAC>00:09:0F:09:3F:02</MAC>
-              <MAC>00:09:0F:09:3F:03</MAC>
-              <MAC>00:09:0F:09:3F:04</MAC>
-              <MAC>02:12:F2:7C:72:3A</MAC>
-              <MAC>02:12:F2:7C:72:3B</MAC>
-              <MAC>02:12:F2:7C:72:3C</MAC>
-              <MAC>02:12:F2:7C:72:3D</MAC>
-              <MAC>02:12:F2:7C:72:3E</MAC>
-              <MAC>02:12:F2:7C:72:3F</MAC>
-              <MAC>02:12:F2:7C:39:DA</MAC>
-              <MAC>02:12:F2:7C:39:DB</MAC>
-              <MAC>02:12:F2:7C:39:DC</MAC>
-              <MAC>02:12:F2:7C:39:DD</MAC>
-              <MAC>02:12:F2:7C:39:DE</MAC>
-              <MAC>02:12:F2:7C:39:DF</MAC>
-              <MAC>02:12:F2:A8:DF:FA</MAC>
-              <MAC>02:12:F2:A8:DF:FB</MAC>
-              <MAC>02:12:F2:62:E2:22</MAC>
-              <MAC>02:12:F2:62:E2:23</MAC>
-              <MAC>02:12:F2:62:E2:24</MAC>
-              <MAC>02:12:F2:62:E2:26</MAC>
-              <MAC>02:12:F2:62:E2:27</MAC>
-              <MAC>02:12:F2:62:E2:28</MAC>
-              <MAC>02:12:F2:62:E2:29</MAC>
-              <MAC>02:12:F2:62:E2:2A</MAC>
-              <MAC>02:12:F2:62:E2:2B</MAC>
-              <MAC>02:12:F2:62:E2:2C</MAC>
-              <MAC>02:12:F2:62:E2:2D</MAC>
-              <MAC>02:12:F2:62:E2:2E</MAC>
-              <MAC>02:12:F2:62:E2:2F</MAC>
-              <MAC>02:12:F2:62:E2:30</MAC>
-              <MAC>02:12:F2:62:E2:31</MAC>
-              <MAC>02:12:F2:62:E2:32</MAC>
-              <MAC>02:12:F2:62:E2:33</MAC>
-              <MAC>02:12:F2:62:E2:34</MAC>
-              <MAC>02:12:F2:62:E2:35</MAC>
-              <MAC>02:12:F2:62:E2:36</MAC>
-              <MAC>02:12:F2:62:E2:39</MAC>
-              <MAC>02:12:F2:62:E2:3A</MAC>
-              <MAC>02:12:F2:62:E2:3B</MAC>
-              <MAC>02:E0:52:76:0E:16</MAC>
-              <MAC>02:E0:52:20:5E:10</MAC>
-              <MAC>D4:BE:D9:AF:75:1B</MAC>
+              <MAC>00:50:56:8b:64:98</MAC>
+              <MAC>00:50:56:8b:64:f3</MAC>
+              <MAC>00:50:56:8b:68:41</MAC>
+              <MAC>00:50:56:8b:6a:f8</MAC>
+              <MAC>00:50:56:8b:6b:43</MAC>
+              <MAC>00:50:56:8b:70:48</MAC>
+              <MAC>00:50:56:8b:72:cb</MAC>
+              <MAC>00:50:56:8b:76:a6</MAC>
+              <MAC>00:50:56:8b:78:f1</MAC>
+              <MAC>00:50:56:8b:7e:a7</MAC>
+              <MAC>00:50:56:8b:7f:71</MAC>
+              <MAC>00:50:56:8b:0e:1f</MAC>
+              <MAC>00:50:56:8b:10:d2</MAC>
+              <MAC>00:50:56:8b:13:0e</MAC>
+              <MAC>00:50:56:8b:1b:1b</MAC>
+              <MAC>00:50:56:8b:1d:11</MAC>
+              <MAC>00:50:56:8b:03:d4</MAC>
+              <MAC>00:50:56:8b:21:ba</MAC>
+              <MAC>00:50:56:8b:23:4f</MAC>
+              <MAC>00:50:56:8b:24:e6</MAC>
+              <MAC>00:50:56:8b:29:6d</MAC>
+              <MAC>00:50:56:8b:30:70</MAC>
+              <MAC>00:50:56:8b:32:35</MAC>
+              <MAC>00:50:56:8b:35:1c</MAC>
+              <MAC>00:50:56:8b:38:fe</MAC>
+              <MAC>00:50:56:8b:3a:66</MAC>
+              <MAC>00:50:56:8b:3e:65</MAC>
+              <MAC>00:50:56:8b:42:2b</MAC>
+              <MAC>00:50:56:8b:4d:90</MAC>
+              <MAC>00:50:56:8b:52:11</MAC>
+              <MAC>00:50:56:8b:5c:9a</MAC>
+              <MAC>00:50:56:8b:5d:3f</MAC>
+              <MAC>00:50:56:8b:5e:39</MAC>
+              <MAC>00:09:0f:09:3f:02</MAC>
+              <MAC>00:09:0f:09:3f:03</MAC>
+              <MAC>00:09:0f:09:3f:04</MAC>
+              <MAC>02:12:f2:7c:72:3a</MAC>
+              <MAC>02:12:f2:7c:72:3b</MAC>
+              <MAC>02:12:f2:7c:72:3c</MAC>
+              <MAC>02:12:f2:7c:72:3d</MAC>
+              <MAC>02:12:f2:7c:72:3e</MAC>
+              <MAC>02:12:f2:7c:72:3f</MAC>
+              <MAC>02:12:f2:7c:39:da</MAC>
+              <MAC>02:12:f2:7c:39:db</MAC>
+              <MAC>02:12:f2:7c:39:dc</MAC>
+              <MAC>02:12:f2:7c:39:dd</MAC>
+              <MAC>02:12:f2:7c:39:de</MAC>
+              <MAC>02:12:f2:7c:39:df</MAC>
+              <MAC>02:12:f2:a8:df:fa</MAC>
+              <MAC>02:12:f2:a8:df:fb</MAC>
+              <MAC>02:12:f2:62:e2:22</MAC>
+              <MAC>02:12:f2:62:e2:23</MAC>
+              <MAC>02:12:f2:62:e2:24</MAC>
+              <MAC>02:12:f2:62:e2:26</MAC>
+              <MAC>02:12:f2:62:e2:27</MAC>
+              <MAC>02:12:f2:62:e2:28</MAC>
+              <MAC>02:12:f2:62:e2:29</MAC>
+              <MAC>02:12:f2:62:e2:2a</MAC>
+              <MAC>02:12:f2:62:e2:2b</MAC>
+              <MAC>02:12:f2:62:e2:2c</MAC>
+              <MAC>02:12:f2:62:e2:2d</MAC>
+              <MAC>02:12:f2:62:e2:2e</MAC>
+              <MAC>02:12:f2:62:e2:2f</MAC>
+              <MAC>02:12:f2:62:e2:30</MAC>
+              <MAC>02:12:f2:62:e2:31</MAC>
+              <MAC>02:12:f2:62:e2:32</MAC>
+              <MAC>02:12:f2:62:e2:33</MAC>
+              <MAC>02:12:f2:62:e2:34</MAC>
+              <MAC>02:12:f2:62:e2:35</MAC>
+              <MAC>02:12:f2:62:e2:36</MAC>
+              <MAC>02:12:f2:62:e2:39</MAC>
+              <MAC>02:12:f2:62:e2:3a</MAC>
+              <MAC>02:12:f2:62:e2:3b</MAC>
+              <MAC>02:e0:52:76:0e:16</MAC>
+              <MAC>02:e0:52:20:5e:10</MAC>
+              <MAC>d4:be:d9:af:75:1b</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk21</IFDESCR>
@@ -1391,9 +1790,10 @@
           <IFSPEED>4294967295</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>161</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DEFAULT_VLAN</IFALIAS>
           <IFDESCR>DEFAULT_VLAN</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1407,9 +1807,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>SERVERS</IFALIAS>
           <IFDESCR>VLAN2</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1423,9 +1824,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.31.192.244</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>ZONE_PUBLIQUE</IFALIAS>
           <IFDESCR>VLAN3</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1439,9 +1842,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>INTERCO_RACINE_API</IFALIAS>
           <IFDESCR>VLAN4</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1455,9 +1859,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DMZ</IFALIAS>
           <IFDESCR>VLAN5</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1471,9 +1876,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>AGRIATES</IFALIAS>
           <IFDESCR>VLAN6</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1487,9 +1893,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>ACCUEIL_ETABLISSEMENTS</IFALIAS>
           <IFDESCR>VLAN7</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1503,9 +1910,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>VOIP_ASTERISK</IFALIAS>
           <IFDESCR>VLAN13</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1519,9 +1927,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.27.192.226</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DMZ227</IFALIAS>
           <IFDESCR>VLAN14</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1535,9 +1945,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>INTERCO-CSS</IFALIAS>
           <IFDESCR>VLAN15</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1551,9 +1962,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>SERVEUR-CSS</IFALIAS>
           <IFDESCR>VLAN16</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1567,9 +1979,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>INTER_EQUANT_RECTORAT</IFALIAS>
           <IFDESCR>VLAN17</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1583,9 +1996,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>INT_EQUANT_ETABLISSEMENTS</IFALIAS>
           <IFDESCR>VLAN18</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1599,9 +2013,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DMZ_HD</IFALIAS>
           <IFDESCR>VLAN22</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1615,9 +2030,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>RESEAU_DRRT-PUG</IFALIAS>
           <IFDESCR>VLAN30</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1631,9 +2047,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>COLLECTE_IP_RIHDA</IFALIAS>
           <IFDESCR>VLAN149</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1647,9 +2064,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>RENATER</IFALIAS>
           <IFDESCR>VLAN150</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1663,9 +2081,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-DMZ-INFRA</IFALIAS>
           <IFDESCR>VLAN152</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1679,9 +2098,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-VLAN-LIBRE</IFALIAS>
           <IFDESCR>VLAN153</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1695,9 +2115,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-INTERCO-FOUNDRY</IFALIAS>
           <IFDESCR>VLAN154</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1711,9 +2132,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-DMZ</IFALIAS>
           <IFDESCR>VLAN155</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1727,9 +2149,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-Libre_Service</IFALIAS>
           <IFDESCR>VLAN156</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1743,9 +2166,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-DMZ-PEDA</IFALIAS>
           <IFDESCR>VLAN157</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1759,9 +2183,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-DMZ-INFRA2</IFALIAS>
           <IFDESCR>VLAN158</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1775,9 +2200,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>FW-PUG-DRRT</IFALIAS>
           <IFDESCR>VLAN159</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1791,9 +2217,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>ToIP_RIHDA</IFALIAS>
           <IFDESCR>VLAN160</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1807,9 +2234,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.27.192.33</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>LIBR_SERVICE</IFALIAS>
           <IFDESCR>VLAN162</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1823,9 +2252,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DATA_RIHDA</IFALIAS>
           <IFDESCR>VLAN170</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1839,9 +2269,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.31.203.253</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DATA_POLY</IFALIAS>
           <IFDESCR>VLAN171</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1855,9 +2287,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DATA_CEPE</IFALIAS>
           <IFDESCR>VLAN172</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1871,9 +2304,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.31.193.246</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>video_RIHDA</IFALIAS>
           <IFDESCR>VLAN180</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1887,9 +2322,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.27.193.125</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>postesIP_RIHDA</IFALIAS>
           <IFDESCR>VLAN190</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1903,9 +2340,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.27.205.253</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>ADMIN_RESEAU</IFALIAS>
           <IFDESCR>VLAN196</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1919,9 +2358,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.31.196.253</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>PERIPHERIQUES</IFALIAS>
           <IFDESCR>VLAN201</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1935,9 +2376,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.31.201.253</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>UTIL_NVEAU_BAT</IFALIAS>
           <IFDESCR>VLAN202</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1951,9 +2394,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>UTIL_FORMATION</IFALIAS>
           <IFDESCR>VLAN204</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1967,9 +2411,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.31.204.125</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>UTIL_CATI</IFALIAS>
           <IFDESCR>VLAN205</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1983,9 +2429,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.31.205.125</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>UTIL_INVITES</IFALIAS>
           <IFDESCR>VLAN214</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -1999,9 +2447,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.31.204.253</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>UTIL_SYST_RESEAUX</IFALIAS>
           <IFDESCR>VLAN215</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2015,9 +2465,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>172.31.205.253</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>VLAN401</IFALIAS>
           <IFDESCR>VLAN401</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2031,9 +2483,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>wifi_recteur</IFALIAS>
           <IFDESCR>VLAN402</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2047,9 +2500,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>DMZ_ELGG</IFALIAS>
           <IFDESCR>VLAN403</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2063,9 +2517,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>COLLECTE-TEST</IFALIAS>
           <IFDESCR>VLAN3000</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2079,9 +2534,11 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <IP>192.168.227.246</IP>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>TEST-APPLI</IFALIAS>
           <IFDESCR>VLAN3002</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2095,9 +2552,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>TEST-AGRIATE</IFALIAS>
           <IFDESCR>VLAN3006</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2111,9 +2569,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>TEST-ETAB</IFALIAS>
           <IFDESCR>VLAN3007</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2127,9 +2586,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
-          <MAC>00:18:71:C1:E0:00</MAC>
+          <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <IFALIAS>lo0</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>7893971</IFINOCTETS>
@@ -2143,8 +2603,10 @@
           <IFSPEED>0</IFSPEED>
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>24</IFTYPE>
+          <IP>127.0.0.1</IP>
         </PORT>
         <PORT>
+          <IFALIAS>lo1</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2160,6 +2622,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo2</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2175,6 +2638,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo3</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2190,6 +2654,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo4</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2205,6 +2670,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo5</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2220,6 +2686,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo6</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>
@@ -2235,6 +2702,7 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
         <PORT>
+          <IFALIAS>lo7</IFALIAS>
           <IFDESCR>HP ProCurve Switch software loopback interface</IFDESCR>
           <IFINERRORS>0</IFINERRORS>
           <IFINOCTETS>0</IFINOCTETS>

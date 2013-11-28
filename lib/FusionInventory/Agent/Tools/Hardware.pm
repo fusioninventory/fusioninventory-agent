@@ -9,24 +9,22 @@ use List::Util qw(first);
 
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::Tools::Hardware::Generic;
 
 our @EXPORT = qw(
     getDeviceBaseInfo
     getDeviceInfo
     getDeviceFullInfo
     loadModel
-    getCanonicalSerialNumber
-    getCanonicalMacAddress
-    getCanonicalMemory
-    getElement
-    getElements
 );
 
 my %types = (
     1 => 'COMPUTER',
     2 => 'NETWORKING',
-    3 => 'PRINTER'
+    3 => 'PRINTER',
+    4 => 'STORAGE',
+    5 => 'POWER',
+    6 => 'PHONE',
+    7 => 'VIDEO',
 );
 
 # http://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
@@ -52,21 +50,21 @@ my %sysobjectid_vendors = (
     637   => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
     641   => { vendor => 'Lexmark',         type => 'PRINTER'    },
     674   => { vendor => 'Dell'                                  },
-    1139  => { vendor => 'EMC'                                   },
+    1139  => { vendor => 'EMC',             type => 'STORAGE'    },
     1248  => { vendor => 'Epson',           type => 'PRINTER'    },
     1347  => { vendor => 'Kyocera',         type => 'PRINTER'    },
     1602  => { vendor => 'Canon',           type => 'PRINTER'    },
-    1805  => { vendor => 'Sagem',          type => 'NETWORKING' },
+    1805  => { vendor => 'Sagem',           type => 'NETWORKING' },
     1872  => { vendor => 'Alteon',          type => 'NETWORKING' },
     1916  => { vendor => 'Extreme',         type => 'NETWORKING' },
-    1981  => { vendor => 'EMC'                                   },
+    1981  => { vendor => 'EMC',             type => 'STORAGE'    },
     1991  => { vendor => 'Foundry',         type => 'NETWORKING' },
     2385  => { vendor => 'Sharp',           type => 'PRINTER'    },
     2435  => { vendor => 'Brother',         type => 'PRINTER'    },
     2636  => { vendor => 'Juniper',         type => 'NETWORKING' },
     3224  => { vendor => 'NetScreen',       type => 'NETWORKING' },
     3977  => { vendor => 'Broadband',       type => 'NETWORKING' },
-    5596  => { vendor => 'Tandberg'                              },
+    5596  => { vendor => 'Tandberg',        type => 'VIDEO'      },
     6486  => { vendor => 'Alcatel',         type => 'NETWORKING' },
     6889  => { vendor => 'Avaya',           type => 'NETWORKING' },
     10418 => { vendor => 'Avocent'                               },
@@ -96,7 +94,7 @@ my %sysdescr_first_word = (
     'deskjet'        => { vendor => 'Hewlett-Packard', type => 'PRINTER'    },
     'd-link'         => { vendor => 'D-Link',          type => 'NETWORKING' },
     'eaton'          => { vendor => 'Eaton',           type => 'NETWORKING' },
-    'emc'            => { vendor => 'EMC',                                  },
+    'emc'            => { vendor => 'EMC',             type => 'STORAGE'    },
     'enterasys'      => { vendor => 'Enterasys',       type => 'NETWORKING' },
     'epson'          => { vendor => 'Epson',           type => 'PRINTER'    },
     'extreme'        => { vendor => 'Extrem Networks', type => 'NETWORKING' },
@@ -230,123 +228,256 @@ my @sysdescr_rules = (
     },
 );
 
-my @trunk_ports_rules = (
-    {
-        match  => qr/Nortel/,
-        module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
-    },
-    {
-        match  => qr/.*/,
-        module => 'FusionInventory::Agent::Tools::Hardware::Generic',
-    },
-);
-
-my @connected_devices_rules = (
-    {
-        match  => qr/Nortel/,
-        module => 'FusionInventory::Agent::Tools::Hardware::Nortel',
-    },
-    {
-        match  => qr/.*/,
-        module => 'FusionInventory::Agent::Tools::Hardware::Generic',
-    },
-);
-
 # common base variables
 my %base_variables = (
-    MAC          => 'macaddr',
-    CPU          => 'cpu',
-    LOCATION     => 'location',
-    CONTACT      => 'contact',
-    COMMENTS     => 'comments',
-    UPTIME       => 'uptime',
-    SERIAL       => 'serial',
-    NAME         => 'name',
-    MANUFACTURER => 'enterprise',
-    OTHERSERIAL  => 'otherserial',
-    MEMORY       => 'memory',
-    RAM          => 'ram',
+    MAC          => {
+        mapping => 'macaddr',
+        type    => 'mac',
+    },
+    CPU          => {
+        mapping => 'cpu',
+        default => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1',
+        type    => 'count',
+    },
+    LOCATION     => {
+        mapping => 'location',
+        default => '.1.3.6.1.2.1.1.6.0',
+        type    => 'string',
+    },
+    CONTACT      => {
+        mapping => 'contact',
+        default => '.1.3.6.1.2.1.1.4.0',
+        type    => 'string',
+    },
+    COMMENTS     => {
+        mapping => 'comments',
+        default => '.1.3.6.1.2.1.1.1.0',
+        type    => 'string',
+    },
+    UPTIME       => {
+        mapping => 'uptime',
+        default => '.1.3.6.1.2.1.1.3.0',
+        type    => 'string',
+    },
+    SERIAL       => {
+        mapping => 'serial',
+        type    => 'serial',
+    },
+    NAME         => {
+        mapping => 'name',
+        default => '.1.3.6.1.2.1.1.5.0',
+        type    => 'string',
+    },
+    MANUFACTURER => {
+        mapping => 'enterprise',
+        default => '.1.3.6.1.2.1.43.8.2.1.14.1.1',
+        type    => 'string',
+    },
+    OTHERSERIAL  => {
+        mapping => 'otherserial',
+        type    => 'serial',
+    },
+    MEMORY       => {
+        mapping => 'memory',
+        default => '.1.3.6.1.2.1.25.2.3.1.5.1',
+        type    => 'memory',
+    },
+    RAM          => {
+        mapping => 'ram',
+        default => '.1.3.6.1.4.1.9.3.6.6.0',
+        type    => 'memory',
+    },
 );
 
 # common interface variables
 my %interface_variables = (
-    IFNUMBER         => 'ifIndex',
-    IFDESCR          => 'ifdescr',
-    IFNAME           => 'ifName',
-    IFTYPE           => 'ifType',
-    IFMTU            => 'ifmtu',
-    IFSPEED          => 'ifspeed',
-    IFSTATUS         => 'ifstatus',
-    IFINTERNALSTATUS => 'ifinternalstatus',
-    IFLASTCHANGE     => 'iflastchange',
-    IFINOCTETS       => 'ifinoctets',
-    IFOUTOCTETS      => 'ifoutoctets',
-    IFINERRORS       => 'ifinerrors',
-    IFOUTERRORS      => 'ifouterrors',
-    MAC              => 'ifPhysAddress',
-    IFPORTDUPLEX     => 'portDuplex',
+    IFNUMBER         => {
+        mapping => 'ifIndex',
+        default => '.1.3.6.1.2.1.2.2.1.1',
+        type    => 'none'
+    },
+    IFDESCR          => {
+        mapping => 'ifdescr',
+        default => '.1.3.6.1.2.1.2.2.1.2',
+        type    => 'string',
+    },
+    IFNAME           => {
+        mapping => 'ifName',
+        default => '.1.3.6.1.2.1.2.2.1.2',
+        type    => 'string',
+    },
+    IFTYPE           => {
+        mapping => 'ifType',
+        default => '.1.3.6.1.2.1.2.2.1.3',
+        type    => 'constant',
+    },
+    IFMTU            => {
+        mapping => 'ifmtu',
+        default => '.1.3.6.1.2.1.2.2.1.4',
+        type    => 'count',
+    },
+    IFSPEED          => {
+        mapping => 'ifspeed',
+        default => '.1.3.6.1.2.1.2.2.1.5',
+        type    => 'count',
+    },
+    IFSTATUS         => {
+        mapping => 'ifstatus',
+        default => '.1.3.6.1.2.1.2.2.1.8',
+        type    => 'constant',
+    },
+    IFINTERNALSTATUS => {
+        mapping => 'ifinternalstatus',
+        default => '.1.3.6.1.2.1.2.2.1.7',
+        type    => 'constant',
+    },
+    IFLASTCHANGE     => {
+        mapping => 'iflastchange',
+        default => '.1.3.6.1.2.1.2.2.1.9',
+        type    => 'none'
+    },
+    IFINOCTETS       => {
+        mapping => 'ifinoctets',
+        default => '.1.3.6.1.2.1.2.2.1.10',
+        type    => 'count',
+    },
+    IFOUTOCTETS      => {
+        mapping => 'ifoutoctets',
+        default => '.1.3.6.1.2.1.2.2.1.16',
+        type    => 'count',
+    },
+    IFINERRORS       => {
+        mapping => 'ifinerrors',
+        default => '.1.3.6.1.2.1.2.2.1.14',
+        type    => 'count',
+    },
+    IFOUTERRORS      => {
+        mapping => 'ifouterrors',
+        default => '.1.3.6.1.2.1.2.2.1.20',
+        type    => 'count',
+    },
+    MAC              => {
+        mapping => 'ifPhysAddress',
+        default => '.1.3.6.1.2.1.2.2.1.6',
+        type    => 'mac',
+    },
+    IFPORTDUPLEX     => {
+        mapping => 'portDuplex',
+        default => '.1.3.6.1.2.1.10.7.2.1.19',
+        type    => 'constant',
+    },
+    IFALIAS          => {
+        mapping => 'ifAlias',
+        default => '.1.3.6.1.2.1.31.1.1.1.18',
+        type    => 'string',
+    },
 );
 
-# printer-specific cartridge simple variables
-my %printer_cartridges_simple_variables = (
-    TONERBLACK            => 'tonerblack',
-    TONERBLACK2           => 'tonerblack2',
-    TONERCYAN             => 'tonercyan',
-    TONERMAGENTA          => 'tonermagenta',
-    TONERYELLOW           => 'toneryellow',
-    WASTETONER            => 'wastetoner',
-    CARTRIDGEBLACK        => 'cartridgeblack',
-    CARTRIDGEBLACKPHOTO   => 'cartridgeblackphoto',
-    CARTRIDGECYAN         => 'cartridgecyan',
-    CARTRIDGECYANLIGHT    => 'cartridgecyanlight',
-    CARTRIDGEMAGENTA      => 'cartridgemagenta',
-    CARTRIDGEMAGENTALIGHT => 'cartridgemagentalight',
-    CARTRIDGEYELLOW       => 'cartridgeyellow',
-    MAINTENANCEKIT        => 'maintenancekit',
-    DRUMBLACK             => 'drumblack',
-    DRUMCYAN              => 'drumcyan',
-    DRUMMAGENTA           => 'drummagenta',
-    DRUMYELLOW            => 'drumyellow',
+my @consumable_type_rules = (
+    {
+        match => qr/cyan/i,
+        value => 'cyan'
+    },
+    {
+        match => qr/magenta/i,
+        value => 'magenta'
+    },
+    {
+        match => qr/(black|noir)/i,
+        value => 'black'
+    },
+    {
+        match => qr/(yellow|jaune)/i,
+        value => 'yellow'
+    },
+    {
+        match => qr/waste/i,
+        value => 'waste'
+    },
+    {
+        match => qr/maintenance/i,
+        value => 'maintenance'
+    },
 );
 
-# printer-specific cartridge percent variables
-my %printer_cartridges_percent_variables = (
-    BLACK                 => 'cartridgesblack',
-    CYAN                  => 'cartridgescyan',
-    YELLOW                => 'cartridgesyellow',
-    MAGENTA               => 'cartridgesmagenta',
-    CYANLIGHT             => 'cartridgescyanlight',
-    MAGENTALIGHT          => 'cartridgesmagentalight',
-    PHOTOCONDUCTOR        => 'cartridgesphotoconductor',
-    PHOTOCONDUCTORBLACK   => 'cartridgesphotoconductorblack',
-    PHOTOCONDUCTORCOLOR   => 'cartridgesphotoconductorcolor',
-    PHOTOCONDUCTORCYAN    => 'cartridgesphotoconductorcyan',
-    PHOTOCONDUCTORYELLOW  => 'cartridgesphotoconductoryellow',
-    PHOTOCONDUCTORMAGENTA => 'cartridgesphotoconductormagenta',
-    UNITTRANSFERBLACK     => 'cartridgesunittransfertblack',
-    UNITTRANSFERCYAN      => 'cartridgesunittransfertcyan',
-    UNITTRANSFERYELLOW    => 'cartridgesunittransfertyellow',
-    UNITTRANSFERMAGENTA   => 'cartridgesunittransfertmagenta',
-    WASTE                 => 'cartridgeswaste',
-    FUSER                 => 'cartridgesfuser',
-    BELTCLEANER           => 'cartridgesbeltcleaner',
-    MAINTENANCEKIT        => 'cartridgesmaintenancekit',
+my @consumable_subtype_rules = (
+    {
+        match => qr/toner/i,
+        value => 'toner'
+    },
+    {
+        match => qr/drum/i,
+        value => 'drum'
+    },
+    {
+        match => qr/ink/i,
+        value => 'cartridge'
+    },
+);
+
+my %consumable_variables_from_type = (
+    cyan => {
+        toner     => 'TONERCYAN',
+        drum      => 'DRUMCYAN',
+        cartridge => 'CARTRIDGECYAN',
+    },
+    magenta     => {
+        toner     => 'TONERMAGENTA',
+        drum      => 'DRUMMAGENTA',
+        cartridge => 'CARTRIDGEMAGENTA',
+    },
+    black     => {
+        toner     => 'TONERBLACK',
+        drum      => 'DRUMBLACK',
+        cartridge => 'CARTRIDGEBLACK',
+    },
+    yellow     => {
+        toner     => 'TONERYELLOW',
+        drum      => 'DRUMYELLOW',
+        cartridge => 'CARTRIDGEYELLOW',
+    },
+    waste       => 'WASTETONER',
+    maintenance => 'MAINTENANCEKIT',
+);
+
+my %consumable_variables_from_mappings = (
+    tonerblack            => 'TONERBLACK',
+    tonerblack2           => 'TONERBLACK2',
+    tonercyan             => 'TONERCYAN',
+    tonermagenta          => 'TONERMAGENTA',
+    toneryellow           => 'TONERYELLOW',
+    wastetoner            => 'WASTETONER',
+    cartridgeblack        => 'CARTRIDGEBLACK',
+    cartridgeblackphoto   => 'CARTRIDGEBLACKPHOTO',
+    cartridgecyan         => 'CARTRIDGECYAN',
+    cartridgecyanlight    => 'CARTRIDGECYANLIGHT',
+    cartridgemagenta      => 'CARTRIDGEMAGENTA',
+    cartridgemagentalight => 'CARTRIDGEMAGENTALIGHT',
+    cartridgeyellow       => 'CARTRIDGEYELLOW',
+    maintenancekit        => 'MAINTENANCEKIT',
+    drumblack             => 'DRUMBLACK',
+    drumcyan              => 'DRUMCYAN',
+    drummagenta           => 'DRUMMAGENTA',
+    drumyellow            => 'DRUMYELLOW',
 );
 
 # printer-specific page counter variables
 my %printer_pagecounters_variables = (
-    TOTAL      => 'pagecountertotalpages',
-    BLACK      => 'pagecounterblackpages',
-    COLOR      => 'pagecountercolorpages',
-    RECTOVERSO => 'pagecounterrectoversopages',
-    SCANNED    => 'pagecounterscannedpages',
-    PRINTTOTAL => 'pagecountertotalpages_print',
-    PRINTBLACK => 'pagecounterblackpages_print',
-    PRINTCOLOR => 'pagecountercolorpages_print',
-    COPYTOTAL  => 'pagecountertotalpages_copy',
-    COPYBLACK  => 'pagecounterblackpages_copy',
-    COPYCOLOR  => 'pagecountercolorpages_copy',
-    FAXTOTAL   => 'pagecountertotalpages_fax',
+    TOTAL      => {
+        mapping => 'pagecountertotalpages',
+        default => '.1.3.6.1.2.1.43.10.2.1.4.1.1'
+    },
+    BLACK      => { mapping => 'pagecounterblackpages'       },
+    COLOR      => { mapping => 'pagecountercolorpages'       },
+    RECTOVERSO => { mapping => 'pagecounterrectoversopages'  },
+    SCANNED    => { mapping => 'pagecounterscannedpages'     },
+    PRINTTOTAL => { mapping => 'pagecountertotalpages_print' },
+    PRINTBLACK => { mapping => 'pagecounterblackpages_print' },
+    PRINTCOLOR => { mapping => 'pagecountercolorpages_print' },
+    COPYTOTAL  => { mapping => 'pagecountertotalpages_copy'  },
+    COPYBLACK  => { mapping => 'pagecounterblackpages_copy'  },
+    COPYCOLOR  => { mapping => 'pagecountercolorpages_copy'  },
+    FAXTOTAL   => { mapping => 'pagecountertotalpages_fax'   },
 );
 
 sub getDeviceBaseInfo {
@@ -462,7 +593,7 @@ sub _getSerial {
     my ($snmp, $model) = @_;
 
     return unless $model->{SERIAL};
-    return getCanonicalSerialNumber($snmp->get($model->{SERIAL}));
+    return _getCanonicalSerialNumber($snmp->get($model->{SERIAL}));
 }
 
 sub _getMacAddress {
@@ -475,13 +606,13 @@ sub _getMacAddress {
         $model->{DYNMAC} ||
         ".1.3.6.1.2.1.2.2.1.6";  # IF-MIB::ifPhysAddress
 
-    my $address = getCanonicalMacAddress($snmp->get($mac_oid));
+    my $address = _getCanonicalMacAddress($snmp->get($mac_oid));
 
     if (!$address || $address !~ /^$mac_address_pattern$/) {
         my $macs = $snmp->walk($dynmac_oid);
         $address =
             first { $_ ne '00:00:00:00:00:00' }
-            map   { getCanonicalMacAddress($_) }
+            map   { _getCanonicalMacAddress($_) }
             grep  { $_ }
             sort  { $a cmp $b }
             values %{$macs};
@@ -550,50 +681,6 @@ sub _apply_rule {
             params   => $snmp,
             load     => 1
         );
-    }
-}
-
-sub _setTrunkPorts {
-    my ($description, $snmp, $model, $ports, $logger) = @_;
-
-    foreach my $rule (@trunk_ports_rules) {
-        next unless $description =~ $rule->{match};
-
-        runFunction(
-            module   => $rule->{module},
-            function => 'setTrunkPorts',
-            params   => {
-                snmp   => $snmp,
-                model  => $model,
-                ports  => $ports,
-                logger => $logger
-            },
-            load     => 1
-        );
-
-        last;
-    }
-
-}
-sub _setConnectedDevicesInfo {
-    my ($description, $snmp, $model, $ports, $logger) = @_;
-
-    foreach my $rule (@connected_devices_rules) {
-        next unless $description =~ $rule->{match};
-
-        runFunction(
-            module   => $rule->{module},
-            function => 'setConnectedDevicesInfo',
-            params   => {
-                snmp   => $snmp,
-                model  => $model,
-                ports  => $ports,
-                logger => $logger
-            },
-            load     => 1
-        );
-
-        last;
     }
 }
 
@@ -695,72 +782,76 @@ sub _setGenericProperties {
 
         # skip undefined variable
         my $variable = $base_variables{$key};
-        next unless $model->{oids}->{$variable};
+        my $oid = $model->{oids}->{$variable->{mapping}} ||
+                  $variable->{default};
+        next unless $oid;
 
-        my $raw_value = $snmp->get($model->{oids}->{$variable});
+        my $raw_value = $snmp->get($oid);
         next unless defined $raw_value;
+
+        my $type = $variable->{type};
         my $value =
-            $key eq 'NAME'        ? hex2char($raw_value)                           :
-            $key eq 'LOCATION'    ? hex2char($raw_value)                           :
-            $key eq 'SERIAL'      ? getCanonicalSerialNumber(hex2char($raw_value)) :
-            # OTHERSERIAL can be either:
-            #  - a number in hex
-            #  - a number
-            #  - a string in hex
-            # if we use a number as a string, we can garbage char. For example for:
-            #  - 0x0115
-            #  - 0xfde8
-            $key eq 'OTHERSERIAL' ? getCanonicalSerialNumber($raw_value) :
-            $key eq 'RAM'         ? getCanonicalMemory($raw_value)       :
-            $key eq 'MEMORY'      ? getCanonicalMemory($raw_value)       :
-            $key eq 'MAC'         ? getCanonicalMacAddress($raw_value)   :
-                                    hex2char($raw_value)                 ;
+            $type eq 'mac'    ? _getCanonicalMacAddress($raw_value)   :
+            $type eq 'memory' ? _getCanonicalMemory($raw_value)       :
+            $type eq 'serial' ? _getCanonicalSerialNumber($raw_value) :
+            $type eq 'string' ? _getCanonicalString($raw_value)       :
+            $type eq 'count'  ? _getCanonicalCount($raw_value)        :
+                                $raw_value;
 
         $device->{INFO}->{$key} = $value if defined $value;
     }
 
-    if ($model->{oids}->{ipAdEntAddr}) {
-        my $results = $snmp->walk($model->{oids}->{ipAdEntAddr});
-        $device->{INFO}->{IPS}->{IP} =  [
-            sort values %{$results}
-        ] if $results;
-    }
+    my $results = $snmp->walk(
+        $model->{oids}->{ipAdEntAddr} || '.1.3.6.1.2.1.4.20.1.1'
+    );
+    $device->{INFO}->{IPS}->{IP} =  [
+        sort values %{$results}
+    ] if $results;
 
     # ports is a sparse list of network ports, indexed by native port number
     my $ports;
 
     foreach my $key (keys %interface_variables) {
         my $variable = $interface_variables{$key};
-        my $results = $snmp->walk($model->{oids}->{$variable});
+        my $oid = $model->{oids}->{$variable->{mapping}} ||
+                  $variable->{default};
+        next unless $oid;
+        my $results = $snmp->walk($oid);
         next unless $results;
+
+        my $type = $variable->{type};
         # each result matches the following scheme:
         # $prefix.$i = $value, with $i as port id
-        while (my ($suffix, $value) = each %{$results}) {
-            if ($key eq 'MAC') {
-                $value = getCanonicalMacAddress($value);
-            }
+        while (my ($suffix, $raw_value) = each %{$results}) {
+            my $value =
+                $type eq 'mac'      ? _getCanonicalMacAddress($raw_value) :
+                $type eq 'constant' ? _getCanonicalConstant($raw_value)   :
+                $type eq 'string'   ? _getCanonicalString($raw_value)     :
+                $type eq 'count'    ? _getCanonicalCount($raw_value)      :
+                                      $raw_value;
             $ports->{$suffix}->{$key} = $value if defined $value;
         }
     }
 
-    if ($model->{oids}->{ifaddr}) {
-        my $results = $snmp->walk($model->{oids}->{ifaddr});
-        # each result matches the following scheme:
-        # $prefix.$i.$j.$k.$l = $value
-        # with $i.$j.$k.$l as IP address, and $value as port id
-        while (my ($suffix, $value) = each %{$results}) {
-            next unless $value;
-            # safety checks
-            if (!$ports->{$value}) {
-                $logger->error("non-existing port $value, check ifaddr mapping") if $logger;
-                last;
-            }
-            if ($suffix !~ /^$ip_address_pattern$/) {
-                $logger->error("invalid IP address $suffix, check ifaddr mapping") if $logger;
-                last;
-            }
-            $ports->{$value}->{IP} = $suffix;
+    $results = $snmp->walk(
+        $model->{oids}->{ifaddr} || '.1.3.6.1.2.1.4.20.1.2'
+    );
+    # each result matches the following scheme:
+    # $prefix.$i.$j.$k.$l = $value
+    # with $i.$j.$k.$l as IP address, and $value as port id
+    foreach my $suffix (sort keys %{$results}) {
+        my $value = $results->{$suffix};
+        next unless $value;
+        # safety checks
+        if (!$ports->{$value}) {
+            $logger->error("non-existing port $value, check ifaddr mapping") if $logger;
+            last;
         }
+        if ($suffix !~ /^$ip_address_pattern$/) {
+            $logger->error("invalid IP address $suffix, check ifaddr mapping") if $logger;
+            last;
+        }
+        $ports->{$value}->{IP} = $suffix;
     }
 
     $device->{PORTS}->{PORT} = $ports;
@@ -772,51 +863,92 @@ sub _setPrinterProperties {
     my $device = $params{device};
     my $snmp   = $params{snmp};
     my $model  = $params{model};
+    my $logger = $params{logger};
 
-    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{model})
-        if !$device->{INFO}->{MODEL};
-
-    # consumable levels
-    foreach my $key (keys %printer_cartridges_simple_variables) {
-        my $variable = $printer_cartridges_simple_variables{$key};
-        next unless $model->{oids}->{$variable};
-
-        my $type_oid = $model->{oids}->{$variable};
-        $type_oid =~ s/43.11.1.1.6/43.11.1.1.8/;
-        my $type_value  = $snmp->get($type_oid);
-
-        my $level_oid = $model->{oids}->{$variable};
-        $level_oid =~ s/43.11.1.1.6/43.11.1.1.9/;
-        my $level_value = $snmp->get($level_oid);
-        next unless defined $level_value;
-
-        my $value =
-            $level_value == -3 ?
-                100 :
-                _getPercentValue(
-                    $type_value,
-                    $level_value,
-                );
-        next unless defined $value;
-        $device->{CARTRIDGES}->{$key} = $value;
+    if (!$device->{INFO}->{MODEL}) {
+        $device->{INFO}->{MODEL} = $snmp->get(
+            $model->{oids}->{model} || '.1.3.6.1.2.1.25.3.2.1.3.1'
+        );
     }
 
-    foreach my $key (keys %printer_cartridges_percent_variables) {
-        my $variable     = $printer_cartridges_percent_variables{$key};
-        my $max_value    = $snmp->get($model->{oids}->{$variable . 'MAX'});
-        my $remain_value = $snmp->get($model->{oids}->{$variable . 'REMAIN'});
-        my $value = _getPercentValue($max_value, $remain_value);
+    # consumable levels
+
+    # index model-provided mappings
+    my %consumable_variables_from_oids;
+    foreach my $key (sort keys %consumable_variables_from_mappings) {
+        next unless $model->{oids}->{$key};
+        my $variable = $consumable_variables_from_mappings{$key};
+        $consumable_variables_from_oids{$model->{oids}->{$key}} = $variable;
+    }
+
+    # enumerate consumables
+    foreach my $index (1 .. 10) {
+        my $description_oid = '.1.3.6.1.2.1.43.11.1.1.6.1.' . $index;
+        my $description = hex2char($snmp->get($description_oid));
+        last unless $description;
+
+        my $max_oid     = '.1.3.6.1.2.1.43.11.1.1.8.1.' . $index;
+        my $current_oid = '.1.3.6.1.2.1.43.11.1.1.9.1.' . $index;
+        my $max     = $snmp->get($max_oid);
+        my $current = $snmp->get($current_oid);
+        next unless defined $max and defined $current;
+
+        my $value = $current == -3 ?
+            100 : _getPercentValue($max, $current);
         next unless defined $value;
-        $device->{CARTRIDGES}->{$key} = $value;
+
+        # consumable identification
+        my $variable =
+            $consumable_variables_from_oids{$description_oid} ||
+            _getConsumableVariableFromDescription($description);
+
+        next unless $variable;
+
+        $device->{CARTRIDGES}->{$variable} = $value;
     }
 
     # page counters
     foreach my $key (keys %printer_pagecounters_variables) {
         my $variable = $printer_pagecounters_variables{$key};
-        my $value    = $snmp->get($model->{oids}->{$variable});
+        my $oid = $model->{oids}->{$variable->{mapping}} ||
+                  $variable->{default};
+        my $value = $snmp->get($oid);
         next unless defined $value;
+        if (!_isInteger($value)) {
+            $logger->error("incorrect counter value $value, check $variable->{mapping} mapping") if $logger;
+            next;
+        }
         $device->{PAGECOUNTERS}->{$key} = $value;
     }
+}
+
+sub _getConsumableVariableFromDescription {
+    my ($description) = @_;
+
+    # find type
+    my $type;
+    foreach my $rule (@consumable_type_rules) {
+        next unless $description =~ $rule->{match};
+        $type = $rule->{value};
+        last;
+    }
+    return unless $type;
+
+    my $result = $consumable_variables_from_type{$type};
+    # for waste and toner, type is enough
+    return $result unless ref $result;
+
+    # otherwise, let's find subtype
+
+    my $subtype;
+    foreach my $rule (@consumable_subtype_rules) {
+        next unless $description =~ $rule->{match};
+        $subtype = $rule->{value};
+        last;
+    }
+    return unless $subtype;
+
+    return $consumable_variables_from_type{$type}->{$subtype};
 }
 
 sub _setNetworkingProperties {
@@ -827,8 +959,11 @@ sub _setNetworkingProperties {
     my $model  = $params{model};
     my $logger = $params{logger};
 
-    $device->{INFO}->{MODEL} = $snmp->get($model->{oids}->{entPhysicalModelName})
-        if !$device->{INFO}->{MODEL};
+    if (!$device->{INFO}->{MODEL}) {
+        $device->{INFO}->{MODEL} = $snmp->get(
+            $model->{oids}->{entPhysicalModelName} || '.1.3.6.1.2.1.47.1.1.1.1.13.1'
+        )
+    }
 
     my $comments = $device->{INFO}->{DESCRIPTION} || $device->{INFO}->{COMMENTS};
     my $ports    = $device->{PORTS}->{PORT};
@@ -842,7 +977,7 @@ sub _setNetworkingProperties {
         # $prefix.$i.$j = $value, with $j as port id, and $value as vlan id
         # $prefix.$i    = $value, with $i as port id, and $value as vlan id
         foreach my $suffix (sort keys %{$results}) {
-            my $port_id = getElement($suffix, -1);
+            my $port_id = _getElement($suffix, -1);
             my $vlan_id = $results->{$suffix};
             my $name    = $vlans->{$vlan_id};
 
@@ -863,37 +998,26 @@ sub _setNetworkingProperties {
     # everything else is vendor-specific, and requires device description
     return unless $comments;
 
-    _setTrunkPorts($comments, $snmp, $model, $ports, $logger);
+    _setTrunkPorts(
+        snmp   => $snmp,
+        model  => $model,
+        ports  => $ports,
+        logger => $logger
+    );
 
-    _setConnectedDevicesInfo($comments, $snmp, $model, $ports, $logger);
+    _setConnectedDevicesInfo(
+        snmp   => $snmp,
+        model  => $model,
+        ports  => $ports,
+        logger => $logger
+    );
 
-    # check if vlan-specific queries are needed
-    my $vlan_query =
-        any { $_->{VLAN} }
-        @{$model->{WALK}};
-
-    if ($vlan_query) {
-        # set connected devices mac addresses for each VLAN,
-        # using VLAN-specific SNMP connections
-        while (my ($suffix, $value) = each %{$vlans}) {
-            my $vlan_id = $suffix;
-            $snmp->switch_community("@" . $vlan_id);
-            FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
-                snmp   => $snmp,
-                model  => $model,
-                ports  => $ports,
-                logger => $logger
-            );
-        }
-    } else {
-        # set connected devices mac addresses only once
-        FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
-            snmp   => $snmp,
-            model  => $model,
-            ports  => $ports,
-            logger => $logger
-        );
-    }
+    _setAssociatedMacAddresses(
+        snmp   => $snmp,
+        model  => $model,
+        ports  => $ports,
+        logger => $logger
+    );
 }
 
 sub _getPercentValue {
@@ -911,6 +1035,7 @@ sub _getPercentValue {
 sub _isInteger {
     $_[0] =~ /^[+-]?\d+$/;
 }
+
 
 sub loadModel {
     my ($file) = @_;
@@ -956,45 +1081,61 @@ sub loadModel {
     }
 }
 
-sub getCanonicalMacAddress {
+sub _getCanonicalMacAddress {
     my ($value) = @_;
 
     return unless $value;
 
-    my $r;
+    my $result;
     if ($value =~ /$mac_address_pattern/) {
         # this was stored as a string, it just has to be normalized
-        $r = join(':', map { sprintf "%02X", hex($_) } split(':', $value));
+        $result = sprintf
+            "%02x:%02x:%02x:%02x:%02x:%02x",
+            map { hex($_) } split(':', $value);
     } else {
         # this was stored as an hex-string
         # 0xD205A86C26D5 or 0x6001D205A86C26D5
         if ($value =~ /^0x[0-9A-F]{0,4}([0-9A-F]{12})$/i) {
             # value translated by Net::SNMP
-            $r = alt2canonical('0x'.$1);
+            $result = alt2canonical('0x'.$1);
         } else {
             # packed value, onvert from binary to hexadecimal
-            $r = unpack 'H*', $value;
+            $result = unpack 'H*', $value;
         }
     }
 
-    return $r;
+    return lc($result);
 }
 
-sub getCanonicalSerialNumber {
+sub _getCanonicalString {
     my ($value) = @_;
 
+    $value = hex2char($value);
     return unless $value;
 
-    $value =~ s/\n//g;
-    $value =~ s/\r//g;
-    $value =~ s/^\s+//;
-    $value =~ s/\s+$//;
-    $value =~ s/\.{2,}//g;
+    $value =~ s/^["']//;
+    $value =~ s/["']$//;
+    return unless $value;
 
     return $value;
 }
 
-sub getCanonicalMemory {
+sub _getCanonicalSerialNumber {
+    my ($value) = @_;
+
+    $value = hex2char($value);
+    return unless $value;
+
+    $value =~ s/[[:^print:]]//g;
+    $value =~ s/^\s+//;
+    $value =~ s/\s+$//;
+    $value =~ s/\.{2,}//g;
+    return unless $value;
+
+    return $value;
+}
+
+sub _getCanonicalMemory {
     my ($value) = @_;
 
     if ($value =~ /^(\d+) KBytes$/) {
@@ -1004,18 +1145,259 @@ sub getCanonicalMemory {
     }
 }
 
-sub getElement {
+sub _getCanonicalConstant {
+    my ($value) = @_;
+
+    return $value if _isInteger($value);
+    return $1 if $value =~ /\((\d+)\)$/;
+}
+
+sub _getCanonicalCount {
+    my ($value) = @_;
+
+    return _isInteger($value) ? $value  : undef;
+}
+
+sub _getElement {
     my ($oid, $index) = @_;
 
     my @array = split(/\./, $oid);
     return $array[$index];
 }
 
-sub getElements {
+sub _getElements {
     my ($oid, $first, $last) = @_;
 
     my @array = split(/\./, $oid);
     return @array[$first .. $last];
+}
+
+sub _setAssociatedMacAddresses {
+    my (%params) = @_;
+
+    my $mac_addresses = _getAssociatedMacAddresses(
+        snmp  => $params{snmp},
+        model => $params{model}
+    );
+    return unless $mac_addresses;
+
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
+
+    foreach my $port_id (keys %$mac_addresses) {
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error("non-existing port $port_id, check dot1d* mappings")
+                if $logger;
+            last;
+        }
+
+        my $port = $ports->{$port_id};
+
+        # connected device has already been identified through CDP/LLDP
+        next if
+            exists $port->{CONNECTIONS} &&
+            exists $port->{CONNECTIONS}->{CDP} &&
+            $port->{CONNECTIONS}->{CDP};
+
+        # filter out the port own mac address, if known
+        my $addresses = $mac_addresses->{$port_id};
+        if (exists $port->{MAC}) {
+            $addresses = [ grep { $_ ne $port->{MAC} } @$addresses ];
+        }
+
+        next unless @$addresses;
+
+        $port->{CONNECTIONS}->{CONNECTION}->{MAC} = $addresses;
+    }
+}
+
+sub _getAssociatedMacAddresses {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
+    my $dot1dTpFdbPort       = $snmp->walk(
+        $model->{oids}->{dot1dTpFdbPort}       || '.1.3.6.1.2.1.17.4.3.1.2'
+    );
+    my $dot1dBasePortIfIndex = $snmp->walk(
+        $model->{oids}->{dot1dBasePortIfIndex} || '.1.3.6.1.2.1.17.1.4.1.2'
+    );
+
+    foreach my $suffix (sort keys %{$dot1dTpFdbPort}) {
+        my $port_id      = $dot1dTpFdbPort->{$suffix};
+        my $interface_id = $dot1dBasePortIfIndex->{$port_id};
+        next unless defined $interface_id;
+
+        push @{$results->{$interface_id}},
+            sprintf "%02x:%02x:%02x:%02x:%02x:%02x", split(/\./, $suffix)
+    }
+
+    return $results;
+}
+
+sub _setConnectedDevicesInfo {
+    my (%params) = @_;
+
+    my $info =
+        _getConnectedDevicesInfoCDP(%params) ||
+        _getConnectedDevicesInfoLLDP(%params);
+    return unless $info;
+
+    my $logger = $params{logger};
+    my $ports  = $params{ports};
+
+    foreach my $port_id (keys %$info) {
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error(
+                "non-existing port $port_id, check CDP/LLDP mappings"
+            ) if $logger;
+            last;
+        }
+
+        $ports->{$port_id}->{CONNECTIONS} = {
+            CDP        => 1,
+            CONNECTION => $info->{$port_id}
+        };
+    }
+}
+
+sub _getConnectedDevicesInfoCDP {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
+    my $cdpCacheAddress    = $snmp->walk(
+        $model->{oids}->{cdpCacheAddress}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.4'
+    );
+    my $cdpCacheVersion    = $snmp->walk(
+        $model->{oids}->{cdpCacheVersion}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.5'
+    );
+    my $cdpCacheDeviceId   = $snmp->walk(
+        $model->{oids}->{cdpCacheDeviceId}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.6'
+    );
+    my $cdpCacheDevicePort = $snmp->walk(
+        $model->{oids}->{cdpCacheDevicePort} || '.1.3.6.1.4.1.9.9.23.1.2.1.1.7'
+    );
+    my $cdpCachePlatform   = $snmp->walk(
+        $model->{oids}->{cdpCachePlatform}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.8'
+    );
+
+    # each cdp variable matches the following scheme:
+    # $prefix.x.y = $value
+    # whereas x is the port number
+
+    while (my ($suffix, $ip) = each %{$cdpCacheAddress}) {
+        my $port_id = _getElement($suffix, -2);
+        $ip = hex2canonical($ip);
+        next if $ip eq '0.0.0.0';
+
+        my $connection = {
+            IP       => $ip,
+            IFDESCR  => $cdpCacheDevicePort->{$suffix},
+            SYSDESCR => $cdpCacheVersion->{$suffix},
+            SYSNAME  => $cdpCacheDeviceId->{$suffix},
+            MODEL    => $cdpCachePlatform->{$suffix}
+        };
+
+        if ($connection->{SYSNAME} =~ /^SIP([A-F0-9a-f]*)$/) {
+            $connection->{MAC} = lc(alt2canonical("0x".$1));
+        }
+
+        next if !$connection->{SYSDESCR} || !$connection->{MODEL};
+
+        $results->{$port_id} = $connection;
+    }
+
+    return $results;
+}
+
+sub _getConnectedDevicesInfoLLDP {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
+    my $lldpRemChassisId = $snmp->walk(
+        $model->{oids}->{lldpRemChassisId} || '.1.0.8802.1.1.2.1.4.1.1.5'
+    );
+    my $lldpRemPortId    = $snmp->walk(
+        $model->{oids}->{lldpRemPortId}    || '.1.0.8802.1.1.2.1.4.1.1.7'
+    );
+    my $lldpRemPortDesc  = $snmp->walk(
+        $model->{oids}->{lldpRemPortDesc}  || '.1.0.8802.1.1.2.1.4.1.1.8'
+    );
+    my $lldpRemSysName   = $snmp->walk(
+        $model->{oids}->{lldpRemSysName}   || '.1.0.8802.1.1.2.1.4.1.1.9'
+    );
+    my $lldpRemSysDesc   = $snmp->walk(
+        $model->{oids}->{lldpRemSysDesc}   || '.1.0.8802.1.1.2.1.4.1.1.10'
+    );
+
+    # each lldp variable matches the following scheme:
+    # $prefix.x.y.z = $value
+    # whereas y is the port number
+
+    while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
+        my $port_id = _getElement($suffix, -2);
+        $results->{$port_id} = {
+            SYSMAC   => lc(alt2canonical($mac)),
+            IFDESCR  => $lldpRemPortDesc->{$suffix},
+            SYSDESCR => $lldpRemSysDesc->{$suffix},
+            SYSNAME  => $lldpRemSysName->{$suffix},
+            IFNUMBER => $lldpRemPortId->{$suffix}
+        };
+    }
+
+    return $results;
+}
+
+sub _setTrunkPorts {
+    my (%params) = @_;
+
+    my $trunk_ports = _getTrunkPorts(
+        snmp  => $params{snmp},
+        model => $params{model}
+    );
+    return unless $trunk_ports;
+
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
+
+    foreach my $port_id (keys %$trunk_ports) {
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error("non-existing port $port_id, check vlanTrunkPortDynamicStatus mapping")
+                if $logger;
+            last;
+        }
+        $ports->{$port_id}->{TRUNK} = $trunk_ports->{$port_id};
+    }
+}
+
+sub _getTrunkPorts {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
+    my $vlanStatus = $snmp->walk(
+        $model->{oids}->{vlanTrunkPortDynamicStatus} ||
+        '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
+    );
+    while (my ($suffix, $trunk) = each %{$vlanStatus}) {
+        my $port_id = _getElement($suffix, -1);
+        $results->{$port_id} = $trunk ? 1 : 0;
+    }
+
+    return $results;
 }
 
 1;
@@ -1047,26 +1429,7 @@ the dictionary.
 return a full set of information for a device through SNMP, according to a
 set of rules hardcoded in the agent and the usage of a device-specific set of mappings, the model.
 
-=head2 getCanonicalSerialNumber($value)
-
-Return a canonical value for a serial number.
-
-=head2 getCanonicalMacAddress($value)
-
-Return a canonical value for a mac address.
-
-=head2 getCanonicalMemory($value)
-
-Return a canonical value for mac address, in bytes.
-
-=head2 getElement($oid, $index)
-
-return the $index element of an oid.
-
-=head2 getElements($oid, $first, $last)
-
-return all elements of index in range $first to $last of an oid.
-
 =head2 loadModel($file)
 
 Load an SNMP description model from given file.
+package FusionInventory::Agent::Tools::Hardware::Generic;

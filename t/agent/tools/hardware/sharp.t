@@ -10,13 +10,71 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Test::Hardware;
 
 my %tests = (
+    'sharp/MX_2600N.walk' => [
+        {
+            MANUFACTURER => 'Sharp',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'SHARP MX-2600N',
+            SNMPHOSTNAME => 'PASTEK',
+            MAC          => '00:22:f3:c8:04:99',
+            MODEL        => 'MX-2600N',
+        },
+        {
+            MANUFACTURER => 'Sharp',
+            TYPE         => 'PRINTER',
+            DESCRIPTION  => 'SHARP MX-2600N',
+            SNMPHOSTNAME => 'PASTEK',
+            MAC          => '00:22:f3:c8:04:99',
+            MODELSNMP    => 'Printer0700',
+            MODEL        => 'MX-2600N',
+            FIRMWARE     => undef,
+            SERIAL       => undef,
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Sharp',
+                TYPE         => 'PRINTER',
+                MODEL        => 'MX-2600N',
+                COMMENTS     => 'SHARP MX-2600N',
+                LOCATION     => '2eme etage Bureau POTHIN',
+                IPS          => {
+                    IP => [
+                        '172.31.201.123',
+                    ],
+                },
+                UPTIME       => '(94252230) 10 days, 21:48:42.30',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1514',
+                        IP               => '172.31.201.123',
+                        MAC              => '00:22:f3:c8:04:99',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '891166577',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '577413631',
+                        IFOUTERRORS      => '1444616',
+                    },
+                ]
+            },
+        }
+    ],
     'sharp/MX_5001N.1.walk' => [
         {
             MANUFACTURER => 'Sharp',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'KENET - DPE2',
-            MAC          => '00:22:F3:9D:1F:3B',
+            MAC          => '00:22:f3:9d:1f:3b',
             MODEL        => 'MX-5001N',
         },
         {
@@ -24,43 +82,63 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'KENET - DPE2',
-            MAC          => '00:22:F3:9D:1F:3B',
-            MODEL        => 'MX-5001N',
+            MAC          => '00:22:f3:9d:1f:3b',
             MODELSNMP    => 'Printer0578',
+            MODEL        => 'MX-5001N',
             FIRMWARE     => undef,
             SERIAL       => '9801405X00',
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Sharp',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'SHARP MX-5001N',
                 MODEL        => 'MX-5001N',
-                ID           => undef,
-                SERIAL       => '9801405X00',
-                MEMORY       => 0,
+                COMMENTS     => 'SHARP MX-5001N',
                 NAME         => 'KENET - DPE2',
-                LOCATION     => 'RDC - apers escalier en bois'
+                MEMORY       => '0',
+                LOCATION     => 'RDC - apers escalier en bois',
+                SERIAL       => '9801405X00',
+                IPS          => {
+                    IP => [
+                        '172.31.201.114',
+                    ],
+                },
+                UPTIME       => '(8649373) 1 day, 0:01:33.73',
             },
             CARTRIDGES => {
-                DRUMYELLOW   => -4400,
-                TONERCYAN    => 50,
-                TONERBLACK   => 75,
-                DRUMBLACK    => -2800,
-                TONERMAGENTA => 50,
-                DRUMMAGENTA  => -4400,
-                DRUMCYAN     => -4400,
-                TONERYELLOW  => 75,
-                WASTETONER   => 0
+                TONERBLACK       => '75',
+                TONERCYAN        => '50',
+                TONERMAGENTA     => '50',
+                TONERYELLOW      => '75',
+                WASTETONER       => '0',
+                DRUMBLACK        => '-2800',
+                DRUMCYAN        => '-4400',
+                DRUMMAGENTA     => '-4400',
+                DRUMYELLOW      => '-4400',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '335341',
             },
             PORTS => {
                 PORT => [
                     {
-                        MAC => '00:22:F3:9D:1F:3B',
-                        IFNAME => 'Ethernet',
-                        IFTYPE => '6',
-                        IFNUMBER => '1'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1514',
+                        IP               => '172.31.201.114',
+                        MAC              => '00:22:f3:9d:1f:3b',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '116703394',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '44812256',
+                        IFOUTERRORS      => '141912',
+                    },
                 ]
             },
         }
@@ -71,7 +149,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'WASAI -- DFP',
-            MAC          => '00:22:F3:9D:20:56',
+            MAC          => '00:22:f3:9d:20:56',
             MODEL        => 'MX-5001N',
         },
         {
@@ -79,30 +157,47 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'WASAI -- DFP',
-            MAC          => '00:22:F3:9D:20:56',
-            MODEL        => 'MX-5001N',
+            MAC          => '00:22:f3:9d:20:56',
             MODELSNMP    => 'Printer0578',
+            MODEL        => 'MX-5001N',
             FIRMWARE     => undef,
             SERIAL       => undef,
         },
         {
             INFO => {
+                ID           => undef,
                 MANUFACTURER => 'Sharp',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'SHARP MX-5001N',
                 MODEL        => 'MX-5001N',
+                COMMENTS     => 'SHARP MX-5001N',
                 NAME         => 'WASAI -- DFP',
-                ID           => undef,
-                LOCATION     => '1er etage couloir'
+                LOCATION     => '1er etage couloir',
+                IPS          => {
+                    IP => [
+                        '172.31.201.116',
+                    ],
+                },
+                UPTIME       => '(28125680) 3 days, 6:07:36.80',
             },
             PORTS => {
                 PORT => [
                     {
-                        IFTYPE   => '6',
-                        IFNAME   => 'Ethernet',
-                        IFNUMBER => '1',
-                        MAC      => '00:22:F3:9D:20:56'
-                    }
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1514',
+                        IP               => '172.31.201.116',
+                        MAC              => '00:22:f3:9d:20:56',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '216375141',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '38874951',
+                        IFOUTERRORS      => '222292',
+                    },
                 ]
             },
         }
@@ -113,7 +208,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'MALAKA  - DOS -- IA-IPR',
-            MAC          => '00:22:F3:9D:20:4B',
+            MAC          => '00:22:f3:9d:20:4b',
             MODEL        => 'MX-5001N',
         },
         {
@@ -121,87 +216,65 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'MALAKA  - DOS -- IA-IPR',
-            MAC          => '00:22:F3:9D:20:4B',
-            MODEL        => 'MX-5001N',
+            MAC          => '00:22:f3:9d:20:4b',
             MODELSNMP    => 'Printer0578',
+            MODEL        => 'MX-5001N',
             FIRMWARE     => undef,
             SERIAL       => '9801391X00',
         },
         {
             INFO => {
-                COMMENTS     => 'SHARP MX-5001N',
-                TYPE         => 'PRINTER',
-                LOCATION     => 'Bat. Réhabilité ',
-                NAME         => 'MALAKA  - DOS -- IA-IPR',
-                SERIAL       => '9801391X00',
-                MODEL        => 'MX-5001N',
-                MEMORY       => 0,
                 ID           => undef,
-                MANUFACTURER => 'Sharp'
-            },
-            CARTRIDGES => {
-                DRUMCYAN     => -750,
-                TONERCYAN    => 25,
-                TONERBLACK   => 75,
-                DRUMYELLOW   => -750,
-                TONERYELLOW  => 25,
-                DRUMMAGENTA  => -750,
-                TONERMAGENTA => 25,
-                DRUMBLACK    => -2200,
-                WASTETONER   => 0
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER => '1',
-                        MAC      => '00:22:F3:9D:20:4B',
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => '6'
-                    }
-                ]
-            }
-        }
-    ],
-    'sharp/MX_2600N.walk' => [
-        {
-            MANUFACTURER => 'Sharp',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'SHARP MX-2600N',
-            SNMPHOSTNAME => 'PASTEK',
-            MAC          => '00:22:F3:C8:04:99',
-            MODEL        => 'MX-2600N',
-        },
-        {
-            MANUFACTURER => 'Sharp',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'SHARP MX-2600N',
-            SNMPHOSTNAME => 'PASTEK',
-            MAC          => '00:22:F3:C8:04:99',
-            MODEL        => 'MX-2600N',
-            MODELSNMP    => 'Printer0700',
-            SERIAL       => undef,
-            FIRMWARE     => undef,
-        },
-        {
-            INFO => {
                 MANUFACTURER => 'Sharp',
                 TYPE         => 'PRINTER',
-                COMMENTS     => 'SHARP MX-2600N',
-                ID           => undef,
-                MODEL        => 'MX-2600N',
-                LOCATION     => '2eme etage Bureau POTHIN',
+                MODEL        => 'MX-5001N',
+                COMMENTS     => 'SHARP MX-5001N',
+                NAME         => 'MALAKA  - DOS -- IA-IPR',
+                MEMORY       => '0',
+                LOCATION     => 'Bat. Réhabilité ',
+                SERIAL       => '9801391X00',
+                IPS          => {
+                    IP => [
+                        '172.31.201.119',
+                    ],
+                },
+                UPTIME       => '(1486295) 4:07:42.95',
+            },
+            CARTRIDGES => {
+                TONERBLACK       => '75',
+                TONERCYAN        => '25',
+                TONERMAGENTA     => '25',
+                TONERYELLOW      => '25',
+                WASTETONER       => '0',
+                DRUMBLACK        => '-2200',
+                DRUMCYAN        => '-750',
+                DRUMMAGENTA     => '-750',
+                DRUMYELLOW      => '-750',
+            },
+            PAGECOUNTERS => {
+                TOTAL      => '192047',
             },
             PORTS => {
                 PORT => [
                     {
-                        IFNAME   => 'Ethernet',
-                        IFTYPE   => '6',
-                        MAC      => '00:22:F3:C8:04:99',
-                        IFNUMBER => '1',
-                        IP       => '172.31.201.123'
+                        IFNUMBER         => '1',
+                        IFNAME           => 'Ethernet',
+                        IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
+                        IFSPEED          => '1000000000',
+                        IFMTU            => '1514',
+                        IP               => '172.31.201.119',
+                        MAC              => '00:22:f3:9d:20:4b',
+                        IFSTATUS         => '1',
+                        IFINTERNALSTATUS => '1',
+                        IFLASTCHANGE     => '(0) 0:00:00.00',
+                        IFINOCTETS       => '9667897',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '1008700',
+                        IFOUTERRORS      => '10674',
                     },
                 ]
-            }
+            },
         }
     ],
 );
