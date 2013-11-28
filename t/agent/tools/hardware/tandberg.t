@@ -15,14 +15,14 @@ my %tests = (
             TYPE         => 'VIDEO',
             DESCRIPTION  => 'TANDBERG Codec',
             SNMPHOSTNAME => 'VISIO.1',
-            MAC          => '00:50:60:02:9B:79',
+            MAC          => '00:50:60:02:9b:79',
         },
         {
             MANUFACTURER => 'Tandberg',
             TYPE         => 'VIDEO',
             DESCRIPTION  => 'TANDBERG Codec',
             SNMPHOSTNAME => 'VISIO.1',
-            MAC          => '00:50:60:02:9B:79',
+            MAC          => '00:50:60:02:9b:79',
         },
         {
             INFO => {
@@ -41,7 +41,7 @@ my %tests = (
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
-                        MAC              => '00:50:60:02:9B:79',
+                        MAC              => '00:50:60:02:9b:79',
                         IFLASTCHANGE     => '(20) 0:00:00.20',
                         IFINOCTETS       => '325377081',
                         IFINERRORS       => '0',

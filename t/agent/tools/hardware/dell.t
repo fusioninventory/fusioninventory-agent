@@ -15,14 +15,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKE6E33E-2',
-            MAC          => '00:04:00:67:C7:7C',
+            MAC          => '00:04:00:67:c7:7c',
         },
         {
             MANUFACTURER => 'Dell',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKE6E33E-2',
-            MAC          => '00:04:00:67:C7:7C',
+            MAC          => '00:04:00:67:c7:7c',
         },
         {
             INFO => {
@@ -75,7 +75,7 @@ my %tests = (
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
                         IP               => '172.31.201.13',
-                        MAC              => '00:04:00:67:C7:7C',
+                        MAC              => '00:04:00:67:c7:7c',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -94,14 +94,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKB92115',
-            MAC          => '00:04:00:9D:84:A8',
+            MAC          => '00:04:00:9d:84:a8',
         },
         {
             MANUFACTURER => 'Dell',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKB92115',
-            MAC          => '00:04:00:9D:84:A8',
+            MAC          => '00:04:00:9d:84:a8',
         },
         {
             INFO => {
@@ -154,7 +154,7 @@ my %tests = (
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
                         IP               => '172.31.201.52',
-                        MAC              => '00:04:00:9D:84:A8',
+                        MAC              => '00:04:00:9d:84:a8',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -173,14 +173,14 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
             SNMPHOSTNAME => 'DEL0000f0aceaa9',
-            MAC          => '00:00:F0:AC:EA:A9',
+            MAC          => '00:00:f0:ac:ea:a9',
         },
         {
             MANUFACTURER => 'Dell',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
             SNMPHOSTNAME => 'DEL0000f0aceaa9',
-            MAC          => '00:00:F0:AC:EA:A9',
+            MAC          => '00:00:f0:ac:ea:a9',
         },
         {
             INFO => {
@@ -212,7 +212,7 @@ my %tests = (
                         IFSPEED          => '100000000',
                         IFMTU            => '1500',
                         IP               => '172.31.201.47',
-                        MAC              => '00:00:F0:AC:EA:A9',
+                        MAC              => '00:00:f0:ac:ea:a9',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',

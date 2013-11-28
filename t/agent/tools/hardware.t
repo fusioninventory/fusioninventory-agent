@@ -10,9 +10,9 @@ use FusionInventory::Agent::SNMP::Mock;
 use FusionInventory::Agent::Tools::Hardware;
 
 my @mac_tests = (
-    [ 'd2:05:a8:6c:26:d5' , 'D2:05:A8:6C:26:D5' ],
-    [ '0xD205A86C26D5'    , 'D2:05:A8:6C:26:D5' ],
-    [ '0x6001D205A86C26D5', 'D2:05:A8:6C:26:D5' ],
+    [ 'd2:05:a8:6c:26:d5' , 'd2:05:a8:6c:26:d5' ],
+    [ '0xD205A86C26D5'    , 'd2:05:a8:6c:26:d5' ],
+    [ '0x6001D205A86C26D5', 'd2:05:a8:6c:26:d5' ],
 );
 
 my @consumable_tests = (
@@ -204,7 +204,7 @@ my @cdp_info_extraction_tests = (
         },
         {
             24 => {
-                MAC      => 'E0:5F:B9:81:A7:A7',
+                MAC      => 'e0:5f:b9:81:a7:a7',
                 SYSDESCR => '7.4.9c',
                 IFDESCR  => 'Port 1',
                 MODEL    => 'Cisco IP Phone SPA508G',
@@ -247,7 +247,7 @@ my @mac_addresses_extraction_tests = (
             '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
         },
         {
-            52 => [ '00:00:74:D2:09:6A' ]
+            52 => [ '00:00:74:d2:09:6a' ]
         },
         'mac addresses extraction, single address'
     ],
@@ -258,7 +258,7 @@ my @mac_addresses_extraction_tests = (
             '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
         },
         {
-            52 => [ '00:00:74:D2:09:6A', '00:00:74:D2:09:6B' ]
+            52 => [ '00:00:74:d2:09:6a', '00:00:74:d2:09:6b' ]
         },
         'mac addresses extraction, two addresses'
     ],
@@ -283,7 +283,7 @@ my @mac_addresses_addition_tests = (
             52 => {
                 CONNECTIONS => {
                     CONNECTION => {
-                        MAC => [ '00:00:74:D2:09:6A' ]
+                        MAC => [ '00:00:74:d2:09:6a' ]
                     }
                 },
             }
@@ -304,7 +304,7 @@ my @mac_addresses_addition_tests = (
             52 => {
                 CONNECTIONS => {
                     CONNECTION => {
-                        MAC => [ '00:00:74:D2:09:6A', '00:00:74:D2:09:6B' ]
+                        MAC => [ '00:00:74:d2:09:6a', '00:00:74:d2:09:6b' ]
                     }
                 },
             }
@@ -341,15 +341,15 @@ my @mac_addresses_addition_tests = (
         },
         {
             52 => {
-                MAC => '00:00:74:D2:09:6A',
+                MAC => '00:00:74:d2:09:6a',
             }
         },
         {
             52 => {
-                MAC         => '00:00:74:D2:09:6A',
+                MAC         => '00:00:74:d2:09:6a',
                 CONNECTIONS => {
                     CONNECTION => {
-                        MAC => [ '00:00:74:D2:09:6B' ]
+                        MAC => [ '00:00:74:d2:09:6b' ]
                     }
                 },
             }

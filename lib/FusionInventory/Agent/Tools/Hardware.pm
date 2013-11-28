@@ -1086,25 +1086,25 @@ sub _getCanonicalMacAddress {
 
     return unless $value;
 
-    my $r;
+    my $result;
     if ($value =~ /$mac_address_pattern/) {
         # this was stored as a string, it just has to be normalized
-        $r = sprintf
-            "%02X:%02X:%02X:%02X:%02X:%02X",
+        $result = sprintf
+            "%02x:%02x:%02x:%02x:%02x:%02x",
             map { hex($_) } split(':', $value);
     } else {
         # this was stored as an hex-string
         # 0xD205A86C26D5 or 0x6001D205A86C26D5
         if ($value =~ /^0x[0-9A-F]{0,4}([0-9A-F]{12})$/i) {
             # value translated by Net::SNMP
-            $r = alt2canonical('0x'.$1);
+            $result = alt2canonical('0x'.$1);
         } else {
             # packed value, onvert from binary to hexadecimal
-            $r = unpack 'H*', $value;
+            $result = unpack 'H*', $value;
         }
     }
 
-    return $r;
+    return lc($result);
 }
 
 sub _getCanonicalString {
@@ -1229,7 +1229,7 @@ sub _getConnectedDevicesMacAddresses {
         next unless defined $interface_id;
 
         push @{$results->{$interface_id}},
-            sprintf "%02X:%02X:%02X:%02X:%02X:%02X", split(/\./, $suffix)
+            sprintf "%02x:%02x:%02x:%02x:%02x:%02x", split(/\./, $suffix)
     }
 
     return $results;
@@ -1303,7 +1303,7 @@ sub _getConnectedDevicesInfoCDP {
         };
 
         if ($connection->{SYSNAME} =~ /^SIP([A-F0-9a-f]*)$/) {
-            $connection->{MAC} = alt2canonical("0x".$1);
+            $connection->{MAC} = lc(alt2canonical("0x".$1));
         }
 
         next if !$connection->{SYSDESCR} || !$connection->{MODEL};
@@ -1344,7 +1344,7 @@ sub _getConnectedDevicesInfoLLDP {
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
         my $port_id = _getElement($suffix, -2);
         $results->{$port_id} = {
-            SYSMAC   => scalar alt2canonical($mac),
+            SYSMAC   => lc(alt2canonical($mac)),
             IFDESCR  => $lldpRemPortDesc->{$suffix},
             SYSDESCR => $lldpRemSysDesc->{$suffix},
             SYSNAME  => $lldpRemSysName->{$suffix},
