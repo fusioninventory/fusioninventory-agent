@@ -9,7 +9,6 @@ use List::Util qw(first);
 
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::Tools::Hardware::Generic;
 
 our @EXPORT = qw(
     getDeviceBaseInfo
@@ -1000,21 +999,21 @@ sub _setNetworkingProperties {
     # everything else is vendor-specific, and requires device description
     return unless $comments;
 
-    FusionInventory::Agent::Tools::Hardware::Generic::setTrunkPorts(
+    _setTrunkPorts(
         snmp   => $snmp,
         model  => $model,
         ports  => $ports,
         logger => $logger
     );
 
-    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesInfo(
+    _setConnectedDevicesInfo(
         snmp   => $snmp,
         model  => $model,
         ports  => $ports,
         logger => $logger
     );
 
-    FusionInventory::Agent::Tools::Hardware::Generic::setConnectedDevicesMacAddresses(
+    _setConnectedDevicesMacAddresses(
         snmp   => $snmp,
         model  => $model,
         ports  => $ports,
@@ -1172,6 +1171,231 @@ sub getElements {
     return @array[$first .. $last];
 }
 
+sub _setConnectedDevicesMacAddresses {
+    my (%params) = @_;
+
+    my $mac_addresses = _getConnectedDevicesMacAddresses(
+        snmp  => $params{snmp},
+        model => $params{model}
+    );
+    return unless $mac_addresses;
+
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
+
+    foreach my $port_id (keys %$mac_addresses) {
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error("non-existing port $port_id, check dot1d* mappings")
+                if $logger;
+            last;
+        }
+
+        my $port = $ports->{$port_id};
+
+        # connected device has already been identified through CDP/LLDP
+        next if $port->{CONNECTIONS}->{CDP};
+
+        # filter out the port own mac address, if known
+        my $addresses = $mac_addresses->{$port_id};
+        if (exists $port->{MAC}) {
+            $addresses = [ grep { $_ ne $port->{MAC} } @$addresses ];
+        }
+
+        next unless @$addresses;
+
+        $port->{CONNECTIONS}->{CONNECTION}->{MAC} = $addresses;
+    }
+}
+
+sub _getConnectedDevicesMacAddresses {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
+    my $dot1dTpFdbPort       = $snmp->walk(
+        $model->{oids}->{dot1dTpFdbPort}       || '.1.3.6.1.2.1.17.4.3.1.2'
+    );
+    my $dot1dBasePortIfIndex = $snmp->walk(
+        $model->{oids}->{dot1dBasePortIfIndex} || '.1.3.6.1.2.1.17.1.4.1.2'
+    );
+
+    foreach my $suffix (sort keys %{$dot1dTpFdbPort}) {
+        my $port_id      = $dot1dTpFdbPort->{$suffix};
+        my $interface_id = $dot1dBasePortIfIndex->{$port_id};
+        next unless defined $interface_id;
+
+        push @{$results->{$interface_id}},
+            sprintf "%02X:%02X:%02X:%02X:%02X:%02X", split(/\./, $suffix)
+    }
+
+    return $results;
+}
+
+sub _setConnectedDevicesInfo {
+    my (%params) = @_;
+
+    my $info =
+        _getConnectedDevicesInfoCDP(%params) ||
+        _getConnectedDevicesInfoLLDP(%params);
+    return unless $info;
+
+    my $logger = $params{logger};
+    my $ports  = $params{ports};
+
+    foreach my $port_id (keys %$info) {
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error(
+                "non-existing port $port_id, check CDP/LLDP mappings"
+            ) if $logger;
+            last;
+        }
+
+        $ports->{$port_id}->{CONNECTIONS} = {
+            CDP        => 1,
+            CONNECTION => $info->{$port_id}
+        };
+    }
+}
+
+sub _getConnectedDevicesInfoCDP {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
+    my $cdpCacheAddress    = $snmp->walk(
+        $model->{oids}->{cdpCacheAddress}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.4'
+    );
+    my $cdpCacheVersion    = $snmp->walk(
+        $model->{oids}->{cdpCacheVersion}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.5'
+    );
+    my $cdpCacheDeviceId   = $snmp->walk(
+        $model->{oids}->{cdpCacheDeviceId}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.6'
+    );
+    my $cdpCacheDevicePort = $snmp->walk(
+        $model->{oids}->{cdpCacheDevicePort} || '.1.3.6.1.4.1.9.9.23.1.2.1.1.7'
+    );
+    my $cdpCachePlatform   = $snmp->walk(
+        $model->{oids}->{cdpCachePlatform}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.8'
+    );
+
+    # each cdp variable matches the following scheme:
+    # $prefix.x.y = $value
+    # whereas x is the port number
+
+    while (my ($suffix, $ip) = each %{$cdpCacheAddress}) {
+        my $port_id = getElement($suffix, -2);
+        $ip = hex2canonical($ip);
+        next if $ip eq '0.0.0.0';
+
+        my $connection = {
+            IP       => $ip,
+            IFDESCR  => $cdpCacheDevicePort->{$suffix},
+            SYSDESCR => $cdpCacheVersion->{$suffix},
+            SYSNAME  => $cdpCacheDeviceId->{$suffix},
+            MODEL    => $cdpCachePlatform->{$suffix}
+        };
+
+        if ($connection->{SYSNAME} =~ /^SIP([A-F0-9a-f]*)$/) {
+            $connection->{MAC} = alt2canonical("0x".$1);
+        }
+
+        next if !$connection->{SYSDESCR} || !$connection->{MODEL};
+
+        $results->{$port_id} = $connection;
+    }
+
+    return $results;
+}
+
+sub _getConnectedDevicesInfoLLDP {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
+    my $lldpRemChassisId = $snmp->walk(
+        $model->{oids}->{lldpRemChassisId} || '.1.0.8802.1.1.2.1.4.1.1.5'
+    );
+    my $lldpRemPortId    = $snmp->walk(
+        $model->{oids}->{lldpRemPortId}    || '.1.0.8802.1.1.2.1.4.1.1.7'
+    );
+    my $lldpRemPortDesc  = $snmp->walk(
+        $model->{oids}->{lldpRemPortDesc}  || '.1.0.8802.1.1.2.1.4.1.1.8'
+    );
+    my $lldpRemSysName   = $snmp->walk(
+        $model->{oids}->{lldpRemSysName}   || '.1.0.8802.1.1.2.1.4.1.1.9'
+    );
+    my $lldpRemSysDesc   = $snmp->walk(
+        $model->{oids}->{lldpRemSysDesc}   || '.1.0.8802.1.1.2.1.4.1.1.10'
+    );
+
+    # each lldp variable matches the following scheme:
+    # $prefix.x.y.z = $value
+    # whereas y is the port number
+
+    while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
+        my $port_id = getElement($suffix, -2);
+        $results->{$port_id} = {
+            SYSMAC   => scalar alt2canonical($mac),
+            IFDESCR  => $lldpRemPortDesc->{$suffix},
+            SYSDESCR => $lldpRemSysDesc->{$suffix},
+            SYSNAME  => $lldpRemSysName->{$suffix},
+            IFNUMBER => $lldpRemPortId->{$suffix}
+        };
+    }
+
+    return $results;
+}
+
+sub _setTrunkPorts {
+    my (%params) = @_;
+
+    my $trunk_ports = _getTrunkPorts(
+        snmp  => $params{snmp},
+        model => $params{model}
+    );
+    return unless $trunk_ports;
+
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
+
+    foreach my $port_id (keys %$trunk_ports) {
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error("non-existing port $port_id, check vlanTrunkPortDynamicStatus mapping")
+                if $logger;
+            last;
+        }
+        $ports->{$port_id}->{TRUNK} = $trunk_ports->{$port_id};
+    }
+}
+
+sub _getTrunkPorts {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+    my $model  = $params{model};
+
+    my $results;
+    my $vlanStatus = $snmp->walk(
+        $model->{oids}->{vlanTrunkPortDynamicStatus} ||
+        '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
+    );
+    while (my ($suffix, $trunk) = each %{$vlanStatus}) {
+        my $port_id = getElement($suffix, -1);
+        $results->{$port_id} = $trunk ? 1 : 0;
+    }
+
+    return $results;
+}
+
 1;
 __END__
 
@@ -1224,3 +1448,4 @@ return all elements of index in range $first to $last of an oid.
 =head2 loadModel($file)
 
 Load an SNMP description model from given file.
+package FusionInventory::Agent::Tools::Hardware::Generic;
