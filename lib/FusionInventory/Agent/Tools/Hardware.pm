@@ -1012,7 +1012,7 @@ sub _setNetworkingProperties {
         logger => $logger
     );
 
-    _setConnectedDevicesMacAddresses(
+    _setAssociatedMacAddresses(
         snmp   => $snmp,
         model  => $model,
         ports  => $ports,
@@ -1172,10 +1172,10 @@ sub _getElements {
     return @array[$first .. $last];
 }
 
-sub _setConnectedDevicesMacAddresses {
+sub _setAssociatedMacAddresses {
     my (%params) = @_;
 
-    my $mac_addresses = _getConnectedDevicesMacAddresses(
+    my $mac_addresses = _getAssociatedMacAddresses(
         snmp  => $params{snmp},
         model => $params{model}
     );
@@ -1212,7 +1212,7 @@ sub _setConnectedDevicesMacAddresses {
     }
 }
 
-sub _getConnectedDevicesMacAddresses {
+sub _getAssociatedMacAddresses {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};

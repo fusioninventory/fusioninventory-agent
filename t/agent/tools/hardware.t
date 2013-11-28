@@ -465,7 +465,7 @@ my $mac_addresses_model = {
 foreach my $test (@mac_addresses_extraction_tests) {
     my $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
-    my $mac_addresses = FusionInventory::Agent::Tools::Hardware::_getConnectedDevicesMacAddresses(
+    my $mac_addresses = FusionInventory::Agent::Tools::Hardware::_getAssociatedMacAddresses(
         snmp  => $snmp,
         model => $mac_addresses_model,
     );
@@ -480,7 +480,7 @@ foreach my $test (@mac_addresses_extraction_tests) {
 foreach my $test (@mac_addresses_addition_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
-    FusionInventory::Agent::Tools::Hardware::_setConnectedDevicesMacAddresses(
+    FusionInventory::Agent::Tools::Hardware::_setAssociatedMacAddresses(
         snmp  => $snmp,
         model => $mac_addresses_model,
         ports => $test->[1],
