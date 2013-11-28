@@ -64,7 +64,6 @@ my @mac_addresses_extraction_tests = (
     [
         {
             '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
-            '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => [ 'STRING', '0x001CF6C56419' ],
             '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
         },
         {
@@ -75,7 +74,6 @@ my @mac_addresses_extraction_tests = (
     [
         {
             '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
-            '.1.3.6.1.2.1.17.4.3.1.1.0.0.116.210.9.106' => [ 'STRING', '0x000074D2096A' ],
             '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
         },
         {
@@ -94,7 +92,6 @@ my @mac_addresses_addition_tests = (
     [
         {
             '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
-            '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => [ 'STRING', '0x001CF6C56419' ],
             '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
         },
         {
@@ -117,7 +114,6 @@ my @mac_addresses_addition_tests = (
     [
         {
             '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
-            '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => [ 'STRING', '0x001CF6C56419' ],
             '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
         },
         {
@@ -141,7 +137,6 @@ my @mac_addresses_addition_tests = (
     [
         {
             '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
-            '.1.3.6.1.2.1.17.4.3.1.1.0.28.246.197.100.25' => [ 'STRING', '0x001CF6C56419' ],
             '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
         },
         {
@@ -211,14 +206,13 @@ foreach my $test (@cdp_info_extraction_tests) {
 
 my $mac_addresses_model = {
     oids => {
-        dot1dTpFdbPort             => '.1.3.6.1.2.1.17.4.3.1.2',
-        dot1dTpFdbAddress          => '.1.3.6.1.2.1.17.4.3.1.1',
-        dot1dBasePortIfIndex       => '.1.3.6.1.2.1.17.1.4.1.2',
+        dot1dTpFdbPort       => '.1.3.6.1.2.1.17.4.3.1.2',
+        dot1dBasePortIfIndex => '.1.3.6.1.2.1.17.1.4.1.2',
     }
 };
 
 foreach my $test (@mac_addresses_extraction_tests) {
-    my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
+    my $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
     my $mac_addresses = FusionInventory::Agent::Tools::Hardware::Generic::_getConnectedDevicesMacAddresses(
         snmp  => $snmp,
