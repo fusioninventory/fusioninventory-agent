@@ -63,23 +63,24 @@ my @cdp_info_extraction_tests = (
 my @mac_addresses_extraction_tests = (
     [
         {
-            '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
-            '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
-        },
-        {
-            0 => [ '00:1C:F6:C5:64:19' ]
-        },
-        'mac addresses extraction, first dataset'
-    ],
-    [
-        {
             '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
             '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
         },
         {
             52 => [ '00:00:74:D2:09:6A' ]
         },
-        'mac addresses extraction, second dataset'
+        'mac addresses extraction, single address'
+    ],
+    [
+        {
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.107' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
+        },
+        {
+            52 => [ '00:00:74:D2:09:6A', '00:00:74:D2:09:6B' ]
+        },
+        'mac addresses extraction, two addresses'
     ],
 );
 
@@ -91,37 +92,56 @@ my @mac_addresses_extraction_tests = (
 my @mac_addresses_addition_tests = (
     [
         {
-            '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
-            '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
         },
         {
-            0 => {
-                MAC => 'X',
+            52 => {
             }
         },
         {
-            0 => {
+            52 => {
                 CONNECTIONS => {
                     CONNECTION => {
-                        MAC => [ '00:1C:F6:C5:64:19' ]
+                        MAC => [ '00:00:74:D2:09:6A' ]
                     }
                 },
-                MAC => 'X',
             }
         },
-        'mac addresses addition'
+        'mac addresses addition, single address'
     ],
     [
         {
-            '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
-            '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.107' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
+        },
+        {
+            52 => {
+            }
+        },
+        {
+            52 => {
+                CONNECTIONS => {
+                    CONNECTION => {
+                        MAC => [ '00:00:74:D2:09:6A', '00:00:74:D2:09:6B' ]
+                    }
+                },
+            }
+        },
+        'mac addresses addition, two addresses'
+    ],
+    [
+        {
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.107' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
         },
         {
             52 => {
                 CONNECTIONS => {
                     CDP => 1,
                 },
-                MAC => 'X',
             }
         },
         {
@@ -129,15 +149,15 @@ my @mac_addresses_addition_tests = (
                 CONNECTIONS => {
                     CDP => 1,
                 },
-                MAC => 'X',
             }
         },
-        'mac addresses addition, already processed port'
+        'mac addresses addition, CDP/LLDP info already present'
     ],
     [
         {
-            '.1.3.6.1.2.1.17.4.3.1.2.0.28.246.197.100.25' => [ 'INTEGER', 2307 ],
-            '.1.3.6.1.2.1.17.1.4.1.2.2307'                => [ 'INTEGER', 0 ],
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.106' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.4.3.1.2.0.0.116.210.9.107' => [ 'INTEGER', 52 ],
+            '.1.3.6.1.2.1.17.1.4.1.2.52'                => [ 'INTEGER', 52 ],
         },
         {
             52 => {
@@ -146,10 +166,15 @@ my @mac_addresses_addition_tests = (
         },
         {
             52 => {
-                MAC => '00:00:74:D2:09:6A',
+                MAC         => '00:00:74:D2:09:6A',
+                CONNECTIONS => {
+                    CONNECTION => {
+                        MAC => [ '00:00:74:D2:09:6B' ]
+                    }
+                },
             }
         },
-        'mac addresses addition, port own address'
+        'mac addresses addition, exclusion of port own address'
     ],
 );
 
