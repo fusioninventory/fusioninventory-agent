@@ -12,12 +12,14 @@ my %tests = (
     'tandberg/codec.walk' => [
         {
             MANUFACTURER => 'Tandberg',
+            TYPE         => 'VIDEO',
             DESCRIPTION  => 'TANDBERG Codec',
             SNMPHOSTNAME => 'VISIO.1',
             MAC          => '00:50:60:02:9B:79',
         },
         {
             MANUFACTURER => 'Tandberg',
+            TYPE         => 'VIDEO',
             DESCRIPTION  => 'TANDBERG Codec',
             SNMPHOSTNAME => 'VISIO.1',
             MAC          => '00:50:60:02:9B:79',
@@ -26,7 +28,7 @@ my %tests = (
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Tandberg',
-                TYPE         => undef,
+                TYPE         => 'VIDEO',
                 COMMENTS     => 'TANDBERG Codec',
                 NAME         => 'VISIO.1',
             },

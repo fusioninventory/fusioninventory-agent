@@ -12,12 +12,14 @@ my %tests = (
     'emc/Celerra.1.walk' => [
         {
             MANUFACTURER => 'EMC',
+            TYPE         => 'STORAGE',
             DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
             SNMPHOSTNAME => 'server_2',
             MAC          => '00:60:16:26:8A:02',
         },
         {
             MANUFACTURER => 'EMC',
+            TYPE         => 'STORAGE',
             DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
             SNMPHOSTNAME => 'server_2',
             MAC          => '00:60:16:26:8A:02',
@@ -26,7 +28,7 @@ my %tests = (
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'EMC',
-                TYPE         => undef,
+                TYPE         => 'STORAGE',
                 COMMENTS     => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
                 CONTACT      => 'nasadmin',
                 NAME         => 'server_2',
@@ -125,12 +127,14 @@ my %tests = (
     'emc/Celerra.2.walk' => [
         {
             MANUFACTURER => 'EMC',
+            TYPE         => 'STORAGE',
             DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
             SNMPHOSTNAME => 'server_2',
             MAC          => '00:60:16:26:8A:02',
         },
         {
             MANUFACTURER => 'EMC',
+            TYPE         => 'STORAGE',
             DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
             SNMPHOSTNAME => 'server_2',
             MAC          => '00:60:16:26:8A:02',
@@ -139,7 +143,7 @@ my %tests = (
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'EMC',
-                TYPE         => undef,
+                TYPE         => 'STORAGE',
                 COMMENTS     => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
                 CONTACT      => 'nasadmin',
                 NAME         => 'server_2',
@@ -238,12 +242,14 @@ my %tests = (
     'emc/CX3-10c.walk' => [
         {
             MANUFACTURER => 'EMC',
+            TYPE         => 'STORAGE',
             DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
             SNMPHOSTNAME => 'BNK5RD1',
             MAC          => '00:60:16:1B:CD:7A',
         },
         {
             MANUFACTURER => 'EMC',
+            TYPE         => 'STORAGE',
             DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
             SNMPHOSTNAME => 'BNK5RD1',
             MAC          => '00:60:16:1B:CD:7A',
@@ -252,7 +258,7 @@ my %tests = (
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'EMC',
-                TYPE         => undef,
+                TYPE         => 'STORAGE',
                 COMMENTS     => 'CX3-10c - Flare 3.26.0.10.5.032',
                 NAME         => 'BNK5RD1',
                 UPTIME       => '(2246605893) 260 days, 0:34:18.93',
