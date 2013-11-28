@@ -9,6 +9,7 @@ use List::Util qw(first);
 
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Hardware::Generic;
 
 our @EXPORT = qw(
     getDeviceBaseInfo
