@@ -69,7 +69,7 @@ my $device = {
 
 my $model       = { ID => 1 };
 my $credentials = { ID => 1 };
- 
+
 if ($options->{model}) {
     pod2usage(
         -message => "invalid file '$options->{model}', aborting\n",
