@@ -42,25 +42,29 @@ like(
     '--version stdout'
 );
 
-($out, $err, $rc) = run_executable('fusioninventory-netinventory', );
-ok($rc == 2, 'no model exit status');
+($out, $err, $rc) = run_executable(
+    'fusioninventory-netinventory',
+    ''
+);
+ok($rc == 2, 'no target exit status');
 like(
     $err,
-    qr/no model/,
+    qr/no host nor file given, aborting/,
     'no target stderr'
 );
 is($out, '', 'no target stdout');
 
 ($out, $err, $rc) = run_executable(
-    'fusioninventory-netinventory', "--model foobar"
+    'fusioninventory-netinventory',
+    '--file resources/walks/sample4.walk --model foobar'
 );
 ok($rc == 2, 'invalid model exit status');
 like(
     $err,
     qr/invalid file/,
-    'no target stderr'
+    'invalid model stderr'
 );
-is($out, '', 'no target stdout');
+is($out, '', 'invalid model stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',
