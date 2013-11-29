@@ -38,7 +38,7 @@ sub _getFilesystems {
 
     # get additional informations
     if (canRun('blkid')) {
-        # use blkid if available, as it is filesystem-independant
+        # use blkid if available, as it is filesystem-independent
         foreach my $filesystem (@filesystems) {
             $filesystem->{SERIAL} = getFirstMatch(
                 logger  => $logger,
