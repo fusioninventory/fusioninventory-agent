@@ -8,12 +8,13 @@ netdiscovery task:
 netinventory task:
 * add default OIDs for mappings undefined in SNMP model
 * add IFALIAS support for interfaces
+* allow SNMPv3 usage from fusioninventory-netinventory
+* allow discovery without model from fusioninventory-netinventory
 
 netinventory and netdiscovery tasks:
 * fix infinite recursion in mac address canonicalisation, leading to memory
   exhaustion (#2336)
 * fix SNMPv3 usage without optional parameters
-* allow SNMPv3 usage with command-line tools
 
 2.3.3  Wed, 06 Nov 2013 21:00:25 +0100
 core
