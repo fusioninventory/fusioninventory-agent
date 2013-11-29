@@ -1,8 +1,15 @@
 Revision history for FusionInventory agent
 
 2.3.4
-netinventory and netdiscovery tasks:
+netdiscovery task:
 * install missing sysobjectid database files
+* add additional device types (phones, storage, etc...) support
+
+netinventory task:
+* add default OIDs for mappings undefined in SNMP model
+* add IFALIAS support for interfaces
+
+netinventory and netdiscovery tasks:
 * fix infinite recursion in mac address canonicalisation, leading to memory
   exhaustion (#2336)
 * fix SNMPv3 usage without optional parameters
