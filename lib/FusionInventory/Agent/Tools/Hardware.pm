@@ -708,9 +708,9 @@ sub getDeviceFullInfo {
     # - from the model type
     # - from initial identification
     $info{TYPE} =
-            $params{type} ? $params{type}          :
-            $model        ? $types{$model->{TYPE}} :
-                            $info{TYPE}            ;
+            $params{type}            ? $params{type}          :
+            $model && $model->{TYPE} ? $types{$model->{TYPE}} :
+                                       $info{TYPE}            ;
 
     # second, use results to build the object
     my $device = { INFO => \%info };
