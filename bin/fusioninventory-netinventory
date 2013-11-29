@@ -76,12 +76,9 @@ if ($options->{model}) {
         -verbose => 0
     ) unless -f $options->{model};
     $model = loadModel($options->{model});
-    $device->{TYPE} = $types{$model->{TYPE}};
-} else {
-    pod2usage(
-        -message => "no type given, aborting\n",
-        -verbose => 0
-    ) unless $options->{type};
+}
+
+if ($options->{type}) {
     pod2usage(
         -message => "invalid type '$options->{type}', aborting\n",
         -verbose => 0
