@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.3.4
+2.3.4  Fri, 29 Nov 2013 16:17:31 +0100
 netdiscovery task:
 * install missing sysobjectid database files
 * add additional device types (phones, storage, etc...) support
