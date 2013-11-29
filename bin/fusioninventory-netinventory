@@ -60,7 +60,9 @@ pod2usage(
 
 my $agent = FusionInventory::Agent->new(%setup);
 
-my ($model, $type);
+my $model = { ID => 1 };
+my $type;
+
 if ($options->{model}) {
     pod2usage(
         -message => "invalid file '$options->{model}', aborting\n",
