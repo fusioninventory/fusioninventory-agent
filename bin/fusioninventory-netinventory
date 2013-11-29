@@ -60,8 +60,15 @@ pod2usage(
 
 my $agent = FusionInventory::Agent->new(%setup);
 
+my $device = {
+    ID           => 0,
+    IP           => $options->{host},
+    FILE         => $options->{file},
+    AUTHSNMP_ID  => 1,
+    MODELSNMP_ID => 1
+};
+
 my $model = { ID => 1 };
-my $type;
 
 if ($options->{model}) {
     pod2usage(
@@ -69,7 +76,7 @@ if ($options->{model}) {
         -verbose => 0
     ) unless -f $options->{model};
     $model = loadModel($options->{model});
-    $type = $types{$model->{TYPE}};
+    $device->{TYPE} = $types{$model->{TYPE}};
 } else {
     pod2usage(
         -message => "no type given, aborting\n",
@@ -79,7 +86,7 @@ if ($options->{model}) {
         -message => "invalid type '$options->{type}', aborting\n",
         -verbose => 0
     ) unless any { $options->{type} eq $_ } values %types;
-    $type = $options->{type};
+    $device->{TYPE} = $options->{type};
 }
 
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
@@ -113,17 +120,8 @@ $inventory->{options} = {
             TIMEOUT       => $options->{timeout},
         }
     ],
-    DEVICE => [
-        {
-            ID           => 0,
-            TYPE         => $type,
-            IP           => $options->{host},
-            FILE         => $options->{file},
-            AUTHSNMP_ID  => 1,
-            MODELSNMP_ID => 1
-        }
-    ],
-    MODEL => [ $model ],
+    DEVICE         => [ $device ],
+    MODEL          => [ $model ],
     AUTHENTICATION => [ $credentials ]
 };
 
