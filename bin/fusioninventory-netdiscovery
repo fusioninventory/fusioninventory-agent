@@ -55,7 +55,25 @@ pod2usage(
 
 my $agent = FusionInventory::Agent->new(%setup);
 
-my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
+my $range = {
+    ID      => 1,
+    IPSTART => $options->{first},
+    IPEND   => $options->{last},
+};
+
+my $dictionary;
+
+if ($options->{dictionary}) {
+    die "no such file $options->{dictionary}"
+        unless -f $options->{dictionary};
+    $dictionary = getDictionary($options->{dictionary});
+}
+
+if ($options->{entity}) {
+    $range->{ENTITY} = $options->{entity};
+}
+
+my $task = FusionInventory::Agent::Task::NetDiscovery->new(
     config   => $agent->{config},
     confdir  => $agent->{confdir},
     datadir  => $agent->{datadir},
@@ -64,7 +82,7 @@ my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
     target   => FusionInventory::Agent::Task::NetInventory::Target->new(),
 );
 
-$discovery->{options} = {
+$task->{options} = {
     NAME => 'NETDISCOVERY',
     PARAM => [
         {
@@ -73,13 +91,7 @@ $discovery->{options} = {
             TIMEOUT           => $options->{timeout},
         }
     ],
-    RANGEIP => [
-        {
-            ID      => 1,
-            IPSTART => $options->{first},
-            IPEND   => $options->{last},
-        }
-    ],
+    RANGEIP => [ $range ],
     AUTHENTICATION => [
         {
             ID        => 1,
@@ -96,16 +108,9 @@ $discovery->{options} = {
             COMMUNITY => $options->{community},
             VERSION   => '1'
         }
-    ]
+    ],
+    DICO => $dictionary,
 };
-if ($options->{dictionary}) {
-    die "no such file $options->{dictionary}"
-        unless -f $options->{dictionary};
-    $discovery->{options}->{DICO} = getDictionary($options->{dictionary});
-}
-if (defined($options->{entity})) {
-    $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
-}
 
 my $broker = FusionInventory::Agent::Broker->create(
     target  => $options->{target},
@@ -115,7 +120,7 @@ my $broker = FusionInventory::Agent::Broker->create(
 
 eval {
     $agent->init(options => $options);
-    $agent->runSingleTask(task => $discovery, broker => $broker);
+    $agent->runSingleTask(task => $task, broker => $broker);
 };
 
 sub getDictionary {
