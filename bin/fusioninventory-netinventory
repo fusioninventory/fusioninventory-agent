@@ -19,6 +19,10 @@ my %types = (
     1 => 'COMPUTER',
     2 => 'NETWORKING',
     3 => 'PRINTER',
+    4 => 'STORAGE',
+    5 => 'POWER',
+    6 => 'PHONE',
+    7 => 'VIDEO',
 );
 
 my %setup = (
