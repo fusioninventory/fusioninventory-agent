@@ -6,6 +6,13 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
+    # Avoid duplicated entry with libvirt
+    return if getFirstMatch(
+        command => "virsh uri",
+        pattern => "openvz:///system"
+    );
+
+
     return canRun('vzlist');
 }
 
