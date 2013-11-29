@@ -4,9 +4,27 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
     return canRun('vzlist');
+}
+
+sub getMACs {
+    my ($ctid, $logger) = @_;
+
+    my @ipLines = getAllLines(
+            command => "vzctl exec '$ctid' 'ip -0 a'",
+            logger  => $logger
+            );
+
+    my @macs;
+    foreach my $line (@ipLines) {
+        next unless $line =~ /^\s+link\/ether ($mac_address_pattern)\s/;
+        push @macs, $1;
+    }
+
+    return join('/', @macs);
 }
 
 sub doInventory {
@@ -76,6 +94,7 @@ sub doInventory {
                 STATUS    => $status,
                 SUBSYSTEM => $subsys,
                 VMTYPE    => "Virtuozzo",
+                MAC       => getMACs($ctid, $logger)
             }
         );
 
