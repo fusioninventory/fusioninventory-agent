@@ -16,7 +16,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{inventory};
+    my $logger    = $params{logger};
 
     my @machines = _getVirtualMachines(
         command => '/usr/bin/lxc-ls -1',
