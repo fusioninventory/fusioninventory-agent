@@ -81,18 +81,13 @@ $discovery->{options} = {
         {
             ID        => 1,
             COMMUNITY => $options->{community},
-            VERSION   => '3'
+            VERSION   => '1'
         },
         {
-            ID        => 1,
+            ID        => 2,
             COMMUNITY => $options->{community},
             VERSION   => '2c'
         },
-        {
-            ID        => 1,
-            COMMUNITY => $options->{community},
-            VERSION   => '1'
-        }
     ]
 };
 if ($options->{dictionnary}) {
