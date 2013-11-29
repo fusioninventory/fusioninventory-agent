@@ -335,11 +335,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Tools::Generic - OS-independant generic functions
+FusionInventory::Agent::Tools::Generic - OS-independent generic functions
 
 =head1 DESCRIPTION
 
-This module provides some OS-independant generic functions.
+This module provides some OS-independent generic functions.
 
 =head1 FUNCTIONS
 

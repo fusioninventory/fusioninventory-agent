@@ -446,7 +446,7 @@ Operating System information.
 
 =head2 setBios()
 
-Set BIOS informations.
+Set BIOS information.
 
 =head2 setAccessLog()
 

@@ -43,7 +43,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Tools::Hostname - OS-independant hostname computing
+FusionInventory::Agent::Tools::Hostname - OS-independent hostname computing
 
 =head1 DESCRIPTION
 
