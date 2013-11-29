@@ -72,7 +72,8 @@ my $device = {
     MODELSNMP_ID => 1
 };
 
-my $model = { ID => 1 };
+my $model       = { ID => 1 };
+my $credentials = { ID => 1 };
 
 if ($options->{model}) {
     pod2usage(
@@ -90,17 +91,7 @@ if ($options->{type}) {
     $device->{TYPE} = $options->{type};
 }
 
-my $inventory = FusionInventory::Agent::Task::NetInventory->new(
-    config   => $agent->{config},
-    confdir  => $agent->{confdir},
-    datadir  => $agent->{datadir},
-    logger   => $agent->{logger},
-    deviceid => $agent->{deviceid},
-);
-
-my $credentials = { ID => 1 };
-
-if (defined $options->{community}) {
+if ($options->{community}) {
     $credentials->{COMMUNITY} = $options->{community};
 } elsif (defined $options->{credentials}) {
     foreach my $parameter (split(',', $options->{credentials})) {
@@ -112,7 +103,19 @@ if (defined $options->{community}) {
     $credentials->{COMMUNITY} = 'public';
 }
 
-$inventory->{options} = {
+if ($options->{entity}) {
+    $device->{ENTITY} = $options->{entity};
+}
+
+my $task = FusionInventory::Agent::Task::NetInventory->new(
+    config   => $agent->{config},
+    confdir  => $agent->{confdir},
+    datadir  => $agent->{datadir},
+    logger   => $agent->{logger},
+    deviceid => $agent->{deviceid},
+);
+
+$task->{options} = {
     NAME => 'SNMPQUERY',
     PARAM => [
         {
@@ -126,10 +129,6 @@ $inventory->{options} = {
     AUTHENTICATION => [ $credentials ]
 };
 
-if (defined($options->{entity})) {
-    $inventory->{options}->{DEVICE}->[0]->{ENTITY} = $options->{entity};
-}
-
 my $broker = FusionInventory::Agent::Broker->create(
     target  => $options->{target},
     task    => 'netinventory',
@@ -138,7 +137,7 @@ my $broker = FusionInventory::Agent::Broker->create(
 
 eval {
     $agent->init(options => $options);
-    $agent->runSingleTask(task => $inventory, broker => $broker);
+    $agent->runSingleTask(task => $task, broker => $broker);
 };
 
 __END__
