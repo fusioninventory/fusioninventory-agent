@@ -2,14 +2,6 @@
 8.62.1.5.22.2.1	4112 EPS
 8.62.1.5.22.4.1	4127 Enterprise Printing System
 8.62.1.5.21.5.1.1	Color 550
-8.62.1.17.17.1.1.1	Color 800 Press
-8.62.1.24.2.1.2.1	ColorQube 8570DN
-8.62.1.24.2.2.1.1	ColorQube 8870
-8.62.1.24.3.2.2.1	ColorQube 8900X
-8.62.1.24.1.1.2.1	ColorQube 9201
-8.62.1.24.1.2.2.1	ColorQube 9202
-8.62.1.24.1.3.2.1	ColorQube 9203
-8.62.1.24.4.1.1.1	ColorQube 9301
 8.62.1.3.2.2.2	DocuPrint
 8.62.1.2.2.1.1	DocuPrint
 8.62.1.3.2.19.1	DocuPrint
@@ -119,19 +111,17 @@
 8.62.1.4.2.1.2	Document Centre ColorSeries 50
 8.62.1.1.27.1.2	Document Centre Multi-Function System
 8.62.1.2.1.1.1	Docuprint 4512
-8.62.1.23.2.5.1	Nuvera 120
-8.62.1.23.7.1.1	Nuvera 288
 8.62.1.3.3.2.1	Phaser 2135
 8.62.1.2.5.1.1	Phaser 3400
+8.62.1.17.17.1.1.1	Color 800 Press
 8.62.1.19.1.4.1	Phaser 3428
 8.62.1.19.1.9.1	Phaser 3600
-8.62.1.20.4.27.1	Phaser 3635MFP
-8.62.1.19.2.1.3	Phaser 4400DT
-8.62.1.19.2.2.1	Phaser 4500N
-8.62.1.19.2.3.3	Phaser 4510DT
-8.62.1.19.2.3.2	Phaser 4510N
 8.62.1.19.1.24.1.1	Phaser 4600
 8.62.1.19.1.25.1.1	Phaser 4620
+8.62.1.19.2.1.3	Phaser 4400DT
+8.62.1.19.2.2.1	Phaser 4500N
+8.62.1.19.2.3.2	Phaser 4510N
+8.62.1.19.2.3.3	Phaser 4510DT
 8.62.1.19.3.2.3	Phaser 5550DN
 8.62.1.19.3.2.4	Phaser 5550DT
 8.62.1.19.4.20.1	Phaser 6110MFP
@@ -139,31 +129,49 @@
 8.62.1.19.4.1.3	Phaser 6200 DP
 8.62.1.19.4.1.4	Phaser 6200 DX
 8.62.1.19.4.4.3	Phaser 6300DN
+8.62.1.19.4.8.1	Phaser 6360N
 8.62.1.19.4.8.2	Phaser 6360DN
 8.62.1.19.4.8.3	Phaser 6360DT
-8.62.1.19.4.8.1	Phaser 6360N
+8.62.1.19.4.21.2	Phaser 6180 MFP
 8.62.1.19.4.33.2.1	Phaser 6500DN
 8.62.1.19.5.1.1	Phaser 7300 DN
-8.62.1.19.5.5.3	Phaser 7500DT
 8.62.1.19.5.3.2	Phaser 7750DN
+8.62.1.19.5.5.3	Phaser 7500DT
+8.62.1.19.6.3.1	Phaser 8560DP
+8.62.1.19.6.3.2	Phaser 8850DT
 8.62.1.19.6.9.2	Phaser 8560DN
 8.62.1.19.6.9.3	Phaser 8560DT
-8.62.1.19.6.3.2	Phaser 8850DT
 8.62.1.19.6.17.1	Phaser 8860
 8.62.1.19.6.18.1	Phaser 8860 MFP
-8.62.1.22.1.8.1.1	Wide Format 6604
-8.62.1.20.2.7	WorkCentre
-8.62.1.20.2.25	WorkCentre
+8.62.1.19.6.29.1.2	Phaser 3320
+8.62.1.20.1.2	WorkCentre Pro
+8.62.1.20.1.2.2	WorkCentre Pro Multifunction System
+8.62.1.20.1.3.1	WorkCentre Pro Multifunction System
+8.62.1.20.1.4.2	WorkCentre Pro Multifunction System
+8.62.1.20.1.6.2	WorkCentre Pro 65
+8.62.1.20.1.8.2	WorkCentre Pro Multifunction System
+8.62.1.20.1.19.1	WorkCentre Pro Multifunction System
+8.62.1.20.1.20.1	WorkCentre Pro
+8.62.1.20.1.21.1	WorkCentre Pro C3545
+8.62.1.20.1.25.1	WorkCentre Pro
+8.62.1.20.1.29.1	WorkCentre 7665 v1
+8.62.1.20.1.31.1	WorkCentre 4118
+8.62.1.20.2.1	WorkCentre Pro
 8.62.1.20.2.2	WorkCentre
 8.62.1.20.2.3	WorkCentre
 8.62.1.20.2.4	WorkCentre
-8.62.1.20.5.23.1	WorkCentre 3220
-8.62.1.20.1.31.1	WorkCentre 4118
+8.62.1.20.2.7	WorkCentre
+8.62.1.20.2.7.1	WorkCentre M20i
+8.62.1.20.2.22.1	WorkCentre Pro 123
+8.62.1.20.2.31.1	WorkCentre Pro 238
+8.62.1.20.2.33.1	WorkCentre Pro Multifunction System
+8.62.1.20.2.25	WorkCentre
 8.62.1.20.2.32.1	WorkCentre 5150
+8.62.1.20.2.40.1.2	WorkCentre 7335
 8.62.1.20.2.41.1.2	WorkCentre 5150
-8.62.1.20.4.6.1	WorkCentre 5225
-8.62.1.20.6.3.1.1	WorkCentre 5325
-8.62.1.20.6.4.1.1	WorkCentre 5330
+8.62.1.20.3.8.1	WorkCentre 7132
+8.62.1.20.3.9.1	WorkCentre 7228
+8.62.1.20.3.17.1	WorkCentre 7235
 8.62.1.20.3.35.1.1	WorkCentre 5632 v1
 8.62.1.20.3.35.1	WorkCentre 5632 v1
 8.62.1.20.3.37.1.1	WorkCentre 5638 v1
@@ -173,39 +181,35 @@
 8.62.1.20.3.39.1	WorkCentre 5655
 8.62.1.20.3.39.1.1	WorkCentre 5655 v1
 8.62.1.20.3.40.1.1	WorkCentre 5665 v1
+8.62.1.20.4.6.1	WorkCentre 5225
 8.62.1.20.4.9.1.1	WorkCentre 5687 v1
+8.62.1.20.4.19.1	WorkCentre 7328
+8.62.1.20.4.20.1	WorkCentre 7335
+8.62.1.20.4.21.1	WorkCentre 7345
+8.62.1.20.4.22.1	WorkCentre 7232
+8.62.1.20.4.27.1	Phaser 3635MFP
+8.62.1.20.5.1.1	WorkCentre 7346
+8.62.1.20.5.3.1	WorkCentre 7428
+8.62.1.20.5.4.1	WorkCentre 7435
+8.62.1.20.5.5.2.1	WorkCentre 6400X
+8.62.1.20.5.23.1	WorkCentre 3220
 8.62.1.20.5.29.1.1	WorkCentre 5735
 8.62.1.20.5.31.1.1	WorkCentre 5745
 8.62.1.20.5.33.1.1	WorkCentre 5765
 8.62.1.20.5.34.1.1	WorkCentre 5775
-8.62.1.20.5.5.2.1	WorkCentre 6400X
 8.62.1.20.5.36.1.1	WorkCentre 7120
-8.62.1.20.3.8.1	WorkCentre 7132
-8.62.1.20.3.9.1	WorkCentre 7228
-8.62.1.20.4.22.1	WorkCentre 7232
-8.62.1.20.3.17.1	WorkCentre 7235
-8.62.1.20.4.19.1	WorkCentre 7328
-8.62.1.20.4.20.1	WorkCentre 7335
-8.62.1.20.2.40.1.2	WorkCentre 7335
-8.62.1.20.4.21.1	WorkCentre 7345
-8.62.1.20.5.1.1	WorkCentre 7346
-8.62.1.20.5.3.1	WorkCentre 7428
-8.62.1.20.5.4.1	WorkCentre 7435
 8.62.1.20.5.39.1.1	WorkCentre 7535 v1
 8.62.1.20.5.40.1.1	WorkCentre 7545 v1 Multifunction System
-8.62.1.20.1.29.1	WorkCentre 7665 v1
-8.62.1.20.2.7.1	WorkCentre M20i
-8.62.1.20.1.2	WorkCentre Pro
-8.62.1.20.1.25.1	WorkCentre Pro
-8.62.1.20.1.20.1	WorkCentre Pro
-8.62.1.20.2.1	WorkCentre Pro
-8.62.1.20.2.22.1	WorkCentre Pro 123
-8.62.1.20.2.31.1	WorkCentre Pro 238
-8.62.1.20.1.6.2	WorkCentre Pro 65
-8.62.1.20.1.21.1	WorkCentre Pro C3545
-8.62.1.20.1.19.1	WorkCentre Pro Multifunction System
-8.62.1.20.1.3.1	WorkCentre Pro Multifunction System
-8.62.1.20.1.2.2	WorkCentre Pro Multifunction System
-8.62.1.20.1.8.2	WorkCentre Pro Multifunction System
-8.62.1.20.1.4.2	WorkCentre Pro Multifunction System
-8.62.1.20.2.33.1	WorkCentre Pro Multifunction System
+8.62.1.20.6.3.1.1	WorkCentre 5325
+8.62.1.20.6.4.1.1	WorkCentre 5330
+8.62.1.20.6.6.1.1	WorkCentre 7125
+8.62.1.22.1.8.1.1	Wide Format 6604
+8.62.1.23.2.5.1	Nuvera 120
+8.62.1.23.7.1.1	Nuvera 288
+8.62.1.24.1.1.2.1	ColorQube 9201
+8.62.1.24.1.2.2.1	ColorQube 9202
+8.62.1.24.1.3.2.1	ColorQube 9203
+8.62.1.24.2.1.2.1	ColorQube 8570DN
+8.62.1.24.2.2.1.1	ColorQube 8870
+8.62.1.24.3.2.2.1	ColorQube 8900X
+8.62.1.24.4.1.1.1	ColorQube 9301
