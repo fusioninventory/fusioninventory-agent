@@ -1014,6 +1014,13 @@ sub _setNetworkingProperties {
         ports  => $ports,
         logger => $logger
     );
+
+    _setAggregatePorts(
+        snmp   => $snmp,
+        model  => $model,
+        ports  => $ports,
+        logger => $logger
+    );
 }
 
 sub _getPercentValue {
@@ -1366,6 +1373,65 @@ sub _getTrunkPorts {
         my $port_id = _getElement($suffix, -1);
         $results->{$port_id} = $trunk ? 1 : 0;
     }
+
+    return $results;
+}
+
+sub _setAggregatePorts {
+    my (%params) = @_;
+
+    my $aggregatePorts = _getAggregatePorts(
+        snmp  => $params{snmp}
+    );
+
+    return unless $aggregatePorts;
+
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
+
+    foreach my $port_id (keys %$aggregatePorts) {
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error("non-existing port $port_id")
+                if $logger;
+            last;
+        }
+        $ports->{$port_id}->{AGGREGATE}->{PORT} = $aggregatePorts->{$port_id};
+    }
+}
+
+sub _getAggregatePorts {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+
+    my $results;
+    my $lacpPorts = $snmp->walk(
+        '.1.2.840.10006.300.43.1.1.1.1.6'
+    );
+    my $allPorts = $snmp->walk(
+        '1.2.840.10006.300.43.1.2.1.1.4'
+    );
+    while (my ($aggregatePort_id, $trunk) = each %{$lacpPorts}) {
+        my $portShortNum = $aggregatePort_id;
+        substr $portShortNum, 0, 1, "";
+        while (my ($port_id, $portShortNumFind) = each %{$allPorts}) {
+            if ($portShortNum == $portShortNumFind) {
+               push @{$results->{$aggregatePort_id}}, $port_id;
+            }
+        }         
+    }
+
+    my $pagpPorts = $snmp->walk(
+        '.1.3.6.1.4.1.9.9.98.1.1.1.1.5'
+    );
+    while (my ($port_id, $portShortNum) = each %{$pagpPorts}) {
+        if ($portShortNum > 0) {
+            my $aggregatePort_id = $portShortNum + 5000;
+            push @{$results->{$aggregatePort_id}}, $port_id;
+        }
+    }
+
 
     return $results;
 }
