@@ -965,7 +965,6 @@ sub _setNetworkingProperties {
         )
     }
 
-    my $comments = $device->{INFO}->{DESCRIPTION} || $device->{INFO}->{COMMENTS};
     my $ports    = $device->{PORTS}->{PORT};
 
     my $vlans = $snmp->walk($model->{oids}->{vtpVlanName});
@@ -994,9 +993,6 @@ sub _setNetworkingProperties {
                     };
         }
     }
-
-    # everything else is vendor-specific, and requires device description
-    return unless $comments;
 
     _setTrunkPorts(
         snmp   => $snmp,
