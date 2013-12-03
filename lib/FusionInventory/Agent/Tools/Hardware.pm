@@ -1042,30 +1042,6 @@ sub loadModel {
 
     my $model = XML::TreePP->new()->parsefile($file)->{model};
 
-    my @get = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 0
-    } grep {
-        $_->{mapping_name}
-    } @{$model->{oidlist}->{oidobject}};
-
-    my @walk = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-            VLAN   => $_->{vlan},
-        }
-    } grep {
-        $_->{dynamicport} == 1
-    } grep {
-        $_->{mapping_name}
-    } @{$model->{oidlist}->{oidobject}};
-
     my %oids =
         map  { $_->{mapping_name} => $_->{oid} }
         grep { $_->{mapping_name} }
@@ -1075,8 +1051,6 @@ sub loadModel {
         ID   => 1,
         NAME => $model->{name},
         TYPE => $model->{type},
-        GET  => \@get,
-        WALK => \@walk,
         oids => \%oids
     }
 }
