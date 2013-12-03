@@ -185,19 +185,19 @@ fusioninventory-netdiscovery - Standalone network discovery
 fusioninventory-netdiscovery [options] --first <start> --last <stop>
 
   Options:
-    --first address IP range first address
-    --last address  IP range last address
-    --dictionary    dictionary file
-    --community     community string (default: public)
-    --credentials   SNMP credentials
-    --entity        GLPI entity
-    --threads nb    number of discovery threads (default: 1)
-    --target target where to send result (default: stdout)
-    --timeout val   SNMP timeout (default: 1s)
-    --verbose       verbose output (control messages)
-    --debug         debug output (execution traces)
-    -h --help       print this message and exit
-    --version       print the task version and exit
+    --first address      IP range first address
+    --last address       IP range last address
+    --dictionary file    dictionary file
+    --credentials string SNMP credentials
+                         (default: version:1,community:public)
+    --timeout numbe      SNMP timeout (default: 1s)
+    --entity string      GLPI entity
+    --threads number     threads number (default: 1)
+    --target string      where to send result (default: stdout)
+    --verbose            verbose output (control messages)
+    --debug              debug output (execution traces)
+    -h --help            print this message and exit
+    --version            print the task version and exit
 
 =head1 DESCRIPTION
 
