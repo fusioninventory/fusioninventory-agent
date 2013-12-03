@@ -2936,6 +2936,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '2520427958',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10002',
@@ -2950,6 +2958,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '1444296343',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10003',
@@ -2964,6 +2980,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '3697736928',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10004',
@@ -2978,6 +3002,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '2874278107',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10005',
@@ -2992,6 +3024,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '2097721511',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10006',
@@ -3006,6 +3046,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '7517632',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10007',
@@ -3020,6 +3068,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '356275802',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10008',
@@ -3034,6 +3090,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '1849411001',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10009',
@@ -3048,6 +3112,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '4060044107',
                         IFOUTERRORS      => '5',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10010',
@@ -3062,6 +3134,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '650135037',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10011',
@@ -3076,6 +3156,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10012',
@@ -3090,6 +3178,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '680136759',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10013',
@@ -3104,6 +3200,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '828899275',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10014',
@@ -3118,6 +3222,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '1855427971',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10015',
@@ -3132,6 +3244,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '1133282038',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10016',
@@ -3146,6 +3266,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '857357031',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10017',
@@ -3160,6 +3288,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '209932792',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10018',
@@ -3174,6 +3310,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '1032329852',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10019',
@@ -3188,6 +3332,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '1865203761',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10020',
@@ -3202,6 +3354,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '37991943',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10021',
@@ -3216,6 +3376,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '2845209002',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10022',
@@ -3230,6 +3398,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '2428516158',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10023',
@@ -3244,6 +3420,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10024',
@@ -3258,6 +3442,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10101',
@@ -3383,6 +3575,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '926844080',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10002',
@@ -3397,6 +3597,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10003',
@@ -3411,6 +3619,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '3227489290',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10004',
@@ -3425,6 +3641,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10005',
@@ -3439,6 +3663,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '2052899224',
                         IFOUTERRORS      => '73',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10006',
@@ -3453,6 +3685,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10007',
@@ -3467,6 +3707,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '2698203912',
                         IFOUTERRORS      => '297',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10008',
@@ -3481,6 +3729,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '1553262039',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10009',
@@ -3495,6 +3751,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '3992264533',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10010',
@@ -3509,6 +3773,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '654794463',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10011',
@@ -3523,6 +3795,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '4219065024',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10012',
@@ -3537,6 +3817,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '347903192',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan51',
+                                    NUMBER => '55',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10013',
@@ -3551,6 +3839,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '191680982',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10014',
@@ -3565,6 +3861,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10015',
@@ -3579,6 +3883,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '2383669184',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10016',
@@ -3593,6 +3905,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '631494',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10017',
@@ -3607,6 +3927,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '469166891',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10018',
@@ -3621,6 +3949,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10019',
@@ -3635,6 +3971,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '3400637521',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10020',
@@ -3649,6 +3993,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '756432620',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan51',
+                                    NUMBER => '55',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10021',
@@ -3663,6 +4015,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10022',
@@ -3677,6 +4037,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '2733536359',
                         IFOUTERRORS      => '2257',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10023',
@@ -3691,6 +4059,14 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10024',
@@ -4830,6 +5206,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10002',
@@ -4848,6 +5232,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1309670942',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10003',
@@ -4867,6 +5259,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2758132634',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan10',
+                                    NUMBER => '14',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10004',
@@ -4885,6 +5285,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2237159677',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10005',
@@ -4904,6 +5312,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '4244518876',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan10',
+                                    NUMBER => '14',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10006',
@@ -4922,6 +5338,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1103108996',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10007',
@@ -4940,6 +5364,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '680410947',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan10',
+                                    NUMBER => '14',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10008',
@@ -4959,6 +5391,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1711110227',
                         IFOUTERRORS      => '5306391',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10009',
@@ -4978,6 +5418,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10010',
@@ -4997,6 +5445,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '472288711',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan10',
+                                    NUMBER => '14',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10011',
@@ -5015,6 +5471,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10012',
@@ -5034,6 +5498,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '3871739267',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan10',
+                                    NUMBER => '14',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10013',
@@ -5052,6 +5524,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10014',
@@ -5071,6 +5551,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '3190072208',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan10',
+                                    NUMBER => '14',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10015',
@@ -5089,6 +5577,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10016',
@@ -5107,6 +5603,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10017',
@@ -5125,6 +5629,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10018',
@@ -5143,6 +5655,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10019',
@@ -5162,6 +5682,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '462767851',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan10',
+                                    NUMBER => '14',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10020',
@@ -5181,6 +5709,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2831486943',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10021',
@@ -5200,6 +5736,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '3115275205',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan10',
+                                    NUMBER => '14',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10022',
@@ -5218,6 +5762,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10023',
@@ -5237,6 +5789,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1039775044',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan10',
+                                    NUMBER => '14',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10024',
@@ -5255,6 +5815,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10025',
@@ -5274,6 +5842,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2278558878',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10026',
@@ -5293,6 +5869,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10027',
@@ -5312,6 +5896,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '189899557',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10028',
@@ -5331,6 +5923,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1170216684',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10029',
@@ -5349,6 +5949,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1274821872',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10030',
@@ -5368,6 +5976,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10031',
@@ -5386,6 +6002,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '633177844',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10032',
@@ -5405,6 +6029,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '4206248334',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan21',
+                                    NUMBER => '25',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10033',
@@ -5424,6 +6056,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '587991352',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan29',
+                                    NUMBER => '33',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10034',
@@ -5442,6 +6082,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1209925409',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10035',
@@ -5461,6 +6109,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10036',
@@ -5480,6 +6136,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '427746098',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10037',
@@ -5499,6 +6163,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10038',
@@ -5518,6 +6190,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '3366833064',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10039',
@@ -5537,6 +6217,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '523659377',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10040',
@@ -5555,6 +6243,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10041',
@@ -5573,6 +6269,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10042',
@@ -5591,6 +6295,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '3327711715',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10043',
@@ -5609,6 +6321,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10044',
@@ -5627,6 +6347,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1211817539',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan21',
+                                    NUMBER => '25',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10045',
@@ -5645,6 +6373,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan19',
+                                    NUMBER => '23',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10046',
@@ -5664,6 +6400,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan12',
+                                    NUMBER => '16',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10047',
@@ -5682,6 +6426,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10048',
@@ -5700,6 +6452,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10101',
@@ -5838,6 +6598,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10002',
@@ -5852,6 +6620,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10003',
@@ -5866,6 +6642,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10004',
@@ -5880,6 +6664,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10005',
@@ -5894,6 +6686,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10006',
@@ -5908,6 +6708,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10007',
@@ -5922,6 +6730,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10008',
@@ -5936,6 +6752,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10009',
@@ -5950,6 +6774,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10010',
@@ -5964,6 +6796,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10011',
@@ -5978,6 +6818,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10012',
@@ -5992,6 +6840,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10013',
@@ -6006,6 +6862,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10014',
@@ -6020,6 +6884,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10015',
@@ -6034,6 +6906,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2542256749',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan45',
+                                    NUMBER => '49',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10016',
@@ -6048,6 +6928,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10017',
@@ -6062,6 +6950,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10018',
@@ -6076,6 +6972,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10019',
@@ -6090,6 +6994,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10020',
@@ -6104,6 +7016,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10021',
@@ -6118,6 +7038,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10022',
@@ -6132,6 +7060,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10023',
@@ -6146,6 +7082,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10024',
@@ -6160,6 +7104,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10025',
@@ -6174,6 +7126,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10026',
@@ -6188,6 +7148,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10027',
@@ -6202,6 +7170,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10028',
@@ -6216,6 +7192,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10029',
@@ -6230,6 +7214,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10030',
@@ -6244,6 +7236,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10031',
@@ -6258,6 +7258,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10032',
@@ -6272,6 +7280,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10033',
@@ -6286,6 +7302,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan45',
+                                    NUMBER => '49',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10034',
@@ -6300,6 +7324,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10035',
@@ -6314,6 +7346,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10036',
@@ -6328,6 +7368,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10037',
@@ -6342,6 +7390,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10038',
@@ -6356,6 +7412,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10039',
@@ -6370,6 +7434,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10040',
@@ -6384,6 +7456,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10041',
@@ -6398,6 +7478,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10042',
@@ -6412,6 +7500,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10043',
@@ -6426,6 +7522,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10044',
@@ -6440,6 +7544,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10045',
@@ -6454,6 +7566,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10046',
@@ -6468,6 +7588,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10047',
@@ -6482,6 +7610,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10048',
@@ -6496,6 +7632,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10101',
@@ -6623,6 +7767,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10002',
@@ -6637,6 +7789,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10003',
@@ -6651,6 +7811,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10004',
@@ -6665,6 +7833,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10005',
@@ -6679,6 +7855,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10006',
@@ -6693,6 +7877,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10007',
@@ -6707,6 +7899,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10008',
@@ -6721,6 +7921,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10009',
@@ -6735,6 +7943,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10010',
@@ -6749,6 +7965,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10011',
@@ -6763,6 +7987,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10012',
@@ -6777,6 +8009,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10013',
@@ -6791,6 +8031,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10014',
@@ -6805,6 +8053,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '144458186',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10015',
@@ -6819,6 +8075,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10016',
@@ -6833,6 +8097,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10017',
@@ -6847,6 +8119,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '977154644',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan45',
+                                    NUMBER => '49',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10018',
@@ -6861,6 +8141,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10019',
@@ -6875,6 +8163,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '3438774464',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan45',
+                                    NUMBER => '49',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10020',
@@ -6889,6 +8185,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '36851033',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10021',
@@ -6903,6 +8207,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10022',
@@ -6917,6 +8229,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10023',
@@ -6931,6 +8251,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10024',
@@ -6945,6 +8273,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10025',
@@ -6959,6 +8295,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1349888727',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan51',
+                                    NUMBER => '55',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10026',
@@ -6973,6 +8317,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10027',
@@ -6987,6 +8339,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10028',
@@ -7001,6 +8361,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10029',
@@ -7015,6 +8383,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10030',
@@ -7029,6 +8405,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10031',
@@ -7043,6 +8427,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10032',
@@ -7057,6 +8449,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10033',
@@ -7071,6 +8471,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10034',
@@ -7085,6 +8493,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10035',
@@ -7099,6 +8515,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10036',
@@ -7113,6 +8537,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10037',
@@ -7127,6 +8559,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10038',
@@ -7141,6 +8581,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10039',
@@ -7155,6 +8603,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2691288013',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan45',
+                                    NUMBER => '49',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10040',
@@ -7169,6 +8625,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10041',
@@ -7183,6 +8647,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10042',
@@ -7197,6 +8669,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10043',
@@ -7211,6 +8691,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10044',
@@ -7225,6 +8713,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10045',
@@ -7239,6 +8735,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10046',
@@ -7253,6 +8757,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '157324648',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan51',
+                                    NUMBER => '55',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10047',
@@ -7267,6 +8779,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10048',
@@ -7281,6 +8801,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10101',
@@ -7408,6 +8936,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10002',
@@ -7422,6 +8958,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10003',
@@ -7436,6 +8980,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10004',
@@ -7450,6 +9002,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10005',
@@ -7464,6 +9024,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10006',
@@ -7478,6 +9046,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10007',
@@ -7492,6 +9068,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10008',
@@ -7506,6 +9090,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2434568578',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10009',
@@ -7520,6 +9112,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '3168236376',
                         IFOUTERRORS      => '148',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10010',
@@ -7534,6 +9134,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10011',
@@ -7548,6 +9156,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10012',
@@ -7562,6 +9178,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2095312613',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10013',
@@ -7576,6 +9200,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10014',
@@ -7590,6 +9222,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '3945616377',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10015',
@@ -7604,6 +9244,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10016',
@@ -7618,6 +9266,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10017',
@@ -7632,6 +9288,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10018',
@@ -7646,6 +9310,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10019',
@@ -7660,6 +9332,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2678286274',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10020',
@@ -7674,6 +9354,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10021',
@@ -7688,6 +9376,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10022',
@@ -7702,6 +9398,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10023',
@@ -7716,6 +9420,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10024',
@@ -7730,6 +9442,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10025',
@@ -7744,6 +9464,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10026',
@@ -7758,6 +9486,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10027',
@@ -7772,6 +9508,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1640684234',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10028',
@@ -7786,6 +9530,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10029',
@@ -7800,6 +9552,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2548890840',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan26',
+                                    NUMBER => '30',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10030',
@@ -7814,6 +9574,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10031',
@@ -7828,6 +9596,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10032',
@@ -7842,6 +9618,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10033',
@@ -7856,6 +9640,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10034',
@@ -7870,6 +9662,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10035',
@@ -7884,6 +9684,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10036',
@@ -7898,6 +9706,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10037',
@@ -7912,6 +9728,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10038',
@@ -7926,6 +9750,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10039',
@@ -7940,6 +9772,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10040',
@@ -7954,6 +9794,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10041',
@@ -7968,6 +9816,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10042',
@@ -7982,6 +9838,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10043',
@@ -7996,6 +9860,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10044',
@@ -8010,6 +9882,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10045',
@@ -8024,6 +9904,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10046',
@@ -8038,6 +9926,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10047',
@@ -8052,6 +9948,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10048',
@@ -8066,6 +9970,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10101',
@@ -8193,6 +10105,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10002',
@@ -8207,6 +10127,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10003',
@@ -8221,6 +10149,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10004',
@@ -8235,6 +10171,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan51',
+                                    NUMBER => '55',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10005',
@@ -8249,6 +10193,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10006',
@@ -8263,6 +10215,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10007',
@@ -8277,6 +10237,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10008',
@@ -8291,6 +10259,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10009',
@@ -8305,6 +10281,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10010',
@@ -8319,6 +10303,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10011',
@@ -8333,6 +10325,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10012',
@@ -8347,6 +10347,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10013',
@@ -8361,6 +10369,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10014',
@@ -8375,6 +10391,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '3483278393',
                         IFOUTERRORS      => '10994',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10015',
@@ -8389,6 +10413,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10016',
@@ -8403,6 +10435,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2696552369',
                         IFOUTERRORS      => '10943',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10017',
@@ -8417,6 +10457,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10018',
@@ -8431,6 +10479,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10019',
@@ -8445,6 +10501,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10020',
@@ -8459,6 +10523,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10021',
@@ -8473,6 +10545,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10022',
@@ -8487,6 +10567,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10023',
@@ -8501,6 +10589,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '916141211',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan45',
+                                    NUMBER => '49',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10024',
@@ -8515,6 +10611,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10025',
@@ -8529,6 +10633,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '993850547',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan45',
+                                    NUMBER => '49',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10026',
@@ -8543,6 +10655,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10027',
@@ -8557,6 +10677,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10028',
@@ -8571,6 +10699,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1382513486',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan51',
+                                    NUMBER => '55',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10029',
@@ -8585,6 +10721,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10030',
@@ -8599,6 +10743,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '28180240',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10031',
@@ -8613,6 +10765,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10032',
@@ -8627,6 +10787,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '1145076',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10033',
@@ -8641,6 +10809,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10034',
@@ -8655,6 +10831,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '2034868762',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan45',
+                                    NUMBER => '49',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10035',
@@ -8669,6 +10853,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10036',
@@ -8683,6 +10875,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '10636434',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10037',
@@ -8697,6 +10897,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10038',
@@ -8711,6 +10919,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '3882553',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10039',
@@ -8725,6 +10941,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10040',
@@ -8739,6 +10963,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10041',
@@ -8753,6 +10985,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10042',
@@ -8767,6 +11007,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10043',
@@ -8781,6 +11029,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10044',
@@ -8795,6 +11051,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10045',
@@ -8809,6 +11073,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10046',
@@ -8823,6 +11095,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10047',
@@ -8837,6 +11117,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10048',
@@ -8851,6 +11139,14 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => 'vlan3',
+                                    NUMBER => '7',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10101',
@@ -35400,6 +37696,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '560831537',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10102',
@@ -35419,6 +37723,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '548462613',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10103',
@@ -35438,6 +37750,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '544500578',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10104',
@@ -35457,6 +37777,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '2663232081',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10105',
@@ -35476,6 +37804,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '544012462',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10106',
@@ -35495,6 +37831,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '543992576',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10107',
@@ -35514,6 +37858,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '544738804',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10108',
@@ -35533,6 +37885,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10109',
@@ -35552,6 +37912,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '543628072',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10110',
@@ -35571,6 +37939,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '544450031',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10111',
@@ -35590,6 +37966,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '577306694',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10112',
@@ -35608,6 +37992,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '39426134',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10113',
@@ -35626,6 +38018,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10114',
@@ -35644,6 +38044,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10115',
@@ -35662,6 +38070,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10116',
@@ -35680,6 +38096,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10117',
@@ -35698,6 +38122,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10118',
@@ -35716,6 +38148,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10119',
@@ -35734,6 +38174,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10120',
@@ -35752,6 +38200,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10121',
@@ -35770,6 +38226,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10122',
@@ -35788,6 +38252,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10123',
@@ -35806,6 +38278,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10124',
@@ -35824,6 +38304,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10125',
@@ -35870,6 +38358,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10127',
@@ -35888,6 +38384,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10128',
@@ -35906,6 +38410,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '14001',
@@ -36075,6 +38587,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '279253167',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10102',
@@ -36094,6 +38614,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '284641800',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10103',
@@ -36113,6 +38641,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '226351631',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10104',
@@ -36132,6 +38668,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '291686952',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10105',
@@ -36151,6 +38695,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '600922724',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10106',
@@ -36170,6 +38722,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10107',
@@ -36189,6 +38749,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10108',
@@ -36207,6 +38775,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '3426033',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10109',
@@ -36225,6 +38801,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10110',
@@ -36243,6 +38827,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10111',
@@ -36261,6 +38853,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10112',
@@ -36279,6 +38879,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10113',
@@ -36297,6 +38905,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10114',
@@ -36315,6 +38931,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10115',
@@ -36333,6 +38957,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10116',
@@ -36351,6 +38983,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10117',
@@ -36369,6 +39009,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10118',
@@ -36387,6 +39035,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10119',
@@ -36405,6 +39061,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10120',
@@ -36423,6 +39087,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10121',
@@ -36441,6 +39113,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10122',
@@ -36459,6 +39139,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10123',
@@ -36477,6 +39165,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10124',
@@ -36495,6 +39191,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10125',
@@ -36541,6 +39245,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10127',
@@ -36559,6 +39271,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10128',
@@ -36577,6 +39297,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '14001',
@@ -36746,6 +39474,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '617499909',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10102',
@@ -36765,6 +39501,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '615484511',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10103',
@@ -36784,6 +39528,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '617196466',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10104',
@@ -36803,6 +39555,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '617476032',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10105',
@@ -36822,6 +39582,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623408422',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10106',
@@ -36841,6 +39609,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623556144',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10107',
@@ -36860,6 +39636,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '622122928',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10108',
@@ -36879,6 +39663,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '621979252',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10109',
@@ -36898,6 +39690,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623649037',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10110',
@@ -36917,6 +39717,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '621161478',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10111',
@@ -36936,6 +39744,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623814679',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10112',
@@ -36955,6 +39771,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623707895',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10113',
@@ -36974,6 +39798,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623857103',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10114',
@@ -36993,6 +39825,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '621377377',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10115',
@@ -37012,6 +39852,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623526165',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10116',
@@ -37031,6 +39879,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623661077',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10117',
@@ -37050,6 +39906,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '621433831',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10118',
@@ -37069,6 +39933,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '619935316',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10119',
@@ -37088,6 +39960,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '621598631',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10120',
@@ -37107,6 +39987,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623615644',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10121',
@@ -37126,6 +40014,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623656919',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10122',
@@ -37145,6 +40041,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '623640747',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10123',
@@ -37164,6 +40068,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '624152183',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10124',
@@ -37183,6 +40095,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '626911125',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10125',
@@ -37229,6 +40149,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10127',
@@ -37247,6 +40175,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10128',
@@ -37265,6 +40201,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '14001',
@@ -37434,6 +40378,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '712081496',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10102',
@@ -37453,6 +40405,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10103',
@@ -37472,6 +40432,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10104',
@@ -37491,6 +40459,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10105',
@@ -37510,6 +40486,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10106',
@@ -37529,6 +40513,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10107',
@@ -37548,6 +40540,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10108',
@@ -37567,6 +40567,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10109',
@@ -37585,6 +40593,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10110',
@@ -37603,6 +40619,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10111',
@@ -37621,6 +40645,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10112',
@@ -37639,6 +40671,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10113',
@@ -37657,6 +40697,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10114',
@@ -37675,6 +40723,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10115',
@@ -37693,6 +40749,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10116',
@@ -37711,6 +40775,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10117',
@@ -37729,6 +40801,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10118',
@@ -37747,6 +40827,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10119',
@@ -37765,6 +40853,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10120',
@@ -37783,6 +40879,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10121',
@@ -37801,6 +40905,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10122',
@@ -37819,6 +40931,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10123',
@@ -37837,6 +40957,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10124',
@@ -37856,6 +40984,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '119929392',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '2080',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10125',
@@ -37902,6 +41038,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10127',
@@ -37920,6 +41064,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10128',
@@ -37938,6 +41090,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '14001',
@@ -38107,6 +41267,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '4954891',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10102',
@@ -38126,6 +41294,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10103',
@@ -38145,6 +41321,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10104',
@@ -38164,6 +41348,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10105',
@@ -38183,6 +41375,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10106',
@@ -38202,6 +41402,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10107',
@@ -38221,6 +41429,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10108',
@@ -38240,6 +41456,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10109',
@@ -38259,6 +41483,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10110',
@@ -38278,6 +41510,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10111',
@@ -38297,6 +41537,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10112',
@@ -38316,6 +41564,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10113',
@@ -38335,6 +41591,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10114',
@@ -38353,6 +41617,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10115',
@@ -38371,6 +41643,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10116',
@@ -38389,6 +41669,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10117',
@@ -38407,6 +41695,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10118',
@@ -38425,6 +41721,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10119',
@@ -38443,6 +41747,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10120',
@@ -38461,6 +41773,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10121',
@@ -38479,6 +41799,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10122',
@@ -38497,6 +41825,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10123',
@@ -38515,6 +41851,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10124',
@@ -38533,6 +41877,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10125',
@@ -38579,6 +41931,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10127',
@@ -38597,6 +41957,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '10128',
@@ -38615,6 +41983,14 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
                         TRUNK            => '1',
+                        VLANS          => {
+                            VLAN => [
+                                {
+                                    NAME   => undef,
+                                    NUMBER => '1',
+                                },
+                            ]
+                        },
                     },
                     {
                         IFNUMBER         => '14001',

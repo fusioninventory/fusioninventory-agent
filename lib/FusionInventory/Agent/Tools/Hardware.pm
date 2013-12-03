@@ -970,28 +970,28 @@ sub _setNetworkingProperties {
     my $vlans = $snmp->walk($model->{oids}->{vtpVlanName});
 
     # Detect VLAN
-    if ($model->{oids}->{vmvlan}) {
-        my $results = $snmp->walk($model->{oids}->{vmvlan});
-        # each result matches either of the following schemes:
-        # $prefix.$i.$j = $value, with $j as port id, and $value as vlan id
-        # $prefix.$i    = $value, with $i as port id, and $value as vlan id
-        foreach my $suffix (sort keys %{$results}) {
-            my $port_id = _getElement($suffix, -1);
-            my $vlan_id = $results->{$suffix};
-            my $name    = $vlans->{$vlan_id};
+    my $results = $snmp->walk(
+        $model->{oids}->{vmvlan} || '.1.3.6.1.4.1.9.9.68.1.2.2.1.2'
+    );
+    # each result matches either of the following schemes:
+    # $prefix.$i.$j = $value, with $j as port id, and $value as vlan id
+    # $prefix.$i    = $value, with $i as port id, and $value as vlan id
+    foreach my $suffix (sort keys %{$results}) {
+        my $port_id = _getElement($suffix, -1);
+        my $vlan_id = $results->{$suffix};
+        my $name    = $vlans->{$vlan_id};
 
-            # safety check
-            if (!$ports->{$port_id}) {
-                $logger->error("non-existing port $port_id, check vmvlan mapping");
-                last;
-            }
-            push
-                @{$ports->{$port_id}->{VLANS}->{VLAN}},
-                    {
-                        NUMBER => $vlan_id,
-                        NAME   => $name
-                    };
+        # safety check
+        if (!$ports->{$port_id}) {
+            $logger->error("non-existing port $port_id, check vmvlan mapping");
+            last;
         }
+        push
+            @{$ports->{$port_id}->{VLANS}->{VLAN}},
+                {
+                    NUMBER => $vlan_id,
+                    NAME   => $name
+                };
     }
 
     _setTrunkPorts(
