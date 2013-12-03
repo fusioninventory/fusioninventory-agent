@@ -20,7 +20,6 @@ my %setup = (
 );
 
 my $options = {
-    community => 'public',
     threads   => 1
 };
 
@@ -29,7 +28,8 @@ GetOptions(
     'first=s',
     'last=s',
     'dictionary=s',
-    'community=s',
+    'community=s@',
+    'credentials=s@',
     'entity=s',
     'threads=i',
     'target=s',
@@ -62,11 +62,31 @@ my $range = {
 };
 
 my $dictionary;
+my @authentications;
 
 if ($options->{dictionary}) {
     die "no such file $options->{dictionary}"
         unless -f $options->{dictionary};
     $dictionary = getDictionary($options->{dictionary});
+}
+
+my $id = 1;
+if ($options->{community}) {
+    foreach my $community (@{$options->{community}}) {
+        push @authentications, { ID => $id++, COMMUNITY => $community };
+    }
+} elsif ($options->{credentials}) {
+    foreach my $credentials (@{$options->{credentials}}) {
+        my $authentication = { ID => $id++ };
+        foreach my $parameter (split(',', $credentials)) {
+            my ($key, $value) = split(':', $parameter);
+            $key = uc($key);
+            $authentication->{$key} = $value;
+        }
+        push @authentications, $authentication;
+    }
+} else {
+    push @authentications, { ID => $id++, COMMUNITY => 'public' };
 }
 
 if ($options->{entity}) {
@@ -91,20 +111,9 @@ $task->{options} = {
             TIMEOUT           => $options->{timeout},
         }
     ],
-    RANGEIP => [ $range ],
-    AUTHENTICATION => [
-        {
-            ID        => 1,
-            COMMUNITY => $options->{community},
-            VERSION   => '1'
-        },
-        {
-            ID        => 2,
-            COMMUNITY => $options->{community},
-            VERSION   => '2c'
-        },
-    ],
-    DICO => $dictionary,
+    RANGEIP        => [ $range ],
+    AUTHENTICATION => [ @authentications ],
+    DICO           => $dictionary,
 };
 
 my $broker = FusionInventory::Agent::Broker->create(
@@ -180,6 +189,7 @@ fusioninventory-netdiscovery [options] --first <start> --last <stop>
     --last address  IP range last address
     --dictionary    dictionary file
     --community     community string (default: public)
+    --credentials   SNMP credentials
     --entity        GLPI entity
     --threads nb    number of discovery threads (default: 1)
     --target target where to send result (default: stdout)
