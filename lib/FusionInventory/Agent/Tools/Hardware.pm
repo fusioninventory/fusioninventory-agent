@@ -967,7 +967,7 @@ sub _setNetworkingProperties {
 
     my $ports    = $device->{PORTS}->{PORT};
 
-    my $vlans = $snmp->walk($model->{oids}->{vtpVlanName});
+    my $vlans = $snmp->walk($model->{oids}->{vtpVlanName} || '.1.3.6.1.4.1.9.9.46.1.3.1.1.4.1');
 
     # Detect VLAN
     my $results = $snmp->walk(
