@@ -88,7 +88,7 @@ sub _readSymbolicOids {
         'IF-MIB::ifInErrors'                => '.1.3.6.1.2.1.2.2.1.14',
         'IF-MIB::ifOutOctets'               => '.1.3.6.1.2.1.2.2.1.16',
         'IF-MIB::ifOutErrors'               => '.1.3.6.1.2.1.2.2.1.20',
-        'IF-MIB::ifName      '              => '.1.3.6.1.2.1.31.1.1.1.1',
+        'IF-MIB::ifName'                    => '.1.3.6.1.2.1.31.1.1.1.1',
         'HOST-RESOURCES-MIB::hrDeviceDescr' => '.1.3.6.1.2.1.25.3.2.1.3',
     );
 
