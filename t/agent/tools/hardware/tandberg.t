@@ -3,6 +3,7 @@
 use strict;
 use lib 't/lib';
 
+use Test::More;
 use Test::Deep qw(cmp_deeply);
 
 use FusionInventory::Agent::Tools::Hardware;
@@ -63,36 +64,120 @@ my %tests = (
                     },
                 ]
             },
-        }
+        },
+        {
+            INFO => {
+                ID           => undef,
+                MANUFACTURER => 'Tandberg',
+                TYPE         => 'VIDEO',
+                COMMENTS     => 'TANDBERG Codec',
+                NAME         => 'VISIO.1',
+            },
+            PORTS => {
+                PORT => [
+                    {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'eth',
+                        IFDESCR          => 'eth',
+                        IFTYPE           => '6',
+                        IFSPEED          => '10000000',
+                        IFMTU            => '1500',
+                        MAC              => '00:50:60:02:9b:79',
+                        IFLASTCHANGE     => '(20) 0:00:00.20',
+                        IFINOCTETS       => '325377081',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '203169902',
+                        IFOUTERRORS      => '0',
+                    },
+                    {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'lo',
+                        IFDESCR          => 'lo',
+                        IFTYPE           => '24',
+                        IFSPEED          => '0',
+                        IFMTU            => '16384',
+                        IFLASTCHANGE     => '(19) 0:00:00.19',
+                        IFINOCTETS       => '9350',
+                        IFINERRORS       => '0',
+                        IFOUTOCTETS      => '9350',
+                        IFOUTERRORS      => '0',
+                    },
+                ]
+            },
+        },
     ],
 );
 
-setPlan(scalar keys %tests);
+plan skip_all => 'SNMP walks database required'
+    if !$ENV{SNMPWALK_DATABASE};
+plan tests => 4 * scalar keys %tests;
 
-my $dictionary = getDictionnary();
-my $index      = getIndex();
+my ($dictionary, $index);
+if ($ENV{SNMPMODELS_DICTIONARY}) {
+    $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
+        file => $ENV{SNMPMODELS_DICTIONARY}
+    );
+}
+if ($ENV{SNMPMODELS_INDEX}) {
+    YAML->require();
+    $index = YAML::LoadFile($ENV{SNMPMODELS_INDEX});
+}
 
 foreach my $test (sort keys %tests) {
     my $snmp  = getSNMP($test);
-    my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
 
-    my %device0 = getDeviceInfo(
-        snmp       => $snmp,
-        datadir    => './share'
-    );
-    cmp_deeply(\%device0, $tests{$test}->[0], "$test: base stage");
-
+    # first test: discovery without dictionary
     my %device1 = getDeviceInfo(
-        snmp       => $snmp,
-        dictionary => $dictionary,
-        datadir    => './share'
-    );
-    cmp_deeply(\%device1, $tests{$test}->[1], "$test: base + dictionnary stage");
-
-    my $device3 = getDeviceFullInfo(
         snmp    => $snmp,
-        model   => $model,
         datadir => './share'
     );
-    cmp_deeply($device3, $tests{$test}->[2], "$test: base + model stage");
+    cmp_deeply(
+        \%device1,
+        $tests{$test}->[0],
+        "$test: discovery, without dictionary"
+    );
+
+    # second test: discovery, with dictipnary
+    SKIP: {
+        skip "SNMP dictionary required, skipping", 1 unless $dictionary;
+
+        my %device2 = getDeviceInfo(
+            snmp       => $snmp,
+            datadir    => './share',
+            dictionary => $dictionary,
+        );
+        cmp_deeply(
+            \%device2,
+            $tests{$test}->[1],
+            "$test: discovery, with dictionary"
+        );
+    };
+
+    # third test: inventory without model
+    my $device3 = getDeviceFullInfo(
+        snmp    => $snmp,
+        datadir => './share'
+    );
+    cmp_deeply(
+        $device3,
+        $tests{$test}->[2],
+        "$test: inventory, without model"
+    );
+
+    # fourth test: inventory, with model
+    SKIP: {
+        skip "SNMP models index required, skipping", 1 unless $index;
+        my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
+
+        my $device4 = getDeviceFullInfo(
+            snmp    => $snmp,
+            datadir => './share',
+            model   => $model
+        );
+        cmp_deeply(
+            $device4,
+            $tests{$test}->[3],
+            "$test: inventory, with model"
+        );
+    };
 }
