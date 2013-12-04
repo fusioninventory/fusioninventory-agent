@@ -303,7 +303,7 @@ my %interface_variables = (
     },
     IFNAME           => {
         mapping => 'ifName',
-        default => '.1.3.6.1.2.1.31.1.1.1.1',
+        default => '.1.3.6.1.2.1.2.2.1.2',
         type    => 'string',
     },
     IFTYPE           => {
