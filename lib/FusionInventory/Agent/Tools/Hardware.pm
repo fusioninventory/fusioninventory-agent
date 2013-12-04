@@ -303,7 +303,10 @@ my %interface_variables = (
     },
     IFNAME           => {
         mapping => 'ifName',
-        default => '.1.3.6.1.2.1.2.2.1.2',
+        default => [
+            '.1.3.6.1.2.1.31.1.1.1.1',
+            '.1.3.6.1.2.1.2.2.1.2',
+        ],
         type    => 'string',
     },
     IFTYPE           => {
@@ -813,12 +816,23 @@ sub _setGenericProperties {
 
     foreach my $key (keys %interface_variables) {
         my $variable = $interface_variables{$key};
-        my $oid = $model->{oids}->{$variable->{mapping}} ||
-                  $variable->{default};
-        next unless $oid;
-        my $results = $snmp->walk($oid);
-        next unless $results;
-
+        my $oid;
+        my $results;
+        if (ref $variable->{default} eq 'ARRAY') {
+           foreach my $defoid (@{$variable->{default}}) {
+               $oid = $model->{oids}->{$variable->{mapping}} ||
+                         $defoid;
+               next unless $oid;
+               $results = $snmp->walk($oid);
+               last if $results;
+           }
+        } else {
+           $oid = $model->{oids}->{$variable->{mapping}} ||
+                     $variable->{default};
+           next unless $oid;
+           $results = $snmp->walk($oid);
+           next unless $results;
+        }
         my $type = $variable->{type};
         # each result matches the following scheme:
         # $prefix.$i = $value, with $i as port id
