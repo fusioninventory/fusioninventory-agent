@@ -7,6 +7,8 @@ use base 'Exporter';
 use English qw(-no_match_vars);
 use List::Util qw(first);
 
+use Data::Dumper;
+
 use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
 
@@ -232,6 +234,7 @@ my @sysdescr_rules = (
 my %base_variables = (
     MAC          => {
         mapping => 'macaddr',
+        default => '.1.3.6.1.2.1.17.1.1.0',
         type    => 'mac',
     },
     CPU          => {
@@ -261,6 +264,10 @@ my %base_variables = (
     },
     SERIAL       => {
         mapping => 'serial',
+        default => [
+            '.1.3.6.1.2.1.47.1.1.1.1.11.1',
+            '.1.3.6.1.2.1.47.1.1.1.1.11.1001',
+        ],
         type    => 'serial',
     },
     NAME         => {
@@ -279,13 +286,21 @@ my %base_variables = (
     },
     MEMORY       => {
         mapping => 'memory',
-        default => '.1.3.6.1.2.1.25.2.3.1.5.1',
+        default => [
+            '.1.3.6.1.4.1.9.2.1.8.0',
+            '.1.3.6.1.2.1.25.2.3.1.5.1',
+        ],
         type    => 'memory',
     },
     RAM          => {
         mapping => 'ram',
         default => '.1.3.6.1.4.1.9.3.6.6.0',
         type    => 'memory',
+    },
+    FIRMWARE     => {
+        mapping => 'firmware',
+        default => '.1.3.6.1.4.1.9.9.23.1.2.1.1.4',
+        type    => 'string',
     },
 );
 
@@ -785,12 +800,24 @@ sub _setGenericProperties {
 
         # skip undefined variable
         my $variable = $base_variables{$key};
-        my $oid = $model->{oids}->{$variable->{mapping}} ||
-                  $variable->{default};
-        next unless $oid;
-
-        my $raw_value = $snmp->get($oid);
-        next unless defined $raw_value;
+        my $oid;
+        my $raw_value;
+        if (ref $variable->{default} eq 'ARRAY') {
+           foreach my $defoid (@{$variable->{default}}) {
+               $oid = $model->{oids}->{$variable->{mapping}} ||
+                         $defoid;
+               next unless $oid;
+               $raw_value = $snmp->get($oid);
+               last if $raw_value;
+           }
+           next unless defined $raw_value;
+        } else {
+           $oid = $model->{oids}->{$variable->{mapping}} ||
+                     $variable->{default};
+           next unless $oid;
+           $raw_value = $snmp->get($oid);
+           next unless defined $raw_value;
+        }
 
         my $type = $variable->{type};
         my $value =
@@ -1210,19 +1237,21 @@ sub _getAssociatedMacAddresses {
     my $model  = $params{model};
 
     my $results;
+    # 0.0.12.159.240.1 = INTEGER: 52
     my $dot1dTpFdbPort       = $snmp->walk(
         $model->{oids}->{dot1dTpFdbPort}       || '.1.3.6.1.2.1.17.4.3.1.2'
     );
+    # 52 = INTEGER: 10152
     my $dot1dBasePortIfIndex = $snmp->walk(
         $model->{oids}->{dot1dBasePortIfIndex} || '.1.3.6.1.2.1.17.1.4.1.2'
     );
 
     foreach my $suffix (sort keys %{$dot1dTpFdbPort}) {
-        my $port_id      = $dot1dTpFdbPort->{$suffix};
-        my $interface_id = $dot1dBasePortIfIndex->{$port_id};
-        next unless defined $interface_id;
+        my $interface_id = $dot1dTpFdbPort->{$suffix};
+        my $port_id      = $dot1dBasePortIfIndex->{$interface_id};
+        next unless defined $port_id;
 
-        push @{$results->{$interface_id}},
+        push @{$results->{$port_id}},
             sprintf "%02x:%02x:%02x:%02x:%02x:%02x", split(/\./, $suffix)
     }
 
@@ -1385,6 +1414,7 @@ sub _getTrunkPorts {
     );
     while (my ($suffix, $trunk) = each %{$vlanStatus}) {
         my $port_id = _getElement($suffix, -1);
+        next if $trunk eq '2';
         $results->{$port_id} = $trunk ? 1 : 0;
     }
 
@@ -1423,17 +1453,19 @@ sub _getAggregatePorts {
     my $lacpPorts = $snmp->walk(
         '.1.2.840.10006.300.43.1.1.1.1.6'
     );
-    my $allPorts = $snmp->walk(
-        '1.2.840.10006.300.43.1.2.1.1.4'
-    );
-    while (my ($aggregatePort_id, $trunk) = each %{$lacpPorts}) {
-        my $portShortNum = $aggregatePort_id;
-        substr $portShortNum, 0, 1, "";
-        while (my ($port_id, $portShortNumFind) = each %{$allPorts}) {
-            if ($portShortNum == $portShortNumFind) {
-               push @{$results->{$aggregatePort_id}}, $port_id;
-            }
-        }         
+    if ($lacpPorts) {
+       my $allPorts = $snmp->walk(
+           '.1.2.840.10006.300.43.1.2.1.1.4'
+       );
+
+       while (my ($aggregatePort_id, $trunk) = each %{$lacpPorts}) {
+           my $portShortNum = $aggregatePort_id - 5000;
+           while (my ($port_id, $portShortNumFind) = each %{$allPorts}) {
+               if ($portShortNum eq $portShortNumFind) {
+                  push @{$results->{$aggregatePort_id}}, $port_id;
+               }
+           }         
+       }
     }
 
     my $pagpPorts = $snmp->walk(
@@ -1445,7 +1477,6 @@ sub _getAggregatePorts {
             push @{$results->{$aggregatePort_id}}, $port_id;
         }
     }
-
 
     return $results;
 }
