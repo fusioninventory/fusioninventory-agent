@@ -813,10 +813,20 @@ sub _setGenericProperties {
 
     foreach my $key (keys %interface_variables) {
         my $variable = $interface_variables{$key};
-        my $oid = $model->{oids}->{$variable->{mapping}} ||
-                  $variable->{default};
-        next unless $oid;
-        my $results = $snmp->walk($oid);
+
+        my $results;
+
+        # first, try model mapping, if defined
+        if ($model->{oids}->{$variable->{mapping}}) {
+            $results = $snmp->walk($model->{oids}->{$variable->{mapping}});
+        }
+
+        # second, try default value, if defined
+        if (!$results) {
+            if ($variable->{default}) {
+                $results = $snmp->walk($variable->{default});
+            }
+        }
         next unless $results;
 
         my $type = $variable->{type};

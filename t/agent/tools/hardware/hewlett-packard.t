@@ -3812,7 +3812,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'LOOPBACK',
                         IFDESCR          => 'LOOPBACK',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1500',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -3822,9 +3825,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'Ethernet',
                         IFDESCR          => 'Ethernet',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => 'b4:b5:2f:f6:74:98',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '407432',
                         IFINERRORS       => '0',
@@ -9657,7 +9664,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -9667,9 +9677,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:21:5a:7e:09:32',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '2219679339',
                         IFINERRORS       => '0',
@@ -9766,7 +9780,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -9776,9 +9793,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:21:5a:8d:df:43',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '200058917',
                         IFINERRORS       => '0',
@@ -9875,7 +9896,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -9885,9 +9909,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:23:7d:83:09:93',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '683787528',
                         IFINERRORS       => '0',
@@ -9984,7 +10012,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -9994,9 +10025,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:23:7d:83:e8:d5',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '3240054009',
                         IFINERRORS       => '0',
@@ -10093,7 +10128,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -10103,9 +10141,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:23:7d:88:6b:5b',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '226525511',
                         IFINERRORS       => '0',
@@ -10202,7 +10244,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -10212,9 +10257,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:23:7d:88:6b:5b',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '561048360',
                         IFINERRORS       => '0',
@@ -10311,7 +10360,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -10321,9 +10373,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '1c:c1:de:80:bd:d9',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '1574260753',
                         IFINERRORS       => '0',
@@ -10420,7 +10476,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -10430,9 +10489,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '1c:c1:de:cb:39:82',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '37368958',
                         IFINERRORS       => '0',
@@ -10529,7 +10592,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -10539,9 +10605,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '3c:4a:92:c0:83:94',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '1911576981',
                         IFINERRORS       => '0',
@@ -10638,7 +10708,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -10648,9 +10721,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '1c:c1:de:cb:d8:b1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '2220813285',
                         IFINERRORS       => '0',
@@ -10747,7 +10824,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -10757,9 +10837,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '08:2e:5f:b9:79:a2',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '861281403',
                         IFINERRORS       => '0',
@@ -10856,7 +10940,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -10866,9 +10953,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '1c:c1:de:c9:3d:6d',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '20375229',
                         IFINERRORS       => '0',
@@ -10984,7 +11075,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -10996,9 +11090,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:25:b3:eb:ea:20',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -11116,7 +11214,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -11128,9 +11229,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:25:b3:eb:8a:8f',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -11248,7 +11353,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -11260,9 +11368,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:25:b3:eb:7a:c7',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -11380,7 +11492,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -11392,9 +11507,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:25:b3:eb:4b:44',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -11490,7 +11609,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -11500,9 +11622,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:21:5a:7a:5e:2d',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
                         IFINOCTETS       => '145086685',
                         IFINERRORS       => '0',
@@ -11615,7 +11741,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -11627,9 +11756,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:08:91:b5:09',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -11744,7 +11877,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -11756,9 +11892,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:a4:94:7d:4c',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -11873,7 +12013,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -11885,9 +12028,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:a4:93:4d:9f',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -12002,7 +12149,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -12014,9 +12164,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:08:91:95:dd',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -12131,7 +12285,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -12143,9 +12300,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:a4:93:4d:69',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -12260,7 +12421,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -12272,9 +12436,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:a4:93:4d:9c',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -12389,7 +12557,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -12401,9 +12572,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:08:91:73:43',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -12518,7 +12693,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -12530,9 +12708,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:a4:93:df:9c',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -12647,7 +12829,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -12659,9 +12844,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:08:82:48:76',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -12776,7 +12965,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -12788,9 +12980,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:a4:93:4d:5b',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -12905,7 +13101,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.60',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.60',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -12917,9 +13116,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.60',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.60',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:a4:93:a7:56',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -13034,7 +13237,10 @@ my %tests = (
             PORTS => {
                 PORT => [
                     {
+                        IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '24',
                         IFSPEED          => '0',
                         IFMTU            => '1536',
                         IFSTATUS         => '1',
@@ -13046,9 +13252,13 @@ my %tests = (
                         IFOUTERRORS      => '0',
                     },
                     {
+                        IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57',
+                        IFTYPE           => '6',
                         IFSPEED          => '10000000',
                         IFMTU            => '1500',
+                        MAC              => '00:17:a4:94:a6:1f',
                         IFSTATUS         => '1',
                         IFINTERNALSTATUS => '1',
                         IFLASTCHANGE     => '(0) 0:00:00.00',
@@ -13145,6 +13355,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
                         IFTYPE           => '24',
                         IFSPEED          => '0',
@@ -13157,6 +13368,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -13256,6 +13468,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
                         IFTYPE           => '24',
                         IFSPEED          => '0',
@@ -13268,6 +13481,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
+                        IFNAME           => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
                         IFDESCR          => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
