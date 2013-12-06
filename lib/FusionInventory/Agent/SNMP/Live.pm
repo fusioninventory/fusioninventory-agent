@@ -72,6 +72,8 @@ sub switch_vlan_context {
     if ($version eq 'snmpv3') {
         $self->{context} = 'vlan-' . $vlan_id;
     } else {
+        # save original session
+        $self->{oldsession} = $self->{session} unless $self->{oldsession};
         ($self->{session}, $error) = Net::SNMP->session(
             -timeout   => $self->{session}->timeout(),
             -retries   => 0,
@@ -82,6 +84,26 @@ sub switch_vlan_context {
     }
 
     die $error unless $self->{session};
+}
+
+sub reset_original_context {
+    my ($self) = @_;
+
+    my $version_id = $self->{session}->version();
+
+    my $version =
+        $version_id == 0 ? 'snmpv1'  :
+        $version_id == 1 ? 'snmpv2c' :
+        $version_id == 2 ? 'snmpv3'  :
+                             undef   ;
+
+    my $error;
+    if ($version eq 'snmpv3') {
+        delete $self->{context};
+    } else {
+        $self->{session} = $self->{oldsession};
+        delete $self->{oldsession};
+    }
 }
 
 sub get {
