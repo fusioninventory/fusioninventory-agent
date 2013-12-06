@@ -34,7 +34,15 @@ sub new {
 sub switch_vlan_context {
     my ($self, $vlan_id) = @_;
 
-    undef $self->{values};
+    $self->{oldvalues} = $self->{values} unless $self->{oldvalues};
+    delete $self->{values};
+}
+
+sub reset_original_context {
+    my ($self) = @_;
+
+    $self->{values} = $self->{oldvalues};
+    delete $self->{oldvalues};
 }
 
 sub _getIndexedValues {

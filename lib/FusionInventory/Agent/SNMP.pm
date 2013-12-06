@@ -29,6 +29,10 @@ With SNMPv1 and SNMPv2, this creates a new SNMP connection, using a community
 derived from original one, with vlan ID appended as a suffix. With SNMPv3,
 ensure all subsequent requests use relevant context.
 
+=head2 reset_original_context()
+
+Reset to original context.
+
 =head2 get($oid)
 
 This method returns a single value, corresponding to a single OID. The value is
