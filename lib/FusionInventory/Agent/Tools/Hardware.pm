@@ -1117,6 +1117,7 @@ sub _getCanonicalMacAddress {
         }
     }
 
+    return if $result eq '00:00:00:00:00:00';
     return lc($result);
 }
 
