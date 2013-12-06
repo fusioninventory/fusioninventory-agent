@@ -1381,7 +1381,7 @@ sub _setAggregatePorts {
     my (%params) = @_;
 
     my $aggregatePorts = _getAggregatePorts(
-        snmp  => $params{snmp}
+        snmp => $params{snmp}
     );
 
     return unless $aggregatePorts;
@@ -1403,35 +1403,27 @@ sub _setAggregatePorts {
 sub _getAggregatePorts {
     my (%params) = @_;
 
-    my $snmp   = $params{snmp};
+    my $snmp = $params{snmp};
 
     my $results;
-    my $lacpPorts = $snmp->walk(
-        '.1.2.840.10006.300.43.1.1.1.1.6'
-    );
-    my $allPorts = $snmp->walk(
-        '1.2.840.10006.300.43.1.2.1.1.4'
-    );
+    my $lacpPorts = $snmp->walk('.1.2.840.10006.300.43.1.1.1.1.6');
+    my $allPorts  = $snmp->walk('.1.2.840.10006.300.43.1.2.1.1.4');
+    my $pagpPorts = $snmp->walk('.1.3.6.1.4.1.9.9.98.1.1.1.1.5');
+
     while (my ($aggregatePort_id, $trunk) = each %{$lacpPorts}) {
         my $portShortNum = $aggregatePort_id;
         substr $portShortNum, 0, 1, "";
         while (my ($port_id, $portShortNumFind) = each %{$allPorts}) {
-            if ($portShortNum == $portShortNumFind) {
-               push @{$results->{$aggregatePort_id}}, $port_id;
-            }
+            next unless $portShortNum == $portShortNumFind;
+            push @{$results->{$aggregatePort_id}}, $port_id;
         }         
     }
 
-    my $pagpPorts = $snmp->walk(
-        '.1.3.6.1.4.1.9.9.98.1.1.1.1.5'
-    );
     while (my ($port_id, $portShortNum) = each %{$pagpPorts}) {
-        if ($portShortNum > 0) {
-            my $aggregatePort_id = $portShortNum + 5000;
-            push @{$results->{$aggregatePort_id}}, $port_id;
-        }
+        next unless $portShortNum > 0;
+        my $aggregatePort_id = $portShortNum + 5000;
+        push @{$results->{$aggregatePort_id}}, $port_id;
     }
-
 
     return $results;
 }
