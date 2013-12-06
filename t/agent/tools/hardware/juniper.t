@@ -3093,6 +3093,7 @@ my %tests = (
                         '192.168.1.219',
                     ],
                 },
+                MAC          => '78:fe:3d:d5:0e:c0',
                 UPTIME       => '(9174471) 1 day, 1:29:04.71',
             },
             PORTS => {
@@ -5691,6 +5692,7 @@ my %tests = (
                         '192.168.1.132',
                     ],
                 },
+                MAC          => '78:fe:3d:37:5e:c0',
                 UPTIME       => '(1514669572) 175 days, 7:24:55.72',
             },
             PORTS => {
@@ -15246,6 +15248,7 @@ my %tests = (
                         '192.168.100.140',
                     ],
                 },
+                MAC          => '78:fe:3d:35:14:41',
                 UPTIME       => '(499476755) 57 days, 19:26:07.55',
             },
             PORTS => {
@@ -17320,6 +17323,7 @@ my %tests = (
                         '192.168.100.140',
                     ],
                 },
+                MAC          => '78:fe:3d:35:14:41',
                 UPTIME       => '(499476755) 57 days, 19:26:07.55',
             },
             PORTS => {
@@ -19415,6 +19419,7 @@ my %tests = (
                         '192.168.100.55',
                     ],
                 },
+                MAC          => '5c:5e:ab:6a:3b:81',
                 UPTIME       => '(502367524) 58 days, 3:27:55.24',
             },
             PORTS => {
@@ -21585,6 +21590,7 @@ my %tests = (
                         '192.168.100.55',
                     ],
                 },
+                MAC          => '5c:5e:ab:6a:3b:81',
                 UPTIME       => '(502367524) 58 days, 3:27:55.24',
             },
             PORTS => {
@@ -27946,6 +27952,7 @@ my %tests = (
                         '192.168.100.44',
                     ],
                 },
+                MAC          => '2c:6b:f5:9a:7e:80',
                 UPTIME       => '(690611103) 79 days, 22:21:51.03',
             },
             PORTS => {
@@ -32101,6 +32108,7 @@ my %tests = (
                         '192.168.100.31',
                     ],
                 },
+                MAC          => '2c:6b:f5:9b:48:80',
                 UPTIME       => '(1579491875) 182 days, 19:28:38.75',
             },
             PORTS => {
@@ -53457,6 +53465,7 @@ my %tests = (
                         '192.168.100.31',
                     ],
                 },
+                MAC          => '2c:6b:f5:9b:48:80',
                 UPTIME       => '(395632884) 45 days, 18:58:48.84',
             },
             PORTS => {
@@ -74783,6 +74792,7 @@ my %tests = (
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
+                MAC          => '00:21:59:86:a8:00',
             },
             PORTS => {
                 PORT => [
@@ -75384,6 +75394,7 @@ my %tests = (
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
+                MAC          => '00:21:59:86:a8:00',
             },
             PORTS => {
                 PORT => [
@@ -76003,6 +76014,7 @@ my %tests = (
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
+                MAC          => '00:21:59:86:a8:00',
             },
             PORTS => {
                 PORT => [
@@ -76590,6 +76602,7 @@ my %tests = (
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
+                MAC          => '00:21:59:86:a8:00',
             },
             PORTS => {
                 PORT => [
@@ -77195,6 +77208,7 @@ my %tests = (
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
+                MAC          => '00:21:59:86:a8:00',
             },
             PORTS => {
                 PORT => [
@@ -77796,6 +77810,7 @@ my %tests = (
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
+                MAC          => '00:21:59:86:a8:00',
             },
             PORTS => {
                 PORT => [
