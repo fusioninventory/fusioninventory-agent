@@ -5601,7 +5601,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2520427958',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5624,7 +5624,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1444296343',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5647,7 +5647,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3697736928',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5670,7 +5670,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2874278107',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5693,7 +5693,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2097721511',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5716,7 +5716,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '7517632',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5739,7 +5739,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '356275802',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5762,7 +5762,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1849411001',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5785,7 +5785,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4060044107',
                         IFOUTERRORS      => '5',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5808,7 +5808,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '650135037',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5831,7 +5831,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5854,7 +5854,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '680136759',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5877,7 +5877,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '828899275',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5900,7 +5900,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '16887',
                         IFOUTOCTETS      => '1855427971',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5923,7 +5923,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1133282038',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5946,7 +5946,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '857357031',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5969,7 +5969,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '209932792',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -5992,7 +5992,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1032329852',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6015,7 +6015,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '252',
                         IFOUTOCTETS      => '1865203761',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6038,7 +6038,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '37991943',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6061,7 +6061,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2845209002',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6084,7 +6084,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2428516158',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6107,7 +6107,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6130,7 +6130,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6153,7 +6153,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -6242,7 +6242,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2520427958',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6265,7 +6265,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1444296343',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6288,7 +6288,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3697736928',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6311,7 +6311,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2874278107',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6334,7 +6334,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2097721511',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6357,7 +6357,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '7517632',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6380,7 +6380,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '356275802',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6403,7 +6403,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1849411001',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6426,7 +6426,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4060044107',
                         IFOUTERRORS      => '5',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6449,7 +6449,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '650135037',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6472,7 +6472,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6495,7 +6495,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '680136759',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6518,7 +6518,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '828899275',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6541,7 +6541,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '16887',
                         IFOUTOCTETS      => '1855427971',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6564,7 +6564,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1133282038',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6587,7 +6587,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '857357031',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6610,7 +6610,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '209932792',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6633,7 +6633,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1032329852',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6656,7 +6656,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '252',
                         IFOUTOCTETS      => '1865203761',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6679,7 +6679,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '37991943',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6702,7 +6702,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2845209002',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6725,7 +6725,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2428516158',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6748,7 +6748,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6771,7 +6771,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6794,7 +6794,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -6910,7 +6910,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '926844080',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6933,7 +6933,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6956,7 +6956,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3227489290',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -6979,7 +6979,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7002,7 +7002,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2052899224',
                         IFOUTERRORS      => '73',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7025,7 +7025,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7048,7 +7048,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '34',
                         IFOUTOCTETS      => '2698203912',
                         IFOUTERRORS      => '297',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7071,7 +7071,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1553262039',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7094,7 +7094,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '3992264533',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7117,7 +7117,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '654794463',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7140,7 +7140,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4219065024',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7163,7 +7163,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '613',
                         IFOUTOCTETS      => '347903192',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7186,7 +7186,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '191680982',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7209,7 +7209,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7232,7 +7232,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2383669184',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7255,7 +7255,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '631494',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7278,7 +7278,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '469166891',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7301,7 +7301,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7324,7 +7324,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3400637521',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7347,7 +7347,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '756432620',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7370,7 +7370,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7393,7 +7393,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2733536359',
                         IFOUTERRORS      => '2257',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7416,7 +7416,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7557,7 +7557,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '926844080',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7580,7 +7580,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7603,7 +7603,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3227489290',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7626,7 +7626,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7649,7 +7649,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2052899224',
                         IFOUTERRORS      => '73',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7672,7 +7672,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7695,7 +7695,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '34',
                         IFOUTOCTETS      => '2698203912',
                         IFOUTERRORS      => '297',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7718,7 +7718,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1553262039',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7741,7 +7741,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '3992264533',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7764,7 +7764,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '654794463',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7787,7 +7787,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4219065024',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7810,7 +7810,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '613',
                         IFOUTOCTETS      => '347903192',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7833,7 +7833,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '191680982',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7856,7 +7856,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7879,7 +7879,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2383669184',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7902,7 +7902,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '631494',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7925,7 +7925,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '469166891',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7948,7 +7948,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7971,7 +7971,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3400637521',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -7994,7 +7994,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '756432620',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -8017,7 +8017,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -8040,7 +8040,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2733536359',
                         IFOUTERRORS      => '2257',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -8063,7 +8063,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10159,7 +10159,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10185,7 +10185,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1309670942',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10212,7 +10212,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2758132634',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10238,7 +10238,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2237159677',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10265,7 +10265,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4244518876',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10291,7 +10291,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1103108996',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10317,7 +10317,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '680410947',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10344,7 +10344,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1711110227',
                         IFOUTERRORS      => '5306391',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10371,7 +10371,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10398,7 +10398,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '472288711',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10424,7 +10424,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10451,7 +10451,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3871739267',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10477,7 +10477,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10504,7 +10504,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3190072208',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10530,7 +10530,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10556,7 +10556,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10582,7 +10582,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10608,7 +10608,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10635,7 +10635,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '462767851',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10662,7 +10662,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2831486943',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10689,7 +10689,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3115275205',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10715,7 +10715,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10742,7 +10742,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1039775044',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10768,7 +10768,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10795,7 +10795,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '10114',
                         IFOUTOCTETS      => '2278558878',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10822,7 +10822,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10849,7 +10849,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '189899557',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10876,7 +10876,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1170216684',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10902,7 +10902,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1274821872',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10929,7 +10929,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10955,7 +10955,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '633177844',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -10982,7 +10982,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '4206248334',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11009,7 +11009,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '2369',
                         IFOUTOCTETS      => '587991352',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11035,7 +11035,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1209925409',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11062,7 +11062,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11089,7 +11089,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '427746098',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11116,7 +11116,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11143,7 +11143,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3366833064',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11170,7 +11170,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '523659377',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11196,7 +11196,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11222,7 +11222,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11248,7 +11248,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3327711715',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11274,7 +11274,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11300,7 +11300,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1211817539',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11326,7 +11326,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11353,7 +11353,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11379,7 +11379,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11405,7 +11405,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11431,7 +11431,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -11539,7 +11539,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11565,7 +11565,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1309670942',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11592,7 +11592,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2758132634',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11618,7 +11618,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2237159677',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11645,7 +11645,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4244518876',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11671,7 +11671,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1103108996',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11697,7 +11697,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '680410947',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11724,7 +11724,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1711110227',
                         IFOUTERRORS      => '5306391',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11751,7 +11751,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11778,7 +11778,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '472288711',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11804,7 +11804,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11831,7 +11831,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3871739267',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11857,7 +11857,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11884,7 +11884,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3190072208',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11910,7 +11910,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11936,7 +11936,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11962,7 +11962,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -11988,7 +11988,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12015,7 +12015,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '462767851',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12042,7 +12042,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2831486943',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12069,7 +12069,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3115275205',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12095,7 +12095,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12122,7 +12122,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1039775044',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12148,7 +12148,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12175,7 +12175,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '10114',
                         IFOUTOCTETS      => '2278558878',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12202,7 +12202,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12229,7 +12229,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '189899557',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12256,7 +12256,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1170216684',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12282,7 +12282,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1274821872',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12309,7 +12309,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12335,7 +12335,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '633177844',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12362,7 +12362,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '4206248334',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12389,7 +12389,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '2369',
                         IFOUTOCTETS      => '587991352',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12415,7 +12415,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1209925409',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12442,7 +12442,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12469,7 +12469,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '427746098',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12496,7 +12496,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12523,7 +12523,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3366833064',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12550,7 +12550,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '523659377',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12576,7 +12576,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12602,7 +12602,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12628,7 +12628,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3327711715',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12654,7 +12654,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12680,7 +12680,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1211817539',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12706,7 +12706,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12733,7 +12733,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12759,7 +12759,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12785,7 +12785,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12811,7 +12811,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -12932,7 +12932,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12955,7 +12955,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -12978,7 +12978,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13001,7 +13001,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13024,7 +13024,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13047,7 +13047,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13070,7 +13070,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13093,7 +13093,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13116,7 +13116,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13139,7 +13139,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13162,7 +13162,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13185,7 +13185,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13208,7 +13208,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13231,7 +13231,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13254,7 +13254,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '2542256749',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13277,7 +13277,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13300,7 +13300,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13323,7 +13323,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13346,7 +13346,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13369,7 +13369,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13392,7 +13392,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13415,7 +13415,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13438,7 +13438,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13461,7 +13461,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13484,7 +13484,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13507,7 +13507,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13530,7 +13530,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13553,7 +13553,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13576,7 +13576,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13599,7 +13599,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13622,7 +13622,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13645,7 +13645,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13668,7 +13668,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13691,7 +13691,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13714,7 +13714,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13737,7 +13737,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13760,7 +13760,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13783,7 +13783,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13806,7 +13806,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13829,7 +13829,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13852,7 +13852,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13875,7 +13875,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13898,7 +13898,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13921,7 +13921,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13944,7 +13944,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13967,7 +13967,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -13990,7 +13990,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14013,7 +14013,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14061,7 +14061,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10501',
@@ -14126,7 +14126,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14149,7 +14149,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14172,7 +14172,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14195,7 +14195,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14218,7 +14218,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14241,7 +14241,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14264,7 +14264,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14287,7 +14287,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14310,7 +14310,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14333,7 +14333,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14356,7 +14356,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14379,7 +14379,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14402,7 +14402,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14425,7 +14425,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14448,7 +14448,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '2542256749',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14471,7 +14471,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14494,7 +14494,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14517,7 +14517,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14540,7 +14540,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14563,7 +14563,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14586,7 +14586,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14609,7 +14609,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14632,7 +14632,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14655,7 +14655,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14678,7 +14678,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14701,7 +14701,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14724,7 +14724,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14747,7 +14747,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14770,7 +14770,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14793,7 +14793,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14816,7 +14816,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14839,7 +14839,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14862,7 +14862,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14885,7 +14885,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14908,7 +14908,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14931,7 +14931,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14954,7 +14954,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -14977,7 +14977,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15000,7 +15000,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15023,7 +15023,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15046,7 +15046,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15069,7 +15069,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15092,7 +15092,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15115,7 +15115,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15138,7 +15138,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15161,7 +15161,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15184,7 +15184,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15207,7 +15207,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15255,7 +15255,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10501',
@@ -15346,7 +15346,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15369,7 +15369,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15392,7 +15392,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15415,7 +15415,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15438,7 +15438,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15461,7 +15461,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15484,7 +15484,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15507,7 +15507,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15530,7 +15530,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15553,7 +15553,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15576,7 +15576,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15599,7 +15599,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15622,7 +15622,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15645,7 +15645,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '144458186',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15668,7 +15668,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15691,7 +15691,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15714,7 +15714,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '6301',
                         IFOUTOCTETS      => '977154644',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15737,7 +15737,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15760,7 +15760,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '3',
                         IFOUTOCTETS      => '3438774464',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15783,7 +15783,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '36851033',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15806,7 +15806,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15829,7 +15829,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15852,7 +15852,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15875,7 +15875,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15898,7 +15898,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '6',
                         IFOUTOCTETS      => '1349888727',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15921,7 +15921,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15944,7 +15944,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15967,7 +15967,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -15990,7 +15990,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16013,7 +16013,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16036,7 +16036,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16059,7 +16059,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16082,7 +16082,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16105,7 +16105,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16128,7 +16128,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16151,7 +16151,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16174,7 +16174,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16197,7 +16197,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16220,7 +16220,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '13004',
                         IFOUTOCTETS      => '2691288013',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16243,7 +16243,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16266,7 +16266,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16289,7 +16289,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16312,7 +16312,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16335,7 +16335,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16358,7 +16358,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16381,7 +16381,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '157324648',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16404,7 +16404,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16427,7 +16427,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16475,7 +16475,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10501',
@@ -16540,7 +16540,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16563,7 +16563,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16586,7 +16586,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16609,7 +16609,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16632,7 +16632,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16655,7 +16655,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16678,7 +16678,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16701,7 +16701,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16724,7 +16724,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16747,7 +16747,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16770,7 +16770,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16793,7 +16793,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16816,7 +16816,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16839,7 +16839,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '144458186',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16862,7 +16862,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16885,7 +16885,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16908,7 +16908,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '6301',
                         IFOUTOCTETS      => '977154644',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16931,7 +16931,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16954,7 +16954,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '3',
                         IFOUTOCTETS      => '3438774464',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -16977,7 +16977,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '36851033',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17000,7 +17000,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17023,7 +17023,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17046,7 +17046,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17069,7 +17069,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17092,7 +17092,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '6',
                         IFOUTOCTETS      => '1349888727',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17115,7 +17115,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17138,7 +17138,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17161,7 +17161,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17184,7 +17184,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17207,7 +17207,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17230,7 +17230,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17253,7 +17253,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17276,7 +17276,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17299,7 +17299,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17322,7 +17322,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17345,7 +17345,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17368,7 +17368,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17391,7 +17391,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17414,7 +17414,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '13004',
                         IFOUTOCTETS      => '2691288013',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17437,7 +17437,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17460,7 +17460,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17483,7 +17483,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17506,7 +17506,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17529,7 +17529,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17552,7 +17552,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17575,7 +17575,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '157324648',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17598,7 +17598,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17621,7 +17621,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17669,7 +17669,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10501',
@@ -17760,7 +17760,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17783,7 +17783,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17806,7 +17806,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17829,7 +17829,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17852,7 +17852,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17875,7 +17875,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17898,7 +17898,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17921,7 +17921,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2434568578',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17944,7 +17944,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '45',
                         IFOUTOCTETS      => '3168236376',
                         IFOUTERRORS      => '148',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17967,7 +17967,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -17990,7 +17990,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18013,7 +18013,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2095312613',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18036,7 +18036,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18059,7 +18059,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3945616377',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18082,7 +18082,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18105,7 +18105,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18128,7 +18128,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18151,7 +18151,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18174,7 +18174,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2678286274',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18197,7 +18197,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18220,7 +18220,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18243,7 +18243,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18266,7 +18266,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18289,7 +18289,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18312,7 +18312,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18335,7 +18335,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18358,7 +18358,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1640684234',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18381,7 +18381,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18404,7 +18404,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2548890840',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18427,7 +18427,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18450,7 +18450,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18473,7 +18473,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18496,7 +18496,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18519,7 +18519,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18542,7 +18542,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18565,7 +18565,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18588,7 +18588,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18611,7 +18611,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18634,7 +18634,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18657,7 +18657,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18680,7 +18680,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18703,7 +18703,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18726,7 +18726,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18749,7 +18749,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18772,7 +18772,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18795,7 +18795,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18818,7 +18818,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18841,7 +18841,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18889,7 +18889,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10501',
@@ -18954,7 +18954,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -18977,7 +18977,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19000,7 +19000,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19023,7 +19023,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19046,7 +19046,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19069,7 +19069,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19092,7 +19092,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19115,7 +19115,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2434568578',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19138,7 +19138,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '45',
                         IFOUTOCTETS      => '3168236376',
                         IFOUTERRORS      => '148',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19161,7 +19161,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19184,7 +19184,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19207,7 +19207,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2095312613',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19230,7 +19230,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19253,7 +19253,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3945616377',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19276,7 +19276,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19299,7 +19299,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19322,7 +19322,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19345,7 +19345,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19368,7 +19368,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2678286274',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19391,7 +19391,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19414,7 +19414,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19437,7 +19437,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19460,7 +19460,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19483,7 +19483,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19506,7 +19506,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19529,7 +19529,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19552,7 +19552,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1640684234',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19575,7 +19575,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19598,7 +19598,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2548890840',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19621,7 +19621,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19644,7 +19644,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19667,7 +19667,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19690,7 +19690,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19713,7 +19713,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19736,7 +19736,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19759,7 +19759,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19782,7 +19782,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19805,7 +19805,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19828,7 +19828,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19851,7 +19851,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19874,7 +19874,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19897,7 +19897,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19920,7 +19920,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19943,7 +19943,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19966,7 +19966,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -19989,7 +19989,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20012,7 +20012,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20035,7 +20035,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20083,7 +20083,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10501',
@@ -20174,7 +20174,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20197,7 +20197,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20220,7 +20220,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20243,7 +20243,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20266,7 +20266,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20289,7 +20289,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20312,7 +20312,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20335,7 +20335,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20358,7 +20358,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20381,7 +20381,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20404,7 +20404,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20427,7 +20427,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20450,7 +20450,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20473,7 +20473,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3483278393',
                         IFOUTERRORS      => '10994',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20496,7 +20496,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20519,7 +20519,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2696552369',
                         IFOUTERRORS      => '10943',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20542,7 +20542,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20565,7 +20565,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20588,7 +20588,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20611,7 +20611,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20634,7 +20634,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20657,7 +20657,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20680,7 +20680,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '916141211',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20703,7 +20703,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20726,7 +20726,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '993850547',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20749,7 +20749,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20772,7 +20772,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20795,7 +20795,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1382513486',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20818,7 +20818,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20841,7 +20841,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '28180240',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20864,7 +20864,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20887,7 +20887,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1145076',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20910,7 +20910,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20933,7 +20933,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2034868762',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20956,7 +20956,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -20979,7 +20979,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '10636434',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21002,7 +21002,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21025,7 +21025,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3882553',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21048,7 +21048,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21071,7 +21071,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21094,7 +21094,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21117,7 +21117,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21140,7 +21140,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21163,7 +21163,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21186,7 +21186,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21209,7 +21209,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21232,7 +21232,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21255,7 +21255,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21303,7 +21303,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10501',
@@ -21368,7 +21368,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21391,7 +21391,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21414,7 +21414,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21437,7 +21437,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21460,7 +21460,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21483,7 +21483,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21506,7 +21506,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21529,7 +21529,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21552,7 +21552,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21575,7 +21575,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21598,7 +21598,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21621,7 +21621,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21644,7 +21644,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21667,7 +21667,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3483278393',
                         IFOUTERRORS      => '10994',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21690,7 +21690,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21713,7 +21713,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2696552369',
                         IFOUTERRORS      => '10943',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21736,7 +21736,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21759,7 +21759,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21782,7 +21782,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21805,7 +21805,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21828,7 +21828,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21851,7 +21851,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21874,7 +21874,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '916141211',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21897,7 +21897,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21920,7 +21920,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '993850547',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21943,7 +21943,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21966,7 +21966,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -21989,7 +21989,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1382513486',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22012,7 +22012,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22035,7 +22035,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '28180240',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22058,7 +22058,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22081,7 +22081,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1145076',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22104,7 +22104,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22127,7 +22127,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2034868762',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22150,7 +22150,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22173,7 +22173,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '10636434',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22196,7 +22196,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22219,7 +22219,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3882553',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22242,7 +22242,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22265,7 +22265,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22288,7 +22288,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22311,7 +22311,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22334,7 +22334,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22357,7 +22357,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22380,7 +22380,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22403,7 +22403,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22426,7 +22426,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22449,7 +22449,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22497,7 +22497,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10501',
@@ -22601,7 +22601,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '61797424',
                         IFOUTERRORS      => '2330',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22627,7 +22627,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '61239968',
                         IFOUTERRORS      => '2330',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22653,7 +22653,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22679,7 +22679,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22705,7 +22705,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22731,7 +22731,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22757,7 +22757,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22784,7 +22784,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2242606023',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22907,7 +22907,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '61797424',
                         IFOUTERRORS      => '2330',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22933,7 +22933,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '61239968',
                         IFOUTERRORS      => '2330',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22959,7 +22959,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -22985,7 +22985,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23011,7 +23011,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23037,7 +23037,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23063,7 +23063,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23090,7 +23090,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2242606023',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23226,7 +23226,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1451562620',
                         IFOUTERRORS      => '18',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23249,7 +23249,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1448479479',
                         IFOUTERRORS      => '18',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23272,7 +23272,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23295,7 +23295,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23318,7 +23318,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23341,7 +23341,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23364,7 +23364,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23387,7 +23387,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2918695052',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23492,7 +23492,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1451562620',
                         IFOUTERRORS      => '18',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23515,7 +23515,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1448479479',
                         IFOUTERRORS      => '18',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23538,7 +23538,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23561,7 +23561,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23584,7 +23584,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23607,7 +23607,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23630,7 +23630,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23653,7 +23653,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2918695052',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23784,7 +23784,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23807,7 +23807,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23830,7 +23830,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23853,7 +23853,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23876,7 +23876,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23899,7 +23899,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23922,7 +23922,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -23945,7 +23945,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24043,7 +24043,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24066,7 +24066,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24089,7 +24089,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24112,7 +24112,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24135,7 +24135,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24158,7 +24158,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24181,7 +24181,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24204,7 +24204,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24341,7 +24341,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1326656584',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24368,7 +24368,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24395,7 +24395,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24421,7 +24421,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '2768496992',
                         IFOUTERRORS      => '3607',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24447,7 +24447,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24473,7 +24473,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24499,7 +24499,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24525,7 +24525,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24641,7 +24641,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1326656584',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24668,7 +24668,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24695,7 +24695,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24721,7 +24721,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '2768496992',
                         IFOUTERRORS      => '3607',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24747,7 +24747,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24773,7 +24773,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24799,7 +24799,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24825,7 +24825,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24963,7 +24963,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -24989,7 +24989,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25015,7 +25015,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '756332041',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25041,7 +25041,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3117649181',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25067,7 +25067,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2573011663',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25093,7 +25093,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25120,7 +25120,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '504676058',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25146,7 +25146,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3060679302',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25173,7 +25173,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3521084609',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25199,7 +25199,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3580016358',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25225,7 +25225,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1515',
                         IFOUTOCTETS      => '2442375155',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25252,7 +25252,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '812503561',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25278,7 +25278,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '591',
                         IFOUTOCTETS      => '3433514988',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25304,7 +25304,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2621084749',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25330,7 +25330,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25356,7 +25356,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1799720061',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25382,7 +25382,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '823572932',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25408,7 +25408,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1058979164',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25434,7 +25434,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2456540728',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25460,7 +25460,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '588495127',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25487,7 +25487,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '948041575',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25513,7 +25513,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2377537428',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25539,7 +25539,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25565,7 +25565,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2995462255',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25591,7 +25591,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4061519092',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25617,7 +25617,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '608813461',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25643,7 +25643,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '84820619',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25670,7 +25670,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25696,7 +25696,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25722,7 +25722,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '175667222',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25748,7 +25748,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25775,7 +25775,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25801,7 +25801,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '3',
                         IFOUTOCTETS      => '2478842366',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25828,7 +25828,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '1498951827',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25854,7 +25854,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25881,7 +25881,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25907,7 +25907,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '495223509',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25933,7 +25933,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25959,7 +25959,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2042259921',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -25986,7 +25986,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '79',
                         IFOUTOCTETS      => '955469137',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26012,7 +26012,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26038,7 +26038,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3890588264',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26064,7 +26064,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4125511793',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26091,7 +26091,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26118,7 +26118,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2806555706',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26144,7 +26144,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26171,7 +26171,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1393992022',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26197,7 +26197,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26223,7 +26223,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -26328,7 +26328,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26354,7 +26354,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26380,7 +26380,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '756332041',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26406,7 +26406,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3117649181',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26432,7 +26432,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2573011663',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26458,7 +26458,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26485,7 +26485,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '504676058',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26511,7 +26511,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3060679302',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26538,7 +26538,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3521084609',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26564,7 +26564,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3580016358',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26590,7 +26590,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1515',
                         IFOUTOCTETS      => '2442375155',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26617,7 +26617,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '812503561',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26643,7 +26643,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '591',
                         IFOUTOCTETS      => '3433514988',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26669,7 +26669,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2621084749',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26695,7 +26695,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26721,7 +26721,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1799720061',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26747,7 +26747,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '823572932',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26773,7 +26773,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1058979164',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26799,7 +26799,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2456540728',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26825,7 +26825,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '588495127',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26852,7 +26852,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '948041575',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26878,7 +26878,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2377537428',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26904,7 +26904,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26930,7 +26930,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2995462255',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26956,7 +26956,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4061519092',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -26982,7 +26982,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '608813461',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27008,7 +27008,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '84820619',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27035,7 +27035,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27061,7 +27061,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27087,7 +27087,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '175667222',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27113,7 +27113,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27140,7 +27140,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27166,7 +27166,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '3',
                         IFOUTOCTETS      => '2478842366',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27193,7 +27193,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '1498951827',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27219,7 +27219,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27246,7 +27246,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27272,7 +27272,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '495223509',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27298,7 +27298,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27324,7 +27324,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2042259921',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27351,7 +27351,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '79',
                         IFOUTOCTETS      => '955469137',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27377,7 +27377,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27403,7 +27403,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3890588264',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27429,7 +27429,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4125511793',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27456,7 +27456,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27483,7 +27483,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2806555706',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27509,7 +27509,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27536,7 +27536,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1393992022',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27562,7 +27562,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27588,7 +27588,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -27718,7 +27718,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27744,7 +27744,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1780428234',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27771,7 +27771,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '83',
                         IFOUTOCTETS      => '1656161676',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27798,7 +27798,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '490902365',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27824,7 +27824,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2254790327',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27850,7 +27850,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1735119533',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27876,7 +27876,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2537069231',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27903,7 +27903,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3964300497',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27930,7 +27930,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1478400263',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27956,7 +27956,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -27982,7 +27982,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2971444489',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28008,7 +28008,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28035,7 +28035,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3721224604',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28062,7 +28062,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2843625112',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28089,7 +28089,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2152244965',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28116,7 +28116,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3949275897',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28142,7 +28142,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4283714395',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28168,7 +28168,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '498238424',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28194,7 +28194,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2431666154',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28220,7 +28220,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28246,7 +28246,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3739481889',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28273,7 +28273,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '2253',
                         IFOUTOCTETS      => '2921028326',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28299,7 +28299,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '3572352715',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28326,7 +28326,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28352,7 +28352,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3467943347',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28378,7 +28378,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28404,7 +28404,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2990042834',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28430,7 +28430,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28456,7 +28456,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2549513280',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28482,7 +28482,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '132773280',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28509,7 +28509,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28535,7 +28535,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28561,7 +28561,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '3851864674',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28587,7 +28587,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28613,7 +28613,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2603564766',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28640,7 +28640,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2653475890',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28666,7 +28666,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28692,7 +28692,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28718,7 +28718,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1032818239',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28744,7 +28744,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3750350011',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28770,7 +28770,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28796,7 +28796,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28823,7 +28823,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28849,7 +28849,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28875,7 +28875,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4137997403',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28901,7 +28901,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '83984',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28927,7 +28927,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4260968015',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28954,7 +28954,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '122',
                         IFOUTOCTETS      => '287093414',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -28980,7 +28980,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -29085,7 +29085,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29111,7 +29111,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1780428234',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29138,7 +29138,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '83',
                         IFOUTOCTETS      => '1656161676',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29165,7 +29165,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '490902365',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29191,7 +29191,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2254790327',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29217,7 +29217,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1735119533',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29243,7 +29243,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2537069231',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29270,7 +29270,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3964300497',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29297,7 +29297,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1478400263',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29323,7 +29323,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29349,7 +29349,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2971444489',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29375,7 +29375,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29402,7 +29402,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3721224604',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29429,7 +29429,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2843625112',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29456,7 +29456,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2152244965',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29483,7 +29483,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3949275897',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29509,7 +29509,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4283714395',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29535,7 +29535,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '498238424',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29561,7 +29561,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2431666154',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29587,7 +29587,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29613,7 +29613,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3739481889',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29640,7 +29640,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '2253',
                         IFOUTOCTETS      => '2921028326',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29666,7 +29666,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '3572352715',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29693,7 +29693,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29719,7 +29719,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3467943347',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29745,7 +29745,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29771,7 +29771,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2990042834',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29797,7 +29797,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29823,7 +29823,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2549513280',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29849,7 +29849,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '132773280',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29876,7 +29876,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29902,7 +29902,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29928,7 +29928,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '3851864674',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29954,7 +29954,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -29980,7 +29980,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2603564766',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30007,7 +30007,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2653475890',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30033,7 +30033,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30059,7 +30059,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30085,7 +30085,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1032818239',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30111,7 +30111,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3750350011',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30137,7 +30137,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30163,7 +30163,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30190,7 +30190,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30216,7 +30216,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30242,7 +30242,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4137997403',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30268,7 +30268,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '83984',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30294,7 +30294,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4260968015',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30321,7 +30321,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '122',
                         IFOUTOCTETS      => '287093414',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30347,7 +30347,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -30478,7 +30478,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1088658557',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30504,7 +30504,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3893544945',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30530,7 +30530,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30556,7 +30556,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '11792',
                         IFOUTOCTETS      => '163540851',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30583,7 +30583,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '158749402',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30610,7 +30610,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30636,7 +30636,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1932959363',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30662,7 +30662,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '135',
                         IFOUTOCTETS      => '1559704531',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30688,7 +30688,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30714,7 +30714,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30740,7 +30740,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '291591497',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30766,7 +30766,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1742189833',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30792,7 +30792,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30818,7 +30818,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3954590768',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30845,7 +30845,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2993571232',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30871,7 +30871,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3311245137',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30898,7 +30898,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2320429264',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30924,7 +30924,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30950,7 +30950,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -30977,7 +30977,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31003,7 +31003,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1139583024',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31029,7 +31029,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '105263224',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31056,7 +31056,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31082,7 +31082,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1169521450',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31109,7 +31109,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1299989040',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31135,7 +31135,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1462158495',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31162,7 +31162,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '94822713',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31188,7 +31188,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2728136037',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31214,7 +31214,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31240,7 +31240,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1525456045',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31267,7 +31267,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31293,7 +31293,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '644737321',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31320,7 +31320,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3667580775',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31346,7 +31346,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '400503274',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31373,7 +31373,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3406155936',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31399,7 +31399,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '131',
                         IFOUTOCTETS      => '7049719',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31426,7 +31426,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3153998775',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31452,7 +31452,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4040756127',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31479,7 +31479,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31505,7 +31505,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1935901378',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31532,7 +31532,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1751732687',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31558,7 +31558,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31584,7 +31584,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3382662662',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31610,7 +31610,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2621710761',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31637,7 +31637,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '7191',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31663,7 +31663,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31689,7 +31689,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31715,7 +31715,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31849,7 +31849,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1088658557',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31875,7 +31875,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3893544945',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31901,7 +31901,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31927,7 +31927,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '11792',
                         IFOUTOCTETS      => '163540851',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31954,7 +31954,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '158749402',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -31981,7 +31981,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32007,7 +32007,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1932959363',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32033,7 +32033,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '135',
                         IFOUTOCTETS      => '1559704531',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32059,7 +32059,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32085,7 +32085,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32111,7 +32111,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '291591497',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32137,7 +32137,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1742189833',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32163,7 +32163,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32189,7 +32189,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3954590768',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32216,7 +32216,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2993571232',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32242,7 +32242,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3311245137',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32269,7 +32269,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2320429264',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32295,7 +32295,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32321,7 +32321,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32348,7 +32348,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32374,7 +32374,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1139583024',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32400,7 +32400,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '105263224',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32427,7 +32427,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32453,7 +32453,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1169521450',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32480,7 +32480,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1299989040',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32506,7 +32506,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1462158495',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32533,7 +32533,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '94822713',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32559,7 +32559,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2728136037',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32585,7 +32585,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32611,7 +32611,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1525456045',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32638,7 +32638,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32664,7 +32664,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '644737321',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32691,7 +32691,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3667580775',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32717,7 +32717,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '400503274',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32744,7 +32744,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3406155936',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32770,7 +32770,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '131',
                         IFOUTOCTETS      => '7049719',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32797,7 +32797,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3153998775',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32823,7 +32823,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4040756127',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32850,7 +32850,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32876,7 +32876,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1935901378',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32903,7 +32903,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1751732687',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32929,7 +32929,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32955,7 +32955,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3382662662',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -32981,7 +32981,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2621710761',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33008,7 +33008,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '7191',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33034,7 +33034,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33060,7 +33060,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33086,7 +33086,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33245,7 +33245,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33271,7 +33271,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '937738588',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33298,7 +33298,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33325,7 +33325,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3204214563',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33352,7 +33352,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '452614371',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33379,7 +33379,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '549493032',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33406,7 +33406,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33433,7 +33433,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33460,7 +33460,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33486,7 +33486,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '327285714',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33513,7 +33513,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33540,7 +33540,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '394157597',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33567,7 +33567,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33594,7 +33594,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33621,7 +33621,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33647,7 +33647,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33674,7 +33674,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33701,7 +33701,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '6',
                         IFOUTOCTETS      => '2869573976',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33728,7 +33728,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '13077',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33754,7 +33754,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1026310893',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33781,7 +33781,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '331384323',
                         IFOUTERRORS      => '2',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33808,7 +33808,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2826019152',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33835,7 +33835,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '90823211',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33862,7 +33862,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1386091241',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33889,7 +33889,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33916,7 +33916,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '206058251',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33943,7 +33943,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33969,7 +33969,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -33996,7 +33996,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34022,7 +34022,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34049,7 +34049,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34076,7 +34076,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2210751295',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34103,7 +34103,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34129,7 +34129,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34156,7 +34156,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34183,7 +34183,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4232137886',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34210,7 +34210,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2686165684',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34237,7 +34237,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34264,7 +34264,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34291,7 +34291,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34318,7 +34318,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34344,7 +34344,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34371,7 +34371,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34397,7 +34397,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1614810966',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34424,7 +34424,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34451,7 +34451,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1813930953',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34477,7 +34477,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34503,7 +34503,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34529,7 +34529,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -34635,7 +34635,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34661,7 +34661,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '937738588',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34688,7 +34688,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34715,7 +34715,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3204214563',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34742,7 +34742,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '452614371',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34769,7 +34769,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '549493032',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34796,7 +34796,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34823,7 +34823,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34850,7 +34850,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34876,7 +34876,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '327285714',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34903,7 +34903,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34930,7 +34930,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '394157597',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34957,7 +34957,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -34984,7 +34984,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35011,7 +35011,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35037,7 +35037,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35064,7 +35064,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35091,7 +35091,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '6',
                         IFOUTOCTETS      => '2869573976',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35118,7 +35118,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '13077',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35144,7 +35144,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1026310893',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35171,7 +35171,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '331384323',
                         IFOUTERRORS      => '2',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35198,7 +35198,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2826019152',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35225,7 +35225,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '90823211',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35252,7 +35252,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1386091241',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35279,7 +35279,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35306,7 +35306,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '206058251',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35333,7 +35333,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35359,7 +35359,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35386,7 +35386,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35412,7 +35412,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35439,7 +35439,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35466,7 +35466,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2210751295',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35493,7 +35493,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35519,7 +35519,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35546,7 +35546,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35573,7 +35573,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4232137886',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35600,7 +35600,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2686165684',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35627,7 +35627,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35654,7 +35654,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35681,7 +35681,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35708,7 +35708,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35734,7 +35734,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35761,7 +35761,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35787,7 +35787,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1614810966',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35814,7 +35814,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35841,7 +35841,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1813930953',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35867,7 +35867,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35893,7 +35893,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -35919,7 +35919,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -36037,7 +36037,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1592600745',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36060,7 +36060,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '132128949',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36083,7 +36083,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1589500122',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36106,7 +36106,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36129,7 +36129,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1870553961',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36152,7 +36152,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36175,7 +36175,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3555848377',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36198,7 +36198,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1073',
                         IFOUTOCTETS      => '172987482',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36221,7 +36221,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1950174094',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36244,7 +36244,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36267,7 +36267,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1729236803',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36290,7 +36290,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '979250843',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36313,7 +36313,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1466664361',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36336,7 +36336,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36359,7 +36359,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '11019714',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36382,7 +36382,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36405,7 +36405,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1136058308',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36428,7 +36428,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1751606549',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36451,7 +36451,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '845501901',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36474,7 +36474,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36497,7 +36497,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2955248708',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36520,7 +36520,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36543,7 +36543,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '415142315',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36566,7 +36566,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1583482082',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36589,7 +36589,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36612,7 +36612,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36635,7 +36635,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36658,7 +36658,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1105193530',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36681,7 +36681,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36704,7 +36704,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '153717880',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36727,7 +36727,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36750,7 +36750,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '199413415',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36773,7 +36773,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '325559206',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36796,7 +36796,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36819,7 +36819,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '909692649',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36842,7 +36842,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '288470454',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36865,7 +36865,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '860035231',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36888,7 +36888,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36911,7 +36911,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36934,7 +36934,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '26334686',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36957,7 +36957,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -36980,7 +36980,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37003,7 +37003,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37026,7 +37026,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37049,7 +37049,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37072,7 +37072,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '314016603',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37095,7 +37095,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10048',
@@ -37110,7 +37110,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10101',
@@ -37125,7 +37125,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -37213,7 +37213,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1592600745',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37236,7 +37236,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '132128949',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37259,7 +37259,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1589500122',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37282,7 +37282,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37305,7 +37305,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1870553961',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37328,7 +37328,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37351,7 +37351,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3555848377',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37374,7 +37374,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1073',
                         IFOUTOCTETS      => '172987482',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37397,7 +37397,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1950174094',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37420,7 +37420,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37443,7 +37443,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1729236803',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37466,7 +37466,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '979250843',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37489,7 +37489,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1466664361',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37512,7 +37512,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37535,7 +37535,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '11019714',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37558,7 +37558,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37581,7 +37581,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1136058308',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37604,7 +37604,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1751606549',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37627,7 +37627,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '845501901',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37650,7 +37650,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37673,7 +37673,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2955248708',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37696,7 +37696,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37719,7 +37719,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '415142315',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37742,7 +37742,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1583482082',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37765,7 +37765,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37788,7 +37788,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37811,7 +37811,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37834,7 +37834,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1105193530',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37857,7 +37857,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37880,7 +37880,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '153717880',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37903,7 +37903,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37926,7 +37926,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '199413415',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37949,7 +37949,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '325559206',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37972,7 +37972,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -37995,7 +37995,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '909692649',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38018,7 +38018,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '288470454',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38041,7 +38041,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '860035231',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38064,7 +38064,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38087,7 +38087,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38110,7 +38110,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '26334686',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38133,7 +38133,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38156,7 +38156,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38179,7 +38179,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38202,7 +38202,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38225,7 +38225,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38248,7 +38248,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '314016603',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38271,7 +38271,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10048',
@@ -38286,7 +38286,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10101',
@@ -38301,7 +38301,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -38414,7 +38414,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38437,7 +38437,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38460,7 +38460,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38483,7 +38483,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38506,7 +38506,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38529,7 +38529,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38552,7 +38552,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38575,7 +38575,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '441295959',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38598,7 +38598,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '462928907',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38621,7 +38621,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2027456597',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38644,7 +38644,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '12616711',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38667,7 +38667,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38690,7 +38690,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3382839916',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38713,7 +38713,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38736,7 +38736,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2459505968',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38759,7 +38759,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38782,7 +38782,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1672644216',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38805,7 +38805,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4177097156',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38828,7 +38828,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1010945089',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38851,7 +38851,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38874,7 +38874,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '850459015',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38897,7 +38897,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38920,7 +38920,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2379000962',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38943,7 +38943,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38966,7 +38966,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '219374044',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -38989,7 +38989,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39012,7 +39012,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39035,7 +39035,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39058,7 +39058,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39081,7 +39081,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39104,7 +39104,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39127,7 +39127,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39150,7 +39150,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39173,7 +39173,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39196,7 +39196,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39219,7 +39219,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39242,7 +39242,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39265,7 +39265,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39288,7 +39288,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39311,7 +39311,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39334,7 +39334,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39357,7 +39357,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39380,7 +39380,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '415391758',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39403,7 +39403,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39426,7 +39426,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '210423630',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39449,7 +39449,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '65411852',
                         IFOUTERRORS      => '474',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39472,7 +39472,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39495,7 +39495,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39616,7 +39616,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39639,7 +39639,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39662,7 +39662,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39685,7 +39685,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39708,7 +39708,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39731,7 +39731,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39754,7 +39754,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39777,7 +39777,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '441295959',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39800,7 +39800,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '462928907',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39823,7 +39823,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2027456597',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39846,7 +39846,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '12616711',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39869,7 +39869,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39892,7 +39892,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3382839916',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39915,7 +39915,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39938,7 +39938,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2459505968',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39961,7 +39961,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -39984,7 +39984,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1672644216',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40007,7 +40007,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4177097156',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40030,7 +40030,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1010945089',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40053,7 +40053,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40076,7 +40076,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '850459015',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40099,7 +40099,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40122,7 +40122,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2379000962',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40145,7 +40145,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40168,7 +40168,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '219374044',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40191,7 +40191,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40214,7 +40214,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40237,7 +40237,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40260,7 +40260,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40283,7 +40283,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40306,7 +40306,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40329,7 +40329,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40352,7 +40352,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40375,7 +40375,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40398,7 +40398,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40421,7 +40421,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40444,7 +40444,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40467,7 +40467,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40490,7 +40490,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40513,7 +40513,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40536,7 +40536,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40559,7 +40559,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40582,7 +40582,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '415391758',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40605,7 +40605,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40628,7 +40628,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '210423630',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40651,7 +40651,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '65411852',
                         IFOUTERRORS      => '474',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40674,7 +40674,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40697,7 +40697,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40843,7 +40843,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1742419228',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40866,7 +40866,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40889,7 +40889,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '189',
                         IFOUTOCTETS      => '532210388',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40912,7 +40912,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2153282605',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40935,7 +40935,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2083166134',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40958,7 +40958,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -40981,7 +40981,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41004,7 +41004,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41027,7 +41027,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '74',
                         IFOUTOCTETS      => '46155745',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41050,7 +41050,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1572003616',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41073,7 +41073,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '104717078',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41096,7 +41096,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1497067739',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41119,7 +41119,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '556202230',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41142,7 +41142,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41165,7 +41165,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '942669195',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41188,7 +41188,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1082667493',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41211,7 +41211,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '415511032',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41234,7 +41234,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41257,7 +41257,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1273830488',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41280,7 +41280,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41303,7 +41303,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '8081125',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41326,7 +41326,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1310224702',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41349,7 +41349,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1083092560',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41372,7 +41372,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '589031780',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41395,7 +41395,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3842105064',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41418,7 +41418,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1522207991',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41441,7 +41441,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41464,7 +41464,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41487,7 +41487,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41510,7 +41510,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41533,7 +41533,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41556,7 +41556,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41579,7 +41579,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41602,7 +41602,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '566699409',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41625,7 +41625,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1673881452',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41648,7 +41648,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41671,7 +41671,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '333305315',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41694,7 +41694,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1165949405',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41717,7 +41717,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2459270527',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41740,7 +41740,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41763,7 +41763,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2966830873',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41786,7 +41786,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3051142050',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41809,7 +41809,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41832,7 +41832,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1322368606',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41855,7 +41855,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41878,7 +41878,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4131182755',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -41901,7 +41901,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10048',
@@ -41916,7 +41916,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10101',
@@ -41931,7 +41931,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -42019,7 +42019,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1742419228',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42042,7 +42042,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42065,7 +42065,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '189',
                         IFOUTOCTETS      => '532210388',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42088,7 +42088,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2153282605',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42111,7 +42111,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2083166134',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42134,7 +42134,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42157,7 +42157,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42180,7 +42180,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42203,7 +42203,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '74',
                         IFOUTOCTETS      => '46155745',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42226,7 +42226,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1572003616',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42249,7 +42249,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '104717078',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42272,7 +42272,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1497067739',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42295,7 +42295,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '556202230',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42318,7 +42318,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42341,7 +42341,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '942669195',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42364,7 +42364,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1082667493',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42387,7 +42387,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '415511032',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42410,7 +42410,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42433,7 +42433,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1273830488',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42456,7 +42456,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42479,7 +42479,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '8081125',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42502,7 +42502,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1310224702',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42525,7 +42525,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1083092560',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42548,7 +42548,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '589031780',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42571,7 +42571,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3842105064',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42594,7 +42594,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1522207991',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42617,7 +42617,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42640,7 +42640,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42663,7 +42663,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42686,7 +42686,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42709,7 +42709,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42732,7 +42732,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42755,7 +42755,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42778,7 +42778,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '566699409',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42801,7 +42801,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1673881452',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42824,7 +42824,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42847,7 +42847,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '333305315',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42870,7 +42870,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1165949405',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42893,7 +42893,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2459270527',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42916,7 +42916,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42939,7 +42939,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2966830873',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42962,7 +42962,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3051142050',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -42985,7 +42985,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43008,7 +43008,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1322368606',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43031,7 +43031,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43054,7 +43054,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4131182755',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43077,7 +43077,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10048',
@@ -43092,7 +43092,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10101',
@@ -43107,7 +43107,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -43220,7 +43220,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '551563172',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43243,7 +43243,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '180494199',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43266,7 +43266,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2127212600',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43289,7 +43289,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1544870396',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43312,7 +43312,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '138162383',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43335,7 +43335,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43358,7 +43358,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1013155442',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43381,7 +43381,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43404,7 +43404,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1049235021',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43427,7 +43427,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43450,7 +43450,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1205965751',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43473,7 +43473,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '907775152',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43496,7 +43496,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43519,7 +43519,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43542,7 +43542,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '472359628',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43565,7 +43565,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43588,7 +43588,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43611,7 +43611,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43634,7 +43634,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1238652232',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43657,7 +43657,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43680,7 +43680,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1727731681',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43703,7 +43703,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43726,7 +43726,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '216068348',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43749,7 +43749,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '75384595',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43772,7 +43772,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '643522671',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43795,7 +43795,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '741613119',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43818,7 +43818,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43841,7 +43841,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '241156515',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43864,7 +43864,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43887,7 +43887,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '198',
                         IFOUTOCTETS      => '1817390113',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43910,7 +43910,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43933,7 +43933,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '108639740',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43956,7 +43956,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '750136193',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -43979,7 +43979,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44002,7 +44002,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44025,7 +44025,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '485644142',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44048,7 +44048,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44071,7 +44071,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44094,7 +44094,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '318157013',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44117,7 +44117,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44140,7 +44140,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44163,7 +44163,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1121153068',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44186,7 +44186,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '508696340',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44209,7 +44209,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '2172',
                         IFOUTOCTETS      => '397895750',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44232,7 +44232,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '580114711',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44255,7 +44255,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '56826608',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44278,7 +44278,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44301,7 +44301,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44324,7 +44324,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -44412,7 +44412,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '551563172',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44435,7 +44435,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '180494199',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44458,7 +44458,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2127212600',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44481,7 +44481,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1544870396',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44504,7 +44504,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '138162383',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44527,7 +44527,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44550,7 +44550,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1013155442',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44573,7 +44573,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44596,7 +44596,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1049235021',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44619,7 +44619,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44642,7 +44642,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '1205965751',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44665,7 +44665,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '907775152',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44688,7 +44688,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44711,7 +44711,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44734,7 +44734,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '472359628',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44757,7 +44757,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44780,7 +44780,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44803,7 +44803,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44826,7 +44826,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1238652232',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44849,7 +44849,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44872,7 +44872,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1727731681',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44895,7 +44895,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44918,7 +44918,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '216068348',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44941,7 +44941,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '75384595',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44964,7 +44964,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '643522671',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -44987,7 +44987,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '741613119',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45010,7 +45010,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45033,7 +45033,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '241156515',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45056,7 +45056,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45079,7 +45079,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '198',
                         IFOUTOCTETS      => '1817390113',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45102,7 +45102,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45125,7 +45125,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '108639740',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45148,7 +45148,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '750136193',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45171,7 +45171,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45194,7 +45194,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45217,7 +45217,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '485644142',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45240,7 +45240,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45263,7 +45263,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45286,7 +45286,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '318157013',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45309,7 +45309,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45332,7 +45332,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45355,7 +45355,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1121153068',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45378,7 +45378,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '508696340',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45401,7 +45401,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '2172',
                         IFOUTOCTETS      => '397895750',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45424,7 +45424,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '580114711',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45447,7 +45447,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '56826608',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45470,7 +45470,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45493,7 +45493,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45516,7 +45516,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -45629,7 +45629,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45652,7 +45652,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45675,7 +45675,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45698,7 +45698,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '9',
                         IFOUTOCTETS      => '8164',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45721,7 +45721,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '144881846',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45744,7 +45744,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '840720064',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45767,7 +45767,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45790,7 +45790,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45813,7 +45813,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '612976902',
                         IFOUTERRORS      => '4',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45836,7 +45836,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45859,7 +45859,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45882,7 +45882,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45905,7 +45905,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45928,7 +45928,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45951,7 +45951,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45974,7 +45974,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2953355851',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -45997,7 +45997,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46020,7 +46020,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46043,7 +46043,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46066,7 +46066,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '216745396',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46089,7 +46089,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '46574638',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46112,7 +46112,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1286935100',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46135,7 +46135,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '724058817',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46158,7 +46158,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '910962138',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46181,7 +46181,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '273047875',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46204,7 +46204,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46227,7 +46227,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46250,7 +46250,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '573755015',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46273,7 +46273,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46296,7 +46296,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1676447716',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46319,7 +46319,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46342,7 +46342,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2167847608',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46365,7 +46365,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46388,7 +46388,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46411,7 +46411,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46434,7 +46434,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1581335281',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46457,7 +46457,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46480,7 +46480,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2151514332',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46503,7 +46503,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46526,7 +46526,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46549,7 +46549,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46572,7 +46572,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46595,7 +46595,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46618,7 +46618,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '987991758',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46641,7 +46641,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46664,7 +46664,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1331270132',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46687,7 +46687,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46710,7 +46710,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10101',
@@ -46823,7 +46823,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46846,7 +46846,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46869,7 +46869,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46892,7 +46892,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '9',
                         IFOUTOCTETS      => '8164',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46915,7 +46915,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '144881846',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46938,7 +46938,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '840720064',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46961,7 +46961,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -46984,7 +46984,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47007,7 +47007,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '612976902',
                         IFOUTERRORS      => '4',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47030,7 +47030,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47053,7 +47053,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47076,7 +47076,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47099,7 +47099,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47122,7 +47122,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47145,7 +47145,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47168,7 +47168,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2953355851',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47191,7 +47191,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47214,7 +47214,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47237,7 +47237,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47260,7 +47260,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '216745396',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47283,7 +47283,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '46574638',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47306,7 +47306,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1286935100',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47329,7 +47329,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '724058817',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47352,7 +47352,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '910962138',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47375,7 +47375,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '273047875',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47398,7 +47398,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47421,7 +47421,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47444,7 +47444,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '573755015',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47467,7 +47467,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47490,7 +47490,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1676447716',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47513,7 +47513,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47536,7 +47536,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2167847608',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47559,7 +47559,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47582,7 +47582,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47605,7 +47605,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47628,7 +47628,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1581335281',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47651,7 +47651,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47674,7 +47674,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2151514332',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47697,7 +47697,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47720,7 +47720,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47743,7 +47743,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47766,7 +47766,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47789,7 +47789,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47812,7 +47812,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '987991758',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47835,7 +47835,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47858,7 +47858,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1331270132',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47881,7 +47881,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -47904,7 +47904,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10101',
@@ -48042,7 +48042,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '629265435',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48065,7 +48065,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1671955162',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48088,7 +48088,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '721368132',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48111,7 +48111,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '6914',
                         IFOUTOCTETS      => '964540942',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48134,7 +48134,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '196349687',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48157,7 +48157,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48180,7 +48180,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48203,7 +48203,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48226,7 +48226,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '477652625',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48249,7 +48249,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48272,7 +48272,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48295,7 +48295,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2064157133',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48318,7 +48318,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '964695197',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48341,7 +48341,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1729384683',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48364,7 +48364,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '168350925',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48387,7 +48387,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '167',
                         IFOUTOCTETS      => '2576771140',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48410,7 +48410,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1264175906',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48433,7 +48433,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '92629868',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48456,7 +48456,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '607798846',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48479,7 +48479,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1600939431',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48502,7 +48502,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '120816864',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48525,7 +48525,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48548,7 +48548,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '265281199',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48571,7 +48571,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48594,7 +48594,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '763921883',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48617,7 +48617,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48640,7 +48640,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '175717781',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48663,7 +48663,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2541056794',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48686,7 +48686,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '197359629',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48709,7 +48709,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48732,7 +48732,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2442221119',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48755,7 +48755,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '359750722',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48778,7 +48778,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48801,7 +48801,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48824,7 +48824,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2591364469',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48847,7 +48847,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48870,7 +48870,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '467768677',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48893,7 +48893,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1987657403',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48916,7 +48916,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '752647438',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48939,7 +48939,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2308082524',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48962,7 +48962,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2383663130',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -48985,7 +48985,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '415598941',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49008,7 +49008,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49031,7 +49031,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49054,7 +49054,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '4',
                         IFOUTOCTETS      => '115887726',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49077,7 +49077,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49100,7 +49100,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49123,7 +49123,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49146,7 +49146,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -49234,7 +49234,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '629265435',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49257,7 +49257,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1671955162',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49280,7 +49280,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '721368132',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49303,7 +49303,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '6914',
                         IFOUTOCTETS      => '964540942',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49326,7 +49326,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '196349687',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49349,7 +49349,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49372,7 +49372,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49395,7 +49395,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49418,7 +49418,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '477652625',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49441,7 +49441,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49464,7 +49464,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49487,7 +49487,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2064157133',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49510,7 +49510,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '964695197',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49533,7 +49533,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1729384683',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49556,7 +49556,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '168350925',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49579,7 +49579,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '167',
                         IFOUTOCTETS      => '2576771140',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49602,7 +49602,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1264175906',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49625,7 +49625,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '92629868',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49648,7 +49648,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '607798846',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49671,7 +49671,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1600939431',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49694,7 +49694,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '120816864',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49717,7 +49717,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49740,7 +49740,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '265281199',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49763,7 +49763,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49786,7 +49786,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '763921883',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49809,7 +49809,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49832,7 +49832,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '175717781',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49855,7 +49855,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2541056794',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49878,7 +49878,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '197359629',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49901,7 +49901,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49924,7 +49924,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2442221119',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49947,7 +49947,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '359750722',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49970,7 +49970,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -49993,7 +49993,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50016,7 +50016,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2591364469',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50039,7 +50039,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50062,7 +50062,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '467768677',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50085,7 +50085,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1987657403',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50108,7 +50108,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '752647438',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50131,7 +50131,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2308082524',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50154,7 +50154,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2383663130',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50177,7 +50177,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '415598941',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50200,7 +50200,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50223,7 +50223,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50246,7 +50246,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '4',
                         IFOUTOCTETS      => '115887726',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50269,7 +50269,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50292,7 +50292,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50315,7 +50315,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -50338,7 +50338,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -51506,7 +51506,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2392162814',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51536,7 +51536,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2397581446',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51566,7 +51566,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2393229184',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51596,7 +51596,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2306109186',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51626,7 +51626,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2983152425',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51649,7 +51649,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '788830719',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51672,7 +51672,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '872891421',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51695,7 +51695,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3183168193',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51725,7 +51725,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2400347595',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51755,7 +51755,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1919933645',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51785,7 +51785,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2403692200',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51815,7 +51815,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2411515445',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51845,7 +51845,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2398571120',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51875,7 +51875,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2387872550',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51905,7 +51905,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4044110657',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51935,7 +51935,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2368363908',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51965,7 +51965,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3705223239',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -51995,7 +51995,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2364252031',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52025,7 +52025,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2335181126',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52055,7 +52055,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '585549480',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52085,7 +52085,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2388067209',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52115,7 +52115,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '203015691',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52145,7 +52145,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '3740651309',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52175,7 +52175,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2337013749',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52205,7 +52205,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52228,7 +52228,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3173019806',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52375,7 +52375,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '861764751',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52408,7 +52408,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52534,7 +52534,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2392162814',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52564,7 +52564,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2397581446',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52594,7 +52594,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2393229184',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52624,7 +52624,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2306109186',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52654,7 +52654,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2983152425',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52677,7 +52677,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '788830719',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52700,7 +52700,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '872891421',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52723,7 +52723,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3183168193',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52753,7 +52753,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2400347595',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52783,7 +52783,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1919933645',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52813,7 +52813,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2403692200',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52843,7 +52843,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2411515445',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52873,7 +52873,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2398571120',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52903,7 +52903,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2387872550',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52933,7 +52933,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4044110657',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52963,7 +52963,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2368363908',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -52993,7 +52993,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3705223239',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53023,7 +53023,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2364252031',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53053,7 +53053,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2335181126',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53083,7 +53083,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '585549480',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53113,7 +53113,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2388067209',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53143,7 +53143,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '203015691',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53173,7 +53173,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '3740651309',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53203,7 +53203,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2337013749',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53233,7 +53233,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53256,7 +53256,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3173019806',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53403,7 +53403,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '861764751',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53436,7 +53436,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53607,7 +53607,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53633,7 +53633,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53659,7 +53659,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53686,7 +53686,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53713,7 +53713,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53740,7 +53740,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53766,7 +53766,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53793,7 +53793,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '7',
                         IFOUTOCTETS      => '3785939163',
                         IFOUTERRORS      => '10196',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53820,7 +53820,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53847,7 +53847,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53874,7 +53874,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53901,7 +53901,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53928,7 +53928,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53955,7 +53955,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -53982,7 +53982,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54009,7 +54009,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54036,7 +54036,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '616408260',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10118',
@@ -54055,7 +54055,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10119',
@@ -54279,7 +54279,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10201',
@@ -54297,7 +54297,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54323,7 +54323,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54463,7 +54463,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54489,7 +54489,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54515,7 +54515,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54542,7 +54542,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54569,7 +54569,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54596,7 +54596,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54622,7 +54622,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54649,7 +54649,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '7',
                         IFOUTOCTETS      => '3785939163',
                         IFOUTERRORS      => '10196',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54676,7 +54676,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54703,7 +54703,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54730,7 +54730,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54757,7 +54757,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54784,7 +54784,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54811,7 +54811,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54838,7 +54838,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54865,7 +54865,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -54892,7 +54892,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '616408260',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10118',
@@ -54911,7 +54911,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10119',
@@ -55135,7 +55135,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10201',
@@ -55153,7 +55153,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -55179,7 +55179,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60011,7 +60011,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60037,7 +60037,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60064,7 +60064,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60090,7 +60090,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60116,7 +60116,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60142,7 +60142,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60168,7 +60168,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60194,7 +60194,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60220,7 +60220,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60247,7 +60247,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60274,7 +60274,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '67419327',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60300,7 +60300,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60326,7 +60326,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60352,7 +60352,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60378,7 +60378,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60404,7 +60404,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60430,7 +60430,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60456,7 +60456,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60482,7 +60482,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60508,7 +60508,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60534,7 +60534,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60560,7 +60560,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60586,7 +60586,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60612,7 +60612,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60638,7 +60638,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60664,7 +60664,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60690,7 +60690,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60716,7 +60716,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60742,7 +60742,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60768,7 +60768,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60794,7 +60794,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60820,7 +60820,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60846,7 +60846,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60872,7 +60872,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60898,7 +60898,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60925,7 +60925,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60951,7 +60951,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -60977,7 +60977,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61003,7 +61003,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61029,7 +61029,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61055,7 +61055,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61081,7 +61081,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61137,7 +61137,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10045',
@@ -61156,7 +61156,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10046',
@@ -61262,7 +61262,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -61281,7 +61281,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10103',
@@ -61327,7 +61327,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '1329377',
                         IFOUTOCTETS      => '13814163',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61430,7 +61430,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61456,7 +61456,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61483,7 +61483,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61509,7 +61509,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61535,7 +61535,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61561,7 +61561,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61587,7 +61587,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61613,7 +61613,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61639,7 +61639,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61666,7 +61666,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61693,7 +61693,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '67419327',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61719,7 +61719,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61745,7 +61745,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61771,7 +61771,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61797,7 +61797,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61823,7 +61823,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61849,7 +61849,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61875,7 +61875,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61901,7 +61901,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61927,7 +61927,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61953,7 +61953,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -61979,7 +61979,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62005,7 +62005,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62031,7 +62031,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62057,7 +62057,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62083,7 +62083,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62109,7 +62109,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62135,7 +62135,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62161,7 +62161,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62187,7 +62187,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62213,7 +62213,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62239,7 +62239,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62265,7 +62265,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62291,7 +62291,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62317,7 +62317,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62344,7 +62344,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62370,7 +62370,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62396,7 +62396,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62422,7 +62422,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62448,7 +62448,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62474,7 +62474,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62500,7 +62500,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -62556,7 +62556,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10045',
@@ -62575,7 +62575,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10046',
@@ -62681,7 +62681,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10102',
@@ -62700,7 +62700,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10103',
@@ -62746,7 +62746,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                         IFINERRORS       => '1329377',
                         IFOUTOCTETS      => '13814163',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75277,7 +75277,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '560831537',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75304,7 +75304,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '548462613',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75331,7 +75331,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '544500578',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75358,7 +75358,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2663232081',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75385,7 +75385,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '544012462',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75412,7 +75412,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '543992576',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75439,7 +75439,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '544738804',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75466,7 +75466,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75493,7 +75493,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '543628072',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75520,7 +75520,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '544450031',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75547,7 +75547,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '577306694',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75573,7 +75573,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '39426134',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75599,7 +75599,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75625,7 +75625,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75651,7 +75651,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75677,7 +75677,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75703,7 +75703,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75729,7 +75729,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75755,7 +75755,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75781,7 +75781,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75807,7 +75807,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75833,7 +75833,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75859,7 +75859,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75885,7 +75885,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75939,7 +75939,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75965,7 +75965,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -75991,7 +75991,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76147,7 +76147,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '560831537',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76174,7 +76174,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '548462613',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76201,7 +76201,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '544500578',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76228,7 +76228,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2663232081',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76255,7 +76255,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '544012462',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76282,7 +76282,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '543992576',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76309,7 +76309,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '544738804',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76336,7 +76336,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76363,7 +76363,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '543628072',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76390,7 +76390,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '544450031',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76417,7 +76417,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '577306694',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76443,7 +76443,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '39426134',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76469,7 +76469,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76495,7 +76495,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76521,7 +76521,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76547,7 +76547,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76573,7 +76573,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76599,7 +76599,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76625,7 +76625,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76651,7 +76651,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76677,7 +76677,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76703,7 +76703,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76729,7 +76729,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76755,7 +76755,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76809,7 +76809,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76835,7 +76835,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -76861,7 +76861,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77041,7 +77041,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '279253167',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77068,7 +77068,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '284641800',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77095,7 +77095,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '226351631',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77122,7 +77122,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '291686952',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77149,7 +77149,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '600922724',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77176,7 +77176,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77203,7 +77203,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77229,7 +77229,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3426033',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77255,7 +77255,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77281,7 +77281,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77307,7 +77307,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77333,7 +77333,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77359,7 +77359,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77385,7 +77385,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77411,7 +77411,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77437,7 +77437,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77463,7 +77463,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77489,7 +77489,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77515,7 +77515,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77541,7 +77541,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77567,7 +77567,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77593,7 +77593,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77619,7 +77619,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77645,7 +77645,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77699,7 +77699,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77725,7 +77725,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77751,7 +77751,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77907,7 +77907,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '279253167',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77934,7 +77934,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '284641800',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77961,7 +77961,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '226351631',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -77988,7 +77988,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '291686952',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78015,7 +78015,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '600922724',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78042,7 +78042,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78069,7 +78069,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78095,7 +78095,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3426033',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78121,7 +78121,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78147,7 +78147,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78173,7 +78173,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78199,7 +78199,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78225,7 +78225,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78251,7 +78251,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78277,7 +78277,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78303,7 +78303,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78329,7 +78329,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78355,7 +78355,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78381,7 +78381,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78407,7 +78407,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78433,7 +78433,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78459,7 +78459,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78485,7 +78485,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78511,7 +78511,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78565,7 +78565,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78591,7 +78591,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78617,7 +78617,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78797,7 +78797,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '617499909',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78824,7 +78824,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '615484511',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78851,7 +78851,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '617196466',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78878,7 +78878,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '617476032',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78905,7 +78905,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623408422',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78932,7 +78932,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623556144',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78959,7 +78959,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '622122928',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -78986,7 +78986,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '621979252',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79013,7 +79013,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623649037',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79040,7 +79040,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '621161478',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79067,7 +79067,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623814679',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79094,7 +79094,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623707895',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79121,7 +79121,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623857103',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79148,7 +79148,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '621377377',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79175,7 +79175,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623526165',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79202,7 +79202,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623661077',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79229,7 +79229,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '621433831',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79256,7 +79256,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '619935316',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79283,7 +79283,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '621598631',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79310,7 +79310,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623615644',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79337,7 +79337,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623656919',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79364,7 +79364,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623640747',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79391,7 +79391,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '624152183',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79418,7 +79418,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '626911125',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79472,7 +79472,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79498,7 +79498,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79524,7 +79524,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79680,7 +79680,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '617499909',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79707,7 +79707,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '615484511',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79734,7 +79734,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '617196466',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79761,7 +79761,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '617476032',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79788,7 +79788,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623408422',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79815,7 +79815,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623556144',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79842,7 +79842,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '622122928',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79869,7 +79869,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '621979252',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79896,7 +79896,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623649037',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79923,7 +79923,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '621161478',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79950,7 +79950,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623814679',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -79977,7 +79977,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623707895',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80004,7 +80004,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623857103',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80031,7 +80031,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '621377377',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80058,7 +80058,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623526165',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80085,7 +80085,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623661077',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80112,7 +80112,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '621433831',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80139,7 +80139,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '619935316',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80166,7 +80166,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '621598631',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80193,7 +80193,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623615644',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80220,7 +80220,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623656919',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80247,7 +80247,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '623640747',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80274,7 +80274,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '624152183',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80301,7 +80301,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '626911125',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80355,7 +80355,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80381,7 +80381,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80407,7 +80407,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80587,7 +80587,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '712081496',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80614,7 +80614,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80641,7 +80641,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80668,7 +80668,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80695,7 +80695,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80722,7 +80722,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80749,7 +80749,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80776,7 +80776,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80802,7 +80802,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80828,7 +80828,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80854,7 +80854,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80880,7 +80880,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80906,7 +80906,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80932,7 +80932,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80958,7 +80958,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -80984,7 +80984,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81010,7 +81010,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81036,7 +81036,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81062,7 +81062,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81088,7 +81088,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81114,7 +81114,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81140,7 +81140,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81166,7 +81166,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81193,7 +81193,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '119929392',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81247,7 +81247,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81273,7 +81273,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81299,7 +81299,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81455,7 +81455,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '712081496',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81482,7 +81482,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81509,7 +81509,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81536,7 +81536,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81563,7 +81563,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81590,7 +81590,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81617,7 +81617,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81644,7 +81644,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81670,7 +81670,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81696,7 +81696,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81722,7 +81722,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81748,7 +81748,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81774,7 +81774,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81800,7 +81800,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81826,7 +81826,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81852,7 +81852,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81878,7 +81878,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81904,7 +81904,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81930,7 +81930,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81956,7 +81956,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -81982,7 +81982,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82008,7 +82008,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82034,7 +82034,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82061,7 +82061,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '119929392',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82115,7 +82115,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82141,7 +82141,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82167,7 +82167,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82347,7 +82347,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4954891',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82374,7 +82374,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82401,7 +82401,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82428,7 +82428,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82455,7 +82455,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82482,7 +82482,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82509,7 +82509,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82536,7 +82536,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82563,7 +82563,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82590,7 +82590,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82617,7 +82617,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82644,7 +82644,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82671,7 +82671,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82697,7 +82697,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82723,7 +82723,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82749,7 +82749,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82775,7 +82775,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82801,7 +82801,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82827,7 +82827,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82853,7 +82853,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82879,7 +82879,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82905,7 +82905,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82931,7 +82931,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -82957,7 +82957,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83011,7 +83011,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83037,7 +83037,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83063,7 +83063,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83219,7 +83219,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4954891',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83246,7 +83246,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83273,7 +83273,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83300,7 +83300,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83327,7 +83327,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83354,7 +83354,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83381,7 +83381,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83408,7 +83408,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83435,7 +83435,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83462,7 +83462,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83489,7 +83489,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83516,7 +83516,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83543,7 +83543,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83569,7 +83569,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83595,7 +83595,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83621,7 +83621,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83647,7 +83647,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83673,7 +83673,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83699,7 +83699,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83725,7 +83725,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83751,7 +83751,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83777,7 +83777,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83803,7 +83803,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83829,7 +83829,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83883,7 +83883,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83909,7 +83909,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
@@ -83935,7 +83935,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
-                        TRUNK            => '1',
+                        TRUNK            => '0',
                         VLANS          => {
                             VLAN => [
                                 {
