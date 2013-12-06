@@ -1412,9 +1412,13 @@ sub _getTrunkPorts {
         $model->{oids}->{vlanTrunkPortDynamicStatus} ||
         '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
     );
-    while (my ($suffix, $trunk) = each %{$vlanStatus}) {
+
+    # Values:
+    # 1 : trunking
+    # 2 : notTrunking
+    while (my ($suffix, $status) = each %{$vlanStatus}) {
         my $port_id = _getElement($suffix, -1);
-        $results->{$port_id} = $trunk ? 1 : 0;
+        $results->{$port_id} = $status == 1 ? 1 : 0;
     }
 
     return $results;
