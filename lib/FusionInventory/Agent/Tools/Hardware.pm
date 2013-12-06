@@ -1058,6 +1058,38 @@ sub _setNetworkingProperties {
         ports  => $ports,
         logger => $logger
     );
+
+    # cisco devices needs to use additional context-specific requests
+    if ($device->{INFO}->{MANUFACTURER} eq 'Cisco') {
+        # compute the list of vlans associated with at least one port
+        # without CDP/LLDP information
+        my @vlans;
+        my %seen;
+        foreach my $port (values %$ports) {
+            next if
+                exists $port->{CONNECTIONS} &&
+                exists $port->{CONNECTIONS}->{CDP} &&
+                $port->{CONNECTIONS}->{CDP};
+            next unless exists $port->{VLANS};
+            push @vlans,
+                grep { !$seen{$_}++ }
+                map { $_->{NUMBER} }
+                @{$port->{VLANS}->{VLAN}};
+        }
+
+        # get additional associated mac addresses from those vlans
+        foreach my $vlan (@vlans) {
+            $logger->debug("switching SNMP context to vlan $vlan") if $logger;
+            $snmp->switch_vlan_context($vlan);
+            _setAssociatedMacAddresses(
+                snmp   => $snmp,
+                model  => $model,
+                ports  => $ports,
+                logger => $logger
+            );
+        }
+        $snmp->reset_original_context() if @vlans;
+    }
 }
 
 sub _getPercentValue {
@@ -1215,15 +1247,22 @@ sub _setAssociatedMacAddresses {
             exists $port->{CONNECTIONS}->{CDP} &&
             $port->{CONNECTIONS}->{CDP};
 
-        # filter out the port own mac address, if known
-        my $addresses = $mac_addresses->{$port_id};
-        if (exists $port->{MAC}) {
-            $addresses = [ grep { $_ ne $port->{MAC} } @$addresses ];
-        }
+        # get at list of already associated addresses, if any
+        # as well as the port own mac address, if known
+        my @known;
+        push @known, $port->{MAC} if $port->{MAC};
+        push @known, @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}} if
+            exists $port->{CONNECTIONS} &&
+            exists $port->{CONNECTIONS}->{CONNECTION} &&
+            exists $port->{CONNECTIONS}->{CONNECTION}->{MAC};
 
-        next unless @$addresses;
+        # filter out those addresses from the additional ones
+        my %known = map { $_ => 1 } @known;
+        my @adresses = grep { !$known{$_} } @{$mac_addresses->{$port_id}};
+        next unless @adresses;
 
-        $port->{CONNECTIONS}->{CONNECTION}->{MAC} = $addresses;
+        # add remaining ones
+        push @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}}, @adresses;
     }
 }
 
