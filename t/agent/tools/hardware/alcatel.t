@@ -38,6 +38,7 @@ my %tests = (
                 CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
                 NAME         => 'CB-C005-127-os6400',
                 LOCATION     => 'Unknown',
+                SERIAL       => 'M4682816',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -2910,6 +2911,7 @@ my %tests = (
                 CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
                 NAME         => 'CP-153-127',
                 LOCATION     => 'Unknown',
+                SERIAL       => 'M4682816',
             },
             PORTS => {
                 PORT => [

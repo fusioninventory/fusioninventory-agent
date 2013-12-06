@@ -261,6 +261,10 @@ my %base_variables = (
     },
     SERIAL       => {
         mapping => 'serial',
+        default => [
+            '.1.3.6.1.2.1.47.1.1.1.1.11.1',
+            '.1.3.6.1.2.1.47.1.1.1.1.11.1001',
+        ],
         type    => 'serial',
     },
     NAME         => {

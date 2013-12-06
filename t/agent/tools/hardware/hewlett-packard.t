@@ -14404,6 +14404,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2650 (J4899B)',
                 COMMENTS     => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
                 LOCATION     => 'GN1 NORD',
+                SERIAL       => 'CN638SD146',
                 UPTIME       => '(326711768) 37 days, 19:31:57.68',
             },
             PORTS => {
@@ -17935,6 +17936,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2650 (J4899B)',
                 COMMENTS     => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
                 LOCATION     => 'GN1 NORD',
+                SERIAL       => 'CN638SD146',
                 UPTIME       => '(326711768) 37 days, 19:31:57.68',
             },
             PORTS => {
@@ -21481,6 +21483,7 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 MODEL        => 'ProCurve 2650 (J4899C)',
                 COMMENTS     => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
+                SERIAL       => 'CN830FX04U',
                 UPTIME       => '(326690861) 37 days, 19:28:28.61',
             },
             PORTS => {
@@ -25444,6 +25447,7 @@ my %tests = (
                 TYPE         => 'NETWORKING',
                 MODEL        => 'ProCurve 2650 (J4899C)',
                 COMMENTS     => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
+                SERIAL       => 'CN830FX04U',
                 UPTIME       => '(326690861) 37 days, 19:28:28.61',
             },
             PORTS => {
@@ -29431,6 +29435,7 @@ my %tests = (
                 CONTACT      => 'systeme@ac-guyane.fr',
                 NAME         => 'oyapock CR2',
                 LOCATION     => 'datacenter',
+                SERIAL       => 'SG707SU03Y',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -36982,6 +36987,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2810-48G (J9022A)',
                 COMMENTS     => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
                 LOCATION     => 'Local Autocommutateur',
+                SERIAL       => 'CN738XJ0FI',
                 UPTIME       => '(1389024840) 160 days, 18:24:08.40',
             },
             PORTS => {
@@ -39122,6 +39128,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2810-48G (J9022A)',
                 COMMENTS     => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
                 LOCATION     => 'Local Autocommutateur',
+                SERIAL       => 'CN738XJ0FI',
                 UPTIME       => '(1389024840) 160 days, 18:24:08.40',
             },
             PORTS => {
@@ -41278,6 +41285,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2900-48g (J9050A)',
                 COMMENTS     => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
                 LOCATION     => 'salle serveur',
+                SERIAL       => 'SG840KJ009',
                 IPS          => {
                     IP => [
                         '10.100.205.43',
@@ -46298,6 +46306,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2900-48g (J9050A)',
                 COMMENTS     => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
                 LOCATION     => 'salle serveur',
+                SERIAL       => 'SG840KJ009',
                 IPS          => {
                     IP => [
                         '10.100.205.43',
@@ -51334,6 +51343,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2610-48',
                 COMMENTS     => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
                 LOCATION     => 'Monod Amphi Charles Merieux',
+                SERIAL       => 'CN935ZU1PD',
                 UPTIME       => '(148663680) 17 days, 4:57:16.80',
             },
             PORTS => {
@@ -53344,6 +53354,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2610-48',
                 COMMENTS     => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
                 LOCATION     => 'Monod Amphi Charles Merieux',
+                SERIAL       => 'CN935ZU1PD',
                 UPTIME       => '(148663680) 17 days, 4:57:16.80',
             },
             PORTS => {

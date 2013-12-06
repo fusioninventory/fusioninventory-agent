@@ -37,6 +37,7 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xtb12-2',
                 LOCATION     => 'PMF-B12',
+                SERIAL       => '0518G-00029',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -793,6 +794,7 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xtb12-2',
                 LOCATION     => 'PMF-B12',
+                SERIAL       => '0518G-00029',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -1567,6 +1569,7 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xtc13',
                 LOCATION     => 'PMF-C13',
+                SERIAL       => '04375-00303',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -3155,6 +3158,7 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xtc13',
                 LOCATION     => 'PMF-C13',
+                SERIAL       => '04375-00303',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -11589,6 +11593,7 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xta6',
                 LOCATION     => 'PMF-A6',
+                SERIAL       => '0312R-01206',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -12915,6 +12920,7 @@ my %tests = (
                 CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
                 NAME         => 'xta6',
                 LOCATION     => 'PMF-A6',
+                SERIAL       => '0312R-01206',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
