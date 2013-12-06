@@ -37,6 +37,7 @@ my %tests = (
                 CONTACT      => 'Service Informatique',
                 NAME         => '4548_DOULEUR',
                 LOCATION     => 'Tour B - 1er - DOULEUR',
+                MAC          => 'e8:05:6d:27:5c:02',
             },
             PORTS => {
                 PORT => [
@@ -1607,6 +1608,7 @@ my %tests = (
                 CONTACT      => 'Service Informatique',
                 NAME         => '4548_DOULEUR',
                 LOCATION     => 'Tour B - 1er - DOULEUR',
+                MAC          => 'e8:05:6d:27:5c:02',
             },
             PORTS => {
                 PORT => [
@@ -3202,6 +3204,7 @@ my %tests = (
                         '10.97.9.231',
                     ],
                 },
+                MAC          => '00:15:40:94:75:a2',
                 UPTIME       => '(78352234) 9 days, 1:38:42.34',
             },
             PORTS => {
@@ -4461,6 +4464,7 @@ my %tests = (
                 CONTACT      => 'OBS',
                 NAME         => '470_99_OBS',
                 LOCATION     => 'Salle Informatique',
+                MAC          => '00:1d:af:ea:a0:e2',
             },
             PORTS => {
                 PORT => [

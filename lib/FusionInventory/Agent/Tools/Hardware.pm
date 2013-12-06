@@ -232,6 +232,7 @@ my @sysdescr_rules = (
 my %base_variables = (
     MAC          => {
         mapping => 'macaddr',
+        default => '.1.3.6.1.2.1.17.1.1.0',
         type    => 'mac',
     },
     CPU          => {

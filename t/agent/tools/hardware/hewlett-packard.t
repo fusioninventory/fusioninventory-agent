@@ -14405,6 +14405,7 @@ my %tests = (
                 COMMENTS     => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
                 LOCATION     => 'GN1 NORD',
                 SERIAL       => 'CN638SD146',
+                MAC          => '00:18:fe:aa:a9:80',
                 UPTIME       => '(326711768) 37 days, 19:31:57.68',
             },
             PORTS => {
@@ -17937,6 +17938,7 @@ my %tests = (
                 COMMENTS     => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
                 LOCATION     => 'GN1 NORD',
                 SERIAL       => 'CN638SD146',
+                MAC          => '00:18:fe:aa:a9:80',
                 UPTIME       => '(326711768) 37 days, 19:31:57.68',
             },
             PORTS => {
@@ -21484,6 +21486,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2650 (J4899C)',
                 COMMENTS     => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
                 SERIAL       => 'CN830FX04U',
+                MAC          => '00:1d:b3:58:cf:80',
                 UPTIME       => '(326690861) 37 days, 19:28:28.61',
             },
             PORTS => {
@@ -25448,6 +25451,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2650 (J4899C)',
                 COMMENTS     => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
                 SERIAL       => 'CN830FX04U',
+                MAC          => '00:1d:b3:58:cf:80',
                 UPTIME       => '(326690861) 37 days, 19:28:28.61',
             },
             PORTS => {
@@ -29455,6 +29459,7 @@ my %tests = (
                         '192.168.227.246',
                     ],
                 },
+                MAC          => '00:18:71:c1:e0:00',
                 UPTIME       => '(293555959) 33 days, 23:25:59.59',
             },
             PORTS => {
@@ -36988,6 +36993,7 @@ my %tests = (
                 COMMENTS     => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
                 LOCATION     => 'Local Autocommutateur',
                 SERIAL       => 'CN738XJ0FI',
+                MAC          => '00:19:bb:99:f9:c0',
                 UPTIME       => '(1389024840) 160 days, 18:24:08.40',
             },
             PORTS => {
@@ -39129,6 +39135,7 @@ my %tests = (
                 COMMENTS     => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
                 LOCATION     => 'Local Autocommutateur',
                 SERIAL       => 'CN738XJ0FI',
+                MAC          => '00:19:bb:99:f9:c0',
                 UPTIME       => '(1389024840) 160 days, 18:24:08.40',
             },
             PORTS => {
@@ -41292,6 +41299,7 @@ my %tests = (
                         '127.0.0.1',
                     ],
                 },
+                MAC          => '00:21:f7:1e:01:40',
                 UPTIME       => '(485451519) 56 days, 4:28:35.19',
             },
             PORTS => {
@@ -46313,6 +46321,7 @@ my %tests = (
                         '127.0.0.1',
                     ],
                 },
+                MAC          => '00:21:f7:1e:01:40',
                 UPTIME       => '(485451519) 56 days, 4:28:35.19',
             },
             PORTS => {
@@ -51344,6 +51353,7 @@ my %tests = (
                 COMMENTS     => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
                 LOCATION     => 'Monod Amphi Charles Merieux',
                 SERIAL       => 'CN935ZU1PD',
+                MAC          => '00:21:f7:2b:e6:00',
                 UPTIME       => '(148663680) 17 days, 4:57:16.80',
             },
             PORTS => {
@@ -53355,6 +53365,7 @@ my %tests = (
                 COMMENTS     => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
                 LOCATION     => 'Monod Amphi Charles Merieux',
                 SERIAL       => 'CN935ZU1PD',
+                MAC          => '00:21:f7:2b:e6:00',
                 UPTIME       => '(148663680) 17 days, 4:57:16.80',
             },
             PORTS => {

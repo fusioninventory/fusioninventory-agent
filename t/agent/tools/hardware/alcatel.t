@@ -45,6 +45,7 @@ my %tests = (
                         '192.168.1.127',
                     ],
                 },
+                MAC          => 'e8:e7:32:2b:c1:e2',
                 UPTIME       => '(1442631100) 166 days, 23:18:31.00',
             },
             PORTS => {
@@ -2912,6 +2913,7 @@ my %tests = (
                 NAME         => 'CP-153-127',
                 LOCATION     => 'Unknown',
                 SERIAL       => 'M4682816',
+                MAC          => 'e8:e7:32:2b:c1:e2',
             },
             PORTS => {
                 PORT => [
