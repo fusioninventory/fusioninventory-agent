@@ -47,6 +47,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 11-Aug-11 02:58 by prod_rel_team',
                 NAME         => 'WIFI-IPJ-etage2-82.wifi-mngt.dauphine.fr',
+                SERIAL       => 'FCZ1623Z2XQ',
                 IPS          => {
                     IP => [
                         '192.168.55.82',
@@ -465,6 +466,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2008 by Cisco Systems, Inc.
 Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
                 NAME         => 'ap-CP6-BU-161.wifi-mngt.dauphine.fr',
+                SERIAL       => 'FCZ0930Q00Z',
                 CPU          => '97',
                 RAM          => '23',
             },
@@ -839,6 +841,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2008 by Cisco Systems, Inc.
 Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
                 NAME         => 'ap-P405-45.wifi-mngt.dauphine.fr',
+                SERIAL       => 'FCZ0930Q01A',
                 IPS          => {
                     IP => [
                         '192.168.55.45',
@@ -1285,6 +1288,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
                 NAME         => 'ap-D416-141.wifi-mngt.dauphine.fr',
+                SERIAL       => 'FCZ0930Q01N',
                 IPS          => {
                     IP => [
                         '192.168.55.141',
@@ -1787,6 +1791,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
                 NAME         => 'ap-D416-141.wifi-mngt.dauphine.fr',
+                SERIAL       => 'FCZ0930Q01N',
                 IPS          => {
                     IP => [
                         '192.168.55.141',
@@ -2287,6 +2292,7 @@ IOS (tm) C2900XL Software (C2900XL-C3H2S-M), Version 12.0(5)WC17, RELEASE SOFTWA
 Copyright (c) 1986-2007 by cisco Systems, Inc.
 Compiled Tue 13-Feb-07 15:27 by antonino',
                 CONTACT      => 'Service Informatique',
+                SERIAL       => 'FAB0411S1FB',
                 UPTIME       => '(284153455) 32 days, 21:18:54.55',
             },
             PORTS => {
@@ -3236,6 +3242,7 @@ Copyright (c) 1986-2009 by cisco Systems, Inc.
 Compiled Fri 27-F',
                 CONTACT      => 'Service Informatique',
                 LOCATION     => 'Recherche1-loctecN',
+                SERIAL       => 'FOC0707Y03C',
                 UPTIME       => '(308499405) 35 days, 16:56:34.05',
             },
             PORTS => {
@@ -4227,6 +4234,7 @@ Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 NAME         => 'CB-27.example.com',
+                SERIAL       => 'FOC1247X5DX',
                 IPS          => {
                     IP => [
                         '192.168.1.27',
@@ -5551,6 +5559,7 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 NAME         => 'AP-P101-59.example.com',
                 MEMORY       => '4',
+                SERIAL       => 'FOC1247X5D4',
                 CPU          => '81',
                 RAM          => '64',
             },
@@ -6858,6 +6867,7 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 NAME         => 'CP-P101-37.example.com',
                 MEMORY       => '4',
+                SERIAL       => 'FOC1113X1PE',
                 CPU          => '89',
                 RAM          => '64',
             },
@@ -8171,6 +8181,7 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Mon 06-Apr-09 08:36 by amvarma',
                 LOCATION     => 'Recherche1-loctecN',
+                SERIAL       => 'FOC1049Z7RN',
                 UPTIME       => '(308478285) 35 days, 16:53:02.85',
             },
             PORTS => {
@@ -10090,6 +10101,7 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 NAME         => 'AP-74.example.com',
                 MEMORY       => '4',
+                SERIAL       => 'FOC1511W1A2',
                 IPS          => {
                     IP => [
                         '192.168.1.74',
@@ -12874,6 +12886,7 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 NAME         => 'CB-C005-208.Dauphine',
                 MEMORY       => '5',
+                SERIAL       => 'FOC1511W19F',
                 CPU          => '89',
                 RAM          => '64',
             },
@@ -15286,6 +15299,7 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 NAME         => 'CB-C005-206.Dauphine',
                 MEMORY       => '4',
+                SERIAL       => 'FCQ1605X4UZ',
                 CPU          => '80',
                 RAM          => '64',
             },
@@ -17698,6 +17712,7 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 NAME         => 'CB-C005-207.Dauphine',
                 MEMORY       => '4',
+                SERIAL       => 'FCQ1605X4VP',
                 CPU          => '92',
                 RAM          => '64',
             },
@@ -20110,6 +20125,7 @@ Copyright (c) 1986-2012 by Cisco Systems, Inc.
 Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 NAME         => 'CB-C005-205.Dauphine',
                 MEMORY       => '4',
+                SERIAL       => 'FOC1511W1CB',
                 CPU          => '79',
                 RAM          => '64',
             },
@@ -22522,6 +22538,7 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                 NAME         => 'CP-lt-40.example.com',
                 MEMORY       => '22',
+                SERIAL       => 'FOC1508V4B5',
                 IPS          => {
                     IP => [
                         '192.168.1.40',
@@ -23158,6 +23175,7 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                 NAME         => 'default-40.example.com',
                 MEMORY       => '22',
+                SERIAL       => 'FOC1508V4B5',
                 CPU          => '90',
                 RAM          => '64',
             },
@@ -23714,6 +23732,7 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                 NAME         => 'Scol-tmp-65.example.com',
                 MEMORY       => '22',
+                SERIAL       => 'FOC1511W532',
                 CPU          => '90',
                 RAM          => '64',
             },
@@ -24256,6 +24275,7 @@ Copyright (c) 1986-2010 by Cisco Systems, Inc.
 Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                 NAME         => 'AB-A422-7.example.com',
                 MEMORY       => '23',
+                SERIAL       => 'FOC1501V1PS',
                 IPS          => {
                     IP => [
                         '192.168.1.7',
@@ -24877,6 +24897,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'AP-72.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Z01G',
                 IPS          => {
                     IP => [
                         '192.168.1.72',
@@ -26240,6 +26261,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'AP-72.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Z01G',
                 IPS          => {
                     IP => [
                         '192.168.1.72',
@@ -27628,6 +27650,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'CB-243.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Y01B',
                 IPS          => {
                     IP => [
                         '192.168.1.243',
@@ -28993,6 +29016,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'CB-243.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Y01B',
                 IPS          => {
                     IP => [
                         '192.168.1.243',
@@ -30383,6 +30407,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'AB-39.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Y08X',
                 IPS          => {
                     IP => [
                         '192.168.1.39',
@@ -31752,6 +31777,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'AB-39.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Y08X',
                 IPS          => {
                     IP => [
                         '192.168.1.39',
@@ -33146,6 +33172,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'AB-35.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1517Y5MA',
                 IPS          => {
                     IP => [
                         '192.168.1.35',
@@ -34534,6 +34561,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'AB-35.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1517Y5MA',
                 IPS          => {
                     IP => [
                         '192.168.1.35',
@@ -35947,6 +35975,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'CP-106.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1517Z63M',
                 CPU          => '82',
                 RAM          => '60',
             },
@@ -37121,6 +37150,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'CP-106.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1517Z63M',
                 CPU          => '82',
                 RAM          => '60',
             },
@@ -38320,6 +38350,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'AP-71.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1517Y5MF',
                 CPU          => '83',
                 RAM          => '60',
             },
@@ -39520,6 +39551,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'AP-71.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1517Y5MF',
                 CPU          => '83',
                 RAM          => '60',
             },
@@ -40745,6 +40777,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'CP-129.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Y00E',
                 CPU          => '90',
                 RAM          => '60',
             },
@@ -41919,6 +41952,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'CP-129.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Y00E',
                 CPU          => '90',
                 RAM          => '60',
             },
@@ -43118,6 +43152,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'AP-73.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1517Z63W',
                 CPU          => '91',
                 RAM          => '60',
             },
@@ -44308,6 +44343,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'AP-73.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1517Z63W',
                 CPU          => '91',
                 RAM          => '60',
             },
@@ -45523,6 +45559,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'CP-138.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Y010',
                 CPU          => '89',
                 RAM          => '60',
             },
@@ -46715,6 +46752,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'CP-138.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Y010',
                 CPU          => '89',
                 RAM          => '60',
             },
@@ -47932,6 +47970,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'CB-242.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Y0BJ',
                 CPU          => '85',
                 RAM          => '60',
             },
@@ -49122,6 +49161,7 @@ Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Fri 27-Feb-09 23:25 by weiliu',
                 NAME         => 'CB-242.example.com',
                 MEMORY       => '20',
+                SERIAL       => 'FCQ1518Y0BJ',
                 CPU          => '85',
                 RAM          => '60',
             },
@@ -50334,6 +50374,7 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
 Compiled Mon 06-Apr-09 08:36 by amvarma',
                 LOCATION     => 'Recherche0-loctecS',
+                SERIAL       => 'FOC1047X36T',
                 UPTIME       => '(294615309) 34 days, 2:22:33.09',
             },
             PORTS => {
@@ -51361,6 +51402,7 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
                 NAME         => 'SALSERV-INTERUFR-149.example.com',
                 MEMORY       => '34',
+                SERIAL       => 'FOC1622Y2ME',
                 CPU          => '73',
                 RAM          => '128',
             },
@@ -53441,6 +53483,7 @@ Copyright (c) 1986-2011 by Cisco Systems, Inc.
 Compiled Thu 05-May-11 03:03 by prod_rel_team',
                 NAME         => 'CB-C005-202.example.com',
                 MEMORY       => '33',
+                SERIAL       => 'FOC1440Z0HG',
                 IPS          => {
                     IP => [
                         '192.168.1.202',
@@ -55177,6 +55220,7 @@ Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
                 NAME         => 'CB-Federateur.example.com',
                 MEMORY       => '42',
+                SERIAL       => 'CAT0647X118',
                 CPU          => '97',
                 RAM          => '63',
             },
@@ -57520,6 +57564,7 @@ Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Mon 19-Apr-04 21:50 by yenanh',
                 NAME         => 'CB-Federateur.example.com',
                 MEMORY       => '42',
+                SERIAL       => 'CAT0647X118',
                 CPU          => '97',
                 RAM          => '63',
             },
@@ -59861,6 +59906,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                 NAME         => 'c37hgcr5C2r01',
                 MEMORY       => '66',
                 LOCATION     => 'HGCR RACK01',
+                SERIAL       => 'CAT0813Y2AL',
                 IPS          => {
                     IP => [
                         '10.36.16.51',
@@ -75087,6 +75133,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 CONTACT      => 'dsi.sesi.reseau@inria.fr',
                 NAME         => 'sw-07a04-01-dc1.inria.fr',
                 MEMORY       => '380',
+                SERIAL       => 'FOC1740S0V3',
                 IPS          => {
                     IP => [
                         '192.168.0.17',
@@ -75955,6 +76002,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 CONTACT      => 'dsi.sesi.reseau@inria.fr',
                 NAME         => 'sw-07a04-01-dc1.inria.fr',
                 MEMORY       => '380',
+                SERIAL       => 'FOC1740S0V3',
                 IPS          => {
                     IP => [
                         '192.168.0.17',
@@ -76847,6 +76895,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 CONTACT      => 'dsi.sesi.reseau@inria.rf',
                 NAME         => 'sw-07a1O-01-dc1.inria.fr',
                 MEMORY       => '380',
+                SERIAL       => 'FOC1740S0TX',
                 IPS          => {
                     IP => [
                         '192.168.0.18',
@@ -77711,6 +77760,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 CONTACT      => 'dsi.sesi.reseau@inria.rf',
                 NAME         => 'sw-07a1O-01-dc1.inria.fr',
                 MEMORY       => '380',
+                SERIAL       => 'FOC1740S0TX',
                 IPS          => {
                     IP => [
                         '192.168.0.18',
@@ -78599,6 +78649,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 CONTACT      => 'dsi.sesi.reseau@inria.fr.',
                 NAME         => 'sw-30c04-01-dc1.inria.fr',
                 MEMORY       => '380',
+                SERIAL       => 'FOC1740S0VH',
                 IPS          => {
                     IP => [
                         '192.168.0.13',
@@ -79480,6 +79531,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 CONTACT      => 'dsi.sesi.reseau@inria.fr.',
                 NAME         => 'sw-30c04-01-dc1.inria.fr',
                 MEMORY       => '380',
+                SERIAL       => 'FOC1740S0VH',
                 IPS          => {
                     IP => [
                         '192.168.0.13',
@@ -80385,6 +80437,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 CONTACT      => 'dsi.sesi.reseau@inria.rf',
                 NAME         => 'sw-30c05-01-dc1.inria.fr',
                 MEMORY       => '380',
+                SERIAL       => 'FOC1740S0V4',
                 IPS          => {
                     IP => [
                         '192.168.0.14',
@@ -81251,6 +81304,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 CONTACT      => 'dsi.sesi.reseau@inria.rf',
                 NAME         => 'sw-30c05-01-dc1.inria.fr',
                 MEMORY       => '380',
+                SERIAL       => 'FOC1740S0V4',
                 IPS          => {
                     IP => [
                         '192.168.0.14',
@@ -82141,6 +82195,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 CONTACT      => 'dsi.sesi.reseau@inria.fr.',
                 NAME         => 'sw-30c07-01-dc1.inria.fr',
                 MEMORY       => '380',
+                SERIAL       => 'FOC1740S0V1',
                 IPS          => {
                     IP => [
                         '192.168.0.15',
@@ -83011,6 +83066,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 CONTACT      => 'dsi.sesi.reseau@inria.fr.',
                 NAME         => 'sw-30c07-01-dc1.inria.fr',
                 MEMORY       => '380',
+                SERIAL       => 'FOC1740S0V1',
                 IPS          => {
                     IP => [
                         '192.168.0.15',
