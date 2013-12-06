@@ -1512,7 +1512,6 @@ my %tests = (
                         IFTYPE           => '54',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(14676) 0:02:26.76',
                     },
                     {
@@ -1522,7 +1521,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                     },
                     {
@@ -1532,7 +1530,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(67) 0:00:00.67',
                     },
                     {
@@ -1542,7 +1539,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(65) 0:00:00.65',
                     },
                     {
@@ -1552,7 +1548,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(56) 0:00:00.56',
                     },
                     {
@@ -1562,7 +1557,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(58) 0:00:00.58',
                     },
                     {
@@ -1582,7 +1576,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(61) 0:00:00.61',
                     },
                     {
@@ -1592,7 +1585,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(63) 0:00:00.63',
                     },
                 ]
@@ -3083,7 +3075,6 @@ my %tests = (
                         IFTYPE           => '54',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(14676) 0:02:26.76',
                     },
                     {
@@ -3093,7 +3084,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(55) 0:00:00.55',
                     },
                     {
@@ -3103,7 +3093,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(67) 0:00:00.67',
                     },
                     {
@@ -3113,7 +3102,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(65) 0:00:00.65',
                     },
                     {
@@ -3123,7 +3111,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(56) 0:00:00.56',
                     },
                     {
@@ -3133,7 +3120,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(58) 0:00:00.58',
                     },
                     {
@@ -3153,7 +3139,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(61) 0:00:00.61',
                     },
                     {
@@ -3163,7 +3148,6 @@ my %tests = (
                         IFTYPE           => '135',
                         IFSPEED          => '0',
                         IFMTU            => '1514',
-                        MAC              => '00:00:00:00:00:00',
                         IFLASTCHANGE     => '(63) 0:00:00.63',
                     },
                 ]
