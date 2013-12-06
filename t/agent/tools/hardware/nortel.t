@@ -37,6 +37,7 @@ my %tests = (
                 CONTACT      => 'Service Informatique',
                 NAME         => '4548_DOULEUR',
                 LOCATION     => 'Tour B - 1er - DOULEUR',
+                SERIAL       => 'LBNNTMMD1706WF',
                 MAC          => 'e8:05:6d:27:5c:02',
             },
             PORTS => {
@@ -1600,6 +1601,7 @@ my %tests = (
                 CONTACT      => 'Service Informatique',
                 NAME         => '4548_DOULEUR',
                 LOCATION     => 'Tour B - 1er - DOULEUR',
+                SERIAL       => 'LBNNTMMD1706WF',
                 MAC          => 'e8:05:6d:27:5c:02',
             },
             PORTS => {
@@ -3183,6 +3185,7 @@ my %tests = (
                 COMMENTS     => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
                 NAME         => 'Bay470',
                 LOCATION     => 'Dost 111',
+                SERIAL       => 'SACC170NLH',
                 IPS          => {
                     IP => [
                         '10.97.9.231',
@@ -4448,6 +4451,7 @@ my %tests = (
                 CONTACT      => 'OBS',
                 NAME         => '470_99_OBS',
                 LOCATION     => 'Salle Informatique',
+                SERIAL       => 'LBNNTMJX5809LW',
                 MAC          => '00:1d:af:ea:a0:e2',
             },
             PORTS => {

@@ -62806,6 +62806,7 @@ Compiled Sat 23-Oct-10 17:57 by prod',
                 CONTACT      => 'SMI <smi-saclay@inria.fr>',
                 NAME         => 'swcore-1SRV-1.net-admin.saclay.inria.fr',
                 LOCATION     => 'VSS INRIA Palaiseau - Salle serveurs',
+                SERIAL       => 'SMC1025004V',
                 IPS          => {
                     IP => [
                         '10.200.11.254',
@@ -68975,6 +68976,7 @@ Compiled Sat 23-Oct-10 17:57 by prod',
                 CONTACT      => 'SMI <smi-saclay@inria.fr>',
                 NAME         => 'swcore-1SRV-1.net-admin.saclay.inria.fr',
                 LOCATION     => 'VSS INRIA Palaiseau - Salle serveurs',
+                SERIAL       => 'SMC1025004V',
                 IPS          => {
                     IP => [
                         '10.200.11.254',
