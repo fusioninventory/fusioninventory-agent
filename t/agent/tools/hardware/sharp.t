@@ -76,6 +76,7 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 MODEL        => 'MX-2600N',
                 COMMENTS     => 'SHARP MX-2600N',
+                NAME         => 'PASTEK',
                 LOCATION     => '2eme etage Bureau POTHIN',
                 IPS          => {
                     IP => [
