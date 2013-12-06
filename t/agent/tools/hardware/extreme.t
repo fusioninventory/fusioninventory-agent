@@ -50,7 +50,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Summit300-24-Port 1',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit300-24-Port 1',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -67,7 +67,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Summit300-24-Port 2',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit300-24-Port 2',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -84,7 +84,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Summit300-24-Port 3',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit300-24-Port 3',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -101,7 +101,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Summit300-24-Port 4',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit300-24-Port 4',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -118,7 +118,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Summit300-24-Port 5',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit300-24-Port 5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -135,7 +135,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Summit300-24-Port 6',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit300-24-Port 6',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -152,7 +152,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Summit300-24-Port 7',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit300-24-Port 7',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -169,7 +169,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Summit300-24-Port 8',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit300-24-Port 8',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -186,7 +186,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Summit300-24-Port 9',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit300-24-Port 9',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -203,7 +203,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Summit300-24-Port 10',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit300-24-Port 10',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -220,7 +220,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Summit300-24-Port 11',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit300-24-Port 11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -237,7 +237,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Summit300-24-Port 12',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit300-24-Port 12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -254,7 +254,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Summit300-24-Port 13',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit300-24-Port 13',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -271,7 +271,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Summit300-24-Port 14',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit300-24-Port 14',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -288,7 +288,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Summit300-24-Port 15',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit300-24-Port 15',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -305,7 +305,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Summit300-24-Port 16',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit300-24-Port 16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -322,7 +322,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Summit300-24-Port 17',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit300-24-Port 17',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -339,7 +339,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Summit300-24-Port 18',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit300-24-Port 18',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -356,7 +356,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Summit300-24-Port 19',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit300-24-Port 19',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -373,7 +373,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Summit300-24-Port 20',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit300-24-Port 20',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -390,7 +390,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Summit300-24-Port 21',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit300-24-Port 21',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -407,7 +407,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Summit300-24-Port 22',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit300-24-Port 22',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -424,7 +424,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Summit300-24-Port 23',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit300-24-Port 23',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -441,7 +441,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Summit300-24-Port 24',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit300-24-Port 24',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -458,7 +458,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Summit300-24-Port 25',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit300-24-Port 25',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -475,7 +475,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Summit300-24-Port 26',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit300-24-Port 26',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -492,7 +492,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -522,7 +522,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -537,7 +537,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'VLAN 00003 (pmf-sans-fil)',
+                        IFNAME           => 'pmf-sans-fil',
                         IFDESCR          => 'VLAN 00003 (pmf-sans-fil)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -567,7 +567,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'VLAN 00004 (wlan-mgmt)',
+                        IFNAME           => 'wlan-mgmt',
                         IFDESCR          => 'VLAN 00004 (wlan-mgmt)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -582,7 +582,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'VLAN 00005 (pmf-borne-sf)',
+                        IFNAME           => 'pmf-borne-sf',
                         IFDESCR          => 'VLAN 00005 (pmf-borne-sf)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -628,7 +628,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.9)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -645,7 +645,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'rif1',
+                        IFNAME           => 'rif1(192.168.254.72)',
                         IFDESCR          => 'rif1',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -662,7 +662,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '102001',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -678,7 +677,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '102002',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -694,7 +692,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '102101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -710,7 +707,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '102102',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -726,7 +722,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10200101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -742,7 +737,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10200201',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -758,7 +752,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10210101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -774,7 +767,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10210201',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -814,7 +806,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Summit300-24-Port 1',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit300-24-Port 1',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -831,7 +823,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Summit300-24-Port 2',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit300-24-Port 2',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -848,7 +840,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Summit300-24-Port 3',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit300-24-Port 3',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -865,7 +857,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Summit300-24-Port 4',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit300-24-Port 4',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -882,7 +874,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Summit300-24-Port 5',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit300-24-Port 5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -899,7 +891,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Summit300-24-Port 6',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit300-24-Port 6',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -916,7 +908,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Summit300-24-Port 7',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit300-24-Port 7',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -933,7 +925,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Summit300-24-Port 8',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit300-24-Port 8',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -950,7 +942,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Summit300-24-Port 9',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit300-24-Port 9',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -967,7 +959,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Summit300-24-Port 10',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit300-24-Port 10',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -984,7 +976,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Summit300-24-Port 11',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit300-24-Port 11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1001,7 +993,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Summit300-24-Port 12',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit300-24-Port 12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1018,7 +1010,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Summit300-24-Port 13',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit300-24-Port 13',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1035,7 +1027,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Summit300-24-Port 14',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit300-24-Port 14',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1052,7 +1044,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Summit300-24-Port 15',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit300-24-Port 15',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1069,7 +1061,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Summit300-24-Port 16',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit300-24-Port 16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1086,7 +1078,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Summit300-24-Port 17',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit300-24-Port 17',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1103,7 +1095,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Summit300-24-Port 18',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit300-24-Port 18',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1120,7 +1112,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Summit300-24-Port 19',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit300-24-Port 19',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1137,7 +1129,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Summit300-24-Port 20',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit300-24-Port 20',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1154,7 +1146,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Summit300-24-Port 21',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit300-24-Port 21',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1171,7 +1163,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Summit300-24-Port 22',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit300-24-Port 22',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1188,7 +1180,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Summit300-24-Port 23',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit300-24-Port 23',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1205,7 +1197,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Summit300-24-Port 24',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit300-24-Port 24',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1222,7 +1214,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Summit300-24-Port 25',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit300-24-Port 25',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1239,7 +1231,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Summit300-24-Port 26',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit300-24-Port 26',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1256,7 +1248,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -1286,7 +1278,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -1301,7 +1293,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'VLAN 00003 (pmf-sans-fil)',
+                        IFNAME           => 'pmf-sans-fil',
                         IFDESCR          => 'VLAN 00003 (pmf-sans-fil)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -1331,7 +1323,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'VLAN 00004 (wlan-mgmt)',
+                        IFNAME           => 'wlan-mgmt',
                         IFDESCR          => 'VLAN 00004 (wlan-mgmt)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -1346,7 +1338,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'VLAN 00005 (pmf-borne-sf)',
+                        IFNAME           => 'pmf-borne-sf',
                         IFDESCR          => 'VLAN 00005 (pmf-borne-sf)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -1392,7 +1384,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.9)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -1409,7 +1401,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'rif1',
+                        IFNAME           => 'rif1(192.168.254.72)',
                         IFDESCR          => 'rif1',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -1426,7 +1418,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '102001',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -1442,7 +1433,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '102002',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -1458,7 +1448,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '102101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -1474,7 +1463,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '102102',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -1490,7 +1478,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10200101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -1506,7 +1493,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10200201',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -1522,7 +1508,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10210101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -1538,7 +1523,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10210201',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -1596,7 +1580,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1001',
-                        IFNAME           => 'Summit300-48-Port 1001',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit300-48-Port 1001',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1613,7 +1597,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1002',
-                        IFNAME           => 'Summit300-48-Port 1002',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit300-48-Port 1002',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1630,7 +1614,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1003',
-                        IFNAME           => 'Summit300-48-Port 1003',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit300-48-Port 1003',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1647,7 +1631,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1004',
-                        IFNAME           => 'Summit300-48-Port 1004',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit300-48-Port 1004',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1664,7 +1648,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1005',
-                        IFNAME           => 'Summit300-48-Port 1005',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit300-48-Port 1005',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1681,7 +1665,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1006',
-                        IFNAME           => 'Summit300-48-Port 1006',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit300-48-Port 1006',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1698,7 +1682,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1007',
-                        IFNAME           => 'Summit300-48-Port 1007',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit300-48-Port 1007',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1715,7 +1699,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1008',
-                        IFNAME           => 'Summit300-48-Port 1008',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit300-48-Port 1008',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1732,7 +1716,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1009',
-                        IFNAME           => 'Summit300-48-Port 1009',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit300-48-Port 1009',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1749,7 +1733,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1010',
-                        IFNAME           => 'Summit300-48-Port 1010',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit300-48-Port 1010',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1766,7 +1750,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1011',
-                        IFNAME           => 'Summit300-48-Port 1011',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit300-48-Port 1011',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1783,7 +1767,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1012',
-                        IFNAME           => 'Summit300-48-Port 1012',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit300-48-Port 1012',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1800,7 +1784,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1013',
-                        IFNAME           => 'Summit300-48-Port 1013',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit300-48-Port 1013',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1817,7 +1801,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1014',
-                        IFNAME           => 'Summit300-48-Port 1014',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit300-48-Port 1014',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1834,7 +1818,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1015',
-                        IFNAME           => 'Summit300-48-Port 1015',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit300-48-Port 1015',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1851,7 +1835,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1016',
-                        IFNAME           => 'Summit300-48-Port 1016',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit300-48-Port 1016',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1868,7 +1852,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1017',
-                        IFNAME           => 'Summit300-48-Port 1017',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit300-48-Port 1017',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1885,7 +1869,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1018',
-                        IFNAME           => 'Summit300-48-Port 1018',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit300-48-Port 1018',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1902,7 +1886,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1019',
-                        IFNAME           => 'Summit300-48-Port 1019',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit300-48-Port 1019',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1919,7 +1903,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1020',
-                        IFNAME           => 'Summit300-48-Port 1020',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit300-48-Port 1020',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1936,7 +1920,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1021',
-                        IFNAME           => 'Summit300-48-Port 1021',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit300-48-Port 1021',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -1953,7 +1937,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1022',
-                        IFNAME           => 'Summit300-48-Port 1022',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit300-48-Port 1022',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1970,7 +1954,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1023',
-                        IFNAME           => 'Summit300-48-Port 1023',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit300-48-Port 1023',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1987,7 +1971,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1024',
-                        IFNAME           => 'Summit300-48-Port 1024',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit300-48-Port 1024',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2004,7 +1988,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1025',
-                        IFNAME           => 'Summit300-48-Port 1025',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit300-48-Port 1025',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2021,7 +2005,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1026',
-                        IFNAME           => 'Summit300-48-Port 1026',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit300-48-Port 1026',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2038,7 +2022,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1027',
-                        IFNAME           => 'Summit300-48-Port 1027',
+                        IFNAME           => '1/27',
                         IFDESCR          => 'Summit300-48-Port 1027',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2055,7 +2039,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1028',
-                        IFNAME           => 'Summit300-48-Port 1028',
+                        IFNAME           => '1/28',
                         IFDESCR          => 'Summit300-48-Port 1028',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2072,7 +2056,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1029',
-                        IFNAME           => 'Summit300-48-Port 1029',
+                        IFNAME           => '1/29',
                         IFDESCR          => 'Summit300-48-Port 1029',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2089,7 +2073,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1030',
-                        IFNAME           => 'Summit300-48-Port 1030',
+                        IFNAME           => '1/30',
                         IFDESCR          => 'Summit300-48-Port 1030',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2106,7 +2090,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1031',
-                        IFNAME           => 'Summit300-48-Port 1031',
+                        IFNAME           => '1/31',
                         IFDESCR          => 'Summit300-48-Port 1031',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2123,7 +2107,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1032',
-                        IFNAME           => 'Summit300-48-Port 1032',
+                        IFNAME           => '1/32',
                         IFDESCR          => 'Summit300-48-Port 1032',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2140,7 +2124,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1033',
-                        IFNAME           => 'Summit300-48-Port 1033',
+                        IFNAME           => '1/33',
                         IFDESCR          => 'Summit300-48-Port 1033',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2157,7 +2141,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1034',
-                        IFNAME           => 'Summit300-48-Port 1034',
+                        IFNAME           => '1/34',
                         IFDESCR          => 'Summit300-48-Port 1034',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2174,7 +2158,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1035',
-                        IFNAME           => 'Summit300-48-Port 1035',
+                        IFNAME           => '1/35',
                         IFDESCR          => 'Summit300-48-Port 1035',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2191,7 +2175,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1036',
-                        IFNAME           => 'Summit300-48-Port 1036',
+                        IFNAME           => '1/36',
                         IFDESCR          => 'Summit300-48-Port 1036',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2208,7 +2192,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1037',
-                        IFNAME           => 'Summit300-48-Port 1037',
+                        IFNAME           => '1/37',
                         IFDESCR          => 'Summit300-48-Port 1037',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2225,7 +2209,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1038',
-                        IFNAME           => 'Summit300-48-Port 1038',
+                        IFNAME           => '1/38',
                         IFDESCR          => 'Summit300-48-Port 1038',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2242,7 +2226,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1039',
-                        IFNAME           => 'Summit300-48-Port 1039',
+                        IFNAME           => '1/39',
                         IFDESCR          => 'Summit300-48-Port 1039',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2259,7 +2243,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1040',
-                        IFNAME           => 'Summit300-48-Port 1040',
+                        IFNAME           => '1/40',
                         IFDESCR          => 'Summit300-48-Port 1040',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2276,7 +2260,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1041',
-                        IFNAME           => 'Summit300-48-Port 1041',
+                        IFNAME           => '1/41',
                         IFDESCR          => 'Summit300-48-Port 1041',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2293,7 +2277,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1042',
-                        IFNAME           => 'Summit300-48-Port 1042',
+                        IFNAME           => '1/42',
                         IFDESCR          => 'Summit300-48-Port 1042',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2310,7 +2294,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1043',
-                        IFNAME           => 'Summit300-48-Port 1043',
+                        IFNAME           => '1/43',
                         IFDESCR          => 'Summit300-48-Port 1043',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2327,7 +2311,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1044',
-                        IFNAME           => 'Summit300-48-Port 1044',
+                        IFNAME           => '1/44',
                         IFDESCR          => 'Summit300-48-Port 1044',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2344,7 +2328,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1045',
-                        IFNAME           => 'Summit300-48-Port 1045',
+                        IFNAME           => '1/45',
                         IFDESCR          => 'Summit300-48-Port 1045',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2361,7 +2345,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1046',
-                        IFNAME           => 'Summit300-48-Port 1046',
+                        IFNAME           => '1/46',
                         IFDESCR          => 'Summit300-48-Port 1046',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2378,7 +2362,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1047',
-                        IFNAME           => 'Summit300-48-Port 1047',
+                        IFNAME           => '1/47',
                         IFDESCR          => 'Summit300-48-Port 1047',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2395,7 +2379,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1048',
-                        IFNAME           => 'Summit300-48-Port 1048',
+                        IFNAME           => '1/48',
                         IFDESCR          => 'Summit300-48-Port 1048',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2412,7 +2396,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1049',
-                        IFNAME           => 'Summit300-48-Port 1049',
+                        IFNAME           => '1/49',
                         IFDESCR          => 'Summit300-48-Port 1049',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2429,7 +2413,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1050',
-                        IFNAME           => 'Summit300-48-Port 1050',
+                        IFNAME           => '1/50',
                         IFDESCR          => 'Summit300-48-Port 1050',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2446,7 +2430,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1051',
-                        IFNAME           => 'Summit300-48-Port 1051',
+                        IFNAME           => '1/51',
                         IFDESCR          => 'Summit300-48-Port 1051',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2463,7 +2447,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1052',
-                        IFNAME           => 'Summit300-48-Port 1052',
+                        IFNAME           => '1/52',
                         IFDESCR          => 'Summit300-48-Port 1052',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2480,7 +2464,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20002',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2510,7 +2494,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20004',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2525,7 +2509,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20006',
-                        IFNAME           => 'VLAN 00003 (pmf-scipre)',
+                        IFNAME           => 'pmf-scipre',
                         IFDESCR          => 'VLAN 00003 (pmf-scipre)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2555,7 +2539,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20008',
-                        IFNAME           => 'VLAN 00004 (pmf-divetud)',
+                        IFNAME           => 'pmf-divetud',
                         IFDESCR          => 'VLAN 00004 (pmf-divetud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2585,7 +2569,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20010',
-                        IFNAME           => 'VLAN 00005 (pmf-mse-doc)',
+                        IFNAME           => 'pmf-mse-doc',
                         IFDESCR          => 'VLAN 00005 (pmf-mse-doc)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2615,7 +2599,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20012',
-                        IFNAME           => 'VLAN 00006 (pmf-adm)',
+                        IFNAME           => 'pmf-adm',
                         IFDESCR          => 'VLAN 00006 (pmf-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2645,7 +2629,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20014',
-                        IFNAME           => 'VLAN 00007 (pmf-imps)',
+                        IFNAME           => 'pmf-imps',
                         IFDESCR          => 'VLAN 00007 (pmf-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2675,7 +2659,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20016',
-                        IFNAME           => 'VLAN 00008 (pmf-sip)',
+                        IFNAME           => 'pmf-sip',
                         IFDESCR          => 'VLAN 00008 (pmf-sip)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2705,7 +2689,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20018',
-                        IFNAME           => 'VLAN 00009 (pmf-miage)',
+                        IFNAME           => 'pmf-miage',
                         IFDESCR          => 'VLAN 00009 (pmf-miage)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2735,7 +2719,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20020',
-                        IFNAME           => 'VLAN 00010 (pmf-vacadm)',
+                        IFNAME           => 'pmf-vacadm',
                         IFDESCR          => 'VLAN 00010 (pmf-vacadm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2765,7 +2749,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20022',
-                        IFNAME           => 'VLAN 00011 (pmf-sans-fil)',
+                        IFNAME           => 'pmf-sans-fil',
                         IFDESCR          => 'VLAN 00011 (pmf-sans-fil)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2795,7 +2779,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20024',
-                        IFNAME           => 'VLAN 00012 (wlan-mgmt)',
+                        IFNAME           => 'wlan-mgmt',
                         IFDESCR          => 'VLAN 00012 (wlan-mgmt)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2810,7 +2794,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20026',
-                        IFNAME           => 'VLAN 00013 (pmf-ls)',
+                        IFNAME           => 'pmf-ls',
                         IFDESCR          => 'VLAN 00013 (pmf-ls)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2840,7 +2824,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20028',
-                        IFNAME           => 'VLAN 00014 (pmf-borne-sf)',
+                        IFNAME           => 'pmf-borne-sf',
                         IFDESCR          => 'VLAN 00014 (pmf-borne-sf)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2870,7 +2854,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20030',
-                        IFNAME           => 'VLAN 00015 (pmf-lan-re)',
+                        IFNAME           => 'pmf-lan-re',
                         IFDESCR          => 'VLAN 00015 (pmf-lan-re)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2900,7 +2884,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20032',
-                        IFNAME           => 'VLAN 00016 (pmf-lan-imps)',
+                        IFNAME           => 'pmf-lan-imps',
                         IFDESCR          => 'VLAN 00016 (pmf-lan-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2946,7 +2930,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20035',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.7)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2963,7 +2947,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20036',
-                        IFNAME           => 'rif1',
+                        IFNAME           => 'rif1(192.168.254.72)',
                         IFDESCR          => 'rif1',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2980,7 +2964,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104201',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -2996,7 +2979,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104202',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3012,7 +2994,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104301',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3028,7 +3009,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104302',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3044,7 +3024,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104501',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3060,7 +3039,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104502',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3076,7 +3054,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10420101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3092,7 +3069,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10420201',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3108,7 +3084,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10430101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3124,7 +3099,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10430201',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3140,7 +3114,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10450101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3156,7 +3129,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10450201',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -3196,7 +3168,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1001',
-                        IFNAME           => 'Summit300-48-Port 1001',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit300-48-Port 1001',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3213,7 +3185,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1002',
-                        IFNAME           => 'Summit300-48-Port 1002',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit300-48-Port 1002',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3230,7 +3202,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1003',
-                        IFNAME           => 'Summit300-48-Port 1003',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit300-48-Port 1003',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3247,7 +3219,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1004',
-                        IFNAME           => 'Summit300-48-Port 1004',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit300-48-Port 1004',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3264,7 +3236,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1005',
-                        IFNAME           => 'Summit300-48-Port 1005',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit300-48-Port 1005',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3281,7 +3253,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1006',
-                        IFNAME           => 'Summit300-48-Port 1006',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit300-48-Port 1006',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3298,7 +3270,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1007',
-                        IFNAME           => 'Summit300-48-Port 1007',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit300-48-Port 1007',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3315,7 +3287,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1008',
-                        IFNAME           => 'Summit300-48-Port 1008',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit300-48-Port 1008',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3332,7 +3304,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1009',
-                        IFNAME           => 'Summit300-48-Port 1009',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit300-48-Port 1009',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3349,7 +3321,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1010',
-                        IFNAME           => 'Summit300-48-Port 1010',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit300-48-Port 1010',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3366,7 +3338,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1011',
-                        IFNAME           => 'Summit300-48-Port 1011',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit300-48-Port 1011',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3383,7 +3355,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1012',
-                        IFNAME           => 'Summit300-48-Port 1012',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit300-48-Port 1012',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3400,7 +3372,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1013',
-                        IFNAME           => 'Summit300-48-Port 1013',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit300-48-Port 1013',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3417,7 +3389,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1014',
-                        IFNAME           => 'Summit300-48-Port 1014',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit300-48-Port 1014',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3434,7 +3406,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1015',
-                        IFNAME           => 'Summit300-48-Port 1015',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit300-48-Port 1015',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3451,7 +3423,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1016',
-                        IFNAME           => 'Summit300-48-Port 1016',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit300-48-Port 1016',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3468,7 +3440,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1017',
-                        IFNAME           => 'Summit300-48-Port 1017',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit300-48-Port 1017',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3485,7 +3457,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1018',
-                        IFNAME           => 'Summit300-48-Port 1018',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit300-48-Port 1018',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3502,7 +3474,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1019',
-                        IFNAME           => 'Summit300-48-Port 1019',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit300-48-Port 1019',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3519,7 +3491,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1020',
-                        IFNAME           => 'Summit300-48-Port 1020',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit300-48-Port 1020',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3536,7 +3508,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1021',
-                        IFNAME           => 'Summit300-48-Port 1021',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit300-48-Port 1021',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3553,7 +3525,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1022',
-                        IFNAME           => 'Summit300-48-Port 1022',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit300-48-Port 1022',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3570,7 +3542,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1023',
-                        IFNAME           => 'Summit300-48-Port 1023',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit300-48-Port 1023',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3587,7 +3559,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1024',
-                        IFNAME           => 'Summit300-48-Port 1024',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit300-48-Port 1024',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3604,7 +3576,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1025',
-                        IFNAME           => 'Summit300-48-Port 1025',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit300-48-Port 1025',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3621,7 +3593,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1026',
-                        IFNAME           => 'Summit300-48-Port 1026',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit300-48-Port 1026',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3638,7 +3610,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1027',
-                        IFNAME           => 'Summit300-48-Port 1027',
+                        IFNAME           => '1/27',
                         IFDESCR          => 'Summit300-48-Port 1027',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3655,7 +3627,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1028',
-                        IFNAME           => 'Summit300-48-Port 1028',
+                        IFNAME           => '1/28',
                         IFDESCR          => 'Summit300-48-Port 1028',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3672,7 +3644,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1029',
-                        IFNAME           => 'Summit300-48-Port 1029',
+                        IFNAME           => '1/29',
                         IFDESCR          => 'Summit300-48-Port 1029',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3689,7 +3661,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1030',
-                        IFNAME           => 'Summit300-48-Port 1030',
+                        IFNAME           => '1/30',
                         IFDESCR          => 'Summit300-48-Port 1030',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3706,7 +3678,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1031',
-                        IFNAME           => 'Summit300-48-Port 1031',
+                        IFNAME           => '1/31',
                         IFDESCR          => 'Summit300-48-Port 1031',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3723,7 +3695,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1032',
-                        IFNAME           => 'Summit300-48-Port 1032',
+                        IFNAME           => '1/32',
                         IFDESCR          => 'Summit300-48-Port 1032',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3740,7 +3712,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1033',
-                        IFNAME           => 'Summit300-48-Port 1033',
+                        IFNAME           => '1/33',
                         IFDESCR          => 'Summit300-48-Port 1033',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3757,7 +3729,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1034',
-                        IFNAME           => 'Summit300-48-Port 1034',
+                        IFNAME           => '1/34',
                         IFDESCR          => 'Summit300-48-Port 1034',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3774,7 +3746,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1035',
-                        IFNAME           => 'Summit300-48-Port 1035',
+                        IFNAME           => '1/35',
                         IFDESCR          => 'Summit300-48-Port 1035',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3791,7 +3763,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1036',
-                        IFNAME           => 'Summit300-48-Port 1036',
+                        IFNAME           => '1/36',
                         IFDESCR          => 'Summit300-48-Port 1036',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3808,7 +3780,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1037',
-                        IFNAME           => 'Summit300-48-Port 1037',
+                        IFNAME           => '1/37',
                         IFDESCR          => 'Summit300-48-Port 1037',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3825,7 +3797,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1038',
-                        IFNAME           => 'Summit300-48-Port 1038',
+                        IFNAME           => '1/38',
                         IFDESCR          => 'Summit300-48-Port 1038',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3842,7 +3814,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1039',
-                        IFNAME           => 'Summit300-48-Port 1039',
+                        IFNAME           => '1/39',
                         IFDESCR          => 'Summit300-48-Port 1039',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3859,7 +3831,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1040',
-                        IFNAME           => 'Summit300-48-Port 1040',
+                        IFNAME           => '1/40',
                         IFDESCR          => 'Summit300-48-Port 1040',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3876,7 +3848,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1041',
-                        IFNAME           => 'Summit300-48-Port 1041',
+                        IFNAME           => '1/41',
                         IFDESCR          => 'Summit300-48-Port 1041',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3893,7 +3865,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1042',
-                        IFNAME           => 'Summit300-48-Port 1042',
+                        IFNAME           => '1/42',
                         IFDESCR          => 'Summit300-48-Port 1042',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3910,7 +3882,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1043',
-                        IFNAME           => 'Summit300-48-Port 1043',
+                        IFNAME           => '1/43',
                         IFDESCR          => 'Summit300-48-Port 1043',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3927,7 +3899,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1044',
-                        IFNAME           => 'Summit300-48-Port 1044',
+                        IFNAME           => '1/44',
                         IFDESCR          => 'Summit300-48-Port 1044',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3944,7 +3916,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1045',
-                        IFNAME           => 'Summit300-48-Port 1045',
+                        IFNAME           => '1/45',
                         IFDESCR          => 'Summit300-48-Port 1045',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3961,7 +3933,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1046',
-                        IFNAME           => 'Summit300-48-Port 1046',
+                        IFNAME           => '1/46',
                         IFDESCR          => 'Summit300-48-Port 1046',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3978,7 +3950,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1047',
-                        IFNAME           => 'Summit300-48-Port 1047',
+                        IFNAME           => '1/47',
                         IFDESCR          => 'Summit300-48-Port 1047',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3995,7 +3967,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1048',
-                        IFNAME           => 'Summit300-48-Port 1048',
+                        IFNAME           => '1/48',
                         IFDESCR          => 'Summit300-48-Port 1048',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -4012,7 +3984,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1049',
-                        IFNAME           => 'Summit300-48-Port 1049',
+                        IFNAME           => '1/49',
                         IFDESCR          => 'Summit300-48-Port 1049',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -4029,7 +4001,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1050',
-                        IFNAME           => 'Summit300-48-Port 1050',
+                        IFNAME           => '1/50',
                         IFDESCR          => 'Summit300-48-Port 1050',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -4046,7 +4018,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1051',
-                        IFNAME           => 'Summit300-48-Port 1051',
+                        IFNAME           => '1/51',
                         IFDESCR          => 'Summit300-48-Port 1051',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -4063,7 +4035,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1052',
-                        IFNAME           => 'Summit300-48-Port 1052',
+                        IFNAME           => '1/52',
                         IFDESCR          => 'Summit300-48-Port 1052',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -4080,7 +4052,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20002',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4110,7 +4082,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20004',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4125,7 +4097,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20006',
-                        IFNAME           => 'VLAN 00003 (pmf-scipre)',
+                        IFNAME           => 'pmf-scipre',
                         IFDESCR          => 'VLAN 00003 (pmf-scipre)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4155,7 +4127,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20008',
-                        IFNAME           => 'VLAN 00004 (pmf-divetud)',
+                        IFNAME           => 'pmf-divetud',
                         IFDESCR          => 'VLAN 00004 (pmf-divetud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4185,7 +4157,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20010',
-                        IFNAME           => 'VLAN 00005 (pmf-mse-doc)',
+                        IFNAME           => 'pmf-mse-doc',
                         IFDESCR          => 'VLAN 00005 (pmf-mse-doc)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4215,7 +4187,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20012',
-                        IFNAME           => 'VLAN 00006 (pmf-adm)',
+                        IFNAME           => 'pmf-adm',
                         IFDESCR          => 'VLAN 00006 (pmf-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4245,7 +4217,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20014',
-                        IFNAME           => 'VLAN 00007 (pmf-imps)',
+                        IFNAME           => 'pmf-imps',
                         IFDESCR          => 'VLAN 00007 (pmf-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4275,7 +4247,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20016',
-                        IFNAME           => 'VLAN 00008 (pmf-sip)',
+                        IFNAME           => 'pmf-sip',
                         IFDESCR          => 'VLAN 00008 (pmf-sip)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4305,7 +4277,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20018',
-                        IFNAME           => 'VLAN 00009 (pmf-miage)',
+                        IFNAME           => 'pmf-miage',
                         IFDESCR          => 'VLAN 00009 (pmf-miage)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4335,7 +4307,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20020',
-                        IFNAME           => 'VLAN 00010 (pmf-vacadm)',
+                        IFNAME           => 'pmf-vacadm',
                         IFDESCR          => 'VLAN 00010 (pmf-vacadm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4365,7 +4337,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20022',
-                        IFNAME           => 'VLAN 00011 (pmf-sans-fil)',
+                        IFNAME           => 'pmf-sans-fil',
                         IFDESCR          => 'VLAN 00011 (pmf-sans-fil)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4395,7 +4367,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20024',
-                        IFNAME           => 'VLAN 00012 (wlan-mgmt)',
+                        IFNAME           => 'wlan-mgmt',
                         IFDESCR          => 'VLAN 00012 (wlan-mgmt)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4410,7 +4382,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20026',
-                        IFNAME           => 'VLAN 00013 (pmf-ls)',
+                        IFNAME           => 'pmf-ls',
                         IFDESCR          => 'VLAN 00013 (pmf-ls)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4440,7 +4412,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20028',
-                        IFNAME           => 'VLAN 00014 (pmf-borne-sf)',
+                        IFNAME           => 'pmf-borne-sf',
                         IFDESCR          => 'VLAN 00014 (pmf-borne-sf)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4470,7 +4442,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20030',
-                        IFNAME           => 'VLAN 00015 (pmf-lan-re)',
+                        IFNAME           => 'pmf-lan-re',
                         IFDESCR          => 'VLAN 00015 (pmf-lan-re)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4500,7 +4472,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20032',
-                        IFNAME           => 'VLAN 00016 (pmf-lan-imps)',
+                        IFNAME           => 'pmf-lan-imps',
                         IFDESCR          => 'VLAN 00016 (pmf-lan-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4546,7 +4518,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20035',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.7)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4563,7 +4535,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20036',
-                        IFNAME           => 'rif1',
+                        IFNAME           => 'rif1(192.168.254.72)',
                         IFDESCR          => 'rif1',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -4580,7 +4552,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104201',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4596,7 +4567,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104202',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4612,7 +4582,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104301',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4628,7 +4597,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104302',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4644,7 +4612,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104501',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4660,7 +4627,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '104502',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4676,7 +4642,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10420101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4692,7 +4657,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10420201',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4708,7 +4672,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10430101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4724,7 +4687,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10430201',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4740,7 +4702,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10450101',
-                        IFNAME           => 'Wireless Interface 1: (802.11a)',
                         IFDESCR          => 'Wireless Interface 1: (802.11a)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4756,7 +4717,6 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10450201',
-                        IFNAME           => 'Wireless Interface 2: (802.11g)',
                         IFDESCR          => 'Wireless Interface 2: (802.11g)',
                         IFTYPE           => '71',
                         IFSPEED          => '54000000',
@@ -4813,7 +4773,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Summit400-48t-Port 1',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit400-48t-Port 1',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -4830,7 +4790,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Summit400-48t-Port 2',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit400-48t-Port 2',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -4847,7 +4807,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Summit400-48t-Port 3',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit400-48t-Port 3',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -4864,7 +4824,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Summit400-48t-Port 4',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit400-48t-Port 4',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -4881,7 +4841,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Summit400-48t-Port 5',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit400-48t-Port 5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -4898,7 +4858,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Summit400-48t-Port 6',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit400-48t-Port 6',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -4915,7 +4875,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Summit400-48t-Port 7',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit400-48t-Port 7',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -4932,7 +4892,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Summit400-48t-Port 8',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit400-48t-Port 8',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -4949,7 +4909,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Summit400-48t-Port 9',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit400-48t-Port 9',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -4966,7 +4926,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Summit400-48t-Port 10',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit400-48t-Port 10',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -4983,7 +4943,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Summit400-48t-Port 11',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit400-48t-Port 11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5000,7 +4960,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Summit400-48t-Port 12',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit400-48t-Port 12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5017,7 +4977,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Summit400-48t-Port 13',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit400-48t-Port 13',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5034,7 +4994,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Summit400-48t-Port 14',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit400-48t-Port 14',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -5051,7 +5011,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Summit400-48t-Port 15',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit400-48t-Port 15',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -5068,7 +5028,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Summit400-48t-Port 16',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit400-48t-Port 16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5085,7 +5045,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Summit400-48t-Port 17',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit400-48t-Port 17',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5102,7 +5062,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Summit400-48t-Port 18',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit400-48t-Port 18',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -5119,7 +5079,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Summit400-48t-Port 19',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit400-48t-Port 19',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5136,7 +5096,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Summit400-48t-Port 20',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit400-48t-Port 20',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5153,7 +5113,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Summit400-48t-Port 21',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit400-48t-Port 21',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5170,7 +5130,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Summit400-48t-Port 22',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit400-48t-Port 22',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5187,7 +5147,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Summit400-48t-Port 23',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit400-48t-Port 23',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -5204,7 +5164,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Summit400-48t-Port 24',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit400-48t-Port 24',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -5221,7 +5181,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Summit400-48t-Port 25',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit400-48t-Port 25',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5238,7 +5198,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Summit400-48t-Port 26',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit400-48t-Port 26',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5255,7 +5215,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => 'Summit400-48t-Port 27',
+                        IFNAME           => '1/27',
                         IFDESCR          => 'Summit400-48t-Port 27',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -5272,7 +5232,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'Summit400-48t-Port 28',
+                        IFNAME           => '1/28',
                         IFDESCR          => 'Summit400-48t-Port 28',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5289,7 +5249,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '29',
-                        IFNAME           => 'Summit400-48t-Port 29',
+                        IFNAME           => '1/29',
                         IFDESCR          => 'Summit400-48t-Port 29',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5306,7 +5266,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'Summit400-48t-Port 30',
+                        IFNAME           => '1/30',
                         IFDESCR          => 'Summit400-48t-Port 30',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -5323,7 +5283,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '31',
-                        IFNAME           => 'Summit400-48t-Port 31',
+                        IFNAME           => '1/31',
                         IFDESCR          => 'Summit400-48t-Port 31',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5340,7 +5300,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'Summit400-48t-Port 32',
+                        IFNAME           => '1/32',
                         IFDESCR          => 'Summit400-48t-Port 32',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5357,7 +5317,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '33',
-                        IFNAME           => 'Summit400-48t-Port 33',
+                        IFNAME           => '1/33',
                         IFDESCR          => 'Summit400-48t-Port 33',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5374,7 +5334,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'Summit400-48t-Port 34',
+                        IFNAME           => '1/34',
                         IFDESCR          => 'Summit400-48t-Port 34',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5391,7 +5351,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
-                        IFNAME           => 'Summit400-48t-Port 35',
+                        IFNAME           => '1/35',
                         IFDESCR          => 'Summit400-48t-Port 35',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5408,7 +5368,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'Summit400-48t-Port 36',
+                        IFNAME           => '1/36',
                         IFDESCR          => 'Summit400-48t-Port 36',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5425,7 +5385,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '37',
-                        IFNAME           => 'Summit400-48t-Port 37',
+                        IFNAME           => '1/37',
                         IFDESCR          => 'Summit400-48t-Port 37',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5442,7 +5402,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
-                        IFNAME           => 'Summit400-48t-Port 38',
+                        IFNAME           => '1/38',
                         IFDESCR          => 'Summit400-48t-Port 38',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -5459,7 +5419,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'Summit400-48t-Port 39',
+                        IFNAME           => '1/39',
                         IFDESCR          => 'Summit400-48t-Port 39',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5476,7 +5436,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'Summit400-48t-Port 40',
+                        IFNAME           => '1/40',
                         IFDESCR          => 'Summit400-48t-Port 40',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5493,7 +5453,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '41',
-                        IFNAME           => 'Summit400-48t-Port 41',
+                        IFNAME           => '1/41',
                         IFDESCR          => 'Summit400-48t-Port 41',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5510,7 +5470,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
-                        IFNAME           => 'Summit400-48t-Port 42',
+                        IFNAME           => '1/42',
                         IFDESCR          => 'Summit400-48t-Port 42',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5527,7 +5487,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '43',
-                        IFNAME           => 'Summit400-48t-Port 43',
+                        IFNAME           => '1/43',
                         IFDESCR          => 'Summit400-48t-Port 43',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5544,7 +5504,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
-                        IFNAME           => 'Summit400-48t-Port 44',
+                        IFNAME           => '1/44',
                         IFDESCR          => 'Summit400-48t-Port 44',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5561,7 +5521,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '45',
-                        IFNAME           => 'Summit400-48t-Port 45',
+                        IFNAME           => '1/45',
                         IFDESCR          => 'Summit400-48t-Port 45',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5578,7 +5538,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '46',
-                        IFNAME           => 'Summit400-48t-Port 46',
+                        IFNAME           => '1/46',
                         IFDESCR          => 'Summit400-48t-Port 46',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5595,7 +5555,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '47',
-                        IFNAME           => 'Summit400-48t-Port 47',
+                        IFNAME           => '1/47',
                         IFDESCR          => 'Summit400-48t-Port 47',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -5612,7 +5572,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '48',
-                        IFNAME           => 'Summit400-48t-Port 48',
+                        IFNAME           => '1/48',
                         IFDESCR          => 'Summit400-48t-Port 48',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5629,7 +5589,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '49',
-                        IFNAME           => 'Summit400-48t-Port 49',
+                        IFNAME           => '1/49',
                         IFDESCR          => 'Summit400-48t-Port 49',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5646,7 +5606,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '50',
-                        IFNAME           => 'Summit400-48t-Port 50',
+                        IFNAME           => '1/50',
                         IFDESCR          => 'Summit400-48t-Port 50',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -5680,7 +5640,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '53',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -5710,7 +5670,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '55',
-                        IFNAME           => 'VLAN 00003 (Mgmt)',
+                        IFNAME           => 'Mgmt',
                         IFDESCR          => 'VLAN 00003 (Mgmt)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -5740,7 +5700,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '57',
-                        IFNAME           => 'VLAN 00004 (pmf-scipre)',
+                        IFNAME           => 'pmf-scipre',
                         IFDESCR          => 'VLAN 00004 (pmf-scipre)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -5770,7 +5730,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '59',
-                        IFNAME           => 'VLAN 00005 (pmf-sip)',
+                        IFNAME           => 'pmf-sip',
                         IFDESCR          => 'VLAN 00005 (pmf-sip)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -5800,7 +5760,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '61',
-                        IFNAME           => 'VLAN 00006 (divers-etud)',
+                        IFNAME           => 'divers-etud',
                         IFDESCR          => 'VLAN 00006 (divers-etud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -5830,7 +5790,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '63',
-                        IFNAME           => 'VLAN 00007 (pmf-mse-doc)',
+                        IFNAME           => 'pmf-mse-doc',
                         IFDESCR          => 'VLAN 00007 (pmf-mse-doc)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -5860,7 +5820,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '65',
-                        IFNAME           => 'VLAN 00008 (pmf-bup1pub)',
+                        IFNAME           => 'pmf-bup1pub',
                         IFDESCR          => 'VLAN 00008 (pmf-bup1pub)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -5890,7 +5850,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '67',
-                        IFNAME           => 'VLAN 00009 (pmf-adm)',
+                        IFNAME           => 'pmf-adm',
                         IFDESCR          => 'VLAN 00009 (pmf-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -5920,7 +5880,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '69',
-                        IFNAME           => 'VLAN 00010 (pmf-vacadm)',
+                        IFNAME           => 'pmf-vacadm',
                         IFDESCR          => 'VLAN 00010 (pmf-vacadm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -5950,7 +5910,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '71',
-                        IFNAME           => 'VLAN 00011 (pmf-imps)',
+                        IFNAME           => 'pmf-imps',
                         IFDESCR          => 'VLAN 00011 (pmf-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -5980,7 +5940,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '73',
-                        IFNAME           => 'VLAN 00012 (pmf-testgp)',
+                        IFNAME           => 'pmf-testgp',
                         IFDESCR          => 'VLAN 00012 (pmf-testgp)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6010,7 +5970,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '75',
-                        IFNAME           => 'VLAN 00013 (pmf-divetud)',
+                        IFNAME           => 'pmf-divetud',
                         IFDESCR          => 'VLAN 00013 (pmf-divetud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6040,7 +6000,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '77',
-                        IFNAME           => 'VLAN 00014 (pmf-ls)',
+                        IFNAME           => 'pmf-ls',
                         IFDESCR          => 'VLAN 00014 (pmf-ls)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6070,7 +6030,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '79',
-                        IFNAME           => 'VLAN 00015 (pmf-crous-adm)',
+                        IFNAME           => 'pmf-crous-adm',
                         IFDESCR          => 'VLAN 00015 (pmf-crous-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6100,7 +6060,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '81',
-                        IFNAME           => 'VLAN 00016 (pmf-lan-crir)',
+                        IFNAME           => 'pmf-lan-crir',
                         IFDESCR          => 'VLAN 00016 (pmf-lan-crir)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6130,7 +6090,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '83',
-                        IFNAME           => 'VLAN 00017 (pmf-crous-monetique)',
+                        IFNAME           => 'pmf-crous-monetique',
                         IFDESCR          => 'VLAN 00017 (pmf-crous-monetique)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6160,7 +6120,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '85',
-                        IFNAME           => 'VLAN 00018 (pmf-lan-ls)',
+                        IFNAME           => 'pmf-lan-ls',
                         IFDESCR          => 'VLAN 00018 (pmf-lan-ls)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6190,7 +6150,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '87',
-                        IFNAME           => 'VLAN 00019 (pmf-lan-td)',
+                        IFNAME           => 'pmf-lan-td',
                         IFDESCR          => 'VLAN 00019 (pmf-lan-td)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6220,7 +6180,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '89',
-                        IFNAME           => 'VLAN 00020 (pmf-borne-sf)',
+                        IFNAME           => 'pmf-borne-sf',
                         IFDESCR          => 'VLAN 00020 (pmf-borne-sf)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6250,7 +6210,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '91',
-                        IFNAME           => 'VLAN 00021 (pmf-invites)',
+                        IFNAME           => 'pmf-invites',
                         IFDESCR          => 'VLAN 00021 (pmf-invites)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6280,7 +6240,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '93',
-                        IFNAME           => 'VLAN 00022 (pmf-sap-install)',
+                        IFNAME           => 'pmf-sap-install',
                         IFDESCR          => 'VLAN 00022 (pmf-sap-install)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6310,7 +6270,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '95',
-                        IFNAME           => 'VLAN 00023 (pmf-mz-priv)',
+                        IFNAME           => 'pmf-mz-priv',
                         IFDESCR          => 'VLAN 00023 (pmf-mz-priv)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6340,7 +6300,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '97',
-                        IFNAME           => 'VLAN 00024 (mse-lan-td)',
+                        IFNAME           => 'mse-lan-td',
                         IFDESCR          => 'VLAN 00024 (mse-lan-td)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6370,7 +6330,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '99',
-                        IFNAME           => 'VLAN 00025 (pmf-lan-adm)',
+                        IFNAME           => 'pmf-lan-adm',
                         IFDESCR          => 'VLAN 00025 (pmf-lan-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6400,7 +6360,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '101',
-                        IFNAME           => 'VLAN 00026 (pmf-lan-sap)',
+                        IFNAME           => 'pmf-lan-sap',
                         IFDESCR          => 'VLAN 00026 (pmf-lan-sap)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6430,7 +6390,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '103',
-                        IFNAME           => 'VLAN 00027 (pmf-crous-bornes)',
+                        IFNAME           => 'pmf-crous-bornes',
                         IFDESCR          => 'VLAN 00027 (pmf-crous-bornes)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6460,7 +6420,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '105',
-                        IFNAME           => 'VLAN 00028 (pmf-lan-imps)',
+                        IFNAME           => 'pmf-lan-imps',
                         IFDESCR          => 'VLAN 00028 (pmf-lan-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6490,7 +6450,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '107',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6521,7 +6481,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '110',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.5)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -6561,7 +6521,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Summit400-48t-Port 1',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit400-48t-Port 1',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -6578,7 +6538,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Summit400-48t-Port 2',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit400-48t-Port 2',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6595,7 +6555,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Summit400-48t-Port 3',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit400-48t-Port 3',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6612,7 +6572,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Summit400-48t-Port 4',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit400-48t-Port 4',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6629,7 +6589,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Summit400-48t-Port 5',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit400-48t-Port 5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -6646,7 +6606,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Summit400-48t-Port 6',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit400-48t-Port 6',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6663,7 +6623,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Summit400-48t-Port 7',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit400-48t-Port 7',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6680,7 +6640,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Summit400-48t-Port 8',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit400-48t-Port 8',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6697,7 +6657,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Summit400-48t-Port 9',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit400-48t-Port 9',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6714,7 +6674,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Summit400-48t-Port 10',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit400-48t-Port 10',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6731,7 +6691,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Summit400-48t-Port 11',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit400-48t-Port 11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -6748,7 +6708,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Summit400-48t-Port 12',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit400-48t-Port 12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -6765,7 +6725,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Summit400-48t-Port 13',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit400-48t-Port 13',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -6782,7 +6742,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Summit400-48t-Port 14',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit400-48t-Port 14',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6799,7 +6759,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Summit400-48t-Port 15',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit400-48t-Port 15',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6816,7 +6776,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Summit400-48t-Port 16',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit400-48t-Port 16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -6833,7 +6793,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Summit400-48t-Port 17',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit400-48t-Port 17',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -6850,7 +6810,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Summit400-48t-Port 18',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit400-48t-Port 18',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6867,7 +6827,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Summit400-48t-Port 19',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit400-48t-Port 19',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -6884,7 +6844,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Summit400-48t-Port 20',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit400-48t-Port 20',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -6901,7 +6861,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Summit400-48t-Port 21',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit400-48t-Port 21',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -6918,7 +6878,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Summit400-48t-Port 22',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit400-48t-Port 22',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -6935,7 +6895,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Summit400-48t-Port 23',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit400-48t-Port 23',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6952,7 +6912,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Summit400-48t-Port 24',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit400-48t-Port 24',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -6969,7 +6929,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Summit400-48t-Port 25',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit400-48t-Port 25',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -6986,7 +6946,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Summit400-48t-Port 26',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit400-48t-Port 26',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7003,7 +6963,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => 'Summit400-48t-Port 27',
+                        IFNAME           => '1/27',
                         IFDESCR          => 'Summit400-48t-Port 27',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -7020,7 +6980,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'Summit400-48t-Port 28',
+                        IFNAME           => '1/28',
                         IFDESCR          => 'Summit400-48t-Port 28',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7037,7 +6997,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '29',
-                        IFNAME           => 'Summit400-48t-Port 29',
+                        IFNAME           => '1/29',
                         IFDESCR          => 'Summit400-48t-Port 29',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -7054,7 +7014,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'Summit400-48t-Port 30',
+                        IFNAME           => '1/30',
                         IFDESCR          => 'Summit400-48t-Port 30',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -7071,7 +7031,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '31',
-                        IFNAME           => 'Summit400-48t-Port 31',
+                        IFNAME           => '1/31',
                         IFDESCR          => 'Summit400-48t-Port 31',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7088,7 +7048,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'Summit400-48t-Port 32',
+                        IFNAME           => '1/32',
                         IFDESCR          => 'Summit400-48t-Port 32',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7105,7 +7065,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '33',
-                        IFNAME           => 'Summit400-48t-Port 33',
+                        IFNAME           => '1/33',
                         IFDESCR          => 'Summit400-48t-Port 33',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7122,7 +7082,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'Summit400-48t-Port 34',
+                        IFNAME           => '1/34',
                         IFDESCR          => 'Summit400-48t-Port 34',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7139,7 +7099,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
-                        IFNAME           => 'Summit400-48t-Port 35',
+                        IFNAME           => '1/35',
                         IFDESCR          => 'Summit400-48t-Port 35',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7156,7 +7116,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'Summit400-48t-Port 36',
+                        IFNAME           => '1/36',
                         IFDESCR          => 'Summit400-48t-Port 36',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7173,7 +7133,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '37',
-                        IFNAME           => 'Summit400-48t-Port 37',
+                        IFNAME           => '1/37',
                         IFDESCR          => 'Summit400-48t-Port 37',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -7190,7 +7150,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
-                        IFNAME           => 'Summit400-48t-Port 38',
+                        IFNAME           => '1/38',
                         IFDESCR          => 'Summit400-48t-Port 38',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -7207,7 +7167,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'Summit400-48t-Port 39',
+                        IFNAME           => '1/39',
                         IFDESCR          => 'Summit400-48t-Port 39',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7224,7 +7184,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'Summit400-48t-Port 40',
+                        IFNAME           => '1/40',
                         IFDESCR          => 'Summit400-48t-Port 40',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -7241,7 +7201,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '41',
-                        IFNAME           => 'Summit400-48t-Port 41',
+                        IFNAME           => '1/41',
                         IFDESCR          => 'Summit400-48t-Port 41',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -7258,7 +7218,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
-                        IFNAME           => 'Summit400-48t-Port 42',
+                        IFNAME           => '1/42',
                         IFDESCR          => 'Summit400-48t-Port 42',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7275,7 +7235,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '43',
-                        IFNAME           => 'Summit400-48t-Port 43',
+                        IFNAME           => '1/43',
                         IFDESCR          => 'Summit400-48t-Port 43',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -7292,7 +7252,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
-                        IFNAME           => 'Summit400-48t-Port 44',
+                        IFNAME           => '1/44',
                         IFDESCR          => 'Summit400-48t-Port 44',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -7309,7 +7269,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '45',
-                        IFNAME           => 'Summit400-48t-Port 45',
+                        IFNAME           => '1/45',
                         IFDESCR          => 'Summit400-48t-Port 45',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -7326,7 +7286,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '46',
-                        IFNAME           => 'Summit400-48t-Port 46',
+                        IFNAME           => '1/46',
                         IFDESCR          => 'Summit400-48t-Port 46',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -7343,7 +7303,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '47',
-                        IFNAME           => 'Summit400-48t-Port 47',
+                        IFNAME           => '1/47',
                         IFDESCR          => 'Summit400-48t-Port 47',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -7360,7 +7320,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '48',
-                        IFNAME           => 'Summit400-48t-Port 48',
+                        IFNAME           => '1/48',
                         IFDESCR          => 'Summit400-48t-Port 48',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -7377,7 +7337,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '49',
-                        IFNAME           => 'Summit400-48t-Port 49',
+                        IFNAME           => '1/49',
                         IFDESCR          => 'Summit400-48t-Port 49',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -7394,7 +7354,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '50',
-                        IFNAME           => 'Summit400-48t-Port 50',
+                        IFNAME           => '1/50',
                         IFDESCR          => 'Summit400-48t-Port 50',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -7428,7 +7388,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '53',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7458,7 +7418,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '55',
-                        IFNAME           => 'VLAN 00003 (Mgmt)',
+                        IFNAME           => 'Mgmt',
                         IFDESCR          => 'VLAN 00003 (Mgmt)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7488,7 +7448,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '57',
-                        IFNAME           => 'VLAN 00004 (pmf-scipre)',
+                        IFNAME           => 'pmf-scipre',
                         IFDESCR          => 'VLAN 00004 (pmf-scipre)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7518,7 +7478,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '59',
-                        IFNAME           => 'VLAN 00005 (pmf-sip)',
+                        IFNAME           => 'pmf-sip',
                         IFDESCR          => 'VLAN 00005 (pmf-sip)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7548,7 +7508,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '61',
-                        IFNAME           => 'VLAN 00006 (divers-etud)',
+                        IFNAME           => 'divers-etud',
                         IFDESCR          => 'VLAN 00006 (divers-etud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7578,7 +7538,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '63',
-                        IFNAME           => 'VLAN 00007 (pmf-mse-doc)',
+                        IFNAME           => 'pmf-mse-doc',
                         IFDESCR          => 'VLAN 00007 (pmf-mse-doc)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7608,7 +7568,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '65',
-                        IFNAME           => 'VLAN 00008 (pmf-bup1pub)',
+                        IFNAME           => 'pmf-bup1pub',
                         IFDESCR          => 'VLAN 00008 (pmf-bup1pub)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7638,7 +7598,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '67',
-                        IFNAME           => 'VLAN 00009 (pmf-adm)',
+                        IFNAME           => 'pmf-adm',
                         IFDESCR          => 'VLAN 00009 (pmf-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7668,7 +7628,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '69',
-                        IFNAME           => 'VLAN 00010 (pmf-vacadm)',
+                        IFNAME           => 'pmf-vacadm',
                         IFDESCR          => 'VLAN 00010 (pmf-vacadm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7698,7 +7658,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '71',
-                        IFNAME           => 'VLAN 00011 (pmf-imps)',
+                        IFNAME           => 'pmf-imps',
                         IFDESCR          => 'VLAN 00011 (pmf-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7728,7 +7688,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '73',
-                        IFNAME           => 'VLAN 00012 (pmf-testgp)',
+                        IFNAME           => 'pmf-testgp',
                         IFDESCR          => 'VLAN 00012 (pmf-testgp)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7758,7 +7718,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '75',
-                        IFNAME           => 'VLAN 00013 (pmf-divetud)',
+                        IFNAME           => 'pmf-divetud',
                         IFDESCR          => 'VLAN 00013 (pmf-divetud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7788,7 +7748,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '77',
-                        IFNAME           => 'VLAN 00014 (pmf-ls)',
+                        IFNAME           => 'pmf-ls',
                         IFDESCR          => 'VLAN 00014 (pmf-ls)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7818,7 +7778,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '79',
-                        IFNAME           => 'VLAN 00015 (pmf-crous-adm)',
+                        IFNAME           => 'pmf-crous-adm',
                         IFDESCR          => 'VLAN 00015 (pmf-crous-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7848,7 +7808,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '81',
-                        IFNAME           => 'VLAN 00016 (pmf-lan-crir)',
+                        IFNAME           => 'pmf-lan-crir',
                         IFDESCR          => 'VLAN 00016 (pmf-lan-crir)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7878,7 +7838,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '83',
-                        IFNAME           => 'VLAN 00017 (pmf-crous-monetique)',
+                        IFNAME           => 'pmf-crous-monetique',
                         IFDESCR          => 'VLAN 00017 (pmf-crous-monetique)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7908,7 +7868,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '85',
-                        IFNAME           => 'VLAN 00018 (pmf-lan-ls)',
+                        IFNAME           => 'pmf-lan-ls',
                         IFDESCR          => 'VLAN 00018 (pmf-lan-ls)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7938,7 +7898,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '87',
-                        IFNAME           => 'VLAN 00019 (pmf-lan-td)',
+                        IFNAME           => 'pmf-lan-td',
                         IFDESCR          => 'VLAN 00019 (pmf-lan-td)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7968,7 +7928,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '89',
-                        IFNAME           => 'VLAN 00020 (pmf-borne-sf)',
+                        IFNAME           => 'pmf-borne-sf',
                         IFDESCR          => 'VLAN 00020 (pmf-borne-sf)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -7998,7 +7958,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '91',
-                        IFNAME           => 'VLAN 00021 (pmf-invites)',
+                        IFNAME           => 'pmf-invites',
                         IFDESCR          => 'VLAN 00021 (pmf-invites)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -8028,7 +7988,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '93',
-                        IFNAME           => 'VLAN 00022 (pmf-sap-install)',
+                        IFNAME           => 'pmf-sap-install',
                         IFDESCR          => 'VLAN 00022 (pmf-sap-install)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -8058,7 +8018,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '95',
-                        IFNAME           => 'VLAN 00023 (pmf-mz-priv)',
+                        IFNAME           => 'pmf-mz-priv',
                         IFDESCR          => 'VLAN 00023 (pmf-mz-priv)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -8088,7 +8048,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '97',
-                        IFNAME           => 'VLAN 00024 (mse-lan-td)',
+                        IFNAME           => 'mse-lan-td',
                         IFDESCR          => 'VLAN 00024 (mse-lan-td)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -8118,7 +8078,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '99',
-                        IFNAME           => 'VLAN 00025 (pmf-lan-adm)',
+                        IFNAME           => 'pmf-lan-adm',
                         IFDESCR          => 'VLAN 00025 (pmf-lan-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -8148,7 +8108,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '101',
-                        IFNAME           => 'VLAN 00026 (pmf-lan-sap)',
+                        IFNAME           => 'pmf-lan-sap',
                         IFDESCR          => 'VLAN 00026 (pmf-lan-sap)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -8178,7 +8138,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '103',
-                        IFNAME           => 'VLAN 00027 (pmf-crous-bornes)',
+                        IFNAME           => 'pmf-crous-bornes',
                         IFDESCR          => 'VLAN 00027 (pmf-crous-bornes)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -8208,7 +8168,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '105',
-                        IFNAME           => 'VLAN 00028 (pmf-lan-imps)',
+                        IFNAME           => 'pmf-lan-imps',
                         IFDESCR          => 'VLAN 00028 (pmf-lan-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -8238,7 +8198,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '107',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -8269,7 +8229,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '110',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.5)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -9561,7 +9521,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Summit48si-Port 2',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit48si-Port 2',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9578,7 +9538,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Summit48si-Port 3',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit48si-Port 3',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9595,7 +9555,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Summit48si-Port 4',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit48si-Port 4',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9612,7 +9572,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Summit48si-Port 5',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit48si-Port 5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9629,7 +9589,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Summit48si-Port 6',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit48si-Port 6',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9646,7 +9606,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Summit48si-Port 7',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit48si-Port 7',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9663,7 +9623,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Summit48si-Port 8',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit48si-Port 8',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9680,7 +9640,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Summit48si-Port 9',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit48si-Port 9',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -9697,7 +9657,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Summit48si-Port 10',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit48si-Port 10',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9714,7 +9674,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Summit48si-Port 11',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit48si-Port 11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9731,7 +9691,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Summit48si-Port 12',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit48si-Port 12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9748,7 +9708,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Summit48si-Port 13',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit48si-Port 13',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -9765,7 +9725,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Summit48si-Port 14',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit48si-Port 14',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9782,7 +9742,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Summit48si-Port 15',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit48si-Port 15',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -9799,7 +9759,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Summit48si-Port 16',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit48si-Port 16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9816,7 +9776,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Summit48si-Port 17',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit48si-Port 17',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -9833,7 +9793,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Summit48si-Port 18',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit48si-Port 18',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9850,7 +9810,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Summit48si-Port 19',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit48si-Port 19',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9867,7 +9827,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Summit48si-Port 20',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit48si-Port 20',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9884,7 +9844,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Summit48si-Port 21',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit48si-Port 21',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9901,7 +9861,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Summit48si-Port 22',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit48si-Port 22',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9918,7 +9878,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Summit48si-Port 23',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit48si-Port 23',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9935,7 +9895,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Summit48si-Port 24',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit48si-Port 24',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9952,7 +9912,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Summit48si-Port 25',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit48si-Port 25',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9969,7 +9929,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Summit48si-Port 26',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit48si-Port 26',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -9986,7 +9946,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Summit48si-Port 27',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit48si-Port 27',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -10003,7 +9963,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => 'Summit48si-Port 28',
+                        IFNAME           => '1/27',
                         IFDESCR          => 'Summit48si-Port 28',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10020,7 +9980,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'Summit48si-Port 29',
+                        IFNAME           => '1/28',
                         IFDESCR          => 'Summit48si-Port 29',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -10037,7 +9997,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '29',
-                        IFNAME           => 'Summit48si-Port 30',
+                        IFNAME           => '1/29',
                         IFDESCR          => 'Summit48si-Port 30',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10054,7 +10014,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'Summit48si-Port 31',
+                        IFNAME           => '1/30',
                         IFDESCR          => 'Summit48si-Port 31',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10071,7 +10031,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '31',
-                        IFNAME           => 'Summit48si-Port 32',
+                        IFNAME           => '1/31',
                         IFDESCR          => 'Summit48si-Port 32',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10088,7 +10048,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'Summit48si-Port 33',
+                        IFNAME           => '1/32',
                         IFDESCR          => 'Summit48si-Port 33',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10105,7 +10065,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '33',
-                        IFNAME           => 'Summit48si-Port 34',
+                        IFNAME           => '1/33',
                         IFDESCR          => 'Summit48si-Port 34',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10122,7 +10082,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'Summit48si-Port 35',
+                        IFNAME           => '1/34',
                         IFDESCR          => 'Summit48si-Port 35',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10139,7 +10099,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
-                        IFNAME           => 'Summit48si-Port 36',
+                        IFNAME           => '1/35',
                         IFDESCR          => 'Summit48si-Port 36',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10156,7 +10116,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'Summit48si-Port 37',
+                        IFNAME           => '1/36',
                         IFDESCR          => 'Summit48si-Port 37',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10173,7 +10133,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '37',
-                        IFNAME           => 'Summit48si-Port 38',
+                        IFNAME           => '1/37',
                         IFDESCR          => 'Summit48si-Port 38',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10190,7 +10150,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
-                        IFNAME           => 'Summit48si-Port 39',
+                        IFNAME           => '1/38',
                         IFDESCR          => 'Summit48si-Port 39',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10207,7 +10167,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'Summit48si-Port 40',
+                        IFNAME           => '1/39',
                         IFDESCR          => 'Summit48si-Port 40',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -10224,7 +10184,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'Summit48si-Port 41',
+                        IFNAME           => '1/40',
                         IFDESCR          => 'Summit48si-Port 41',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -10241,7 +10201,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '41',
-                        IFNAME           => 'Summit48si-Port 42',
+                        IFNAME           => '1/41',
                         IFDESCR          => 'Summit48si-Port 42',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -10258,7 +10218,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
-                        IFNAME           => 'Summit48si-Port 43',
+                        IFNAME           => '1/42',
                         IFDESCR          => 'Summit48si-Port 43',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -10275,7 +10235,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '43',
-                        IFNAME           => 'Summit48si-Port 44',
+                        IFNAME           => '1/43',
                         IFDESCR          => 'Summit48si-Port 44',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -10292,7 +10252,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
-                        IFNAME           => 'Summit48si-Port 45',
+                        IFNAME           => '1/44',
                         IFDESCR          => 'Summit48si-Port 45',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -10309,7 +10269,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '45',
-                        IFNAME           => 'Summit48si-Port 46',
+                        IFNAME           => '1/45',
                         IFDESCR          => 'Summit48si-Port 46',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10326,7 +10286,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '46',
-                        IFNAME           => 'Summit48si-Port 47',
+                        IFNAME           => '1/46',
                         IFDESCR          => 'Summit48si-Port 47',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10343,7 +10303,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '47',
-                        IFNAME           => 'Summit48si-Port 48',
+                        IFNAME           => '1/47',
                         IFDESCR          => 'Summit48si-Port 48',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -10360,7 +10320,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '48',
-                        IFNAME           => 'Summit48si-Port 49',
+                        IFNAME           => '1/48',
                         IFDESCR          => 'Summit48si-Port 49',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -10377,7 +10337,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '49',
-                        IFNAME           => 'Summit48si-Port 50',
+                        IFNAME           => '1/49',
                         IFDESCR          => 'Summit48si-Port 50',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10394,7 +10354,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '50',
-                        IFNAME           => 'Summit48si-Port 51',
+                        IFNAME           => '1/50',
                         IFDESCR          => 'Summit48si-Port 51',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10411,7 +10371,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '52',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -10441,7 +10401,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '55',
-                        IFNAME           => 'VLAN 00003 (tolbiac-17)',
+                        IFNAME           => 'tolbiac-17',
                         IFDESCR          => 'VLAN 00003 (tolbiac-17)',
                         IFTYPE           => '24',
                         IFSPEED          => '0',
@@ -10456,7 +10416,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '58',
-                        IFNAME           => 'VLAN 00004 (t17-borne-sf)',
+                        IFNAME           => 't17-borne-sf',
                         IFDESCR          => 'VLAN 00004 (t17-borne-sf)',
                         IFTYPE           => '24',
                         IFSPEED          => '0',
@@ -10486,7 +10446,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '109',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -10517,7 +10477,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '213',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.11)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -10534,7 +10494,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '214',
-                        IFNAME           => 'rif1',
+                        IFNAME           => 'rif1(194.214.30.129)',
                         IFDESCR          => 'rif1',
                         IFTYPE           => '24',
                         IFSPEED          => '0',
@@ -10551,7 +10511,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '215',
-                        IFNAME           => 'rif2',
+                        IFNAME           => 'rif2(10.16.2.72)',
                         IFDESCR          => 'rif2',
                         IFTYPE           => '24',
                         IFSPEED          => '0',
@@ -10593,7 +10553,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Summit48si-Port 2',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit48si-Port 2',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10610,7 +10570,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Summit48si-Port 3',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit48si-Port 3',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10627,7 +10587,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Summit48si-Port 4',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit48si-Port 4',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10644,7 +10604,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Summit48si-Port 5',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit48si-Port 5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10661,7 +10621,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Summit48si-Port 6',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit48si-Port 6',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10678,7 +10638,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Summit48si-Port 7',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit48si-Port 7',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10695,7 +10655,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Summit48si-Port 8',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit48si-Port 8',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10712,7 +10672,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Summit48si-Port 9',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit48si-Port 9',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -10729,7 +10689,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Summit48si-Port 10',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit48si-Port 10',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10746,7 +10706,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Summit48si-Port 11',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit48si-Port 11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10763,7 +10723,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Summit48si-Port 12',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit48si-Port 12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10780,7 +10740,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Summit48si-Port 13',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit48si-Port 13',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -10797,7 +10757,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Summit48si-Port 14',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit48si-Port 14',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10814,7 +10774,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Summit48si-Port 15',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit48si-Port 15',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -10831,7 +10791,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Summit48si-Port 16',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit48si-Port 16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10848,7 +10808,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Summit48si-Port 17',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit48si-Port 17',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -10865,7 +10825,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Summit48si-Port 18',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit48si-Port 18',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10882,7 +10842,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Summit48si-Port 19',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit48si-Port 19',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10899,7 +10859,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Summit48si-Port 20',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit48si-Port 20',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10916,7 +10876,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Summit48si-Port 21',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit48si-Port 21',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10933,7 +10893,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Summit48si-Port 22',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit48si-Port 22',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10950,7 +10910,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Summit48si-Port 23',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit48si-Port 23',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10967,7 +10927,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Summit48si-Port 24',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit48si-Port 24',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -10984,7 +10944,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Summit48si-Port 25',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit48si-Port 25',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11001,7 +10961,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Summit48si-Port 26',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit48si-Port 26',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11018,7 +10978,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Summit48si-Port 27',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit48si-Port 27',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11035,7 +10995,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => 'Summit48si-Port 28',
+                        IFNAME           => '1/27',
                         IFDESCR          => 'Summit48si-Port 28',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11052,7 +11012,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'Summit48si-Port 29',
+                        IFNAME           => '1/28',
                         IFDESCR          => 'Summit48si-Port 29',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11069,7 +11029,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '29',
-                        IFNAME           => 'Summit48si-Port 30',
+                        IFNAME           => '1/29',
                         IFDESCR          => 'Summit48si-Port 30',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11086,7 +11046,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'Summit48si-Port 31',
+                        IFNAME           => '1/30',
                         IFDESCR          => 'Summit48si-Port 31',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11103,7 +11063,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '31',
-                        IFNAME           => 'Summit48si-Port 32',
+                        IFNAME           => '1/31',
                         IFDESCR          => 'Summit48si-Port 32',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11120,7 +11080,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'Summit48si-Port 33',
+                        IFNAME           => '1/32',
                         IFDESCR          => 'Summit48si-Port 33',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11137,7 +11097,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '33',
-                        IFNAME           => 'Summit48si-Port 34',
+                        IFNAME           => '1/33',
                         IFDESCR          => 'Summit48si-Port 34',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11154,7 +11114,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'Summit48si-Port 35',
+                        IFNAME           => '1/34',
                         IFDESCR          => 'Summit48si-Port 35',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11171,7 +11131,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
-                        IFNAME           => 'Summit48si-Port 36',
+                        IFNAME           => '1/35',
                         IFDESCR          => 'Summit48si-Port 36',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11188,7 +11148,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'Summit48si-Port 37',
+                        IFNAME           => '1/36',
                         IFDESCR          => 'Summit48si-Port 37',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11205,7 +11165,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '37',
-                        IFNAME           => 'Summit48si-Port 38',
+                        IFNAME           => '1/37',
                         IFDESCR          => 'Summit48si-Port 38',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11222,7 +11182,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
-                        IFNAME           => 'Summit48si-Port 39',
+                        IFNAME           => '1/38',
                         IFDESCR          => 'Summit48si-Port 39',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11239,7 +11199,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'Summit48si-Port 40',
+                        IFNAME           => '1/39',
                         IFDESCR          => 'Summit48si-Port 40',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11256,7 +11216,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'Summit48si-Port 41',
+                        IFNAME           => '1/40',
                         IFDESCR          => 'Summit48si-Port 41',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11273,7 +11233,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '41',
-                        IFNAME           => 'Summit48si-Port 42',
+                        IFNAME           => '1/41',
                         IFDESCR          => 'Summit48si-Port 42',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11290,7 +11250,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
-                        IFNAME           => 'Summit48si-Port 43',
+                        IFNAME           => '1/42',
                         IFDESCR          => 'Summit48si-Port 43',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11307,7 +11267,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '43',
-                        IFNAME           => 'Summit48si-Port 44',
+                        IFNAME           => '1/43',
                         IFDESCR          => 'Summit48si-Port 44',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11324,7 +11284,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
-                        IFNAME           => 'Summit48si-Port 45',
+                        IFNAME           => '1/44',
                         IFDESCR          => 'Summit48si-Port 45',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11341,7 +11301,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '45',
-                        IFNAME           => 'Summit48si-Port 46',
+                        IFNAME           => '1/45',
                         IFDESCR          => 'Summit48si-Port 46',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11358,7 +11318,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '46',
-                        IFNAME           => 'Summit48si-Port 47',
+                        IFNAME           => '1/46',
                         IFDESCR          => 'Summit48si-Port 47',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11375,7 +11335,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '47',
-                        IFNAME           => 'Summit48si-Port 48',
+                        IFNAME           => '1/47',
                         IFDESCR          => 'Summit48si-Port 48',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -11392,7 +11352,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '48',
-                        IFNAME           => 'Summit48si-Port 49',
+                        IFNAME           => '1/48',
                         IFDESCR          => 'Summit48si-Port 49',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -11409,7 +11369,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '49',
-                        IFNAME           => 'Summit48si-Port 50',
+                        IFNAME           => '1/49',
                         IFDESCR          => 'Summit48si-Port 50',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11426,7 +11386,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '50',
-                        IFNAME           => 'Summit48si-Port 51',
+                        IFNAME           => '1/50',
                         IFDESCR          => 'Summit48si-Port 51',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11443,7 +11403,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '52',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -11473,7 +11433,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '55',
-                        IFNAME           => 'VLAN 00003 (tolbiac-17)',
+                        IFNAME           => 'tolbiac-17',
                         IFDESCR          => 'VLAN 00003 (tolbiac-17)',
                         IFTYPE           => '24',
                         IFSPEED          => '0',
@@ -11488,7 +11448,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '58',
-                        IFNAME           => 'VLAN 00004 (t17-borne-sf)',
+                        IFNAME           => 't17-borne-sf',
                         IFDESCR          => 'VLAN 00004 (t17-borne-sf)',
                         IFTYPE           => '24',
                         IFSPEED          => '0',
@@ -11518,7 +11478,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '109',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -11549,7 +11509,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '213',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.11)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -11566,7 +11526,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '214',
-                        IFNAME           => 'rif1',
+                        IFNAME           => 'rif1(194.214.30.129)',
                         IFDESCR          => 'rif1',
                         IFTYPE           => '24',
                         IFSPEED          => '0',
@@ -11583,7 +11543,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '215',
-                        IFNAME           => 'rif2',
+                        IFNAME           => 'rif2(10.16.2.72)',
                         IFDESCR          => 'rif2',
                         IFTYPE           => '24',
                         IFSPEED          => '0',
@@ -11641,7 +11601,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Summit48si-Port 1',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit48si-Port 1',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11658,7 +11618,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Summit48si-Port 2',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit48si-Port 2',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -11675,7 +11635,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Summit48si-Port 3',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit48si-Port 3',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11692,7 +11652,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Summit48si-Port 4',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit48si-Port 4',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11709,7 +11669,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Summit48si-Port 5',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit48si-Port 5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11726,7 +11686,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Summit48si-Port 6',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit48si-Port 6',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11743,7 +11703,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Summit48si-Port 7',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit48si-Port 7',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11760,7 +11720,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Summit48si-Port 8',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit48si-Port 8',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11777,7 +11737,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Summit48si-Port 9',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit48si-Port 9',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11794,7 +11754,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Summit48si-Port 10',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit48si-Port 10',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11811,7 +11771,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Summit48si-Port 11',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit48si-Port 11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11828,7 +11788,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Summit48si-Port 12',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit48si-Port 12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11845,7 +11805,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Summit48si-Port 13',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit48si-Port 13',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11862,7 +11822,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Summit48si-Port 14',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit48si-Port 14',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11879,7 +11839,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Summit48si-Port 15',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit48si-Port 15',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11896,7 +11856,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Summit48si-Port 16',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit48si-Port 16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11913,7 +11873,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Summit48si-Port 17',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit48si-Port 17',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11930,7 +11890,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Summit48si-Port 18',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit48si-Port 18',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11947,7 +11907,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Summit48si-Port 19',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit48si-Port 19',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11964,7 +11924,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Summit48si-Port 20',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit48si-Port 20',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -11981,7 +11941,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Summit48si-Port 21',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit48si-Port 21',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -11998,7 +11958,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Summit48si-Port 22',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit48si-Port 22',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12015,7 +11975,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Summit48si-Port 23',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit48si-Port 23',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12032,7 +11992,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Summit48si-Port 24',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit48si-Port 24',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12049,7 +12009,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Summit48si-Port 25',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit48si-Port 25',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12066,7 +12026,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Summit48si-Port 26',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit48si-Port 26',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12083,7 +12043,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => 'Summit48si-Port 27',
+                        IFNAME           => '1/27',
                         IFDESCR          => 'Summit48si-Port 27',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12100,7 +12060,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'Summit48si-Port 28',
+                        IFNAME           => '1/28',
                         IFDESCR          => 'Summit48si-Port 28',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12117,7 +12077,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '29',
-                        IFNAME           => 'Summit48si-Port 29',
+                        IFNAME           => '1/29',
                         IFDESCR          => 'Summit48si-Port 29',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12134,7 +12094,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'Summit48si-Port 30',
+                        IFNAME           => '1/30',
                         IFDESCR          => 'Summit48si-Port 30',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12151,7 +12111,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '31',
-                        IFNAME           => 'Summit48si-Port 31',
+                        IFNAME           => '1/31',
                         IFDESCR          => 'Summit48si-Port 31',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12168,7 +12128,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'Summit48si-Port 32',
+                        IFNAME           => '1/32',
                         IFDESCR          => 'Summit48si-Port 32',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12185,7 +12145,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '33',
-                        IFNAME           => 'Summit48si-Port 33',
+                        IFNAME           => '1/33',
                         IFDESCR          => 'Summit48si-Port 33',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12202,7 +12162,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'Summit48si-Port 34',
+                        IFNAME           => '1/34',
                         IFDESCR          => 'Summit48si-Port 34',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12219,7 +12179,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
-                        IFNAME           => 'Summit48si-Port 35',
+                        IFNAME           => '1/35',
                         IFDESCR          => 'Summit48si-Port 35',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12236,7 +12196,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'Summit48si-Port 36',
+                        IFNAME           => '1/36',
                         IFDESCR          => 'Summit48si-Port 36',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12253,7 +12213,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '37',
-                        IFNAME           => 'Summit48si-Port 37',
+                        IFNAME           => '1/37',
                         IFDESCR          => 'Summit48si-Port 37',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12270,7 +12230,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
-                        IFNAME           => 'Summit48si-Port 38',
+                        IFNAME           => '1/38',
                         IFDESCR          => 'Summit48si-Port 38',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12287,7 +12247,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'Summit48si-Port 39',
+                        IFNAME           => '1/39',
                         IFDESCR          => 'Summit48si-Port 39',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12304,7 +12264,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'Summit48si-Port 40',
+                        IFNAME           => '1/40',
                         IFDESCR          => 'Summit48si-Port 40',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12321,7 +12281,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '41',
-                        IFNAME           => 'Summit48si-Port 41',
+                        IFNAME           => '1/41',
                         IFDESCR          => 'Summit48si-Port 41',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12338,7 +12298,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
-                        IFNAME           => 'Summit48si-Port 42',
+                        IFNAME           => '1/42',
                         IFDESCR          => 'Summit48si-Port 42',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12355,7 +12315,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '43',
-                        IFNAME           => 'Summit48si-Port 43',
+                        IFNAME           => '1/43',
                         IFDESCR          => 'Summit48si-Port 43',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12372,7 +12332,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
-                        IFNAME           => 'Summit48si-Port 44',
+                        IFNAME           => '1/44',
                         IFDESCR          => 'Summit48si-Port 44',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12389,7 +12349,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '45',
-                        IFNAME           => 'Summit48si-Port 45',
+                        IFNAME           => '1/45',
                         IFDESCR          => 'Summit48si-Port 45',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12406,7 +12366,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '46',
-                        IFNAME           => 'Summit48si-Port 46',
+                        IFNAME           => '1/46',
                         IFDESCR          => 'Summit48si-Port 46',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12423,7 +12383,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '47',
-                        IFNAME           => 'Summit48si-Port 47',
+                        IFNAME           => '1/47',
                         IFDESCR          => 'Summit48si-Port 47',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -12440,7 +12400,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '48',
-                        IFNAME           => 'Summit48si-Port 48',
+                        IFNAME           => '1/48',
                         IFDESCR          => 'Summit48si-Port 48',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12457,7 +12417,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '49',
-                        IFNAME           => 'Summit48si-Port 49',
+                        IFNAME           => '1/49',
                         IFDESCR          => 'Summit48si-Port 49',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12474,7 +12434,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '50',
-                        IFNAME           => 'Summit48si-Port 50',
+                        IFNAME           => '1/50',
                         IFDESCR          => 'Summit48si-Port 50',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -12491,7 +12451,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '52',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12521,7 +12481,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '54',
-                        IFNAME           => 'VLAN 00003 (pmf-scipre)',
+                        IFNAME           => 'pmf-scipre',
                         IFDESCR          => 'VLAN 00003 (pmf-scipre)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12551,7 +12511,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '56',
-                        IFNAME           => 'VLAN 00004 (pmf-divetud)',
+                        IFNAME           => 'pmf-divetud',
                         IFDESCR          => 'VLAN 00004 (pmf-divetud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12581,7 +12541,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '58',
-                        IFNAME           => 'VLAN 00005 (divers-etud)',
+                        IFNAME           => 'divers-etud',
                         IFDESCR          => 'VLAN 00005 (divers-etud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12611,7 +12571,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '60',
-                        IFNAME           => 'VLAN 00006 (pmf-mse-doc)',
+                        IFNAME           => 'pmf-mse-doc',
                         IFDESCR          => 'VLAN 00006 (pmf-mse-doc)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12641,7 +12601,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '62',
-                        IFNAME           => 'VLAN 00007 (pmf-bup1pub)',
+                        IFNAME           => 'pmf-bup1pub',
                         IFDESCR          => 'VLAN 00007 (pmf-bup1pub)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12671,7 +12631,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '64',
-                        IFNAME           => 'VLAN 00008 (pmf-adm)',
+                        IFNAME           => 'pmf-adm',
                         IFDESCR          => 'VLAN 00008 (pmf-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12701,7 +12661,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '66',
-                        IFNAME           => 'VLAN 00009 (pmf-vacadm)',
+                        IFNAME           => 'pmf-vacadm',
                         IFDESCR          => 'VLAN 00009 (pmf-vacadm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12731,7 +12691,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '68',
-                        IFNAME           => 'VLAN 00010 (pmf-imps)',
+                        IFNAME           => 'pmf-imps',
                         IFDESCR          => 'VLAN 00010 (pmf-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12761,7 +12721,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '70',
-                        IFNAME           => 'VLAN 00011 (tmp)',
+                        IFNAME           => 'tmp',
                         IFDESCR          => 'VLAN 00011 (tmp)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12776,7 +12736,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '72',
-                        IFNAME           => 'VLAN 00012 (pmf-borne-sf)',
+                        IFNAME           => 'pmf-borne-sf',
                         IFDESCR          => 'VLAN 00012 (pmf-borne-sf)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12806,7 +12766,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '74',
-                        IFNAME           => 'VLAN 00013 (pmf-sip)',
+                        IFNAME           => 'pmf-sip',
                         IFDESCR          => 'VLAN 00013 (pmf-sip)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12836,7 +12796,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '76',
-                        IFNAME           => 'VLAN 00014 (pmf-lan-periph)',
+                        IFNAME           => 'pmf-lan-periph',
                         IFDESCR          => 'VLAN 00014 (pmf-lan-periph)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12866,7 +12826,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '78',
-                        IFNAME           => 'VLAN 00015 (pmf-lan-td)',
+                        IFNAME           => 'pmf-lan-td',
                         IFDESCR          => 'VLAN 00015 (pmf-lan-td)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12896,7 +12856,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '80',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12927,7 +12887,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '83',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.3)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -12967,7 +12927,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Summit48si-Port 1',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit48si-Port 1',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -12984,7 +12944,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Summit48si-Port 2',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit48si-Port 2',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -13001,7 +12961,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Summit48si-Port 3',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit48si-Port 3',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13018,7 +12978,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Summit48si-Port 4',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit48si-Port 4',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13035,7 +12995,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Summit48si-Port 5',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit48si-Port 5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13052,7 +13012,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Summit48si-Port 6',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit48si-Port 6',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13069,7 +13029,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Summit48si-Port 7',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit48si-Port 7',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13086,7 +13046,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Summit48si-Port 8',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit48si-Port 8',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13103,7 +13063,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Summit48si-Port 9',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit48si-Port 9',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13120,7 +13080,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Summit48si-Port 10',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit48si-Port 10',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13137,7 +13097,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Summit48si-Port 11',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit48si-Port 11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13154,7 +13114,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Summit48si-Port 12',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit48si-Port 12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13171,7 +13131,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Summit48si-Port 13',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit48si-Port 13',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13188,7 +13148,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Summit48si-Port 14',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit48si-Port 14',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13205,7 +13165,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Summit48si-Port 15',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit48si-Port 15',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13222,7 +13182,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Summit48si-Port 16',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit48si-Port 16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13239,7 +13199,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Summit48si-Port 17',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit48si-Port 17',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13256,7 +13216,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Summit48si-Port 18',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit48si-Port 18',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13273,7 +13233,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Summit48si-Port 19',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit48si-Port 19',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13290,7 +13250,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Summit48si-Port 20',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit48si-Port 20',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13307,7 +13267,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Summit48si-Port 21',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit48si-Port 21',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13324,7 +13284,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Summit48si-Port 22',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit48si-Port 22',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13341,7 +13301,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Summit48si-Port 23',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit48si-Port 23',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13358,7 +13318,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Summit48si-Port 24',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit48si-Port 24',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13375,7 +13335,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Summit48si-Port 25',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit48si-Port 25',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13392,7 +13352,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Summit48si-Port 26',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit48si-Port 26',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13409,7 +13369,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => 'Summit48si-Port 27',
+                        IFNAME           => '1/27',
                         IFDESCR          => 'Summit48si-Port 27',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13426,7 +13386,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'Summit48si-Port 28',
+                        IFNAME           => '1/28',
                         IFDESCR          => 'Summit48si-Port 28',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13443,7 +13403,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '29',
-                        IFNAME           => 'Summit48si-Port 29',
+                        IFNAME           => '1/29',
                         IFDESCR          => 'Summit48si-Port 29',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13460,7 +13420,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'Summit48si-Port 30',
+                        IFNAME           => '1/30',
                         IFDESCR          => 'Summit48si-Port 30',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13477,7 +13437,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '31',
-                        IFNAME           => 'Summit48si-Port 31',
+                        IFNAME           => '1/31',
                         IFDESCR          => 'Summit48si-Port 31',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13494,7 +13454,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'Summit48si-Port 32',
+                        IFNAME           => '1/32',
                         IFDESCR          => 'Summit48si-Port 32',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13511,7 +13471,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '33',
-                        IFNAME           => 'Summit48si-Port 33',
+                        IFNAME           => '1/33',
                         IFDESCR          => 'Summit48si-Port 33',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13528,7 +13488,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'Summit48si-Port 34',
+                        IFNAME           => '1/34',
                         IFDESCR          => 'Summit48si-Port 34',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13545,7 +13505,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
-                        IFNAME           => 'Summit48si-Port 35',
+                        IFNAME           => '1/35',
                         IFDESCR          => 'Summit48si-Port 35',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13562,7 +13522,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'Summit48si-Port 36',
+                        IFNAME           => '1/36',
                         IFDESCR          => 'Summit48si-Port 36',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13579,7 +13539,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '37',
-                        IFNAME           => 'Summit48si-Port 37',
+                        IFNAME           => '1/37',
                         IFDESCR          => 'Summit48si-Port 37',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13596,7 +13556,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
-                        IFNAME           => 'Summit48si-Port 38',
+                        IFNAME           => '1/38',
                         IFDESCR          => 'Summit48si-Port 38',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13613,7 +13573,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'Summit48si-Port 39',
+                        IFNAME           => '1/39',
                         IFDESCR          => 'Summit48si-Port 39',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13630,7 +13590,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'Summit48si-Port 40',
+                        IFNAME           => '1/40',
                         IFDESCR          => 'Summit48si-Port 40',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13647,7 +13607,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '41',
-                        IFNAME           => 'Summit48si-Port 41',
+                        IFNAME           => '1/41',
                         IFDESCR          => 'Summit48si-Port 41',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13664,7 +13624,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
-                        IFNAME           => 'Summit48si-Port 42',
+                        IFNAME           => '1/42',
                         IFDESCR          => 'Summit48si-Port 42',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13681,7 +13641,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '43',
-                        IFNAME           => 'Summit48si-Port 43',
+                        IFNAME           => '1/43',
                         IFDESCR          => 'Summit48si-Port 43',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13698,7 +13658,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
-                        IFNAME           => 'Summit48si-Port 44',
+                        IFNAME           => '1/44',
                         IFDESCR          => 'Summit48si-Port 44',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13715,7 +13675,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '45',
-                        IFNAME           => 'Summit48si-Port 45',
+                        IFNAME           => '1/45',
                         IFDESCR          => 'Summit48si-Port 45',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13732,7 +13692,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '46',
-                        IFNAME           => 'Summit48si-Port 46',
+                        IFNAME           => '1/46',
                         IFDESCR          => 'Summit48si-Port 46',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13749,7 +13709,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '47',
-                        IFNAME           => 'Summit48si-Port 47',
+                        IFNAME           => '1/47',
                         IFDESCR          => 'Summit48si-Port 47',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -13766,7 +13726,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '48',
-                        IFNAME           => 'Summit48si-Port 48',
+                        IFNAME           => '1/48',
                         IFDESCR          => 'Summit48si-Port 48',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13783,7 +13743,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '49',
-                        IFNAME           => 'Summit48si-Port 49',
+                        IFNAME           => '1/49',
                         IFDESCR          => 'Summit48si-Port 49',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -13800,7 +13760,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '50',
-                        IFNAME           => 'Summit48si-Port 50',
+                        IFNAME           => '1/50',
                         IFDESCR          => 'Summit48si-Port 50',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -13817,7 +13777,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '52',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -13847,7 +13807,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '54',
-                        IFNAME           => 'VLAN 00003 (pmf-scipre)',
+                        IFNAME           => 'pmf-scipre',
                         IFDESCR          => 'VLAN 00003 (pmf-scipre)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -13877,7 +13837,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '56',
-                        IFNAME           => 'VLAN 00004 (pmf-divetud)',
+                        IFNAME           => 'pmf-divetud',
                         IFDESCR          => 'VLAN 00004 (pmf-divetud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -13907,7 +13867,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '58',
-                        IFNAME           => 'VLAN 00005 (divers-etud)',
+                        IFNAME           => 'divers-etud',
                         IFDESCR          => 'VLAN 00005 (divers-etud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -13937,7 +13897,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '60',
-                        IFNAME           => 'VLAN 00006 (pmf-mse-doc)',
+                        IFNAME           => 'pmf-mse-doc',
                         IFDESCR          => 'VLAN 00006 (pmf-mse-doc)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -13967,7 +13927,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '62',
-                        IFNAME           => 'VLAN 00007 (pmf-bup1pub)',
+                        IFNAME           => 'pmf-bup1pub',
                         IFDESCR          => 'VLAN 00007 (pmf-bup1pub)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -13997,7 +13957,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '64',
-                        IFNAME           => 'VLAN 00008 (pmf-adm)',
+                        IFNAME           => 'pmf-adm',
                         IFDESCR          => 'VLAN 00008 (pmf-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -14027,7 +13987,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '66',
-                        IFNAME           => 'VLAN 00009 (pmf-vacadm)',
+                        IFNAME           => 'pmf-vacadm',
                         IFDESCR          => 'VLAN 00009 (pmf-vacadm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -14057,7 +14017,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '68',
-                        IFNAME           => 'VLAN 00010 (pmf-imps)',
+                        IFNAME           => 'pmf-imps',
                         IFDESCR          => 'VLAN 00010 (pmf-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -14087,7 +14047,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '70',
-                        IFNAME           => 'VLAN 00011 (tmp)',
+                        IFNAME           => 'tmp',
                         IFDESCR          => 'VLAN 00011 (tmp)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -14102,7 +14062,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '72',
-                        IFNAME           => 'VLAN 00012 (pmf-borne-sf)',
+                        IFNAME           => 'pmf-borne-sf',
                         IFDESCR          => 'VLAN 00012 (pmf-borne-sf)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -14132,7 +14092,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '74',
-                        IFNAME           => 'VLAN 00013 (pmf-sip)',
+                        IFNAME           => 'pmf-sip',
                         IFDESCR          => 'VLAN 00013 (pmf-sip)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -14162,7 +14122,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '76',
-                        IFNAME           => 'VLAN 00014 (pmf-lan-periph)',
+                        IFNAME           => 'pmf-lan-periph',
                         IFDESCR          => 'VLAN 00014 (pmf-lan-periph)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -14192,7 +14152,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '78',
-                        IFNAME           => 'VLAN 00015 (pmf-lan-td)',
+                        IFNAME           => 'pmf-lan-td',
                         IFDESCR          => 'VLAN 00015 (pmf-lan-td)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -14222,7 +14182,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '80',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -14253,7 +14213,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '83',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.3)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -14311,7 +14271,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Summit48si-Port 1',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit48si-Port 1',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14328,7 +14288,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Summit48si-Port 2',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit48si-Port 2',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14345,7 +14305,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Summit48si-Port 3',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit48si-Port 3',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -14362,7 +14322,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Summit48si-Port 4',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit48si-Port 4',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14379,7 +14339,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Summit48si-Port 5',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit48si-Port 5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14396,7 +14356,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Summit48si-Port 6',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit48si-Port 6',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14413,7 +14373,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Summit48si-Port 7',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit48si-Port 7',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14430,7 +14390,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Summit48si-Port 8',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit48si-Port 8',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14447,7 +14407,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Summit48si-Port 9',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit48si-Port 9',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14464,7 +14424,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Summit48si-Port 10',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit48si-Port 10',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14481,7 +14441,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Summit48si-Port 11',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit48si-Port 11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14498,7 +14458,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Summit48si-Port 12',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit48si-Port 12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14515,7 +14475,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Summit48si-Port 13',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit48si-Port 13',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14532,7 +14492,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Summit48si-Port 14',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit48si-Port 14',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -14549,7 +14509,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Summit48si-Port 15',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit48si-Port 15',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14566,7 +14526,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Summit48si-Port 16',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit48si-Port 16',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14583,7 +14543,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Summit48si-Port 17',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit48si-Port 17',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14600,7 +14560,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Summit48si-Port 18',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit48si-Port 18',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14617,7 +14577,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Summit48si-Port 19',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit48si-Port 19',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14634,7 +14594,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Summit48si-Port 20',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit48si-Port 20',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14651,7 +14611,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Summit48si-Port 21',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit48si-Port 21',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14668,7 +14628,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Summit48si-Port 22',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit48si-Port 22',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14685,7 +14645,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Summit48si-Port 23',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit48si-Port 23',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -14702,7 +14662,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Summit48si-Port 24',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit48si-Port 24',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14719,7 +14679,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Summit48si-Port 25',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit48si-Port 25',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14736,7 +14696,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Summit48si-Port 26',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit48si-Port 26',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14753,7 +14713,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => 'Summit48si-Port 27',
+                        IFNAME           => '1/27',
                         IFDESCR          => 'Summit48si-Port 27',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -14770,7 +14730,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'Summit48si-Port 28',
+                        IFNAME           => '1/28',
                         IFDESCR          => 'Summit48si-Port 28',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14787,7 +14747,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '29',
-                        IFNAME           => 'Summit48si-Port 29',
+                        IFNAME           => '1/29',
                         IFDESCR          => 'Summit48si-Port 29',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -14804,7 +14764,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'Summit48si-Port 30',
+                        IFNAME           => '1/30',
                         IFDESCR          => 'Summit48si-Port 30',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -14821,7 +14781,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '31',
-                        IFNAME           => 'Summit48si-Port 31',
+                        IFNAME           => '1/31',
                         IFDESCR          => 'Summit48si-Port 31',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -14838,7 +14798,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'Summit48si-Port 32',
+                        IFNAME           => '1/32',
                         IFDESCR          => 'Summit48si-Port 32',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14855,7 +14815,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '33',
-                        IFNAME           => 'Summit48si-Port 33',
+                        IFNAME           => '1/33',
                         IFDESCR          => 'Summit48si-Port 33',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14872,7 +14832,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'Summit48si-Port 34',
+                        IFNAME           => '1/34',
                         IFDESCR          => 'Summit48si-Port 34',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14889,7 +14849,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
-                        IFNAME           => 'Summit48si-Port 35',
+                        IFNAME           => '1/35',
                         IFDESCR          => 'Summit48si-Port 35',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14906,7 +14866,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'Summit48si-Port 36',
+                        IFNAME           => '1/36',
                         IFDESCR          => 'Summit48si-Port 36',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14923,7 +14883,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '37',
-                        IFNAME           => 'Summit48si-Port 37',
+                        IFNAME           => '1/37',
                         IFDESCR          => 'Summit48si-Port 37',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -14940,7 +14900,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
-                        IFNAME           => 'Summit48si-Port 38',
+                        IFNAME           => '1/38',
                         IFDESCR          => 'Summit48si-Port 38',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14957,7 +14917,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'Summit48si-Port 39',
+                        IFNAME           => '1/39',
                         IFDESCR          => 'Summit48si-Port 39',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14974,7 +14934,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'Summit48si-Port 40',
+                        IFNAME           => '1/40',
                         IFDESCR          => 'Summit48si-Port 40',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -14991,7 +14951,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '41',
-                        IFNAME           => 'Summit48si-Port 41',
+                        IFNAME           => '1/41',
                         IFDESCR          => 'Summit48si-Port 41',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -15008,7 +14968,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
-                        IFNAME           => 'Summit48si-Port 42',
+                        IFNAME           => '1/42',
                         IFDESCR          => 'Summit48si-Port 42',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15025,7 +14985,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '43',
-                        IFNAME           => 'Summit48si-Port 43',
+                        IFNAME           => '1/43',
                         IFDESCR          => 'Summit48si-Port 43',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15042,7 +15002,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
-                        IFNAME           => 'Summit48si-Port 44',
+                        IFNAME           => '1/44',
                         IFDESCR          => 'Summit48si-Port 44',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15059,7 +15019,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '45',
-                        IFNAME           => 'Summit48si-Port 45',
+                        IFNAME           => '1/45',
                         IFDESCR          => 'Summit48si-Port 45',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15076,7 +15036,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '46',
-                        IFNAME           => 'Summit48si-Port 46',
+                        IFNAME           => '1/46',
                         IFDESCR          => 'Summit48si-Port 46',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15093,7 +15053,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '47',
-                        IFNAME           => 'Summit48si-Port 47',
+                        IFNAME           => '1/47',
                         IFDESCR          => 'Summit48si-Port 47',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -15110,7 +15070,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '48',
-                        IFNAME           => 'Summit48si-Port 48',
+                        IFNAME           => '1/48',
                         IFDESCR          => 'Summit48si-Port 48',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -15127,7 +15087,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '49',
-                        IFNAME           => 'Summit48si-Port 49',
+                        IFNAME           => '1/49',
                         IFDESCR          => 'Summit48si-Port 49',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15144,7 +15104,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '50',
-                        IFNAME           => 'Summit48si-Port 50',
+                        IFNAME           => '1/50',
                         IFDESCR          => 'Summit48si-Port 50',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -15161,7 +15121,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '52',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15191,7 +15151,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '55',
-                        IFNAME           => 'VLAN 00003 (pmf-scipre)',
+                        IFNAME           => 'pmf-scipre',
                         IFDESCR          => 'VLAN 00003 (pmf-scipre)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15221,7 +15181,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '58',
-                        IFNAME           => 'VLAN 00004 (pmf-divetud)',
+                        IFNAME           => 'pmf-divetud',
                         IFDESCR          => 'VLAN 00004 (pmf-divetud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15251,7 +15211,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '61',
-                        IFNAME           => 'VLAN 00005 (divers-etud)',
+                        IFNAME           => 'divers-etud',
                         IFDESCR          => 'VLAN 00005 (divers-etud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15281,7 +15241,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '64',
-                        IFNAME           => 'VLAN 00006 (pmf-mse-doc)',
+                        IFNAME           => 'pmf-mse-doc',
                         IFDESCR          => 'VLAN 00006 (pmf-mse-doc)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15311,7 +15271,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '67',
-                        IFNAME           => 'VLAN 00007 (pmf-adm)',
+                        IFNAME           => 'pmf-adm',
                         IFDESCR          => 'VLAN 00007 (pmf-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15341,7 +15301,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '70',
-                        IFNAME           => 'VLAN 00008 (pmf-vacadm)',
+                        IFNAME           => 'pmf-vacadm',
                         IFDESCR          => 'VLAN 00008 (pmf-vacadm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15371,7 +15331,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '73',
-                        IFNAME           => 'VLAN 00009 (pmf-imps)',
+                        IFNAME           => 'pmf-imps',
                         IFDESCR          => 'VLAN 00009 (pmf-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15401,7 +15361,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '76',
-                        IFNAME           => 'VLAN 00010 (tmp)',
+                        IFNAME           => 'tmp',
                         IFDESCR          => 'VLAN 00010 (tmp)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15416,7 +15376,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '79',
-                        IFNAME           => 'VLAN 00011 (pmf-crous-adm)',
+                        IFNAME           => 'pmf-crous-adm',
                         IFDESCR          => 'VLAN 00011 (pmf-crous-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15446,7 +15406,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '82',
-                        IFNAME           => 'VLAN 00012 (pmf-lan-crir)',
+                        IFNAME           => 'pmf-lan-crir',
                         IFDESCR          => 'VLAN 00012 (pmf-lan-crir)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15476,7 +15436,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '85',
-                        IFNAME           => 'VLAN 00013 (pmf-testgp)',
+                        IFNAME           => 'pmf-testgp',
                         IFDESCR          => 'VLAN 00013 (pmf-testgp)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15506,7 +15466,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '88',
-                        IFNAME           => 'VLAN 00014 (pmf-borne-sf)',
+                        IFNAME           => 'pmf-borne-sf',
                         IFDESCR          => 'VLAN 00014 (pmf-borne-sf)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15536,7 +15496,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '91',
-                        IFNAME           => 'VLAN 00015 (pmf-lan-imps)',
+                        IFNAME           => 'pmf-lan-imps',
                         IFDESCR          => 'VLAN 00015 (pmf-lan-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15566,7 +15526,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '94',
-                        IFNAME           => 'VLAN 00016 (pmf-lan-adm)',
+                        IFNAME           => 'pmf-lan-adm',
                         IFDESCR          => 'VLAN 00016 (pmf-lan-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15596,7 +15556,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '97',
-                        IFNAME           => 'VLAN 00017 (pmf-lan-td)',
+                        IFNAME           => 'pmf-lan-td',
                         IFDESCR          => 'VLAN 00017 (pmf-lan-td)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15626,7 +15586,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '100',
-                        IFNAME           => 'VLAN 00018 (pmf-lan-re)',
+                        IFNAME           => 'pmf-lan-re',
                         IFDESCR          => 'VLAN 00018 (pmf-lan-re)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15656,7 +15616,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '103',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15687,7 +15647,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '106',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.6)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -15727,7 +15687,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Summit48si-Port 1',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Summit48si-Port 1',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15744,7 +15704,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Summit48si-Port 2',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Summit48si-Port 2',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15761,7 +15721,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Summit48si-Port 3',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Summit48si-Port 3',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -15778,7 +15738,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Summit48si-Port 4',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Summit48si-Port 4',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15795,7 +15755,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Summit48si-Port 5',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Summit48si-Port 5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15812,7 +15772,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Summit48si-Port 6',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Summit48si-Port 6',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15829,7 +15789,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Summit48si-Port 7',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Summit48si-Port 7',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -15846,7 +15806,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Summit48si-Port 8',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Summit48si-Port 8',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15863,7 +15823,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Summit48si-Port 9',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Summit48si-Port 9',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15880,7 +15840,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Summit48si-Port 10',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Summit48si-Port 10',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15897,7 +15857,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Summit48si-Port 11',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Summit48si-Port 11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15914,7 +15874,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Summit48si-Port 12',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Summit48si-Port 12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15931,7 +15891,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Summit48si-Port 13',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Summit48si-Port 13',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -15948,7 +15908,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Summit48si-Port 14',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Summit48si-Port 14',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -15965,7 +15925,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Summit48si-Port 15',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Summit48si-Port 15',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -15982,7 +15942,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Summit48si-Port 16',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Summit48si-Port 16',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -15999,7 +15959,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Summit48si-Port 17',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Summit48si-Port 17',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16016,7 +15976,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Summit48si-Port 18',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Summit48si-Port 18',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16033,7 +15993,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Summit48si-Port 19',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Summit48si-Port 19',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16050,7 +16010,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Summit48si-Port 20',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Summit48si-Port 20',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16067,7 +16027,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Summit48si-Port 21',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Summit48si-Port 21',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16084,7 +16044,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Summit48si-Port 22',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Summit48si-Port 22',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16101,7 +16061,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Summit48si-Port 23',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Summit48si-Port 23',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -16118,7 +16078,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Summit48si-Port 24',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Summit48si-Port 24',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16135,7 +16095,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Summit48si-Port 25',
+                        IFNAME           => '1/25',
                         IFDESCR          => 'Summit48si-Port 25',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16152,7 +16112,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Summit48si-Port 26',
+                        IFNAME           => '1/26',
                         IFDESCR          => 'Summit48si-Port 26',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16169,7 +16129,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => 'Summit48si-Port 27',
+                        IFNAME           => '1/27',
                         IFDESCR          => 'Summit48si-Port 27',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -16186,7 +16146,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'Summit48si-Port 28',
+                        IFNAME           => '1/28',
                         IFDESCR          => 'Summit48si-Port 28',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16203,7 +16163,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '29',
-                        IFNAME           => 'Summit48si-Port 29',
+                        IFNAME           => '1/29',
                         IFDESCR          => 'Summit48si-Port 29',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -16220,7 +16180,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'Summit48si-Port 30',
+                        IFNAME           => '1/30',
                         IFDESCR          => 'Summit48si-Port 30',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -16237,7 +16197,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '31',
-                        IFNAME           => 'Summit48si-Port 31',
+                        IFNAME           => '1/31',
                         IFDESCR          => 'Summit48si-Port 31',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -16254,7 +16214,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'Summit48si-Port 32',
+                        IFNAME           => '1/32',
                         IFDESCR          => 'Summit48si-Port 32',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16271,7 +16231,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '33',
-                        IFNAME           => 'Summit48si-Port 33',
+                        IFNAME           => '1/33',
                         IFDESCR          => 'Summit48si-Port 33',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16288,7 +16248,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'Summit48si-Port 34',
+                        IFNAME           => '1/34',
                         IFDESCR          => 'Summit48si-Port 34',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16305,7 +16265,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
-                        IFNAME           => 'Summit48si-Port 35',
+                        IFNAME           => '1/35',
                         IFDESCR          => 'Summit48si-Port 35',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16322,7 +16282,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'Summit48si-Port 36',
+                        IFNAME           => '1/36',
                         IFDESCR          => 'Summit48si-Port 36',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16339,7 +16299,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '37',
-                        IFNAME           => 'Summit48si-Port 37',
+                        IFNAME           => '1/37',
                         IFDESCR          => 'Summit48si-Port 37',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16356,7 +16316,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
-                        IFNAME           => 'Summit48si-Port 38',
+                        IFNAME           => '1/38',
                         IFDESCR          => 'Summit48si-Port 38',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16373,7 +16333,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'Summit48si-Port 39',
+                        IFNAME           => '1/39',
                         IFDESCR          => 'Summit48si-Port 39',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16390,7 +16350,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'Summit48si-Port 40',
+                        IFNAME           => '1/40',
                         IFDESCR          => 'Summit48si-Port 40',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16407,7 +16367,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '41',
-                        IFNAME           => 'Summit48si-Port 41',
+                        IFNAME           => '1/41',
                         IFDESCR          => 'Summit48si-Port 41',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16424,7 +16384,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
-                        IFNAME           => 'Summit48si-Port 42',
+                        IFNAME           => '1/42',
                         IFDESCR          => 'Summit48si-Port 42',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16441,7 +16401,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '43',
-                        IFNAME           => 'Summit48si-Port 43',
+                        IFNAME           => '1/43',
                         IFDESCR          => 'Summit48si-Port 43',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16458,7 +16418,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
-                        IFNAME           => 'Summit48si-Port 44',
+                        IFNAME           => '1/44',
                         IFDESCR          => 'Summit48si-Port 44',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16475,7 +16435,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '45',
-                        IFNAME           => 'Summit48si-Port 45',
+                        IFNAME           => '1/45',
                         IFDESCR          => 'Summit48si-Port 45',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16492,7 +16452,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '46',
-                        IFNAME           => 'Summit48si-Port 46',
+                        IFNAME           => '1/46',
                         IFDESCR          => 'Summit48si-Port 46',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16509,7 +16469,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '47',
-                        IFNAME           => 'Summit48si-Port 47',
+                        IFNAME           => '1/47',
                         IFDESCR          => 'Summit48si-Port 47',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16526,7 +16486,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '48',
-                        IFNAME           => 'Summit48si-Port 48',
+                        IFNAME           => '1/48',
                         IFDESCR          => 'Summit48si-Port 48',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -16543,7 +16503,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '49',
-                        IFNAME           => 'Summit48si-Port 49',
+                        IFNAME           => '1/49',
                         IFDESCR          => 'Summit48si-Port 49',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -16560,7 +16520,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '50',
-                        IFNAME           => 'Summit48si-Port 50',
+                        IFNAME           => '1/50',
                         IFDESCR          => 'Summit48si-Port 50',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -16577,7 +16537,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '52',
-                        IFNAME           => 'VLAN 00001 (Default)',
+                        IFNAME           => 'Default',
                         IFDESCR          => 'VLAN 00001 (Default)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16607,7 +16567,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '55',
-                        IFNAME           => 'VLAN 00003 (pmf-scipre)',
+                        IFNAME           => 'pmf-scipre',
                         IFDESCR          => 'VLAN 00003 (pmf-scipre)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16637,7 +16597,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '58',
-                        IFNAME           => 'VLAN 00004 (pmf-divetud)',
+                        IFNAME           => 'pmf-divetud',
                         IFDESCR          => 'VLAN 00004 (pmf-divetud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16667,7 +16627,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '61',
-                        IFNAME           => 'VLAN 00005 (divers-etud)',
+                        IFNAME           => 'divers-etud',
                         IFDESCR          => 'VLAN 00005 (divers-etud)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16697,7 +16657,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '64',
-                        IFNAME           => 'VLAN 00006 (pmf-mse-doc)',
+                        IFNAME           => 'pmf-mse-doc',
                         IFDESCR          => 'VLAN 00006 (pmf-mse-doc)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16727,7 +16687,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '67',
-                        IFNAME           => 'VLAN 00007 (pmf-adm)',
+                        IFNAME           => 'pmf-adm',
                         IFDESCR          => 'VLAN 00007 (pmf-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16757,7 +16717,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '70',
-                        IFNAME           => 'VLAN 00008 (pmf-vacadm)',
+                        IFNAME           => 'pmf-vacadm',
                         IFDESCR          => 'VLAN 00008 (pmf-vacadm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16787,7 +16747,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '73',
-                        IFNAME           => 'VLAN 00009 (pmf-imps)',
+                        IFNAME           => 'pmf-imps',
                         IFDESCR          => 'VLAN 00009 (pmf-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16817,7 +16777,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '76',
-                        IFNAME           => 'VLAN 00010 (tmp)',
+                        IFNAME           => 'tmp',
                         IFDESCR          => 'VLAN 00010 (tmp)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16832,7 +16792,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '79',
-                        IFNAME           => 'VLAN 00011 (pmf-crous-adm)',
+                        IFNAME           => 'pmf-crous-adm',
                         IFDESCR          => 'VLAN 00011 (pmf-crous-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16862,7 +16822,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '82',
-                        IFNAME           => 'VLAN 00012 (pmf-lan-crir)',
+                        IFNAME           => 'pmf-lan-crir',
                         IFDESCR          => 'VLAN 00012 (pmf-lan-crir)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16892,7 +16852,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '85',
-                        IFNAME           => 'VLAN 00013 (pmf-testgp)',
+                        IFNAME           => 'pmf-testgp',
                         IFDESCR          => 'VLAN 00013 (pmf-testgp)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16922,7 +16882,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '88',
-                        IFNAME           => 'VLAN 00014 (pmf-borne-sf)',
+                        IFNAME           => 'pmf-borne-sf',
                         IFDESCR          => 'VLAN 00014 (pmf-borne-sf)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16952,7 +16912,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '91',
-                        IFNAME           => 'VLAN 00015 (pmf-lan-imps)',
+                        IFNAME           => 'pmf-lan-imps',
                         IFDESCR          => 'VLAN 00015 (pmf-lan-imps)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -16982,7 +16942,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '94',
-                        IFNAME           => 'VLAN 00016 (pmf-lan-adm)',
+                        IFNAME           => 'pmf-lan-adm',
                         IFDESCR          => 'VLAN 00016 (pmf-lan-adm)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -17012,7 +16972,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '97',
-                        IFNAME           => 'VLAN 00017 (pmf-lan-td)',
+                        IFNAME           => 'pmf-lan-td',
                         IFDESCR          => 'VLAN 00017 (pmf-lan-td)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -17042,7 +17002,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '100',
-                        IFNAME           => 'VLAN 00018 (pmf-lan-re)',
+                        IFNAME           => 'pmf-lan-re',
                         IFDESCR          => 'VLAN 00018 (pmf-lan-re)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -17072,7 +17032,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '103',
-                        IFNAME           => 'VLAN 00002 (MacVlanDiscover)',
+                        IFNAME           => 'MacVlanDiscover',
                         IFDESCR          => 'VLAN 00002 (MacVlanDiscover)',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -17103,7 +17063,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '106',
-                        IFNAME           => 'rif0',
+                        IFNAME           => 'rif0(192.168.100.6)',
                         IFDESCR          => 'rif0',
                         IFTYPE           => '53',
                         IFSPEED          => '0',

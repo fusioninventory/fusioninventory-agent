@@ -17910,7 +17910,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4158',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
@@ -21441,7 +21441,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4158',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
@@ -25420,7 +25420,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4158',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
@@ -29383,7 +29383,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4158',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
@@ -29726,6 +29726,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
+                        IFNAME           => 'A11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -29741,6 +29742,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
+                        IFNAME           => 'A12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -29783,6 +29785,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
+                        IFNAME           => 'A14',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -29825,6 +29828,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
+                        IFNAME           => 'A16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -29867,6 +29871,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
+                        IFNAME           => 'A18',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -29909,6 +29914,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
+                        IFNAME           => 'A20',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -30292,6 +30298,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
+                        IFNAME           => 'B11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -30307,6 +30314,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
+                        IFNAME           => 'B12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -30349,6 +30357,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
+                        IFNAME           => 'B14',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -30391,6 +30400,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
+                        IFNAME           => 'B16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -30433,6 +30443,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
+                        IFNAME           => 'B18',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -30475,6 +30486,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
+                        IFNAME           => 'B20',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
                         IFMTU            => '0',
@@ -32020,7 +32032,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4672',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
@@ -32037,7 +32049,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4673',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo1',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo1',
                         IFTYPE           => '24',
@@ -32053,7 +32065,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4674',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo2',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo2',
                         IFTYPE           => '24',
@@ -32069,7 +32081,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4675',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo3',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo3',
                         IFTYPE           => '24',
@@ -32085,7 +32097,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4676',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo4',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo4',
                         IFTYPE           => '24',
@@ -32101,7 +32113,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4677',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo5',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo5',
                         IFTYPE           => '24',
@@ -32117,7 +32129,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4678',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo6',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo6',
                         IFTYPE           => '24',
@@ -32133,7 +32145,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4679',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo7',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo7',
                         IFTYPE           => '24',
@@ -39085,7 +39097,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4192',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
@@ -41225,7 +41237,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4192',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
@@ -46148,7 +46160,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4503',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
@@ -46165,7 +46177,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4504',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo1',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo1',
                         IFTYPE           => '24',
@@ -46181,7 +46193,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4505',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo2',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo2',
                         IFTYPE           => '24',
@@ -46197,7 +46209,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4506',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo3',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo3',
                         IFTYPE           => '24',
@@ -46213,7 +46225,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4507',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo4',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo4',
                         IFTYPE           => '24',
@@ -46229,7 +46241,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4508',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo5',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo5',
                         IFTYPE           => '24',
@@ -46245,7 +46257,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4509',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo6',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo6',
                         IFTYPE           => '24',
@@ -46261,7 +46273,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4510',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo7',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo7',
                         IFTYPE           => '24',
@@ -51168,7 +51180,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4503',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
@@ -51185,7 +51197,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4504',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo1',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo1',
                         IFTYPE           => '24',
@@ -51201,7 +51213,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4505',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo2',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo2',
                         IFTYPE           => '24',
@@ -51217,7 +51229,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4506',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo3',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo3',
                         IFTYPE           => '24',
@@ -51233,7 +51245,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4507',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo4',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo4',
                         IFTYPE           => '24',
@@ -51249,7 +51261,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4508',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo5',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo5',
                         IFTYPE           => '24',
@@ -51265,7 +51277,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4509',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo6',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo6',
                         IFTYPE           => '24',
@@ -51281,7 +51293,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4510',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo7',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo7',
                         IFTYPE           => '24',
@@ -53307,7 +53319,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4196',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
@@ -55317,7 +55329,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4196',
-                        IFNAME           => 'HP ProCurve Switch software loopback interface',
+                        IFNAME           => 'lo0',
                         IFDESCR          => 'HP ProCurve Switch software loopback interface',
                         IFALIAS          => 'lo0',
                         IFTYPE           => '24',
