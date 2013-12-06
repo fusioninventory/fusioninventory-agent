@@ -31,6 +31,12 @@ sub new {
     return $self;
 }
 
+sub switch_vlan_context {
+    my ($self, $vlan_id) = @_;
+
+    undef $self->{values};
+}
+
 sub _getIndexedValues {
     my ($file) = @_;
 
