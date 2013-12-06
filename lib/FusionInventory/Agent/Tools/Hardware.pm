@@ -279,7 +279,10 @@ my %base_variables = (
     },
     MEMORY       => {
         mapping => 'memory',
-        default => '.1.3.6.1.2.1.25.2.3.1.5.1',
+        default => [
+            '.1.3.6.1.4.1.9.2.1.8.0',
+            '.1.3.6.1.2.1.25.2.3.1.5.1',
+        ],
         type    => 'memory',
     },
     RAM          => {
