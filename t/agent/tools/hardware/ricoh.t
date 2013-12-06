@@ -261,6 +261,7 @@ my %tests = (
                 TYPE         => 'PRINTER',
                 MODEL        => undef,
                 COMMENTS     => 'RICOH Aficio MP C2050 1.17 / RICOH Network Printer C model / RICOH Network Scanner C model',
+                NAME         => 'Aficio MP C2050',
                 MEMORY       => '768',
                 LOCATION     => 'Schoelcher - 1er',
                 IPS          => {

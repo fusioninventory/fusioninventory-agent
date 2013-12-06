@@ -783,13 +783,28 @@ sub _setGenericProperties {
         # don't overwrite known values
         next if $device->{INFO}->{$key};
 
-        # skip undefined variable
         my $variable = $base_variables{$key};
-        my $oid = $model->{oids}->{$variable->{mapping}} ||
-                  $variable->{default};
-        next unless $oid;
+        my $raw_value;
 
-        my $raw_value = $snmp->get($oid);
+        # first, try model mapping, if defined
+        if ($model->{oids}->{$variable->{mapping}}) {
+            $raw_value = $snmp->get($model->{oids}->{$variable->{mapping}});
+        }
+
+        # second, try default value, if defined
+        if (!defined $raw_value) {
+            if ($variable->{default}) {
+                if (ref $variable->{default} eq 'ARRAY') {
+                    foreach my $default (@{$variable->{default}}) {
+                        $raw_value = $snmp->get($default);
+                        last if defined $raw_value;
+                    }
+                } else {
+                    $raw_value = $snmp->get($variable->{default});
+                }
+            }
+        }
+
         next unless defined $raw_value;
 
         my $type = $variable->{type};
