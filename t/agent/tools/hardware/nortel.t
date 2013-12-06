@@ -42,7 +42,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 1  ',
+                        IFNAME           => 'ifc1 (Slot: 1 Port: 1)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 1  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -56,7 +56,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 2  ',
+                        IFNAME           => 'ifc2 (Slot: 1 Port: 2)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 2  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -70,7 +70,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 3  ',
+                        IFNAME           => 'ifc3 (Slot: 1 Port: 3)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 3  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -84,7 +84,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 4  ',
+                        IFNAME           => 'ifc4 (Slot: 1 Port: 4)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 4  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -98,7 +98,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 5  ',
+                        IFNAME           => 'ifc5 (Slot: 1 Port: 5)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 5  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -112,7 +112,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 6  ',
+                        IFNAME           => 'ifc6 (Slot: 1 Port: 6)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 6  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -126,7 +126,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 7  ',
+                        IFNAME           => 'ifc7 (Slot: 1 Port: 7)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 7  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -140,7 +140,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 8  ',
+                        IFNAME           => 'ifc8 (Slot: 1 Port: 8)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 8  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -154,7 +154,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 9  ',
+                        IFNAME           => 'ifc9 (Slot: 1 Port: 9)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 9  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -168,7 +168,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 10  ',
+                        IFNAME           => 'ifc10 (Slot: 1 Port: 10)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 10  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -182,7 +182,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 11  ',
+                        IFNAME           => 'ifc11 (Slot: 1 Port: 11)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 11  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -203,7 +203,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 12  ',
+                        IFNAME           => 'ifc12 (Slot: 1 Port: 12)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 12  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -224,7 +224,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 13  ',
+                        IFNAME           => 'ifc13 (Slot: 1 Port: 13)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 13  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -238,7 +238,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 14  ',
+                        IFNAME           => 'ifc14 (Slot: 1 Port: 14)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 14  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -252,7 +252,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 15  ',
+                        IFNAME           => 'ifc15 (Slot: 1 Port: 15)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 15  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -266,7 +266,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 16  ',
+                        IFNAME           => 'ifc16 (Slot: 1 Port: 16)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 16  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -280,7 +280,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 17  ',
+                        IFNAME           => 'ifc17 (Slot: 1 Port: 17)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 17  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -294,7 +294,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 18  ',
+                        IFNAME           => 'ifc18 (Slot: 1 Port: 18)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 18  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -308,7 +308,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 19  ',
+                        IFNAME           => 'ifc19 (Slot: 1 Port: 19)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 19  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -322,7 +322,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 20  ',
+                        IFNAME           => 'ifc20 (Slot: 1 Port: 20)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 20  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -336,7 +336,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 21  ',
+                        IFNAME           => 'ifc21 (Slot: 1 Port: 21)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 21  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -357,7 +357,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 22  ',
+                        IFNAME           => 'ifc22 (Slot: 1 Port: 22)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 22  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -371,7 +371,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 23  ',
+                        IFNAME           => 'ifc23 (Slot: 1 Port: 23)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 23  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -392,7 +392,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 24  ',
+                        IFNAME           => 'ifc24 (Slot: 1 Port: 24)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 24  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -406,7 +406,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 25  ',
+                        IFNAME           => 'ifc25 (Slot: 1 Port: 25)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 25  ',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -420,7 +420,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 26  ',
+                        IFNAME           => 'ifc26 (Slot: 1 Port: 26)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 26  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -441,7 +441,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 27  ',
+                        IFNAME           => 'ifc27 (Slot: 1 Port: 27)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 27  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -455,7 +455,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 28  ',
+                        IFNAME           => 'ifc28 (Slot: 1 Port: 28)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 28  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -469,7 +469,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '29',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 29  ',
+                        IFNAME           => 'ifc29 (Slot: 1 Port: 29)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 29  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -483,7 +483,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 30  ',
+                        IFNAME           => 'ifc30 (Slot: 1 Port: 30)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 30  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -497,7 +497,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '31',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 31  ',
+                        IFNAME           => 'ifc31 (Slot: 1 Port: 31)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 31  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -511,7 +511,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 32  ',
+                        IFNAME           => 'ifc32 (Slot: 1 Port: 32)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 32  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -525,7 +525,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '33',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 33  ',
+                        IFNAME           => 'ifc33 (Slot: 1 Port: 33)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 33  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -539,7 +539,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 34  ',
+                        IFNAME           => 'ifc34 (Slot: 1 Port: 34)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 34  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -553,7 +553,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 35  ',
+                        IFNAME           => 'ifc35 (Slot: 1 Port: 35)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 35  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -567,7 +567,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 36  ',
+                        IFNAME           => 'ifc36 (Slot: 1 Port: 36)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 36  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -581,7 +581,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '37',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 37  ',
+                        IFNAME           => 'ifc37 (Slot: 1 Port: 37)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 37  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -595,7 +595,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 38  ',
+                        IFNAME           => 'ifc38 (Slot: 1 Port: 38)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 38  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -609,7 +609,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 39  ',
+                        IFNAME           => 'ifc39 (Slot: 1 Port: 39)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 39  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -623,7 +623,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 40  ',
+                        IFNAME           => 'ifc40 (Slot: 1 Port: 40)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 40  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -637,7 +637,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '41',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 41  ',
+                        IFNAME           => 'ifc41 (Slot: 1 Port: 41)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 41  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -651,7 +651,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 42  ',
+                        IFNAME           => 'ifc42 (Slot: 1 Port: 42)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 42  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -665,7 +665,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '43',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 43  ',
+                        IFNAME           => 'ifc43 (Slot: 1 Port: 43)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 43  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -679,7 +679,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 44  ',
+                        IFNAME           => 'ifc44 (Slot: 1 Port: 44)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 44  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -693,7 +693,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '45',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 45  ',
+                        IFNAME           => 'ifc45 (Slot: 1 Port: 45)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 45  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -707,7 +707,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '46',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 46  ',
+                        IFNAME           => 'ifc46 (Slot: 1 Port: 46)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 46  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -721,7 +721,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '47',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 47  ',
+                        IFNAME           => 'ifc47 (Slot: 1 Port: 47)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 47  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1492,7 +1492,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '48',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 48  ',
+                        IFNAME           => 'ifc48 (Slot: 1 Port: 48)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 48  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1506,7 +1506,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8193',
-                        IFNAME           => 'Nortel <unknown> Ethernet Switch Module - Cascade Module Port 2',
+                        IFNAME           => 'ifc8193 (Slot: 11 Port: 2)',
                         IFDESCR          => 'Nortel <unknown> Ethernet Switch Module - Cascade Module Port 2',
                         IFTYPE           => '54',
                         IFSPEED          => '0',
@@ -1516,7 +1516,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10001',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 1',
+                        IFNAME           => 'ifc10001 VLAN #1',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 1',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -1526,7 +1526,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10013',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 13',
+                        IFNAME           => 'ifc10013 VLAN #13',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 13',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -1536,7 +1536,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10017',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 17',
+                        IFNAME           => 'ifc10017 VLAN #17',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 17',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -1546,7 +1546,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10025',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 25',
+                        IFNAME           => 'ifc10025 VLAN #25',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 25',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -1556,7 +1556,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10026',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 26',
+                        IFNAME           => 'ifc10026 VLAN #26',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 26',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -1566,7 +1566,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10040',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 40',
+                        IFNAME           => 'ifc10040 VLAN #40',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 40',
                         IFTYPE           => '136',
                         IFSPEED          => '0',
@@ -1576,7 +1576,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10044',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 44',
+                        IFNAME           => 'ifc10044 VLAN #44',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 44',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -1586,7 +1586,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10134',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 134',
+                        IFNAME           => 'ifc10134 VLAN #134',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 134',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -1612,7 +1612,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 1  ',
+                        IFNAME           => 'ifc1 (Slot: 1 Port: 1)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 1  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1626,7 +1626,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 2  ',
+                        IFNAME           => 'ifc2 (Slot: 1 Port: 2)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 2  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1640,7 +1640,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 3  ',
+                        IFNAME           => 'ifc3 (Slot: 1 Port: 3)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 3  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1654,7 +1654,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 4  ',
+                        IFNAME           => 'ifc4 (Slot: 1 Port: 4)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 4  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1668,7 +1668,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 5  ',
+                        IFNAME           => 'ifc5 (Slot: 1 Port: 5)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 5  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1682,7 +1682,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 6  ',
+                        IFNAME           => 'ifc6 (Slot: 1 Port: 6)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 6  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1696,7 +1696,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 7  ',
+                        IFNAME           => 'ifc7 (Slot: 1 Port: 7)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 7  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1710,7 +1710,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 8  ',
+                        IFNAME           => 'ifc8 (Slot: 1 Port: 8)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 8  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1724,7 +1724,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 9  ',
+                        IFNAME           => 'ifc9 (Slot: 1 Port: 9)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 9  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1738,7 +1738,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 10  ',
+                        IFNAME           => 'ifc10 (Slot: 1 Port: 10)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 10  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1752,7 +1752,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 11  ',
+                        IFNAME           => 'ifc11 (Slot: 1 Port: 11)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 11  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -1773,7 +1773,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 12  ',
+                        IFNAME           => 'ifc12 (Slot: 1 Port: 12)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 12  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1794,7 +1794,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 13  ',
+                        IFNAME           => 'ifc13 (Slot: 1 Port: 13)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 13  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1808,7 +1808,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 14  ',
+                        IFNAME           => 'ifc14 (Slot: 1 Port: 14)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 14  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1822,7 +1822,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 15  ',
+                        IFNAME           => 'ifc15 (Slot: 1 Port: 15)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 15  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1836,7 +1836,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 16  ',
+                        IFNAME           => 'ifc16 (Slot: 1 Port: 16)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 16  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1850,7 +1850,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 17  ',
+                        IFNAME           => 'ifc17 (Slot: 1 Port: 17)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 17  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1864,7 +1864,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 18  ',
+                        IFNAME           => 'ifc18 (Slot: 1 Port: 18)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 18  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1878,7 +1878,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 19  ',
+                        IFNAME           => 'ifc19 (Slot: 1 Port: 19)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 19  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1892,7 +1892,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 20  ',
+                        IFNAME           => 'ifc20 (Slot: 1 Port: 20)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 20  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1906,7 +1906,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 21  ',
+                        IFNAME           => 'ifc21 (Slot: 1 Port: 21)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 21  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1927,7 +1927,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 22  ',
+                        IFNAME           => 'ifc22 (Slot: 1 Port: 22)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 22  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1941,7 +1941,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 23  ',
+                        IFNAME           => 'ifc23 (Slot: 1 Port: 23)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 23  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1962,7 +1962,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 24  ',
+                        IFNAME           => 'ifc24 (Slot: 1 Port: 24)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 24  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -1976,7 +1976,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 25  ',
+                        IFNAME           => 'ifc25 (Slot: 1 Port: 25)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 25  ',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -1990,7 +1990,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 26  ',
+                        IFNAME           => 'ifc26 (Slot: 1 Port: 26)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 26  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2011,7 +2011,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '27',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 27  ',
+                        IFNAME           => 'ifc27 (Slot: 1 Port: 27)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 27  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2025,7 +2025,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '28',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 28  ',
+                        IFNAME           => 'ifc28 (Slot: 1 Port: 28)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 28  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2039,7 +2039,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '29',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 29  ',
+                        IFNAME           => 'ifc29 (Slot: 1 Port: 29)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 29  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2053,7 +2053,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '30',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 30  ',
+                        IFNAME           => 'ifc30 (Slot: 1 Port: 30)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 30  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2067,7 +2067,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '31',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 31  ',
+                        IFNAME           => 'ifc31 (Slot: 1 Port: 31)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 31  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2081,7 +2081,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '32',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 32  ',
+                        IFNAME           => 'ifc32 (Slot: 1 Port: 32)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 32  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2095,7 +2095,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '33',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 33  ',
+                        IFNAME           => 'ifc33 (Slot: 1 Port: 33)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 33  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2109,7 +2109,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '34',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 34  ',
+                        IFNAME           => 'ifc34 (Slot: 1 Port: 34)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 34  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2123,7 +2123,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '35',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 35  ',
+                        IFNAME           => 'ifc35 (Slot: 1 Port: 35)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 35  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2137,7 +2137,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '36',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 36  ',
+                        IFNAME           => 'ifc36 (Slot: 1 Port: 36)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 36  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2151,7 +2151,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '37',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 37  ',
+                        IFNAME           => 'ifc37 (Slot: 1 Port: 37)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 37  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2165,7 +2165,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '38',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 38  ',
+                        IFNAME           => 'ifc38 (Slot: 1 Port: 38)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 38  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -2179,7 +2179,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '39',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 39  ',
+                        IFNAME           => 'ifc39 (Slot: 1 Port: 39)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 39  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2193,7 +2193,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '40',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 40  ',
+                        IFNAME           => 'ifc40 (Slot: 1 Port: 40)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 40  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2207,7 +2207,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '41',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 41  ',
+                        IFNAME           => 'ifc41 (Slot: 1 Port: 41)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 41  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2221,7 +2221,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '42',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 42  ',
+                        IFNAME           => 'ifc42 (Slot: 1 Port: 42)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 42  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2235,7 +2235,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '43',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 43  ',
+                        IFNAME           => 'ifc43 (Slot: 1 Port: 43)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 43  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2249,7 +2249,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '44',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 44  ',
+                        IFNAME           => 'ifc44 (Slot: 1 Port: 44)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 44  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2263,7 +2263,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '45',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 45  ',
+                        IFNAME           => 'ifc45 (Slot: 1 Port: 45)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 45  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2277,7 +2277,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '46',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 46  ',
+                        IFNAME           => 'ifc46 (Slot: 1 Port: 46)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 46  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -2291,7 +2291,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '47',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 47  ',
+                        IFNAME           => 'ifc47 (Slot: 1 Port: 47)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 47  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -3062,7 +3062,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '48',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 48  ',
+                        IFNAME           => 'ifc48 (Slot: 1 Port: 48)',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - Port 48  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -3076,7 +3076,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8193',
-                        IFNAME           => 'Nortel <unknown> Ethernet Switch Module - Cascade Module Port 2',
+                        IFNAME           => 'ifc8193 (Slot: 11 Port: 2)',
                         IFDESCR          => 'Nortel <unknown> Ethernet Switch Module - Cascade Module Port 2',
                         IFTYPE           => '54',
                         IFSPEED          => '0',
@@ -3086,7 +3086,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10001',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 1',
+                        IFNAME           => 'ifc10001 VLAN #1',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 1',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -3096,7 +3096,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10013',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 13',
+                        IFNAME           => 'ifc10013 VLAN #13',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 13',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -3106,7 +3106,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10017',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 17',
+                        IFNAME           => 'ifc10017 VLAN #17',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 17',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -3116,7 +3116,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10025',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 25',
+                        IFNAME           => 'ifc10025 VLAN #25',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 25',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -3126,7 +3126,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10026',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 26',
+                        IFNAME           => 'ifc10026 VLAN #26',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 26',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -3136,7 +3136,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10040',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 40',
+                        IFNAME           => 'ifc10040 VLAN #40',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 40',
                         IFTYPE           => '136',
                         IFSPEED          => '0',
@@ -3146,7 +3146,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10044',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 44',
+                        IFNAME           => 'ifc10044 VLAN #44',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 44',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -3156,7 +3156,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10134',
-                        IFNAME           => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 134',
+                        IFNAME           => 'ifc10134 VLAN #134',
                         IFDESCR          => 'Nortel Ethernet Routing Switch 4548GT PWR Module - VLAN 134',
                         IFTYPE           => '135',
                         IFSPEED          => '0',
@@ -3208,7 +3208,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 1  ',
+                        IFNAME           => 'ifc1 (Slot: 1 Port: 1)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 1  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3225,7 +3225,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 2  ',
+                        IFNAME           => 'ifc2 (Slot: 1 Port: 2)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 2  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3241,7 +3241,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 3  ',
+                        IFNAME           => 'ifc3 (Slot: 1 Port: 3)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 3  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3257,7 +3257,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 4  ',
+                        IFNAME           => 'ifc4 (Slot: 1 Port: 4)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 4  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3273,7 +3273,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 5  ',
+                        IFNAME           => 'ifc5 (Slot: 1 Port: 5)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 5  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3289,7 +3289,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 6  ',
+                        IFNAME           => 'ifc6 (Slot: 1 Port: 6)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 6  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3305,7 +3305,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 7  ',
+                        IFNAME           => 'ifc7 (Slot: 1 Port: 7)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 7  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3321,7 +3321,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 8  ',
+                        IFNAME           => 'ifc8 (Slot: 1 Port: 8)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 8  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3337,7 +3337,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 9  ',
+                        IFNAME           => 'ifc9 (Slot: 1 Port: 9)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 9  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3353,7 +3353,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 10  ',
+                        IFNAME           => 'ifc10 (Slot: 1 Port: 10)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 10  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3369,7 +3369,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 11  ',
+                        IFNAME           => 'ifc11 (Slot: 1 Port: 11)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 11  ',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -3385,7 +3385,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 12  ',
+                        IFNAME           => 'ifc12 (Slot: 1 Port: 12)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 12  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3401,7 +3401,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 13  ',
+                        IFNAME           => 'ifc13 (Slot: 1 Port: 13)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 13  ',
                         IFTYPE           => '6',
                         IFSPEED          => '10000000',
@@ -3417,7 +3417,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 14  ',
+                        IFNAME           => 'ifc14 (Slot: 1 Port: 14)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 14  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3433,7 +3433,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 15  ',
+                        IFNAME           => 'ifc15 (Slot: 1 Port: 15)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 15  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3456,7 +3456,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 16  ',
+                        IFNAME           => 'ifc16 (Slot: 1 Port: 16)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 16  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3472,7 +3472,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 17  ',
+                        IFNAME           => 'ifc17 (Slot: 1 Port: 17)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 17  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3495,7 +3495,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 18  ',
+                        IFNAME           => 'ifc18 (Slot: 1 Port: 18)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 18  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3511,7 +3511,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 19  ',
+                        IFNAME           => 'ifc19 (Slot: 1 Port: 19)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 19  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3527,7 +3527,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 20  ',
+                        IFNAME           => 'ifc20 (Slot: 1 Port: 20)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 20  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3543,7 +3543,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 21  ',
+                        IFNAME           => 'ifc21 (Slot: 1 Port: 21)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 21  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3559,7 +3559,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 22  ',
+                        IFNAME           => 'ifc22 (Slot: 1 Port: 22)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 22  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3575,7 +3575,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 23  ',
+                        IFNAME           => 'ifc23 (Slot: 1 Port: 23)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 23  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3591,7 +3591,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 24  ',
+                        IFNAME           => 'ifc24 (Slot: 1 Port: 24)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 24  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -3607,7 +3607,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 25  ',
+                        IFNAME           => 'ifc25 (Slot: 1 Port: 25)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 25  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -3791,7 +3791,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Nortel Networks <unknown> Ethernet Switch Module - Port 26  ',
+                        IFNAME           => 'ifc26 (Slot: 1 Port: 26)',
                         IFDESCR          => 'Nortel Networks <unknown> Ethernet Switch Module - Port 26  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -4466,7 +4466,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 1  ',
+                        IFNAME           => 'ifc1 (Slot: 1 Port: 1)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 1  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4487,7 +4487,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '2',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 2  ',
+                        IFNAME           => 'ifc2 (Slot: 1 Port: 2)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 2  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4508,7 +4508,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '3',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 3  ',
+                        IFNAME           => 'ifc3 (Slot: 1 Port: 3)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 3  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4529,7 +4529,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '4',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 4  ',
+                        IFNAME           => 'ifc4 (Slot: 1 Port: 4)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 4  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4543,7 +4543,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '5',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 5  ',
+                        IFNAME           => 'ifc5 (Slot: 1 Port: 5)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 5  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4564,7 +4564,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '6',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 6  ',
+                        IFNAME           => 'ifc6 (Slot: 1 Port: 6)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 6  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4578,7 +4578,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '7',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 7  ',
+                        IFNAME           => 'ifc7 (Slot: 1 Port: 7)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 7  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4599,7 +4599,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '8',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 8  ',
+                        IFNAME           => 'ifc8 (Slot: 1 Port: 8)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 8  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4613,7 +4613,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '9',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 9  ',
+                        IFNAME           => 'ifc9 (Slot: 1 Port: 9)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 9  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4627,7 +4627,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '10',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 10  ',
+                        IFNAME           => 'ifc10 (Slot: 1 Port: 10)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 10  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4641,7 +4641,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '11',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 11  ',
+                        IFNAME           => 'ifc11 (Slot: 1 Port: 11)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 11  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4655,7 +4655,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '12',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 12  ',
+                        IFNAME           => 'ifc12 (Slot: 1 Port: 12)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 12  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4669,7 +4669,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '13',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 13  ',
+                        IFNAME           => 'ifc13 (Slot: 1 Port: 13)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 13  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4683,7 +4683,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '14',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 14  ',
+                        IFNAME           => 'ifc14 (Slot: 1 Port: 14)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 14  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4697,7 +4697,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '15',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 15  ',
+                        IFNAME           => 'ifc15 (Slot: 1 Port: 15)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 15  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4711,7 +4711,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '16',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 16  ',
+                        IFNAME           => 'ifc16 (Slot: 1 Port: 16)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 16  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4725,7 +4725,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '17',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 17  ',
+                        IFNAME           => 'ifc17 (Slot: 1 Port: 17)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 17  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4739,7 +4739,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '18',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 18  ',
+                        IFNAME           => 'ifc18 (Slot: 1 Port: 18)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 18  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4753,7 +4753,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '19',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 19  ',
+                        IFNAME           => 'ifc19 (Slot: 1 Port: 19)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 19  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4767,7 +4767,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '20',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 20  ',
+                        IFNAME           => 'ifc20 (Slot: 1 Port: 20)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 20  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4781,7 +4781,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '21',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 21  ',
+                        IFNAME           => 'ifc21 (Slot: 1 Port: 21)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 21  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4795,7 +4795,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '22',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 22  ',
+                        IFNAME           => 'ifc22 (Slot: 1 Port: 22)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 22  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -4809,7 +4809,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '23',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 23  ',
+                        IFNAME           => 'ifc23 (Slot: 1 Port: 23)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 23  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5243,7 +5243,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '24',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 24  ',
+                        IFNAME           => 'ifc24 (Slot: 1 Port: 24)',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 24  ',
                         IFTYPE           => '6',
                         IFSPEED          => '100000000',
@@ -5264,7 +5264,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '25',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 25  ',
+                        IFNAME           => 'ifc25 (Slot: 1 Port: 25 [GBIC])',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 25  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -5278,7 +5278,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '26',
-                        IFNAME           => 'Nortel Ethernet Switch 470-24T Module - Port 26  ',
+                        IFNAME           => 'ifc26 (Slot: 1 Port: 26 [GBIC])',
                         IFDESCR          => 'Nortel Ethernet Switch 470-24T Module - Port 26  ',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',

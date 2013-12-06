@@ -50,7 +50,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1001',
-                        IFNAME           => 'Alcatel-Lucent 1/1',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Alcatel-Lucent 1/1',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -67,7 +67,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1002',
-                        IFNAME           => 'Alcatel-Lucent 1/2',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Alcatel-Lucent 1/2',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -84,7 +84,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1003',
-                        IFNAME           => 'Alcatel-Lucent 1/3',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Alcatel-Lucent 1/3',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -101,7 +101,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1004',
-                        IFNAME           => 'Alcatel-Lucent 1/4',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Alcatel-Lucent 1/4',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -118,7 +118,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1005',
-                        IFNAME           => 'Alcatel-Lucent 1/5',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Alcatel-Lucent 1/5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -135,7 +135,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1006',
-                        IFNAME           => 'Alcatel-Lucent 1/6',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Alcatel-Lucent 1/6',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -152,7 +152,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1007',
-                        IFNAME           => 'Alcatel-Lucent 1/7',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Alcatel-Lucent 1/7',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -169,7 +169,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1008',
-                        IFNAME           => 'Alcatel-Lucent 1/8',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Alcatel-Lucent 1/8',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -186,7 +186,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1009',
-                        IFNAME           => 'Alcatel-Lucent 1/9',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Alcatel-Lucent 1/9',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -203,7 +203,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1010',
-                        IFNAME           => 'Alcatel-Lucent 1/10',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Alcatel-Lucent 1/10',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -220,7 +220,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1011',
-                        IFNAME           => 'Alcatel-Lucent 1/11',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Alcatel-Lucent 1/11',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -237,7 +237,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1012',
-                        IFNAME           => 'Alcatel-Lucent 1/12',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Alcatel-Lucent 1/12',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -254,7 +254,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1013',
-                        IFNAME           => 'Alcatel-Lucent 1/13',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Alcatel-Lucent 1/13',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -271,7 +271,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1014',
-                        IFNAME           => 'Alcatel-Lucent 1/14',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Alcatel-Lucent 1/14',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -288,7 +288,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1015',
-                        IFNAME           => 'Alcatel-Lucent 1/15',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Alcatel-Lucent 1/15',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -305,7 +305,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1016',
-                        IFNAME           => 'Alcatel-Lucent 1/16',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Alcatel-Lucent 1/16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -322,7 +322,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1017',
-                        IFNAME           => 'Alcatel-Lucent 1/17',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Alcatel-Lucent 1/17',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -339,7 +339,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1018',
-                        IFNAME           => 'Alcatel-Lucent 1/18',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Alcatel-Lucent 1/18',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -356,7 +356,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1019',
-                        IFNAME           => 'Alcatel-Lucent 1/19',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Alcatel-Lucent 1/19',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -373,7 +373,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1020',
-                        IFNAME           => 'Alcatel-Lucent 1/20',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Alcatel-Lucent 1/20',
                         IFALIAS          => 'wifi-RDC-ascenseur-203',
                         IFTYPE           => '6',
@@ -407,7 +407,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1021',
-                        IFNAME           => 'Alcatel-Lucent 1/21',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Alcatel-Lucent 1/21',
                         IFALIAS          => 'wifi-c005-espaceOne-205',
                         IFTYPE           => '6',
@@ -434,7 +434,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1022',
-                        IFNAME           => 'Alcatel-Lucent 1/22',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Alcatel-Lucent 1/22',
                         IFALIAS          => 'wifi-rdc-acceuil-47',
                         IFTYPE           => '6',
@@ -465,7 +465,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1023',
-                        IFNAME           => 'Alcatel-Lucent 1/23',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Alcatel-Lucent 1/23',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -482,7 +482,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1024',
-                        IFNAME           => 'Alcatel-Lucent 1/24',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Alcatel-Lucent 1/24',
                         IFALIAS          => 'CB-C005-202',
                         IFTYPE           => '6',
@@ -1387,7 +1387,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1025',
-                        IFNAME           => 'Alcatel-Lucent Stacking Port 1/StackA',
+                        IFNAME           => ' Stacking Port 1/StackA',
                         IFDESCR          => 'Alcatel-Lucent Stacking Port 1/StackA',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -1403,7 +1403,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1026',
-                        IFNAME           => 'Alcatel-Lucent Stacking Port 1/StackB',
+                        IFNAME           => ' Stacking Port 1/StackB',
                         IFDESCR          => 'Alcatel-Lucent Stacking Port 1/StackB',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -2915,7 +2915,7 @@ my %tests = (
                 PORT => [
                     {
                         IFNUMBER         => '1001',
-                        IFNAME           => 'Alcatel-Lucent 1/1',
+                        IFNAME           => '1/1',
                         IFDESCR          => 'Alcatel-Lucent 1/1',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2929,7 +2929,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1002',
-                        IFNAME           => 'Alcatel-Lucent 1/2',
+                        IFNAME           => '1/2',
                         IFDESCR          => 'Alcatel-Lucent 1/2',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2943,7 +2943,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1003',
-                        IFNAME           => 'Alcatel-Lucent 1/3',
+                        IFNAME           => '1/3',
                         IFDESCR          => 'Alcatel-Lucent 1/3',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2957,7 +2957,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1004',
-                        IFNAME           => 'Alcatel-Lucent 1/4',
+                        IFNAME           => '1/4',
                         IFDESCR          => 'Alcatel-Lucent 1/4',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2971,7 +2971,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1005',
-                        IFNAME           => 'Alcatel-Lucent 1/5',
+                        IFNAME           => '1/5',
                         IFDESCR          => 'Alcatel-Lucent 1/5',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2985,7 +2985,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1006',
-                        IFNAME           => 'Alcatel-Lucent 1/6',
+                        IFNAME           => '1/6',
                         IFDESCR          => 'Alcatel-Lucent 1/6',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -2999,7 +2999,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1007',
-                        IFNAME           => 'Alcatel-Lucent 1/7',
+                        IFNAME           => '1/7',
                         IFDESCR          => 'Alcatel-Lucent 1/7',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3013,7 +3013,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1008',
-                        IFNAME           => 'Alcatel-Lucent 1/8',
+                        IFNAME           => '1/8',
                         IFDESCR          => 'Alcatel-Lucent 1/8',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -3034,7 +3034,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1009',
-                        IFNAME           => 'Alcatel-Lucent 1/9',
+                        IFNAME           => '1/9',
                         IFDESCR          => 'Alcatel-Lucent 1/9',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3048,7 +3048,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1010',
-                        IFNAME           => 'Alcatel-Lucent 1/10',
+                        IFNAME           => '1/10',
                         IFDESCR          => 'Alcatel-Lucent 1/10',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3062,7 +3062,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1011',
-                        IFNAME           => 'Alcatel-Lucent 1/11',
+                        IFNAME           => '1/11',
                         IFDESCR          => 'Alcatel-Lucent 1/11',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -3083,7 +3083,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1012',
-                        IFNAME           => 'Alcatel-Lucent 1/12',
+                        IFNAME           => '1/12',
                         IFDESCR          => 'Alcatel-Lucent 1/12',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -3104,7 +3104,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1013',
-                        IFNAME           => 'Alcatel-Lucent 1/13',
+                        IFNAME           => '1/13',
                         IFDESCR          => 'Alcatel-Lucent 1/13',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -3125,7 +3125,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1014',
-                        IFNAME           => 'Alcatel-Lucent 1/14',
+                        IFNAME           => '1/14',
                         IFDESCR          => 'Alcatel-Lucent 1/14',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -3146,7 +3146,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1015',
-                        IFNAME           => 'Alcatel-Lucent 1/15',
+                        IFNAME           => '1/15',
                         IFDESCR          => 'Alcatel-Lucent 1/15',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3160,7 +3160,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1016',
-                        IFNAME           => 'Alcatel-Lucent 1/16',
+                        IFNAME           => '1/16',
                         IFDESCR          => 'Alcatel-Lucent 1/16',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3174,7 +3174,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1017',
-                        IFNAME           => 'Alcatel-Lucent 1/17',
+                        IFNAME           => '1/17',
                         IFDESCR          => 'Alcatel-Lucent 1/17',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3188,7 +3188,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1018',
-                        IFNAME           => 'Alcatel-Lucent 1/18',
+                        IFNAME           => '1/18',
                         IFDESCR          => 'Alcatel-Lucent 1/18',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3202,7 +3202,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1019',
-                        IFNAME           => 'Alcatel-Lucent 1/19',
+                        IFNAME           => '1/19',
                         IFDESCR          => 'Alcatel-Lucent 1/19',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3216,7 +3216,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1020',
-                        IFNAME           => 'Alcatel-Lucent 1/20',
+                        IFNAME           => '1/20',
                         IFDESCR          => 'Alcatel-Lucent 1/20',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3230,7 +3230,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1021',
-                        IFNAME           => 'Alcatel-Lucent 1/21',
+                        IFNAME           => '1/21',
                         IFDESCR          => 'Alcatel-Lucent 1/21',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3244,7 +3244,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1022',
-                        IFNAME           => 'Alcatel-Lucent 1/22',
+                        IFNAME           => '1/22',
                         IFDESCR          => 'Alcatel-Lucent 1/22',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3258,7 +3258,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1023',
-                        IFNAME           => 'Alcatel-Lucent 1/23',
+                        IFNAME           => '1/23',
                         IFDESCR          => 'Alcatel-Lucent 1/23',
                         IFTYPE           => '6',
                         IFSPEED          => '0',
@@ -3272,7 +3272,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1024',
-                        IFNAME           => 'Alcatel-Lucent 1/24',
+                        IFNAME           => '1/24',
                         IFDESCR          => 'Alcatel-Lucent 1/24',
                         IFTYPE           => '6',
                         IFSPEED          => '1000000000',
@@ -3407,7 +3407,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1025',
-                        IFNAME           => 'Alcatel-Lucent Stacking Port 1/StackA',
+                        IFNAME           => ' Stacking Port 1/StackA',
                         IFDESCR          => 'Alcatel-Lucent Stacking Port 1/StackA',
                         IFTYPE           => '53',
                         IFSPEED          => '0',
@@ -3421,7 +3421,7 @@ my %tests = (
                     },
                     {
                         IFNUMBER         => '1026',
-                        IFNAME           => 'Alcatel-Lucent Stacking Port 1/StackB',
+                        IFNAME           => ' Stacking Port 1/StackB',
                         IFDESCR          => 'Alcatel-Lucent Stacking Port 1/StackB',
                         IFTYPE           => '53',
                         IFSPEED          => '0',

@@ -303,7 +303,10 @@ my %interface_variables = (
     },
     IFNAME           => {
         mapping => 'ifName',
-        default => '.1.3.6.1.2.1.2.2.1.2',
+        default => [
+            '.1.3.6.1.2.1.31.1.1.1.1',
+            '.1.3.6.1.2.1.2.2.1.2',
+        ],
         type    => 'string',
     },
     IFTYPE           => {
@@ -824,7 +827,14 @@ sub _setGenericProperties {
         # second, try default value, if defined
         if (!$results) {
             if ($variable->{default}) {
-                $results = $snmp->walk($variable->{default});
+                if (ref $variable->{default} eq 'ARRAY') {
+                    foreach my $default (@{$variable->{default}}) {
+                        $results = $snmp->walk($default);
+                        last if $results;
+                    }
+                } else {
+                    $results = $snmp->walk($variable->{default});
+                }
             }
         }
         next unless $results;
