@@ -6,9 +6,11 @@ use utf8;
 
 use Test::More;
 use Test::Deep qw(cmp_deeply);
+use XML::TreePP;
 
+use FusionInventory::Agent::SNMP::Mock;
+use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 use FusionInventory::Agent::Tools::Hardware;
-use FusionInventory::Test::Hardware;
 
 my %tests = (
     'juniper/ex2200.01.walk' => [
@@ -78418,12 +78420,13 @@ if ($ENV{SNMPMODELS_DICTIONARY}) {
     );
 }
 if ($ENV{SNMPMODELS_INDEX}) {
-    YAML->require();
-    $index = YAML::LoadFile($ENV{SNMPMODELS_INDEX});
+    $index = XML::TreePP->new()->parsefile($ENV{SNMPMODELS_INDEX});
 }
 
 foreach my $test (sort keys %tests) {
-    my $snmp  = getSNMP($test);
+    my $snmp  = FusionInventory::Agent::SNMP::Mock->new(
+        file => "$ENV{SNMPWALK_DATABASE}/$test"
+    );
 
     # first test: discovery without dictionary
     my %device1 = getDeviceInfo(
@@ -78465,8 +78468,10 @@ foreach my $test (sort keys %tests) {
 
     # fourth test: inventory, with model
     SKIP: {
+        my $model_id = $tests{$test}->[1]->{MODELSNMP};
         skip "SNMP models index required, skipping", 1 unless $index;
-        my $model = getModel($index, $tests{$test}->[1]->{MODELSNMP});
+        skip "No model associated, skipping", 1 unless $model_id;
+        my $model = loadModel($index->{$model_id});
 
         my $device4 = getDeviceFullInfo(
             snmp    => $snmp,
