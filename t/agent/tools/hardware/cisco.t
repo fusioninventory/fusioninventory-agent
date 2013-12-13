@@ -51402,7 +51402,7 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
             },
         },
     ],
-    'cisco/C2960S.1.walk' => [
+    'cisco/C2960S.01.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -53484,7 +53484,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
             },
         },
     ],
-    'cisco/C2960S.2.walk' => [
+    'cisco/C2960S.02.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -75136,7 +75136,7 @@ Compiled Sat 23-Oct-10 17:57 by prod',
             },
         },
     ],
-    'cisco/sw-07a04-01-dc1.walk' => [
+    'cisco/C2960S.03.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -76900,7 +76900,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
             },
         },
     ],
-    'cisco/sw-07a10-01-dc1.walk' => [
+    'cisco/C2960S.04.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -78656,7 +78656,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
             },
         },
     ],
-    'cisco/sw-30c04-01-dc1.walk' => [
+    'cisco/C2960S.05.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -80446,7 +80446,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
             },
         },
     ],
-    'cisco/sw-30c05-01-dc1.walk' => [
+    'cisco/C2960S.06.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
@@ -82206,7 +82206,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
             },
         },
     ],
-    'cisco/sw-30c07-01-dc1.walk' => [
+    'cisco/C2960S.07.walk' => [
         {
             MANUFACTURER => 'Cisco',
             TYPE         => 'NETWORKING',
