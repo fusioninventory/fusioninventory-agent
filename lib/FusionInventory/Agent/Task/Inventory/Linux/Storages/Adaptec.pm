@@ -24,6 +24,7 @@ sub doInventory {
         next unless $device->{MANUFACTURER};
         next unless
             $device->{MANUFACTURER} eq 'Adaptec' ||
+            $device->{MANUFACTURER} eq 'Sun'     ||
             $device->{MANUFACTURER} eq 'ServeRA';
 
         foreach my $disk (_getDisksFromProc(
@@ -33,7 +34,8 @@ sub doInventory {
         )) {
             # merge with smartctl info
             my $info = getInfoFromSmartctl(device => $disk->{device});
-            foreach my $key (qw/SERIALNUMBER DESCRIPTION TYPE/) {
+            next unless $info->{TYPE} =~ /disk/i;
+            foreach my $key (qw/SERIALNUMBER DESCRIPTION TYPE DISKSIZE MANUFACTURER/) {
                 $disk->{$key} = $info->{$key};
             }
             delete $disk->{device};
@@ -77,7 +79,7 @@ sub _getDisksFromProc {
             $disk->{FIRMWARE} = $2;
 
             # that's the controller itself, not a disk
-            next if $disk->{MODEL} =~ 'raid';
+            next if $disk->{MODEL} =~ /raid|virtual/i;
 
             $disk->{MANUFACTURER} = getCanonicalManufacturer(
                 $disk->{MODEL}
