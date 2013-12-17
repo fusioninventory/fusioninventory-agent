@@ -537,11 +537,12 @@ my %smartctl_tests = (
     sample1 => {
         TYPE         => 'disk',
         DESCRIPTION  => 'SATA',
-        SERIALNUMBER => 'DFW1W11002SE002B3117'
+        SERIALNUMBER => 'DFW1W11002SE002B3117',
+        DISKSIZE     => 122104,
     },
     sample2 => {
         TYPE         => 'disk',
-        DESCRIPTION  => 'SATA'
+        DESCRIPTION  => 'SATA',
     },
     sample3 => {
         TYPE         => 'disk',
@@ -550,7 +551,7 @@ my %smartctl_tests = (
     },
     sample4 => {
         TYPE         => 'enclosure',
-        DESCRIPTION  => 'SATA'
+        DESCRIPTION  => 'SATA',
     },
 );
 

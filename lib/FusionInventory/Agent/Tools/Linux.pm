@@ -259,6 +259,26 @@ sub getInfoFromSmartctl {
     };
 
     while (my $line = <$handle>) {
+        if ($line =~ /^Vendor: +(\S+)/i) {
+            $info->{MANUFACTURER} = getCanonicalManufacturer($1);
+            next;
+        }
+
+        if ($line =~ /^Product: +(\S+)/i) {
+            $info->{MODEL} = $1;
+            next;
+        }
+
+        if ($line =~ /^Revision: +(\S+)/i) {
+            $info->{FIRMWARE} = $1;
+            next;
+        }
+
+        if ($line =~ /^User Capacity: +(\S.+\S)/i) {
+            $info->{DISKSIZE} = getCanonicalSize($1, 1024);
+            next;
+        }
+
         if ($line =~ /^Transport protocol: +(\S+)/i) {
             $info->{DESCRIPTION} = $1;
             next;
