@@ -151,16 +151,20 @@ sub getCanonicalSize {
 
     return $size if $size =~ /^\d+$/;
 
-    return undef unless $size =~ /^([,.\d]+) \s? (\S+)$/x;
+    $size =~ s/ //g;
+
+    return undef unless $size =~ /^([,.\d]+) (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);
 
+    use integer;
     return
-        $unit eq 'tb' ? $value * $base * $base :
-        $unit eq 'gb' ? $value * $base         :
-        $unit eq 'mb' ? $value                 :
-        $unit eq 'kb' ? $value * (1/$base)     :
-                        undef                  ;
+        $unit eq 'tb'    ? $value * $base * $base   :
+        $unit eq 'gb'    ? $value * $base           :
+        $unit eq 'mb'    ? $value                   :
+        $unit eq 'kb'    ? $value / ($base)         :
+        $unit eq 'bytes' ? $value / ($base * $base) :
+                           undef                    ;
 }
 
 sub compareVersion {
