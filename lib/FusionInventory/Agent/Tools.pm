@@ -108,13 +108,13 @@ sub getCanonicalManufacturer {
         pioneer
     )/xi) {
         $manufacturer = ucfirst(lc($1));
-    } elsif ($manufacturer =~ /^(hp|HP|hewlett packard)/) {
+    } elsif ($manufacturer =~ /^(hp|HP|(?i)hewlett[ -]packard)/) {
         $manufacturer = "Hewlett-Packard";
-    } elsif ($manufacturer =~ /^(WDC|[Ww]estern)/) {
+    } elsif ($manufacturer =~ /^(WDC|(?i)western)/) {
         $manufacturer = "Western Digital";
-    } elsif ($manufacturer =~ /^(ST|[Ss]eagate)/) {
+    } elsif ($manufacturer =~ /^(ST|(?i)seagate)/) {
         $manufacturer = "Seagate";
-    } elsif ($manufacturer =~ /^(HD|IC|HU)/) {
+    } elsif ($manufacturer =~ /^(HD|IC|HU|HGST)/) {
         $manufacturer = "Hitachi";
     }
 
