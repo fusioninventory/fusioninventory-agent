@@ -76,7 +76,7 @@ sub _getSlots {
     my %params = @_;
 
     my $command = $params{path} ?
-        "%params{path} ctrl all show" : undef;
+        "$params{path} ctrl all show" : undef;
     my $handle  = getFileHandle(%params, command => $command);
     return unless $handle;
 
@@ -93,8 +93,8 @@ sub _getSlots {
 sub _getDrives {
     my %params = @_;
 
-    my $command = $params{path} && $params{slot} ?
-        "%params{path} ctrl slot=$params{slot} pd all show" : undef;
+    my $command = $params{path} && defined $params{slot} ?
+        "$params{path} ctrl slot=$params{slot} pd all show" : undef;
     my $handle  = getFileHandle(%params, command => $command);
     next unless $handle;
 
@@ -111,8 +111,8 @@ sub _getDrives {
 sub _getStorage {
     my %params = @_;
 
-    my $command = $params{path} && $params{slot} && $params{drive} ?
-        "%params{path} ctrl slot=$params{slot} pd $params{drive} show" : undef;
+    my $command = $params{path} && defined $params{slot} && defined $params{drive} ?
+        "$params{path} ctrl slot=$params{slot} pd $params{drive} show" : undef;
     my $handle  = getFileHandle(%params, command => $command);
     next unless $handle;
 
