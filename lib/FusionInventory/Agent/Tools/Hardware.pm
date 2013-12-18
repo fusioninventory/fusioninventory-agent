@@ -1200,8 +1200,9 @@ sub _setAssociatedMacAddresses {
 
     # start with mac addresses seen on default VLAN
     my $mac_addresses = _getAssociatedMacAddresses(
-        snmp  => $params{snmp},
-        model => $params{model}
+        snmp           => $params{snmp},
+        address2port   => '.1.3.6.1.2.1.17.4.3.1.2', # dot1dTpFdbPort
+        port2interface => '.1.3.6.1.2.1.17.1.4.1.2', # dot1dBasePortIfIndex
     );
     return unless $mac_addresses;
 
@@ -1238,8 +1239,9 @@ sub _setAssociatedMacAddresses {
             $logger->debug("switching SNMP context to vlan $vlan") if $logger;
             $snmp->switch_vlan_context($vlan);
             my $mac_addresses = _getAssociatedMacAddresses(
-                snmp  => $params{snmp},
-                model => $params{model}
+                snmp           => $params{snmp},
+                address2port   => '.1.3.6.1.2.1.17.4.3.1.2', # dot1dTpFdbPort
+                port2interface => '.1.3.6.1.2.1.17.1.4.1.2', # dot1dBasePortIfIndex
             );
             next unless $mac_addresses;
 
@@ -1300,19 +1302,14 @@ sub _getAssociatedMacAddresses {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
-    my $model  = $params{model};
 
     my $results;
-    my $dot1dTpFdbPort       = $snmp->walk(
-        $model->{oids}->{dot1dTpFdbPort}       || '.1.3.6.1.2.1.17.4.3.1.2'
-    );
-    my $dot1dBasePortIfIndex = $snmp->walk(
-        $model->{oids}->{dot1dBasePortIfIndex} || '.1.3.6.1.2.1.17.1.4.1.2'
-    );
+    my $address2port   = $snmp->walk($params{address2port});
+    my $port2interface = $snmp->walk($params{port2interface});
 
-    foreach my $suffix (sort keys %{$dot1dTpFdbPort}) {
-        my $port_id      = $dot1dTpFdbPort->{$suffix};
-        my $interface_id = $dot1dBasePortIfIndex->{$port_id};
+    foreach my $suffix (sort keys %{$address2port}) {
+        my $port_id      = $address2port->{$suffix};
+        my $interface_id = $port2interface->{$port_id};
         next unless defined $interface_id;
 
         push @{$results->{$interface_id}},

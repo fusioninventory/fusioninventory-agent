@@ -455,19 +455,13 @@ foreach my $test (@cdp_info_extraction_tests) {
     );
 }
 
-my $mac_addresses_model = {
-    oids => {
-        dot1dTpFdbPort       => '.1.3.6.1.2.1.17.4.3.1.2',
-        dot1dBasePortIfIndex => '.1.3.6.1.2.1.17.1.4.1.2',
-    }
-};
-
 foreach my $test (@mac_addresses_extraction_tests) {
     my $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
     my $mac_addresses = FusionInventory::Agent::Tools::Hardware::_getAssociatedMacAddresses(
-        snmp  => $snmp,
-        model => $mac_addresses_model,
+        snmp           => $snmp,
+        address2port   => '.1.3.6.1.2.1.17.4.3.1.2',
+        port2interface => '.1.3.6.1.2.1.17.1.4.1.2',
     );
 
     cmp_deeply(
@@ -482,7 +476,6 @@ foreach my $test (@mac_addresses_addition_tests) {
 
     FusionInventory::Agent::Tools::Hardware::_setAssociatedMacAddresses(
         snmp  => $snmp,
-        model => $mac_addresses_model,
         ports => $test->[1],
     );
 
