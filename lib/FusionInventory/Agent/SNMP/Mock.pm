@@ -19,6 +19,7 @@ sub new {
             die "unreadable $params{file} file parameter"
                 unless -r $params{file};
             $self->{values} = _getIndexedValues($params{file});
+            $self->{file}   = $params{file};
             last SWITCH;
         }
 
@@ -35,7 +36,13 @@ sub switch_vlan_context {
     my ($self, $vlan_id) = @_;
 
     $self->{oldvalues} = $self->{values} unless $self->{oldvalues};
-    delete $self->{values};
+
+    my $file = $self->{file} . '@' . $vlan_id;
+    if (-r $file && -f $file) {
+        $self->{values} = _getIndexedValues($file);
+    } else {
+        delete $self->{values};
+    }
 }
 
 sub reset_original_context {
