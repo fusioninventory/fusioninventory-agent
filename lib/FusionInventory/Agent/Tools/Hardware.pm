@@ -1053,43 +1053,12 @@ sub _setNetworkingProperties {
     );
 
     _setAssociatedMacAddresses(
-        snmp   => $snmp,
-        model  => $model,
-        ports  => $ports,
-        logger => $logger
+        snmp         => $snmp,
+        model        => $model,
+        ports        => $ports,
+        logger       => $logger,
+        manufacturer => $device->{INFO}->{MANUFACTURER}
     );
-
-    # cisco devices needs to use additional context-specific requests
-    if ($device->{INFO}->{MANUFACTURER} eq 'Cisco') {
-        # compute the list of vlans associated with at least one port
-        # without CDP/LLDP information
-        my @vlans;
-        my %seen;
-        foreach my $port (values %$ports) {
-            next if
-                exists $port->{CONNECTIONS} &&
-                exists $port->{CONNECTIONS}->{CDP} &&
-                $port->{CONNECTIONS}->{CDP};
-            next unless exists $port->{VLANS};
-            push @vlans,
-                grep { !$seen{$_}++ }
-                map { $_->{NUMBER} }
-                @{$port->{VLANS}->{VLAN}};
-        }
-
-        # get additional associated mac addresses from those vlans
-        foreach my $vlan (@vlans) {
-            $logger->debug("switching SNMP context to vlan $vlan") if $logger;
-            $snmp->switch_vlan_context($vlan);
-            _setAssociatedMacAddresses(
-                snmp   => $snmp,
-                model  => $model,
-                ports  => $ports,
-                logger => $logger
-            );
-        }
-        $snmp->reset_original_context() if @vlans;
-    }
 
     _setAggregatePorts(
         snmp   => $snmp,
@@ -1229,14 +1198,68 @@ sub _getElements {
 sub _setAssociatedMacAddresses {
     my (%params) = @_;
 
+    # start with mac addresses seen on default VLAN
     my $mac_addresses = _getAssociatedMacAddresses(
         snmp  => $params{snmp},
         model => $params{model}
     );
     return unless $mac_addresses;
 
+    my $snmp   = $params{snmp};
     my $ports  = $params{ports};
     my $logger = $params{logger};
+
+    _addAssociatedMacAddresses(
+        ports     => $ports,
+        logger    => $logger,
+        addresses => $mac_addresses,
+    );
+
+    # add additional mac addresses for other VLANs
+    if ($params{manufacturer} && $params{manufacturer} eq 'Cisco') {
+        # compute the list of vlans associated with at least one port
+        # without CDP/LLDP information
+        my @vlans;
+        my %seen;
+        foreach my $port (values %$ports) {
+            next if
+                exists $port->{CONNECTIONS} &&
+                exists $port->{CONNECTIONS}->{CDP} &&
+                $port->{CONNECTIONS}->{CDP};
+            next unless exists $port->{VLANS};
+            push @vlans,
+                grep { !$seen{$_}++ }
+                map { $_->{NUMBER} }
+                @{$port->{VLANS}->{VLAN}};
+        }
+
+        # get additional associated mac addresses from those vlans
+        foreach my $vlan (@vlans) {
+            $logger->debug("switching SNMP context to vlan $vlan") if $logger;
+            $snmp->switch_vlan_context($vlan);
+            my $mac_addresses = _getAssociatedMacAddresses(
+                snmp  => $params{snmp},
+                model => $params{model}
+            );
+            next unless $mac_addresses;
+
+            _addAssociatedMacAddresses(
+                ports     => $ports,
+                logger    => $logger,
+                addresses => $mac_addresses,
+            );
+        }
+        $snmp->reset_original_context() if @vlans;
+    }
+
+}
+
+sub _addAssociatedMacAddresses {
+    my (%params) = @_;
+
+    my $ports         = $params{ports};
+    my $logger        = $params{logger};
+    my $mac_addresses = $params{addresses};
 
     foreach my $port_id (keys %$mac_addresses) {
         # safety check
