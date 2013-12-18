@@ -1307,13 +1307,24 @@ sub _getAssociatedMacAddresses {
     my $address2port   = $snmp->walk($params{address2port});
     my $port2interface = $snmp->walk($params{port2interface});
 
+    # dot1dTpFdbPort values matches the following scheme:
+    # $prefix.a.b.c.d.e.f = $port
+
+    # dot1qTpFdbPort values matches the following scheme:
+    # $prefix.$vlan.a.b.c.d.e.f = $port
+
+    # in both case, the last 6 elements of the OID constitutes
+    # the mac address in decimal format
     foreach my $suffix (sort keys %{$address2port}) {
         my $port_id      = $address2port->{$suffix};
         my $interface_id = $port2interface->{$port_id};
         next unless defined $interface_id;
 
+        my @bytes = split(/\./, $suffix);
+        shift @bytes if @bytes > 6;
+
         push @{$results->{$interface_id}},
-            sprintf "%02x:%02x:%02x:%02x:%02x:%02x", split(/\./, $suffix)
+            sprintf "%02x:%02x:%02x:%02x:%02x:%02x", @bytes;
     }
 
     return $results;
