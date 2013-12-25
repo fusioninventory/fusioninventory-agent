@@ -245,13 +245,8 @@ $server = FusionInventory::Test::Server->new(
     password => 'test',
 );
 $server->set_dispatch({
-    '/public'  => sub {
-        return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR};
-    },
-    '/private' => sub {
-        return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR} &&
-                            $server->authenticate();
-    }
+    '/public'  => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR}; },
+    '/private' => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR} && $server->authenticate(); }
 });
 eval {
     $server->background();
@@ -323,8 +318,22 @@ $server = FusionInventory::Test::Server->new(
     key      => 'resources/ssl/key/good.pem',
 );
 $server->set_dispatch({
-    '/public'  => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR}; },
-    '/private' => sub { return $ok->(@_) if $ENV{HTTP_X_FORWARDED_FOR} && $server->authenticate(); }
+    '/public'  => sub {
+        if ($ENV{HTTP_X_FORWARDED_FOR}) {
+            diag("We are are supposed to do HTTPS over a proxy and ".
+               "HTTP_X_FORWARDED_FOR environment variables is defined. ".
+               "This should not append since the proxy cannot access the ".
+               "encrypted data. ".
+               "This means the local LWP library doesn't provide real ".
+               "SSL proxy support and try to contact the server using ".
+               "plaintext HTTP. HTTPS over proxy will not work properly. ".
+               "Please see: https://github.com/libwww-perl/libwww-perl/pull/52")
+        }
+        return $ok->(@_);
+    },
+    '/private' => sub {
+        return $ok->(@_) if $server->authenticate();
+    }
 });
 eval {
     $server->background();
