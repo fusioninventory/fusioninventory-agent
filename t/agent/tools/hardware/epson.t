@@ -7,7 +7,6 @@ use Test::More;
 use Test::Deep qw(cmp_deeply);
 
 use FusionInventory::Agent::Tools::Hardware;
-use FusionInventory::Test::Hardware;
 
 my %tests = (
     'epson/AL-C1100.walk' => [
