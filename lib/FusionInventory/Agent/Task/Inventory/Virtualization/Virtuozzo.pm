@@ -49,10 +49,10 @@ sub doInventory {
     while (my $line = <$handle>) {
 
         chomp $line;
-        my ($name, $uuid, $cpus, $status, $subsys) = split(/[ \t]+/, $line);
+        my ($name, $ctid, $cpus, $status, $subsys) = split(/[ \t]+/, $line);
 
         my $memory = getFirstMatch(
-            file    => "/etc/vz/conf/$uuid.conf",
+            file    => "/etc/vz/conf/$ctid.conf",
             pattern => qr/^SLMMEMORYLIMIT="\d+:(\d+)"$/,
             logger  => $logger,
             );
@@ -60,7 +60,7 @@ sub doInventory {
             $memory = $memory / 1024 / 1024;
         } else {
             $memory = getFirstMatch(
-                file    => "/etc/vz/conf/$uuid.conf",
+                file    => "/etc/vz/conf/$ctid.conf",
                 pattern => qr/^PRIVVMPAGES="\d+:(\d+)"$/,
                 logger  => $logger,
                 );
@@ -68,7 +68,7 @@ sub doInventory {
                 $memory = $memory * 4 / 1024;
             } else {
                 $memory = getFirstMatch(
-                    file    => "/etc/vz/conf/$uuid.conf",
+                    file    => "/etc/vz/conf/$ctid.conf",
                     pattern => qr/^PHYSPAGES="\d+:(\d+\w{0,1})"$/,
                     logger  => $logger,
                     );
@@ -92,7 +92,7 @@ sub doInventory {
             entry => {
                 NAME      => $name,
                 VCPU      => $cpus,
-                UUID      => $uuid,
+                UUID      => $ctid,
                 MEMORY    => $memory,
                 STATUS    => $status,
                 SUBSYSTEM => $subsys,
