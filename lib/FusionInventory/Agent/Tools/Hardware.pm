@@ -1224,12 +1224,12 @@ sub _setAssociatedMacAddresses {
     my (%params) = @_;
 
     # start with mac addresses seen on default VLAN
-    my $mac_addresses = _getAssociatedMacAddresses(
+    my $addresses = _getAssociatedMacAddresses(
         snmp           => $params{snmp},
         address2port   => '.1.3.6.1.2.1.17.4.3.1.2', # dot1dTpFdbPort
         port2interface => '.1.3.6.1.2.1.17.1.4.1.2', # dot1dBasePortIfIndex
     );
-    return unless $mac_addresses;
+    return unless $addresses;
 
     my $snmp   = $params{snmp};
     my $ports  = $params{ports};
@@ -1238,11 +1238,23 @@ sub _setAssociatedMacAddresses {
     _addAssociatedMacAddresses(
         ports     => $ports,
         logger    => $logger,
-        addresses => $mac_addresses,
+        addresses => $addresses,
     );
 
     # add additional mac addresses for other VLANs
-    if ($params{manufacturer} && $params{manufacturer} eq 'Cisco') {
+    $addresses = _getAssociatedMacAddresses(
+        snmp           => $params{snmp},
+        address2port   => '.1.3.6.1.2.1.17.7.1.2.2.1.2', # dot1qTpFdbPort
+        port2interface => '.1.3.6.1.2.1.17.1.4.1.2',     # dot1dBasePortIfIndex
+    );
+
+    if ($addresses) {
+        _addAssociatedMacAddresses(
+            ports     => $ports,
+            logger    => $logger,
+            addresses => $addresses,
+        );
+    } else {
         # compute the list of vlans associated with at least one port
         # without CDP/LLDP information
         my @vlans;
