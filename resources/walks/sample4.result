@@ -1202,6 +1202,9 @@
               <MAC>00:50:56:46:51:9d</MAC>
               <MAC>00:50:56:49:71:8c</MAC>
               <MAC>02:a0:98:12:b5:20</MAC>
+              <MAC>00:00:00:00:fe:00</MAC>
+              <MAC>00:00:00:00:fe:01</MAC>
+              <MAC>00:90:fb:2e:03:34</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk2</IFDESCR>
@@ -1387,6 +1390,9 @@
               <MAC>10:78:d2:e3:8b:c7</MAC>
               <MAC>10:78:d2:e6:e2:78</MAC>
               <MAC>b8:ac:6f:23:19:08</MAC>
+              <MAC>00:1a:4b:30:67:61</MAC>
+              <MAC>00:30:05:38:78:53</MAC>
+              <MAC>00:30:05:38:78:5b</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk8</IFDESCR>
@@ -1775,6 +1781,7 @@
               <MAC>02:e0:52:76:0e:16</MAC>
               <MAC>02:e0:52:20:5e:10</MAC>
               <MAC>d4:be:d9:af:75:1b</MAC>
+              <MAC>00:22:19:16:fb:69</MAC>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>Trk21</IFDESCR>
