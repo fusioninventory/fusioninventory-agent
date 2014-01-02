@@ -7,7 +7,7 @@ use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
 use English qw(-no_match_vars);
-use Win32::OLE;
+use Win32::OLE qw(in);
 use Win32::OLE::Variant;
 use Win32::TieRegistry (
     Delimiter   => '/',
@@ -16,7 +16,6 @@ use Win32::TieRegistry (
 );
 
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
-
 
 use FusionInventory::Agent::Tools::Win32;
 
@@ -66,14 +65,16 @@ sub doInventory {
 
 sub _getLocalUsers {
 
+    my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
+	or die "WMI connection failed: " . Win32::OLE->LastError();
+
+    my $query =
+	"SELECT * FROM Win32_UserAccount " . 
+	"WHERE LocalAccount='True' AND Disabled='False' and Lockout='False'";
+
     my @users;
-    foreach my $object (getWMIObjects(
-        class      => 'Win32_UserAccount',
-        properties => [ qw/LocalAccount Name SID Disabled Lockout/ ]
-    )) {
-        next unless $object->{LocalAccount};
-        next if $object->{Disabled};
-        next if $object->{Lockout};
+
+    foreach my $object (in $WMIService->ExecQuery($query)) {
 
         push @users, {
             NAME => $object->{Name},
@@ -86,12 +87,16 @@ sub _getLocalUsers {
 
 sub _getLocalGroups {
 
+    my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
+	or die "WMI connection failed: " . Win32::OLE->LastError();
+
+    my $query =
+	"SELECT * FROM Win32_Group " . 
+	"WHERE LocalAccount='True'";
+
     my @groups;
-    foreach my $object (getWMIObjects(
-        class      => 'Win32_Group',
-        properties => [ qw/LocalAccount Name SID/ ]
-    )) {
-        next unless $object->{LocalAccount};
+
+    foreach my $object (in $WMIService->ExecQuery($query)) {
 
         push @groups, {
             NAME => $object->{Name},
