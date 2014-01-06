@@ -322,7 +322,7 @@ $server->set_dispatch({
         if ($ENV{HTTP_X_FORWARDED_FOR}) {
             diag("We are are supposed to do HTTPS over a proxy and ".
                "HTTP_X_FORWARDED_FOR environment variables is defined. ".
-               "This should not append since the proxy cannot access the ".
+               "This should not happen since the proxy cannot access the ".
                "encrypted data. ".
                "This means the local LWP library doesn't provide real ".
                "SSL proxy support and try to contact the server using ".
