@@ -66,11 +66,11 @@ sub doInventory {
 sub _getLocalUsers {
 
     my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-	or die "WMI connection failed: " . Win32::OLE->LastError();
+        or die "WMI connection failed: " . Win32::OLE->LastError();
 
     my $query =
-	"SELECT * FROM Win32_UserAccount " . 
-	"WHERE LocalAccount='True' AND Disabled='False' and Lockout='False'";
+        "SELECT * FROM Win32_UserAccount " .
+        "WHERE LocalAccount='True' AND Disabled='False' and Lockout='False'";
 
     my @users;
 
@@ -88,11 +88,11 @@ sub _getLocalUsers {
 sub _getLocalGroups {
 
     my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-	or die "WMI connection failed: " . Win32::OLE->LastError();
+        or die "WMI connection failed: " . Win32::OLE->LastError();
 
     my $query =
-	"SELECT * FROM Win32_Group " . 
-	"WHERE LocalAccount='True'";
+        "SELECT * FROM Win32_Group " .
+        "WHERE LocalAccount='True'";
 
     my @groups;
 
