@@ -97,7 +97,6 @@ sub reset_original_context {
         $version_id == 2 ? 'snmpv3'  :
                              undef   ;
 
-    my $error;
     if ($version eq 'snmpv3') {
         delete $self->{context};
     } else {
