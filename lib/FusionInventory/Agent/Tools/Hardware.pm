@@ -1057,7 +1057,6 @@ sub _setNetworkingProperties {
         model        => $model,
         ports        => $ports,
         logger       => $logger,
-        manufacturer => $device->{INFO}->{MANUFACTURER}
     );
 
     _setAggregatePorts(
