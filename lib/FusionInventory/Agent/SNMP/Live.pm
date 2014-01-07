@@ -65,7 +65,7 @@ sub switch_vlan_context {
     my $version =
         $version_id == 0 ? 'snmpv1'  :
         $version_id == 1 ? 'snmpv2c' :
-        $version_id == 2 ? 'snmpv3'  :
+        $version_id == 3 ? 'snmpv3'  :
                              undef   ;
 
     my $error;
@@ -94,7 +94,7 @@ sub reset_original_context {
     my $version =
         $version_id == 0 ? 'snmpv1'  :
         $version_id == 1 ? 'snmpv2c' :
-        $version_id == 2 ? 'snmpv3'  :
+        $version_id == 3 ? 'snmpv3'  :
                              undef   ;
 
     if ($version eq 'snmpv3') {
