@@ -1059,38 +1059,6 @@ sub _setNetworkingProperties {
         logger       => $logger,
         manufacturer => $device->{INFO}->{MANUFACTURER}
     );
-
-    # cisco devices needs to use additional context-specific requests
-    if ($device->{INFO}->{MANUFACTURER} eq 'Cisco') {
-        # compute the list of vlans associated with at least one port
-        # without CDP/LLDP information
-        my @vlans;
-        my %seen;
-        foreach my $port (values %$ports) {
-            next if
-                exists $port->{CONNECTIONS} &&
-                exists $port->{CONNECTIONS}->{CDP} &&
-                $port->{CONNECTIONS}->{CDP};
-            next unless exists $port->{VLANS};
-            push @vlans,
-                grep { !$seen{$_}++ }
-                map { $_->{NUMBER} }
-                @{$port->{VLANS}->{VLAN}};
-        }
-
-        # get additional associated mac addresses from those vlans
-        foreach my $vlan (@vlans) {
-            $logger->debug("switching SNMP context to vlan $vlan") if $logger;
-            $snmp->switch_vlan_context($vlan);
-            _setAssociatedMacAddresses(
-                snmp   => $snmp,
-                model  => $model,
-                ports  => $ports,
-                logger => $logger
-            );
-        }
-        $snmp->reset_original_context() if @vlans;
-    }
 }
 
 sub _getPercentValue {
