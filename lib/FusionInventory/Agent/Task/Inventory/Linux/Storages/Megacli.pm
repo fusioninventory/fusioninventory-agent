@@ -8,9 +8,7 @@ use FusionInventory::Agent::Tools;
 our $megacli = "megacli";
 
 sub isEnabled {
-    getFirstLine(
-        command => 'lspci | grep MegaRAID'
-    ) && canRun($megacli);
+    return canRun($megacli);
 }
 
 #
