@@ -23,11 +23,14 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my (%adapter, %summary, %pdlist, $storage);
-    my $AdaptersTotal = _getAdpCount();
-    return unless $AdaptersTotal;
+    my $count = getFirstMatch(
+        command => "$megacli -adpCount",
+        pattern => qr/Controller Count: (\d+)/
+    );
+    return unless $count;
 
-    for (my $adp = 0; $adp < $AdaptersTotal; $adp++) {
+    my (%adapter, %summary, %pdlist, $storage);
+    for (my $adp = 0; $adp < $count; $adp++) {
         $adapter{$adp} = _getAdpEnclosure( adp => $adp );
         $summary{$adp} = _getSummary( adp => $adp );
         $pdlist{$adp}  = _getPDlist( adp => $adp );
@@ -94,22 +97,6 @@ sub doInventory {
             );
         }
     }
-}
-
-sub _getAdpCount {
-    my $handle = getFileHandle(command => "$megacli -adpCount");
-    return unless $handle;
-
-    my $adp_count;
-    while (my $line = <$handle>) {
-        chomp $line;
-        next unless $line =~ /Controller Count: (\d+)/;
-        $adp_count = $1;
-        last;
-    }
-    close $handle;
-
-    return $adp_count;
 }
 
 sub _getAdpEnclosure {
