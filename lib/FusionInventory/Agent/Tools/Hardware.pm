@@ -1225,7 +1225,7 @@ sub _setAssociatedMacAddresses {
         # compute the list of vlans associated with at least one port
         # without CDP/LLDP information
         my @vlans;
-        my %seen;
+        my %seen = ( 1 => 1 );
         foreach my $port (values %$ports) {
             next if
                 exists $port->{CONNECTIONS} &&
