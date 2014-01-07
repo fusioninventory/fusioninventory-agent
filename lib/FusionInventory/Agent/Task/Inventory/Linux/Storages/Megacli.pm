@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-our $megacli = "megacli";
+my $megacli = "megacli";
 
 sub isEnabled {
     return canRun($megacli);
@@ -84,8 +84,9 @@ sub doInventory {
 
             $storage->{NAME}  = $model;
             $storage->{MODEL} = $model;
-            $storage->{MANUFACTURER} = 
-	            (defined $vendor) ? getCanonicalManufacturer($vendor) : getCanonicalManufacturer($model);
+            $storage->{MANUFACTURER} = defined $vendor ?
+                getCanonicalManufacturer($vendor) :
+                getCanonicalManufacturer($model);
 
             $inventory->addEntry(
                 section => 'STORAGES',
@@ -100,9 +101,9 @@ sub _getAdpCount {
     return unless $handle;
 
     my $adp_count;
-    while (<$handle>) {
-        chomp;
-        next unless /Controller Count: (\d+)/;
+    while (my $line = <$handle>) {
+        chomp $line;
+        next unless $line =~ /Controller Count: (\d+)/;
         $adp_count = $1;
         last;
     }
@@ -114,17 +115,14 @@ sub _getAdpCount {
 sub _getAdpEnclosure {
     my (%params) = @_;
 
-    my %enclosure;
     my $handle = getFileHandle(command => "$megacli -EncInfo -a$params{adp}");
     return unless $handle;
 
-    my $encl_id;
+    my %enclosure;
     while (my $line = <$handle>) {
         chomp $line;
-        if ($line =~ /Enclosure (\d+):/) {
-            $encl_id = $1;
-        }
-        next unless defined $encl_id;
+        next unless $line =~ /Enclosure (\d+):/;
+        my $encl_id = $1;
 
         if ($line =~ /Device ID\s+:\s+(\d+)/) {
             $enclosure{$encl_id} = $1;
@@ -139,18 +137,15 @@ sub _getSummary {
     my (%params) = @_;
 
     my $adp = $params{'adp'};
-    my %drive;
 
     my $handle = getFileHandle(command => "$megacli -ShowSummary -a$adp");
     return unless $handle;
 
-    my $PD; my $n = -1;
+    my %drive;
+    my $n = -1;
     while (my $line = <$handle>) {
         chomp $line;
-        if ($line =~ /^\s+PD\s+$/) {
-            $PD = 1;
-        }
-        next unless $PD;
+        next unless $line =~ /^\s+PD\s+$/;
 
         $n++ if $line =~ /Connector\s*:/;
 
@@ -168,7 +163,9 @@ sub _getSummary {
     close $handle;
 
     #delete non-disks
-    foreach my $i (keys %drive) { delete $drive{$i} unless defined $drive{$i}->{'slot'}; }
+    foreach my $i (keys %drive) {
+        delete $drive{$i} unless defined $drive{$i}->{'slot'};
+    }
 
     return \%drive;
 }
@@ -177,17 +174,17 @@ sub _getPDlist {
     my (%params) = @_;
 
     my $adp = $params{'adp'};
-    my %pdlist;
 
     my $handle = getFileHandle(command => "$megacli -PDlist -a$adp");
     return unless $handle;
 
-    my $n = 0; my $key; my $val;
-    while (<$handle>) {
-        chomp;
-        next unless /^([^:]+)\s*:\s*(.+[^ ])/;
-        $key = $1;
-        $val = $2;
+    my %pdlist;
+    my $n = 0;
+    while (my $line = <$handle>) {
+        chomp $line;
+        next unless $line =~ /^([^:]+)\s*:\s*(.+[^ ])/;
+        my $key = $1;
+        my $val = $2;
         $n++ if $key =~ /Enclosure Device ID/;
         $pdlist{$n}->{$key} = $val;
     }
