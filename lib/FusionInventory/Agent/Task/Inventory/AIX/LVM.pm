@@ -44,7 +44,7 @@ sub _getLogicalVolumes {
 
     while (my $line = <$handle>) {
         chomp $line;
-        push @volumes, _getLogicalVolume($logger, $line);
+        push @volumes, _getLogicalVolume(logger => $logger, name => $line);
     }
     close $handle;
 
@@ -52,12 +52,11 @@ sub _getLogicalVolumes {
 }
 
 sub _getLogicalVolume {
-    my ($logger, $name) = @_;
+    my (%params) = @_;
 
-    my $handle = getFileHandle(
-        command => "lsvg -l $name",
-        logger  => $logger
-    );
+    my $command = "lsvg -l $params{name}";
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my $volume;
@@ -78,7 +77,7 @@ sub _getLogicalVolume {
 
     my ($size, $uuid) = _getVolumeInfo(
         name   => $volume->{LV_NAME},
-        logger => $logger
+        logger => $params{logger}
     );
     $volume->{SIZE} = int($volume->{SEG_COUNT} * $size);
     $volume->{LV_UUID} = $uuid;
