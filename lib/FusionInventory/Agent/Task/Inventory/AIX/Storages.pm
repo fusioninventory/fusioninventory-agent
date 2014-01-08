@@ -44,7 +44,10 @@ sub doInventory {
     }
 
     foreach my $disk (_getDisks(logger => $logger, subclass => 'vscsi', infos => $infos)) {
-        $disk->{DISKSIZE}     = _getVirtualCapacity($disk->{NAME}, $params{logger});
+        $disk->{DISKSIZE}     = _getVirtualCapacity(
+            name   => $disk->{NAME},
+            logger => $params{logger}
+        );
         $disk->{MANUFACTURER} = "VIO Disk";
         $disk->{MODEL}        = "Virtual Disk";
         $inventory->addEntry(section => 'STORAGES', entry => $disk);
@@ -188,25 +191,16 @@ sub _getCapacity {
 }
 
 sub _getVirtualCapacity {
-    my ($device, $logger) = @_;
+    my (%params) = @_;
 
-    my ($model, $capacity);
+    my $command = $params{name} ? "lspv $params{name}" : undef;
 
-    my @lines = getAllLines(
-        command => "lspv $device",
-        logger  => $logger
+    my $capacity = getFirstMatch(
+        command => $command,
+        file    => $params{file},
+        pattern => qr/TOTAL PPs: +\d+ \((\d+) megabytes\)/,
+        logger  => $params{logger}
     );
-
-    foreach my $line (@lines) {
-        if ($line !~ /^0516-320.*/) {
-            if ($line =~ /TOTAL PPs:/ ) {
-                ($capacity, $model) = split(/\(/, $line);
-                ($capacity, $model) = split(/ /, $model);
-            }
-        } else {
-            $capacity = 0;
-        }
-    }
 
     return $capacity;
 }
