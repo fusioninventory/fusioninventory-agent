@@ -373,9 +373,17 @@ my %disk_tests = (
     }
 );
 
+my %lspv_tests = (
+    'aix-6.1-hdisk0' => 34752,
+    'aix-6.1-hdisk1' => undef,
+    'aix-6.1-hdisk2' => 102272,
+    'aix-6.1-hdisk3' => 30592,
+);
+
 plan tests =>
     (2 * scalar keys %lsdev_tests) +
     (2 * scalar keys %disk_tests)  +
+    (scalar keys %lspv_tests)      +
     1;
 
 my $inventory = FusionInventory::Test::Inventory->new();
@@ -399,4 +407,10 @@ foreach my $test (keys %disk_tests) {
     lives_ok {
         $inventory->addEntry(section => 'STORAGES', entry => $_) foreach @disks;
     } "$test: registering";
+}
+
+foreach my $test (keys %lspv_tests) {
+    my $file = "resources/aix/lspv/$test";
+    my $capacity = FusionInventory::Agent::Task::Inventory::AIX::Storages::_getVirtualCapacity(file => $file);
+    cmp_deeply($capacity, $lspv_tests{$test}, "lspv parsing: $test");
 }
