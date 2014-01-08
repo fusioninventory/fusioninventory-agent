@@ -122,7 +122,7 @@ sub _getPhysicalVolumes {
 
     while (my $line = <$handle>) {
         chomp $line;
-        push @volumes, _getPhysicalVolume($logger, $line);
+        push @volumes, _getPhysicalVolume(logger => $logger, name => $line);
     }
     close $handle;
 
@@ -130,16 +130,15 @@ sub _getPhysicalVolumes {
 }
 
 sub _getPhysicalVolume {
-    my ($logger, $name) = @_;
+    my (%params) = @_;
 
-    my $handle = getFileHandle(
-        command => "lspv $name",
-        logger  => $logger
-    );
+    my $command = "lspv $params{name}";
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my $volume = {
-        DEVICE  => "/dev/$name"
+        DEVICE  => "/dev/$params{name}"
     };
 
     my ($free, $total);
@@ -167,9 +166,11 @@ sub _getPhysicalVolume {
     }
     close $handle;
 
-    $volume->{SIZE} = $total * $volume->{PE_SIZE};
-    $volume->{FREE} = $free * $volume->{PE_SIZE};
-    $volume->{PV_PE_COUNT} = $total;
+    if (defined $volume->{PE_SIZE}) {
+        $volume->{SIZE} = $total * $volume->{PE_SIZE} if defined $total;
+        $volume->{FREE} = $free * $volume->{PE_SIZE} if defined $free;
+    }
+    $volume->{PV_PE_COUNT} = $total if defined $total;
 
     return $volume;
 }
