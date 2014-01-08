@@ -1,0 +1,11 @@
+PHYSICAL VOLUME:    hdisk2                   VOLUME GROUP:     vg_apps01
+PV IDENTIFIER:      00c6ce9d55b465a3 VG IDENTIFIER     00c6ce9d00004c000000012e5ad925d2
+PV STATE:           active
+STALE PARTITIONS:   0                        ALLOCATABLE:      yes
+PP SIZE:            128 megabyte(s)          LOGICAL VOLUMES:  8
+TOTAL PPs:          799 (102272 megabytes)   VG DESCRIPTORS:   2
+FREE PPs:           95 (12160 megabytes)     HOT SPARE:        no
+USED PPs:           704 (90112 megabytes)    MAX REQUEST:      256 kilobytes
+FREE DISTRIBUTION:  00..00..00..00..95
+USED DISTRIBUTION:  160..160..159..160..65
+MIRROR POOL:        None
