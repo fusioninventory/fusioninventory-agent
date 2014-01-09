@@ -51,9 +51,62 @@ my %lspv_tests = (
     },
 );
 
+my %logical_volume_names_tests = (
+    'aix-6.x-l_rootvg' => [
+        'hd5',
+        'hd6',
+        'hd8',
+        'hd4',
+        'hd2',
+        'hd9var',
+        'hd3',
+        'hd1',
+        'hd10opt',
+        'lg_dumplv',
+        'loglv05',
+        'ptf0-0',
+        'paging00',
+        'paging01',
+        'paging02',
+    ],
+    'aix-6.1-l_altinst_rootvg' => [
+    ],
+    'aix-6.1-l_rootvg' => [
+        'hd5',
+        'hd6',
+        'hd8',
+        'hd4',
+        'hd2',
+        'hd9var',
+        'hd3',
+        'hd1',
+        'hd10opt',
+        'hd11admin',
+        'lg_dumplv',
+        'livedump',
+        'dooncelv',
+        'fslv00',
+        'lv_auditlog',
+        'lv_tpc',
+        'fslv01'
+    ],
+    'aix-6.1-l_vg_apps01' => [
+        'lv_web1',
+        'lv_ihs1',
+        'lv_apps1',
+        'lv_depl',
+        'lv_glvmt',
+        'lv_ora1',
+        'lv_pvcs',
+        'lv_glvpack',
+        'lv_glvsc',
+        'lv_glvlfw',
+    ]
+);
 
 plan tests =>
     (2 * scalar keys %lspv_tests) +
+    (scalar keys %logical_volume_names_tests) +
     1;
 
 my $inventory = FusionInventory::Test::Inventory->new();
@@ -65,4 +118,10 @@ foreach my $test (keys %lspv_tests) {
     lives_ok {
         $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $device);
     } "$test: registering";
+}
+
+foreach my $test (keys %logical_volume_names_tests) {
+    my $file = "resources/aix/lsvg/$test";
+    my @names = FusionInventory::Agent::Task::Inventory::AIX::LVM::_getLogicalVolumesFromGroup(file => $file);
+    cmp_deeply(\@names, $logical_volume_names_tests{$test}, "logical volume list: $test");
 }

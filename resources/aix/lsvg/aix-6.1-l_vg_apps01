@@ -1,0 +1,12 @@
+vg_apps01:
+LV NAME             TYPE       LPs     PPs     PVs  LV STATE      MOUNT POINT
+lv_web1             jfs2       360     360     1    open/syncd    /usr/WebSphere
+lv_ihs1             jfs2       80      80      1    open/syncd    /opt/IHS
+lv_apps1            jfs2       8       8       1    open/syncd    /home/apps
+lv_depl             jfs2       40      40      1    open/syncd    /home/apps/deployments
+lv_glvmt            jfs2       80      80      1    open/syncd    /home/apps/glvmt
+lv_ora1             jfs2       48      48      1    open/syncd    /opt/oracle
+lv_pvcs             jfs2       8       8       1    open/syncd    /opt/pvcs
+lv_glvpack          jfs2       80      80      1    open/syncd    /home/apps/glvpack
+lv_glvsc            jfs2       80      80      1    open/syncd    /home/apps/glvsc
+lv_glvlfw           jfs2       80      80      1    open/syncd    /home/apps/glvlfw

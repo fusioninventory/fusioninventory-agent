@@ -1,0 +1,17 @@
+rootvg:
+LV NAME             TYPE       LPs   PPs   PVs  LV STATE      MOUNT POINT
+hd5                 boot       1     1     1    closed/syncd  N/A
+hd6                 paging     100   100   1    open/syncd    N/A
+hd8                 jfs2log    1     1     1    open/syncd    N/A
+hd4                 jfs2       5     5     1    open/syncd    /
+hd2                 jfs2       45    45    1    open/syncd    /usr
+hd9var              jfs2       5     5     1    open/syncd    /var
+hd3                 jfs2       5     5     1    open/syncd    /tmp
+hd1                 jfs2       1     1     1    open/syncd    /home
+hd10opt             jfs2       3     3     1    open/syncd    /opt
+lg_dumplv           sysdump    48    48    1    open/syncd    N/A
+loglv05             jfslog     1     1     1    closed/syncd  N/A
+ptf0-0              jfs2       64    64    1    open/syncd    /PTF
+paging00            paging     100   100   1    open/syncd    N/A
+paging01            paging     100   100   1    open/syncd    N/A
+paging02            paging     100   100   1    open/syncd    N/A
