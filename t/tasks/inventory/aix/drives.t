@@ -13,7 +13,17 @@ use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::AIX::Drives;
 
 my %types_tests = (
-    'aix-6.1c' => {
+    'aix-4.3.1' => {
+        '/'                      => 'jfs',
+        '/usr'                   => 'jfs',
+        '/tmp'                   => 'jfs',
+    },
+    'aix-5.3' => {
+        '/'                      => 'jfs2',
+        '/usr'                   => 'jfs2',
+        '/tmp'                   => 'jfs2',
+    },
+    'aix-6.1' => {
         '/'                      => 'jfs2',
         '/home'                  => 'jfs2',
         '/usr'                   => 'jfs2',

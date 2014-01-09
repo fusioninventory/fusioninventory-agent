@@ -1,2 +1,0 @@
-#MountPoint:Device:Vfs:Nodename:Type:Size:Options:AutoMount:Acct
-/tmp:/dev/hd3:jfs:::131072:rw:yes:no
