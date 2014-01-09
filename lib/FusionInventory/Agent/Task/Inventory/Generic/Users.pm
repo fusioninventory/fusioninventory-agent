@@ -108,7 +108,7 @@ sub _getLocalGroups {
         my ($name, undef, $gid, $members) = split(/:/, $line);
 
         # prevent warning for malformed group file (#2384)
-        next unless $members
+        next unless $members;
         my @members = split(/,/, $members);
 
         push @groups, {
