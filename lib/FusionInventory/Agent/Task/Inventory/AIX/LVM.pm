@@ -54,9 +54,12 @@ sub _getLogicalVolumes {
 sub _getLogicalVolume {
     my (%params) = @_;
 
-    my $command = "lsvg -l $params{name}";
-
-    my $handle = getFileHandle(%params);
+    my $command = $params{name} ? "lsvg -l $params{name}" : undef;
+    my $handle = getFileHandle(
+        command => $command,
+        file    => $params{file},
+        logger  => $params{logger}
+    );
     return unless $handle;
 
     my $volume;
@@ -131,9 +134,12 @@ sub _getPhysicalVolumes {
 sub _getPhysicalVolume {
     my (%params) = @_;
 
-    my $command = "lspv $params{name}";
-
-    my $handle = getFileHandle(%params);
+    my $command = $params{name} ? "lspv $params{name}" : undef;
+    my $handle = getFileHandle(
+        command => $command,
+        file    => $params{file},
+        logger  => $params{logger}
+    );
     return unless $handle;
 
     my $volume = {
@@ -187,7 +193,7 @@ sub _getVolumeGroups {
 
     while (my $line = <$handle>) {
         chomp $line;
-        push @groups, _getVolumeGroup($logger, $line);
+        push @groups, _getVolumeGroup(logger => $logger, name => $line);
     }
     close $handle;
 
@@ -195,16 +201,18 @@ sub _getVolumeGroups {
 }
 
 sub _getVolumeGroup {
-    my ($logger, $name) = @_;
+    my (%params) = @_;
 
+    my $command = $params{name} ? "lsvg $params{name}" : undef;
     my $handle = getFileHandle(
-        command => "lsvg $name",
-        logger  => $logger
+        command => $command,
+        file    => $params{file},
+        logger  => $params{logger}
     );
     return unless $handle;
 
     my $group = {
-        VG_NAME => $name
+        VG_NAME => $params{name}
     };
 
     while (my $line = <$handle>) {
