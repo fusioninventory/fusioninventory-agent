@@ -20,22 +20,40 @@ sub doInventory {
     my @filesystems =
         getFilesystemsFromDf(logger => $logger, command => 'df -P -k');
 
-    # get additional informations
-    foreach my $filesystem (@filesystems) {
-        my @lines = getAllLines(
-            logger => $logger, command => "lsfs -c $filesystem->{TYPE}"
-        );
-        my @info = split /:/, $lines[1];
-        $filesystem->{FILESYSTEM} = $info[2];
-    }
+    my $types = _getFilesystemTypes(logger => $logger);
 
     # add filesystems to the inventory
     foreach my $filesystem (@filesystems) {
+        $filesystem->{FILESYSTEM} = $types->{$filesystem->{TYPE}};
+
         $inventory->addEntry(
             section => 'DRIVES',
             entry   => $filesystem
         );
     }
+}
+
+sub _getFilesystemTypes {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(
+        command => 'lsfs -c',
+        %params
+    );
+    return unless $handle;
+
+    my $types;
+
+    # skip headers
+    my $line = <$handle>;
+
+    foreach my $line (<$handle>) {
+        my ($mountpoint, undef, $type) =  split(/:/, $line);
+        $types->{$mountpoint} = $type;
+    }
+    close $handle;
+
+    return $types;
 }
 
 1;
