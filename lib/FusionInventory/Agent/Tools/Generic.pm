@@ -80,7 +80,7 @@ sub getDmidecodeInfos {
             $2 eq '<OUT OF SPEC>'              ||
             $2 eq '<OUT OF SPEC><OUT OF SPEC>' ;
 
-        $block->{$1} = $2;
+        $block->{$1} = trimWhitespace($2);
     }
     close $handle;
 
