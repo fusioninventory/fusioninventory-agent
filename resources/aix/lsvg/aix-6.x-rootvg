@@ -1,0 +1,13 @@
+VOLUME GROUP:       rootvg                   VG IDENTIFIER:  000dda6e0000d600000001119e467657
+VG STATE:           active                   PP SIZE:        32 megabyte(s)
+VG PERMISSION:      read/write               TOTAL PPs:      798 (25536 megabytes)
+MAX LVs:            256                      FREE PPs:       201 (6432 megabytes)
+LVs:                19                       USED PPs:       597 (19104 megabytes)
+OPEN LVs:           17                       QUORUM:         2
+TOTAL PVs:          2                        VG DESCRIPTORS: 3
+STALE PVs:          0                        STALE PPs:      0
+ACTIVE PVs:         2                        AUTO ON:        no
+MAX PPs per VG:     32512
+MAX PPs per PV:     1016                     MAX PVs:        32
+LTG size (Dynamic): 256 kilobyte(s)          AUTO SYNC:      no
+HOT SPARE:          no                       BB POLICY:      relocatable

@@ -1,0 +1,19 @@
+rootvg:
+LV NAME             TYPE       LPs     PPs     PVs  LV STATE      MOUNT POINT
+hd5                 boot       1       1       1    closed/syncd  N/A
+hd6                 paging     129     129     1    open/syncd    N/A
+hd8                 jfs2log    1       1       1    open/syncd    N/A
+hd4                 jfs2       8       8       1    open/syncd    /
+hd2                 jfs2       48      48      1    open/syncd    /usr
+hd9var              jfs2       16      16      1    open/syncd    /var
+hd3                 jfs2       64      64      1    open/syncd    /tmp
+hd1                 jfs2       8       8       1    open/syncd    /home
+hd10opt             jfs2       32      32      1    open/syncd    /opt
+hd11admin           jfs2       2       2       1    open/syncd    /admin
+lg_dumplv           sysdump    20      20      1    open/syncd    N/A
+livedump            jfs2       4       4       1    open/syncd    /var/adm/ras/livedump
+dooncelv            jfs2       5       5       1    open/syncd    /opt/DoOnceAIX
+fslv00              jfs2       2       2       1    open/syncd    /var/adm/perfmgr
+lv_auditlog         jfs2       2       2       1    open/syncd    /var/log/eprise
+lv_tpc              jfs2       16      16      1    open/syncd    /opt/IBM/TPC
+fslv01              jfs2       16      16      1    open/syncd    /opt/best1
