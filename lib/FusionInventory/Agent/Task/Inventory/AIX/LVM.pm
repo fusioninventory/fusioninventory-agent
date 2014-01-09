@@ -44,14 +44,17 @@ sub _getLogicalVolumes {
 
     while (my $line = <$handle>) {
         chomp $line;
-        push @volumes, _getLogicalVolume(logger => $logger, name => $line);
+        foreach my $name (_getLogicalVolumesFromGroup(logger => $logger, name => $line)) {
+            push @volumes, _getLogicalVolume(logger => $logger, name => $name);
+        }
     }
+
     close $handle;
 
     return @volumes;
 }
 
-sub _getLogicalVolume {
+sub _getLogicalVolumesFromGroup {
     my (%params) = @_;
 
     my $command = $params{name} ? "lsvg -l $params{name}" : undef;
@@ -62,33 +65,27 @@ sub _getLogicalVolume {
     );
     return unless $handle;
 
-    my $volume;
+    # skip headers
+    my $line;
+    $line = <$handle>;
+    $line = <$handle>;
+
+    # no logical volume if there is only one line of output
+    return unless $line;
+
+    my @names;
 
     while (my $line = <$handle>) {
         chomp $line;
-
-        if ($line =~ /(\S+):/) {
-            $volume->{VG_UUID} = $1;
-        }
-        if ($line !~ /^LV NAME/ && $line =~ /(\S+) *(\S+) *(\d+) *(\d+) *(\d+) *(\S+) *(\S+)/) {
-            $volume->{LV_NAME}   = $1;
-            $volume->{SEG_COUNT} = $3;
-            $volume->{ATTR}      = "Type $2,PV: $5";
-        }
+        next unless $line =~ /^(\S+)/;
+        push @names, $1;
     }
     close $handle;
 
-    my ($size, $uuid) = _getVolumeInfo(
-        name   => $volume->{LV_NAME},
-        logger => $params{logger}
-    );
-    $volume->{SIZE} = int($volume->{SEG_COUNT} * $size);
-    $volume->{LV_UUID} = $uuid;
-
-    return $volume;
+    return @names;
 }
 
-sub _getVolumeInfo {
+sub _getLogicalVolume {
     my (%params) = @_;
 
     my $handle = getFileHandle(
@@ -97,18 +94,21 @@ sub _getVolumeInfo {
     );
     return unless $handle;
 
-    my ($size, $uuid);
+    my $volume = {
+        LV_NAME => $params{name}
+    };
+
     while (my $line = <$handle>) {
-        if ($line =~ /.*PP SIZE:\s+(\d+) .*/) {
-            $size = $1;
+        if ($line =~ /PP SIZE:\s+(\d+)/) {
+            $volume->{SIZE} = $1;
         }
         if ($line =~ /LV IDENTIFIER:\s+(\S+)/) {
-            $uuid = $1;
+            $volume->{LV_UUID} = $1;
         }
     }
     close $handle;
 
-    return ($size, $uuid);
+    return $volume;
 }
 
 sub _getPhysicalVolumes {
