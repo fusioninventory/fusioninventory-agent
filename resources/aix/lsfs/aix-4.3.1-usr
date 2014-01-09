@@ -1,2 +1,0 @@
-#MountPoint:Device:Vfs:Nodename:Type:Size:Options:AutoMount:Acct
-/usr:/dev/hd2:jfs::bootfs:311296:rw:yes:no
