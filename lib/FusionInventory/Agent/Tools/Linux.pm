@@ -100,7 +100,7 @@ sub getCPUsFromProc {
 
     while (my $line = <$handle>) {
         if ($line =~ /^([^:]+\S) \s* : \s (.+)/x) {
-            $cpu->{lc($1)} = $2;
+            $cpu->{lc($1)} = trimWhitespace($2);
         } elsif ($line =~ /^$/) {
             # an empty line marks the end of a cpu section
             # push to the list, but only if it is a valid cpu

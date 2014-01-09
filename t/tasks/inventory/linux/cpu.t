@@ -33,7 +33,7 @@ my %i386 = (
     ],
     'rhel-5.6' => [
         {
-            NAME           => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
+            NAME           => 'Intel(R) Xeon(R) CPU E5620 @ 2.40GHz',
             FAMILYNUMBER   => '6',
             CORE           => '4',
             MANUFACTURER   => 'Intel',
@@ -48,7 +48,7 @@ my %i386 = (
             SERIAL         => undef
         },
         {
-            NAME           => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
+            NAME           => 'Intel(R) Xeon(R) CPU E5620 @ 2.40GHz',
             MANUFACTURER   => 'Intel',
             MODEL          => '44',
             SPEED          => '2400',
@@ -69,7 +69,7 @@ my %i386 = (
             CORE         => '1',
             SPEED        => '1600',
             THREAD       => '2',
-            NAME         => 'Intel(R) Atom(TM) CPU N270   @ 1.60GHz',
+            NAME         => 'Intel(R) Atom(TM) CPU N270 @ 1.60GHz',
             MODEL        => '28',
             MANUFACTURER => 'Intel',
             FAMILYNUMBER => '6',
@@ -79,7 +79,7 @@ my %i386 = (
     'linux-2.6.35-1-core-2-thread' => [
         {
             ARCH         => 'i386',
-            NAME         => 'Intel(R) Atom(TM) CPU N270   @ 1.60GHz',
+            NAME         => 'Intel(R) Atom(TM) CPU N270 @ 1.60GHz',
             THREAD       => '2',
             SPEED        => '1600',
             STEPPING     => '2',
@@ -100,7 +100,7 @@ my %i386 = (
             STEPPING     => 5,
             MANUFACTURER => 'Intel',
             CORE         => '4',
-            NAME         => 'Intel(R) Xeon(R) CPU           E5504  @ 2.00GHz',
+            NAME         => 'Intel(R) Xeon(R) CPU E5504 @ 2.00GHz',
             MODEL        => 26,
             THREAD       => '1',
         }
@@ -109,7 +109,7 @@ my %i386 = (
         {
             ARCH         => 'i386',
             THREAD       => '2',
-            NAME         => 'Intel(R) Core(TM) i3 CPU       M 350  @ 2.27GHz',
+            NAME         => 'Intel(R) Core(TM) i3 CPU M 350 @ 2.27GHz',
             CORE         => '2',
             MODEL        => '37',
             STEPPING     => '5',
@@ -162,7 +162,7 @@ my %arm = (
 my %mips = (
     'linux-mips-1' => [
         {
-            NAME => 'R4400SC V5.0  FPU V0.0',
+            NAME => 'R4400SC V5.0 FPU V0.0',
             ARCH => 'MIPS'
         }
     ]
