@@ -583,7 +583,7 @@ my %dmidecode_tests = (
                 'Core Enabled' => '2',
                 'External Clock' => '1066 MHz',
                 'Asset Tag' => 'FFFF',
-                'Version' => 'Intel(R) Core(TM) i5 CPU       M 430  @ 2.27GHz',
+                'Version' => 'Intel(R) Core(TM) i5 CPU M 430 @ 2.27GHz',
                 'Upgrade' => 'ZIF Socket',
                 'Core Count' => '2',
                 'Voltage' => '0.0 V',
@@ -1478,8 +1478,8 @@ my %dmidecode_tests = (
         ],
         12 => [
             {
-                 'Option 2' => 'PASSWD:  Close to enable password',
-                 'Option 1' => 'NVRAM_CLR:  Clear user settable NVRAM areas and set defaults'
+                 'Option 2' => 'PASSWD: Close to enable password',
+                 'Option 1' => 'NVRAM_CLR: Clear user settable NVRAM areas and set defaults'
             }
         ],
         20 => [
@@ -2276,7 +2276,7 @@ my %dmidecode_tests = (
         ],
         2 => [
             {
-                'Version' => '    2.0',
+                'Version' => '2.0',
                 'Product Name' => 'MS-9121',
                 'Serial Number' => '48Z1LX',
                 'Manufacturer' => 'IBM'
@@ -2284,7 +2284,7 @@ my %dmidecode_tests = (
         ],
         1 => [
             {
-                'Version' => '    2.0',
+                'Version' => '2.0',
                 'Wake-up Type' => 'Other',
                 'Product Name' => '-[86494jg]-',
                 'Serial Number' => 'KDMAH1Y',
@@ -2942,7 +2942,7 @@ my %dmidecode_tests = (
                 'Status' => 'Populated, Enabled',
                 'ID' => 'C2 06 02 00 FF FB EB BF',
                 'Thread Count' => '8',
-                'Version' => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
+                'Version' => 'Intel(R) Xeon(R) CPU E5620 @ 2.40GHz',
                 'Voltage' => '1.2 V',
                 'Upgrade' => 'Socket LGA1366',
                 'Signature' => 'Type 0, Family 6, Model 44, Stepping 2',
@@ -2965,7 +2965,7 @@ my %dmidecode_tests = (
                 'Core Enabled' => '4',
                 'Core Count' => '4',
                 'L1 Cache Handle' => '0x0703',
-                'Version' => 'Intel(R) Xeon(R) CPU           E5620  @ 2.40GHz',
+                'Version' => 'Intel(R) Xeon(R) CPU E5620 @ 2.40GHz',
                 'Upgrade' => 'Socket LGA1366',
                 'Voltage' => '1.2 V',
                 'External Clock' => '5860 MHz',
@@ -3071,8 +3071,8 @@ my %dmidecode_tests = (
         ],
         12 => [
             {
-                'Option 1' => 'NVRAM_CLR:  Clear user settable NVRAM areas and set defaults',
-                'Option 2' => 'PWRD_EN:  Close to enable password'
+                'Option 1' => 'NVRAM_CLR: Clear user settable NVRAM areas and set defaults',
+                'Option 2' => 'PWRD_EN: Close to enable password'
             }
         ],
         1 => [
@@ -6036,21 +6036,21 @@ my %dmidecode_tests = (
             {
                 'Bus Address' => '0000:00:02.0',
                 'Type' => 'Video',
-                'Reference Designation' => ' Onboard IGD',
+                'Reference Designation' => 'Onboard IGD',
                 'Type Instance' => '1',
                 'Status' => 'Enabled'
             },
             {
                 'Bus Address' => '0000:00:19.0',
                 'Type' => 'Ethernet',
-                'Reference Designation' => ' Onboard LAN',
+                'Reference Designation' => 'Onboard LAN',
                 'Type Instance' => '1',
                 'Status' => 'Enabled'
             },
             {
                 'Bus Address' => '0000:03:1c.2',
                 'Type' => 'Other',
-                'Reference Designation' => ' Onboard 1394',
+                'Reference Designation' => 'Onboard 1394',
                 'Type Instance' => '1',
                 'Status' => 'Enabled'
             }
@@ -6488,7 +6488,7 @@ my %cpu_tests = (
     'S3000AHLX' => [
         {
             ID             => 'F6 06 00 00 FF FB EB BF',
-            NAME           => 'Intel(R) Core(TM)2 CPU          6600  @ 2.40GHz',
+            NAME           => 'Intel(R) Core(TM)2 CPU 6600 @ 2.40GHz',
             EXTERNAL_CLOCK => '266',
             SPEED          => '2400',
             THREAD         => undef,
