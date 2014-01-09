@@ -23,6 +23,7 @@ our @EXPORT = qw(
     getCanonicalSpeed
     getCanonicalSize
     getSanitizedString
+    trimWhitespace
     getFirstLine
     getFirstMatch
     getLastLine
@@ -207,6 +208,14 @@ sub getSanitizedString {
     };
 
     return $string;
+}
+
+sub trimWhitespace {
+    my ($value) = @_;
+    $value =~ s/^\s+//;
+    $value =~ s/\s+$//;
+    $value =~ s/\s+/ /g;
+    return $value;
 }
 
 sub getDirectoryHandle {
@@ -542,6 +551,11 @@ Returns a normalized size value (in Mb) for given one.
 
 Returns the input stripped from any control character, properly encoded in
 UTF-8.
+
+=head2 trimWhitespace($string)
+
+Remove leading and trailing whitespace, and fold multiple whitespace
+characters into a single one.
 
 =head2 compareVersion($major, $minor, $min_major, $min_minor)
 
