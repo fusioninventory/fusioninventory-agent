@@ -12,7 +12,7 @@ use Test::NoWarnings;
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::AIX::LVM;
 
-my %lspv_tests = (
+my %physical_volume_tests = (
     'aix-6.1-hdisk0' => {
         ATTR        => 'VG rootvg',
         DEVICE      => '/dev/aix-6.1-hdisk0',
@@ -43,11 +43,11 @@ my %lspv_tests = (
         ATTR        => 'VG vg_apps01',
         DEVICE      => '/dev/aix-6.1-hdisk3',
         FORMAT      => 'AIX PV',
-        FREE        => 10112,,
+        FREE        => 10112,
         PE_SIZE     => 128,
         PV_PE_COUNT => 239,
         PV_UUID     => '00c6ce9db4ee2922',
-        SIZE        => 30592,,
+        SIZE        => 30592,
     },
 );
 
@@ -105,16 +105,16 @@ my %logical_volume_names_tests = (
 );
 
 plan tests =>
-    (2 * scalar keys %lspv_tests) +
+    (2 * scalar keys %physical_volume_tests) +
     (scalar keys %logical_volume_names_tests) +
     1;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
-foreach my $test (keys %lspv_tests) {
+foreach my $test (keys %physical_volume_tests) {
     my $file = "resources/aix/lspv/$test";
     my $device = FusionInventory::Agent::Task::Inventory::AIX::LVM::_getPhysicalVolume(file => $file, name => $test);
-    cmp_deeply($device, $lspv_tests{$test}, "lspv parsing: $test");
+    cmp_deeply($device, $physical_volume_tests{$test}, "$test: lspv parsing");
     lives_ok {
         $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $device);
     } "$test: registering";
@@ -123,5 +123,5 @@ foreach my $test (keys %lspv_tests) {
 foreach my $test (keys %logical_volume_names_tests) {
     my $file = "resources/aix/lsvg/$test";
     my @names = FusionInventory::Agent::Task::Inventory::AIX::LVM::_getLogicalVolumesFromGroup(file => $file);
-    cmp_deeply(\@names, $logical_volume_names_tests{$test}, "logical volume list: $test");
+    cmp_deeply(\@names, $logical_volume_names_tests{$test}, "$test: lsvg parsing");
 }
