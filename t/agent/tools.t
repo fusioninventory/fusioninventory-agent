@@ -109,6 +109,14 @@ my @sanitization_tests = (
     [ "\x12fo\xA9\x12", "fo©" ],
 );
 
+my @whitespace_tests = (
+    [ "",            ""    ],
+    [ "foo",        "foo"    ],
+    [ " foo ",      "foo"    ],
+    [ " foo bar ",  "foo bar"    ],
+    [ " foo  bar ", "foo bar"    ],
+);
+
 my @hex2char_tests = (
     [ '0x41', 'A'  ],
     [ '41',   '41' ],
@@ -135,6 +143,7 @@ plan tests =>
     (scalar @version_tests_ok) +
     (scalar @version_tests_nok) +
     (scalar @sanitization_tests) +
+    (scalar @whitespace_tests) +
     (scalar @hex2char_tests) +
     (scalar @hex2dec_tests) +
     (scalar @dec2hex_tests) +
@@ -215,6 +224,14 @@ foreach my $test (@sanitization_tests) {
         getSanitizedString($test->[0]),
         $test->[1],
         "$test->[0] sanitization"
+    );
+}
+
+foreach my $test (@whitespace_tests) {
+    is(
+        trimWhitespace($test->[0]),
+        $test->[1],
+        "$test->[0] whitespace trimming"
     );
 }
 
