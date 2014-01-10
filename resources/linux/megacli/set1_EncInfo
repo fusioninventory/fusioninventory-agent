@@ -1,0 +1,30 @@
+                                     
+    Number of enclosures on adapter 0 -- 1
+
+    Enclosure 0:
+    Device ID                     : 32
+    Number of Slots               : 8
+    Number of Power Supplies      : 0
+    Number of Fans                : 0
+    Number of Temperature Sensors : 0
+    Number of Alarms              : 0
+    Number of SIM Modules         : 0
+    Number of Physical Drives     : 2
+    Status                        : Normal
+    Position                      : 1
+    Connector Name                : Unavailable
+    Enclosure type                : SES
+    FRU Part Number               : N/A
+    Enclosure Serial Number       : N/A 
+    ESM Serial Number             : N/A 
+    Enclosure Zoning Mode         : N/A 
+    Partner Device Id             : 65535
+
+    Inquiry data                  :
+        Vendor Identification     : DP      
+        Product Identification    : BP12G+          
+        Product Revision Level    : 1.00
+        Vendor Specific           : 37R0095             
+
+
+Exit Code: 0x00

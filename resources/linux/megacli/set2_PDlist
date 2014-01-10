@@ -1,0 +1,485 @@
+                                     
+Adapter #0
+
+Enclosure Device ID: 32
+Slot Number: 0
+Drive's position: DiskGroup: 0, Span: 0, Arm: 0
+Enclosure position: 1
+Device Id: 0
+WWN: 5000CCA01D217F1B
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 1.090 TB [0x8bba0cb0 Sectors]
+Non Coerced Size: 1.090 TB [0x8baa0cb0 Sectors]
+Coerced Size: 1.090 TB [0x8ba80000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: U5E0
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000cca01d217f19
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: HGST    HUC101212CSS600 U5E0KZGLE2EE            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :31C (87.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 1
+Drive's position: DiskGroup: 0, Span: 0, Arm: 1
+Enclosure position: 1
+Device Id: 1
+WWN: 5000CCA01D2324CB
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 1.090 TB [0x8bba0cb0 Sectors]
+Non Coerced Size: 1.090 TB [0x8baa0cb0 Sectors]
+Coerced Size: 1.090 TB [0x8ba80000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: U5E0
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000cca01d2324c9
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: HGST    HUC101212CSS600 U5E0KZGMA50E            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :31C (87.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 2
+Drive's position: DiskGroup: 0, Span: 1, Arm: 0
+Enclosure position: 1
+Device Id: 2
+WWN: 5000CCA01D2143F3
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 1.090 TB [0x8bba0cb0 Sectors]
+Non Coerced Size: 1.090 TB [0x8baa0cb0 Sectors]
+Coerced Size: 1.090 TB [0x8ba80000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: U5E0
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000cca01d2143f1
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: HGST    HUC101212CSS600 U5E0KZGL949E            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :31C (87.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 3
+Drive's position: DiskGroup: 0, Span: 1, Arm: 1
+Enclosure position: 1
+Device Id: 3
+WWN: 5000CCA01D232653
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 1.090 TB [0x8bba0cb0 Sectors]
+Non Coerced Size: 1.090 TB [0x8baa0cb0 Sectors]
+Coerced Size: 1.090 TB [0x8ba80000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: U5E0
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000cca01d232651
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: HGST    HUC101212CSS600 U5E0KZGMA85E            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :31C (87.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 4
+Drive's position: DiskGroup: 0, Span: 2, Arm: 0
+Enclosure position: 1
+Device Id: 4
+WWN: 5000CCA01D21BCC7
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 1.090 TB [0x8bba0cb0 Sectors]
+Non Coerced Size: 1.090 TB [0x8baa0cb0 Sectors]
+Coerced Size: 1.090 TB [0x8ba80000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: U5E0
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000cca01d21bcc5
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: HGST    HUC101212CSS600 U5E0KZGLK5SE            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :31C (87.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 5
+Drive's position: DiskGroup: 0, Span: 2, Arm: 1
+Enclosure position: 1
+Device Id: 5
+WWN: 5000CCA01D21449F
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 1.090 TB [0x8bba0cb0 Sectors]
+Non Coerced Size: 1.090 TB [0x8baa0cb0 Sectors]
+Coerced Size: 1.090 TB [0x8ba80000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: U5E0
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000cca01d21449d
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: HGST    HUC101212CSS600 U5E0KZGL95PE            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :30C (86.00 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 6
+Drive's position: DiskGroup: 0, Span: 3, Arm: 0
+Enclosure position: 1
+Device Id: 6
+WWN: 5000CCA01D214297
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 1.090 TB [0x8bba0cb0 Sectors]
+Non Coerced Size: 1.090 TB [0x8baa0cb0 Sectors]
+Coerced Size: 1.090 TB [0x8ba80000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: U5E0
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000cca01d214295
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: HGST    HUC101212CSS600 U5E0KZGL91HE            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :31C (87.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 7
+Drive's position: DiskGroup: 0, Span: 3, Arm: 1
+Enclosure position: 1
+Device Id: 7
+WWN: 5000CCA01D212C63
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 1.090 TB [0x8bba0cb0 Sectors]
+Non Coerced Size: 1.090 TB [0x8baa0cb0 Sectors]
+Coerced Size: 1.090 TB [0x8ba80000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: U5E0
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000cca01d212c61
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: HGST    HUC101212CSS600 U5E0KZGL7KNE            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :31C (87.80 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 8
+Drive's position: DiskGroup: 0, Span: 4, Arm: 0
+Enclosure position: 1
+Device Id: 8
+WWN: 5000CCA01D21C44B
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 1.090 TB [0x8bba0cb0 Sectors]
+Non Coerced Size: 1.090 TB [0x8baa0cb0 Sectors]
+Coerced Size: 1.090 TB [0x8ba80000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: U5E0
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000cca01d21c449
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: HGST    HUC101212CSS600 U5E0KZGLKP8E            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :30C (86.00 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 9
+Drive's position: DiskGroup: 0, Span: 4, Arm: 1
+Enclosure position: 1
+Device Id: 9
+WWN: 5000CCA01D218E27
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 1.090 TB [0x8bba0cb0 Sectors]
+Non Coerced Size: 1.090 TB [0x8baa0cb0 Sectors]
+Coerced Size: 1.090 TB [0x8ba80000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: U5E0
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000cca01d218e25
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: HGST    HUC101212CSS600 U5E0KZGLG2HE            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :30C (86.00 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+
+Exit Code: 0x00

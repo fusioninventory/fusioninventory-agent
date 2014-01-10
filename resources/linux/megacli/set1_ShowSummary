@@ -1,0 +1,44 @@
+                                     
+System
+	Operating System:  Linux version 3.0.82-0.7.99-default 
+	Driver Version: 06.506.00.00-rc1
+	CLI Version: 8.07.08
+
+Hardware
+        Controller
+                 ProductName       : PERC H310 Mini(Bus 0, Dev 0)
+                 SAS Address       : 5c81f660cf331f00
+                 FW Package Version: 20.12.0-0004
+                 Status            : Optimal
+        Enclosure
+                 Product Id        : BP12G+          
+                 Type              : SES
+                 Status            : OK
+
+        PD 
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 0 
+                Vendor Id          : ATA     
+                Product Id         : INTEL SSDSC2CW24
+                State              : Online
+                Disk Type          : SATA,Solid State Device
+                Capacity           : 223.0 GB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 1 
+                Vendor Id          : ATA     
+                Product Id         : INTEL SSDSC2CW24
+                State              : Online
+                Disk Type          : SATA,Solid State Device
+                Capacity           : 223.0 GB
+                Power State        : Active
+
+Storage
+
+       Virtual Drives
+                Virtual drive      : Target Id 0 ,VD name Virtual Disk 0
+                Size               : 446.0 GB
+                State              : Optimal
+                RAID Level         : 0 
+
+
+Exit Code: 0x00

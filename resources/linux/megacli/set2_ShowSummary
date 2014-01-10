@@ -1,0 +1,119 @@
+                                     
+System
+	Operating System:  Linux version 3.0.80-0.7.99-default 
+	Driver Version: 00.00.05.38-rc1
+	CLI Version: 8.07.08
+
+Hardware
+        Controller
+                 ProductName       : PERC H710P Mini(Bus 0, Dev 0)
+                 SAS Address       : 5b8ca3a0fa63d400
+                 FW Package Version: 21.2.0-0007
+                 Status            : Optimal
+        BBU
+                 BBU Type          : BBU
+                 Status            : Healthy
+        Enclosure
+                 Product Id        : BP12G+EXP       
+                 Type              : SES
+                 Status            : OK
+
+        PD 
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 0 
+                Vendor Id          : HGST    
+                Product Id         : HUC101212CSS600 
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 1.090 TB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 1 
+                Vendor Id          : HGST    
+                Product Id         : HUC101212CSS600 
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 1.090 TB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 2 
+                Vendor Id          : HGST    
+                Product Id         : HUC101212CSS600 
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 1.090 TB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 3 
+                Vendor Id          : HGST    
+                Product Id         : HUC101212CSS600 
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 1.090 TB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 4 
+                Vendor Id          : HGST    
+                Product Id         : HUC101212CSS600 
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 1.090 TB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 5 
+                Vendor Id          : HGST    
+                Product Id         : HUC101212CSS600 
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 1.090 TB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 6 
+                Vendor Id          : HGST    
+                Product Id         : HUC101212CSS600 
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 1.090 TB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 7 
+                Vendor Id          : HGST    
+                Product Id         : HUC101212CSS600 
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 1.090 TB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 8 
+                Vendor Id          : HGST    
+                Product Id         : HUC101212CSS600 
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 1.090 TB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 9 
+                Vendor Id          : HGST    
+                Product Id         : HUC101212CSS600 
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 1.090 TB
+                Power State        : Active
+
+                Connector          : 00<Internal>: Slot 0 
+                Vendor Id          : DP      
+                Product Id         : SAS2 EXP BP     
+                State              : Unconfigured Good
+                Disk Type          : Unknown,Hard Disk Device
+                Capacity           : 0 KB
+                Power State        : Active
+
+Storage
+
+       Virtual Drives
+                Virtual drive      : Target Id 0 ,VD name Virtual Disk 0
+                Size               : 5.455 TB
+                State              : Optimal
+                RAID Level         : 10 
+
+
+Exit Code: 0x00
