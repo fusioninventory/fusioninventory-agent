@@ -15,6 +15,7 @@ inventory task:
 * fix timeout for user enumeration on Windows in AD environment (#2201)
 * add support for modern MegaRAID controllers (#2361)
 * cleanup whitespace for DMI and /proc values (#2391)
+* fix a potential crash in software inventory on Windows
 
 2.3.4  Fri, 29 Nov 2013 16:17:31 +0100
 netdiscovery task:
