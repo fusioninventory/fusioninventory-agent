@@ -111,10 +111,13 @@ sub _getAdpEnclosure {
     return unless $handle;
 
     my %enclosure;
+    my $encl_id;
     while (my $line = <$handle>) {
         chomp $line;
-        next unless $line =~ /Enclosure (\d+):/;
-        my $encl_id = $1;
+
+        if ($line =~ /Enclosure (\d+):/) {
+            $encl_id = $1;
+        }
 
         if ($line =~ /Device ID\s+:\s+(\d+)/) {
             $enclosure{$encl_id} = $1;
@@ -136,11 +139,17 @@ sub _getSummary {
     );
     return unless $handle;
 
+    # fast forward to relevant section
+    while (my $line = <$handle>) {
+        last if $line =~ /^\s+PD\s+$/;
+    }
+
     my %drive;
     my $n = -1;
     while (my $line = <$handle>) {
+        # end of relevant section
+        last if $line =~ /^Storage$/;
         chomp $line;
-        next unless $line =~ /^\s+PD\s+$/;
 
         $n++ if $line =~ /Connector\s*:/;
 
