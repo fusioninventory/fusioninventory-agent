@@ -5,10 +5,8 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-my $megacli = "megacli";
-
 sub isEnabled {
-    return canRun($megacli);
+    return canRun('megacli');
 }
 
 #
@@ -24,7 +22,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my $count = getFirstMatch(
-        command => "$megacli -adpCount",
+        command => "megacli -adpCount",
         pattern => qr/Controller Count: (\d+)/
     );
     return unless $count;
@@ -102,7 +100,7 @@ sub doInventory {
 sub _getAdpEnclosure {
     my (%params) = @_;
 
-    my $command = $params{adp} ? "$megacli -EncInfo -a$params{adp}" : undef;
+    my $command = $params{adp} ? "megacli -EncInfo -a$params{adp}" : undef;
 
     my $handle = getFileHandle(
         command => $command,
@@ -131,7 +129,7 @@ sub _getAdpEnclosure {
 sub _getSummary {
     my (%params) = @_;
 
-    my $command = $params{adp} ? "$megacli -ShowSummary -a$params{adp}" : undef;
+    my $command = $params{adp} ? "megacli -ShowSummary -a$params{adp}" : undef;
 
     my $handle = getFileHandle(
         command => $command,
@@ -177,7 +175,7 @@ sub _getSummary {
 sub _getPDlist {
     my (%params) = @_;
 
-    my $command = $params{adp} ? "$megacli -PDlist -a$params{adp}" : undef;
+    my $command = $params{adp} ? "megacli -PDlist -a$params{adp}" : undef;
 
     my $handle = getFileHandle(
         command => $command,
