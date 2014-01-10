@@ -13,6 +13,8 @@ inventory task:
 * get disk size from smartctl (#2360)
 * better manufacturer normalization (#2362)
 * fix timeout for user enumeration on Windows in AD environment (#2201)
+* add support for modern MegaRAID controllers (#2361)
+* cleanup whitespace for DMI and /proc values (#2391)
 
 2.3.4  Fri, 29 Nov 2013 16:17:31 +0100
 netdiscovery task:
