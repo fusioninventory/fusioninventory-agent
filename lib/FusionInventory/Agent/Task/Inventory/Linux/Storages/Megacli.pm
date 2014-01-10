@@ -102,7 +102,12 @@ sub doInventory {
 sub _getAdpEnclosure {
     my (%params) = @_;
 
-    my $handle = getFileHandle(command => "$megacli -EncInfo -a$params{adp}");
+    my $command = $params{adp} ? "$megacli -EncInfo -a$params{adp}" : undef;
+
+    my $handle = getFileHandle(
+        command => $command,
+        %params
+    );
     return unless $handle;
 
     my %enclosure;
@@ -123,9 +128,12 @@ sub _getAdpEnclosure {
 sub _getSummary {
     my (%params) = @_;
 
-    my $adp = $params{'adp'};
+    my $command = $params{adp} ? "$megacli -ShowSummary -a$params{adp}" : undef;
 
-    my $handle = getFileHandle(command => "$megacli -ShowSummary -a$adp");
+    my $handle = getFileHandle(
+        command => $command,
+        %params
+    );
     return unless $handle;
 
     my %drive;
@@ -160,9 +168,12 @@ sub _getSummary {
 sub _getPDlist {
     my (%params) = @_;
 
-    my $adp = $params{'adp'};
+    my $command = $params{adp} ? "$megacli -PDlist -a$params{adp}" : undef;
 
-    my $handle = getFileHandle(command => "$megacli -PDlist -a$adp");
+    my $handle = getFileHandle(
+        command => $command,
+        %params
+    );
     return unless $handle;
 
     my %pdlist;
