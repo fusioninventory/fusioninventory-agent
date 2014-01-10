@@ -205,8 +205,8 @@ sub _getSoftwaresList {
     return unless $softwares;
 
     foreach my $rawGuid (keys %$softwares) {
-        # only keep subkeys
-        next unless $rawGuid =~ m{/$};
+        # skip variables
+        next if $rawGuid =~ m{^/};
 
         # only keep subkeys with more than 1 value
         my $data = $softwares->{$rawGuid};
