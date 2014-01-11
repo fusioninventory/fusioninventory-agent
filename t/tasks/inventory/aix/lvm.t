@@ -173,6 +173,18 @@ my %logical_volume_tests = (
     },
 );
 
+my %volume_group_tests = (
+    'aix-6.x-rootvg' => {
+        FREE           => '201',
+        LV_COUNT       => '17',
+        PV_COUNT       => '2',
+        SIZE           => '798',
+        VG_EXTENT_SIZE => '32',
+        VG_NAME        => 'aix-6.x-rootvg',
+        VG_UUID        => '000dda6e0000d600000001119e467657',
+    }
+);
+
 my %logical_volume_names_tests = (
     'aix-6.x-l_rootvg' => [
         'hd5',
@@ -229,6 +241,7 @@ my %logical_volume_names_tests = (
 plan tests =>
     (2 * scalar keys %physical_volume_tests) +
     (2 * scalar keys %logical_volume_tests) +
+    (2 * scalar keys %volume_group_tests) +
     (scalar keys %logical_volume_names_tests) +
     1;
 
@@ -249,6 +262,15 @@ foreach my $test (keys %logical_volume_tests) {
     cmp_deeply($device, $logical_volume_tests{$test}, "$test: lslv parsing");
     lives_ok {
         $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $device);
+    } "$test: registering";
+}
+
+foreach my $test (keys %volume_group_tests) {
+    my $file = "resources/aix/lsvg/$test";
+    my $device = FusionInventory::Agent::Task::Inventory::AIX::LVM::_getVolumeGroup(file => $file, name => $test);
+    cmp_deeply($device, $volume_group_tests{$test}, "$test: lsvg parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $device);
     } "$test: registering";
 }
 
