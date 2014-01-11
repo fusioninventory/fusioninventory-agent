@@ -1,0 +1,14 @@
+LOGICAL VOLUME:     fslv00                 VOLUME GROUP:   rootvg
+LV IDENTIFIER:      00c6ce9d00004c000000014302ee7629.14 PERMISSION:     read/write
+VG STATE:           active/complete        LV STATE:       opened/syncd
+TYPE:               jfs2                   WRITE VERIFY:   off
+MAX LPs:            512                    PP SIZE:        64 megabyte(s)
+COPIES:             1                      SCHED POLICY:   parallel
+LPs:                2                      PPs:            2
+STALE PPs:          0                      BB POLICY:      relocatable
+INTER-POLICY:       minimum                RELOCATABLE:    yes
+INTRA-POLICY:       middle                 UPPER BOUND:    32
+MOUNT POINT:        /var/adm/perfmgr       LABEL:          /var/adm/perfmgr
+MIRROR WRITE CONSISTENCY: on/ACTIVE
+EACH LP COPY ON A SEPARATE PV ?: yes
+Serialize IO ?:     NO

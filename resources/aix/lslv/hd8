@@ -1,0 +1,14 @@
+LOGICAL VOLUME:     hd8                    VOLUME GROUP:   rootvg
+LV IDENTIFIER:      00c6ce9d00004c000000014302ee7629.3 PERMISSION:     read/write
+VG STATE:           active/complete        LV STATE:       opened/syncd
+TYPE:               jfs2log                WRITE VERIFY:   off
+MAX LPs:            512                    PP SIZE:        64 megabyte(s)
+COPIES:             1                      SCHED POLICY:   parallel
+LPs:                1                      PPs:            1
+STALE PPs:          0                      BB POLICY:      relocatable
+INTER-POLICY:       minimum                RELOCATABLE:    yes
+INTRA-POLICY:       center                 UPPER BOUND:    32
+MOUNT POINT:        N/A                    LABEL:          None
+MIRROR WRITE CONSISTENCY: off
+EACH LP COPY ON A SEPARATE PV ?: yes
+Serialize IO ?:     NO
