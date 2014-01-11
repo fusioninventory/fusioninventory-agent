@@ -5,6 +5,7 @@ Data origin:
 - aix-5.3a samples: Eric Meygret <eric.meygret@ladb.fr>
 - aix-5.3c and aix-6.1b samples: Philippe Camelio <pcamelio@opca2.com>
 - aix-6.1a samples: Pablo Nicola <pablo1776@gmail.com>
+- aix-6.1 samples: Sameer Reddy <sameerreddyp@gmail.com>
 
 lscfg: lscfg command
 - aix-*-en: lscfg -v -l en*
@@ -33,9 +34,7 @@ lsvpd: lsvpd command
 - aix-*: lsvpd
 
 lsfs: lsfs command
-- aix-*-root: lsfs -c /
-- aix-*-usr: lsfs -c /usr
-- aix-*-tmp: lsfs -c /tmp
+- aix-*: lsfs -c
 
 lsattr: lsattr command
 - aix-*-mem0: lsattr -EOl mem0
@@ -45,3 +44,13 @@ lsattr: lsattr command
 - aix-*-proc4: lsattr -EOl proc4 -a 'type:frequency:smt_threads'
 - aix-*-en0: lsattr -E -l en0
 - aix-*-lo0: lsattr -E -l lo0
+
+lsvg: lsvg command
+- aix-*-X: lsvg X
+- aix-*-l_X: lsvg -l X
+
+lspv: lspv command
+- aix-*-X: lspv X
+
+lslv: lslv command
+- aix-*-X: lslv X
