@@ -58,11 +58,7 @@ sub _getLogicalVolumesFromGroup {
     my (%params) = @_;
 
     my $command = $params{name} ? "lsvg -l $params{name}" : undef;
-    my $handle = getFileHandle(
-        command => $command,
-        file    => $params{file},
-        logger  => $params{logger}
-    );
+    my $handle = getFileHandle(command => $command, %params);
     return unless $handle;
 
     # skip headers
@@ -88,25 +84,32 @@ sub _getLogicalVolumesFromGroup {
 sub _getLogicalVolume {
     my (%params) = @_;
 
-    my $handle = getFileHandle(
-        command => "lslv $params{name}",
-        logger  => $params{logger}
-    );
+    my $command = $params{name} ? "lslv $params{name}" : undef;
+    my $handle = getFileHandle(command => $command, %params);
     return unless $handle;
 
     my $volume = {
         LV_NAME => $params{name}
     };
 
+    my $size;
     while (my $line = <$handle>) {
         if ($line =~ /PP SIZE:\s+(\d+)/) {
-            $volume->{SIZE} = $1;
+            $size = $1;
         }
-        if ($line =~ /LV IDENTIFIER:\s+(\S+)/) {
+        if ($line =~ /^LV IDENTIFIER:\s+(\S+)/) {
             $volume->{LV_UUID} = $1;
+        }
+        if ($line =~ /^LPs:\s+(\S+)/) {
+            $volume->{SEG_COUNT} = $1;
+        }
+        if ($line =~ /^TYPE:\s+(\S+)/) {
+            $volume->{ATTR} = "Type $1",
         }
     }
     close $handle;
+
+    $volume->{SIZE} = $volume->{SEG_COUNT} * $size;
 
     return $volume;
 }
@@ -135,11 +138,7 @@ sub _getPhysicalVolume {
     my (%params) = @_;
 
     my $command = $params{name} ? "lspv $params{name}" : undef;
-    my $handle = getFileHandle(
-        command => $command,
-        file    => $params{file},
-        logger  => $params{logger}
-    );
+    my $handle = getFileHandle(command => $command, %params);
     return unless $handle;
 
     my $volume = {
@@ -204,11 +203,7 @@ sub _getVolumeGroup {
     my (%params) = @_;
 
     my $command = $params{name} ? "lsvg $params{name}" : undef;
-    my $handle = getFileHandle(
-        command => $command,
-        file    => $params{file},
-        logger  => $params{logger}
-    );
+    my $handle = getFileHandle(command => $command, %params);
     return unless $handle;
 
     my $group = {

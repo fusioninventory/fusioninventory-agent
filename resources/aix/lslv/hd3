@@ -1,0 +1,14 @@
+LOGICAL VOLUME:     hd3                    VOLUME GROUP:   rootvg
+LV IDENTIFIER:      00c6ce9d00004c000000014302ee7629.7 PERMISSION:     read/write
+VG STATE:           active/complete        LV STATE:       opened/syncd
+TYPE:               jfs2                   WRITE VERIFY:   off
+MAX LPs:            512                    PP SIZE:        64 megabyte(s)
+COPIES:             1                      SCHED POLICY:   parallel
+LPs:                64                     PPs:            64
+STALE PPs:          0                      BB POLICY:      relocatable
+INTER-POLICY:       minimum                RELOCATABLE:    yes
+INTRA-POLICY:       center                 UPPER BOUND:    32
+MOUNT POINT:        /tmp                   LABEL:          /tmp
+MIRROR WRITE CONSISTENCY: on/ACTIVE
+EACH LP COPY ON A SEPARATE PV ?: yes
+Serialize IO ?:     NO

@@ -1,0 +1,14 @@
+LOGICAL VOLUME:     hd6                    VOLUME GROUP:   rootvg
+LV IDENTIFIER:      00c6ce9d00004c000000014302ee7629.2 PERMISSION:     read/write
+VG STATE:           active/complete        LV STATE:       opened/syncd
+TYPE:               paging                 WRITE VERIFY:   off
+MAX LPs:            512                    PP SIZE:        64 megabyte(s)
+COPIES:             1                      SCHED POLICY:   parallel
+LPs:                129                    PPs:            129
+STALE PPs:          0                      BB POLICY:      non-relocatable
+INTER-POLICY:       minimum                RELOCATABLE:    yes
+INTRA-POLICY:       middle                 UPPER BOUND:    32
+MOUNT POINT:        N/A                    LABEL:          None
+MIRROR WRITE CONSISTENCY: off
+EACH LP COPY ON A SEPARATE PV ?: yes
+Serialize IO ?:     NO
