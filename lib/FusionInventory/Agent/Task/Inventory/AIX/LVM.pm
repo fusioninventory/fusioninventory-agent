@@ -118,7 +118,7 @@ sub _getPhysicalVolumes {
     my ($logger) = @_;
 
     my $handle = getFileHandle(
-        command => "lspv | cut -f1 -d' '",
+        command => 'lspv',
         logger  => $logger
     );
     return unless $handle;
@@ -127,7 +127,8 @@ sub _getPhysicalVolumes {
 
     while (my $line = <$handle>) {
         chomp $line;
-        push @volumes, _getPhysicalVolume(logger => $logger, name => $line);
+        my ($name) = split(/\s+/, $line);
+        push @volumes, _getPhysicalVolume(logger => $logger, name => $name);
     }
     close $handle;
 
