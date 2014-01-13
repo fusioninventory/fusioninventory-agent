@@ -9,12 +9,10 @@ sub isEnabled {
     return canRun('megacli');
 }
 
-#
 # The module gets a disk data from `megacli -PDlist` and `megacli -ShowSummary`.
-# `PDlist` provides s/n and model in a single 'Inquiry Data' string, and 
-# `ShowSummary` helps to "separate the wheat from the chaff". (Wish there was 
+# `PDlist` provides s/n and model in a single 'Inquiry Data' string, and
+# `ShowSummary` helps to "separate the wheat from the chaff". (Wish there was
 # an easier way).
-#
 sub doInventory {
     my (%params) = @_;
 
