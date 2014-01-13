@@ -57,7 +57,7 @@ sub doInventory {
                     $serial = $pd->{'Inquiry Data'};           # $serial = 'HGST    HUC101212CSS600 U5E0KZGLG2HE'
                     $serial =~ s/$firmware//;                  # $serial = 'HGST    HUC101212CSS600 KZGLG2HE'
 
-                    unless ($sum->{'Vendor Id'} =~ /^ATA$/) {
+                    if ($sum->{'Vendor Id'} ne 'ATA') {
                         $vendor = $sum->{'Vendor Id'};
                         $serial =~ s/$vendor//;                # $serial = '    HUC101212CSS600 KZGLG2HE'
                     }
