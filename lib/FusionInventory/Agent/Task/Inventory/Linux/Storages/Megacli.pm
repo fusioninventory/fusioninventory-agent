@@ -49,30 +49,32 @@ sub doInventory {
 
             # Lookup the disk info in 'ShowSummary'
             while (my ($sum_id, $sum) = each %{$summary{$adp_id}}) {
-                if ($adp->{$sum->{encl_id}} == $pd->{'Enclosure Device ID'} &&
+                next unless 
+                    $adp->{$sum->{encl_id}} == $pd->{'Enclosure Device ID'} &&
                     $sum->{encl_pos}        == $pd->{'Enclosure position'} &&
-                    $sum->{slot}            == $pd->{'Slot Number'}
-                ){
-                    $model  = $sum->{'Product Id'};            # $model  = 'HUC101212CSS'  <-- note it is incomplete
-                    $serial = $pd->{'Inquiry Data'};           # $serial = 'HGST    HUC101212CSS600 U5E0KZGLG2HE'
-                    $serial =~ s/$firmware//;                  # $serial = 'HGST    HUC101212CSS600 KZGLG2HE'
+                    $sum->{slot}            == $pd->{'Slot Number'};
 
-                    if ($sum->{'Vendor Id'} ne 'ATA') {
-                        $vendor = $sum->{'Vendor Id'};
-                        $serial =~ s/$vendor//;                # $serial = '    HUC101212CSS600 KZGLG2HE'
-                    }
+                $model  = $sum->{'Product Id'};            # $model  = 'HUC101212CSS'  <-- note it is incomplete
+                $serial = $pd->{'Inquiry Data'};           # $serial = 'HGST    HUC101212CSS600 U5E0KZGLG2HE'
+                $serial =~ s/$firmware//;                  # $serial = 'HGST    HUC101212CSS600 KZGLG2HE'
 
-                    $serial =~ s/$model[^ ]*//;                # $serial = '     KZGLG2HE'
-                    $serial =~ s/\s//g;                        # $serial = 'KZGLG2HE'
-                    $storage->{SERIALNUMBER} = $serial;
-
-                    # Restore complete model name:  HUC101212CSS --> HUC101212CSS600
-                    if ($pd->{'Inquiry Data'} =~ /($sum->{'Product Id'}(?:[^ ]*))/) {
-                        $model = $1;
-                        $model =~ s/^\s+//;
-                        $model =~ s/\s+$//;
-                    }
+                if ($sum->{'Vendor Id'} ne 'ATA') {
+                    $vendor = $sum->{'Vendor Id'};
+                    $serial =~ s/$vendor//;                # $serial = '    HUC101212CSS600 KZGLG2HE'
                 }
+
+                $serial =~ s/$model[^ ]*//;                # $serial = '     KZGLG2HE'
+                $serial =~ s/\s//g;                        # $serial = 'KZGLG2HE'
+                $storage->{SERIALNUMBER} = $serial;
+
+                # Restore complete model name:  HUC101212CSS --> HUC101212CSS600
+                if ($pd->{'Inquiry Data'} =~ /($sum->{'Product Id'}(?:[^ ]*))/) {
+                    $model = $1;
+                    $model =~ s/^\s+//;
+                    $model =~ s/\s+$//;
+                }
+
+                last;
             }
 
             # When Product ID ($model) looks like 'INTEL SSDSC2CW24'
