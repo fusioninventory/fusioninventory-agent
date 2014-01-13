@@ -34,9 +34,10 @@ sub doInventory {
 
     while (my ($adp_id, $adp) =  each %adapter) {
         while (my ($pd_id, $pd) = each %{$pdlist{$adp_id}}) {
-            my ($firmware, $serial, $size, $model, $vendor);
+            my ($firmware, $size, $model, $vendor);
 
-            ($size) = ($pd->{'Raw Size'} =~ /^(.+) \[/);       # Raw Size: 232.885 GB [0x1d1c5970 Sectors]
+            # Raw Size: 232.885 GB [0x1d1c5970 Sectors]
+            ($size) = ($pd->{'Raw Size'} =~ /^(.+) \[/);
             $size = getCanonicalSize($size);
             $firmware = $pd->{'Device Firmware Level'};
 
@@ -54,20 +55,24 @@ sub doInventory {
                     $sum->{encl_pos}        == $pd->{'Enclosure position'} &&
                     $sum->{slot}            == $pd->{'Slot Number'};
 
-                $model  = $sum->{'Product Id'};            # $model  = 'HUC101212CSS'  <-- note it is incomplete
-                $serial = $pd->{'Inquiry Data'};           # $serial = 'HGST    HUC101212CSS600 U5E0KZGLG2HE'
-                $serial =~ s/$firmware//;                  # $serial = 'HGST    HUC101212CSS600 KZGLG2HE'
+                # 'HUC101212CSS'  <-- note it is incomplete
+                $model  = $sum->{'Product Id'};
+
+                # 'HGST    HUC101212CSS600 U5E0KZGLG2HE'
+                my $serial = $pd->{'Inquiry Data'};
+                $serial =~ s/$firmware//;        # remove firmware part
 
                 if ($sum->{'Vendor Id'} ne 'ATA') {
                     $vendor = $sum->{'Vendor Id'};
-                    $serial =~ s/$vendor//;                # $serial = '    HUC101212CSS600 KZGLG2HE'
+                    $serial =~ s/$vendor//;      # remove vendor part
                 }
 
-                $serial =~ s/$model[^ ]*//;                # $serial = '     KZGLG2HE'
-                $serial =~ s/\s//g;                        # $serial = 'KZGLG2HE'
+                $serial =~ s/$model[^ ]*//;      # remove model part
+                $serial =~ s/\s//g;              # remove remaining spaces
                 $storage->{SERIALNUMBER} = $serial;
 
-                # Restore complete model name:  HUC101212CSS --> HUC101212CSS600
+                # Restore complete model name:
+                # HUC101212CSS --> HUC101212CSS600
                 if ($pd->{'Inquiry Data'} =~ /($sum->{'Product Id'}(?:[^ ]*))/) {
                     $model = $1;
                     $model =~ s/^\s+//;
