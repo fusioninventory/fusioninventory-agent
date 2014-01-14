@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.3.5
+2.3.5  Tue, 14 Jan 2014 20:08:41 +0100
 netinventory task:
 * add more default OIDs for mappings undefined in SNMP model
 * fallback on default OID if SNMP model mapping doesn't bring any result
