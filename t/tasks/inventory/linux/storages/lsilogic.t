@@ -100,6 +100,7 @@ foreach my $test (keys %tests) {
         name       => $tests{$test}->{name},
     );
     cmp_deeply(\@disks, $tests{$test}->{disks}, "$test: parsing");
+    delete $_->{device} foreach @disks;
     lives_ok {
         $inventory->addEntry(section => 'STORAGES', entry => $_) foreach @disks;
     } "$test: registering";
