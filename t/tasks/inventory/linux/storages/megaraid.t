@@ -15,52 +15,52 @@ use FusionInventory::Agent::Task::Inventory::Linux::Storages::Megaraid;
 my %tests = (
     sample => [
         {
-            'NAME' => 'a0e32s0',
-            'DISKSIZE' => '571392',
-            'DESCRIPTION' => 'SAS',
-            'MODEL' => 'ST3600057SS',
-            'MANUFACTURER' => 'SEAGATE',
-            'TYPE' => 'disk'
+            NAME         => 'a0e32s0',
+            DISKSIZE     => '571392',
+            DESCRIPTION  => 'SAS',
+            MODEL        => 'ST3600057SS',
+            MANUFACTURER => 'SEAGATE',
+            TYPE         => 'disk'
         },
         {
-            'NAME' => 'a0e32s1',
-            'DISKSIZE' => '571392',
-            'DESCRIPTION' => 'SAS',
-            'MODEL' => 'ST3600057SS',
-            'MANUFACTURER' => 'SEAGATE',
-            'TYPE' => 'disk'
+            NAME         => 'a0e32s1',
+            DISKSIZE     => '571392',
+            DESCRIPTION  => 'SAS',
+            MODEL        => 'ST3600057SS',
+            MANUFACTURER => 'SEAGATE',
+            TYPE         => 'disk'
         },
         {
-            'NAME' => 'a0e32s2',
-            'DISKSIZE' => '571392',
-            'DESCRIPTION' => 'SAS',
-            'MODEL' => 'ST3600057SS',
-            'MANUFACTURER' => 'SEAGATE',
-            'TYPE' => 'disk'
+            NAME         => 'a0e32s2',
+            DISKSIZE     => '571392',
+            DESCRIPTION  => 'SAS',
+            MODEL        => 'ST3600057SS',
+            MANUFACTURER => 'SEAGATE',
+            TYPE         => 'disk'
         },
         {
-            'NAME' => 'a0e32s3',
-            'DISKSIZE' => '571392',
-            'DESCRIPTION' => 'SAS',
-            'MODEL' => 'ST3600057SS',
-            'MANUFACTURER' => 'SEAGATE',
-            'TYPE' => 'disk'
+            NAME         => 'a0e32s3',
+            DISKSIZE     => '571392',
+            DESCRIPTION  => 'SAS',
+            MODEL        => 'ST3600057SS',
+            MANUFACTURER => 'SEAGATE',
+            TYPE         => 'disk'
         },
         {
-            'NAME' => 'a0e32s4',
-            'DISKSIZE' => '571392',
-            'DESCRIPTION' => 'SAS',
-            'MODEL' => 'ST3600057SS',
-            'MANUFACTURER' => 'SEAGATE',
-            'TYPE' => 'disk'
+            NAME         => 'a0e32s4',
+            DISKSIZE     => '571392',
+            DESCRIPTION  => 'SAS',
+            MODEL        => 'ST3600057SS',
+            MANUFACTURER => 'SEAGATE',
+            TYPE         => 'disk'
         },
         {
-            'NAME' => 'a0e32s5',
-            'DISKSIZE' => '571392',
-            'DESCRIPTION' => 'SAS',
-            'MODEL' => 'ST3600057SS',
-            'MANUFACTURER' => 'SEAGATE',
-            'TYPE' => 'disk'
+            NAME         => 'a0e32s5',
+            DISKSIZE     => '571392',
+            DESCRIPTION  => 'SAS',
+            MODEL        => 'ST3600057SS',
+            MANUFACTURER => 'SEAGATE',
+            TYPE         => 'disk'
         }
     ]
 );
