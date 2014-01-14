@@ -91,7 +91,7 @@ my %tests = (
 
 plan tests => (2 * scalar keys %tests) + 1;
 
-my $inventory = FusionInventory::Test::Inventory->new(logger => $logger);
+my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/mpt-status/$test";
