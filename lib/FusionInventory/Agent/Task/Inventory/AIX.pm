@@ -52,11 +52,10 @@ sub doInventory {
     my $vpd = first { $_->{DS} eq 'System VPD' } @infos;
 
     my $unameL = getFirstLine(command => 'uname -L');
-    # LPAR partition can access the serial number of the
-    # host compuer.
-    # If we are such system, the serial number must be store in
-    # the VMHOSTSERIAL key.
-    if ($unameL =~ /^(\d+)\s+(\S+)/) {
+    # LPAR partition can access the serial number of the host computer
+    # If we are such system, the serial number must be stored in the
+    # VMHOSTSERIAL key.
+    if ($unameL && $unameL =~ /^(\d+)\s+(\S+)/) {
         $vmsystem = "AIX_LPAR";
         $vmid = $1;
         $vmname = $2;
