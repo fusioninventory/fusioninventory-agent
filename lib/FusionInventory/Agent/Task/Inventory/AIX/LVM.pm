@@ -21,44 +21,22 @@ sub doInventory {
         $inventory->addEntry(section => 'PHYSICAL_VOLUMES', entry => $volume);
     }
 
-    foreach my $volume (_getLogicalVolumes($logger)) {
-        $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $volume);
-    }
-
     foreach my $group (_getVolumeGroups($logger)) {
         $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $group);
-    }
 
+        foreach my $volume (_getLogicalVolumes($logger, $group->{LV_NAME})) {
+            $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $volume);
+        }
+    }
 }
 
 sub _getLogicalVolumes {
-    my ($logger) = @_;
+    my ($logger, $group) = @_;
 
     my $handle = getFileHandle(
-        command => "lsvg",
+        command => "lsvg -l $group",
         logger  => $logger
     );
-    return unless $handle;
-
-    my @volumes;
-
-    while (my $line = <$handle>) {
-        chomp $line;
-        foreach my $name (_getLogicalVolumesFromGroup(logger => $logger, name => $line)) {
-            push @volumes, _getLogicalVolume(logger => $logger, name => $name);
-        }
-    }
-
-    close $handle;
-
-    return @volumes;
-}
-
-sub _getLogicalVolumesFromGroup {
-    my (%params) = @_;
-
-    my $command = $params{name} ? "lsvg -l $params{name}" : undef;
-    my $handle = getFileHandle(command => $command, %params);
     return unless $handle;
 
     # skip headers
@@ -69,16 +47,17 @@ sub _getLogicalVolumesFromGroup {
     # no logical volume if there is only one line of output
     return unless $line;
 
-    my @names;
+    my @volumes;
 
     while (my $line = <$handle>) {
         chomp $line;
-        next unless $line =~ /^(\S+)/;
-        push @names, $1;
+        my ($name) = split(/\s+/, $line);
+        push @volumes, _getLogicalVolume(logger => $logger, name => $name);
     }
+
     close $handle;
 
-    return @names;
+    return @volumes;
 }
 
 sub _getLogicalVolume {
