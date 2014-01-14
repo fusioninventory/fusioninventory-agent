@@ -59,7 +59,7 @@ sub _getDiskFromMptStatus {
             MODEL        => $2,
             MANUFACTURER => getCanonicalManufacturer($2),
             FIRMWARE     => $3,
-            SIZE         => $4 * 1024
+            DISKSIZE     => $4 * 1024
         };
 
         push @disks, $disk;
