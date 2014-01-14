@@ -90,7 +90,13 @@ install_script 'bin/fusioninventory-esx';
 
 makemaker_args(
     test => {
-        TESTS => join ' ', map { glob } qw(t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t)
+        TESTS => join ' ', map { glob } qw(
+            t/*.t
+            t/*/*.t
+            t/*/*/*.t
+            t/*/*/*/*.t
+            t/*/*/*/*/*.t
+        )
     },
     INSTALLMAN3DIR => 'none'
 );
