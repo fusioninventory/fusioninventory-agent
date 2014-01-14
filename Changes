@@ -10,14 +10,14 @@ netinventory task:
 * fix model loading with fusioninventory-netinventory
 
 inventory task:
-* get disk size from smartctl (#2360)
-* better manufacturer normalization (#2362)
-* fix timeout for user enumeration on Windows in AD environment (#2201)
-* add support for modern MegaRAID controllers (#2361)
-* cleanup whitespace for DMI and /proc values (#2391)
+* get size for Adaptec RAID controller disks on Linux (#2360)
+* fix size reporting for LSI RAID controller disks on Linux
+* add support for modern MegaRAID controllers on Linux (#2361)
+* better identification for hard disk manufacturers (#2362)
+* fix timeout for user enumeration in AD environment on Windows (#2201)
 * fix a potential crash in software inventory on Windows
+* cleanup whitespace for DMI and /proc values (#2391)
 * fix multiple potential warnings on AIX (#2384)
-* fix misnamed SIZE element in LSI Raid controller disk on Linux
 
 test suite:
 * fix test files list (#2394)
