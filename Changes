@@ -1,5 +1,10 @@
 Revision history for FusionInventory agent
 
+2.3.5.1 Tue, 14 Jan 2014 22:15:29 +0100
+inventory task:
+* fix AIX LVM regression introduced by incorrect fix (#2384)
+* fix another potential warning on AIX
+
 2.3.5  Tue, 14 Jan 2014 20:08:41 +0100
 netinventory task:
 * add more default OIDs for mappings undefined in SNMP model
