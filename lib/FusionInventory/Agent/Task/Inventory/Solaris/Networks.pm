@@ -33,6 +33,21 @@ sub doInventory {
     my $routes     = getRoutingTable(logger => $logger);
     my @interfaces = _getInterfaces(logger => $logger);
 
+    my $zone = getZone();
+    my $OSLevel = getFirstLine(command => 'uname -r');
+
+    if ($zone && $OSLevel && $OSLevel =~ /5.10/) {
+        push @interfaces, _parseDladm(
+            command => '/usr/sbin/dladm show-aggr',
+            logger  => $params{logger}
+        );
+
+        push @interfaces, _parsefcinfo(
+            command => '/usr/sbin/fcinfo hba-port',
+            logger  => $params{logger}
+        );
+    }
+
     foreach my $interface (@interfaces) {
         $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}}
             if $interface->{IPSUBNET};
@@ -75,21 +90,6 @@ sub _getInterfaces {
         $interface->{IPSUBNET} = getSubnetAddress(
             $interface->{IPADDRESS},
             $interface->{IPMASK}
-        );
-    }
-
-    my $zone = getZone();
-    my $OSLevel = getFirstLine(command => 'uname -r');
-
-    if ($zone && $OSLevel && $OSLevel =~ /5.10/) {
-        push @interfaces, _parseDladm(
-            command => '/usr/sbin/dladm show-aggr',
-            logger  => $params{logger}
-        );
-
-        push @interfaces, _parsefcinfo(
-            command => '/usr/sbin/fcinfo hba-port',
-            logger  => $params{logger}
         );
     }
 
