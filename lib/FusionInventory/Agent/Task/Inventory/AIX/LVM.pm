@@ -24,7 +24,7 @@ sub doInventory {
     foreach my $group (_getVolumeGroups($logger)) {
         $inventory->addEntry(section => 'VOLUME_GROUPS', entry => $group);
 
-        foreach my $volume (_getLogicalVolumes($logger, $group->{LV_NAME})) {
+        foreach my $volume (_getLogicalVolumes($logger, $group->{VG_NAME})) {
             $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $volume);
         }
     }
