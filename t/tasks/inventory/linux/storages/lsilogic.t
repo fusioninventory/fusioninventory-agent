@@ -17,7 +17,7 @@ my %tests = (
         name       => 'foo',
         disks   => [
              {
-                SIZE         => '152576',
+                DISKSIZE     => '152576',
                 NAME         => 'foo',
                 FIRMWARE     => 'D',
                 MANUFACTURER => 'Seagate',
@@ -25,7 +25,7 @@ my %tests = (
                 device       => '/dev/sg1',
             },
             {
-                SIZE         => '152576',
+                DISKSIZE     => '152576',
                 NAME         => 'foo',
                 FIRMWARE     => 'D',
                 MANUFACTURER => 'Seagate',
@@ -38,7 +38,7 @@ my %tests = (
         name       => 'foo',
         disks      => [
             {
-                SIZE         => '139264',
+                DISKSIZE     => '139264',
                 NAME         => 'foo',
                 FIRMWARE     => 'C610',
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
@@ -46,7 +46,7 @@ my %tests = (
                 device       => '/dev/sg5',
             },
             {
-                SIZE         => '139264',
+                DISKSIZE     => '139264',
                 NAME         => 'foo',
                 FIRMWARE     => 'C610',
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
@@ -54,7 +54,7 @@ my %tests = (
                 device       => '/dev/sg4',
             },
             {
-                SIZE         => '139264',
+                DISKSIZE     => '139264',
                 NAME         => 'foo',
                 FIRMWARE     => 'B53C',
                 MANUFACTURER => 'Seagate',
@@ -62,7 +62,7 @@ my %tests = (
                 device       => '/dev/sg3',
             },
             {
-                SIZE         => '139264',
+                DISKSIZE     => '139264',
                 NAME         => 'foo',
                 FIRMWARE     => 'C610',
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
@@ -70,7 +70,7 @@ my %tests = (
                 device       => '/dev/sg2',
             },
             {
-                SIZE         => '139264',
+                DISKSIZE     => '139264',
                 NAME         => 'foo',
                 FIRMWARE     => 'C610',
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
@@ -78,7 +78,7 @@ my %tests = (
                 device       => '/dev/sg1',
             },
             {
-                SIZE         => '139264',
+                DISKSIZE     => '139264',
                 NAME         => 'foo',
                 FIRMWARE     => 'C610',
                 MANUFACTURER => 'CBRCA146C3ETS0 N',
