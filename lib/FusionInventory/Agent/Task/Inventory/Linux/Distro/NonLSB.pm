@@ -103,6 +103,14 @@ sub _getDistroData {
         $release = $template;
     }
 
+    # If the detected OS is RedHat, but the release contains Scientific, then it is Scientific
+    if ($name =~ /RedHat/) {
+        if ($release =~ /Scientific/) {
+            # this is really a scientific linux, we have to change the name
+            $name = "Scientific";
+        }
+    }
+
     my $data = {
         NAME      => $name,
         VERSION   => $version,
