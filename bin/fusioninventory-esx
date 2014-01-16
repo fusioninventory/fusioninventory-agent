@@ -27,7 +27,7 @@ GetOptions(
     'host=s',
     'user=s',
     'password=s',
-    'target=s',
+    'recipient=s',
     'directory=s', # deprecated
     'tag|t=s',
     'help',
@@ -47,8 +47,8 @@ pod2usage(-verbose => 0) unless
     $options->{password};
 
 if ($options->{directory}) {
-    $options->{target}=$options->{directory};
-    print STDERR "--directory is deprecated, please use --target instead";
+    $options->{recipient}=$options->{directory};
+    print STDERR "--directory is deprecated, please use --recipient instead";
 }
 
 my $agent = FusionInventory::Agent->new(%setup);
@@ -69,7 +69,7 @@ $esx->{jobs} = [ {
 } ];
 
 my $broker = FusionInventory::Agent::Broker->create(
-    target  => $options->{target},
+    target  => $options->{recipient},
     task    => 'netdiscovery',
     verbose => $options->{verbose}
 );
@@ -93,7 +93,7 @@ fusioninventory-esx --host <host> --user <user> --password <password>
     --host host            ESX server host name
     --user user            ESX server user name
     --password xxxx        ESX server user password
-    --target target        where to send result (default: stdout)
+    --recipient string     where to send result (default: stdout)
     -t --tag tag           inventory tag
     -h --help              print this message and exit
     --version              print the task version and exit

@@ -32,7 +32,7 @@ GetOptions(
     'credentials=s@',
     'entity=s',
     'threads=i',
-    'target=s',
+    'recipient=s',
     'timeout=i',
     'verbose',
     'debug+',
@@ -99,7 +99,7 @@ my $task = FusionInventory::Agent::Task::NetDiscovery->new(
     datadir  => $agent->{datadir},
     logger   => $agent->{logger},
     deviceid => $agent->{deviceid},
-    target   => FusionInventory::Agent::Task::NetInventory::Target->new(),
+    recipient => FusionInventory::Agent::Task::NetInventory::Target->new(),
 );
 
 $task->{options} = {
@@ -117,7 +117,7 @@ $task->{options} = {
 };
 
 my $broker = FusionInventory::Agent::Broker->create(
-    target  => $options->{target},
+    target  => $options->{recipient},
     task    => 'netdiscovery',
     verbose => $options->{verbose}
 );
@@ -193,7 +193,7 @@ fusioninventory-netdiscovery [options] --first <start> --last <stop>
     --timeout numbe      SNMP timeout (default: 1s)
     --entity string      GLPI entity
     --threads number     threads number (default: 1)
-    --target string      where to send result (default: stdout)
+    --recipient string   where to send result (default: stdout)
     --verbose            verbose output (control messages)
     --debug              debug output (execution traces)
     -h --help            print this message and exit

@@ -43,7 +43,7 @@ GetOptions(
     'community=s',
     'credentials=s',
     'entity=s',
-    'target=s',
+    'recipient=s',
     'timeout=i',
     'verbose',
     'debug+',
@@ -129,7 +129,7 @@ $task->{options} = {
 };
 
 my $broker = FusionInventory::Agent::Broker->create(
-    target  => $options->{target},
+    target  => $options->{recipient},
     task    => 'netinventory',
     verbose => $options->{verbose}
 );
@@ -190,7 +190,7 @@ fusioninventory-netinventory [options] [--host <host>] [--file <file>]
                          (default: version:1,community:public)
     --timeout number     SNMP timeout (default: 15s)
     --entity string      GLPI entity
-    --target string      where to send result (default: stdout)
+    --recipient string   where to send result (default: stdout)
     --verbose            verbose output (control messages)
     --debug              debug output (execution traces)
     -h --help            print this message and exit

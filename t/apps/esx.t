@@ -25,7 +25,7 @@ like(
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-esx',
-    '--host unknowndevice --user a --password a --target /tmp'
+    '--host unknowndevice --user a --password a'
 );
 like($err, qr/500\s\S/, 'Bad hostname');
 
@@ -34,7 +34,7 @@ like($err, qr/500\s\S/, 'Bad hostname');
     'fusioninventory-esx',
     '--host unknowndevice --user a --password a --directory /tmp'
 );
-like($err, qr/500\s\S/, '--directory is deprecated, please use --target instead');
+like($err, qr/500\s\S/, '--directory is deprecated, please use --recipient instead');
 
 ($out, $err, $rc) = run_executable('fusioninventory-esx', '--version');
 ok($rc == 0, '--version exit status');
