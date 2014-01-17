@@ -1197,23 +1197,24 @@ sub _getElements {
 sub _setAssociatedMacAddresses {
     my (%params) = @_;
 
+    my $snmp   = $params{snmp};
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
+
     # start with mac addresses seen on default VLAN
     my $addresses = _getAssociatedMacAddresses(
         snmp           => $params{snmp},
         address2port   => '.1.3.6.1.2.1.17.4.3.1.2', # dot1dTpFdbPort
         port2interface => '.1.3.6.1.2.1.17.1.4.1.2', # dot1dBasePortIfIndex
     );
-    return unless $addresses;
 
-    my $snmp   = $params{snmp};
-    my $ports  = $params{ports};
-    my $logger = $params{logger};
-
-    _addAssociatedMacAddresses(
-        ports     => $ports,
-        logger    => $logger,
-        addresses => $addresses,
-    );
+    if ($addresses) {
+        _addAssociatedMacAddresses(
+            ports     => $ports,
+            logger    => $logger,
+            addresses => $addresses,
+        );
+    }
 
     # add additional mac addresses for other VLANs
     $addresses = _getAssociatedMacAddresses(
