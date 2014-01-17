@@ -10,6 +10,7 @@ use Pod::Usage;
 use XML::TreePP;
 
 use FusionInventory::Agent;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Recipient;
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools;
