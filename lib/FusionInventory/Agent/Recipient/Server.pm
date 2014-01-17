@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Broker::Server;
+package FusionInventory::Agent::Recipient::Server;
 
 use strict;
 use warnings;

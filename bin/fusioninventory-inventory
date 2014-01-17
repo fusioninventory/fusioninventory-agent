@@ -10,7 +10,7 @@ use File::Temp;
 use Pod::Usage;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Broker::Inventory;
+use FusionInventory::Agent::Recipient::Inventory;
 use FusionInventory::Agent::Task::Inventory;
 
 my %setup = (
@@ -55,7 +55,7 @@ my $inventory = FusionInventory::Agent::Task::Inventory->new(
     deviceid => $agent->{deviceid},
 );
 
-my $broker = FusionInventory::Agent::Broker::Inventory->create(
+my $recipient = FusionInventory::Agent::Recipient::Inventory->create(
     target  => $options->{recipient},
     task    => 'inventory',
     verbose => $options->{verbose}
@@ -63,7 +63,7 @@ my $broker = FusionInventory::Agent::Broker::Inventory->create(
 
 eval {
     $agent->init(options => $options);
-    $agent->runSingleTask(task => $inventory, broker => $broker);
+    $agent->runSingleTask(task => $inventory, recipient => $recipient);
 };
 
 __END__

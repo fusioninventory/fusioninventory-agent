@@ -9,7 +9,7 @@ use Getopt::Long;
 use Pod::Usage;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Broker;
+use FusionInventory::Agent::Recipient;
 use FusionInventory::Agent::Task::ESX;
 
 my %setup = (
@@ -68,7 +68,7 @@ $esx->{jobs} = [ {
         password => $options->{password}
 } ];
 
-my $broker = FusionInventory::Agent::Broker->create(
+my $recipient = FusionInventory::Agent::Recipient->create(
     target  => $options->{recipient},
     task    => 'netdiscovery',
     verbose => $options->{verbose}
@@ -76,7 +76,7 @@ my $broker = FusionInventory::Agent::Broker->create(
 
 eval {
     $agent->init(options => $options);
-    $agent->runSingleTask(task => $esx, broker => $broker);
+    $agent->runSingleTask(task => $esx, recipient => $recipient);
 };
 
 __END__

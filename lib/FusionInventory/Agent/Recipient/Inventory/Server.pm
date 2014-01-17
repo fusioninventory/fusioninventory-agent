@@ -1,8 +1,8 @@
-package FusionInventory::Agent::Broker::Inventory::Stdout;
+package FusionInventory::Agent::Recipient::Inventory::Server;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Broker::Stdout';
+use base 'FusionInventory::Agent::Recipient::Server';
 
 use FusionInventory::Agent::XML::Query::Inventory;
 
@@ -14,7 +14,10 @@ sub send {
         content  => $params{inventory}->getContent()
     );
 
-    print STDOUT $message->getContent();
+    $self->{client}->send(
+        url     => $self->{url},
+        message => $message
+    );
 }
 
 1;

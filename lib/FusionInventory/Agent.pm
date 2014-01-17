@@ -273,7 +273,7 @@ sub runSingleTask {
         ca_cert_file => $self->{config}->{'ca-cert-file'},
         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},
-        broker       => $params{broker},
+        recipient    => $params{recipient},
     );
 }
 

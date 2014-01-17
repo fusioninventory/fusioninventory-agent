@@ -11,7 +11,7 @@ use Net::IP;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Broker::Server;
+use FusionInventory::Agent::Recipient::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 use FusionInventory::Agent::XML::Query;
@@ -45,10 +45,10 @@ sub run {
 
     $self->{logger}->debug("running FusionInventory NetDiscovery task");
 
-    # use given output broker, otherwise assume the target is a GLPI server
-    my $broker =
-        $params{broker} ||
-        FusionInventory::Agent::Broker::Server->new(
+    # use given output recipient, otherwise assume the target is a GLPI server
+    my $recipient =
+        $params{recipient} ||
+        FusionInventory::Agent::Recipient::Server->new(
             target       => $self->{target}->getUrl(),
             logger       => $self->{logger},
             user         => $params{user},
@@ -96,7 +96,7 @@ sub run {
         );
     } else {
         $snmp_credentials = $self->_getCredentials($options);
-        $snmp_dictionary = $self->_getDictionary($options, $broker, $pid);
+        $snmp_dictionary = $self->_getDictionary($options, $recipient, $pid);
         # abort immediatly if the dictionary isn't up to date
         return unless $snmp_dictionary;
     }
@@ -142,7 +142,7 @@ sub run {
 
     # send initial message to the server
     $self->_sendMessage(
-        $broker,
+        $recipient,
         {
             AGENT => {
                 START        => 1,
@@ -165,7 +165,7 @@ sub run {
 
         # send block size to the server
         $self->_sendMessage(
-            $broker,
+            $recipient,
             {
                 AGENT => {
                     NBIP => scalar @addresses
@@ -183,7 +183,7 @@ sub run {
                 MODULEVERSION => $VERSION,
                 PROCESSNUMBER => $pid,
             };
-            $self->_sendMessage($broker, $data);
+            $self->_sendMessage($recipient, $data);
         }
     }
 
@@ -191,7 +191,7 @@ sub run {
 
     # send final message to the server
     $self->_sendMessage(
-        $broker,
+        $recipient,
         {
             AGENT => {
                 END => 1,
@@ -203,7 +203,7 @@ sub run {
 }
 
 sub _getDictionary {
-    my ($self, $options, $broker, $pid) = @_;
+    my ($self, $options, $recipient, $pid) = @_;
 
     my ($dictionary, $hash);
     my $storage = $self->{target}->getStorage();
@@ -235,14 +235,14 @@ sub _getDictionary {
             if ($hash eq $options->{DICOHASH}) {
                 $self->{logger}->debug("Dictionary is up to date.");
             } else {
-                $self->_sendUpdateMessage($broker, $pid);
+                $self->_sendUpdateMessage($recipient, $pid);
                 $self->{logger}->debug(
                     "Dictionary is outdated, update request sent, exiting"
                 );
                 return;
             }
         } else {
-            $self->_sendUpdateMessage($broker, $pid);
+            $self->_sendUpdateMessage($recipient, $pid);
             $self->{logger}->debug(
                 "No dictionary, update request sent, exiting"
             );
@@ -256,10 +256,10 @@ sub _getDictionary {
 }
 
 sub _sendUpdateMessage {
-    my ($self, $broker, $pid) = @_;
+    my ($self, $recipient, $pid) = @_;
 
     $self->_sendMessage(
-        $broker,
+        $recipient,
         {
             AGENT => {
                 END => '1'
@@ -292,7 +292,7 @@ sub _getCredentials {
 }
 
 sub _sendMessage {
-    my ($self, $broker, $content) = @_;
+    my ($self, $recipient, $content) = @_;
 
     my $message = FusionInventory::Agent::XML::Query->new(
         deviceid => $self->{deviceid},
@@ -300,7 +300,7 @@ sub _sendMessage {
         content  => $content
     );
 
-    $broker->send(message => $message);
+    $recipient->send(message => $message);
 }
 
 1;
