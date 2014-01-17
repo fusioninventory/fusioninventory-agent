@@ -19,7 +19,7 @@ sub new {
         config       => $params{config},
         confdir      => $params{confdir},
         datadir      => $params{datadir},
-        target       => $params{target},
+        controller   => $params{controller},
         deviceid     => $params{deviceid},
     };
     bless $self, $class;
@@ -97,7 +97,7 @@ the logger object to use (default: a new stderr logger)
 
 =item I<config>
 
-=item I<target>
+=item I<controller>
 
 =item I<storage>
 

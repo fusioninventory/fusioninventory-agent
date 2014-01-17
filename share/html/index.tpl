@@ -22,11 +22,11 @@ The current status is {$status}<br />
 
 <br />
 {
-    if (@server_targets) {
-        $OUT .=  "Next server target execution planned for:\n";
+    if (@server_controllers) {
+        $OUT .=  "Next server controller execution planned for:\n";
         $OUT .=  "<ul>\n";
-        foreach my $target (@server_targets) {
-           $OUT .= "<li>$target->{name}: $target->{date}</li>\n";
+        foreach my $controller (@server_controllers) {
+           $OUT .= "<li>$controller->{name}: $controller->{date}</li>\n";
         }
         $OUT .=  "</ul>\n";
     } else {
@@ -35,11 +35,11 @@ The current status is {$status}<br />
 }
 
 {
-    if (@local_targets) {
-        $OUT .=  "Next local target execution planned for:\n";
+    if (@local_controllers) {
+        $OUT .=  "Next local controller execution planned for:\n";
         $OUT .=  "<ul>\n";
-        foreach my $target (@local_targets) {
-           $OUT .= "<li>$target->{name}: $target->{date}</li>\n";
+        foreach my $controller (@local_controllers) {
+           $OUT .= "<li>$controller->{name}: $controller->{date}</li>\n";
         }
         $OUT .=  "</ul>\n";
     } else {

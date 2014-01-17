@@ -19,7 +19,7 @@ sub isEnabled {
     my ($self, %params) = @_;
 
     return unless
-        $self->{target}->isa('FusionInventory::Agent::Target::Server');
+        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
 
     my $response = $params{response};
 

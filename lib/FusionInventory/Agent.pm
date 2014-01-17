@@ -15,8 +15,8 @@ use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
-use FusionInventory::Agent::Target::Local;
-use FusionInventory::Agent::Target::Server;
+use FusionInventory::Agent::Controller::Local;
+use FusionInventory::Agent::Controller::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
@@ -89,17 +89,17 @@ sub init {
     $self->_saveState();
 }
 
-sub initTargets {
+sub initControllers {
     my ($self) = @_;
 
     my $config = $self->{config};
     my $logger = $self->{logger};
 
-    # create target list
+    # create controllers list
     if ($config->{local}) {
         foreach my $path (@{$config->{local}}) {
-            push @{$self->{targets}},
-                FusionInventory::Agent::Target::Local->new(
+            push @{$self->{controllers}},
+                FusionInventory::Agent::Controller::Local->new(
                     logger     => $logger,
                     deviceid   => $self->{deviceid},
                     delaytime  => $config->{delaytime},
@@ -112,8 +112,8 @@ sub initTargets {
 
     if ($config->{server}) {
         foreach my $url (@{$config->{server}}) {
-            push @{$self->{targets}},
-                FusionInventory::Agent::Target::Server->new(
+            push @{$self->{controllers}},
+                FusionInventory::Agent::Controller::Server->new(
                     logger     => $logger,
                     deviceid   => $self->{deviceid},
                     delaytime  => $config->{delaytime},
@@ -124,8 +124,8 @@ sub initTargets {
         }
     }
 
-    if (!$self->{targets}) {
-        $logger->error("No target defined, aborting");
+    if (!$self->{controllers}) {
+        $logger->error("No controllers defined, aborting");
         exit 1;
     }
 }
@@ -229,14 +229,14 @@ sub runRequestedTasks {
         # background mode: infinite loop
         while (1) {
             my $time = time();
-            foreach my $target (@{$self->{targets}}) {
-                next if $time < $target->getNextRunDate();
+            foreach my $controller (@{$self->{controllers}}) {
+                next if $time < $controller->getNextRunDate();
 
                 eval {
-                    $self->_runTarget($target);
+                    $self->_runController($controller);
                 };
                 $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
-                $target->resetNextRunDate();
+                $controller->resetNextRunDate();
             }
 
             # check for http interface messages
@@ -244,19 +244,19 @@ sub runRequestedTasks {
             delay(1);
         }
     } else {
-        # foreground mode: check each targets once
+        # foreground mode: check each controllers once
         my $time = time();
-        foreach my $target (@{$self->{targets}}) {
-            if ($self->{config}->{lazy} && $time < $target->getNextRunDate()) {
+        foreach my $controller (@{$self->{controllers}}) {
+            if ($self->{config}->{lazy} && $time < $controller->getNextRunDate()) {
                 $self->{logger}->info(
-                    "$target->{id} is not ready yet, next server contact " .
-                    "planned for " . localtime($target->getNextRunDate())
+                    "$controller->{id} is not ready yet, next server contact " .
+                    "planned for " . localtime($controller->getNextRunDate())
                 );
                 next;
             }
 
             eval {
-                $self->_runTarget($target);
+                $self->_runController($controller);
             };
             $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
         }
@@ -277,13 +277,13 @@ sub runSingleTask {
     );
 }
 
-sub _runTarget {
-    my ($self, $target) = @_;
+sub _runController {
+    my ($self, $controller) = @_;
 
     # the prolog dialog must be done once for all tasks,
-    # but only for server targets
+    # but only for server controllers
     my $response;
-    if ($target->isa('FusionInventory::Agent::Target::Server')) {
+    if ($controller->isa('FusionInventory::Agent::Controller::Server')) {
         my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             timeout      => $self->{timeout},
@@ -300,21 +300,21 @@ sub _runTarget {
         );
 
         $response = $client->send(
-            url     => $target->getUrl(),
+            url     => $controller->getUrl(),
             message => $prolog
         );
         die "No answer from the server" unless $response;
 
-        # update target
+        # update controller
         my $content = $response->getContent();
         if (defined($content->{PROLOG_FREQ})) {
-            $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
+            $controller->setMaxDelay($content->{PROLOG_FREQ} * 3600);
         }
     }
 
     foreach my $name (@{$self->{tasks}}) {
         eval {
-            $self->_runTask($target, $name, $response);
+            $self->_runTask($controller, $name, $response);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
@@ -322,7 +322,7 @@ sub _runTarget {
 }
 
 sub _runTask {
-    my ($self, $target, $name, $response) = @_;
+    my ($self, $controller, $name, $response) = @_;
 
     $self->{status} = "running task $name";
 
@@ -339,18 +339,18 @@ sub _runTask {
             die "fork failed: $ERRNO" unless defined $pid;
 
             $self->{logger}->debug("running task $name in process $PID");
-            $self->_runTaskReal($target, $name, $response);
+            $self->_runTaskReal($controller, $name, $response);
             exit(0);
         }
     } else {
         # standalone mode: run each task directly
         $self->{logger}->debug("running task $name");
-        $self->_runTaskReal($target, $name, $response);
+        $self->_runTaskReal($controller, $name, $response);
     }
 }
 
 sub _runTaskReal {
-    my ($self, $target, $name, $response) = @_;
+    my ($self, $controller, $name, $response) = @_;
 
     my $class = "FusionInventory::Agent::Task::$name";
 
@@ -361,7 +361,7 @@ sub _runTaskReal {
         confdir      => $self->{confdir},
         datadir      => $self->{datadir},
         logger       => $self->{logger},
-        target       => $target,
+        controller   => $controller,
         deviceid     => $self->{deviceid},
     );
 
@@ -394,10 +394,10 @@ sub getStatus {
     return $self->{status};
 }
 
-sub getTargets {
+sub getControllers {
     my ($self) = @_;
 
-    return @{$self->{targets}};
+    return @{$self->{controllers}};
 }
 
 sub getAvailableTasks {
@@ -559,9 +559,9 @@ Run the agent.
 
 Get the current agent status.
 
-=head2 getTargets()
+=head2 getControllers()
 
-Get all targets.
+Get all controllers.
 
 =head2 getAvailableTasks()
 

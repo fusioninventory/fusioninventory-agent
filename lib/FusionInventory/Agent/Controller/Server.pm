@@ -1,8 +1,8 @@
-package FusionInventory::Agent::Target::Server;
+package FusionInventory::Agent::Controller::Server;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Target';
+use base 'FusionInventory::Agent::Controller';
 
 use English qw(-no_match_vars);
 use URI;
@@ -77,18 +77,18 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Target::Server - Server target
+FusionInventory::Agent::Controller::Server - Server controller
 
 =head1 DESCRIPTION
 
-This is a target for sending execution result to a server.
+This is a controller for sending execution result to a server.
 
 =head1 METHODS
 
 =head2 new(%params)
 
 The constructor. The following parameters are allowed, in addition to those
-from the base class C<FusionInventory::Agent::Target>, as keys of the %params
+from the base class C<FusionInventory::Agent::Controller>, as keys of the %params
 hash:
 
 =over
@@ -101,4 +101,4 @@ the server URL (mandatory)
 
 =head2 getUrl()
 
-Return the server URL for this target.
+Return the server URL for this controller.

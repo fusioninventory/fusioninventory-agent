@@ -19,7 +19,7 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub isEnabled {
     my ($self) = @_;
 
-    return $self->{target}->isa('FusionInventory::Agent::Target::Server');
+    return $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
 }
 
 sub _getFromRegistry {
@@ -207,7 +207,7 @@ sub run {
     die unless $self->{client};
 
     my $globalRemoteConfig = $self->{client}->send(
-        "url" => $self->{target}->{url},
+        "url" => $self->{controller}->{url},
         args  => {
             action    => "getConfig",
             machineid => $self->{deviceid},

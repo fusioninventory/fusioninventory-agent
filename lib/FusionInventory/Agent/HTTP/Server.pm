@@ -142,22 +142,22 @@ sub _handle_root {
         return;
     }
 
-    my @server_targets =
+    my @server_controllers =
         map { { name => $_->getUrl(), date => $_->getFormatedNextRunDate() } }
-        grep { $_->isa('FusionInventory::Agent::Target::Server') }
-        $self->{agent}->getTargets();
+        grep { $_->isa('FusionInventory::Agent::Controller::Server') }
+        $self->{agent}->getControllers();
 
-    my @local_targets =
+    my @local_controllers =
         map { { name => $_->getPath(), date => $_->getFormatedNextRunDate() } }
-        grep { $_->isa('FusionInventory::Agent::Target::Local') }
-        $self->{agent}->getTargets();
+        grep { $_->isa('FusionInventory::Agent::Controller::Local') }
+        $self->{agent}->getControllers();
 
     my $hash = {
         version        => $FusionInventory::Agent::VERSION,
         trust          => $self->_isTrusted($clientIp),
         status         => $self->{agent}->getStatus(),
-        server_targets => \@server_targets,
-        local_targets  => \@local_targets
+        server_controllers => \@server_controllers,
+        local_controllers  => \@local_controllers
     };
 
     my $response = HTTP::Response->new(
@@ -181,8 +181,8 @@ sub _handle_deploy {
     Digest::SHA->require();
 
     my $path;
-    LOOP: foreach my $target ($self->{agent}->getTargets()) {
-        foreach (File::Glob::glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
+    LOOP: foreach my $controller ($self->{agent}->getControllers()) {
+        foreach (File::Glob::glob($controller->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');
@@ -209,8 +209,8 @@ sub _handle_now {
 
     my ($code, $message, $trace);
     if ($self->_isTrusted($clientIp)) {
-        foreach my $target ($self->{agent}->getTargets()) {
-            $target->setNextRunDate(1);
+        foreach my $controller ($self->{agent}->getControllers()) {
+            $controller->setNextRunDate(1);
         }
         $code    = 200;
         $message = "OK";

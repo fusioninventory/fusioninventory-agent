@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Target;
+package FusionInventory::Agent::Controller;
 
 use strict;
 use warnings;
@@ -29,7 +29,7 @@ sub _init {
 
     my $logger = $self->{logger};
 
-    # target identity
+    # controller identity
     $self->{id} = $params{id};
 
     $self->{storage} = FusionInventory::Agent::Storage->new(
@@ -46,7 +46,7 @@ sub _init {
     $self->_saveState();
 
     $logger->debug(
-        "[target $self->{id}] Next server contact planned for " .
+        "[controller $self->{id}] Next server contact planned for " .
         localtime($self->{nextRunDate})
     );
 
@@ -122,7 +122,7 @@ sub _computeNextRunDate {
 sub _loadState {
     my ($self) = @_;
 
-    my $data = $self->{storage}->restore(name => 'target');
+    my $data = $self->{storage}->restore(name => 'controller');
 
     $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
     $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
@@ -132,7 +132,7 @@ sub _saveState {
     my ($self) = @_;
 
     $self->{storage}->save(
-        name => 'target',
+        name => 'controller',
         data => {
             maxDelay    => $self->{maxDelay},
             nextRunDate => $self->{nextRunDate},
@@ -145,11 +145,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Target - Abstract target
+FusionInventory::Agent::Controller - Abstract controller
 
 =head1 DESCRIPTION
 
-This is an abstract class for execution targets.
+This is an abstract class for execution controllers.
 
 =head1 METHODS
 
@@ -166,7 +166,7 @@ the logger object to use
 
 =item I<maxDelay>
 
-the maximum delay before contacting the target, in seconds
+the maximum delay before contacting the controller, in seconds
 (default: 3600)
 
 =item I<basevardir>
@@ -201,4 +201,4 @@ Set maxDelay attribute.
 
 =head2 getStorage()
 
-Return the storage object for this target.
+Return the storage object for this controller.

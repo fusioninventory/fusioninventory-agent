@@ -18,7 +18,7 @@ sub isEnabled {
     my ($self, %params) = @_;
 
     return unless
-        $self->{target}->isa('FusionInventory::Agent::Target::Server');
+        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
 
     my $controller = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
@@ -33,7 +33,7 @@ sub isEnabled {
     die unless $controller;
 
     my $remoteConfig = $controller->send(
-        url  => $self->{target}->{url},
+        url  => $self->{controller}->{url},
         args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
@@ -87,11 +87,12 @@ sub run {
     my @jobs = @{$self->{jobs}};
     $self->{logger}->info("Got " . @jobs . " VMware host(s) to inventory.");
 
-    # use given output recipient, otherwise assume the target is a GLPI server
+    # use given output recipient,
+    # otherwise assume the recipient is a GLPI server
     my $recipient =
         $params{recipient} ||
         FusionInventory::Agent::Recipient::Server->new(
-            target       => $self->{target}->getUrl(),
+            target       => $self->{controller}->getUrl(),
             logger       => $self->{logger},
             user         => $params{user},
             password     => $params{password},

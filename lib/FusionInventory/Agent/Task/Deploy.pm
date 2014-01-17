@@ -22,7 +22,7 @@ sub isEnabled {
     my ($self, %params) = @_;
 
     return unless
-        $self->{target}->isa('FusionInventory::Agent::Target::Server');
+        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
 
     my $controller = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
@@ -36,7 +36,7 @@ sub isEnabled {
     );
 
     my $remoteConfig = $controller->send(
-        url  => $self->{target}->{url},
+        url  => $self->{controller}->{url},
         args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
@@ -151,7 +151,7 @@ sub _processRemote {
     }
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
-        path => $self->{target}{storage}{directory}.'/deploy',
+        path   => $self->{controller}{storage}{directory}.'/deploy',
         logger => $self->{logger}
     );
     $datastore->cleanUp();

@@ -19,9 +19,9 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub isEnabled {
     my ($self, %params) = @_;
 
-    # always enabled for local target
+    # always enabled for local controller
     return 1 unless
-        $self->{target}->isa('FusionInventory::Agent::Target::Server');
+        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
 
     if ($self->{config}->{force}) {
         $self->{logger}->debug("Prolog response ignored");
@@ -46,27 +46,27 @@ sub run {
     $self->{logger}->debug("running FusionInventory Inventory task");
 
     # use given output recipient, otherwise use either local or server recipient,
-    # according to target type
+    # according to controller type
     my $recipient;
     if ($params{recipient}) {
         $recipient = $params{recipient};
-    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
-        my $path = $self->{target}->getPath();
+    } elsif ($self->{controller}->isa('FusionInventory::Agent::Controller::Local')) {
+        my $path = $self->{controller}->getPath();
         if ($path eq '-') {
             $recipient = FusionInventory::Agent::Recipient::Inventory::Stdout->new(
                 deviceid => $self->{deviceid},
             );
         } else {
             $recipient = FusionInventory::Agent::Recipient::Inventory::Filesystem->new(
-                target   => $self->{target}->getPath(),
-                format   => $self->{target}->{format},
+                target   => $self->{controller}->getPath(),
+                format   => $self->{controller}->{format},
                 datadir  => $self->{datadir},
                 deviceid => $self->{deviceid},
             );
         }
-    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+    } elsif ($self->{controller}->isa('FusionInventory::Agent::Controller::Server')) {
         $recipient = FusionInventory::Agent::Recipient::Inventory::Server->new(
-            target       => $self->{target}->getUrl(),
+            target       => $self->{controller}->getUrl(),
             deviceid     => $self->{deviceid},
             logger       => $self->{logger},
             user         => $params{user},

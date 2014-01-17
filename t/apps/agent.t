@@ -35,13 +35,13 @@ like(
 );
 
 ($out, $err, $rc) = run_executable('fusioninventory-agent', );
-ok($rc == 1, 'no target exit status');
+ok($rc == 1, 'no controller exit status');
 like(
     $err,
-    qr/No target defined/,
-    'no target stderr'
+    qr/No controllers defined/,
+    'no controller stderr'
 );
-is($out, '', 'no target stdout');
+is($out, '', 'no controller stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-agent',
