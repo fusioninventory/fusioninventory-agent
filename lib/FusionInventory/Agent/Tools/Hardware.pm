@@ -1049,7 +1049,8 @@ sub _setNetworkingProperties {
         snmp   => $snmp,
         model  => $model,
         ports  => $ports,
-        logger => $logger
+        logger => $logger,
+        vendor => $device->{INFO}->{MANUFACTURER}
     );
 
     _setAssociatedMacAddresses(
@@ -1437,13 +1438,18 @@ sub _getConnectedDevicesInfoLLDP {
         $model->{oids}->{lldpRemSysDesc}   || '.1.0.8802.1.1.2.1.4.1.1.10'
     );
 
+    # dot1dBasePortIfIndex
+    my $port2interface = $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');
+
     # each lldp variable matches the following scheme:
     # $prefix.x.y.z = $value
-    # whereas y is the port number
+    # whereas y is either a port or an interface id
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
-        my $port_id = _getElement($suffix, -2);
-        $results->{$port_id} = {
+        my $id           = _getElement($suffix, -2);
+        my $interface_id = $params{vendor} eq 'Juniper' ?
+            $id : $port2interface->{$id};
+        $results->{$interface_id} = {
             SYSMAC   => lc(alt2canonical($mac)),
             IFDESCR  => $lldpRemPortDesc->{$suffix},
             SYSDESCR => $lldpRemSysDesc->{$suffix},
