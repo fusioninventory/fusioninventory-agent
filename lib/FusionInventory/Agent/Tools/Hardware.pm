@@ -65,6 +65,7 @@ my %sysobjectid_vendors = (
     3224  => { vendor => 'NetScreen',       type => 'NETWORKING' },
     3977  => { vendor => 'Broadband',       type => 'NETWORKING' },
     5596  => { vendor => 'Tandberg',        type => 'VIDEO'      },
+    6027  => { vendor => 'Force10',         type => 'NETWORKING' },
     6486  => { vendor => 'Alcatel',         type => 'NETWORKING' },
     6889  => { vendor => 'Avaya',           type => 'NETWORKING' },
     10418 => { vendor => 'Avocent'                               },
