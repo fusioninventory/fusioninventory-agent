@@ -41,7 +41,6 @@ my $default = {
     'timeout'                 => 180,
     'user'                    => undef,
     # deprecated options
-    'stdout'                  => undef,
     'backend-collect-timeout' => undef,
     # multi-values options that will be converted to array ref
     'httpd-trust'             => "",
@@ -50,10 +49,6 @@ my $default = {
 };
 
 my $deprecated = {
-    'stdout' => {
-        message => 'use --local - option instead',
-        new     => { 'local' => '-' }
-    },
     'backend-collect-timeout' => {
         message => 'use --collect-timeout option instead',
         new     => 'collect-timeout'

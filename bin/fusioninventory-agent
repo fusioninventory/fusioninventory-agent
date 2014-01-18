@@ -55,7 +55,6 @@ GetOptions(
     'version',
     'wait|w=s',
     # deprecated options
-    'stdout',
     'backend-collect-timeout',
 ) or pod2usage(-verbose => 0);
 
