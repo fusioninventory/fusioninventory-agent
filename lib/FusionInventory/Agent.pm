@@ -152,6 +152,11 @@ sub init {
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
     my @tasks = keys %available;
 
+    if (!@tasks) {
+        $logger->error("No tasks available, aborting");
+        exit 1;
+    }
+
     $logger->debug("Available tasks:");
     foreach my $task (keys %available) {
         $logger->debug("- $task: $available{$task}");
