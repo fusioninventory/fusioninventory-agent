@@ -25,18 +25,23 @@ sub isEnabled {
     );
     return unless $options;
 
-    my $target = $options->{PARAM}->[0]->{MAC};
-    if (!$target) {
-        $self->{logger}->debug("No mac address defined in the prolog response");
+    my @addresses;
+    foreach my $param (@{$options->{PARAM}}) {
+        my $address = $param->{MAC};
+        if ($address !~ /^$mac_address_pattern$/) {
+            $self->{logger}->error("invalid MAC address $address, skipping");
+            next;
+        }
+        $address =~ s/://g;
+        push @addresses, $address;
+    }
+
+    if (!@addresses) {
+        $self->{logger}->error("No mac address defined in the prolog response");
         return;
     }
 
-    if ($target !~ /^$mac_address_pattern$/) {
-        $self->{logger}->debug("invalid MAC address $target");
-        return;
-    }
-
-    $self->{options} = $options;
+    $self->{addresses} = \@addresses;
     return 1;
 }
 
@@ -45,21 +50,24 @@ sub run {
 
     $self->{logger}->debug("FusionInventory WakeOnLan task $VERSION");
 
-    my $options = $self->{options};
-    my $target  = $options->{PARAM}->[0]->{MAC};
-    $target =~ s/://g;
-
     my @methods = $params{methods} ? @{$params{methods}} : qw/ethernet udp/;
 
-    foreach my $method (@methods) {
-        eval {
-            my $function = '_send_magic_packet_' . $method;
-            $self->$function($target);
-        };
-        return unless $EVAL_ERROR;
-        $self->{logger}->error(
-            "Impossible to use $method method: $EVAL_ERROR"
-        );
+    METHODS: foreach my $method (@methods) {
+        my $function = '_send_magic_packet_' . $method;
+        ADDRESSES: foreach my $address (@{$self->{addresses}}) {
+            eval {
+                $self->$function($address);
+            };
+            if ($EVAL_ERROR) {
+                $self->{logger}->error(
+                    "Impossible to use $method method: $EVAL_ERROR"
+                );
+                # this method doesn't work, skip remaining addresses
+                last ADDRESSES;
+            }
+        }
+        # all addresses have been processed, skip other methods
+        last METHODS;
     }
 }
 
