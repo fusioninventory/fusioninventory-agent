@@ -9,22 +9,35 @@ use FusionInventory::Agent::XML::Query::Inventory;
 sub new {
     my ($class, %params) = @_;
 
-    my $self = $class->SUPER::new(%params);
+    die "missing target parameter" unless $params{target};
+    die "non-existing path $params{target}"
+        unless -e $params{target};
 
-    $self->{format}  = $params{format};
-    $self->{datadir} = $params{datadir};
-    return $self;
+    return bless {
+        path     => $params{target},
+        deviceid => $params{deviceid},
+        task     => $params{task},
+        verbose  => $params{verbose},
+        format   => $params{format},
+        datadir  => $params{datadir},
+        count    => 0
+    }, $class;
 }
 
 sub send {
     my ($self, %params) = @_;
 
-    my $file = sprintf(
-        "%s/%s.%s",
-        $self->{path},
-        $self->{deviceid},
-        $self->{format} eq 'xml' ? 'ocs' : 'html'
-    );
+    my $file;
+    if (-d $self->{path}) {
+        $file = sprintf(
+            "%s/%s.%s",
+            $self->{path},
+            $self->{deviceid},
+            $self->{format} eq 'xml' ? 'ocs' : 'html'
+        );
+    } else {
+        $file = $self->{path};
+    }
 
     my $handle;
     if (Win32::Unicode::File->require()) {
