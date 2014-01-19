@@ -7,7 +7,10 @@ sub new {
     my ($class, %params) = @_;
 
     die "missing target parameter" unless $params{target};
-    die "invalid target" unless -d $params{target};
+    die "non-existing path $params{target}"
+        unless -e $params{target};
+    die "invalid path $params{target}, expecting a directory"
+        unless -d $params{target};
 
     return bless {
         path     => $params{target},
