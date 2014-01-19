@@ -33,7 +33,6 @@ GetOptions(
     'lazy',
     'list-tasks',
     'setup',
-    'local|l=s',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
@@ -55,6 +54,7 @@ GetOptions(
     'version',
     'wait|w=s',
     # deprecated options
+    'local|l=s',
     'backend-collect-timeout',
 ) or pod2usage(-verbose => 0);
 

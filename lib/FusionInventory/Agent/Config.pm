@@ -20,7 +20,6 @@ my $default = {
     'force'                   => undef,
     'html'                    => undef,
     'lazy'                    => undef,
-    'local'                   => undef,
     'logger'                  => 'Stderr',
     'logfile'                 => undef,
     'logfacility'             => 'LOG_USER',
@@ -42,6 +41,7 @@ my $default = {
     'user'                    => undef,
     # deprecated options
     'backend-collect-timeout' => undef,
+    'local'                   => undef,
     # multi-values options that will be converted to array ref
     'httpd-trust'             => "",
     'no-task'                 => "",
