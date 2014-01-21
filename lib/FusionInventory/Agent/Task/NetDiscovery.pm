@@ -99,7 +99,10 @@ sub run {
         $snmp_credentials = $self->_getCredentials($options);
         $snmp_dictionary = $self->_getDictionary($options, $recipient, $pid);
         # abort immediatly if the dictionary isn't up to date
-        return unless $snmp_dictionary;
+        if (!$snmp_dictionary) {
+            $self->{logger}->debug("No dictionary available, exiting");
+            return;
+        }
     }
 
     # blocks list
@@ -206,12 +209,13 @@ sub run {
 sub _getDictionary {
     my ($self, $options, $recipient, $pid) = @_;
 
-    my $dictionary;
     my $storage = $self->{controller}->getStorage();
 
+    # use dictionary sent by the server, if available
     if ($options->{DICO}) {
-        # new dictionary sent by the server, load it and save it for next run
-        $dictionary =
+        $self->{logger}->debug("New dictionary sent by the server");
+
+        my $dictionary =
             FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
                 string => $options->{DICO},
                 hash   => $options->{DICOHASH}
@@ -221,36 +225,30 @@ sub _getDictionary {
             name => 'dictionary',
             data => { dictionary => $dictionary }
         );
-    } else {
-        # no dictionary in server message, retrieve last saved one
-        my $data = $storage->restore(name => 'dictionary');
-        $dictionary = $data->{dictionary};
+
+        return $dictionary;
     }
 
-    if ($options->{DICOHASH}) {
-        my $hash = $dictionary->getHash();
-        if ($hash) {
-            if ($hash eq $options->{DICOHASH}) {
-                $self->{logger}->debug("Dictionary is up to date.");
-            } else {
-                $self->_sendUpdateMessage($recipient, $pid);
-                $self->{logger}->debug(
-                    "Dictionary is outdated, update request sent, exiting"
-                );
-                return;
-            }
-        } else {
-            $self->_sendUpdateMessage($recipient, $pid);
-            $self->{logger}->debug(
-                "No dictionary, update request sent, exiting"
-            );
-            return;
-        }
+    # otherwise, retrieve last saved one
+    $self->{logger}->debug("Retrieving stored dictionary");
+    my $data = $storage->restore(name => 'dictionary');
+    my $dictionary = $data->{dictionary};
+
+    if (!$dictionary) {
+        $self->{logger}->debug("Dictionary is missing, update request sent");
+        $self->_sendUpdateMessage($recipient, $pid);
+        return;
     }
 
-    $self->{logger}->debug("Dictionary loaded.");
+    # check its status
+    my $hash = $dictionary->getHash();
+    if ($hash eq $options->{DICOHASH}) {
+        return $dictionary;
+    }
 
-    return $dictionary;
+    $self->{logger}->debug("Dictionary is outdated, update request sent");
+    $self->_sendUpdateMessage($recipient, $pid);
+    return;
 }
 
 sub _sendUpdateMessage {
