@@ -206,32 +206,29 @@ sub run {
 sub _getDictionary {
     my ($self, $options, $recipient, $pid) = @_;
 
-    my ($dictionary, $hash);
+    my $dictionary;
     my $storage = $self->{controller}->getStorage();
 
     if ($options->{DICO}) {
         # new dictionary sent by the server, load it and save it for next run
         $dictionary =
             FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
-                string => $options->{DICO}
+                string => $options->{DICO},
+                hash   => $options->{DICOHASH}
             );
-        $hash = $options->{DICOHASH};
 
         $storage->save(
             name => 'dictionary',
-            data => {
-                dictionary => $dictionary,
-                hash       => $hash
-            }
+            data => { dictionary => $dictionary }
         );
     } else {
         # no dictionary in server message, retrieve last saved one
         my $data = $storage->restore(name => 'dictionary');
         $dictionary = $data->{dictionary};
-        $hash       = $data->{hash};
     }
 
     if ($options->{DICOHASH}) {
+        my $hash = $dictionary->getHash();
         if ($hash) {
             if ($hash eq $options->{DICOHASH}) {
                 $self->{logger}->debug("Dictionary is up to date.");
