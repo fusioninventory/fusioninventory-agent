@@ -43,12 +43,6 @@ sub isEnabled {
     return 1;
 }
 
-sub setParam {
-    my ($self, $name, $value) = @_;
-
-    $self->{params}->{$name} = $value;
-}
-
 sub run {
     my ($self, %params) = @_;
 

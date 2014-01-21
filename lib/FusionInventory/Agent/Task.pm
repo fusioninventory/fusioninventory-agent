@@ -44,6 +44,12 @@ sub getOptionsFromServer {
     return $options;
 }
 
+sub setParam {
+    my ($self, $name, $value) = @_;
+
+    $self->{params}->{$name} = $value;
+}
+
 sub getModules {
     my ($class, $prefix) = @_;
 
