@@ -115,19 +115,12 @@ my $task = FusionInventory::Agent::Task::NetInventory->new(
     deviceid => $agent->{deviceid},
 );
 
-$task->{options} = {
-    NAME => 'SNMPQUERY',
-    PARAM => [
-        {
-            PID           => 1,
-            THREADS_QUERY => 1,
-            TIMEOUT       => $options->{timeout},
-        }
-    ],
-    DEVICE         => [ $device ],
-    MODEL          => [ $model ],
-    AUTHENTICATION => [ $credentials ]
-};
+$task->set_param('pid',         1);
+$task->set_param('threads',     1);
+$task->set_param('timeout',     $options->{timeout});
+$task->set_param('devices',     [ $device ]);
+$task->set_param('models',      [ $model ]);
+$task->set_param('credentials', [ $credentials ]);
 
 my $recipient = FusionInventory::Agent::Recipient->create(
     target  => $options->{recipient},

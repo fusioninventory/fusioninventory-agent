@@ -32,8 +32,21 @@ sub isEnabled {
         return;
     }
 
-    $self->{options} = $options;
+    $self->{params} = {
+        pid         => $options->{PARAM}->[0]->{PID},
+        threads     => $options->{PARAM}->[0]->{THREADS_QUERY},
+        timeout     => $options->{PARAM}->[0]->{TIMEOUT},
+        credentials => $options->{AUTHENTICATION},
+        models      => $options->{MODEL},
+        devices     => $options->{DEVICE},
+    };
     return 1;
+}
+
+sub setParam {
+    my ($self, $name, $value) = @_;
+
+    $self->{params}->{$name} = $value;
 }
 
 sub run {
@@ -56,26 +69,22 @@ sub run {
             no_ssl_check => $params{no_ssl_check},
     );
 
-    my $options     = $self->{options};
-    my $pid         = $options->{PARAM}->[0]->{PID};
-    my $max_threads = $options->{PARAM}->[0]->{THREADS_QUERY};
-    my $timeout     = $options->{PARAM}->[0]->{TIMEOUT};
-
     # SNMP models
-    my $models = _getIndexedModels($options->{MODEL});
+    my $models = _getIndexedModels($self->{params}->{models});
 
     # SNMP credentials
-    my $credentials = _getIndexedCredentials($options->{AUTHENTICATION});
+    my $credentials = _getIndexedCredentials($self->{params}->{credentials});
 
     # devices list
-    my @devices = @{$options->{DEVICE}};
+    my @devices = @{$self->{params}->{devices}};
 
     # no need for more threads than devices to scan
-    if ($max_threads > @devices) {
-        $max_threads = @devices;
+    my $threads = $self->{params}->{threads};
+    if ($threads > @devices) {
+        $threads = @devices;
     }
 
-    my $engine_class = $max_threads > 1 ?
+    my $engine_class = $threads > 1 ?
         'FusionInventory::Agent::Task::NetInventory::Engine::Thread' :
         'FusionInventory::Agent::Task::NetInventory::Engine::NoThread';
 
@@ -86,8 +95,8 @@ sub run {
         datadir     => $self->{datadir},
         credentials => $credentials,
         models      => $models,
-        threads     => $max_threads,
-        timeout     => $timeout,
+        threads     => $threads,
+        timeout     => $self->{params}->{timeout},
     );
 
     # send initial message to the server
@@ -99,7 +108,7 @@ sub run {
                 AGENTVERSION => $FusionInventory::Agent::VERSION
             },
             MODULEVERSION => $FusionInventory::Agent::VERSION,
-            PROCESSNUMBER => $pid
+            PROCESSNUMBER => $self->{params}->{pid}
         }
     );
 
@@ -110,7 +119,7 @@ sub run {
         my $data = {
             DEVICE        => $result,
             MODULEVERSION => $VERSION,
-            PROCESSNUMBER => $pid
+            PROCESSNUMBER => $self->{params}->{pid}
         };
         $self->_sendMessage($recipient, $data);
     }
@@ -125,7 +134,7 @@ sub run {
                 END => 1,
             },
             MODULEVERSION => $FusionInventory::Agent::VERSION,
-            PROCESSNUMBER => $pid
+            PROCESSNUMBER => $self->{params}->{pid}
         }
     );
 }
