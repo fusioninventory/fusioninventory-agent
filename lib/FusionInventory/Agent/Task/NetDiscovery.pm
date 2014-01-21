@@ -97,10 +97,24 @@ sub run {
         );
     } else {
         $snmp_credentials = $self->_getCredentials($options);
-        $snmp_dictionary = $self->_getDictionary($options, $recipient, $pid);
+        $snmp_dictionary = $self->_getDictionary($options);
+
         # abort immediatly if the dictionary isn't up to date
         if (!$snmp_dictionary) {
-            $self->{logger}->debug("No dictionary available, exiting");
+            $self->{logger}->debug(
+                "No dictionary available, sending update message and exiting"
+            );
+            $self->_sendMessage(
+                $recipient,
+                {
+                    AGENT => {
+                        END => '1'
+                    },
+                    MODULEVERSION => $FusionInventory::Agent::VERSION,
+                    PROCESSNUMBER => $pid,
+                    DICO          => "REQUEST",
+                }
+            );
             return;
         }
     }
@@ -207,7 +221,7 @@ sub run {
 }
 
 sub _getDictionary {
-    my ($self, $options, $recipient, $pid) = @_;
+    my ($self, $options) = @_;
 
     my $storage = $self->{controller}->getStorage();
 
@@ -235,36 +249,18 @@ sub _getDictionary {
     my $dictionary = $data->{dictionary};
 
     if (!$dictionary) {
-        $self->{logger}->debug("Dictionary is missing, update request sent");
-        $self->_sendUpdateMessage($recipient, $pid);
+        $self->{logger}->debug("Dictionary is missing");
         return;
     }
 
     # check its status
     my $hash = $dictionary->getHash();
-    if ($hash eq $options->{DICOHASH}) {
-        return $dictionary;
+    if ($hash ne $options->{DICOHASH}) {
+        $self->{logger}->debug("Dictionary is outdated");
+        return;
     }
 
-    $self->{logger}->debug("Dictionary is outdated, update request sent");
-    $self->_sendUpdateMessage($recipient, $pid);
-    return;
-}
-
-sub _sendUpdateMessage {
-    my ($self, $recipient, $pid) = @_;
-
-    $self->_sendMessage(
-        $recipient,
-        {
-            AGENT => {
-                END => '1'
-            },
-            MODULEVERSION => $FusionInventory::Agent::VERSION,
-            PROCESSNUMBER => $pid,
-            DICO          => "REQUEST",
-        }
-    );
+    return $dictionary;
 }
 
 sub _getCredentials {
