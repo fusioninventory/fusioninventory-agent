@@ -10,7 +10,9 @@ use UNIVERSAL::require;
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {};
+    my $self = {
+        hash => $params{hash}
+    };
     bless $self, $class;
 
     SWITCH: {
@@ -20,10 +22,6 @@ sub new {
         }
         if ($params{string}) {
             $self->_init_from_string($params{string});
-            last SWITCH;
-        }
-        if ($params{hash}) {
-            $self->_init_from_hash($params{hash});
             last SWITCH;
         }
     }
@@ -59,7 +57,6 @@ sub _init_from_hash {
         my $md5 = md5_hex($sysdescr);
         $self->{models}->{$md5} = $device;
     }
-    $self->{hash} = md5_hex($hash);
 }
 
 sub getModel {
@@ -110,7 +107,7 @@ The models list, as an XML file.
 
 =item I<hash>
 
-The models list, as an hashref.
+The dictionary hash value.
 
 =back
 
