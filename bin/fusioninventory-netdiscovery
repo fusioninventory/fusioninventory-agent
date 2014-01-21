@@ -11,6 +11,7 @@ use Pod::Usage;
 use FusionInventory::Agent;
 use FusionInventory::Agent::Recipient;
 use FusionInventory::Agent::Task::NetDiscovery;
+use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 
 my %setup = (
     confdir => './etc',
@@ -56,9 +57,8 @@ pod2usage(
 my $agent = FusionInventory::Agent->new(%setup);
 
 my $range = {
-    ID      => 1,
-    IPSTART => $options->{first},
-    IPEND   => $options->{last},
+    id   => 1,
+    spec => $options->{first} . '-' . $options->{last},
 };
 
 my $dictionary;
@@ -67,7 +67,9 @@ my @authentications;
 if ($options->{dictionary}) {
     die "no such file $options->{dictionary}"
         unless -f $options->{dictionary};
-    $dictionary = getDictionary($options->{dictionary});
+    $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
+        file => $options->{dictionary}
+    );
 }
 
 my $id = 1;
@@ -90,7 +92,7 @@ if ($options->{community}) {
 }
 
 if ($options->{entity}) {
-    $range->{ENTITY} = $options->{entity};
+    $range->{entity} = $options->{entity};
 }
 
 my $task = FusionInventory::Agent::Task::NetDiscovery->new(
@@ -99,22 +101,14 @@ my $task = FusionInventory::Agent::Task::NetDiscovery->new(
     datadir  => $agent->{datadir},
     logger   => $agent->{logger},
     deviceid => $agent->{deviceid},
-    recipient => FusionInventory::Agent::Task::NetInventory::Target->new(),
 );
 
-$task->{options} = {
-    NAME => 'NETDISCOVERY',
-    PARAM => [
-        {
-            PID               => 1,
-            THREADS_DISCOVERY => $options->{threads},
-            TIMEOUT           => $options->{timeout},
-        }
-    ],
-    RANGEIP        => [ $range ],
-    AUTHENTICATION => [ @authentications ],
-    DICO           => $dictionary,
-};
+$task->set_param('pid',         1);
+$task->set_param('threads',     $options->{threads});
+$task->set_param('timeout',     $options->{timeout});
+$task->set_param('blocks',      [ $range ]);
+$task->set_param('credentials', \@authentications);
+$task->set_param('dictionary',  $dictionary);
 
 my $recipient = FusionInventory::Agent::Recipient->create(
     target  => $options->{recipient},
@@ -126,53 +120,6 @@ eval {
     $agent->init(options => $options);
     $agent->runSingleTask(task => $task, recipient => $recipient);
 };
-
-sub getDictionary {
-    my ($file) = @_;
-
-    open (my $handle, '<', $file) or die "Can't open $file: $ERRNO";
-    local $INPUT_RECORD_SEPARATOR;
-    my $string = <$handle>;
-    close $handle;
-
-    return $string;
-}
-
-package FusionInventory::Agent::Task::NetInventory::Target;
-
-sub new {
-    my ($class, %params) = @_;
-
-     my $storage = FusionInventory::Agent::Task::NetInventory::Storage->new();
-
-    return bless {
-        storage => $storage
-    }, $class;
-}
-
-sub getStorage {
-    my ($self, %params) = @_;
-
-    return $self->{storage};
-}
-
-package FusionInventory::Agent::Task::NetInventory::Storage;
-
-sub new {
-    my ($class) = @_;
-
-    return bless {}, $class;
-}
-
-sub save {
-}
-
-sub restore {
-    return {
-        dictionary =>
-            FusionInventory::Agent::Task::NetDiscovery::Dictionary->new()
-    };
-}
 
 __END__
 

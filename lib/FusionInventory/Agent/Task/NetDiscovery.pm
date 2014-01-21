@@ -36,7 +36,60 @@ sub isEnabled {
         return;
     }
 
-    $self->{options} = $options;
+    # blocks list
+    my @blocks;
+    foreach my $range (@{$options->{RANGEIP}}) {
+        push @blocks, {
+            id     => $range->{ID},
+            spec   => $range->{IPSTART} . '-' . $range->{IPEND},
+            entity => $range->{ENTITY}
+        };
+    }
+
+    # dictionary
+    my $dictionary = $self->_getDictionary(
+        $options,
+        $self->{controller}->getStorage()
+    );
+
+    if (!$dictionary) {
+        $self->{logger}->debug(
+            "No dictionary available, sending update message and exiting"
+        );
+        my $recipient = FusionInventory::Agent::Recipient::Server->new(
+            target       => $self->{controller}->getUrl(),
+            logger       => $self->{logger},
+            user         => $params{user},
+            password     => $params{password},
+            proxy        => $params{proxy},
+            ca_cert_file => $params{ca_cert_file},
+            ca_cert_dir  => $params{ca_cert_dir},
+            no_ssl_check => $params{no_ssl_check},
+        );
+
+        $self->_sendMessage(
+            $recipient,
+            {
+                AGENT => {
+                    END => '1'
+                },
+                MODULEVERSION => $FusionInventory::Agent::VERSION,
+                PROCESSNUMBER => $options->{PARAM}->[0]->{PID},
+                DICO          => "REQUEST",
+            }
+        );
+        return;
+    }
+
+    $self->{params} = {
+        pid         => $options->{PARAM}->[0]->{PID},
+        threads     => $options->{PARAM}->[0]->{THREADS_DISCOVERY},
+        timeout     => $options->{PARAM}->[0]->{TIMEOUT},
+        credentials => $options->{AUTHENTICATION},
+        dictionary  => $dictionary,
+        blocks      => \@blocks
+    };
+
     return 1;
 }
 
@@ -60,10 +113,7 @@ sub run {
             no_ssl_check => $params{no_ssl_check},
         );
 
-    my $options     = $self->{options};
-    my $pid         = $options->{PARAM}->[0]->{PID};
-    my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
-    my $timeout     = $options->{PARAM}->[0]->{TIMEOUT};
+    my $pid         = $self->{params}->{pid};
 
     # check discovery methods available
     my ($nmap_parameters, $snmp_credentials, $snmp_dictionary);
@@ -96,38 +146,18 @@ sub run {
             "can't be used"
         );
     } else {
-        $snmp_credentials = $self->_getCredentials($options);
-        $snmp_dictionary = $self->_getDictionary($options);
-
-        # abort immediatly if the dictionary isn't up to date
-        if (!$snmp_dictionary) {
-            $self->{logger}->debug(
-                "No dictionary available, sending update message and exiting"
-            );
-            $self->_sendMessage(
-                $recipient,
-                {
-                    AGENT => {
-                        END => '1'
-                    },
-                    MODULEVERSION => $FusionInventory::Agent::VERSION,
-                    PROCESSNUMBER => $pid,
-                    DICO          => "REQUEST",
-                }
-            );
-            return;
-        }
+        $snmp_credentials = _getCredentials($self->{params}->{credentials});
+        $snmp_dictionary = $self->{params}->{dictionary};
     }
 
     # blocks list
-    my @blocks = @{$options->{RANGEIP}};
+    my @blocks = @{$self->{params}->{blocks}};
     my $max_size = 0;
     foreach my $block (@blocks) {
-        my $ip = Net::IP->new($block->{IPSTART} . '-' . $block->{IPEND});
+        my $ip = Net::IP->new($block->{spec});
         if (!$ip || $ip->binip() !~ /1/) {
             $self->{logger}->error(
-                "IPv4 range not supported by Net::IP: ".
-                $block->{IPSTART} . '-' . $block->{IPEND}
+                "IPv4 specification not supported by Net::IP: $block->{spec}"
             );
             next;
         }
@@ -138,11 +168,12 @@ sub run {
     }
 
     # no need for more threads than addresses in any single block
-    if ($max_threads > $max_size) {
-        $max_threads = $max_size;
+    my $threads = $self->{params}->{threads};
+    if ($threads > $max_size) {
+        $threads = $max_size;
     }
 
-    my $engine_class = $max_threads > 1 ?
+    my $engine_class = $threads > 1 ?
         'FusionInventory::Agent::Task::NetDiscovery::Engine::Thread' :
         'FusionInventory::Agent::Task::NetDiscovery::Engine::NoThread';
 
@@ -154,8 +185,8 @@ sub run {
         nmap_parameters  => $nmap_parameters,
         snmp_credentials => $snmp_credentials,
         snmp_dictionary  => $snmp_dictionary,
-        threads          => $max_threads,
-        timeout          => $timeout,
+        threads          => $threads,
+        timeout          => $self->{params}->{timeout}
     );
 
     # send initial message to the server
@@ -177,9 +208,7 @@ sub run {
         do {
             push @addresses, $block->{ip}->ip(),
         } while (++$block->{ip});
-        $self->{logger}->debug(
-            "scanning range: $block->{IPSTART}-$block->{IPEND}"
-        );
+        $self->{logger}->debug("scanning block $block->{spec}");
 
         # send block size to the server
         $self->_sendMessage(
@@ -221,9 +250,7 @@ sub run {
 }
 
 sub _getDictionary {
-    my ($self, $options) = @_;
-
-    my $storage = $self->{controller}->getStorage();
+    my ($self, $options, $storage) = @_;
 
     # use dictionary sent by the server, if available
     if ($options->{DICO}) {
@@ -239,7 +266,6 @@ sub _getDictionary {
             name => 'dictionary',
             data => { dictionary => $dictionary }
         );
-
         return $dictionary;
     }
 
@@ -264,23 +290,27 @@ sub _getDictionary {
 }
 
 sub _getCredentials {
-    my ($self, $options) = @_;
+    my ($credentials) = @_;
 
-    my @credentials;
+    # filter irrelevant credentials
+    return [ grep { _isValidCredentials($_) } @$credentials ];
+}
 
-    foreach my $credential (@{$options->{AUTHENTICATION}}) {
-        if ($credential->{VERSION} eq '3') {
-            # a user name is required
-            next unless $credential->{USERNAME};
-            # DES support is required
-            next unless Crypt::DES->require();
-        } else {
-            next unless $credential->{COMMUNITY};
-        }
-        push @credentials, $credential;
+sub _isValidCredential {
+    my ($credential) = @_;
+
+    return unless $credential->{VERSION};
+
+    if ($credential->{VERSION} eq '3') {
+        # a user name is required
+        return unless $credential->{USERNAME};
+        # DES support is required
+        return unless Crypt::DES->require();
+    } else {
+        return unless $credential->{COMMUNITY};
     }
 
-    return \@credentials;
+    return 1;
 }
 
 sub _sendMessage {
