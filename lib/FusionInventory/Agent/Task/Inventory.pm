@@ -44,6 +44,9 @@ sub run {
     my ($self, %params) = @_;
 
     $self->{logger}->debug("running FusionInventory Inventory task");
+    if ( $REAL_USER_ID != 0 ) {
+        $logger->info("You should run this program as super-user.");
+    }
 
     # use given output recipient, otherwise use either local or server recipient,
     # according to controller type
