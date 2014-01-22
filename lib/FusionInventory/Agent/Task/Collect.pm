@@ -22,6 +22,91 @@ sub isEnabled {
     return $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
 }
 
+sub run {
+    my ( $self, %params ) = @_;
+
+    $self->{logger}->debug("FusionInventory Collect task $VERSION");
+
+    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+        debug        => $self->{debug}
+    );
+    die unless $self->{client};
+
+    my $globalRemoteConfig = $self->{client}->send(
+        "url" => $self->{controller}->{url},
+        args  => {
+            action    => "getConfig",
+            machineid => $self->{deviceid},
+            task      => { Collect => $VERSION },
+        }
+    );
+
+    return unless $globalRemoteConfig->{schedule};
+    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
+
+    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
+        next unless $job->{task} eq "Collect";
+        $self->{collectRemote} = $job->{remote};
+    }
+    if ( !$self->{collectRemote} ) {
+        $self->{logger}->info("Collect support disabled server side.");
+        return;
+    }
+
+    my $jobs = $self->{client}->send(
+        "url" => $self->{collectRemote},
+        args  => {
+            action    => "getJobs",
+            machineid => $self->{deviceid}
+        }
+    );
+
+    return unless $jobs;
+    return unless ref($jobs) eq 'ARRAY';
+
+    $self->{logger}->info( "Got " . int( @{$jobs} ) . " collect order(s)." );
+
+    foreach my $job (@$jobs) {
+        if ( !$job->{uuid} ) {
+            $self->{logger}->error("UUID key missing");
+            next;
+        }
+
+        if ( !defined( $functions{ $job->{function} } ) ) {
+            $self->{logger}->error("Bad function `$job->{function}'");
+            next;
+        }
+
+        my @result = &{ $functions{ $job->{function} } }(%$job);
+
+        next unless @result;
+
+        my $_cpt = int(@result);
+        foreach my $r (@result) {
+            next unless ref($r) eq 'HASH';
+            next unless keys %$r;
+            $r->{uuid}   = $job->{uuid};
+            $r->{action} = "setAnswer";
+            $r->{_cpt}    = $_cpt--;
+            $self->{client}->send(
+                url  => $self->{collectRemote},
+                args => $r
+            );
+
+        }
+
+    }
+
+    return $self;
+}
+
 sub _getFromRegistry {
     my %params = @_;
 
@@ -189,89 +274,5 @@ my %functions = (
     getFromWMI      => \&_getFromWMI
 );
 
-sub run {
-    my ( $self, %params ) = @_;
-
-    $self->{logger}->debug("FusionInventory Collect task $VERSION");
-
-    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-        debug        => $self->{debug}
-    );
-    die unless $self->{client};
-
-    my $globalRemoteConfig = $self->{client}->send(
-        "url" => $self->{controller}->{url},
-        args  => {
-            action    => "getConfig",
-            machineid => $self->{deviceid},
-            task      => { Collect => $VERSION },
-        }
-    );
-
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
-
-    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
-        next unless $job->{task} eq "Collect";
-        $self->{collectRemote} = $job->{remote};
-    }
-    if ( !$self->{collectRemote} ) {
-        $self->{logger}->info("Collect support disabled server side.");
-        return;
-    }
-
-    my $jobs = $self->{client}->send(
-        "url" => $self->{collectRemote},
-        args  => {
-            action    => "getJobs",
-            machineid => $self->{deviceid}
-        }
-    );
-
-    return unless $jobs;
-    return unless ref($jobs) eq 'ARRAY';
-
-    $self->{logger}->info( "Got " . int( @{$jobs} ) . " collect order(s)." );
-
-    foreach my $job (@$jobs) {
-        if ( !$job->{uuid} ) {
-            $self->{logger}->error("UUID key missing");
-            next;
-        }
-
-        if ( !defined( $functions{ $job->{function} } ) ) {
-            $self->{logger}->error("Bad function `$job->{function}'");
-            next;
-        }
-
-        my @result = &{ $functions{ $job->{function} } }(%$job);
-
-        next unless @result;
-
-        my $_cpt = int(@result);
-        foreach my $r (@result) {
-            next unless ref($r) eq 'HASH';
-            next unless keys %$r;
-            $r->{uuid}   = $job->{uuid};
-            $r->{action} = "setAnswer";
-            $r->{_cpt}    = $_cpt--;
-            $self->{client}->send(
-                url  => $self->{collectRemote},
-                args => $r
-            );
-
-        }
-
-    }
-
-    return $self;
-}
 
 1;
