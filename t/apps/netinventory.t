@@ -68,6 +68,10 @@ my $content = XML::TreePP->new()->parse($out);
 ok($content, 'valid output');
 
 my $result = XML::TreePP->new()->parsefile('resources/walks/sample4.result');
-# Ignore VERSION changes
-$result->{REQUEST}{CONTENT}{MODULEVERSION} = $FusionInventory::Agent::Task::NetInventory::VERSION;
+# expect current version
+$result->{REQUEST}{CONTENT}{MODULEVERSION} =
+    $FusionInventory::Agent::Task::NetInventory::VERSION;
+# expect any agent id
+$result->{REQUEST}{DEVICEID} = re('^\w+-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}');
+
 cmp_deeply($content, $result, "expected output");
