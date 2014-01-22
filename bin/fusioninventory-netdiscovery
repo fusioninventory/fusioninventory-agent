@@ -103,12 +103,12 @@ my $task = FusionInventory::Agent::Task::NetDiscovery->new(
     deviceid => $agent->{deviceid},
 );
 
-$task->set_param('pid',         1);
-$task->set_param('threads',     $options->{threads});
-$task->set_param('timeout',     $options->{timeout});
-$task->set_param('blocks',      [ $range ]);
-$task->set_param('credentials', \@authentications);
-$task->set_param('dictionary',  $dictionary);
+$task->setParam('pid',         1);
+$task->setParam('threads',     $options->{threads});
+$task->setParam('timeout',     $options->{timeout});
+$task->setParam('blocks',      [ $range ]);
+$task->setParam('credentials', \@authentications);
+$task->setParam('dictionary',  $dictionary);
 
 my $recipient = FusionInventory::Agent::Recipient->create(
     target  => $options->{recipient},
