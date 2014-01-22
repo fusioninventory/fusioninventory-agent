@@ -52,6 +52,7 @@ if ($options->{directory}) {
 }
 
 my $agent = FusionInventory::Agent->new(%setup);
+$agent->init(options => $options);
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
     config   => $agent->{config},
@@ -75,7 +76,6 @@ my $recipient = FusionInventory::Agent::Recipient->create(
 );
 
 eval {
-    $agent->init(options => $options);
     $agent->runSingleTask(task => $esx, recipient => $recipient);
 };
 

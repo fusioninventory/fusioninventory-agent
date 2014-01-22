@@ -46,6 +46,7 @@ if ($options->{version}) {
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 my $agent = FusionInventory::Agent->new(%setup);
+$agent->init(options => $options);
 
 my $inventory = FusionInventory::Agent::Task::Inventory->new(
     config   => $agent->{config},
@@ -62,7 +63,6 @@ my $recipient = FusionInventory::Agent::Recipient::Inventory->create(
 );
 
 eval {
-    $agent->init(options => $options);
     $agent->runSingleTask(task => $inventory, recipient => $recipient);
 };
 
