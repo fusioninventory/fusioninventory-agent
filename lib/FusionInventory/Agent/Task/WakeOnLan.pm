@@ -28,23 +28,19 @@ sub isEnabled {
     );
     return unless $options;
 
-    my @addresses;
-    foreach my $param (@{$options->{PARAM}}) {
-        my $address = $param->{MAC};
-        if ($address !~ /^$mac_address_pattern$/) {
-            $self->{logger}->error("invalid MAC address $address, skipping");
-            next;
-        }
-        $address =~ s/://g;
-        push @addresses, $address;
-    }
+    my @addresses = map {
+        $_->{MAC}
+    } @{$options->{PARAM}};
 
     if (!@addresses) {
         $self->{logger}->error("No mac address defined in the prolog response");
         return;
     }
 
-    $self->{addresses} = \@addresses;
+    $self->{params} = {
+        addresse => \@addresses
+    };
+
     return 1;
 }
 
@@ -57,7 +53,14 @@ sub run {
 
     METHODS: foreach my $method (@methods) {
         my $function = '_send_magic_packet_' . $method;
-        ADDRESSES: foreach my $address (@{$self->{addresses}}) {
+        ADDRESSES: foreach my $address (@{$self->{params}->{addresses}}) {
+            if ($address !~ /^$mac_address_pattern$/) {
+                $self->{logger}->error(
+                    "invalid MAC address $address, skipping"
+                );
+                next;
+            }
+            $address =~ s/://g;
             eval {
                 $self->$function($address);
             };
