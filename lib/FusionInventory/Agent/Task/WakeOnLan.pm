@@ -49,7 +49,8 @@ sub run {
 
     $self->{logger}->debug("running FusionInventory WakeOnLan task");
 
-    my @methods = $params{methods} ? @{$params{methods}} : qw/ethernet udp/;
+    my @methods = $self->{params}->{methods} ?
+        @{$self->{params}->{methods}} : qw/ethernet udp/;
 
     METHODS: foreach my $method (@methods) {
         my $function = '_send_magic_packet_' . $method;

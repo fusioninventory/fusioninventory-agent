@@ -53,9 +53,7 @@ my $task = FusionInventory::Agent::Task::WakeOnLan->new(
 );
 
 $task->setParam('addresses', $options->{addresses});
-
-my %params = $options->{methods} ?
-    (methods => [ split(/,/, $options->{methods}) ]) : ();
+$task->setParam('methods',   $options->{methods});
 
 eval {
     $agent->init(options => $options);
