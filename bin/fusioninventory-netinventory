@@ -63,6 +63,7 @@ pod2usage(
 ) unless $options->{host} or $options->{file};
 
 my $agent = FusionInventory::Agent->new(%setup);
+$agent->init(options => $options);
 
 my $device = {
     ID           => 0,
@@ -129,7 +130,6 @@ my $recipient = FusionInventory::Agent::Recipient->create(
 );
 
 eval {
-    $agent->init(options => $options);
     $agent->runSingleTask(task => $task, recipient => $recipient);
 };
 

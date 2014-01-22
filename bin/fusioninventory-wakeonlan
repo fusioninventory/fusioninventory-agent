@@ -47,6 +47,7 @@ pod2usage(
 ) if $options->{mac} !~ /^$mac_address_pattern$/;
 
 my $agent = FusionInventory::Agent->new(%setup);
+$agent->init(options => $options);
 
 my $task = FusionInventory::Agent::Task::WakeOnLan->new(
     config   => $agent->{config},
@@ -61,7 +62,6 @@ $task->setParam('ethernet',  $options->{ethernet});
 $task->setParam('udp',       $options->{udp});
 
 eval {
-    $agent->init(options => $options);
     $agent->runSingleTask(task => $task);
 };
 

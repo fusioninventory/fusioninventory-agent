@@ -55,6 +55,7 @@ pod2usage(
 ) unless $options->{last};
 
 my $agent = FusionInventory::Agent->new(%setup);
+$agent->init(options => $options);
 
 my $range = {
     id   => 1,
@@ -117,7 +118,6 @@ my $recipient = FusionInventory::Agent::Recipient->create(
 );
 
 eval {
-    $agent->init(options => $options);
     $agent->runSingleTask(task => $task, recipient => $recipient);
 };
 
