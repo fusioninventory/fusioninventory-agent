@@ -11,6 +11,7 @@ use Net::IP;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent;
+use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Recipient::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
@@ -56,8 +57,7 @@ sub isEnabled {
         $self->{logger}->debug(
             "No dictionary available, sending update message and exiting"
         );
-        my $recipient = FusionInventory::Agent::Recipient::Server->new(
-            target       => $self->{controller}->getUrl(),
+        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             user         => $params{user},
             password     => $params{password},
@@ -67,9 +67,10 @@ sub isEnabled {
             no_ssl_check => $params{no_ssl_check},
         );
 
-        $self->_sendMessage(
-            $recipient,
-            {
+        my $message = FusionInventory::Agent::XML::Query->new(
+            deviceid => $self->{deviceid},
+            query    => 'NETDISCOVERY',
+            content  => {
                 AGENT => {
                     END => '1'
                 },
@@ -78,6 +79,12 @@ sub isEnabled {
                 DICO          => "REQUEST",
             }
         );
+
+        $client->send(
+            url     => $self->{controller}->getUrl(),
+            message => $message
+        );
+
         return;
     }
 
