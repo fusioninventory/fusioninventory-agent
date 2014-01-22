@@ -19,12 +19,16 @@ my %setup = (
     vardir  => './var',
 );
 
-my $options = {};
+my $options = {
+    ethernet => 1,
+    udp      => 1,
+};
 
 GetOptions(
     $options,
     'mac=s',
-    'methods=s',
+    'ethernet!',
+    'udp!',
     'debug+',
     'help',
     'version',
@@ -53,7 +57,8 @@ my $task = FusionInventory::Agent::Task::WakeOnLan->new(
 );
 
 $task->setParam('addresses', $options->{addresses});
-$task->setParam('methods',   $options->{methods});
+$task->setParam('ethernet',  $options->{ethernet});
+$task->setParam('udp',       $options->{udp});
 
 eval {
     $agent->init(options => $options);
@@ -72,7 +77,8 @@ fusioninventory-wakeonlan [options]
 
   Options:
     --mac=MAC         target mac address
-    --methods=METHODS comma-separated list of methods to use (ethernet, udp)
+    --ethernet        use ethenet method if available (true)
+    --udp             use udp method (true)
     --debug           debug output (execution traces)
     -h --help         print this message and exit
     --version         print the task version and exit
