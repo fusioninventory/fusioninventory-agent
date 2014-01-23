@@ -16,6 +16,15 @@ use Digest::SHA;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
+my %functions = (
+    getFromRegistry => \&_getFromRegistry,
+    findFile        => \&_findFile,
+# As decided by the FusInv-Agent developers, the runCommand function
+# is disabled for the moment.
+#    runCommand      => \&_runCommand,
+    getFromWMI      => \&_getFromWMI
+);
+
 sub isEnabled {
     my ($self, %params) = @_;
 
@@ -277,16 +286,5 @@ sub _getFromWMI {
 
     return @return;
 }
-
-
-my %functions = (
-    getFromRegistry => \&_getFromRegistry,
-    findFile        => \&_findFile,
-# As decided by the FusInv-Agent developers, the runCommand function
-# is disabled for the moment.
-#    runCommand      => \&_runCommand,
-    getFromWMI      => \&_getFromWMI
-);
-
 
 1;
