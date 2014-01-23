@@ -17,17 +17,12 @@ use Digest::SHA;
 our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub isEnabled {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
-    return $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
-}
+    return unless
+        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
 
-sub run {
-    my ( $self, %params ) = @_;
-
-    $self->{logger}->debug("FusionInventory Collect task $VERSION");
-
-    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
+    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -37,43 +32,62 @@ sub run {
         no_ssl_check => $params{no_ssl_check},
         debug        => $self->{debug}
     );
-    die unless $self->{client};
 
-    my $globalRemoteConfig = $self->{client}->send(
-        "url" => $self->{controller}->{url},
-        args  => {
+    my $remoteConfig = $client->send(
+        url  => $self->{controller}->{url},
+        args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
             task      => { Collect => $VERSION },
         }
     );
 
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
+    my $schedule = $remoteConfig->{schedule};
+    return unless $schedule;
+    return unless ref $schedule eq 'ARRAY';
 
-    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
-        next unless $job->{task} eq "Collect";
-        $self->{collectRemote} = $job->{remote};
-    }
-    if ( !$self->{collectRemote} ) {
-        $self->{logger}->info("Collect support disabled server side.");
+    my @remotes =
+        grep { $_ }
+        map  { $_->{remote} }
+        grep { $_->{task} eq "Collect" }
+        @{$schedule};
+
+    if (!@remotes) {
+        $self->{logger}->info("No deploy task scheduled");
         return;
     }
 
-    my $jobs = $self->{client}->send(
-        "url" => $self->{collectRemote},
-        args  => {
+    my $jobs = $client->send(
+        url  => $remotes[-1],
+        args => {
             action    => "getJobs",
             machineid => $self->{deviceid}
         }
     );
 
-    return unless $jobs;
-    return unless ref($jobs) eq 'ARRAY';
+    if (!$jobs) {
+        $self->{logger}->info("No host in the server request");
+        return;
+    }
 
-    $self->{logger}->info( "Got " . int( @{$jobs} ) . " collect order(s)." );
+    if (ref $jobs->{jobs} ne 'ARRAY') {
+        $self->{logger}->info("Invalid server request format");
+        return;
+    }
 
-    foreach my $job (@$jobs) {
+    $self->{jobs} = $jobs->{jobs};
+    return 1;
+}
+
+sub run {
+    my ( $self, %params ) = @_;
+
+    $self->{logger}->debug("FusionInventory Collect task $VERSION");
+
+    my @jobs = @{$self->{jobs}};
+    $self->{logger}->info("Got @jobs collect order(s).");
+
+    foreach my $job (@jobs) {
         if ( !$job->{uuid} ) {
             $self->{logger}->error("UUID key missing");
             next;
