@@ -30,7 +30,7 @@ GetOptions(
     'last=s',
     'dictionary=s',
     'community=s@',
-    'credentials=s@',
+    'credential=s@',
     'entity=s',
     'threads=i',
     'recipient=s',
@@ -63,8 +63,6 @@ my $range = {
 };
 
 my $dictionary;
-my @authentications;
-
 if ($options->{dictionary}) {
     die "no such file $options->{dictionary}"
         unless -f $options->{dictionary};
@@ -74,22 +72,23 @@ if ($options->{dictionary}) {
 }
 
 my $id = 1;
+my @credentials;
 if ($options->{community}) {
     foreach my $community (@{$options->{community}}) {
-        push @authentications, { ID => $id++, COMMUNITY => $community };
+        push @credentials,
+            { id => $id++, version => 1, community => $community };
     }
-} elsif ($options->{credentials}) {
-    foreach my $credentials (@{$options->{credentials}}) {
-        my $authentication = { ID => $id++ };
-        foreach my $parameter (split(',', $credentials)) {
+} elsif ($options->{credential}) {
+    foreach my $specification (@{$options->{credential}}) {
+        my $credential = { id => $id++ };
+        foreach my $parameter (split(',', $specification)) {
             my ($key, $value) = split(':', $parameter);
-            $key = uc($key);
-            $authentication->{$key} = $value;
+            $credential->{$key} = $value;
         }
-        push @authentications, $authentication;
+        push @credentials, $credential;
     }
 } else {
-    push @authentications, { ID => $id++, COMMUNITY => 'public' };
+    push @credentials, { id => $id++, version => 1, community => 'public' };
 }
 
 if ($options->{entity}) {
@@ -108,7 +107,7 @@ $task->setParam('pid',         1);
 $task->setParam('threads',     $options->{threads});
 $task->setParam('timeout',     $options->{timeout});
 $task->setParam('blocks',      [ $range ]);
-$task->setParam('credentials', \@authentications);
+$task->setParam('credentials', \@credentials);
 $task->setParam('dictionary',  $dictionary);
 
 my $recipient = FusionInventory::Agent::Recipient->create(
@@ -135,9 +134,8 @@ fusioninventory-netdiscovery [options] --first <start> --last <stop>
     --first address      IP range first address
     --last address       IP range last address
     --dictionary file    dictionary file
-    --credentials string SNMP credentials
-                         (default: version:1,community:public)
-    --timeout numbe      SNMP timeout (default: 1s)
+    --credential string  SNMP credentials (default: version:1,community:public)
+    --timeout number     SNMP timeout (default: 1s)
     --entity string      GLPI entity
     --threads number     threads number (default: 1)
     --recipient string   where to send result (default: stdout)

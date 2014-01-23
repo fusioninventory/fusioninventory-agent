@@ -47,15 +47,9 @@ sub _queryDevice {
         eval {
             FusionInventory::Agent::SNMP::Live->require();
             $snmp = FusionInventory::Agent::SNMP::Live->new(
-                version      => $credentials->{VERSION},
                 hostname     => $device->{IP},
                 timeout      => $self->{timeout},
-                community    => $credentials->{COMMUNITY},
-                username     => $credentials->{USERNAME},
-                authpassword => $credentials->{AUTHPASSWORD},
-                authprotocol => $credentials->{AUTHPROTOCOL},
-                privpassword => $credentials->{PRIVPASSWORD},
-                privprotocol => $credentials->{PRIVPROTOCOL},
+                %$credentials
             );
         };
         if ($EVAL_ERROR) {

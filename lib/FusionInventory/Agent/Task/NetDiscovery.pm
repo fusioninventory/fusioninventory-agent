@@ -47,6 +47,15 @@ sub isEnabled {
         };
     }
 
+    my @credentials;
+    foreach my $authentication (@{$options->{AUTHENTICATION}}) {
+        my $credential;
+        foreach my $key (keys %$authentication) {
+            $credential->{lc($key)} = $authentication->{$key};
+        }
+        push @credentials, $credential;
+    }
+
     # dictionary
     my $dictionary = $self->_getDictionary(
         $options,
@@ -92,7 +101,7 @@ sub isEnabled {
         pid         => $options->{PARAM}->[0]->{PID},
         threads     => $options->{PARAM}->[0]->{THREADS_DISCOVERY},
         timeout     => $options->{PARAM}->[0]->{TIMEOUT},
-        credentials => $options->{AUTHENTICATION},
+        credentials => \@credentials,
         dictionary  => $dictionary,
         blocks      => \@blocks
     };
@@ -153,7 +162,7 @@ sub run {
             "can't be used"
         );
     } else {
-        $snmp_credentials = _getCredentials($self->{params}->{credentials});
+        $snmp_credentials = _filterCredentials($self->{params}->{credentials});
         $snmp_dictionary = $self->{params}->{dictionary};
     }
 
@@ -296,25 +305,27 @@ sub _getDictionary {
     return $dictionary;
 }
 
-sub _getCredentials {
+sub _filterCredentials {
     my ($credentials) = @_;
 
+    return unless $credentials;
+
     # filter irrelevant credentials
-    return [ grep { _isValidCredentials($_) } @$credentials ];
+    return [ grep { _isValidCredential($_) } @{$credentials} ];
 }
 
 sub _isValidCredential {
     my ($credential) = @_;
 
-    return unless $credential->{VERSION};
+    return unless $credential->{version};
 
-    if ($credential->{VERSION} eq '3') {
+    if ($credential->{version} eq '3') {
         # a user name is required
-        return unless $credential->{USERNAME};
+        return unless $credential->{username};
         # DES support is required
         return unless Crypt::DES->require();
     } else {
-        return unless $credential->{COMMUNITY};
+        return unless $credential->{community};
     }
 
     return 1;

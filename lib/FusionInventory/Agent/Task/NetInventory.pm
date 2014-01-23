@@ -32,11 +32,20 @@ sub isEnabled {
         return;
     }
 
+    my @credentials;
+    foreach my $authentication (@{$options->{AUTHENTICATION}}) {
+        my $credential;
+        foreach my $key (keys %$authentication) {
+            $credential->{lc($key)} = $authentication->{$key};
+        }
+        push @credentials, $credential;
+    }
+
     $self->{params} = {
         pid         => $options->{PARAM}->[0]->{PID},
         threads     => $options->{PARAM}->[0]->{THREADS_QUERY},
         timeout     => $options->{PARAM}->[0]->{TIMEOUT},
-        credentials => $options->{AUTHENTICATION},
+        credentials => \@credentials,
         models      => $options->{MODEL},
         devices     => $options->{DEVICE},
     };
@@ -64,10 +73,10 @@ sub run {
     );
 
     # SNMP models
-    my $models = _getIndexedModels($self->{params}->{models});
+    my $models = _indexModels($self->{params}->{models});
 
     # SNMP credentials
-    my $credentials = _getIndexedCredentials($self->{params}->{credentials});
+    my $credentials = _indexCredentials($self->{params}->{credentials});
 
     # devices list
     my @devices = @{$self->{params}->{devices}};
@@ -145,7 +154,7 @@ sub _sendMessage {
    $recipient->send(message => $message);
 }
 
-sub _getIndexedModels {
+sub _indexModels {
     my ($models) = @_;
 
     foreach my $model (@{$models}) {
@@ -160,11 +169,13 @@ sub _getIndexedModels {
     return { map { $_->{ID} => $_ } @{$models} };
 }
 
-sub _getIndexedCredentials {
+sub _indexCredentials {
     my ($credentials) = @_;
 
+    return unless $credentials;
+
     # index credentials by their ID
-    return { map { $_->{ID} => $_ } @{$credentials} };
+    return { map { $_->{id} => $_ } @{$credentials} };
 }
 
 1;

@@ -42,7 +42,7 @@ GetOptions(
     'host=s',
     'file=s',
     'community=s',
-    'credentials=s',
+    'credential=s',
     'entity=s',
     'recipient=s',
     'timeout=i',
@@ -73,8 +73,7 @@ my $device = {
     MODELSNMP_ID => 1
 };
 
-my $model       = { ID => 1 };
-my $credentials = { ID => 1 };
+my $model      = { ID => 1 };
 
 if ($options->{model}) {
     pod2usage(
@@ -92,16 +91,23 @@ if ($options->{type}) {
     $device->{TYPE} = $options->{type};
 }
 
+my $id = 1;
 if ($options->{community}) {
-    $credentials->{COMMUNITY} = $options->{community};
-} elsif (defined $options->{credentials}) {
-    foreach my $parameter (split(',', $options->{credentials})) {
-        my ($key, $value) = split(':', $parameter);
-        $key = uc($key);
-        $credentials->{$key} = $value;
+    foreach my $community (@{$options->{community}}) {
+        push @credentials,
+            { id => $id++, version => 1, community => $community };
+    }
+} elsif ($options->{credential}) {
+    foreach my $specification (@{$options->{credential}}) {
+        my $credential = { id => $id++ };
+        foreach my $parameter (split(',', $specification)) {
+            my ($key, $value) = split(':', $parameter);
+            $credential->{$key} = $value;
+        }
+        push @credentials, $credential;
     }
 } else {
-    $credentials->{COMMUNITY} = 'public';
+    push @credentials, { id => $id++, version => 1, community => 'public' };
 }
 
 if ($options->{entity}) {
@@ -121,7 +127,7 @@ $task->setParam('threads',     1);
 $task->setParam('timeout',     $options->{timeout});
 $task->setParam('devices',     [ $device ]);
 $task->setParam('models',      [ $model ]);
-$task->setParam('credentials', [ $credentials ]);
+$task->setParam('credentials', \@credentials);
 
 my $recipient = FusionInventory::Agent::Recipient->create(
     target  => $options->{recipient},
@@ -180,8 +186,7 @@ fusioninventory-netinventory [options] [--host <host>] [--file <file>]
     --file file          snmpwalk output file
     --model file         model file
     --type string        device type
-    --credentials string SNMP credentials
-                         (default: version:1,community:public)
+    --credential string  SNMP credentials (default: version:1,community:public)
     --timeout number     SNMP timeout (default: 15s)
     --entity string      GLPI entity
     --recipient string   where to send result (default: stdout)

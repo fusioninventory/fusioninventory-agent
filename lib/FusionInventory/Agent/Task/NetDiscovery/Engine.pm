@@ -110,13 +110,7 @@ sub _scanAddressBySNMP {
             $snmp = FusionInventory::Agent::SNMP::Live->new(
                 hostname     => $address,
                 timeout      => $self->{timeout},
-                version      => $credential->{VERSION},
-                community    => $credential->{COMMUNITY},
-                username     => $credential->{USERNAME},
-                authpassword => $credential->{AUTHPASSWORD},
-                authprotocol => $credential->{AUTHPROTOCOL},
-                privpassword => $credential->{PRIVPASSWORD},
-                privprotocol => $credential->{PRIVPROTOCOL},
+                %$credential
             );
         };
         if ($EVAL_ERROR) {
