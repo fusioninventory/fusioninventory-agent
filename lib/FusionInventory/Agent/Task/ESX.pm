@@ -79,12 +79,12 @@ sub isEnabled {
 }
 
 sub run {
-    my ( $self, %params ) = @_;
+    my ($self, %params) = @_;
 
     $self->{logger}->debug("running FusionInventory ESX task");
 
     my @jobs = @{$self->{jobs}};
-    $self->{logger}->info("Got " . @jobs . " VMware host(s) to inventory.");
+    $self->{logger}->info("Got @jobs VMware host(s) to inventory.");
 
     # use given output recipient,
     # otherwise assume the recipient is a GLPI server
