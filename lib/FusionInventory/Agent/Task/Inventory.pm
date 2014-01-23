@@ -43,7 +43,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("running FusionInventory Inventory task");
+    $self->{logger}->debug("running Inventory task");
     if ( $REAL_USER_ID != 0 ) {
         $self->{logger}->info("You should run this program as super-user.");
     }

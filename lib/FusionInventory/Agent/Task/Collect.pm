@@ -91,7 +91,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("running FusionInventory Collect task");
+    $self->{logger}->debug("running Collect task");
 
     my @jobs = @{$self->{jobs}};
     $self->{logger}->info("Got @jobs collect order(s).");

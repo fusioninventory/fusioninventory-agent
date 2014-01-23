@@ -47,7 +47,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("running FusionInventory WakeOnLan task");
+    $self->{logger}->debug("running WakeOnLan task");
 
     my $use_ethernet = $self->{params}->{ethernet} && $self->_canUseEthernet();
     my $use_udp      = $self->{params}->{udp}      && $self->_canUseUDP();

@@ -112,7 +112,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("running FusionInventory NetDiscovery task");
+    $self->{logger}->debug("running NetDiscovery task");
 
     # use given output recipient,
     # otherwise assume the recipient is a GLPI server

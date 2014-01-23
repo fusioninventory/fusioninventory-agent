@@ -68,7 +68,7 @@ sub run {
     my ($self, %params) = @_;
 
 
-    $self->{logger}->debug("running FusionInventory Deploy task");
+    $self->{logger}->debug("running Deploy task");
 
     $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
