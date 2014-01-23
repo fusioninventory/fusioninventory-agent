@@ -24,7 +24,7 @@ sub isEnabled {
     return unless
         $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
 
-    my $controller = FusionInventory::Agent::HTTP::Client::Fusion->new(
+    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -35,12 +35,12 @@ sub isEnabled {
         debug        => $self->{debug}
     );
 
-    my $remoteConfig = $controller->send(
+    my $remoteConfig = $client->send(
         url  => $self->{controller}->{url},
         args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
-            task      => { Deploy => $FusionInventory::Agent::VERSION },
+            task      => { Deploy => $VERSION },
         }
     );
 
@@ -59,8 +59,7 @@ sub isEnabled {
         return;
     }
 
-    $self->{controller} = $controller;
-    $self->{remotes}    = \@remotes;
+    $self->{remotes} = \@remotes;
 
     return 1;
 }
