@@ -92,6 +92,7 @@ if ($options->{type}) {
 }
 
 my $id = 1;
+my @credentials;
 if ($options->{community}) {
     foreach my $community (@{$options->{community}}) {
         push @credentials,
