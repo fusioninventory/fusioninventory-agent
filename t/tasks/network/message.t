@@ -146,7 +146,7 @@ foreach my $test (keys %messages) {
     );
     my $options = $message->getOptionsInfoByName('SNMPQUERY');
     cmp_deeply(
-        FusionInventory::Agent::Task::NetInventory::_getIndexedModels($options->{MODEL}),
+        FusionInventory::Agent::Task::NetInventory::_indexModels($options->{MODEL}),
         $messages{$test}->{models},
         $test
     );
