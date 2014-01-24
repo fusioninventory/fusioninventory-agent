@@ -26,8 +26,6 @@ my $options = {
 
 GetOptions(
     $options,
-    'first=s',
-    'last=s',
     'dictionary=s',
     'community=s@',
     'credential=s@',
@@ -46,21 +44,23 @@ if ($options->{version}) {
   exit 0;
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
-
 pod2usage(
-    -message => "no first address, aborting\n", -verbose => 0
-) unless $options->{first};
-pod2usage(
-    -message => "no last address, aborting\n", -verbose => 0
-) unless $options->{last};
+    -message => "no address block given, aborting\n", -verbose => 0
+) unless @ARGV;
 
 my $agent = FusionInventory::Agent->new(%setup);
 $agent->init(options => $options);
 
-my $range = {
-    id   => 1,
-    spec => $options->{first} . '-' . $options->{last},
-};
+my $block_id = 1;
+my @blocks;
+foreach my $arg (@ARGV) {
+    my $block = {
+        id   => $block_id++,
+        spec => $arg
+    };
+    $block->{entity} = $options->{entity} if $options->{entity};
+    push @blocks, $block;
+}
 
 my $dictionary;
 if ($options->{dictionary}) {
@@ -91,10 +91,6 @@ if ($options->{community}) {
     push @credentials, { id => $id++, version => 1, community => 'public' };
 }
 
-if ($options->{entity}) {
-    $range->{entity} = $options->{entity};
-}
-
 my $task = FusionInventory::Agent::Task::NetDiscovery->new(
     config   => $agent->{config},
     confdir  => $agent->{confdir},
@@ -106,7 +102,7 @@ my $task = FusionInventory::Agent::Task::NetDiscovery->new(
 $task->setParam('pid',         1);
 $task->setParam('threads',     $options->{threads});
 $task->setParam('timeout',     $options->{timeout});
-$task->setParam('blocks',      [ $range ]);
+$task->setParam('blocks',      \@blocks);
 $task->setParam('credentials', \@credentials);
 $task->setParam('dictionary',  $dictionary);
 
@@ -128,11 +124,9 @@ fusioninventory-netdiscovery - Standalone network discovery
 
 =head1 SYNOPSIS
 
-fusioninventory-netdiscovery [options] --first <start> --last <stop>
+fusioninventory-netdiscovery [options] <block> <block>
 
   Options:
-    --first address      IP range first address
-    --last address       IP range last address
     --dictionary file    dictionary file
     --credential string  SNMP credentials (default: version:1,community:public)
     --timeout number     SNMP timeout (default: 1s)
