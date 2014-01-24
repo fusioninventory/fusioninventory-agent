@@ -10,7 +10,7 @@ use Test::More;
 use FusionInventory::Agent::Task::WakeOnLan;
 use FusionInventory::Test::Utils;
 
-plan tests => 6;
+plan tests => 9;
 
 my ($out, $err, $rc);
 
@@ -31,3 +31,12 @@ like(
     qr/$FusionInventory::Agent::Task::WakeOnLan::VERSION/,
     '--version stdout'
 );
+
+($out, $err, $rc) = run_executable('fusioninventory-wakeonlan');
+ok($rc == 2, 'no address exit status');
+like(
+    $err,
+    qr/no mac address given, aborting/,
+    'no target stderr'
+);
+is($out, '', 'no address stdout');
