@@ -50,12 +50,25 @@ sub isEnabled {
         push @devices, $device;
     }
 
+    my @models;
+    foreach my $item (@{$options->{MODEL}}) {
+        my $model = {
+            id   => $item->{ID},
+            name => $item->{NAME},
+            oids => {
+                map { $_->{OBJECT} => $_->{OID} }
+                @{$item->{GET}}, @{$item->{WALK}}
+            }
+        };
+        push @models, $model;
+    }
+
     $self->{params} = {
         pid         => $options->{PARAM}->[0]->{PID},
         threads     => $options->{PARAM}->[0]->{THREADS_QUERY},
         timeout     => $options->{PARAM}->[0]->{TIMEOUT},
         credentials => \@credentials,
-        models      => $options->{MODEL},
+        models      => \@models,
         devices     => \@devices
     };
     return 1;
@@ -166,16 +179,10 @@ sub _sendMessage {
 sub _indexModels {
     my ($models) = @_;
 
-    foreach my $model (@{$models}) {
-        # index oids
-        $model->{oids} = {
-            map { $_->{OBJECT} => $_->{OID} }
-            @{$model->{GET}}, @{$model->{WALK}}
-        };
-    }
+    return unless $models;
 
     # index models by their ID
-    return { map { $_->{ID} => $_ } @{$models} };
+    return { map { $_->{id} => $_ } @{$models} };
 }
 
 sub _indexCredentials {

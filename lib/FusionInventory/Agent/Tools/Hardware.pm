@@ -722,7 +722,7 @@ sub getDeviceFullInfo {
     # - from initial identification
     $info{TYPE} =
             $params{type}            ? $params{type}          :
-            $model && $model->{TYPE} ? $types{$model->{TYPE}} :
+            $model && $model->{type} ? $types{$model->{type}} :
                                        $info{TYPE}            ;
 
     # second, use results to build the object
@@ -1097,9 +1097,9 @@ sub loadModel {
         @{$model->{oidlist}->{oidobject}};
 
     return {
-        ID   => 1,
-        NAME => $model->{name},
-        TYPE => $model->{type},
+        id   => 1,
+        name => $model->{name},
+        type => $model->{type},
         oids => \%oids
     }
 }

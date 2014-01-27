@@ -14,6 +14,7 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Recipient;
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Hardware;
 
 my %setup = (
     confdir => './etc',
@@ -74,7 +75,7 @@ foreach my $arg (@ARGV) {
     push @devices, $device;
 }
 
-my $model = { ID => 1 };
+my $model;
 
 if ($options->{model}) {
     pod2usage(
@@ -130,38 +131,6 @@ my $recipient = FusionInventory::Agent::Recipient->create(
 eval {
     $agent->runSingleTask(task => $task, recipient => $recipient);
 };
-
-sub loadModel {
-    my ($file) = @_;
-
-    my $model = XML::TreePP->new()->parsefile($file)->{model};
-
-    my @get = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-        }
-    } grep {
-        $_->{dynamicport} == 0
-    } @{$model->{oidlist}->{oidobject}};
-
-    my @walk = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-        }
-    } grep {
-        $_->{dynamicport} == 1
-    } @{$model->{oidlist}->{oidobject}};
-
-    return {
-        ID   => 1,
-        NAME => $model->{name},
-        TYPE => $model->{type},
-        GET  => \@get,
-        WALK => \@walk,
-    }
-}
 
 __END__
 
