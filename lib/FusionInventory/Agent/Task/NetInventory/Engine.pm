@@ -28,41 +28,41 @@ sub _queryDevice {
     my ($self, $device) = @_;
 
     my $logger = $self->{logger};
-    $logger->debug("scanning $device->{ID}");
+    $logger->debug("scanning $device->{id}");
 
     my $snmp;
-    if ($device->{FILE}) {
+    if ($device->{file}) {
         FusionInventory::Agent::SNMP::Mock->require();
         eval {
             $snmp = FusionInventory::Agent::SNMP::Mock->new(
-                file => $device->{FILE}
+                file => $device->{file}
             );
         };
         if ($EVAL_ERROR) {
-            $logger->error("Unable to create SNMP session for $device->{FILE}: $EVAL_ERROR");
+            $logger->error("Unable to create SNMP session for $device->{file}: $EVAL_ERROR");
             return;
         }
     } else {
-        my $credentials = $self->{credentials}->{$device->{AUTHSNMP_ID}};
+        my $credentials = $self->{credentials}->{$device->{authsnmp_id}};
         eval {
             FusionInventory::Agent::SNMP::Live->require();
             $snmp = FusionInventory::Agent::SNMP::Live->new(
-                hostname     => $device->{IP},
+                hostname     => $device->{ip},
                 timeout      => $self->{timeout},
                 %$credentials
             );
         };
         if ($EVAL_ERROR) {
-            $logger->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
+            $logger->error("Unable to create SNMP session for $device->{ip}: $EVAL_ERROR");
             return;
         }
     }
 
     my $result = getDeviceFullInfo(
-         id      => $device->{ID},
-         type    => $device->{TYPE},
+         id      => $device->{id},
+         type    => $device->{type},
          snmp    => $snmp,
-         model   => $self->{models}->{$device->{MODELSNMP_ID}},
+         model   => $self->{models}->{$device->{modelsnmp_id}},
          logger  => $self->{logger},
          datadir => $self->{datadir},
     );

@@ -60,17 +60,17 @@ my $device_id = 1;
 my @devices;
 foreach my $arg (@ARGV) {
     my $device = {
-        ID           => $device_id++,
-        AUTHSNMP_ID  => 1,
-        MODELSNMP_ID => 1
+        id           => $device_id++,
+        authsnmp_id  => 1,
+        modelsnmp_id => 1
     };
     if ($options->{file}) {
-        $device->{FILE} = $arg;
+        $device->{file} = $arg;
     } else {
-        $device->{IP} = $arg;
+        $device->{ip} = $arg;
     }
-    $device->{TYPE}   = $options->{type}   if $options->{type};
-    $device->{ENTITY} = $options->{entity} if $options->{entity};
+    $device->{type}   = $options->{type}   if $options->{type};
+    $device->{entity} = $options->{entity} if $options->{entity};
     push @devices, $device;
 }
 

@@ -41,13 +41,22 @@ sub isEnabled {
         push @credentials, $credential;
     }
 
+    my @devices;
+    foreach my $authentication (@{$options->{DEVICE}}) {
+        my $device;
+        foreach my $key (keys %$authentication) {
+            $device->{lc($key)} = $authentication->{$key};
+        }
+        push @devices, $device;
+    }
+
     $self->{params} = {
         pid         => $options->{PARAM}->[0]->{PID},
         threads     => $options->{PARAM}->[0]->{THREADS_QUERY},
         timeout     => $options->{PARAM}->[0]->{TIMEOUT},
         credentials => \@credentials,
         models      => $options->{MODEL},
-        devices     => $options->{DEVICE},
+        devices     => \@devices
     };
     return 1;
 }

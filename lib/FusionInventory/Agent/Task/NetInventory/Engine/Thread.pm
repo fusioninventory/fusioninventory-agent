@@ -94,8 +94,8 @@ sub _queryDevices {
 
             $result = {
                 ERROR => {
-                        ID      => $device->{ID},
-                        TYPE    => $device->{TYPE},
+                        ID      => $device->{id},
+                        TYPE    => $device->{type},
                         MESSAGE => "No response from remote host"
                     }
             } if !$result;

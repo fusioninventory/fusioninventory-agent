@@ -130,13 +130,13 @@ sub _scanAddressBySNMP {
         $self->{logger}->debug2(
             sprintf "scanning %s with snmp credentials %d: %s",
             $address,
-            $credential->{ID},
+            $credential->{id},
             %device ? 'success' : 'failure'
         );
 
         next unless %device;
 
-        $device{AUTHSNMP} = $credential->{ID};
+        $device{AUTHSNMP} = $credential->{id};
 
         last;
     }
