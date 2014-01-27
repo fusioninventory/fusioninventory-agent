@@ -23,6 +23,7 @@ my %setup = (
 );
 
 my $options = {
+    threads => 1
 };
 
 GetOptions(
@@ -33,6 +34,7 @@ GetOptions(
     'community=s',
     'credential=s',
     'entity=s',
+    'threads=i',
     'recipient=s',
     'timeout=i',
     'verbose',
@@ -111,7 +113,7 @@ my $task = FusionInventory::Agent::Task::NetInventory->new(
 );
 
 $task->setParam('pid',         1);
-$task->setParam('threads',     1);
+$task->setParam('threads',     $options->{threads});
 $task->setParam('timeout',     $options->{timeout});
 $task->setParam('devices',     \@devices);
 $task->setParam('models',      [ $model ]);
@@ -176,6 +178,7 @@ fusioninventory-netinventory [options] <device> <device>
     --credential string  SNMP credentials (default: version:1,community:public)
     --timeout number     SNMP timeout (default: 15s)
     --entity string      GLPI entity
+    --threads number     threads number (default: 1)
     --recipient string   where to send result (default: stdout)
     --verbose            verbose output (control messages)
     --debug              debug output (execution traces)
