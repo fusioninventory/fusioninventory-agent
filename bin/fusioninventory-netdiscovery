@@ -71,16 +71,16 @@ if ($options->{dictionary}) {
     );
 }
 
-my $id = 1;
+my $credentials_id = 1;
 my @credentials;
 if ($options->{community}) {
     foreach my $community (@{$options->{community}}) {
         push @credentials,
-            { id => $id++, version => 1, community => $community };
+            { id => $credentials_id++, version => 1, community => $community };
     }
 } elsif ($options->{credential}) {
     foreach my $specification (@{$options->{credential}}) {
-        my $credential = { id => $id++ };
+        my $credential = { id => $credentials_id++ };
         foreach my $parameter (split(',', $specification)) {
             my ($key, $value) = split(':', $parameter);
             $credential->{$key} = $value;
@@ -88,7 +88,9 @@ if ($options->{community}) {
         push @credentials, $credential;
     }
 } else {
-    push @credentials, { id => $id++, version => 1, community => 'public' };
+    push @credentials, {
+        id => $credentials_id++, version => 1, community => 'public'
+    };
 }
 
 my $task = FusionInventory::Agent::Task::NetDiscovery->new(
