@@ -38,13 +38,13 @@ like(
     'fusioninventory-netinventory',
     ''
 );
-ok($rc == 2, 'no target exit status');
+ok($rc == 2, 'no device exit status');
 like(
     $err,
-    qr/no host nor file given, aborting/,
-    'no target stderr'
+    qr/no device given, aborting/,
+    'no device stderr'
 );
-is($out, '', 'no target stdout');
+is($out, '', 'no device stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',

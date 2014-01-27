@@ -39,8 +39,7 @@ GetOptions(
     $options,
     'model=s',
     'type=s',
-    'host=s',
-    'file=s',
+    'file',
     'community=s',
     'credential=s',
     'entity=s',
@@ -59,21 +58,31 @@ if ($options->{version}) {
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 pod2usage(
-    -message => "no host nor file given, aborting\n", -verbose => 0
-) unless $options->{host} or $options->{file};
+    -message => "no device given, aborting\n", -verbose => 0
+) unless @ARGV;
 
 my $agent = FusionInventory::Agent->new(%setup);
 $agent->init(options => $options);
 
-my $device = {
-    ID           => 0,
-    IP           => $options->{host},
-    FILE         => $options->{file},
-    AUTHSNMP_ID  => 1,
-    MODELSNMP_ID => 1
-};
+my $device_id = 1;
+my @devices;
+foreach my $arg (@ARGV) {
+    my $device = {
+        ID           => $device_id++,
+        AUTHSNMP_ID  => 1,
+        MODELSNMP_ID => 1
+    };
+    if ($options->{file}) {
+        $device->{FILE} = $arg;
+    } else {
+        $device->{IP} = $arg;
+    }
+    $device->{TYPE}   = $options->{type}   if $options->{type};
+    $device->{ENTITY} = $options->{entity} if $options->{entity};
+    push @devices, $device;
+}
 
-my $model      = { ID => 1 };
+my $model = { ID => 1 };
 
 if ($options->{model}) {
     pod2usage(
@@ -81,14 +90,6 @@ if ($options->{model}) {
         -verbose => 0
     ) unless -f $options->{model};
     $model = loadModel($options->{model});
-}
-
-if ($options->{type}) {
-    pod2usage(
-        -message => "invalid type '$options->{type}', aborting\n",
-        -verbose => 0
-    ) unless any { $options->{type} eq $_ } values %types;
-    $device->{TYPE} = $options->{type};
 }
 
 my $id = 1;
@@ -111,10 +112,6 @@ if ($options->{community}) {
     push @credentials, { id => $id++, version => 1, community => 'public' };
 }
 
-if ($options->{entity}) {
-    $device->{ENTITY} = $options->{entity};
-}
-
 my $task = FusionInventory::Agent::Task::NetInventory->new(
     config   => $agent->{config},
     confdir  => $agent->{confdir},
@@ -126,7 +123,7 @@ my $task = FusionInventory::Agent::Task::NetInventory->new(
 $task->setParam('pid',         1);
 $task->setParam('threads',     1);
 $task->setParam('timeout',     $options->{timeout});
-$task->setParam('devices',     [ $device ]);
+$task->setParam('devices',     \@devices);
 $task->setParam('models',      [ $model ]);
 $task->setParam('credentials', \@credentials);
 
@@ -180,11 +177,10 @@ fusioninventory-netinventory - Standalone network inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-netinventory [options] [--host <host>] [--file <file>]
+fusioninventory-netinventory [options] <device> <device>
 
   Options:
-    --host host          device host name
-    --file file          snmpwalk output file
+    --file               use device as files
     --model file         model file
     --type string        device type
     --credential string  SNMP credentials (default: version:1,community:public)
