@@ -20,17 +20,27 @@ sub isEnabled {
     return unless
         $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
 
-    my $response = $params{response};
-
-    my $options = $self->getOptionsFromServer(
-        $response, 'SNMPQUERY', 'SNMPQuery'
-    );
-    return unless $options;
-
-    if (!$options->{DEVICE}) {
-        $self->{logger}->debug("No device defined in the prolog response");
+    my $config = $self->getConfigFromResponse($params{response});
+    if (!$config) {
+        $self->{logger}->debug("No network inventory requested in server response");
         return;
     }
+
+    if (!$config->{device}) {
+        $self->{logger}->debug("No device defined in server response");
+        return;
+    }
+
+    $self->{params} = $config;
+
+    return 1;
+}
+
+sub _getConfigFromResponse {
+    my ($response) = @_;
+
+    my $options = $response->getOptionsInfoByName('SNMPQUERY');
+    return unless $options;
 
     my @credentials;
     foreach my $authentication (@{$options->{AUTHENTICATION}}) {
@@ -63,7 +73,7 @@ sub isEnabled {
         push @models, $model;
     }
 
-    $self->{params} = {
+    return {
         pid         => $options->{PARAM}->[0]->{PID},
         threads     => $options->{PARAM}->[0]->{THREADS_QUERY},
         timeout     => $options->{PARAM}->[0]->{TIMEOUT},
@@ -71,7 +81,6 @@ sub isEnabled {
         models      => \@models,
         devices     => \@devices
     };
-    return 1;
 }
 
 sub run {

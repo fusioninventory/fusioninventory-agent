@@ -13,127 +13,90 @@ use FusionInventory::Agent::XML::Response;
 
 my %messages = (
     message2 => {
-        models => {
-            196 => {
-                ID   => 196,
-                NAME => 4675719,
-                WALK => bag(
-                    {
-                       VLAN   => '0',
-                       LINK   => 'ifaddr',
-                       OID    => '.1.3.6.1.2.1.4.20.1.2',
-                       OBJECT => 'ifaddr'
-                    },
-                    {
-                        VLAN   => '0',
-                        LINK   => 'ifIndex',
-                        OID    => '.1.3.6.1.2.1.2.2.1.1',
-                        OBJECT => 'ifIndex'
-                    }
-                ),
-                GET => bag(
-                    {
-                        VLAN   => '0',
-                        LINK   => 'name',
-                        OID    => '.1.3.6.1.2.1.1.5.0',
-                        OBJECT => 'name'
-                    },
-                    {
-                        VLAN   => '0',
-                        LINK   => 'informations',
-                        OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
-                        OBJECT => 'informations'
-                    },
-                ),
+        pid     => '1280265498/024',
+        timeout => undef,
+        threads => 4,
+        devices => [
+            {
+                'id'           => '72',
+                'type'         => 'PRINTER',
+                'ip'           => '192.168.0.151',
+                'modelsnmp_id' => '196',
+                'authsnmp_id'  => '1'
+            }
+        ],
+        credentials => [
+            {
+                'id'             => '1',
+                'authprotocol'   => '',
+                'privprotocol'   => '',
+                'authpassphrase' => '',
+                'community'      => 'public',
+                'username'       => '',
+                'privpassphrase' => '',
+                'version'        => '1'
+            }
+        ],
+        models => [
+            {
+                id   => 196,
+                name => 4675719,
                 oids => {
                     name         => '.1.3.6.1.2.1.1.5.0',
-                    ifIndex      => '.1.3.6.1.2.1.2.2.1.1',
                     ifaddr       => '.1.3.6.1.2.1.4.20.1.2',
+                    ifIndex      => '.1.3.6.1.2.1.2.2.1.1',
                     informations => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
                 }
             }
-        }
+        ]
     },
     message3 => {
-        models => {
-            196 => {
-                ID   => 196,
-                NAME => 4675719,
-                WALK => bag(
-                    {
-                       VLAN   => '0',
-                       LINK   => 'ifaddr',
-                       OID    => '.1.3.6.1.2.1.4.20.1.2',
-                       OBJECT => 'ifaddr'
-                    },
-                    {
-                        VLAN   => '0',
-                        LINK   => 'ifIndex',
-                        OID    => '.1.3.6.1.2.1.2.2.1.1',
-                        OBJECT => 'ifIndex'
-                    }
-                ),
-                GET => bag(
-                    {
-                        VLAN   => '0',
-                        LINK   => 'name',
-                        OID    => '.1.3.6.1.2.1.1.5.0',
-                        OBJECT => 'name'
-                    },
-                    {
-                        VLAN   => '0',
-                        LINK   => 'informations',
-                        OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
-                        OBJECT => 'informations'
-                    },
-                ),
-                oids => {
-                    name         => '.1.3.6.1.2.1.1.5.0',
-                    ifIndex      => '.1.3.6.1.2.1.2.2.1.1',
-                    ifaddr       => '.1.3.6.1.2.1.4.20.1.2',
-                    informations => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
-                }
+        'pid'     => '1280265498/024',
+        'timeout' => undef,
+        'threads' => '4',
+        'credentials' => [
+            {
+                'id'             => '1',
+                'authpassphrase' => '',
+                'community'      => 'public',
+                'privpassphrase' => '',
+                'privprotocol'   => '',
+                'authprotocol'   => '',
+                'username'       => '',
+                'version'        => '1'
+            }
+        ],
+        'devices' => [
+            {
+                'authsnmp_id'  => '1',
+                'id'           => '72',
+                'type'         => 'PRINTER',
+                'modelsnmp_id' => '196',
+                'ip'           => '192.168.0.151'
+            }
+        ],
+        'models' => [
+            {
+                'id'   => '196',
+                'name' => '4675719',
+                'oids' => {
+                    'name'         => '.1.3.6.1.2.1.1.5.0',
+                    'ifaddr'       => '.1.3.6.1.2.1.4.20.1.2',
+                    'ifIndex'      => '.1.3.6.1.2.1.2.2.1.1',
+                    'informations' => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0'
+                },
             },
-            197 => {
-                ID   => 197,
-                NAME => 4675720,
-                WALK => bag(
-                    {
-                       VLAN   => '0',
-                       LINK   => 'ifaddr',
-                       OID    => '.1.3.6.1.2.1.4.20.1.2',
-                       OBJECT => 'ifaddr'
-                    },
-                    {
-                        VLAN   => '0',
-                        LINK   => 'ifIndex',
-                        OID    => '.1.3.6.1.2.1.2.2.1.1',
-                        OBJECT => 'ifIndex'
-                    }
-                ),
-                GET => bag(
-                    {
-                        VLAN   => '0',
-                        LINK   => 'name',
-                        OID    => '.1.3.6.1.2.1.1.5.0',
-                        OBJECT => 'name'
-                    },
-                    {
-                        VLAN   => '0',
-                        LINK   => 'informations',
-                        OID    => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
-                        OBJECT => 'informations'
-                    },
-                ),
-                oids => {
-                    name         => '.1.3.6.1.2.1.1.5.0',
-                    ifIndex      => '.1.3.6.1.2.1.2.2.1.1',
-                    ifaddr       => '.1.3.6.1.2.1.4.20.1.2',
-                    informations => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0',
+            {
+                'id'   => '197',
+                'name' => '4675720',
+                'oids' => {
+                    'name'         => '.1.3.6.1.2.1.1.5.0',
+                    'ifaddr'       => '.1.3.6.1.2.1.4.20.1.2',
+                    'ifIndex'      => '.1.3.6.1.2.1.2.2.1.1',
+                    'informations' => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0'
                 }
-            },
-
-        }
+            }
+        ]
     }
 );
 
@@ -144,10 +107,13 @@ foreach my $test (keys %messages) {
     my $message = FusionInventory::Agent::XML::Response->new(
         content => slurp($file)
     );
-    my $options = $message->getOptionsInfoByName('SNMPQUERY');
+    my $config =
+        FusionInventory::Agent::Task::NetInventory::_getConfigFromResponse(
+            $message
+        );
     cmp_deeply(
-        FusionInventory::Agent::Task::NetInventory::_indexModels($options->{MODEL}),
-        $messages{$test}->{models},
+        $config,
+        $messages{$test},
         $test
     );
 }
