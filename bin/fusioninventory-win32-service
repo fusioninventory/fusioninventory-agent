@@ -110,7 +110,7 @@ sub startAgent {
         $agent->initTargets();
         $agent->initTasks();
         $agent->initHTTPInterface();
-        $agent->runRequestedTasks(background => 1);
+        $agent->run(background => 1);
     });
 }
 

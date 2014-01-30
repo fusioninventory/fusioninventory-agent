@@ -222,7 +222,7 @@ sub initHTTPInterface {
     $logger->debug("FusionInventory Agent initialised");
 }
 
-sub runRequestedTasks {
+sub run {
     my ($self, %params) = @_;
 
     $self->{status} = 'waiting';

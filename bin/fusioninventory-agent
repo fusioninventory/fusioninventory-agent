@@ -112,7 +112,7 @@ eval {
     $agent->initTasks();
     $agent->initHTTPInterface() if $options->{daemon};
     $agent->daemonize() if $options->{daemon} && !$options->{'no-fork'};
-    $agent->runRequestedTasks(background => $options->{daemon});
+    $agent->run(background => $options->{daemon});
 };
 
 if ($EVAL_ERROR) {
