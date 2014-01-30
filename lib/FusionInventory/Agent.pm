@@ -231,18 +231,36 @@ sub run {
         # background mode: infinite loop
         while (1) {
             my $time = time();
+
+            # check for controller with scheduled contact time
             foreach my $controller (@{$self->{controllers}}) {
                 next if $time < $controller->getNextRunDate();
 
-                eval {
-                    $self->_runScheduledTasks($controller);
-                };
-                $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
-                $controller->resetNextRunDate();
+                if (my $pid = fork()) {
+                    # parent: wait for the child to finish
+                    while (waitpid($pid, WNOHANG) == 0) {
+                        $self->{server}->handleRequests() if $self->{server};
+                        delay(1);
+                    }
+                    $controller->resetNextRunDate();
+                } else {
+                    # child: execute schedule tasks
+                    die "fork failed: $ERRNO" unless defined $pid;
+
+                    $self->{logger}->debug(
+                        "executing scheduled tasks in process $PID"
+                    );
+                    eval {
+                        $self->_runScheduledTasks($controller);
+                    };
+                    $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+                    exit(0);
+                }
             }
 
             # check for http interface messages
             $self->{server}->handleRequests() if $self->{server};
+
             delay(1);
         }
     } else {
@@ -310,34 +328,6 @@ sub _runScheduledTasks {
 }
 
 sub _runTask {
-    my ($self, $controller, $name, $response) = @_;
-
-    $self->{status} = "running task $name";
-
-    if ($self->{config}->{daemon} || $self->{config}->{service}) {
-        # server mode: run each task in a child process
-        if (my $pid = fork()) {
-            # parent
-            while (waitpid($pid, WNOHANG) == 0) {
-                $self->{server}->handleRequests() if $self->{server};
-                delay(1);
-            }
-        } else {
-            # child
-            die "fork failed: $ERRNO" unless defined $pid;
-
-            $self->{logger}->debug("running task $name in process $PID");
-            $self->_runTaskReal($controller, $name, $response);
-            exit(0);
-        }
-    } else {
-        # standalone mode: run each task directly
-        $self->{logger}->debug("running task $name");
-        $self->_runTaskReal($controller, $name, $response);
-    }
-}
-
-sub _runTaskReal {
     my ($self, $controller, $name, $response) = @_;
 
     my $class = "FusionInventory::Agent::Task::$name";
