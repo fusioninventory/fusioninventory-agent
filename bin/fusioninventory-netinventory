@@ -115,12 +115,14 @@ my $task = FusionInventory::Agent::Task::NetInventory->new(
     deviceid => $agent->{deviceid},
 );
 
-$task->setParam('pid',         1);
-$task->setParam('threads',     $options->{threads});
-$task->setParam('timeout',     $options->{timeout});
-$task->setParam('devices',     \@devices);
-$task->setParam('models',      [ $model ]);
-$task->setParam('credentials', \@credentials);
+$task->configure(
+    pid         => 1,
+    threads     => $options->{threads},
+    timeout     => $options->{timeout},
+    devices     => \@devices,
+    models      => [ $model ],
+    credentials => \@credentials
+);
 
 my $recipient = FusionInventory::Agent::Recipient->create(
     target  => $options->{recipient},

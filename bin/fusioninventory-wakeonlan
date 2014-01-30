@@ -52,9 +52,11 @@ my $task = FusionInventory::Agent::Task::WakeOnLan->new(
     deviceid => $agent->{deviceid},
 );
 
-$task->setParam('addresses', [ @ARGV ]);
-$task->setParam('ethernet',  $options->{ethernet});
-$task->setParam('udp',       $options->{udp});
+$task->configure(
+    addresses => [ @ARGV ],
+    ethernet  => $options->{ethernet},
+    udp       => $options->{udp}
+);
 
 eval {
     $agent->runSingleTask(task => $task);
