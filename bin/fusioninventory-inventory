@@ -53,7 +53,6 @@ my $task = FusionInventory::Agent::Task::Inventory->new(
 );
 
 $task->configure(
-    confdir            => $agent->{confdir},
     datadir            => $agent->{datadir},
     deviceid           => $agent->{deviceid},
     tag                => $agent->{config}->{tag},

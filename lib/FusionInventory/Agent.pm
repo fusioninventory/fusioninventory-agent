@@ -377,7 +377,6 @@ sub _runTaskReal {
     }
 
     $task->configure(
-        confdir            => $self->{confdir},
         datadir            => $self->{datadir},
         deviceid           => $self->{deviceid},
         tag                => $self->{config}->{tag},
