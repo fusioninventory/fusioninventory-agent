@@ -57,7 +57,14 @@ $task->configure(
 );
 
 eval {
-    $agent->runSingleTask(task => $task);
+    $task->run(
+        user         => $agent->{config}->{user},
+        password     => $agent->{config}->{password},
+        proxy        => $agent->{config}->{proxy},
+        ca_cert_file => $agent->{config}->{'ca-cert-file'},
+        ca_cert_dir  => $agent->{config}->{'ca-cert-dir'},
+        no_ssl_check => $agent->{config}->{'no-ssl-check'},
+    );
 };
 
 __END__

@@ -59,8 +59,7 @@ my $task = FusionInventory::Agent::Task::ESX->new(
 );
 
 $task->configure(
-    confdir  => $setup->{confdir},
-    datadir  => $setup->{datadir},
+    datadir  => $agent->{datadir},
     deviceid => $agent->{deviceid},
     jobs     => [
         {
@@ -78,7 +77,15 @@ my $recipient = FusionInventory::Agent::Recipient->create(
 );
 
 eval {
-    $agent->runSingleTask(task => $esx, recipient => $recipient);
+    $task->run(
+        user         => $agent->{config}->{user},
+        password     => $agent->{config}->{password},
+        proxy        => $agent->{config}->{proxy},
+        ca_cert_file => $agent->{config}->{'ca-cert-file'},
+        ca_cert_dir  => $agent->{config}->{'ca-cert-dir'},
+        no_ssl_check => $agent->{config}->{'no-ssl-check'},
+        recipient    => $recipient
+    );
 };
 
 __END__
