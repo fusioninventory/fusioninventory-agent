@@ -235,7 +235,7 @@ sub run {
                 next if $time < $controller->getNextRunDate();
 
                 eval {
-                    $self->_runController($controller);
+                    $self->_runScheduledTasks($controller);
                 };
                 $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
                 $controller->resetNextRunDate();
@@ -258,14 +258,14 @@ sub run {
             }
 
             eval {
-                $self->_runController($controller);
+                $self->_runScheduledTasks($controller);
             };
             $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
         }
     }
 }
 
-sub _runController {
+sub _runScheduledTasks {
     my ($self, $controller) = @_;
 
     # the prolog dialog must be done once for all tasks,
