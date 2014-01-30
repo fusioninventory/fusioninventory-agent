@@ -66,6 +66,11 @@ eval {
         no_ssl_check => $agent->{config}->{'no-ssl-check'},
     );
 };
+if ($EVAL_ERROR) {
+    print STDERR "Execution failure:.\n";
+    print STDERR $EVAL_ERROR;
+    exit 1;
+}
 
 __END__
 
