@@ -45,14 +45,12 @@ my $agent = FusionInventory::Agent->new(%setup);
 $agent->init(options => $options);
 
 my $task = FusionInventory::Agent::Task::WakeOnLan->new(
-    config   => $agent->{config},
-    confdir  => $agent->{confdir},
-    datadir  => $agent->{datadir},
     logger   => $agent->{logger},
-    deviceid => $agent->{deviceid},
 );
 
 $task->configure(
+    datadir   => $agent->{datadir},
+    deviceid  => $agent->{deviceid},
     addresses => [ @ARGV ],
     ethernet  => $options->{ethernet},
     udp       => $options->{udp}

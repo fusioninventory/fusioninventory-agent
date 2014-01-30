@@ -54,20 +54,22 @@ if ($options->{directory}) {
 my $agent = FusionInventory::Agent->new(%setup);
 $agent->init(options => $options);
 
-my $esx = FusionInventory::Agent::Task::ESX->new(
-    config   => $agent->{config},
-    confdir  => $agent->{confdir},
-    datadir  => $agent->{datadir},
-    logger   => $agent->{logger},
-    deviceid => $agent->{deviceid},
+my $task = FusionInventory::Agent::Task::ESX->new(
+    logger => $agent->{logger},
 );
 
-# emulate a server requesting a unique job
-$esx->{jobs} = [ {
-        host     => $options->{host},
-        user     => $options->{user},
-        password => $options->{password}
-} ];
+$task->configure(
+    confdir  => $setup->{confdir},
+    datadir  => $setup->{datadir},
+    deviceid => $agent->{deviceid},
+    jobs     => [
+        {
+            host     => $options->{host},
+            user     => $options->{user},
+            password => $options->{password}
+        }
+    ]
+);
 
 my $recipient = FusionInventory::Agent::Recipient->create(
     target  => $options->{recipient},

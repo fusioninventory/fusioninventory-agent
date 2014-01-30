@@ -48,12 +48,20 @@ pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 my $agent = FusionInventory::Agent->new(%setup);
 $agent->init(options => $options);
 
-my $inventory = FusionInventory::Agent::Task::Inventory->new(
-    config   => $agent->{config},
-    confdir  => $agent->{confdir},
-    datadir  => $agent->{datadir},
-    logger   => $agent->{logger},
-    deviceid => $agent->{deviceid},
+my $task = FusionInventory::Agent::Task::Inventory->new(
+    logger => $agent->{logger},
+);
+
+$task->configure(
+    confdir            => $agent->{confdir},
+    datadir            => $agent->{datadir},
+    deviceid           => $agent->{deviceid},
+    tag                => $agent->{config}->{tag},
+    html               => $agent->{config}->{html},
+    timeout            => $agent->{config}->{'collect-timeout'},
+    additional_content => $agent->{config}->{'additional-content'},
+    scan_homedirs      => $agent->{config}->{'scan-homedirs'},
+    no_category        => $agent->{config}->{'no-category'},
 );
 
 my $recipient = FusionInventory::Agent::Recipient::Inventory->create(
@@ -63,7 +71,7 @@ my $recipient = FusionInventory::Agent::Recipient::Inventory->create(
 );
 
 eval {
-    $agent->runSingleTask(task => $inventory, recipient => $recipient);
+    $agent->runSingleTask(task => $task, recipient => $recipient);
 };
 
 __END__

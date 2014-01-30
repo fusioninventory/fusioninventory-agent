@@ -359,12 +359,7 @@ sub _runTaskReal {
     $class->require();
 
     my $task = $class->new(
-        config       => $self->{config},
-        confdir      => $self->{confdir},
-        datadir      => $self->{datadir},
-        logger       => $self->{logger},
-        controller   => $controller,
-        deviceid     => $self->{deviceid},
+        logger => $self->{logger},
     );
 
     my %configuration = $task->getConfiguration(
@@ -381,7 +376,18 @@ sub _runTaskReal {
         return;
     }
 
-    $task->configure(%configuration);
+    $task->configure(
+        confdir            => $self->{confdir},
+        datadir            => $self->{datadir},
+        deviceid           => $self->{deviceid},
+        tag                => $self->{config}->{tag},
+        html               => $self->{config}->{html},
+        timeout            => $self->{config}->{'collect-timeout'},
+        additional_content => $self->{config}->{'additional-content'},
+        scan_homedirs      => $self->{config}->{'scan-homedirs'},
+        no_category        => $self->{config}->{'no-category'},
+        %configuration
+    );
 
     $task->run(
         user         => $self->{config}->{user},
@@ -390,6 +396,7 @@ sub _runTaskReal {
         ca_cert_file => $self->{config}->{'ca-cert-file'},
         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},
+        controller   => $controller
     );
 }
 

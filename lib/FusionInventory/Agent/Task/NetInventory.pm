@@ -121,7 +121,7 @@ sub run {
 
     my $engine = $engine_class->new(
         logger      => $self->{logger},
-        datadir     => $self->{datadir},
+        datadir     => $self->{params}->{datadir},
         credentials => $credentials,
         models      => $models,
         threads     => $threads,
@@ -172,7 +172,7 @@ sub _sendMessage {
     my ($self, $recipient, $content) = @_;
 
    my $message = FusionInventory::Agent::XML::Query->new(
-       deviceid => $self->{deviceid},
+       deviceid => $self->{params}->{deviceid},
        query    => 'SNMPQUERY',
        content  => $content
    );

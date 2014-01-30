@@ -14,13 +14,7 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logger       => $params{logger} ||
-                        FusionInventory::Agent::Logger->new(),
-        config       => $params{config},
-        confdir      => $params{confdir},
-        datadir      => $params{datadir},
-        controller   => $params{controller},
-        deviceid     => $params{deviceid},
+        logger => $params{logger} || FusionInventory::Agent::Logger->new(),
     };
     bless $self, $class;
 
@@ -85,18 +79,6 @@ hash:
 =item I<logger>
 
 the logger object to use (default: a new stderr logger)
-
-=item I<config>
-
-=item I<controller>
-
-=item I<storage>
-
-=item I<prologresp>
-
-=item I<client>
-
-=item I<deviceid>
 
 =back
 

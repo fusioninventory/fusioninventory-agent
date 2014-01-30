@@ -27,7 +27,7 @@ sub getConfiguration {
             !$content->{RESPONSE}          ||
             $content->{RESPONSE} ne 'SEND'
         ) {
-            if ($self->{config}->{force}) {
+            if ($self->{params}->{force}) {
                 $self->{logger}->info("Task not scheduled, execution forced");
             } else {
                 $self->{logger}->info("Task not scheduled");
@@ -40,7 +40,7 @@ sub getConfiguration {
         $response->getOptionsInfoByName('REGISTRY') : undef;
 
     return (
-        registry => $registry
+        registry => $registry,
     );
 }
 
@@ -52,30 +52,31 @@ sub run {
         $self->{logger}->info("You should run this program as super-user.");
     }
 
-    # use given output recipient, otherwise use either local or server recipient,
+    # use given output recipient,
+    # otherwise use either local or server recipient,
     # according to controller type
     my $recipient;
     if ($params{recipient}) {
         $recipient = $params{recipient};
-    } elsif ($self->{controller}->isa('FusionInventory::Agent::Controller::Local')) {
-        my $path = $self->{controller}->getPath();
+    } elsif ($params{controller}->isa('FusionInventory::Agent::Controller::Local')) {
+        my $path = $params{controller}->getPath();
         if ($path eq '-') {
             $recipient = FusionInventory::Agent::Recipient::Inventory::Stdout->new(
-                deviceid => $self->{deviceid},
+                deviceid => $self->{params}->{deviceid},
             );
         } else {
-            my $format = $self->{config}->{'html'} ? 'html' : 'xml';
+            my $format = $self->{params}->{html} ? 'html' : 'xml';
             $recipient = FusionInventory::Agent::Recipient::Inventory::Filesystem->new(
-                target   => $self->{controller}->getPath(),
+                target   => $params{controller}->getPath(),
                 format   => $format,
-                datadir  => $self->{datadir},
-                deviceid => $self->{deviceid},
+                datadir  => $self->{params}->{datadir},
+                deviceid => $self->{params}->{deviceid},
             );
         }
-    } elsif ($self->{controller}->isa('FusionInventory::Agent::Controller::Server')) {
+    } elsif ($params{controller}->isa('FusionInventory::Agent::Controller::Server')) {
         $recipient = FusionInventory::Agent::Recipient::Inventory::Server->new(
-            target       => $self->{controller}->getUrl(),
-            deviceid     => $self->{deviceid},
+            target       => $params{controller}->getUrl(),
+            deviceid     => $self->{params}->{deviceid},
             logger       => $self->{logger},
             user         => $params{user},
             password     => $params{password},
@@ -90,10 +91,10 @@ sub run {
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         logger   => $self->{logger},
-        tag      => $self->{config}->{'tag'}
+        tag      => $self->{params}->{tag}
     );
 
-    if (not $self->{config}->{'scan-homedirs'}) {
+    if (not $self->{params}->{'scan-homedirs'}) {
         $self->{logger}->debug(
             "--scan-homedirs missing. Don't scan user directories"
         );
@@ -108,7 +109,7 @@ sub run {
         );
     }
 
-    my %disabled = map { $_ => 1 } @{$self->{config}->{'no-category'}};
+    my %disabled = map { $_ => 1 } @{$self->{params}->{no_category}};
 
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
@@ -120,7 +121,6 @@ sub _initModulesList {
     my ($self, $disabled) = @_;
 
     my $logger = $self->{logger};
-    my $config = $self->{config};
 
     my @modules = __PACKAGE__->getModules('');
     die "no inventory module found" if !@modules;
@@ -149,14 +149,14 @@ sub _initModulesList {
         my $enabled = runFunction(
             module   => $module,
             function => "isEnabled",
-            logger => $logger,
-            timeout  => $config->{'collect-timeout'},
+            logger   => $logger,
+            timeout  => $self->{params}->{timeout},
             params => {
                 no_category   => $disabled,
-                datadir       => $self->{datadir},
                 logger        => $self->{logger},
-                registry      => $self->{registry},
-                scan_homedirs => $self->{config}->{'scan-homedirs'},
+                datadir       => $self->{params}->{datadir},
+                registry      => $self->{params}->{registry},
+                scan_homedirs => $self->{params}->{scan_homedirs},
             }
         );
         if (!$enabled) {
@@ -231,14 +231,14 @@ sub _runModule {
         module   => $module,
         function => "doInventory",
         logger => $logger,
-        timeout  => $self->{config}->{'backend-collect-timeout'},
+        timeout  => $self->{params}->{timeout},
         params => {
-            datadir       => $self->{datadir},
+            datadir       => $self->{params}->{datadir},
             inventory     => $inventory,
             no_category   => $disabled,
             logger        => $self->{logger},
             registry      => $self->{registry},
-            scan_homedirs => $self->{config}->{'scan-homedirs'},
+            scan_homedirs => $self->{params}->{scan_homedirs},
         }
     );
     $self->{modules}->{$module}->{done} = 1;
@@ -264,8 +264,10 @@ sub _feedInventory {
         );
     }
 
-    if ($self->{config}->{'additional-content'} && -f $self->{config}->{'additional-content'}) {
-        $self->_injectContent($self->{config}->{'additional-content'}, $inventory)
+    if (
+        $self->{params}->{additional_content} &&
+        -f $self->{params}->{additional_content}) {
+        $self->_injectContent($self->{params}->{additional_content}, $inventory)
     }
 
     # Execution time

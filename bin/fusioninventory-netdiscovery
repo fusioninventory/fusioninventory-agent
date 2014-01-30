@@ -94,14 +94,12 @@ if ($options->{community}) {
 }
 
 my $task = FusionInventory::Agent::Task::NetDiscovery->new(
-    config   => $agent->{config},
-    confdir  => $agent->{confdir},
-    datadir  => $agent->{datadir},
-    logger   => $agent->{logger},
-    deviceid => $agent->{deviceid},
+    logger => $agent->{logger},
 );
 
 $task->configure(
+    datadir     => $agent->{datadir},
+    deviceid    => $agent->{deviceid},
     pid         => 1,
     threads     => $options->{threads},
     timeout     => $options->{timeout},

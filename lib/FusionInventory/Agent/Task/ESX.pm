@@ -62,7 +62,7 @@ sub getConfiguration {
         url  => $remotes[-1],
         args => {
             action    => "getJobs",
-            machineid => $self->{deviceid}
+            machineid => $self->{params}->{deviceid}
         }
     );
 
@@ -120,7 +120,7 @@ sub run {
                 url   => $self->{esxRemote},
                 args  => {
                     action    => 'setLog',
-                    machineid => $self->{deviceid},
+                    machineid => $self->{params}->{deviceid},
                     part      => 'login',
                     uuid      => $job->{uuid},
                     msg       => $self->{lastError},
@@ -138,7 +138,7 @@ sub run {
             );
 
             my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-                deviceid => $self->{deviceid},
+                deviceid => $self->{params}->{deviceid},
                 content  => $inventory->getContent()
             );
 
@@ -148,7 +148,7 @@ sub run {
             url  => $self->{esxRemote},
             args => {
                 action    => 'setLog',
-                machineid => $self->{deviceid},
+                machineid => $self->{params}->{deviceid},
                 uuid      => $job->{uuid},
                 code      => 'ok'
             }

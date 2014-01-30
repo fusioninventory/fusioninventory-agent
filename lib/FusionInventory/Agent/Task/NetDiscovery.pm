@@ -75,7 +75,7 @@ sub getConfiguration {
         );
 
         my $message = FusionInventory::Agent::XML::Query->new(
-            deviceid => $self->{deviceid},
+            deviceid => $self->{params}->{deviceid},
             query    => 'NETDISCOVERY',
             content  => {
                 AGENT => {
@@ -200,7 +200,7 @@ sub run {
 
     my $engine = $engine_class->new(
         logger           => $self->{logger},
-        datadir          => $self->{datadir},
+        datadir          => $self->{params}->{datadir},
         nmap_parameters  => $nmap_parameters,
         snmp_credentials => $snmp_credentials,
         snmp_dictionary  => $snmp_dictionary,
@@ -338,7 +338,7 @@ sub _sendMessage {
     my ($self, $recipient, $content) = @_;
 
     my $message = FusionInventory::Agent::XML::Query->new(
-        deviceid => $self->{deviceid},
+        deviceid => $self->{params}->{deviceid},
         query    => 'NETDISCOVERY',
         content  => $content
     );
