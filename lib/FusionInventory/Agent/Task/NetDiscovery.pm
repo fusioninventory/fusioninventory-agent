@@ -19,23 +19,21 @@ use FusionInventory::Agent::XML::Query;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
-sub isEnabled {
+sub getConfiguration {
     my ($self, %params) = @_;
 
-    return unless
-        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
-
     my $response = $params{response};
-
-    my $options = $self->getOptionsFromServer(
-        $response, 'NETDISCOVERY', 'NetDiscovery'
-    );
-    return unless $options;
-
-    if (!$options->{RANGEIP}) {
-        $self->{logger}->debug("No IP range defined in the prolog response");
+    if (!$response) {
+        $self->{logger}->info("Task not compatible");
         return;
     }
+
+    my $options = $response->getOptionsInfoByName('NETDISCOVERY');
+    if (!$options) {
+        $self->{logger}->info("Task not scheduled");
+        return;
+    }
+    return unless $options;
 
     # blocks list
     my @blocks;
@@ -97,22 +95,28 @@ sub isEnabled {
         return;
     }
 
-    $self->{params} = {
+    return (
         pid         => $options->{PARAM}->[0]->{PID},
         threads     => $options->{PARAM}->[0]->{THREADS_DISCOVERY},
         timeout     => $options->{PARAM}->[0]->{TIMEOUT},
         credentials => \@credentials,
         dictionary  => $dictionary,
         blocks      => \@blocks
-    };
-
-    return 1;
+    );
 }
 
 sub run {
     my ($self, %params) = @_;
 
     $self->{logger}->debug("running NetDiscovery task");
+
+    my @blocks = @{$self->{params}->{blocks}};
+    if (!@blocks) {
+        $self->{logger}->error("no addresses block given, aborting");
+        return;
+    }
+
+    $self->{logger}->info("got @blocks address blocks to scan");
 
     # use given output recipient,
     # otherwise assume the recipient is a GLPI server
@@ -167,7 +171,6 @@ sub run {
     }
 
     # blocks list
-    my @blocks = @{$self->{params}->{blocks}};
     my $max_size = 0;
     foreach my $block (@blocks) {
         my $ip = Net::IP->new($block->{spec});

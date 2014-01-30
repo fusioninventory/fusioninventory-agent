@@ -27,21 +27,12 @@ sub new {
     return $self;
 }
 
-sub getOptionsFromServer {
-    my ($self, $response, $name, $feature) = @_;
+sub configure {
+    my ($self, %params) = @_;
 
-    if (!$response) {
-        $self->{logger}->debug("No server response");
-        return;
+    foreach my $key (keys %params) {
+        $self->{params}->{$key} = $params{$key};
     }
-
-    my $options = $response->getOptionsInfoByName($name);
-    if (!$options) {
-        $self->{logger}->debug("No $feature requested in the prolog");
-        return;
-    }
-
-    return $options;
 }
 
 sub setParam {

@@ -18,11 +18,14 @@ use FusionInventory::Agent::Task::Deploy::Job;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
-sub isEnabled {
+sub getConfiguration {
     my ($self, %params) = @_;
 
-    return unless
-        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
+    my $response = $params{response};
+    if (!$response) {
+        $self->{logger}->info("Task not compatible");
+        return;
+    }
 
     my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
@@ -55,18 +58,17 @@ sub isEnabled {
         @{$schedule};
 
     if (!@remotes) {
-        $self->{logger}->info("No deploy task scheduled");
+        $self->{logger}->info("Task not scheduled");
         return;
     }
 
-    $self->{remotes} = \@remotes;
-
-    return 1;
+    return (
+        remotes => \@remotes
+    );
 }
 
 sub run {
     my ($self, %params) = @_;
-
 
     $self->{logger}->debug("running Deploy task");
 

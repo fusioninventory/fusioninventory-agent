@@ -14,11 +14,14 @@ use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
-sub isEnabled {
+sub getConfiguration {
     my ($self, %params) = @_;
 
-    return unless
-        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
+    my $response = $params{response};
+    if (!$response) {
+        $self->{logger}->info("Task not compatible");
+        return;
+    }
 
     my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
@@ -51,7 +54,7 @@ sub isEnabled {
         @{$schedule};
 
     if (!@remotes) {
-        $self->{logger}->info("No ESX inventory task scheduled");
+        $self->{logger}->info("Task not scheduled");
         return;
     }
 
@@ -73,9 +76,9 @@ sub isEnabled {
         return;
     }
 
-    $self->{jobs} = $jobs->{jobs};
-
-    return 1;
+    return (
+        jobs => $jobs->{jobs}
+    );
 }
 
 sub run {
@@ -83,8 +86,13 @@ sub run {
 
     $self->{logger}->debug("running ESX task");
 
-    my @jobs = @{$self->{jobs}};
-    $self->{logger}->info("Got @jobs VMware host(s) to inventory.");
+    my @jobs = @{$self->{params}->{jobs}};
+    if (!@jobs) {
+        $self->{logger}->error("no VMware host(s) given, aborting");
+        return;
+    }
+
+    $self->{logger}->info("got @jobs VMware host(s) to inventory");
 
     # use given output recipient,
     # otherwise assume the recipient is a GLPI server

@@ -14,32 +14,20 @@ use FusionInventory::Agent::XML::Query;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
-sub isEnabled {
+sub getConfiguration {
     my ($self, %params) = @_;
 
-    return unless
-        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
-
-    my $config = $self->getConfigFromResponse($params{response});
-    if (!$config) {
-        $self->{logger}->debug("No network inventory requested in server response");
+    my $response = $params{response};
+    if (!$response) {
+        $self->{logger}->info("Task not compatible");
         return;
     }
-
-    if (!$config->{device}) {
-        $self->{logger}->debug("No device defined in server response");
-        return;
-    }
-
-    $self->{params} = $config;
-
-    return 1;
-}
-
-sub _getConfigFromResponse {
-    my ($response) = @_;
 
     my $options = $response->getOptionsInfoByName('SNMPQUERY');
+    if (!$options) {
+        $self->{logger}->info("Task not scheduled");
+        return;
+    }
     return unless $options;
 
     my @credentials;
@@ -73,20 +61,28 @@ sub _getConfigFromResponse {
         push @models, $model;
     }
 
-    return {
+    return (
         pid         => $options->{PARAM}->[0]->{PID},
         threads     => $options->{PARAM}->[0]->{THREADS_QUERY},
         timeout     => $options->{PARAM}->[0]->{TIMEOUT},
         credentials => \@credentials,
         models      => \@models,
         devices     => \@devices
-    };
+    );
 }
 
 sub run {
     my ($self, %params) = @_;
 
     $self->{logger}->debug("running NetInventory task");
+
+    my @devices = @{$self->{params}->{devices}};
+    if (!@devices) {
+        $self->{logger}->error("no devices given, aborting");
+        return;
+    }
+
+    $self->{logger}->info("got @devices devices to inventory");
 
     # use given output recipient,
     # otherwise assume the recipient is a GLPI server
@@ -110,7 +106,6 @@ sub run {
     my $credentials = _indexCredentials($self->{params}->{credentials});
 
     # devices list
-    my @devices = @{$self->{params}->{devices}};
 
     # no need for more threads than devices to scan
     my $threads = $self->{params}->{threads};

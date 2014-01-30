@@ -102,17 +102,16 @@ my %messages = (
 
 plan tests => scalar keys %messages;
 
+my $task = FusionInventory::Agent::Task::NetInventory->new();
+
 foreach my $test (keys %messages) {
     my $file = "resources/messages/$test.xml";
     my $message = FusionInventory::Agent::XML::Response->new(
         content => slurp($file)
     );
-    my $config =
-        FusionInventory::Agent::Task::NetInventory::_getConfigFromResponse(
-            $message
-        );
+    my %configuration = $task->getConfiguration(response => $message);
     cmp_deeply(
-        $config,
+        \%configuration,
         $messages{$test},
         $test
     );

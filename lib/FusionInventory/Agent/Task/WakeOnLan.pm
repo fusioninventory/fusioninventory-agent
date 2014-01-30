@@ -15,33 +15,30 @@ use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
-sub isEnabled {
+sub getConfiguration {
     my ($self, %params) = @_;
 
-    return unless
-        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
-
     my $response = $params{response};
+    if (!$response) {
+        $self->{logger}->info("Task not compatible");
+        return;
+    }
 
-    my $options = $self->getOptionsFromServer(
-        $response, 'WAKEONLAN', 'WakeOnLan'
-    );
+    my $options = $response->getOptionsInfoByName('WAKEONLAN');
+    if (!$options) {
+        $self->{logger}->info("Task not scheduled");
+        return;
+    }
     return unless $options;
 
     my @addresses = map {
         $_->{MAC}
     } @{$options->{PARAM}};
 
-    if (!@addresses) {
-        $self->{logger}->error("No mac address defined in the prolog response");
-        return;
-    }
 
-    $self->{params} = {
+    return (
         addresse => \@addresses
-    };
-
-    return 1;
+    );
 }
 
 sub run {
@@ -49,10 +46,18 @@ sub run {
 
     $self->{logger}->debug("running WakeOnLan task");
 
+    my @addresses = @{$self->{params}->{addresses}};
+    if (@addresses) {
+        $self->{logger}->error("no mac address given, aborting");
+        return;
+    }
+
+    $self->{logger}->info("got @addresses mac address for which to send magic packets");
+
     my $use_ethernet = $self->{params}->{ethernet} && $self->_canUseEthernet();
     my $use_udp      = $self->{params}->{udp}      && $self->_canUseUDP();
 
-    foreach my $address (@{$self->{params}->{addresses}}) {
+    foreach my $address (@addresses) {
         if ($address !~ /^$mac_address_pattern$/) {
             $self->{logger}->error(
                 "invalid MAC address $address, skipping"

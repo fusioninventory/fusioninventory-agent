@@ -16,28 +16,32 @@ use FusionInventory::Agent::Inventory;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
-sub isEnabled {
+sub getConfiguration {
     my ($self, %params) = @_;
 
-    # always enabled for local controller
-    return 1 unless
-        $self->{controller}->isa('FusionInventory::Agent::Controller::Server');
-
-    if ($self->{config}->{force}) {
-        $self->{logger}->debug("Prolog response ignored");
-        return 1;
-    }
-
     my $response = $params{response};
-
-    my $content = $response->getContent();
-    if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
-        $self->{logger}->debug("No inventory requested in the prolog response");
-        return;
+    if ($response) {
+        my $content = $response->getContent();
+        if (
+            !$content                      ||
+            !$content->{RESPONSE}          ||
+            $content->{RESPONSE} ne 'SEND'
+        ) {
+            if ($self->{config}->{force}) {
+                $self->{logger}->info("Task not scheduled, execution forced");
+            } else {
+                $self->{logger}->info("Task not scheduled");
+                return;
+            }
+        }
     }
 
-    $self->{registry} = $response->getOptionsInfoByName('REGISTRY');
-    return 1;
+    my $registry = $response ?
+        $response->getOptionsInfoByName('REGISTRY') : undef;
+
+    return (
+        registry => $registry
+    );
 }
 
 sub run {
