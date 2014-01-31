@@ -238,17 +238,21 @@ sub run {
 
                 if (my $pid = fork()) {
                     # parent: wait for the child to finish
+                    $self->{status} = 'executing scheduled tasks';
+
                     while (waitpid($pid, WNOHANG) == 0) {
                         $self->{server}->handleRequests() if $self->{server};
                         delay(1);
                     }
                     $controller->resetNextRunDate();
+                    $self->{status} = 'waiting';
                 } else {
                     # child: execute schedule tasks
                     die "fork failed: $ERRNO" unless defined $pid;
 
                     $self->{logger}->debug(
-                        "executing scheduled tasks in process $PID"
+                        "Executing scheduled tasks for controller " .
+                        "$controller->{id} in process $PID"
                     );
                     eval {
                         $self->_runScheduledTasks($controller);
@@ -268,12 +272,16 @@ sub run {
         my $time = time();
         foreach my $controller (@{$self->{controllers}}) {
             if ($self->{config}->{lazy} && $time < $controller->getNextRunDate()) {
-                $self->{logger}->info(
+                $self->{logger}->debug(
                     "$controller->{id} is not ready yet, next server contact " .
                     "planned for " . localtime($controller->getNextRunDate())
                 );
                 next;
             }
+
+            $self->{logger}->debug(
+                "Executing scheduled tasks for controller $controller->{id}"
+            );
 
             eval {
                 $self->_runScheduledTasks($controller);
@@ -323,15 +331,15 @@ sub _runScheduledTasks {
             $self->_runTaskIfScheduled($controller, $name, $response);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-        $self->{status} = 'waiting';
     }
 }
 
 sub _runTaskIfScheduled {
     my ($self, $controller, $name, $response) = @_;
 
-    my $class = "FusionInventory::Agent::Task::$name";
+    $self->{logger}->debug("Attempting to run task $name");
 
+    my $class = "FusionInventory::Agent::Task::$name";
     $class->require();
 
     my $task = $class->new(
@@ -347,10 +355,7 @@ sub _runTaskIfScheduled {
         no_ssl_check => $self->{config}->{'no-ssl-check'},
         response     => $response
     );
-    if (!%configuration) {
-        $self->{logger}->info("task $name execution not requested");
-        return;
-    }
+    return unless %configuration;
 
     $task->configure(
         datadir            => $self->{datadir},

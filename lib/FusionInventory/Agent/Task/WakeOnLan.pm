@@ -20,13 +20,13 @@ sub getConfiguration {
 
     my $response = $params{response};
     if (!$response) {
-        $self->{logger}->info("Task not compatible");
+        $self->{logger}->debug("Task not compatible with local controller");
         return;
     }
 
     my $options = $response->getOptionsInfoByName('WAKEONLAN');
     if (!$options) {
-        $self->{logger}->info("Task not scheduled");
+        $self->{logger}->debug("Task not scheduled");
         return;
     }
     return unless $options;
@@ -44,14 +44,13 @@ sub getConfiguration {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("running WakeOnLan task");
+    $self->{logger}->info("Running WakeOnLan task");
 
     my @addresses = @{$self->{params}->{addresses}};
     if (@addresses) {
         $self->{logger}->error("no mac address given, aborting");
         return;
     }
-
     $self->{logger}->info("got @addresses mac address for which to send magic packets");
 
     my $use_ethernet = $self->{params}->{ethernet} && $self->_canUseEthernet();

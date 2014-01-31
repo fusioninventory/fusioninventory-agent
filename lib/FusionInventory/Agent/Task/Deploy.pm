@@ -23,7 +23,7 @@ sub getConfiguration {
 
     my $response = $params{response};
     if (!$response) {
-        $self->{logger}->info("Task not compatible");
+        $self->{logger}->debug("Task not compatible with a local controller");
         return;
     }
 
@@ -58,7 +58,7 @@ sub getConfiguration {
         @{$schedule};
 
     if (!@remotes) {
-        $self->{logger}->info("Task not scheduled");
+        $self->{logger}->debug("Task not scheduled");
         return;
     }
 
@@ -70,7 +70,7 @@ sub getConfiguration {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("running Deploy task");
+    $self->{logger}->info("Running Deploy task");
 
     $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},

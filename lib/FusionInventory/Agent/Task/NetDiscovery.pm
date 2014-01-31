@@ -24,13 +24,13 @@ sub getConfiguration {
 
     my $response = $params{response};
     if (!$response) {
-        $self->{logger}->info("Task not compatible");
+        $self->{logger}->debug("Task not compatible with a local controller");
         return;
     }
 
     my $options = $response->getOptionsInfoByName('NETDISCOVERY');
     if (!$options) {
-        $self->{logger}->info("Task not scheduled");
+        $self->{logger}->debug("Task not scheduled");
         return;
     }
     return unless $options;
@@ -108,14 +108,13 @@ sub getConfiguration {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("running NetDiscovery task");
+    $self->{logger}->info("Running NetDiscovery task");
 
     my @blocks = @{$self->{params}->{blocks}};
     if (!@blocks) {
         $self->{logger}->error("no addresses block given, aborting");
         return;
     }
-
     $self->{logger}->info("got @blocks address blocks to scan");
 
     # use given output recipient,

@@ -19,13 +19,13 @@ sub getConfiguration {
 
     my $response = $params{response};
     if (!$response) {
-        $self->{logger}->info("Task not compatible");
+        $self->{logger}->debug("Task not compatible with a local controller");
         return;
     }
 
     my $options = $response->getOptionsInfoByName('SNMPQUERY');
     if (!$options) {
-        $self->{logger}->info("Task not scheduled");
+        $self->{logger}->debug("Task not scheduled");
         return;
     }
     return unless $options;
@@ -74,14 +74,13 @@ sub getConfiguration {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("running NetInventory task");
+    $self->{logger}->info("Running NetInventory task");
 
     my @devices = @{$self->{params}->{devices}};
     if (!@devices) {
         $self->{logger}->error("no devices given, aborting");
         return;
     }
-
     $self->{logger}->info("got @devices devices to inventory");
 
     # use given output recipient,

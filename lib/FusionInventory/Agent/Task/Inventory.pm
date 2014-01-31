@@ -28,9 +28,9 @@ sub getConfiguration {
             $content->{RESPONSE} ne 'SEND'
         ) {
             if ($self->{params}->{force}) {
-                $self->{logger}->info("Task not scheduled, execution forced");
+                $self->{logger}->debug("Task not scheduled, execution forced");
             } else {
-                $self->{logger}->info("Task not scheduled");
+                $self->{logger}->debug("Task not scheduled");
                 return;
             }
         }
@@ -47,7 +47,7 @@ sub getConfiguration {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("running Inventory task");
+    $self->{logger}->info("Running Inventory task");
     if ( $REAL_USER_ID != 0 ) {
         $self->{logger}->info("You should run this program as super-user.");
     }

@@ -30,7 +30,7 @@ sub getConfiguration {
 
     my $response = $params{response};
     if (!$response) {
-        $self->{logger}->info("Task not compatible");
+        $self->{logger}->debug("Task not compatible with a local controller");
         return;
     }
 
@@ -65,7 +65,7 @@ sub getConfiguration {
         @{$schedule};
 
     if (!@remotes) {
-        $self->{logger}->info("Task not scheduled");
+        $self->{logger}->debug("Task not scheduled");
         return;
     }
 
@@ -78,12 +78,12 @@ sub getConfiguration {
     );
 
     if (!$jobs) {
-        $self->{logger}->info("No host in the server request");
+        $self->{logger}->error("No host in the server request");
         return;
     }
 
     if (ref $jobs->{jobs} ne 'ARRAY') {
-        $self->{logger}->info("Invalid server request format");
+        $self->{logger}->error("Invalid server request format");
         return;
     }
 
@@ -95,7 +95,7 @@ sub getConfiguration {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("running Collect task");
+    $self->{logger}->info("running Collect task");
 
     my @jobs = @{$self->{jobs}};
     $self->{logger}->info("Got @jobs collect order(s).");
