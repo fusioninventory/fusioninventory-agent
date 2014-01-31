@@ -320,14 +320,14 @@ sub _runScheduledTasks {
 
     foreach my $name (@{$self->{tasks}}) {
         eval {
-            $self->_runTask($controller, $name, $response);
+            $self->_runTaskIfScheduled($controller, $name, $response);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
     }
 }
 
-sub _runTask {
+sub _runTaskIfScheduled {
     my ($self, $controller, $name, $response) = @_;
 
     my $class = "FusionInventory::Agent::Task::$name";
