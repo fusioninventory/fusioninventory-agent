@@ -1,5 +1,9 @@
 Revision history for FusionInventory agent
 
+2.3.6
+inventory task:
+* fix a warning with LXC 1.0.x
+
 2.3.5.1 Tue, 14 Jan 2014 22:15:29 +0100
 inventory task:
 * fix AIX LVM regression introduced by incorrect fix (#2384)
