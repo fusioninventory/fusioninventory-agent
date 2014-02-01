@@ -40,7 +40,7 @@ sub  _getVirtualMachineState {
     while (my $line = <$handle>){
         chomp $line;
         next unless $line =~ m/^(\S+):\s*(\S+)$/;
-        $info{$1} = $2;
+        $info{lc($1)} = $2;
     }
     close $handle;
 
