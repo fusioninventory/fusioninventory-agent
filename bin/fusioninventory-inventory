@@ -28,7 +28,6 @@ GetOptions(
     $options,
     'additional-content=s',
     'collect-timeout=s',
-    'html',
     'no-category=s',
     'scan-homedirs',
     'tag|t=s',
@@ -56,7 +55,6 @@ $task->configure(
     datadir            => $agent->{datadir},
     deviceid           => $agent->{deviceid},
     tag                => $agent->{config}->{tag},
-    html               => $agent->{config}->{html},
     timeout            => $agent->{config}->{'collect-timeout'},
     additional_content => $agent->{config}->{'additional-content'},
     scan_homedirs      => $agent->{config}->{'scan-homedirs'},
@@ -98,7 +96,6 @@ fusioninventory-inventory [options]
 
   Options:
     --scan-homedirs                scan use home directories (false)
-    --html                         save the inventory as HTML (false)
     -t --tag tag                   inventory tag
     --collect-timeout time         inventory modules execution timeout (30)
     --additional-content file      additional inventory content file
