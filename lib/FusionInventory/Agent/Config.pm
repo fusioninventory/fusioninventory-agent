@@ -18,7 +18,6 @@ my $default = {
     'debug'                   => undef,
     'delaytime'               => 3600,
     'force'                   => undef,
-    'html'                    => undef,
     'lazy'                    => undef,
     'logger'                  => 'Stderr',
     'logfile'                 => undef,
@@ -49,6 +48,9 @@ my $default = {
 };
 
 my $deprecated = {
+    'html'                    => {
+        message => 'process the result with provided XSLT stylesheet if needed',
+    },
     'backend-collect-timeout' => {
         message => 'use --collect-timeout option instead',
         new     => 'collect-timeout'

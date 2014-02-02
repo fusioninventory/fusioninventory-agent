@@ -102,7 +102,6 @@ sub initControllers {
                     delaytime  => $config->{delaytime},
                     basevardir => $self->{vardir},
                     path       => $path,
-                    html       => $config->{html},
                 );
         }
     }
@@ -361,7 +360,6 @@ sub _runTaskIfScheduled {
         datadir            => $self->{datadir},
         deviceid           => $self->{deviceid},
         tag                => $self->{config}->{tag},
-        html               => $self->{config}->{html},
         timeout            => $self->{config}->{'collect-timeout'},
         additional_content => $self->{config}->{'additional-content'},
         scan_homedirs      => $self->{config}->{'scan-homedirs'},

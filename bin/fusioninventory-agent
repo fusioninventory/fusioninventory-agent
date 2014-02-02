@@ -29,7 +29,6 @@ GetOptions(
     'delaytime=s',
     'force|f',
     'help|h',
-    'html',
     'lazy',
     'list-tasks',
     'setup',
@@ -54,6 +53,7 @@ GetOptions(
     'version',
     'wait|w=s',
     # deprecated options
+    'html',
     'local|l=s',
     'backend-collect-timeout',
 ) or pod2usage(-verbose => 0);
@@ -150,7 +150,6 @@ B<fusioninventory-agent> [options] [--server server|--local path]
   Inventory task specific options:
     --no-category=CATEGORY         do not list given category items
     --scan-homedirs                scan use home directories (false)
-    --html                         save the inventory as HTML (false)
     -f --force                     always send data to server (false)
     --collect-timeout=TIME         timeout for inventory modules
                                      execution (30)
@@ -334,12 +333,6 @@ user
 =item B<--scan-homedirs>
 
 Allow the agent to scan home directories for virtual machines.
-
-=item B<--html>
-
-Save the inventory as HTML.
-
-This is only used for local inventories.
 
 =item B<-f>, B<--force>
 
