@@ -128,15 +128,7 @@ my $recipient = FusionInventory::Agent::Recipient->create(
 );
 
 eval {
-    $task->run(
-        user         => $agent->{config}->{user},
-        password     => $agent->{config}->{password},
-        proxy        => $agent->{config}->{proxy},
-        ca_cert_file => $agent->{config}->{'ca-cert-file'},
-        ca_cert_dir  => $agent->{config}->{'ca-cert-dir'},
-        no_ssl_check => $agent->{config}->{'no-ssl-check'},
-        recipient    => $recipient
-    );
+    $task->run(recipient => $recipient);
 };
 if ($EVAL_ERROR) {
     print STDERR "Execution failure:.\n";

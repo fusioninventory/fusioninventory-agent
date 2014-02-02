@@ -23,12 +23,11 @@ sub send {
 
     return if $params{control} and !$self->{verbose};
 
-    my $file = sprintf('%s/%s.xml', $self->{path}, $params{hint});
+    my $file = sprintf("%s/%s.xml", $self->{path}, $params{hint});
 
     open(my $handle, '>', $file);
     print $handle $params{message}->getContent();
     close($handle);
-
 }
 
 1;

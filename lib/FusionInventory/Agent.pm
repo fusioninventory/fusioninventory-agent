@@ -17,6 +17,9 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
 use FusionInventory::Agent::Controller::Local;
 use FusionInventory::Agent::Controller::Server;
+use FusionInventory::Agent::Recipient::Stdout;
+use FusionInventory::Agent::Recipient::Filesystem;
+use FusionInventory::Agent::Recipient::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
@@ -325,16 +328,43 @@ sub _runScheduledTasks {
         }
     }
 
+    my $recipient;
+    if ($controller->isa('FusionInventory::Agent::Controller::Server')) {
+        $recipient = FusionInventory::Agent::Recipient::Server->new(
+            target       => $self->{controller}->getUrl(),
+            logger       => $self->{logger},
+            user         => $self->{config}->{user},
+            password     => $self->{config}->{password},
+            proxy        => $self->{config}->{proxy},
+            ca_cert_file => $self->{config}->{'ca-cert-file'},
+            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+            no_ssl_check => $self->{config}->{'no-ssl-check'},
+        );
+    } else {
+        my $path = $controller->getPath();
+        if ($path eq '-') {
+            $recipient = FusionInventory::Agent::Recipient::Stdout->new(
+                deviceid => $self->{deviceid},
+            );
+        } else {
+            $recipient = FusionInventory::Agent::Recipient::Filesystem->new(
+                target   => $path,
+                datadir  => $self->{datadir},
+                deviceid => $self->{deviceid},
+            );
+        }
+    }
+
     foreach my $name (@{$self->{tasks}}) {
         eval {
-            $self->_runTaskIfScheduled($controller, $name, $response);
+            $self->_runTaskIfScheduled($name, $response, $recipient);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
     }
 }
 
 sub _runTaskIfScheduled {
-    my ($self, $controller, $name, $response) = @_;
+    my ($self, $name, $response, $recipient) = @_;
 
     $self->{logger}->debug("Attempting to run task $name");
 
@@ -367,15 +397,7 @@ sub _runTaskIfScheduled {
         %configuration
     );
 
-    $task->run(
-        user         => $self->{config}->{user},
-        password     => $self->{config}->{password},
-        proxy        => $self->{config}->{proxy},
-        ca_cert_file => $self->{config}->{'ca-cert-file'},
-        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-        no_ssl_check => $self->{config}->{'no-ssl-check'},
-        controller   => $controller
-    );
+    $task->run(recipient => $recipient);
 }
 
 sub getStatus {

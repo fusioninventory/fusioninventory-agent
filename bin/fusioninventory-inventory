@@ -10,7 +10,7 @@ use File::Temp;
 use Pod::Usage;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Recipient::Inventory;
+use FusionInventory::Agent::Recipient;
 use FusionInventory::Agent::Task::Inventory;
 
 my %setup = (
@@ -61,21 +61,13 @@ $task->configure(
     no_category        => $agent->{config}->{'no-category'},
 );
 
-my $recipient = FusionInventory::Agent::Recipient::Inventory->create(
+my$recipient = FusionInventory::Agent::Recipient->create(
     target  => $options->{recipient},
     verbose => $options->{verbose}
 );
 
 eval {
-    $task->run(
-        user         => $agent->{config}->{user},
-        password     => $agent->{config}->{password},
-        proxy        => $agent->{config}->{proxy},
-        ca_cert_file => $agent->{config}->{'ca-cert-file'},
-        ca_cert_dir  => $agent->{config}->{'ca-cert-dir'},
-        no_ssl_check => $agent->{config}->{'no-ssl-check'},
-        recipient    => $recipient
-    );
+    $task->run(recipient => $recipient);
 };
 if ($EVAL_ERROR) {
     print STDERR "Execution failure:.\n";

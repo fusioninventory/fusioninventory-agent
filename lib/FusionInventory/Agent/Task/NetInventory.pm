@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Recipient::Server;
+use FusionInventory::Agent::Recipient::Stdout;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::XML::Query;
 
@@ -83,20 +83,9 @@ sub run {
     }
     $self->{logger}->info("got @devices devices to inventory");
 
-    # use given output recipient,
-    # otherwise assume the recipient is a GLPI server
     my $recipient =
         $params{recipient} ||
-        FusionInventory::Agent::Recipient::Server->new(
-            target       => $self->{controller}->getUrl(),
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-    );
+        FusionInventory::Agent::Recipient::Stdout->new();
 
     # SNMP models
     my $models = _indexModels($self->{params}->{models});

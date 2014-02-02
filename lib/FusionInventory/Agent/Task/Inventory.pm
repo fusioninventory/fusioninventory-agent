@@ -8,9 +8,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Recipient::Inventory::Stdout;
-use FusionInventory::Agent::Recipient::Inventory::Filesystem;
-use FusionInventory::Agent::Recipient::Inventory::Server;
+use FusionInventory::Agent::Recipient::Stdout;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
@@ -53,36 +51,9 @@ sub run {
         $self->{logger}->info("You should run this program as super-user.");
     }
 
-    # use given output recipient,
-    # otherwise use either local or server recipient,
-    # according to controller type
-    my $recipient;
-    if ($params{recipient}) {
-        $recipient = $params{recipient};
-    } elsif ($params{controller}->isa('FusionInventory::Agent::Controller::Local')) {
-        my $path = $params{controller}->getPath();
-        if ($path eq '-') {
-            $recipient = FusionInventory::Agent::Recipient::Inventory::Stdout->new(
-            );
-        } else {
-            $recipient = FusionInventory::Agent::Recipient::Inventory::Filesystem->new(
-                target   => $params{controller}->getPath(),
-                datadir  => $self->{params}->{datadir},
-            );
-        }
-    } elsif ($params{controller}->isa('FusionInventory::Agent::Controller::Server')) {
-        $recipient = FusionInventory::Agent::Recipient::Inventory::Server->new(
-            target       => $params{controller}->getUrl(),
-            deviceid     => $self->{params}->{deviceid},
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-        );
-    }
+    my $recipient =
+        $params{recipient} ||
+        FusionInventory::Agent::Recipient::Stdout->new();
 
     $self->{modules} = {};
 
