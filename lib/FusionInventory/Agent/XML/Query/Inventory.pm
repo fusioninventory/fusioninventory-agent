@@ -15,6 +15,22 @@ sub new {
     );
 }
 
+sub getContent {
+    my ($self) = @_;
+
+    my $declaration = 
+        '<?xml version="1.0" encoding="UTF-8" ?>' .
+        "\n" .
+        '<?xml-stylesheet type= "text/xsl" href= "share/inventory.xsl"?>';
+
+    my $tpp = XML::TreePP->new(
+        indent   => 2,
+        xml_decl => $declaration
+    );
+
+    return $tpp->write({ REQUEST => $self->{h} });
+}
+
 1;
 __END__
 
