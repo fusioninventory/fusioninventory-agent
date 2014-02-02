@@ -13,6 +13,7 @@ use FusionInventory::Agent::Recipient::Inventory::Filesystem;
 use FusionInventory::Agent::Recipient::Inventory::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
+use FusionInventory::Agent::XML::Query::Inventory;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
@@ -112,7 +113,12 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    $recipient->send(inventory => $inventory);
+    my $message = FusionInventory::Agent::XML::Query::Inventory->new(
+        deviceid => $self->{params}->{deviceid},
+        content  => $inventory->getContent()
+    );
+
+    $recipient->send(message => $message);
 }
 
 sub _initModulesList {
