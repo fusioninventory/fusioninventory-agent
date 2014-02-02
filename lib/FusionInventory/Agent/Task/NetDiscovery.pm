@@ -208,9 +208,10 @@ sub run {
     );
 
     # send initial message to the server
-    $self->_sendMessage(
-        $recipient,
-        {
+    my $start = FusionInventory::Agent::XML::Query->new(
+        query    => 'NETDISCOVERY',
+        deviceid => $self->{params}->deviceid,
+        content  => {
             AGENT => {
                 START        => 1,
                 AGENTVERSION => $FusionInventory::Agent::VERSION,
@@ -218,8 +219,9 @@ sub run {
             MODULEVERSION => $FusionInventory::Agent::VERSION,
             PROCESSNUMBER => $pid
         },
-        1,
-        'discovery_start'
+    );
+    $recipient->send(
+        message => $start, control => 1, hint => 'discovery_start'
     );
 
     # proceed each given IP block
@@ -231,50 +233,54 @@ sub run {
         $self->{logger}->debug("scanning block $block->{spec}");
 
         # send block size to the server
-        my $hint = 'discovery_' . $block->{spec} . '_size';
-        $hint =~ s{/}{_}g;
-        $self->_sendMessage(
-            $recipient,
-            {
+        my $message = FusionInventory::Agent::XML::Query->new(
+            query    => 'NETDISCOVERY',
+            deviceid => $self->{params}->deviceid,
+            content  => {
                 AGENT => {
                     NBIP => scalar @addresses
                 },
                 PROCESSNUMBER => $pid
             },
-            1,
-            $hint
         );
+        my $hint = 'discovery_' . $block->{spec} . '_size';
+        $hint =~ s{/}{_}g;
+        $recipient->send(message => $message, control => 1, hint => $hint);
 
         my @results = $engine->scan(@addresses);
 
         my $count = 1;
         foreach my $result (@results) {
             $result->{ENTITY} = $block->{ENTITY} if defined($block->{ENTITY});
+            my $message = FusionInventory::Agent::XML::Query->new(
+                query    => 'NETDISCOVERY',
+                deviceid => $self->{params}->deviceid,
+                content  => {
+                    DEVICE        => [$result],
+                    MODULEVERSION => $VERSION,
+                    PROCESSNUMBER => $pid,
+                }
+            );
             my $hint = 'discovery_' . $count++;
-            my $data = {
-                DEVICE        => [$result],
-                MODULEVERSION => $VERSION,
-                PROCESSNUMBER => $pid,
-            };
-            $self->_sendMessage($recipient, $data, 0, $hint);
+            $recipient->send(message => $message, hint => $hint);
         }
     }
 
     $engine->finish();
 
     # send final message to the server
-    $self->_sendMessage(
-        $recipient,
-        {
+    my $stop = FusionInventory::Agent::XML::Query->new(
+        query    => 'NETDISCOVERY',
+        deviceid => $self->{params}->deviceid,
+        content  => {
             AGENT => {
                 END => 1,
             },
             MODULEVERSION => $VERSION,
             PROCESSNUMBER => $pid
-        },
-        1,
-        'discovery_stop'
+        }
     );
+    $recipient->send(message => $stop, control => 1, hint => 'discovery_stop');
 }
 
 sub _getDictionary {
@@ -341,18 +347,6 @@ sub _isValidCredential {
     }
 
     return 1;
-}
-
-sub _sendMessage {
-    my ($self, $recipient, $content, $control, $hint) = @_;
-
-    my $message = FusionInventory::Agent::XML::Query->new(
-        deviceid => $self->{params}->{deviceid},
-        query    => 'NETDISCOVERY',
-        content  => $content
-    );
-
-    $recipient->send(message => $message, control => $control, hint => $hint);
 }
 
 1;

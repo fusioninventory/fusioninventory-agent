@@ -128,9 +128,10 @@ sub run {
     );
 
     # send initial message to the server
-    $self->_sendMessage(
-        $recipient,
-        {
+    my $start = FusionInventory::Agent::XML::Query->new(
+        deviceid => $self->{params}->{deviceid},
+        query    => 'SNMPQUERY',
+        content  => {
             AGENT => {
                 START        => 1,
                 AGENTVERSION => $FusionInventory::Agent::VERSION
@@ -138,8 +139,9 @@ sub run {
             MODULEVERSION => $FusionInventory::Agent::VERSION,
             PROCESSNUMBER => $self->{params}->{pid}
         },
-        1,
-        'inventory_start'
+    );
+    $recipient->send(
+        message => $start, control => 1, hint => 'inventory_start'
     );
 
     # proceed each given device
@@ -147,42 +149,36 @@ sub run {
 
     my $size = 1;
     foreach my $result (@results) {
+        my $message = FusionInventory::Agent::XML::Query->new(
+            deviceid => $self->{params}->{deviceid},
+            query    => 'SNMPQUERY',
+            content  => {
+                DEVICE        => $result,
+                MODULEVERSION => $VERSION,
+                PROCESSNUMBER => $self->{params}->{pid}
+            }
+        );
         my $hint = 'inventory_' . $size++;
-        my $data = {
-            DEVICE        => $result,
-            MODULEVERSION => $VERSION,
-            PROCESSNUMBER => $self->{params}->{pid}
-        };
-        $self->_sendMessage($recipient, $data, 0, $hint);
+        $recipient->send(message => $message, hint => $hint);
     }
 
     $engine->finish();
 
     # send final message to the server
-    $self->_sendMessage(
-        $recipient,
-        {
+    my $stop = FusionInventory::Agent::XML::Query->new(
+        deviceid => $self->{params}->{deviceid},
+        query    => 'SNMPQUERY',
+        content  => {
             AGENT => {
                 END => 1,
             },
             MODULEVERSION => $FusionInventory::Agent::VERSION,
             PROCESSNUMBER => $self->{params}->{pid}
         },
-        1,
-        'inventory_end'
     );
-}
-
-sub _sendMessage {
-    my ($self, $recipient, $content, $control) = @_;
-
-   my $message = FusionInventory::Agent::XML::Query->new(
-       deviceid => $self->{params}->{deviceid},
-       query    => 'SNMPQUERY',
-       content  => $content
-   );
-
-   $recipient->send(message => $message, control => $control);
+    $recipient->send(
+        message => $stop, control => 1, hint => 'inventory_stop'
+    );
 }
 
 sub _indexModels {
