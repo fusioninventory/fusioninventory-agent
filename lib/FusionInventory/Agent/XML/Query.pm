@@ -10,19 +10,35 @@ sub new {
 
     die "no query parameter" unless $params{query};
 
-    my $self = {};
+    my $self = {
+        stylesheet => $params{stylesheet},
+    };
     bless $self, $class;
 
-    foreach my $key (keys %params) {
+    foreach my $key (qw/query deviceid content token/) {
+        next unless $params{$key};
         $self->{h}->{uc($key)} = $params{$key};
     }
+
     return $self;
 }
 
 sub getContent {
     my ($self) = @_;
 
-    my $tpp = XML::TreePP->new(indent => 2);
+    my $declaration = '<?xml version="1.0" encoding="UTF-8" ?>';
+    if ($self->{stylesheet}) {
+        $declaration .= 
+            "\n" .
+            '<?xml-stylesheet type= "text/xsl" href= "' .
+            $self->{stylesheet} .
+            '"?>';
+    }
+
+    my $tpp = XML::TreePP->new(
+        indent   => 2,
+        xml_decl => $declaration
+    );
 
     return $tpp->write({ REQUEST => $self->{h} });
 }

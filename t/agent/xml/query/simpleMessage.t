@@ -23,7 +23,6 @@ lives_ok {
     $message = FusionInventory::Agent::XML::Query->new(
         deviceid => 'foo',
         query    => 'TEST',
-        foo      => 'foo',
     );
 } 'everything OK';
 
@@ -36,7 +35,6 @@ cmp_deeply(
     {
         REQUEST => {
             DEVICEID => 'foo',
-            FOO      => 'foo',
             QUERY    => 'TEST'
         }
     },
@@ -47,8 +45,7 @@ lives_ok {
     $message = FusionInventory::Agent::XML::Query->new(
         deviceid => 'foo',
         query    => 'TEST',
-        foo => 'foo',
-        castor => [
+        content  => [
             {
                 FOO => 'fu',
                 FFF => 'GG',
@@ -67,7 +64,7 @@ cmp_deeply(
     scalar $tpp->parse($message->getContent()),
     {
         REQUEST => {
-            CASTOR => [
+            CONTENT => [
                 {
                     FFF => 'GG',
                     FOO => 'fu',
@@ -78,8 +75,7 @@ cmp_deeply(
                 }
             ],
             DEVICEID => 'foo',
-            FOO => 'foo',
-            QUERY => 'TEST'
+            QUERY    => 'TEST'
         }
     },
     'expected content'

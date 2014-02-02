@@ -10,7 +10,7 @@ use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::SOAP::VMware;
-use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::XML::Query;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
@@ -125,9 +125,11 @@ sub run {
                 $hostId, $self->{config}->{tag}
             );
 
-            my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-                deviceid => $self->{params}->{deviceid},
-                content  => $inventory->getContent()
+            my $message = FusionInventory::Agent::XML::Query->new(
+                query      => 'INVENTORY',
+                deviceid   => $self->{params}->{deviceid},
+                stylesheet => $self->{params}->{datadir} . '/inventory.xsl',
+                content    => $inventory->getContent()
             );
 
             $recipient->send(message => $message);
