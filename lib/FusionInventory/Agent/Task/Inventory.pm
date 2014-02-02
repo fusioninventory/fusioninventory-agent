@@ -65,10 +65,8 @@ sub run {
                 deviceid => $self->{params}->{deviceid},
             );
         } else {
-            my $format = $self->{params}->{html} ? 'html' : 'xml';
             $recipient = FusionInventory::Agent::Recipient::Inventory::Filesystem->new(
                 target   => $params{controller}->getPath(),
-                format   => $format,
                 datadir  => $self->{params}->{datadir},
                 deviceid => $self->{params}->{deviceid},
             );

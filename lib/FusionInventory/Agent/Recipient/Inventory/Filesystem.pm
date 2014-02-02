@@ -18,7 +18,6 @@ sub new {
         deviceid => $params{deviceid},
         task     => $params{task},
         verbose  => $params{verbose},
-        format   => $params{format},
         datadir  => $params{datadir},
         count    => 0
     }, $class;
@@ -33,7 +32,7 @@ sub send {
             "%s/%s.%s",
             $self->{path},
             $self->{deviceid},
-            $self->{format} eq 'xml' ? 'ocs' : 'html'
+            'ocs'
         );
     } else {
         $file = $self->{path};
@@ -46,31 +45,12 @@ sub send {
         open($handle, '>', $file);
     }
 
-    if ($self->{format} eq 'xml') {
+    my $message = FusionInventory::Agent::XML::Query::Inventory->new(
+        deviceid => $self->{deviceid},
+        content  => $params{inventory}->getContent()
+    );
 
-        my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-            deviceid => $self->{deviceid},
-            content  => $params{inventory}->getContent()
-        );
-
-        print $handle $message->getContent();
-    }
-
-    if ($self->{format} eq 'html') {
-        Text::Template->require();
-        my $template = Text::Template->new(
-            TYPE => 'FILE', SOURCE => "$self->{datadir}/html/inventory.tpl"
-        );
-
-         my $hash = {
-            version  => $FusionInventory::Agent::VERSION,
-            deviceid => $self->{deviceid},
-            data     => $params{inventory}->{content},
-            fields   => $params{inventory}->{fields},
-        };
-
-        print $handle $template->fill_in(HASH => $hash);
-    }
+    print $handle $message->getContent();
 
     close($handle);
 }
