@@ -138,19 +138,22 @@ sub run {
             MODULEVERSION => $FusionInventory::Agent::VERSION,
             PROCESSNUMBER => $self->{params}->{pid}
         },
-        1
+        1,
+        'inventory_start'
     );
 
     # proceed each given device
     my @results = $engine->query(@devices);
 
+    my $size = 1;
     foreach my $result (@results) {
+        my $hint = 'inventory_' . $size++;
         my $data = {
             DEVICE        => $result,
             MODULEVERSION => $VERSION,
             PROCESSNUMBER => $self->{params}->{pid}
         };
-        $self->_sendMessage($recipient, $data);
+        $self->_sendMessage($recipient, $data, 0, $hint);
     }
 
     $engine->finish();
@@ -165,7 +168,8 @@ sub run {
             MODULEVERSION => $FusionInventory::Agent::VERSION,
             PROCESSNUMBER => $self->{params}->{pid}
         },
-        1
+        1,
+        'inventory_end'
     );
 }
 

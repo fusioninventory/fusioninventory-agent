@@ -63,13 +63,11 @@ sub run {
         my $path = $params{controller}->getPath();
         if ($path eq '-') {
             $recipient = FusionInventory::Agent::Recipient::Inventory::Stdout->new(
-                deviceid => $self->{params}->{deviceid},
             );
         } else {
             $recipient = FusionInventory::Agent::Recipient::Inventory::Filesystem->new(
                 target   => $params{controller}->getPath(),
                 datadir  => $self->{params}->{datadir},
-                deviceid => $self->{params}->{deviceid},
             );
         }
     } elsif ($params{controller}->isa('FusionInventory::Agent::Controller::Server')) {
@@ -118,7 +116,10 @@ sub run {
         content  => $inventory->getContent()
     );
 
-    $recipient->send(message => $message);
+    $recipient->send(
+        message => $message,
+        hint    => $self->{params}->{deviceid},
+    );
 }
 
 sub _initModulesList {

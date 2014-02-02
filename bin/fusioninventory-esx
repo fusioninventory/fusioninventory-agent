@@ -72,7 +72,6 @@ $task->configure(
 
 my $recipient = FusionInventory::Agent::Recipient->create(
     target  => $options->{recipient},
-    task    => 'netdiscovery',
     verbose => $options->{verbose}
 );
 

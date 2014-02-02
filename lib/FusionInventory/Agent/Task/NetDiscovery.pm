@@ -218,7 +218,8 @@ sub run {
             MODULEVERSION => $FusionInventory::Agent::VERSION,
             PROCESSNUMBER => $pid
         },
-        1
+        1,
+        'discovery_start'
     );
 
     # proceed each given IP block
@@ -230,6 +231,8 @@ sub run {
         $self->{logger}->debug("scanning block $block->{spec}");
 
         # send block size to the server
+        my $hint = 'discovery_' . $block->{spec} . '_size';
+        $hint =~ s{/}{_}g;
         $self->_sendMessage(
             $recipient,
             {
@@ -238,19 +241,22 @@ sub run {
                 },
                 PROCESSNUMBER => $pid
             },
-            1
+            1,
+            $hint
         );
 
         my @results = $engine->scan(@addresses);
 
+        my $count = 1;
         foreach my $result (@results) {
             $result->{ENTITY} = $block->{ENTITY} if defined($block->{ENTITY});
+            my $hint = 'discovery_' . $count++;
             my $data = {
                 DEVICE        => [$result],
                 MODULEVERSION => $VERSION,
                 PROCESSNUMBER => $pid,
             };
-            $self->_sendMessage($recipient, $data);
+            $self->_sendMessage($recipient, $data, 0, $hint);
         }
     }
 
@@ -266,7 +272,8 @@ sub run {
             MODULEVERSION => $VERSION,
             PROCESSNUMBER => $pid
         },
-        1
+        1,
+        'discovery_stop'
     );
 }
 
@@ -337,7 +344,7 @@ sub _isValidCredential {
 }
 
 sub _sendMessage {
-    my ($self, $recipient, $content, $control) = @_;
+    my ($self, $recipient, $content, $control, $hint) = @_;
 
     my $message = FusionInventory::Agent::XML::Query->new(
         deviceid => $self->{params}->{deviceid},
@@ -345,7 +352,7 @@ sub _sendMessage {
         content  => $content
     );
 
-    $recipient->send(message => $message, control => $control);
+    $recipient->send(message => $message, control => $control, hint => $hint);
 }
 
 1;

@@ -13,8 +13,6 @@ sub new {
 
     return bless {
         path     => $params{target},
-        deviceid => $params{deviceid},
-        task     => $params{task},
         verbose  => $params{verbose},
         datadir  => $params{datadir},
         count    => 0
@@ -26,12 +24,7 @@ sub send {
 
     my $file;
     if (-d $self->{path}) {
-        $file = sprintf(
-            "%s/%s.%s",
-            $self->{path},
-            $self->{deviceid},
-            'ocs'
-        );
+        $file = sprintf('%s/%s.ocs', $self->{path}, $params{hint});
     } else {
         $file = $self->{path};
     }

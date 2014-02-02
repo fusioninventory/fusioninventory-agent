@@ -14,10 +14,7 @@ sub new {
 
     return bless {
         path     => $params{target},
-        deviceid => $params{deviceid},
-        task     => $params{task},
         verbose  => $params{verbose},
-        count    => 0
     }, $class;
 }
 
@@ -26,15 +23,12 @@ sub send {
 
     return if $params{control} and !$self->{verbose};
 
-    my $file = sprintf(
-        "%s/%s.%d.xml", $self->{path}, $self->{task}, $self->{count}
-    );
+    my $file = sprintf('%s/%s.xml', $self->{path}, $params{hint});
 
     open(my $handle, '>', $file);
     print $handle $params{message}->getContent();
     close($handle);
 
-    $self->{count}++;
 }
 
 1;

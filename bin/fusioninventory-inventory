@@ -63,7 +63,6 @@ $task->configure(
 
 my $recipient = FusionInventory::Agent::Recipient::Inventory->create(
     target  => $options->{recipient},
-    task    => 'inventory',
     verbose => $options->{verbose}
 );
 
