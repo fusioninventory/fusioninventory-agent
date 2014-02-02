@@ -112,7 +112,7 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    my $response = $recipient->send(inventory => $inventory);
+    $recipient->send(inventory => $inventory);
 }
 
 sub _initModulesList {
