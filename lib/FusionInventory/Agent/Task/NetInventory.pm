@@ -137,7 +137,8 @@ sub run {
             },
             MODULEVERSION => $FusionInventory::Agent::VERSION,
             PROCESSNUMBER => $self->{params}->{pid}
-        }
+        },
+        1
     );
 
     # proceed each given device
@@ -163,12 +164,13 @@ sub run {
             },
             MODULEVERSION => $FusionInventory::Agent::VERSION,
             PROCESSNUMBER => $self->{params}->{pid}
-        }
+        },
+        1
     );
 }
 
 sub _sendMessage {
-    my ($self, $recipient, $content) = @_;
+    my ($self, $recipient, $content, $control) = @_;
 
    my $message = FusionInventory::Agent::XML::Query->new(
        deviceid => $self->{params}->{deviceid},
@@ -176,7 +178,7 @@ sub _sendMessage {
        content  => $content
    );
 
-   $recipient->send(message => $message);
+   $recipient->send(message => $message, control => $control);
 }
 
 sub _indexModels {

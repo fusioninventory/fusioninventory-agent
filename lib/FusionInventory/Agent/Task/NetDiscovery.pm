@@ -217,7 +217,8 @@ sub run {
             },
             MODULEVERSION => $FusionInventory::Agent::VERSION,
             PROCESSNUMBER => $pid
-        }
+        },
+        1
     );
 
     # proceed each given IP block
@@ -236,7 +237,8 @@ sub run {
                     NBIP => scalar @addresses
                 },
                 PROCESSNUMBER => $pid
-            }
+            },
+            1
         );
 
         my @results = $engine->scan(@addresses);
@@ -263,7 +265,8 @@ sub run {
             },
             MODULEVERSION => $VERSION,
             PROCESSNUMBER => $pid
-        }
+        },
+        1
     );
 }
 
@@ -334,7 +337,7 @@ sub _isValidCredential {
 }
 
 sub _sendMessage {
-    my ($self, $recipient, $content) = @_;
+    my ($self, $recipient, $content, $control) = @_;
 
     my $message = FusionInventory::Agent::XML::Query->new(
         deviceid => $self->{params}->{deviceid},
@@ -342,7 +345,7 @@ sub _sendMessage {
         content  => $content
     );
 
-    $recipient->send(message => $message);
+    $recipient->send(message => $message, control => $control);
 }
 
 1;

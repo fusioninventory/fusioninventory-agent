@@ -24,9 +24,7 @@ sub new {
 sub send {
     my ($self, %params) = @_;
 
-    # don't display control message by default
-    return unless $self->{verbose}
-        or $params{message}->{h}->{CONTENT}->{DEVICE};
+    return if $params{control} and !$self->{verbose};
 
     my $file = sprintf(
         "%s/%s.%d.xml", $self->{path}, $self->{task}, $self->{count}
