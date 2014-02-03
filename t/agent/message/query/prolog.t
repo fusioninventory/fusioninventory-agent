@@ -8,21 +8,21 @@ use Test::Exception;
 use Test::More;
 use XML::TreePP;
 
-use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::Message::Outbound;
 
 plan tests => 3;
 
 my $message;
 
 lives_ok {
-    $message = FusionInventory::Agent::XML::Query->new(
+    $message = FusionInventory::Agent::Message::Outbound->new(
         query    => 'PROLOG',
         token    => '12345678',
         deviceid => 'foo',
     );
 } 'everything OK';
 
-isa_ok($message, 'FusionInventory::Agent::XML::Query');
+isa_ok($message, 'FusionInventory::Agent::Message::Outbound');
 
 my $tpp = XML::TreePP->new();
 

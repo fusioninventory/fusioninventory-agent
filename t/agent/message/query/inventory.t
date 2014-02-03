@@ -10,24 +10,22 @@ use Test::More;
 use XML::TreePP;
 
 use FusionInventory::Agent::Inventory;
-use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::Message::Outbound;
 
-plan tests => 5;
+plan tests => 4;
 
 my $query;
-throws_ok {
-    $query = FusionInventory::Agent::XML::Query::Inventory->new();
-} qr/^no content/, 'no content';
-
 my $inventory =  FusionInventory::Agent::Inventory->new();
+
 lives_ok {
-    $query = FusionInventory::Agent::XML::Query::Inventory->new(
+    $query = FusionInventory::Agent::Message::Outbound->new(
+        query    => 'INVENTORY',
         deviceid => 'foo',
         content  => $inventory->getContent()
     );
 } 'everything OK';
 
-isa_ok($query, 'FusionInventory::Agent::XML::Query::Inventory');
+isa_ok($query, 'FusionInventory::Agent::Message::Outbound');
 
 my $tpp = XML::TreePP->new();
 
@@ -56,7 +54,8 @@ $inventory->addEntry(
     }
 );
 
-$query = FusionInventory::Agent::XML::Query::Inventory->new(
+$query = FusionInventory::Agent::Message::Outbound->new(
+    query    => 'INVENTORY',
     deviceid => 'foo',
     content => $inventory->getContent()
 );

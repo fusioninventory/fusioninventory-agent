@@ -13,7 +13,8 @@ use Test::More;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::HTTP::Client::OCS;
-use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::Message::Inbound;
+use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
@@ -32,7 +33,7 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 
-my $message = FusionInventory::Agent::XML::Query->new(
+my $message = FusionInventory::Agent::Message::Outbound->new(
     deviceid => 'foo',
     query => 'foo',
     msg => {
@@ -147,7 +148,7 @@ sub check_response_ok {
     ok(defined $response, "response from server");
     isa_ok(
         $response,
-        'FusionInventory::Agent::XML::Response',
+        'FusionInventory::Agent::Message::Inbound',
         'response class'
     );
     my $content = $response->getContent();

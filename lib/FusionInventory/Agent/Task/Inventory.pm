@@ -11,7 +11,7 @@ use FusionInventory::Agent;
 use FusionInventory::Agent::Recipient::Stdout;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
-use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::Message::Outbound;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
@@ -82,7 +82,7 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    my $message = FusionInventory::Agent::XML::Query->new(
+    my $message = FusionInventory::Agent::Message::Outbound->new(
         query      => 'INVENTORY',
         deviceid   => $self->{params}->{deviceid},
         stylesheet => $self->{params}->{datadir} . '/inventory.xsl',

@@ -12,10 +12,10 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::HTTP::Client::OCS;
+use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::Recipient::Stdout;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
-use FusionInventory::Agent::XML::Query;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
@@ -74,7 +74,7 @@ sub getConfiguration {
             no_ssl_check => $params{no_ssl_check},
         );
 
-        my $message = FusionInventory::Agent::XML::Query->new(
+        my $message = FusionInventory::Agent::Message::Outbound->new(
             deviceid => $self->{params}->{deviceid},
             query    => 'NETDISCOVERY',
             content  => {
@@ -197,7 +197,7 @@ sub run {
     );
 
     # send initial message to the server
-    my $start = FusionInventory::Agent::XML::Query->new(
+    my $start = FusionInventory::Agent::Message::Outbound->new(
         query    => 'NETDISCOVERY',
         deviceid => $self->{params}->deviceid,
         content  => {
@@ -222,7 +222,7 @@ sub run {
         $self->{logger}->debug("scanning block $block->{spec}");
 
         # send block size to the server
-        my $message = FusionInventory::Agent::XML::Query->new(
+        my $message = FusionInventory::Agent::Message::Outbound->new(
             query    => 'NETDISCOVERY',
             deviceid => $self->{params}->deviceid,
             content  => {
@@ -241,7 +241,7 @@ sub run {
         my $count = 1;
         foreach my $result (@results) {
             $result->{ENTITY} = $block->{ENTITY} if defined($block->{ENTITY});
-            my $message = FusionInventory::Agent::XML::Query->new(
+            my $message = FusionInventory::Agent::Message::Outbound->new(
                 query    => 'NETDISCOVERY',
                 deviceid => $self->{params}->deviceid,
                 content  => {
@@ -258,7 +258,7 @@ sub run {
     $engine->finish();
 
     # send final message to the server
-    my $stop = FusionInventory::Agent::XML::Query->new(
+    my $stop = FusionInventory::Agent::Message::Outbound->new(
         query    => 'NETDISCOVERY',
         deviceid => $self->{params}->deviceid,
         content  => {

@@ -8,9 +8,9 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent;
+use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::Recipient::Stdout;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::XML::Query;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
@@ -117,7 +117,7 @@ sub run {
     );
 
     # send initial message to the server
-    my $start = FusionInventory::Agent::XML::Query->new(
+    my $start = FusionInventory::Agent::Message::Outbound->new(
         deviceid => $self->{params}->{deviceid},
         query    => 'SNMPQUERY',
         content  => {
@@ -138,7 +138,7 @@ sub run {
 
     my $size = 1;
     foreach my $result (@results) {
-        my $message = FusionInventory::Agent::XML::Query->new(
+        my $message = FusionInventory::Agent::Message::Outbound->new(
             deviceid => $self->{params}->{deviceid},
             query    => 'SNMPQUERY',
             content  => {
@@ -154,7 +154,7 @@ sub run {
     $engine->finish();
 
     # send final message to the server
-    my $stop = FusionInventory::Agent::XML::Query->new(
+    my $stop = FusionInventory::Agent::Message::Outbound->new(
         deviceid => $self->{params}->{deviceid},
         query    => 'SNMPQUERY',
         content  => {

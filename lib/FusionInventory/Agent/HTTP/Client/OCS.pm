@@ -11,7 +11,7 @@ use URI;
 use Encode;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::XML::Response;
+use FusionInventory::Agent::Message::Inbound;
 
 my $log_prefix = "[http client] ";
 
@@ -95,7 +95,7 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
 
     my $result;
     eval {
-        $result = FusionInventory::Agent::XML::Response->new(
+        $result = FusionInventory::Agent::Message::Inbound->new(
             content => $uncompressed_response_content
         );
     };
@@ -206,8 +206,8 @@ using original OCS protocol (XML messages sent through POST requests).
 
 =head2 send(%params)
 
-Send an instance of C<FusionInventory::Agent::XML::Query> to the target (the
-server).
+Send an instance of C<FusionInventory::Agent::Message::Outbound> to the target
+(the server).
 
 The following parameters are allowed, as keys of the %params
 hash:
@@ -224,4 +224,4 @@ the message to send (mandatory)
 
 =back
 
-This method returns an C<FusionInventory::Agent::XML::Response> instance.
+This method returns an C<FusionInventory::Agent::Message::Inbound> instance.
