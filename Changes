@@ -4,6 +4,9 @@ Revision history for FusionInventory agent
 inventory task:
 * fix a warning with LXC 1.0.x
 
+wake-on-lan task
+* Wake On Lan not working if more than one computer a task's target (#2353)
+
 2.3.5.1 Tue, 14 Jan 2014 22:15:29 +0100
 inventory task:
 * fix AIX LVM regression introduced by incorrect fix (#2384)
