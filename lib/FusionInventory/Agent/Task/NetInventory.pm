@@ -76,7 +76,7 @@ sub run {
 
     $self->{logger}->info("Running NetInventory task");
 
-    my @devices = @{$self->{params}->{devices}};
+    my @devices = @{$self->{config}->{devices}};
     if (!@devices) {
         $self->{logger}->error("no devices given, aborting");
         return;
@@ -88,15 +88,15 @@ sub run {
         FusionInventory::Agent::Recipient::Stdout->new();
 
     # SNMP models
-    my $models = _indexModels($self->{params}->{models});
+    my $models = _indexModels($self->{config}->{models});
 
     # SNMP credentials
-    my $credentials = _indexCredentials($self->{params}->{credentials});
+    my $credentials = _indexCredentials($self->{config}->{credentials});
 
     # devices list
 
     # no need for more threads than devices to scan
-    my $threads = $self->{params}->{threads};
+    my $threads = $self->{config}->{threads};
     if ($threads > @devices) {
         $threads = @devices;
     }
@@ -109,16 +109,16 @@ sub run {
 
     my $engine = $engine_class->new(
         logger      => $self->{logger},
-        datadir     => $self->{params}->{datadir},
+        datadir     => $self->{config}->{datadir},
         credentials => $credentials,
         models      => $models,
         threads     => $threads,
-        timeout     => $self->{params}->{timeout},
+        timeout     => $self->{config}->{timeout},
     );
 
     # send initial message to the server
     my $start = FusionInventory::Agent::Message::Outbound->new(
-        deviceid => $self->{params}->{deviceid},
+        deviceid => $self->{config}->{deviceid},
         query    => 'SNMPQUERY',
         content  => {
             AGENT => {
@@ -126,7 +126,7 @@ sub run {
                 AGENTVERSION => $FusionInventory::Agent::VERSION
             },
             MODULEVERSION => $FusionInventory::Agent::VERSION,
-            PROCESSNUMBER => $self->{params}->{pid}
+            PROCESSNUMBER => $self->{config}->{pid}
         },
     );
     $recipient->send(
@@ -139,12 +139,12 @@ sub run {
     my $size = 1;
     foreach my $result (@results) {
         my $message = FusionInventory::Agent::Message::Outbound->new(
-            deviceid => $self->{params}->{deviceid},
+            deviceid => $self->{config}->{deviceid},
             query    => 'SNMPQUERY',
             content  => {
                 DEVICE        => $result,
                 MODULEVERSION => $VERSION,
-                PROCESSNUMBER => $self->{params}->{pid}
+                PROCESSNUMBER => $self->{config}->{pid}
             }
         );
         my $hint = 'inventory_' . $size++;
@@ -155,14 +155,14 @@ sub run {
 
     # send final message to the server
     my $stop = FusionInventory::Agent::Message::Outbound->new(
-        deviceid => $self->{params}->{deviceid},
+        deviceid => $self->{config}->{deviceid},
         query    => 'SNMPQUERY',
         content  => {
             AGENT => {
                 END => 1,
             },
             MODULEVERSION => $FusionInventory::Agent::VERSION,
-            PROCESSNUMBER => $self->{params}->{pid}
+            PROCESSNUMBER => $self->{config}->{pid}
         },
     );
     $recipient->send(

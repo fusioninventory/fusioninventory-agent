@@ -62,7 +62,7 @@ sub getConfiguration {
         url  => $remotes[-1],
         args => {
             action    => "getJobs",
-            machineid => $self->{params}->{deviceid}
+            machineid => $self->{config}->{deviceid}
         }
     );
 
@@ -86,7 +86,7 @@ sub run {
 
     $self->{logger}->info("Running ESX task");
 
-    my @jobs = @{$self->{params}->{jobs}};
+    my @jobs = @{$self->{config}->{jobs}};
     if (!@jobs) {
         $self->{logger}->error("no VMware host(s) given, aborting");
         return;
@@ -108,7 +108,7 @@ sub run {
                 url   => $self->{esxRemote},
                 args  => {
                     action    => 'setLog',
-                    machineid => $self->{params}->{deviceid},
+                    machineid => $self->{config}->{deviceid},
                     part      => 'login',
                     uuid      => $job->{uuid},
                     msg       => $self->{lastError},
@@ -127,8 +127,8 @@ sub run {
 
             my $message = FusionInventory::Agent::Message::Outbound->new(
                 query      => 'INVENTORY',
-                deviceid   => $self->{params}->{deviceid},
-                stylesheet => $self->{params}->{datadir} . '/inventory.xsl',
+                deviceid   => $self->{config}->{deviceid},
+                stylesheet => $self->{config}->{datadir} . '/inventory.xsl',
                 content    => $inventory->getContent()
             );
 
@@ -138,7 +138,7 @@ sub run {
             url  => $self->{esxRemote},
             args => {
                 action    => 'setLog',
-                machineid => $self->{params}->{deviceid},
+                machineid => $self->{config}->{deviceid},
                 uuid      => $job->{uuid},
                 code      => 'ok'
             }

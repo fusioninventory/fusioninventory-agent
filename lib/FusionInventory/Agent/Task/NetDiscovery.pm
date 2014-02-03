@@ -75,7 +75,7 @@ sub getConfiguration {
         );
 
         my $message = FusionInventory::Agent::Message::Outbound->new(
-            deviceid => $self->{params}->{deviceid},
+            deviceid => $self->{config}->{deviceid},
             query    => 'NETDISCOVERY',
             content  => {
                 AGENT => {
@@ -110,7 +110,7 @@ sub run {
 
     $self->{logger}->info("Running NetDiscovery task");
 
-    my @blocks = @{$self->{params}->{blocks}};
+    my @blocks = @{$self->{config}->{blocks}};
     if (!@blocks) {
         $self->{logger}->error("no addresses block given, aborting");
         return;
@@ -121,7 +121,7 @@ sub run {
         $params{recipient} ||
         FusionInventory::Agent::Recipient::Stdout->new();
 
-    my $pid         = $self->{params}->{pid};
+    my $pid         = $self->{config}->{pid};
 
     # check discovery methods available
     my ($nmap_parameters, $snmp_credentials, $snmp_dictionary);
@@ -154,8 +154,8 @@ sub run {
             "can't be used"
         );
     } else {
-        $snmp_credentials = _filterCredentials($self->{params}->{credentials});
-        $snmp_dictionary = $self->{params}->{dictionary};
+        $snmp_credentials = _filterCredentials($self->{config}->{credentials});
+        $snmp_dictionary = $self->{config}->{dictionary};
     }
 
     # blocks list
@@ -175,7 +175,7 @@ sub run {
     }
 
     # no need for more threads than addresses in any single block
-    my $threads = $self->{params}->{threads};
+    my $threads = $self->{config}->{threads};
     if ($threads > $max_size) {
         $threads = $max_size;
     }
@@ -188,18 +188,18 @@ sub run {
 
     my $engine = $engine_class->new(
         logger           => $self->{logger},
-        datadir          => $self->{params}->{datadir},
+        datadir          => $self->{config}->{datadir},
         nmap_parameters  => $nmap_parameters,
         snmp_credentials => $snmp_credentials,
         snmp_dictionary  => $snmp_dictionary,
         threads          => $threads,
-        timeout          => $self->{params}->{timeout}
+        timeout          => $self->{config}->{timeout}
     );
 
     # send initial message to the server
     my $start = FusionInventory::Agent::Message::Outbound->new(
         query    => 'NETDISCOVERY',
-        deviceid => $self->{params}->deviceid,
+        deviceid => $self->{config}->deviceid,
         content  => {
             AGENT => {
                 START        => 1,
@@ -224,7 +224,7 @@ sub run {
         # send block size to the server
         my $message = FusionInventory::Agent::Message::Outbound->new(
             query    => 'NETDISCOVERY',
-            deviceid => $self->{params}->deviceid,
+            deviceid => $self->{config}->deviceid,
             content  => {
                 AGENT => {
                     NBIP => scalar @addresses
@@ -243,7 +243,7 @@ sub run {
             $result->{ENTITY} = $block->{ENTITY} if defined($block->{ENTITY});
             my $message = FusionInventory::Agent::Message::Outbound->new(
                 query    => 'NETDISCOVERY',
-                deviceid => $self->{params}->deviceid,
+                deviceid => $self->{config}->deviceid,
                 content  => {
                     DEVICE        => [$result],
                     MODULEVERSION => $VERSION,
@@ -260,7 +260,7 @@ sub run {
     # send final message to the server
     my $stop = FusionInventory::Agent::Message::Outbound->new(
         query    => 'NETDISCOVERY',
-        deviceid => $self->{params}->deviceid,
+        deviceid => $self->{config}->deviceid,
         content  => {
             AGENT => {
                 END => 1,

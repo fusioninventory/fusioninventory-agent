@@ -23,7 +23,7 @@ sub configure {
     my ($self, %params) = @_;
 
     foreach my $key (keys %params) {
-        $self->{params}->{$key} = $params{$key};
+        $self->{config}->{$key} = $params{$key};
     }
 }
 

@@ -46,15 +46,15 @@ sub run {
 
     $self->{logger}->info("Running WakeOnLan task");
 
-    my @addresses = @{$self->{params}->{addresses}};
+    my @addresses = @{$self->{config}->{addresses}};
     if (@addresses) {
         $self->{logger}->error("no mac address given, aborting");
         return;
     }
     $self->{logger}->info("got @addresses mac address for which to send magic packets");
 
-    my $use_ethernet = $self->{params}->{ethernet} && $self->_canUseEthernet();
-    my $use_udp      = $self->{params}->{udp}      && $self->_canUseUDP();
+    my $use_ethernet = $self->{config}->{ethernet} && $self->_canUseEthernet();
+    my $use_udp      = $self->{config}->{udp}      && $self->_canUseUDP();
 
     foreach my $address (@addresses) {
         if ($address !~ /^$mac_address_pattern$/) {

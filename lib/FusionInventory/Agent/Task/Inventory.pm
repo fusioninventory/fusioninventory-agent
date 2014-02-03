@@ -27,7 +27,7 @@ sub getConfiguration {
             !$content->{RESPONSE}          ||
             $content->{RESPONSE} ne 'SEND'
         ) {
-            if ($self->{params}->{force}) {
+            if ($self->{config}->{force}) {
                 $self->{logger}->debug("Task not scheduled, execution forced");
             } else {
                 $self->{logger}->debug("Task not scheduled");
@@ -60,10 +60,10 @@ sub run {
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         logger   => $self->{logger},
-        tag      => $self->{params}->{tag}
+        tag      => $self->{config}->{tag}
     );
 
-    if (not $self->{params}->{'scan-homedirs'}) {
+    if (not $self->{config}->{'scan-homedirs'}) {
         $self->{logger}->debug(
             "--scan-homedirs missing. Don't scan user directories"
         );
@@ -78,21 +78,21 @@ sub run {
         );
     }
 
-    my %disabled = map { $_ => 1 } @{$self->{params}->{no_category}};
+    my %disabled = map { $_ => 1 } @{$self->{config}->{no_category}};
 
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
         query      => 'INVENTORY',
-        deviceid   => $self->{params}->{deviceid},
-        stylesheet => $self->{params}->{datadir} . '/inventory.xsl',
+        deviceid   => $self->{config}->{deviceid},
+        stylesheet => $self->{config}->{datadir} . '/inventory.xsl',
         content    => $inventory->getContent()
     );
 
     $recipient->send(
         message => $message,
-        hint    => $self->{params}->{deviceid},
+        hint    => $self->{config}->{deviceid},
     );
 }
 
@@ -156,13 +156,13 @@ sub _initModulesList {
             module   => $module,
             function => "isEnabled",
             logger   => $logger,
-            timeout  => $self->{params}->{timeout},
+            timeout  => $self->{config}->{timeout},
             params => {
                 no_category   => $disabled,
                 logger        => $self->{logger},
-                datadir       => $self->{params}->{datadir},
-                registry      => $self->{params}->{registry},
-                scan_homedirs => $self->{params}->{scan_homedirs},
+                datadir       => $self->{config}->{datadir},
+                registry      => $self->{config}->{registry},
+                scan_homedirs => $self->{config}->{scan_homedirs},
             }
         );
         if (!$enabled) {
@@ -237,14 +237,14 @@ sub _runModule {
         module   => $module,
         function => "doInventory",
         logger => $logger,
-        timeout  => $self->{params}->{timeout},
+        timeout  => $self->{config}->{timeout},
         params => {
-            datadir       => $self->{params}->{datadir},
+            datadir       => $self->{config}->{datadir},
             inventory     => $inventory,
             no_category   => $disabled,
             logger        => $self->{logger},
             registry      => $self->{registry},
-            scan_homedirs => $self->{params}->{scan_homedirs},
+            scan_homedirs => $self->{config}->{scan_homedirs},
         }
     );
     $self->{modules}->{$module}->{done} = 1;
@@ -264,9 +264,9 @@ sub _feedInventory {
     }
 
     if (
-        $self->{params}->{additional_content} &&
-        -f $self->{params}->{additional_content}) {
-        $self->_injectContent($self->{params}->{additional_content}, $inventory)
+        $self->{config}->{additional_content} &&
+        -f $self->{config}->{additional_content}) {
+        $self->_injectContent($self->{config}->{additional_content}, $inventory)
     }
 
     # Execution time
