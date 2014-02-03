@@ -67,10 +67,6 @@ hash:
 
 =over
 
-=item I<logger>
-
-the logger object to use (default: a new stderr logger)
-
 =item I<content>
 
 the raw XML content
