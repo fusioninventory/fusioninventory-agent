@@ -9,7 +9,7 @@ use Test::More;
 
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::XML::Response;
+use FusionInventory::Agent::Message::Inbound;
 
 my %messages = (
     message2 => {
@@ -106,7 +106,7 @@ my $task = FusionInventory::Agent::Task::NetInventory->new();
 
 foreach my $test (keys %messages) {
     my $file = "resources/messages/$test.xml";
-    my $message = FusionInventory::Agent::XML::Response->new(
+    my $message = FusionInventory::Agent::Message::Inbound->new(
         content => slurp($file)
     );
     my %configuration = $task->getConfiguration(response => $message);
