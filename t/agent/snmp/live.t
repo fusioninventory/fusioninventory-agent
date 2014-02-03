@@ -8,7 +8,6 @@ use Test::Deep;
 use Test::Exception;
 use Test::More;
 
-use FusionInventory::Agent::XML::Response;
 use FusionInventory::Agent::SNMP::Live;
 
 plan tests => 9;
