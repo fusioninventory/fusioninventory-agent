@@ -5,6 +5,7 @@ use warnings;
 use base 'FusionInventory::Agent::Task';
 
 use English qw(-no_match_vars);
+use File::Find;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent;
@@ -95,12 +96,39 @@ sub run {
     );
 }
 
+sub _getModules {
+    my ($class, $prefix) = @_;
+
+    # allow to be called as an instance method
+    $class = ref $class ? ref $class : $class;
+
+    # use %INC to retrieve the root directory for this task
+    my $file = module2file($class);
+    my $rootdir = $INC{$file};
+    $rootdir =~ s/.pm$//;
+    return unless -d $rootdir;
+
+    # find a list of modules from files in this directory
+    my $root = $file;
+    $root =~ s/.pm$//;
+    $root .= "/$prefix" if $prefix;
+    my @modules;
+    my $wanted = sub {
+        return unless -f $_;
+        return unless $File::Find::name =~ m{($root/\S+\.pm)$};
+        my $module = file2module($1);
+        push(@modules, $module);
+    };
+    File::Find::find($wanted, $rootdir);
+    return @modules
+}
+
 sub _initModulesList {
     my ($self, $disabled) = @_;
 
     my $logger = $self->{logger};
 
-    my @modules = __PACKAGE__->getModules('');
+    my @modules = __PACKAGE__->_getModules('');
     die "no inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
