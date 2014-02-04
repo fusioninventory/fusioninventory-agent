@@ -175,7 +175,7 @@ sub run {
 sub _indexModels {
     my ($models) = @_;
 
-    return unless $models;
+    return unless $models && @$models;
 
     # index models by their ID
     return { map { $_->{id} => $_ } @{$models} };
@@ -184,7 +184,7 @@ sub _indexModels {
 sub _indexCredentials {
     my ($credentials) = @_;
 
-    return unless $credentials;
+    return unless $credentials && @$credentials;
 
     # index credentials by their ID
     return { map { $_->{id} => $_ } @{$credentials} };

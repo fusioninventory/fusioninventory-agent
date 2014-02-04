@@ -75,14 +75,14 @@ foreach my $arg (@ARGV) {
     push @devices, $device;
 }
 
-my $model;
+my @models;
 
 if ($options->{model}) {
     pod2usage(
         -message => "invalid file '$options->{model}', aborting\n",
         -verbose => 0
     ) unless -f $options->{model};
-    $model = loadModel($options->{model});
+    push @models, loadModel($options->{model});
 }
 
 my $credentials_id = 1;
@@ -118,7 +118,7 @@ $task->configure(
     threads     => $options->{threads},
     timeout     => $options->{timeout},
     devices     => \@devices,
-    models      => [ $model ],
+    models      => \@models,
     credentials => \@credentials
 );
 
