@@ -226,20 +226,20 @@ sub _findFile {
                     my $sha = Digest::SHA->new('512');
                     $sha->addfile( $File::Find::name, 'b' );
                     return
-                      if $sha->hexdigest ne $params{filter}{checkSumSHA512};
+                        if $sha->hexdigest ne $params{filter}{checkSumSHA512};
                 }
 
                 if ( $params{filter}{checkSumSHA2} ) {
                     my $sha = Digest::SHA->new('2');
                     $sha->addfile( $File::Find::name, 'b' );
-                    return if $sha->hexdigest ne $params{filter}{checkSumSHA2};
+                    return
+                        if $sha->hexdigest ne $params{filter}{checkSumSHA2};
                 }
 
-                push @result,
-                  {
+                push @result, {
                     size => $size,
                     path => $File::Find::name
-                  };
+                };
                 goto DONE if @result >= $params{limit};
             },
             no_chdir => 1
@@ -247,7 +247,7 @@ sub _findFile {
         },
         $params{dir}
     );
-  DONE:
+    DONE:
 
     return @result;
 }
