@@ -1,0 +1,101 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use lib './lib';
+
+use English qw(-no_match_vars);
+use Getopt::Long;
+use Pod::Usage;
+
+use FusionInventory::Agent;
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Recipient;
+use FusionInventory::Agent::Task::Collect;
+
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
+
+my $options = {
+    threads => 1
+};
+
+GetOptions(
+    $options,
+    'recipient=s',
+    'verbose',
+    'debug+',
+    'help',
+    'version',
+) or pod2usage(-verbose => 0);
+
+if ($options->{version}) {
+  print "Collect task $FusionInventory::Agent::Task::Collect::VERSION\n";
+  exit 0;
+}
+pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
+pod2usage(
+    -message => "no job given, aborting\n", -verbose => 0
+) unless @ARGV;
+
+my $agent = FusionInventory::Agent->new(%setup);
+$agent->init(options => $options);
+
+my @jobs;
+foreach my $arg (@ARGV) {
+    my $job;
+     foreach my $parameter (split(',', $arg)) {
+        my ($key, $value) = split(':', $parameter);
+        $job->{$key} = $value;
+    }
+    push @jobs, $job;
+}
+
+my $task = FusionInventory::Agent::Task::Collect->new(
+    logger => $agent->{logger},
+);
+
+$task->configure(
+    datadir     => $setup{datadir},
+    deviceid    => $agent->{deviceid},
+    jobs        => \@jobs
+);
+
+my $recipient = FusionInventory::Agent::Recipient->create(
+    target  => $options->{recipient},
+    verbose => $options->{verbose}
+);
+
+eval {
+    $task->run(recipient => $recipient);
+};
+if ($EVAL_ERROR) {
+    print STDERR "Execution failure:.\n";
+    print STDERR $EVAL_ERROR;
+    exit 1;
+}
+
+__END__
+
+=head1 NAME
+
+fusioninventory-netinventory - Standalone network inventory
+
+=head1 SYNOPSIS
+
+fusioninventory-collect [options] <job> <job>
+
+  Options:
+    --recipient string   where to send result (default: stdout)
+    --verbose            verbose output (control messages)
+    --debug              debug output (execution traces)
+    -h --help            print this message and exit
+    --version            print the task version and exit
+
+=head1 DESCRIPTION
+
+F<fusioninventory-collecct allows to run a collect task without a GLPI server.
