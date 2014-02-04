@@ -8,7 +8,6 @@ use English qw(-no_match_vars);
 use Test::Deep qw(cmp_deeply);
 use Test::More;
 use Test::MockModule;
-use UNIVERSAL::require;
 
 use FusionInventory::Test::Utils;
 use FusionInventory::Agent::Task::Collect;
