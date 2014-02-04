@@ -91,7 +91,9 @@ sub run {
         $self->{logger}->error("no VMware host(s) given, aborting");
         return;
     }
-    $self->{logger}->info("got @jobs VMware host(s) to inventory");
+    $self->{logger}->debug(
+        "got " . scalar @jobs . " VMware host(s) to inventory"
+    );
 
     my $recipient =
         $params{recipient} ||

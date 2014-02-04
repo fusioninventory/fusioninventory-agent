@@ -115,7 +115,9 @@ sub run {
         $self->{logger}->error("no addresses block given, aborting");
         return;
     }
-    $self->{logger}->info("got @blocks address blocks to scan");
+    $self->{logger}->debug(
+        "got " . scalar @blocks . " address blocks to scan"
+    );
 
     my $recipient =
         $params{recipient} ||

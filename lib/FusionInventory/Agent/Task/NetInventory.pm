@@ -81,7 +81,9 @@ sub run {
         $self->{logger}->error("no devices given, aborting");
         return;
     }
-    $self->{logger}->info("got @devices devices to inventory");
+    $self->{logger}->debug(
+        "got " . scalar @devices . " devices to inventory"
+    );
 
     my $recipient =
         $params{recipient} ||

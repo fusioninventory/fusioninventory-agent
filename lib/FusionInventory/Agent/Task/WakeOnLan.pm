@@ -51,7 +51,9 @@ sub run {
         $self->{logger}->error("no mac address given, aborting");
         return;
     }
-    $self->{logger}->info("got @addresses mac address for which to send magic packets");
+    $self->{logger}->debug(
+        "got " . scalar @addresses . " mac address as magic packets recipients"
+    );
 
     my $use_ethernet = $self->{config}->{ethernet} && $self->_canUseEthernet();
     my $use_udp      = $self->{config}->{udp}      && $self->_canUseUDP();
