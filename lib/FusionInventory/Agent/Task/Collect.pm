@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
