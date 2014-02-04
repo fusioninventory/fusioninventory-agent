@@ -166,8 +166,6 @@ sub _findFile {
     File::Find::find(
         {
             wanted => sub {
-#                    print $File::Find::name."\n";
-#
                 if (!$params{recursive} && $File::Find::name ne $params{dir}) {
                     $File::Find::prune = 1  # Don't recurse.
                 }
@@ -201,7 +199,6 @@ sub _findFile {
 
                 my $st   = stat($File::Find::name);
                 my $size = $st->size;
-#                print "name: $File::Find::name\n";
                 if ( $params{filter}{sizeEquals} ) {
                     return unless $size == $params{filter}{sizeEquals};
                 }
