@@ -91,8 +91,8 @@ sub run {
     );
 
     $recipient->send(
-        message => $message,
-        hint    => $self->{config}->{deviceid},
+        message  => $message,
+        filename => sprintf('%s.ocs', $self->{config}->{deviceid})
     );
 }
 

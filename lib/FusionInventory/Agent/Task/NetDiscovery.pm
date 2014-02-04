@@ -212,7 +212,7 @@ sub run {
         },
     );
     $recipient->send(
-        message => $start, control => 1, hint => 'discovery_start'
+        message => $start, control => 1, filename => 'discovery_start.xml'
     );
 
     # proceed each given IP block
@@ -234,9 +234,11 @@ sub run {
                 PROCESSNUMBER => $pid
             },
         );
-        my $hint = 'discovery_' . $block->{spec} . '_size';
-        $hint =~ s{/}{_}g;
-        $recipient->send(message => $message, control => 1, hint => $hint);
+        my $filename = sprintf('discovery_%s_size.xml', $block->{spec});
+        $filename =~ s{/}{_}g;
+        $recipient->send(
+            message => $message, control => 1, filename => $filename
+        );
 
         my @results = $engine->scan(@addresses);
 
@@ -252,8 +254,10 @@ sub run {
                     PROCESSNUMBER => $pid,
                 }
             );
-            my $hint = 'discovery_' . $count++;
-            $recipient->send(message => $message, hint => $hint);
+            $recipient->send(
+                message  => $message,
+                filename => sprintf('discovery_%s.xml', $count++),
+            );
         }
     }
 
@@ -271,7 +275,9 @@ sub run {
             PROCESSNUMBER => $pid
         }
     );
-    $recipient->send(message => $stop, control => 1, hint => 'discovery_stop');
+    $recipient->send(
+        message => $stop, control => 1, filename => 'discovery_stop.xml'
+    );
 }
 
 sub _getDictionary {

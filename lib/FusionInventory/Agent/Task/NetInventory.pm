@@ -132,7 +132,7 @@ sub run {
         },
     );
     $recipient->send(
-        message => $start, control => 1, hint => 'inventory_start'
+        message => $start, control => 1, filename => 'inventory_start.xml'
     );
 
     # proceed each given device
@@ -149,8 +149,10 @@ sub run {
                 PROCESSNUMBER => $self->{config}->{pid}
             }
         );
-        my $hint = 'inventory_' . $size++;
-        $recipient->send(message => $message, hint => $hint);
+        $recipient->send(
+            filename => sprintf('inventory_%s.xml' . $size++),
+            message  => $message,
+        );
     }
 
     $engine->finish();
@@ -168,7 +170,7 @@ sub run {
         },
     );
     $recipient->send(
-        message => $stop, control => 1, hint => 'inventory_stop'
+        message => $stop, control => 1, filename => 'inventory_stop.xml'
     );
 }
 
