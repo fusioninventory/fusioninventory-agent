@@ -42,7 +42,6 @@ sub getConfiguration {
         ca_cert_file => $params{ca_cert_file},
         ca_cert_dir  => $params{ca_cert_dir},
         no_ssl_check => $params{no_ssl_check},
-        debug        => $self->{debug}
     );
 
     my $remoteConfig = $client->send(
