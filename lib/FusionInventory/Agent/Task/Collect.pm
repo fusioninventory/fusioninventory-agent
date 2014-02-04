@@ -121,24 +121,20 @@ sub run {
             next;
         }
 
-        my @result = &{ $functions{ $job->{function} } }(%$job);
+        my @results = &{ $functions{ $job->{function} } }(%$job);
 
-        next unless @result;
-
-        my $_cpt = int(@result);
-        foreach my $r (@result) {
-            next unless ref($r) eq 'HASH';
-            next unless keys %$r;
-            $r->{uuid}   = $job->{uuid};
-            $r->{action} = "setAnswer";
-            $r->{_cpt}    = $_cpt--;
+        my $count = int(@results);
+        foreach my $result (@results) {
+            next unless ref($result) eq 'HASH';
+            next unless keys %$result;
+            $result->{uuid}   = $job->{uuid};
+            $result->{action} = "setAnswer";
+            $result->{_cpt}    = $count--;
             $self->{client}->send(
                 url  => $self->{collectRemote},
-                args => $r
+                args => $result
             );
-
         }
-
     }
 
     return $self;
@@ -172,7 +168,7 @@ sub _findFile {
 
     return unless -d $params{dir};
 
-    my @result;
+    my @results;
 
     File::Find::find(
         {
@@ -236,11 +232,11 @@ sub _findFile {
                         if $sha->hexdigest ne $params{filter}{checkSumSHA2};
                 }
 
-                push @result, {
+                push @results, {
                     size => $size,
                     path => $File::Find::name
                 };
-                goto DONE if @result >= $params{limit};
+                goto DONE if @results >= $params{limit};
             },
             no_chdir => 1
 
@@ -249,7 +245,7 @@ sub _findFile {
     );
     DONE:
 
-    return @result;
+    return @results;
 }
 
 sub _runCommand {
@@ -286,16 +282,14 @@ sub _getFromWMI {
     return unless $params{properties};
     return unless $params{class};
 
-    my @return;
+    my @results;
 
-    my @objs = FusionInventory::Agent::Tools::Win32::getWMIObjects(%params);
-    return unless @objs;
-
-    foreach my $obj (@objs) {
-        push @return, $obj; 
+    my @objects = FusionInventory::Agent::Tools::Win32::getWMIObjects(%params);
+    foreach my $object (@objects) {
+        push @results, $object;
     }
 
-    return @return;
+    return @results;
 }
 
 1;
