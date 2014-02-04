@@ -22,12 +22,11 @@ if ($OSNAME eq 'MSWin32') {
 
 plan tests => 2;
 
-my $result = FusionInventory::Agent::Task::Collect::_getFromWMI(
+my @results = FusionInventory::Agent::Task::Collect::_getFromWMI(
     class      => 'nowhere',
     properties => [ 'nothing' ]
 );
-ok(!defined($result), "_getFromWMI ignores missing WMI object");
-
+ok(!@results, "_getFromWMI ignores missing WMI object");
 
 my %tests = (
     7 => [
@@ -107,7 +106,6 @@ my %tests = (
 my $module = Test::MockModule->new(
     'FusionInventory::Agent::Tools::Win32'
 );
-
 
 foreach my $test (keys %tests) {
     $module->mock(
