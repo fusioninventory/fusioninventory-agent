@@ -3,6 +3,8 @@ package FusionInventory::Agent::Recipient::Filesystem;
 use strict;
 use warnings;
 
+use JSON;
+
 sub new {
     my ($class, %params) = @_;
 
@@ -21,12 +23,17 @@ sub new {
 sub send {
     my ($self, %params) = @_;
 
+    return unless $params{message};
     return if $params{control} and !$self->{verbose};
 
-    my $file = sprintf("%s/%s.xml", $self->{path}, $params{hint});
+    my $file = sprintf("%s/%s", $self->{path}, $params{filename});
 
     open(my $handle, '>', $file);
-    print $handle $params{message}->getContent();
+    if (ref $params{message} eq 'HASH') {
+        print $handle to_json($params{message}, { ascii => 1, pretty => 1 } );
+    } else {
+        print $handle $params{message}->getContent();
+    }
     close($handle);
 }
 
