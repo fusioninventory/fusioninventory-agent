@@ -111,6 +111,11 @@ sub run {
             next;
         }
 
+        if ( !$job->{function} ) {
+            $self->{logger}->error("function key missing");
+            next;
+        }
+
         if ( !defined( $functions{ $job->{function} } ) ) {
             $self->{logger}->error("Bad function `$job->{function}'");
             next;
