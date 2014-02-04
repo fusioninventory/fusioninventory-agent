@@ -7,6 +7,7 @@ use base 'FusionInventory::Agent::Task';
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Recipient::Stdout;
 
 use English qw(-no_match_vars);
 use File::Find;
@@ -105,6 +106,10 @@ sub run {
         "got " . scalar @jobs . " collect order(s)"
     );
 
+    my $recipient =
+        $params{recipient} ||
+        FusionInventory::Agent::Recipient::Stdout->new();
+
     foreach my $job (@jobs) {
         if ( !$job->{uuid} ) {
             $self->{logger}->error("UUID key missing");
@@ -129,11 +134,13 @@ sub run {
             next unless keys %$result;
             $result->{uuid}   = $job->{uuid};
             $result->{action} = "setAnswer";
-            $result->{_cpt}    = $count--;
-            $self->{client}->send(
-                url  => $self->{collectRemote},
-                args => $result
+            $result->{_cpt}   = $count;
+            $recipient->send(
+                url      => $self->{config}->{collectRemote},
+                filename => sprintf('collect_%s_%s.js', $job->{uuid}, $count),
+                message  => $result
             );
+            $count--;
         }
     }
 

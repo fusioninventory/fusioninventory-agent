@@ -105,9 +105,11 @@ sub run {
                 user     => $job->{user},
                 password => $job->{password}
         )) {
-            $self->{controller}->send(
-                url   => $self->{esxRemote},
-                args  => {
+            $recipient->send(
+                url      => $self->{config}->{esxRemote},
+                filename => sprintf('esx_%s_ko.js', $job->{uuid}),
+                control  => 1,
+                message  => {
                     action    => 'setLog',
                     machineid => $self->{config}->{deviceid},
                     part      => 'login',
@@ -115,7 +117,7 @@ sub run {
                     msg       => $self->{lastError},
                     code      => 'ko'
                 }
-            ) if  $self->{controller};
+            );
 
             next;
         }
@@ -135,15 +137,17 @@ sub run {
 
             $recipient->send(message => $message);
         }
-        $self->{controller}->send(
-            url  => $self->{esxRemote},
-            args => {
+        $recipient->send(
+            url      => $self->{config}->{esxRemote},
+            filename => sprintf('esx_%s_ok.js', $job->{uuid}),
+            control  => 1,
+            message  => {
                 action    => 'setLog',
                 machineid => $self->{config}->{deviceid},
                 uuid      => $job->{uuid},
                 code      => 'ok'
             }
-        ) if $self->{controller};
+        );
     }
 
 }
