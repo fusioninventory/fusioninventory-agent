@@ -199,7 +199,7 @@ sub run {
     # send initial message to the server
     my $start = FusionInventory::Agent::Message::Outbound->new(
         query    => 'NETDISCOVERY',
-        deviceid => $self->{config}->deviceid,
+        deviceid => $self->{config}->{deviceid},
         content  => {
             AGENT => {
                 START        => 1,
@@ -224,7 +224,7 @@ sub run {
         # send block size to the server
         my $message = FusionInventory::Agent::Message::Outbound->new(
             query    => 'NETDISCOVERY',
-            deviceid => $self->{config}->deviceid,
+            deviceid => $self->{config}->{deviceid},
             content  => {
                 AGENT => {
                     NBIP => scalar @addresses
@@ -243,7 +243,7 @@ sub run {
             $result->{ENTITY} = $block->{ENTITY} if defined($block->{ENTITY});
             my $message = FusionInventory::Agent::Message::Outbound->new(
                 query    => 'NETDISCOVERY',
-                deviceid => $self->{config}->deviceid,
+                deviceid => $self->{config}->{deviceid},
                 content  => {
                     DEVICE        => [$result],
                     MODULEVERSION => $VERSION,
@@ -260,7 +260,7 @@ sub run {
     # send final message to the server
     my $stop = FusionInventory::Agent::Message::Outbound->new(
         query    => 'NETDISCOVERY',
-        deviceid => $self->{config}->deviceid,
+        deviceid => $self->{config}->{deviceid},
         content  => {
             AGENT => {
                 END => 1,
