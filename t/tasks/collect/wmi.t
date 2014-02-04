@@ -5,11 +5,13 @@ use warnings;
 use lib 't/lib';
 
 use English qw(-no_match_vars);
-use UNIVERSAL::require;
 use Test::Deep qw(cmp_deeply);
 use Test::More;
 use Test::MockModule;
+use UNIVERSAL::require;
+
 use FusionInventory::Test::Utils;
+use FusionInventory::Agent::Task::Collect;
 
 # use mock modules for non-available ones
 if ($OSNAME eq 'MSWin32') {
@@ -17,10 +19,6 @@ if ($OSNAME eq 'MSWin32') {
 } else {
     push @INC, 't/lib/fake/windows';
 }
-
-
-FusionInventory::Agent::Task::Collect->require();
-
 
 plan tests => 2;
 
