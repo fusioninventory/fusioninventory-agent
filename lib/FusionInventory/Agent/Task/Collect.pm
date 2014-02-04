@@ -96,8 +96,14 @@ sub run {
 
     $self->{logger}->info("running Collect task");
 
-    my @jobs = @{$self->{jobs}};
-    $self->{logger}->info("Got @jobs collect order(s).");
+    my @jobs = @{$self->{config}->{jobs}};
+    if (!@jobs) {
+        $self->{logger}->error("no VMware host(s) given, aborting");
+        return;
+    }
+    $self->{logger}->debug(
+        "got " . scalar @jobs . " collect order(s)"
+    );
 
     foreach my $job (@jobs) {
         if ( !$job->{uuid} ) {
