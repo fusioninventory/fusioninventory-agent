@@ -37,7 +37,7 @@ sub getConfiguration {
         url  => $self->{controller}->{url},
         args => {
             action    => "getConfig",
-            machineid => $self->{deviceid},
+            machineid => $params{deviceid},
             task      => { ESX => $VERSION },
         }
     );
@@ -61,7 +61,7 @@ sub getConfiguration {
         url  => $remotes[-1],
         args => {
             action    => "getJobs",
-            machineid => $self->{config}->{deviceid}
+            machineid => $params{deviceid}
         }
     );
 

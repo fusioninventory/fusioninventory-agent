@@ -48,7 +48,7 @@ sub getConfiguration {
         url  => $self->{controller}->{url},
         args => {
             action    => "getConfig",
-            machineid => $self->{deviceid},
+            machineid => $params{deviceid},
             task      => { Collect => $VERSION },
         }
     );
@@ -72,7 +72,7 @@ sub getConfiguration {
         url  => $remotes[-1],
         args => {
             action    => "getJobs",
-            machineid => $self->{deviceid}
+            machineid => $params{deviceid}
         }
     );
 
