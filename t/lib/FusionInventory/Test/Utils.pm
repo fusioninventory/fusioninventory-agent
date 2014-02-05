@@ -6,6 +6,7 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use IPC::Run qw(run);
+use JSON;
 use Socket;
 
 use FusionInventory::Agent::Tools;
@@ -17,6 +18,8 @@ our @EXPORT = qw(
     mockGetWMIObjects
     mockGetRegistryKey
     unsetProxyEnvVar
+    is_json_stream
+    is_json_element
 );
 
 sub test_port {
@@ -181,4 +184,21 @@ sub run_executable {
         \my ($in, $out, $err)
     );
     return ($out, $err, $CHILD_ERROR >> 8);
+}
+
+sub is_json_stream {
+    my ($string) = @_;
+
+    my @elements = split(/\n\n/, $string);
+
+    return all { is_json_element($_) } @elements;
+}
+
+sub is_json_element {
+    my ($string) = @_;
+
+    eval {
+        my $content = from_json($string);
+    };
+    return $EVAL_ERROR ? 0 : 1;
 }
