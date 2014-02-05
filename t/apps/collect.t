@@ -36,7 +36,7 @@ like(
 ok($rc == 2, 'no job exit status');
 like(
     $err,
-    qr//,
+    qr/^no job given, aborting/,
     'no job stderr'
 );
 is($out, '', 'no job stdout');
