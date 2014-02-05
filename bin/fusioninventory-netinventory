@@ -30,8 +30,6 @@ my $options = {
 GetOptions(
     $options,
     'model=s',
-    'type=s',
-    'file',
     'community=s',
     'credential=s',
     'entity=s',
@@ -61,16 +59,18 @@ my $device_id = 1;
 my @devices;
 foreach my $arg (@ARGV) {
     my $device = {
-        id           => $device_id++,
         authsnmp_id  => 1,
         modelsnmp_id => 1
     };
-    if ($options->{file}) {
-        $device->{file} = $arg;
-    } else {
-        $device->{ip} = $arg;
+    foreach my $parameter (split(',', $arg)) {
+        my ($key, $value) = split(':', $parameter);
+        if (!$value) {
+            $device->{ip} = $key;
+        } else {
+            $device->{$key} = $value;
+        }
     }
-    $device->{type}   = $options->{type}   if $options->{type};
+    $device->{id}     = $device_id++ unless $device->{id};
     $device->{entity} = $options->{entity} if $options->{entity};
     push @devices, $device;
 }
@@ -147,13 +147,11 @@ fusioninventory-netinventory - Standalone network inventory
 fusioninventory-netinventory [options] <device> <device>
 
   Options:
-    --file               use device as files
     --model file         model file
-    --type string        device type
     --credential string  SNMP credentials (default: version:1,community:public)
     --timeout number     SNMP timeout (default: 15s)
-    --entity string      GLPI entity
     --threads number     threads number (default: 1)
+    --entity string      GLPI entity
     --recipient string   where to send result (default: stdout)
     --verbose            verbose output (control messages)
     --debug              debug output (execution traces)

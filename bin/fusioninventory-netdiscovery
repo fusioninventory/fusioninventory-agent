@@ -54,10 +54,16 @@ $agent->init(options => $options);
 my $block_id = 1;
 my @blocks;
 foreach my $arg (@ARGV) {
-    my $block = {
-        id   => $block_id++,
-        spec => $arg
-    };
+    my $block;
+    foreach my $parameter (split(',', $arg)) {
+        my ($key, $value) = split(':', $parameter);
+        if (!$value) {
+            $block->{spec} = $key;
+        } else {
+            $block->{$key} = $value;
+        }
+    }
+    $block->{id}     = $block_id++ unless $block->{id};
     $block->{entity} = $options->{entity} if $options->{entity};
     push @blocks, $block;
 }

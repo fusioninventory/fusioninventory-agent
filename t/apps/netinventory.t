@@ -48,7 +48,7 @@ is($out, '', 'no device stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',
-    '--file resources/walks/sample4.walk --model foobar'
+    'file:resources/walks/sample4.walk --model foobar'
 );
 ok($rc == 2, 'invalid model exit status');
 like(
@@ -60,7 +60,7 @@ is($out, '', 'invalid model stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',
-    '--file resources/walks/sample4.walk --model resources/models/sample1.xml'
+    'file:resources/walks/sample4.walk --model resources/models/sample1.xml'
 );
 ok($rc == 0, 'success exit status');
 
