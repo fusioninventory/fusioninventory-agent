@@ -10,7 +10,7 @@ use Test::More;
 use FusionInventory::Agent::Task::Collect;
 use FusionInventory::Test::Utils;
 
-plan tests => 6;
+plan tests => 9;
 
 my ($out, $err, $rc);
 
@@ -31,3 +31,12 @@ like(
     qr/$FusionInventory::Agent::Task::Collect::VERSION/,
     '--version stdout'
 );
+
+($out, $err, $rc) = run_executable('fusioninventory-collect', '');
+ok($rc == 2, 'no job exit status');
+like(
+    $err,
+    qr//,
+    'no job stderr'
+);
+is($out, '', 'no job stdout');
