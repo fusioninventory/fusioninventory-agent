@@ -4,17 +4,17 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
+use Digest::SHA;
+use English qw(-no_match_vars);
+use File::Basename;
+use File::Find;
+use File::stat;
+
 use FusionInventory::Agent;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Recipient::Stdout;
-
-use English qw(-no_match_vars);
-use File::Find;
-use File::stat;
-use File::Basename;
-use Digest::SHA;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
