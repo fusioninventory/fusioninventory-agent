@@ -24,6 +24,7 @@ sub send {
     } else {
         print $params{message}->getContent();
     }
+    print "\n";
 }
 
 1;
