@@ -150,6 +150,19 @@ fusioninventory-netdiscovery [options] <block> <block>
     -h --help            print this message and exit
     --version            print the task version and exit
 
+=head1 EXAMPLES
+
+    $> fusioninventory-netdiscovery 192.168.1.0/24
+    $> fusioninventory-netdiscovery 192.168.1.0/24 
+        --recipient /tmp
+    $> fusioninventory-netdiscovery 192.168.1.0/24 
+        --recipient http://glpi.domain.com/plugins/fusioninventory
+    $> fusioninventory-netdiscovery 192.168.1.0/24 
+        --dictionary dictionary.xml
+    $> fusioninventory-netdiscovery 192.168.1.0/24 
+        --credentials version=1,community=public
+        --credentials version=3,username=user,authprotocol=sha1,authpassword=s3cr3t
+
 =head1 DESCRIPTION
 
 F<fusioninventory-netdiscovery> allows to run a network discovery task without a

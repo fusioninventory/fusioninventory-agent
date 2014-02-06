@@ -158,6 +158,17 @@ fusioninventory-netinventory [options] <device> <device>
     -h --help            print this message and exit
     --version            print the task version and exit
 
+=head1 EXAMPLES
+
+    $> fusioninventory-netinventory 192.168.1.24
+    $> fusioninventory-netinventory 192.168.1.24 
+        --recipient /tmp
+    $> fusioninventory-netinventory 192.168.1.24
+        --recipient http://glpi.domain.com/plugins/fusioninventory
+    $> fusioninventory-netinventory ip:192.168.1.24,id=1,type=network
+    $> fusioninventory-netinventory ip:192.168.1.24,id=1,type=network 
+        --credentials version=3,username=user,authprotocol=sha1,authpassword=s3cr3t
+
 =head1 DESCRIPTION
 
 F<fusioninventory-netinventory> allows to run a network inventory task without

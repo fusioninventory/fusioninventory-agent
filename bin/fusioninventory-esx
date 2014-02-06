@@ -105,7 +105,11 @@ fusioninventory-esx --host <host> --user <user> --password <password>
 
 =head1 EXAMPLES
 
-    % fusioninventory-esx --host myesx --user foo --password bar --directory /tmp
+    $> fusioninventory-esx --host myesx --user foo --password bar
+    $> fusioninventory-esx --host myesx --user foo --password bar
+        --recipient /tmp
+    $> fusioninventory-esx --host myesx --user foo --password bar
+        --recipient http://glpi.domain.com/plugins/fusioninventory
 
 =head1 DESCRIPTION
 

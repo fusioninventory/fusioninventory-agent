@@ -83,11 +83,16 @@ fusioninventory-wakeonlan - Standalone wake-on-lan
 fusioninventory-wakeonlan [options] <address> <address>
 
   Options:
-    --ethernet        use ethenet method if available (true)
+    --ethernet        use ethernet method if available (true)
     --udp             use udp method (true)
     --debug           debug output (execution traces)
     -h --help         print this message and exit
     --version         print the task version and exit
+
+=head1 EXAMPLES
+
+    $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c
+    $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c --noethernet
 
 =head1 DESCRIPTION
 

@@ -96,6 +96,14 @@ fusioninventory-collect [options] <job> <job>
     -h --help            print this message and exit
     --version            print the task version and exit
 
+=head1 EXAMPLES
+
+    $> fusioninventory-collect function:findFile,uuid=foo
+    $> fusioninventory-collect function:findFile,uuid=foo
+        --recipient /tmp
+    $> fusioninventory-collect function:findFile,uuid=foo
+        --recipient http://glpi.domain.com/plugins/fusioninventory
+
 =head1 DESCRIPTION
 
 F<fusioninventory-collecct allows to run a collect task without a GLPI server.

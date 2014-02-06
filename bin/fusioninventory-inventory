@@ -95,6 +95,17 @@ fusioninventory-inventory [options]
     -h --help                      print this message and exit
     --version                      print the task version and exit
 
+    
+=head1 EXAMPLES
+
+    $> fusioninventory-inventory
+    $> fusioninventory-inventory
+        --recipient /tmp
+    $> fusioninventory-inventory
+        --recipient http://glpi.domain.com/plugins/fusioninventory
+    $> fusioninventory-inventory --no-category printers --no-category softwares
+    $> fusioninventory-inventory --additional-content override.xml
+
 =head1 DESCRIPTION
 
 F<fusioninventory-inventory> allows to run an inventory task without a GLPI
