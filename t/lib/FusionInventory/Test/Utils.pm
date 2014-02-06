@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use IPC::Run qw(run);
 use JSON;
 use Socket;
+use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
@@ -20,6 +21,8 @@ our @EXPORT = qw(
     unsetProxyEnvVar
     is_json_stream
     is_json_element
+    is_xml_stream
+    is_xml_element
 );
 
 sub test_port {
@@ -201,4 +204,19 @@ sub is_json_element {
         my $content = from_json($string);
     };
     return $EVAL_ERROR ? 0 : 1;
+}
+
+sub is_xml_stream {
+    my ($string) = @_;
+
+    my @elements = split(/\n\n/, $string);
+
+    return all { is_xml_element($_) } @elements;
+}
+
+sub is_xml_element {
+    my ($string) = @_;
+
+    my $content = XML::TreePP->new()->parse($string);
+    return defined $content;
 }
