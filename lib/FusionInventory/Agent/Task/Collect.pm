@@ -96,7 +96,7 @@ sub getConfiguration {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->info("running Collect task");
+    $self->{logger}->info("Running Collect task");
 
     my @jobs = @{$self->{config}->{jobs}};
     if (!@jobs) {

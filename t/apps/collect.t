@@ -43,5 +43,5 @@ is($out, '', 'no job stdout');
 
 ($out, $err, $rc) = run_executable('fusioninventory-collect', 'function:findFile,uuid:foo');
 ok($rc == 0, 'simple job exit status');
-is($err, "[info] running Collect task\n", 'simple job stderr');
+is($err, "[info] Running Collect task\n", 'simple job stderr');
 ok(is_json_stream($out), 'simple job stdout');
