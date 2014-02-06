@@ -10,7 +10,7 @@ use Test::More;
 use FusionInventory::Agent::Task::NetDiscovery;
 use FusionInventory::Test::Utils;
 
-plan tests => 9;
+plan tests => 12;
 
 my ($out, $err, $rc);
 
@@ -40,3 +40,8 @@ like(
     'no address block stderr'
 );
 is($out, '', 'no target stdout');
+
+($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '127.0.0.1/32');
+ok($rc == 0, 'localhost discovery exit status');
+is($err, "[info] Running NetDiscovery task\n", 'localhost discovery stderr');
+ok(is_xml_stream($out), 'localhost discovery stdout');
