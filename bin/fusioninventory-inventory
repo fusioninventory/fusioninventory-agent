@@ -6,7 +6,6 @@ use lib './lib';
 
 use English qw(-no_match_vars);
 use Getopt::Long;
-use File::Temp;
 use Pod::Usage;
 
 use FusionInventory::Agent;
