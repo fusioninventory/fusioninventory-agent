@@ -24,9 +24,6 @@ my $options = {
 
 GetOptions(
     $options,
-    'host=s',
-    'user=s',
-    'password=s',
     'recipient=s',
     'directory=s', # deprecated
     'tag|t=s',
@@ -34,17 +31,15 @@ GetOptions(
     'version',
 ) or pod2usage(-verbose => 0);
 
-pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
-
 if ($options->{version}) {
     print "ESX inventory task $FusionInventory::Agent::Task::ESX::VERSION\n";
     exit 0;
 }
 
-pod2usage(-verbose => 0) unless
-    $options->{host}      and
-    $options->{user}      and
-    $options->{password};
+pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
+pod2usage(
+    -message => "no host given, aborting\n", -verbose => 0
+) unless @ARGV;
 
 if ($options->{directory}) {
     $options->{recipient}=$options->{directory};
@@ -54,6 +49,16 @@ if ($options->{directory}) {
 my $agent = FusionInventory::Agent->new(%setup);
 $agent->init(options => $options);
 
+my @jobs;
+foreach my $arg (@ARGV) {
+    my $job;
+     foreach my $parameter (split(',', $arg)) {
+        my ($key, $value) = split(':', $parameter);
+        $job->{$key} = $value;
+    }
+    push @jobs, $job;
+}
+
 my $task = FusionInventory::Agent::Task::ESX->new(
     logger => $agent->{logger},
 );
@@ -61,13 +66,7 @@ my $task = FusionInventory::Agent::Task::ESX->new(
 $task->configure(
     datadir  => $agent->{datadir},
     deviceid => $agent->{deviceid},
-    jobs     => [
-        {
-            host     => $options->{host},
-            user     => $options->{user},
-            password => $options->{password}
-        }
-    ]
+    jobs     => \@jobs
 );
 
 my $recipient = FusionInventory::Agent::Recipient->create(
@@ -92,12 +91,9 @@ fusioninventory-esx - standaline ESX inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-esx --host <host> --user <user> --password <password>
+fusioninventory-esx [options] <host> <host>
 
   Options:
-    --host host            ESX server host name
-    --user user            ESX server user name
-    --password xxxx        ESX server user password
     --recipient string     where to send result (default: stdout)
     -t --tag tag           inventory tag
     -h --help              print this message and exit
@@ -105,10 +101,10 @@ fusioninventory-esx --host <host> --user <user> --password <password>
 
 =head1 EXAMPLES
 
-    $> fusioninventory-esx --host myesx --user foo --password bar
-    $> fusioninventory-esx --host myesx --user foo --password bar
+    $> fusioninventory-esx host:myesx,user:foo,password:bar
+    $> fusioninventory-esx host:myesx,user:foo,password:bar
         --recipient /tmp
-    $> fusioninventory-esx --host myesx --user foo --password bar
+    $> fusioninventory-esx host:myesx,user:foo,password:bar
         --recipient http://glpi.domain.com/plugins/fusioninventory
 
 =head1 DESCRIPTION

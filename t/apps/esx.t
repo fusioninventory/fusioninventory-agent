@@ -10,7 +10,7 @@ use Test::More;
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Test::Utils;
 
-plan tests => 8;
+plan tests => 11;
 
 my ($out, $err, $rc);
 
@@ -23,19 +23,6 @@ like(
     '--help stdout'
 );
 
-($out, $err, $rc) = run_executable(
-    'fusioninventory-esx',
-    '--host unknowndevice --user a --password a'
-);
-like($err, qr/500\s\S/, 'Bad hostname');
-
-
-($out, $err, $rc) = run_executable(
-    'fusioninventory-esx',
-    '--host unknowndevice --user a --password a --directory /tmp'
-);
-like($err, qr/500\s\S/, '--directory is deprecated, please use --recipient instead');
-
 ($out, $err, $rc) = run_executable('fusioninventory-esx', '--version');
 ok($rc == 0, '--version exit status');
 is($err, '', '--version stderr');
@@ -44,3 +31,25 @@ like(
     qr/$FusionInventory::Agent::Task::ESX::VERSION/,
     '--version stdout'
 );
+
+($out, $err, $rc) = run_executable('fusioninventory-esx', '');
+ok($rc == 2, 'no job exit status');
+like(
+    $err,
+    qr/^no host given, aborting/,
+    'no job stderr'
+);
+is($out, '', 'no job stdout');
+
+($out, $err, $rc) = run_executable(
+    'fusioninventory-esx',
+    'host:unknowndevice,user:a,password:a'
+);
+like($err, qr/500\s\S/, 'Bad hostname');
+
+
+($out, $err, $rc) = run_executable(
+    'fusioninventory-esx',
+    'host,unknowndevice,user:a,password:a --directory /tmp'
+);
+like($err, qr/500\s\S/, '--directory is deprecated, please use --recipient instead');
