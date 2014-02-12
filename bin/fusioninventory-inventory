@@ -27,7 +27,7 @@ GetOptions(
     $options,
     'additional-content=s',
     'collect-timeout=s',
-    'no-category=s',
+    'no-category=s@',
     'scan-homedirs',
     'tag|t=s',
     'recipient=s',
