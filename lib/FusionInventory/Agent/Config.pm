@@ -48,6 +48,10 @@ my $default = {
 };
 
 my $deprecated = {
+    'local' => {
+        message => 'use dedicated fusioninventory-<task> executable for storing task output localy',
+        keep    => 1,
+    },
     'html'                    => {
         message => 'process the result with provided XSLT stylesheet if needed',
     },
@@ -155,7 +159,7 @@ sub _checkContent {
         }
 
         # avoid cluttering configuration
-        delete $self->{$old};
+        delete $self->{$old} unless $handler->{keep};
     }
 
     # a logfile options implies a file logger backend

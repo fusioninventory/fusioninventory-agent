@@ -96,7 +96,6 @@ sub initControllers {
 
     # create controllers list
     if ($config->{local}) {
-        warn "the 'local' option is deprecated, use dedicated fusioninventory-<task> executable instead\n";
         foreach my $path (@{$config->{local}}) {
             push @{$self->{controllers}},
                 FusionInventory::Agent::Controller::Local->new(
