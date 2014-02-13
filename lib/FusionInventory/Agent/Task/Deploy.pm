@@ -95,52 +95,38 @@ sub run {
 }
 
 sub _validateAnswer {
-    my ($msgRef, $answer) = @_;
+    my ($answer) = @_;
 
-    $$msgRef = "";
+    return "No answer from server."
+        if !defined($answer);
 
-    if (!defined($answer)) {
-        $$msgRef = "No answer from server.";
-        return;
-    }
+    return "Bad answer from server. Not a hash reference."
+        if ref($answer) ne 'HASH';
 
-    if (ref($answer) ne 'HASH') {
-        $$msgRef = "Bad answer from server. Not a hash reference.";
-        return;
-    }
+    return "missing associatedFiles key"
+        if !defined($answer->{associatedFiles});
 
-    if (!defined($answer->{associatedFiles})) {
-        $$msgRef = "missing associatedFiles key";
-        return;
-    }
+    return "associatedFiles should be an hash"
+        if ref($answer->{associatedFiles}) ne 'HASH';
 
-    if (ref($answer->{associatedFiles}) ne 'HASH') {
-        $$msgRef = "associatedFiles should be an hash";
-        return;
-    }
-    foreach my $k (keys %{$answer->{associatedFiles}}) {
-        foreach (qw/mirrors multiparts name p2p-retention-duration p2p uncompress/) {
-            if (!defined($answer->{associatedFiles}->{$k}->{$_})) {
-                $$msgRef = "Missing key `$_' in associatedFiles";
-                return;
-            }
+    foreach my $file (keys %{$answer->{associatedFiles}}) {
+        foreach my $key (qw/mirrors multiparts name p2p-retention-duration p2p uncompress/) {
+            return "Missing key `$key' in associatedFiles"
+                if !defined($answer->{associatedFiles}->{$file}->{$key});
         }
     }
+
     foreach my $job (@{$answer->{jobs}}) {
-        foreach (qw/uuid associatedFiles actions checks/) {
-            if (!defined($job->{$_})) {
-                $$msgRef = "Missing key `$_' in jobs";
-                return;
-            }
+        foreach my $key (qw/uuid associatedFiles actions checks/) {
+            return "Missing key `$key' in jobs"
+                if !defined($job->{$key});
 
-            if (ref($job->{actions}) ne 'ARRAY') {
-                $$msgRef = "jobs/actions must be an array";
-                return;
-            }
+            return "jobs/actions must be an array"
+                if ref($job->{actions}) ne 'ARRAY';
         }
     }
 
-    return 1;
+    return;
 }
 
 sub _processRemote {
@@ -171,8 +157,8 @@ sub _processRemote {
         return;
     }
 
-    my $msg;
-    if (!_validateAnswer(\$msg, $answer)) {
+    my $msg = _validateAnswer($answer);
+    if ($msg) {
         $self->{logger}->debug("bad JSON: ".$msg);
         return;
     }
