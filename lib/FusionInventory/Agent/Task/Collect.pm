@@ -89,6 +89,7 @@ sub getConfiguration {
     }
 
     return (
+        url  => $remotes[-1],
         jobs => $jobs->{jobs}
     );
 }
@@ -137,7 +138,7 @@ sub run {
             $result->{action} = "setAnswer";
             $result->{_cpt}   = $count;
             $recipient->send(
-                url      => $self->{config}->{collectRemote},
+                url      => $self->{config}->{url},
                 filename => sprintf('collect_%s_%s.js', $job->{uuid}, $count),
                 message  => $result
             );

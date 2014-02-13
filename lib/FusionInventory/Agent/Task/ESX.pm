@@ -76,6 +76,7 @@ sub getConfiguration {
     }
 
     return (
+        url  => $remotes[-1],
         jobs => $jobs->{jobs}
     );
 }
@@ -106,7 +107,7 @@ sub run {
                 password => $job->{password}
         )) {
             $recipient->send(
-                url      => $self->{config}->{esxRemote},
+                url      => $self->{config}->{url},
                 filename => sprintf('esx_%s_ko.js', $job->{uuid}),
                 control  => 1,
                 message  => {
@@ -138,7 +139,7 @@ sub run {
             $recipient->send(message => $message);
         }
         $recipient->send(
-            url      => $self->{config}->{esxRemote},
+            url      => $self->{config}->{url},
             filename => sprintf('esx_%s_ok.js', $job->{uuid}),
             control  => 1,
             message  => {
