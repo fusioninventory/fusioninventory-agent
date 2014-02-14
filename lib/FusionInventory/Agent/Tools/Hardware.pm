@@ -1361,7 +1361,7 @@ sub _setConnectedDevicesInfo {
             $logger->error(
                 "non-existing port $port_id, check CDP/LLDP mappings"
             ) if $logger;
-            last;
+            next;
         }
 
         $ports->{$port_id}->{CONNECTIONS} = {
