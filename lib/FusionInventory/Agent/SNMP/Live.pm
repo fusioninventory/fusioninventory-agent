@@ -139,6 +139,7 @@ sub walk {
 
     my $response = $session->get_table(
         -baseoid => $oid,
+        -maxrepetitions => 1,
         ($self->{context} ? (-contextname => $self->{context}) : ())
     );
 
