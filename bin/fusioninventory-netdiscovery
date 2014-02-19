@@ -136,7 +136,7 @@ fusioninventory-netdiscovery - Standalone network discovery
 
 =head1 SYNOPSIS
 
-fusioninventory-netdiscovery [options] <block> <block>
+fusioninventory-netdiscovery [options] block ...
 
   Options:
     --dictionary file    dictionary file

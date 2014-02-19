@@ -144,7 +144,7 @@ fusioninventory-netinventory - Standalone network inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-netinventory [options] <device> <device>
+fusioninventory-netinventory [options] host ...
 
   Options:
     --model file         model file

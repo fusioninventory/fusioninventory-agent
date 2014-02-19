@@ -87,7 +87,7 @@ fusioninventory-netinventory - Standalone network inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-collect [options] <job> <job>
+fusioninventory-collect [options] job ...
 
   Options:
     --recipient string   where to send result (default: stdout)

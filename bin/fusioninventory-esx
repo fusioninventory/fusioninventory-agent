@@ -91,7 +91,7 @@ fusioninventory-esx - standaline ESX inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-esx [options] <host> <host>
+fusioninventory-esx [options] host ...
 
   Options:
     --recipient string     where to send result (default: stdout)

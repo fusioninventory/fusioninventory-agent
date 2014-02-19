@@ -80,7 +80,7 @@ fusioninventory-wakeonlan - Standalone wake-on-lan
 
 =head1 SYNOPSIS
 
-fusioninventory-wakeonlan [options] <address> <address>
+fusioninventory-wakeonlan [options] address ...
 
   Options:
     --ethernet        use ethernet method if available (true)
