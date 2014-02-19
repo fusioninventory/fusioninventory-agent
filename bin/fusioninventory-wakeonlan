@@ -93,6 +93,7 @@ fusioninventory-wakeonlan [options] <address> <address>
 
     $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c
     $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c --noethernet
+    $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c f0:1f:af:0f:a4:0d
 
 =head1 DESCRIPTION
 

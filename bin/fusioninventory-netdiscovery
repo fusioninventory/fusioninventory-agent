@@ -162,6 +162,7 @@ fusioninventory-netdiscovery [options] <block> <block>
     $> fusioninventory-netdiscovery 192.168.1.0/24 
         --credential version=1,community=public
         --credential version=3,username=user,authprotocol=sha1,authpassword=s3cr3t
+    $> fusioninventory-netdiscovery 192.168.1.0/24 192.168.2.0/24
 
 =head1 DESCRIPTION
 
