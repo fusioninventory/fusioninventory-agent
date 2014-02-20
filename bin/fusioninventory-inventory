@@ -82,18 +82,48 @@ fusioninventory-inventory - Standalone inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-inventory [options]
+B<fusioninventory-inventory>
+S<[B<--additional-content> I<file>]> S<[B<--no-category> I<string>]>
+S<[B<--scan-homedirs>]> S<[B<--timeout> I<integer>]> S<[B<--tag> I<string>]>
+S<[B<--recipient> I<string>]> S<[B<--verbose>]> S<[B<--debug>]>
 
-  Options:
-    --scan-homedirs                scan use home directories (false)
-    -t --tag tag                   inventory tag
-    --collect-timeout time         inventory modules execution timeout (30)
-    --additional-content file      additional inventory content file
-    --verbose                      verbose output (control messages)
-    --debug                        debug output (execution traces)
-    -h --help                      print this message and exit
-    --version                      print the task version and exit
+=head1 OPTIONS
 
+=over
+
+=item B<--tag> I<string>
+
+inventory tag
+
+=item B<--timeout> I<integer>
+
+execution timeout (default: 30s)
+
+=item B<--additional-content> I<file>
+
+additional inventory content file
+
+=item B<--no-category> I<string>
+
+exclude specific inventory section
+
+=item B<--scan-homedirs>
+
+scan use home directories (false)
+
+=item B<--recipient> I<string>
+
+where to send result (default: stdout)
+
+=item B<--verbose>
+
+verbose output (control messages)
+
+=item B<--debug>
+
+debug output (execution traces)
+
+=back
     
 =head1 EXAMPLES
 

@@ -136,19 +136,49 @@ fusioninventory-netdiscovery - Standalone network discovery
 
 =head1 SYNOPSIS
 
-fusioninventory-netdiscovery [options] block ...
+B<fusioninventory-netdiscovery> S<[B<--dictionary> I<file>]>
+S<[B<--credential> I<string>]> S<[B<--timeout> I<integer>]>
+S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
+S<[B<--recipient> I<string>]> S<[B<--verbose>]> S<[B<--debug>]>
+I<block_spec> ...
 
-  Options:
-    --dictionary file    dictionary file
-    --credential string  SNMP credentials (default: version:1,community:public)
-    --timeout number     SNMP timeout (default: 1s)
-    --entity string      GLPI entity
-    --threads number     threads number (default: 1)
-    --recipient string   where to send result (default: stdout)
-    --verbose            verbose output (control messages)
-    --debug              debug output (execution traces)
-    -h --help            print this message and exit
-    --version            print the task version and exit
+=head1 OPTIONS
+
+=over
+
+=item B<--dictionary> I<file>
+
+dictionary file
+
+=item B<--credential> I<string>
+
+SNMP credentials (default: version:1,community:public)
+
+=item B<--timeout> I<integer>
+
+SNMP timeout (default: 15s)
+
+=item B<--threads> I<integer>
+
+threads number (default: 1)
+
+=item B<--entity> I<string>
+
+GLPI entity
+
+=item B<--recipient> I<string>
+
+where to send result (default: stdout)
+
+=item B<--verbose>
+
+verbose output (control messages)
+
+=item B<--debug>
+
+debug output (execution traces)
+
+=back
 
 =head1 EXAMPLES
 

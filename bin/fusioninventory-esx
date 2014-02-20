@@ -87,17 +87,26 @@ __END__
 
 =head1 NAME
 
-fusioninventory-esx - standaline ESX inventory
+fusioninventory-esx - standalone ESX inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-esx [options] host ...
+B<fusioninventory-esx> S<[B<--tag> I<string>]> S<[B<--recipient> I<string>]>
+I<host_spec> ...
 
-  Options:
-    --recipient string     where to send result (default: stdout)
-    -t --tag tag           inventory tag
-    -h --help              print this message and exit
-    --version              print the task version and exit
+=head1 OPTIONS
+
+=over
+
+=item B<--tag> I<string>
+
+inventory tag
+
+=item B<--recipient> I<string>
+
+where to send result (default: stdout)
+
+=back
 
 =head1 EXAMPLES
 

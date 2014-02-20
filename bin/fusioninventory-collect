@@ -83,18 +83,31 @@ __END__
 
 =head1 NAME
 
-fusioninventory-netinventory - Standalone network inventory
+fusioninventory-collect - Standalone collect task
 
 =head1 SYNOPSIS
 
-fusioninventory-collect [options] job ...
+B<fusioninventory-collect>
+S<[B<--recipient> I<string>]> S<[B<--verbose>]> S<[B<--debug>]>
+I<job_spec> ...
 
-  Options:
-    --recipient string   where to send result (default: stdout)
-    --verbose            verbose output (control messages)
-    --debug              debug output (execution traces)
-    -h --help            print this message and exit
-    --version            print the task version and exit
+=head1 OPTIONS
+
+=over
+
+=item B<--recipient> I<string>
+
+where to send result (default: stdout)
+
+=item B<--verbose>
+
+verbose output (control messages)
+
+=item B<--debug>
+
+debug output (execution traces)
+
+=back
 
 =head1 EXAMPLES
 
@@ -106,4 +119,4 @@ fusioninventory-collect [options] job ...
 
 =head1 DESCRIPTION
 
-F<fusioninventory-collecct allows to run a collect task without a GLPI server.
+F<fusioninventory-collect> allows to run a collect task without a GLPI server.

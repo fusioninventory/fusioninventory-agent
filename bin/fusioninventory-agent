@@ -131,72 +131,42 @@ fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
 
 =head1 SYNOPSIS
 
-B<fusioninventory-agent> [options] [--server server|--local path]
+B<fusioninventory-agent>
+S<[B<--delaytime> I<integer>]>
+S<[B<--lazy>]>
+S<[B<--no-task> I<string>]>
+S<[B<--no-category> I<string>]>
+S<[B<--scan-homedir>]>
+S<[B<--force>]>
+S<[B<--collect-timeout> I<integer>]>
+S<[B<--additional-content> I<file>]>
+S<[B<--no-p2p>]>
+S<[B<--proxy> I<url>]>
+S<[B<--user> I<string>]>
+S<[B<--password> I<string>]>
+S<[B<--ca-cert-dir> I<directory>]>
+S<[B<--ca-cert-file> I<file>]>
+S<[B<--no-ssl-check>]>
+S<[B<--timeout> I<integer>]>
+S<[B<--no-httpd>]>
+S<[B<--httpd-ip> I<address>]>
+S<[B<--httpd-port> I<integer>]>
+S<[B<--httpd-trust> I<address>]>
+S<[B<--logger> I<string>]>
+S<[B<--logfile> I<file>]>
+S<[B<--logfile-maxsize> I<integer>]>
+S<[B<--logfacility> I<string>]>
+S<[B<--color>]>
+S<[B<--config> I<string>]>
+S<[B<--conf-file> I<file>]>
+S<[B<--wait> I<integer>]>
+S<[B<--daemon> S<[B<--no-fork>]>]>
+S<[B<--tag> I<string>]>
+B<--server> I<url>
 
-  Target definition options:
-    -s --server=URI                send tasks result to a server
-    -l --local=PATH                write tasks results locally
+B<fusioninventory-agent> B<--list-tasks>
 
-  Target scheduling options:
-    --delaytime=LIMIT              maximum delay before first target,
-                                     in seconds (3600)
-    --lazy                         do not contact the target before
-                                   next scheduled time
-
-  Task selection options:
-    --list-tasks                   list available tasks and exit
-    --no-task=TASK                 do not run given task
-
-  Inventory task specific options:
-    --no-category=CATEGORY         do not list given category items
-    --scan-homedirs                scan use home directories (false)
-    -f --force                     always send data to server (false)
-    --collect-timeout=TIME         timeout for inventory modules
-                                     execution (30)
-    --additional-content=FILE      additional inventory content file
-
-  Package deployment task specific options:
-    --no-p2p                       do not use peer to peer to download
-                                     files (false)
-
-  Network options:
-    -P --proxy=PROXY               proxy address
-    -u --user=USER                 user name for server authentication
-    -p --password=PASSWORD         password for server authentication
-    --ca-cert-dir=DIRECTORY        CA certificates directory
-    --ca-cert-file=FILE            CA certificates file
-    --no-ssl-check                 do not check server SSL certificate
-                                     (false)
-    --timeout=TIME                 connection timeout, in seconds (180)
-
-  Web interface options:
-    --no-httpd                     disable embedded web server (false)
-    --httpd-ip=IP                  network interface to listen to (all)
-    --httpd-port=PORT              network port to listen to (62354)
-    --httpd-trust=IP               trust requests without authentication
-                                     token (false)
-
-  Logging options:
-    --logger=BACKEND               logger backend (stderr)
-    --logfile=FILE                 log file
-    --logfile-maxsize=SIZE         maximum size of the log file in MB (0)
-    --logfacility=FACILITY         syslog facility (LOG_USER)
-    --color                        use color in the console (false)
-
-  Configuration options:
-    --config=BACKEND               configuration backend
-    --conf-file=FILE               configuration file
-
-  Execution mode options:
-    -w --wait=LIMIT                maximum delay before execution,
-                                     in seconds
-    -d --daemon                    run the agent as a daemon (false)
-    --no-fork                      don't fork in background (false)
-    -t --tag=TAG                   add given tag to inventory results
-    --debug                        debug mode (false)
-    --setup                        print the agent setup directories
-                                     and exit
-    --version                      print the version and exit
+B<fusioninventory-agent> B<--setup>
 
 =head1 DESCRIPTION
 

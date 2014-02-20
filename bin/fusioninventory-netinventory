@@ -144,19 +144,49 @@ fusioninventory-netinventory - Standalone network inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-netinventory [options] host ...
+B<fusioninventory-netinventory> S<[B<--model> I<file>]>
+S<[B<--credential> I<string>]> S<[B<--timeout> I<integer>]>
+S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
+S<[B<--recipient> I<string>]> S<[B<--verbose>]> S<[B<--debug>]>
+I<host_spec> ...
 
-  Options:
-    --model file         model file
-    --credential string  SNMP credentials (default: version:1,community:public)
-    --timeout number     SNMP timeout (default: 15s)
-    --threads number     threads number (default: 1)
-    --entity string      GLPI entity
-    --recipient string   where to send result (default: stdout)
-    --verbose            verbose output (control messages)
-    --debug              debug output (execution traces)
-    -h --help            print this message and exit
-    --version            print the task version and exit
+=head1 OPTIONS
+
+=over
+
+=item B<--model> I<file>
+
+model file
+
+=item B<--credential> I<string>
+
+SNMP credentials (default: version:1,community:public)
+
+=item B<--timeout> I<integer>
+
+SNMP timeout (default: 15s)
+
+=item B<--threads> I<integer>
+
+threads number (default: 1)
+
+=item B<--entity> I<string>
+
+GLPI entity
+
+=item B<--recipient> I<string>
+
+where to send result (default: stdout)
+
+=item B<--verbose>
+
+verbose output (control messages)
+
+=item B<--debug>
+
+debug output (execution traces)
+
+=back
 
 =head1 EXAMPLES
 
