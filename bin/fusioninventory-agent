@@ -207,26 +207,6 @@ and FusionInventory for GLPI this one:
 
 Multiple values can be specified, using comma as a separator.
 
-=item B<-l>, B<--local>=I<PATH>
-
-Write the results of tasks execution locally.
-
-Exact behaviour according to given path:
-
-=over
-
-=item *
-
-if I<PATH> is a directory, a file will be created therein
-
-=item *
-
-if I<PATH> is '-', STDOUT will be used
-
-=back
-
-Multiple values can be specified, using comma as a separator.
-
 =back
 
 =head2 Target scheduling options
