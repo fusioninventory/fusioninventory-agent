@@ -43,7 +43,8 @@ sub getConfiguration {
     foreach my $authentication (@{$options->{DEVICE}}) {
         my $device;
         foreach my $key (keys %$authentication) {
-            $device->{lc($key)} = $authentication->{$key};
+            my $newkey = $key eq 'IP' ? 'host' : lc($key);
+            $device->{$newkey} = $authentication->{$key};
         }
         push @devices, $device;
     }

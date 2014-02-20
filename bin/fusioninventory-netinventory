@@ -165,11 +165,11 @@ fusioninventory-netinventory [options] host ...
         --recipient /tmp
     $> fusioninventory-netinventory 192.168.1.24
         --recipient http://glpi.domain.com/plugins/fusioninventory
-    $> fusioninventory-netinventory ip:192.168.1.24,id:1,type:network
-    $> fusioninventory-netinventory ip:192.168.1.24,id:1,type:network 
+    $> fusioninventory-netinventory host:192.168.1.24,id:1,type:network
+    $> fusioninventory-netinventory host:192.168.1.24,id:1,type:network
         --credential version:3,username:foo,authprotocol:sha1,authpassword:bar
     $> fusioninventory-netinventory 192.168.1.24 192.168.1.25
-    $> fusioninventory-netinventory ip:192.168.1.24,id:1 ip:192.168.1.25,id:2
+    $> fusioninventory-netinventory host:192.168.1.24,id:1 host:192.168.1.25,id:2
 
 =head1 DESCRIPTION
 

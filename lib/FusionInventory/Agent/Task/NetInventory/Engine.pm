@@ -47,8 +47,8 @@ sub _queryDevice {
         eval {
             FusionInventory::Agent::SNMP::Live->require();
             $snmp = FusionInventory::Agent::SNMP::Live->new(
-                hostname     => $device->{ip},
-                timeout      => $self->{timeout},
+                hostname => $device->{host},
+                timeout  => $self->{timeout},
                 %$credentials
             );
         };
