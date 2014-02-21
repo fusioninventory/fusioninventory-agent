@@ -43,5 +43,5 @@ is($out, '', 'no target stdout');
 
 ($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '127.0.0.1/32');
 ok($rc == 0, 'localhost discovery exit status');
-is($err, "[info] Running NetDiscovery task\n", 'localhost discovery stderr');
+like($err, qr/Running NetDiscovery task/, 'localhost discovery stderr');
 ok(is_xml_stream($out), 'localhost discovery stdout');

@@ -20,7 +20,7 @@ my %messages = (
             {
                 'id'           => '72',
                 'type'         => 'PRINTER',
-                'ip'           => '192.168.0.151',
+                'host'         => '192.168.0.151',
                 'modelsnmp_id' => '196',
                 'authsnmp_id'  => '1'
             }
@@ -72,7 +72,7 @@ my %messages = (
                 'id'           => '72',
                 'type'         => 'PRINTER',
                 'modelsnmp_id' => '196',
-                'ip'           => '192.168.0.151'
+                'host'         => '192.168.0.151'
             }
         ],
         'models' => [
