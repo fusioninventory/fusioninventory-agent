@@ -57,7 +57,7 @@ sub getConfiguration {
     # dictionary
     my $dictionary = $self->_getDictionary(
         $options,
-        $self->{controller}->getStorage()
+        $params{controller}->getStorage()
     );
 
     if (!$dictionary) {
@@ -88,7 +88,7 @@ sub getConfiguration {
         );
 
         $client->send(
-            url     => $self->{controller}->getUrl(),
+            url     => $params{controller}->getUrl(),
             message => $message
         );
 

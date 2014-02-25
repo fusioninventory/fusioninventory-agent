@@ -358,14 +358,16 @@ sub _runScheduledTasks {
 
     foreach my $name (@{$self->{tasks}}) {
         eval {
-            $self->_runTaskIfScheduled($name, $response, $recipient);
+            $self->_runTaskIfScheduled(
+                $name, $response, $controller, $recipient
+            );
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
     }
 }
 
 sub _runTaskIfScheduled {
-    my ($self, $name, $response, $recipient) = @_;
+    my ($self, $name, $response, $controller, $recipient) = @_;
 
     $self->{logger}->debug("Attempting to run task $name");
 
@@ -384,6 +386,7 @@ sub _runTaskIfScheduled {
         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},
         deviceid     => $self->{deviceid},
+        controller   => $controller,
         response     => $response
     );
     return unless %configuration;

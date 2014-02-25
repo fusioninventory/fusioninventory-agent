@@ -47,7 +47,7 @@ sub getConfiguration {
     );
 
     my $remoteConfig = $client->send(
-        url  => $self->{controller}->{url},
+        url  => $params{controller}->getUrl(),
         args => {
             action    => "getConfig",
             machineid => $params{deviceid},
