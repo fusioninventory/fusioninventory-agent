@@ -332,7 +332,7 @@ sub _runScheduledTasks {
     my $recipient;
     if ($controller->isa('FusionInventory::Agent::Controller::Server')) {
         $recipient = FusionInventory::Agent::Recipient::Server->new(
-            target       => $self->{controller}->getUrl(),
+            target       => $controller->getUrl(),
             logger       => $self->{logger},
             user         => $self->{config}->{user},
             password     => $self->{config}->{password},
