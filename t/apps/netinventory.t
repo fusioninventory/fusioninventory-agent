@@ -34,17 +34,14 @@ like(
     '--version stdout'
 );
 
-($out, $err, $rc) = run_executable(
-    'fusioninventory-netinventory',
-    ''
-);
-ok($rc == 2, 'no device exit status');
+($out, $err, $rc) = run_executable( 'fusioninventory-netinventory', '');
+ok($rc == 2, 'no target exit status');
 like(
     $err,
-    qr/no device given, aborting/,
-    'no device stderr'
+    qr/no target given, aborting/,
+    'no target stderr'
 );
-is($out, '', 'no device stdout');
+is($out, '', 'no target stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',

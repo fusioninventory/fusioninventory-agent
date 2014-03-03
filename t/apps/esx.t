@@ -33,13 +33,13 @@ like(
 );
 
 ($out, $err, $rc) = run_executable('fusioninventory-esx', '');
-ok($rc == 2, 'no job exit status');
+ok($rc == 2, 'no target exit status');
 like(
     $err,
-    qr/^no host given, aborting/,
-    'no job stderr'
+    qr/no target given, aborting/,
+    'no target stderr'
 );
-is($out, '', 'no job stdout');
+is($out, '', 'no target stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-esx',

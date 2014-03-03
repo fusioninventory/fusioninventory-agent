@@ -38,7 +38,7 @@ if ($options->{version}) {
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 pod2usage(
-    -message => "no host given, aborting\n", -verbose => 0
+    -message => "no target given, aborting\n", -verbose => 0
 ) unless @ARGV;
 
 if ($options->{directory}) {

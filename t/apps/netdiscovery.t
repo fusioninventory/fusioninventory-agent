@@ -33,11 +33,11 @@ like(
 );
 
 ($out, $err, $rc) = run_executable('fusioninventory-netdiscovery');
-ok($rc == 2, 'no address block exit status');
+ok($rc == 2, 'no target exit status');
 like(
     $err,
-    qr/no address block given, aborting/,
-    'no address block stderr'
+    qr/no target given, aborting/,
+    'no target stderr'
 );
 is($out, '', 'no target stdout');
 

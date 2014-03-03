@@ -127,18 +127,18 @@ __END__
 
 =head1 NAME
 
-fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
+fusioninventory-agent - FusionInventory agent main executable
 
 =head1 SYNOPSIS
 
 B<fusioninventory-agent>
-S<[B<--delaytime> I<integer>]>
+S<[B<--delaytime> I<time>]>
 S<[B<--lazy>]>
 S<[B<--no-task> I<string>]>
 S<[B<--no-category> I<string>]>
 S<[B<--scan-homedir>]>
 S<[B<--force>]>
-S<[B<--collect-timeout> I<integer>]>
+S<[B<--collect-timeout> I<time>]>
 S<[B<--additional-content> I<file>]>
 S<[B<--no-p2p>]>
 S<[B<--proxy> I<url>]>
@@ -147,7 +147,7 @@ S<[B<--password> I<string>]>
 S<[B<--ca-cert-dir> I<directory>]>
 S<[B<--ca-cert-file> I<file>]>
 S<[B<--no-ssl-check>]>
-S<[B<--timeout> I<integer>]>
+S<[B<--timeout> I<time>]>
 S<[B<--no-httpd>]>
 S<[B<--httpd-ip> I<address>]>
 S<[B<--httpd-port> I<integer>]>
@@ -162,7 +162,7 @@ S<[B<--conf-file> I<file>]>
 S<[B<--wait> I<integer>]>
 S<[B<--daemon> S<[B<--no-fork>]>]>
 S<[B<--tag> I<string>]>
-B<--server> I<url>
+S<B<--server> I<url>>
 
 B<fusioninventory-agent> B<--list-tasks>
 
@@ -170,30 +170,24 @@ B<fusioninventory-agent> B<--setup>
 
 =head1 DESCRIPTION
 
-The F<fusioninventory-agent> agent is a generic multi-platform agent. It can
-perform a large array of management tasks, such as local inventory, software
-deployment or network discovery. It can be used either standalone, or in
-combination with a compatible server (OCS, GLPI, OTRS) acting as a centralized
-control point.
+F<fusioninventory-agent> is the main executable for FusionInventory agent. It
+relies on a compatible control server (OCS, GLPI, OTRS) to schedule and configure
+various management tasks, such as local inventory, software deployment or
+network discovery
 
 =head1 OPTIONS
 
-Most of the options are available in a I<short> form and a I<long> form.  For
-example, the two lines below are all equivalent:
-
-    % fusioninventory-agent -s localhost
-    % fusioninventory-agent --server localhost
-
-=head2 Target definition options
+=head2 Control server definition options
 
 =over
 
-=item B<-s>, B<--server>=I<URI>
+=item B<-s> I<URI>, B<--server> I<URI>
 
-Send the results of tasks execution to given server.
+Use the given server as a controller for this agent, and as a recipient for
+task execution output.
 
-If I<URI> doesn't start with http:// or https://, the agent assume the
-parameter is a hostname and rewrite it as:
+If I<URI> doesn't start with http:// or https://, it is assumed to be
+an hostname and rewritten as:
 
     % --server=http://servername/ocsinventory
 
@@ -209,22 +203,22 @@ Multiple values can be specified, using comma as a separator.
 
 =back
 
-=head2 Target scheduling options
+=head2 Scheduling options
 
 =over
 
-=item B<--delaytime>=I<LIMIT>
+=item B<--delaytime> I<TIME>
 
-Set an initial delay before the first target, whose value is computed randomly
-between LIMIT / 2 and LIMIT seconds. This setting is ignored for server targets
+Set an initial delay before contacting the control server, whose value is
+computed randomly between TIME / 2 and TIME seconds. This setting is ignored
 after the initial contact, in favor of server-specified parameter
 (PROLOG_FREQ).
 
 =item B<--lazy>
 
-Do not contact the target before next scheduled time.
+Do not contact the control server before next scheduled time.
 
-This option is only available when the agent is not run as a server.
+This option is only available when the agent is not run as a daemon.
 
 =back
 
@@ -236,7 +230,7 @@ This option is only available when the agent is not run as a server.
 
 List available tasks and exit
 
-=item B<--no-task>=I<TASK>
+=item B<--no-task> I<TASK>
 
 Do not run given task.
 
@@ -249,7 +243,7 @@ I<--list-tasks> for the list of available tasks.
 
 =over
 
-=item B<--no-category>=I<CATEGORY>
+=item B<--no-category> I<CATEGORY>
 
 Do not list given category items in inventory.
 
@@ -288,11 +282,11 @@ Allow the agent to scan home directories for virtual machines.
 
 Send an inventory to the server, even if this last one doesn't ask for it.
 
-=item B<--collect-timeout>=I<TIME>
+=item B<--collect-timeout> I<TIME>
 
 Timeout for inventory modules execution.
 
-=item B<--additional-content>=I<FILE>
+=item B<--additional-content> I<FILE>
 
 Additional inventory content file.
 
@@ -311,29 +305,29 @@ Do not use peer to peer to download files.
 
 =back
 
-=head2 Server target specific options
+=head2 Network options
 
 =over
 
-=item B<-P>, B<--proxy>=I<PROXY>
+=item B<-P> I<PROXY>, B<--proxy> I<PROXY>
 
 Use I<PROXY> as HTTP proxy.
 
 By default, the agent uses HTTP_PROXY environment variable.
 
-=item B<-u> I<USER>, B<--user>=I<USER>
+=item B<-u> I<USER>, B<--user> I<USER>
 
 Use I<USER> for server authentication.
 
-=item B<-p>, B<--password>=I<PASSWORD>
+=item B<-p> I<PASSWORD>, B<--password> I<PASSWORD>
 
 Use I<PASSWORD> for server authentication.
 
-=item B<--ca-cert-dir>=I<DIRECTORY>
+=item B<--ca-cert-dir> I<DIRECTORY>
 
 CA certificates directory.
 
-=item B<--ca-cert-file>=I<FILE>
+=item B<--ca-cert-file> I<FILE>
 
 CA certificates file.
 
@@ -341,7 +335,7 @@ CA certificates file.
 
 Do not check server SSL certificate.
 
-=item B<--timeout>=I<TIME>
+=item B<--timeout> I<TIME>
 
 Timeout for server connections.
 
@@ -355,15 +349,15 @@ Timeout for server connections.
 
 Disable the embedded web server.
 
-=item B<--httpd-ip>=I<IP>
+=item B<--httpd-ip> I<IP>
 
 The network interface to use for the embedded web server (all).
 
-=item B<--httpd-port>=I<PORT>
+=item B<--httpd-port> I<PORT>
 
 The network port to use for the embedded web server (62354).
 
-=item B<--httpd-trust>=I<IP>
+=item B<--httpd-trust> I<IP>
 
 Trust requests from given addresses without authentication token (false).
 
@@ -379,7 +373,7 @@ Multiple values can be specified, using comma as a separator.
 
 =over
 
-=item B<--logger>=I<BACKEND>
+=item B<--logger> I<BACKEND>
 
 Logger backend to use.
 
@@ -404,17 +398,17 @@ syslog: log messages through the local syslog server.
 
 Multiple values can be specified, using comma as a separator.
 
-=item B<--logfile>=I<FILE>
+=item B<--logfile> I<FILE>
 
 Log message in I<FILE> (implies File logger backend).
 
-=item B<--logfile-maxsize>=I<SIZE>
+=item B<--logfile-maxsize> I<SIZE>
 
 Max logfile size in MB, default is unlimited. When the max size is reached, the
 file is truncated. This is only useful if there is no log rotation mechanism on
 the system.
 
-=item B<--logfacility>=I<FACILITY>
+=item B<--logfacility> I<FACILITY>
 
 Syslog facility to use (default LOG_USER).
 
@@ -431,7 +425,7 @@ This options is ignored on Windows.
 =over
 
 
-=item B<--config>=I<BACKEND>
+=item B<--config> I<BACKEND>
 
 Configuration backend to use.
 
@@ -453,7 +447,7 @@ none: don't read any configuration.
 
 =back
 
-=item B<--conf-file>=I<FILE>
+=item B<--conf-file> I<FILE>
 
 Use I<FILE> as configuration file (implies file configuration backend).
 
@@ -463,9 +457,9 @@ Use I<FILE> as configuration file (implies file configuration backend).
 
 =over
 
-=item B<-w> I<LIMIT>, B<--wait>=I<LIMIT>
+=item B<-w> I<TIME>, B<--wait> I<TIME>
 
-Wait a random delay whose value is computed randomly between 0 and LIMIT
+Wait a random delay whose value is computed randomly between 0 and TIME
 seconds, before execution. This is useful when execution is triggered from some
 kind of system scheduling on multiple clients, to spread the server load.
 
@@ -479,7 +473,7 @@ Don't fork in background.
 
 This is only useful when running as a daemon.
 
-=item B<--tag>=I<TAG>
+=item B<--tag> I<TAG>
 
 Add the given tag to every inventory results.
 

@@ -49,7 +49,7 @@ if ($options->{version}) {
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 pod2usage(
-    -message => "no device given, aborting\n", -verbose => 0
+    -message => "no target given, aborting\n", -verbose => 0
 ) unless @ARGV;
 
 my $agent = FusionInventory::Agent->new(%setup);
