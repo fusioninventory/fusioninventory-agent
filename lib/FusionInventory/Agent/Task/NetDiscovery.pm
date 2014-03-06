@@ -455,37 +455,15 @@ sub _scanAddressByNetbios {
 sub _scanAddressBySNMP {
     my ($self, %params) = @_;
 
-    my %device;
     foreach my $credential (@{$params{snmp_credentials}}) {
-
-        my $snmp;
-        eval {
-            $snmp = FusionInventory::Agent::SNMP::Live->new(
-                version      => $credential->{VERSION},
-                hostname     => $params{ip},
-                timeout      => $params{timeout} || 1,
-                community    => $credential->{COMMUNITY},
-                username     => $credential->{USERNAME},
-                authpassword => $credential->{AUTHPASSPHRASE},
-                authprotocol => $credential->{AUTHPROTOCOL},
-                privpassword => $credential->{PRIVPASSPHRASE},
-                privprotocol => $credential->{PRIVPROTOCOL},
-            );
-        };
-        if ($EVAL_ERROR) {
-            $self->{logger}->error(
-                "Unable to create SNMP session for $params{ip}: $EVAL_ERROR"
-            );
-            next;
-        }
-
-        %device = getDeviceInfo(
-            snmp       => $snmp,
+        my %device = $self->_scanAddressBySNMPReal(
+            ip         => $params{ip},
+            timeout    => $params{timeout},
             dictionary => $params{snmp_dictionary},
-            datadir    => $self->{datadir},
+            credential => $credential
         );
 
-        # no device just means invalid credentials
+        # no result means either no host, no response, or invalid credentials
         $self->{logger}->debug2(
             sprintf "thread %d: scanning %s with snmp credentials %d: %s",
             threads->tid(),
@@ -494,14 +472,49 @@ sub _scanAddressBySNMP {
             %device ? 'success' : 'failure'
         );
 
-        next unless %device;
-
-        $device{AUTHSNMP} = $credential->{ID};
-
-        last;
+        if (%device) {
+            $device{AUTHSNMP} = $credential->{ID};
+            return %device;
+        }
     }
 
-    return %device;
+    return;
+}
+
+sub _scanAddressBySNMPReal {
+    my ($self, %params) = @_;
+
+    my $snmp;
+    eval {
+        $snmp = FusionInventory::Agent::SNMP::Live->new(
+            version      => $params{credential}->{VERSION},
+            hostname     => $params{ip},
+            timeout      => $params{timeout} || 1,
+            community    => $params{credential}->{COMMUNITY},
+            username     => $params{credential}->{USERNAME},
+            authpassword => $params{credential}->{AUTHPASSPHRASE},
+            authprotocol => $params{credential}->{AUTHPROTOCOL},
+            privpassword => $params{credential}->{PRIVPASSPHRASE},
+            privprotocol => $params{credential}->{PRIVPROTOCOL},
+        );
+    };
+    if ($EVAL_ERROR) {
+        # SNMPv3 exception for non-responding host
+        return if $EVAL_ERROR =~ /^No response from remote host/;
+        # SNMPv3 exception for invalid credentials
+        return if $EVAL_ERROR =~ /^Received usmStatsWrongDigests/;
+        # other exception
+        $self->{logger}->error(
+            "Unable to create SNMP session for $params{ip}: $EVAL_ERROR\n"
+        );
+        return;
+    }
+
+    return getDeviceInfo(
+        snmp       => $snmp,
+        dictionary => $params{dictionary},
+        datadir    => $self->{datadir},
+    );
 }
 
 sub _parseNmap {
