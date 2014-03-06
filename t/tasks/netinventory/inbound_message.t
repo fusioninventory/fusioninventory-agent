@@ -30,10 +30,10 @@ my %messages = (
                 'id'             => '1',
                 'authprotocol'   => '',
                 'privprotocol'   => '',
-                'authpassphrase' => '',
+                'authpassword'   => '',
                 'community'      => 'public',
                 'username'       => '',
-                'privpassphrase' => '',
+                'privpassword'   => '',
                 'version'        => '1'
             }
         ],
@@ -57,9 +57,9 @@ my %messages = (
         'credentials' => [
             {
                 'id'             => '1',
-                'authpassphrase' => '',
+                'authpassword'   => '',
                 'community'      => 'public',
-                'privpassphrase' => '',
+                'privpassword'   => '',
                 'privprotocol'   => '',
                 'authprotocol'   => '',
                 'username'       => '',

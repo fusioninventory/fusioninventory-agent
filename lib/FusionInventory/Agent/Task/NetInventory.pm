@@ -34,7 +34,11 @@ sub getConfiguration {
     foreach my $authentication (@{$options->{AUTHENTICATION}}) {
         my $credential;
         foreach my $key (keys %$authentication) {
-            $credential->{lc($key)} = $authentication->{$key};
+            my $newkey =
+                $key eq 'AUTHPASSPHRASE' ? 'authpassword' :
+                $key eq 'PRIVPASSPHRASE' ? 'privpassword' :
+                                            lc($key)      ;
+            $credential->{$newkey} = $authentication->{$key};
         }
         push @credentials, $credential;
     }
