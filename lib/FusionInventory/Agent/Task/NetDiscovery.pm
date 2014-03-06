@@ -466,9 +466,9 @@ sub _scanAddressBySNMP {
                 timeout      => $params{timeout} || 1,
                 community    => $credential->{COMMUNITY},
                 username     => $credential->{USERNAME},
-                authpassword => $credential->{AUTHPASSWORD},
+                authpassword => $credential->{AUTHPASSPHRASE},
                 authprotocol => $credential->{AUTHPROTOCOL},
-                privpassword => $credential->{PRIVPASSWORD},
+                privpassword => $credential->{PRIVPASSPHRASE},
                 privprotocol => $credential->{PRIVPROTOCOL},
             );
         };

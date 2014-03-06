@@ -236,9 +236,9 @@ sub _queryDevice {
                 timeout      => $params{timeout} || 15,
                 community    => $credentials->{COMMUNITY},
                 username     => $credentials->{USERNAME},
-                authpassword => $credentials->{AUTHPASSWORD},
+                authpassword => $credentials->{AUTHPASSPHRASE},
                 authprotocol => $credentials->{AUTHPROTOCOL},
-                privpassword => $credentials->{PRIVPASSWORD},
+                privpassword => $credentials->{PRIVPASSPHRASE},
                 privprotocol => $credentials->{PRIVPROTOCOL},
             );
         };

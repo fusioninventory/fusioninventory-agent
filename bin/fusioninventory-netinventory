@@ -91,8 +91,11 @@ if ($options->{community}) {
 } elsif (defined $options->{credentials}) {
     foreach my $parameter (split(',', $options->{credentials})) {
         my ($key, $value) = split(':', $parameter);
-        $key = uc($key);
-        $credentials->{$key} = $value;
+        my $newkey =
+            $key eq 'authpassword' ? 'AUTHPASSPHRASE' :
+            $key eq 'privpassword' ? 'PRIVPASSPHRASE' :
+                                     uc($key);
+        $credentials->{$newkey} = $value;
     }
 } else {
     $credentials->{COMMUNITY} = 'public';
