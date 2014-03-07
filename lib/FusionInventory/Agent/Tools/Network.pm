@@ -21,7 +21,7 @@ our @EXPORT = qw(
     getNetworkMaskIPv6
     hex2canonical
     alt2canonical
-    resolv
+    resolve
     compile
     isPartOf
 );
@@ -114,7 +114,7 @@ sub getNetworkMaskIPv6 {
     return ip_compress_address(ip_bintoip(ip_get_mask($prefix, 6), 6), 6);
 }
 
-sub resolv {
+sub resolve {
     my ($string, $logger) = @_;
 
     my @ret;
@@ -158,7 +158,7 @@ sub compile {
         if $string =~ /^$ip_address_pattern/;
 
     # otherwise resolve the name
-    return resolv($string, $logger);
+    return resolve($string, $logger);
 }
 
 sub isPartOf {
