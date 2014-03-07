@@ -10,6 +10,7 @@ use IO::Handle;
 use Net::IP;
 use Text::Template;
 use File::Glob;
+use URI;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools::Network;
@@ -29,31 +30,22 @@ sub new {
     };
     bless $self, $class;
 
-    $self->{trust} = $self->_parseAddresses($params{trust})
-        if $params{trust};
-
-    return $self;
-}
-
-sub _parseAddresses {
-    my ($self, $strings) = @_;
-
-    return unless $strings;
-
-    my @addresses;
-
-    foreach my $string (@$strings) {
-
-        # push ip addresses directly in the list
-        if ($string =~ /^$ip_address_pattern/) {
-            push @addresses, Net::IP->new($string);
-            next;
+    # compute addresses allowed for push requests
+    foreach my $target ($self->{agent}->getTargets()) {
+        next unless $target->isa('FusionInventory::Agent::Target::Server');
+        my $url  = $target->getUrl();
+        my $host = URI->new($url)->host();
+        my @addresses = compile($host);
+        $self->{trust}->{$url} = \@addresses;
+    }
+    if ($params{trust}) {
+        foreach my $string (@{$params{trust}}) {
+            my @addresses = compile($string);
+            $self->{trust}->{$string} = \@addresses if @addresses;
         }
-
-        push @addresses, resolv($string);
     }
 
-    return \@addresses;
+    return $self;
 }
 
 sub _handle {
@@ -208,14 +200,30 @@ sub _handle_now {
     my $logger = $self->{logger};
 
     my ($code, $message, $trace);
-    if ($self->_isTrusted($clientIp)) {
+
+    BLOCK: {
         foreach my $target ($self->{agent}->getTargets()) {
+            next unless $target->isa('FusionInventory::Agent::Target::Server');
+            my $url       = $target->getUrl();
+            my $addresses = $self->{trust}->{$url};
+            next unless isPartOf($clientIp, $addresses, $logger);
             $target->setNextRunDate(1);
+            $code    = 200;
+            $message = "OK";
+            $trace   = "rescheduling next contact for target $url right now";
+            last BLOCK;
         }
-        $code    = 200;
-        $message = "OK";
-        $trace   = "valid request, forcing execution right now";
-    } else {
+
+        if ($self->_isTrusted($clientIp)) {
+            foreach my $target ($self->{agent}->getTargets()) {
+                $target->setNextRunDate(1);
+            }
+            $code    = 200;
+            $message = "OK";
+            $trace   = "rescheduling next contact for all targets right now";
+            last BLOCK;
+        }
+
         $code    = 403;
         $message = "Access denied";
         $trace   = "invalid request (untrusted address)";
@@ -254,34 +262,15 @@ sub _handle_status {
 }
 
 sub _isTrusted {
-    my ($self, $clientIp) = @_;
+    my ($self, $address) = @_;
 
-    my $logger = $self->{logger};
-
-    my $source  = Net::IP->new($clientIp);
-
-    if (!$source) {
-        $logger->error("Not well formatted source IP: $clientIp");
-        return;
-    }
-
-    return 0 unless $source;
-    return 0 unless $self->{trust};
-
-    foreach my $trust (@{$self->{trust}}) {
-        my $result = $source->overlaps($trust);
-
-        if (!$result && Net::IP::Error()) {
-            $logger->debug("Server: ".Net::IP::Error());
-            next;
-        }
-
-        # included in trusted range
-        return 1 if $result == $IP_A_IN_B_OVERLAP;
-
-        # equals trusted address
-        return 1 if $result == $IP_IDENTICAL;
-
+    foreach my $trusted_addresses (values %{$self->{trust}}) {
+        return 1
+            if isPartOf(
+                $address,
+                $trusted_addresses,
+                $self->{logger}
+            );
     }
 
     return 0;

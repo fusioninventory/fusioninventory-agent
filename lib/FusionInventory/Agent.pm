@@ -170,21 +170,13 @@ sub init {
         if ($EVAL_ERROR) {
             $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
         } else {
-            # compute trusted addresses
-            my $trust = $config->{'httpd-trust'};
-            if ($config->{server}) {
-                foreach my $url (@{$config->{server}}) {
-                    push @{$config->{'httpd-trust'}}, URI->new($url)->host();
-                }
-            }
-
             $self->{server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
                 agent           => $self,
                 htmldir         => $self->{datadir} . '/html',
                 ip              => $config->{'httpd-ip'},
                 port            => $config->{'httpd-port'},
-                trust           => $trust
+                trust           => $config->{'httpd-trust'}
             );
             $self->{server}->init();
         }
