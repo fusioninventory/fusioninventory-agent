@@ -22,6 +22,8 @@ our @EXPORT = qw(
     hex2canonical
     alt2canonical
     resolv
+    compile
+    isPartOf
 );
 
 my $dec_byte        = qr/[0-9]{1,3}/;
@@ -146,6 +148,50 @@ sub resolv {
     return @ret;
 }
 
+sub compile {
+    my ($string, $logger) = @_;
+
+    return unless $string;
+
+    # that's already an IP address, just convert it
+    return Net::IP->new($string)
+        if $string =~ /^$ip_address_pattern/;
+
+    # otherwise resolve the name
+    return resolv($string, $logger);
+}
+
+sub isPartOf {
+    my ($string, $ranges, $logger) = @_;
+
+    return unless $string;
+    return unless $ranges;
+
+    my $address = Net::IP->new($string);
+
+    if (!$address) {
+        $logger->error("Not well formatted source IP: $string");
+        return;
+    }
+
+    foreach my $range (@{$ranges}) {
+        my $result = $address->overlaps($range);
+
+        if (!$result && Net::IP::Error()) {
+            $logger->debug("Server: ".Net::IP::Error());
+            next;
+        }
+
+        # included in trusted range
+        return 1 if $result == $IP_A_IN_B_OVERLAP;
+
+        # equals trusted address
+        return 1 if $result == $IP_IDENTICAL;
+    }
+
+    return 0;
+}
+
 1;
 __END__
 
@@ -201,6 +247,17 @@ Returns the network mask for IPv4.
 
 Returns the network mask for IPv6.
 
-=head2 resolv($string)
+=head2 resolve($host, $logger)
 
-Returns an array of Net::IP for the given $string
+Returns a list of addresses, as Net::IP objects, for the given host name, as a
+string.
+
+=head2 compile($spec, $logger)
+
+Returns a list of addresses, as Net::IP objects, for the given IP address or
+host name, as a string.
+
+=head2 isPartOf($address, $addresses, $logger)
+
+Returns true if the given address, as a string, is part of any address from the
+given list, as Net::IP objects.
