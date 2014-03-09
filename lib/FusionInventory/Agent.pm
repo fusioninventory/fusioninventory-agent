@@ -131,7 +131,6 @@ sub initControllers {
 sub daemonize {
     my ($self) = @_;
 
-    my $config = $self->{config};
     my $logger = $self->{logger};
 
     Proc::Daemon->require();
