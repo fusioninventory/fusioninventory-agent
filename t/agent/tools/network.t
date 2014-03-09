@@ -78,12 +78,12 @@ SKIP: {
 skip 'Author test', 2 unless $ENV{TEST_AUTHOR};
 
 ok(
-    resolv("localhost"),
-    "Can resolv localhost"
+    resolve("localhost"),
+    "Can resolve localhost"
 );
 
 ok(
-    resolv("www.google.com") > 2,
-    "Can resolv www.google.com"
+    resolve("www.google.com") > 2,
+    "Can resolve www.google.com"
 );
 }
