@@ -505,7 +505,7 @@ sub getInstance {
         }
     }
     my $instance;
-    
+
     eval {
         $instance = $params{class}->new(%{$params{params}});
     };

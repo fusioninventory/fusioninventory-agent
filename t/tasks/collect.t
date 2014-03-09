@@ -45,5 +45,3 @@ my $result = FusionInventory::Agent::Task::Collect::_getFromRegistry(
     path => 'nowhere'
 );
 ok(!defined($result), "_getFromRegistry ignores wrong registry path");
-
-

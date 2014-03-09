@@ -122,4 +122,3 @@ foreach my $test (keys %tests) {
         "WMI query"
     );
 }
-

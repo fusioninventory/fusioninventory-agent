@@ -64,7 +64,7 @@ sub _getRegistryData {
         } else {
 # TODO: broken in 2.3.x
             push @data, {section => 'REGISTRY', entry => {
-                    NAME => $name, 
+                    NAME => $name,
                     REGVALUE => encodeFromRegistry($value->{name})
                 }
             };

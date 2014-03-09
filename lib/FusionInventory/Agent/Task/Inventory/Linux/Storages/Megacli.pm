@@ -50,7 +50,7 @@ sub doInventory {
 
             # Lookup the disk info in 'ShowSummary'
             while (my ($sum_id, $sum) = each %{$summary{$adp_id}}) {
-                next unless 
+                next unless
                     $adp->{$sum->{encl_id}} == $pd->{'Enclosure Device ID'} &&
                     $sum->{encl_pos}        == $pd->{'Enclosure position'} &&
                     $sum->{slot}            == $pd->{'Slot Number'};

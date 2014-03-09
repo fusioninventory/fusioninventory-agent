@@ -68,7 +68,7 @@ sub scan {
 
 sub finish {
     my ($self) = @_;
-    
+
     # set all threads in EXIT state
     $_ = EXIT foreach @{$self->{states}};
     delay(1);

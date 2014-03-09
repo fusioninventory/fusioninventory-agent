@@ -28,7 +28,7 @@ sub getContent {
 
     my $declaration = '<?xml version="1.0" encoding="UTF-8" ?>';
     if ($self->{stylesheet}) {
-        $declaration .= 
+        $declaration .=
             "\n" .
             '<?xml-stylesheet type= "text/xsl" href= "' .
             $self->{stylesheet} .

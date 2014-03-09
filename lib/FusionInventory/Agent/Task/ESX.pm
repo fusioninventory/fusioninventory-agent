@@ -48,7 +48,7 @@ sub getConfiguration {
 
     my @remotes =
         grep { $_ }
-        map  { $_->{remote} } 
+        map  { $_->{remote} }
         grep { $_->{task} eq "ESX" }
         @{$schedule};
 

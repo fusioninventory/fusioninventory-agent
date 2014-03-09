@@ -1554,7 +1554,7 @@ sub _getAggregatePorts {
         while (my ($port_id, $portShortNumFind) = each %{$allPorts}) {
             next unless $portShortNum == $portShortNumFind;
             push @{$results->{$aggregatePort_id}}, $port_id;
-        }         
+        }
     }
 
     while (my ($port_id, $portShortNum) = each %{$pagpPorts}) {

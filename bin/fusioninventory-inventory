@@ -124,7 +124,7 @@ verbose output (control messages)
 debug output (execution traces)
 
 =back
-    
+
 =head1 EXAMPLES
 
     $> fusioninventory-inventory
