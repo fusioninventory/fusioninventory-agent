@@ -102,31 +102,10 @@ sub _scanAddressByNetbios {
 sub _scanAddressBySNMP {
     my ($self, $address) = @_;
 
-    my %device;
     foreach my $credential (@{$self->{snmp_credentials}}) {
+        my %device = $self->_scanAddressBySNMPReal($address, $credential);
 
-        my $snmp;
-        eval {
-            $snmp = FusionInventory::Agent::SNMP::Live->new(
-                hostname     => $address,
-                timeout      => $self->{timeout},
-                %$credential
-            );
-        };
-        if ($EVAL_ERROR) {
-            $self->{logger}->error(
-                "Unable to create SNMP session for $address: $EVAL_ERROR"
-            );
-            next;
-        }
-
-        %device = getDeviceInfo(
-            snmp       => $snmp,
-            dictionary => $self->{snmp_dictionary},
-            datadir    => $self->{datadir},
-        );
-
-        # no device just means invalid credentials
+        # no result means either no host, no response, or invalid credentials
         $self->{logger}->debug2(
             sprintf "scanning %s with snmp credentials %d: %s",
             $address,
@@ -134,14 +113,43 @@ sub _scanAddressBySNMP {
             %device ? 'success' : 'failure'
         );
 
-        next unless %device;
-
-        $device{AUTHSNMP} = $credential->{id};
-
-        last;
+        if (%device) {
+            $device{AUTHSNMP} = $credential->{id};
+            return %device;
+        }
     }
 
-    return %device;
+    return;
+}
+
+sub _scanAddressBySNMPReal {
+    my ($self, $address, $credential) = @_;
+
+    my $snmp;
+    eval {
+        $snmp = FusionInventory::Agent::SNMP::Live->new(
+            hostname     => $address,
+            timeout      => $self->{timeout},
+            %$credential
+        );
+    };
+    if ($EVAL_ERROR) {
+        # SNMPv3 exception for non-responding host
+        return if $EVAL_ERROR =~ /^No response from remote host/;
+        # SNMPv3 exception for invalid credentials
+        return if $EVAL_ERROR =~ /^Received usmStatsWrongDigests/;
+        # other exception
+        $self->{logger}->error(
+            "Unable to create SNMP session for $address: $EVAL_ERROR\n"
+        );
+        return;
+    }
+
+    return getDeviceInfo(
+        snmp       => $snmp,
+        dictionary => $self->{snmp_dictionary},
+        datadir    => $self->{datadir},
+    );
 }
 
 sub _parseNmap {
