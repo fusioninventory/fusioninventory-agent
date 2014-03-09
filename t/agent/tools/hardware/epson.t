@@ -6,7 +6,9 @@ use lib 't/lib';
 use Test::More;
 use Test::Deep qw(cmp_deeply);
 
+use FusionInventory::Agent::SNMP::Mock;
 use FusionInventory::Agent::Tools::Hardware;
+use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 
 my %tests = (
     'epson/AL-C1100.walk' => [
