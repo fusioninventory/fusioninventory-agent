@@ -125,7 +125,6 @@ sub get {
 
 
     my $value = $response->{$oid};
-    chomp $value;
 
     return $value;
 }
@@ -150,7 +149,6 @@ sub walk {
 
     foreach my $oid (keys %{$response}) {
         my $value = $response->{$oid};
-        chomp $value;
         $values->{substr($oid, $offset)} = $value;
     }
 
