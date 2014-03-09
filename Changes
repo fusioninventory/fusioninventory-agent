@@ -13,6 +13,8 @@ inventory task:
 netinventory task:
 * fix SNMPv3 credentials handling
 * fix mac address retrieval on non-default VLANs
+* fix LLDP info retrieval for some hardware
+* fix memory exhaustion for some hardware (#2414)
 
 netdiscovery task:
 * fix SNMPv3 credentials handling
