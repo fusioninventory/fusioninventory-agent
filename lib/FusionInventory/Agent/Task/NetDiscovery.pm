@@ -464,7 +464,7 @@ sub _scanAddressBySNMP {
         );
 
         # no result means either no host, no response, or invalid credentials
-        $self->{logger}->debug2(
+        $self->{logger}->debug(
             sprintf "thread %d: scanning %s with snmp credentials %d: %s",
             threads->tid(),
             $params{ip},
