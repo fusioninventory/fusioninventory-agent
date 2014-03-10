@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.3.6
+2.3.6 Mon, 10 Mar 2014 11:21:12 +0100
 core:
 * abort with explicit error message when there is 
   no available task
@@ -15,6 +15,8 @@ netinventory task:
 * fix mac address retrieval on non-default VLANs
 * fix LLDP info retrieval for some hardware
 * fix memory exhaustion for some hardware (#2414)
+* use get-next-requests instead of get-bulk-requests, slower but safer,
+  especially with large gaps in indexes
 
 netdiscovery task:
 * fix SNMPv3 credentials handling
