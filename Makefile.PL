@@ -1,4 +1,3 @@
-
 use inc::Module::Install;
 use English qw(-no_match_vars);
 
@@ -199,7 +198,8 @@ sub install {
     $install .= <<'EOF';
 
 config_install :
-	install -d -m 755 $(DESTDIR)$(SYSCONFDIR)
+	mkdir -p 755 $(DESTDIR)$(SYSCONFDIR)
+	chmod 755 $(DESTDIR)$(SYSCONFDIR)
 	if [ -f $(DESTDIR)/$(SYSCONFDIR)/agent.cfg ]; then \
 	    install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg.new; \
 	else \
@@ -207,11 +207,13 @@ config_install :
 	fi
 
 data_install :
-	install -d -m 755 $(DESTDIR)$(DATADIR)
+	mkdir -p 755 $(DESTDIR)$(DATADIR)
+	chmod 755 $(DESTDIR)$(DATADIR)
 	install -m 644 share/pci.ids $(DESTDIR)$(DATADIR)/
 	install -m 644 share/usb.ids $(DESTDIR)$(DATADIR)/
 	install -m 644 share/sysobjectid.*.ids $(DESTDIR)$(DATADIR)/
-	install -d -m 755 $(DESTDIR)$(DATADIR)/html
+	mkdir -p $(DESTDIR)$(DATADIR)/html
+	chmod 755 $(DESTDIR)$(DATADIR)/html
 	install -m 644 share/html/* $(DESTDIR)$(DATADIR)/html
 EOF
     return $install;
