@@ -8,6 +8,9 @@ core
   - retrieve some keys from the registry,
   - collect some values from WMI objects
 
+inventory:
+* collect libvirt-LXC UUID, thanks Alexander Evseev
+
 2.3.2  Fri, 20 Sep 2013 10:52:30 +0200
 core
 * avoid some warning messages
