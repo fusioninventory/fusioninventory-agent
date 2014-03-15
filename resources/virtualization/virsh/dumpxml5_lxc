@@ -1,0 +1,36 @@
+<domain type='lxc' id='11907'>
+  <name>vm1</name>
+  <uuid>8e790dce-d6b5-4575-a765-c8cde17298d8</uuid>
+  <memory unit='KiB'>500000</memory>
+  <currentMemory unit='KiB'>500000</currentMemory>
+  <vcpu placement='static'>1</vcpu>
+  <resource>
+    <partition>/machine</partition>
+  </resource>
+  <os>
+    <type arch='x86_64'>exe</type>
+    <init>/bin/sh</init>
+  </os>
+  <clock offset='utc'/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <emulator>/usr/lib/libvirt/libvirt_lxc</emulator>
+    <filesystem type='mount' accessmode='passthrough'>
+      <source dir='/'/>
+      <target dir='/'/>
+    </filesystem>
+    <interface type='network'>
+      <mac address='52:54:00:d7:83:09'/>
+      <source network='default'/>
+      <target dev='vnet2'/>
+    </interface>
+    <console type='pty' tty='/dev/pts/8'>
+      <source path='/dev/pts/8'/>
+      <target type='lxc' port='0'/>
+      <alias name='console0'/>
+    </console>
+  </devices>
+  <seclabel type='none'/>
+</domain>

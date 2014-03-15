@@ -110,7 +110,12 @@ my %dumpxml_tests = (
           uuid   => 'a28ff943-8d89-38ee-fd28-1e675142951c',
           vcpu   => '1'
     },
-
+    dumpxml5_lxc => {
+          memory => 500,
+          vmtype => 'lxc',
+          uuid   => '8e790dce-d6b5-4575-a765-c8cde17298d8',
+          vcpu   => '1'
+    },
 );
 
 

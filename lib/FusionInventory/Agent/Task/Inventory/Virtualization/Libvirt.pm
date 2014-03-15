@@ -23,19 +23,29 @@ sub doInventory {
             section => 'VIRTUALMACHINES', entry => $machine
         );
     }
+
+    foreach my $machine (_getMachines(logger => $logger, uri => 'lxc:///')) {
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES', entry => $machine
+        );
+    }
+
 }
 
 sub _getMachines {
     my (%params) = @_;
 
+
+    my $uri_param = $params{'uri'} ? "-c ".$params{'uri'} : "";
+
     my @machines = _parseList(
-        command => 'virsh list --all',
+        command => "virsh $uri_param list --all",
         logger  => $params{logger}
     );
 
     foreach my $machine (@machines) {
         my %infos = _parseDumpxml(
-            command => "virsh dumpxml $machine->{NAME}",
+            command => "virsh $uri_param dumpxml $machine->{NAME}",
             logger  => $params{logger}
         );
 
