@@ -186,7 +186,7 @@ sub _getType {
         file    => '/proc/1/environ',
         pattern => qr/container=lxc/
     )) {
-        return 'LXC';
+        return 'lxc';
     }
 
     # OpenVZ
