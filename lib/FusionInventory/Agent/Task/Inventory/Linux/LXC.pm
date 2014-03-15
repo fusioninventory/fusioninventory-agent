@@ -20,19 +20,5 @@ sub doInventory {
     $inventory->setHardware($hardware) if $hardware;
 }
 
-sub _getLibvirtLXC_UUID {
-
-    my @environ = split( '\0', getAllLines( file => "/proc/1/environ" ) );
-
-    my $hardware;
-    foreach my $var (@environ) {
-      if ( $var =~ /^LIBVIRT_LXC_UUID/) {
-        my ( $name, $value ) = split( '=', $var );
-        $hardware = { UUID => $value };
-      }
-    }
-
-    return $hardware;
-}
 
 1;
