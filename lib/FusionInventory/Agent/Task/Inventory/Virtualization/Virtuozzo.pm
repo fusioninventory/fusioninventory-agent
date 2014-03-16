@@ -8,11 +8,7 @@ use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
     # Avoid duplicated entry with libvirt
-    return if getFirstMatch(
-        command => "virsh uri",
-        pattern => "openvz:///system"
-    );
-
+    return if canRun('virsh');
 
     return canRun('vzlist');
 }
