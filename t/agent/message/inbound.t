@@ -12,7 +12,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Message::Inbound;
 
 my %tests = (
-    message1 => {
+    registry => {
         OPTION => [
             {
                 NAME => 'REGISTRY',
@@ -43,7 +43,7 @@ my %tests = (
         RESPONSE => 'SEND',
         PROLOG_FREQ => '1'
     },
-    message2 => {
+    netinventory3 => {
         OPTION => [
             {
                 AUTHENTICATION => [
@@ -143,7 +143,7 @@ my %tests = (
         ],
         PROCESSNUMBER => '1280265498/024'
     },
-    message3 => {
+    netdiscovery => {
         OPTION => [
             {
                 AUTHENTICATION => [
@@ -188,7 +188,7 @@ my %tests = (
         ],
         PROCESSNUMBER => '1280265592/024'
     },
-    message4 => {
+    wakeonlan => {
         RESPONSE => 'SEND',
         OPTION => [
             {
@@ -225,7 +225,7 @@ my %tests = (
 plan tests => 2 * (scalar keys %tests);
 
 foreach my $test (keys %tests) {
-    my $file = "resources/xml/response/$test.xml";
+    my $file = "resources/messages/$test.xml";
     my $string = getAllLines(file => $file);
     my $message = FusionInventory::Agent::Message::Inbound->new(
         content => $string

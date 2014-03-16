@@ -12,7 +12,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Message::Inbound;
 
 my %messages = (
-    message2 => {
+    netinventory1 => {
         pid     => '1280265498/024',
         timeout => undef,
         threads => 4,
@@ -50,7 +50,7 @@ my %messages = (
             }
         ]
     },
-    message3 => {
+    netinventory2 => {
         'pid'     => '1280265498/024',
         'timeout' => undef,
         'threads' => '4',
