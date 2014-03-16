@@ -35,17 +35,6 @@ sub getDmidecodeInfos {
         @_
     );
 
-    if ($OSNAME eq 'MSWin32') {
-        # don't run dmidecode on Win2003
-        # http://forge.fusioninventory.org/issues/379
-        Win32->require();
-        my @osver = Win32::GetOSVersion();
-        return if
-            $osver[4] == 2 &&
-            $osver[1] == 5 &&
-            $osver[2] == 2;
-    }
-
     my $handle = getFileHandle(%params);
     return unless $handle;
     my ($info, $block, $type);
