@@ -13,7 +13,6 @@ use FusionInventory::Agent::Tools::Network;
 our @EXPORT = qw(
     getDeviceInfo
     getDeviceFullInfo
-    loadModel
 );
 
 my %types = (
@@ -692,7 +691,6 @@ sub getDeviceFullInfo {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
-    my $model  = $params{model};
     my $logger = $params{logger};
 
     # first, let's retrieve basic device informations
@@ -709,12 +707,8 @@ sub getDeviceFullInfo {
 
     # device TYPE is set either:
     # - from the server request,
-    # - from the model type
     # - from initial identification
-    $info{TYPE} =
-            $params{type}            ? $params{type}          :
-            $model && $model->{TYPE} ? $types{$model->{TYPE}} :
-                                       $info{TYPE}            ;
+    $info{TYPE} = $params{type} || $info{TYPE};
 
     # second, use results to build the object
     my $device = { INFO => \%info };
@@ -722,22 +716,19 @@ sub getDeviceFullInfo {
     _setGenericProperties(
         device => $device,
         snmp   => $snmp,
-        model  => $model,
         logger => $logger
     );
 
     _setPrinterProperties(
-        device  => $device,
+        device => $device,
         snmp   => $snmp,
-        model  => $model,
         logger => $logger
     ) if $info{TYPE} && $info{TYPE} eq 'PRINTER';
 
     _setNetworkingProperties(
-        device      => $device,
-        snmp        => $snmp,
-        model       => $model,
-        logger      => $logger
+        device  => $device,
+        snmp    => $snmp,
+        logger  => $logger
     ) if $info{TYPE} && $info{TYPE} eq 'NETWORKING';
 
     # convert ports hashref to an arrayref, sorted by interface number
@@ -760,52 +751,24 @@ sub _setGenericProperties {
 
     my $device = $params{device};
     my $snmp   = $params{snmp};
-    my $model  = $params{model};
     my $logger = $params{logger};
-
-    my $firmware;
-    if ($model->{oids}->{firmware}) {
-        $firmware = $snmp->get($model->{oids}->{firmware});
-    } else {
-        my @parts;
-        if ($model->{oids}->{firmware1}) {
-            my $firmware1 = $snmp->get($model->{oids}->{firmware1});
-            push @parts, $firmware1 if $firmware1;
-        }
-        if ($model->{oids}->{firmware2}) {
-            my $firmware2 = $snmp->get($model->{oids}->{firmware2});
-            push @parts, $firmware2 if $firmware2;
-        }
-        $firmware = join(' ', @parts) if @parts;
-    }
-    $device->{INFO}->{FIRMWARE} = $firmware if $firmware;
 
     foreach my $key (keys %base_variables) {
         # don't overwrite known values
         next if $device->{INFO}->{$key};
 
         my $variable = $base_variables{$key};
+        next unless $variable->{default};
+
         my $raw_value;
-
-        # first, try model mapping, if defined
-        if ($model->{oids}->{$variable->{mapping}}) {
-            $raw_value = $snmp->get($model->{oids}->{$variable->{mapping}});
-        }
-
-        # second, try default value, if defined
-        if (!defined $raw_value) {
-            if ($variable->{default}) {
-                if (ref $variable->{default} eq 'ARRAY') {
-                    foreach my $default (@{$variable->{default}}) {
-                        $raw_value = $snmp->get($default);
-                        last if defined $raw_value;
-                    }
-                } else {
-                    $raw_value = $snmp->get($variable->{default});
-                }
+        if (ref $variable->{default} eq 'ARRAY') {
+            foreach my $default (@{$variable->{default}}) {
+                $raw_value = $snmp->get($default);
+                last if defined $raw_value;
             }
+        } else {
+            $raw_value = $snmp->get($variable->{default});
         }
-
         next unless defined $raw_value;
 
         my $type = $variable->{type};
@@ -820,9 +783,7 @@ sub _setGenericProperties {
         $device->{INFO}->{$key} = $value if defined $value;
     }
 
-    my $results = $snmp->walk(
-        $model->{oids}->{ipAdEntAddr} || '.1.3.6.1.2.1.4.20.1.1'
-    );
+    my $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.1');
     $device->{INFO}->{IPS}->{IP} =  [
         sort values %{$results}
     ] if $results;
@@ -832,26 +793,16 @@ sub _setGenericProperties {
 
     foreach my $key (keys %interface_variables) {
         my $variable = $interface_variables{$key};
+        next unless $variable->{default};
 
         my $results;
-
-        # first, try model mapping, if defined
-        if ($model->{oids}->{$variable->{mapping}}) {
-            $results = $snmp->walk($model->{oids}->{$variable->{mapping}});
-        }
-
-        # second, try default value, if defined
-        if (!$results) {
-            if ($variable->{default}) {
-                if (ref $variable->{default} eq 'ARRAY') {
-                    foreach my $default (@{$variable->{default}}) {
-                        $results = $snmp->walk($default);
-                        last if $results;
-                    }
-                } else {
-                    $results = $snmp->walk($variable->{default});
-                }
+        if (ref $variable->{default} eq 'ARRAY') {
+            foreach my $default (@{$variable->{default}}) {
+                $results = $snmp->walk($default);
+                last if $results;
             }
+        } else {
+            $results = $snmp->walk($variable->{default});
         }
         next unless $results;
 
@@ -869,9 +820,7 @@ sub _setGenericProperties {
         }
     }
 
-    $results = $snmp->walk(
-        $model->{oids}->{ifaddr} || '.1.3.6.1.2.1.4.20.1.2'
-    );
+    $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');
     # each result matches the following scheme:
     # $prefix.$i.$j.$k.$l = $value
     # with $i.$j.$k.$l as IP address, and $value as port id
@@ -898,26 +847,13 @@ sub _setPrinterProperties {
 
     my $device = $params{device};
     my $snmp   = $params{snmp};
-    my $model  = $params{model};
     my $logger = $params{logger};
 
     if (!$device->{INFO}->{MODEL}) {
-        $device->{INFO}->{MODEL} = $snmp->get(
-            $model->{oids}->{model} || '.1.3.6.1.2.1.25.3.2.1.3.1'
-        );
+        $device->{INFO}->{MODEL} = $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1');
     }
 
     # consumable levels
-
-    # index model-provided mappings
-    my %consumable_variables_from_oids;
-    foreach my $key (sort keys %consumable_variables_from_mappings) {
-        next unless $model->{oids}->{$key};
-        my $variable = $consumable_variables_from_mappings{$key};
-        $consumable_variables_from_oids{$model->{oids}->{$key}} = $variable;
-    }
-
-    # enumerate consumables
     foreach my $index (1 .. 10) {
         my $description_oid = '.1.3.6.1.2.1.43.11.1.1.6.1.' . $index;
         my $description = hex2char($snmp->get($description_oid));
@@ -935,7 +871,6 @@ sub _setPrinterProperties {
 
         # consumable identification
         my $variable =
-            $consumable_variables_from_oids{$description_oid} ||
             _getConsumableVariableFromDescription($description);
 
         next unless $variable;
@@ -946,8 +881,7 @@ sub _setPrinterProperties {
     # page counters
     foreach my $key (keys %printer_pagecounters_variables) {
         my $variable = $printer_pagecounters_variables{$key};
-        my $oid = $model->{oids}->{$variable->{mapping}} ||
-                  $variable->{default};
+        my $oid = $variable->{default};
         my $value = $snmp->get($oid);
         next unless defined $value;
         if (!_isInteger($value)) {
@@ -992,23 +926,18 @@ sub _setNetworkingProperties {
 
     my $device = $params{device};
     my $snmp   = $params{snmp};
-    my $model  = $params{model};
     my $logger = $params{logger};
 
     if (!$device->{INFO}->{MODEL}) {
-        $device->{INFO}->{MODEL} = $snmp->get(
-            $model->{oids}->{entPhysicalModelName} || '.1.3.6.1.2.1.47.1.1.1.1.13.1'
-        )
+        $device->{INFO}->{MODEL} = $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1');
     }
 
     my $ports    = $device->{PORTS}->{PORT};
 
-    my $vlans = $snmp->walk($model->{oids}->{vtpVlanName} || '.1.3.6.1.4.1.9.9.46.1.3.1.1.4.1');
+    my $vlans = $snmp->walk('.1.3.6.1.4.1.9.9.46.1.3.1.1.4.1');
 
     # Detect VLAN
-    my $results = $snmp->walk(
-        $model->{oids}->{vmvlan} || '.1.3.6.1.4.1.9.9.68.1.2.2.1.2'
-    );
+    my $results = $snmp->walk('.1.3.6.1.4.1.9.9.68.1.2.2.1.2');
     # each result matches either of the following schemes:
     # $prefix.$i.$j = $value, with $j as port id, and $value as vlan id
     # $prefix.$i    = $value, with $i as port id, and $value as vlan id
@@ -1032,14 +961,12 @@ sub _setNetworkingProperties {
 
     _setTrunkPorts(
         snmp   => $snmp,
-        model  => $model,
         ports  => $ports,
         logger => $logger
     );
 
     _setConnectedDevicesInfo(
         snmp   => $snmp,
-        model  => $model,
         ports  => $ports,
         logger => $logger,
         vendor => $device->{INFO}->{MANUFACTURER}
@@ -1047,7 +974,6 @@ sub _setNetworkingProperties {
 
     _setAssociatedMacAddresses(
         snmp         => $snmp,
-        model        => $model,
         ports        => $ports,
         logger       => $logger,
     );
@@ -1067,25 +993,6 @@ sub _getPercentValue {
 
 sub _isInteger {
     $_[0] =~ /^[+-]?\d+$/;
-}
-
-
-sub loadModel {
-    my ($file) = @_;
-
-    my $model = XML::TreePP->new()->parsefile($file)->{model};
-
-    my %oids =
-        map  { $_->{mapping_name} => $_->{oid} }
-        grep { $_->{mapping_name} }
-        @{$model->{oidlist}->{oidobject}};
-
-    return {
-        ID   => 1,
-        NAME => $model->{name},
-        TYPE => $model->{type},
-        oids => \%oids
-    }
 }
 
 sub _getCanonicalMacAddress {
@@ -1359,24 +1266,13 @@ sub _getConnectedDevicesInfoCDP {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
-    my $model  = $params{model};
 
     my $results;
-    my $cdpCacheAddress    = $snmp->walk(
-        $model->{oids}->{cdpCacheAddress}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.4'
-    );
-    my $cdpCacheVersion    = $snmp->walk(
-        $model->{oids}->{cdpCacheVersion}    || '.1.3.6.1.4.1.9.9.23.1.2.1.1.5'
-    );
-    my $cdpCacheDeviceId   = $snmp->walk(
-        $model->{oids}->{cdpCacheDeviceId}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.6'
-    );
-    my $cdpCacheDevicePort = $snmp->walk(
-        $model->{oids}->{cdpCacheDevicePort} || '.1.3.6.1.4.1.9.9.23.1.2.1.1.7'
-    );
-    my $cdpCachePlatform   = $snmp->walk(
-        $model->{oids}->{cdpCachePlatform}   || '.1.3.6.1.4.1.9.9.23.1.2.1.1.8'
-    );
+    my $cdpCacheAddress    = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.4');
+    my $cdpCacheVersion    = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.5');
+    my $cdpCacheDeviceId   = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.6');
+    my $cdpCacheDevicePort = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.7');
+    my $cdpCachePlatform   = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.8');
 
     # each cdp variable matches the following scheme:
     # $prefix.x.y = $value
@@ -1411,24 +1307,13 @@ sub _getConnectedDevicesInfoLLDP {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
-    my $model  = $params{model};
 
     my $results;
-    my $lldpRemChassisId = $snmp->walk(
-        $model->{oids}->{lldpRemChassisId} || '.1.0.8802.1.1.2.1.4.1.1.5'
-    );
-    my $lldpRemPortId    = $snmp->walk(
-        $model->{oids}->{lldpRemPortId}    || '.1.0.8802.1.1.2.1.4.1.1.7'
-    );
-    my $lldpRemPortDesc  = $snmp->walk(
-        $model->{oids}->{lldpRemPortDesc}  || '.1.0.8802.1.1.2.1.4.1.1.8'
-    );
-    my $lldpRemSysName   = $snmp->walk(
-        $model->{oids}->{lldpRemSysName}   || '.1.0.8802.1.1.2.1.4.1.1.9'
-    );
-    my $lldpRemSysDesc   = $snmp->walk(
-        $model->{oids}->{lldpRemSysDesc}   || '.1.0.8802.1.1.2.1.4.1.1.10'
-    );
+    my $lldpRemChassisId = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.5');
+    my $lldpRemPortId    = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.7');
+    my $lldpRemPortDesc  = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.8');
+    my $lldpRemSysName   = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.9');
+    my $lldpRemSysDesc   = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.10');
 
     # dot1dBasePortIfIndex
     my $port2interface = $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');
@@ -1458,7 +1343,6 @@ sub _setTrunkPorts {
 
     my $trunk_ports = _getTrunkPorts(
         snmp  => $params{snmp},
-        model => $params{model}
     );
     return unless $trunk_ports;
 
@@ -1480,13 +1364,9 @@ sub _getTrunkPorts {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
-    my $model  = $params{model};
 
     my $results;
-    my $vlanStatus = $snmp->walk(
-        $model->{oids}->{vlanTrunkPortDynamicStatus} ||
-        '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
-    );
+    my $vlanStatus = $snmp->walk('.1.3.6.1.4.1.9.9.46.1.6.1.1.14');
 
     # Values:
     # 1 : trunking
@@ -1514,15 +1394,8 @@ This module provides some hardware-related functions.
 
 =head2 getDeviceInfo(%params)
 
-return a limited set of information for a device through SNMP, according to a
-set of rules hardcoded in the agent and the usage of generic knowledge base.
+return a limited set of information for a device through SNMP.
 
 =head2 getDeviceFullInfo(%params)
 
-return a full set of information for a device through SNMP, according to a
-set of rules hardcoded in the agent and the usage of a device-specific set of mappings, the model.
-
-=head2 loadModel($file)
-
-Load an SNMP description model from given file.
-
+return a full set of information for a device through SNMP.
