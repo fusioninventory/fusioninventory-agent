@@ -564,6 +564,12 @@ sub getDeviceBaseInfo {
     my $hostname = $snmp->get('.1.3.6.1.2.1.1.5.0');
     $device{SNMPHOSTNAME} = $hostname if $hostname;
 
+    my $mac = _getMacAddress($snmp);
+    $device{MAC} = $mac if $mac;
+
+    my $serial = _getSerial($snmp, $device{TYPE});
+    $device{SERIAL} = $serial if $serial;
+
     return %device;
 }
 
@@ -659,19 +665,7 @@ sub _getMacAddress {
 sub getDeviceInfo {
     my (%params) = @_;
 
-    my $snmp       = $params{snmp};
-
-    # the device is initialized with basic information
-    # deduced from its sysdescr
-    my %device = getDeviceBaseInfo($snmp, $params{datadir});
-    return unless %device;
-
-    $device{MAC} = _getMacAddress($snmp);
-
-    my $serial = _getSerial($snmp, $device{TYPE});
-    $device{SERIAL} = $serial if $serial;
-
-    return %device;
+    return getDeviceBaseInfo($params{snmp}, $params{datadir});
 }
 
 sub _apply_rule {

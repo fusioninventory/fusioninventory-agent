@@ -33,6 +33,7 @@ my %tests = (
                 COMMENTS     => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
                 CONTACT      => 'nasadmin',
                 NAME         => 'server_2',
+                MAC          => '00:60:16:26:8a:02',
                 LOCATION     => 'here',
             },
             PORTS => {
@@ -247,6 +248,7 @@ my %tests = (
                 COMMENTS     => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
                 CONTACT      => 'nasadmin',
                 NAME         => 'server_2',
+                MAC          => '00:60:16:26:8a:02',
                 LOCATION     => 'here',
             },
             PORTS => {
@@ -460,6 +462,7 @@ my %tests = (
                 TYPE         => 'STORAGE',
                 COMMENTS     => 'CX3-10c - Flare 3.26.0.10.5.032',
                 NAME         => 'BNK5RD1',
+                MAC          => '00:60:16:1b:cd:7a',
                 UPTIME       => '(2246605893) 260 days, 0:34:18.93',
             },
             PORTS => {

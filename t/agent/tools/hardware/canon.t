@@ -37,6 +37,8 @@ my %tests = (
                 MODEL        => 'Canon LBP7660C',
                 COMMENTS     => 'Canon LBP7660C /P',
                 NAME         => 'LBP7660C',
+                MAC          => '88:87:17:82:ca:b1',
+                SERIAL       => 'MKCA002834',
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
@@ -121,6 +123,7 @@ my %tests = (
                 MODEL        => 'Canon MF4500 Series',
                 COMMENTS     => 'Canon MF4500 Series /P',
                 NAME         => 'MF4500 Series',
+                MAC          => '00:1e:8f:b0:9b:7d',
             },
             PAGECOUNTERS => {
                 TOTAL      => '659',
