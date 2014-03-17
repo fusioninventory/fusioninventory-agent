@@ -11,7 +11,6 @@ use FusionInventory::Agent::Tools; # runFunction
 use FusionInventory::Agent::Tools::Network;
 
 our @EXPORT = qw(
-    getDeviceBaseInfo
     getDeviceInfo
     getDeviceFullInfo
     loadModel
@@ -493,8 +492,11 @@ my %printer_pagecounters_variables = (
     FAXTOTAL   => { mapping => 'pagecountertotalpages_fax'   },
 );
 
-sub getDeviceBaseInfo {
-    my ($snmp, $datadir) = @_;
+sub getDeviceInfo {
+    my (%params) = @_;
+
+    my $snmp    = $params{snmp};
+    my $datadir = $params{datadir};
 
     # retrieve sysdescr value, as it is our primary identification key
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0'); # SNMPv2-MIB::sysDescr.0
@@ -662,12 +664,6 @@ sub _getMacAddress {
     return $address;
 }
 
-sub getDeviceInfo {
-    my (%params) = @_;
-
-    return getDeviceBaseInfo($params{snmp}, $params{datadir});
-}
-
 sub _apply_rule {
     my ($rule, $snmp) = @_;
 
@@ -700,7 +696,7 @@ sub getDeviceFullInfo {
     my $logger = $params{logger};
 
     # first, let's retrieve basic device informations
-    my %info = getDeviceBaseInfo($snmp, $params{datadir});
+    my %info = getDeviceInfo(%params);
     return unless %info;
 
     # unfortunatly, some elements differs between discovery
@@ -1515,11 +1511,6 @@ FusionInventory::Agent::Tools::Hardware - Hardware-related functions
 This module provides some hardware-related functions.
 
 =head1 FUNCTIONS
-
-=head2 getDeviceBaseInfo($snmp)
-
-return a minimal set of information for a device through SNMP, according to a
-set of rules hardcoded in the agent.
 
 =head2 getDeviceInfo(%params)
 
