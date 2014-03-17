@@ -10916,6 +10916,7 @@ my %tests = (
                 COMMENTS     => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
                 CONTACT      => 'noc-roc@inria.fr, +33 139 637 959',
                 NAME         => 'sw-bat02',
+                MAC          => '00:04:96:34:60:9e',
             },
             PORTS => {
                 PORT => [

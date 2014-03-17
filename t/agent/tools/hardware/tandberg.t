@@ -32,6 +32,7 @@ my %tests = (
                 TYPE         => 'VIDEO',
                 COMMENTS     => 'TANDBERG Codec',
                 NAME         => 'VISIO.1',
+                MAC          => '00:50:60:02:9b:79',
             },
             PORTS => {
                 PORT => [

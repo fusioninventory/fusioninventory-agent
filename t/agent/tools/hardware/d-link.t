@@ -33,6 +33,7 @@ my %tests = (
                 MODEL        => undef,
                 COMMENTS     => 'D-Link DP-303 Print Server',
                 NAME         => 'Print Server PS-57B3C4',
+                MAC          => '00:05:5d:57:b3:c4',
             },
             PORTS => {
                 PORT => [
@@ -105,6 +106,7 @@ my %tests = (
                 MODEL        => undef,
                 COMMENTS     => 'D-Link DP-303 Print Server',
                 NAME         => 'Print Server PS-57B3C7',
+                MAC          => '00:05:5d:57:b3:c7',
             },
             PORTS => {
                 PORT => [

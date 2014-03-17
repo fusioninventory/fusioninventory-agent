@@ -36,6 +36,7 @@ my %tests = (
                 MODEL        => 'Lexmark T622 41XT225  543.006',
                 COMMENTS     => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
                 NAME         => 'LXK3936A4',
+                MAC          => '00:04:00:9c:6c:25',
                 MEMORY       => '32',
                 IPS          => {
                     IP => [
@@ -175,6 +176,8 @@ my %tests = (
                 MODEL        => 'X792',
                 COMMENTS     => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
                 NAME         => 'ET0021B7427721',
+                MAC          => '00:21:b7:42:77:21',
+                SERIAL       => '7562029401523-96-0',
             },
             CARTRIDGES => {
                 TONERBLACK       => '90',
