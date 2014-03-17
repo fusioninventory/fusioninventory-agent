@@ -18,6 +18,7 @@ my %tests = (
             SNMPHOSTNAME => 'c0500a',
             MAC          => '9c:93:4e:02:92:55',
             MODEL        => 'ColorQube 8570DN',
+            SERIAL       => 'XFN132868',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -164,6 +165,7 @@ my %tests = (
             DESCRIPTION  => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
             MAC          => '00:00:aa:5c:1c:8c',
             MODEL        => 'DocuPrint N2125',
+            SERIAL       => '3510349171',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -265,6 +267,7 @@ my %tests = (
             SNMPHOSTNAME => 'AS_STEXU_IMP02',
             MAC          => '9c:93:4e:21:3c:a2',
             MODEL        => 'Phaser 3320',
+            SERIAL       => '3221156098',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -397,6 +400,7 @@ my %tests = (
             SNMPHOSTNAME => 'Phaser 5550DT',
             MAC          => '00:00:aa:d4:a2:fe',
             MODEL        => 'Phaser 5550DT',
+            SERIAL       => 'KNB015751',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -543,6 +547,7 @@ my %tests = (
             SNMPHOSTNAME => 'Phaser 5550DT-1',
             MAC          => '00:00:aa:d4:a4:cc',
             MODEL        => 'Phaser 5550DT',
+            SERIAL       => 'KNB015753',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -689,6 +694,7 @@ my %tests = (
             SNMPHOSTNAME => 'Phaser 6180MFP-D-E360D7',
             MAC          => '00:00:aa:e3:60:d7',
             MODEL        => 'Phaser 6180 MFP',
+            SERIAL       => 'GPX259705',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -787,6 +793,7 @@ my %tests = (
             SNMPHOSTNAME => 'cIT510a',
             MAC          => '00:00:aa:d7:5b:a0',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT261947',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -943,6 +950,7 @@ my %tests = (
             SNMPHOSTNAME => 'cIT524a',
             MAC          => '00:00:aa:c4:26:b0',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT261949',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -1099,6 +1107,7 @@ my %tests = (
             SNMPHOSTNAME => 'Phaser 8560DN',
             MAC          => '00:00:aa:c4:26:61',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT261946',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -1255,6 +1264,7 @@ my %tests = (
             SNMPHOSTNAME => 'c0211a',
             MAC          => '00:00:aa:c4:27:c4',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT261926',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -1411,6 +1421,7 @@ my %tests = (
             SNMPHOSTNAME => 'c1309a',
             MAC          => '00:00:aa:d2:c6:82',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT340010',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -1567,6 +1578,7 @@ my %tests = (
             SNMPHOSTNAME => 'c2410a',
             MAC          => '00:00:aa:c4:27:0f',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT261951',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -1723,6 +1735,7 @@ my %tests = (
             SNMPHOSTNAME => 'c3312a',
             MAC          => '00:00:aa:ab:92:93',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT163983',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -1879,6 +1892,7 @@ my %tests = (
             SNMPHOSTNAME => 'c0400a',
             MAC          => '00:00:aa:c4:27:29',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT261925',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -2035,6 +2049,7 @@ my %tests = (
             SNMPHOSTNAME => 'Phaser 8560DN-2',
             MAC          => '00:00:aa:a8:12:cf',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT133950',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -2191,6 +2206,7 @@ my %tests = (
             SNMPHOSTNAME => 'c2206a',
             MAC          => '00:00:aa:ab:95:be',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT163981',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -2347,6 +2363,7 @@ my %tests = (
             SNMPHOSTNAME => 'c1500a',
             MAC          => '00:00:aa:a7:e4:d3',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT133984',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -2503,6 +2520,7 @@ my %tests = (
             SNMPHOSTNAME => 'c1715a',
             MAC          => '00:00:aa:a7:e5:b6',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT133868',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -2659,6 +2677,7 @@ my %tests = (
             SNMPHOSTNAME => 'c3111a',
             MAC          => '00:00:aa:ab:96:82',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT164018',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -2815,6 +2834,7 @@ my %tests = (
             SNMPHOSTNAME => 'c3003a',
             MAC          => '00:00:aa:c4:28:2c',
             MODEL        => 'Phaser 8560DN',
+            SERIAL       => 'FBT261865',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -2967,6 +2987,7 @@ my %tests = (
             SNMPHOSTNAME => 'c1A110a-1',
             MAC          => '00:00:aa:95:17:a7',
             MODEL        => 'Phaser 8560DP',
+            SERIAL       => 'WYP050086',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -3123,6 +3144,7 @@ my %tests = (
             SNMPHOSTNAME => 'c2009a',
             MAC          => '00:00:aa:95:16:50',
             MODEL        => 'Phaser 8560DP',
+            SERIAL       => 'WYP050250',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -3279,6 +3301,7 @@ my %tests = (
             SNMPHOSTNAME => 'Phaser 8550DP',
             MAC          => '00:00:aa:95:17:a8',
             MODEL        => 'Phaser 8560DP',
+            SERIAL       => 'WYP050085',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -3435,6 +3458,7 @@ my %tests = (
             SNMPHOSTNAME => 'c2700a',
             MAC          => '00:00:aa:95:15:b8',
             MODEL        => 'Phaser 8560DP',
+            SERIAL       => 'WYP050251',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -3591,6 +3615,7 @@ my %tests = (
             SNMPHOSTNAME => 'ciT400a',
             MAC          => '00:00:aa:d2:c5:eb',
             MODEL        => 'Phaser 8560DT',
+            SERIAL       => 'FBT340011',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -3743,6 +3768,7 @@ my %tests = (
             SNMPHOSTNAME => 'SO007XN',
             MAC          => '00:00:aa:cf:9e:5a',
             MODEL        => 'WorkCentre 5632 v1',
+            SERIAL       => '3641509891',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -3890,6 +3916,7 @@ my %tests = (
             SNMPHOSTNAME => 'SO011XN',
             MAC          => '00:00:aa:cf:84:10',
             MODEL        => 'WorkCentre 5632 v1',
+            SERIAL       => '3641504792',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -4037,6 +4064,7 @@ my %tests = (
             SNMPHOSTNAME => 'XEROX WorkCentre 7125',
             MAC          => '08:00:37:b9:16:5d',
             MODEL        => 'WorkCentre 7125',
+            SERIAL       => '3325295030',
         },
         {
             MANUFACTURER => 'Xerox',
@@ -4234,6 +4262,7 @@ my %tests = (
             SNMPHOSTNAME => 'WorkCentre 7435',
             MAC          => '08:00:37:9b:8f:ca',
             MODEL        => 'WorkCentre 7435',
+            SERIAL       => '3900723635',
         },
         {
             MANUFACTURER => 'Xerox',

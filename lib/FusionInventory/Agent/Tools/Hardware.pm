@@ -602,6 +602,39 @@ sub _loadDeviceModels {
     return $models;
 }
 
+sub _getSerial {
+    my ($snmp, $type) = @_;
+
+    my @network_oids = (
+        '.1.3.6.1.2.1.47.1.1.1.1.11.1',    # Entity-MIB::entPhysicalSerialNum
+        '.1.3.6.1.2.1.47.1.1.1.1.11.2',    # Entity-MIB::entPhysicalSerialNum
+        '.1.3.6.1.2.1.47.1.1.1.1.11.1001', # Entity-MIB::entPhysicalSerialNum
+        '.1.3.6.1.4.1.2636.3.1.3.0',       # Juniper-MIB
+    );
+
+    my @printer_oids = (
+        '.1.3.6.1.2.1.43.5.1.1.17.1',      # Printer-MIB::prtGeneralSerialNumber
+        '.1.3.6.1.4.1.253.8.53.3.2.1.3.1',       # Xerox-MIB
+        '.1.3.6.1.4.1.367.3.2.1.2.1.4.0',        # Ricoh-MIB
+        '.1.3.6.1.4.1.641.2.1.2.1.6.1',          # Lexmark-MIB
+        '.1.3.6.1.4.1.1602.1.2.1.4.0',           # Canon-MIB
+        '.1.3.6.1.4.1.2435.2.3.9.4.2.1.5.5.1.0', # Brother-MIB
+    );
+
+    my @oids =
+        $type && $type eq 'NETWORKING' ? @network_oids :
+        $type && $type eq 'PRINTER'    ? @printer_oids :
+                                         (@network_oids, @printer_oids);
+
+    foreach my $oid (@oids) {
+        my $value = $snmp->get($oid);
+        next unless $value;
+        return _getCanonicalSerialNumber($value);
+    }
+
+    return;
+}
+
 sub _getMacAddress {
     my ($snmp) = @_;
 
@@ -634,6 +667,9 @@ sub getDeviceInfo {
     return unless %device;
 
     $device{MAC} = _getMacAddress($snmp);
+
+    my $serial = _getSerial($snmp, $device{TYPE});
+    $device{SERIAL} = $serial if $serial;
 
     return %device;
 }
@@ -1562,4 +1598,4 @@ set of rules hardcoded in the agent and the usage of a device-specific set of ma
 =head2 loadModel($file)
 
 Load an SNMP description model from given file.
-package FusionInventory::Agent::Tools::Hardware::Generic;
+

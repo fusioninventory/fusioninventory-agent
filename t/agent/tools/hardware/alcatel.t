@@ -17,6 +17,7 @@ my %tests = (
             DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
             SNMPHOSTNAME => 'CB-C005-127-os6400',
             MAC          => 'e8:e7:32:2b:c1:e2',
+            SERIAL       => 'M4682816',
         },
         {
             MANUFACTURER => 'Alcatel-Lucent',
@@ -1133,6 +1134,7 @@ my %tests = (
             DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
             SNMPHOSTNAME => 'CP-153-127',
             MAC          => 'e8:e7:32:2b:c1:e2',
+            SERIAL       => 'M4682816',
         },
         {
             MANUFACTURER => 'Alcatel-Lucent',
