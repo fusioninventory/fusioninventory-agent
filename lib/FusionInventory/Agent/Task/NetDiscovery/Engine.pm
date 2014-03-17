@@ -15,7 +15,6 @@ sub new {
     my $self = {
         nmap_parameters  => $params{nmap_parameters},
         snmp_credentials => $params{snmp_credentials},
-        snmp_dictionary  => $params{snmp_dictionary},
         logger           => $params{logger},
         timeout          => $params{timeout} || 1,
         datadir          => $params{datadir},
@@ -147,7 +146,6 @@ sub _scanAddressBySNMPReal {
 
     return getDeviceInfo(
         snmp       => $snmp,
-        dictionary => $self->{snmp_dictionary},
         datadir    => $self->{datadir},
     );
 }
