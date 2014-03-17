@@ -602,22 +602,11 @@ sub _loadDeviceModels {
     return $models;
 }
 
-sub _getSerial {
-    my ($snmp, $model) = @_;
-
-    return unless $model->{SERIAL};
-    return _getCanonicalSerialNumber($snmp->get($model->{SERIAL}));
-}
-
 sub _getMacAddress {
-    my ($snmp, $model) = @_;
+    my ($snmp) = @_;
 
-    my $mac_oid =
-        $model->{MAC} ||
-        ".1.3.6.1.2.1.17.1.1.0"; # SNMPv2-SMI::mib-2.17.1.1.0
-    my $dynmac_oid =
-        $model->{DYNMAC} ||
-        ".1.3.6.1.2.1.2.2.1.6";  # IF-MIB::ifPhysAddress
+    my $mac_oid    = ".1.3.6.1.2.1.17.1.1.0"; # SNMPv2-SMI::mib-2.17.1.1.0
+    my $dynmac_oid = ".1.3.6.1.2.1.2.2.1.6";  # IF-MIB::ifPhysAddress
 
     my $address = _getCanonicalMacAddress($snmp->get($mac_oid));
 
@@ -638,37 +627,13 @@ sub getDeviceInfo {
     my (%params) = @_;
 
     my $snmp       = $params{snmp};
-    my $dictionary = $params{dictionary};
 
     # the device is initialized with basic information
     # deduced from its sysdescr
     my %device = getDeviceBaseInfo($snmp, $params{datadir});
     return unless %device;
 
-    # then, we try to get a matching model from the dictionary,
-    # using its current description as identification key
-    my $model = $dictionary ?
-        $dictionary->getModel($device{DESCRIPTION}) : undef;
-
-    if ($model) {
-        # if found, we complete the device with model-defined mappings
-        $device{MANUFACTURER} = $model->{MANUFACTURER}
-            if $model->{MANUFACTURER};
-        $device{TYPE}         =
-            $model->{TYPE} == 1 ? 'COMPUTER'   :
-            $model->{TYPE} == 2 ? 'NETWORKING' :
-            $model->{TYPE} == 3 ? 'PRINTER'    :
-                                  undef
-            if $model->{TYPE};
-
-        $device{MAC}       = _getMacAddress($snmp, $model);
-        $device{SERIAL}    = _getSerial($snmp, $model);
-        $device{MODELSNMP} = $model->{MODELSNMP};
-        $device{FIRMWARE}  = $model->{FIRMWARE};
-    } else {
-        # otherwise, we fallback on default mappings
-        $device{MAC} = _getMacAddress($snmp);
-    }
+    $device{MAC} = _getMacAddress($snmp);
 
     return %device;
 }
@@ -1587,8 +1552,7 @@ set of rules hardcoded in the agent.
 =head2 getDeviceInfo(%params)
 
 return a limited set of information for a device through SNMP, according to a
-set of rules hardcoded in the agent and the usage of generic knowledge base,
-the dictionary.
+set of rules hardcoded in the agent and the usage of generic knowledge base.
 
 =head2 getDeviceFullInfo(%params)
 
