@@ -97,6 +97,7 @@ my %tests = (
             DESCRIPTION  => 'EPSON AL-C3900',
             MAC          => '00:26:ab:9f:78:8b',
             MODEL        => 'AL-C3900',
+            SERIAL       => 'N5CZ102791',
         },
         {
             MANUFACTURER => 'Epson',

@@ -17,6 +17,7 @@ my %tests = (
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
             MAC          => '00:50:aa:27:95:9e',
             MODEL        => 'bizhub 421',
+            SERIAL       => 'A0R6021004189',
         },
         {
             MANUFACTURER => 'Konica',
@@ -145,6 +146,7 @@ my %tests = (
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
             MAC          => '00:50:aa:27:96:68',
             MODEL        => 'bizhub 421',
+            SERIAL       => 'A0R6021004159',
         },
         {
             MANUFACTURER => 'Konica',
@@ -273,6 +275,7 @@ my %tests = (
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
             MAC          => '00:50:aa:27:95:a3',
             MODEL        => 'bizhub 421',
+            SERIAL       => 'A0R6021004184',
         },
         {
             MANUFACTURER => 'Konica',
@@ -401,6 +404,7 @@ my %tests = (
             DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
             MAC          => '00:20:6b:8a:dc:ec',
             MODEL        => 'bizhub C224',
+            SERIAL       => 'A5C4021018159',
         },
         {
             MANUFACTURER => 'Konica',
@@ -549,6 +553,7 @@ my %tests = (
             DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
             MAC          => '00:20:6b:8a:dc:ec',
             MODEL        => 'bizhub C224',
+            SERIAL       => 'A5C4021018159',
         },
         {
             MANUFACTURER => 'Konica',
@@ -697,6 +702,7 @@ my %tests = (
             DESCRIPTION  => 'KONICA MINOLTA bizhub C554e',
             MAC          => '00:20:6b:82:91:78',
             MODEL        => 'bizhub C554',
+            SERIAL       => 'A5AY021001363',
         },
         {
             MANUFACTURER => 'Konica',

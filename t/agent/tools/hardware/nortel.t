@@ -18,6 +18,7 @@ my %tests = (
             SNMPHOSTNAME => '4548_DOULEUR',
             MAC          => 'e8:05:6d:27:5c:02',
             MODEL        => 'Ethernet Routing Switch 4548GT-PWR',
+            SERIAL       => 'LBNNTMMD1706WF',
         },
         {
             MANUFACTURER => 'Nortel',
@@ -3164,6 +3165,7 @@ my %tests = (
             SNMPHOSTNAME => 'Bay470',
             MAC          => '00:15:40:94:75:a2',
             MODEL        => 'Baystack 470 24T',
+            SERIAL       => 'SACC170NLH',
         },
         {
             MANUFACTURER => 'Nortel',
@@ -4431,6 +4433,7 @@ my %tests = (
             SNMPHOSTNAME => '470_99_OBS',
             MAC          => '00:1d:af:ea:a0:e2',
             MODEL        => 'Baystack 470 24T',
+            SERIAL       => 'LBNNTMJX5809LW',
         },
         {
             MANUFACTURER => 'Nortel',

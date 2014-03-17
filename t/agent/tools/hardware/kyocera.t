@@ -16,6 +16,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-C5350DN',
             MAC          => '00:c0:ee:80:ca:dd',
+            SERIAL       => 'QVS0Z04925',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -114,6 +115,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-C5350DN',
             MAC          => '00:c0:ee:80:73:71',
+            SERIAL       => 'QVS0Y04720',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -212,6 +214,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-C5350DN',
             MAC          => '00:c0:ee:80:73:6c',
+            SERIAL       => 'QVS0Y04715',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -310,6 +313,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
             MAC          => '00:c0:ee:6a:96:dd',
+            SERIAL       => 'XLM7Y21506',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -407,6 +411,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'FS-2000D',
             MAC          => '00:c0:ee:6a:97:07',
+            SERIAL       => 'XLM7Y21503',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -504,6 +509,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 181',
             MAC          => '00:c0:ee:2f:0d:d9',
+            SERIAL       => 'QQM0701192',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -594,6 +600,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'TASKalfa 820',
             MAC          => '00:c0:ee:31:84:6b',
+            SERIAL       => 'QJX9400014',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -684,6 +691,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'UTAX_TA Printing System',
             MAC          => '00:c0:ee:80:dd:2d',
+            SERIAL       => 'Q250Z01068',
         },
         {
             MANUFACTURER => 'Kyocera',

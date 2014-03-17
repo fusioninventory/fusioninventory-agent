@@ -157,6 +157,7 @@ my %tests = (
             SNMPHOSTNAME => 'ET0021B7427721',
             MAC          => '00:21:b7:42:77:21',
             MODEL        => 'X792',
+            SERIAL       => '7562029401523-96-0',
         },
         {
             MANUFACTURER => 'Lexmark',
