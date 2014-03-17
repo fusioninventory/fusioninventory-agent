@@ -29,7 +29,6 @@ my $options = {
 
 GetOptions(
     $options,
-    'model=s',
     'community=s',
     'credential=s',
     'entity=s',
@@ -75,16 +74,6 @@ foreach my $arg (@ARGV) {
     push @devices, $device;
 }
 
-my @models;
-
-if ($options->{model}) {
-    pod2usage(
-        -message => "invalid file '$options->{model}', aborting\n",
-        -verbose => 0
-    ) unless -f $options->{model};
-    push @models, loadModel($options->{model});
-}
-
 my $credentials_id = 1;
 my @credentials;
 if ($options->{community}) {
@@ -118,7 +107,6 @@ $task->configure(
     threads     => $options->{threads},
     timeout     => $options->{timeout},
     devices     => \@devices,
-    models      => \@models,
     credentials => \@credentials
 );
 
@@ -144,7 +132,7 @@ fusioninventory-netinventory - Standalone network inventory
 
 =head1 SYNOPSIS
 
-B<fusioninventory-netinventory> S<[B<--model> I<file>]>
+B<fusioninventory-netinventory>
 S<[B<--credential> I<string>]> S<[B<--timeout> I<integer>]>
 S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
 S<[B<--recipient> I<string>]> S<[B<--verbose>]> S<[B<--debug>]>
@@ -153,10 +141,6 @@ I<host_spec> ...
 =head1 OPTIONS
 
 =over
-
-=item B<--model> I<file>
-
-model file
 
 =item B<--credential> I<string>
 
