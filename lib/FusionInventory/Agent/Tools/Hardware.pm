@@ -278,10 +278,6 @@ my %base_variables = (
         default => '.1.3.6.1.2.1.43.8.2.1.14.1.1',
         type    => 'string',
     },
-    OTHERSERIAL  => {
-        mapping => 'otherserial',
-        type    => 'serial',
-    },
     MEMORY       => {
         mapping => 'memory',
         default => [
