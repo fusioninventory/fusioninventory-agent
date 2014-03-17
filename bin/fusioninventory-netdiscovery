@@ -11,7 +11,6 @@ use Pod::Usage;
 use FusionInventory::Agent;
 use FusionInventory::Agent::Recipient;
 use FusionInventory::Agent::Task::NetDiscovery;
-use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 
 my %setup = (
     confdir => './etc',
@@ -26,7 +25,6 @@ my $options = {
 
 GetOptions(
     $options,
-    'dictionary=s',
     'community=s@',
     'credential=s@',
     'entity=s',
@@ -68,15 +66,6 @@ foreach my $arg (@ARGV) {
     push @blocks, $block;
 }
 
-my $dictionary;
-if ($options->{dictionary}) {
-    die "no such file $options->{dictionary}"
-        unless -f $options->{dictionary};
-    $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
-        file => $options->{dictionary}
-    );
-}
-
 my $credentials_id = 1;
 my @credentials;
 if ($options->{community}) {
@@ -111,7 +100,6 @@ $task->configure(
     timeout     => $options->{timeout},
     blocks      => \@blocks,
     credentials => \@credentials,
-    dictionary  => $dictionary
 );
 
 my $recipient = FusionInventory::Agent::Recipient->create(
@@ -136,7 +124,7 @@ fusioninventory-netdiscovery - Standalone network discovery
 
 =head1 SYNOPSIS
 
-B<fusioninventory-netdiscovery> S<[B<--dictionary> I<file>]>
+B<fusioninventory-netdiscovery>
 S<[B<--credential> I<string>]> S<[B<--timeout> I<integer>]>
 S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
 S<[B<--recipient> I<string>]> S<[B<--verbose>]> S<[B<--debug>]>
@@ -145,10 +133,6 @@ I<block_spec> ...
 =head1 OPTIONS
 
 =over
-
-=item B<--dictionary> I<file>
-
-dictionary file
 
 =item B<--credential> I<string>
 
@@ -187,8 +171,6 @@ debug output (execution traces)
         --recipient /tmp
     $> fusioninventory-netdiscovery 192.168.1.0/24
         --recipient http://glpi.domain.com/plugins/fusioninventory
-    $> fusioninventory-netdiscovery 192.168.1.0/24
-        --dictionary dictionary.xml
     $> fusioninventory-netdiscovery 192.168.1.0/24
         --credential version:1,community:public
         --credential version:3,username:foo,authprotocol:sha1,authpassword:bar
