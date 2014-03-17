@@ -259,11 +259,6 @@ my %base_variables = (
         default => '.1.3.6.1.2.1.1.3.0',
         type    => 'string',
     },
-    NAME         => {
-        mapping => 'name',
-        default => '.1.3.6.1.2.1.1.5.0',
-        type    => 'string',
-    },
     MANUFACTURER => {
         mapping => 'enterprise',
         default => '.1.3.6.1.2.1.43.8.2.1.14.1.1',
@@ -684,10 +679,15 @@ sub getDeviceFullInfo {
     my %info = getDeviceInfo(%params);
     return unless %info;
 
-    # unfortunatly, some elements differs between discovery
-    # and inventory response
+    # COMMENTS is raw SysDescr, while DESCRIPTION may have been altered
     delete $info{DESCRIPTION};
-    delete $info{SNMPHOSTNAME};
+
+    # host name is defined as SNMPHOSTNAME for discovery
+    # and NAME for inventory
+    if (exists $info{SNMPHOSTNAME}) {
+        $info{NAME} = $info{SNMPHOSTNAME};
+        delete $info{SNMPHOSTNAME};
+    }
 
     # device ID is set from the server request
     $info{ID} = $params{id};
