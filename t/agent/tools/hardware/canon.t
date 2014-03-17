@@ -17,6 +17,7 @@ my %tests = (
             DESCRIPTION  => 'Canon LBP7660C /P',
             SNMPHOSTNAME => 'LBP7660C',
             MAC          => '88:87:17:82:ca:b1',
+            SERIAL       => 'MKCA002834',
         },
         {
             MANUFACTURER => 'Canon',

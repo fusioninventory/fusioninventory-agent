@@ -116,6 +116,7 @@ my %tests = (
             SNMPHOSTNAME => 'KENET - DPE2',
             MAC          => '00:22:f3:9d:1f:3b',
             MODEL        => 'MX-5001N',
+            SERIAL       => '9801405X00',
         },
         {
             MANUFACTURER => 'Sharp',
@@ -341,6 +342,7 @@ my %tests = (
             SNMPHOSTNAME => 'MALAKA  - DOS -- IA-IPR',
             MAC          => '00:22:f3:9d:20:4b',
             MODEL        => 'MX-5001N',
+            SERIAL       => '9801391X00',
         },
         {
             MANUFACTURER => 'Sharp',

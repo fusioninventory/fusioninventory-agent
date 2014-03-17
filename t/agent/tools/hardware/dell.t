@@ -17,6 +17,7 @@ my %tests = (
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKE6E33E-2',
             MAC          => '00:04:00:67:c7:7c',
+            SERIAL       => '9915DGL-46-13',
         },
         {
             MANUFACTURER => 'Dell',
@@ -157,6 +158,7 @@ my %tests = (
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKB92115',
             MAC          => '00:04:00:9d:84:a8',
+            SERIAL       => '992B216-46-13',
         },
         {
             MANUFACTURER => 'Dell',

@@ -18,6 +18,7 @@ my %tests = (
             SNMPHOSTNAME => 'xtb12-2',
             MAC          => '00:04:96:1f:91:50',
             MODEL        => 'Summit 300-24',
+            SERIAL       => '0518G-00029',
         },
         {
             MANUFACTURER => 'Extreme',
@@ -1860,6 +1861,7 @@ my %tests = (
             SNMPHOSTNAME => 'xtc13',
             MAC          => '00:04:96:1c:71:00',
             MODEL        => 'Summit 300-48',
+            SERIAL       => '04375-00303',
         },
         {
             MANUFACTURER => 'Extreme',
@@ -14212,6 +14214,7 @@ my %tests = (
             SNMPHOSTNAME => 'xta6',
             MAC          => '00:01:30:12:a6:c0',
             MODEL        => 'Summit 48si',
+            SERIAL       => '0312R-01206',
         },
         {
             MANUFACTURER => 'Extreme',
@@ -20960,6 +20963,7 @@ my %tests = (
             SNMPHOSTNAME => 'sw30-c01-1',
             MAC          => '00:04:96:52:04:36',
             MODEL        => 'Summit X350',
+            SERIAL       => '1115G-80540',
         },
         {
             MANUFACTURER => 'Extrem Networks',

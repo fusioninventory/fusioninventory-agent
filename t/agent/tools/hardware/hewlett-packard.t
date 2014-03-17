@@ -17,6 +17,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'c0302a',
             MAC          => '00:25:b3:fa:8f:83',
+            SERIAL       => 'CNHS311977',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -160,6 +161,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'c1C202a',
             MAC          => '00:25:b3:fa:8f:69',
+            SERIAL       => 'CNHS311991',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -303,6 +305,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'c1c203a',
             MAC          => '00:25:b3:fa:8f:cc',
+            SERIAL       => 'CNHS311990',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -446,6 +449,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPIFA9F1C',
             MAC          => '00:25:b3:fa:9f:1c',
+            SERIAL       => 'CNHS311979',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -589,6 +593,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'c1C206a',
             MAC          => '00:25:b3:fa:9f:e6',
+            SERIAL       => 'CNHS312016',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -1906,6 +1911,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet 100 colorMFP M175nw',
             SNMPHOSTNAME => 'NPIF6FA4A',
             MAC          => 'b4:b5:2f:f6:fa:4a',
+            SERIAL       => 'CNC9D8R0DX',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2075,6 +2081,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 1300n',
             SNMPHOSTNAME => 'impbe94',
             MAC          => '00:0e:7f:33:34:ba',
+            SERIAL       => 'CNCD118906',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2179,6 +2186,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPI61044B',
             MAC          => '00:14:38:61:04:4b',
+            SERIAL       => 'CNHW59NG6N',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2291,6 +2299,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPI9A3FC7',
             MAC          => '00:14:38:9a:3f:c7',
+            SERIAL       => 'CNHW625K6Z',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2403,6 +2412,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 1320 series',
             SNMPHOSTNAME => 'NPIC68F5E',
             MAC          => '00:11:85:c6:8f:5e',
+            SERIAL       => 'CNBW49FHC4',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2514,6 +2524,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             MAC          => '00:30:c1:8a:6e:5b',
+            SERIAL       => 'FRGW108125',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2590,6 +2601,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             MAC          => '00:30:c1:8a:6e:5b',
+            SERIAL       => 'FRGW108125',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2666,6 +2678,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             MAC          => '00:30:c1:0d:aa:c6',
+            SERIAL       => 'FRGW022412',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2760,6 +2773,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             MAC          => '00:10:83:54:d6:08',
+            SERIAL       => 'XXXXXXXXXX',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2855,6 +2869,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             SNMPHOSTNAME => 'l1618a',
             MAC          => '00:0e:7f:ea:e1:b7',
+            SERIAL       => 'FRGW102302',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2982,6 +2997,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2100 Series',
             MAC          => '00:30:c1:c3:be:cf',
+            SERIAL       => 'NLBB001719',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3076,6 +3092,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 2200',
             MAC          => '00:30:c1:01:1e:68',
+            SERIAL       => 'FRFRH43314',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3179,6 +3196,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 2300 series',
             SNMPHOSTNAME => 'NPIA1D034',
             MAC          => '00:01:e6:a1:d0:34',
+            SERIAL       => 'CNCDF57941',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3314,6 +3332,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 2300 series',
             MAC          => '00:30:c1:60:c8:5b',
+            SERIAL       => 'CNCHM24955',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3530,6 +3549,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet 3600',
             SNMPHOSTNAME => 'NPI6F72C5',
             MAC          => '00:1b:78:6f:72:c5',
+            SERIAL       => 'CNXJD65169',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3645,6 +3665,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet 4000 Series',
             SNMPHOSTNAME => 'inspiron8',
             MAC          => '00:60:b0:91:3d:9d',
+            SERIAL       => 'NLEW064384',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3733,6 +3754,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet 400 color M451dn',
             SNMPHOSTNAME => 'NPIF67498',
             MAC          => 'b4:b5:2f:f6:74:98',
+            SERIAL       => 'CNCF300725',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3849,6 +3871,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet 4050 Series ',
             SNMPHOSTNAME => 'imprimanteBR',
             MAC          => '00:30:c1:8c:d5:6c',
+            SERIAL       => 'NL7N093250',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3936,6 +3959,7 @@ my %tests = (
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'HP LaserJet 4050 Series ',
             MAC          => '00:10:83:ba:17:ce',
+            SERIAL       => 'NL7V061384',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4038,6 +4062,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4200',
             SNMPHOSTNAME => 'IMP41200n0',
             MAC          => '00:01:e6:a1:a7:81',
+            SERIAL       => 'CNFX305387',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4154,6 +4179,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'impKirat',
             MAC          => '00:11:85:d9:f6:c7',
+            SERIAL       => 'CNCXG01622',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4269,6 +4295,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'l0812a',
             MAC          => '00:14:38:df:a5:30',
+            SERIAL       => 'CNHXH84872',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4408,6 +4435,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'NPIEA2B02',
             MAC          => '00:23:7d:7e:a1:31',
+            SERIAL       => 'CNHXG83836',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4547,6 +4575,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'NPIEA3BFC',
             MAC          => '00:14:38:ea:3b:fc',
+            SERIAL       => 'CNHXB71032',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4686,6 +4715,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'l1310a',
             MAC          => '00:14:38:ea:2b:c4',
+            SERIAL       => 'CNHXC68053',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4825,6 +4855,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'l1439a',
             MAC          => '00:14:38:e2:12:d8',
+            SERIAL       => 'CNHXH84870',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4964,6 +4995,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'l2007a',
             MAC          => '00:1b:78:28:26:cb',
+            SERIAL       => 'CNHXB68748',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5103,6 +5135,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'NPIEAFA59',
             MAC          => '00:14:38:ea:fa:59',
+            SERIAL       => 'CNHXB71050',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5242,6 +5275,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'NPIEA8E82',
             MAC          => '00:23:7d:81:22:f7',
+            SERIAL       => 'CNHXJ45092',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5381,6 +5415,7 @@ my %tests = (
             DESCRIPTION  => 'hp LaserJet 4250',
             SNMPHOSTNAME => 'L3000A',
             MAC          => '00:14:38:e2:12:5f',
+            SERIAL       => 'CNHXC65951',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5520,6 +5555,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet 500 color M551',
             SNMPHOSTNAME => 'NPI419F6E',
             MAC          => '2c:76:8a:41:9f:6e',
+            SERIAL       => 'SE00V4T',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5630,6 +5666,7 @@ my %tests = (
             DESCRIPTION  => 'hp color LaserJet 5550 ',
             SNMPHOSTNAME => 'IDD116',
             MAC          => '00:1b:78:f0:f4:47',
+            SERIAL       => 'JPSV9B0GCX',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5747,6 +5784,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj1',
             MAC          => 'e8:39:35:90:92:1f',
+            SERIAL       => 'CNBVD3D0HH',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5851,6 +5889,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet 600 M603',
             SNMPHOSTNAME => 'lj2',
             MAC          => 'e8:39:35:90:22:ac',
+            SERIAL       => 'TD031GM',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5955,6 +5994,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CM1312nfi MFP',
             SNMPHOSTNAME => 'NPI271E90',
             MAC          => '00:1f:29:27:1e:90',
+            SERIAL       => 'CNB885QNXP',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6071,6 +6111,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet CM1415fn',
             SNMPHOSTNAME => 'B536-lwc237-Fax',
             MAC          => '68:b5:99:ad:61:8e',
+            SERIAL       => 'CNF8BC11FK',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6187,6 +6228,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI7F5D71',
             MAC          => '00:23:7d:7f:5d:71',
+            SERIAL       => 'CNFN9BYG41',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6303,6 +6345,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI7F5D71',
             MAC          => '00:23:7d:7f:5d:71',
+            SERIAL       => 'CNFN9BYG41',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6419,6 +6462,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI828833',
             MAC          => '00:23:7d:82:88:33',
+            SERIAL       => 'CNDN99YG0D',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6535,6 +6579,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CM2320nf MFP',
             SNMPHOSTNAME => 'NPIB302A7',
             MAC          => '3c:4a:92:b3:02:a7',
+            SERIAL       => 'CNFTBDZ0FN',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6766,6 +6811,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPI2AD743',
             MAC          => '00:1f:29:2a:d7:43',
+            SERIAL       => 'CNCSF01053',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6885,6 +6931,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPIC3D5FF',
             MAC          => 'b4:99:ba:c3:d5:ff',
+            SERIAL       => 'CNHS437790',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7004,6 +7051,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI117008',
             MAC          => '2c:27:d7:11:70:08',
+            SERIAL       => 'CNHSP65440',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7123,6 +7171,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI84C481',
             MAC          => '00:21:5a:84:c4:81',
+            SERIAL       => 'CNCS404796',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7242,6 +7291,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI84C481',
             MAC          => '00:21:5a:84:c4:81',
+            SERIAL       => 'CNCS404796',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7361,6 +7411,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI81E3A7',
             MAC          => '00:21:5a:81:e3:a7',
+            SERIAL       => 'CNCS212370',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7480,6 +7531,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI8FA1DD',
             MAC          => '78:ac:c0:8f:a1:dd',
+            SERIAL       => 'CNHSN58554',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7599,6 +7651,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP3525',
             SNMPHOSTNAME => 'NPI85A57D',
             MAC          => '00:23:7d:85:a5:7d',
+            SERIAL       => 'CNCT98DGJY',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7716,6 +7769,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP3525',
             SNMPHOSTNAME => 'Corinne',
             MAC          => 'd4:85:64:3d:ac:2e',
+            SERIAL       => 'CNCTB9PHWG',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7833,6 +7887,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP3525',
             SNMPHOSTNAME => 'nerium',
             MAC          => 'd4:85:64:40:4d:93',
+            SERIAL       => 'CBAFTBDG66',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7971,6 +8026,7 @@ my %tests = (
             DESCRIPTION  => 'HP Color LaserJet CP4520 Series',
             SNMPHOSTNAME => 'NPI10DB2C',
             MAC          => '2c:27:d7:10:db:2c',
+            SERIAL       => 'JPCTC8M0LJ',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8257,6 +8313,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI83EC85',
             MAC          => '00:21:5a:83:ec:85',
+            SERIAL       => 'CNBW898043',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8373,6 +8430,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI13EE63',
             MAC          => '00:1b:78:13:ee:63',
+            SERIAL       => 'CNBW7BQ7BS',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8489,6 +8547,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI83EC85',
             MAC          => '00:21:5a:83:ec:85',
+            SERIAL       => 'CNBW898043',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8605,6 +8664,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI2BAB3D',
             MAC          => '00:1f:29:2b:ab:3d',
+            SERIAL       => 'CNBW87R2XX',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8745,6 +8805,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI8CA86F',
             MAC          => '00:17:08:8c:a8:6f',
+            SERIAL       => 'CNBW6DW3R8',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8885,6 +8946,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI8E6910',
             MAC          => '00:17:08:8e:69:10',
+            SERIAL       => 'CNBW7171V8',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9025,6 +9087,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI8C980D',
             MAC          => '00:17:08:8c:98:0d',
+            SERIAL       => 'CNBW6DW37G',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9165,6 +9228,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI7954CF',
             MAC          => '00:23:7d:79:54:cf',
+            SERIAL       => 'CNBW76W0B8',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9305,6 +9369,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI156F54',
             MAC          => '00:1a:4b:15:6f:54',
+            SERIAL       => 'CNBW74K7GP',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9445,6 +9510,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI166E31',
             MAC          => '00:1f:29:16:6e:31',
+            SERIAL       => 'CNBW84P402',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9585,6 +9651,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI7E0932',
             MAC          => '00:21:5a:7e:09:32',
+            SERIAL       => 'CNCKF02617',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9701,6 +9768,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI8DDF43',
             MAC          => '00:21:5a:8d:df:43',
+            SERIAL       => 'CNCKG11705',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9817,6 +9885,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI830993',
             MAC          => '00:23:7d:83:09:93',
+            SERIAL       => 'CNCKC22953',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9933,6 +10002,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI83E8D5',
             MAC          => '00:23:7d:83:e8:d5',
+            SERIAL       => 'CNCKC22950',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -10049,6 +10119,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI886B5B',
             MAC          => '00:23:7d:88:6b:5b',
+            SERIAL       => 'CNCKC40132',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -10165,6 +10236,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI886B5B',
             MAC          => '00:23:7d:88:6b:5b',
+            SERIAL       => 'CNCKC40132',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -10281,6 +10353,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPI80BDD9',
             MAC          => '1c:c1:de:80:bd:d9',
+            SERIAL       => 'CNC1712027',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -10397,6 +10470,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPICB3982',
             MAC          => '1c:c1:de:cb:39:82',
+            SERIAL       => 'CNCGC12715',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -10513,6 +10587,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIC08394',
             MAC          => '3c:4a:92:c0:83:94',
+            SERIAL       => 'CNCGB63494',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -10629,6 +10704,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPICBD8B1',
             MAC          => '1c:c1:de:cb:d8:b1',
+            SERIAL       => 'CNCGC10444',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -10745,6 +10821,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIB979A2',
             MAC          => '08:2e:5f:b9:79:a2',
+            SERIAL       => 'CNC1C04989',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -10861,6 +10938,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIC93D6D',
             MAC          => '1c:c1:de:c9:3d:6d',
+            SERIAL       => 'CNC1822002',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -10977,6 +11055,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'l1019a',
             MAC          => '00:25:b3:eb:ea:20',
+            SERIAL       => 'CNCKH91101',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11116,6 +11195,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIEB8A8F',
             MAC          => '00:25:b3:eb:8a:8f',
+            SERIAL       => 'CNCKH91104',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11255,6 +11335,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'l1a220a',
             MAC          => '00:25:b3:eb:7a:c7',
+            SERIAL       => 'CNCKH91109',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11394,6 +11475,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P2055dn',
             SNMPHOSTNAME => 'NPIEB4B44',
             MAC          => '00:25:b3:eb:4b:44',
+            SERIAL       => 'CNCKH91103',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11533,6 +11615,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI7A5E2D',
             MAC          => '00:21:5a:7a:5e:2d',
+            SERIAL       => 'CNH1R06635',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11646,6 +11729,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI91B509',
             MAC          => '00:17:08:91:b5:09',
+            SERIAL       => 'CNFW6DG38S',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11782,6 +11866,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI947D4C',
             MAC          => '00:17:a4:94:7d:4c',
+            SERIAL       => 'CNFW6DF0WL',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11918,6 +12003,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'L0420a',
             MAC          => '00:17:a4:93:4d:9f',
+            SERIAL       => 'CNFW6DG39Q',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12054,6 +12140,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'l0500a',
             MAC          => '00:17:08:91:95:dd',
+            SERIAL       => 'CNFW6DG38L',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12190,6 +12277,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI934D69',
             MAC          => '00:17:a4:93:4d:69',
+            SERIAL       => 'CNFW6DG3DP',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12326,6 +12414,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI934D9C',
             MAC          => '00:17:a4:93:4d:9c',
+            SERIAL       => 'CNFW6DG37P',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12462,6 +12551,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI917343',
             MAC          => '00:17:08:91:73:43',
+            SERIAL       => 'CNFW6DG1MH',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12598,6 +12688,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'l1B220a',
             MAC          => '00:17:a4:93:df:9c',
+            SERIAL       => 'CNFW6DG1LP',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12734,6 +12825,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI824876',
             MAC          => '00:17:08:82:48:76',
+            SERIAL       => 'CNFW6DF0XF',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12870,6 +12962,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI934D5B',
             MAC          => '00:17:a4:93:4d:5b',
+            SERIAL       => 'CNFW6DG394',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13006,6 +13099,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'NPI939CBD',
             MAC          => '00:17:a4:93:a7:56',
+            SERIAL       => 'CNFW6DG1NP',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13142,6 +13236,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3005',
             SNMPHOSTNAME => 'l2427a',
             MAC          => '00:17:a4:94:a6:1f',
+            SERIAL       => 'CNFW6DG1M8',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13278,6 +13373,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3010 Series',
             SNMPHOSTNAME => 'NPI013B81',
             MAC          => '00:9c:02:01:3b:81',
+            SERIAL       => 'VNBQD3C0BF',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13391,6 +13487,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P3010 Series',
             SNMPHOSTNAME => 'NPI013B81',
             MAC          => '00:9c:02:01:3b:81',
+            SERIAL       => 'VNBQD3C0BF',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13504,6 +13601,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P4014',
             SNMPHOSTNAME => 'NPIFFF0F2',
             MAC          => '18:a9:05:ff:f0:f2',
+            SERIAL       => 'CNFX409800',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13643,6 +13741,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'LJ30000000000000000000----------',
             MAC          => '00:21:5a:8f:ea:2b',
+            SERIAL       => 'CNFY417951',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13759,6 +13858,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI8D9896',
             MAC          => '00:21:5a:8d:98:96',
+            SERIAL       => 'CNFY409032',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13875,6 +13975,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI22C87C',
             MAC          => '00:1f:29:22:c8:7c',
+            SERIAL       => 'CNFY213364',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13991,6 +14092,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPI9706DE',
             MAC          => '00:21:5a:97:06:de',
+            SERIAL       => 'CNFY183496',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -14107,6 +14209,7 @@ my %tests = (
             DESCRIPTION  => 'HP LaserJet P4015',
             SNMPHOSTNAME => 'NPIEADBFB',
             MAC          => '00:25:b3:ea:db:fb',
+            SERIAL       => 'CNFY349204',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -14388,6 +14491,7 @@ my %tests = (
             DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
             MAC          => '00:18:fe:aa:a9:80',
             MODEL        => 'ProCurve 2650 (J4899B)',
+            SERIAL       => 'CN638SD146',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -21488,6 +21592,7 @@ my %tests = (
             DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
             MAC          => '00:1d:b3:58:cf:80',
             MODEL        => 'ProCurve 2650 (J4899C)',
+            SERIAL       => 'CN830FX04U',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -29459,6 +29564,7 @@ my %tests = (
             SNMPHOSTNAME => 'oyapock CR2',
             MAC          => '00:18:71:c1:e0:00',
             MODEL        => 'ProCurve 5406zl (J8697A)',
+            SERIAL       => 'SG707SU03Y',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -37032,6 +37138,7 @@ my %tests = (
             DESCRIPTION  => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
             MAC          => '00:19:bb:99:f9:c0',
             MODEL        => 'ProCurve 2810-48G (J9022A)',
+            SERIAL       => 'CN738XJ0FI',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -41336,6 +41443,7 @@ my %tests = (
             DESCRIPTION  => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
             MAC          => '00:21:f7:1e:01:40',
             MODEL        => 'ProCurve 2900-48g (J9050A)',
+            SERIAL       => 'SG840KJ009',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -51396,6 +51504,7 @@ my %tests = (
             DESCRIPTION  => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
             MAC          => '00:21:f7:2b:e6:00',
             MODEL        => 'ProCurve 2610-48',
+            SERIAL       => 'CN935ZU1PD',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
