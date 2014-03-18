@@ -131,99 +131,21 @@ my %sysdescr_first_word = (
 my @sysdescr_rules = (
     {
         match       => qr/^\S+ Service Release/,
-        description => { function => 'FusionInventory::Agent::Tools::Hardware::Alcatel::getDescription' },
-        vendor      => { value    => 'Alcatel' }
-    },
-    {
-        match       => qr/AXIS OfficeBasic Network Print Server/,
-        description => { function => 'FusionInventory::Agent::Tools::Hardware::Axis::getDescription' },
-        vendor      => { value    => 'Axis' },
-        type        => { value    => 'PRINTER' }
-    },
-    {
-        match       => qr/^Ethernet Switch$/,
-        description => { oid   => '.1.3.6.1.4.1.674.10895.3000.1.2.100.1.0' },
-        vendor      => { value => 'Dell' },
+        vendor      => { value => 'Alcatel'    },
         type        => { value => 'NETWORKING' }
     },
     {
-        match       => qr/EPSON Built-in/,
-        description => { oid   => '.1.3.6.1.4.1.1248.1.1.3.1.3.8.0' },
-        vendor      => { value => 'Epson' },
-    },
-    {
-        match       => qr/EPSON Internal 10Base-T/,
-        description => { oid   => '.1.3.6.1.2.1.25.3.2.1.3.1' },
-        vendor      => { value => 'Epson' },
-    },
-    {
-        match       => qr/HP ETHERNET MULTI-ENVIRONMENT/,
-        description => { function => 'FusionInventory::Agent::Tools::Hardware::HewlettPackard::getDescription' },
-        vendor      => { value    => 'Hewlett-Packard' }
+        match       => qr/^Ethernet Switch$/,
+        vendor      => { value => 'Dell'       },
+        type        => { value => 'NETWORKING' }
     },
     {
         match       => qr/A SNMP proxy agent, EEPROM/,
-        description => { function => 'FusionInventory::Agent::Tools::Hardware::HewlettPackard::getDescription' },
-        vendor      => { value    => 'Hewlett-Packard' }
-    },
-    {
-        match       => qr/,HP,JETDIRECT,J/,
-        description => { oid   => '.1.3.6.1.4.1.1229.2.2.2.1.15.1' },
-        vendor      => { value => 'Kyocera' },
-        type        => { value => 'PRINTER' }
+        vendor      => { value => 'Hewlett-Packard' }
     },
     {
         match       => qr/JETDIRECT/,
         type        => { value => 'PRINTER' }
-    },
-    {
-        match       => qr/^KYOCERA (MITA Printing System|Print I\/F)$/,
-        description => { function => 'FusionInventory::Agent::Tools::Hardware::Kyocera::getDescription' },
-        vendor      => { value    => 'Kyocera' },
-        type        => { value    => 'PRINTER' }
-    },
-    {
-        match       => qr/^SB-110$/,
-        description => { function => 'FusionInventory::Agent::Tools::Hardware::Kyocera::getDescription' },
-        vendor      => { value    => 'Kyocera' },
-        type        => { value    => 'PRINTER' }
-    },
-    {
-        match       => qr/RICOH NETWORK PRINTER/,
-        description => { oid => '.1.3.6.1.4.1.11.2.3.9.1.1.7.0' },
-        vendor      => { value => 'Ricoh' },
-        type        => { value => 'PRINTER' }
-    },
-    {
-        match       => qr/SAMSUNG NETWORK PRINTER,ROM/,
-        description => { oid => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0' },
-        vendor      => { value => 'Samsung' },
-        type        => { value => 'PRINTER' }
-    },
-    {
-        match       => qr/Samsung(.*);S\/N(.*)/,
-        description => { oid => '.1.3.6.1.4.1.236.11.5.1.1.1.1.0' }
-    },
-    {
-        match        => qr/Linux/,
-        description => { function => 'FusionInventory::Agent::Tools::Hardware::Wyse::getDescription' },
-        vendor      => { value    => 'Wyse' },
-    },
-    {
-        match       => qr/ZebraNet PrintServer/,
-        description => { function => 'FusionInventory::Agent::::Tools::Hardware::Zebranet::getDescription' },
-        vendor      => { value    => 'Zebranet' },
-        type        => { value    => 'PRINTER' }
-    },
-    {
-        match       => qr/ZebraNet Wired PS/,
-        description => { function => 'FusionInventory::Agent::Tools::Hardware::Zebranet::getDescription' },
-        vendor      => { value    => 'Zebranet' },
-    },
-    {
-        match       => qr/Nortel Networks$/,
-        vendor      => { value    => 'Nortel' },
-        type        => { value    => 'NETWORKING' }
     },
 );
 
