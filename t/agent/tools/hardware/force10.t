@@ -40,7 +40,6 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                 ID           => undef,
                 MANUFACTURER => 'Dell',
                 TYPE         => 'NETWORKING',
-                MODEL        => undef,
                 COMMENTS     => 'Dell Force10 OS
 Operating System Version: 1.0
 Application Software Version: 8.4.2.7
@@ -20110,7 +20109,6 @@ Build Time: Sun Dec 26 20:21:44 2010',
                 ID           => undef,
                 MANUFACTURER => 'Force10',
                 TYPE         => 'NETWORKING',
-                MODEL        => undef,
                 COMMENTS     => 'Force10 Networks Real Time Operating System Software
 Force10 Operating System Version: 1.0
 Force10 Application Software Version: 8.4.2.1

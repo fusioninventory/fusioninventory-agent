@@ -460,6 +460,16 @@ sub getDeviceInfo {
     # use sysdescr as default identification key
     $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
 
+    if (exists $device{TYPE} and !exists $device{MODEL}) {
+        my $oid =
+            $device{TYPE} eq 'PRINTER'    ? '.1.3.6.1.2.1.25.3.2.1.3.1'    :
+            $device{TYPE} eq 'NETWORKING' ? '.1.3.6.1.2.1.47.1.1.1.1.13.1' :
+                                            undef;
+
+        my $model = $snmp->get($oid);
+        $device{MODEL} = $model if $model;
+    }
+
     # SNMPv2-MIB::sysName.0
     my $hostname = $snmp->get('.1.3.6.1.2.1.1.5.0');
     $device{SNMPHOSTNAME} = $hostname if $hostname;
@@ -757,10 +767,6 @@ sub _setPrinterProperties {
     my $snmp   = $params{snmp};
     my $logger = $params{logger};
 
-    if (!$device->{INFO}->{MODEL}) {
-        $device->{INFO}->{MODEL} = $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1');
-    }
-
     # consumable levels
     foreach my $index (1 .. 10) {
         my $description_oid = '.1.3.6.1.2.1.43.11.1.1.6.1.' . $index;
@@ -835,10 +841,6 @@ sub _setNetworkingProperties {
     my $device = $params{device};
     my $snmp   = $params{snmp};
     my $logger = $params{logger};
-
-    if (!$device->{INFO}->{MODEL}) {
-        $device->{INFO}->{MODEL} = $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1');
-    }
 
     my $ports    = $device->{PORTS}->{PORT};
 

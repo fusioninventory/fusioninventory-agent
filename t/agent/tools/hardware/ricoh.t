@@ -14,6 +14,7 @@ my %tests = (
         {
             MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
+            MODEL        => 'RICOH Aficio AP3800C',
             DESCRIPTION  => 'RICOH Aficio AP3800C 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model',
             SNMPHOSTNAME => 'Aficio AP3800C',
             MAC          => '00:00:74:71:17:ca',
@@ -161,6 +162,7 @@ my %tests = (
         {
             MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
+            MODEL        => 'RICOH Aficio MP C2050',
             DESCRIPTION  => 'RICOH Aficio MP C2050 1.17 / RICOH Network Printer C model / RICOH Network Scanner C model',
             SNMPHOSTNAME => 'Aficio MP C2050',
             MAC          => '00:00:74:f8:ba:6f',
@@ -348,6 +350,7 @@ my %tests = (
         {
             MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
+            MODEL        => 'RICOH Aficio SP C420DN',
             DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
             SNMPHOSTNAME => 'Aficio SP C420DN',
             MAC          => '00:00:74:f3:01:95',
@@ -495,6 +498,7 @@ my %tests = (
         {
             MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
+            MODEL        => 'RICOH Aficio SP C420DN',
             DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
             SNMPHOSTNAME => 'Aficio SP C420DN',
             MAC          => '00:00:74:f3:01:95',
