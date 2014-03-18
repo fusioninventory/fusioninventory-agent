@@ -14,7 +14,8 @@ my %tests = (
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C1100',
+            MODEL        => 'AL-C1100',
+            DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-C1100-0DBECC',
             MAC          => '00:00:48:0d:be:cc',
             MODEL        => 'AL-C1100',
@@ -95,6 +96,7 @@ my %tests = (
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
+            MODEL        => 'AL-C3900',
             DESCRIPTION  => 'EPSON AL-C3900',
             MAC          => '00:26:ab:9f:78:8b',
             MODEL        => 'AL-C3900',
@@ -212,7 +214,8 @@ my %tests = (
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C4200',
+            MODEL        => 'AL-C4200',
+            DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-C4200-0ED50E',
             MAC          => '20:04:48:0e:d5:0e',
             MODEL        => 'AL-C4200',
@@ -325,7 +328,8 @@ my %tests = (
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C4200',
+            MODEL        => 'AL-C4200',
+            DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-C4200-D14BC7',
             MAC          => '00:00:48:d1:4b:c7',
             MODEL        => 'AL-C4200',
@@ -438,7 +442,8 @@ my %tests = (
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C4200',
+            MODEL        => 'AL-C4200',
+            DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-C4200-D1C30E',
             MAC          => '00:00:48:d1:c3:0e',
             MODEL        => 'AL-C4200',
@@ -551,7 +556,8 @@ my %tests = (
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C4200',
+            MODEL        => 'AL-C4200',
+            DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-C4200-D362D2',
             MAC          => '00:00:48:d3:62:d2',
             MODEL        => 'AL-C4200',
@@ -662,7 +668,8 @@ my %tests = (
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-M2400',
+            MODEL        => 'AL-M2400',
+            DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
             MAC          => '00:26:ab:7f:dd:af',
             MODEL        => 'AL-M2400',
@@ -749,7 +756,8 @@ my %tests = (
         {
             MANUFACTURER => 'Epson',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-M2400',
+            MODEL        => 'AL-M2400',
+            DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
             MAC          => '00:26:ab:7f:dd:af',
             MODEL        => 'AL-M2400',
