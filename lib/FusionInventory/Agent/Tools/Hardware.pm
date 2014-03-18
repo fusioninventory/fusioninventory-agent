@@ -152,37 +152,30 @@ my @sysdescr_rules = (
 # common base variables
 my %base_variables = (
     MAC          => {
-        mapping => 'macaddr',
         default => '.1.3.6.1.2.1.17.1.1.0',
         type    => 'mac',
     },
     CPU          => {
-        mapping => 'cpu',
         default => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1',
         type    => 'count',
     },
     LOCATION     => {
-        mapping => 'location',
         default => '.1.3.6.1.2.1.1.6.0',
         type    => 'string',
     },
     CONTACT      => {
-        mapping => 'contact',
         default => '.1.3.6.1.2.1.1.4.0',
         type    => 'string',
     },
     UPTIME       => {
-        mapping => 'uptime',
         default => '.1.3.6.1.2.1.1.3.0',
         type    => 'string',
     },
     MANUFACTURER => {
-        mapping => 'enterprise',
         default => '.1.3.6.1.2.1.43.8.2.1.14.1.1',
         type    => 'string',
     },
     MEMORY       => {
-        mapping => 'memory',
         default => [
             '.1.3.6.1.4.1.9.2.1.8.0',
             '.1.3.6.1.2.1.25.2.3.1.5.1',
@@ -190,7 +183,6 @@ my %base_variables = (
         type    => 'memory',
     },
     RAM          => {
-        mapping => 'ram',
         default => '.1.3.6.1.4.1.9.3.6.6.0',
         type    => 'memory',
     },
@@ -199,17 +191,14 @@ my %base_variables = (
 # common interface variables
 my %interface_variables = (
     IFNUMBER         => {
-        mapping => 'ifIndex',
         default => '.1.3.6.1.2.1.2.2.1.1',
         type    => 'none'
     },
     IFDESCR          => {
-        mapping => 'ifdescr',
         default => '.1.3.6.1.2.1.2.2.1.2',
         type    => 'string',
     },
     IFNAME           => {
-        mapping => 'ifName',
         default => [
             '.1.3.6.1.2.1.31.1.1.1.1',
             '.1.3.6.1.2.1.2.2.1.2',
@@ -217,67 +206,54 @@ my %interface_variables = (
         type    => 'string',
     },
     IFTYPE           => {
-        mapping => 'ifType',
         default => '.1.3.6.1.2.1.2.2.1.3',
         type    => 'constant',
     },
     IFMTU            => {
-        mapping => 'ifmtu',
         default => '.1.3.6.1.2.1.2.2.1.4',
         type    => 'count',
     },
     IFSPEED          => {
-        mapping => 'ifspeed',
         default => '.1.3.6.1.2.1.2.2.1.5',
         type    => 'count',
     },
     IFSTATUS         => {
-        mapping => 'ifstatus',
         default => '.1.3.6.1.2.1.2.2.1.8',
         type    => 'constant',
     },
     IFINTERNALSTATUS => {
-        mapping => 'ifinternalstatus',
         default => '.1.3.6.1.2.1.2.2.1.7',
         type    => 'constant',
     },
     IFLASTCHANGE     => {
-        mapping => 'iflastchange',
         default => '.1.3.6.1.2.1.2.2.1.9',
         type    => 'none'
     },
     IFINOCTETS       => {
-        mapping => 'ifinoctets',
         default => '.1.3.6.1.2.1.2.2.1.10',
         type    => 'count',
     },
     IFOUTOCTETS      => {
-        mapping => 'ifoutoctets',
         default => '.1.3.6.1.2.1.2.2.1.16',
         type    => 'count',
     },
     IFINERRORS       => {
-        mapping => 'ifinerrors',
         default => '.1.3.6.1.2.1.2.2.1.14',
         type    => 'count',
     },
     IFOUTERRORS      => {
-        mapping => 'ifouterrors',
         default => '.1.3.6.1.2.1.2.2.1.20',
         type    => 'count',
     },
     MAC              => {
-        mapping => 'ifPhysAddress',
         default => '.1.3.6.1.2.1.2.2.1.6',
         type    => 'mac',
     },
     IFPORTDUPLEX     => {
-        mapping => 'portDuplex',
         default => '.1.3.6.1.2.1.10.7.2.1.19',
         type    => 'constant',
     },
     IFALIAS          => {
-        mapping => 'ifAlias',
         default => '.1.3.6.1.2.1.31.1.1.1.18',
         type    => 'string',
     },
@@ -350,44 +326,22 @@ my %consumable_variables_from_type = (
     maintenance => 'MAINTENANCEKIT',
 );
 
-my %consumable_variables_from_mappings = (
-    tonerblack            => 'TONERBLACK',
-    tonerblack2           => 'TONERBLACK2',
-    tonercyan             => 'TONERCYAN',
-    tonermagenta          => 'TONERMAGENTA',
-    toneryellow           => 'TONERYELLOW',
-    wastetoner            => 'WASTETONER',
-    cartridgeblack        => 'CARTRIDGEBLACK',
-    cartridgeblackphoto   => 'CARTRIDGEBLACKPHOTO',
-    cartridgecyan         => 'CARTRIDGECYAN',
-    cartridgecyanlight    => 'CARTRIDGECYANLIGHT',
-    cartridgemagenta      => 'CARTRIDGEMAGENTA',
-    cartridgemagentalight => 'CARTRIDGEMAGENTALIGHT',
-    cartridgeyellow       => 'CARTRIDGEYELLOW',
-    maintenancekit        => 'MAINTENANCEKIT',
-    drumblack             => 'DRUMBLACK',
-    drumcyan              => 'DRUMCYAN',
-    drummagenta           => 'DRUMMAGENTA',
-    drumyellow            => 'DRUMYELLOW',
-);
-
 # printer-specific page counter variables
 my %printer_pagecounters_variables = (
     TOTAL      => {
-        mapping => 'pagecountertotalpages',
         default => '.1.3.6.1.2.1.43.10.2.1.4.1.1'
     },
-    BLACK      => { mapping => 'pagecounterblackpages'       },
-    COLOR      => { mapping => 'pagecountercolorpages'       },
-    RECTOVERSO => { mapping => 'pagecounterrectoversopages'  },
-    SCANNED    => { mapping => 'pagecounterscannedpages'     },
-    PRINTTOTAL => { mapping => 'pagecountertotalpages_print' },
-    PRINTBLACK => { mapping => 'pagecounterblackpages_print' },
-    PRINTCOLOR => { mapping => 'pagecountercolorpages_print' },
-    COPYTOTAL  => { mapping => 'pagecountertotalpages_copy'  },
-    COPYBLACK  => { mapping => 'pagecounterblackpages_copy'  },
-    COPYCOLOR  => { mapping => 'pagecountercolorpages_copy'  },
-    FAXTOTAL   => { mapping => 'pagecountertotalpages_fax'   },
+    BLACK      => { },
+    COLOR      => { },
+    RECTOVERSO => { },
+    SCANNED    => { },
+    PRINTTOTAL => { },
+    PRINTBLACK => { },
+    PRINTCOLOR => { },
+    COPYTOTAL  => { },
+    COPYBLACK  => { },
+    COPYCOLOR  => { },
+    FAXTOTAL   => { },
 );
 
 sub getDeviceInfo {
