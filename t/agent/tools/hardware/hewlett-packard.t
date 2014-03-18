@@ -14,7 +14,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311977,FN:MB14HZB,SVCID:20055,PID:HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'c0302a',
             MAC          => '00:25:b3:fa:8f:83',
             SERIAL       => 'CNHS311977',
@@ -160,7 +160,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311991,FN:MB14HYJ,SVCID:20048,PID:HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'c1C202a',
             MAC          => '00:25:b3:fa:8f:69',
             SERIAL       => 'CNHS311991',
@@ -306,7 +306,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311990,FN:MB14J1J,SVCID:20034,PID:c1c203a',
             SNMPHOSTNAME => 'c1c203a',
             MAC          => '00:25:b3:fa:8f:cc',
             SERIAL       => 'CNHS311990',
@@ -452,7 +452,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311979,FN:MB14J3Z,SVCID:20045,PID:c1c205a',
             SNMPHOSTNAME => 'NPIFA9F1C',
             MAC          => '00:25:b3:fa:9f:1c',
             SERIAL       => 'CNHS311979',
@@ -598,7 +598,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS312016,FN:MB14JA3,SVCID:20045,PID:HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'c1C206a',
             MAC          => '00:25:b3:fa:9f:e6',
             SERIAL       => 'CNHS312016',
@@ -744,7 +744,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Business Inkjet 2800',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
             SNMPHOSTNAME => 'NPIE6C1AF',
             MAC          => '00:1b:78:e6:c1:af',
         },
@@ -889,7 +889,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Business Inkjet 2800',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
             SNMPHOSTNAME => 'NPIE6C19A',
             MAC          => '00:1b:78:e6:c1:9a',
         },
@@ -1034,7 +1034,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Business Inkjet 2800',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
             SNMPHOSTNAME => 'HPIJ2800-02',
             MAC          => '00:11:0a:f5:cc:dc',
         },
@@ -1178,7 +1178,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Business Inkjet 2800',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
             SNMPHOSTNAME => 'HPIJ2800-01',
             MAC          => '00:11:0a:f5:1a:cc',
         },
@@ -1927,7 +1927,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 100 colorMFP M175nw',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNC9D8R0DX,FN:RN32CK3,SVCID:22288,PID:HP LaserJet 100 colorMFP M175nw',
             SNMPHOSTNAME => 'NPIF6FA4A',
             MAC          => 'b4:b5:2f:f6:fa:4a',
             SERIAL       => 'CNC9D8R0DX',
@@ -2099,7 +2099,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 1300n',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14,CIDATE 09/24/2003',
             SNMPHOSTNAME => 'impbe94',
             MAC          => '00:0e:7f:33:34:ba',
             SERIAL       => 'CNCD118906',
@@ -2206,7 +2206,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 1320 series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
             SNMPHOSTNAME => 'NPI61044B',
             MAC          => '00:14:38:61:04:4b',
             SERIAL       => 'CNHW59NG6N',
@@ -2322,6 +2322,7 @@ my %tests = (
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
             DESCRIPTION  => 'hp LaserJet 1320 series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
             SNMPHOSTNAME => 'NPI9A3FC7',
             MAC          => '00:14:38:9a:3f:c7',
             SERIAL       => 'CNHW625K6Z',
@@ -2436,7 +2437,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 1320 series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
             SNMPHOSTNAME => 'NPIC68F5E',
             MAC          => '00:11:85:c6:8f:5e',
             SERIAL       => 'CNBW49FHC4',
@@ -2551,7 +2552,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
             MAC          => '00:30:c1:8a:6e:5b',
             SERIAL       => 'FRGW108125',
         },
@@ -2630,7 +2631,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
             MAC          => '00:30:c1:8a:6e:5b',
             SERIAL       => 'FRGW108125',
         },
@@ -2709,7 +2710,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
             MAC          => '00:30:c1:0d:aa:c6',
             SERIAL       => 'FRGW022412',
         },
@@ -2806,7 +2807,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
             MAC          => '00:10:83:54:d6:08',
             SERIAL       => 'XXXXXXXXXX',
         },
@@ -2903,7 +2904,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM C.25.80,JETDIRECT,JD115,EEPROM V.28.06,CIDATE 04/27/2004',
             SNMPHOSTNAME => 'l1618a',
             MAC          => '00:0e:7f:ea:e1:b7',
             SERIAL       => 'FRGW102302',
@@ -3034,7 +3035,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 2100 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD30,EEPROM G.08.20',
             MAC          => '00:30:c1:c3:be:cf',
             SERIAL       => 'NLBB001719',
         },
@@ -3131,7 +3132,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 2200',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
             MAC          => '00:30:c1:01:1e:68',
             SERIAL       => 'FRFRH43314',
         },
@@ -3236,7 +3237,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 2300 series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08,CIDATE 02/26/2003',
             SNMPHOSTNAME => 'NPIA1D034',
             MAC          => '00:01:e6:a1:d0:34',
             SERIAL       => 'CNCDF57941',
@@ -3375,7 +3376,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 2300 series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
             MAC          => '00:30:c1:60:c8:5b',
             SERIAL       => 'CNCHM24955',
         },
@@ -3480,7 +3481,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet 2600n',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
             SNMPHOSTNAME => 'NPI1864A0',
             MAC          => '00:1a:4b:18:64:a0',
         },
@@ -3594,7 +3595,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet 3600',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31,CIDATE 06/17/2005',
             SNMPHOSTNAME => 'NPI6F72C5',
             MAC          => '00:1b:78:6f:72:c5',
             SERIAL       => 'CNXJD65169',
@@ -3712,7 +3713,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 4000 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
             SNMPHOSTNAME => 'inspiron8',
             MAC          => '00:60:b0:91:3d:9d',
             SERIAL       => 'NLEW064384',
@@ -3803,7 +3804,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 400 color M451dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCF300725,FN:Q5132YG,SVCID:22330,PID:HP LaserJet 400 color M451dn',
             SNMPHOSTNAME => 'NPIF67498',
             MAC          => 'b4:b5:2f:f6:74:98',
             SERIAL       => 'CNCF300725',
@@ -3922,7 +3923,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 4050 Series ',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD33,EEPROM G.08.04',
             SNMPHOSTNAME => 'imprimanteBR',
             MAC          => '00:30:c1:8c:d5:6c',
             SERIAL       => 'NL7N093250',
@@ -4013,7 +4014,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 4050 Series ',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.40',
             MAC          => '00:10:83:ba:17:ce',
             SERIAL       => 'NL7V061384',
         },
@@ -4117,7 +4118,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4200',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09,CIDATE 07/24/2003',
             SNMPHOSTNAME => 'IMP41200n0',
             MAC          => '00:01:e6:a1:a7:81',
             SERIAL       => 'CNFX305387',
@@ -4236,7 +4237,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4250',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43,CIDATE 06/23/2004',
             SNMPHOSTNAME => 'impKirat',
             MAC          => '00:11:85:d9:f6:c7',
             SERIAL       => 'CNCXG01622',
@@ -4354,7 +4355,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4250',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
             SNMPHOSTNAME => 'l0812a',
             MAC          => '00:14:38:df:a5:30',
             SERIAL       => 'CNHXH84872',
@@ -4496,7 +4497,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4250',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63,CIDATE 04/07/2006',
             SNMPHOSTNAME => 'NPIEA2B02',
             MAC          => '00:23:7d:7e:a1:31',
             SERIAL       => 'CNHXG83836',
@@ -4638,7 +4639,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4250',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
             SNMPHOSTNAME => 'NPIEA3BFC',
             MAC          => '00:14:38:ea:3b:fc',
             SERIAL       => 'CNHXB71032',
@@ -4780,7 +4781,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4250',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
             SNMPHOSTNAME => 'l1310a',
             MAC          => '00:14:38:ea:2b:c4',
             SERIAL       => 'CNHXC68053',
@@ -4922,7 +4923,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4250',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
             SNMPHOSTNAME => 'l1439a',
             MAC          => '00:14:38:e2:12:d8',
             SERIAL       => 'CNHXH84870',
@@ -5064,7 +5065,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4250',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63,CIDATE 04/07/2006',
             SNMPHOSTNAME => 'l2007a',
             MAC          => '00:1b:78:28:26:cb',
             SERIAL       => 'CNHXB68748',
@@ -5206,7 +5207,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4250',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
             SNMPHOSTNAME => 'NPIEAFA59',
             MAC          => '00:14:38:ea:fa:59',
             SERIAL       => 'CNHXB71050',
@@ -5348,7 +5349,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4250',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19,CIDATE 12/17/2008',
             SNMPHOSTNAME => 'NPIEA8E82',
             MAC          => '00:23:7d:81:22:f7',
             SERIAL       => 'CNHXJ45092',
@@ -5490,7 +5491,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp LaserJet 4250',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.25,CIDATE 01/09/2012',
             SNMPHOSTNAME => 'L3000A',
             MAC          => '00:14:38:e2:12:5f',
             SERIAL       => 'CNHXC65951',
@@ -5632,7 +5633,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 500 color M551',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
             SNMPHOSTNAME => 'NPI419F6E',
             MAC          => '2c:76:8a:41:9f:6e',
             SERIAL       => 'SE00V4T',
@@ -5745,7 +5746,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'hp color LaserJet 5550 ',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
             SNMPHOSTNAME => 'IDD116',
             MAC          => '00:1b:78:f0:f4:47',
             SERIAL       => 'JPSV9B0GCX',
@@ -5865,7 +5866,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 600 M603',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
             SNMPHOSTNAME => 'lj1',
             MAC          => 'e8:39:35:90:92:1f',
             SERIAL       => 'CNBVD3D0HH',
@@ -5972,7 +5973,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet 600 M603',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
             SNMPHOSTNAME => 'lj2',
             MAC          => 'e8:39:35:90:22:ac',
             SERIAL       => 'TD031GM',
@@ -6079,7 +6080,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CM1312nfi MFP',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNB885QNXP,FN:NL106CH,SVCID:18334,PID:HP Color LaserJet CM1312nfi MFP',
             SNMPHOSTNAME => 'NPI271E90',
             MAC          => '00:1f:29:27:1e:90',
             SERIAL       => 'CNB885QNXP',
@@ -6198,7 +6199,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet CM1415fn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNF8BC11FK,FN:QD30T49,SVCID:21055,PID:HP LaserJet CM1415fn',
             SNMPHOSTNAME => 'B536-lwc237-Fax',
             MAC          => '68:b5:99:ad:61:8e',
             SERIAL       => 'CNF8BC11FK',
@@ -6317,7 +6318,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI7F5D71',
             MAC          => '00:23:7d:7f:5d:71',
             SERIAL       => 'CNFN9BYG41',
@@ -6436,7 +6437,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI7F5D71',
             MAC          => '00:23:7d:7f:5d:71',
             SERIAL       => 'CNFN9BYG41',
@@ -6555,7 +6556,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CM2320fxi MFP',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNDN99YG0D,FN:NN40AH0,SVCID:19312,PID:HP Color LaserJet CM2320fxi MFP',
             SNMPHOSTNAME => 'NPI828833',
             MAC          => '00:23:7d:82:88:33',
             SERIAL       => 'CNDN99YG0D',
@@ -6674,7 +6675,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CM2320nf MFP',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFTBDZ0FN,FN:PT60J59,SVCID:21046,PID:HP Color LaserJet CM2320nf MFP',
             SNMPHOSTNAME => 'NPIB302A7',
             MAC          => '3c:4a:92:b3:02:a7',
             SERIAL       => 'CNFTBDZ0FN',
@@ -6796,7 +6797,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet CP1025nw',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
             SNMPHOSTNAME => 'NPIA6032E',
             MAC          => '78:e7:d1:a6:03:2e',
         },
@@ -6909,7 +6910,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCSF01053,FN:MB01ZGH,SVCID:18347,PID:HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPI2AD743',
             MAC          => '00:1f:29:2a:d7:43',
             SERIAL       => 'CNCSF01053',
@@ -7031,7 +7032,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS437790,FN:MB27295,SVCID:22039,PID:HP Color LaserJet CP2025dn',
             SNMPHOSTNAME => 'NPIC3D5FF',
             MAC          => 'b4:99:ba:c3:d5:ff',
             SERIAL       => 'CNHS437790',
@@ -7153,7 +7154,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025n',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHSP65440,FN:MB303HX,SVCID:21236,PID:HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI117008',
             MAC          => '2c:27:d7:11:70:08',
             SERIAL       => 'CNHSP65440',
@@ -7275,7 +7276,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025n',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS404796,FN:MB04VB0,SVCID:19316,PID:HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI84C481',
             MAC          => '00:21:5a:84:c4:81',
             SERIAL       => 'CNCS404796',
@@ -7397,7 +7398,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025n',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS404796,FN:MB04VB0,SVCID:19316,PID:HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI84C481',
             MAC          => '00:21:5a:84:c4:81',
             SERIAL       => 'CNCS404796',
@@ -7519,7 +7520,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025n',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS212370,FN:MB03SY2,SVCID:19127,PID:HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI81E3A7',
             MAC          => '00:21:5a:81:e3:a7',
             SERIAL       => 'CNCS212370',
@@ -7641,7 +7642,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP2025n',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHSN58554,FN:MB258FW,SVCID:21095,PID:HP Color LaserJet CP2025n',
             SNMPHOSTNAME => 'NPI8FA1DD',
             MAC          => '78:ac:c0:8f:a1:dd',
             SERIAL       => 'CNHSN58554',
@@ -7763,7 +7764,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP3525',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67,CIDATE 06/17/2008',
             SNMPHOSTNAME => 'NPI85A57D',
             MAC          => '00:23:7d:85:a5:7d',
             SERIAL       => 'CNCT98DGJY',
@@ -7883,7 +7884,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP3525',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80,CIDATE 11/03/2009',
             SNMPHOSTNAME => 'Corinne',
             MAC          => 'd4:85:64:3d:ac:2e',
             SERIAL       => 'CNCTB9PHWG',
@@ -8003,7 +8004,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP3525',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80,CIDATE 11/03/2009',
             SNMPHOSTNAME => 'nerium',
             MAC          => 'd4:85:64:40:4d:93',
             SERIAL       => 'CBAFTBDG66',
@@ -8144,7 +8145,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP Color LaserJet CP4520 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99,CIDATE 11/26/2010',
             SNMPHOSTNAME => 'NPI10DB2C',
             MAC          => '2c:27:d7:10:db:2c',
             SERIAL       => 'JPCTC8M0LJ',
@@ -8265,7 +8266,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet Professional M1217nfw MFP',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
             SNMPHOSTNAME => 'l2407a',
             MAC          => '10:60:4b:19:a6:51',
         },
@@ -8434,7 +8435,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW898043,FN:JK5FJN3,SVCID:18327,PID:HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI83EC85',
             MAC          => '00:21:5a:83:ec:85',
             SERIAL       => 'CNBW898043',
@@ -8553,7 +8554,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW7BQ7BS,FN:JK44SRD,SVCID:18021,PID:HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI13EE63',
             MAC          => '00:1b:78:13:ee:63',
             SERIAL       => 'CNBW7BQ7BS',
@@ -8672,7 +8673,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW898043,FN:JK5FJN3,SVCID:18327,PID:HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI83EC85',
             MAC          => '00:21:5a:83:ec:85',
             SERIAL       => 'CNBW898043',
@@ -8791,7 +8792,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW87R2XX,FN:JK5BJMX,SVCID:00000,PID:HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI2BAB3D',
             MAC          => '00:1f:29:2b:ab:3d',
             SERIAL       => 'CNBW87R2XX',
@@ -8934,7 +8935,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW6DW3R8,FN:JK151HQ,SVCID:00000,PID:l0713a',
             SNMPHOSTNAME => 'NPI8CA86F',
             MAC          => '00:17:08:8c:a8:6f',
             SERIAL       => 'CNBW6DW3R8',
@@ -9077,7 +9078,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW7171V8,FN:JK15ESY,SVCID:00000,PID:HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI8E6910',
             MAC          => '00:17:08:8e:69:10',
             SERIAL       => 'CNBW7171V8',
@@ -9220,7 +9221,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW6DW37G,FN:JK15170,SVCID:00000,PID:l2405a',
             SNMPHOSTNAME => 'NPI8C980D',
             MAC          => '00:17:08:8c:98:0d',
             SERIAL       => 'CNBW6DW37G',
@@ -9363,7 +9364,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW76W0B8,FN:JK62250,SVCID:00000,PID:HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI7954CF',
             MAC          => '00:23:7d:79:54:cf',
             SERIAL       => 'CNBW76W0B8',
@@ -9506,7 +9507,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW74K7GP,FN:JK306JC,SVCID:00000,PID:HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI156F54',
             MAC          => '00:1a:4b:15:6f:54',
             SERIAL       => 'CNBW74K7GP',
@@ -9649,7 +9650,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2015 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW84P402,FN:JK54RBG,SVCID:00000,PID:HP LaserJet P2015 Series',
             SNMPHOSTNAME => 'NPI166E31',
             MAC          => '00:1f:29:16:6e:31',
             SERIAL       => 'CNBW84P402',
@@ -9792,7 +9793,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07,CIDATE 06/11/2008',
             SNMPHOSTNAME => 'NPI7E0932',
             MAC          => '00:21:5a:7e:09:32',
             SERIAL       => 'CNCKF02617',
@@ -9911,7 +9912,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07,CIDATE 06/11/2008',
             SNMPHOSTNAME => 'NPI8DDF43',
             MAC          => '00:21:5a:8d:df:43',
             SERIAL       => 'CNCKG11705',
@@ -10030,7 +10031,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
             SNMPHOSTNAME => 'NPI830993',
             MAC          => '00:23:7d:83:09:93',
             SERIAL       => 'CNCKC22953',
@@ -10149,7 +10150,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
             SNMPHOSTNAME => 'NPI83E8D5',
             MAC          => '00:23:7d:83:e8:d5',
             SERIAL       => 'CNCKC22950',
@@ -10268,7 +10269,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
             SNMPHOSTNAME => 'NPI886B5B',
             MAC          => '00:23:7d:88:6b:5b',
             SERIAL       => 'CNCKC40132',
@@ -10387,7 +10388,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
             SNMPHOSTNAME => 'NPI886B5B',
             MAC          => '00:23:7d:88:6b:5b',
             SERIAL       => 'CNCKC40132',
@@ -10506,7 +10507,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
             SNMPHOSTNAME => 'NPI80BDD9',
             MAC          => '1c:c1:de:80:bd:d9',
             SERIAL       => 'CNC1712027',
@@ -10625,7 +10626,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
             SNMPHOSTNAME => 'NPICB3982',
             MAC          => '1c:c1:de:cb:39:82',
             SERIAL       => 'CNCGC12715',
@@ -10744,7 +10745,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
             SNMPHOSTNAME => 'NPIC08394',
             MAC          => '3c:4a:92:c0:83:94',
             SERIAL       => 'CNCGB63494',
@@ -10863,7 +10864,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
             SNMPHOSTNAME => 'NPICBD8B1',
             MAC          => '1c:c1:de:cb:d8:b1',
             SERIAL       => 'CNCGC10444',
@@ -10982,7 +10983,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 07/12/2010',
             SNMPHOSTNAME => 'NPIB979A2',
             MAC          => '08:2e:5f:b9:79:a2',
             SERIAL       => 'CNC1C04989',
@@ -11101,7 +11102,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
             SNMPHOSTNAME => 'NPIC93D6D',
             MAC          => '1c:c1:de:c9:3d:6d',
             SERIAL       => 'CNC1822002',
@@ -11220,7 +11221,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
             SNMPHOSTNAME => 'l1019a',
             MAC          => '00:25:b3:eb:ea:20',
             SERIAL       => 'CNCKH91101',
@@ -11362,7 +11363,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
             SNMPHOSTNAME => 'NPIEB8A8F',
             MAC          => '00:25:b3:eb:8a:8f',
             SERIAL       => 'CNCKH91104',
@@ -11504,7 +11505,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
             SNMPHOSTNAME => 'l1a220a',
             MAC          => '00:25:b3:eb:7a:c7',
             SERIAL       => 'CNCKH91109',
@@ -11646,7 +11647,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P2055dn',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
             SNMPHOSTNAME => 'NPIEB4B44',
             MAC          => '00:25:b3:eb:4b:44',
             SERIAL       => 'CNCKH91103',
@@ -11788,7 +11789,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI7A5E2D',
             MAC          => '00:21:5a:7a:5e:2d',
             SERIAL       => 'CNH1R06635',
@@ -11904,7 +11905,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI91B509',
             MAC          => '00:17:08:91:b5:09',
             SERIAL       => 'CNFW6DG38S',
@@ -12043,7 +12044,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI947D4C',
             MAC          => '00:17:a4:94:7d:4c',
             SERIAL       => 'CNFW6DF0WL',
@@ -12182,7 +12183,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'L0420a',
             MAC          => '00:17:a4:93:4d:9f',
             SERIAL       => 'CNFW6DG39Q',
@@ -12321,7 +12322,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'l0500a',
             MAC          => '00:17:08:91:95:dd',
             SERIAL       => 'CNFW6DG38L',
@@ -12460,7 +12461,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI934D69',
             MAC          => '00:17:a4:93:4d:69',
             SERIAL       => 'CNFW6DG3DP',
@@ -12599,7 +12600,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI934D9C',
             MAC          => '00:17:a4:93:4d:9c',
             SERIAL       => 'CNFW6DG37P',
@@ -12738,7 +12739,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI917343',
             MAC          => '00:17:08:91:73:43',
             SERIAL       => 'CNFW6DG1MH',
@@ -12877,7 +12878,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'l1B220a',
             MAC          => '00:17:a4:93:df:9c',
             SERIAL       => 'CNFW6DG1LP',
@@ -13016,7 +13017,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI824876',
             MAC          => '00:17:08:82:48:76',
             SERIAL       => 'CNFW6DF0XF',
@@ -13155,7 +13156,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI934D5B',
             MAC          => '00:17:a4:93:4d:5b',
             SERIAL       => 'CNFW6DG394',
@@ -13294,7 +13295,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.60,CIDATE 03/04/2012',
             SNMPHOSTNAME => 'NPI939CBD',
             MAC          => '00:17:a4:93:a7:56',
             SERIAL       => 'CNFW6DG1NP',
@@ -13433,7 +13434,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3005',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'l2427a',
             MAC          => '00:17:a4:94:a6:1f',
             SERIAL       => 'CNFW6DG1M8',
@@ -13572,7 +13573,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3010 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10,CIDATE 01/12/2012',
             SNMPHOSTNAME => 'NPI013B81',
             MAC          => '00:9c:02:01:3b:81',
             SERIAL       => 'VNBQD3C0BF',
@@ -13688,7 +13689,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P3010 Series',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10,CIDATE 01/12/2012',
             SNMPHOSTNAME => 'NPI013B81',
             MAC          => '00:9c:02:01:3b:81',
             SERIAL       => 'VNBQD3C0BF',
@@ -13804,7 +13805,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P4014',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41,CIDATE 06/12/2009',
             SNMPHOSTNAME => 'NPIFFF0F2',
             MAC          => '18:a9:05:ff:f0:f2',
             SERIAL       => 'CNFX409800',
@@ -13946,7 +13947,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P4015',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36,CIDATE 04/10/2008',
             SNMPHOSTNAME => 'LJ30000000000000000000----------',
             MAC          => '00:21:5a:8f:ea:2b',
             SERIAL       => 'CNFY417951',
@@ -14065,7 +14066,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P4015',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36,CIDATE 04/10/2008',
             SNMPHOSTNAME => 'NPI8D9896',
             MAC          => '00:21:5a:8d:98:96',
             SERIAL       => 'CNFY409032',
@@ -14184,7 +14185,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P4015',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35,CIDATE 09/18/2007',
             SNMPHOSTNAME => 'NPI22C87C',
             MAC          => '00:1f:29:22:c8:7c',
             SERIAL       => 'CNFY213364',
@@ -14303,7 +14304,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P4015',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40,CIDATE 02/24/2009',
             SNMPHOSTNAME => 'NPI9706DE',
             MAC          => '00:21:5a:97:06:de',
             SERIAL       => 'CNFY183496',
@@ -14422,7 +14423,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'HP LaserJet P4015',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41,CIDATE 06/12/2009',
             SNMPHOSTNAME => 'NPIEADBFB',
             MAC          => '00:25:b3:ea:db:fb',
             SERIAL       => 'CNFY349204',
@@ -14541,7 +14542,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Officejet Pro 8600 N911g',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
             SNMPHOSTNAME => 'HP8C0C51',
             MAC          => 'ec:9a:74:8c:0c:51',
         },
@@ -14614,7 +14615,7 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Officejet Pro K5400',
+            DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
             SNMPHOSTNAME => 'HP560332',
             MAC          => '00:21:5a:56:03:32',
         },
