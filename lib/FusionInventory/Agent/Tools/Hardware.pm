@@ -171,11 +171,6 @@ my %base_variables = (
         default => '.1.3.6.1.2.1.1.4.0',
         type    => 'string',
     },
-    COMMENTS     => {
-        mapping => 'comments',
-        default => '.1.3.6.1.2.1.1.1.0',
-        type    => 'string',
-    },
     UPTIME       => {
         mapping => 'uptime',
         default => '.1.3.6.1.2.1.1.3.0',
@@ -601,8 +596,12 @@ sub getDeviceFullInfo {
     my %info = getDeviceInfo(%params);
     return unless %info;
 
-    # COMMENTS is raw SysDescr, while DESCRIPTION may have been altered
-    delete $info{DESCRIPTION};
+    # description is defined as DESCRIPTION for discovery
+    # and COMMENTS for inventory
+    if (exists $info{DESCRIPTION}) {
+        $info{COMMENTS} = $info{DESCRIPTION};
+        delete $info{DESCRIPTION};
+    }
 
     # host name is defined as SNMPHOSTNAME for discovery
     # and NAME for inventory
