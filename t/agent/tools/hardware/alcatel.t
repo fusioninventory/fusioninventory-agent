@@ -14,6 +14,7 @@ my %tests = (
         {
             MANUFACTURER => 'Alcatel-Lucent',
             TYPE         => 'NETWORKING',
+            MODEL        => 'OS6400-P24',
             DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
             SNMPHOSTNAME => 'CB-C005-127-os6400',
             MAC          => 'e8:e7:32:2b:c1:e2',
@@ -1131,6 +1132,7 @@ my %tests = (
         {
             MANUFACTURER => 'Alcatel-Lucent',
             TYPE         => 'NETWORKING',
+            MODEL        => 'OS6400-P24',
             DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
             SNMPHOSTNAME => 'CP-153-127',
             MAC          => 'e8:e7:32:2b:c1:e2',

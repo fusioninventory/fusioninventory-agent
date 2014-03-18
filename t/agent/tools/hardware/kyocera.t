@@ -14,6 +14,7 @@ my %tests = (
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
+            MODEL        => 'FS-C5350DN',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:80:ca:dd',
             SERIAL       => 'QVS0Z04925',
@@ -115,6 +116,7 @@ my %tests = (
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
+            MODEL        => 'FS-C5350DN',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:80:73:71',
             SERIAL       => 'QVS0Y04720',
@@ -216,6 +218,7 @@ my %tests = (
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
+            MODEL        => 'FS-C5350DN',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:80:73:6c',
             SERIAL       => 'QVS0Y04715',
@@ -317,6 +320,7 @@ my %tests = (
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
+            MODEL        => 'FS-2000D',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:6a:96:dd',
             SERIAL       => 'XLM7Y21506',
@@ -417,6 +421,7 @@ my %tests = (
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
+            MODEL        => 'FS-2000D',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:6a:97:07',
             SERIAL       => 'XLM7Y21503',
@@ -517,6 +522,7 @@ my %tests = (
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
+            MODEL        => 'CD 1218_DC 2218',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:2f:0d:d9',
             SERIAL       => 'QQM0701192',
@@ -610,6 +616,7 @@ my %tests = (
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
+            MODEL        => 'CD 1182_DC 2182',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:31:84:6b',
             SERIAL       => 'QJX9400014',
@@ -703,6 +710,7 @@ my %tests = (
         {
             MANUFACTURER => 'Kyocera',
             TYPE         => 'PRINTER',
+            MODEL        => 'CD 1430_DC 2430',
             DESCRIPTION  => 'UTAX_TA Printing System',
             MAC          => '00:c0:ee:80:dd:2d',
             SERIAL       => 'Q250Z01068',

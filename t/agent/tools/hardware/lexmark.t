@@ -14,6 +14,7 @@ my %tests = (
         {
             MANUFACTURER => 'Lexmark',
             TYPE         => 'PRINTER',
+            MODEL        => 'Lexmark T622 41XT225  543.006',
             DESCRIPTION  => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXK3936A4',
             MAC          => '00:04:00:9c:6c:25',

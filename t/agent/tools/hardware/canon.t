@@ -14,6 +14,7 @@ my %tests = (
         {
             MANUFACTURER => 'Canon',
             TYPE         => 'PRINTER',
+            MODEL        => 'Canon LBP7660C',
             DESCRIPTION  => 'Canon LBP7660C /P',
             SNMPHOSTNAME => 'LBP7660C',
             MAC          => '88:87:17:82:ca:b1',
@@ -104,6 +105,7 @@ my %tests = (
         {
             MANUFACTURER => 'Canon',
             TYPE         => 'PRINTER',
+            MODEL        => 'Canon MF4500 Series',
             DESCRIPTION  => 'Canon MF4500 Series /P',
             SNMPHOSTNAME => 'MF4500 Series',
             MAC          => '00:1e:8f:b0:9b:7d',

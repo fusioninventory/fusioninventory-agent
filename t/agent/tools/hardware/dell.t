@@ -14,6 +14,7 @@ my %tests = (
         {
             MANUFACTURER => 'Dell',
             TYPE         => 'PRINTER',
+            MODEL        => 'Dell Laser Printer M5200 9915DGL 551.014 --- Part Number ---',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKE6E33E-2',
             MAC          => '00:04:00:67:c7:7c',
@@ -157,6 +158,7 @@ my %tests = (
         {
             MANUFACTURER => 'Dell',
             TYPE         => 'PRINTER',
+            MODEL        => 'Dell Laser Printer M5200 992B216 551.019 --- Part Number ---',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
             SNMPHOSTNAME => 'LXKB92115',
             MAC          => '00:04:00:9d:84:a8',
@@ -300,6 +302,7 @@ my %tests = (
         {
             MANUFACTURER => 'Dell',
             TYPE         => 'PRINTER',
+            MODEL        => 'Dell 1600n',
             DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
             SNMPHOSTNAME => 'DEL0000f0aceaa9',
             MAC          => '00:00:f0:ac:ea:a9',
