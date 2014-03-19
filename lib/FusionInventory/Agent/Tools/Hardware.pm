@@ -171,10 +171,6 @@ my %base_variables = (
         default => '.1.3.6.1.2.1.1.3.0',
         type    => 'string',
     },
-    MANUFACTURER => {
-        default => '.1.3.6.1.2.1.43.8.2.1.14.1.1',
-        type    => 'string',
-    },
     MEMORY       => {
         default => [
             '.1.3.6.1.4.1.9.2.1.8.0',
@@ -350,16 +346,9 @@ sub getDeviceInfo {
     my $snmp    = $params{snmp};
     my $datadir = $params{datadir};
 
-    # retrieve sysdescr value, as it is our primary identification key
-    my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0'); # SNMPv2-MIB::sysDescr.0
-
-    # failure eithers means a network or a credential issue
-    return unless $sysdescr;
-
     my %device;
 
-    # first heuristic:
-    # compute manufacturer and type from sysobjectid (SNMPv2-MIB::sysObjectID.0)
+    # manufacturer, type and model identification attempt, using sysObjectID
     my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
     if ($sysobjectid) {
         my $prefix = qr/(?:
@@ -384,21 +373,20 @@ sub getDeviceInfo {
         }
     }
 
-    # second heuristic:
-    # compute manufacturer and type from first sysdescr word
-    my ($first_word) = $sysdescr =~ /^(\S+)/;
-    my $result = $sysdescr_first_word{lc($first_word)};
+    # manufacturer and type identification attempt, using sysDescr
+    my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
+    if ($sysdescr) {
 
-    if ($result) {
-        $device{MANUFACTURER} = $result->{vendor};
-        $device{TYPE}         = $result->{type} if $result->{type};
-    }
+        # first word
+        my ($first_word) = $sysdescr =~ /^(\S+)/;
+        my $result = $sysdescr_first_word{lc($first_word)};
 
-    # third heuristic:
-    # compute manufacturer, type and a more specific identification key
-    # from a list of rules matched against sysdescr value
-    # the first matching rule wins
-    if ($snmp) {
+        if ($result) {
+            $device{MANUFACTURER} = $result->{vendor} if $result->{vendor};
+            $device{TYPE}         = $result->{type} if $result->{type};
+        }
+
+        # whole sysdescr value
         foreach my $rule (@sysdescr_rules) {
             next unless $sysdescr =~ $rule->{match};
             $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp)
@@ -409,22 +397,26 @@ sub getDeviceInfo {
                 if $rule->{description};
             last;
         }
+        $device{DESCRIPTION} = $sysdescr;
     }
 
-    # use sysdescr as default identification key
-    $device{DESCRIPTION}  = $sysdescr if !$device{DESCRIPTION};
-
-    if (exists $device{TYPE} and !exists $device{MODEL}) {
-        my $oid =
-            $device{TYPE} eq 'PRINTER'    ? '.1.3.6.1.2.1.25.3.2.1.3.1'    :
-            $device{TYPE} eq 'NETWORKING' ? '.1.3.6.1.2.1.47.1.1.1.1.13.1' :
-                                            undef;
-
-        my $model = $snmp->get($oid);
+    # fallback model identification attempt, using type-specific OID
+    if (!exists $device{MODEL} && exists $device{TYPE}) {
+        my $type = $device{TYPE};
+        my $model =
+            $type eq 'PRINTER'    ? $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1')    :
+            $type eq 'NETWORKING' ? $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') :
+                                    undef;
         $device{MODEL} = $model if $model;
     }
 
-    # SNMPv2-MIB::sysName.0
+    # fallback manufacturer identification attempt, using type-agnostic OID
+    if (!exists $device{MANUFACTURER}) {
+        my $manufacturer = $snmp->get('.1.3.6.1.2.1.43.8.2.1.14.1.1');
+        $device{MANUFACTURER} = $manufacturer if $manufacturer;
+    }
+
+    # remaining informations
     my $hostname = $snmp->get('.1.3.6.1.2.1.1.5.0');
     $device{SNMPHOSTNAME} = $hostname if $hostname;
 
