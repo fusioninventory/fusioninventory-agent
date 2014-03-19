@@ -144,106 +144,106 @@ my @sysdescr_rules = (
 # common base variables
 my %base_variables = (
     MAC          => {
-        default => '.1.3.6.1.2.1.17.1.1.0',
-        type    => 'mac',
+        oid  => '.1.3.6.1.2.1.17.1.1.0',
+        type => 'mac',
     },
     CPU          => {
-        default => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1',
-        type    => 'count',
+        oid  => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1',
+        type => 'count',
     },
     LOCATION     => {
-        default => '.1.3.6.1.2.1.1.6.0',
-        type    => 'string',
+        oid  => '.1.3.6.1.2.1.1.6.0',
+        type => 'string',
     },
     CONTACT      => {
-        default => '.1.3.6.1.2.1.1.4.0',
-        type    => 'string',
+        oid  => '.1.3.6.1.2.1.1.4.0',
+        type => 'string',
     },
     UPTIME       => {
-        default => '.1.3.6.1.2.1.1.3.0',
-        type    => 'string',
+        oid  => '.1.3.6.1.2.1.1.3.0',
+        type => 'string',
     },
     MEMORY       => {
-        default => [
+        oid  => [
             '.1.3.6.1.4.1.9.2.1.8.0',
             '.1.3.6.1.2.1.25.2.3.1.5.1',
         ],
-        type    => 'memory',
+        type => 'memory',
     },
     RAM          => {
-        default => '.1.3.6.1.4.1.9.3.6.6.0',
-        type    => 'memory',
+        oid  => '.1.3.6.1.4.1.9.3.6.6.0',
+        type => 'memory',
     },
 );
 
 # common interface variables
 my %interface_variables = (
     IFNUMBER         => {
-        default => '.1.3.6.1.2.1.2.2.1.1',
-        type    => 'none'
+        oid  => '.1.3.6.1.2.1.2.2.1.1',
+        type => 'none'
     },
     IFDESCR          => {
-        default => '.1.3.6.1.2.1.2.2.1.2',
-        type    => 'string',
+        oid  => '.1.3.6.1.2.1.2.2.1.2',
+        type => 'string',
     },
     IFNAME           => {
-        default => [
+        oid  => [
             '.1.3.6.1.2.1.31.1.1.1.1',
             '.1.3.6.1.2.1.2.2.1.2',
         ],
-        type    => 'string',
+        type => 'string',
     },
     IFTYPE           => {
-        default => '.1.3.6.1.2.1.2.2.1.3',
-        type    => 'constant',
+        oid  => '.1.3.6.1.2.1.2.2.1.3',
+        type => 'constant',
     },
     IFMTU            => {
-        default => '.1.3.6.1.2.1.2.2.1.4',
-        type    => 'count',
+        oid  => '.1.3.6.1.2.1.2.2.1.4',
+        type => 'count',
     },
     IFSPEED          => {
-        default => '.1.3.6.1.2.1.2.2.1.5',
-        type    => 'count',
+        oid  => '.1.3.6.1.2.1.2.2.1.5',
+        type => 'count',
     },
     IFSTATUS         => {
-        default => '.1.3.6.1.2.1.2.2.1.8',
-        type    => 'constant',
+        oid  => '.1.3.6.1.2.1.2.2.1.8',
+        type => 'constant',
     },
     IFINTERNALSTATUS => {
-        default => '.1.3.6.1.2.1.2.2.1.7',
-        type    => 'constant',
+        oid  => '.1.3.6.1.2.1.2.2.1.7',
+        type => 'constant',
     },
     IFLASTCHANGE     => {
-        default => '.1.3.6.1.2.1.2.2.1.9',
-        type    => 'none'
+        oid  => '.1.3.6.1.2.1.2.2.1.9',
+        type => 'none'
     },
     IFINOCTETS       => {
-        default => '.1.3.6.1.2.1.2.2.1.10',
-        type    => 'count',
+        oid  => '.1.3.6.1.2.1.2.2.1.10',
+        type => 'count',
     },
     IFOUTOCTETS      => {
-        default => '.1.3.6.1.2.1.2.2.1.16',
-        type    => 'count',
+        oid  => '.1.3.6.1.2.1.2.2.1.16',
+        type => 'count',
     },
     IFINERRORS       => {
-        default => '.1.3.6.1.2.1.2.2.1.14',
-        type    => 'count',
+        oid  => '.1.3.6.1.2.1.2.2.1.14',
+        type => 'count',
     },
     IFOUTERRORS      => {
-        default => '.1.3.6.1.2.1.2.2.1.20',
-        type    => 'count',
+        oid  => '.1.3.6.1.2.1.2.2.1.20',
+        type => 'count',
     },
     MAC              => {
-        default => '.1.3.6.1.2.1.2.2.1.6',
-        type    => 'mac',
+        oid  => '.1.3.6.1.2.1.2.2.1.6',
+        type => 'mac',
     },
     IFPORTDUPLEX     => {
-        default => '.1.3.6.1.2.1.10.7.2.1.19',
-        type    => 'constant',
+        oid  => '.1.3.6.1.2.1.10.7.2.1.19',
+        type => 'constant',
     },
     IFALIAS          => {
-        default => '.1.3.6.1.2.1.31.1.1.1.18',
-        type    => 'string',
+        oid  => '.1.3.6.1.2.1.31.1.1.1.18',
+        type => 'string',
     },
 );
 
@@ -317,7 +317,7 @@ my %consumable_variables_from_type = (
 # printer-specific page counter variables
 my %printer_pagecounters_variables = (
     TOTAL      => {
-        default => '.1.3.6.1.2.1.43.10.2.1.4.1.1'
+        oid   => '.1.3.6.1.2.1.43.10.2.1.4.1.1'
     },
     BLACK      => { },
     COLOR      => { },
@@ -596,16 +596,16 @@ sub _setGenericProperties {
         next if $device->{INFO}->{$key};
 
         my $variable = $base_variables{$key};
-        next unless $variable->{default};
+        next unless $variable->{oid};
 
         my $raw_value;
-        if (ref $variable->{default} eq 'ARRAY') {
-            foreach my $default (@{$variable->{default}}) {
-                $raw_value = $snmp->get($default);
+        if (ref $variable->{oid} eq 'ARRAY') {
+            foreach my $oid (@{$variable->{oid}}) {
+                $raw_value = $snmp->get($oid);
                 last if defined $raw_value;
             }
         } else {
-            $raw_value = $snmp->get($variable->{default});
+            $raw_value = $snmp->get($variable->{oid});
         }
         next unless defined $raw_value;
 
@@ -631,16 +631,16 @@ sub _setGenericProperties {
 
     foreach my $key (keys %interface_variables) {
         my $variable = $interface_variables{$key};
-        next unless $variable->{default};
+        next unless $variable->{oid};
 
         my $results;
-        if (ref $variable->{default} eq 'ARRAY') {
-            foreach my $default (@{$variable->{default}}) {
-                $results = $snmp->walk($default);
+        if (ref $variable->{oid} eq 'ARRAY') {
+            foreach my $oid (@{$variable->{oid}}) {
+                $results = $snmp->walk($oid);
                 last if $results;
             }
         } else {
-            $results = $snmp->walk($variable->{default});
+            $results = $snmp->walk($variable->{oid});
         }
         next unless $results;
 
@@ -715,7 +715,7 @@ sub _setPrinterProperties {
     # page counters
     foreach my $key (keys %printer_pagecounters_variables) {
         my $variable = $printer_pagecounters_variables{$key};
-        my $oid = $variable->{default};
+        my $oid = $variable->{oid};
         my $value = $snmp->get($oid);
         next unless defined $value;
         if (!_isInteger($value)) {
