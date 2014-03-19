@@ -10892,7 +10892,7 @@ my %tests = (
     ],
     'extreme/summit450.01.walk' => [
         {
-            MANUFACTURER => 'Extrem Networks',
+            MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
             SNMPHOSTNAME => 'sw-bat02',
@@ -10900,7 +10900,7 @@ my %tests = (
             MODEL        => 'Summit x450e-48p',
         },
         {
-            MANUFACTURER => 'Extrem Networks',
+            MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
             SNMPHOSTNAME => 'sw-bat02',
@@ -10910,7 +10910,7 @@ my %tests = (
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Extrem Networks',
+                MANUFACTURER => 'Extreme',
                 TYPE         => 'NETWORKING',
                 MODEL        => 'Summit x450e-48p',
                 COMMENTS     => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
@@ -11518,7 +11518,7 @@ my %tests = (
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Extrem Networks',
+                MANUFACTURER => 'Extreme',
                 TYPE         => 'NETWORKING',
                 MODEL        => 'Summit x450e-48p',
                 COMMENTS     => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
@@ -20958,7 +20958,7 @@ my %tests = (
     ],
     'extreme/summitx350.01.walk' => [
         {
-            MANUFACTURER => 'Extrem Networks',
+            MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
             SNMPHOSTNAME => 'sw30-c01-1',
@@ -20967,7 +20967,7 @@ my %tests = (
             SERIAL       => '1115G-80540',
         },
         {
-            MANUFACTURER => 'Extrem Networks',
+            MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
             SNMPHOSTNAME => 'sw30-c01-1',
@@ -20977,7 +20977,7 @@ my %tests = (
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Extrem Networks',
+                MANUFACTURER => 'Extreme',
                 TYPE         => 'NETWORKING',
                 MODEL        => 'Summit X350',
                 COMMENTS     => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
@@ -22579,7 +22579,7 @@ my %tests = (
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Extrem Networks',
+                MANUFACTURER => 'Extreme',
                 TYPE         => 'NETWORKING',
                 MODEL        => 'Summit X350',
                 COMMENTS     => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
