@@ -132,22 +132,12 @@ my %sysdescr_first_word = (
 
 my @sysdescr_rules = (
     {
-        match       => qr/^\S+ Service Release/,
-        vendor      => { value => 'Alcatel'    },
-        type        => { value => 'NETWORKING' }
+        match => qr/Switch/,
+        type  => 'NETWORKING',
     },
     {
-        match       => qr/^Ethernet Switch$/,
-        vendor      => { value => 'Dell'       },
-        type        => { value => 'NETWORKING' }
-    },
-    {
-        match       => qr/A SNMP proxy agent, EEPROM/,
-        vendor      => { value => 'Hewlett-Packard' }
-    },
-    {
-        match       => qr/JETDIRECT/,
-        type        => { value => 'PRINTER' }
+        match => qr/JETDIRECT/,
+        type  => 'PRINTER',
     },
 );
 
@@ -391,12 +381,8 @@ sub getDeviceInfo {
         # whole sysdescr value
         foreach my $rule (@sysdescr_rules) {
             next unless $sysdescr =~ $rule->{match};
-            $device{MANUFACTURER} = _apply_rule($rule->{vendor}, $snmp)
-                if $rule->{vendor};
-            $device{TYPE}         = _apply_rule($rule->{type}, $snmp)
-                if $rule->{type};
-            $device{DESCRIPTION}  = _apply_rule($rule->{description}, $snmp)
-                if $rule->{description};
+            $device{MANUFACTURER} = $rule->{vendor} if $rule->{vendor};
+            $device{TYPE}         = $rule->{type}   if $rule->{type};
             last;
         }
         $device{DESCRIPTION} = $sysdescr;
@@ -527,20 +513,6 @@ sub _apply_rule {
 
     if ($rule->{value}) {
         return $rule->{value};
-    }
-
-    if ($rule->{oid}) {
-        return $snmp->get($rule->{oid});
-    }
-
-    if ($rule->{function}) {
-        my ($module, $function) = $rule->{function} =~ /^(\S+)::(\S+)$/;
-        return runFunction(
-            module   => $module,
-            function => $function,
-            params   => $snmp,
-            load     => 1
-        );
     }
 }
 
