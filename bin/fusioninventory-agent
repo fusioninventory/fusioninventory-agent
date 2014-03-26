@@ -177,255 +177,95 @@ network discovery
 
 =head1 OPTIONS
 
-=head2 Control server definition options
+=head2 Generic options
 
 =over
 
 =item B<-s> I<URI>, B<--server> I<URI>
 
-Use the given server as a controller for this agent, and as a recipient for
-task execution output.
+Set B<server> directive, see L<agent.cfg> for details.
 
-If I<URI> doesn't start with http:// or https://, it is assumed to be
-an hostname and rewritten as:
+=item B<--delaytime> I<time>
 
-    % --server=http://servername/ocsinventory
-
-In general, OCS Inventory server URL have this format:
-
-    http://servername/ocsinventory
-
-and FusionInventory for GLPI this one:
-
-    http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
-
-Multiple values can be specified, using comma as a separator.
-
-=back
-
-=head2 Scheduling options
-
-=over
-
-=item B<--delaytime> I<TIME>
-
-Set an initial delay before contacting the control server, whose value is
-computed randomly between TIME / 2 and TIME seconds. This setting is ignored
-after the initial contact, in favor of server-specified parameter
-(PROLOG_FREQ).
+Set B<delaytime> directive, see L<agent.cfg> for details.
 
 =item B<--lazy>
 
-Do not contact the control server before next scheduled time.
+Set B<lazy> directive, see L<agent.cfg> for details.
 
-This option is only available when the agent is not run as a daemon.
+=item B<--no-task> I<task>
 
-=back
+Set B<no-task> directive, see L<agent.cfg> for details.
 
-=head2 Task selection options
+=item B<-P> I<URI>, B<--proxy> I<URI>
 
-=over
+Set B<proxy> directive, see L<agent.cfg> for details.
 
-=item B<--list-tasks>
+=item B<-u> I<user>, B<--user> I<user>
 
-List available tasks and exit
+Set B<user> directive, see L<agent.cfg> for details.
 
-=item B<--no-task> I<TASK>
+=item B<-p> I<password>, B<--password> I<password>
 
-Do not run given task.
+Set B<password> directive, see L<agent.cfg> for details.
 
-Multiple values can be specified, using comma as a separator. See option
-I<--list-tasks> for the list of available tasks.
+=item B<--ca-cert-dir> I<directory>
 
-=back
+Set B<ca-cert-dir> directive, see L<agent.cfg> for details.
 
-=head2 Inventory task specific options
+=item B<--ca-cert-file> I<file>
 
-=over
-
-=item B<--no-category> I<CATEGORY>
-
-Do not list given category items in inventory.
-
-Multiple values can be specified, using comma as a separator. The available
-categories are:
-
-=over 4
-
-=item
-
-printer
-
-=item
-
-software
-
-=item
-
-environment
-
-=item
-
-process
-
-=item
-
-user
-
-=back
-
-=item B<--scan-homedirs>
-
-Allow the agent to scan home directories for virtual machines.
-
-=item B<-f>, B<--force>
-
-Send an inventory to the server, even if this last one doesn't ask for it.
-
-=item B<--collect-timeout> I<TIME>
-
-Timeout for inventory modules execution.
-
-=item B<--additional-content> I<FILE>
-
-Additional inventory content file.
-
-This file should be an XML file, using same syntax as the one produced by the
-agent.
-
-=back
-
-=head2 Package deployment task specific options
-
-=over
-
-=item B<--no-p2p>
-
-Do not use peer to peer to download files.
-
-=back
-
-=head2 Network options
-
-=over
-
-=item B<-P> I<PROXY>, B<--proxy> I<PROXY>
-
-Use I<PROXY> as HTTP proxy.
-
-By default, the agent uses HTTP_PROXY environment variable.
-
-=item B<-u> I<USER>, B<--user> I<USER>
-
-Use I<USER> for server authentication.
-
-=item B<-p> I<PASSWORD>, B<--password> I<PASSWORD>
-
-Use I<PASSWORD> for server authentication.
-
-=item B<--ca-cert-dir> I<DIRECTORY>
-
-CA certificates directory.
-
-=item B<--ca-cert-file> I<FILE>
-
-CA certificates file.
+Set B<ca-cert-file> directive, see L<agent.cfg> for details.
 
 =item B<--no-ssl-check>
 
-Do not check server SSL certificate.
+Set B<no-ssl-check> directive, see L<agent.cfg> for details.
 
-=item B<--timeout> I<TIME>
+=item B<--timeout> I<time>
 
-Timeout for server connections.
-
-=back
-
-=head2 Web interface options
-
-=over
+Set B<timeout> directive, see L<agent.cfg> for details.
 
 =item B<--no-httpd>
 
-Disable the embedded web server.
+Set B<no-httpd> directive, see L<agent.cfg> for details.
 
-=item B<--httpd-ip> I<IP>
+=item B<--httpd-ip> I<ip>
 
-The network interface to use for the embedded web server (all).
+Set B<httpd-ip> directive, see L<agent.cfg> for details.
 
-=item B<--httpd-port> I<PORT>
+=item B<--httpd-port> I<port>
 
-The network port to use for the embedded web server (62354).
+Set B<httpd-port> directive, see L<agent.cfg> for details.
 
-=item B<--httpd-trust> I<IP>
+=item B<--httpd-trust> I<ip>
 
-Trust requests from given addresses without authentication token (false).
+Set B<httpd-trust> directive, see L<agent.cfg> for details.
 
-For example: "192.168.0.0/24", "192.168.168.0.5" or an IP range like
-"20.34.101.207 - 201.3.9.99". Hostnames are also accepted. See L<Net::IP>
-documentation to get more example.
+=item B<--logger> I<backend>
 
-Multiple values can be specified, using comma as a separator.
+Set B<logger> directive, see L<agent.cfg> for details.
 
-=back
+=item B<--logfile> I<file>
 
-=head2 Logging options
+Set B<logfile> directive, see L<agent.cfg> for details.
 
-=over
+=item B<--logfile-maxsize> I<size>
 
-=item B<--logger> I<BACKEND>
+Set B<logfile-maxsize> directive, see L<agent.cfg> for details.
 
-Logger backend to use.
+=item B<--logfacility> I<facility>
 
-Multiple values can be specified, using comma as a separator. The available
-backends are:
-
-=over 4
-
-=item
-
-stderr: log messages directly in the console.
-
-=item
-
-file: log messages in a file.
-
-=item
-
-syslog: log messages through the local syslog server.
-
-=back
-
-Multiple values can be specified, using comma as a separator.
-
-=item B<--logfile> I<FILE>
-
-Log message in I<FILE> (implies File logger backend).
-
-=item B<--logfile-maxsize> I<SIZE>
-
-Max logfile size in MB, default is unlimited. When the max size is reached, the
-file is truncated. This is only useful if there is no log rotation mechanism on
-the system.
-
-=item B<--logfacility> I<FACILITY>
-
-Syslog facility to use (default LOG_USER).
+Set B<logfacility> directive, see L<agent.cfg> for details.
 
 =item B<--color>
 
-Display color on the terminal, when the Stderr backend is used.
+Set B<color> directive, see L<agent.cfg> for details.
 
-This options is ignored on Windows.
+=item B<--debug>
 
-=back
+Set B<debug> directive, see L<agent.cfg> for details.
 
-=head2 Configuration options
-
-=over
-
-
-=item B<--config> I<BACKEND>
+=item B<--config> I<backend>
 
 Configuration backend to use.
 
@@ -447,17 +287,11 @@ none: don't read any configuration.
 
 =back
 
-=item B<--conf-file> I<FILE>
+=item B<--conf-file> I<file>
 
-Use I<FILE> as configuration file (implies file configuration backend).
+Use I<file> as configuration file (implies file configuration backend).
 
-=back
-
-=head2 Execution mode options
-
-=over
-
-=item B<-w> I<TIME>, B<--wait> I<TIME>
+=item B<-w> I<time>, B<--wait> I<time>
 
 Wait a random delay whose value is computed randomly between 0 and TIME
 seconds, before execution. This is useful when execution is triggered from some
@@ -471,19 +305,11 @@ Run the agent as a daemon.
 
 Don't fork in background.
 
-This is only useful when running as a daemon.
+This option is only honoured when running as a daemon.
 
-=item B<--tag> I<TAG>
+=item B<--list-tasks>
 
-Add the given tag to every inventory results.
-
-=item B<--debug>
-
-Turn the debug mode on. You can use the parameter up to 3 times in a row
-to increase the verbosity (e.g: B<--debug --debug>).
-
-Level 3 turns on the debug mode of some external libraries like Net::SSLeay.
-These messages will only be be printed on STDERR.
+List available tasks and exit.
 
 =item B<--setup>
 
@@ -492,5 +318,45 @@ Print the agent setup directories and exit.
 =item B<--version>
 
 Print the version and exit.
+
+=back
+
+=head2 Inventory task specific options
+
+=over
+
+=item B<--no-category> I<category>
+
+Set B<no-category> directive, see L<agent.cfg> for details.
+
+=item B<--scan-homedirs>
+
+Set B<scan-homedirs> directive, see L<agent.cfg> for details.
+
+=item B<-f>, B<--force>
+
+Set B<force> directive, see L<agent.cfg> for details.
+
+=item B<--collect-timeout> I<time>
+
+Set B<collect-timeout> directive, see L<agent.cfg> for details.
+
+=item B<--additional-content> I<file>
+
+Set B<additional-content> directive, see L<agent.cfg> for details.
+
+=item B<--tag> I<string>
+
+Set B<tag> directive, see L<agent.cfg> for details.
+
+=back
+
+=head2 Deployment task specific options
+
+=over
+
+=item B<--no-p2p>
+
+Set B<no-p2p> directive, see L<agent.cfg> for details.
 
 =back
