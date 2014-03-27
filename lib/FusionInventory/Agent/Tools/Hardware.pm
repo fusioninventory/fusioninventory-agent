@@ -143,10 +143,6 @@ my @sysdescr_rules = (
 
 # common base variables
 my %base_variables = (
-    #MAC          => {
-    #    oid  => '.1.3.6.1.2.1.17.1.1.0',
-    #    type => 'mac',
-    #},
     CPU          => {
         oid  => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1',
         type => 'count',
@@ -425,10 +421,9 @@ sub getDeviceInfo {
 
         my $type = $variable->{type};
         my $value =
-            $type eq 'mac'    ? _getCanonicalMacAddress($raw_value)   :
-            $type eq 'memory' ? _getCanonicalMemory($raw_value)       :
-            $type eq 'string' ? _getCanonicalString($raw_value)       :
-            $type eq 'count'  ? _getCanonicalCount($raw_value)        :
+            $type eq 'memory' ? _getCanonicalMemory($raw_value) :
+            $type eq 'string' ? _getCanonicalString($raw_value) :
+            $type eq 'count'  ? _getCanonicalCount($raw_value)  :
                                 $raw_value;
 
         $device{$key} = $value if defined $value;
