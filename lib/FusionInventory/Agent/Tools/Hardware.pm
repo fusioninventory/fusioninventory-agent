@@ -435,6 +435,9 @@ sub getDeviceInfo {
     my $serial = _getSerial($snmp, $device{TYPE});
     $device{SERIAL} = $serial if $serial;
 
+    my $firmware = _getFirmware($snmp, $device{TYPE});
+    $device{FIRMWARE} = $firmware if $firmware;
+
     my $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.1');
     $device{IPS}->{IP} =  [
         sort values %{$results}
@@ -506,6 +509,24 @@ sub _getSerial {
         my $value = $snmp->get($oid);
         next unless $value;
         return _getCanonicalSerialNumber($value);
+    }
+
+    return;
+}
+
+sub _getFirmware {
+    my ($snmp, $type) = @_;
+
+    my @oids = (
+        '.1.3.6.1.2.1.47.1.1.1.1.9.1',
+        '.1.3.6.1.2.1.47.1.1.1.1.10.1',
+        '.1.3.6.1.4.1.9.9.25.1.1.1.2.5'
+    );
+
+    foreach my $oid (@oids) {
+        my $value = $snmp->get($oid);
+        next unless $value;
+        return $value;
     }
 
     return;
