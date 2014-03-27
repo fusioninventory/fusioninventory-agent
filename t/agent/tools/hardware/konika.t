@@ -27,13 +27,6 @@ my %tests = (
             UPTIME       => '(80180925) 9 days, 6:43:29.25',
         },
         {
-            MANUFACTURER => 'Konica',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:aa:27:95:9e',
-            MODEL        => 'bizhub 421',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Konica',
@@ -163,13 +156,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(105584922) 12 days, 5:17:29.22',
-        },
-        {
-            MANUFACTURER => 'Konica',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:aa:27:96:68',
-            MODEL        => 'bizhub 421',
         },
         {
             INFO => {
@@ -303,13 +289,6 @@ my %tests = (
             UPTIME       => '(8072382) 22:25:23.82',
         },
         {
-            MANUFACTURER => 'Konica',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:aa:27:95:a3',
-            MODEL        => 'bizhub 421',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Konica',
@@ -440,13 +419,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(17995666) 2 days, 1:59:16.66',
-        },
-        {
-            MANUFACTURER => 'Konica',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
-            MAC          => '00:20:6b:8a:dc:ec',
-            MODEL        => 'bizhub C224',
         },
         {
             INFO => {
@@ -601,13 +573,6 @@ my %tests = (
             UPTIME       => '(7570291) 21:01:42.91',
         },
         {
-            MANUFACTURER => 'Konica',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
-            MAC          => '00:20:6b:8a:dc:ec',
-            MODEL        => 'bizhub C224',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Konica',
@@ -758,13 +723,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(43193657) 4 days, 23:58:56.57',
-        },
-        {
-            MANUFACTURER => 'Konica',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'KONICA MINOLTA bizhub C554e',
-            MAC          => '00:20:6b:82:91:78',
-            MODEL        => 'bizhub C554',
         },
         {
             INFO => {
@@ -928,7 +886,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 

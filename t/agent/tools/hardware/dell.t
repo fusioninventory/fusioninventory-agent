@@ -29,13 +29,6 @@ my %tests = (
             UPTIME       => '(259620718) 30 days, 1:10:07.18',
         },
         {
-            MANUFACTURER => 'Dell',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
-            SNMPHOSTNAME => 'LXKE6E33E-2',
-            MAC          => '00:04:00:67:c7:7c',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Dell',
@@ -179,13 +172,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(259655546) 30 days, 1:15:55.46',
-        },
-        {
-            MANUFACTURER => 'Dell',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
-            SNMPHOSTNAME => 'LXKB92115',
-            MAC          => '00:04:00:9d:84:a8',
         },
         {
             INFO => {
@@ -332,13 +318,6 @@ my %tests = (
             UPTIME       => '(10346500) 1 day, 4:44:25.00',
         },
         {
-            MANUFACTURER => 'Dell',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
-            SNMPHOSTNAME => 'DEL0000f0aceaa9',
-            MAC          => '00:00:f0:ac:ea:a9',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Dell',
@@ -481,7 +460,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 }

@@ -23,14 +23,6 @@ my %tests = (
             SERIAL       => 'LBNNTMMD1706WF',
         },
         {
-            MANUFACTURER => 'Nortel',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Ethernet Routing Switch 4548GT-PWR    HW:06       FW:5.2.0.3   SW:v5.2.0.008 BN:08 (c) Nortel Networks',
-            SNMPHOSTNAME => '4548_DOULEUR',
-            MAC          => 'e8:05:6d:27:5c:02',
-            MODEL        => 'Ethernet Routing Switch 4548GT-PWR',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Nortel',
@@ -3178,17 +3170,6 @@ my %tests = (
             UPTIME       => '(78352234) 9 days, 1:38:42.34',
         },
         {
-            MANUFACTURER => 'Nortel',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
-            SNMPHOSTNAME => 'Bay470',
-            MAC          => '00:15:40:94:75:a2',
-            MODELSNMP    => 'Networking2050',
-            MODEL        => 'Baystack 470 24T',
-            FIRMWARE     => undef,
-            SERIAL       => 'SACC170NLH',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Nortel',
@@ -4445,17 +4426,6 @@ my %tests = (
             SNMPHOSTNAME => '470_99_OBS',
             LOCATION     => 'Salle Informatique',
             MAC          => '00:1d:af:ea:a0:e2',
-            SERIAL       => 'LBNNTMJX5809LW',
-        },
-        {
-            MANUFACTURER => 'Nortel',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
-            SNMPHOSTNAME => '470_99_OBS',
-            MAC          => '00:1d:af:ea:a0:e2',
-            MODELSNMP    => 'Networking0316',
-            MODEL        => 'Baystack 470 24T',
-            FIRMWARE     => undef,
             SERIAL       => 'LBNNTMJX5809LW',
         },
         {
@@ -6180,7 +6150,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 }

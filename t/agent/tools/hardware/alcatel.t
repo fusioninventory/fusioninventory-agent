@@ -30,16 +30,6 @@ my %tests = (
             UPTIME       => '(1442631100) 166 days, 23:18:31.00',
         },
         {
-            MANUFACTURER => 'Alcatel-Lucent',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
-            SNMPHOSTNAME => 'CB-C005-127-os6400',
-            MAC          => 'e8:e7:32:2b:c1:e2',
-            MODELSNMP    => 'Networking2189',
-            FIRMWARE     => undef,
-            SERIAL       => 'M4682816',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Alcatel-Lucent',
@@ -1150,16 +1140,6 @@ my %tests = (
             MAC          => 'e8:e7:32:2b:c1:e2',
         },
         {
-            MANUFACTURER => 'Alcatel-Lucent',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
-            SNMPHOSTNAME => 'CP-153-127',
-            MAC          => 'e8:e7:32:2b:c1:e2',
-            MODELSNMP    => 'Networking2189',
-            FIRMWARE     => undef,
-            SERIAL       => 'M4682816',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Alcatel-Lucent',
@@ -2122,7 +2102,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 

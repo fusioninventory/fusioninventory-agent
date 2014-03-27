@@ -21,13 +21,6 @@ my %tests = (
             LOCATION     => 'here',
         },
         {
-            MANUFACTURER => 'EMC',
-            TYPE         => 'STORAGE',
-            DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
-            SNMPHOSTNAME => 'server_2',
-            MAC          => '00:60:16:26:8a:02',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'EMC',
@@ -238,13 +231,6 @@ my %tests = (
             LOCATION     => 'here',
         },
         {
-            MANUFACTURER => 'EMC',
-            TYPE         => 'STORAGE',
-            DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
-            SNMPHOSTNAME => 'server_2',
-            MAC          => '00:60:16:26:8a:02',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'EMC',
@@ -452,13 +438,6 @@ my %tests = (
             SNMPHOSTNAME => 'BNK5RD1',
             MAC          => '00:60:16:1b:cd:7a',
             UPTIME       => '(2246605893) 260 days, 0:34:18.93',
-        },
-        {
-            MANUFACTURER => 'EMC',
-            TYPE         => 'STORAGE',
-            DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
-            SNMPHOSTNAME => 'BNK5RD1',
-            MAC          => '00:60:16:1b:cd:7a',
         },
         {
             INFO => {
@@ -675,7 +654,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 }
