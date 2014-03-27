@@ -143,13 +143,17 @@ my @sysdescr_rules = (
 
 # common base variables
 my %base_variables = (
-    MAC          => {
-        oid  => '.1.3.6.1.2.1.17.1.1.0',
-        type => 'mac',
-    },
+    #MAC          => {
+    #    oid  => '.1.3.6.1.2.1.17.1.1.0',
+    #    type => 'mac',
+    #},
     CPU          => {
         oid  => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1',
         type => 'count',
+    },
+    SNMPHOSTNAME => {
+        oid  => '.1.3.6.1.2.1.1.5.0',
+        type => 'string',
     },
     LOCATION     => {
         oid  => '.1.3.6.1.2.1.1.6.0',
@@ -405,14 +409,41 @@ sub getDeviceInfo {
     }
 
     # remaining informations
-    my $hostname = $snmp->get('.1.3.6.1.2.1.1.5.0');
-    $device{SNMPHOSTNAME} = $hostname if $hostname;
+    foreach my $key (keys %base_variables) {
+        my $variable = $base_variables{$key};
+
+        my $raw_value;
+        if (ref $variable->{oid} eq 'ARRAY') {
+            foreach my $oid (@{$variable->{oid}}) {
+                $raw_value = $snmp->get($oid);
+                last if defined $raw_value;
+            }
+        } else {
+            $raw_value = $snmp->get($variable->{oid});
+        }
+        next unless defined $raw_value;
+
+        my $type = $variable->{type};
+        my $value =
+            $type eq 'mac'    ? _getCanonicalMacAddress($raw_value)   :
+            $type eq 'memory' ? _getCanonicalMemory($raw_value)       :
+            $type eq 'string' ? _getCanonicalString($raw_value)       :
+            $type eq 'count'  ? _getCanonicalCount($raw_value)        :
+                                $raw_value;
+
+        $device{$key} = $value if defined $value;
+    }
 
     my $mac = _getMacAddress($snmp);
     $device{MAC} = $mac if $mac;
 
     my $serial = _getSerial($snmp, $device{TYPE});
     $device{SERIAL} = $serial if $serial;
+
+    my $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.1');
+    $device{IPS}->{IP} =  [
+        sort values %{$results}
+    ] if $results;
 
     return %device;
 }
@@ -591,40 +622,7 @@ sub _setGenericProperties {
     my $snmp   = $params{snmp};
     my $logger = $params{logger};
 
-    foreach my $key (keys %base_variables) {
-        # don't overwrite known values
-        next if $device->{INFO}->{$key};
 
-        my $variable = $base_variables{$key};
-        next unless $variable->{oid};
-
-        my $raw_value;
-        if (ref $variable->{oid} eq 'ARRAY') {
-            foreach my $oid (@{$variable->{oid}}) {
-                $raw_value = $snmp->get($oid);
-                last if defined $raw_value;
-            }
-        } else {
-            $raw_value = $snmp->get($variable->{oid});
-        }
-        next unless defined $raw_value;
-
-        my $type = $variable->{type};
-        my $value =
-            $type eq 'mac'    ? _getCanonicalMacAddress($raw_value)   :
-            $type eq 'memory' ? _getCanonicalMemory($raw_value)       :
-            $type eq 'serial' ? _getCanonicalSerialNumber($raw_value) :
-            $type eq 'string' ? _getCanonicalString($raw_value)       :
-            $type eq 'count'  ? _getCanonicalCount($raw_value)        :
-                                $raw_value;
-
-        $device->{INFO}->{$key} = $value if defined $value;
-    }
-
-    my $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.1');
-    $device->{INFO}->{IPS}->{IP} =  [
-        sort values %{$results}
-    ] if $results;
 
     # ports is a sparse list of network ports, indexed by native port number
     my $ports;
@@ -658,7 +656,7 @@ sub _setGenericProperties {
         }
     }
 
-    $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');
+    my $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');
     # each result matches the following scheme:
     # $prefix.$i.$j.$k.$l = $value
     # with $i.$j.$k.$l as IP address, and $value as port id

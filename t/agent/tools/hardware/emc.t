@@ -15,8 +15,10 @@ my %tests = (
             MANUFACTURER => 'EMC',
             TYPE         => 'STORAGE',
             DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
+            CONTACT      => 'nasadmin',
             SNMPHOSTNAME => 'server_2',
             MAC          => '00:60:16:26:8a:02',
+            LOCATION     => 'here',
         },
         {
             MANUFACTURER => 'EMC',
@@ -230,8 +232,10 @@ my %tests = (
             MANUFACTURER => 'EMC',
             TYPE         => 'STORAGE',
             DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
+            CONTACT      => 'nasadmin',
             SNMPHOSTNAME => 'server_2',
             MAC          => '00:60:16:26:8a:02',
+            LOCATION     => 'here',
         },
         {
             MANUFACTURER => 'EMC',
@@ -447,6 +451,7 @@ my %tests = (
             DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
             SNMPHOSTNAME => 'BNK5RD1',
             MAC          => '00:60:16:1b:cd:7a',
+            UPTIME       => '(2246605893) 260 days, 0:34:18.93',
         },
         {
             MANUFACTURER => 'EMC',

@@ -15,10 +15,17 @@ my %tests = (
         {
             MANUFACTURER => 'Sharp',
             TYPE         => 'PRINTER',
+            MODEL        => 'MX-2600N',
             DESCRIPTION  => 'SHARP MX-2600N',
             SNMPHOSTNAME => 'PASTEK',
             MAC          => '00:22:f3:c8:04:99',
-            MODEL        => 'MX-2600N',
+            LOCATION     => '2eme etage Bureau POTHIN',
+            IPS          => {
+                IP => [
+                    '172.31.201.123',
+                ],
+            },
+            UPTIME       => '(94252230) 10 days, 21:48:42.30',
         },
         {
             MANUFACTURER => 'Sharp',
@@ -113,11 +120,19 @@ my %tests = (
         {
             MANUFACTURER => 'Sharp',
             TYPE         => 'PRINTER',
+            MODEL        => 'MX-5001N',
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'KENET - DPE2',
             MAC          => '00:22:f3:9d:1f:3b',
-            MODEL        => 'MX-5001N',
             SERIAL       => '9801405X00',
+            MEMORY       => '0',
+            LOCATION     => 'RDC - apers escalier en bois',
+            IPS          => {
+                IP => [
+                    '172.31.201.114',
+                ],
+            },
+            UPTIME       => '(8649373) 1 day, 0:01:33.73',
         },
         {
             MANUFACTURER => 'Sharp',
@@ -244,10 +259,17 @@ my %tests = (
         {
             MANUFACTURER => 'Sharp',
             TYPE         => 'PRINTER',
+            MODEL        => 'MX-5001N',
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'WASAI -- DFP',
             MAC          => '00:22:f3:9d:20:56',
-            MODEL        => 'MX-5001N',
+            LOCATION     => '1er etage couloir',
+            IPS          => {
+                IP => [
+                    '172.31.201.116',
+                ],
+            },
+            UPTIME       => '(28125680) 3 days, 6:07:36.80',
         },
         {
             MANUFACTURER => 'Sharp',
@@ -342,11 +364,19 @@ my %tests = (
         {
             MANUFACTURER => 'Sharp',
             TYPE         => 'PRINTER',
+            MODEL        => 'MX-5001N',
             DESCRIPTION  => 'SHARP MX-5001N',
             SNMPHOSTNAME => 'MALAKA  - DOS -- IA-IPR',
             MAC          => '00:22:f3:9d:20:4b',
-            MODEL        => 'MX-5001N',
             SERIAL       => '9801391X00',
+            MEMORY       => '0',
+            LOCATION     => 'Bat. Réhabilité ',
+            IPS          => {
+                IP => [
+                    '172.31.201.119',
+                ],
+            },
+            UPTIME       => '(1486295) 4:07:42.95',
         },
         {
             MANUFACTURER => 'Sharp',

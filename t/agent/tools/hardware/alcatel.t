@@ -16,9 +16,18 @@ my %tests = (
             TYPE         => 'NETWORKING',
             MODEL        => 'OS6400-P24',
             DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
+            CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
             SNMPHOSTNAME => 'CB-C005-127-os6400',
-            MAC          => 'e8:e7:32:2b:c1:e2',
+            LOCATION     => 'Unknown',
             SERIAL       => 'M4682816',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '192.168.1.127',
+                ],
+            },
+            MAC          => 'e8:e7:32:2b:c1:e2',
+            UPTIME       => '(1442631100) 166 days, 23:18:31.00',
         },
         {
             MANUFACTURER => 'Alcatel-Lucent',
@@ -1134,9 +1143,11 @@ my %tests = (
             TYPE         => 'NETWORKING',
             MODEL        => 'OS6400-P24',
             DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
+            CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
             SNMPHOSTNAME => 'CP-153-127',
-            MAC          => 'e8:e7:32:2b:c1:e2',
+            LOCATION     => 'Unknown',
             SERIAL       => 'M4682816',
+            MAC          => 'e8:e7:32:2b:c1:e2',
         },
         {
             MANUFACTURER => 'Alcatel-Lucent',
