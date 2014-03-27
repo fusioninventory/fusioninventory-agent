@@ -18,7 +18,6 @@ my %tests = (
             DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-C1100-0DBECC',
             MAC          => '00:00:48:0d:be:cc',
-            MODEL        => 'AL-C1100',
         },
         {
             MANUFACTURER => 'Epson',
@@ -218,7 +217,14 @@ my %tests = (
             DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-C4200-0ED50E',
             MAC          => '20:04:48:0e:d5:0e',
-            MODEL        => 'AL-C4200',
+            MEMORY       => '128',
+            LOCATION     => 'Aff. Generales',
+            IPS          => {
+                IP => [
+                    '172.17.3.81',
+                ],
+            },
+            UPTIME       => '(166086480) 19 days, 5:21:04.80',
         },
         {
             MANUFACTURER => 'Epson',
@@ -332,7 +338,14 @@ my %tests = (
             DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-C4200-D14BC7',
             MAC          => '00:00:48:d1:4b:c7',
-            MODEL        => 'AL-C4200',
+            MEMORY       => '128',
+            LOCATION     => 'PPV - 2eme Etage',
+            IPS          => {
+                IP => [
+                    '172.17.3.212',
+                ],
+            },
+            UPTIME       => '(17442921) 2 days, 0:27:09.21',
         },
         {
             MANUFACTURER => 'Epson',
@@ -446,7 +459,14 @@ my %tests = (
             DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-C4200-D1C30E',
             MAC          => '00:00:48:d1:c3:0e',
-            MODEL        => 'AL-C4200',
+            MEMORY       => '128',
+            LOCATION     => 'PPV - 1er Etage',
+            IPS          => {
+                IP => [
+                    '172.17.3.213',
+                ],
+            },
+            UPTIME       => '(311511314) 36 days, 1:18:33.14',
         },
         {
             MANUFACTURER => 'Epson',
@@ -560,7 +580,13 @@ my %tests = (
             DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
             SNMPHOSTNAME => 'AL-C4200-D362D2',
             MAC          => '00:00:48:d3:62:d2',
-            MODEL        => 'AL-C4200',
+            MEMORY       => '128',
+            IPS          => {
+                IP => [
+                    '172.17.3.102',
+                ],
+            },
+            UPTIME       => '(140436577) 16 days, 6:06:05.77',
         },
         {
             MANUFACTURER => 'Epson',

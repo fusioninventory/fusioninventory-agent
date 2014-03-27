@@ -19,6 +19,14 @@ my %tests = (
             SNMPHOSTNAME => 'Aficio AP3800C',
             MAC          => '00:00:74:71:17:ca',
             SERIAL       => 'P6011202081',
+            MEMORY       => '192',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '172.20.3.63',
+                ],
+            },
+            UPTIME       => '(166369300) 19 days, 6:08:13.00',
         },
         {
             MANUFACTURER => 'Ricoh',
@@ -167,6 +175,16 @@ my %tests = (
             SNMPHOSTNAME => 'Aficio MP C2050',
             MAC          => '00:00:74:f8:ba:6f',
             SERIAL       => 'V2294502833',
+            MEMORY       => '768',
+            LOCATION     => 'Schoelcher - 1er',
+            IPS          => {
+                IP => [
+                    '0.0.0.0',
+                    '10.75.14.27',
+                    '127.0.0.1',
+                ],
+            },
+            UPTIME       => '(234064600) 27 days, 2:10:46.00',
         },
         {
             MANUFACTURER => 'Ricoh',
@@ -355,6 +373,7 @@ my %tests = (
             SNMPHOSTNAME => 'Aficio SP C420DN',
             MAC          => '00:00:74:f3:01:95',
             SERIAL       => 'S3899202523',
+            LOCATION     => 'Ugo',
         },
         {
             MANUFACTURER => 'Ricoh',
@@ -503,6 +522,7 @@ my %tests = (
             SNMPHOSTNAME => 'Aficio SP C420DN',
             MAC          => '00:00:74:f3:01:95',
             SERIAL       => 'S3899202523',
+            LOCATION     => 'Ugo',
         },
         {
             MANUFACTURER => 'Ricoh',

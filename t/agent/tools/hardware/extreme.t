@@ -14,11 +14,21 @@ my %tests = (
         {
             MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Summit300-24 - Version 7.4e.2 (Build 6) by Release_Master 09/13/05 12:17:15',
-            SNMPHOSTNAME => 'xtb12-2',
-            MAC          => '00:04:96:1f:91:50',
             MODEL        => 'Summit 300-24',
+            DESCRIPTION  => 'Summit300-24 - Version 7.4e.2 (Build 6) by Release_Master 09/13/05 12:17:15',
+            CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
+            SNMPHOSTNAME => 'xtb12-2',
+            LOCATION     => 'PMF-B12',
             SERIAL       => '0518G-00029',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '192.168.100.9',
+                    '192.168.254.72',
+                ],
+            },
+            MAC          => '00:04:96:1f:91:50',
+            UPTIME       => '(447891453) 51 days, 20:08:34.53',
         },
         {
             MANUFACTURER => 'Extreme',
@@ -1857,11 +1867,21 @@ my %tests = (
         {
             MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Summit300-48 - Version 7.4e.2 (Build 6) by Release_Master 09/13/05 12:44:51',
-            SNMPHOSTNAME => 'xtc13',
-            MAC          => '00:04:96:1c:71:00',
             MODEL        => 'Summit 300-48',
+            DESCRIPTION  => 'Summit300-48 - Version 7.4e.2 (Build 6) by Release_Master 09/13/05 12:44:51',
+            CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
+            SNMPHOSTNAME => 'xtc13',
+            LOCATION     => 'PMF-C13',
             SERIAL       => '04375-00303',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '192.168.100.7',
+                    '192.168.254.72',
+                ],
+            },
+            MAC          => '00:04:96:1c:71:00',
+            UPTIME       => '(447912326) 51 days, 20:12:03.26',
         },
         {
             MANUFACTURER => 'Extreme',
@@ -5778,10 +5798,19 @@ my %tests = (
         {
             MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Summit400-48t - Version 7.2e.1 (Build 10) by Release_Master 03/26/04 18:29:56',
-            SNMPHOSTNAME => 'xtc6',
-            MAC          => '00:04:96:18:5b:61',
             MODEL        => 'Summit 400-48t',
+            DESCRIPTION  => 'Summit400-48t - Version 7.2e.1 (Build 10) by Release_Master 03/26/04 18:29:56',
+            CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
+            SNMPHOSTNAME => 'xtc6',
+            LOCATION     => 'PMF - C6',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '192.168.100.5',
+                ],
+            },
+            MAC          => '00:04:96:18:5b:61',
+            UPTIME       => '(364479986) 42 days, 4:26:39.86',
         },
         {
             MANUFACTURER => 'Extreme',
@@ -10895,6 +10924,7 @@ my %tests = (
             MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
+            CONTACT      => 'noc-roc@inria.fr, +33 139 637 959',
             SNMPHOSTNAME => 'sw-bat02',
             MAC          => '00:04:96:34:60:9e',
             MODEL        => 'Summit x450e-48p',
@@ -12127,10 +12157,21 @@ my %tests = (
         {
             MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Summit48si - Version 7.0.0 (Build 61) by Release_Master 12/02/04 14:27:36',
-            SNMPHOSTNAME => 'xt17t',
-            MAC          => '00:01:30:12:a6:d0',
             MODEL        => 'Summit 48si',
+            DESCRIPTION  => 'Summit48si - Version 7.0.0 (Build 61) by Release_Master 12/02/04 14:27:36',
+            CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
+            SNMPHOSTNAME => 'xt17t',
+            LOCATION     => '17-Tolbiac',
+            IPS          => {
+                IP => [
+                    '10.16.2.72',
+                    '127.0.0.1',
+                    '192.168.100.11',
+                    '194.214.30.129',
+                ],
+            },
+            MAC          => '00:01:30:12:a6:d0',
+            UPTIME       => '(2602571760) 301 days, 5:21:57.60',
         },
         {
             MANUFACTURER => 'Extreme',
@@ -14211,11 +14252,20 @@ my %tests = (
         {
             MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Summit48si - Version 7.3.2 (Build 3) by Release_Master 02/21/05 16:35:08',
-            SNMPHOSTNAME => 'xta6',
-            MAC          => '00:01:30:12:a6:c0',
             MODEL        => 'Summit 48si',
+            DESCRIPTION  => 'Summit48si - Version 7.3.2 (Build 3) by Release_Master 02/21/05 16:35:08',
+            CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
+            SNMPHOSTNAME => 'xta6',
+            LOCATION     => 'PMF-A6',
             SERIAL       => '0312R-01206',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '192.168.100.3',
+                ],
+            },
+            MAC          => '00:01:30:12:a6:c0',
+            UPTIME       => '(447894395) 51 days, 20:09:03.95',
         },
         {
             MANUFACTURER => 'Extreme',
@@ -18108,15 +18158,25 @@ my %tests = (
         {
             MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Summit48si - Version 7.0.1 (Build 11) by Release_Master 03/28/03 02:09:23',
-            SNMPHOSTNAME => 'xtb12-1',
-            MAC          => '00:01:30:12:91:80',
             MODEL        => 'Summit 48si',
+            DESCRIPTION  => 'Summit48si - Version 7.0.1 (Build 11) by Release_Master 03/28/03 02:09:23',
+            CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
+            SNMPHOSTNAME => 'xtb12-1',
+            LOCATION     => 'PMF-B12',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '192.168.100.6',
+                ],
+            },
+            MAC          => '00:01:30:12:91:80',
+            UPTIME       => '(447894875) 51 days, 20:09:08.75',
         },
         {
             MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'Summit48si - Version 7.0.1 (Build 11) by Release_Master 03/28/03 02:09:23',
+            CONTACT      => 'support@extremenetworks.com, +1 888 257 3000',
             SNMPHOSTNAME => 'xtb12-1',
             MAC          => '00:01:30:12:91:80',
             MODEL        => 'Summit 48si',
@@ -20960,11 +21020,19 @@ my %tests = (
         {
             MANUFACTURER => 'Extreme',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
-            SNMPHOSTNAME => 'sw30-c01-1',
-            MAC          => '00:04:96:52:04:36',
             MODEL        => 'Summit X350',
+            DESCRIPTION  => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
+            CONTACT      => 'dsi.sesi.reseau@inria.fr',
+            SNMPHOSTNAME => 'sw30-c01-1',
+            LOCATION     => 'Inria dc1 salle 30',
             SERIAL       => '1115G-80540',
+            IPS          => {
+                IP => [
+                    '192.168.3.232',
+                ],
+            },
+            MAC          => '00:04:96:52:04:36',
+            UPTIME       => '(3784113704) 437 days, 23:25:37.04',
         },
         {
             MANUFACTURER => 'Extreme',
