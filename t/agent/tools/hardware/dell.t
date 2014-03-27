@@ -19,6 +19,14 @@ my %tests = (
             SNMPHOSTNAME => 'LXKE6E33E-2',
             MAC          => '00:04:00:67:c7:7c',
             SERIAL       => '9915DGL-46-13',
+            MEMORY       => '64',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '172.31.201.13',
+                ],
+            },
+            UPTIME       => '(259620718) 30 days, 1:10:07.18',
         },
         {
             MANUFACTURER => 'Dell',
@@ -163,6 +171,14 @@ my %tests = (
             SNMPHOSTNAME => 'LXKB92115',
             MAC          => '00:04:00:9d:84:a8',
             SERIAL       => '992B216-46-13',
+            MEMORY       => '64',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '172.31.201.52',
+                ],
+            },
+            UPTIME       => '(259655546) 30 days, 1:15:55.46',
         },
         {
             MANUFACTURER => 'Dell',
@@ -304,8 +320,16 @@ my %tests = (
             TYPE         => 'PRINTER',
             MODEL        => 'Dell 1600n',
             DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
+            CONTACT      => 'Administrator',
             SNMPHOSTNAME => 'DEL0000f0aceaa9',
             MAC          => '00:00:f0:ac:ea:a9',
+            MEMORY       => '0',
+            IPS          => {
+                IP => [
+                    '172.31.201.47',
+                ],
+            },
+            UPTIME       => '(10346500) 1 day, 4:44:25.00',
         },
         {
             MANUFACTURER => 'Dell',

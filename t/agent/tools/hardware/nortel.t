@@ -14,10 +14,12 @@ my %tests = (
         {
             MANUFACTURER => 'Nortel',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Ethernet Routing Switch 4548GT-PWR    HW:06       FW:5.2.0.3   SW:v5.2.0.008 BN:08 (c) Nortel Networks',
-            SNMPHOSTNAME => '4548_DOULEUR',
-            MAC          => 'e8:05:6d:27:5c:02',
             MODEL        => 'Ethernet Routing Switch 4548GT-PWR',
+            DESCRIPTION  => 'Ethernet Routing Switch 4548GT-PWR    HW:06       FW:5.2.0.3   SW:v5.2.0.008 BN:08 (c) Nortel Networks',
+            CONTACT      => 'Service Informatique',
+            SNMPHOSTNAME => '4548_DOULEUR',
+            LOCATION     => 'Tour B - 1er - DOULEUR',
+            MAC          => 'e8:05:6d:27:5c:02',
             SERIAL       => 'LBNNTMMD1706WF',
         },
         {
@@ -3161,11 +3163,19 @@ my %tests = (
         {
             MANUFACTURER => 'Nortel',
             TYPE         => 'NETWORKING',
+            MODEL        => 'Baystack 470 24T',
             DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
             SNMPHOSTNAME => 'Bay470',
-            MAC          => '00:15:40:94:75:a2',
-            MODEL        => 'Baystack 470 24T',
             SERIAL       => 'SACC170NLH',
+            LOCATION     => 'Dost 111',
+            SERIAL       => 'SACC170NLH',
+            IPS          => {
+                IP => [
+                    '10.97.9.231',
+                ],
+            },
+            MAC          => '00:15:40:94:75:a2',
+            UPTIME       => '(78352234) 9 days, 1:38:42.34',
         },
         {
             MANUFACTURER => 'Nortel',
@@ -4429,10 +4439,12 @@ my %tests = (
         {
             MANUFACTURER => 'Nortel',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
-            SNMPHOSTNAME => '470_99_OBS',
-            MAC          => '00:1d:af:ea:a0:e2',
             MODEL        => 'Baystack 470 24T',
+            DESCRIPTION  => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
+            CONTACT      => 'OBS',
+            SNMPHOSTNAME => '470_99_OBS',
+            LOCATION     => 'Salle Informatique',
+            MAC          => '00:1d:af:ea:a0:e2',
             SERIAL       => 'LBNNTMJX5809LW',
         },
         {

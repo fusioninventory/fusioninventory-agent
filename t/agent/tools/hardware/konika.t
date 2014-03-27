@@ -14,10 +14,17 @@ my %tests = (
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MODEL        => 'bizhub 421',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
             MAC          => '00:50:aa:27:95:9e',
-            MODEL        => 'bizhub 421',
             SERIAL       => 'A0R6021004189',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '172.18.3.93',
+                ],
+            },
+            UPTIME       => '(80180925) 9 days, 6:43:29.25',
         },
         {
             MANUFACTURER => 'Konica',
@@ -145,10 +152,17 @@ my %tests = (
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MODEL        => 'bizhub 421',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
             MAC          => '00:50:aa:27:96:68',
-            MODEL        => 'bizhub 421',
             SERIAL       => 'A0R6021004159',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '172.18.3.95',
+                ],
+            },
+            UPTIME       => '(105584922) 12 days, 5:17:29.22',
         },
         {
             MANUFACTURER => 'Konica',
@@ -276,10 +290,17 @@ my %tests = (
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MODEL        => 'bizhub 421',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
             MAC          => '00:50:aa:27:95:a3',
-            MODEL        => 'bizhub 421',
             SERIAL       => 'A0R6021004184',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '172.18.3.97',
+                ],
+            },
+            UPTIME       => '(8072382) 22:25:23.82',
         },
         {
             MANUFACTURER => 'Konica',
@@ -407,10 +428,18 @@ my %tests = (
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MODEL        => 'bizhub C224',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
             MAC          => '00:20:6b:8a:dc:ec',
-            MODEL        => 'bizhub C224',
             SERIAL       => 'A5C4021018159',
+            MEMORY       => '0',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '192.168.200.18',
+                ],
+            },
+            UPTIME       => '(17995666) 2 days, 1:59:16.66',
         },
         {
             MANUFACTURER => 'Konica',
@@ -558,10 +587,18 @@ my %tests = (
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MODEL        => 'bizhub C224',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
             MAC          => '00:20:6b:8a:dc:ec',
-            MODEL        => 'bizhub C224',
             SERIAL       => 'A5C4021018159',
+            MEMORY       => '0',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '192.168.200.18',
+                ],
+            },
+            UPTIME       => '(7570291) 21:01:42.91',
         },
         {
             MANUFACTURER => 'Konica',
@@ -709,10 +746,18 @@ my %tests = (
         {
             MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MODEL        => 'bizhub C554',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C554e',
             MAC          => '00:20:6b:82:91:78',
-            MODEL        => 'bizhub C554',
             SERIAL       => 'A5AY021001363',
+            MEMORY       => '0',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '192.168.150.26',
+                ],
+            },
+            UPTIME       => '(43193657) 4 days, 23:58:56.57',
         },
         {
             MANUFACTURER => 'Konica',

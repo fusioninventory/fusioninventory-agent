@@ -19,6 +19,14 @@ my %tests = (
             SNMPHOSTNAME => 'c0302a',
             MAC          => '00:25:b3:fa:8f:83',
             SERIAL       => 'CNHS311977',
+            MEMORY       => '64',
+            LOCATION     => 'HP Color LaserJet CP2025dn',
+            IPS          => {
+                IP => [
+                    '128.93.22.19',
+                ],
+            },
+            UPTIME       => '(3731317) 10:21:53.17',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -166,6 +174,14 @@ my %tests = (
             SNMPHOSTNAME => 'c1C202a',
             MAC          => '00:25:b3:fa:8f:69',
             SERIAL       => 'CNHS311991',
+            MEMORY       => '64',
+            LOCATION     => 'HP Color LaserJet CP2025dn',
+            IPS          => {
+                IP => [
+                    '128.93.22.236',
+                ],
+            },
+            UPTIME       => '(127613450) 14 days, 18:28:54.50',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -313,6 +329,14 @@ my %tests = (
             SNMPHOSTNAME => 'c1c203a',
             MAC          => '00:25:b3:fa:8f:cc',
             SERIAL       => 'CNHS311990',
+            MEMORY       => '64',
+            LOCATION     => 'c1c203a',
+            IPS          => {
+                IP => [
+                    '128.93.22.87',
+                ],
+            },
+            UPTIME       => '(79171032) 9 days, 3:55:10.32',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -460,6 +484,14 @@ my %tests = (
             SNMPHOSTNAME => 'NPIFA9F1C',
             MAC          => '00:25:b3:fa:9f:1c',
             SERIAL       => 'CNHS311979',
+            MEMORY       => '64',
+            LOCATION     => 'c1c205a',
+            IPS          => {
+                IP => [
+                    '128.93.22.225',
+                ],
+            },
+            UPTIME       => '(3023313454) 349 days, 22:05:34.54',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -607,6 +639,14 @@ my %tests = (
             SNMPHOSTNAME => 'c1C206a',
             MAC          => '00:25:b3:fa:9f:e6',
             SERIAL       => 'CNHS312016',
+            MEMORY       => '64',
+            LOCATION     => 'HP Color LaserJet CP2025dn',
+            IPS          => {
+                IP => [
+                    '128.93.22.224',
+                ],
+            },
+            UPTIME       => '(2665726) 7:24:17.26',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -753,6 +793,13 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
             SNMPHOSTNAME => 'NPIE6C1AF',
             MAC          => '00:1b:78:e6:c1:af',
+            MEMORY       => '96',
+            IPS          => {
+                IP => [
+                    '128.93.22.214',
+                ],
+            },
+            UPTIME       => '(315536000) 36 days, 12:29:20.00',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -899,6 +946,13 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
             SNMPHOSTNAME => 'NPIE6C19A',
             MAC          => '00:1b:78:e6:c1:9a',
+            MEMORY       => '96',
+            IPS          => {
+                IP => [
+                    '128.93.22.129',
+                ],
+            },
+            UPTIME       => '(15951321) 1 day, 20:18:33.21',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -1045,6 +1099,13 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
             SNMPHOSTNAME => 'HPIJ2800-02',
             MAC          => '00:11:0a:f5:cc:dc',
+            MEMORY       => '96',
+            IPS          => {
+                IP => [
+                    '10.104.102.194',
+                ],
+            },
+            UPTIME       => '(45821440) 5 days, 7:16:54.40',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -1190,6 +1251,13 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
             SNMPHOSTNAME => 'HPIJ2800-01',
             MAC          => '00:11:0a:f5:1a:cc',
+            MEMORY       => '96',
+            IPS          => {
+                IP => [
+                    '10.104.109.230',
+                ],
+            },
+            UPTIME       => '(85884840) 9 days, 22:34:08.40',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -1334,6 +1402,12 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'l0214a',
             MAC          => '00:17:08:91:95:e4',
+            IPS          => {
+                IP => [
+                    '128.93.22.125',
+                ],
+            },
+            UPTIME       => '(27930670) 3 days, 5:35:06.70',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -1454,6 +1528,12 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI934D66',
             MAC          => '00:17:a4:93:4d:66',
+            IPS          => {
+                IP => [
+                    '128.93.22.1',
+                ],
+            },
+            UPTIME       => '(40406032) 4 days, 16:14:20.32',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -1574,6 +1654,12 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI9195E8',
             MAC          => '00:17:08:91:95:e8',
+            IPS          => {
+                IP => [
+                    '128.93.22.78',
+                ],
+            },
+            UPTIME       => '(4016837) 11:09:28.37',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -1694,6 +1780,12 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI810884',
             MAC          => '00:1b:78:21:ef:df',
+            IPS          => {
+                IP => [
+                    '128.93.22.101',
+                ],
+            },
+            UPTIME       => '(13141846) 1 day, 12:30:18.46',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -1814,6 +1906,12 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
             SNMPHOSTNAME => 'NPI934D6D',
             MAC          => '00:17:a4:93:4d:6d',
+            IPS          => {
+                IP => [
+                    '128.93.10.40',
+                ],
+            },
+            UPTIME       => '(3561333) 9:53:33.33',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2564,6 +2662,7 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
             MAC          => '00:30:c1:8a:6e:5b',
             SERIAL       => 'FRGW108125',
+            LOCATION     => 'impbe92',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2644,6 +2743,7 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
             MAC          => '00:30:c1:8a:6e:5b',
             SERIAL       => 'FRGW108125',
+            LOCATION     => 'impbe92',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2724,6 +2824,13 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
             MAC          => '00:30:c1:0d:aa:c6',
             SERIAL       => 'FRGW022412',
+            MEMORY       => '8',
+            IPS          => {
+                IP => [
+                    '128.93.22.63',
+                ],
+            },
+            UPTIME       => '(319831420) 37 days, 0:25:14.20',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2822,6 +2929,13 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
             MAC          => '00:10:83:54:d6:08',
             SERIAL       => 'XXXXXXXXXX',
+            MEMORY       => '8',
+            IPS          => {
+                IP => [
+                    '128.93.22.61',
+                ],
+            },
+            UPTIME       => '(165740930) 19 days, 4:23:29.30',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -2921,6 +3035,13 @@ my %tests = (
             SNMPHOSTNAME => 'l1618a',
             MAC          => '00:0e:7f:ea:e1:b7',
             SERIAL       => 'FRGW102302',
+            MEMORY       => '8',
+            IPS          => {
+                IP => [
+                    '128.93.22.29',
+                ],
+            },
+            UPTIME       => '(13841080) 1 day, 14:26:50.80',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3052,6 +3173,13 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD30,EEPROM G.08.20',
             MAC          => '00:30:c1:c3:be:cf',
             SERIAL       => 'NLBB001719',
+            MEMORY       => '8',
+            IPS          => {
+                IP => [
+                    '128.93.22.144',
+                ],
+            },
+            UPTIME       => '(20422550) 2 days, 8:43:45.50',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3150,6 +3278,13 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
             MAC          => '00:30:c1:01:1e:68',
             SERIAL       => 'FRFRH43314',
+            MEMORY       => '16',
+            IPS          => {
+                IP => [
+                    '128.93.22.20',
+                ],
+            },
+            UPTIME       => '(745729650) 86 days, 7:28:16.50',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3257,6 +3392,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPIA1D034',
             MAC          => '00:01:e6:a1:d0:34',
             SERIAL       => 'CNCDF57941',
+            MEMORY       => '48',
+            IPS          => {
+                IP => [
+                    '128.93.22.126',
+                ],
+            },
+            UPTIME       => '(313714810) 36 days, 7:25:48.10',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3396,6 +3538,13 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
             MAC          => '00:30:c1:60:c8:5b',
             SERIAL       => 'CNCHM24955',
+            MEMORY       => '48',
+            IPS          => {
+                IP => [
+                    '128.93.22.66',
+                ],
+            },
+            UPTIME       => '(3052880) 8:28:48.80',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3737,6 +3886,7 @@ my %tests = (
             SNMPHOSTNAME => 'inspiron8',
             MAC          => '00:60:b0:91:3d:9d',
             SERIAL       => 'NLEW064384',
+            LOCATION     => 'lwcompta',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -3949,6 +4099,7 @@ my %tests = (
             SNMPHOSTNAME => 'imprimanteBR',
             MAC          => '00:30:c1:8c:d5:6c',
             SERIAL       => 'NL7N093250',
+            LOCATION     => 'impbe93',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4040,6 +4191,13 @@ my %tests = (
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.40',
             MAC          => '00:10:83:ba:17:ce',
             SERIAL       => 'NL7V061384',
+            MEMORY       => '16',
+            IPS          => {
+                IP => [
+                    '128.93.22.64',
+                ],
+            },
+            UPTIME       => '(130640030) 15 days, 2:53:20.30',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4385,6 +4543,13 @@ my %tests = (
             SNMPHOSTNAME => 'l0812a',
             MAC          => '00:14:38:df:a5:30',
             SERIAL       => 'CNHXH84872',
+            MEMORY       => '256',
+            IPS          => {
+                IP => [
+                    '128.93.22.88',
+                ],
+            },
+            UPTIME       => '(22322645) 2 days, 14:00:26.45',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4528,6 +4693,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPIEA2B02',
             MAC          => '00:23:7d:7e:a1:31',
             SERIAL       => 'CNHXG83836',
+            MEMORY       => '208',
+            IPS          => {
+                IP => [
+                    '128.93.8.82',
+                ],
+            },
+            UPTIME       => '(22683627) 2 days, 15:00:36.27',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4671,6 +4843,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPIEA3BFC',
             MAC          => '00:14:38:ea:3b:fc',
             SERIAL       => 'CNHXB71032',
+            MEMORY       => '208',
+            IPS          => {
+                IP => [
+                    '128.93.22.90',
+                ],
+            },
+            UPTIME       => '(23418928) 2 days, 17:03:09.28',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4814,6 +4993,13 @@ my %tests = (
             SNMPHOSTNAME => 'l1310a',
             MAC          => '00:14:38:ea:2b:c4',
             SERIAL       => 'CNHXC68053',
+            MEMORY       => '208',
+            IPS          => {
+                IP => [
+                    '128.93.13.25',
+                ],
+            },
+            UPTIME       => '(23191049) 2 days, 16:25:10.49',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -4957,6 +5143,13 @@ my %tests = (
             SNMPHOSTNAME => 'l1439a',
             MAC          => '00:14:38:e2:12:d8',
             SERIAL       => 'CNHXH84870',
+            MEMORY       => '208',
+            IPS          => {
+                IP => [
+                    '128.93.22.59',
+                ],
+            },
+            UPTIME       => '(22810882) 2 days, 15:21:48.82',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5100,6 +5293,13 @@ my %tests = (
             SNMPHOSTNAME => 'l2007a',
             MAC          => '00:1b:78:28:26:cb',
             SERIAL       => 'CNHXB68748',
+            MEMORY       => '208',
+            IPS          => {
+                IP => [
+                    '128.93.22.41',
+                ],
+            },
+            UPTIME       => '(23402944) 2 days, 17:00:29.44',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5243,6 +5443,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPIEAFA59',
             MAC          => '00:14:38:ea:fa:59',
             SERIAL       => 'CNHXB71050',
+            MEMORY       => '208',
+            IPS          => {
+                IP => [
+                    '128.93.22.123',
+                ],
+            },
+            UPTIME       => '(22641038) 2 days, 14:53:30.38',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5386,6 +5593,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPIEA8E82',
             MAC          => '00:23:7d:81:22:f7',
             SERIAL       => 'CNHXJ45092',
+            MEMORY       => '208',
+            IPS          => {
+                IP => [
+                    '128.93.10.59',
+                ],
+            },
+            UPTIME       => '(1097769844) 127 days, 1:21:38.44',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -5529,6 +5743,13 @@ my %tests = (
             SNMPHOSTNAME => 'L3000A',
             MAC          => '00:14:38:e2:12:5f',
             SERIAL       => 'CNHXC65951',
+            MEMORY       => '208',
+            IPS          => {
+                IP => [
+                    '128.93.22.79',
+                ],
+            },
+            UPTIME       => '(2286542) 6:21:05.42',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6123,6 +6344,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI271E90',
             MAC          => '00:1f:29:27:1e:90',
             SERIAL       => 'CNB885QNXP',
+            LOCATION     => 'HP Color LaserJet CM1312nfi MFP',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6363,6 +6585,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI7F5D71',
             MAC          => '00:23:7d:7f:5d:71',
             SERIAL       => 'CNFN9BYG41',
+            LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6483,6 +6706,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI7F5D71',
             MAC          => '00:23:7d:7f:5d:71',
             SERIAL       => 'CNFN9BYG41',
+            LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6603,6 +6827,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI828833',
             MAC          => '00:23:7d:82:88:33',
             SERIAL       => 'CNDN99YG0D',
+            LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6723,6 +6948,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPIB302A7',
             MAC          => '3c:4a:92:b3:02:a7',
             SERIAL       => 'CNFTBDZ0FN',
+            LOCATION     => 'HP Color LaserJet CM2320nf MFP',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6843,8 +7069,10 @@ my %tests = (
             TYPE         => 'PRINTER',
             MODEL        => 'HP LaserJet CP1025nw',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
+            CONTACT      => ' ',
             SNMPHOSTNAME => 'NPIA6032E',
             MAC          => '78:e7:d1:a6:03:2e',
+            LOCATION     => ' ',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -6960,6 +7188,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI2AD743',
             MAC          => '00:1f:29:2a:d7:43',
             SERIAL       => 'CNCSF01053',
+            LOCATION     => 'HP Color LaserJet CP2025dn',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7083,6 +7312,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPIC3D5FF',
             MAC          => 'b4:99:ba:c3:d5:ff',
             SERIAL       => 'CNHS437790',
+            LOCATION     => 'HP Color LaserJet CP2025dn',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7206,6 +7436,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI117008',
             MAC          => '2c:27:d7:11:70:08',
             SERIAL       => 'CNHSP65440',
+            LOCATION     => 'HP Color LaserJet CP2025n',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7329,6 +7560,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI84C481',
             MAC          => '00:21:5a:84:c4:81',
             SERIAL       => 'CNCS404796',
+            LOCATION     => 'HP Color LaserJet CP2025n',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7452,6 +7684,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI84C481',
             MAC          => '00:21:5a:84:c4:81',
             SERIAL       => 'CNCS404796',
+            LOCATION     => 'HP Color LaserJet CP2025n',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7575,6 +7808,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI81E3A7',
             MAC          => '00:21:5a:81:e3:a7',
             SERIAL       => 'CNCS212370',
+            LOCATION     => 'HP Color LaserJet CP2025n',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -7698,6 +7932,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI8FA1DD',
             MAC          => '78:ac:c0:8f:a1:dd',
             SERIAL       => 'CNHSN58554',
+            LOCATION     => 'HP Color LaserJet CP2025n',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8063,6 +8298,13 @@ my %tests = (
             SNMPHOSTNAME => 'nerium',
             MAC          => 'd4:85:64:40:4d:93',
             SERIAL       => 'CBAFTBDG66',
+            MEMORY       => '384',
+            IPS          => {
+                IP => [
+                    '192.168.1.41',
+                ],
+            },
+            UPTIME       => '(457735283) 52 days, 23:29:12.83',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8324,8 +8566,17 @@ my %tests = (
             TYPE         => 'PRINTER',
             MODEL        => 'HP LaserJet Professional M1217nfw MFP',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
+            CONTACT      => ' ',
             SNMPHOSTNAME => 'l2407a',
             MAC          => '10:60:4b:19:a6:51',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.58',
+                    '192.168.223.1',
+                ],
+            },
+            UPTIME       => '(261657629) 30 days, 6:49:36.29',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8497,6 +8748,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI83EC85',
             MAC          => '00:21:5a:83:ec:85',
             SERIAL       => 'CNBW898043',
+            LOCATION     => 'Boise, ID, USA',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8617,6 +8869,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI13EE63',
             MAC          => '00:1b:78:13:ee:63',
             SERIAL       => 'CNBW7BQ7BS',
+            LOCATION     => 'Boise, ID, USA',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8737,6 +8990,7 @@ my %tests = (
             SNMPHOSTNAME => 'NPI83EC85',
             MAC          => '00:21:5a:83:ec:85',
             SERIAL       => 'CNBW898043',
+            LOCATION     => 'Boise, ID, USA',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -8857,6 +9111,14 @@ my %tests = (
             SNMPHOSTNAME => 'NPI2BAB3D',
             MAC          => '00:1f:29:2b:ab:3d',
             SERIAL       => 'CNBW87R2XX',
+            LOCATION     => 'Boise, ID, USA',
+            MEMORY       => '95',
+            IPS          => {
+                IP => [
+                    '128.93.22.213',
+                ],
+            },
+            UPTIME       => '(200046302) 23 days, 3:41:03.02',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9001,6 +9263,14 @@ my %tests = (
             SNMPHOSTNAME => 'NPI8CA86F',
             MAC          => '00:17:08:8c:a8:6f',
             SERIAL       => 'CNBW6DW3R8',
+            LOCATION     => 'Boise, ID, USA',
+            MEMORY       => '159',
+            IPS          => {
+                IP => [
+                    '128.93.22.14',
+                ],
+            },
+            UPTIME       => '(180819074) 20 days, 22:16:30.74',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9145,6 +9415,14 @@ my %tests = (
             SNMPHOSTNAME => 'NPI8E6910',
             MAC          => '00:17:08:8e:69:10',
             SERIAL       => 'CNBW7171V8',
+            MEMORY       => '159',
+            LOCATION     => 'Boise, ID, USA',
+            IPS          => {
+                IP => [
+                    '128.93.22.22',
+                ],
+            },
+            UPTIME       => '(138093688) 15 days, 23:35:36.88',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9289,6 +9567,14 @@ my %tests = (
             SNMPHOSTNAME => 'NPI8C980D',
             MAC          => '00:17:08:8c:98:0d',
             SERIAL       => 'CNBW6DW37G',
+            LOCATION     => 'Boise, ID, USA',
+            MEMORY       => '159',
+            IPS          => {
+                IP => [
+                    '128.93.22.122',
+                ],
+            },
+            UPTIME       => '(71190989) 8 days, 5:45:09.89',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9433,6 +9719,14 @@ my %tests = (
             SNMPHOSTNAME => 'NPI7954CF',
             MAC          => '00:23:7d:79:54:cf',
             SERIAL       => 'CNBW76W0B8',
+            LOCATION     => 'Boise, ID, USA',
+            MEMORY       => '95',
+            IPS          => {
+                IP => [
+                    '128.93.22.220',
+                ],
+            },
+            UPTIME       => '(59927764) 6 days, 22:27:57.64',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9577,6 +9871,14 @@ my %tests = (
             SNMPHOSTNAME => 'NPI156F54',
             MAC          => '00:1a:4b:15:6f:54',
             SERIAL       => 'CNBW74K7GP',
+            LOCATION     => 'Boise, ID, USA',
+            MEMORY       => '95',
+            IPS          => {
+                IP => [
+                    '128.93.22.197',
+                ],
+            },
+            UPTIME       => '(2901531) 8:03:35.31',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -9721,6 +10023,14 @@ my %tests = (
             SNMPHOSTNAME => 'NPI166E31',
             MAC          => '00:1f:29:16:6e:31',
             SERIAL       => 'CNBW84P402',
+            LOCATION     => 'Boise, ID, USA',
+            MEMORY       => '95',
+            IPS          => {
+                IP => [
+                    '128.93.22.233',
+                ],
+            },
+            UPTIME       => '(2821021) 7:50:10.21',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11305,6 +11615,13 @@ my %tests = (
             SNMPHOSTNAME => 'l1019a',
             MAC          => '00:25:b3:eb:ea:20',
             SERIAL       => 'CNCKH91101',
+            MEMORY       => '128',
+            IPS          => {
+                IP => [
+                    '128.93.22.7',
+                ],
+            },
+            UPTIME       => '(20267234) 2 days, 8:17:52.34',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11448,6 +11765,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPIEB8A8F',
             MAC          => '00:25:b3:eb:8a:8f',
             SERIAL       => 'CNCKH91104',
+            MEMORY       => '128',
+            IPS          => {
+                IP => [
+                    '128.93.22.238',
+                ],
+            },
+            UPTIME       => '(3967795) 11:01:17.95',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11591,6 +11915,13 @@ my %tests = (
             SNMPHOSTNAME => 'l1a220a',
             MAC          => '00:25:b3:eb:7a:c7',
             SERIAL       => 'CNCKH91109',
+            MEMORY       => '128',
+            IPS          => {
+                IP => [
+                    '128.93.22.113',
+                ],
+            },
+            UPTIME       => '(19326743) 2 days, 5:41:07.43',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11734,6 +12065,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPIEB4B44',
             MAC          => '00:25:b3:eb:4b:44',
             SERIAL       => 'CNCKH91103',
+            MEMORY       => '128',
+            IPS          => {
+                IP => [
+                    '128.93.22.57',
+                ],
+            },
+            UPTIME       => '(22020083) 2 days, 13:10:00.83',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -11994,6 +12332,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPI91B509',
             MAC          => '00:17:08:91:b5:09',
             SERIAL       => 'CNFW6DG38S',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.22.92',
+                ],
+            },
+            UPTIME       => '(22362085) 2 days, 14:07:00.85',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12134,6 +12479,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPI947D4C',
             MAC          => '00:17:a4:94:7d:4c',
             SERIAL       => 'CNFW6DF0WL',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.5.49',
+                ],
+            },
+            UPTIME       => '(21658724) 2 days, 12:09:47.24',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12274,6 +12626,13 @@ my %tests = (
             SNMPHOSTNAME => 'L0420a',
             MAC          => '00:17:a4:93:4d:9f',
             SERIAL       => 'CNFW6DG39Q',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.4.22',
+                ],
+            },
+            UPTIME       => '(37718618) 4 days, 8:46:26.18',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12414,6 +12773,13 @@ my %tests = (
             SNMPHOSTNAME => 'l0500a',
             MAC          => '00:17:08:91:95:dd',
             SERIAL       => 'CNFW6DG38L',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.22.198',
+                ],
+            },
+            UPTIME       => '(11522734) 1 day, 8:00:27.34',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12554,6 +12920,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPI934D69',
             MAC          => '00:17:a4:93:4d:69',
             SERIAL       => 'CNFW6DG3DP',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.31.3',
+                ],
+            },
+            UPTIME       => '(29663349) 3 days, 10:23:53.49',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12694,6 +13067,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPI934D9C',
             MAC          => '00:17:a4:93:4d:9c',
             SERIAL       => 'CNFW6DG37P',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.17.16',
+                ],
+            },
+            UPTIME       => '(30521576) 3 days, 12:46:55.76',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12834,6 +13214,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPI917343',
             MAC          => '00:17:08:91:73:43',
             SERIAL       => 'CNFW6DG1MH',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.18.47',
+                ],
+            },
+            UPTIME       => '(33056147) 3 days, 19:49:21.47',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -12974,6 +13361,13 @@ my %tests = (
             SNMPHOSTNAME => 'l1B220a',
             MAC          => '00:17:a4:93:df:9c',
             SERIAL       => 'CNFW6DG1LP',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.22.102',
+                ],
+            },
+            UPTIME       => '(31793654) 3 days, 16:18:56.54',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13114,6 +13508,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPI824876',
             MAC          => '00:17:08:82:48:76',
             SERIAL       => 'CNFW6DF0XF',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.9.35',
+                ],
+            },
+            UPTIME       => '(15263036) 1 day, 18:23:50.36',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13254,6 +13655,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPI934D5B',
             MAC          => '00:17:a4:93:4d:5b',
             SERIAL       => 'CNFW6DG394',
+            MEMORY       => '192',
+            IPS          => {
+                IP => [
+                    '128.93.22.13',
+                ],
+            },
+            UPTIME       => '(11824269) 1 day, 8:50:42.69',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13394,6 +13802,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPI939CBD',
             MAC          => '00:17:a4:93:a7:56',
             SERIAL       => 'CNFW6DG1NP',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.22.111',
+                ],
+            },
+            UPTIME       => '(745416056) 86 days, 6:36:00.56',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13534,6 +13949,13 @@ my %tests = (
             SNMPHOSTNAME => 'l2427a',
             MAC          => '00:17:a4:94:a6:1f',
             SERIAL       => 'CNFW6DG1M8',
+            MEMORY       => '320',
+            IPS          => {
+                IP => [
+                    '128.93.22.132',
+                ],
+            },
+            UPTIME       => '(35620617) 4 days, 2:56:46.17',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -13908,6 +14330,13 @@ my %tests = (
             SNMPHOSTNAME => 'NPIFFF0F2',
             MAC          => '18:a9:05:ff:f0:f2',
             SERIAL       => 'CNFX409800',
+            MEMORY       => '384',
+            IPS          => {
+                IP => [
+                    '10.75.13.175',
+                ],
+            },
+            UPTIME       => '(705273859) 81 days, 15:05:38.59',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -14817,6 +15246,8 @@ my %tests = (
             MAC          => '00:18:fe:aa:a9:80',
             MODEL        => 'ProCurve 2650 (J4899B)',
             SERIAL       => 'CN638SD146',
+            LOCATION     => 'GN1 NORD',
+            UPTIME       => '(326711768) 37 days, 19:31:57.68',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -21918,6 +22349,7 @@ my %tests = (
             MAC          => '00:1d:b3:58:cf:80',
             MODEL        => 'ProCurve 2650 (J4899C)',
             SERIAL       => 'CN830FX04U',
+            UPTIME       => '(326690861) 37 days, 19:28:28.61',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -29885,20 +30317,40 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
-            SNMPHOSTNAME => 'oyapock CR2',
-            MAC          => '00:18:71:c1:e0:00',
             MODEL        => 'ProCurve 5406zl (J8697A)',
+            DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
+            CONTACT      => 'systeme@ac-guyane.fr',
+            SNMPHOSTNAME => 'oyapock CR2',
+            LOCATION     => 'datacenter',
             SERIAL       => 'SG707SU03Y',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '172.27.192.226',
+                    '172.27.192.33',
+                    '172.27.193.125',
+                    '172.27.205.253',
+                    '172.31.192.244',
+                    '172.31.193.246',
+                    '172.31.196.253',
+                    '172.31.201.253',
+                    '172.31.203.253',
+                    '172.31.204.125',
+                    '172.31.204.253',
+                    '172.31.205.125',
+                    '172.31.205.253',
+                    '192.168.227.246',
+                ],
+            },
+            MAC          => '00:18:71:c1:e0:00',
+            UPTIME       => '(293555959) 33 days, 23:25:59.59',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
             SNMPHOSTNAME => 'oyapock CR2',
-            MAC          => '00:18:71:c1:e0:00',
             MODELSNMP    => 'Networking2063',
-            MODEL        => 'ProCurve 5406zl (J8697A)',
             FIRMWARE     => undef,
             SERIAL       => 'SG707SU03Y',
         },
@@ -37464,6 +37916,8 @@ my %tests = (
             MAC          => '00:19:bb:99:f9:c0',
             MODEL        => 'ProCurve 2810-48G (J9022A)',
             SERIAL       => 'CN738XJ0FI',
+            LOCATION     => 'Local Autocommutateur',
+            UPTIME       => '(1389024840) 160 days, 18:24:08.40',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -41766,9 +42220,17 @@ my %tests = (
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
             DESCRIPTION  => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
-            MAC          => '00:21:f7:1e:01:40',
             MODEL        => 'ProCurve 2900-48g (J9050A)',
             SERIAL       => 'SG840KJ009',
+            LOCATION     => 'salle serveur',
+            IPS          => {
+                IP => [
+                    '10.100.205.43',
+                    '127.0.0.1',
+                ],
+            },
+            MAC          => '00:21:f7:1e:01:40',
+            UPTIME       => '(485451519) 56 days, 4:28:35.19',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',
@@ -51826,10 +52288,12 @@ my %tests = (
         {
             MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
+            MODEL        => 'ProCurve 2610-48',
             DESCRIPTION  => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
             MAC          => '00:21:f7:2b:e6:00',
-            MODEL        => 'ProCurve 2610-48',
             SERIAL       => 'CN935ZU1PD',
+            UPTIME       => '(148663680) 17 days, 4:57:16.80',
+            LOCATION     => 'Monod Amphi Charles Merieux',
         },
         {
             MANUFACTURER => 'Hewlett-Packard',

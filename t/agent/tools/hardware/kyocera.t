@@ -18,6 +18,12 @@ my %tests = (
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:80:ca:dd',
             SERIAL       => 'QVS0Z04925',
+            IPS          => {
+                IP => [
+                    '128.93.22.16',
+                ],
+            },
+            UPTIME       => '(55544038) 6 days, 10:17:20.38',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -120,6 +126,12 @@ my %tests = (
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:80:73:71',
             SERIAL       => 'QVS0Y04720',
+            IPS          => {
+                IP => [
+                    '128.93.22.52',
+                ],
+            },
+            UPTIME       => '(44432286) 5 days, 3:25:22.86',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -222,6 +234,12 @@ my %tests = (
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:80:73:6c',
             SERIAL       => 'QVS0Y04715',
+            IPS          => {
+                IP => [
+                    '128.93.22.70',
+                ],
+            },
+            UPTIME       => '(3145468) 8:44:14.68',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -324,6 +342,13 @@ my %tests = (
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:6a:96:dd',
             SERIAL       => 'XLM7Y21506',
+            MEMORY       => '0',
+            IPS          => {
+                IP => [
+                    '172.20.3.51',
+                ],
+            },
+            UPTIME       => '(19416556) 2 days, 5:56:05.56',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -425,6 +450,13 @@ my %tests = (
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:6a:97:07',
             SERIAL       => 'XLM7Y21503',
+            MEMORY       => '0',
+            IPS          => {
+                IP => [
+                    '172.20.3.4',
+                ],
+            },
+            UPTIME       => '(749216) 2:04:52.16',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -526,6 +558,12 @@ my %tests = (
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:2f:0d:d9',
             SERIAL       => 'QQM0701192',
+            IPS          => {
+                IP => [
+                    '172.20.3.38',
+                ],
+            },
+            UPTIME       => '(17673056) 2 days, 1:05:30.56',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -620,6 +658,12 @@ my %tests = (
             DESCRIPTION  => 'KYOCERA MITA Printing System',
             MAC          => '00:c0:ee:31:84:6b',
             SERIAL       => 'QJX9400014',
+            IPS          => {
+                IP => [
+                    '172.20.3.24',
+                ],
+            },
+            UPTIME       => '(11310876) 1 day, 7:25:08.76',
         },
         {
             MANUFACTURER => 'Kyocera',
@@ -714,6 +758,12 @@ my %tests = (
             DESCRIPTION  => 'UTAX_TA Printing System',
             MAC          => '00:c0:ee:80:dd:2d',
             SERIAL       => 'Q250Z01068',
+            IPS          => {
+                IP => [
+                    '10.104.154.211',
+                ],
+            },
+            UPTIME       => '(281437) 0:46:54.37',
         },
         {
             MANUFACTURER => 'Kyocera',
