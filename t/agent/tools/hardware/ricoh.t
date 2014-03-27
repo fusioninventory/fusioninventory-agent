@@ -29,13 +29,6 @@ my %tests = (
             UPTIME       => '(166369300) 19 days, 6:08:13.00',
         },
         {
-            MANUFACTURER => 'Ricoh',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'RICOH Aficio AP3800C 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model',
-            SNMPHOSTNAME => 'Aficio AP3800C',
-            MAC          => '00:00:74:71:17:ca',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Ricoh',
@@ -185,16 +178,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(234064600) 27 days, 2:10:46.00',
-        },
-        {
-            MANUFACTURER => 'Ricoh',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'RICOH Aficio MP C2050 1.17 / RICOH Network Printer C model / RICOH Network Scanner C model',
-            SNMPHOSTNAME => 'Aficio MP C2050',
-            MAC          => '00:00:74:f8:ba:6f',
-            MODELSNMP    => 'Printer0522',
-            FIRMWARE     => undef,
-            SERIAL       => undef,
         },
         {
             INFO => {
@@ -376,13 +359,6 @@ my %tests = (
             LOCATION     => 'Ugo',
         },
         {
-            MANUFACTURER => 'Ricoh',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
-            SNMPHOSTNAME => 'Aficio SP C420DN',
-            MAC          => '00:00:74:f3:01:95',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Ricoh',
@@ -523,13 +499,6 @@ my %tests = (
             MAC          => '00:00:74:f3:01:95',
             SERIAL       => 'S3899202523',
             LOCATION     => 'Ugo',
-        },
-        {
-            MANUFACTURER => 'Ricoh',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
-            SNMPHOSTNAME => 'Aficio SP C420DN',
-            MAC          => '00:00:74:f3:01:95',
         },
         {
             INFO => {
@@ -689,7 +658,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 }

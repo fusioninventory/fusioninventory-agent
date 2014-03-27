@@ -19,13 +19,6 @@ my %tests = (
             MAC          => '00:50:60:02:9b:79',
         },
         {
-            MANUFACTURER => 'Tandberg',
-            TYPE         => 'VIDEO',
-            DESCRIPTION  => 'TANDBERG Codec',
-            SNMPHOSTNAME => 'VISIO.1',
-            MAC          => '00:50:60:02:9b:79',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Tandberg',
@@ -134,7 +127,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 }

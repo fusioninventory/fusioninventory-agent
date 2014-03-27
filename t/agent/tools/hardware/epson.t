@@ -20,14 +20,6 @@ my %tests = (
             MAC          => '00:00:48:0d:be:cc',
         },
         {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C1100',
-            SNMPHOSTNAME => 'AL-C1100-0DBECC',
-            MAC          => '00:00:48:0d:be:cc',
-            MODEL        => 'AL-C1100',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Epson',
@@ -100,13 +92,6 @@ my %tests = (
             MAC          => '00:26:ab:9f:78:8b',
             MODEL        => 'AL-C3900',
             SERIAL       => 'N5CZ102791',
-        },
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'EPSON AL-C3900',
-            MAC          => '00:26:ab:9f:78:8b',
-            MODEL        => 'AL-C3900',
         },
         {
             INFO => {
@@ -227,17 +212,6 @@ my %tests = (
             UPTIME       => '(166086480) 19 days, 5:21:04.80',
         },
         {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C4200',
-            SNMPHOSTNAME => 'AL-C4200-0ED50E',
-            MAC          => '20:04:48:0e:d5:0e',
-            MODELSNMP    => 'Printer0125',
-            MODEL        => 'AL-C4200',
-            FIRMWARE     => undef,
-            SERIAL       => 'GMYZ106952',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Epson',
@@ -346,17 +320,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(17442921) 2 days, 0:27:09.21',
-        },
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C4200',
-            SNMPHOSTNAME => 'AL-C4200-D14BC7',
-            MAC          => '00:00:48:d1:4b:c7',
-            MODELSNMP    => 'Printer0125',
-            MODEL        => 'AL-C4200',
-            FIRMWARE     => undef,
-            SERIAL       => 'GMYZ106565',
         },
         {
             INFO => {
@@ -469,17 +432,6 @@ my %tests = (
             UPTIME       => '(311511314) 36 days, 1:18:33.14',
         },
         {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C4200',
-            SNMPHOSTNAME => 'AL-C4200-D1C30E',
-            MAC          => '00:00:48:d1:c3:0e',
-            MODELSNMP    => 'Printer0125',
-            MODEL        => 'AL-C4200',
-            FIRMWARE     => undef,
-            SERIAL       => 'GMYZ106833',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Epson',
@@ -589,17 +541,6 @@ my %tests = (
             UPTIME       => '(140436577) 16 days, 6:06:05.77',
         },
         {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-C4200',
-            SNMPHOSTNAME => 'AL-C4200-D362D2',
-            MAC          => '00:00:48:d3:62:d2',
-            MODELSNMP    => 'Printer0125',
-            MODEL        => 'AL-C4200',
-            FIRMWARE     => undef,
-            SERIAL       => 'GMYZ108184',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Epson',
@@ -701,14 +642,6 @@ my %tests = (
             MODEL        => 'AL-M2400',
         },
         {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-M2400',
-            SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => '00:26:ab:7f:dd:af',
-            MODEL        => 'AL-M2400',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Epson',
@@ -784,14 +717,6 @@ my %tests = (
             TYPE         => 'PRINTER',
             MODEL        => 'AL-M2400',
             DESCRIPTION  => 'EPSON Built-in 10Base-T/100Base-TX Print Server',
-            SNMPHOSTNAME => 'AL-M2400-7FDDAF',
-            MAC          => '00:26:ab:7f:dd:af',
-            MODEL        => 'AL-M2400',
-        },
-        {
-            MANUFACTURER => 'Epson',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'AL-M2400',
             SNMPHOSTNAME => 'AL-M2400-7FDDAF',
             MAC          => '00:26:ab:7f:dd:af',
             MODEL        => 'AL-M2400',
@@ -893,7 +818,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 }

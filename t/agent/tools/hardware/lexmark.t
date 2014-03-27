@@ -28,16 +28,6 @@ my %tests = (
             UPTIME       => '(256604241) 29 days, 16:47:22.41',
         },
         {
-            MANUFACTURER => 'Lexmark',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
-            SNMPHOSTNAME => 'LXK3936A4',
-            MAC          => '00:04:00:9c:6c:25',
-            MODELSNMP    => 'Printer0643',
-            FIRMWARE     => undef,
-            SERIAL       => 'LXK3936A4',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Lexmark',
@@ -170,14 +160,6 @@ my %tests = (
             SERIAL       => '7562029401523-96-0',
         },
         {
-            MANUFACTURER => 'Lexmark',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
-            SNMPHOSTNAME => 'ET0021B7427721',
-            MAC          => '00:21:b7:42:77:21',
-            MODEL        => 'X792',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Lexmark',
@@ -307,7 +289,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 }
