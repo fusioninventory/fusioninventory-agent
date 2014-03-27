@@ -14132,6 +14132,7 @@ my %tests = (
             MAC          => '00:18:fe:aa:a9:80',
             MODEL        => 'ProCurve 2650 (J4899B)',
             SERIAL       => 'CN638SD146',
+            FIRMWARE     => 'H.08.02',
             LOCATION     => 'GN1 NORD',
             UPTIME       => '(326711768) 37 days, 19:31:57.68',
         },
@@ -14144,6 +14145,7 @@ my %tests = (
                 COMMENTS     => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
                 LOCATION     => 'GN1 NORD',
                 SERIAL       => 'CN638SD146',
+                FIRMWARE     => 'H.08.02',
                 MAC          => '00:18:fe:aa:a9:80',
                 UPTIME       => '(326711768) 37 days, 19:31:57.68',
             },
@@ -21228,6 +21230,7 @@ my %tests = (
             MAC          => '00:1d:b3:58:cf:80',
             MODEL        => 'ProCurve 2650 (J4899C)',
             SERIAL       => 'CN830FX04U',
+            FIRMWARE     => 'H.08.05',
             UPTIME       => '(326690861) 37 days, 19:28:28.61',
         },
         {
@@ -21238,6 +21241,7 @@ my %tests = (
                 MODEL        => 'ProCurve 2650 (J4899C)',
                 COMMENTS     => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
                 SERIAL       => 'CN830FX04U',
+                FIRMWARE     => 'H.08.05',
                 MAC          => '00:1d:b3:58:cf:80',
                 UPTIME       => '(326690861) 37 days, 19:28:28.61',
             },
@@ -29195,6 +29199,7 @@ my %tests = (
             SNMPHOSTNAME => 'oyapock CR2',
             LOCATION     => 'datacenter',
             SERIAL       => 'SG707SU03Y',
+            FIRMWARE     => 'K.15.28',
             IPS          => {
                 IP => [
                     '127.0.0.1',
@@ -29228,6 +29233,7 @@ my %tests = (
                 NAME         => 'oyapock CR2',
                 LOCATION     => 'datacenter',
                 SERIAL       => 'SG707SU03Y',
+                FIRMWARE     => 'K.15.28',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -36779,6 +36785,7 @@ my %tests = (
             MAC          => '00:19:bb:99:f9:c0',
             MODEL        => 'ProCurve 2810-48G (J9022A)',
             SERIAL       => 'CN738XJ0FI',
+            FIRMWARE     => 'N.10.01',
             LOCATION     => 'Local Autocommutateur',
             UPTIME       => '(1389024840) 160 days, 18:24:08.40',
         },
@@ -36791,6 +36798,7 @@ my %tests = (
                 COMMENTS     => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
                 LOCATION     => 'Local Autocommutateur',
                 SERIAL       => 'CN738XJ0FI',
+                FIRMWARE     => 'N.10.01',
                 MAC          => '00:19:bb:99:f9:c0',
                 UPTIME       => '(1389024840) 160 days, 18:24:08.40',
             },
@@ -41079,6 +41087,7 @@ my %tests = (
             MODEL        => 'ProCurve 2900-48g (J9050A)',
             SERIAL       => 'SG840KJ009',
             LOCATION     => 'salle serveur',
+            FIRMWARE     => 'K.12.12',
             IPS          => {
                 IP => [
                     '10.100.205.43',
@@ -41097,6 +41106,7 @@ my %tests = (
                 COMMENTS     => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
                 LOCATION     => 'salle serveur',
                 SERIAL       => 'SG840KJ009',
+                FIRMWARE     => 'K.12.12',
                 IPS          => {
                     IP => [
                         '10.100.205.43',
@@ -51141,6 +51151,7 @@ my %tests = (
             DESCRIPTION  => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
             MAC          => '00:21:f7:2b:e6:00',
             SERIAL       => 'CN935ZU1PD',
+            FIRMWARE     => 'R.10.06',
             UPTIME       => '(148663680) 17 days, 4:57:16.80',
             LOCATION     => 'Monod Amphi Charles Merieux',
         },
@@ -51153,6 +51164,7 @@ my %tests = (
                 COMMENTS     => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
                 LOCATION     => 'Monod Amphi Charles Merieux',
                 SERIAL       => 'CN935ZU1PD',
+                FIRMWARE     => 'R.10.06',
                 MAC          => '00:21:f7:2b:e6:00',
                 UPTIME       => '(148663680) 17 days, 4:57:16.80',
             },

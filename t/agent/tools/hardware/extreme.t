@@ -20,6 +20,7 @@ my %tests = (
             SNMPHOSTNAME => 'xtb12-2',
             LOCATION     => 'PMF-B12',
             SERIAL       => '0518G-00029',
+            FIRMWARE     => '7.4.2.6',
             IPS          => {
                 IP => [
                     '127.0.0.1',
@@ -41,6 +42,7 @@ my %tests = (
                 NAME         => 'xtb12-2',
                 LOCATION     => 'PMF-B12',
                 SERIAL       => '0518G-00029',
+                FIRMWARE     => '7.4.2.6',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -1865,6 +1867,7 @@ my %tests = (
             SNMPHOSTNAME => 'xtc13',
             LOCATION     => 'PMF-C13',
             SERIAL       => '04375-00303',
+            FIRMWARE     => '7.4.2.6',
             IPS          => {
                 IP => [
                     '127.0.0.1',
@@ -1886,6 +1889,7 @@ my %tests = (
                 NAME         => 'xtc13',
                 LOCATION     => 'PMF-C13',
                 SERIAL       => '04375-00303',
+                FIRMWARE     => '7.4.2.6',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -14218,6 +14222,7 @@ my %tests = (
             SNMPHOSTNAME => 'xta6',
             LOCATION     => 'PMF-A6',
             SERIAL       => '0312R-01206',
+            FIRMWARE     => '7.3.2.3',
             IPS          => {
                 IP => [
                     '127.0.0.1',
@@ -14238,6 +14243,7 @@ my %tests = (
                 NAME         => 'xta6',
                 LOCATION     => 'PMF-A6',
                 SERIAL       => '0312R-01206',
+                FIRMWARE     => '7.3.2.3',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -20969,6 +20975,7 @@ my %tests = (
             SNMPHOSTNAME => 'sw30-c01-1',
             LOCATION     => 'Inria dc1 salle 30',
             SERIAL       => '1115G-80540',
+            FIRMWARE     => '1.0.3.5',
             IPS          => {
                 IP => [
                     '192.168.3.232',
@@ -20988,6 +20995,7 @@ my %tests = (
                 NAME         => 'sw30-c01-1',
                 LOCATION     => 'Inria dc1 salle 30',
                 SERIAL       => '1115G-80540',
+                FIRMWARE     => '1.0.3.5',
                 IPS          => {
                     IP => [
                         '192.168.3.232',

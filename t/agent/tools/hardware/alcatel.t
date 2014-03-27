@@ -20,6 +20,7 @@ my %tests = (
             SNMPHOSTNAME => 'CB-C005-127-os6400',
             LOCATION     => 'Unknown',
             SERIAL       => 'M4682816',
+            FIRMWARE     => '6.4.4.342.R01',
             IPS          => {
                 IP => [
                     '127.0.0.1',
@@ -40,6 +41,7 @@ my %tests = (
                 NAME         => 'CB-C005-127-os6400',
                 LOCATION     => 'Unknown',
                 SERIAL       => 'M4682816',
+                FIRMWARE     => '6.4.4.342.R01',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -1137,6 +1139,7 @@ my %tests = (
             SNMPHOSTNAME => 'CP-153-127',
             LOCATION     => 'Unknown',
             SERIAL       => 'M4682816',
+            FIRMWARE     => '6.4.4.342.R01',
             MAC          => 'e8:e7:32:2b:c1:e2',
         },
         {
@@ -1150,6 +1153,7 @@ my %tests = (
                 NAME         => 'CP-153-127',
                 LOCATION     => 'Unknown',
                 SERIAL       => 'M4682816',
+                FIRMWARE     => '6.4.4.342.R01',
                 MAC          => 'e8:e7:32:2b:c1:e2',
             },
             PORTS => {
