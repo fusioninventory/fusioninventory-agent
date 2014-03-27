@@ -26,12 +26,6 @@ my %tests = (
             UPTIME       => '(55544038) 6 days, 10:17:20.38',
         },
         {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'FS-C5350DN',
-            MAC          => '00:c0:ee:80:ca:dd',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Kyocera',
@@ -134,12 +128,6 @@ my %tests = (
             UPTIME       => '(44432286) 5 days, 3:25:22.86',
         },
         {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'FS-C5350DN',
-            MAC          => '00:c0:ee:80:73:71',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Kyocera',
@@ -240,12 +228,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(3145468) 8:44:14.68',
-        },
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'FS-C5350DN',
-            MAC          => '00:c0:ee:80:73:6c',
         },
         {
             INFO => {
@@ -351,15 +333,6 @@ my %tests = (
             UPTIME       => '(19416556) 2 days, 5:56:05.56',
         },
         {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'FS-2000D',
-            MAC          => '00:c0:ee:6a:96:dd',
-            MODELSNMP    => 'Printer0351',
-            FIRMWARE     => undef,
-            SERIAL       => 'XLM7Y21506',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Kyocera',
@@ -457,15 +430,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(749216) 2:04:52.16',
-        },
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'FS-2000D',
-            MAC          => '00:c0:ee:6a:97:07',
-            MODELSNMP    => 'Printer0351',
-            FIRMWARE     => undef,
-            SERIAL       => 'XLM7Y21503',
         },
         {
             INFO => {
@@ -566,12 +530,6 @@ my %tests = (
             UPTIME       => '(17673056) 2 days, 1:05:30.56',
         },
         {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'TASKalfa 181',
-            MAC          => '00:c0:ee:2f:0d:d9',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Kyocera',
@@ -666,12 +624,6 @@ my %tests = (
             UPTIME       => '(11310876) 1 day, 7:25:08.76',
         },
         {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'TASKalfa 820',
-            MAC          => '00:c0:ee:31:84:6b',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Kyocera',
@@ -764,15 +716,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(281437) 0:46:54.37',
-        },
-        {
-            MANUFACTURER => 'Kyocera',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'UTAX_TA Printing System',
-            MAC          => '00:c0:ee:80:dd:2d',
-            MODELSNMP    => 'Networking2073',
-            FIRMWARE     => undef,
-            SERIAL       => 'Q250Z01068',
         },
         {
             INFO => {
@@ -883,7 +826,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 }

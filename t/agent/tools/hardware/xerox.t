@@ -29,17 +29,6 @@ my %tests = (
             UPTIME       => '(457023) 1:16:10.23',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c0500a',
-            MAC          => '9c:93:4e:02:92:55',
-            MODELSNMP    => 'Printer0670',
-            MODEL        => 'ColorQube 8570DN',
-            FIRMWARE     => undef,
-            SERIAL       => undef,
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -185,16 +174,6 @@ my %tests = (
             UPTIME       => '(16986889) 1 day, 23:11:08.89',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
-            MAC          => '00:00:aa:5c:1c:8c',
-            MODELSNMP    => 'Printer0687',
-            MODEL        => 'DocuPrint N2125',
-            FIRMWARE     => undef,
-            SERIAL       => '3510349171',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -295,14 +274,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(1018900) 2:49:49.00',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
-            SNMPHOSTNAME => 'AS_STEXU_IMP02',
-            MAC          => '9c:93:4e:21:3c:a2',
-            MODEL        => 'Phaser 3320',
         },
         {
             INFO => {
@@ -438,17 +409,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(7088810) 19:41:28.10',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.03.00',
-            SNMPHOSTNAME => 'Phaser 5550DT',
-            MAC          => '00:00:aa:d4:a2:fe',
-            MODELSNMP    => 'Printer0688',
-            MODEL        => 'Phaser 5550DT',
-            FIRMWARE     => undef,
-            SERIAL       => 'KNB015751',
         },
         {
             INFO => {
@@ -597,17 +557,6 @@ my %tests = (
             UPTIME       => '(52327401) 6 days, 1:21:14.01',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.01.00',
-            SNMPHOSTNAME => 'Phaser 5550DT-1',
-            MAC          => '00:00:aa:d4:a4:cc',
-            MODELSNMP    => 'Printer0689',
-            MODEL        => 'Phaser 5550DT',
-            FIRMWARE     => undef,
-            SERIAL       => 'KNB015753',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -753,17 +702,6 @@ my %tests = (
             UPTIME       => '(119016820) 13 days, 18:36:08.20',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 6180MFP-D; Net 11.74,ESS 200802151717,IOT 05.09.00,Boot 200706151125',
-            SNMPHOSTNAME => 'Phaser 6180MFP-D-E360D7',
-            MAC          => '00:00:aa:e3:60:d7',
-            MODELSNMP    => 'Printer0370',
-            MODEL        => 'Phaser 6180 MFP',
-            FIRMWARE     => undef,
-            SERIAL       => 'GPX259705',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -860,17 +798,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(8607383) 23:54:33.83',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'cIT510a',
-            MAC          => '00:00:aa:d7:5b:a0',
-            MODELSNMP    => 'Printer0265',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT261947',
         },
         {
             INFO => {
@@ -1029,17 +956,6 @@ my %tests = (
             UPTIME       => '(262695935) 30 days, 9:42:39.35',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'cIT524a',
-            MAC          => '00:00:aa:c4:26:b0',
-            MODELSNMP    => 'Printer0265',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT261949',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -1194,17 +1110,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(1056921) 2:56:09.21',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'Phaser 8560DN',
-            MAC          => '00:00:aa:c4:26:61',
-            MODELSNMP    => 'Printer0265',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT261946',
         },
         {
             INFO => {
@@ -1363,17 +1268,6 @@ my %tests = (
             UPTIME       => '(9827360) 1 day, 3:17:53.60',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c0211a',
-            MAC          => '00:00:aa:c4:27:c4',
-            MODELSNMP    => 'Printer0265',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT261926',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -1528,17 +1422,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(184090216) 21 days, 7:21:42.16',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c1309a',
-            MAC          => '00:00:aa:d2:c6:82',
-            MODELSNMP    => 'Printer0265',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT340010',
         },
         {
             INFO => {
@@ -1697,17 +1580,6 @@ my %tests = (
             UPTIME       => '(72059111) 8 days, 8:09:51.11',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c2410a',
-            MAC          => '00:00:aa:c4:27:0f',
-            MODELSNMP    => 'Printer0265',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT261951',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -1862,17 +1734,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(745216738) 86 days, 6:02:47.38',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c3312a',
-            MAC          => '00:00:aa:ab:92:93',
-            MODELSNMP    => 'Printer0265',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT163983',
         },
         {
             INFO => {
@@ -2031,17 +1892,6 @@ my %tests = (
             UPTIME       => '(537900356) 62 days, 6:10:03.56',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c0400a',
-            MAC          => '00:00:aa:c4:27:29',
-            MODELSNMP    => 'Printer0265',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT261925',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -2196,17 +2046,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(53965840) 6 days, 5:54:18.40',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'Phaser 8560DN-2',
-            MAC          => '00:00:aa:a8:12:cf',
-            MODELSNMP    => 'Printer0314',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT133950',
         },
         {
             INFO => {
@@ -2365,17 +2204,6 @@ my %tests = (
             UPTIME       => '(504016756) 58 days, 8:02:47.56',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c2206a',
-            MAC          => '00:00:aa:ab:95:be',
-            MODELSNMP    => 'Printer0314',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT163981',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -2530,17 +2358,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(745557553) 86 days, 6:59:35.53',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c1500a',
-            MAC          => '00:00:aa:a7:e4:d3',
-            MODELSNMP    => 'Printer0314',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT133984',
         },
         {
             INFO => {
@@ -2699,17 +2516,6 @@ my %tests = (
             UPTIME       => '(745560805) 86 days, 7:00:08.05',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c1715a',
-            MAC          => '00:00:aa:a7:e5:b6',
-            MODELSNMP    => 'Printer0314',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT133868',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -2864,17 +2670,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(182596303) 21 days, 3:12:43.03',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c3111a',
-            MAC          => '00:00:aa:ab:96:82',
-            MODELSNMP    => 'Printer0314',
-            MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
-            SERIAL       => 'FBT164018',
         },
         {
             INFO => {
@@ -3033,14 +2828,6 @@ my %tests = (
             UPTIME       => '(80535700) 9 days, 7:42:37.00',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c3003a',
-            MAC          => '00:00:aa:c4:28:2c',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -3194,17 +2981,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(339691530) 39 days, 7:35:15.30',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'c1A110a-1',
-            MAC          => '00:00:aa:95:17:a7',
-            MODELSNMP    => 'Printer0451',
-            MODEL        => 'Phaser 8560DP',
-            FIRMWARE     => undef,
-            SERIAL       => 'WYP050086',
         },
         {
             INFO => {
@@ -3363,17 +3139,6 @@ my %tests = (
             UPTIME       => '(284944040) 32 days, 23:30:40.40',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'c2009a',
-            MAC          => '00:00:aa:95:16:50',
-            MODELSNMP    => 'Printer0451',
-            MODEL        => 'Phaser 8560DP',
-            FIRMWARE     => undef,
-            SERIAL       => 'WYP050250',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -3528,17 +3293,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(543157724) 62 days, 20:46:17.24',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'Phaser 8550DP',
-            MAC          => '00:00:aa:95:17:a8',
-            MODELSNMP    => 'Printer0451',
-            MODEL        => 'Phaser 8560DP',
-            FIRMWARE     => undef,
-            SERIAL       => 'WYP050085',
         },
         {
             INFO => {
@@ -3697,17 +3451,6 @@ my %tests = (
             UPTIME       => '(543164034) 62 days, 20:47:20.34',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'c2700a',
-            MAC          => '00:00:aa:95:15:b8',
-            MODELSNMP    => 'Printer0451',
-            MODEL        => 'Phaser 8560DP',
-            FIRMWARE     => undef,
-            SERIAL       => 'WYP050251',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -3862,14 +3605,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(132190381) 15 days, 7:11:43.81',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'ciT400a',
-            MAC          => '00:00:aa:d2:c5:eb',
-            MODEL        => 'Phaser 8560DT',
         },
         {
             INFO => {
@@ -4029,17 +3764,6 @@ my %tests = (
             UPTIME       => '(36879516) 4 days, 6:26:35.16',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-            SNMPHOSTNAME => 'SO007XN',
-            MAC          => '00:00:aa:cf:9e:5a',
-            MODELSNMP    => 'Printer0705',
-            MODEL        => 'WorkCentre 5632 v1',
-            FIRMWARE     => undef,
-            SERIAL       => '3641509891',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -4189,17 +3913,6 @@ my %tests = (
             UPTIME       => '(717880872) 83 days, 2:06:48.72',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-            SNMPHOSTNAME => 'SO011XN',
-            MAC          => '00:00:aa:cf:84:10',
-            MODELSNMP    => 'Printer0705',
-            MODEL        => 'WorkCentre 5632 v1',
-            FIRMWARE     => undef,
-            SERIAL       => '3641504792',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -4345,17 +4058,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(9495100) 1 day, 2:22:31.00',
-        },
-        {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
-            SNMPHOSTNAME => 'XEROX WorkCentre 7125',
-            MAC          => '08:00:37:b9:16:5d',
-            MODELSNMP    => 'Printer0690',
-            MODEL        => 'WorkCentre 7125',
-            FIRMWARE     => undef,
-            SERIAL       => '3325295030',
         },
         {
             INFO => {
@@ -4547,14 +4249,6 @@ my %tests = (
             SERIAL       => '3900723635',
         },
         {
-            MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
-            SNMPHOSTNAME => 'WorkCentre 7435',
-            MAC          => '08:00:37:9b:8f:ca',
-            MODEL        => 'WorkCentre 7435',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Xerox',
@@ -4720,7 +4414,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 

@@ -19,13 +19,6 @@ my %tests = (
             MAC          => '00:05:5d:57:b3:c4',
         },
         {
-            MANUFACTURER => 'D-Link',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'D-Link DP-303 Print Server',
-            SNMPHOSTNAME => 'Print Server PS-57B3C4',
-            MAC          => '00:05:5d:57:b3:c4',
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'D-Link',
@@ -83,13 +76,6 @@ my %tests = (
         },
     ],
     'd-link/DP_303.2.walk' => [
-        {
-            MANUFACTURER => 'D-Link',
-            TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'D-Link DP-303 Print Server',
-            SNMPHOSTNAME => 'Print Server PS-57B3C7',
-            MAC          => '00:05:5d:57:b3:c7',
-        },
         {
             MANUFACTURER => 'D-Link',
             TYPE         => 'NETWORKING',
@@ -181,7 +167,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 

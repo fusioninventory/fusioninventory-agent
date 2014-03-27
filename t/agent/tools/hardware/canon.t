@@ -21,16 +21,6 @@ my %tests = (
             SERIAL       => 'MKCA002834',
         },
         {
-            MANUFACTURER => 'Canon',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Canon LBP7660C /P',
-            SNMPHOSTNAME => 'LBP7660C',
-            MAC          => '88:87:17:82:ca:b1',
-            MODELSNMP    => 'Printer0790',
-            FIRMWARE     => undef,
-            SERIAL       => undef,
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Canon',
@@ -106,13 +96,6 @@ my %tests = (
             MANUFACTURER => 'Canon',
             TYPE         => 'PRINTER',
             MODEL        => 'Canon MF4500 Series',
-            DESCRIPTION  => 'Canon MF4500 Series /P',
-            SNMPHOSTNAME => 'MF4500 Series',
-            MAC          => '00:1e:8f:b0:9b:7d',
-        },
-        {
-            MANUFACTURER => 'Canon',
-            TYPE         => 'PRINTER',
             DESCRIPTION  => 'Canon MF4500 Series /P',
             SNMPHOSTNAME => 'MF4500 Series',
             MAC          => '00:1e:8f:b0:9b:7d',
@@ -214,7 +197,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 }

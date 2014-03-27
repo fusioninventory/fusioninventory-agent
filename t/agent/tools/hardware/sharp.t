@@ -28,17 +28,6 @@ my %tests = (
             UPTIME       => '(94252230) 10 days, 21:48:42.30',
         },
         {
-            MANUFACTURER => 'Sharp',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'SHARP MX-2600N',
-            SNMPHOSTNAME => 'PASTEK',
-            MAC          => '00:22:f3:c8:04:99',
-            MODELSNMP    => 'Printer0700',
-            MODEL        => 'MX-2600N',
-            FIRMWARE     => undef,
-            SERIAL       => undef,
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Sharp',
@@ -133,17 +122,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(8649373) 1 day, 0:01:33.73',
-        },
-        {
-            MANUFACTURER => 'Sharp',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'SHARP MX-5001N',
-            SNMPHOSTNAME => 'KENET - DPE2',
-            MAC          => '00:22:f3:9d:1f:3b',
-            MODELSNMP    => 'Printer0578',
-            MODEL        => 'MX-5001N',
-            FIRMWARE     => undef,
-            SERIAL       => '9801405X00',
         },
         {
             INFO => {
@@ -272,17 +250,6 @@ my %tests = (
             UPTIME       => '(28125680) 3 days, 6:07:36.80',
         },
         {
-            MANUFACTURER => 'Sharp',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'SHARP MX-5001N',
-            SNMPHOSTNAME => 'WASAI -- DFP',
-            MAC          => '00:22:f3:9d:20:56',
-            MODELSNMP    => 'Printer0578',
-            MODEL        => 'MX-5001N',
-            FIRMWARE     => undef,
-            SERIAL       => undef,
-        },
-        {
             INFO => {
                 ID           => undef,
                 MANUFACTURER => 'Sharp',
@@ -377,17 +344,6 @@ my %tests = (
                 ],
             },
             UPTIME       => '(1486295) 4:07:42.95',
-        },
-        {
-            MANUFACTURER => 'Sharp',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'SHARP MX-5001N',
-            SNMPHOSTNAME => 'MALAKA  - DOS -- IA-IPR',
-            MAC          => '00:22:f3:9d:20:4b',
-            MODELSNMP    => 'Printer0578',
-            MODEL        => 'MX-5001N',
-            FIRMWARE     => undef,
-            SERIAL       => '9801391X00',
         },
         {
             INFO => {
@@ -526,7 +482,7 @@ foreach my $test (sort keys %tests) {
     );
     cmp_deeply(
         $inventory,
-        $tests{$test}->[2],
+        $tests{$test}->[1],
         "$test: inventory"
     );
 }
