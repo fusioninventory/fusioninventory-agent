@@ -12,36 +12,37 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'konica/bizhub_421.1.walk' => [
         {
-            MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Konica',
             MODEL        => 'bizhub 421',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:aa:27:95:9e',
+
             SERIAL       => 'A0R6021004189',
+            UPTIME       => '(80180925) 9 days, 6:43:29.25',
+            MAC          => '00:50:aa:27:95:9e',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '172.18.3.93',
                 ],
             },
-            UPTIME       => '(80180925) 9 days, 6:43:29.25',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Konica',
                 MODEL        => 'bizhub 421',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
-                MAC          => '00:50:aa:27:95:9e',
                 SERIAL       => 'A0R6021004189',
+                UPTIME       => '(80180925) 9 days, 6:43:29.25',
+                MAC          => '00:50:aa:27:95:9e',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '172.18.3.93',
                     ],
                 },
-                UPTIME       => '(80180925) 9 days, 6:43:29.25',
             },
             PAGECOUNTERS => {
                 TOTAL      => '463233',
@@ -87,36 +88,37 @@ my %tests = (
     ],
     'konica/bizhub_421.2.walk' => [
         {
-            MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Konica',
             MODEL        => 'bizhub 421',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:aa:27:96:68',
+
             SERIAL       => 'A0R6021004159',
+            UPTIME       => '(105584922) 12 days, 5:17:29.22',
+            MAC          => '00:50:aa:27:96:68',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '172.18.3.95',
                 ],
             },
-            UPTIME       => '(105584922) 12 days, 5:17:29.22',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Konica',
                 MODEL        => 'bizhub 421',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
-                MAC          => '00:50:aa:27:96:68',
                 SERIAL       => 'A0R6021004159',
+                UPTIME       => '(105584922) 12 days, 5:17:29.22',
+                MAC          => '00:50:aa:27:96:68',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '172.18.3.95',
                     ],
                 },
-                UPTIME       => '(105584922) 12 days, 5:17:29.22',
             },
             PAGECOUNTERS => {
                 TOTAL      => '312526',
@@ -162,36 +164,37 @@ my %tests = (
     ],
     'konica/bizhub_421.3.walk' => [
         {
-            MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Konica',
             MODEL        => 'bizhub 421',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-            MAC          => '00:50:aa:27:95:a3',
+
             SERIAL       => 'A0R6021004184',
+            UPTIME       => '(8072382) 22:25:23.82',
+            MAC          => '00:50:aa:27:95:a3',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '172.18.3.97',
                 ],
             },
-            UPTIME       => '(8072382) 22:25:23.82',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Konica',
                 MODEL        => 'bizhub 421',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
-                MAC          => '00:50:aa:27:95:a3',
                 SERIAL       => 'A0R6021004184',
+                UPTIME       => '(8072382) 22:25:23.82',
+                MAC          => '00:50:aa:27:95:a3',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '172.18.3.97',
                     ],
                 },
-                UPTIME       => '(8072382) 22:25:23.82',
             },
             PAGECOUNTERS => {
                 TOTAL      => '473611',
@@ -237,38 +240,39 @@ my %tests = (
     ],
     'konica/bizhub_C224.1.walk' => [
         {
-            MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Konica',
             MODEL        => 'bizhub C224',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
-            MAC          => '00:20:6b:8a:dc:ec',
+
             SERIAL       => 'A5C4021018159',
+            UPTIME       => '(17995666) 2 days, 1:59:16.66',
             MEMORY       => '0',
+            MAC          => '00:20:6b:8a:dc:ec',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '192.168.200.18',
                 ],
             },
-            UPTIME       => '(17995666) 2 days, 1:59:16.66',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Konica',
                 MODEL        => 'bizhub C224',
                 COMMENTS     => 'KONICA MINOLTA bizhub C224e',
-                MAC          => '00:20:6b:8a:dc:ec',
                 SERIAL       => 'A5C4021018159',
+                UPTIME       => '(17995666) 2 days, 1:59:16.66',
                 MEMORY       => '0',
+                MAC          => '00:20:6b:8a:dc:ec',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '192.168.200.18',
                     ],
                 },
-                UPTIME       => '(17995666) 2 days, 1:59:16.66',
             },
             CARTRIDGES => {
                 TONERBLACK       => '94',
@@ -323,38 +327,39 @@ my %tests = (
     ],
     'konica/bizhub_C224.2.walk' => [
         {
-            MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Konica',
             MODEL        => 'bizhub C224',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
-            MAC          => '00:20:6b:8a:dc:ec',
+
             SERIAL       => 'A5C4021018159',
+            UPTIME       => '(7570291) 21:01:42.91',
             MEMORY       => '0',
+            MAC          => '00:20:6b:8a:dc:ec',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '192.168.200.18',
                 ],
             },
-            UPTIME       => '(7570291) 21:01:42.91',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Konica',
                 MODEL        => 'bizhub C224',
                 COMMENTS     => 'KONICA MINOLTA bizhub C224e',
-                MAC          => '00:20:6b:8a:dc:ec',
                 SERIAL       => 'A5C4021018159',
+                UPTIME       => '(7570291) 21:01:42.91',
                 MEMORY       => '0',
+                MAC          => '00:20:6b:8a:dc:ec',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '192.168.200.18',
                     ],
                 },
-                UPTIME       => '(7570291) 21:01:42.91',
             },
             CARTRIDGES => {
                 TONERBLACK       => '71',
@@ -409,38 +414,39 @@ my %tests = (
     ],
     'konica/bizhub_C554.1.walk' => [
         {
-            MANUFACTURER => 'Konica',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Konica',
             MODEL        => 'bizhub C554',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C554e',
-            MAC          => '00:20:6b:82:91:78',
+
             SERIAL       => 'A5AY021001363',
+            UPTIME       => '(43193657) 4 days, 23:58:56.57',
             MEMORY       => '0',
+            MAC          => '00:20:6b:82:91:78',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '192.168.150.26',
                 ],
             },
-            UPTIME       => '(43193657) 4 days, 23:58:56.57',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Konica',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Konica',
                 MODEL        => 'bizhub C554',
                 COMMENTS     => 'KONICA MINOLTA bizhub C554e',
-                MAC          => '00:20:6b:82:91:78',
                 SERIAL       => 'A5AY021001363',
+                UPTIME       => '(43193657) 4 days, 23:58:56.57',
                 MEMORY       => '0',
+                MAC          => '00:20:6b:82:91:78',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '192.168.150.26',
                     ],
                 },
-                UPTIME       => '(43193657) 4 days, 23:58:56.57',
             },
             CARTRIDGES => {
                 TONERBLACK       => '96',

@@ -12,46 +12,47 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'force10/c300.01.walk' => [
         {
-            MANUFACTURER => 'Dell',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Dell',
             DESCRIPTION  => 'Dell Force10 OS
 Operating System Version: 1.0
 Application Software Version: 8.4.2.7
 Series: C300
 Copyright (c) 1999-2012 by Dell Inc. All Rights Reserved.
 Build Time: Thu Sep 27 14:19:20 PDT 2012',
-            CONTACT      => 'admin@foo.bar',
+
             SNMPHOSTNAME => 'sw-c300-1-tmk',
             LOCATION     => 'Nowhere',
+            CONTACT      => 'admin@foo.bar',
+            UPTIME       => '(2412518166) 279 days, 5:26:21.66',
+            MAC          => '00:01:e8:85:4f:43',
             IPS          => {
                 IP => [
                     '10.20.102.3',
                 ],
             },
-            MAC          => '00:01:e8:85:4f:43',
-            UPTIME       => '(2412518166) 279 days, 5:26:21.66',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Dell',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Dell',
                 COMMENTS     => 'Dell Force10 OS
 Operating System Version: 1.0
 Application Software Version: 8.4.2.7
 Series: C300
 Copyright (c) 1999-2012 by Dell Inc. All Rights Reserved.
 Build Time: Thu Sep 27 14:19:20 PDT 2012',
-                CONTACT      => 'admin@foo.bar',
                 NAME         => 'sw-c300-1-tmk',
                 LOCATION     => 'Nowhere',
+                CONTACT      => 'admin@foo.bar',
+                UPTIME       => '(2412518166) 279 days, 5:26:21.66',
+                MAC          => '00:01:e8:85:4f:43',
                 IPS          => {
                     IP => [
                         '10.20.102.3',
                     ],
                 },
-                MAC          => '00:01:e8:85:4f:43',
-                UPTIME       => '(2412518166) 279 days, 5:26:21.66',
             },
             PORTS => {
                 PORT => [
@@ -10056,44 +10057,45 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
     ],
     'force10/s50.01.walk' => [
         {
-            MANUFACTURER => 'Force10',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Force10',
             DESCRIPTION  => 'Force10 Networks Real Time Operating System Software
 Force10 Operating System Version: 1.0
 Force10 Application Software Version: 8.4.2.1
 Copyright (c) 1999-2010 by Force10 Networks, Inc.
 Build Time: Sun Dec 26 20:21:44 2010',
-            CONTACT      => 'admin@foo.bar',
+
             SNMPHOSTNAME => 'sw-s50-2-tmk',
             LOCATION     => 'Nowhere',
+            CONTACT      => 'admin@foo.bar',
+            UPTIME       => '(4242230134) 490 days, 23:58:21.34',
+            MAC          => '00:01:e8:d6:a8:f6',
             IPS          => {
                 IP => [
                     '10.20.102.9',
                 ],
             },
-            MAC          => '00:01:e8:d6:a8:f6',
-            UPTIME       => '(4242230134) 490 days, 23:58:21.34',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Force10',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Force10',
                 COMMENTS     => 'Force10 Networks Real Time Operating System Software
 Force10 Operating System Version: 1.0
 Force10 Application Software Version: 8.4.2.1
 Copyright (c) 1999-2010 by Force10 Networks, Inc.
 Build Time: Sun Dec 26 20:21:44 2010',
-                CONTACT      => 'admin@foo.bar',
                 NAME         => 'sw-s50-2-tmk',
                 LOCATION     => 'Nowhere',
+                CONTACT      => 'admin@foo.bar',
+                UPTIME       => '(4242230134) 490 days, 23:58:21.34',
+                MAC          => '00:01:e8:d6:a8:f6',
                 IPS          => {
                     IP => [
                         '10.20.102.9',
                     ],
                 },
-                MAC          => '00:01:e8:d6:a8:f6',
-                UPTIME       => '(4242230134) 490 days, 23:58:21.34',
             },
             PORTS => {
                 PORT => [

@@ -12,24 +12,25 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'canon/LBP7660C_P.walk' => [
         {
-            MANUFACTURER => 'Canon',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Canon',
             MODEL        => 'Canon LBP7660C',
             DESCRIPTION  => 'Canon LBP7660C /P',
+
             SNMPHOSTNAME => 'LBP7660C',
-            MAC          => '88:87:17:82:ca:b1',
             SERIAL       => 'MKCA002834',
+            MAC          => '88:87:17:82:ca:b1',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Canon',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Canon',
                 MODEL        => 'Canon LBP7660C',
                 COMMENTS     => 'Canon LBP7660C /P',
                 NAME         => 'LBP7660C',
-                MAC          => '88:87:17:82:ca:b1',
                 SERIAL       => 'MKCA002834',
+                MAC          => '88:87:17:82:ca:b1',
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
@@ -59,18 +60,19 @@ my %tests = (
     ],
     'canon/MF4500_Series_P.walk' => [
         {
-            MANUFACTURER => 'Canon',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Canon',
             MODEL        => 'Canon MF4500 Series',
             DESCRIPTION  => 'Canon MF4500 Series /P',
+
             SNMPHOSTNAME => 'MF4500 Series',
             MAC          => '00:1e:8f:b0:9b:7d',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Canon',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Canon',
                 MODEL        => 'Canon MF4500 Series',
                 COMMENTS     => 'Canon MF4500 Series /P',
                 NAME         => 'MF4500 Series',

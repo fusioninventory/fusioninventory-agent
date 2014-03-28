@@ -12,40 +12,41 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'hewlett-packard/c0302a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311977,FN:MB14HZB,SVCID:20055,PID:HP Color LaserJet CP2025dn',
+
             SNMPHOSTNAME => 'c0302a',
-            MAC          => '00:25:b3:fa:8f:83',
-            SERIAL       => 'CNHS311977',
-            MEMORY       => '64',
             LOCATION     => 'HP Color LaserJet CP2025dn',
+            SERIAL       => 'CNHS311977',
+            UPTIME       => '(3731317) 10:21:53.17',
+            MEMORY       => '64',
+            MAC          => '00:25:b3:fa:8f:83',
             IPS          => {
                 IP => [
                     '128.93.22.19',
                 ],
             },
-            UPTIME       => '(3731317) 10:21:53.17',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311977,FN:MB14HZB,SVCID:20055,PID:HP Color LaserJet CP2025dn',
                 NAME         => 'c0302a',
-                MAC          => '00:25:b3:fa:8f:83',
-                SERIAL       => 'CNHS311977',
-                MEMORY       => '64',
                 LOCATION     => 'HP Color LaserJet CP2025dn',
+                SERIAL       => 'CNHS311977',
+                UPTIME       => '(3731317) 10:21:53.17',
+                MEMORY       => '64',
+                MAC          => '00:25:b3:fa:8f:83',
                 IPS          => {
                     IP => [
                         '128.93.22.19',
                     ],
                 },
-                UPTIME       => '(3731317) 10:21:53.17',
             },
             PAGECOUNTERS => {
                 TOTAL      => '57',
@@ -90,40 +91,41 @@ my %tests = (
     ],
     'hewlett-packard/c1c202a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311991,FN:MB14HYJ,SVCID:20048,PID:HP Color LaserJet CP2025dn',
+
             SNMPHOSTNAME => 'c1C202a',
-            MAC          => '00:25:b3:fa:8f:69',
-            SERIAL       => 'CNHS311991',
-            MEMORY       => '64',
             LOCATION     => 'HP Color LaserJet CP2025dn',
+            SERIAL       => 'CNHS311991',
+            UPTIME       => '(127613450) 14 days, 18:28:54.50',
+            MEMORY       => '64',
+            MAC          => '00:25:b3:fa:8f:69',
             IPS          => {
                 IP => [
                     '128.93.22.236',
                 ],
             },
-            UPTIME       => '(127613450) 14 days, 18:28:54.50',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311991,FN:MB14HYJ,SVCID:20048,PID:HP Color LaserJet CP2025dn',
                 NAME         => 'c1C202a',
-                MAC          => '00:25:b3:fa:8f:69',
-                SERIAL       => 'CNHS311991',
-                MEMORY       => '64',
                 LOCATION     => 'HP Color LaserJet CP2025dn',
+                SERIAL       => 'CNHS311991',
+                UPTIME       => '(127613450) 14 days, 18:28:54.50',
+                MEMORY       => '64',
+                MAC          => '00:25:b3:fa:8f:69',
                 IPS          => {
                     IP => [
                         '128.93.22.236',
                     ],
                 },
-                UPTIME       => '(127613450) 14 days, 18:28:54.50',
             },
             PAGECOUNTERS => {
                 TOTAL      => '2026',
@@ -168,40 +170,41 @@ my %tests = (
     ],
     'hewlett-packard/c1c203a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311990,FN:MB14J1J,SVCID:20034,PID:c1c203a',
+
             SNMPHOSTNAME => 'c1c203a',
-            MAC          => '00:25:b3:fa:8f:cc',
-            SERIAL       => 'CNHS311990',
-            MEMORY       => '64',
             LOCATION     => 'c1c203a',
+            SERIAL       => 'CNHS311990',
+            UPTIME       => '(79171032) 9 days, 3:55:10.32',
+            MEMORY       => '64',
+            MAC          => '00:25:b3:fa:8f:cc',
             IPS          => {
                 IP => [
                     '128.93.22.87',
                 ],
             },
-            UPTIME       => '(79171032) 9 days, 3:55:10.32',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311990,FN:MB14J1J,SVCID:20034,PID:c1c203a',
                 NAME         => 'c1c203a',
-                MAC          => '00:25:b3:fa:8f:cc',
-                SERIAL       => 'CNHS311990',
-                MEMORY       => '64',
                 LOCATION     => 'c1c203a',
+                SERIAL       => 'CNHS311990',
+                UPTIME       => '(79171032) 9 days, 3:55:10.32',
+                MEMORY       => '64',
+                MAC          => '00:25:b3:fa:8f:cc',
                 IPS          => {
                     IP => [
                         '128.93.22.87',
                     ],
                 },
-                UPTIME       => '(79171032) 9 days, 3:55:10.32',
             },
             PAGECOUNTERS => {
                 TOTAL      => '1019',
@@ -246,40 +249,41 @@ my %tests = (
     ],
     'hewlett-packard/c1c205a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311979,FN:MB14J3Z,SVCID:20045,PID:c1c205a',
+
             SNMPHOSTNAME => 'NPIFA9F1C',
-            MAC          => '00:25:b3:fa:9f:1c',
-            SERIAL       => 'CNHS311979',
-            MEMORY       => '64',
             LOCATION     => 'c1c205a',
+            SERIAL       => 'CNHS311979',
+            UPTIME       => '(3023313454) 349 days, 22:05:34.54',
+            MEMORY       => '64',
+            MAC          => '00:25:b3:fa:9f:1c',
             IPS          => {
                 IP => [
                     '128.93.22.225',
                 ],
             },
-            UPTIME       => '(3023313454) 349 days, 22:05:34.54',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS311979,FN:MB14J3Z,SVCID:20045,PID:c1c205a',
                 NAME         => 'NPIFA9F1C',
-                MAC          => '00:25:b3:fa:9f:1c',
-                SERIAL       => 'CNHS311979',
-                MEMORY       => '64',
                 LOCATION     => 'c1c205a',
+                SERIAL       => 'CNHS311979',
+                UPTIME       => '(3023313454) 349 days, 22:05:34.54',
+                MEMORY       => '64',
+                MAC          => '00:25:b3:fa:9f:1c',
                 IPS          => {
                     IP => [
                         '128.93.22.225',
                     ],
                 },
-                UPTIME       => '(3023313454) 349 days, 22:05:34.54',
             },
             PAGECOUNTERS => {
                 TOTAL      => '1016',
@@ -324,40 +328,41 @@ my %tests = (
     ],
     'hewlett-packard/c1c206a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS312016,FN:MB14JA3,SVCID:20045,PID:HP Color LaserJet CP2025dn',
+
             SNMPHOSTNAME => 'c1C206a',
-            MAC          => '00:25:b3:fa:9f:e6',
-            SERIAL       => 'CNHS312016',
-            MEMORY       => '64',
             LOCATION     => 'HP Color LaserJet CP2025dn',
+            SERIAL       => 'CNHS312016',
+            UPTIME       => '(2665726) 7:24:17.26',
+            MEMORY       => '64',
+            MAC          => '00:25:b3:fa:9f:e6',
             IPS          => {
                 IP => [
                     '128.93.22.224',
                 ],
             },
-            UPTIME       => '(2665726) 7:24:17.26',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS312016,FN:MB14JA3,SVCID:20045,PID:HP Color LaserJet CP2025dn',
                 NAME         => 'c1C206a',
-                MAC          => '00:25:b3:fa:9f:e6',
-                SERIAL       => 'CNHS312016',
-                MEMORY       => '64',
                 LOCATION     => 'HP Color LaserJet CP2025dn',
+                SERIAL       => 'CNHS312016',
+                UPTIME       => '(2665726) 7:24:17.26',
+                MEMORY       => '64',
+                MAC          => '00:25:b3:fa:9f:e6',
                 IPS          => {
                     IP => [
                         '128.93.22.224',
                     ],
                 },
-                UPTIME       => '(2665726) 7:24:17.26',
             },
             PAGECOUNTERS => {
                 TOTAL      => '0',
@@ -402,36 +407,37 @@ my %tests = (
     ],
     'hewlett-packard/c2406a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Business Inkjet 2800',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
+
             SNMPHOSTNAME => 'NPIE6C1AF',
-            MAC          => '00:1b:78:e6:c1:af',
+            UPTIME       => '(315536000) 36 days, 12:29:20.00',
             MEMORY       => '96',
+            MAC          => '00:1b:78:e6:c1:af',
             IPS          => {
                 IP => [
                     '128.93.22.214',
                 ],
             },
-            UPTIME       => '(315536000) 36 days, 12:29:20.00',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Business Inkjet 2800',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
                 NAME         => 'NPIE6C1AF',
-                MAC          => '00:1b:78:e6:c1:af',
+                UPTIME       => '(315536000) 36 days, 12:29:20.00',
                 MEMORY       => '96',
+                MAC          => '00:1b:78:e6:c1:af',
                 IPS          => {
                     IP => [
                         '128.93.22.214',
                     ],
                 },
-                UPTIME       => '(315536000) 36 days, 12:29:20.00',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '9',
@@ -482,36 +488,37 @@ my %tests = (
     ],
     'hewlett-packard/c2407a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Business Inkjet 2800',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
+
             SNMPHOSTNAME => 'NPIE6C19A',
-            MAC          => '00:1b:78:e6:c1:9a',
+            UPTIME       => '(15951321) 1 day, 20:18:33.21',
             MEMORY       => '96',
+            MAC          => '00:1b:78:e6:c1:9a',
             IPS          => {
                 IP => [
                     '128.93.22.129',
                 ],
             },
-            UPTIME       => '(15951321) 1 day, 20:18:33.21',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Business Inkjet 2800',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
                 NAME         => 'NPIE6C19A',
-                MAC          => '00:1b:78:e6:c1:9a',
+                UPTIME       => '(15951321) 1 day, 20:18:33.21',
                 MEMORY       => '96',
+                MAC          => '00:1b:78:e6:c1:9a',
                 IPS          => {
                     IP => [
                         '128.93.22.129',
                     ],
                 },
-                UPTIME       => '(15951321) 1 day, 20:18:33.21',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '13',
@@ -562,36 +569,37 @@ my %tests = (
     ],
     'hewlett-packard/Inkjet_2800.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Business Inkjet 2800',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
+
             SNMPHOSTNAME => 'HPIJ2800-02',
-            MAC          => '00:11:0a:f5:cc:dc',
+            UPTIME       => '(45821440) 5 days, 7:16:54.40',
             MEMORY       => '96',
+            MAC          => '00:11:0a:f5:cc:dc',
             IPS          => {
                 IP => [
                     '10.104.102.194',
                 ],
             },
-            UPTIME       => '(45821440) 5 days, 7:16:54.40',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Business Inkjet 2800',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
                 NAME         => 'HPIJ2800-02',
-                MAC          => '00:11:0a:f5:cc:dc',
+                UPTIME       => '(45821440) 5 days, 7:16:54.40',
                 MEMORY       => '96',
+                MAC          => '00:11:0a:f5:cc:dc',
                 IPS          => {
                     IP => [
                         '10.104.102.194',
                     ],
                 },
-                UPTIME       => '(45821440) 5 days, 7:16:54.40',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '12',
@@ -642,36 +650,37 @@ my %tests = (
     ],
     'hewlett-packard/Inkjet_2800.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Business Inkjet 2800',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
+
             SNMPHOSTNAME => 'HPIJ2800-01',
-            MAC          => '00:11:0a:f5:1a:cc',
+            UPTIME       => '(85884840) 9 days, 22:34:08.40',
             MEMORY       => '96',
+            MAC          => '00:11:0a:f5:1a:cc',
             IPS          => {
                 IP => [
                     '10.104.109.230',
                 ],
             },
-            UPTIME       => '(85884840) 9 days, 22:34:08.40',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Business Inkjet 2800',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
                 NAME         => 'HPIJ2800-01',
-                MAC          => '00:11:0a:f5:1a:cc',
+                UPTIME       => '(85884840) 9 days, 22:34:08.40',
                 MEMORY       => '96',
+                MAC          => '00:11:0a:f5:1a:cc',
                 IPS          => {
                     IP => [
                         '10.104.109.230',
                     ],
                 },
-                UPTIME       => '(85884840) 9 days, 22:34:08.40',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '10',
@@ -722,32 +731,33 @@ my %tests = (
     ],
     'hewlett-packard/l0214a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'l0214a',
+            UPTIME       => '(27930670) 3 days, 5:35:06.70',
             MAC          => '00:17:08:91:95:e4',
             IPS          => {
                 IP => [
                     '128.93.22.125',
                 ],
             },
-            UPTIME       => '(27930670) 3 days, 5:35:06.70',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'l0214a',
+                UPTIME       => '(27930670) 3 days, 5:35:06.70',
                 MAC          => '00:17:08:91:95:e4',
                 IPS          => {
                     IP => [
                         '128.93.22.125',
                     ],
                 },
-                UPTIME       => '(27930670) 3 days, 5:35:06.70',
             },
             PORTS => {
                 PORT => [
@@ -789,32 +799,33 @@ my %tests = (
     ],
     'hewlett-packard/l0700a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI934D66',
+            UPTIME       => '(40406032) 4 days, 16:14:20.32',
             MAC          => '00:17:a4:93:4d:66',
             IPS          => {
                 IP => [
                     '128.93.22.1',
                 ],
             },
-            UPTIME       => '(40406032) 4 days, 16:14:20.32',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI934D66',
+                UPTIME       => '(40406032) 4 days, 16:14:20.32',
                 MAC          => '00:17:a4:93:4d:66',
                 IPS          => {
                     IP => [
                         '128.93.22.1',
                     ],
                 },
-                UPTIME       => '(40406032) 4 days, 16:14:20.32',
             },
             PORTS => {
                 PORT => [
@@ -856,32 +867,33 @@ my %tests = (
     ],
     'hewlett-packard/l1803a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI9195E8',
+            UPTIME       => '(4016837) 11:09:28.37',
             MAC          => '00:17:08:91:95:e8',
             IPS          => {
                 IP => [
                     '128.93.22.78',
                 ],
             },
-            UPTIME       => '(4016837) 11:09:28.37',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI9195E8',
+                UPTIME       => '(4016837) 11:09:28.37',
                 MAC          => '00:17:08:91:95:e8',
                 IPS          => {
                     IP => [
                         '128.93.22.78',
                     ],
                 },
-                UPTIME       => '(4016837) 11:09:28.37',
             },
             PORTS => {
                 PORT => [
@@ -923,32 +935,33 @@ my %tests = (
     ],
     'hewlett-packard/l1b110a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI810884',
+            UPTIME       => '(13141846) 1 day, 12:30:18.46',
             MAC          => '00:1b:78:21:ef:df',
             IPS          => {
                 IP => [
                     '128.93.22.101',
                 ],
             },
-            UPTIME       => '(13141846) 1 day, 12:30:18.46',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI810884',
+                UPTIME       => '(13141846) 1 day, 12:30:18.46',
                 MAC          => '00:1b:78:21:ef:df',
                 IPS          => {
                     IP => [
                         '128.93.22.101',
                     ],
                 },
-                UPTIME       => '(13141846) 1 day, 12:30:18.46',
             },
             PORTS => {
                 PORT => [
@@ -990,32 +1003,33 @@ my %tests = (
     ],
     'hewlett-packard/l2520a.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI934D6D',
+            UPTIME       => '(3561333) 9:53:33.33',
             MAC          => '00:17:a4:93:4d:6d',
             IPS          => {
                 IP => [
                     '128.93.10.40',
                 ],
             },
-            UPTIME       => '(3561333) 9:53:33.33',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI934D6D',
+                UPTIME       => '(3561333) 9:53:33.33',
                 MAC          => '00:17:a4:93:4d:6d',
                 IPS          => {
                     IP => [
                         '128.93.10.40',
                     ],
                 },
-                UPTIME       => '(3561333) 9:53:33.33',
             },
             PORTS => {
                 PORT => [
@@ -1057,24 +1071,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_100_colorMFP_M175nw.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 100 colorMFP M175nw',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNC9D8R0DX,FN:RN32CK3,SVCID:22288,PID:HP LaserJet 100 colorMFP M175nw',
+
             SNMPHOSTNAME => 'NPIF6FA4A',
-            MAC          => 'b4:b5:2f:f6:fa:4a',
             SERIAL       => 'CNC9D8R0DX',
+            MAC          => 'b4:b5:2f:f6:fa:4a',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 100 colorMFP M175nw',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNC9D8R0DX,FN:RN32CK3,SVCID:22288,PID:HP LaserJet 100 colorMFP M175nw',
                 NAME         => 'NPIF6FA4A',
-                MAC          => 'b4:b5:2f:f6:fa:4a',
                 SERIAL       => 'CNC9D8R0DX',
+                MAC          => 'b4:b5:2f:f6:fa:4a',
             },
             PAGECOUNTERS => {
                 TOTAL      => '367',
@@ -1141,24 +1156,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_1300n.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 1300n',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14,CIDATE 09/24/2003',
+
             SNMPHOSTNAME => 'impbe94',
-            MAC          => '00:0e:7f:33:34:ba',
             SERIAL       => 'CNCD118906',
+            MAC          => '00:0e:7f:33:34:ba',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 1300n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM P.22.01,JETDIRECT,JD86,EEPROM P.25.14,CIDATE 09/24/2003',
                 NAME         => 'impbe94',
-                MAC          => '00:0e:7f:33:34:ba',
                 SERIAL       => 'CNCD118906',
+                MAC          => '00:0e:7f:33:34:ba',
             },
             PAGECOUNTERS => {
                 TOTAL      => '49530',
@@ -1198,24 +1214,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_1320.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 1320 series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
+
             SNMPHOSTNAME => 'NPI61044B',
-            MAC          => '00:14:38:61:04:4b',
             SERIAL       => 'CNHW59NG6N',
+            MAC          => '00:14:38:61:04:4b',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 1320 series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
                 NAME         => 'NPI61044B',
-                MAC          => '00:14:38:61:04:4b',
                 SERIAL       => 'CNHW59NG6N',
+                MAC          => '00:14:38:61:04:4b',
             },
             PAGECOUNTERS => {
                 TOTAL      => '33545',
@@ -1255,24 +1272,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_1320.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 1320 series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
+
             SNMPHOSTNAME => 'NPI9A3FC7',
-            MAC          => '00:14:38:9a:3f:c7',
             SERIAL       => 'CNHW625K6Z',
+            MAC          => '00:14:38:9a:3f:c7',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 1320 series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
                 NAME         => 'NPI9A3FC7',
-                MAC          => '00:14:38:9a:3f:c7',
                 SERIAL       => 'CNHW625K6Z',
+                MAC          => '00:14:38:9a:3f:c7',
             },
             PAGECOUNTERS => {
                 TOTAL      => '45790',
@@ -1312,24 +1330,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_1320.03.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 1320 series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
+
             SNMPHOSTNAME => 'NPIC68F5E',
-            MAC          => '00:11:85:c6:8f:5e',
             SERIAL       => 'CNBW49FHC4',
+            MAC          => '00:11:85:c6:8f:5e',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 1320 series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM B.25.01,JETDIRECT,JD119,EEPROM V.28.05,CIDATE 04/22/2004',
                 NAME         => 'NPIC68F5E',
-                MAC          => '00:11:85:c6:8f:5e',
                 SERIAL       => 'CNBW49FHC4',
+                MAC          => '00:11:85:c6:8f:5e',
             },
             PAGECOUNTERS => {
                 TOTAL      => '5868',
@@ -1369,24 +1388,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_2100.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 2100 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
-            MAC          => '00:30:c1:8a:6e:5b',
-            SERIAL       => 'FRGW108125',
+
             LOCATION     => 'impbe92',
+            SERIAL       => 'FRGW108125',
+            MAC          => '00:30:c1:8a:6e:5b',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 2100 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
-                MAC          => '00:30:c1:8a:6e:5b',
-                SERIAL       => 'FRGW108125',
                 LOCATION     => 'impbe92',
+                SERIAL       => 'FRGW108125',
+                MAC          => '00:30:c1:8a:6e:5b',
             },
             PAGECOUNTERS => {
                 TOTAL      => '65436',
@@ -1413,24 +1433,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_2100.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 2100 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
-            MAC          => '00:30:c1:8a:6e:5b',
-            SERIAL       => 'FRGW108125',
+
             LOCATION     => 'impbe92',
+            SERIAL       => 'FRGW108125',
+            MAC          => '00:30:c1:8a:6e:5b',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 2100 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.04',
-                MAC          => '00:30:c1:8a:6e:5b',
-                SERIAL       => 'FRGW108125',
                 LOCATION     => 'impbe92',
+                SERIAL       => 'FRGW108125',
+                MAC          => '00:30:c1:8a:6e:5b',
             },
             PAGECOUNTERS => {
                 TOTAL      => '65516',
@@ -1457,36 +1478,37 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_2100.03.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 2100 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
-            MAC          => '00:30:c1:0d:aa:c6',
+
             SERIAL       => 'FRGW022412',
+            UPTIME       => '(319831420) 37 days, 0:25:14.20',
             MEMORY       => '8',
+            MAC          => '00:30:c1:0d:aa:c6',
             IPS          => {
                 IP => [
                     '128.93.22.63',
                 ],
             },
-            UPTIME       => '(319831420) 37 days, 0:25:14.20',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 2100 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
-                MAC          => '00:30:c1:0d:aa:c6',
                 SERIAL       => 'FRGW022412',
+                UPTIME       => '(319831420) 37 days, 0:25:14.20',
                 MEMORY       => '8',
+                MAC          => '00:30:c1:0d:aa:c6',
                 IPS          => {
                     IP => [
                         '128.93.22.63',
                     ],
                 },
-                UPTIME       => '(319831420) 37 days, 0:25:14.20',
             },
             PAGECOUNTERS => {
                 TOTAL      => '27649',
@@ -1516,36 +1538,37 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_2100.04.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 2100 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
-            MAC          => '00:10:83:54:d6:08',
+
             SERIAL       => 'XXXXXXXXXX',
+            UPTIME       => '(165740930) 19 days, 4:23:29.30',
             MEMORY       => '8',
+            MAC          => '00:10:83:54:d6:08',
             IPS          => {
                 IP => [
                     '128.93.22.61',
                 ],
             },
-            UPTIME       => '(165740930) 19 days, 4:23:29.30',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 2100 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
-                MAC          => '00:10:83:54:d6:08',
                 SERIAL       => 'XXXXXXXXXX',
+                UPTIME       => '(165740930) 19 days, 4:23:29.30',
                 MEMORY       => '8',
+                MAC          => '00:10:83:54:d6:08',
                 IPS          => {
                     IP => [
                         '128.93.22.61',
                     ],
                 },
-                UPTIME       => '(165740930) 19 days, 4:23:29.30',
             },
             PAGECOUNTERS => {
                 TOTAL      => '46041',
@@ -1575,38 +1598,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_2100.05.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 2100 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM C.25.80,JETDIRECT,JD115,EEPROM V.28.06,CIDATE 04/27/2004',
+
             SNMPHOSTNAME => 'l1618a',
-            MAC          => '00:0e:7f:ea:e1:b7',
             SERIAL       => 'FRGW102302',
+            UPTIME       => '(13841080) 1 day, 14:26:50.80',
             MEMORY       => '8',
+            MAC          => '00:0e:7f:ea:e1:b7',
             IPS          => {
                 IP => [
                     '128.93.22.29',
                 ],
             },
-            UPTIME       => '(13841080) 1 day, 14:26:50.80',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 2100 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM C.25.80,JETDIRECT,JD115,EEPROM V.28.06,CIDATE 04/27/2004',
                 NAME         => 'l1618a',
-                MAC          => '00:0e:7f:ea:e1:b7',
                 SERIAL       => 'FRGW102302',
+                UPTIME       => '(13841080) 1 day, 14:26:50.80',
                 MEMORY       => '8',
+                MAC          => '00:0e:7f:ea:e1:b7',
                 IPS          => {
                     IP => [
                         '128.93.22.29',
                     ],
                 },
-                UPTIME       => '(13841080) 1 day, 14:26:50.80',
             },
             PAGECOUNTERS => {
                 TOTAL      => '3846',
@@ -1651,36 +1675,37 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_2100.06.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 2100 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD30,EEPROM G.08.20',
-            MAC          => '00:30:c1:c3:be:cf',
+
             SERIAL       => 'NLBB001719',
+            UPTIME       => '(20422550) 2 days, 8:43:45.50',
             MEMORY       => '8',
+            MAC          => '00:30:c1:c3:be:cf',
             IPS          => {
                 IP => [
                     '128.93.22.144',
                 ],
             },
-            UPTIME       => '(20422550) 2 days, 8:43:45.50',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 2100 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD30,EEPROM G.08.20',
-                MAC          => '00:30:c1:c3:be:cf',
                 SERIAL       => 'NLBB001719',
+                UPTIME       => '(20422550) 2 days, 8:43:45.50',
                 MEMORY       => '8',
+                MAC          => '00:30:c1:c3:be:cf',
                 IPS          => {
                     IP => [
                         '128.93.22.144',
                     ],
                 },
-                UPTIME       => '(20422550) 2 days, 8:43:45.50',
             },
             PAGECOUNTERS => {
                 TOTAL      => '15352',
@@ -1710,36 +1735,37 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_2200.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 2200',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
-            MAC          => '00:30:c1:01:1e:68',
+
             SERIAL       => 'FRFRH43314',
+            UPTIME       => '(745729650) 86 days, 7:28:16.50',
             MEMORY       => '16',
+            MAC          => '00:30:c1:01:1e:68',
             IPS          => {
                 IP => [
                     '128.93.22.20',
                 ],
             },
-            UPTIME       => '(745729650) 86 days, 7:28:16.50',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 2200',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.49',
-                MAC          => '00:30:c1:01:1e:68',
                 SERIAL       => 'FRFRH43314',
+                UPTIME       => '(745729650) 86 days, 7:28:16.50',
                 MEMORY       => '16',
+                MAC          => '00:30:c1:01:1e:68',
                 IPS          => {
                     IP => [
                         '128.93.22.20',
                     ],
                 },
-                UPTIME       => '(745729650) 86 days, 7:28:16.50',
             },
             PAGECOUNTERS => {
                 TOTAL      => '38972',
@@ -1769,38 +1795,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_2300.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 2300 series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08,CIDATE 02/26/2003',
+
             SNMPHOSTNAME => 'NPIA1D034',
-            MAC          => '00:01:e6:a1:d0:34',
             SERIAL       => 'CNCDF57941',
+            UPTIME       => '(313714810) 36 days, 7:25:48.10',
             MEMORY       => '48',
+            MAC          => '00:01:e6:a1:d0:34',
             IPS          => {
                 IP => [
                     '128.93.22.126',
                 ],
             },
-            UPTIME       => '(313714810) 36 days, 7:25:48.10',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 2300 series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.24.08,CIDATE 02/26/2003',
                 NAME         => 'NPIA1D034',
-                MAC          => '00:01:e6:a1:d0:34',
                 SERIAL       => 'CNCDF57941',
+                UPTIME       => '(313714810) 36 days, 7:25:48.10',
                 MEMORY       => '48',
+                MAC          => '00:01:e6:a1:d0:34',
                 IPS          => {
                     IP => [
                         '128.93.22.126',
                     ],
                 },
-                UPTIME       => '(313714810) 36 days, 7:25:48.10',
             },
             PAGECOUNTERS => {
                 TOTAL      => '23551',
@@ -1845,36 +1872,37 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_2300.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 2300 series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
-            MAC          => '00:30:c1:60:c8:5b',
+
             SERIAL       => 'CNCHM24955',
+            UPTIME       => '(3052880) 8:28:48.80',
             MEMORY       => '48',
+            MAC          => '00:30:c1:60:c8:5b',
             IPS          => {
                 IP => [
                     '128.93.22.66',
                 ],
             },
-            UPTIME       => '(3052880) 8:28:48.80',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 2300 series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.02,JETDIRECT,JD30,EEPROM G.08.40',
-                MAC          => '00:30:c1:60:c8:5b',
                 SERIAL       => 'CNCHM24955',
+                UPTIME       => '(3052880) 8:28:48.80',
                 MEMORY       => '48',
+                MAC          => '00:30:c1:60:c8:5b',
                 IPS          => {
                     IP => [
                         '128.93.22.66',
                     ],
                 },
-                UPTIME       => '(3052880) 8:28:48.80',
             },
             PAGECOUNTERS => {
                 TOTAL      => '17090',
@@ -1904,18 +1932,19 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_2600n.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet 2600n',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
+
             SNMPHOSTNAME => 'NPI1864A0',
             MAC          => '00:1a:4b:18:64:a0',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet 2600n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 NAME         => 'NPI1864A0',
@@ -1962,24 +1991,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_3600.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet 3600',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31,CIDATE 06/17/2005',
+
             SNMPHOSTNAME => 'NPI6F72C5',
-            MAC          => '00:1b:78:6f:72:c5',
             SERIAL       => 'CNXJD65169',
+            MAC          => '00:1b:78:6f:72:c5',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet 3600',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD121,EEPROM V.30.31,CIDATE 06/17/2005',
                 NAME         => 'NPI6F72C5',
-                MAC          => '00:1b:78:6f:72:c5',
                 SERIAL       => 'CNXJD65169',
+                MAC          => '00:1b:78:6f:72:c5',
             },
             PAGECOUNTERS => {
                 TOTAL      => '11012',
@@ -2019,26 +2049,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4000.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 4000 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
+
             SNMPHOSTNAME => 'inspiron8',
-            MAC          => '00:60:b0:91:3d:9d',
-            SERIAL       => 'NLEW064384',
             LOCATION     => 'lwcompta',
+            SERIAL       => 'NLEW064384',
+            MAC          => '00:60:b0:91:3d:9d',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 4000 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.05.35,JETDIRECT,JD30,EEPROM G.05.35',
                 NAME         => 'inspiron8',
-                MAC          => '00:60:b0:91:3d:9d',
-                SERIAL       => 'NLEW064384',
                 LOCATION     => 'lwcompta',
+                SERIAL       => 'NLEW064384',
+                MAC          => '00:60:b0:91:3d:9d',
             },
             PAGECOUNTERS => {
                 TOTAL      => '20653',
@@ -2065,24 +2096,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_400_color_M451dn.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 400 color M451dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCF300725,FN:Q5132YG,SVCID:22330,PID:HP LaserJet 400 color M451dn',
+
             SNMPHOSTNAME => 'NPIF67498',
-            MAC          => 'b4:b5:2f:f6:74:98',
             SERIAL       => 'CNCF300725',
+            MAC          => 'b4:b5:2f:f6:74:98',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 400 color M451dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCF300725,FN:Q5132YG,SVCID:22330,PID:HP LaserJet 400 color M451dn',
                 NAME         => 'NPIF67498',
-                MAC          => 'b4:b5:2f:f6:74:98',
                 SERIAL       => 'CNCF300725',
+                MAC          => 'b4:b5:2f:f6:74:98',
             },
             PAGECOUNTERS => {
                 TOTAL      => '541',
@@ -2122,26 +2154,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4050.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 4050 Series ',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD33,EEPROM G.08.04',
+
             SNMPHOSTNAME => 'imprimanteBR',
-            MAC          => '00:30:c1:8c:d5:6c',
-            SERIAL       => 'NL7N093250',
             LOCATION     => 'impbe93',
+            SERIAL       => 'NL7N093250',
+            MAC          => '00:30:c1:8c:d5:6c',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 4050 Series ',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.08.08,JETDIRECT,JD33,EEPROM G.08.04',
                 NAME         => 'imprimanteBR',
-                MAC          => '00:30:c1:8c:d5:6c',
-                SERIAL       => 'NL7N093250',
                 LOCATION     => 'impbe93',
+                SERIAL       => 'NL7N093250',
+                MAC          => '00:30:c1:8c:d5:6c',
             },
             PAGECOUNTERS => {
                 TOTAL      => '252311',
@@ -2168,36 +2201,37 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4050.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 4050 Series ',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.40',
-            MAC          => '00:10:83:ba:17:ce',
+
             SERIAL       => 'NL7V061384',
+            UPTIME       => '(130640030) 15 days, 2:53:20.30',
             MEMORY       => '16',
+            MAC          => '00:10:83:ba:17:ce',
             IPS          => {
                 IP => [
                     '128.93.22.64',
                 ],
             },
-            UPTIME       => '(130640030) 15 days, 2:53:20.30',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 4050 Series ',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM G.07.19,JETDIRECT,JD33,EEPROM G.08.40',
-                MAC          => '00:10:83:ba:17:ce',
                 SERIAL       => 'NL7V061384',
+                UPTIME       => '(130640030) 15 days, 2:53:20.30',
                 MEMORY       => '16',
+                MAC          => '00:10:83:ba:17:ce',
                 IPS          => {
                     IP => [
                         '128.93.22.64',
                     ],
                 },
-                UPTIME       => '(130640030) 15 days, 2:53:20.30',
             },
             PAGECOUNTERS => {
                 TOTAL      => '243041',
@@ -2227,24 +2261,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4200.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4200',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09,CIDATE 07/24/2003',
+
             SNMPHOSTNAME => 'IMP41200n0',
-            MAC          => '00:01:e6:a1:a7:81',
             SERIAL       => 'CNFX305387',
+            MAC          => '00:01:e6:a1:a7:81',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4200',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM R.22.01,JETDIRECT,JD95,EEPROM R.25.09,CIDATE 07/24/2003',
                 NAME         => 'IMP41200n0',
-                MAC          => '00:01:e6:a1:a7:81',
                 SERIAL       => 'CNFX305387',
+                MAC          => '00:01:e6:a1:a7:81',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '71',
@@ -2287,24 +2322,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4250.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4250',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43,CIDATE 06/23/2004',
+
             SNMPHOSTNAME => 'impKirat',
-            MAC          => '00:11:85:d9:f6:c7',
             SERIAL       => 'CNCXG01622',
+            MAC          => '00:11:85:d9:f6:c7',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.43,CIDATE 06/23/2004',
                 NAME         => 'impKirat',
-                MAC          => '00:11:85:d9:f6:c7',
                 SERIAL       => 'CNCXG01622',
+                MAC          => '00:11:85:d9:f6:c7',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '56',
@@ -2347,38 +2383,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4250.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4250',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
+
             SNMPHOSTNAME => 'l0812a',
-            MAC          => '00:14:38:df:a5:30',
             SERIAL       => 'CNHXH84872',
+            UPTIME       => '(22322645) 2 days, 14:00:26.45',
             MEMORY       => '256',
+            MAC          => '00:14:38:df:a5:30',
             IPS          => {
                 IP => [
                     '128.93.22.88',
                 ],
             },
-            UPTIME       => '(22322645) 2 days, 14:00:26.45',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
                 NAME         => 'l0812a',
-                MAC          => '00:14:38:df:a5:30',
                 SERIAL       => 'CNHXH84872',
+                UPTIME       => '(22322645) 2 days, 14:00:26.45',
                 MEMORY       => '256',
+                MAC          => '00:14:38:df:a5:30',
                 IPS          => {
                     IP => [
                         '128.93.22.88',
                     ],
                 },
-                UPTIME       => '(22322645) 2 days, 14:00:26.45',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '73',
@@ -2426,38 +2463,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4250.03.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4250',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63,CIDATE 04/07/2006',
+
             SNMPHOSTNAME => 'NPIEA2B02',
-            MAC          => '00:23:7d:7e:a1:31',
             SERIAL       => 'CNHXG83836',
+            UPTIME       => '(22683627) 2 days, 15:00:36.27',
             MEMORY       => '208',
+            MAC          => '00:23:7d:7e:a1:31',
             IPS          => {
                 IP => [
                     '128.93.8.82',
                 ],
             },
-            UPTIME       => '(22683627) 2 days, 15:00:36.27',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63,CIDATE 04/07/2006',
                 NAME         => 'NPIEA2B02',
-                MAC          => '00:23:7d:7e:a1:31',
                 SERIAL       => 'CNHXG83836',
+                UPTIME       => '(22683627) 2 days, 15:00:36.27',
                 MEMORY       => '208',
+                MAC          => '00:23:7d:7e:a1:31',
                 IPS          => {
                     IP => [
                         '128.93.8.82',
                     ],
                 },
-                UPTIME       => '(22683627) 2 days, 15:00:36.27',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '25',
@@ -2505,38 +2543,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4250.04.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4250',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
+
             SNMPHOSTNAME => 'NPIEA3BFC',
-            MAC          => '00:14:38:ea:3b:fc',
             SERIAL       => 'CNHXB71032',
+            UPTIME       => '(23418928) 2 days, 17:03:09.28',
             MEMORY       => '208',
+            MAC          => '00:14:38:ea:3b:fc',
             IPS          => {
                 IP => [
                     '128.93.22.90',
                 ],
             },
-            UPTIME       => '(23418928) 2 days, 17:03:09.28',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
                 NAME         => 'NPIEA3BFC',
-                MAC          => '00:14:38:ea:3b:fc',
                 SERIAL       => 'CNHXB71032',
+                UPTIME       => '(23418928) 2 days, 17:03:09.28',
                 MEMORY       => '208',
+                MAC          => '00:14:38:ea:3b:fc',
                 IPS          => {
                     IP => [
                         '128.93.22.90',
                     ],
                 },
-                UPTIME       => '(23418928) 2 days, 17:03:09.28',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '41',
@@ -2584,38 +2623,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4250.05.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4250',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
+
             SNMPHOSTNAME => 'l1310a',
-            MAC          => '00:14:38:ea:2b:c4',
             SERIAL       => 'CNHXC68053',
+            UPTIME       => '(23191049) 2 days, 16:25:10.49',
             MEMORY       => '208',
+            MAC          => '00:14:38:ea:2b:c4',
             IPS          => {
                 IP => [
                     '128.93.13.25',
                 ],
             },
-            UPTIME       => '(23191049) 2 days, 16:25:10.49',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
                 NAME         => 'l1310a',
-                MAC          => '00:14:38:ea:2b:c4',
                 SERIAL       => 'CNHXC68053',
+                UPTIME       => '(23191049) 2 days, 16:25:10.49',
                 MEMORY       => '208',
+                MAC          => '00:14:38:ea:2b:c4',
                 IPS          => {
                     IP => [
                         '128.93.13.25',
                     ],
                 },
-                UPTIME       => '(23191049) 2 days, 16:25:10.49',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '55',
@@ -2663,38 +2703,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4250.06.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4250',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
+
             SNMPHOSTNAME => 'l1439a',
-            MAC          => '00:14:38:e2:12:d8',
             SERIAL       => 'CNHXH84870',
+            UPTIME       => '(22810882) 2 days, 15:21:48.82',
             MEMORY       => '208',
+            MAC          => '00:14:38:e2:12:d8',
             IPS          => {
                 IP => [
                     '128.93.22.59',
                 ],
             },
-            UPTIME       => '(22810882) 2 days, 15:21:48.82',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
                 NAME         => 'l1439a',
-                MAC          => '00:14:38:e2:12:d8',
                 SERIAL       => 'CNHXH84870',
+                UPTIME       => '(22810882) 2 days, 15:21:48.82',
                 MEMORY       => '208',
+                MAC          => '00:14:38:e2:12:d8',
                 IPS          => {
                     IP => [
                         '128.93.22.59',
                     ],
                 },
-                UPTIME       => '(22810882) 2 days, 15:21:48.82',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '87',
@@ -2742,38 +2783,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4250.07.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4250',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63,CIDATE 04/07/2006',
+
             SNMPHOSTNAME => 'l2007a',
-            MAC          => '00:1b:78:28:26:cb',
             SERIAL       => 'CNHXB68748',
+            UPTIME       => '(23402944) 2 days, 17:00:29.44',
             MEMORY       => '208',
+            MAC          => '00:1b:78:28:26:cb',
             IPS          => {
                 IP => [
                     '128.93.22.41',
                 ],
             },
-            UPTIME       => '(23402944) 2 days, 17:00:29.44',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.63,CIDATE 04/07/2006',
                 NAME         => 'l2007a',
-                MAC          => '00:1b:78:28:26:cb',
                 SERIAL       => 'CNHXB68748',
+                UPTIME       => '(23402944) 2 days, 17:00:29.44',
                 MEMORY       => '208',
+                MAC          => '00:1b:78:28:26:cb',
                 IPS          => {
                     IP => [
                         '128.93.22.41',
                     ],
                 },
-                UPTIME       => '(23402944) 2 days, 17:00:29.44',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '57',
@@ -2821,38 +2863,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4250.08.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4250',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
+
             SNMPHOSTNAME => 'NPIEAFA59',
-            MAC          => '00:14:38:ea:fa:59',
             SERIAL       => 'CNHXB71050',
+            UPTIME       => '(22641038) 2 days, 14:53:30.38',
             MEMORY       => '208',
+            MAC          => '00:14:38:ea:fa:59',
             IPS          => {
                 IP => [
                     '128.93.22.123',
                 ],
             },
-            UPTIME       => '(22641038) 2 days, 14:53:30.38',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.28.59,CIDATE 05/10/2005',
                 NAME         => 'NPIEAFA59',
-                MAC          => '00:14:38:ea:fa:59',
                 SERIAL       => 'CNHXB71050',
+                UPTIME       => '(22641038) 2 days, 14:53:30.38',
                 MEMORY       => '208',
+                MAC          => '00:14:38:ea:fa:59',
                 IPS          => {
                     IP => [
                         '128.93.22.123',
                     ],
                 },
-                UPTIME       => '(22641038) 2 days, 14:53:30.38',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '53',
@@ -2900,38 +2943,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4250.09.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4250',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19,CIDATE 12/17/2008',
+
             SNMPHOSTNAME => 'NPIEA8E82',
-            MAC          => '00:23:7d:81:22:f7',
             SERIAL       => 'CNHXJ45092',
+            UPTIME       => '(1097769844) 127 days, 1:21:38.44',
             MEMORY       => '208',
+            MAC          => '00:23:7d:81:22:f7',
             IPS          => {
                 IP => [
                     '128.93.10.59',
                 ],
             },
-            UPTIME       => '(1097769844) 127 days, 1:21:38.44',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.19,CIDATE 12/17/2008',
                 NAME         => 'NPIEA8E82',
-                MAC          => '00:23:7d:81:22:f7',
                 SERIAL       => 'CNHXJ45092',
+                UPTIME       => '(1097769844) 127 days, 1:21:38.44',
                 MEMORY       => '208',
+                MAC          => '00:23:7d:81:22:f7',
                 IPS          => {
                     IP => [
                         '128.93.10.59',
                     ],
                 },
-                UPTIME       => '(1097769844) 127 days, 1:21:38.44',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '81',
@@ -2979,38 +3023,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_4250dtn.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp LaserJet 4250',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.25,CIDATE 01/09/2012',
+
             SNMPHOSTNAME => 'L3000A',
-            MAC          => '00:14:38:e2:12:5f',
             SERIAL       => 'CNHXC65951',
+            UPTIME       => '(2286542) 6:21:05.42',
             MEMORY       => '208',
+            MAC          => '00:14:38:e2:12:5f',
             IPS          => {
                 IP => [
                     '128.93.22.79',
                 ],
             },
-            UPTIME       => '(2286542) 6:21:05.42',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp LaserJet 4250',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD128,EEPROM V.33.25,CIDATE 01/09/2012',
                 NAME         => 'L3000A',
-                MAC          => '00:14:38:e2:12:5f',
                 SERIAL       => 'CNHXC65951',
+                UPTIME       => '(2286542) 6:21:05.42',
                 MEMORY       => '208',
+                MAC          => '00:14:38:e2:12:5f',
                 IPS          => {
                     IP => [
                         '128.93.22.79',
                     ],
                 },
-                UPTIME       => '(2286542) 6:21:05.42',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '86',
@@ -3058,24 +3103,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_500.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 500 color M551',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
+
             SNMPHOSTNAME => 'NPI419F6E',
-            MAC          => '2c:76:8a:41:9f:6e',
             SERIAL       => 'SE00V4T',
+            MAC          => '2c:76:8a:41:9f:6e',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 500 color M551',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
                 NAME         => 'NPI419F6E',
-                MAC          => '2c:76:8a:41:9f:6e',
                 SERIAL       => 'SE00V4T',
+                MAC          => '2c:76:8a:41:9f:6e',
             },
             PAGECOUNTERS => {
                 TOTAL      => '8514',
@@ -3115,24 +3161,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_5550.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'hp color LaserJet 5550 ',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
+
             SNMPHOSTNAME => 'IDD116',
-            MAC          => '00:1b:78:f0:f4:47',
             SERIAL       => 'JPSV9B0GCX',
+            MAC          => '00:1b:78:f0:f4:47',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'hp color LaserJet 5550 ',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM V.29.11,JETDIRECT,JD115,EEPROM V.29.13,CIDATE 08/11/2005',
                 NAME         => 'IDD116',
-                MAC          => '00:1b:78:f0:f4:47',
                 SERIAL       => 'JPSV9B0GCX',
+                MAC          => '00:1b:78:f0:f4:47',
             },
             PAGECOUNTERS => {
                 TOTAL      => '194821',
@@ -3172,24 +3219,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_600.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 600 M603',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
+
             SNMPHOSTNAME => 'lj1',
-            MAC          => 'e8:39:35:90:92:1f',
             SERIAL       => 'CNBVD3D0HH',
+            MAC          => 'e8:39:35:90:92:1f',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 600 M603',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
                 NAME         => 'lj1',
-                MAC          => 'e8:39:35:90:92:1f',
                 SERIAL       => 'CNBVD3D0HH',
+                MAC          => 'e8:39:35:90:92:1f',
             },
             PAGECOUNTERS => {
                 TOTAL      => '26784',
@@ -3229,24 +3277,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_600.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet 600 M603',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
+
             SNMPHOSTNAME => 'lj2',
-            MAC          => 'e8:39:35:90:22:ac',
             SERIAL       => 'TD031GM',
+            MAC          => 'e8:39:35:90:22:ac',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet 600 M603',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251131008,CIDATE 11/30/2011',
                 NAME         => 'lj2',
-                MAC          => 'e8:39:35:90:22:ac',
                 SERIAL       => 'TD031GM',
+                MAC          => 'e8:39:35:90:22:ac',
             },
             PAGECOUNTERS => {
                 TOTAL      => '51894',
@@ -3286,26 +3335,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CM1312nfi_MFP.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CM1312nfi MFP',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNB885QNXP,FN:NL106CH,SVCID:18334,PID:HP Color LaserJet CM1312nfi MFP',
+
             SNMPHOSTNAME => 'NPI271E90',
-            MAC          => '00:1f:29:27:1e:90',
-            SERIAL       => 'CNB885QNXP',
             LOCATION     => 'HP Color LaserJet CM1312nfi MFP',
+            SERIAL       => 'CNB885QNXP',
+            MAC          => '00:1f:29:27:1e:90',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CM1312nfi MFP',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNB885QNXP,FN:NL106CH,SVCID:18334,PID:HP Color LaserJet CM1312nfi MFP',
                 NAME         => 'NPI271E90',
-                MAC          => '00:1f:29:27:1e:90',
-                SERIAL       => 'CNB885QNXP',
                 LOCATION     => 'HP Color LaserJet CM1312nfi MFP',
+                SERIAL       => 'CNB885QNXP',
+                MAC          => '00:1f:29:27:1e:90',
             },
             PAGECOUNTERS => {
                 TOTAL      => '20179',
@@ -3345,24 +3395,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CM1415fn.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet CM1415fn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNF8BC11FK,FN:QD30T49,SVCID:21055,PID:HP LaserJet CM1415fn',
+
             SNMPHOSTNAME => 'B536-lwc237-Fax',
-            MAC          => '68:b5:99:ad:61:8e',
             SERIAL       => 'CNF8BC11FK',
+            MAC          => '68:b5:99:ad:61:8e',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet CM1415fn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNF8BC11FK,FN:QD30T49,SVCID:21055,PID:HP LaserJet CM1415fn',
                 NAME         => 'B536-lwc237-Fax',
-                MAC          => '68:b5:99:ad:61:8e',
                 SERIAL       => 'CNF8BC11FK',
+                MAC          => '68:b5:99:ad:61:8e',
             },
             PAGECOUNTERS => {
                 TOTAL      => '5480',
@@ -3402,26 +3453,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CM2320fxi_MFP.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CM2320fxi MFP',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
+
             SNMPHOSTNAME => 'NPI7F5D71',
-            MAC          => '00:23:7d:7f:5d:71',
-            SERIAL       => 'CNFN9BYG41',
             LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
+            SERIAL       => 'CNFN9BYG41',
+            MAC          => '00:23:7d:7f:5d:71',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CM2320fxi MFP',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
                 NAME         => 'NPI7F5D71',
                 LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
-                MAC          => '00:23:7d:7f:5d:71',
                 SERIAL       => 'CNFN9BYG41',
+                MAC          => '00:23:7d:7f:5d:71',
             },
             PAGECOUNTERS => {
                 TOTAL      => '25632',
@@ -3461,26 +3513,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CM2320fxi_MFP.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CM2320fxi MFP',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
+
             SNMPHOSTNAME => 'NPI7F5D71',
-            MAC          => '00:23:7d:7f:5d:71',
-            SERIAL       => 'CNFN9BYG41',
             LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
+            SERIAL       => 'CNFN9BYG41',
+            MAC          => '00:23:7d:7f:5d:71',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CM2320fxi MFP',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFN9BYG41,FN:NN407PC,SVCID:19339,PID:HP Color LaserJet CM2320fxi MFP',
                 NAME         => 'NPI7F5D71',
-                MAC          => '00:23:7d:7f:5d:71',
-                SERIAL       => 'CNFN9BYG41',
                 LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
+                SERIAL       => 'CNFN9BYG41',
+                MAC          => '00:23:7d:7f:5d:71',
             },
             PAGECOUNTERS => {
                 TOTAL      => '21862',
@@ -3520,26 +3573,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CM2320fxi_MFP.03.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CM2320fxi MFP',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNDN99YG0D,FN:NN40AH0,SVCID:19312,PID:HP Color LaserJet CM2320fxi MFP',
+
             SNMPHOSTNAME => 'NPI828833',
-            MAC          => '00:23:7d:82:88:33',
-            SERIAL       => 'CNDN99YG0D',
             LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
+            SERIAL       => 'CNDN99YG0D',
+            MAC          => '00:23:7d:82:88:33',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CM2320fxi MFP',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNDN99YG0D,FN:NN40AH0,SVCID:19312,PID:HP Color LaserJet CM2320fxi MFP',
                 NAME         => 'NPI828833',
-                MAC          => '00:23:7d:82:88:33',
-                SERIAL       => 'CNDN99YG0D',
                 LOCATION     => 'HP Color LaserJet CM2320fxi MFP',
+                SERIAL       => 'CNDN99YG0D',
+                MAC          => '00:23:7d:82:88:33',
             },
             PAGECOUNTERS => {
                 TOTAL      => '7308',
@@ -3579,26 +3633,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CM2320nf_MFP.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CM2320nf MFP',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFTBDZ0FN,FN:PT60J59,SVCID:21046,PID:HP Color LaserJet CM2320nf MFP',
+
             SNMPHOSTNAME => 'NPIB302A7',
-            MAC          => '3c:4a:92:b3:02:a7',
-            SERIAL       => 'CNFTBDZ0FN',
             LOCATION     => 'HP Color LaserJet CM2320nf MFP',
+            SERIAL       => 'CNFTBDZ0FN',
+            MAC          => '3c:4a:92:b3:02:a7',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CM2320nf MFP',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNFTBDZ0FN,FN:PT60J59,SVCID:21046,PID:HP Color LaserJet CM2320nf MFP',
                 NAME         => 'NPIB302A7',
                 LOCATION     => 'HP Color LaserJet CM2320nf MFP',
-                MAC          => '3c:4a:92:b3:02:a7',
                 SERIAL       => 'CNFTBDZ0FN',
+                MAC          => '3c:4a:92:b3:02:a7',
             },
             PAGECOUNTERS => {
                 TOTAL      => '930',
@@ -3638,25 +3693,26 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP1025nw.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet CP1025nw',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
-            CONTACT      => ' ',
+
             SNMPHOSTNAME => 'NPIA6032E',
-            MAC          => '78:e7:d1:a6:03:2e',
             LOCATION     => ' ',
+            CONTACT      => ' ',
+            MAC          => '78:e7:d1:a6:03:2e',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet CP1025nw',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
-                CONTACT      => ' ',
                 NAME         => 'NPIA6032E',
                 LOCATION     => ' ',
+                CONTACT      => ' ',
                 MAC          => '78:e7:d1:a6:03:2e',
             },
             PAGECOUNTERS => {
@@ -3697,26 +3753,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP2025dn.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCSF01053,FN:MB01ZGH,SVCID:18347,PID:HP Color LaserJet CP2025dn',
+
             SNMPHOSTNAME => 'NPI2AD743',
-            MAC          => '00:1f:29:2a:d7:43',
-            SERIAL       => 'CNCSF01053',
             LOCATION     => 'HP Color LaserJet CP2025dn',
+            SERIAL       => 'CNCSF01053',
+            MAC          => '00:1f:29:2a:d7:43',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCSF01053,FN:MB01ZGH,SVCID:18347,PID:HP Color LaserJet CP2025dn',
                 NAME         => 'NPI2AD743',
                 LOCATION     => 'HP Color LaserJet CP2025dn',
-                MAC          => '00:1f:29:2a:d7:43',
                 SERIAL       => 'CNCSF01053',
+                MAC          => '00:1f:29:2a:d7:43',
             },
             PAGECOUNTERS => {
                 TOTAL      => '31747',
@@ -3756,26 +3813,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP2025dn.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS437790,FN:MB27295,SVCID:22039,PID:HP Color LaserJet CP2025dn',
+
             SNMPHOSTNAME => 'NPIC3D5FF',
-            MAC          => 'b4:99:ba:c3:d5:ff',
-            SERIAL       => 'CNHS437790',
             LOCATION     => 'HP Color LaserJet CP2025dn',
+            SERIAL       => 'CNHS437790',
+            MAC          => 'b4:99:ba:c3:d5:ff',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHS437790,FN:MB27295,SVCID:22039,PID:HP Color LaserJet CP2025dn',
                 NAME         => 'NPIC3D5FF',
-                MAC          => 'b4:99:ba:c3:d5:ff',
-                SERIAL       => 'CNHS437790',
                 LOCATION     => 'HP Color LaserJet CP2025dn',
+                SERIAL       => 'CNHS437790',
+                MAC          => 'b4:99:ba:c3:d5:ff',
             },
             PAGECOUNTERS => {
                 TOTAL      => '8699',
@@ -3815,26 +3873,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP2025n.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025n',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHSP65440,FN:MB303HX,SVCID:21236,PID:HP Color LaserJet CP2025n',
+
             SNMPHOSTNAME => 'NPI117008',
-            MAC          => '2c:27:d7:11:70:08',
-            SERIAL       => 'CNHSP65440',
             LOCATION     => 'HP Color LaserJet CP2025n',
+            SERIAL       => 'CNHSP65440',
+            MAC          => '2c:27:d7:11:70:08',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHSP65440,FN:MB303HX,SVCID:21236,PID:HP Color LaserJet CP2025n',
                 NAME         => 'NPI117008',
                 LOCATION     => 'HP Color LaserJet CP2025n',
-                MAC          => '2c:27:d7:11:70:08',
                 SERIAL       => 'CNHSP65440',
+                MAC          => '2c:27:d7:11:70:08',
             },
             PAGECOUNTERS => {
                 TOTAL      => '3454',
@@ -3874,26 +3933,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP2025n.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025n',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS404796,FN:MB04VB0,SVCID:19316,PID:HP Color LaserJet CP2025n',
+
             SNMPHOSTNAME => 'NPI84C481',
-            MAC          => '00:21:5a:84:c4:81',
-            SERIAL       => 'CNCS404796',
             LOCATION     => 'HP Color LaserJet CP2025n',
+            SERIAL       => 'CNCS404796',
+            MAC          => '00:21:5a:84:c4:81',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS404796,FN:MB04VB0,SVCID:19316,PID:HP Color LaserJet CP2025n',
                 NAME         => 'NPI84C481',
                 LOCATION     => 'HP Color LaserJet CP2025n',
-                MAC          => '00:21:5a:84:c4:81',
                 SERIAL       => 'CNCS404796',
+                MAC          => '00:21:5a:84:c4:81',
             },
             PAGECOUNTERS => {
                 TOTAL      => '14722',
@@ -3933,26 +3993,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP2025n.03.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025n',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS404796,FN:MB04VB0,SVCID:19316,PID:HP Color LaserJet CP2025n',
+
             SNMPHOSTNAME => 'NPI84C481',
-            MAC          => '00:21:5a:84:c4:81',
-            SERIAL       => 'CNCS404796',
             LOCATION     => 'HP Color LaserJet CP2025n',
+            SERIAL       => 'CNCS404796',
+            MAC          => '00:21:5a:84:c4:81',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS404796,FN:MB04VB0,SVCID:19316,PID:HP Color LaserJet CP2025n',
                 NAME         => 'NPI84C481',
                 LOCATION     => 'HP Color LaserJet CP2025n',
-                MAC          => '00:21:5a:84:c4:81',
                 SERIAL       => 'CNCS404796',
+                MAC          => '00:21:5a:84:c4:81',
             },
             PAGECOUNTERS => {
                 TOTAL      => '16627',
@@ -3992,26 +4053,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP2025n.04.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025n',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS212370,FN:MB03SY2,SVCID:19127,PID:HP Color LaserJet CP2025n',
+
             SNMPHOSTNAME => 'NPI81E3A7',
-            MAC          => '00:21:5a:81:e3:a7',
-            SERIAL       => 'CNCS212370',
             LOCATION     => 'HP Color LaserJet CP2025n',
+            SERIAL       => 'CNCS212370',
+            MAC          => '00:21:5a:81:e3:a7',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNCS212370,FN:MB03SY2,SVCID:19127,PID:HP Color LaserJet CP2025n',
                 NAME         => 'NPI81E3A7',
                 LOCATION     => 'HP Color LaserJet CP2025n',
-                MAC          => '00:21:5a:81:e3:a7',
                 SERIAL       => 'CNCS212370',
+                MAC          => '00:21:5a:81:e3:a7',
             },
             PAGECOUNTERS => {
                 TOTAL      => '21956',
@@ -4051,26 +4113,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP2025n.05.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP2025n',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHSN58554,FN:MB258FW,SVCID:21095,PID:HP Color LaserJet CP2025n',
+
             SNMPHOSTNAME => 'NPI8FA1DD',
-            MAC          => '78:ac:c0:8f:a1:dd',
-            SERIAL       => 'CNHSN58554',
             LOCATION     => 'HP Color LaserJet CP2025n',
+            SERIAL       => 'CNHSN58554',
+            MAC          => '78:ac:c0:8f:a1:dd',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP2025n',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNHSN58554,FN:MB258FW,SVCID:21095,PID:HP Color LaserJet CP2025n',
                 NAME         => 'NPI8FA1DD',
                 LOCATION     => 'HP Color LaserJet CP2025n',
-                MAC          => '78:ac:c0:8f:a1:dd',
                 SERIAL       => 'CNHSN58554',
+                MAC          => '78:ac:c0:8f:a1:dd',
             },
             PAGECOUNTERS => {
                 TOTAL      => '9601',
@@ -4110,24 +4173,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP3525.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP3525',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67,CIDATE 06/17/2008',
+
             SNMPHOSTNAME => 'NPI85A57D',
-            MAC          => '00:23:7d:85:a5:7d',
             SERIAL       => 'CNCT98DGJY',
+            MAC          => '00:23:7d:85:a5:7d',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP3525',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.67,CIDATE 06/17/2008',
                 NAME         => 'NPI85A57D',
-                MAC          => '00:23:7d:85:a5:7d',
                 SERIAL       => 'CNCT98DGJY',
+                MAC          => '00:23:7d:85:a5:7d',
             },
             PAGECOUNTERS => {
                 TOTAL      => '16740',
@@ -4167,24 +4231,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP3525.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP3525',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80,CIDATE 11/03/2009',
+
             SNMPHOSTNAME => 'Corinne',
-            MAC          => 'd4:85:64:3d:ac:2e',
             SERIAL       => 'CNCTB9PHWG',
+            MAC          => 'd4:85:64:3d:ac:2e',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP3525',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80,CIDATE 11/03/2009',
                 NAME         => 'Corinne',
-                MAC          => 'd4:85:64:3d:ac:2e',
                 SERIAL       => 'CNCTB9PHWG',
+                MAC          => 'd4:85:64:3d:ac:2e',
             },
             PAGECOUNTERS => {
                 TOTAL      => '19183',
@@ -4224,38 +4289,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP3525.03.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP3525',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80,CIDATE 11/03/2009',
+
             SNMPHOSTNAME => 'nerium',
-            MAC          => 'd4:85:64:40:4d:93',
             SERIAL       => 'CBAFTBDG66',
+            UPTIME       => '(457735283) 52 days, 23:29:12.83',
             MEMORY       => '384',
+            MAC          => 'd4:85:64:40:4d:93',
             IPS          => {
                 IP => [
                     '192.168.1.41',
                 ],
             },
-            UPTIME       => '(457735283) 52 days, 23:29:12.83',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP3525',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD146,EEPROM V.38.80,CIDATE 11/03/2009',
                 NAME         => 'nerium',
-                MAC          => 'd4:85:64:40:4d:93',
                 SERIAL       => 'CBAFTBDG66',
+                UPTIME       => '(457735283) 52 days, 23:29:12.83',
                 MEMORY       => '384',
+                MAC          => 'd4:85:64:40:4d:93',
                 IPS          => {
                     IP => [
                         '192.168.1.41',
                     ],
                 },
-                UPTIME       => '(457735283) 52 days, 23:29:12.83',
             },
             PAGECOUNTERS => {
                 TOTAL      => '16808',
@@ -4300,24 +4366,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_CP4520.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP Color LaserJet CP4520 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99,CIDATE 11/26/2010',
+
             SNMPHOSTNAME => 'NPI10DB2C',
-            MAC          => '2c:27:d7:10:db:2c',
             SERIAL       => 'JPCTC8M0LJ',
+            MAC          => '2c:27:d7:10:db:2c',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP Color LaserJet CP4520 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD145,EEPROM V.38.99,CIDATE 11/26/2010',
                 NAME         => 'NPI10DB2C',
-                MAC          => '2c:27:d7:10:db:2c',
                 SERIAL       => 'JPCTC8M0LJ',
+                MAC          => '2c:27:d7:10:db:2c',
             },
             PAGECOUNTERS => {
                 TOTAL      => '14604',
@@ -4357,12 +4424,14 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_M1217nfw.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet Professional M1217nfw MFP',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
-            CONTACT      => ' ',
+
             SNMPHOSTNAME => 'l2407a',
+            CONTACT      => ' ',
+            UPTIME       => '(261657629) 30 days, 6:49:36.29',
             MAC          => '10:60:4b:19:a6:51',
             IPS          => {
                 IP => [
@@ -4371,17 +4440,17 @@ my %tests = (
                     '192.168.223.1',
                 ],
             },
-            UPTIME       => '(261657629) 30 days, 6:49:36.29',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet Professional M1217nfw MFP',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
-                CONTACT      => ' ',
                 NAME         => 'l2407a',
+                CONTACT      => ' ',
+                UPTIME       => '(261657629) 30 days, 6:49:36.29',
                 MAC          => '10:60:4b:19:a6:51',
                 IPS          => {
                     IP => [
@@ -4390,7 +4459,6 @@ my %tests = (
                         '192.168.223.1',
                     ],
                 },
-                UPTIME       => '(261657629) 30 days, 6:49:36.29',
             },
             PAGECOUNTERS => {
                 TOTAL      => '919',
@@ -4453,26 +4521,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2015.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2015 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW898043,FN:JK5FJN3,SVCID:18327,PID:HP LaserJet P2015 Series',
+
             SNMPHOSTNAME => 'NPI83EC85',
-            MAC          => '00:21:5a:83:ec:85',
-            SERIAL       => 'CNBW898043',
             LOCATION     => 'Boise, ID, USA',
+            SERIAL       => 'CNBW898043',
+            MAC          => '00:21:5a:83:ec:85',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2015 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW898043,FN:JK5FJN3,SVCID:18327,PID:HP LaserJet P2015 Series',
                 NAME         => 'NPI83EC85',
                 LOCATION     => 'Boise, ID, USA',
-                MAC          => '00:21:5a:83:ec:85',
                 SERIAL       => 'CNBW898043',
+                MAC          => '00:21:5a:83:ec:85',
             },
             PAGECOUNTERS => {
                 TOTAL      => '36596',
@@ -4512,26 +4581,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2015.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2015 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW7BQ7BS,FN:JK44SRD,SVCID:18021,PID:HP LaserJet P2015 Series',
+
             SNMPHOSTNAME => 'NPI13EE63',
-            MAC          => '00:1b:78:13:ee:63',
-            SERIAL       => 'CNBW7BQ7BS',
             LOCATION     => 'Boise, ID, USA',
+            SERIAL       => 'CNBW7BQ7BS',
+            MAC          => '00:1b:78:13:ee:63',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2015 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW7BQ7BS,FN:JK44SRD,SVCID:18021,PID:HP LaserJet P2015 Series',
                 NAME         => 'NPI13EE63',
                 LOCATION     => 'Boise, ID, USA',
-                MAC          => '00:1b:78:13:ee:63',
                 SERIAL       => 'CNBW7BQ7BS',
+                MAC          => '00:1b:78:13:ee:63',
             },
             PAGECOUNTERS => {
                 TOTAL      => '25333',
@@ -4571,26 +4641,27 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2015.03.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2015 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW898043,FN:JK5FJN3,SVCID:18327,PID:HP LaserJet P2015 Series',
+
             SNMPHOSTNAME => 'NPI83EC85',
-            MAC          => '00:21:5a:83:ec:85',
-            SERIAL       => 'CNBW898043',
             LOCATION     => 'Boise, ID, USA',
+            SERIAL       => 'CNBW898043',
+            MAC          => '00:21:5a:83:ec:85',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2015 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW898043,FN:JK5FJN3,SVCID:18327,PID:HP LaserJet P2015 Series',
                 NAME         => 'NPI83EC85',
                 LOCATION     => 'Boise, ID, USA',
-                MAC          => '00:21:5a:83:ec:85',
                 SERIAL       => 'CNBW898043',
+                MAC          => '00:21:5a:83:ec:85',
             },
             PAGECOUNTERS => {
                 TOTAL      => '36301',
@@ -4630,40 +4701,41 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2015.04.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2015 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW87R2XX,FN:JK5BJMX,SVCID:00000,PID:HP LaserJet P2015 Series',
+
             SNMPHOSTNAME => 'NPI2BAB3D',
-            MAC          => '00:1f:29:2b:ab:3d',
-            SERIAL       => 'CNBW87R2XX',
             LOCATION     => 'Boise, ID, USA',
+            SERIAL       => 'CNBW87R2XX',
+            UPTIME       => '(200046302) 23 days, 3:41:03.02',
             MEMORY       => '95',
+            MAC          => '00:1f:29:2b:ab:3d',
             IPS          => {
                 IP => [
                     '128.93.22.213',
                 ],
             },
-            UPTIME       => '(200046302) 23 days, 3:41:03.02',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2015 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW87R2XX,FN:JK5BJMX,SVCID:00000,PID:HP LaserJet P2015 Series',
                 NAME         => 'NPI2BAB3D',
-                MEMORY       => '95',
                 LOCATION     => 'Boise, ID, USA',
-                MAC          => '00:1f:29:2b:ab:3d',
                 SERIAL       => 'CNBW87R2XX',
+                UPTIME       => '(200046302) 23 days, 3:41:03.02',
+                MEMORY       => '95',
+                MAC          => '00:1f:29:2b:ab:3d',
                 IPS          => {
                     IP => [
                         '128.93.22.213',
                     ],
                 },
-                UPTIME       => '(200046302) 23 days, 3:41:03.02',
             },
             PAGECOUNTERS => {
                 TOTAL      => '129336',
@@ -4708,40 +4780,41 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2015.05.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2015 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW6DW3R8,FN:JK151HQ,SVCID:00000,PID:l0713a',
+
             SNMPHOSTNAME => 'NPI8CA86F',
-            MAC          => '00:17:08:8c:a8:6f',
-            SERIAL       => 'CNBW6DW3R8',
             LOCATION     => 'Boise, ID, USA',
+            SERIAL       => 'CNBW6DW3R8',
+            UPTIME       => '(180819074) 20 days, 22:16:30.74',
             MEMORY       => '159',
+            MAC          => '00:17:08:8c:a8:6f',
             IPS          => {
                 IP => [
                     '128.93.22.14',
                 ],
             },
-            UPTIME       => '(180819074) 20 days, 22:16:30.74',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2015 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW6DW3R8,FN:JK151HQ,SVCID:00000,PID:l0713a',
                 NAME         => 'NPI8CA86F',
-                MEMORY       => '159',
                 LOCATION     => 'Boise, ID, USA',
-                MAC          => '00:17:08:8c:a8:6f',
                 SERIAL       => 'CNBW6DW3R8',
+                UPTIME       => '(180819074) 20 days, 22:16:30.74',
+                MEMORY       => '159',
+                MAC          => '00:17:08:8c:a8:6f',
                 IPS          => {
                     IP => [
                         '128.93.22.14',
                     ],
                 },
-                UPTIME       => '(180819074) 20 days, 22:16:30.74',
             },
             PAGECOUNTERS => {
                 TOTAL      => '45078',
@@ -4786,40 +4859,41 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2015.06.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2015 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW7171V8,FN:JK15ESY,SVCID:00000,PID:HP LaserJet P2015 Series',
+
             SNMPHOSTNAME => 'NPI8E6910',
-            MAC          => '00:17:08:8e:69:10',
-            SERIAL       => 'CNBW7171V8',
-            MEMORY       => '159',
             LOCATION     => 'Boise, ID, USA',
+            SERIAL       => 'CNBW7171V8',
+            UPTIME       => '(138093688) 15 days, 23:35:36.88',
+            MEMORY       => '159',
+            MAC          => '00:17:08:8e:69:10',
             IPS          => {
                 IP => [
                     '128.93.22.22',
                 ],
             },
-            UPTIME       => '(138093688) 15 days, 23:35:36.88',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2015 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW7171V8,FN:JK15ESY,SVCID:00000,PID:HP LaserJet P2015 Series',
                 NAME         => 'NPI8E6910',
-                MEMORY       => '159',
                 LOCATION     => 'Boise, ID, USA',
-                MAC          => '00:17:08:8e:69:10',
                 SERIAL       => 'CNBW7171V8',
+                UPTIME       => '(138093688) 15 days, 23:35:36.88',
+                MEMORY       => '159',
+                MAC          => '00:17:08:8e:69:10',
                 IPS          => {
                     IP => [
                         '128.93.22.22',
                     ],
                 },
-                UPTIME       => '(138093688) 15 days, 23:35:36.88',
             },
             PAGECOUNTERS => {
                 TOTAL      => '16610',
@@ -4864,40 +4938,41 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2015.07.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2015 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW6DW37G,FN:JK15170,SVCID:00000,PID:l2405a',
+
             SNMPHOSTNAME => 'NPI8C980D',
-            MAC          => '00:17:08:8c:98:0d',
-            SERIAL       => 'CNBW6DW37G',
             LOCATION     => 'Boise, ID, USA',
+            SERIAL       => 'CNBW6DW37G',
+            UPTIME       => '(71190989) 8 days, 5:45:09.89',
             MEMORY       => '159',
+            MAC          => '00:17:08:8c:98:0d',
             IPS          => {
                 IP => [
                     '128.93.22.122',
                 ],
             },
-            UPTIME       => '(71190989) 8 days, 5:45:09.89',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2015 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW6DW37G,FN:JK15170,SVCID:00000,PID:l2405a',
                 NAME         => 'NPI8C980D',
-                MEMORY       => '159',
                 LOCATION     => 'Boise, ID, USA',
-                MAC          => '00:17:08:8c:98:0d',
                 SERIAL       => 'CNBW6DW37G',
+                UPTIME       => '(71190989) 8 days, 5:45:09.89',
+                MEMORY       => '159',
+                MAC          => '00:17:08:8c:98:0d',
                 IPS          => {
                     IP => [
                         '128.93.22.122',
                     ],
                 },
-                UPTIME       => '(71190989) 8 days, 5:45:09.89',
             },
             PAGECOUNTERS => {
                 TOTAL      => '5943',
@@ -4942,40 +5017,41 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2015.08.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2015 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW76W0B8,FN:JK62250,SVCID:00000,PID:HP LaserJet P2015 Series',
+
             SNMPHOSTNAME => 'NPI7954CF',
-            MAC          => '00:23:7d:79:54:cf',
-            SERIAL       => 'CNBW76W0B8',
             LOCATION     => 'Boise, ID, USA',
+            SERIAL       => 'CNBW76W0B8',
+            UPTIME       => '(59927764) 6 days, 22:27:57.64',
             MEMORY       => '95',
+            MAC          => '00:23:7d:79:54:cf',
             IPS          => {
                 IP => [
                     '128.93.22.220',
                 ],
             },
-            UPTIME       => '(59927764) 6 days, 22:27:57.64',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2015 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW76W0B8,FN:JK62250,SVCID:00000,PID:HP LaserJet P2015 Series',
                 NAME         => 'NPI7954CF',
-                MEMORY       => '95',
                 LOCATION     => 'Boise, ID, USA',
-                MAC          => '00:23:7d:79:54:cf',
                 SERIAL       => 'CNBW76W0B8',
+                UPTIME       => '(59927764) 6 days, 22:27:57.64',
+                MEMORY       => '95',
+                MAC          => '00:23:7d:79:54:cf',
                 IPS          => {
                     IP => [
                         '128.93.22.220',
                     ],
                 },
-                UPTIME       => '(59927764) 6 days, 22:27:57.64',
             },
             PAGECOUNTERS => {
                 TOTAL      => '96192',
@@ -5020,40 +5096,41 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2015.09.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2015 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW74K7GP,FN:JK306JC,SVCID:00000,PID:HP LaserJet P2015 Series',
+
             SNMPHOSTNAME => 'NPI156F54',
-            MAC          => '00:1a:4b:15:6f:54',
-            SERIAL       => 'CNBW74K7GP',
             LOCATION     => 'Boise, ID, USA',
+            SERIAL       => 'CNBW74K7GP',
+            UPTIME       => '(2901531) 8:03:35.31',
             MEMORY       => '95',
+            MAC          => '00:1a:4b:15:6f:54',
             IPS          => {
                 IP => [
                     '128.93.22.197',
                 ],
             },
-            UPTIME       => '(2901531) 8:03:35.31',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2015 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW74K7GP,FN:JK306JC,SVCID:00000,PID:HP LaserJet P2015 Series',
                 NAME         => 'NPI156F54',
-                MEMORY       => '95',
                 LOCATION     => 'Boise, ID, USA',
-                MAC          => '00:1a:4b:15:6f:54',
                 SERIAL       => 'CNBW74K7GP',
+                UPTIME       => '(2901531) 8:03:35.31',
+                MEMORY       => '95',
+                MAC          => '00:1a:4b:15:6f:54',
                 IPS          => {
                     IP => [
                         '128.93.22.197',
                     ],
                 },
-                UPTIME       => '(2901531) 8:03:35.31',
             },
             PAGECOUNTERS => {
                 TOTAL      => '30412',
@@ -5098,40 +5175,41 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2015.10.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2015 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW84P402,FN:JK54RBG,SVCID:00000,PID:HP LaserJet P2015 Series',
+
             SNMPHOSTNAME => 'NPI166E31',
-            MAC          => '00:1f:29:16:6e:31',
-            SERIAL       => 'CNBW84P402',
             LOCATION     => 'Boise, ID, USA',
+            SERIAL       => 'CNBW84P402',
+            UPTIME       => '(2821021) 7:50:10.21',
             MEMORY       => '95',
+            MAC          => '00:1f:29:16:6e:31',
             IPS          => {
                 IP => [
                     '128.93.22.233',
                 ],
             },
-            UPTIME       => '(2821021) 7:50:10.21',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2015 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,SN:CNBW84P402,FN:JK54RBG,SVCID:00000,PID:HP LaserJet P2015 Series',
                 NAME         => 'NPI166E31',
-                MEMORY       => '95',
                 LOCATION     => 'Boise, ID, USA',
-                MAC          => '00:1f:29:16:6e:31',
                 SERIAL       => 'CNBW84P402',
+                UPTIME       => '(2821021) 7:50:10.21',
+                MEMORY       => '95',
+                MAC          => '00:1f:29:16:6e:31',
                 IPS          => {
                     IP => [
                         '128.93.22.233',
                     ],
                 },
-                UPTIME       => '(2821021) 7:50:10.21',
             },
             PAGECOUNTERS => {
                 TOTAL      => '8880',
@@ -5176,24 +5254,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07,CIDATE 06/11/2008',
+
             SNMPHOSTNAME => 'NPI7E0932',
-            MAC          => '00:21:5a:7e:09:32',
             SERIAL       => 'CNCKF02617',
+            MAC          => '00:21:5a:7e:09:32',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07,CIDATE 06/11/2008',
                 NAME         => 'NPI7E0932',
-                MAC          => '00:21:5a:7e:09:32',
                 SERIAL       => 'CNCKF02617',
+                MAC          => '00:21:5a:7e:09:32',
             },
             PAGECOUNTERS => {
                 TOTAL      => '30965',
@@ -5233,24 +5312,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07,CIDATE 06/11/2008',
+
             SNMPHOSTNAME => 'NPI8DDF43',
-            MAC          => '00:21:5a:8d:df:43',
             SERIAL       => 'CNCKG11705',
+            MAC          => '00:21:5a:8d:df:43',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.07,CIDATE 06/11/2008',
                 NAME         => 'NPI8DDF43',
-                MAC          => '00:21:5a:8d:df:43',
                 SERIAL       => 'CNCKG11705',
+                MAC          => '00:21:5a:8d:df:43',
             },
             PAGECOUNTERS => {
                 TOTAL      => '36105',
@@ -5290,24 +5370,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.03.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
+
             SNMPHOSTNAME => 'NPI830993',
-            MAC          => '00:23:7d:83:09:93',
             SERIAL       => 'CNCKC22953',
+            MAC          => '00:23:7d:83:09:93',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
                 NAME         => 'NPI830993',
-                MAC          => '00:23:7d:83:09:93',
                 SERIAL       => 'CNCKC22953',
+                MAC          => '00:23:7d:83:09:93',
             },
             PAGECOUNTERS => {
                 TOTAL      => '3837',
@@ -5347,24 +5428,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.04.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
+
             SNMPHOSTNAME => 'NPI83E8D5',
-            MAC          => '00:23:7d:83:e8:d5',
             SERIAL       => 'CNCKC22950',
+            MAC          => '00:23:7d:83:e8:d5',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
                 NAME         => 'NPI83E8D5',
-                MAC          => '00:23:7d:83:e8:d5',
                 SERIAL       => 'CNCKC22950',
+                MAC          => '00:23:7d:83:e8:d5',
             },
             PAGECOUNTERS => {
                 TOTAL      => '11057',
@@ -5404,24 +5486,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.05.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
+
             SNMPHOSTNAME => 'NPI886B5B',
-            MAC          => '00:23:7d:88:6b:5b',
             SERIAL       => 'CNCKC40132',
+            MAC          => '00:23:7d:88:6b:5b',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
                 NAME         => 'NPI886B5B',
-                MAC          => '00:23:7d:88:6b:5b',
                 SERIAL       => 'CNCKC40132',
+                MAC          => '00:23:7d:88:6b:5b',
             },
             PAGECOUNTERS => {
                 TOTAL      => '19402',
@@ -5461,24 +5544,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.06.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
+
             SNMPHOSTNAME => 'NPI886B5B',
-            MAC          => '00:23:7d:88:6b:5b',
             SERIAL       => 'CNCKC40132',
+            MAC          => '00:23:7d:88:6b:5b',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
                 NAME         => 'NPI886B5B',
-                MAC          => '00:23:7d:88:6b:5b',
                 SERIAL       => 'CNCKC40132',
+                MAC          => '00:23:7d:88:6b:5b',
             },
             PAGECOUNTERS => {
                 TOTAL      => '17861',
@@ -5518,24 +5602,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.07.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
+
             SNMPHOSTNAME => 'NPI80BDD9',
-            MAC          => '1c:c1:de:80:bd:d9',
             SERIAL       => 'CNC1712027',
+            MAC          => '1c:c1:de:80:bd:d9',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
                 NAME         => 'NPI80BDD9',
-                MAC          => '1c:c1:de:80:bd:d9',
                 SERIAL       => 'CNC1712027',
+                MAC          => '1c:c1:de:80:bd:d9',
             },
             PAGECOUNTERS => {
                 TOTAL      => '5696',
@@ -5575,24 +5660,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.08.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
+
             SNMPHOSTNAME => 'NPICB3982',
-            MAC          => '1c:c1:de:cb:39:82',
             SERIAL       => 'CNCGC12715',
+            MAC          => '1c:c1:de:cb:39:82',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
                 NAME         => 'NPICB3982',
-                MAC          => '1c:c1:de:cb:39:82',
                 SERIAL       => 'CNCGC12715',
+                MAC          => '1c:c1:de:cb:39:82',
             },
             PAGECOUNTERS => {
                 TOTAL      => '26922',
@@ -5632,24 +5718,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.09.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
+
             SNMPHOSTNAME => 'NPIC08394',
-            MAC          => '3c:4a:92:c0:83:94',
             SERIAL       => 'CNCGB63494',
+            MAC          => '3c:4a:92:c0:83:94',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
                 NAME         => 'NPIC08394',
-                MAC          => '3c:4a:92:c0:83:94',
                 SERIAL       => 'CNCGB63494',
+                MAC          => '3c:4a:92:c0:83:94',
             },
             PAGECOUNTERS => {
                 TOTAL      => '4047',
@@ -5689,24 +5776,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.10.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
+
             SNMPHOSTNAME => 'NPICBD8B1',
-            MAC          => '1c:c1:de:cb:d8:b1',
             SERIAL       => 'CNCGC10444',
+            MAC          => '1c:c1:de:cb:d8:b1',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
                 NAME         => 'NPICBD8B1',
-                MAC          => '1c:c1:de:cb:d8:b1',
                 SERIAL       => 'CNCGC10444',
+                MAC          => '1c:c1:de:cb:d8:b1',
             },
             PAGECOUNTERS => {
                 TOTAL      => '4944',
@@ -5746,24 +5834,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.11.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 07/12/2010',
+
             SNMPHOSTNAME => 'NPIB979A2',
-            MAC          => '08:2e:5f:b9:79:a2',
             SERIAL       => 'CNC1C04989',
+            MAC          => '08:2e:5f:b9:79:a2',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 07/12/2010',
                 NAME         => 'NPIB979A2',
-                MAC          => '08:2e:5f:b9:79:a2',
                 SERIAL       => 'CNC1C04989',
+                MAC          => '08:2e:5f:b9:79:a2',
             },
             PAGECOUNTERS => {
                 TOTAL      => '4339',
@@ -5803,24 +5892,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.12.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
+
             SNMPHOSTNAME => 'NPIC93D6D',
-            MAC          => '1c:c1:de:c9:3d:6d',
             SERIAL       => 'CNC1822002',
+            MAC          => '1c:c1:de:c9:3d:6d',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.12,CIDATE 02/07/2010',
                 NAME         => 'NPIC93D6D',
-                MAC          => '1c:c1:de:c9:3d:6d',
                 SERIAL       => 'CNC1822002',
+                MAC          => '1c:c1:de:c9:3d:6d',
             },
             PAGECOUNTERS => {
                 TOTAL      => '89242',
@@ -5860,38 +5950,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.13.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
+
             SNMPHOSTNAME => 'l1019a',
-            MAC          => '00:25:b3:eb:ea:20',
             SERIAL       => 'CNCKH91101',
+            UPTIME       => '(20267234) 2 days, 8:17:52.34',
             MEMORY       => '128',
+            MAC          => '00:25:b3:eb:ea:20',
             IPS          => {
                 IP => [
                     '128.93.22.7',
                 ],
             },
-            UPTIME       => '(20267234) 2 days, 8:17:52.34',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
                 NAME         => 'l1019a',
-                MAC          => '00:25:b3:eb:ea:20',
                 SERIAL       => 'CNCKH91101',
+                UPTIME       => '(20267234) 2 days, 8:17:52.34',
                 MEMORY       => '128',
+                MAC          => '00:25:b3:eb:ea:20',
                 IPS          => {
                     IP => [
                         '128.93.22.7',
                     ],
                 },
-                UPTIME       => '(20267234) 2 days, 8:17:52.34',
             },
             PAGECOUNTERS => {
                 TOTAL      => '3515',
@@ -5936,38 +6027,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.14.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
+
             SNMPHOSTNAME => 'NPIEB8A8F',
-            MAC          => '00:25:b3:eb:8a:8f',
             SERIAL       => 'CNCKH91104',
+            UPTIME       => '(3967795) 11:01:17.95',
             MEMORY       => '128',
+            MAC          => '00:25:b3:eb:8a:8f',
             IPS          => {
                 IP => [
                     '128.93.22.238',
                 ],
             },
-            UPTIME       => '(3967795) 11:01:17.95',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
                 NAME         => 'NPIEB8A8F',
-                MAC          => '00:25:b3:eb:8a:8f',
                 SERIAL       => 'CNCKH91104',
+                UPTIME       => '(3967795) 11:01:17.95',
                 MEMORY       => '128',
+                MAC          => '00:25:b3:eb:8a:8f',
                 IPS          => {
                     IP => [
                         '128.93.22.238',
                     ],
                 },
-                UPTIME       => '(3967795) 11:01:17.95',
             },
             PAGECOUNTERS => {
                 TOTAL      => '11344',
@@ -6012,38 +6104,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.15.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
+
             SNMPHOSTNAME => 'l1a220a',
-            MAC          => '00:25:b3:eb:7a:c7',
             SERIAL       => 'CNCKH91109',
+            UPTIME       => '(19326743) 2 days, 5:41:07.43',
             MEMORY       => '128',
+            MAC          => '00:25:b3:eb:7a:c7',
             IPS          => {
                 IP => [
                     '128.93.22.113',
                 ],
             },
-            UPTIME       => '(19326743) 2 days, 5:41:07.43',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
                 NAME         => 'l1a220a',
-                MAC          => '00:25:b3:eb:7a:c7',
                 SERIAL       => 'CNCKH91109',
+                UPTIME       => '(19326743) 2 days, 5:41:07.43',
                 MEMORY       => '128',
+                MAC          => '00:25:b3:eb:7a:c7',
                 IPS          => {
                     IP => [
                         '128.93.22.113',
                     ],
                 },
-                UPTIME       => '(19326743) 2 days, 5:41:07.43',
             },
             PAGECOUNTERS => {
                 TOTAL      => '22937',
@@ -6088,38 +6181,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P2055dn.16.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P2055dn',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
+
             SNMPHOSTNAME => 'NPIEB4B44',
-            MAC          => '00:25:b3:eb:4b:44',
             SERIAL       => 'CNCKH91103',
+            UPTIME       => '(22020083) 2 days, 13:10:00.83',
             MEMORY       => '128',
+            MAC          => '00:25:b3:eb:4b:44',
             IPS          => {
                 IP => [
                     '128.93.22.57',
                 ],
             },
-            UPTIME       => '(22020083) 2 days, 13:10:00.83',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P2055dn',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD137,EEPROM V.37.11,CIDATE 04/17/2009',
                 NAME         => 'NPIEB4B44',
-                MAC          => '00:25:b3:eb:4b:44',
                 SERIAL       => 'CNCKH91103',
+                UPTIME       => '(22020083) 2 days, 13:10:00.83',
                 MEMORY       => '128',
+                MAC          => '00:25:b3:eb:4b:44',
                 IPS          => {
                     IP => [
                         '128.93.22.57',
                     ],
                 },
-                UPTIME       => '(22020083) 2 days, 13:10:00.83',
             },
             PAGECOUNTERS => {
                 TOTAL      => '4878',
@@ -6164,24 +6258,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI7A5E2D',
-            MAC          => '00:21:5a:7a:5e:2d',
             SERIAL       => 'CNH1R06635',
+            MAC          => '00:21:5a:7a:5e:2d',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI7A5E2D',
-                MAC          => '00:21:5a:7a:5e:2d',
                 SERIAL       => 'CNH1R06635',
+                MAC          => '00:21:5a:7a:5e:2d',
             },
             PAGECOUNTERS => {
                 TOTAL      => '20979',
@@ -6221,38 +6316,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI91B509',
-            MAC          => '00:17:08:91:b5:09',
             SERIAL       => 'CNFW6DG38S',
+            UPTIME       => '(22362085) 2 days, 14:07:00.85',
             MEMORY       => '320',
+            MAC          => '00:17:08:91:b5:09',
             IPS          => {
                 IP => [
                     '128.93.22.92',
                 ],
             },
-            UPTIME       => '(22362085) 2 days, 14:07:00.85',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI91B509',
-                MAC          => '00:17:08:91:b5:09',
                 SERIAL       => 'CNFW6DG38S',
+                UPTIME       => '(22362085) 2 days, 14:07:00.85',
                 MEMORY       => '320',
+                MAC          => '00:17:08:91:b5:09',
                 IPS          => {
                     IP => [
                         '128.93.22.92',
                     ],
                 },
-                UPTIME       => '(22362085) 2 days, 14:07:00.85',
             },
             PAGECOUNTERS => {
                 TOTAL      => '150',
@@ -6297,38 +6393,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.03.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI947D4C',
-            MAC          => '00:17:a4:94:7d:4c',
             SERIAL       => 'CNFW6DF0WL',
+            UPTIME       => '(21658724) 2 days, 12:09:47.24',
             MEMORY       => '320',
+            MAC          => '00:17:a4:94:7d:4c',
             IPS          => {
                 IP => [
                     '128.93.5.49',
                 ],
             },
-            UPTIME       => '(21658724) 2 days, 12:09:47.24',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI947D4C',
-                MAC          => '00:17:a4:94:7d:4c',
                 SERIAL       => 'CNFW6DF0WL',
+                UPTIME       => '(21658724) 2 days, 12:09:47.24',
                 MEMORY       => '320',
+                MAC          => '00:17:a4:94:7d:4c',
                 IPS          => {
                     IP => [
                         '128.93.5.49',
                     ],
                 },
-                UPTIME       => '(21658724) 2 days, 12:09:47.24',
             },
             PAGECOUNTERS => {
                 TOTAL      => '13322',
@@ -6373,38 +6470,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.04.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'L0420a',
-            MAC          => '00:17:a4:93:4d:9f',
             SERIAL       => 'CNFW6DG39Q',
+            UPTIME       => '(37718618) 4 days, 8:46:26.18',
             MEMORY       => '320',
+            MAC          => '00:17:a4:93:4d:9f',
             IPS          => {
                 IP => [
                     '128.93.4.22',
                 ],
             },
-            UPTIME       => '(37718618) 4 days, 8:46:26.18',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'L0420a',
-                MAC          => '00:17:a4:93:4d:9f',
                 SERIAL       => 'CNFW6DG39Q',
+                UPTIME       => '(37718618) 4 days, 8:46:26.18',
                 MEMORY       => '320',
+                MAC          => '00:17:a4:93:4d:9f',
                 IPS          => {
                     IP => [
                         '128.93.4.22',
                     ],
                 },
-                UPTIME       => '(37718618) 4 days, 8:46:26.18',
             },
             PAGECOUNTERS => {
                 TOTAL      => '13193',
@@ -6449,38 +6547,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.05.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'l0500a',
-            MAC          => '00:17:08:91:95:dd',
             SERIAL       => 'CNFW6DG38L',
+            UPTIME       => '(11522734) 1 day, 8:00:27.34',
             MEMORY       => '320',
+            MAC          => '00:17:08:91:95:dd',
             IPS          => {
                 IP => [
                     '128.93.22.198',
                 ],
             },
-            UPTIME       => '(11522734) 1 day, 8:00:27.34',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'l0500a',
-                MAC          => '00:17:08:91:95:dd',
                 SERIAL       => 'CNFW6DG38L',
+                UPTIME       => '(11522734) 1 day, 8:00:27.34',
                 MEMORY       => '320',
+                MAC          => '00:17:08:91:95:dd',
                 IPS          => {
                     IP => [
                         '128.93.22.198',
                     ],
                 },
-                UPTIME       => '(11522734) 1 day, 8:00:27.34',
             },
             PAGECOUNTERS => {
                 TOTAL      => '15802',
@@ -6525,38 +6624,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.06.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI934D69',
-            MAC          => '00:17:a4:93:4d:69',
             SERIAL       => 'CNFW6DG3DP',
+            UPTIME       => '(29663349) 3 days, 10:23:53.49',
             MEMORY       => '320',
+            MAC          => '00:17:a4:93:4d:69',
             IPS          => {
                 IP => [
                     '128.93.31.3',
                 ],
             },
-            UPTIME       => '(29663349) 3 days, 10:23:53.49',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI934D69',
-                MAC          => '00:17:a4:93:4d:69',
                 SERIAL       => 'CNFW6DG3DP',
+                UPTIME       => '(29663349) 3 days, 10:23:53.49',
                 MEMORY       => '320',
+                MAC          => '00:17:a4:93:4d:69',
                 IPS          => {
                     IP => [
                         '128.93.31.3',
                     ],
                 },
-                UPTIME       => '(29663349) 3 days, 10:23:53.49',
             },
             PAGECOUNTERS => {
                 TOTAL      => '53058',
@@ -6601,38 +6701,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.07.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI934D9C',
-            MAC          => '00:17:a4:93:4d:9c',
             SERIAL       => 'CNFW6DG37P',
+            UPTIME       => '(30521576) 3 days, 12:46:55.76',
             MEMORY       => '320',
+            MAC          => '00:17:a4:93:4d:9c',
             IPS          => {
                 IP => [
                     '128.93.17.16',
                 ],
             },
-            UPTIME       => '(30521576) 3 days, 12:46:55.76',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI934D9C',
-                MAC          => '00:17:a4:93:4d:9c',
                 SERIAL       => 'CNFW6DG37P',
+                UPTIME       => '(30521576) 3 days, 12:46:55.76',
                 MEMORY       => '320',
+                MAC          => '00:17:a4:93:4d:9c',
                 IPS          => {
                     IP => [
                         '128.93.17.16',
                     ],
                 },
-                UPTIME       => '(30521576) 3 days, 12:46:55.76',
             },
             PAGECOUNTERS => {
                 TOTAL      => '130481',
@@ -6677,38 +6778,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.08.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI917343',
-            MAC          => '00:17:08:91:73:43',
             SERIAL       => 'CNFW6DG1MH',
+            UPTIME       => '(33056147) 3 days, 19:49:21.47',
             MEMORY       => '320',
+            MAC          => '00:17:08:91:73:43',
             IPS          => {
                 IP => [
                     '128.93.18.47',
                 ],
             },
-            UPTIME       => '(33056147) 3 days, 19:49:21.47',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI917343',
-                MAC          => '00:17:08:91:73:43',
                 SERIAL       => 'CNFW6DG1MH',
+                UPTIME       => '(33056147) 3 days, 19:49:21.47',
                 MEMORY       => '320',
+                MAC          => '00:17:08:91:73:43',
                 IPS          => {
                     IP => [
                         '128.93.18.47',
                     ],
                 },
-                UPTIME       => '(33056147) 3 days, 19:49:21.47',
             },
             PAGECOUNTERS => {
                 TOTAL      => '45068',
@@ -6753,38 +6855,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.09.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'l1B220a',
-            MAC          => '00:17:a4:93:df:9c',
             SERIAL       => 'CNFW6DG1LP',
+            UPTIME       => '(31793654) 3 days, 16:18:56.54',
             MEMORY       => '320',
+            MAC          => '00:17:a4:93:df:9c',
             IPS          => {
                 IP => [
                     '128.93.22.102',
                 ],
             },
-            UPTIME       => '(31793654) 3 days, 16:18:56.54',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'l1B220a',
-                MAC          => '00:17:a4:93:df:9c',
                 SERIAL       => 'CNFW6DG1LP',
+                UPTIME       => '(31793654) 3 days, 16:18:56.54',
                 MEMORY       => '320',
+                MAC          => '00:17:a4:93:df:9c',
                 IPS          => {
                     IP => [
                         '128.93.22.102',
                     ],
                 },
-                UPTIME       => '(31793654) 3 days, 16:18:56.54',
             },
             PAGECOUNTERS => {
                 TOTAL      => '11075',
@@ -6829,38 +6932,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.10.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI824876',
-            MAC          => '00:17:08:82:48:76',
             SERIAL       => 'CNFW6DF0XF',
+            UPTIME       => '(15263036) 1 day, 18:23:50.36',
             MEMORY       => '320',
+            MAC          => '00:17:08:82:48:76',
             IPS          => {
                 IP => [
                     '128.93.9.35',
                 ],
             },
-            UPTIME       => '(15263036) 1 day, 18:23:50.36',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI824876',
-                MAC          => '00:17:08:82:48:76',
                 SERIAL       => 'CNFW6DF0XF',
+                UPTIME       => '(15263036) 1 day, 18:23:50.36',
                 MEMORY       => '320',
+                MAC          => '00:17:08:82:48:76',
                 IPS          => {
                     IP => [
                         '128.93.9.35',
                     ],
                 },
-                UPTIME       => '(15263036) 1 day, 18:23:50.36',
             },
             PAGECOUNTERS => {
                 TOTAL      => '17190',
@@ -6905,38 +7009,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.11.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'NPI934D5B',
-            MAC          => '00:17:a4:93:4d:5b',
             SERIAL       => 'CNFW6DG394',
+            UPTIME       => '(11824269) 1 day, 8:50:42.69',
             MEMORY       => '192',
+            MAC          => '00:17:a4:93:4d:5b',
             IPS          => {
                 IP => [
                     '128.93.22.13',
                 ],
             },
-            UPTIME       => '(11824269) 1 day, 8:50:42.69',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'NPI934D5B',
-                MAC          => '00:17:a4:93:4d:5b',
                 SERIAL       => 'CNFW6DG394',
+                UPTIME       => '(11824269) 1 day, 8:50:42.69',
                 MEMORY       => '192',
+                MAC          => '00:17:a4:93:4d:5b',
                 IPS          => {
                     IP => [
                         '128.93.22.13',
                     ],
                 },
-                UPTIME       => '(11824269) 1 day, 8:50:42.69',
             },
             PAGECOUNTERS => {
                 TOTAL      => '100795',
@@ -6981,38 +7086,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.12.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.60,CIDATE 03/04/2012',
+
             SNMPHOSTNAME => 'NPI939CBD',
-            MAC          => '00:17:a4:93:a7:56',
             SERIAL       => 'CNFW6DG1NP',
+            UPTIME       => '(745416056) 86 days, 6:36:00.56',
             MEMORY       => '320',
+            MAC          => '00:17:a4:93:a7:56',
             IPS          => {
                 IP => [
                     '128.93.22.111',
                 ],
             },
-            UPTIME       => '(745416056) 86 days, 6:36:00.56',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.60,CIDATE 03/04/2012',
                 NAME         => 'NPI939CBD',
-                MAC          => '00:17:a4:93:a7:56',
                 SERIAL       => 'CNFW6DG1NP',
+                UPTIME       => '(745416056) 86 days, 6:36:00.56',
                 MEMORY       => '320',
+                MAC          => '00:17:a4:93:a7:56',
                 IPS          => {
                     IP => [
                         '128.93.22.111',
                     ],
                 },
-                UPTIME       => '(745416056) 86 days, 6:36:00.56',
             },
             PAGECOUNTERS => {
                 TOTAL      => '65082',
@@ -7057,38 +7163,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3005.13.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3005',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
+
             SNMPHOSTNAME => 'l2427a',
-            MAC          => '00:17:a4:94:a6:1f',
             SERIAL       => 'CNFW6DG1M8',
+            UPTIME       => '(35620617) 4 days, 2:56:46.17',
             MEMORY       => '320',
+            MAC          => '00:17:a4:94:a6:1f',
             IPS          => {
                 IP => [
                     '128.93.22.132',
                 ],
             },
-            UPTIME       => '(35620617) 4 days, 2:56:46.17',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3005',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD135,EEPROM V.33.57,CIDATE 10/24/2006',
                 NAME         => 'l2427a',
-                MAC          => '00:17:a4:94:a6:1f',
                 SERIAL       => 'CNFW6DG1M8',
+                UPTIME       => '(35620617) 4 days, 2:56:46.17',
                 MEMORY       => '320',
+                MAC          => '00:17:a4:94:a6:1f',
                 IPS          => {
                     IP => [
                         '128.93.22.132',
                     ],
                 },
-                UPTIME       => '(35620617) 4 days, 2:56:46.17',
             },
             PAGECOUNTERS => {
                 TOTAL      => '5385',
@@ -7133,24 +7240,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3010.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3010 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10,CIDATE 01/12/2012',
+
             SNMPHOSTNAME => 'NPI013B81',
-            MAC          => '00:9c:02:01:3b:81',
             SERIAL       => 'VNBQD3C0BF',
+            MAC          => '00:9c:02:01:3b:81',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3010 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10,CIDATE 01/12/2012',
                 NAME         => 'NPI013B81',
-                MAC          => '00:9c:02:01:3b:81',
                 SERIAL       => 'VNBQD3C0BF',
+                MAC          => '00:9c:02:01:3b:81',
             },
             PAGECOUNTERS => {
                 TOTAL      => '15265',
@@ -7190,24 +7298,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P3010.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P3010 Series',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10,CIDATE 01/12/2012',
+
             SNMPHOSTNAME => 'NPI013B81',
-            MAC          => '00:9c:02:01:3b:81',
             SERIAL       => 'VNBQD3C0BF',
+            MAC          => '00:9c:02:01:3b:81',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P3010 Series',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD148,EEPROM V.43.10,CIDATE 01/12/2012',
                 NAME         => 'NPI013B81',
-                MAC          => '00:9c:02:01:3b:81',
                 SERIAL       => 'VNBQD3C0BF',
+                MAC          => '00:9c:02:01:3b:81',
             },
             PAGECOUNTERS => {
                 TOTAL      => '6386',
@@ -7247,38 +7356,39 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P4014.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P4014',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41,CIDATE 06/12/2009',
+
             SNMPHOSTNAME => 'NPIFFF0F2',
-            MAC          => '18:a9:05:ff:f0:f2',
             SERIAL       => 'CNFX409800',
+            UPTIME       => '(705273859) 81 days, 15:05:38.59',
             MEMORY       => '384',
+            MAC          => '18:a9:05:ff:f0:f2',
             IPS          => {
                 IP => [
                     '10.75.13.175',
                 ],
             },
-            UPTIME       => '(705273859) 81 days, 15:05:38.59',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P4014',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41,CIDATE 06/12/2009',
                 NAME         => 'NPIFFF0F2',
-                MAC          => '18:a9:05:ff:f0:f2',
                 SERIAL       => 'CNFX409800',
+                UPTIME       => '(705273859) 81 days, 15:05:38.59',
                 MEMORY       => '384',
+                MAC          => '18:a9:05:ff:f0:f2',
                 IPS          => {
                     IP => [
                         '10.75.13.175',
                     ],
                 },
-                UPTIME       => '(705273859) 81 days, 15:05:38.59',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '32',
@@ -7326,24 +7436,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P4015.01.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P4015',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36,CIDATE 04/10/2008',
+
             SNMPHOSTNAME => 'LJ30000000000000000000----------',
-            MAC          => '00:21:5a:8f:ea:2b',
             SERIAL       => 'CNFY417951',
+            MAC          => '00:21:5a:8f:ea:2b',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P4015',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36,CIDATE 04/10/2008',
                 NAME         => 'LJ30000000000000000000----------',
-                MAC          => '00:21:5a:8f:ea:2b',
                 SERIAL       => 'CNFY417951',
+                MAC          => '00:21:5a:8f:ea:2b',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '87',
@@ -7386,24 +7497,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P4015.02.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P4015',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36,CIDATE 04/10/2008',
+
             SNMPHOSTNAME => 'NPI8D9896',
-            MAC          => '00:21:5a:8d:98:96',
             SERIAL       => 'CNFY409032',
+            MAC          => '00:21:5a:8d:98:96',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P4015',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.36,CIDATE 04/10/2008',
                 NAME         => 'NPI8D9896',
-                MAC          => '00:21:5a:8d:98:96',
                 SERIAL       => 'CNFY409032',
+                MAC          => '00:21:5a:8d:98:96',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '61',
@@ -7446,24 +7558,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P4015.03.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P4015',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35,CIDATE 09/18/2007',
+
             SNMPHOSTNAME => 'NPI22C87C',
-            MAC          => '00:1f:29:22:c8:7c',
             SERIAL       => 'CNFY213364',
+            MAC          => '00:1f:29:22:c8:7c',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P4015',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.35,CIDATE 09/18/2007',
                 NAME         => 'NPI22C87C',
-                MAC          => '00:1f:29:22:c8:7c',
                 SERIAL       => 'CNFY213364',
+                MAC          => '00:1f:29:22:c8:7c',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '79',
@@ -7506,24 +7619,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P4015.04.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P4015',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40,CIDATE 02/24/2009',
+
             SNMPHOSTNAME => 'NPI9706DE',
-            MAC          => '00:21:5a:97:06:de',
             SERIAL       => 'CNFY183496',
+            MAC          => '00:21:5a:97:06:de',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P4015',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.40,CIDATE 02/24/2009',
                 NAME         => 'NPI9706DE',
-                MAC          => '00:21:5a:97:06:de',
                 SERIAL       => 'CNFY183496',
+                MAC          => '00:21:5a:97:06:de',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '5',
@@ -7566,24 +7680,25 @@ my %tests = (
     ],
     'hewlett-packard/LaserJet_P4015.05.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'HP LaserJet P4015',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41,CIDATE 06/12/2009',
+
             SNMPHOSTNAME => 'NPIEADBFB',
-            MAC          => '00:25:b3:ea:db:fb',
             SERIAL       => 'CNFY349204',
+            MAC          => '00:25:b3:ea:db:fb',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'HP LaserJet P4015',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD143,EEPROM V.36.41,CIDATE 06/12/2009',
                 NAME         => 'NPIEADBFB',
-                MAC          => '00:25:b3:ea:db:fb',
                 SERIAL       => 'CNFY349204',
+                MAC          => '00:25:b3:ea:db:fb',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '0',
@@ -7626,18 +7741,19 @@ my %tests = (
     ],
     'hewlett-packard/OfficeJet_Pro_8600.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'Officejet Pro 8600 N911g',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
+
             SNMPHOSTNAME => 'HP8C0C51',
             MAC          => 'ec:9a:74:8c:0c:51',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'Officejet Pro 8600 N911g',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 NAME         => 'HP8C0C51',
@@ -7665,17 +7781,18 @@ my %tests = (
     ],
     'hewlett-packard/OfficeJet_Pro_K5400.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT',
+
             SNMPHOSTNAME => 'HP560332',
             MAC          => '00:21:5a:56:03:32',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT',
                 NAME         => 'HP560332',
                 MAC          => '00:21:5a:56:03:32',
@@ -7711,28 +7828,29 @@ my %tests = (
     ],
     'hewlett-packard/ProCurve_J4899B.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
-            MAC          => '00:18:fe:aa:a9:80',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'ProCurve 2650 (J4899B)',
+            DESCRIPTION  => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
+
+            LOCATION     => 'GN1 NORD',
             SERIAL       => 'CN638SD146',
             FIRMWARE     => 'H.08.02',
-            LOCATION     => 'GN1 NORD',
             UPTIME       => '(326711768) 37 days, 19:31:57.68',
+            MAC          => '00:18:fe:aa:a9:80',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'ProCurve 2650 (J4899B)',
                 COMMENTS     => 'ProCurve J4899B Switch 2650, revision H.10.108, ROM H.08.02 (/sw/code/build/fish)',
                 LOCATION     => 'GN1 NORD',
                 SERIAL       => 'CN638SD146',
                 FIRMWARE     => 'H.08.02',
-                MAC          => '00:18:fe:aa:a9:80',
                 UPTIME       => '(326711768) 37 days, 19:31:57.68',
+                MAC          => '00:18:fe:aa:a9:80',
             },
             PORTS => {
                 PORT => [
@@ -11267,26 +11385,27 @@ my %tests = (
     ],
     'hewlett-packard/ProCurve_J4899C.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
-            MAC          => '00:1d:b3:58:cf:80',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'ProCurve 2650 (J4899C)',
+            DESCRIPTION  => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
+
             SERIAL       => 'CN830FX04U',
             FIRMWARE     => 'H.08.05',
             UPTIME       => '(326690861) 37 days, 19:28:28.61',
+            MAC          => '00:1d:b3:58:cf:80',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'ProCurve 2650 (J4899C)',
                 COMMENTS     => 'ProCurve J4899C Switch 2650, revision H.10.108, ROM H.08.05 (/sw/code/build/fish)',
                 SERIAL       => 'CN830FX04U',
                 FIRMWARE     => 'H.08.05',
-                MAC          => '00:1d:b3:58:cf:80',
                 UPTIME       => '(326690861) 37 days, 19:28:28.61',
+                MAC          => '00:1d:b3:58:cf:80',
             },
             PORTS => {
                 PORT => [
@@ -15257,15 +15376,18 @@ my %tests = (
     ],
     'hewlett-packard/ProCurve_J8697A.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'ProCurve 5406zl (J8697A)',
             DESCRIPTION  => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
-            CONTACT      => 'systeme@ac-guyane.fr',
+
             SNMPHOSTNAME => 'oyapock CR2',
             LOCATION     => 'datacenter',
+            CONTACT      => 'systeme@ac-guyane.fr',
             SERIAL       => 'SG707SU03Y',
             FIRMWARE     => 'K.15.28',
+            UPTIME       => '(293555959) 33 days, 23:25:59.59',
+            MAC          => '00:18:71:c1:e0:00',
             IPS          => {
                 IP => [
                     '127.0.0.1',
@@ -15285,21 +15407,21 @@ my %tests = (
                     '192.168.227.246',
                 ],
             },
-            MAC          => '00:18:71:c1:e0:00',
-            UPTIME       => '(293555959) 33 days, 23:25:59.59',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'ProCurve 5406zl (J8697A)',
                 COMMENTS     => 'ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_',
-                CONTACT      => 'systeme@ac-guyane.fr',
                 NAME         => 'oyapock CR2',
                 LOCATION     => 'datacenter',
+                CONTACT      => 'systeme@ac-guyane.fr',
                 SERIAL       => 'SG707SU03Y',
                 FIRMWARE     => 'K.15.28',
+                UPTIME       => '(293555959) 33 days, 23:25:59.59',
+                MAC          => '00:18:71:c1:e0:00',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
@@ -15319,8 +15441,6 @@ my %tests = (
                         '192.168.227.246',
                     ],
                 },
-                MAC          => '00:18:71:c1:e0:00',
-                UPTIME       => '(293555959) 33 days, 23:25:59.59',
             },
             PORTS => {
                 PORT => [
@@ -18042,28 +18162,29 @@ my %tests = (
     ],
     'hewlett-packard/ProCurve_J9022A.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
-            MAC          => '00:19:bb:99:f9:c0',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'ProCurve 2810-48G (J9022A)',
+            DESCRIPTION  => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
+
+            LOCATION     => 'Local Autocommutateur',
             SERIAL       => 'CN738XJ0FI',
             FIRMWARE     => 'N.10.01',
-            LOCATION     => 'Local Autocommutateur',
             UPTIME       => '(1389024840) 160 days, 18:24:08.40',
+            MAC          => '00:19:bb:99:f9:c0',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'ProCurve 2810-48G (J9022A)',
                 COMMENTS     => 'ProCurve J9022A Switch 2810-48G, revision N.11.52, ROM N.10.01 (/sw/code/build/bass(N_bh2))',
                 LOCATION     => 'Local Autocommutateur',
                 SERIAL       => 'CN738XJ0FI',
                 FIRMWARE     => 'N.10.01',
-                MAC          => '00:19:bb:99:f9:c0',
                 UPTIME       => '(1389024840) 160 days, 18:24:08.40',
+                MAC          => '00:19:bb:99:f9:c0',
             },
             PORTS => {
                 PORT => [
@@ -20200,40 +20321,41 @@ my %tests = (
     ],
     'hewlett-packard/ProCurve_J9050A.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'ProCurve 2900-48g (J9050A)',
-            SERIAL       => 'SG840KJ009',
+            DESCRIPTION  => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
+
             LOCATION     => 'salle serveur',
+            SERIAL       => 'SG840KJ009',
             FIRMWARE     => 'K.12.12',
+            UPTIME       => '(485451519) 56 days, 4:28:35.19',
+            MAC          => '00:21:f7:1e:01:40',
             IPS          => {
                 IP => [
                     '10.100.205.43',
                     '127.0.0.1',
                 ],
             },
-            MAC          => '00:21:f7:1e:01:40',
-            UPTIME       => '(485451519) 56 days, 4:28:35.19',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'ProCurve 2900-48g (J9050A)',
                 COMMENTS     => 'ProCurve J9050A Switch 2900-48G, revision T.13.80, ROM K.12.12 (/sw/code/build/mbm)',
                 LOCATION     => 'salle serveur',
                 SERIAL       => 'SG840KJ009',
                 FIRMWARE     => 'K.12.12',
+                UPTIME       => '(485451519) 56 days, 4:28:35.19',
+                MAC          => '00:21:f7:1e:01:40',
                 IPS          => {
                     IP => [
                         '10.100.205.43',
                         '127.0.0.1',
                     ],
                 },
-                MAC          => '00:21:f7:1e:01:40',
-                UPTIME       => '(485451519) 56 days, 4:28:35.19',
             },
             PORTS => {
                 PORT => [
@@ -25242,28 +25364,29 @@ my %tests = (
     ],
     'hewlett-packard/ProCurve_J9088A.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'ProCurve 2610-48',
             DESCRIPTION  => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
-            MAC          => '00:21:f7:2b:e6:00',
+
+            LOCATION     => 'Monod Amphi Charles Merieux',
             SERIAL       => 'CN935ZU1PD',
             FIRMWARE     => 'R.10.06',
             UPTIME       => '(148663680) 17 days, 4:57:16.80',
-            LOCATION     => 'Monod Amphi Charles Merieux',
+            MAC          => '00:21:f7:2b:e6:00',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'ProCurve 2610-48',
                 COMMENTS     => 'ProCurve J9088A Switch 2610-48, revision R.11.72, ROM R.10.06 (/sw/code/build/nemo(R_ndx))',
                 LOCATION     => 'Monod Amphi Charles Merieux',
                 SERIAL       => 'CN935ZU1PD',
                 FIRMWARE     => 'R.10.06',
-                MAC          => '00:21:f7:2b:e6:00',
                 UPTIME       => '(148663680) 17 days, 4:57:16.80',
+                MAC          => '00:21:f7:2b:e6:00',
             },
             PORTS => {
                 PORT => [
@@ -27275,17 +27398,18 @@ my %tests = (
     ],
     'hewlett-packard/unknown.walk' => [
         {
-            MANUFACTURER => 'Hewlett-Packard',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Hewlett-Packard',
             DESCRIPTION  => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
+
             SNMPHOSTNAME => 'NPI419F6E',
             MAC          => '2c:76:8a:41:9f:6e',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Hewlett-Packard',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Hewlett-Packard',
                 COMMENTS     => 'HP ETHERNET MULTI-ENVIRONMENT,ROM none,JETDIRECT,JD149,EEPROM V50251103114,CIDATE 11/17/2011',
                 NAME         => 'NPI419F6E',
                 MAC          => '2c:76:8a:41:9f:6e',

@@ -13,36 +13,37 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'sharp/MX_2600N.walk' => [
         {
-            MANUFACTURER => 'Sharp',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Sharp',
             MODEL        => 'MX-2600N',
             DESCRIPTION  => 'SHARP MX-2600N',
+
             SNMPHOSTNAME => 'PASTEK',
-            MAC          => '00:22:f3:c8:04:99',
             LOCATION     => '2eme etage Bureau POTHIN',
+            UPTIME       => '(94252230) 10 days, 21:48:42.30',
+            MAC          => '00:22:f3:c8:04:99',
             IPS          => {
                 IP => [
                     '172.31.201.123',
                 ],
             },
-            UPTIME       => '(94252230) 10 days, 21:48:42.30',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Sharp',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Sharp',
                 MODEL        => 'MX-2600N',
                 COMMENTS     => 'SHARP MX-2600N',
                 NAME         => 'PASTEK',
-                MAC          => '00:22:f3:c8:04:99',
                 LOCATION     => '2eme etage Bureau POTHIN',
+                UPTIME       => '(94252230) 10 days, 21:48:42.30',
+                MAC          => '00:22:f3:c8:04:99',
                 IPS          => {
                     IP => [
                         '172.31.201.123',
                     ],
                 },
-                UPTIME       => '(94252230) 10 days, 21:48:42.30',
             },
             PORTS => {
                 PORT => [
@@ -69,40 +70,41 @@ my %tests = (
     ],
     'sharp/MX_5001N.1.walk' => [
         {
-            MANUFACTURER => 'Sharp',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Sharp',
             MODEL        => 'MX-5001N',
             DESCRIPTION  => 'SHARP MX-5001N',
+
             SNMPHOSTNAME => 'KENET - DPE2',
-            MAC          => '00:22:f3:9d:1f:3b',
-            SERIAL       => '9801405X00',
-            MEMORY       => '0',
             LOCATION     => 'RDC - apers escalier en bois',
+            SERIAL       => '9801405X00',
+            UPTIME       => '(8649373) 1 day, 0:01:33.73',
+            MEMORY       => '0',
+            MAC          => '00:22:f3:9d:1f:3b',
             IPS          => {
                 IP => [
                     '172.31.201.114',
                 ],
             },
-            UPTIME       => '(8649373) 1 day, 0:01:33.73',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Sharp',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Sharp',
                 MODEL        => 'MX-5001N',
                 COMMENTS     => 'SHARP MX-5001N',
                 NAME         => 'KENET - DPE2',
-                MAC          => '00:22:f3:9d:1f:3b',
-                SERIAL       => '9801405X00',
-                MEMORY       => '0',
                 LOCATION     => 'RDC - apers escalier en bois',
+                SERIAL       => '9801405X00',
+                UPTIME       => '(8649373) 1 day, 0:01:33.73',
+                MEMORY       => '0',
+                MAC          => '00:22:f3:9d:1f:3b',
                 IPS          => {
                     IP => [
                         '172.31.201.114',
                     ],
                 },
-                UPTIME       => '(8649373) 1 day, 0:01:33.73',
             },
             CARTRIDGES => {
                 TONERBLACK       => '75',
@@ -143,36 +145,37 @@ my %tests = (
     ],
     'sharp/MX_5001N.2.walk' => [
         {
-            MANUFACTURER => 'Sharp',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Sharp',
             MODEL        => 'MX-5001N',
             DESCRIPTION  => 'SHARP MX-5001N',
+
             SNMPHOSTNAME => 'WASAI -- DFP',
-            MAC          => '00:22:f3:9d:20:56',
             LOCATION     => '1er etage couloir',
+            UPTIME       => '(28125680) 3 days, 6:07:36.80',
+            MAC          => '00:22:f3:9d:20:56',
             IPS          => {
                 IP => [
                     '172.31.201.116',
                 ],
             },
-            UPTIME       => '(28125680) 3 days, 6:07:36.80',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Sharp',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Sharp',
                 MODEL        => 'MX-5001N',
                 COMMENTS     => 'SHARP MX-5001N',
                 NAME         => 'WASAI -- DFP',
-                MAC          => '00:22:f3:9d:20:56',
                 LOCATION     => '1er etage couloir',
+                UPTIME       => '(28125680) 3 days, 6:07:36.80',
+                MAC          => '00:22:f3:9d:20:56',
                 IPS          => {
                     IP => [
                         '172.31.201.116',
                     ],
                 },
-                UPTIME       => '(28125680) 3 days, 6:07:36.80',
             },
             PORTS => {
                 PORT => [
@@ -199,40 +202,41 @@ my %tests = (
     ],
     'sharp/MX_5001N.3.walk' => [
         {
-            MANUFACTURER => 'Sharp',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Sharp',
             MODEL        => 'MX-5001N',
             DESCRIPTION  => 'SHARP MX-5001N',
+
             SNMPHOSTNAME => 'MALAKA  - DOS -- IA-IPR',
-            MAC          => '00:22:f3:9d:20:4b',
-            SERIAL       => '9801391X00',
-            MEMORY       => '0',
             LOCATION     => 'Bat. Réhabilité ',
+            SERIAL       => '9801391X00',
+            UPTIME       => '(1486295) 4:07:42.95',
+            MEMORY       => '0',
+            MAC          => '00:22:f3:9d:20:4b',
             IPS          => {
                 IP => [
                     '172.31.201.119',
                 ],
             },
-            UPTIME       => '(1486295) 4:07:42.95',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Sharp',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Sharp',
                 MODEL        => 'MX-5001N',
                 COMMENTS     => 'SHARP MX-5001N',
                 NAME         => 'MALAKA  - DOS -- IA-IPR',
-                MAC          => '00:22:f3:9d:20:4b',
-                SERIAL       => '9801391X00',
-                MEMORY       => '0',
                 LOCATION     => 'Bat. Réhabilité ',
+                SERIAL       => '9801391X00',
+                UPTIME       => '(1486295) 4:07:42.95',
+                MEMORY       => '0',
+                MAC          => '00:22:f3:9d:20:4b',
                 IPS          => {
                     IP => [
                         '172.31.201.119',
                     ],
                 },
-                UPTIME       => '(1486295) 4:07:42.95',
             },
             CARTRIDGES => {
                 TONERBLACK       => '75',

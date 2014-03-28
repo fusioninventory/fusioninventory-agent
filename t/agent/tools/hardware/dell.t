@@ -12,40 +12,41 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'dell/M5200.1.walk' => [
         {
-            MANUFACTURER => 'Dell',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Dell',
             MODEL        => 'Dell Laser Printer M5200 9915DGL 551.014 --- Part Number ---',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
+
             SNMPHOSTNAME => 'LXKE6E33E-2',
-            MAC          => '00:04:00:67:c7:7c',
             SERIAL       => '9915DGL-46-13',
+            UPTIME       => '(259620718) 30 days, 1:10:07.18',
             MEMORY       => '64',
+            MAC          => '00:04:00:67:c7:7c',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '172.31.201.13',
                 ],
             },
-            UPTIME       => '(259620718) 30 days, 1:10:07.18',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Dell',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Dell',
                 MODEL        => 'Dell Laser Printer M5200 9915DGL 551.014 --- Part Number ---',
                 COMMENTS     => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
                 NAME         => 'LXKE6E33E-2',
-                MAC          => '00:04:00:67:c7:7c',
                 SERIAL       => '9915DGL-46-13',
+                UPTIME       => '(259620718) 30 days, 1:10:07.18',
                 MEMORY       => '64',
+                MAC          => '00:04:00:67:c7:7c',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '172.31.201.13',
                     ],
                 },
-                UPTIME       => '(259620718) 30 days, 1:10:07.18',
             },
             CARTRIDGES => {
                 TONERBLACK       => '0',
@@ -95,40 +96,41 @@ my %tests = (
     ],
     'dell/M5200.2.walk' => [
         {
-            MANUFACTURER => 'Dell',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Dell',
             MODEL        => 'Dell Laser Printer M5200 992B216 551.019 --- Part Number ---',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
+
             SNMPHOSTNAME => 'LXKB92115',
-            MAC          => '00:04:00:9d:84:a8',
             SERIAL       => '992B216-46-13',
+            UPTIME       => '(259655546) 30 days, 1:15:55.46',
             MEMORY       => '64',
+            MAC          => '00:04:00:9d:84:a8',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '172.31.201.52',
                 ],
             },
-            UPTIME       => '(259655546) 30 days, 1:15:55.46',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Dell',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Dell',
                 MODEL        => 'Dell Laser Printer M5200 992B216 551.019 --- Part Number ---',
                 COMMENTS     => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
                 NAME         => 'LXKB92115',
-                MAC          => '00:04:00:9d:84:a8',
                 SERIAL       => '992B216-46-13',
+                UPTIME       => '(259655546) 30 days, 1:15:55.46',
                 MEMORY       => '64',
+                MAC          => '00:04:00:9d:84:a8',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '172.31.201.52',
                     ],
                 },
-                UPTIME       => '(259655546) 30 days, 1:15:55.46',
             },
             CARTRIDGES => {
                 TONERBLACK       => '0',
@@ -178,38 +180,39 @@ my %tests = (
     ],
     'dell/unknown.walk' => [
         {
-            MANUFACTURER => 'Dell',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Dell',
             MODEL        => 'Dell 1600n',
             DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
-            CONTACT      => 'Administrator',
+
             SNMPHOSTNAME => 'DEL0000f0aceaa9',
-            MAC          => '00:00:f0:ac:ea:a9',
+            CONTACT      => 'Administrator',
+            UPTIME       => '(10346500) 1 day, 4:44:25.00',
             MEMORY       => '0',
+            MAC          => '00:00:f0:ac:ea:a9',
             IPS          => {
                 IP => [
                     '172.31.201.47',
                 ],
             },
-            UPTIME       => '(10346500) 1 day, 4:44:25.00',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Dell',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Dell',
                 MODEL        => 'Dell 1600n',
                 COMMENTS     => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
-                CONTACT      => 'Administrator',
                 NAME         => 'DEL0000f0aceaa9',
-                MAC          => '00:00:f0:ac:ea:a9',
+                CONTACT      => 'Administrator',
+                UPTIME       => '(10346500) 1 day, 4:44:25.00',
                 MEMORY       => '0',
+                MAC          => '00:00:f0:ac:ea:a9',
                 IPS          => {
                     IP => [
                         '172.31.201.47',
                     ],
                 },
-                UPTIME       => '(10346500) 1 day, 4:44:25.00',
             },
             PAGECOUNTERS => {
                 TOTAL      => '140725',

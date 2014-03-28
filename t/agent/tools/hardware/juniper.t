@@ -13,11 +13,13 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'juniper/ex2200.01.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.3R1.7 #0: 2011-08-30 11:49:21 UTC     builder@dagmath.juniper.net:/volume/build/junos/11.3/release/11.3R1.7/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-08-30 11:32:01',
+
             SNMPHOSTNAME => 'AB-B404-23-ex2200',
+            UPTIME       => '(1896073543) 219 days, 10:52:15.43',
             MAC          => '00:0b:ca:fe:00:00',
             IPS          => {
                 IP => [
@@ -28,16 +30,16 @@ my %tests = (
                     '192.168.1.23',
                 ],
             },
-            UPTIME       => '(1896073543) 219 days, 10:52:15.43',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.3R1.7 #0: 2011-08-30 11:49:21 UTC     builder@dagmath.juniper.net:/volume/build/junos/11.3/release/11.3R1.7/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-08-30 11:32:01',
                 NAME         => 'AB-B404-23-ex2200',
+                UPTIME       => '(1896073543) 219 days, 10:52:15.43',
                 MAC          => '00:0b:ca:fe:00:00',
                 IPS          => {
                     IP => [
@@ -48,7 +50,6 @@ my %tests = (
                         '192.168.1.23',
                     ],
                 },
-                UPTIME       => '(1896073543) 219 days, 10:52:15.43',
             },
             PORTS => {
                 PORT => [
@@ -784,11 +785,13 @@ my %tests = (
     ],
     'juniper/ex2200.02.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.4R1.6 #0: 2011-11-15 10:11:59 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R1.6/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-11-15 09:57:14',
+
             SNMPHOSTNAME => 'C005-236b-ex2200',
+            UPTIME       => '(1539344336) 178 days, 3:57:23.36',
             MAC          => '00:0b:ca:fe:00:00',
             IPS          => {
                 IP => [
@@ -799,16 +802,16 @@ my %tests = (
                     '192.168.1.236',
                 ],
             },
-            UPTIME       => '(1539344336) 178 days, 3:57:23.36',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.4R1.6 #0: 2011-11-15 10:11:59 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R1.6/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-11-15 09:57:14',
                 NAME         => 'C005-236b-ex2200',
+                UPTIME       => '(1539344336) 178 days, 3:57:23.36',
                 MAC          => '00:0b:ca:fe:00:00',
                 IPS          => {
                     IP => [
@@ -819,7 +822,6 @@ my %tests = (
                         '192.168.1.236',
                     ],
                 },
-                UPTIME       => '(1539344336) 178 days, 3:57:23.36',
             },
             PORTS => {
                 PORT => [
@@ -1555,40 +1557,42 @@ my %tests = (
     ],
     'juniper/ex2200.03.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-24t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
-            CONTACT      => 'cricesr@dauphine.fr',
+
             SNMPHOSTNAME => 'INTERUFR-219-ex2200-24',
-            SERIAL       => 'CW0211513175',
-            MEMORY       => '0',
             LOCATION     => 'CB',
+            CONTACT      => 'cricesr@dauphine.fr',
+            SERIAL       => 'CW0211513175',
+            UPTIME       => '(9174471) 1 day, 1:29:04.71',
+            MEMORY       => '0',
+            MAC          => '78:fe:3d:d5:0e:c0',
             IPS          => {
                 IP => [
                     '128.0.0.1',
                     '128.0.0.127',
                     '128.0.0.16',
                     '128.0.0.32',
-                        '192.168.1.219',
-                    ],
-                },
-            MAC          => '78:fe:3d:d5:0e:c0',
-            UPTIME       => '(9174471) 1 day, 1:29:04.71',
+                    '192.168.1.219',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-24t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
-                CONTACT      => 'cricesr@dauphine.fr',
                 NAME         => 'INTERUFR-219-ex2200-24',
-                MAC          => '78:fe:3d:d5:0e:c0',
-                SERIAL       => 'CW0211513175',
-                MEMORY       => '0',
                 LOCATION     => 'CB',
+                CONTACT      => 'cricesr@dauphine.fr',
+                SERIAL       => 'CW0211513175',
+                UPTIME       => '(9174471) 1 day, 1:29:04.71',
+                MEMORY       => '0',
+                MAC          => '78:fe:3d:d5:0e:c0',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -1598,8 +1602,6 @@ my %tests = (
                         '192.168.1.219',
                     ],
                 },
-                MAC          => '78:fe:3d:d5:0e:c0',
-                UPTIME       => '(9174471) 1 day, 1:29:04.71',
             },
             PORTS => {
                 PORT => [
@@ -2870,15 +2872,18 @@ my %tests = (
     ],
     'juniper/ex2200.04.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
-            CONTACT      => 'cricesr@dauphine.fr',
+
             SNMPHOSTNAME => 'AB-BU6-132-ex2200-48',
-            SERIAL       => 'CU0211450517',
-            MEMORY       => '0',
             LOCATION     => 'AB-BU6',
+            CONTACT      => 'cricesr@dauphine.fr',
+            SERIAL       => 'CU0211450517',
+            UPTIME       => '(1514669572) 175 days, 7:24:55.72',
+            MEMORY       => '0',
+            MAC          => '78:fe:3d:37:5e:c0',
             IPS          => {
                 IP => [
                     '128.0.0.1',
@@ -2888,22 +2893,21 @@ my %tests = (
                     '192.168.1.132',
                 ],
             },
-            MAC          => '78:fe:3d:37:5e:c0',
-            UPTIME       => '(1514669572) 175 days, 7:24:55.72',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
-                CONTACT      => 'cricesr@dauphine.fr',
                 NAME         => 'AB-BU6-132-ex2200-48',
-                MAC          => '78:fe:3d:37:5e:c0',
-                SERIAL       => 'CU0211450517',
-                MEMORY       => '0',
                 LOCATION     => 'AB-BU6',
+                CONTACT      => 'cricesr@dauphine.fr',
+                SERIAL       => 'CU0211450517',
+                UPTIME       => '(1514669572) 175 days, 7:24:55.72',
+                MEMORY       => '0',
+                MAC          => '78:fe:3d:37:5e:c0',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -2913,8 +2917,6 @@ my %tests = (
                         '192.168.1.132',
                     ],
                 },
-                MAC          => '78:fe:3d:37:5e:c0',
-                UPTIME       => '(1514669572) 175 days, 7:24:55.72',
             },
             PORTS => {
                 PORT => [
@@ -5416,13 +5418,15 @@ my %tests = (
     ],
     'juniper/ex2200.05.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
+
             SNMPHOSTNAME => 'jtc407-01',
-            MAC          => '00:0b:ca:fe:00:00',
             LOCATION     => 'PMF 4 n° 407',
+            UPTIME       => '(690838738) 79 days, 22:59:47.38',
+            MAC          => '00:0b:ca:fe:00:00',
             IPS          => {
                 IP => [
                     '128.0.0.1',
@@ -5431,18 +5435,18 @@ my %tests = (
                     '192.168.100.65',
                 ],
             },
-            UPTIME       => '(690838738) 79 days, 22:59:47.38',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
                 NAME         => 'jtc407-01',
-                MAC          => '00:0b:ca:fe:00:00',
                 LOCATION     => 'PMF 4 n° 407',
+                UPTIME       => '(690838738) 79 days, 22:59:47.38',
+                MAC          => '00:0b:ca:fe:00:00',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -5451,7 +5455,6 @@ my %tests = (
                         '192.168.100.65',
                     ],
                 },
-                UPTIME       => '(690838738) 79 days, 22:59:47.38',
             },
             PORTS => {
                 PORT => [
@@ -7416,10 +7419,11 @@ my %tests = (
     ],
     'juniper/ex2200.06.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
+
             SNMPHOSTNAME => 'jtc407-01',
             LOCATION     => 'PMF 4 n° 407',
             UPTIME       => '(690835636) 79 days, 22:59:16.36',
@@ -7427,8 +7431,8 @@ my %tests = (
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
                 NAME         => 'jtc407-01',
@@ -8269,37 +8273,39 @@ my %tests = (
     ],
     'juniper/ex2200.07.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48p-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
+
             SNMPHOSTNAME => 'jtc13-03',
-            SERIAL       => 'CT0211454290',
-            MEMORY       => '0',
             LOCATION     => 'PMF 13eme',
+            SERIAL       => 'CT0211454290',
+            UPTIME       => '(499476755) 57 days, 19:26:07.55',
+            MEMORY       => '0',
+            MAC          => '78:fe:3d:35:14:41',
             IPS          => {
                 IP => [
                     '128.0.0.1',
                     '128.0.0.16',
                     '128.0.0.32',
                     '192.168.100.140',
-                    ],
+                ],
             },
-            MAC          => '78:fe:3d:35:14:41',
-            UPTIME       => '(499476755) 57 days, 19:26:07.55',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-48p-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
                 NAME         => 'jtc13-03',
-                MAC          => '78:fe:3d:35:14:41',
-                SERIAL       => 'CT0211454290',
-                MEMORY       => '0',
                 LOCATION     => 'PMF 13eme',
+                SERIAL       => 'CT0211454290',
+                UPTIME       => '(499476755) 57 days, 19:26:07.55',
+                MEMORY       => '0',
+                MAC          => '78:fe:3d:35:14:41',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -8308,8 +8314,6 @@ my %tests = (
                         '192.168.100.140',
                     ],
                 },
-                MAC          => '78:fe:3d:35:14:41',
-                UPTIME       => '(499476755) 57 days, 19:26:07.55',
             },
             PORTS => {
                 PORT => [
@@ -10457,14 +10461,17 @@ my %tests = (
     ],
     'juniper/ex3200.01.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX3200-24t',
             DESCRIPTION  => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 11.4R5.7 #0: 2013-01-05 14:23:01 UTC     builder@queth.juniper.net:/volume/build/junos/11.4/release/11.4R5.7/obj-powerpc/bsd/kernels/JUNIPER-EX/kernel Build date: 2013-01-05 14:01:19 UTC Cop',
+
             SNMPHOSTNAME => 'jmsea3-10',
-            SERIAL       => 'BL0211085719',
-            MEMORY       => '0',
             LOCATION     => 'MSE Bat.A 3eme',
+            SERIAL       => 'BL0211085719',
+            UPTIME       => '(502367524) 58 days, 3:27:55.24',
+            MEMORY       => '0',
+            MAC          => '5c:5e:ab:6a:3b:81',
             IPS          => {
                 IP => [
                     '128.0.0.1',
@@ -10476,21 +10483,20 @@ my %tests = (
                     '192.168.100.55',
                 ],
             },
-            MAC          => '5c:5e:ab:6a:3b:81',
-            UPTIME       => '(502367524) 58 days, 3:27:55.24',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX3200-24t',
                 COMMENTS     => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 11.4R5.7 #0: 2013-01-05 14:23:01 UTC     builder@queth.juniper.net:/volume/build/junos/11.4/release/11.4R5.7/obj-powerpc/bsd/kernels/JUNIPER-EX/kernel Build date: 2013-01-05 14:01:19 UTC Cop',
                 NAME         => 'jmsea3-10',
-                MAC          => '5c:5e:ab:6a:3b:81',
-                SERIAL       => 'BL0211085719',
-                MEMORY       => '0',
                 LOCATION     => 'MSE Bat.A 3eme',
+                SERIAL       => 'BL0211085719',
+                UPTIME       => '(502367524) 58 days, 3:27:55.24',
+                MEMORY       => '0',
+                MAC          => '5c:5e:ab:6a:3b:81',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -10502,8 +10508,6 @@ my %tests = (
                         '192.168.100.55',
                     ],
                 },
-                MAC          => '5c:5e:ab:6a:3b:81',
-                UPTIME       => '(502367524) 58 days, 3:27:55.24',
             },
             PORTS => {
                 PORT => [
@@ -13249,15 +13253,17 @@ my %tests = (
     ],
     'juniper/ex3200.02.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX3200-24t',
             DESCRIPTION  => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
+
             SNMPHOSTNAME => 'jmsea3-11',
-            MAC          => '00:0b:ca:fe:00:00',
-            SERIAL       => 'BL0211118777',
-            MEMORY       => '0',
             LOCATION     => 'MSE Bat.A 3eme',
+            SERIAL       => 'BL0211118777',
+            UPTIME       => '(474858650) 54 days, 23:03:06.50',
+            MEMORY       => '0',
+            MAC          => '00:0b:ca:fe:00:00',
             IPS          => {
                 IP => [
                     '128.0.0.1',
@@ -13270,20 +13276,20 @@ my %tests = (
                     '192.168.100.56',
                 ],
             },
-            UPTIME       => '(474858650) 54 days, 23:03:06.50',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX3200-24t',
                 COMMENTS     => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
                 NAME         => 'jmsea3-11',
-                MAC          => '00:0b:ca:fe:00:00',
-                SERIAL       => 'BL0211118777',
-                MEMORY       => '0',
                 LOCATION     => 'MSE Bat.A 3eme',
+                SERIAL       => 'BL0211118777',
+                UPTIME       => '(474858650) 54 days, 23:03:06.50',
+                MEMORY       => '0',
+                MAC          => '00:0b:ca:fe:00:00',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -13296,7 +13302,6 @@ my %tests = (
                         '192.168.100.56',
                     ],
                 },
-                UPTIME       => '(474858650) 54 days, 23:03:06.50',
             },
             PORTS => {
                 PORT => [
@@ -15354,15 +15359,17 @@ my %tests = (
     ],
     'juniper/ex3200.03.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX3200-24t',
             DESCRIPTION  => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R2.6 #0: 2011-02-06 23:48:13 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R2.6/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-02-06 23:17:05 UTC Copyri',
+
             SNMPHOSTNAME => 'jtc20-03',
-            MAC          => '2c:6b:f5:9a:7e:80',
-            SERIAL       => 'BL0210129540',
-            MEMORY       => '0',
             LOCATION     => 'repartiteur PMF 20eme',
+            SERIAL       => 'BL0210129540',
+            UPTIME       => '(690611103) 79 days, 22:21:51.03',
+            MEMORY       => '0',
+            MAC          => '2c:6b:f5:9a:7e:80',
             IPS          => {
                 IP => [
                     '128.0.0.1',
@@ -15372,21 +15379,20 @@ my %tests = (
                     '192.168.100.44',
                 ],
             },
-            MAC          => '2c:6b:f5:9a:7e:80',
-            UPTIME       => '(690611103) 79 days, 22:21:51.03',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX3200-24t',
                 COMMENTS     => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R2.6 #0: 2011-02-06 23:48:13 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R2.6/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-02-06 23:17:05 UTC Copyri',
                 NAME         => 'jtc20-03',
-                MAC          => '2c:6b:f5:9a:7e:80',
-                SERIAL       => 'BL0210129540',
-                MEMORY       => '0',
                 LOCATION     => 'repartiteur PMF 20eme',
+                SERIAL       => 'BL0210129540',
+                UPTIME       => '(690611103) 79 days, 22:21:51.03',
+                MEMORY       => '0',
+                MAC          => '2c:6b:f5:9a:7e:80',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -15396,8 +15402,6 @@ my %tests = (
                         '192.168.100.44',
                     ],
                 },
-                MAC          => '2c:6b:f5:9a:7e:80',
-                UPTIME       => '(690611103) 79 days, 22:21:51.03',
             },
             PORTS => {
                 PORT => [
@@ -17782,14 +17786,17 @@ my %tests = (
     ],
     'juniper/ex4200.01.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX4200-24t',
             DESCRIPTION  => 'Juniper Networks, Inc. ex4200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
+
             SNMPHOSTNAME => 'jte4-01',
-            SERIAL       => 'BQ0210122093',
-            MEMORY       => '0',
             LOCATION     => 'Salle informatique E4 PMF',
+            SERIAL       => 'BQ0210122093',
+            UPTIME       => '(1579491875) 182 days, 19:28:38.75',
+            MEMORY       => '0',
+            MAC          => '2c:6b:f5:9b:48:80',
             IPS          => {
                 IP => [
                     '128.0.0.1',
@@ -17799,21 +17806,20 @@ my %tests = (
                     '192.168.100.31',
                 ],
             },
-            MAC          => '2c:6b:f5:9b:48:80',
-            UPTIME       => '(1579491875) 182 days, 19:28:38.75',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX4200-24t',
                 COMMENTS     => 'Juniper Networks, Inc. ex4200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
                 NAME         => 'jte4-01',
-                MAC          => '2c:6b:f5:9b:48:80',
-                SERIAL       => 'BQ0210122093',
-                MEMORY       => '0',
                 LOCATION     => 'Salle informatique E4 PMF',
+                SERIAL       => 'BQ0210122093',
+                UPTIME       => '(1579491875) 182 days, 19:28:38.75',
+                MEMORY       => '0',
+                MAC          => '2c:6b:f5:9b:48:80',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -17823,8 +17829,6 @@ my %tests = (
                         '192.168.100.31',
                     ],
                 },
-                MAC          => '2c:6b:f5:9b:48:80',
-                UPTIME       => '(1579491875) 182 days, 19:28:38.75',
             },
             PORTS => {
                 PORT => [
@@ -29605,13 +29609,16 @@ my %tests = (
     ],
     'juniper/ex6210.01.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             DESCRIPTION  => 'Juniper Networks, Inc. ex6210 Ethernet Switch, kernel JUNOS 12.3R3.4, Build date: 2013-06-14 01:37:19 UTC Copyright (c) 1996-2013 Juniper Networks, Inc.',
+
             SNMPHOSTNAME => 'sw-ex6210-tmk',
-            SERIAL       => 'FB1712090344',
-            MEMORY       => '0',
             LOCATION     => 'Nowhere',
+            SERIAL       => 'FB1712090344',
+            UPTIME       => '(97258803) 11 days, 6:09:48.03',
+            MEMORY       => '0',
+            MAC          => '88:e0:f3:b0:68:01',
             IPS          => {
                 IP => [
                     '10.20.101.16',
@@ -29620,27 +29627,26 @@ my %tests = (
                     '128.0.0.1',
                     '128.0.0.127',
                     '128.0.0.20',
-                '128.0.0.4',
+                    '128.0.0.4',
                     '128.0.4.0',
                     '129.0.0.1',
                     '129.0.0.20',
                     '129.0.0.4',
                 ],
             },
-            MAC          => '88:e0:f3:b0:68:01',
-            UPTIME       => '(97258803) 11 days, 6:09:48.03',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 COMMENTS     => 'Juniper Networks, Inc. ex6210 Ethernet Switch, kernel JUNOS 12.3R3.4, Build date: 2013-06-14 01:37:19 UTC Copyright (c) 1996-2013 Juniper Networks, Inc.',
                 NAME         => 'sw-ex6210-tmk',
-                MAC          => '88:e0:f3:b0:68:01',
-                SERIAL       => 'FB1712090344',
-                MEMORY       => '0',
                 LOCATION     => 'Nowhere',
+                SERIAL       => 'FB1712090344',
+                UPTIME       => '(97258803) 11 days, 6:09:48.03',
+                MEMORY       => '0',
+                MAC          => '88:e0:f3:b0:68:01',
                 IPS          => {
                     IP => [
                         '10.20.101.16',
@@ -29656,8 +29662,6 @@ my %tests = (
                         '129.0.0.4',
                     ],
                 },
-                MAC          => '88:e0:f3:b0:68:01',
-                UPTIME       => '(97258803) 11 days, 6:09:48.03',
             },
             PORTS => {
                 PORT => [
@@ -38635,14 +38639,17 @@ my %tests = (
     ],
     'juniper/ex8208.01.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'EX8208',
             DESCRIPTION  => 'Juniper Networks, Inc. ex8208 Ethernet Switch, kernel JUNOS 12.3R3.4, Build date: 2013-06-14 01:37:19 UTC Copyright (c) 1996-2013 Juniper Networks, Inc.',
+
             SNMPHOSTNAME => 'sw-ex8208-tmk',
-            SERIAL       => 'CA1612070587',
-            MEMORY       => '0',
             LOCATION     => 'Nowhere',
+            SERIAL       => 'CA1612070587',
+            UPTIME       => '(773970659) 89 days, 13:55:06.59',
+            MEMORY       => '0',
+            MAC          => '78:19:f7:05:fa:01',
             IPS          => {
                 IP => [
                     '10.15.100.253',
@@ -38741,21 +38748,20 @@ my %tests = (
                     '129.0.0.4',
                 ],
             },
-            MAC          => '78:19:f7:05:fa:01',
-            UPTIME       => '(773970659) 89 days, 13:55:06.59',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'EX8208',
                 COMMENTS     => 'Juniper Networks, Inc. ex8208 Ethernet Switch, kernel JUNOS 12.3R3.4, Build date: 2013-06-14 01:37:19 UTC Copyright (c) 1996-2013 Juniper Networks, Inc.',
                 NAME         => 'sw-ex8208-tmk',
-                MAC          => '78:19:f7:05:fa:01',
-                SERIAL       => 'CA1612070587',
-                MEMORY       => '0',
                 LOCATION     => 'Nowhere',
+                SERIAL       => 'CA1612070587',
+                UPTIME       => '(773970659) 89 days, 13:55:06.59',
+                MEMORY       => '0',
+                MAC          => '78:19:f7:05:fa:01',
                 IPS          => {
                     IP => [
                         '10.15.100.253',
@@ -38854,8 +38860,6 @@ my %tests = (
                         '129.0.0.4',
                     ],
                 },
-                MAC          => '78:19:f7:05:fa:01',
-                UPTIME       => '(773970659) 89 days, 13:55:06.59',
             },
             PORTS => {
                 PORT => [
@@ -46477,24 +46481,25 @@ my %tests = (
     ],
     'juniper/srx3400.01.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
-            SNMPHOSTNAME => 'Dauphine-routeur',
-            MAC          => '00:21:59:86:a8:00',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'SRX3400',
+            DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
+
+            SNMPHOSTNAME => 'Dauphine-routeur',
             SERIAL       => 'AA2009AA0007',
+            MAC          => '00:21:59:86:a8:00',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
-                MAC          => '00:21:59:86:a8:00',
                 SERIAL       => 'AA2009AA0007',
+                MAC          => '00:21:59:86:a8:00',
             },
             PORTS => {
                 PORT => [
@@ -47091,24 +47096,25 @@ my %tests = (
     ],
     'juniper/srx3400.02.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
-            SNMPHOSTNAME => 'Dauphine-routeur',
-            MAC          => '00:21:59:86:a8:00',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'SRX3400',
+            DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
+
+            SNMPHOSTNAME => 'Dauphine-routeur',
             SERIAL       => 'AA2009AA0007',
+            MAC          => '00:21:59:86:a8:00',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
-                MAC          => '00:21:59:86:a8:00',
                 SERIAL       => 'AA2009AA0007',
+                MAC          => '00:21:59:86:a8:00',
             },
             PORTS => {
                 PORT => [
@@ -47691,24 +47697,25 @@ my %tests = (
     ],
     'juniper/srx3400.03.walk' => [
         {
-            MANUFACTURER => 'Juniper',
             TYPE         => 'NETWORKING',
-            DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
-            SNMPHOSTNAME => 'Dauphine-routeur',
-            MAC          => '00:21:59:86:a8:00',
+            MANUFACTURER => 'Juniper',
             MODEL        => 'SRX3400',
+            DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
+
+            SNMPHOSTNAME => 'Dauphine-routeur',
             SERIAL       => 'AA2009AA0007',
+            MAC          => '00:21:59:86:a8:00',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Juniper',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Juniper',
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
-                MAC          => '00:21:59:86:a8:00',
                 SERIAL       => 'AA2009AA0007',
+                MAC          => '00:21:59:86:a8:00',
             },
             PORTS => {
                 PORT => [
