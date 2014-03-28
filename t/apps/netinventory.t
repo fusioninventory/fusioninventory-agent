@@ -12,7 +12,7 @@ use XML::TreePP;
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Test::Utils;
 
-plan tests => 15;
+plan tests => 12;
 
 my ($out, $err, $rc);
 
@@ -45,19 +45,7 @@ is($out, '', 'no target stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',
-    'file:resources/walks/sample4.walk --model foobar'
-);
-ok($rc == 2, 'invalid model exit status');
-like(
-    $err,
-    qr/invalid file/,
-    'invalid model stderr'
-);
-is($out, '', 'invalid model stdout');
-
-($out, $err, $rc) = run_executable(
-    'fusioninventory-netinventory',
-    'file:resources/walks/sample4.walk --model resources/models/sample1.xml'
+    'file:resources/walks/sample4.walk'
 );
 ok($rc == 0, 'success exit status');
 

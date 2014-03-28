@@ -5,112 +5,48 @@ use lib 't/lib';
 
 use Test::More;
 use Test::Deep qw(cmp_deeply);
-use XML::TreePP;
 
 use FusionInventory::Agent::SNMP::Mock;
-use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 use FusionInventory::Agent::Tools::Hardware;
 
 my %tests = (
     'xerox/ColorQube_8570DN.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c0500a',
-            MAC          => '9c:93:4e:02:92:55',
-            MODEL        => 'ColorQube 8570DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c0500a',
-            MAC          => '9c:93:4e:02:92:55',
-            MODELSNMP    => 'Printer0670',
             MODEL        => 'ColorQube 8570DN',
-            FIRMWARE     => undef,
-            SERIAL       => undef,
+            DESCRIPTION  => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'c0500a',
+            SERIAL       => 'XFN132868',
+            UPTIME       => '(457023) 1:16:10.23',
+            MEMORY       => '0',
+            MAC          => '9c:93:4e:02:92:55',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.42',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'ColorQube 8570DN',
                 COMMENTS     => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
                 NAME         => 'c0500a',
+                SERIAL       => 'XFN132868',
+                UPTIME       => '(457023) 1:16:10.23',
                 MEMORY       => '0',
+                MAC          => '9c:93:4e:02:92:55',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.42',
                     ],
                 },
-                UPTIME       => '(457023) 1:16:10.23',
-            },
-            CARTRIDGES => {
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '99',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '401',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox ColorQube 8570DN Ethernet Interface, 10/100/1000 Mbps, v42.40.09.02.2011, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox ColorQube 8570DN Ethernet Interface, 10/100/1000 Mbps, v42.40.09.02.2011, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '9c:93:4e:02:92:55',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox ColorQube 8570DN Ethernet Interface, 10/100/1000 Mbps, v42.40.09.02.2011, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox ColorQube 8570DN Ethernet Interface, 10/100/1000 Mbps, v42.40.09.02.2011, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.42',
-                        MAC              => '9c:93:4e:02:92:55',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '67204097',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '851549',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'ColorQube 8570DN',
-                COMMENTS     => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
-                NAME         => 'c0500a',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.42',
-                    ],
-                },
-                UPTIME       => '(457023) 1:16:10.23',
             },
             CARTRIDGES => {
                 WASTETONER       => '100',
@@ -161,77 +97,37 @@ my %tests = (
     ],
     'xerox/DocuPrint_N2125.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
-            MAC          => '00:00:aa:5c:1c:8c',
-            MODEL        => 'DocuPrint N2125',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
-            MAC          => '00:00:aa:5c:1c:8c',
-            MODELSNMP    => 'Printer0687',
             MODEL        => 'DocuPrint N2125',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
+
             SERIAL       => '3510349171',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'DocuPrint N2125',
-                COMMENTS     => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
-                MEMORY       => '32',
-                IPS          => {
-                    IP => [
-                        '172.16.3.53',
-                    ],
-                },
-                UPTIME       => '(16986889) 1 day, 23:11:08.89',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '128652',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox DocuPrint N21 Ethernet Interface',
-                        IFDESCR          => 'Xerox DocuPrint N21 Ethernet Interface',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '172.16.3.53',
-                        MAC              => '00:00:aa:5c:1c:8c',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            UPTIME       => '(16986889) 1 day, 23:11:08.89',
+            MEMORY       => '32',
+            MAC          => '00:00:aa:5c:1c:8c',
+            IPS          => {
+                IP => [
+                    '172.16.3.53',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'DocuPrint N2125',
                 COMMENTS     => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
-                MEMORY       => '32',
                 SERIAL       => '3510349171',
+                UPTIME       => '(16986889) 1 day, 23:11:08.89',
+                MEMORY       => '32',
+                MAC          => '00:00:aa:5c:1c:8c',
                 IPS          => {
                     IP => [
                         '172.16.3.53',
                     ],
                 },
-                UPTIME       => '(16986889) 1 day, 23:11:08.89',
             },
             PAGECOUNTERS => {
                 TOTAL      => '128652',
@@ -261,94 +157,41 @@ my %tests = (
     ],
     'xerox/Phaser_3320.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
-            SNMPHOSTNAME => 'AS_STEXU_IMP02',
-            MAC          => '9c:93:4e:21:3c:a2',
-            MODEL        => 'Phaser 3320',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
-            SNMPHOSTNAME => 'AS_STEXU_IMP02',
-            MAC          => '9c:93:4e:21:3c:a2',
             MODEL        => 'Phaser 3320',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 3320',
-                COMMENTS     => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
-                CONTACT      => 'Administrator',
-                NAME         => 'AS_STEXU_IMP02',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '192.168.89.51',
-                    ],
-                },
-                UPTIME       => '(1018900) 2:49:49.00',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '94',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ-45, connector A1, 10 Mbps half duplex',
-                        IFDESCR          => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ-45, connector A1, 10 Mbps half duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IP               => '192.168.89.51',
-                        MAC              => '9c:93:4e:21:3c:a2',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '1671569',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '1762641',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox internal TCP Software Loopback Interface, v2.0',
-                        IFDESCR          => 'Xerox internal TCP Software Loopback Interface, v2.0',
-                        IFTYPE           => '24',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '1500',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '3744775',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            DESCRIPTION  => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
+
+            SNMPHOSTNAME => 'AS_STEXU_IMP02',
+            CONTACT      => 'Administrator',
+            SERIAL       => '3221156098',
+            UPTIME       => '(1018900) 2:49:49.00',
+            MEMORY       => '0',
+            MAC          => '9c:93:4e:21:3c:a2',
+            IPS          => {
+                IP => [
+                    '192.168.89.51',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 3320',
                 COMMENTS     => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
-                CONTACT      => 'Administrator',
                 NAME         => 'AS_STEXU_IMP02',
+                CONTACT      => 'Administrator',
+                SERIAL       => '3221156098',
+                UPTIME       => '(1018900) 2:49:49.00',
                 MEMORY       => '0',
+                MAC          => '9c:93:4e:21:3c:a2',
                 IPS          => {
                     IP => [
                         '192.168.89.51',
                     ],
                 },
-                UPTIME       => '(1018900) 2:49:49.00',
             },
             PAGECOUNTERS => {
                 TOTAL      => '94',
@@ -393,103 +236,41 @@ my %tests = (
     ],
     'xerox/Phaser_5550DT.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.03.00',
-            SNMPHOSTNAME => 'Phaser 5550DT',
-            MAC          => '00:00:aa:d4:a2:fe',
-            MODEL        => 'Phaser 5550DT',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.03.00',
-            SNMPHOSTNAME => 'Phaser 5550DT',
-            MAC          => '00:00:aa:d4:a2:fe',
-            MODELSNMP    => 'Printer0688',
             MODEL        => 'Phaser 5550DT',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.03.00',
+
+            SNMPHOSTNAME => 'Phaser 5550DT',
             SERIAL       => 'KNB015751',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 5550DT',
-                COMMENTS     => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.03.00',
-                NAME         => 'Phaser 5550DT',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '172.16.3.51',
-                    ],
-                },
-                UPTIME       => '(7088810) 19:41:28.10',
-            },
-            CARTRIDGES => {
-                MAINTENANCEKIT   => '67',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '724552',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
-                        IFDESCR          => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:d4:a2:fe',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
-                        IFDESCR          => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
-                        IFTYPE           => '6',
-                        IFSPEED          => '1000000000',
-                        IFMTU            => '1500',
-                        IP               => '172.16.3.51',
-                        MAC              => '00:00:aa:d4:a2:fe',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            UPTIME       => '(7088810) 19:41:28.10',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:d4:a2:fe',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '172.16.3.51',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 5550DT',
                 COMMENTS     => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.03.00',
                 NAME         => 'Phaser 5550DT',
-                MEMORY       => '0',
                 SERIAL       => 'KNB015751',
+                UPTIME       => '(7088810) 19:41:28.10',
+                MEMORY       => '0',
+                MAC          => '00:00:aa:d4:a2:fe',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '172.16.3.51',
                     ],
                 },
-                UPTIME       => '(7088810) 19:41:28.10',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '67',
@@ -539,103 +320,41 @@ my %tests = (
     ],
     'xerox/Phaser_5550DT.02.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.01.00',
-            SNMPHOSTNAME => 'Phaser 5550DT-1',
-            MAC          => '00:00:aa:d4:a4:cc',
-            MODEL        => 'Phaser 5550DT',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.01.00',
-            SNMPHOSTNAME => 'Phaser 5550DT-1',
-            MAC          => '00:00:aa:d4:a4:cc',
-            MODELSNMP    => 'Printer0689',
             MODEL        => 'Phaser 5550DT',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.01.00',
+
+            SNMPHOSTNAME => 'Phaser 5550DT-1',
             SERIAL       => 'KNB015753',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 5550DT',
-                COMMENTS     => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.01.00',
-                NAME         => 'Phaser 5550DT-1',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '172.16.3.52',
-                    ],
-                },
-                UPTIME       => '(52327401) 6 days, 1:21:14.01',
-            },
-            CARTRIDGES => {
-                MAINTENANCEKIT   => '57',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '420312',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
-                        IFDESCR          => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:d4:a4:cc',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
-                        IFDESCR          => 'Xerox Phaser 5550DT Ethernet Interface, 10/100/1000 Mbps, v40.46.04.03.2009, RJ-45, Ethernet, , , ',
-                        IFTYPE           => '6',
-                        IFSPEED          => '1000000000',
-                        IFMTU            => '1500',
-                        IP               => '172.16.3.52',
-                        MAC              => '00:00:aa:d4:a4:cc',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            UPTIME       => '(52327401) 6 days, 1:21:14.01',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:d4:a4:cc',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '172.16.3.52',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 5550DT',
                 COMMENTS     => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.01.00',
                 NAME         => 'Phaser 5550DT-1',
-                MEMORY       => '0',
                 SERIAL       => 'KNB015753',
+                UPTIME       => '(52327401) 6 days, 1:21:14.01',
+                MEMORY       => '0',
+                MAC          => '00:00:aa:d4:a4:cc',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '172.16.3.52',
                     ],
                 },
-                UPTIME       => '(52327401) 6 days, 1:21:14.01',
             },
             CARTRIDGES => {
                 MAINTENANCEKIT   => '57',
@@ -685,81 +404,39 @@ my %tests = (
     ],
     'xerox/Phaser_6180MFP.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 6180MFP-D; Net 11.74,ESS 200802151717,IOT 05.09.00,Boot 200706151125',
-            SNMPHOSTNAME => 'Phaser 6180MFP-D-E360D7',
-            MAC          => '00:00:aa:e3:60:d7',
-            MODEL        => 'Phaser 6180 MFP',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 6180MFP-D; Net 11.74,ESS 200802151717,IOT 05.09.00,Boot 200706151125',
-            SNMPHOSTNAME => 'Phaser 6180MFP-D-E360D7',
-            MAC          => '00:00:aa:e3:60:d7',
-            MODELSNMP    => 'Printer0370',
             MODEL        => 'Phaser 6180 MFP',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 6180MFP-D; Net 11.74,ESS 200802151717,IOT 05.09.00,Boot 200706151125',
+
+            SNMPHOSTNAME => 'Phaser 6180MFP-D-E360D7',
             SERIAL       => 'GPX259705',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 6180 MFP',
-                COMMENTS     => 'Xerox Phaser 6180MFP-D; Net 11.74,ESS 200802151717,IOT 05.09.00,Boot 200706151125',
-                NAME         => 'Phaser 6180MFP-D-E360D7',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '172.16.3.61',
-                    ],
-                },
-                UPTIME       => '(119016820) 13 days, 18:36:08.20',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '31341',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'XEROX Ethernet Interface Controller, 10/100 Mbps, RJ45, v1.0, 100Mbps full duplex',
-                        IFDESCR          => 'XEROX Ethernet Interface Controller, 10/100 Mbps, RJ45, v1.0, 100Mbps full duplex',
-                        IFTYPE           => '6',
-                        IFMTU            => '1500',
-                        IP               => '172.16.3.61',
-                        MAC              => '00:00:aa:e3:60:d7',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                    },
-                ]
+            UPTIME       => '(119016820) 13 days, 18:36:08.20',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:e3:60:d7',
+            IPS          => {
+                IP => [
+                    '172.16.3.61',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 6180 MFP',
                 COMMENTS     => 'Xerox Phaser 6180MFP-D; Net 11.74,ESS 200802151717,IOT 05.09.00,Boot 200706151125',
                 NAME         => 'Phaser 6180MFP-D-E360D7',
-                MEMORY       => '0',
                 SERIAL       => 'GPX259705',
+                UPTIME       => '(119016820) 13 days, 18:36:08.20',
+                MEMORY       => '0',
+                MAC          => '00:00:aa:e3:60:d7',
                 IPS          => {
                     IP => [
                         '172.16.3.61',
                     ],
                 },
-                UPTIME       => '(119016820) 13 days, 18:36:08.20',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '5',
-                TONERCYAN        => '25',
-                TONERMAGENTA     => '25',
-                TONERYELLOW      => '40',
             },
             PAGECOUNTERS => {
                 TOTAL      => '31341',
@@ -783,114 +460,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'cIT510a',
-            MAC          => '00:00:aa:d7:5b:a0',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'cIT510a',
-            MAC          => '00:00:aa:d7:5b:a0',
-            MODELSNMP    => 'Printer0265',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'cIT510a',
             SERIAL       => 'FBT261947',
+            UPTIME       => '(8607383) 23:54:33.83',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:d7:5b:a0',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.227',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'cIT510a',
+                SERIAL       => 'FBT261947',
+                UPTIME       => '(8607383) 23:54:33.83',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:d7:5b:a0',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.227',
                     ],
                 },
-                UPTIME       => '(8607383) 23:54:33.83',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '71',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '199891',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:d7:5b:a0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.227',
-                        MAC              => '00:00:aa:d7:5b:a0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                NAME         => 'cIT510a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT261947',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.227',
-                    ],
-                },
-                UPTIME       => '(8607383) 23:54:33.83',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '71',
             },
@@ -939,114 +549,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.02.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'cIT524a',
-            MAC          => '00:00:aa:c4:26:b0',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'cIT524a',
-            MAC          => '00:00:aa:c4:26:b0',
-            MODELSNMP    => 'Printer0265',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'cIT524a',
             SERIAL       => 'FBT261949',
+            UPTIME       => '(262695935) 30 days, 9:42:39.35',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:c4:26:b0',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.228',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'cIT524a',
+                SERIAL       => 'FBT261949',
+                UPTIME       => '(262695935) 30 days, 9:42:39.35',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:c4:26:b0',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.228',
                     ],
                 },
-                UPTIME       => '(262695935) 30 days, 9:42:39.35',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '68',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '84517',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:c4:26:b0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.228',
-                        MAC              => '00:00:aa:c4:26:b0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                NAME         => 'cIT524a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT261949',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.228',
-                    ],
-                },
-                UPTIME       => '(262695935) 30 days, 9:42:39.35',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '68',
             },
@@ -1095,114 +638,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.03.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'Phaser 8560DN',
-            MAC          => '00:00:aa:c4:26:61',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'Phaser 8560DN',
-            MAC          => '00:00:aa:c4:26:61',
-            MODELSNMP    => 'Printer0265',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'Phaser 8560DN',
             SERIAL       => 'FBT261946',
+            UPTIME       => '(1056921) 2:56:09.21',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:c4:26:61',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.229',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'Phaser 8560DN',
+                SERIAL       => 'FBT261946',
+                UPTIME       => '(1056921) 2:56:09.21',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:c4:26:61',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.229',
                     ],
                 },
-                UPTIME       => '(1056921) 2:56:09.21',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '71',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '59388',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:c4:26:61',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.229',
-                        MAC              => '00:00:aa:c4:26:61',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                NAME         => 'Phaser 8560DN',
-                MEMORY       => '0',
-                SERIAL       => 'FBT261946',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.229',
-                    ],
-                },
-                UPTIME       => '(1056921) 2:56:09.21',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '71',
             },
@@ -1251,114 +727,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.04.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c0211a',
-            MAC          => '00:00:aa:c4:27:c4',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c0211a',
-            MAC          => '00:00:aa:c4:27:c4',
-            MODELSNMP    => 'Printer0265',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'c0211a',
             SERIAL       => 'FBT261926',
+            UPTIME       => '(9827360) 1 day, 3:17:53.60',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:c4:27:c4',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.18',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c0211a',
+                SERIAL       => 'FBT261926',
+                UPTIME       => '(9827360) 1 day, 3:17:53.60',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:c4:27:c4',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.18',
                     ],
                 },
-                UPTIME       => '(9827360) 1 day, 3:17:53.60',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '22',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '40802',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:c4:27:c4',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.18',
-                        MAC              => '00:00:aa:c4:27:c4',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                NAME         => 'c0211a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT261926',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.18',
-                    ],
-                },
-                UPTIME       => '(9827360) 1 day, 3:17:53.60',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '22',
             },
@@ -1407,114 +816,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.05.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c1309a',
-            MAC          => '00:00:aa:d2:c6:82',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c1309a',
-            MAC          => '00:00:aa:d2:c6:82',
-            MODELSNMP    => 'Printer0265',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'c1309a',
             SERIAL       => 'FBT340010',
+            UPTIME       => '(184090216) 21 days, 7:21:42.16',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:d2:c6:82',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.37',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c1309a',
+                SERIAL       => 'FBT340010',
+                UPTIME       => '(184090216) 21 days, 7:21:42.16',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:d2:c6:82',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.37',
                     ],
                 },
-                UPTIME       => '(184090216) 21 days, 7:21:42.16',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '14',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '147817',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:d2:c6:82',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.37',
-                        MAC              => '00:00:aa:d2:c6:82',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                NAME         => 'c1309a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT340010',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.37',
-                    ],
-                },
-                UPTIME       => '(184090216) 21 days, 7:21:42.16',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '14',
             },
@@ -1563,114 +905,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.06.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c2410a',
-            MAC          => '00:00:aa:c4:27:0f',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c2410a',
-            MAC          => '00:00:aa:c4:27:0f',
-            MODELSNMP    => 'Printer0265',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'c2410a',
             SERIAL       => 'FBT261951',
+            UPTIME       => '(72059111) 8 days, 8:09:51.11',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:c4:27:0f',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.60',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c2410a',
+                SERIAL       => 'FBT261951',
+                UPTIME       => '(72059111) 8 days, 8:09:51.11',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:c4:27:0f',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.60',
                     ],
                 },
-                UPTIME       => '(72059111) 8 days, 8:09:51.11',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '99',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '70041',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:c4:27:0f',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.60',
-                        MAC              => '00:00:aa:c4:27:0f',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                NAME         => 'c2410a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT261951',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.60',
-                    ],
-                },
-                UPTIME       => '(72059111) 8 days, 8:09:51.11',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '99',
             },
@@ -1719,114 +994,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.07.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c3312a',
-            MAC          => '00:00:aa:ab:92:93',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c3312a',
-            MAC          => '00:00:aa:ab:92:93',
-            MODELSNMP    => 'Printer0265',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'c3312a',
             SERIAL       => 'FBT163983',
+            UPTIME       => '(745216738) 86 days, 6:02:47.38',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:ab:92:93',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.218',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c3312a',
+                SERIAL       => 'FBT163983',
+                UPTIME       => '(745216738) 86 days, 6:02:47.38',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:ab:92:93',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.218',
                     ],
                 },
-                UPTIME       => '(745216738) 86 days, 6:02:47.38',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '28',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '31779',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:ab:92:93',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.218',
-                        MAC              => '00:00:aa:ab:92:93',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                NAME         => 'c3312a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT163983',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.218',
-                    ],
-                },
-                UPTIME       => '(745216738) 86 days, 6:02:47.38',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '28',
             },
@@ -1875,114 +1083,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.08.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c0400a',
-            MAC          => '00:00:aa:c4:27:29',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c0400a',
-            MAC          => '00:00:aa:c4:27:29',
-            MODELSNMP    => 'Printer0265',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'c0400a',
             SERIAL       => 'FBT261925',
+            UPTIME       => '(537900356) 62 days, 6:10:03.56',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:c4:27:29',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.114',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c0400a',
+                SERIAL       => 'FBT261925',
+                UPTIME       => '(537900356) 62 days, 6:10:03.56',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:c4:27:29',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.114',
                     ],
                 },
-                UPTIME       => '(537900356) 62 days, 6:10:03.56',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '20',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '127444',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, half duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, half duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:c4:27:29',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, half duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, half duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.114',
-                        MAC              => '00:00:aa:c4:27:29',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                NAME         => 'c0400a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT261925',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.114',
-                    ],
-                },
-                UPTIME       => '(537900356) 62 days, 6:10:03.56',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '20',
             },
@@ -2031,114 +1172,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.09.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'Phaser 8560DN-2',
-            MAC          => '00:00:aa:a8:12:cf',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'Phaser 8560DN-2',
-            MAC          => '00:00:aa:a8:12:cf',
-            MODELSNMP    => 'Printer0314',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
+
+            SNMPHOSTNAME => 'Phaser 8560DN-2',
             SERIAL       => 'FBT133950',
+            UPTIME       => '(53965840) 6 days, 5:54:18.40',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:a8:12:cf',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.150',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
                 NAME         => 'Phaser 8560DN-2',
+                SERIAL       => 'FBT133950',
+                UPTIME       => '(53965840) 6 days, 5:54:18.40',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:a8:12:cf',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.150',
                     ],
                 },
-                UPTIME       => '(53965840) 6 days, 5:54:18.40',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '89',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '31873',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.150',
-                        MAC              => '00:00:aa:a8:12:cf',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:a8:12:cf',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-                NAME         => 'Phaser 8560DN-2',
-                MEMORY       => '0',
-                SERIAL       => 'FBT133950',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.150',
-                    ],
-                },
-                UPTIME       => '(53965840) 6 days, 5:54:18.40',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '89',
             },
@@ -2187,114 +1261,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.10.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c2206a',
-            MAC          => '00:00:aa:ab:95:be',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c2206a',
-            MAC          => '00:00:aa:ab:95:be',
-            MODELSNMP    => 'Printer0314',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
+
+            SNMPHOSTNAME => 'c2206a',
             SERIAL       => 'FBT163981',
+            UPTIME       => '(504016756) 58 days, 8:02:47.56',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:ab:95:be',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.82',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
                 NAME         => 'c2206a',
+                SERIAL       => 'FBT163981',
+                UPTIME       => '(504016756) 58 days, 8:02:47.56',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:ab:95:be',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.82',
                     ],
                 },
-                UPTIME       => '(504016756) 58 days, 8:02:47.56',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '14',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '35910',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.82',
-                        MAC              => '00:00:aa:ab:95:be',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:ab:95:be',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-                NAME         => 'c2206a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT163981',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.82',
-                    ],
-                },
-                UPTIME       => '(504016756) 58 days, 8:02:47.56',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '14',
             },
@@ -2343,114 +1350,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.11.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c1500a',
-            MAC          => '00:00:aa:a7:e4:d3',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c1500a',
-            MAC          => '00:00:aa:a7:e4:d3',
-            MODELSNMP    => 'Printer0314',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
+
+            SNMPHOSTNAME => 'c1500a',
             SERIAL       => 'FBT133984',
+            UPTIME       => '(745557553) 86 days, 6:59:35.53',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:a7:e4:d3',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.65',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
                 NAME         => 'c1500a',
+                SERIAL       => 'FBT133984',
+                UPTIME       => '(745557553) 86 days, 6:59:35.53',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:a7:e4:d3',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.65',
                     ],
                 },
-                UPTIME       => '(745557553) 86 days, 6:59:35.53',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '69',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '214103',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.65',
-                        MAC              => '00:00:aa:a7:e4:d3',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:a7:e4:d3',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-                NAME         => 'c1500a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT133984',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.65',
-                    ],
-                },
-                UPTIME       => '(745557553) 86 days, 6:59:35.53',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '69',
             },
@@ -2499,114 +1439,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.12.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c1715a',
-            MAC          => '00:00:aa:a7:e5:b6',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c1715a',
-            MAC          => '00:00:aa:a7:e5:b6',
-            MODELSNMP    => 'Printer0314',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
+
+            SNMPHOSTNAME => 'c1715a',
             SERIAL       => 'FBT133868',
+            UPTIME       => '(745560805) 86 days, 7:00:08.05',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:a7:e5:b6',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.17',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
                 NAME         => 'c1715a',
+                SERIAL       => 'FBT133868',
+                UPTIME       => '(745560805) 86 days, 7:00:08.05',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:a7:e5:b6',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.17',
                     ],
                 },
-                UPTIME       => '(745560805) 86 days, 7:00:08.05',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '90',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '156798',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.17',
-                        MAC              => '00:00:aa:a7:e5:b6',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:a7:e5:b6',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-                NAME         => 'c1715a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT133868',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.17',
-                    ],
-                },
-                UPTIME       => '(745560805) 86 days, 7:00:08.05',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '90',
             },
@@ -2655,114 +1528,47 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.13.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c3111a',
-            MAC          => '00:00:aa:ab:96:82',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-            SNMPHOSTNAME => 'c3111a',
-            MAC          => '00:00:aa:ab:96:82',
-            MODELSNMP    => 'Printer0314',
             MODEL        => 'Phaser 8560DN',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
+
+            SNMPHOSTNAME => 'c3111a',
             SERIAL       => 'FBT164018',
+            UPTIME       => '(182596303) 21 days, 3:12:43.03',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:ab:96:82',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.94',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
                 NAME         => 'c3111a',
+                SERIAL       => 'FBT164018',
+                UPTIME       => '(182596303) 21 days, 3:12:43.03',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:ab:96:82',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.94',
                     ],
                 },
-                UPTIME       => '(182596303) 21 days, 3:12:43.03',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
                 CARTRIDGECYAN    => '100',
                 CARTRIDGEMAGENTA => '100',
                 CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '99',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '15725',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.94',
-                        MAC              => '00:00:aa:ab:96:82',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560 Ethernet Interface, 10/100 Mbps, v31.92.12.14.2006, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:ab:96:82',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-                NAME         => 'c3111a',
-                MEMORY       => '0',
-                SERIAL       => 'FBT164018',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.94',
-                    ],
-                },
-                UPTIME       => '(182596303) 21 days, 3:12:43.03',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '100',
-                TONERCYAN        => '100',
-                TONERMAGENTA     => '100',
-                TONERYELLOW      => '100',
                 WASTETONER       => '100',
                 MAINTENANCEKIT   => '99',
             },
@@ -2811,104 +1617,41 @@ my %tests = (
     ],
     'xerox/Phaser_8560DN.14.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c3003a',
-            MAC          => '00:00:aa:c4:28:2c',
-            MODEL        => 'Phaser 8560DN',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'c3003a',
-            MAC          => '00:00:aa:c4:28:2c',
             MODEL        => 'Phaser 8560DN',
+            DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'c3003a',
+            SERIAL       => 'FBT261865',
+            UPTIME       => '(80535700) 9 days, 7:42:37.00',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:c4:28:2c',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.221',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c3003a',
+                SERIAL       => 'FBT261865',
+                UPTIME       => '(80535700) 9 days, 7:42:37.00',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:c4:28:2c',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.221',
                     ],
                 },
-                UPTIME       => '(80535700) 9 days, 7:42:37.00',
-            },
-            CARTRIDGES => {
-                CARTRIDGEBLACK   => '100',
-                CARTRIDGECYAN    => '100',
-                CARTRIDGEMAGENTA => '100',
-                CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '93',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '42500',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.58.08.31.2009, RJ-45, Ethernet, 100 Mbps, half duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.58.08.31.2009, RJ-45, Ethernet, 100 Mbps, half duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:c4:28:2c',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.58.08.31.2009, RJ-45, Ethernet, 100 Mbps, half duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DN Ethernet Interface, 10/100 Mbps, v37.58.08.31.2009, RJ-45, Ethernet, 100 Mbps, half duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.221',
-                        MAC              => '00:00:aa:c4:28:2c',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DN',
-                COMMENTS     => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                NAME         => 'c3003a',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.221',
-                    ],
-                },
-                UPTIME       => '(80535700) 9 days, 7:42:37.00',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
@@ -2963,108 +1706,41 @@ my %tests = (
     ],
     'xerox/Phaser_8560DP.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'c1A110a-1',
-            MAC          => '00:00:aa:95:17:a7',
-            MODEL        => 'Phaser 8560DP',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'c1A110a-1',
-            MAC          => '00:00:aa:95:17:a7',
-            MODELSNMP    => 'Printer0451',
             MODEL        => 'Phaser 8560DP',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
+
+            SNMPHOSTNAME => 'c1A110a-1',
             SERIAL       => 'WYP050086',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DP',
-                COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-                NAME         => 'c1A110a-1',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.95',
-                    ],
-                },
-                UPTIME       => '(339691530) 39 days, 7:35:15.30',
-            },
-            CARTRIDGES => {
-                CARTRIDGEBLACK   => '100',
-                CARTRIDGECYAN    => '100',
-                CARTRIDGEMAGENTA => '100',
-                CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '100',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '68621',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.95',
-                        MAC              => '00:00:aa:95:17:a7',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '32768',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:95:17:a7',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '4294967295',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '4294967295',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            UPTIME       => '(339691530) 39 days, 7:35:15.30',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:95:17:a7',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.95',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DP',
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
                 NAME         => 'c1A110a-1',
-                MEMORY       => '0',
                 SERIAL       => 'WYP050086',
+                UPTIME       => '(339691530) 39 days, 7:35:15.30',
+                MEMORY       => '0',
+                MAC          => '00:00:aa:95:17:a7',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.95',
                     ],
                 },
-                UPTIME       => '(339691530) 39 days, 7:35:15.30',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
@@ -3119,108 +1795,41 @@ my %tests = (
     ],
     'xerox/Phaser_8560DP.02.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'c2009a',
-            MAC          => '00:00:aa:95:16:50',
-            MODEL        => 'Phaser 8560DP',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'c2009a',
-            MAC          => '00:00:aa:95:16:50',
-            MODELSNMP    => 'Printer0451',
             MODEL        => 'Phaser 8560DP',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
+
+            SNMPHOSTNAME => 'c2009a',
             SERIAL       => 'WYP050250',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DP',
-                COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-                NAME         => 'c2009a',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.40',
-                    ],
-                },
-                UPTIME       => '(284944040) 32 days, 23:30:40.40',
-            },
-            CARTRIDGES => {
-                CARTRIDGEBLACK   => '100',
-                CARTRIDGECYAN    => '100',
-                CARTRIDGEMAGENTA => '100',
-                CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '100',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '140861',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.40',
-                        MAC              => '00:00:aa:95:16:50',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '32768',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:95:16:50',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '4294967295',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '4294967295',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            UPTIME       => '(284944040) 32 days, 23:30:40.40',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:95:16:50',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.40',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DP',
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
                 NAME         => 'c2009a',
-                MEMORY       => '0',
                 SERIAL       => 'WYP050250',
+                UPTIME       => '(284944040) 32 days, 23:30:40.40',
+                MEMORY       => '0',
+                MAC          => '00:00:aa:95:16:50',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.40',
                     ],
                 },
-                UPTIME       => '(284944040) 32 days, 23:30:40.40',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
@@ -3275,108 +1884,41 @@ my %tests = (
     ],
     'xerox/Phaser_8560DP.03.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'Phaser 8550DP',
-            MAC          => '00:00:aa:95:17:a8',
-            MODEL        => 'Phaser 8560DP',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'Phaser 8550DP',
-            MAC          => '00:00:aa:95:17:a8',
-            MODELSNMP    => 'Printer0451',
             MODEL        => 'Phaser 8560DP',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
+
+            SNMPHOSTNAME => 'Phaser 8550DP',
             SERIAL       => 'WYP050085',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DP',
-                COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-                NAME         => 'Phaser 8550DP',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.54',
-                    ],
-                },
-                UPTIME       => '(543157724) 62 days, 20:46:17.24',
-            },
-            CARTRIDGES => {
-                CARTRIDGEBLACK   => '100',
-                CARTRIDGECYAN    => '100',
-                CARTRIDGEMAGENTA => '100',
-                CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '100',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '36147',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.54',
-                        MAC              => '00:00:aa:95:17:a8',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '32768',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:95:17:a8',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '4294967295',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '4294967295',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            UPTIME       => '(543157724) 62 days, 20:46:17.24',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:95:17:a8',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.54',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DP',
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
                 NAME         => 'Phaser 8550DP',
-                MEMORY       => '0',
                 SERIAL       => 'WYP050085',
+                UPTIME       => '(543157724) 62 days, 20:46:17.24',
+                MEMORY       => '0',
+                MAC          => '00:00:aa:95:17:a8',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.54',
                     ],
                 },
-                UPTIME       => '(543157724) 62 days, 20:46:17.24',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
@@ -3431,108 +1973,41 @@ my %tests = (
     ],
     'xerox/Phaser_8560DP.04.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'c2700a',
-            MAC          => '00:00:aa:95:15:b8',
-            MODEL        => 'Phaser 8560DP',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-            SNMPHOSTNAME => 'c2700a',
-            MAC          => '00:00:aa:95:15:b8',
-            MODELSNMP    => 'Printer0451',
             MODEL        => 'Phaser 8560DP',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
+
+            SNMPHOSTNAME => 'c2700a',
             SERIAL       => 'WYP050251',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DP',
-                COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-                NAME         => 'c2700a',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.207',
-                    ],
-                },
-                UPTIME       => '(543164034) 62 days, 20:47:20.34',
-            },
-            CARTRIDGES => {
-                CARTRIDGEBLACK   => '100',
-                CARTRIDGECYAN    => '100',
-                CARTRIDGEMAGENTA => '100',
-                CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '100',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '138980',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.207',
-                        MAC              => '00:00:aa:95:15:b8',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8550 Ethernet Interface, 10/100 Mbps, v(3.11.0/24.38.04.28.2005/18.P1.3.11.0/4.278), RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '32768',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:95:15:b8',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '4294967295',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '4294967295',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            UPTIME       => '(543164034) 62 days, 20:47:20.34',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:95:15:b8',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.207',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DP',
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
                 NAME         => 'c2700a',
-                MEMORY       => '0',
                 SERIAL       => 'WYP050251',
+                UPTIME       => '(543164034) 62 days, 20:47:20.34',
+                MEMORY       => '0',
+                MAC          => '00:00:aa:95:15:b8',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.207',
                     ],
                 },
-                UPTIME       => '(543164034) 62 days, 20:47:20.34',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
@@ -3587,104 +2062,41 @@ my %tests = (
     ],
     'xerox/Phaser_8560DT.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'ciT400a',
-            MAC          => '00:00:aa:d2:c5:eb',
-            MODEL        => 'Phaser 8560DT',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-            SNMPHOSTNAME => 'ciT400a',
-            MAC          => '00:00:aa:d2:c5:eb',
             MODEL        => 'Phaser 8560DT',
+            DESCRIPTION  => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
+
+            SNMPHOSTNAME => 'ciT400a',
+            SERIAL       => 'FBT340011',
+            UPTIME       => '(132190381) 15 days, 7:11:43.81',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:d2:c5:eb',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '128.93.22.240',
+                ],
+            },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'Phaser 8560DT',
                 COMMENTS     => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'ciT400a',
+                SERIAL       => 'FBT340011',
+                UPTIME       => '(132190381) 15 days, 7:11:43.81',
                 MEMORY       => '0',
+                MAC          => '00:00:aa:d2:c5:eb',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '128.93.22.240',
                     ],
                 },
-                UPTIME       => '(132190381) 15 days, 7:11:43.81',
-            },
-            CARTRIDGES => {
-                CARTRIDGEBLACK   => '100',
-                CARTRIDGECYAN    => '100',
-                CARTRIDGEMAGENTA => '100',
-                CARTRIDGEYELLOW  => '100',
-                WASTETONER       => '100',
-                MAINTENANCEKIT   => '56',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '17310',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Phaser 8560DT Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DT Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '24',
-                        IFSPEED          => '0',
-                        IFMTU            => '1536',
-                        IP               => '127.0.0.1',
-                        MAC              => '00:00:aa:d2:c5:eb',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox Phaser 8560DT Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFDESCR          => 'Xerox Phaser 8560DT Ethernet Interface, 10/100 Mbps, v37.54.03.02.2008, RJ-45, Ethernet, 100 Mbps, full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '128.93.22.240',
-                        MAC              => '00:00:aa:d2:c5:eb',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'Phaser 8560DT',
-                COMMENTS     => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-                NAME         => 'ciT400a',
-                MEMORY       => '0',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '128.93.22.240',
-                    ],
-                },
-                UPTIME       => '(132190381) 15 days, 7:11:43.81',
             },
             CARTRIDGES => {
                 CARTRIDGEBLACK   => '100',
@@ -3739,108 +2151,47 @@ my %tests = (
     ],
     'xerox/WorkCentre_5632.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-            SNMPHOSTNAME => 'SO007XN',
-            MAC          => '00:00:aa:cf:9e:5a',
-            MODEL        => 'WorkCentre 5632 v1',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-            SNMPHOSTNAME => 'SO007XN',
-            MAC          => '00:00:aa:cf:9e:5a',
-            MODELSNMP    => 'Printer0705',
             MODEL        => 'WorkCentre 5632 v1',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
+
+            SNMPHOSTNAME => 'SO007XN',
+            LOCATION     => 'machine location not set',
+            CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
             SERIAL       => '3641509891',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'WorkCentre 5632 v1',
-                COMMENTS     => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-                CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
-                NAME         => 'SO007XN',
-                MEMORY       => '0',
-                LOCATION     => 'machine location not set',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '129.181.20.136',
-                    ],
-                },
-                UPTIME       => '(36879516) 4 days, 6:26:35.16',
-            },
-            CARTRIDGES => {
-                WASTETONER       => '100',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '127638',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
-                        IFDESCR          => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '129.181.20.136',
-                        MAC              => '00:00:aa:cf:9e:5a',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '174621423',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '15497831',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox internal TCP Software Loopback Interface, v2.0',
-                        IFDESCR          => 'Xerox internal TCP Software Loopback Interface, v2.0',
-                        IFTYPE           => '24',
-                        IFMTU            => '16436',
-                        IP               => '127.0.0.1',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '21653217',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '21653217',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            UPTIME       => '(36879516) 4 days, 6:26:35.16',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:cf:9e:5a',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '129.181.20.136',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'WorkCentre 5632 v1',
                 COMMENTS     => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-                CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
                 NAME         => 'SO007XN',
-                MEMORY       => '0',
                 LOCATION     => 'machine location not set',
+                CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
                 SERIAL       => '3641509891',
+                UPTIME       => '(36879516) 4 days, 6:26:35.16',
+                MEMORY       => '0',
+                MAC          => '00:00:aa:cf:9e:5a',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '129.181.20.136',
                     ],
                 },
-                UPTIME       => '(36879516) 4 days, 6:26:35.16',
             },
             CARTRIDGES => {
-                TONERBLACK       => '45',
                 WASTETONER       => '100',
             },
             PAGECOUNTERS => {
@@ -3886,108 +2237,47 @@ my %tests = (
     ],
     'xerox/WorkCentre_5632.02.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-            SNMPHOSTNAME => 'SO011XN',
-            MAC          => '00:00:aa:cf:84:10',
-            MODEL        => 'WorkCentre 5632 v1',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-            SNMPHOSTNAME => 'SO011XN',
-            MAC          => '00:00:aa:cf:84:10',
-            MODELSNMP    => 'Printer0705',
             MODEL        => 'WorkCentre 5632 v1',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
+
+            SNMPHOSTNAME => 'SO011XN',
+            LOCATION     => 'machine location not set',
+            CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
             SERIAL       => '3641504792',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'WorkCentre 5632 v1',
-                COMMENTS     => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-                CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
-                NAME         => 'SO011XN',
-                MEMORY       => '0',
-                LOCATION     => 'machine location not set',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '129.181.20.135',
-                    ],
-                },
-                UPTIME       => '(717880872) 83 days, 2:06:48.72',
-            },
-            CARTRIDGES => {
-                WASTETONER       => '100',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '72513',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
-                        IFDESCR          => 'Xerox Embedded Ethernet Controller, 10/100/1000 Mbps, v1.0, RJ45, 100 Mbps full duplex',
-                        IFTYPE           => '6',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1500',
-                        IP               => '129.181.20.135',
-                        MAC              => '00:00:aa:cf:84:10',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '3111470450',
-                        IFINERRORS       => '5',
-                        IFOUTOCTETS      => '279825127',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox internal TCP Software Loopback Interface, v2.0',
-                        IFDESCR          => 'Xerox internal TCP Software Loopback Interface, v2.0',
-                        IFTYPE           => '24',
-                        IFMTU            => '16436',
-                        IP               => '127.0.0.1',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '200465217',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '200465217',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            UPTIME       => '(717880872) 83 days, 2:06:48.72',
+            MEMORY       => '0',
+            MAC          => '00:00:aa:cf:84:10',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '129.181.20.135',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'WorkCentre 5632 v1',
                 COMMENTS     => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-                CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
                 NAME         => 'SO011XN',
-                MEMORY       => '0',
                 LOCATION     => 'machine location not set',
+                CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
                 SERIAL       => '3641504792',
+                UPTIME       => '(717880872) 83 days, 2:06:48.72',
+                MEMORY       => '0',
+                MAC          => '00:00:aa:cf:84:10',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '129.181.20.135',
                     ],
                 },
-                UPTIME       => '(717880872) 83 days, 2:06:48.72',
             },
             CARTRIDGES => {
-                TONERBLACK       => '90',
                 WASTETONER       => '100',
             },
             PAGECOUNTERS => {
@@ -4033,125 +2323,41 @@ my %tests = (
     ],
     'xerox/WorkCentre_7125.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
-            SNMPHOSTNAME => 'XEROX WorkCentre 7125',
-            MAC          => '08:00:37:b9:16:5d',
-            MODEL        => 'WorkCentre 7125',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
-            SNMPHOSTNAME => 'XEROX WorkCentre 7125',
-            MAC          => '08:00:37:b9:16:5d',
-            MODELSNMP    => 'Printer0690',
             MODEL        => 'WorkCentre 7125',
-            FIRMWARE     => undef,
+            DESCRIPTION  => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
+
+            SNMPHOSTNAME => 'XEROX WorkCentre 7125',
             SERIAL       => '3325295030',
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'WorkCentre 7125',
-                COMMENTS     => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
-                NAME         => 'XEROX WorkCentre 7125',
-                MEMORY       => '2',
-                IPS          => {
-                    IP => [
-                        '127.0.0.1',
-                        '172.16.3.54',
-                    ],
-                },
-                UPTIME       => '(9495100) 1 day, 2:22:31.00',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '31',
-                TONERCYAN        => '48',
-                TONERMAGENTA     => '58',
-                TONERYELLOW      => '45',
-                WASTETONER       => '100',
-                DRUMBLACK        => '79',
-                DRUMCYAN        => '83',
-                DRUMMAGENTA     => '83',
-                DRUMYELLOW      => '83',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '13755',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
-                        IFDESCR          => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
-                        IFTYPE           => '7',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1518',
-                        IP               => '172.16.3.54',
-                        MAC              => '08:00:37:b9:16:5d',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox USB-1 - Network Interface',
-                        IFDESCR          => 'Xerox USB-1 - Network Interface',
-                        IFTYPE           => '160',
-                        IFSPEED          => '480000000',
-                        IFMTU            => '0',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '3',
-                        IFNAME           => 'Xerox Internal TCP Software Loopback Interface',
-                        IFDESCR          => 'Xerox Internal TCP Software Loopback Interface',
-                        IFTYPE           => '24',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '4096',
-                        IP               => '127.0.0.1',
-                        IFSTATUS         => '1',
-                        IFINTERNALSTATUS => '1',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
+            UPTIME       => '(9495100) 1 day, 2:22:31.00',
+            MEMORY       => '2',
+            MAC          => '08:00:37:b9:16:5d',
+            IPS          => {
+                IP => [
+                    '127.0.0.1',
+                    '172.16.3.54',
+                ],
             },
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'WorkCentre 7125',
                 COMMENTS     => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
                 NAME         => 'XEROX WorkCentre 7125',
-                MEMORY       => '2',
                 SERIAL       => '3325295030',
+                UPTIME       => '(9495100) 1 day, 2:22:31.00',
+                MEMORY       => '2',
+                MAC          => '08:00:37:b9:16:5d',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '172.16.3.54',
                     ],
                 },
-                UPTIME       => '(9495100) 1 day, 2:22:31.00',
             },
             CARTRIDGES => {
                 TONERBLACK       => '31',
@@ -4165,14 +2371,7 @@ my %tests = (
                 DRUMYELLOW      => '83',
             },
             PAGECOUNTERS => {
-                BLACK      => '4086',
-                PRINTBLACK => '3251',
-                COLOR      => '6964',
-                PRINTCOLOR => '6964',
-                COPYBLACK  => '1311',
-                COPYCOLOR  => '1394',
                 TOTAL      => '13755',
-                PRINTTOTAL => '13755',
             },
             PORTS => {
                 PORT => [
@@ -4230,97 +2429,25 @@ my %tests = (
     ],
     'xerox/WorkCentre_7435.01.walk' => [
         {
-            MANUFACTURER => 'Xerox',
             TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
-            SNMPHOSTNAME => 'WorkCentre 7435',
-            MAC          => '08:00:37:9b:8f:ca',
-            MODEL        => 'WorkCentre 7435',
-        },
-        {
             MANUFACTURER => 'Xerox',
-            TYPE         => 'PRINTER',
-            DESCRIPTION  => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
-            SNMPHOSTNAME => 'WorkCentre 7435',
-            MAC          => '08:00:37:9b:8f:ca',
             MODEL        => 'WorkCentre 7435',
+            DESCRIPTION  => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
+
+            SNMPHOSTNAME => 'WorkCentre 7435',
+            SERIAL       => '3900723635',
+            MAC          => '08:00:37:9b:8f:ca',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Xerox',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Xerox',
                 MODEL        => 'WorkCentre 7435',
                 COMMENTS     => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
                 NAME         => 'WorkCentre 7435',
-            },
-            CARTRIDGES => {
-                TONERBLACK       => '33',
-                TONERCYAN        => '62',
-                TONERMAGENTA     => '76',
-                TONERYELLOW      => '74',
-                WASTETONER       => '100',
-                DRUMBLACK        => '90',
-                DRUMCYAN        => '90',
-                DRUMMAGENTA     => '91',
-                DRUMYELLOW      => '91',
-            },
-            PAGECOUNTERS => {
-                TOTAL      => '125346',
-            },
-            PORTS => {
-                PORT => [
-                    {
-                        IFNUMBER         => '1',
-                        IFNAME           => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
-                        IFDESCR          => 'Xerox Embedded Ethernet Controller, 10/100 Mbps, v1.0, RJ45, auto',
-                        IFTYPE           => '7',
-                        IFSPEED          => '100000000',
-                        IFMTU            => '1518',
-                        MAC              => '08:00:37:9b:8f:ca',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '2',
-                        IFNAME           => 'Xerox USB-1 - Network Interface',
-                        IFDESCR          => 'Xerox USB-1 - Network Interface',
-                        IFTYPE           => '160',
-                        IFSPEED          => '12000000',
-                        IFMTU            => '0',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                    {
-                        IFNUMBER         => '3',
-                        IFNAME           => 'Xerox Internal TCP Software Loopback Interface',
-                        IFDESCR          => 'Xerox Internal TCP Software Loopback Interface',
-                        IFTYPE           => '24',
-                        IFSPEED          => '10000000',
-                        IFMTU            => '4096',
-                        IFLASTCHANGE     => '(0) 0:00:00.00',
-                        IFINOCTETS       => '0',
-                        IFINERRORS       => '0',
-                        IFOUTOCTETS      => '0',
-                        IFOUTERRORS      => '0',
-                    },
-                ]
-            },
-        },
-        {
-            INFO => {
-                ID           => undef,
-                MANUFACTURER => 'Xerox',
-                TYPE         => 'PRINTER',
-                MODEL        => 'WorkCentre 7435',
-                COMMENTS     => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
-                NAME         => 'WorkCentre 7435',
+                SERIAL       => '3900723635',
+                MAC          => '08:00:37:9b:8f:ca',
             },
             CARTRIDGES => {
                 TONERBLACK       => '33',
@@ -4386,77 +2513,31 @@ my %tests = (
 
 plan skip_all => 'SNMP walks database required'
     if !$ENV{SNMPWALK_DATABASE};
-plan tests => 4 * scalar keys %tests;
-
-my ($dictionary, $index);
-if ($ENV{SNMPMODELS_DICTIONARY}) {
-    $dictionary = FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
-        file => $ENV{SNMPMODELS_DICTIONARY}
-    );
-}
-if ($ENV{SNMPMODELS_INDEX}) {
-    $index = XML::TreePP->new()->parsefile($ENV{SNMPMODELS_INDEX});
-}
+plan tests => 2 * scalar keys %tests;
 
 foreach my $test (sort keys %tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(
         file => "$ENV{SNMPWALK_DATABASE}/$test"
     );
 
-    # first test: discovery without dictionary
-    my %device1 = getDeviceInfo(
+    my %discovery = getDeviceInfo(
         snmp    => $snmp,
         datadir => './share'
     );
     cmp_deeply(
-        \%device1,
+        \%discovery,
         $tests{$test}->[0],
-        "$test: discovery, without dictionary"
+        "$test: discovery"
     );
 
-    # second test: discovery, with dictipnary
-    SKIP: {
-        skip "SNMP dictionary required, skipping", 1 unless $dictionary;
-
-        my %device2 = getDeviceInfo(
-            snmp       => $snmp,
-            datadir    => './share',
-            dictionary => $dictionary,
-        );
-        cmp_deeply(
-            \%device2,
-            $tests{$test}->[1],
-            "$test: discovery, with dictionary"
-        );
-    };
-
-    # third test: inventory without model
-    my $device3 = getDeviceFullInfo(
+    my $inventory = getDeviceFullInfo(
         snmp    => $snmp,
         datadir => './share'
     );
     cmp_deeply(
-        $device3,
-        $tests{$test}->[2],
-        "$test: inventory, without model"
+        $inventory,
+        $tests{$test}->[1],
+        "$test: inventory"
     );
 
-    # fourth test: inventory, with model
-    SKIP: {
-        my $model_id = $tests{$test}->[1]->{MODELSNMP};
-        skip "SNMP models index required, skipping", 1 unless $index;
-        skip "No model associated, skipping", 1 unless $model_id;
-        my $model = loadModel($index->{$model_id});
-
-        my $device4 = getDeviceFullInfo(
-            snmp    => $snmp,
-            datadir => './share',
-            model   => $model
-        );
-        cmp_deeply(
-            $device4,
-            $tests{$test}->[3],
-            "$test: inventory, with model"
-        );
-    };
 }

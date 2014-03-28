@@ -15,7 +15,6 @@ use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::Recipient::Stdout;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Task::NetDiscovery::Dictionary;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
@@ -58,53 +57,11 @@ sub getConfiguration {
         push @credentials, $credential;
     }
 
-    # dictionary
-    my $dictionary = $self->_getDictionary(
-        $options,
-        $params{controller}->getStorage()
-    );
-
-    if (!$dictionary) {
-        $self->{logger}->debug(
-            "No dictionary available, sending update message and exiting"
-        );
-        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-        );
-
-        my $message = FusionInventory::Agent::Message::Outbound->new(
-            deviceid => $self->{config}->{deviceid},
-            query    => 'NETDISCOVERY',
-            content  => {
-                AGENT => {
-                    END => '1'
-                },
-                MODULEVERSION => $FusionInventory::Agent::VERSION,
-                PROCESSNUMBER => $options->{PARAM}->[0]->{PID},
-                DICO          => "REQUEST",
-            }
-        );
-
-        $client->send(
-            url     => $params{controller}->getUrl(),
-            message => $message
-        );
-
-        return;
-    }
-
     return (
         pid         => $options->{PARAM}->[0]->{PID},
         threads     => $options->{PARAM}->[0]->{THREADS_DISCOVERY},
         timeout     => $options->{PARAM}->[0]->{TIMEOUT},
         credentials => \@credentials,
-        dictionary  => $dictionary,
         blocks      => \@blocks
     );
 }
@@ -130,7 +87,7 @@ sub run {
     my $pid         = $self->{config}->{pid};
 
     # check discovery methods available
-    my ($nmap_parameters, $snmp_credentials, $snmp_dictionary);
+    my ($nmap_parameters, $snmp_credentials);
 
     if (canRun('nmap')) {
        my ($major, $minor) = getFirstMatch(
@@ -161,7 +118,6 @@ sub run {
         );
     } else {
         $snmp_credentials = _filterCredentials($self->{config}->{credentials});
-        $snmp_dictionary = $self->{config}->{dictionary};
     }
 
     # blocks list
@@ -197,7 +153,6 @@ sub run {
         datadir          => $self->{config}->{datadir},
         nmap_parameters  => $nmap_parameters,
         snmp_credentials => $snmp_credentials,
-        snmp_dictionary  => $snmp_dictionary,
         threads          => $threads,
         timeout          => $self->{config}->{timeout}
     );
@@ -282,46 +237,6 @@ sub run {
     $recipient->send(
         message => $stop, control => 1, filename => 'discovery_stop.xml'
     );
-}
-
-sub _getDictionary {
-    my ($self, $options, $storage) = @_;
-
-    # use dictionary sent by the server, if available
-    if ($options->{DICO}) {
-        $self->{logger}->debug("New dictionary sent by the server");
-
-        my $dictionary =
-            FusionInventory::Agent::Task::NetDiscovery::Dictionary->new(
-                string => $options->{DICO},
-                hash   => $options->{DICOHASH}
-            );
-
-        $storage->save(
-            name => 'dictionary',
-            data => { dictionary => $dictionary }
-        );
-        return $dictionary;
-    }
-
-    # otherwise, retrieve last saved one
-    $self->{logger}->debug("Retrieving stored dictionary");
-    my $data = $storage->restore(name => 'dictionary');
-    my $dictionary = $data->{dictionary};
-
-    if (!$dictionary) {
-        $self->{logger}->debug("Dictionary is missing");
-        return;
-    }
-
-    # check its status
-    my $hash = $dictionary->getHash();
-    if ($hash ne $options->{DICOHASH}) {
-        $self->{logger}->debug("Dictionary is outdated");
-        return;
-    }
-
-    return $dictionary;
 }
 
 sub _filterCredentials {
