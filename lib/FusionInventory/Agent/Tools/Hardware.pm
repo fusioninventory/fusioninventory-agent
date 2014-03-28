@@ -1177,8 +1177,10 @@ sub _getConnectedDevicesInfoLLDP {
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
         my $id           = _getElement($suffix, -2);
-        my $interface_id = $params{vendor} eq 'Juniper' ?
-            $id : $port2interface->{$id};
+        my $interface_id =
+            ! exists $port2interface->{$id} ? $id                   :
+            $params{vendor} eq 'Juniper'    ? $id                   :
+                                              $port2interface->{$id};
         $results->{$interface_id} = {
             SYSMAC   => lc(alt2canonical($mac)),
             IFDESCR  => $lldpRemPortDesc->{$suffix},

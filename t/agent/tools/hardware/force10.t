@@ -821,6 +821,16 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3105352857',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CDP        => 1,
+                            CONNECTION => {
+                                IFNUMBER => '568',
+                                IFDESCR  => 'xe-0/0/2.0',
+                                SYSNAME  => 'sw-ex8208-tmk',
+                                SYSDESCR => 'Juniper Networks, Inc. ex8208 , version 12.3R3.4 Build date: 2013-06-14 01:38:46 UTC ',
+                                SYSMAC   => '',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '45679620',
@@ -1604,6 +1614,16 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1980027494',
                         IFOUTERRORS      => '0',
+                        CONNECTIONS      => {
+                            CDP        => 1,
+                            CONNECTION => {
+                                IFNUMBER => '576',
+                                IFDESCR  => 'xe-1/0/2.0',
+                                SYSNAME  => 'sw-ex8208-tmk',
+                                SYSDESCR => 'Juniper Networks, Inc. ex8208 , version 12.3R3.4 Build date: 2013-06-14 01:38:46 UTC ',
+                                SYSMAC   => '',
+                            }
+                        }
                     },
                     {
                         IFNUMBER         => '79234052',
