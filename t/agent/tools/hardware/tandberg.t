@@ -12,17 +12,18 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'tandberg/codec.walk' => [
         {
-            MANUFACTURER => 'Tandberg',
             TYPE         => 'VIDEO',
+            MANUFACTURER => 'Tandberg',
             DESCRIPTION  => 'TANDBERG Codec',
+
             SNMPHOSTNAME => 'VISIO.1',
             MAC          => '00:50:60:02:9b:79',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Tandberg',
                 TYPE         => 'VIDEO',
+                MANUFACTURER => 'Tandberg',
                 COMMENTS     => 'TANDBERG Codec',
                 NAME         => 'VISIO.1',
                 MAC          => '00:50:60:02:9b:79',

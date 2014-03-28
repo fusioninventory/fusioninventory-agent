@@ -12,17 +12,18 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'd-link/DP_303.1.walk' => [
         {
-            MANUFACTURER => 'D-Link',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'D-Link',
             DESCRIPTION  => 'D-Link DP-303 Print Server',
+
             SNMPHOSTNAME => 'Print Server PS-57B3C4',
             MAC          => '00:05:5d:57:b3:c4',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'D-Link',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'D-Link',
                 COMMENTS     => 'D-Link DP-303 Print Server',
                 NAME         => 'Print Server PS-57B3C4',
                 MAC          => '00:05:5d:57:b3:c4',
@@ -49,17 +50,18 @@ my %tests = (
     ],
     'd-link/DP_303.2.walk' => [
         {
-            MANUFACTURER => 'D-Link',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'D-Link',
             DESCRIPTION  => 'D-Link DP-303 Print Server',
+
             SNMPHOSTNAME => 'Print Server PS-57B3C7',
             MAC          => '00:05:5d:57:b3:c7',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'D-Link',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'D-Link',
                 COMMENTS     => 'D-Link DP-303 Print Server',
                 NAME         => 'Print Server PS-57B3C7',
                 MAC          => '00:05:5d:57:b3:c7',

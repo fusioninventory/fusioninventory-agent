@@ -12,40 +12,41 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'ricoh/Aficio_AP3800C.walk' => [
         {
-            MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Ricoh',
             MODEL        => 'RICOH Aficio AP3800C',
             DESCRIPTION  => 'RICOH Aficio AP3800C 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model',
+
             SNMPHOSTNAME => 'Aficio AP3800C',
-            MAC          => '00:00:74:71:17:ca',
             SERIAL       => 'P6011202081',
+            UPTIME       => '(166369300) 19 days, 6:08:13.00',
             MEMORY       => '192',
+            MAC          => '00:00:74:71:17:ca',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '172.20.3.63',
                 ],
             },
-            UPTIME       => '(166369300) 19 days, 6:08:13.00',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Ricoh',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Ricoh',
                 MODEL        => 'RICOH Aficio AP3800C',
                 COMMENTS     => 'RICOH Aficio AP3800C 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model',
                 NAME         => 'Aficio AP3800C',
-                MAC          => '00:00:74:71:17:ca',
                 SERIAL       => 'P6011202081',
+                UPTIME       => '(166369300) 19 days, 6:08:13.00',
                 MEMORY       => '192',
+                MAC          => '00:00:74:71:17:ca',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '172.20.3.63',
                     ],
                 },
-                UPTIME       => '(166369300) 19 days, 6:08:13.00',
             },
             CARTRIDGES => {
                 TONERBLACK       => '100',
@@ -97,15 +98,17 @@ my %tests = (
     ],
     'ricoh/Aficio_MP_C2050.walk' => [
         {
-            MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Ricoh',
             MODEL        => 'RICOH Aficio MP C2050',
             DESCRIPTION  => 'RICOH Aficio MP C2050 1.17 / RICOH Network Printer C model / RICOH Network Scanner C model',
+
             SNMPHOSTNAME => 'Aficio MP C2050',
-            MAC          => '00:00:74:f8:ba:6f',
-            SERIAL       => 'V2294502833',
-            MEMORY       => '768',
             LOCATION     => 'Schoelcher - 1er',
+            SERIAL       => 'V2294502833',
+            UPTIME       => '(234064600) 27 days, 2:10:46.00',
+            MEMORY       => '768',
+            MAC          => '00:00:74:f8:ba:6f',
             IPS          => {
                 IP => [
                     '0.0.0.0',
@@ -113,20 +116,20 @@ my %tests = (
                     '127.0.0.1',
                 ],
             },
-            UPTIME       => '(234064600) 27 days, 2:10:46.00',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Ricoh',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Ricoh',
                 MODEL        => 'RICOH Aficio MP C2050',
                 COMMENTS     => 'RICOH Aficio MP C2050 1.17 / RICOH Network Printer C model / RICOH Network Scanner C model',
                 NAME         => 'Aficio MP C2050',
-                MAC          => '00:00:74:f8:ba:6f',
-                SERIAL       => 'V2294502833',
-                MEMORY       => '768',
                 LOCATION     => 'Schoelcher - 1er',
+                SERIAL       => 'V2294502833',
+                UPTIME       => '(234064600) 27 days, 2:10:46.00',
+                MEMORY       => '768',
+                MAC          => '00:00:74:f8:ba:6f',
                 IPS          => {
                     IP => [
                         '0.0.0.0',
@@ -134,7 +137,6 @@ my %tests = (
                         '127.0.0.1',
                     ],
                 },
-                UPTIME       => '(234064600) 27 days, 2:10:46.00',
             },
             CARTRIDGES => {
                 TONERBLACK       => '100',
@@ -202,26 +204,27 @@ my %tests = (
     ],
     'ricoh/Aficio_SP_C420DN.1.walk' => [
         {
-            MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Ricoh',
             MODEL        => 'RICOH Aficio SP C420DN',
             DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
+
             SNMPHOSTNAME => 'Aficio SP C420DN',
-            MAC          => '00:00:74:f3:01:95',
-            SERIAL       => 'S3899202523',
             LOCATION     => 'Ugo',
+            SERIAL       => 'S3899202523',
+            MAC          => '00:00:74:f3:01:95',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Ricoh',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Ricoh',
                 MODEL        => 'RICOH Aficio SP C420DN',
                 COMMENTS     => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
                 NAME         => 'Aficio SP C420DN',
-                MAC          => '00:00:74:f3:01:95',
-                SERIAL       => 'S3899202523',
                 LOCATION     => 'Ugo',
+                SERIAL       => 'S3899202523',
+                MAC          => '00:00:74:f3:01:95',
             },
             CARTRIDGES => {
                 TONERBLACK       => '100',
@@ -280,26 +283,27 @@ my %tests = (
     ],
     'ricoh/Aficio_SP_C420DN.2.walk' => [
         {
-            MANUFACTURER => 'Ricoh',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Ricoh',
             MODEL        => 'RICOH Aficio SP C420DN',
             DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
+
             SNMPHOSTNAME => 'Aficio SP C420DN',
-            MAC          => '00:00:74:f3:01:95',
-            SERIAL       => 'S3899202523',
             LOCATION     => 'Ugo',
+            SERIAL       => 'S3899202523',
+            MAC          => '00:00:74:f3:01:95',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Ricoh',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Ricoh',
                 MODEL        => 'RICOH Aficio SP C420DN',
                 COMMENTS     => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
                 NAME         => 'Aficio SP C420DN',
-                MAC          => '00:00:74:f3:01:95',
-                SERIAL       => 'S3899202523',
                 LOCATION     => 'Ugo',
+                SERIAL       => 'S3899202523',
+                MAC          => '00:00:74:f3:01:95',
             },
             CARTRIDGES => {
                 TONERBLACK       => '100',
