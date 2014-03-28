@@ -170,7 +170,7 @@ foreach my $test (sort keys %tests) {
     cmp_deeply(
         \%discovery,
         $tests{$test}->[0],
-        "$test: discovery, without dictionary"
+        "$test: discovery"
     );
 
     my $inventory = getDeviceFullInfo(
