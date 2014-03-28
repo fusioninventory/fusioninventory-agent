@@ -12,38 +12,39 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'lexmark/T622.walk' => [
         {
-            MANUFACTURER => 'Lexmark',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Lexmark',
             MODEL        => 'Lexmark T622 41XT225  543.006',
             DESCRIPTION  => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
+
             SNMPHOSTNAME => 'LXK3936A4',
-            MAC          => '00:04:00:9c:6c:25',
+            UPTIME       => '(256604241) 29 days, 16:47:22.41',
             MEMORY       => '32',
+            MAC          => '00:04:00:9c:6c:25',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '172.31.201.21',
                 ],
             },
-            UPTIME       => '(256604241) 29 days, 16:47:22.41',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Lexmark',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Lexmark',
                 MODEL        => 'Lexmark T622 41XT225  543.006',
                 COMMENTS     => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
                 NAME         => 'LXK3936A4',
-                MAC          => '00:04:00:9c:6c:25',
+                UPTIME       => '(256604241) 29 days, 16:47:22.41',
                 MEMORY       => '32',
+                MAC          => '00:04:00:9c:6c:25',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '172.31.201.21',
                     ],
                 },
-                UPTIME       => '(256604241) 29 days, 16:47:22.41',
             },
             PAGECOUNTERS => {
                 TOTAL      => '68116',
@@ -89,24 +90,25 @@ my %tests = (
     ],
     'lexmark/X792.walk' => [
         {
-            MANUFACTURER => 'Lexmark',
             TYPE         => 'PRINTER',
+            MANUFACTURER => 'Lexmark',
             MODEL        => 'X792',
             DESCRIPTION  => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
+
             SNMPHOSTNAME => 'ET0021B7427721',
-            MAC          => '00:21:b7:42:77:21',
             SERIAL       => '7562029401523-96-0',
+            MAC          => '00:21:b7:42:77:21',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Lexmark',
                 TYPE         => 'PRINTER',
+                MANUFACTURER => 'Lexmark',
                 MODEL        => 'X792',
                 COMMENTS     => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
                 NAME         => 'ET0021B7427721',
-                MAC          => '00:21:b7:42:77:21',
                 SERIAL       => '7562029401523-96-0',
+                MAC          => '00:21:b7:42:77:21',
             },
             CARTRIDGES => {
                 TONERBLACK       => '90',

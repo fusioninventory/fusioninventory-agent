@@ -12,24 +12,25 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'emc/Celerra.1.walk' => [
         {
-            MANUFACTURER => 'EMC',
             TYPE         => 'STORAGE',
+            MANUFACTURER => 'EMC',
             DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
-            CONTACT      => 'nasadmin',
+
             SNMPHOSTNAME => 'server_2',
-            MAC          => '00:60:16:26:8a:02',
             LOCATION     => 'here',
+            CONTACT      => 'nasadmin',
+            MAC          => '00:60:16:26:8a:02',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'EMC',
                 TYPE         => 'STORAGE',
+                MANUFACTURER => 'EMC',
                 COMMENTS     => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
-                CONTACT      => 'nasadmin',
                 NAME         => 'server_2',
-                MAC          => '00:60:16:26:8a:02',
                 LOCATION     => 'here',
+                CONTACT      => 'nasadmin',
+                MAC          => '00:60:16:26:8a:02',
             },
             PORTS => {
                 PORT => [
@@ -123,24 +124,25 @@ my %tests = (
     ],
     'emc/Celerra.2.walk' => [
         {
-            MANUFACTURER => 'EMC',
             TYPE         => 'STORAGE',
+            MANUFACTURER => 'EMC',
             DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
-            CONTACT      => 'nasadmin',
+
             SNMPHOSTNAME => 'server_2',
-            MAC          => '00:60:16:26:8a:02',
             LOCATION     => 'here',
+            CONTACT      => 'nasadmin',
+            MAC          => '00:60:16:26:8a:02',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'EMC',
                 TYPE         => 'STORAGE',
+                MANUFACTURER => 'EMC',
                 COMMENTS     => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
-                CONTACT      => 'nasadmin',
                 NAME         => 'server_2',
-                MAC          => '00:60:16:26:8a:02',
                 LOCATION     => 'here',
+                CONTACT      => 'nasadmin',
+                MAC          => '00:60:16:26:8a:02',
             },
             PORTS => {
                 PORT => [
@@ -234,22 +236,23 @@ my %tests = (
     ],
     'emc/CX3-10c.walk' => [
         {
-            MANUFACTURER => 'EMC',
             TYPE         => 'STORAGE',
+            MANUFACTURER => 'EMC',
             DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
+
             SNMPHOSTNAME => 'BNK5RD1',
-            MAC          => '00:60:16:1b:cd:7a',
             UPTIME       => '(2246605893) 260 days, 0:34:18.93',
+            MAC          => '00:60:16:1b:cd:7a',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'EMC',
                 TYPE         => 'STORAGE',
+                MANUFACTURER => 'EMC',
                 COMMENTS     => 'CX3-10c - Flare 3.26.0.10.5.032',
                 NAME         => 'BNK5RD1',
-                MAC          => '00:60:16:1b:cd:7a',
                 UPTIME       => '(2246605893) 260 days, 0:34:18.93',
+                MAC          => '00:60:16:1b:cd:7a',
             },
             PORTS => {
                 PORT => [

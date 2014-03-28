@@ -12,44 +12,45 @@ use FusionInventory::Agent::Tools::Hardware;
 my %tests = (
     'alcatel/unknown.1.walk' => [
         {
-            MANUFACTURER => 'Alcatel-Lucent',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Alcatel-Lucent',
             MODEL        => 'OS6400-P24',
             DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
-            CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
+
             SNMPHOSTNAME => 'CB-C005-127-os6400',
             LOCATION     => 'Unknown',
+            CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
             SERIAL       => 'M4682816',
             FIRMWARE     => '6.4.4.342.R01',
+            UPTIME       => '(1442631100) 166 days, 23:18:31.00',
+            MAC          => 'e8:e7:32:2b:c1:e2',
             IPS          => {
                 IP => [
                     '127.0.0.1',
                     '192.168.1.127',
                 ],
             },
-            MAC          => 'e8:e7:32:2b:c1:e2',
-            UPTIME       => '(1442631100) 166 days, 23:18:31.00',
         },
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Alcatel-Lucent',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Alcatel-Lucent',
                 MODEL        => 'OS6400-P24',
                 COMMENTS     => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
-                CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
                 NAME         => 'CB-C005-127-os6400',
                 LOCATION     => 'Unknown',
+                CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
                 SERIAL       => 'M4682816',
                 FIRMWARE     => '6.4.4.342.R01',
+                UPTIME       => '(1442631100) 166 days, 23:18:31.00',
+                MAC          => 'e8:e7:32:2b:c1:e2',
                 IPS          => {
                     IP => [
                         '127.0.0.1',
                         '192.168.1.127',
                     ],
                 },
-                MAC          => 'e8:e7:32:2b:c1:e2',
-                UPTIME       => '(1442631100) 166 days, 23:18:31.00',
             },
             PORTS => {
                 PORT => [
@@ -582,13 +583,14 @@ my %tests = (
     ],
     'alcatel/unknown.2.walk' => [
         {
-            MANUFACTURER => 'Alcatel-Lucent',
             TYPE         => 'NETWORKING',
+            MANUFACTURER => 'Alcatel-Lucent',
             MODEL        => 'OS6400-P24',
             DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
-            CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
+
             SNMPHOSTNAME => 'CP-153-127',
             LOCATION     => 'Unknown',
+            CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
             SERIAL       => 'M4682816',
             FIRMWARE     => '6.4.4.342.R01',
             MAC          => 'e8:e7:32:2b:c1:e2',
@@ -596,13 +598,13 @@ my %tests = (
         {
             INFO => {
                 ID           => undef,
-                MANUFACTURER => 'Alcatel-Lucent',
                 TYPE         => 'NETWORKING',
+                MANUFACTURER => 'Alcatel-Lucent',
                 MODEL        => 'OS6400-P24',
                 COMMENTS     => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
-                CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
                 NAME         => 'CP-153-127',
                 LOCATION     => 'Unknown',
+                CONTACT      => 'Alcatel-Lucent, http://alcatel-lucent.com/wps/portal/enterprise',
                 SERIAL       => 'M4682816',
                 FIRMWARE     => '6.4.4.342.R01',
                 MAC          => 'e8:e7:32:2b:c1:e2',
