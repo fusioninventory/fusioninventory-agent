@@ -44,7 +44,7 @@ sub doInventory {
 
     my $bversion;
     my $system = first { $_->{DS} eq 'System Firmware' } @infos;
-    $bversion = $system->{RM} if $system;
+    $bversion = $system->{MI} if $system;
 
     my $platform = first { $_->{DS} eq 'Platform Firmware' } @infos;
     $bversion .= "(Firmware : $platform->{RM})" if $platform;
