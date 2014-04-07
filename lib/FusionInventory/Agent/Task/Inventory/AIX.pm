@@ -42,12 +42,23 @@ sub doInventory {
 
     my @infos = getLsvpdInfos(logger => $logger);
 
+    # Construct the BVERSION tag with the System Microcode Image (MI) version
     my $bversion;
-    my $system = first { $_->{DS} eq 'System Firmware' } @infos;
-    $bversion = $system->{MI} if $system;
 
-    my $platform = first { $_->{DS} eq 'Platform Firmware' } @infos;
-    $bversion .= "(Firmware : $platform->{RM})" if $platform;
+    # Get the MI field from the VPD (Vital Product Data) 'System Firmware'
+    # section.
+    # MI contains three entries, space separated:
+    #   1 - The microcode image the system currently runs
+    #   2 - The 'permanent' microcode image
+    #   3 - The 'temporary' microcode image
+    #
+    # In most cases, the current one is the temporary one.
+    # See http://www.systemscanaix.com/sample_reports/aix61/hardware_configuration.html
+    my $system = first { $_->{DS} eq 'System Firmware' } @infos;
+    my @system_firmware = split(' ', $system->{MI});
+
+    # We only return the currently booted firmware
+    $bversion = $system_firmware[0] if $system;
 
     my $vpd = first { $_->{DS} eq 'System VPD' } @infos;
 
