@@ -278,7 +278,9 @@ sub _getProcessesBusybox {
 sub _getProcessesOther {
     my (%params) = (
         command =>
-            'ps -A -o user,pid,pcpu,pmem,vsz,tty,stime,time,' .
+            'ps -A -o user,pid,pcpu,pmem,vsz,tty,' .
+            ($OSNAME eq 'aix' ? 'started' : 'stime') .
+            ',time,' .
             ($OSNAME eq 'solaris' ? 'comm' : 'command'),
         @_
     );
@@ -295,15 +297,15 @@ sub _getProcessesOther {
     my @processes;
 
     while ($line = <$handle>) {
-        next unless $line =~
-            /^
+       next unless $line =~
+            /^ \s*
             (\S+) \s+
             (\S+) \s+
             (\S+) \s+
             (\S+) \s+
             (\S+) \s+
             (\S+) \s+
-            (\S+) \s+
+            (\S+\s?\S+) \s+
              \S+ \s+
             (.*\S)
             /x;
@@ -373,18 +375,23 @@ sub _getProcessStartTime {
         return sprintf("%04d-%02d-%02d", $year, $month, $start_day);
     }
 
-    if ($start =~ /^($monthPattern)(\d{2})/) {
-        # Apr03
-        my $start_month = $month{$1};
-        my $start_day = $2;
-        return sprintf("%04d-%02d-%02d", $year, $start_month, $start_day);
-    }
-
     if ($start =~ /^(\d{1,2})($monthPattern)\d{1,2}/) {
         # 5Oct10
         my $start_day = $1;
         my $start_month = $month{$2};
         return sprintf("%04d-%02d-%02d", $year, $start_month, $start_day);
+    }
+
+    if ($start =~ /^($monthPattern)\s?(\d{2})/) {
+        # Apr03 / Apr 03
+        my $start_month = $month{$1};
+        my $start_day = $2;
+        return sprintf("%04d-%02d-%02d", $year, $start_month, $start_day);
+    }
+
+    if ($start =~ /^(\d{4})/) {
+        # 2014
+        return $start;
     }
 
     if (-f "/proc/$pid") {
