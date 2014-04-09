@@ -27,7 +27,6 @@ GetOptions(
     $options,
     'first=s',
     'last=s',
-    'dictionnary=s',
     'community=s',
     'entity=s',
     'threads=i',
@@ -53,9 +52,7 @@ pod2usage(
 
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
     %setup,
-    target => FusionInventory::Agent::Task::NetInventory::Target->new(
-        dictionnary => $options->{dictionnary}
-    ),
+    target => FusionInventory::Agent::Task::NetInventory::Target->new(),
     logger =>  FusionInventory::Agent::Logger->new(
         debug => $options->{debug}
     )
@@ -90,11 +87,6 @@ $discovery->{options} = {
         },
     ]
 };
-if ($options->{dictionnary}) {
-    die "no such file $options->{dictionnary}"
-        unless -f $options->{dictionnary};
-    $discovery->{options}->{DICO} = getDictionnary($options->{dictionnary});
-}
 if (defined($options->{entity})) {
     $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
 }
@@ -105,17 +97,6 @@ $discovery->{client} =
 $discovery->{deviceid} = 'foo';
 
 $discovery->run();
-
-sub getDictionnary {
-    my ($file) = @_;
-
-    open (my $handle, '<', $file) or die "Can't open $file: $ERRNO";
-    local $INPUT_RECORD_SEPARATOR;
-    my $string = <$handle>;
-    close $handle;
-
-    return $string;
-}
 
 package FusionInventory::Agent::Task::NetInventory::Client;
 
@@ -142,17 +123,7 @@ package FusionInventory::Agent::Task::NetInventory::Target;
 sub new {
     my ($class, %params) = @_;
 
-     my $storage = FusionInventory::Agent::Task::NetInventory::Storage->new();
-
-    return bless {
-        storage => $storage
-    }, $class;
-}
-
-sub getStorage {
-    my ($self, %params) = @_;
-
-    return $self->{storage};
+    return bless {}, $class;
 }
 
 sub getUrl {
@@ -160,24 +131,6 @@ sub getUrl {
 
     ## no critic (ExplicitReturnUndef)
     return undef;
-}
-
-package FusionInventory::Agent::Task::NetInventory::Storage;
-
-sub new {
-    my ($class) = @_;
-
-    return bless {}, $class;
-}
-
-sub save {
-}
-
-sub restore {
-    return {
-        dictionary =>
-            FusionInventory::Agent::Task::NetDiscovery::Dictionary->new()
-    };
 }
 
 __END__
@@ -193,7 +146,6 @@ fusioninventory-netdiscovery [options] --first <start> --last <stop>
   Options:
     --first address IP range first address
     --last address  IP range last address
-    --dictionnary   dictionnary file
     --community     community string (default: public)
     --entity        GLPI entity
     --threads nb    number of discovery threads (default: 1)
