@@ -42,12 +42,20 @@ sub doInventory {
 
     my @infos = getLsvpdInfos(logger => $logger);
 
-    my $bversion;
-    my $system = first { $_->{DS} eq 'System Firmware' } @infos;
-    $bversion = $system->{MI} if $system;
+    # Get the BIOS version from the System Microcode Image (MI) version, in
+    # 'System Firmware' section of VPD, containing three space separated values:
+    # - the microcode image the system currently runs
+    # - the 'permanent' microcode image
+    # - the 'temporary' microcode image
+    # See http://www.systemscanaix.com/sample_reports/aix61/hardware_configuration.html
+    my $bios_version;
 
-    my $platform = first { $_->{DS} eq 'Platform Firmware' } @infos;
-    $bversion .= "(Firmware : $platform->{RM})" if $platform;
+    my $system = first { $_->{DS} eq 'System Firmware' } @infos;
+    if ($system) {
+        # we only return the currently booted firmware
+        my @firmwares = split(' ', $system->{MI});
+        $bios_version = $firmwares[0];
+    }
 
     my $vpd = first { $_->{DS} eq 'System VPD' } @infos;
 
@@ -87,7 +95,7 @@ sub doInventory {
         SMANUFACTURER => 'IBM',
         SMODEL        => $vpd->{TM},
         SSN           => $ssn,
-        BVERSION      => $bversion,
+        BVERSION      => $bios_version,
     });
 
 }
