@@ -278,10 +278,9 @@ sub _getProcessesBusybox {
 sub _getProcessesOther {
     my (%params) = (
         command =>
-            'ps -A -o user,pid,pcpu,pmem,vsz,tty,' .
-            ($OSNAME eq 'aix' ? 'started' : 'stime') .
-            ',time,' .
-            ($OSNAME eq 'solaris' ? 'comm' : 'command'),
+            'ps -A -o user,pid,pcpu,pmem,vsz,tty'        . ',' .
+            ($OSNAME eq 'aix'     ? 'started' : 'stime') . ',' .
+            ($OSNAME eq 'solaris' ? 'comm'    : 'command'),
         @_
     );
 
@@ -305,9 +304,8 @@ sub _getProcessesOther {
             (\S+) \s+
             (\S+) \s+
             (\S+) \s+
-            (\S+\s?\S+) \s+
-             \S+ \s+
-            (.*\S)
+            (\S+|\w+\s\d+) \s+
+            (\S.*\S)
             /x;
         my $user  = $1;
         my $pid   = $2;
