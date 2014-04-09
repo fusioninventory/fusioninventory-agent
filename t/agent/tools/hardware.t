@@ -409,11 +409,11 @@ my $snmp1 = FusionInventory::Agent::SNMP::Mock->new(
     }
 );
 
-my %device1 = getDeviceBaseInfo($snmp1);
+my %device1 = getDeviceInfo(snmp => $snmp1);
 cmp_deeply(
     \%device1,
     { DESCRIPTION => 'foo' },
-    'getDeviceBaseInfo() with no sysobjectid'
+    'getDeviceInfo() with no sysobjectid'
 );
 
 my $snmp2 = FusionInventory::Agent::SNMP::Mock->new(
@@ -423,11 +423,11 @@ my $snmp2 = FusionInventory::Agent::SNMP::Mock->new(
     }
 );
 
-my %device2 = getDeviceBaseInfo($snmp2);
+my %device2 = getDeviceInfo(snmp => $snmp2);
 cmp_deeply(
     \%device2,
     { DESCRIPTION => 'foo', TYPE => 'NETWORKING', MANUFACTURER => 'Nortel' },
-    'getDeviceBaseInfo() with sysobjectid'
+    'getDeviceInfo() with sysobjectid'
 );
 
 my $cdp_model = {
