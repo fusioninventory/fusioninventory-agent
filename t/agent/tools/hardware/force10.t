@@ -25486,9 +25486,9 @@ foreach my $test (sort keys %tests) {
         datadir => './share'
     );
     cmp_deeply(
-        \%device1,
+        \%discovery,
         $tests{$test}->[0],
-        "$test: discovery, without dictionary"
+        "$test: discovery"
     );
 
     my $inventory = getDeviceFullInfo(
@@ -25498,6 +25498,6 @@ foreach my $test (sort keys %tests) {
     cmp_deeply(
         $inventory,
         $tests{$test}->[2],
-        "$test: inventory, without model"
+        "$test: inventory"
     );
 }
