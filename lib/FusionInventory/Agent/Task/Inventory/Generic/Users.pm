@@ -74,6 +74,7 @@ sub _getLocalUsers {
 
     while (my $line = <$handle>) {
         next if $line =~ /^#/;
+        next if $line =~ /^[+-]/; # old format for external inclusion, see #2460
         my ($login, undef, $uid, $gid, $gecos, $home, $shell) =
             split(/:/, $line);
 
