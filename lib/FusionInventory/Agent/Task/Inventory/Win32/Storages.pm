@@ -19,7 +19,7 @@ sub doInventory {
         class      => 'Win32_DiskDrive',
         properties => [ qw/
             Name Manufacturer Model MediaType InterfaceType FirmwareRevision
-            SerialNumber Size SCSILogicialUnit SCSIPort SCSILogicalUnit SCSITargetId
+            SerialNumber Size SCSIPort SCSILogicalUnit SCSITargetId
         / ]
     )) {
 
@@ -44,7 +44,6 @@ sub doInventory {
                 FIRMWARE     => $info->{firmware} || $object->{FirmwareRevision},
                 SERIAL       => $info->{serial} || $object->{SerialNumber},
                 DISKSIZE     => $info->{size} || $object->{Size},
-                SCSI_CHID    => $object->{SCSILogicialUnit},
                 SCSI_COID    => $object->{SCSIPort},
                 SCSI_LUN     => $object->{SCSILogicalUnit},
                 SCSI_UNID    => $object->{SCSITargetId},
@@ -56,7 +55,7 @@ sub doInventory {
         class      => 'Win32_CDROMDrive',
         properties => [ qw/
             Manufacturer Caption Description Name MediaType InterfaceType
-            FirmwareRevision SerialNumber Size SCSILogicialUnit SCSIPort
+            FirmwareRevision SerialNumber Size SCSIPort
             SCSILogicalUnit SCSITargetId
         / ]
     )) {
@@ -81,7 +80,6 @@ sub doInventory {
                 FIRMWARE     => $info->{firmware} || $object->{FirmwareRevision},
                 SERIAL       => $info->{serial} || $object->{SerialNumber},
                 DISKSIZE     => $info->{size} || $object->{Size},
-                SCSI_CHID    => $object->{SCSILogicialUnit},
                 SCSI_COID    => $object->{SCSIPort},
                 SCSI_LUN     => $object->{SCSILogicalUnit},
                 SCSI_UNID    => $object->{SCSITargetId},
@@ -93,7 +91,7 @@ sub doInventory {
         class      => 'Win32_TapeDrive',
         properties => [ qw/
             Manufacturer Caption Description Name MediaType InterfaceType
-            FirmwareRevision SerialNumber Size SCSILogicialUnit SCSIPort
+            FirmwareRevision SerialNumber Size SCSIPort
             SCSILogicalUnit SCSITargetId
         / ]
     )) {
@@ -113,7 +111,6 @@ sub doInventory {
                 FIRMWARE     => $object->{FirmwareRevision},
                 SERIAL       => $object->{SerialNumber},
                 DISKSIZE     => $object->{Size},
-                SCSI_CHID    => $object->{SCSILogicialUnit},
                 SCSI_COID    => $object->{SCSIPort},
                 SCSI_LUN     => $object->{SCSILogicalUnit},
                 SCSI_UNID    => $object->{SCSITargetId},
