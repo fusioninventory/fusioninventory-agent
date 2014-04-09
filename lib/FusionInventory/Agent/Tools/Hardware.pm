@@ -781,32 +781,11 @@ sub _setNetworkingProperties {
 
     my $ports    = $device->{PORTS}->{PORT};
 
-    my $vlans = $snmp->walk('.1.3.6.1.4.1.9.9.46.1.3.1.1.4.1');
-
-    # Detect VLAN
-    my $results = $snmp->walk('.1.3.6.1.4.1.9.9.68.1.2.2.1.2');
-    # each result matches either of the following schemes:
-    # $prefix.$i.$j = $value, with $j as port id, and $value as vlan id
-    # $prefix.$i    = $value, with $i as port id, and $value as vlan id
-    foreach my $suffix (sort keys %{$results}) {
-        my $port_id = _getElement($suffix, -1);
-        my $vlan_id = $results->{$suffix};
-        my $name    = $vlans->{$vlan_id};
-
-        # safety check
-        if (! exists $ports->{$port_id}) {
-            $logger->error(
-                "invalid interface ID $port_id while setting vlans, aborting"
-            ) if $logger;
-            last;
-        }
-        push
-            @{$ports->{$port_id}->{VLANS}->{VLAN}},
-                {
-                    NUMBER => $vlan_id,
-                    NAME   => $name
-                };
-    }
+    _setVlans(
+        snmp   => $snmp,
+        ports  => $ports,
+        logger => $logger
+    );
 
     _setTrunkPorts(
         snmp   => $snmp,
@@ -1340,6 +1319,55 @@ sub _getLLDPInfo {
         next if !$connection->{SYSDESCR};
 
         $results->{$interface_id} = $connection;
+    }
+
+    return $results;
+}
+
+sub _setVlans {
+    my (%params) = @_;
+
+    my $vlans = _getVlans(
+        snmp  => $params{snmp},
+    );
+    return unless $vlans;
+
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
+
+    foreach my $port_id (keys %$vlans) {
+        # safety check
+        if (! exists $ports->{$port_id}) {
+            $logger->error(
+                "invalid interface ID $port_id while setting vlans, aborting"
+            ) if $logger;
+            last;
+        }
+        $ports->{$port_id}->{VLANS}->{VLAN} = $vlans->{$port_id};
+    }
+}
+
+sub _getVlans {
+    my (%params) = @_;
+
+    my $snmp = $params{snmp};
+
+    my $results;
+    my $vtpVlanName  = $snmp->walk('.1.3.6.1.4.1.9.9.46.1.3.1.1.4.1');
+    my $vmPortStatus = $snmp->walk('.1.3.6.1.4.1.9.9.68.1.2.2.1.2');
+
+    # each result matches either of the following schemes:
+    # $prefix.$i.$j = $value, with $j as port id, and $value as vlan id
+    # $prefix.$i    = $value, with $i as port id, and $value as vlan id
+    foreach my $suffix (sort keys %{$vmPortStatus}) {
+        my $port_id = _getElement($suffix, -1);
+        my $vlan_id = $vmPortStatus->{$suffix};
+        my $name    = $vtpVlanName->{$vlan_id};
+
+        push @{$results->{$port_id}}, {
+            NUMBER => $vlan_id,
+            NAME   => $name
+        };
     }
 
     return $results;
