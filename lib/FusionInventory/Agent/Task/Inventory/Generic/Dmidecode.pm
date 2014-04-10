@@ -6,7 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
-use FusionInventory::Agent::Tools::Generic;
+use FusionInventory::Agent::Tools;
 
 sub isEnabled {
 
