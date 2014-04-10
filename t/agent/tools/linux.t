@@ -889,6 +889,16 @@ my %ipaddrshow_tests = (
             DESCRIPTION => 'sit0',
             MACADDR     => undef
         },
+    ],
+    'ip_addr-4' => [
+        {
+            DESCRIPTION => 'ib0',
+            IPADDRESS   => '10.89.96.11',
+            IPMASK      => '255.255.240.0',
+            IPSUBNET    => '10.89.96.0',
+            MACADDR     => 'a0:00:01:00:fe:80:00:00:00:00:00:00:00:02:c9:03:00:15:94:d1',
+            STATUS      => 'Up',
+        }
     ]
 );
 

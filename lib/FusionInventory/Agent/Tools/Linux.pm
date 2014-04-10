@@ -415,7 +415,7 @@ sub getInterfacesFromIp {
                     $interface->{STATUS} = ucfirst(lc($flag));
                 }
             }
-        } elsif ($line =~ /link\/\S+ ($mac_address_pattern)?/) {
+        } elsif ($line =~ /link\/\S+ ($any_mac_address_pattern)?/) {
             $interface->{MACADDR} = $1;
 
             # if courrent interface is not up, there won't be any address lines
