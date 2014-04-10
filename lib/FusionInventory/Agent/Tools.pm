@@ -251,6 +251,8 @@ sub getFileHandle {
             last SWITCH;
         }
         if ($params{command}) {
+            $params{logger}->debug2("executing $params{command}")
+                if $params{logger};
             # Turn off localised output for commands
             local $ENV{LC_ALL} = 'C';
             local $ENV{LANG} = 'C';
