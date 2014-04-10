@@ -20,7 +20,6 @@ my %tests = (
 
             SNMPHOSTNAME => 'AB-B404-23-ex2200',
             UPTIME       => '(1896073543) 219 days, 10:52:15.43',
-            MAC          => '00:0b:ca:fe:00:00',
             IPS          => {
                 IP => [
                     '128.0.0.1',
@@ -40,7 +39,6 @@ my %tests = (
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.3R1.7 #0: 2011-08-30 11:49:21 UTC     builder@dagmath.juniper.net:/volume/build/junos/11.3/release/11.3R1.7/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-08-30 11:32:01',
                 NAME         => 'AB-B404-23-ex2200',
                 UPTIME       => '(1896073543) 219 days, 10:52:15.43',
-                MAC          => '00:0b:ca:fe:00:00',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -792,7 +790,6 @@ my %tests = (
 
             SNMPHOSTNAME => 'C005-236b-ex2200',
             UPTIME       => '(1539344336) 178 days, 3:57:23.36',
-            MAC          => '00:0b:ca:fe:00:00',
             IPS          => {
                 IP => [
                     '128.0.0.1',
@@ -812,7 +809,6 @@ my %tests = (
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.4R1.6 #0: 2011-11-15 10:11:59 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R1.6/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-11-15 09:57:14',
                 NAME         => 'C005-236b-ex2200',
                 UPTIME       => '(1539344336) 178 days, 3:57:23.36',
-                MAC          => '00:0b:ca:fe:00:00',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -5426,7 +5422,6 @@ my %tests = (
             SNMPHOSTNAME => 'jtc407-01',
             LOCATION     => 'PMF 4 n° 407',
             UPTIME       => '(690838738) 79 days, 22:59:47.38',
-            MAC          => '00:0b:ca:fe:00:00',
             IPS          => {
                 IP => [
                     '128.0.0.1',
@@ -5446,7 +5441,6 @@ my %tests = (
                 NAME         => 'jtc407-01',
                 LOCATION     => 'PMF 4 n° 407',
                 UPTIME       => '(690838738) 79 days, 22:59:47.38',
-                MAC          => '00:0b:ca:fe:00:00',
                 IPS          => {
                     IP => [
                         '128.0.0.1',
@@ -13257,13 +13251,11 @@ my %tests = (
             MANUFACTURER => 'Juniper',
             MODEL        => 'EX3200-24t',
             DESCRIPTION  => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
-
             SNMPHOSTNAME => 'jmsea3-11',
             LOCATION     => 'MSE Bat.A 3eme',
             SERIAL       => 'BL0211118777',
             UPTIME       => '(474858650) 54 days, 23:03:06.50',
             MEMORY       => '0',
-            MAC          => '00:0b:ca:fe:00:00',
             IPS          => {
                 IP => [
                     '128.0.0.1',
@@ -13289,7 +13281,6 @@ my %tests = (
                 SERIAL       => 'BL0211118777',
                 UPTIME       => '(474858650) 54 days, 23:03:06.50',
                 MEMORY       => '0',
-                MAC          => '00:0b:ca:fe:00:00',
                 IPS          => {
                     IP => [
                         '128.0.0.1',

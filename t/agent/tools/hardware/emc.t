@@ -19,7 +19,6 @@ my %tests = (
             SNMPHOSTNAME => 'server_2',
             LOCATION     => 'here',
             CONTACT      => 'nasadmin',
-            MAC          => '00:60:16:26:8a:02',
         },
         {
             INFO => {
@@ -30,7 +29,6 @@ my %tests = (
                 NAME         => 'server_2',
                 LOCATION     => 'here',
                 CONTACT      => 'nasadmin',
-                MAC          => '00:60:16:26:8a:02',
             },
             PORTS => {
                 PORT => [
@@ -131,7 +129,6 @@ my %tests = (
             SNMPHOSTNAME => 'server_2',
             LOCATION     => 'here',
             CONTACT      => 'nasadmin',
-            MAC          => '00:60:16:26:8a:02',
         },
         {
             INFO => {
@@ -142,7 +139,6 @@ my %tests = (
                 NAME         => 'server_2',
                 LOCATION     => 'here',
                 CONTACT      => 'nasadmin',
-                MAC          => '00:60:16:26:8a:02',
             },
             PORTS => {
                 PORT => [
@@ -239,10 +235,8 @@ my %tests = (
             TYPE         => 'STORAGE',
             MANUFACTURER => 'EMC',
             DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
-
             SNMPHOSTNAME => 'BNK5RD1',
             UPTIME       => '(2246605893) 260 days, 0:34:18.93',
-            MAC          => '00:60:16:1b:cd:7a',
         },
         {
             INFO => {
@@ -252,7 +246,6 @@ my %tests = (
                 COMMENTS     => 'CX3-10c - Flare 3.26.0.10.5.032',
                 NAME         => 'BNK5RD1',
                 UPTIME       => '(2246605893) 260 days, 0:34:18.93',
-                MAC          => '00:60:16:1b:cd:7a',
             },
             PORTS => {
                 PORT => [

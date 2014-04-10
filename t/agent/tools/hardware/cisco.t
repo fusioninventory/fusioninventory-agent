@@ -27,7 +27,6 @@ Compiled Fri 03-Sep-10 18:37 by prod_rel_team',
             CPU          => '11',
             MEMORY       => '162',
             RAM          => '244',
-            MAC          => '30:f7:0d:17:a6:24',
             IPS          => {
                 IP => [
                     '10.229.132.57',
@@ -53,7 +52,6 @@ Compiled Fri 03-Sep-10 18:37 by prod_rel_team',
                 CPU          => '11',
                 MEMORY       => '162',
                 RAM          => '244',
-                MAC          => '30:f7:0d:17:a6:24',
                 IPS          => {
                     IP => [
                         '10.229.132.57',
@@ -487,7 +485,6 @@ Compiled Thu 11-Aug-11 02:58 by prod_rel_team',
             UPTIME       => '(829014147) 95 days, 22:49:01.47',
             CPU          => '96',
             RAM          => '95',
-            MAC          => 'a4:18:75:a5:27:00',
             IPS          => {
                 IP => [
                     '192.168.55.82',
@@ -510,7 +507,6 @@ Compiled Thu 11-Aug-11 02:58 by prod_rel_team',
                 UPTIME       => '(829014147) 95 days, 22:49:01.47',
                 CPU          => '96',
                 RAM          => '95',
-                MAC          => 'a4:18:75:a5:27:00',
                 IPS          => {
                     IP => [
                         '192.168.55.82',
@@ -718,7 +714,6 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
             FIRMWARE     => 'CW_VERSION$12.4(10b)JA3$',
             CPU          => '97',
             RAM          => '23',
-            MAC          => '00:13:5f:fa:f2:50',
         },
         {
             INFO => {
@@ -735,7 +730,6 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
                 FIRMWARE     => 'CW_VERSION$12.4(10b)JA3$',
                 CPU          => '97',
                 RAM          => '23',
-                MAC          => '00:13:5f:fa:f2:50',
             },
             PORTS => {
                 PORT => [
@@ -912,7 +906,6 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
             UPTIME       => '(34865419) 4 days, 0:50:54.19',
             CPU          => '98',
             RAM          => '23',
-            MAC          => '00:13:5f:fa:fa:50',
             IPS          => {
                 IP => [
                     '192.168.55.45',
@@ -935,7 +928,6 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
                 UPTIME       => '(34865419) 4 days, 0:50:54.19',
                 CPU          => '98',
                 RAM          => '23',
-                MAC          => '00:13:5f:fa:fa:50',
                 IPS          => {
                     IP => [
                         '192.168.55.45',
@@ -1147,7 +1139,6 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
             UPTIME       => '(131654419) 15 days, 5:42:24.19',
             CPU          => '97',
             RAM          => '23',
-            MAC          => '00:13:5f:fa:f9:a0',
             IPS          => {
                 IP => [
                     '192.168.55.141',
@@ -1170,7 +1161,6 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
                 UPTIME       => '(131654419) 15 days, 5:42:24.19',
                 CPU          => '97',
                 RAM          => '23',
-                MAC          => '00:13:5f:fa:f9:a0',
                 IPS          => {
                     IP => [
                         '192.168.55.141',
@@ -1410,7 +1400,6 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
             UPTIME       => '(131936738) 15 days, 6:29:27.38',
             CPU          => '98',
             RAM          => '23',
-            MAC          => '00:13:5f:fa:f9:a0',
             IPS          => {
                 IP => [
                     '192.168.55.141',
@@ -1433,7 +1422,6 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
                 UPTIME       => '(131936738) 15 days, 6:29:27.38',
                 CPU          => '98',
                 RAM          => '23',
-                MAC          => '00:13:5f:fa:f9:a0',
                 IPS          => {
                     IP => [
                         '192.168.55.141',
@@ -35298,7 +35286,6 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
             CPU          => '97',
             MEMORY       => '42',
             RAM          => '63',
-            MAC          => '00:0b:5f:cc:d8:80',
         },
         {
             INFO => {
@@ -35316,7 +35303,6 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                 CPU          => '97',
                 MEMORY       => '42',
                 RAM          => '63',
-                MAC          => '00:0b:5f:cc:d8:80',
             },
             PORTS => {
                 PORT => [
@@ -36477,7 +36463,6 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
             CPU          => '97',
             MEMORY       => '42',
             RAM          => '63',
-            MAC          => '00:0b:5f:cc:d8:80',
         },
         {
             INFO => {
@@ -36495,7 +36480,6 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                 CPU          => '97',
                 MEMORY       => '42',
                 RAM          => '63',
-                MAC          => '00:0b:5f:cc:d8:80',
             },
             PORTS => {
                 PORT => [
