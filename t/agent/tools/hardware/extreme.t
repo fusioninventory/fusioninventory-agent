@@ -10568,7 +10568,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Extreme',
-            MODEL        => 'Summit X350',
+            MODEL        => 'Summit X350-48t',
             DESCRIPTION  => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
 
             SNMPHOSTNAME => 'sw30-c01-1',
@@ -10589,7 +10589,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Extreme',
-                MODEL        => 'Summit X350',
+                MODEL        => 'Summit X350-48t',
                 COMMENTS     => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
                 NAME         => 'sw30-c01-1',
                 LOCATION     => 'Inria dc1 salle 30',

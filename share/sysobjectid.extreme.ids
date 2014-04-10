@@ -33,42 +33,131 @@
 2.55	Summit 300-48
 2.56	BlackDiamond 10808
 2.58	Summit 400-48t
-2.60	Summit 200-48
 2.61	Summit 300-24
-2.62	Aspen 8810
+2.62	BlackDiamond 8810
 2.63	Summit 400-24t
 2.64	Summit 400-24p
 2.65	Summit X450-24x
 2.66	Summit X450-24t
 2.67	Summit 400-48t
-2.68	SummitWM 100
-2.69	SummitWM 1000
+2.68	Summit WM100
+2.69	Summit WM1000
+2.70	summit 200-24fx
 2.71	Summit X450a-24t
 2.72	Summit X450e-24p
 2.74	BlackDiamond 8806
+2.75	Altitude 350
 2.76	Summit X450a-48t
 2.77	BlackDiamond 12804
 2.79	Summit x450e-48p
-2.80	Extreme Summit X450a 24tDC 24 Port Switch
-2.81	Extreme Summit X450a-24t 24 Port Switch
-2.82	Extreme Summit X450a-24xDC 24 Port Switch
+2.80	Summit X450a 24tDC
+2.82	Summit X450a-24xDC
+2.83	Sentriant CE150
 2.84	Summit X450a-24x
 2.85	BlackDiamond 12802
-2.87	Extreme Summit X450a-48tDC 48 Port Switch
-2.88	Summit X250e-24t
-2.89	Summit X250e-24p
-2.90	Extreme Summit X250-24x 24 Port Switch
-2.91	Summit X250e-48t
-2.92	Summit x250-48p
-2.93	Summit X450a-48t
-2.94	SummitWM 200
-2.95	SummitWM 2000
-2.102	X150-24p
-2.100	X150-24t
-2.105	X150-48t
-2.112	Summit X350
-2.120	Summit X650-24x
-2.131.15	WM3700
-2.135	X460-48t
-2.152	X460-24t
-2.156	X460-48p
+2.86	Altitude 300
+2.87	Summit X450a-48tDC
+2.88	Summit X250-24t
+2.89	Summit X250-24p
+2.90	Summit X250-24x
+2.91	Summit X250-48t
+2.92	Summit X250-48p
+2.93	Summit Ver2Stack
+2.94	Summit WM200
+2.95	Summit WM2000
+2.96	Summit WM100Lite
+2.97	Summit X250-24tDC
+2.98	Summit X250-24xDC
+2.99	Summit X250-48tDC
+2.100	Summit X150-24t
+2.101	Summit X150-24tDC
+2.102	Summit X150-24p
+2.103	Summit X150-24x
+2.104	Summit X150-24xDC
+2.105	Summit X150-48t
+2.106	Summit X150-48tDC
+2.107	Summit X150-48p
+2.108	Sentriant AGSW
+2.109	Sentriant AG200
+2.110	Summit WM20
+2.111	Summit X350-24t
+2.112	Summit X350-48t
+2.113	Summit X650-24t
+2.114	Summit X650-24x
+2.115	Sentriant NG300
+2.116	Altitude 360
+2.117	Altitude 450
+2.118	summit X650-24x-SSns
+2.119	summit X650-24t-SSns
+2.120	Summit X650-24x-SS
+2.121	Summit X650-24t-SS
+2.122	Summit X650-24x-10G8X
+2.123	Summit X650-24t-10G8X
+2.124	Summit X650-24x-SS256
+2.125	Summit X650-24t-SS256
+2.126	Summit X650-24x-SS512
+2.127	Summit X650-24t-SS512
+2.128	BlackDiamond 20808
+2.129	nwi-e450a
+2.130	Sentriant PS200v1
+2.131.15	Summit WM3700
+2.131.16	Summit WM3600
+2.131.18	Summit WM3400
+2.132	BlackDiamond 20804
+2.133	summit X480-48t
+2.134	summit X480-48t-SS
+2.135	summit X480-48t-10G4X
+2.136	summit X480-48t-SS128
+2.137	summit X480-24x
+2.138	summit X480-24x-SS
+2.139	summit X480-24x-10G4X
+2.140	summit X480-24x-SS128
+2.141	summit X480-48x
+2.142	summit X480-48x-SS
+2.143	summit X480-48x-10G4X
+2.144	summit X480-48x-SS128
+2.145	Altitude 3510
+2.146	Altitude 3550
+2.148	Altitude 4610
+2.149	Altitude 4620
+2.150	Summit X450e-24t
+2.151	Summit X450e-48t
+2.152	Summit X460-24t
+2.153	Summit X460-24p
+2.154	Summit X460-24x
+2.155	Summit X460-48t
+2.156	Summit X460-48p
+2.157	Summit X460-48x
+2.158	Altitude 4700
+2.159	Summit X480-24x-SSV80
+2.160	Summit X480-48x-SSV80
+2.161	Summit X480-48t-SSV80
+2.162	Summit X650-24x-40G4X
+2.163	Summit X650-24t-40G4X
+2.164	Summit X480-24x-40G4X
+2.165	Summit X480-48x-40G4X
+2.166	Summit X480-48t-40G4X
+2.167	Summit X670-48x
+2.168	Summit X670v-48x
+2.169	E4G-400
+2.170	BlackDiamond X8
+2.171	E4G-200
+2.172	Summit X440-8t
+2.173	Summit X440-8p
+2.174	Summit X440-24t
+2.175	Summit X440-24p
+2.176	Summit X440-48t
+2.177	Summit X440-48p
+2.178	Summit X440-24t-10G
+2.179	Summit X440-24p-10G
+2.180	Summit X440-48t-10G
+2.181	Summit X440-48p-10G
+2.182	AGS 100-24t
+2.183	AGS 150-24p
+2.184	Summit X670v-48t
+2.185	Summit X440-L2-24t
+2.186	Summit X440-L2-48t
+2.188	Summit X440-24x
+2.189	Summit X440-24x-10g
+2.192	Summit X440-24tdc
+2.193	Summit X440-48tdc
