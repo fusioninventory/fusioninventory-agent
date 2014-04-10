@@ -7,7 +7,7 @@ use base 'Exporter';
 use English qw(-no_match_vars);
 use List::Util qw(first);
 
-use FusionInventory::Agent::Tools; # runFunction
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 our @EXPORT = qw(
@@ -537,22 +537,25 @@ sub _getFirmware {
 sub _getMacAddress {
     my ($snmp) = @_;
 
-    my $mac_oid    = ".1.3.6.1.2.1.17.1.1.0"; # SNMPv2-SMI::mib-2.17.1.1.0
-    my $dynmac_oid = ".1.3.6.1.2.1.2.2.1.6";  # IF-MIB::ifPhysAddress
+    # use BRIDGE-MIB::dot1dBaseBridgeAddress if available
+    my $address_oid = ".1.3.6.1.2.1.17.1.1.0";
+    my $address = _getCanonicalMacAddress($snmp->get($address_oid));
 
-    my $address = _getCanonicalMacAddress($snmp->get($mac_oid));
+    return $address if $address && $address =~ /^$mac_address_pattern$/;
 
-    if (!$address || $address !~ /^$mac_address_pattern$/) {
-        my $macs = $snmp->walk($dynmac_oid);
-        $address =
-            first { $_ ne '00:00:00:00:00:00' }
-            map   { _getCanonicalMacAddress($_) }
-            grep  { $_ }
-            sort  { $a cmp $b }
-            values %{$macs};
-    }
+    # fallback on ports addresses (IF-MIB::ifPhysAddress) if unique
+    my $addresses_oid = ".1.3.6.1.2.1.2.2.1.6";
+    my $addresses = $snmp->walk($addresses_oid);
+    my @addresses =
+        uniq
+        grep { $_ ne '00:00:00:00:00:00' }
+        grep { $_ }
+        map  { _getCanonicalMacAddress($_) }
+        values %{$addresses};
 
-    return $address;
+    return $addresses[0] if @addresses && @addresses == 1;
+
+    return;
 }
 
 sub _apply_rule {
