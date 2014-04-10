@@ -1,5 +1,27 @@
 Revision history for FusionInventory agent
 
+2.3.7
+install:
+* do not rely on GNU install specific options
+
+netinventory and netdisvory tasks:
+* drop support for SNMP dictionary
+* drop support for SNMP models
+* large code cleanup
+* enhance firmware and serial number retrieval
+* update extreme networks models database
+
+inventory task:
+* fix some warnings for missing commands (#2460)
+* fix warnings for NIS/NIS+ external references in /etc/passwd (#2460)
+* log executed commands with debug level >= 2
+* fix a crash in Windows storage inventory (#2471)
+* fix process inventory on AIX (#2481)
+* fix firmware version retrieval on AIX (#2480)
+
+test suite:
+* ship missing LXC test file (#2483)
+
 2.3.6 Mon, 10 Mar 2014 11:21:12 +0100
 core:
 * abort with explicit error message when there is 
