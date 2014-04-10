@@ -32,10 +32,11 @@ sub doInventory {
 sub _getCPUsFromProc {
     my @cpus;
 
+    # https://github.com/joyent/libuv/issues/812
     foreach my $cpu (getCPUsFromProc(@_)) {
         push @cpus, {
             ARCH  => 'ARM',
-            NAME  => $cpu->{processor}
+            NAME  => $cpu->{'model name'} || $cpu->{processor}
         };
     }
 

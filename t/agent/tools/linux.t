@@ -160,6 +160,19 @@ my %cpuinfo_tests = (
             'cpu part' => '0x2e3'
         },
     ],
+    'linux-armel-3' => [
+        {
+            'bogomips' => '2.00',
+            'cpu architecture' => '7',
+            'cpu implementer' => '0x41',
+            'cpu part' => '0xb76',
+            'cpu revision' => '7',
+            'cpu variant' => '0x0',
+            'features' => 'swp half thumb fastmult vfp edsp java tls',
+            'model name' => 'ARMv6-compatible processor rev 7 (v6l)',
+            'processor' => '0',
+        }
+    ],
     'linux-ia64-1' => [
         {
             'cpu mhz' => '1600.000009',

@@ -157,6 +157,12 @@ my %arm = (
             NAME  => 'Feroceon 88FR131 rev 1 (v5l)'
         }
     ],
+    'linux-armel-3' => [
+        {
+            ARCH  => 'ARM',
+            NAME  => 'ARMv6-compatible processor rev 7 (v6l)'
+        }
+    ],
 );
 
 my %mips = (
