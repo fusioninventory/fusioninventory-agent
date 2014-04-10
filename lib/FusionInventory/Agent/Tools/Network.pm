@@ -11,6 +11,8 @@ use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
     $mac_address_pattern
+    $ib_mac_address_pattern
+    $any_mac_address_pattern
     $ip_address_pattern
     $alt_mac_address_pattern
     $hex_ip_address_pattern
@@ -32,6 +34,17 @@ my $padded_hex_byte = qr/[0-9A-F]{2}/i;
 
 our $mac_address_pattern = qr/
     $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte
+/x;
+
+our $ib_mac_address_pattern = qr/
+    $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte :
+    $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte :
+    $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte : $hex_byte :
+    $hex_byte : $hex_byte
+/x;
+
+our $any_mac_address_pattern = qr/
+    (?:$ib_mac_address_pattern|$mac_address_pattern)
 /x;
 
 our $ip_address_pattern = qr/
