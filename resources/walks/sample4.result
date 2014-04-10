@@ -32,6 +32,7 @@
         <SERIAL>SG707SU03Y</SERIAL>
         <TYPE>NETWORKING</TYPE>
         <UPTIME>(293555959) 33 days, 23:25:59.59</UPTIME>
+	<FIRMWARE>K.15.28</FIRMWARE>
       </INFO>
       <PORTS>
         <PORT>
