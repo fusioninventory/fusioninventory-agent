@@ -158,14 +158,13 @@ sub getCanonicalSize {
     my $value = $1;
     my $unit = lc($2);
 
-    use integer;
     return
-        $unit eq 'tb'    ? $value * $base * $base   :
-        $unit eq 'gb'    ? $value * $base           :
-        $unit eq 'mb'    ? $value                   :
-        $unit eq 'kb'    ? $value / ($base)         :
-        $unit eq 'bytes' ? $value / ($base * $base) :
-                           undef                    ;
+        $unit eq 'tb'    ? $value * $base * $base        :
+        $unit eq 'gb'    ? $value * $base                :
+        $unit eq 'mb'    ? $value                        :
+        $unit eq 'kb'    ? int($value / ($base))         :
+        $unit eq 'bytes' ? int($value / ($base * $base)) :
+                           undef                         ;
 }
 
 sub compareVersion {
