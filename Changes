@@ -4,7 +4,7 @@ Revision history for FusionInventory agent
 install:
 * do not rely on GNU install specific options
 
-netinventory and netdisvory tasks:
+netinventory and netdiscovery tasks:
 * drop support for SNMP dictionary
 * drop support for SNMP models
 * large code cleanup
@@ -18,6 +18,8 @@ inventory task:
 * fix a crash in Windows storage inventory (#2471)
 * fix process inventory on AIX (#2481)
 * fix firmware version retrieval on AIX (#2480)
+* fix mac address extraction for infiniband interfaces (#2432)
+* fix CPU identification on newer ARM kernels (#2485)
 
 test suite:
 * ship missing LXC test file (#2483)
