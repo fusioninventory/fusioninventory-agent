@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use lib 't/lib';
 
+use English qw(-no_match_vars);
 use File::Temp;
 use Test::Deep qw(cmp_deeply);
 use Test::More;
@@ -271,29 +272,14 @@ is(
     "first line, file reading"
 );
 is(
-    getFirstLine(command => 'perl -e "print qq{foo\nbar\nbaz\n}"'),
-    'foo',
-    "first line, command reading"
-);
-is(
     getLastLine(file => $tmp),
     'baz',
     "last line, file reading"
 );
 is(
-    getLastLine(command => 'perl -e "print qq{foo\nbar\nbaz\n}"'),
-    'baz',
-    "last line, command reading"
-);
-is(
     getLinesCount(file => $tmp),
     3,
     "lines count, file reading"
-);
-is(
-    getLinesCount(command => 'perl -e "print qq{foo\nbar\n\baz\n}"'),
-    3,
-    "lines count, command reading"
 );
 cmp_deeply(
     [ getAllLines(file => $tmp) ],
@@ -306,16 +292,6 @@ is(
     "all lines, file reading, scalar context"
 );
 cmp_deeply(
-    [ getAllLines(command => 'perl -e "print qq{foo\nbar\nbaz\n}"') ],
-    [ qw/foo bar baz/ ],
-    "all lines, command reading, list context"
-);
-is(
-    getAllLines(command => 'perl -e "print qq{foo\nbar\nbaz\n}"'),
-    "foo\nbar\nbaz\n",
-    "all lines, command reading, scalar context"
-);
-cmp_deeply(
     [ getFirstMatch(file => $tmp, pattern => qr/^(b\w+)$/) ],
     [ qw/bar/ ],
     "first match, file reading, list context"
@@ -324,6 +300,34 @@ is(
     getFirstMatch(file => $tmp, pattern => qr/^(b\w+)$/),
     'bar',
     "first match, file reading, scalar context"
+);
+
+SKIP: {
+skip 'non working under Windows', 7 if $OSNAME eq 'MSWin32';
+is(
+    getFirstLine(command => 'perl -e "print qq{foo\nbar\nbaz\n}"'),
+    'foo',
+    "first line, command reading"
+);
+is(
+    getLastLine(command => 'perl -e "print qq{foo\nbar\nbaz\n}"'),
+    'baz',
+    "last line, command reading"
+);
+is(
+    getLinesCount(command => 'perl -e "print qq{foo\nbar\n\baz\n}"'),
+    3,
+    "lines count, command reading"
+);
+cmp_deeply(
+    [ getAllLines(command => 'perl -e "print qq{foo\nbar\nbaz\n}"') ],
+    [ qw/foo bar baz/ ],
+    "all lines, command reading, list context"
+);
+is(
+    getAllLines(command => 'perl -e "print qq{foo\nbar\nbaz\n}"'),
+    "foo\nbar\nbaz\n",
+    "all lines, command reading, scalar context"
 );
 cmp_deeply(
     [ getFirstMatch(command => 'perl -e "print qq{foo\nbar\nbaz\n}"', pattern => qr/^(b\w+)$/) ],
@@ -335,6 +339,7 @@ is(
     'bar',
     "first match, command reading, scalar context"
 );
+}
 
 my $result1 = runFunction(
     module   => 'FusionInventory::Test::Module',

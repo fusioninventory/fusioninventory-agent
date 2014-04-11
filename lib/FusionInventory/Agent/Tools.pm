@@ -254,6 +254,7 @@ sub getFileHandle {
             # Turn off localised output for commands
             local $ENV{LC_ALL} = 'C';
             local $ENV{LANG} = 'C';
+            # FIXME: 'Bad file descriptor' error message on Windows
             if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
