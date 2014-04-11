@@ -254,6 +254,7 @@ sub getFileHandle {
             local $ENV{LANG} = 'C';
             # ignore 'Broken Pipe' warnings on Solaris
             local $SIG{PIPE} = 'IGNORE' if $OSNAME eq 'solaris';
+            # FIXME: 'Bad file descriptor' error message on Windows
             if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
