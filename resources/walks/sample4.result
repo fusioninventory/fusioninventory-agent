@@ -5,7 +5,7 @@
       <INFO>
         <COMMENTS>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_</COMMENTS>
         <CONTACT>systeme@example.com</CONTACT>
-        <FIRMWARE>K.15.28 K.15.04.0015m</FIRMWARE>
+        <FIRMWARE>K.15.28</FIRMWARE>
         <ID>0</ID>
         <IPS>
           <IP>127.0.0.1</IP>
@@ -32,7 +32,6 @@
         <SERIAL>SG707SU03Y</SERIAL>
         <TYPE>NETWORKING</TYPE>
         <UPTIME>(293555959) 33 days, 23:25:59.59</UPTIME>
-	<FIRMWARE>K.15.28</FIRMWARE>
       </INFO>
       <PORTS>
         <PORT>
