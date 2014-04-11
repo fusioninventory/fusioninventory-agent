@@ -547,16 +547,6 @@ sub _getMacAddress {
     return;
 }
 
-sub _apply_rule {
-    my ($rule, $snmp) = @_;
-
-    return unless $rule;
-
-    if ($rule->{value}) {
-        return $rule->{value};
-    }
-}
-
 sub getDeviceFullInfo {
     my (%params) = @_;
 
