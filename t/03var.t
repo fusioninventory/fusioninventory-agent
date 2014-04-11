@@ -29,5 +29,6 @@ all_vars_ok(
         '$clientIp' => 1, # FusionInventory::Agent::HTTP::Server
         '$num'      => 1, # Task::Inventory::Input::Solaris::Networks
         '$i'        => 1, # FusionInventory::Agent::Tools::Solaris
+        '$type'     => 1, # FusionInventory::Agent::Tools::Hardware
     }
 );
