@@ -32,7 +32,7 @@ if (!$port) {
 } elsif ($OSNAME eq 'darwin') {
     plan skip_all => 'non working test on MacOS';
 } else {
-    plan tests => 8;
+    plan tests => 7;
 }
 
 my $ok = sub {
@@ -127,35 +127,6 @@ ok(
 }
 
 $server->stop();
-
-# trusted certificate, joker
-SKIP: {
-    skip 'unable to resolve localhost.localdomain', 1
-        unless gethostbyname('localhost.localdomain');
-
-    $server = FusionInventory::Test::Server->new(
-        port     => $port,
-        ssl      => 1,
-        crt      => 'resources/ssl/crt/joker.pem',
-        key      => 'resources/ssl/key/joker.pem',
-    );
-    $server->set_dispatch({
-        '/public'  => $ok,
-    });
-    eval {
-        $server->background();
-    };
-    BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
-
-    ok(
-        $secure_client->request(
-            HTTP::Request->new(GET => "https://localhost.localdomain:$port/public")
-        )->is_success(),
-        'trusted certificate, joker: connection success'
-    );
-
-    $server->stop();
-}
 
 # trusted certificate, wrong hostname
 $server = FusionInventory::Test::Server->new(
