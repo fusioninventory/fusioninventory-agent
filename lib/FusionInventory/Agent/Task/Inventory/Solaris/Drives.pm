@@ -32,11 +32,16 @@ sub doInventory {
     # get indexed list of filesystems types
     my %filesystems_types =
         map { /^(\S+) on \S+ type (\w+)/; $1 => $2 }
-        getAllLines(command => 'mount -v');
+        getAllLines(command => '/usr/sbin/mount -v');
+
+    # get indexed list of ZFS filesystems
+    my %zfs_filesystems =
+        map { $_ => 1 }
+        map { (split(/\s+/, $_))[0] }
+        getAllLines(command => '/usr/sbin/zfs list -H');
 
     # set filesystem type based on that information
     foreach my $filesystem (@filesystems) {
-
         if ($filesystem->{VOLUMN} eq 'swap') {
             $filesystem->{FILESYSTEM} = 'swap';
             next;

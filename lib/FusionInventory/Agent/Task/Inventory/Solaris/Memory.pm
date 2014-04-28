@@ -19,13 +19,13 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my $memorySize = getFirstMatch(
-        command => 'prtconf',
+        command => '/usr/sbin/prtconf',
         logger  => $logger,
         pattern => qr/^Memory\ssize:\s+(\S+)/
     );
 
     my $swapSize = getFirstMatch(
-        command => 'swap -l',
+        command => '/usr/sbin/swap -l',
         logger  => $logger,
         pattern => qr/\s+(\d+)$/
     );
