@@ -71,7 +71,7 @@ sub loaddirectory {
     opendir (my $handle, $directory)
         or die "can't open directory $directory: $ERRNO\n";
     foreach my $file (readdir($handle)) {
-        loadfile("$directory/$file") if $file =~ /\.ocs$/;
+        loadfile("$directory/$file") if $file =~ /\.xml$/;
     }
     closedir $handle;
 }
@@ -123,7 +123,7 @@ fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdi
 
   Options:
     -h --help      this menu
-    -d --directory load every .ocs files from a directory
+    -d --directory load every .xml files from a directory
     -f --file      load a speficic file
     -u --url       server URL
     -r --remove    remove succesfuly injected files
@@ -131,7 +131,7 @@ fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdi
     --stdin        read data from STDIN
 
   Examples:
-    fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/ocsinventory
+    fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.xml --url https://login:pw@server/glpi/plugins/fusioninventory/
 
 =head1 DESCRIPTION
 

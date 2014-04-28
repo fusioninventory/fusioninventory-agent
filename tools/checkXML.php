@@ -2,7 +2,7 @@
 <?php
 
 if (count($argv)<2) {
-  print "Usage: $argv[0] filename.ocs\n";
+  print "Usage: $argv[0] filename.xml\n";
   exit(1);
 }
 

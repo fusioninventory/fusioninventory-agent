@@ -185,7 +185,7 @@ my $dir = File::Temp->newdir(CLEANUP => 1);
 subtest "--recipient <directory> inventory execution" => sub {
     check_execution_ok($err, $rc);
 };
-ok(<$dir/*.ocs>, '--recipient <directory> result file presence');
+ok(<$dir/*.xml>, '--recipient <directory> result file presence');
 
 sub check_execution_ok {
     my ($err, $rc) = @_;

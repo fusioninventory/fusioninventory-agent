@@ -92,7 +92,7 @@ sub run {
 
     $recipient->send(
         message  => $message,
-        filename => sprintf('%s.ocs', $self->{config}->{deviceid})
+        filename => sprintf('%s.xml', $self->{config}->{deviceid})
     );
 }
 
