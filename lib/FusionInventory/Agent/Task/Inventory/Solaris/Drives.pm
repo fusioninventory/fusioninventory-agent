@@ -17,7 +17,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # get filesystems list
-    my $line = getFirstLine(command => "df --version");
+    my $line = getFirstLine(logger => $logger, command => "df --version");
     # df --help is on STDERR on some system, so $line may be undef
     my $command = $line && $line =~ /GNU/ ? "df -P -k" : "df -k";
 
@@ -33,7 +33,7 @@ sub doInventory {
     my %zfs_filesystems =
         map { $_ => 1 }
         map { (split(/\s+/, $_))[0] }
-        getAllLines(command => '/usr/sbin/zfs list -H');
+        getAllLines(logger => $logger, command => '/usr/sbin/zfs list -H');
 
     # set filesystem type, using fstyp if needed
     foreach my $filesystem (@filesystems) {
@@ -48,7 +48,10 @@ sub doInventory {
             next;
         }
 
-        my $type = getFirstLine(command => "fstyp $filesystem->{VOLUMN}");
+        my $type = getFirstLine(
+            logger => $logger,
+            command => "fstyp $filesystem->{VOLUMN}"
+        );
         if ($type && $type !~ /^fstyp/) {
             $filesystem->{FILESYSTEM} = $type;
         }
