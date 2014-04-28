@@ -323,7 +323,7 @@ sub _getProcessesOther {
             MEM           => $mem,
             VIRTUALMEMORY => $vsz,
             TTY           => $tty,
-            STARTED       => _getProcessStartTime($pid,$localtime,$etime),
+            STARTED       => _getProcessStartTime($localtime, $etime),
             CMD           => $cmd
         };
     }
@@ -358,40 +358,26 @@ my %day = (
 );
 my $monthPattern = join ('|', keys %month);
 
-# Computes a consistent process starting time from either the process
-# PID (using /proc) or using the process etime value.
-# Arguments:
-# - pid         : Process pid
-# - localtime   : Current timestamp
-# - elapsedtime : Process etime value
-
+# Computes a consistent process starting time from the process etime value.
 sub _getProcessStartTime {
+    my ($localtime, $elapsedtime_string) = @_;
 
-    my $pid           = shift;
-    my $localtime     = shift;
-    my $elapsedtime   = shift;
+    # POSIX specifies that ps etime entry looks like [[dd-]hh:]mm:ss
+    # if either day and hour are not present then they will eat
+    # up the minutes and seconds so split on a non digit and reverse it:
+    my ($psec, $pmin, $phour, $pday) =
+        reverse(split(/\D/, $elapsedtime_string));
 
-    my ($min, $hour, $day, $month, $year);
+    # Compute a timestamp from the process etime value
+    my $elapsedtime = $psec                                +
+                      $pmin                      * 60      +
+                      ($phour ? $phour      * 60 * 60 : 0) +
+                      ($pday  ? $pday  * 24 * 60 * 60 : 0) ;
 
-    if (-f "/proc/$pid") {
-        # this will work only on OS with /proc/$pid like Linux and FreeBSD
-        my $stat = stat("/proc/$pid");
-        (undef, $min, $hour, $day, $month, $year) = localtime($stat->ctime());
-    } else {
-        # POSIX specifies that ps etime entry looks like [[dd-]hh:]mm:ss
-        # if either day and hour are not present then they will eat
-        # up the minutes and seconds so split on a non digit and reverse it:
-        my ($psec, $pmin, $phour, $pday) = reverse split(/\D/, $elapsedtime);
-
-        # Compute a timestamp from the process etime value
-	# (ternary operators prevent perl from complaining about possibly undefined
-        # values, initializing them as 0)
-        my $etime_secs = $psec+($pmin*60)+($phour?$phour*60*60:0)+($pday?$pday*24*60*60:0);
-
-        # Substract this timestamp from the current time, creating the date at which
-        # the process was launched
-        (undef, $min, $hour, $day, $month, $year) = localtime($localtime-$etime_secs);
-    }
+    # Substract this timestamp from the current time, creating the date at which
+    # the process was launched
+    my (undef, $min, $hour, $day, $month, $year) =
+        localtime($localtime - $elapsedtime);
 
     # Output the final date, after completing it (time + UNIX epoch)
     $year  = $year + 1900;
