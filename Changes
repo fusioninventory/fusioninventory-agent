@@ -12,7 +12,8 @@ netinventory and netdiscovery tasks:
 * update extreme networks models database
 
 inventory task:
-* fix some warnings for missing commands (#2460)
+* fix multiple warnings for missing commands (#2460)
+* fix 'broken pipe' error messages on Solaris (#2460)
 * fix warnings for NIS/NIS+ external references in /etc/passwd (#2460)
 * log executed commands with debug level >= 2
 * fix a crash in Windows storage inventory (#2471)
@@ -20,6 +21,7 @@ inventory task:
 * fix firmware version retrieval on AIX (#2480)
 * fix mac address extraction for infiniband interfaces (#2432)
 * fix CPU identification on newer ARM kernels (#2485)
+* fix inconsistencies in process runtime computation (#2491)
 
 test suite:
 * ship missing LXC test file (#2483)
