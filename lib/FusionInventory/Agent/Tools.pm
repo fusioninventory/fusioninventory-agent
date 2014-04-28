@@ -249,12 +249,14 @@ sub getFileHandle {
             last SWITCH;
         }
         if ($params{command}) {
+            # FIXME: 'Bad file descriptor' error message on Windows
             $params{logger}->debug2("executing $params{command}")
                 if $params{logger};
             # Turn off localised output for commands
             local $ENV{LC_ALL} = 'C';
             local $ENV{LANG} = 'C';
-            # FIXME: 'Bad file descriptor' error message on Windows
+            # Ignore 'Broken Pipe' warnings on Solaris
+            local $SIG{PIPE} = 'IGNORE' if $OSNAME eq 'solaris';
             if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
