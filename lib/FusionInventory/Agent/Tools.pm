@@ -256,6 +256,8 @@ sub getFileHandle {
             # Turn off localised output for commands
             local $ENV{LC_ALL} = 'C';
             local $ENV{LANG} = 'C';
+            # ignore 'Broken Pipe' warnings on Solaris
+            local $SIG{PIPE} = 'IGNORE' if $OSNAME eq 'solaris';
             if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
