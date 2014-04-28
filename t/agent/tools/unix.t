@@ -1074,2066 +1074,1672 @@ my %busybox_ps_tests = (
     ]
 );
 
-my ($sec, $min, $hour, $day, $month, $year, $wday, $yday, $isdst) = localtime(time);
-my $format = "%04d-%02d-%02d";
-my $today    = sprintf($format, $year + 1900, $month + 1, $day);
-my $this_day = sprintf($format, $year + 1900, $month + 1, 3);
-my $this_year = sprintf("%04d", $year + 1900);
+my $pattern = qr/^\d\d\d\d-\d\d-\d\d \d\d:\d\d$/;
 my %other_ps_tests = (
     linux => [
         {
-            VIRTUALMEMORY => '3984',
+            CMD           => '/sbin/init',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '1',
-            CMD           => 'init [5]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '128328'
         },
         {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '2',
             CMD           => '[kthreadd]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '2',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '3',
             CMD           => '[ksoftirqd/0]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '3',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kworker/0:0H]',
             CPUUSAGE      => '0.0',
-            PID           => '6',
-            CMD           => '[migration/0]',
+            MEM           => '0.0',
+            PID           => '5',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[rcu_sched]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '7',
-            CMD           => '[migration/1]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[rcu_bh]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '8',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[migration/0]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '9',
-            CMD           => '[ksoftirqd/1]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[migration/1]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '10',
-            CMD           => '[kworker/0:1]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[ksoftirqd/1]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '11',
-            CMD           => '[cpuset]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kworker/1:0H]',
             CPUUSAGE      => '0.0',
-            PID           => '12',
-            CMD           => '[khelper]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '13',
-            CMD           => '[netns]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[migration/2]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '14',
-            CMD           => '[pm]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[ksoftirqd/2]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '15',
-            CMD           => '[sync_supers]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kworker/2:0H]',
             CPUUSAGE      => '0.0',
-            PID           => '16',
-            CMD           => '[bdi-default]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '17',
-            CMD           => '[kintegrityd]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[migration/3]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '18',
-            CMD           => '[kblockd]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[ksoftirqd/3]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '19',
-            CMD           => '[kacpid]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kworker/3:0H]',
             CPUUSAGE      => '0.0',
-            PID           => '20',
-            CMD           => '[kacpi_notify]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '21',
-            CMD           => '[kacpi_hotplug]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[khelper]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '22',
-            CMD           => '[kseriod]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kdevtmpfs]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '23',
-            CMD           => '[kworker/1:1]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[netns]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '24',
-            CMD           => '[khungtaskd]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[writeback]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '25',
-            CMD           => '[kswapd0]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kintegrityd]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '26',
-            CMD           => '[ksmd]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[bioset]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '27',
-            CMD           => '[fsnotify_mark]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kblockd]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '28',
-            CMD           => '[aio]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '29',
-            CMD           => '[crypto]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '32',
-            CMD           => '[kpsmoused]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '48',
             CMD           => '[ata_sff]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '29',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[md]',
             CPUUSAGE      => '0.0',
-            PID           => '51',
+            MEM           => '0.0',
+            PID           => '30',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[devfreq_wq]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '31',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[khungtaskd]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '35',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[kswapd0]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '36',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[ksmd]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '37',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[khugepaged]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '38',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[fsnotify_mark]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '39',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[bioset]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '40',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[crypto]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '41',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[kthrotld]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '48',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[irq/42-mei_me]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '49',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
             CMD           => '[scsi_eh_0]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '51',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '52',
             CMD           => '[scsi_eh_1]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '52',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '53',
             CMD           => '[scsi_eh_2]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '53',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '54',
             CMD           => '[scsi_eh_3]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '54',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '55',
             CMD           => '[scsi_eh_4]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '55',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '56',
             CMD           => '[scsi_eh_5]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '56',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kpsmoused]',
             CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '63',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[deferwq]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '65',
-            CMD           => '[jbd2/sda5-8]',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '66',
-            CMD           => '[ext4-dio-unwrit]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '6688',
-            CPUUSAGE      => '0.0',
-            PID           => '95',
-            CMD           => '/sbin/udevd -d',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '482',
             CMD           => '[khubd]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '291',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kworker/1:1H]',
             CPUUSAGE      => '0.0',
-            PID           => '515',
-            CMD           => '[kvm-irqfd-clean]',
+            MEM           => '0.0',
+            PID           => '298',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kworker/2:1H]',
             CPUUSAGE      => '0.0',
-            PID           => '570',
-            CMD           => '[kconservative]',
+            MEM           => '0.0',
+            PID           => '299',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kworker/0:1H]',
             CPUUSAGE      => '0.0',
-            PID           => '571',
-            CMD           => '[kondemand]',
+            MEM           => '0.0',
+            PID           => '300',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kworker/3:1H]',
             CPUUSAGE      => '0.0',
-            PID           => '572',
-            CMD           => '[kstriped]',
+            MEM           => '0.0',
+            PID           => '355',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[jbd2/sda5-8]',
             CPUUSAGE      => '0.0',
-            PID           => '612',
-            CMD           => '[pccardd]',
+            MEM           => '0.0',
+            PID           => '390',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '16992',
+            CMD           => '[ext4-rsv-conver]',
             CPUUSAGE      => '0.0',
-            PID           => '617',
-            CMD           => '/sbin/mount.ntfs-3g /dev/sda3 /media/windows -o rw,umask=000',
+            MEM           => '0.0',
+            PID           => '391',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '3996',
+            CMD           => '/usr/lib/systemd/systemd-journald',
             CPUUSAGE      => '0.0',
-            PID           => '745',
-            CMD           => '/usr/sbin/acpid',
+            MEM           => '0.1',
+            PID           => '456',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:29',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '66956'
         },
         {
-            VIRTUALMEMORY => '13804',
-            CPUUSAGE      => '0.0',
-            PID           => '752',
-            CMD           => 'dbus-daemon --system',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => '499',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '43376',
-            CPUUSAGE      => '0.0',
-            PID           => '770',
-            CMD           => 'hald',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => '494',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '249596',
-            CPUUSAGE      => '0.0',
-            PID           => '775',
-            CMD           => '/usr/sbin/console-kit-daemon --no-daemon',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '186280',
-            CPUUSAGE      => '0.0',
-            PID           => '788',
-            CMD           => '/usr/lib64/polkit-1/polkitd',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '22428',
-            CPUUSAGE      => '0.0',
-            PID           => '801',
-            CMD           => 'hald-runner',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '873',
-            CMD           => '[usbhid_resumer]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '24548',
-            CPUUSAGE      => '0.0',
-            PID           => '879',
-            CMD           => 'hald-addon-input: Listening on /dev/input/event4 /dev/input/event3 /dev/input/event2 /dev/input/event0 /dev/input/event9 /dev/input/event11',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '24556',
-            CPUUSAGE      => '0.0',
-            PID           => '888',
-            CMD           => '/usr/lib64/hal/hald-addon-cpufreq',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '20008',
-            CPUUSAGE      => '0.0',
-            PID           => '889',
-            CMD           => 'hald-addon-acpi: listening on acpid socket /var/run/acpid.socket',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => '494',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '56768',
-            CPUUSAGE      => '0.0',
-            PID           => '948',
-            CMD           => '/usr/sbin/gdm-binary -nodaemon',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '14640',
-            CPUUSAGE      => '0.0',
-            PID           => '970',
-            CMD           => 'gpg-agent --keep-display --daemon --write-env-file /root/.gnupg/gpg-agent-info',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '79244',
-            CPUUSAGE      => '0.0',
-            PID           => '971',
-            CMD           => '/usr/lib64/gdm-simple-slave --display-id /org/gnome/DisplayManager/Display1',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '137752',
-            CPUUSAGE      => '4.1',
-            PID           => '974',
-            CMD           => '/usr/bin/Xorg :0 -br -verbose -auth /var/run/gdm/auth-for-gdm-U67gq5/database -nolisten tcp vt7',
-            TTY           => 'tty7',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '1.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '978',
-            CMD           => '[i915]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '24540',
-            CPUUSAGE      => '0.0',
-            PID           => '984',
-            CMD           => '/usr/lib64/hal/hald-addon-generic-backlight',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '24544',
-            CPUUSAGE      => '0.0',
-            PID           => '1034',
-            CMD           => '/usr/lib64/hal/hald-addon-rfkill-killswitch',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '1035',
-            CMD           => '[kmmcd]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '1036',
-            CMD           => '[khpsbpkt]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '1055',
-            CMD           => '[cfg80211]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '1059',
-            CMD           => '[knodemgrd_0]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '1067',
-            CMD           => '[iwlagn]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '1070',
-            CMD           => '[phy0]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '1090',
-            CMD           => '[hd-audio0]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '226424',
-            CPUUSAGE      => '0.0',
-            PID           => '1213',
-            CMD           => '/usr/lib64/polkit-gnome-authentication-agent-1',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'gdm',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '98944',
-            CPUUSAGE      => '0.0',
-            PID           => '1233',
-            CMD           => '/usr/lib64/gdm-session-worker',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '121360',
-            CPUUSAGE      => '0.0',
-            PID           => '1244',
-            CMD           => '/usr/lib64/upowerd',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '24708',
-            CPUUSAGE      => '0.0',
-            PID           => '1288',
-            CMD           => 'bash',
-            TTY           => 'pts/1',
-            STARTED       => $today . ' 23:00',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '26388',
-            CPUUSAGE      => '0.0',
-            PID           => '1335',
-            CMD           => '/usr/bin/atop -a -w /var/log/atop/atop_20101027 600',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.5'
-        },
-        {
-            VIRTUALMEMORY => '6056',
-            CPUUSAGE      => '0.0',
-            PID           => '1357',
-            CMD           => 'portreserve',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '11328',
-            CPUUSAGE      => '0.0',
-            PID           => '1366',
-            CMD           => 'irqbalance',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '12380',
-            CPUUSAGE      => '0.0',
-            PID           => '1371',
-            CMD           => '/usr/sbin/atd -l 1.8',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'daemon',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '1450',
-            CMD           => '[flush-8:0]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '6684',
-            CPUUSAGE      => '0.0',
-            PID           => '1614',
-            CMD           => '/sbin/udevd -d',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '6684',
-            CPUUSAGE      => '0.0',
-            PID           => '1615',
-            CMD           => '/sbin/udevd -d',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '24208',
-            CPUUSAGE      => '0.0',
-            PID           => '2051',
-            CMD           => 'supervising syslog-ng',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '63076',
-            CPUUSAGE      => '0.0',
-            PID           => '2056',
-            CMD           => 'syslog-ng',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '158984',
-            CPUUSAGE      => '0.0',
-            PID           => '2062',
-            CMD           => 'NetworkManager --pid-file=/var/run/NetworkManager/NetworkManager.pid',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '60192',
-            CPUUSAGE      => '0.0',
-            PID           => '2079',
-            CMD           => '/usr/sbin/modem-manager',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '25656',
-            CPUUSAGE      => '0.0',
-            PID           => '2154',
-            CMD           => 'avahi-daemon: running [beria.local]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'avahi',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '25532',
-            CPUUSAGE      => '0.0',
-            PID           => '2159',
-            CMD           => 'avahi-daemon: chroot helper',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'avahi',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '14772',
-            CPUUSAGE      => '0.0',
-            PID           => '2161',
-            CMD           => 'crond',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '43528',
-            CPUUSAGE      => '0.0',
-            PID           => '2180',
-            CMD           => '/usr/sbin/sshd',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '21584',
-            CPUUSAGE      => '0.0',
-            PID           => '2186',
-            CMD           => '/usr/sbin/wpa_supplicant -u',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '18272',
-            CPUUSAGE      => '0.3',
-            PID           => '2193',
-            CMD           => '/usr/sbin/preload --verbose 1',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '48908',
-            CPUUSAGE      => '0.0',
-            PID           => '2217',
-            CMD           => '/usr/sbin/snmpd -Lsd -Lf /dev/null -p /var/run/snmpd -a -I -lmSensors',
-            TTY           => '?',
-            STARTED       => $today . ' 21:29',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '9868',
-            CPUUSAGE      => '0.0',
-            PID           => '2726',
-            CMD           => '/sbin/dhclient -d -4 -sf /usr/lib64/nm-dhcp-client.action -pf /var/run/dhclient-eth0.pid -lf /var/lib/dhcp/dhclient-5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03-eth0.lease -cf /var/run/nm-dhclient-eth0.conf eth0',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '2843',
             CMD           => '[kauditd]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '457',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[rpciod]',
             CPUUSAGE      => '0.0',
-            PID           => '2883',
-            CMD           => '[kdmflush]',
+            MEM           => '0.0',
+            PID           => '477',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '/usr/lib/systemd/systemd-udevd',
             CPUUSAGE      => '0.0',
-            PID           => '2885',
-            CMD           => '[kcryptd_io]',
+            MEM           => '0.0',
+            PID           => '500',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '34516'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[cfg80211]',
             CPUUSAGE      => '0.0',
-            PID           => '2886',
-            CMD           => '[kcryptd]',
+            MEM           => '0.0',
+            PID           => '567',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[kvm-irqfd-clean]',
             CPUUSAGE      => '0.0',
-            PID           => '2896',
-            CMD           => '[jbd2/dm-0-8]',
+            MEM           => '0.0',
+            PID           => '615',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '[hd-audio0]',
             CPUUSAGE      => '0.0',
-            PID           => '2897',
-            CMD           => '[ext4-dio-unwrit]',
+            MEM           => '0.0',
+            PID           => '645',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '132132',
+            CMD           => '[kworker/u9:0]',
             CPUUSAGE      => '0.0',
-            PID           => '2901',
-            CMD           => '/usr/bin/gnome-keyring-daemon --daemonize --login',
+            MEM           => '0.0',
+            PID           => '828',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '230244',
-            CPUUSAGE      => '0.0',
-            PID           => '2911',
-            CMD           => 'gnome-session',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '24544',
-            CPUUSAGE      => '0.0',
-            PID           => '2938',
-            CMD           => 'gpg-agent --keep-display --daemon --write-env-file /home/guillaume/.gnupg/gpg-agent-info',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '26332',
-            CPUUSAGE      => '0.0',
-            PID           => '2949',
-            CMD           => 'ntpd -u ntp:ntp -p /var/run/ntpd.pid',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => 'ntp',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '3964',
-            CPUUSAGE      => '0.0',
-            PID           => '2958',
-            CMD           => '/sbin/mingetty tty1',
-            TTY           => 'tty1',
-            STARTED       => $today . ' 21:30',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '3964',
+            CMD           => '[hci0]',
             CPUUSAGE      => '0.0',
-            PID           => '2959',
-            CMD           => '/sbin/mingetty tty2',
-            TTY           => 'tty2',
-            STARTED       => $today . ' 21:30',
+            MEM           => '0.0',
+            PID           => '829',
+            STARTED       => re($pattern),
+            TTY           => '?',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '3964',
+            CMD           => '[hci0]',
             CPUUSAGE      => '0.0',
-            PID           => '2960',
-            CMD           => '/sbin/mingetty tty3',
-            TTY           => 'tty3',
-            STARTED       => $today . ' 21:30',
+            MEM           => '0.0',
+            PID           => '830',
+            STARTED       => re($pattern),
+            TTY           => '?',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '3964',
+            CMD           => '[kworker/u9:1]',
             CPUUSAGE      => '0.0',
-            PID           => '2961',
-            CMD           => '/sbin/mingetty tty4',
-            TTY           => 'tty4',
-            STARTED       => $today . ' 21:30',
+            MEM           => '0.0',
+            PID           => '831',
+            STARTED       => re($pattern),
+            TTY           => '?',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '0'
         },
         {
-            VIRTUALMEMORY => '3964',
+            CMD           => '/usr/libexec/bluetooth/bluetoothd',
             CPUUSAGE      => '0.0',
-            PID           => '2962',
-            CMD           => '/sbin/mingetty tty5',
-            TTY           => 'tty5',
-            STARTED       => $today . ' 21:30',
+            MEM           => '0.0',
+            PID           => '912',
+            STARTED       => re($pattern),
+            TTY           => '?',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '19136'
         },
         {
-            VIRTUALMEMORY => '3964',
+            CMD           => '/usr/sbin/irqbalance --foreground',
             CPUUSAGE      => '0.0',
-            PID           => '2963',
-            CMD           => '/sbin/mingetty tty6',
-            TTY           => 'tty6',
-            STARTED       => $today . ' 21:30',
+            MEM           => '0.0',
+            PID           => '913',
+            STARTED       => re($pattern),
+            TTY           => '?',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '19260'
         },
         {
-            VIRTUALMEMORY => '12300',
+            CMD           => '/usr/sbin/NetworkManager --no-daemon',
             CPUUSAGE      => '0.0',
-            PID           => '2967',
-            CMD           => '/usr/bin/ssh-agent -- /usr/share/X11/xdm/Xsession GNOME',
+            MEM           => '0.1',
+            PID           => '920',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '19932',
-            CPUUSAGE      => '0.0',
-            PID           => '3016',
-            CMD           => '/usr/bin/dbus-launch --exit-with-session --sh-syntax',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '14204',
-            CPUUSAGE      => '0.0',
-            PID           => '3017',
-            CMD           => '/usr/bin/dbus-daemon --fork --print-pid 5 --print-address 7 --session',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '103212',
-            CPUUSAGE      => '0.0',
-            PID           => '3039',
-            CMD           => 's2u --daemon=yes',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '57044',
-            CPUUSAGE      => '0.0',
-            PID           => '3045',
-            CMD           => '/usr/lib64/gconfd-2',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '283628',
-            CPUUSAGE      => '0.0',
-            PID           => '3057',
-            CMD           => '/usr/bin/pulseaudio --start --log-target=syslog',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '384604',
-            CPUUSAGE      => '0.0',
-            PID           => '3058',
-            CMD           => '/usr/lib64/gnome-settings-daemon',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.4'
-        },
-        {
-            VIRTUALMEMORY => '162200',
-            CPUUSAGE      => '0.0',
-            PID           => '3060',
-            CMD           => '/usr/lib64/rtkit-daemon',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => 'rtkit',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '178856',
-            CPUUSAGE      => '0.0',
-            PID           => '3065',
-            CMD           => '/usr/lib64/pulse/gconf-helper',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '50084',
-            CPUUSAGE      => '0.0',
-            PID           => '3070',
-            CMD           => '/usr/lib64/gvfsd',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '266600',
-            CPUUSAGE      => '0.0',
-            PID           => '3075',
-            CMD           => '/usr/lib64//gvfs-fuse-daemon /home/guillaume/.gvfs',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '404296',
-            CPUUSAGE      => '0.9',
-            PID           => '3079',
-            CMD           => '/usr/bin/metacity',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.5'
-        },
-        {
-            VIRTUALMEMORY => '287296',
-            CPUUSAGE      => '0.0',
-            PID           => '3090',
-            CMD           => '/usr/lib64/gvfs-gdu-volume-monitor',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '125056',
-            CPUUSAGE      => '0.0',
-            PID           => '3092',
-            CMD           => '/usr/lib64/udisks-daemon',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
             USER          => 'root',
-            MEM           => '0.1'
+            VIRTUALMEMORY => '320636'
         },
         {
-            VIRTUALMEMORY => '42744',
+            CMD           => '/sbin/rsyslogd -n -c 4',
             CPUUSAGE      => '0.0',
-            PID           => '3093',
+            MEM           => '0.0',
+            PID           => '922',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '239040'
+        },
+        {
+            CMD           => '/usr/sbin/ModemManager',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '948',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '318200'
+        },
+        {
+            CMD           => '/usr/lib/systemd/systemd-logind',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '954',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '23568'
+        },
+        {
+            CMD           => '/usr/lib/udisks/udisks-daemon --no-debug',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '955',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '193668'
+        },
+        {
+            CMD           => '/usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '956',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => '499',
+            VIRTUALMEMORY => '16380'
+        },
+        {
+            CMD           => '/usr/libexec/upowerd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '959',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '225836'
+        },
+        {
             CMD           => 'udisks-daemon: not polling any devices',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '961',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '45828'
         },
         {
-            VIRTUALMEMORY => '430428',
+            CMD           => '/usr/sbin/gdm -nodaemon',
             CPUUSAGE      => '0.0',
-            PID           => '3095',
-            CMD           => 'gnome-panel',
+            MEM           => '0.0',
+            PID           => '963',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.5'
-        },
-        {
-            VIRTUALMEMORY => '63616',
-            CPUUSAGE      => '0.0',
-            PID           => '3103',
-            CMD           => '/usr/lib64/gvfs-gphoto2-volume-monitor',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '638940',
-            CPUUSAGE      => '0.0',
-            PID           => '3104',
-            CMD           => 'nautilus',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.6'
-        },
-        {
-            VIRTUALMEMORY => '373692',
-            CPUUSAGE      => '0.0',
-            PID           => '3105',
-            CMD           => 'nm-applet --sm-disable',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.4'
-        },
-        {
-            VIRTUALMEMORY => '345712',
-            CPUUSAGE      => '0.0',
-            PID           => '3108',
-            CMD           => '/usr/lib64/bonobo-activation-server --ac-activate --ior-output-fd=23',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '208244',
-            CPUUSAGE      => '0.0',
-            PID           => '3109',
-            CMD           => 'bluetooth-applet',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '292036',
-            CPUUSAGE      => '0.0',
-            PID           => '3110',
-            CMD           => 'gnome-power-manager',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.3'
-        },
-        {
-            VIRTUALMEMORY => '142256',
-            CPUUSAGE      => '0.0',
-            PID           => '3112',
-            CMD           => 'pam-panel-icon',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '208004',
-            CPUUSAGE      => '0.0',
-            PID           => '3115',
-            CMD           => '/usr/lib64/polkit-gnome-authentication-agent-1',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '169596',
-            CPUUSAGE      => '0.0',
-            PID           => '3116',
-            CMD           => '/usr/lib64/gdu-notification-daemon',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '308936',
-            CPUUSAGE      => '0.0',
-            PID           => '3119',
-            CMD           => 'gnome-volume-control-applet',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.3'
-        },
-        {
-            VIRTUALMEMORY => '342916',
-            CPUUSAGE      => '0.0',
-            PID           => '3129',
-            CMD           => '/usr/lib64/notification-area-applet',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '352772',
-            CPUUSAGE      => '0.0',
-            PID           => '3130',
-            CMD           => '/usr/lib64/wnck-applet',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.3'
-        },
-        {
-            VIRTUALMEMORY => '434404',
-            CPUUSAGE      => '0.0',
-            PID           => '3131',
-            CMD           => '/usr/lib64/clock-applet',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.5'
-        },
-        {
-            VIRTUALMEMORY => '12372',
-            CPUUSAGE      => '0.0',
-            PID           => '3132',
-            CMD           => '/sbin/pam_timestamp_check -d root',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '442392'
         },
         {
-            VIRTUALMEMORY => '54576',
+            CMD           => '/usr/lib/polkit-1/polkitd --no-debug',
             CPUUSAGE      => '0.0',
-            PID           => '3145',
-            CMD           => '/usr/lib64/gvfsd-trash --spawner :1.12 /org/gtk/gvfs/exec_spaw/0',
+            MEM           => '0.1',
+            PID           => '1006',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.0'
+            USER          => 'polkitd',
+            VIRTUALMEMORY => '367184'
         },
         {
-            VIRTUALMEMORY => '244512',
-            CPUUSAGE      => '0.0',
-            PID           => '3153',
-            CMD           => 'gnome-screensaver',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.4'
-        },
-        {
-            VIRTUALMEMORY => '50028',
-            CPUUSAGE      => '0.0',
-            PID           => '3155',
-            CMD           => '/usr/lib64/gvfsd-metadata',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
-            USER          => '500',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '3157',
-            CMD           => '[flush-252:0]',
-            TTY           => '?',
-            STARTED       => $today . ' 21:30',
+            CMD           => '/etc/X11/X :0 -background none -noreset -verbose 3 -logfile /dev/null -auth /var/run/gdm/auth-for-gdm-4e7zdi/database -seat seat0 -nolisten tcp vt1',
+            CPUUSAGE      => '1.2',
+            MEM           => '1.5',
+            PID           => '1054',
+            STARTED       => re($pattern),
+            TTY           => 'tty1',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '401904'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '/usr/libexec/accounts-daemon',
             CPUUSAGE      => '0.0',
-            PID           => '8703',
-            CMD           => '[kworker/u:0]',
+            MEM           => '0.0',
+            PID           => '1056',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 23:11',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '258432'
         },
         {
-            VIRTUALMEMORY => '386108',
-            CPUUSAGE      => '0.1',
-            PID           => '11452',
-            CMD           => 'gnome-terminal',
+            CMD           => '/usr/sbin/acpid',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1060',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:39',
+            USER          => 'root',
+            VIRTUALMEMORY => '4276'
+        },
+        {
+            CMD           => 'gdm-session-worker [pam/gdm-launch-environment]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1356',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '211596'
+        },
+        {
+            CMD           => '/usr/lib/systemd/systemd --user',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1468',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'gdm',
+            VIRTUALMEMORY => '35416'
+        },
+        {
+            CMD           => '(sd-pam)',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1470',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'gdm',
+            VIRTUALMEMORY => '65312'
+        },
+        {
+            CMD           => '/usr/bin/pulseaudio --start --log-target=syslog',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1839',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'gdm',
+            VIRTUALMEMORY => '356624'
+        },
+        {
+            CMD           => '/usr/libexec/rtkit-daemon',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1843',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'rtkit',
+            VIRTUALMEMORY => '162488'
+        },
+        {
+            CMD           => '/sbin/ifplugd -I -b -i eth0',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1873',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '6336'
+        },
+        {
+            CMD           => '/usr/libexec/pulse/gconf-helper',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1897',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'gdm',
+            VIRTUALMEMORY => '67260'
+        },
+        {
+            CMD           => '/sbin/ifplugd -I -b -i wlan0',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '2055',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '6336'
+        },
+        {
+            CMD           => '/usr/lib/udisks2/udisksd --no-debug',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '2096',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '419640'
+        },
+        {
+            CMD           => '/sbin/dhclient -d -sf /usr/libexec/nm-dhcp-helper -pf /var/run/dhclient-eth0.pid -lf /var/lib/NetworkManager/dhclient-5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03-eth0.lease -cf /var/lib/NetworkManager/dhclient-eth0.conf eth0',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '2131',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '14344'
+        },
+        {
+            CMD           => '/sbin/dhclient -1 -q -lf /var/lib/dhclient/dhclient--eth0.lease -pf /var/run/dhclient-eth0.pid eth0',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '3057',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '14344'
+        },
+        {
+            CMD           => 'ssh plouf.leo-mare.org',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '4505',
+            STARTED       => re($pattern),
+            TTY           => 'pts/2',
             USER          => '500',
-            MEM           => '0.5'
+            VIRTUALMEMORY => '39804'
         },
         {
-            VIRTUALMEMORY => '8120',
+            CMD           => '/usr/libexec/dconf-service',
             CPUUSAGE      => '0.0',
-            PID           => '11455',
-            CMD           => 'gnome-pty-helper',
+            MEM           => '0.0',
+            PID           => '5158',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 21:39',
             USER          => '500',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '176180'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => 'gdm-session-worker [pam/gdm-password]',
             CPUUSAGE      => '0.0',
-            PID           => '13767',
-            CMD           => '[kworker/1:2]',
+            MEM           => '0.0',
+            PID           => '6042',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 22:28',
             USER          => 'root',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '429492'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => 'pickup -l -t unix -u -c -o content_filter= -o receive_override_options=',
             CPUUSAGE      => '0.0',
-            PID           => '26415',
-            CMD           => '[kworker/0:2]',
+            MEM           => '0.0',
+            PID           => '6556',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 23:42',
-            USER          => 'root',
-            MEM           => '0.0'
+            USER          => 'postfix',
+            VIRTUALMEMORY => '25312'
         },
         {
-            VIRTUALMEMORY => '24824',
+            CMD           => '/usr/lib/systemd/systemd --user',
             CPUUSAGE      => '0.0',
-            PID           => '28181',
-            CMD           => 'bash',
-            TTY           => 'pts/1',
-            STARTED       => $today . ' 22:02',
+            MEM           => '0.0',
+            PID           => '6887',
+            STARTED       => re($pattern),
+            TTY           => '?',
             USER          => '500',
-            MEM           => '0.1'
+            VIRTUALMEMORY => '35416'
         },
         {
-            VIRTUALMEMORY => '0',
+            CMD           => '(sd-pam)',
             CPUUSAGE      => '0.0',
-            PID           => '29659',
-            CMD           => '[kworker/0:0]',
+            MEM           => '0.0',
+            PID           => '6888',
+            STARTED       => re($pattern),
             TTY           => '?',
-            STARTED       => $today . ' 23:48',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '30184',
-            CMD           => '[kworker/u:2]',
-            TTY           => '?',
-            STARTED       => $today . ' 23:49',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '0',
-            CPUUSAGE      => '0.0',
-            PID           => '30244',
-            CMD           => '[kworker/u:1]',
-            TTY           => '?',
-            STARTED       => $today . ' 22:54',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '8580',
-            CPUUSAGE      => '0.0',
-            PID           => '31822',
-            CMD           => 'ps aux',
-            TTY           => 'pts/1',
-            STARTED       => $today . ' 23:52',
             USER          => '500',
-            MEM           => '0.0'
+            VIRTUALMEMORY => '65312'
+        },
+        {
+            CMD           => '[kdmflush]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '7302',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[bioset]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '7304',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[kcryptd_io]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '7305',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[kcryptd]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '7306',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '[bioset]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '7307',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => 'perl -dI lib/ t/agent/http/client/ssl.t',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.5',
+            PID           => '7314',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => '500',
+            VIRTUALMEMORY => '124008'
+        },
+        {
+            CMD           => '[jbd2/dm-0-8]',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '7337',
+            STARTED       => re($pattern),
+            TTY           => '?',
+            USER          => 'root',
+            VIRTUALMEMORY => '0'
         }
     ],
     macos => [
         {
-            VIRTUALMEMORY => '2817480',
-            CPUUSAGE      => '3.4',
-            PID           => '1794',
-            CMD           => '/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal -psn_0_548998',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.9'
-        },
-        {
-            VIRTUALMEMORY => '5186628',
-            CPUUSAGE      => '0.5',
-            PID           => '1688',
-            CMD           => '/Applications/Safari.app/Contents/MacOS/Safari -psn_0_483446',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '6.4'
-        },
-        {
-            VIRTUALMEMORY => '2771404',
-            CPUUSAGE      => '0.4',
-            PID           => '1614',
-            CMD           => '/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Resources/WindowServer -daemon',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => '_windowserver',
-            MEM           => '1.5'
-        },
-        {
-            VIRTUALMEMORY => '2452160',
+            CMD           => '/sbin/launchd',
             CPUUSAGE      => '0.1',
-            PID           => '15',
-            CMD           => '/usr/sbin/DirectoryService',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '2435468',
-            CPUUSAGE      => '0.0',
-            PID           => '28820',
-            CMD           => '-bash',
-            TTY           => 's002',
-            STARTED       => $today . ' 10:08PM',
-            USER          => 'rousse',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2436056',
-            CPUUSAGE      => '0.0',
-            PID           => '28819',
-            CMD           => 'login -pf rousse',
-            TTY           => 's002',
-            STARTED       => $today . ' 10:08PM',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2493424',
-            CPUUSAGE      => '0.0',
-            PID           => '28611',
-            CMD           => '/Applications/MacVim.app/Contents/MacOS/Vim -f -g lib/FusionInventory/Agent/Tools/Unix.pm',
-            TTY           => '??',
-            STARTED       => $today . ' 9:57PM',
-            USER          => 'rousse',
-            MEM           => '0.5'
-        },
-        {
-            VIRTUALMEMORY => '2449852',
-            CPUUSAGE      => '0.0',
-            PID           => '28437',
-            CMD           => 't/transmitter/connection.t (proxy)',
-            TTY           => 's001',
-            STARTED       => $today . ' 9:48PM',
-            USER          => 'rousse',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2756744',
-            CPUUSAGE      => '0.0',
-            PID           => '26235',
-            CMD           => '/System/Library/CoreServices/SystemUIServer.app/Contents/MacOS/SystemUIServer',
-            TTY           => '??',
-            STARTED       => sprintf($format, $year + 1900, $month + 1, 9),
-            USER          => 'rousse',
-            MEM           => '0.5'
-        },
-        {
-            VIRTUALMEMORY => '2470032',
-            CPUUSAGE      => '0.0',
-            PID           => '25404',
-            CMD           => '/usr/libexec/kextd',
-            TTY           => '??',
-            STARTED       => sprintf($format, $year + 1900, $month + 1, 5),
-            USER          => 'root',
-            MEM           => '0.3'
-        },
-        {
-            VIRTUALMEMORY => '2457284',
-            CPUUSAGE      => '0.0',
-            PID           => '1902',
-            CMD           => '/usr/bin/ssh-agent -l',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2435468',
-            CPUUSAGE      => '0.0',
-            PID           => '1891',
-            CMD           => '-bash',
-            TTY           => 's001',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2436056',
-            CPUUSAGE      => '0.0',
-            PID           => '1890',
-            CMD           => 'login -pf rousse',
-            TTY           => 's001',
-            STARTED       => $this_day,
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2435468',
-            CPUUSAGE      => '0.0',
-            PID           => '1875',
-            CMD           => 'bash',
-            TTY           => 's000',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2435468',
-            CPUUSAGE      => '0.0',
-            PID           => '1798',
-            CMD           => '-bash',
-            TTY           => 's000',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2436056',
-            CPUUSAGE      => '0.0',
-            PID           => '1797',
-            CMD           => 'login -pf rousse',
-            TTY           => 's000',
-            STARTED       => $this_day,
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2787440',
-            CPUUSAGE      => '0.0',
-            PID           => '1732',
-            CMD           => '/Applications/MacVim.app/Contents/MacOS/MacVim -psn_0_524416',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.7'
-        },
-        {
-            VIRTUALMEMORY => '2467120',
-            CPUUSAGE      => '0.0',
-            PID           => '1725',
-            CMD           => '/System/Library/Services/AppleSpell.service/Contents/MacOS/AppleSpell -psn_0_520319',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2772440',
-            CPUUSAGE      => '0.0',
-            PID           => '1720',
-            CMD           => '/Applications/TextEdit.app/Contents/MacOS/TextEdit -psn_0_512125',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '2457564',
-            CPUUSAGE      => '0.0',
-            PID           => '1697',
-            CMD           => '/System/Library/Frameworks/WebKit.framework/WebKitPluginAgent',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2463248',
-            CPUUSAGE      => '0.0',
-            PID           => '1657',
-            CMD           => '/Applications/iTunes.app/Contents/Resources/iTunesHelper.app/Contents/MacOS/iTunesHelper -psn_0_458864',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2731864',
-            CPUUSAGE      => '0.0',
-            PID           => '1655',
-            CMD           => '/System/Library/CoreServices/AirPort Base Station Agent.app/Contents/MacOS/AirPort Base Station Agent -launchd -allowquit',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2460332',
-            CPUUSAGE      => '0.0',
-            PID           => '1649',
-            CMD           => '/usr/libexec/UserEventAgent -l Aqua',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.2'
-        },
-        {
-            VIRTUALMEMORY => '2435928',
-            CPUUSAGE      => '0.0',
-            PID           => '1644',
-            CMD           => '/usr/sbin/pboard',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2480636',
-            CPUUSAGE      => '0.0',
-            PID           => '1638',
-            CMD           => '/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2831524',
-            CPUUSAGE      => '0.0',
-            PID           => '1634',
-            CMD           => '/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '1.0'
-        },
-        {
-            VIRTUALMEMORY => '2799120',
-            CPUUSAGE      => '0.0',
-            PID           => '1632',
-            CMD           => '/System/Library/CoreServices/Dock.app/Contents/MacOS/Dock',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.6'
-        },
-        {
-            VIRTUALMEMORY => '2775356',
-            CPUUSAGE      => '0.0',
-            PID           => '1613',
-            CMD           => '/System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow console',
-            TTY           => '??',
-            STARTED       => $this_day,
-            USER          => 'rousse',
-            MEM           => '0.3'
-        },
-        {
-            VIRTUALMEMORY => '2458512',
-            CPUUSAGE      => '0.0',
-            PID           => '590',
-            CMD           => '/usr/sbin/cupsd -l',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2456172',
-            CPUUSAGE      => '0.0',
-            PID           => '100',
-            CMD           => '/sbin/launchd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'rousse',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2453812',
-            CPUUSAGE      => '0.0',
-            PID           => '76',
-            CMD           => '/usr/sbin/coreaudiod',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => '_coreaudiod',
-            MEM           => '0.3'
-        },
-        {
-            VIRTUALMEMORY => '2438060',
-            CPUUSAGE      => '0.0',
-            PID           => '67',
-            CMD           => '/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/cvmsServ',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2497488',
-            CPUUSAGE      => '0.0',
-            PID           => '50',
-            CMD           => '/System/Library/CoreServices/coreservicesd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '1.1'
-        },
-        {
-            VIRTUALMEMORY => '2445648',
-            CPUUSAGE      => '0.0',
-            PID           => '41',
-            CMD           => 'autofsd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2434784',
-            CPUUSAGE      => '0.0',
-            PID           => '35',
-            CMD           => '/sbin/dynamic_pager -F /private/var/vm/swapfile',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2451468',
-            CPUUSAGE      => '0.0',
-            PID           => '33',
-            CMD           => '/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/Support/fseventsd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2446680',
-            CPUUSAGE      => '0.0',
-            PID           => '32',
-            CMD           => '/usr/libexec/hidd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2446768',
-            CPUUSAGE      => '0.0',
-            PID           => '30',
-            CMD           => '/usr/sbin/KernelEventAgent',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2459112',
-            CPUUSAGE      => '0.0',
-            PID           => '28',
-            CMD           => '/usr/sbin/mDNSResponder -launchd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => '_mdnsresponder',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2594096',
-            CPUUSAGE      => '0.0',
-            PID           => '27',
-            CMD           => '/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Support/mds',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '1.5'
-        },
-        {
-            VIRTUALMEMORY => '2459872',
-            CPUUSAGE      => '0.0',
-            PID           => '24',
-            CMD           => '/usr/sbin/securityd -i',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '90960',
-            CPUUSAGE      => '0.0',
-            PID           => '21',
-            CMD           => '/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd -launchd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => '_usbmuxd',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2435212',
-            CPUUSAGE      => '0.0',
-            PID           => '19',
-            CMD           => '/usr/sbin/ntpd -c /private/etc/ntp-restrict.conf -n -g -p /var/run/ntpd.pid -f /var/db/ntp.drift',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2461200',
-            CPUUSAGE      => '0.0',
-            PID           => '17',
-            CMD           => '/usr/sbin/blued',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2446660',
-            CPUUSAGE      => '0.0',
-            PID           => '16',
-            CMD           => '/usr/sbin/distnoted',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'daemon',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2457096',
-            CPUUSAGE      => '0.0',
-            PID           => '14',
-            CMD           => '/usr/sbin/syslogd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2474544',
-            CPUUSAGE      => '0.0',
-            PID           => '13',
-            CMD           => '/usr/libexec/configd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2446808',
-            CPUUSAGE      => '0.0',
-            PID           => '12',
-            CMD           => '/usr/sbin/diskarbitrationd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.1'
-        },
-        {
-            VIRTUALMEMORY => '2444544',
-            CPUUSAGE      => '0.0',
-            PID           => '11',
-            CMD           => '/usr/sbin/notifyd',
-            TTY           => '??',
-            STARTED       => $this_year . '-10-05',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2434788',
-            CPUUSAGE      => '0.0',
-            PID           => '29474',
-            CMD           => 'ps aux',
-            TTY           => 's001',
-            STARTED       => $today . ' 11:09PM',
-            USER          => 'root',
-            MEM           => '0.0'
-        },
-        {
-            VIRTUALMEMORY => '2456680',
-            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
             PID           => '1',
-            CMD           => '/sbin/launchd',
+            STARTED       => re($pattern),
             TTY           => '??',
-            STARTED       => $this_year . '-10-05',
             USER          => 'root',
-            MEM           => '0.1'
+            VIRTUALMEMORY => '2456844'
         },
         {
-            VIRTUALMEMORY => '2465304',
+            CMD           => '/usr/libexec/kextd',
             CPUUSAGE      => '0.0',
-            PID           => '29442',
-            CMD           => '/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker MDSImporterWorker com.apple.Spotlight.ImporterWorker.89',
+            MEM           => '0.4',
+            PID           => '10',
+            STARTED       => re($pattern),
             TTY           => '??',
-            STARTED       => $today . ' 11:07PM',
-            USER          => '_spotlight',
-            MEM           => '0.2'
+            USER          => 'root',
+            VIRTUALMEMORY => '2455060'
         },
         {
-            VIRTUALMEMORY => '2492400',
+            CMD           => '/usr/sbin/notifyd',
             CPUUSAGE      => '0.0',
-            PID           => '29325',
-            CMD           => '/Applications/MacVim.app/Contents/MacOS/Vim -f -g lib/FusionInventory/Agent/Task/Inventory/OS/Generic/Processes.pm',
+            MEM           => '0.0',
+            PID           => '11',
+            STARTED       => re($pattern),
             TTY           => '??',
-            STARTED       => $today . ' 11:02PM',
-            USER          => 'rousse',
-            MEM           => '0.4'
+            USER          => 'root',
+            VIRTUALMEMORY => '2444624'
         },
         {
-            VIRTUALMEMORY => '2479516',
+            CMD           => '/usr/sbin/syslogd',
             CPUUSAGE      => '0.0',
-            PID           => '28994',
+            MEM           => '0.0',
+            PID           => '12',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2457256'
+        },
+        {
+            CMD           => '/usr/sbin/diskarbitrationd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '13',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2446968'
+        },
+        {
+            CMD           => '/usr/libexec/configd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '14',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2475020'
+        },
+        {
+            CMD           => '/usr/sbin/DirectoryService',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.3',
+            PID           => '15',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2452984'
+        },
+        {
+            CMD           => '/usr/sbin/distnoted',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '16',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'daemon',
+            VIRTUALMEMORY => '2446820'
+        },
+        {
+            CMD           => '/usr/sbin/blued',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.3',
+            PID           => '17',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2462136'
+        },
+        {
+            CMD           => '/usr/sbin/ntpd -c /private/etc/ntp-restrict.conf -n -g -p /var/run/ntpd.pid -f /var/db/ntp.drift',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '19',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2435292'
+        },
+        {
+            CMD           => '/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd -launchd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '23',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => '_usbmuxd',
+            VIRTUALMEMORY => '2460376'
+        },
+        {
+            CMD           => '/usr/sbin/securityd -i',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '26',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2459996'
+        },
+        {
+            CMD           => '/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Support/mds',
+            CPUUSAGE      => '0.0',
+            MEM           => '2.9',
+            PID           => '29',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2645284'
+        },
+        {
+            CMD           => '/usr/sbin/mDNSResponder -launchd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '30',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => '_mdnsresponder',
+            VIRTUALMEMORY => '2460184'
+        },
+        {
+            CMD           => '/System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow console',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.5',
+            PID           => '31',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2775456'
+        },
+        {
+            CMD           => '/usr/sbin/KernelEventAgent',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '32',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2445904'
+        },
+        {
+            CMD           => '/usr/libexec/hidd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '34',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2445816'
+        },
+        {
+            CMD           => '/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/Support/fseventsd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '35',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2453724'
+        },
+        {
+            CMD           => '/sbin/dynamic_pager -F /private/var/vm/swapfile',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '37',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2434864'
+        },
+        {
+            CMD           => 'autofsd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '43',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2446832'
+        },
+        {
+            CMD           => '/System/Library/CoreServices/coreservicesd',
+            CPUUSAGE      => '0.0',
+            MEM           => '1.0',
+            PID           => '48',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2500432'
+        },
+        {
+            CMD           => '/usr/libexec/ApplicationFirewall/socketfilterfw',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '53',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2461760'
+        },
+        {
+            CMD           => '/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Resources/WindowServer -daemon',
+            CPUUSAGE      => '0.0',
+            MEM           => '3.9',
+            PID           => '77',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => '_windowserver',
+            VIRTUALMEMORY => '2892276'
+        },
+        {
+            CMD           => '/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/cvmsServ',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '81',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2438704'
+        },
+        {
+            CMD           => '/usr/sbin/coreaudiod',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '91',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => '_coreaudiod',
+            VIRTUALMEMORY => '2451260'
+        },
+        {
+            CMD           => '/sbin/launchd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '94',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2456368'
+        },
+        {
+            CMD           => '/System/Library/CoreServices/Dock.app/Contents/MacOS/Dock',
+            CPUUSAGE      => '0.0',
+            MEM           => '1.0',
+            PID           => '98',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2818072'
+        },
+        {
+            CMD           => '/System/Library/CoreServices/SystemUIServer.app/Contents/MacOS/SystemUIServer',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.7',
+            PID           => '99',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2765812'
+        },
+        {
+            CMD           => '/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder',
+            CPUUSAGE      => '0.0',
+            MEM           => '2.8',
+            PID           => '100',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '3968776'
+        },
+        {
+            CMD           => '/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '109',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2496564'
+        },
+        {
+            CMD           => '/usr/sbin/pboard',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '113',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2436408'
+        },
+        {
+            CMD           => '/usr/libexec/UserEventAgent -l Aqua',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.3',
+            PID           => '118',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2460956'
+        },
+        {
+            CMD           => '/System/Library/CoreServices/AirPort Base Station Agent.app/Contents/MacOS/AirPort Base Station Agent -launchd -allowquit',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.3',
+            PID           => '126',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2732816'
+        },
+        {
+            CMD           => '/System/Library/CoreServices/Menu Extras/TextInput.menu/Contents/SharedSupport/TISwitcher.app/Contents/MacOS/TISwitcher',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '130',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2725604'
+        },
+        {
+            CMD           => '/Applications/Antidote HD.app/Contents/SharedSupport/AgentAntidote.app/Contents/MacOS/AgentAntidote -psn_0_45067',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.5',
+            PID           => '132',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2770492'
+        },
+        {
+            CMD           => '/Applications/iTunes.app/Contents/MacOS/iTunesHelper.app/Contents/MacOS/iTunesHelper -psn_0_49164',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '133',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2725896'
+        },
+        {
+            CMD           => '/Applications/owncloud.app/Contents/MacOS/owncloud -psn_0_57358',
+            CPUUSAGE      => '0.0',
+            MEM           => '1.1',
+            PID           => '135',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '3884996'
+        },
+        {
+            CMD           => '/Applications/Canon Utilities/IJ Network Scanner Selector EX/Canon IJ Network Scanner Selector EX.app/Contents/CNSSelectorAgent.app/Contents/MacOS/CNSSelectorAgent -psn_0_73746',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '140',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2723908'
+        },
+        {
+            CMD           => '/System/Library/Services/AppleSpell.service/Contents/MacOS/AppleSpell -psn_0_180268',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '250',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2466524'
+        },
+        {
+            CMD           => '/System/Library/PrivateFrameworks/DiskImages.framework/Resources/diskimages-helper -uuid B1608F55-7461-41BA-A68A-2795732EDB0A -post-exec 4',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '274',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2476428'
+        },
+        {
+            CMD           => '/System/Library/PrivateFrameworks/DiskImages.framework/Resources/hdiejectd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '278',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2446144'
+        },
+        {
+            CMD           => '/Applications/Utilities/Grab.app/Contents/MacOS/Grab -psn_0_249917',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.8',
+            PID           => '369',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2805360'
+        },
+        {
+            CMD           => '/Applications/Adobe Photoshop CS3/Adobe Photoshop CS3.app/Contents/MacOS/Adobe Photoshop CS3 -psn_0_254014',
+            CPUUSAGE      => '0.3',
+            MEM           => '2.8',
+            PID           => '399',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '815420'
+        },
+        {
+            CMD           => '/Applications/Preview.app/Contents/MacOS/Preview -psn_0_372827',
+            CPUUSAGE      => '0.0',
+            MEM           => '1.0',
+            PID           => '645',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2795552'
+        },
+        {
+            CMD           => '/Applications/Microsoft Office 2008/Microsoft Excel.app/Contents/MacOS/Microsoft Excel -psn_0_536707',
+            CPUUSAGE      => '0.0',
+            MEM           => '3.7',
+            PID           => '955',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '575112'
+        },
+        {
+            CMD           => '/Applications/Microsoft Office 2008/Office/Microsoft Database Daemon.app/Contents/MacOS/Microsoft Database Daemon -psn_0_544901',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.4',
+            PID           => '959',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '423424'
+        },
+        {
             CMD           => '/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker MDSImporterWorker com.apple.Spotlight.ImporterWorker.501',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.3',
+            PID           => '1185',
+            STARTED       => re($pattern),
             TTY           => '??',
-            STARTED       => $today . ' 10:55PM',
-            USER          => 'rousse',
-            MEM           => '0.5'
+            USER          => 'admin',
+            VIRTUALMEMORY => '2468168'
+        },
+        {
+            CMD           => '/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker MDSImporterWorker com.apple.Spotlight.ImporterWorker.89',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.3',
+            PID           => '1186',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => '_spotlight',
+            VIRTUALMEMORY => '2466288'
+        },
+        {
+            CMD           => '/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal -psn_0_671908',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.5',
+            PID           => '1197',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2765332'
+        },
+        {
+            CMD           => '/Applications/System Preferences.app/Contents/MacOS/System Preferences -psn_0_680102',
+            CPUUSAGE      => '0.0',
+            MEM           => '3.1',
+            PID           => '1209',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '11278540'
+        },
+        {
+            CMD           => '/System/Library/CoreServices/SecurityAgent.app/Contents/MacOS/SecurityAgent',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.4',
+            PID           => '1214',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => '_securityagent',
+            VIRTUALMEMORY => '2751024'
+        },
+        {
+            CMD           => '/System/Library/PrivateFrameworks/Admin.framework/Resources/writeconfig',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '1215',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2448884'
+        },
+        {
+            CMD           => '/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/cvmsComp_x86_64 1',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.3',
+            PID           => '1219',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2449200'
+        },
+        {
+            CMD           => '(userInit)',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1232',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'guillaume',
+            VIRTUALMEMORY => '0'
+        },
+        {
+            CMD           => '/System/Library/Image Capture/Support/Image Capture Extension.app/Contents/MacOS/Image Capture Extension -psn_0_688296',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.3',
+            PID           => '1240',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2724808'
+        },
+        {
+            CMD           => '/usr/sbin/cupsd -l',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '1243',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2458752'
+        },
+        {
+            CMD           => '/usr/libexec/launchproxy /usr/sbin/sshd -i',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1260',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2446308'
+        },
+        {
+            CMD           => '/usr/libexec/sandboxd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '1266',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2446348'
+        },
+        {
+            CMD           => '/usr/sbin/sshd -i',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '1269',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'root',
+            VIRTUALMEMORY => '2451060'
+        },
+        {
+            CMD           => '/sbin/launchd',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1272',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'guillaume',
+            VIRTUALMEMORY => '2456284'
+        },
+        {
+            CMD           => '/usr/sbin/sshd -i',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1274',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'guillaume',
+            VIRTUALMEMORY => '2451060'
+        },
+        {
+            CMD           => '/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Versions/A/Support/mdworker MDSImporterWorker com.apple.Spotlight.ImporterWorker.502',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.2',
+            PID           => '1275',
+            STARTED       => re($pattern),
+            TTY           => '??',
+            USER          => 'guillaume',
+            VIRTUALMEMORY => '2464352'
+        },
+        {
+            CMD           => 'login -pf admin',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.1',
+            PID           => '1201',
+            STARTED       => re($pattern),
+            TTY           => 'ttys000',
+            USER          => 'root',
+            VIRTUALMEMORY => '2436216'
+        },
+        {
+            CMD           => '-bash',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1202',
+            STARTED       => re($pattern),
+            TTY           => 'ttys000',
+            USER          => 'admin',
+            VIRTUALMEMORY => '2435548'
+        },
+        {
+            CMD           => '-bash',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1277',
+            STARTED       => re($pattern),
+            TTY           => 'ttys001',
+            USER          => 'guillaume',
+            VIRTUALMEMORY => '2435548'
+        },
+        {
+            CMD           => 'ps -A -o user,pid,pcpu,pmem,vsz,tty,etime,command',
+            CPUUSAGE      => '0.0',
+            MEM           => '0.0',
+            PID           => '1282',
+            STARTED       => re($pattern),
+            TTY           => 'ttys001',
+            USER          => 'root',
+            VIRTUALMEMORY => '2434868'
         }
-    ],
+    ]
 );
 
 my %netstat_tests = (

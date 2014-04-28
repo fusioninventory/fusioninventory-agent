@@ -1,152 +1,101 @@
-USER       PID %CPU %MEM    VSZ TTY      START COMMAND
-root         1  0.0  0.0   3984 ?        21:29 init [5]
-root         2  0.0  0.0      0 ?        21:29 [kthreadd]
-root         3  0.0  0.0      0 ?        21:29 [ksoftirqd/0]
-root         6  0.0  0.0      0 ?        21:29 [migration/0]
-root         7  0.0  0.0      0 ?        21:29 [migration/1]
-root         9  0.0  0.0      0 ?        21:29 [ksoftirqd/1]
-root        10  0.0  0.0      0 ?        21:29 [kworker/0:1]
-root        11  0.0  0.0      0 ?        21:29 [cpuset]
-root        12  0.0  0.0      0 ?        21:29 [khelper]
-root        13  0.0  0.0      0 ?        21:29 [netns]
-root        14  0.0  0.0      0 ?        21:29 [pm]
-root        15  0.0  0.0      0 ?        21:29 [sync_supers]
-root        16  0.0  0.0      0 ?        21:29 [bdi-default]
-root        17  0.0  0.0      0 ?        21:29 [kintegrityd]
-root        18  0.0  0.0      0 ?        21:29 [kblockd]
-root        19  0.0  0.0      0 ?        21:29 [kacpid]
-root        20  0.0  0.0      0 ?        21:29 [kacpi_notify]
-root        21  0.0  0.0      0 ?        21:29 [kacpi_hotplug]
-root        22  0.0  0.0      0 ?        21:29 [kseriod]
-root        23  0.0  0.0      0 ?        21:29 [kworker/1:1]
-root        24  0.0  0.0      0 ?        21:29 [khungtaskd]
-root        25  0.0  0.0      0 ?        21:29 [kswapd0]
-root        26  0.0  0.0      0 ?        21:29 [ksmd]
-root        27  0.0  0.0      0 ?        21:29 [fsnotify_mark]
-root        28  0.0  0.0      0 ?        21:29 [aio]
-root        29  0.0  0.0      0 ?        21:29 [crypto]
-root        32  0.0  0.0      0 ?        21:29 [kpsmoused]
-root        48  0.0  0.0      0 ?        21:29 [ata_sff]
-root        51  0.0  0.0      0 ?        21:29 [scsi_eh_0]
-root        52  0.0  0.0      0 ?        21:29 [scsi_eh_1]
-root        53  0.0  0.0      0 ?        21:29 [scsi_eh_2]
-root        54  0.0  0.0      0 ?        21:29 [scsi_eh_3]
-root        55  0.0  0.0      0 ?        21:29 [scsi_eh_4]
-root        56  0.0  0.0      0 ?        21:29 [scsi_eh_5]
-root        65  0.0  0.0      0 ?        21:29 [jbd2/sda5-8]
-root        66  0.0  0.0      0 ?        21:29 [ext4-dio-unwrit]
-root        95  0.0  0.0   6688 ?        21:29 /sbin/udevd -d
-root       482  0.0  0.0      0 ?        21:29 [khubd]
-root       515  0.0  0.0      0 ?        21:29 [kvm-irqfd-clean]
-root       570  0.0  0.0      0 ?        21:29 [kconservative]
-root       571  0.0  0.0      0 ?        21:29 [kondemand]
-root       572  0.0  0.0      0 ?        21:29 [kstriped]
-root       612  0.0  0.0      0 ?        21:29 [pccardd]
-root       617  0.0  0.0  16992 ?        21:29 /sbin/mount.ntfs-3g /dev/sda3 /media/windows -o rw,umask=000
-root       745  0.0  0.0   3996 ?        21:29 /usr/sbin/acpid
-499        752  0.0  0.0  13804 ?        21:29 dbus-daemon --system
-494        770  0.0  0.1  43376 ?        21:29 hald
-root       775  0.0  0.1 249596 ?        21:29 /usr/sbin/console-kit-daemon --no-daemon
-root       788  0.0  0.1 186280 ?        21:29 /usr/lib64/polkit-1/polkitd
-root       801  0.0  0.0  22428 ?        21:29 hald-runner
-root       873  0.0  0.0      0 ?        21:29 [usbhid_resumer]
-root       879  0.0  0.0  24548 ?        21:29 hald-addon-input: Listening on /dev/input/event4 /dev/input/event3 /dev/input/event2 /dev/input/event0 /dev/input/event9 /dev/input/event11
-root       888  0.0  0.0  24556 ?        21:29 /usr/lib64/hal/hald-addon-cpufreq
-494        889  0.0  0.0  20008 ?        21:29 hald-addon-acpi: listening on acpid socket /var/run/acpid.socket
-root       948  0.0  0.0  56768 ?        21:29 /usr/sbin/gdm-binary -nodaemon
-root       970  0.0  0.0  14640 ?        21:29 gpg-agent --keep-display --daemon --write-env-file /root/.gnupg/gpg-agent-info
-root       971  0.0  0.1  79244 ?        21:29 /usr/lib64/gdm-simple-slave --display-id /org/gnome/DisplayManager/Display1
-root       974  4.1  1.0 137752 tty7     21:29 /usr/bin/Xorg :0 -br -verbose -auth /var/run/gdm/auth-for-gdm-U67gq5/database -nolisten tcp vt7
-root       978  0.0  0.0      0 ?        21:29 [i915]
-root       984  0.0  0.0  24540 ?        21:29 /usr/lib64/hal/hald-addon-generic-backlight
-root      1034  0.0  0.0  24544 ?        21:29 /usr/lib64/hal/hald-addon-rfkill-killswitch
-root      1035  0.0  0.0      0 ?        21:29 [kmmcd]
-root      1036  0.0  0.0      0 ?        21:29 [khpsbpkt]
-root      1055  0.0  0.0      0 ?        21:29 [cfg80211]
-root      1059  0.0  0.0      0 ?        21:29 [knodemgrd_0]
-root      1067  0.0  0.0      0 ?        21:29 [iwlagn]
-root      1070  0.0  0.0      0 ?        21:29 [phy0]
-root      1090  0.0  0.0      0 ?        21:29 [hd-audio0]
-gdm       1213  0.0  0.2 226424 ?        21:29 /usr/lib64/polkit-gnome-authentication-agent-1
-root      1233  0.0  0.1  98944 ?        21:29 /usr/lib64/gdm-session-worker
-root      1244  0.0  0.1 121360 ?        21:29 /usr/lib64/upowerd
-root      1288  0.0  0.1  24708 pts/1    23:00 bash
-root      1335  0.0  0.5  26388 ?        21:29 /usr/bin/atop -a -w /var/log/atop/atop_20101027 600
-root      1357  0.0  0.0   6056 ?        21:29 portreserve
-root      1366  0.0  0.0  11328 ?        21:29 irqbalance
-daemon    1371  0.0  0.0  12380 ?        21:29 /usr/sbin/atd -l 1.8
-root      1450  0.0  0.0      0 ?        21:29 [flush-8:0]
-root      1614  0.0  0.0   6684 ?        21:29 /sbin/udevd -d
-root      1615  0.0  0.0   6684 ?        21:29 /sbin/udevd -d
-root      2051  0.0  0.0  24208 ?        21:29 supervising syslog-ng
-root      2056  0.0  0.1  63076 ?        21:29 syslog-ng
-root      2062  0.0  0.1 158984 ?        21:29 NetworkManager --pid-file=/var/run/NetworkManager/NetworkManager.pid
-root      2079  0.0  0.0  60192 ?        21:29 /usr/sbin/modem-manager
-avahi     2154  0.0  0.0  25656 ?        21:29 avahi-daemon: running [beria.local]
-avahi     2159  0.0  0.0  25532 ?        21:29 avahi-daemon: chroot helper
-root      2161  0.0  0.0  14772 ?        21:29 crond
-root      2180  0.0  0.0  43528 ?        21:29 /usr/sbin/sshd
-root      2186  0.0  0.0  21584 ?        21:29 /usr/sbin/wpa_supplicant -u
-root      2193  0.3  0.2  18272 ?        21:29 /usr/sbin/preload --verbose 1
-root      2217  0.0  0.1  48908 ?        21:29 /usr/sbin/snmpd -Lsd -Lf /dev/null -p /var/run/snmpd -a -I -lmSensors
-root      2726  0.0  0.1   9868 ?        21:30 /sbin/dhclient -d -4 -sf /usr/lib64/nm-dhcp-client.action -pf /var/run/dhclient-eth0.pid -lf /var/lib/dhcp/dhclient-5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03-eth0.lease -cf /var/run/nm-dhclient-eth0.conf eth0
-root      2843  0.0  0.0      0 ?        21:30 [kauditd]
-root      2883  0.0  0.0      0 ?        21:30 [kdmflush]
-root      2885  0.0  0.0      0 ?        21:30 [kcryptd_io]
-root      2886  0.0  0.0      0 ?        21:30 [kcryptd]
-root      2896  0.0  0.0      0 ?        21:30 [jbd2/dm-0-8]
-root      2897  0.0  0.0      0 ?        21:30 [ext4-dio-unwrit]
-500       2901  0.0  0.1 132132 ?        21:30 /usr/bin/gnome-keyring-daemon --daemonize --login
-500       2911  0.0  0.2 230244 ?        21:30 gnome-session
-500       2938  0.0  0.0  24544 ?        21:30 gpg-agent --keep-display --daemon --write-env-file /home/guillaume/.gnupg/gpg-agent-info
-ntp       2949  0.0  0.0  26332 ?        21:30 ntpd -u ntp:ntp -p /var/run/ntpd.pid
-root      2958  0.0  0.0   3964 tty1     21:30 /sbin/mingetty tty1
-root      2959  0.0  0.0   3964 tty2     21:30 /sbin/mingetty tty2
-root      2960  0.0  0.0   3964 tty3     21:30 /sbin/mingetty tty3
-root      2961  0.0  0.0   3964 tty4     21:30 /sbin/mingetty tty4
-root      2962  0.0  0.0   3964 tty5     21:30 /sbin/mingetty tty5
-root      2963  0.0  0.0   3964 tty6     21:30 /sbin/mingetty tty6
-500       2967  0.0  0.0  12300 ?        21:30 /usr/bin/ssh-agent -- /usr/share/X11/xdm/Xsession GNOME
-500       3016  0.0  0.0  19932 ?        21:30 /usr/bin/dbus-launch --exit-with-session --sh-syntax
-500       3017  0.0  0.0  14204 ?        21:30 /usr/bin/dbus-daemon --fork --print-pid 5 --print-address 7 --session
-500       3039  0.0  0.1 103212 ?        21:30 s2u --daemon=yes
-500       3045  0.0  0.1  57044 ?        21:30 /usr/lib64/gconfd-2
-500       3057  0.0  0.1 283628 ?        21:30 /usr/bin/pulseaudio --start --log-target=syslog
-500       3058  0.0  0.4 384604 ?        21:30 /usr/lib64/gnome-settings-daemon
-rtkit     3060  0.0  0.0 162200 ?        21:30 /usr/lib64/rtkit-daemon
-500       3065  0.0  0.1 178856 ?        21:30 /usr/lib64/pulse/gconf-helper
-500       3070  0.0  0.0  50084 ?        21:30 /usr/lib64/gvfsd
-500       3075  0.0  0.0 266600 ?        21:30 /usr/lib64//gvfs-fuse-daemon /home/guillaume/.gvfs
-500       3079  0.9  0.5 404296 ?        21:30 /usr/bin/metacity
-500       3090  0.0  0.1 287296 ?        21:30 /usr/lib64/gvfs-gdu-volume-monitor
-root      3092  0.0  0.1 125056 ?        21:30 /usr/lib64/udisks-daemon
-root      3093  0.0  0.0  42744 ?        21:30 udisks-daemon: not polling any devices
-500       3095  0.0  0.5 430428 ?        21:30 gnome-panel
-500       3103  0.0  0.0  63616 ?        21:30 /usr/lib64/gvfs-gphoto2-volume-monitor
-500       3104  0.0  0.6 638940 ?        21:30 nautilus
-500       3105  0.0  0.4 373692 ?        21:30 nm-applet --sm-disable
-500       3108  0.0  0.1 345712 ?        21:30 /usr/lib64/bonobo-activation-server --ac-activate --ior-output-fd=23
-500       3109  0.0  0.2 208244 ?        21:30 bluetooth-applet
-500       3110  0.0  0.3 292036 ?        21:30 gnome-power-manager
-500       3112  0.0  0.2 142256 ?        21:30 pam-panel-icon
-500       3115  0.0  0.2 208004 ?        21:30 /usr/lib64/polkit-gnome-authentication-agent-1
-500       3116  0.0  0.2 169596 ?        21:30 /usr/lib64/gdu-notification-daemon
-500       3119  0.0  0.3 308936 ?        21:30 gnome-volume-control-applet
-500       3129  0.0  0.2 342916 ?        21:30 /usr/lib64/notification-area-applet
-500       3130  0.0  0.3 352772 ?        21:30 /usr/lib64/wnck-applet
-500       3131  0.0  0.5 434404 ?        21:30 /usr/lib64/clock-applet
-root      3132  0.0  0.0  12372 ?        21:30 /sbin/pam_timestamp_check -d root
-500       3145  0.0  0.0  54576 ?        21:30 /usr/lib64/gvfsd-trash --spawner :1.12 /org/gtk/gvfs/exec_spaw/0
-500       3153  0.0  0.4 244512 ?        21:30 gnome-screensaver
-500       3155  0.0  0.0  50028 ?        21:30 /usr/lib64/gvfsd-metadata
-root      3157  0.0  0.0      0 ?        21:30 [flush-252:0]
-root      8703  0.0  0.0      0 ?        23:11 [kworker/u:0]
-500      11452  0.1  0.5 386108 ?        21:39 gnome-terminal
-500      11455  0.0  0.0   8120 ?        21:39 gnome-pty-helper
-root     13767  0.0  0.0      0 ?        22:28 [kworker/1:2]
-root     26415  0.0  0.0      0 ?        23:42 [kworker/0:2]
-500      28181  0.0  0.1  24824 pts/1    22:02 bash
-root     29659  0.0  0.0      0 ?        23:48 [kworker/0:0]
-root     30184  0.0  0.0      0 ?        23:49 [kworker/u:2]
-root     30244  0.0  0.0      0 ?        22:54 [kworker/u:1]
-500      31822  0.0  0.0   8580 pts/1    23:52 ps aux
+USER       PID %CPU %MEM    VSZ TT           ELAPSED COMMAND
+root         1  0.0  0.0 128328 ?           10:02:05 /sbin/init
+root         2  0.0  0.0      0 ?           10:02:05 [kthreadd]
+root         3  0.0  0.0      0 ?           10:02:05 [ksoftirqd/0]
+root         5  0.0  0.0      0 ?           10:02:05 [kworker/0:0H]
+root         7  0.0  0.0      0 ?           10:02:05 [rcu_sched]
+root         8  0.0  0.0      0 ?           10:02:05 [rcu_bh]
+root         9  0.0  0.0      0 ?           10:02:05 [migration/0]
+root        10  0.0  0.0      0 ?           10:02:05 [migration/1]
+root        11  0.0  0.0      0 ?           10:02:05 [ksoftirqd/1]
+root        13  0.0  0.0      0 ?           10:02:05 [kworker/1:0H]
+root        14  0.0  0.0      0 ?           10:02:05 [migration/2]
+root        15  0.0  0.0      0 ?           10:02:05 [ksoftirqd/2]
+root        17  0.0  0.0      0 ?           10:02:05 [kworker/2:0H]
+root        18  0.0  0.0      0 ?           10:02:05 [migration/3]
+root        19  0.0  0.0      0 ?           10:02:05 [ksoftirqd/3]
+root        21  0.0  0.0      0 ?           10:02:05 [kworker/3:0H]
+root        22  0.0  0.0      0 ?           10:02:05 [khelper]
+root        23  0.0  0.0      0 ?           10:02:05 [kdevtmpfs]
+root        24  0.0  0.0      0 ?           10:02:05 [netns]
+root        25  0.0  0.0      0 ?           10:02:05 [writeback]
+root        26  0.0  0.0      0 ?           10:02:05 [kintegrityd]
+root        27  0.0  0.0      0 ?           10:02:05 [bioset]
+root        28  0.0  0.0      0 ?           10:02:05 [kblockd]
+root        29  0.0  0.0      0 ?           10:02:05 [ata_sff]
+root        30  0.0  0.0      0 ?           10:02:05 [md]
+root        31  0.0  0.0      0 ?           10:02:05 [devfreq_wq]
+root        35  0.0  0.0      0 ?           10:02:05 [khungtaskd]
+root        36  0.0  0.0      0 ?           10:02:05 [kswapd0]
+root        37  0.0  0.0      0 ?           10:02:05 [ksmd]
+root        38  0.0  0.0      0 ?           10:02:05 [khugepaged]
+root        39  0.0  0.0      0 ?           10:02:05 [fsnotify_mark]
+root        40  0.0  0.0      0 ?           10:02:05 [bioset]
+root        41  0.0  0.0      0 ?           10:02:05 [crypto]
+root        48  0.0  0.0      0 ?           10:02:05 [kthrotld]
+root        49  0.0  0.0      0 ?           10:02:05 [irq/42-mei_me]
+root        51  0.0  0.0      0 ?           10:02:05 [scsi_eh_0]
+root        52  0.0  0.0      0 ?           10:02:05 [scsi_eh_1]
+root        53  0.0  0.0      0 ?           10:02:05 [scsi_eh_2]
+root        54  0.0  0.0      0 ?           10:02:05 [scsi_eh_3]
+root        55  0.0  0.0      0 ?           10:02:05 [scsi_eh_4]
+root        56  0.0  0.0      0 ?           10:02:05 [scsi_eh_5]
+root        63  0.0  0.0      0 ?           10:02:05 [kpsmoused]
+root        65  0.0  0.0      0 ?           10:02:05 [deferwq]
+root       291  0.0  0.0      0 ?           10:02:00 [khubd]
+root       298  0.0  0.0      0 ?           10:02:00 [kworker/1:1H]
+root       299  0.0  0.0      0 ?           10:02:00 [kworker/2:1H]
+root       300  0.0  0.0      0 ?           10:02:00 [kworker/0:1H]
+root       355  0.0  0.0      0 ?           10:02:00 [kworker/3:1H]
+root       390  0.0  0.0      0 ?           10:02:00 [jbd2/sda5-8]
+root       391  0.0  0.0      0 ?           10:02:00 [ext4-rsv-conver]
+root       456  0.0  0.1  66956 ?           10:01:59 /usr/lib/systemd/systemd-journald
+root       457  0.0  0.0      0 ?           10:01:59 [kauditd]
+root       477  0.0  0.0      0 ?           10:01:59 [rpciod]
+root       500  0.0  0.0  34516 ?           10:01:59 /usr/lib/systemd/systemd-udevd
+root       567  0.0  0.0      0 ?           10:01:59 [cfg80211]
+root       615  0.0  0.0      0 ?           10:01:59 [kvm-irqfd-clean]
+root       645  0.0  0.0      0 ?           10:01:59 [hd-audio0]
+root       828  0.0  0.0      0 ?           10:01:59 [kworker/u9:0]
+root       829  0.0  0.0      0 ?           10:01:59 [hci0]
+root       830  0.0  0.0      0 ?           10:01:59 [hci0]
+root       831  0.0  0.0      0 ?           10:01:59 [kworker/u9:1]
+root       912  0.0  0.0  19136 ?           10:01:58 /usr/libexec/bluetooth/bluetoothd
+root       913  0.0  0.0  19260 ?           10:01:58 /usr/sbin/irqbalance --foreground
+root       920  0.0  0.1 320636 ?           10:01:58 /usr/sbin/NetworkManager --no-daemon
+root       922  0.0  0.0 239040 ?           10:01:58 /sbin/rsyslogd -n -c 4
+root       948  0.0  0.0 318200 ?           10:01:58 /usr/sbin/ModemManager
+root       954  0.0  0.0  23568 ?           10:01:58 /usr/lib/systemd/systemd-logind
+root       955  0.0  0.0 193668 ?           10:01:58 /usr/lib/udisks/udisks-daemon --no-debug
+499        956  0.0  0.0  16380 ?           10:01:58 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
+root       959  0.0  0.0 225836 ?           10:01:58 /usr/libexec/upowerd
+root       961  0.0  0.0  45828 ?           10:01:58 udisks-daemon: not polling any devices  
+root       963  0.0  0.0 442392 ?           10:01:58 /usr/sbin/gdm -nodaemon
+polkitd   1006  0.0  0.1 367184 ?           10:01:57 /usr/lib/polkit-1/polkitd --no-debug
+root      1054  1.2  1.5 401904 tty1        10:01:57 /etc/X11/X :0 -background none -noreset -verbose 3 -logfile /dev/null -auth /var/run/gdm/auth-for-gdm-4e7zdi/database -seat seat0 -nolisten tcp vt1
+root      1056  0.0  0.0 258432 ?           10:01:57 /usr/libexec/accounts-daemon
+root      1060  0.0  0.0   4276 ?           10:01:57 /usr/sbin/acpid
+root      1356  0.0  0.0 211596 ?           10:01:57 gdm-session-worker [pam/gdm-launch-environment]
+gdm       1468  0.0  0.0  35416 ?           10:01:57 /usr/lib/systemd/systemd --user
+gdm       1470  0.0  0.0  65312 ?           10:01:57 (sd-pam)  
+gdm       1839  0.0  0.0 356624 ?           10:01:57 /usr/bin/pulseaudio --start --log-target=syslog
+rtkit     1843  0.0  0.0 162488 ?           10:01:57 /usr/libexec/rtkit-daemon
+root      1873  0.0  0.0   6336 ?           10:01:57 /sbin/ifplugd -I -b -i eth0
+gdm       1897  0.0  0.0  67260 ?           10:01:57 /usr/libexec/pulse/gconf-helper
+root      2055  0.0  0.0   6336 ?           10:01:56 /sbin/ifplugd -I -b -i wlan0
+root      2096  0.0  0.0 419640 ?           10:01:56 /usr/lib/udisks2/udisksd --no-debug
+root      2131  0.0  0.0  14344 ?           10:01:56 /sbin/dhclient -d -sf /usr/libexec/nm-dhcp-helper -pf /var/run/dhclient-eth0.pid -lf /var/lib/NetworkManager/dhclient-5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03-eth0.lease -cf /var/lib/NetworkManager/dhclient-eth0.conf eth0
+root      3057  0.0  0.0  14344 ?           10:01:52 /sbin/dhclient -1 -q -lf /var/lib/dhclient/dhclient--eth0.lease -pf /var/run/dhclient-eth0.pid eth0
+500       4505  0.0  0.0  39804 pts/2       06:45:35 ssh plouf.leo-mare.org
+500       5158  0.0  0.0 176180 ?           06:03:38 /usr/libexec/dconf-service
+root      6042  0.0  0.0 429492 ?           10:01:39 gdm-session-worker [pam/gdm-password]
+postfix   6556  0.0  0.0  25312 ?           01:38:57 pickup -l -t unix -u -c -o content_filter= -o receive_override_options=
+500       6887  0.0  0.0  35416 ?           10:01:34 /usr/lib/systemd/systemd --user
+500       6888  0.0  0.0  65312 ?           10:01:34 (sd-pam)  
+root      7302  0.0  0.0      0 ?           10:01:33 [kdmflush]
+root      7304  0.0  0.0      0 ?           10:01:33 [bioset]
+root      7305  0.0  0.0      0 ?           10:01:33 [kcryptd_io]
+root      7306  0.0  0.0      0 ?           10:01:33 [kcryptd]
+root      7307  0.0  0.0      0 ?           10:01:33 [bioset]
+500       7314  0.0  0.5 124008 ?           01:09:38 perl -dI lib/ t/agent/http/client/ssl.t
+root      7337  0.0  0.0      0 ?           10:01:33 [jbd2/dm-0-8]
