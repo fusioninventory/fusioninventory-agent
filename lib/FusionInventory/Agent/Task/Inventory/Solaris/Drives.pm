@@ -33,7 +33,7 @@ sub doInventory {
     my %zfs_filesystems =
         map { $_ => 1 }
         map { (split(/\s+/, $_))[0] }
-        getAllLines(command => 'zfs list -H');
+        getAllLines(command => '/usr/sbin/zfs list -H');
 
     # set filesystem type, using fstyp if needed
     foreach my $filesystem (@filesystems) {
