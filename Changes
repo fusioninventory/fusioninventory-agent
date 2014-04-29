@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.3.7 Mon, 28 Apr 2014 20:28:44 +0200
+2.3.7 Tue, 29 Apr 2014 10:38:11 +0200
 install:
 * do not rely on GNU install specific options
 
