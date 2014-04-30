@@ -1,5 +1,9 @@
 Revision history for FusionInventory agent
 
+2.3.7.1 Wed, 30 Apr 2014 12:27:56 +0200
+inventory task:
+* fix crash introduced by command logging on BSD hosts
+
 2.3.7 Tue, 29 Apr 2014 10:38:11 +0200
 install:
 * do not rely on GNU install specific options
