@@ -15,7 +15,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $volume (_getLogicalVolumes(logger => $logger)) {
         $inventory->addEntry(section => 'LOGICAL_VOLUMES', entry => $volume);
