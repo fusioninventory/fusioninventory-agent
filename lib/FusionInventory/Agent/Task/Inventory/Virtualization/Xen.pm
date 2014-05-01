@@ -15,7 +15,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{inventory};
+    my $logger    = $params{logger};
 
     my $command = 'xm list';
     foreach my $machine (_getVirtualMachines(command => $command, logger => $logger)) {

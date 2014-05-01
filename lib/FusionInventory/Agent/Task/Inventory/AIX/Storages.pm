@@ -16,7 +16,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{inventory};
+    my $logger    = $params{logger};
 
     # index VPD infos by AX field
     my $infos = _getIndexedLsvpdInfos(logger => $logger);
