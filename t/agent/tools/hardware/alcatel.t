@@ -13,7 +13,7 @@ my %tests = (
     'alcatel/unknown.1.walk' => [
         {
             TYPE         => 'NETWORKING',
-            MANUFACTURER => 'Alcatel-Lucent',
+            MANUFACTURER => 'Alcatel',
             MODEL        => 'OS6400-P24',
             DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
 
@@ -35,7 +35,7 @@ my %tests = (
             INFO => {
                 ID           => undef,
                 TYPE         => 'NETWORKING',
-                MANUFACTURER => 'Alcatel-Lucent',
+                MANUFACTURER => 'Alcatel',
                 MODEL        => 'OS6400-P24',
                 COMMENTS     => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
                 NAME         => 'CB-C005-127-os6400',
@@ -584,7 +584,7 @@ my %tests = (
     'alcatel/unknown.2.walk' => [
         {
             TYPE         => 'NETWORKING',
-            MANUFACTURER => 'Alcatel-Lucent',
+            MANUFACTURER => 'Alcatel',
             MODEL        => 'OS6400-P24',
             DESCRIPTION  => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
 
@@ -599,7 +599,7 @@ my %tests = (
             INFO => {
                 ID           => undef,
                 TYPE         => 'NETWORKING',
-                MANUFACTURER => 'Alcatel-Lucent',
+                MANUFACTURER => 'Alcatel',
                 MODEL        => 'OS6400-P24',
                 COMMENTS     => 'Alcatel-Lucent 6.4.4.342.R01 GA, April 18, 2011.',
                 NAME         => 'CP-153-127',

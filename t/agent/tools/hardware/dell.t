@@ -13,7 +13,7 @@ my %tests = (
     'dell/M5200.1.walk' => [
         {
             TYPE         => 'PRINTER',
-            MANUFACTURER => 'Dell',
+            MANUFACTURER => 'Lexmark',
             MODEL        => 'Dell Laser Printer M5200 9915DGL 551.014 --- Part Number ---',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
 
@@ -33,7 +33,7 @@ my %tests = (
             INFO => {
                 ID           => undef,
                 TYPE         => 'PRINTER',
-                MANUFACTURER => 'Dell',
+                MANUFACTURER => 'Lexmark',
                 MODEL        => 'Dell Laser Printer M5200 9915DGL 551.014 --- Part Number ---',
                 COMMENTS     => 'Dell Laser Printer M5200 version 55.10.14 kernel 2.4.0-test6 All-N-1',
                 NAME         => 'LXKE6E33E-2',
@@ -97,7 +97,7 @@ my %tests = (
     'dell/M5200.2.walk' => [
         {
             TYPE         => 'PRINTER',
-            MANUFACTURER => 'Dell',
+            MANUFACTURER => 'Lexmark',
             MODEL        => 'Dell Laser Printer M5200 992B216 551.019 --- Part Number ---',
             DESCRIPTION  => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
 
@@ -117,7 +117,7 @@ my %tests = (
             INFO => {
                 ID           => undef,
                 TYPE         => 'PRINTER',
-                MANUFACTURER => 'Dell',
+                MANUFACTURER => 'Lexmark',
                 MODEL        => 'Dell Laser Printer M5200 992B216 551.019 --- Part Number ---',
                 COMMENTS     => 'Dell Laser Printer M5200 version 55.10.19 kernel 2.4.0-test6 All-N-1',
                 NAME         => 'LXKB92115',
@@ -181,7 +181,7 @@ my %tests = (
     'dell/unknown.walk' => [
         {
             TYPE         => 'PRINTER',
-            MANUFACTURER => 'Dell',
+            MANUFACTURER => 'Hewlett-Packard',
             MODEL        => 'Dell 1600n',
             DESCRIPTION  => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
 
@@ -200,7 +200,7 @@ my %tests = (
             INFO => {
                 ID           => undef,
                 TYPE         => 'PRINTER',
-                MANUFACTURER => 'Dell',
+                MANUFACTURER => 'Hewlett-Packard',
                 MODEL        => 'Dell 1600n',
                 COMMENTS     => 'DELL NETWORK PRINTER,ROM A.03.15,JETDIRECT,JD24,EEPROM A.08.20',
                 NAME         => 'DEL0000f0aceaa9',
