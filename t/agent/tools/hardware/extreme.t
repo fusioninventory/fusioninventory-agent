@@ -14,6 +14,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Extreme',
+            VENDOR       => 'Extreme',
             MODEL        => 'Summit 300-24',
             DESCRIPTION  => 'Summit300-24 - Version 7.4e.2 (Build 6) by Release_Master 09/13/05 12:17:15',
 
@@ -37,6 +38,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Extreme',
+                VENDOR       => 'Extreme',
                 MODEL        => 'Summit 300-24',
                 COMMENTS     => 'Summit300-24 - Version 7.4e.2 (Build 6) by Release_Master 09/13/05 12:17:15',
                 NAME         => 'xtb12-2',
@@ -950,6 +952,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Extreme',
+            VENDOR       => 'Extreme',
             MODEL        => 'Summit 300-48',
             DESCRIPTION  => 'Summit300-48 - Version 7.4e.2 (Build 6) by Release_Master 09/13/05 12:44:51',
 
@@ -973,6 +976,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Extreme',
+                VENDOR       => 'Extreme',
                 MODEL        => 'Summit 300-48',
                 COMMENTS     => 'Summit300-48 - Version 7.4e.2 (Build 6) by Release_Master 09/13/05 12:44:51',
                 NAME         => 'xtc13',
@@ -2925,6 +2929,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Extreme',
+            VENDOR       => 'Extreme',
             MODEL        => 'Summit 400-48t',
             DESCRIPTION  => 'Summit400-48t - Version 7.2e.1 (Build 10) by Release_Master 03/26/04 18:29:56',
 
@@ -2945,6 +2950,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Extreme',
+                VENDOR       => 'Extreme',
                 MODEL        => 'Summit 400-48t',
                 COMMENTS     => 'Summit400-48t - Version 7.2e.1 (Build 10) by Release_Master 03/26/04 18:29:56',
                 NAME         => 'xtc6',
@@ -5494,6 +5500,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Extreme',
+            VENDOR       => 'Extreme',
             MODEL        => 'Summit x450e-48p',
             DESCRIPTION  => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
 
@@ -5506,6 +5513,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Extreme',
+                VENDOR       => 'Extreme',
                 MODEL        => 'Summit x450e-48p',
                 COMMENTS     => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
                 NAME         => 'sw-bat02',
@@ -6114,6 +6122,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Extreme',
+            VENDOR       => 'Extreme',
             MODEL        => 'Summit 48si',
             DESCRIPTION  => 'Summit48si - Version 7.0.0 (Build 61) by Release_Master 12/02/04 14:27:36',
 
@@ -6136,6 +6145,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Extreme',
+                VENDOR       => 'Extreme',
                 MODEL        => 'Summit 48si',
                 COMMENTS     => 'Summit48si - Version 7.0.0 (Build 61) by Release_Master 12/02/04 14:27:36',
                 NAME         => 'xt17t',
@@ -7169,6 +7179,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Extreme',
+            VENDOR       => 'Extreme',
             MODEL        => 'Summit 48si',
             DESCRIPTION  => 'Summit48si - Version 7.3.2 (Build 3) by Release_Master 02/21/05 16:35:08',
 
@@ -7191,6 +7202,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Extreme',
+                VENDOR       => 'Extreme',
                 MODEL        => 'Summit 48si',
                 COMMENTS     => 'Summit48si - Version 7.3.2 (Build 3) by Release_Master 02/21/05 16:35:08',
                 NAME         => 'xta6',
@@ -9131,6 +9143,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Extreme',
+            VENDOR       => 'Extreme',
             MODEL        => 'Summit 48si',
             DESCRIPTION  => 'Summit48si - Version 7.0.1 (Build 11) by Release_Master 03/28/03 02:09:23',
 
@@ -9151,6 +9164,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Extreme',
+                VENDOR       => 'Extreme',
                 MODEL        => 'Summit 48si',
                 COMMENTS     => 'Summit48si - Version 7.0.1 (Build 11) by Release_Master 03/28/03 02:09:23',
                 NAME         => 'xtb12-1',
@@ -10568,6 +10582,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Extreme',
+            VENDOR       => 'Extreme',
             MODEL        => 'Summit X350-48t',
             DESCRIPTION  => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
 
@@ -10589,6 +10604,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Extreme',
+                VENDOR       => 'Extreme',
                 MODEL        => 'Summit X350-48t',
                 COMMENTS     => 'ExtremeXOS version 12.4.3.5 v1243b5-patch1-8 by release-manager on Mon Mar 28 13:15:22 PDT 2011',
                 NAME         => 'sw30-c01-1',

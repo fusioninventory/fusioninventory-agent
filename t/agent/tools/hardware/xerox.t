@@ -14,9 +14,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'ColorQube 8570DN',
             DESCRIPTION  => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'c0500a',
             SERIAL       => 'XFN132868',
             UPTIME       => '(457023) 1:16:10.23',
@@ -34,6 +34,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'ColorQube 8570DN',
                 COMMENTS     => 'Xerox ColorQube 8570DN; System 1.3.8.P, OS 10.62, PS 4.10.0, Eng 23.P1.4.10.0, Net 42.40.09.02.2011, Adobe PostScript 3016.101 (16), PCL 5c Version 5.0',
                 NAME         => 'c0500a',
@@ -99,9 +100,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'DocuPrint N2125',
             DESCRIPTION  => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
-
             SERIAL       => '3510349171',
             UPTIME       => '(16986889) 1 day, 23:11:08.89',
             MEMORY       => '32',
@@ -117,6 +118,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'DocuPrint N2125',
                 COMMENTS     => 'Xerox DocuPrint N2125 Network Laser Printer - 2.12-02 ',
                 SERIAL       => '3510349171',
@@ -159,9 +161,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 3320',
             DESCRIPTION  => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
-
             SNMPHOSTNAME => 'AS_STEXU_IMP02',
             CONTACT      => 'Administrator',
             SERIAL       => '3221156098',
@@ -179,6 +181,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 3320',
                 COMMENTS     => 'Xerox Phaser 3320;Sys SW Version Phaser3320_V53.002.05.000 AUG-22-2012,MCB V2.50.01.05 AUG-22-2012,NIC V4.01.03,IOT V1.00.31,PCL5e 6.50.02 11-09-2011,PCL6 6.23.00.02   07-16-2012,PS 2.83.00.59.00.59 10-13-2010,IBM/EPSON 5.29.01 05-09-2011, Tray2 2.00.01,',
                 NAME         => 'AS_STEXU_IMP02',
@@ -238,9 +241,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 5550DT',
             DESCRIPTION  => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.03.00',
-
             SNMPHOSTNAME => 'Phaser 5550DT',
             SERIAL       => 'KNB015751',
             UPTIME       => '(7088810) 19:41:28.10',
@@ -258,6 +261,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 5550DT',
                 COMMENTS     => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.03.00',
                 NAME         => 'Phaser 5550DT',
@@ -322,9 +326,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 5550DT',
             DESCRIPTION  => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.01.00',
-
             SNMPHOSTNAME => 'Phaser 5550DT-1',
             SERIAL       => 'KNB015753',
             UPTIME       => '(52327401) 6 days, 1:21:14.01',
@@ -342,6 +346,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 5550DT',
                 COMMENTS     => 'Xerox Phaser 5550DT; System 1.3.7.P, OS 8.2, PS 5.1.0, Eng 11.58.00, Net 40.46.04.03.2009, Adobe PostScript 3016.101 (14), PCL 5e/6 Version 7.0.1, Finisher 5.01.00',
                 NAME         => 'Phaser 5550DT-1',
@@ -406,9 +411,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 6180 MFP',
             DESCRIPTION  => 'Xerox Phaser 6180MFP-D; Net 11.74,ESS 200802151717,IOT 05.09.00,Boot 200706151125',
-
             SNMPHOSTNAME => 'Phaser 6180MFP-D-E360D7',
             SERIAL       => 'GPX259705',
             UPTIME       => '(119016820) 13 days, 18:36:08.20',
@@ -425,6 +430,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 6180 MFP',
                 COMMENTS     => 'Xerox Phaser 6180MFP-D; Net 11.74,ESS 200802151717,IOT 05.09.00,Boot 200706151125',
                 NAME         => 'Phaser 6180MFP-D-E360D7',
@@ -462,9 +468,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'cIT510a',
             SERIAL       => 'FBT261947',
             UPTIME       => '(8607383) 23:54:33.83',
@@ -482,6 +488,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'cIT510a',
@@ -551,9 +558,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'cIT524a',
             SERIAL       => 'FBT261949',
             UPTIME       => '(262695935) 30 days, 9:42:39.35',
@@ -571,6 +578,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'cIT524a',
@@ -640,9 +648,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'Phaser 8560DN',
             SERIAL       => 'FBT261946',
             UPTIME       => '(1056921) 2:56:09.21',
@@ -660,6 +668,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'Phaser 8560DN',
@@ -729,9 +738,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'c0211a',
             SERIAL       => 'FBT261926',
             UPTIME       => '(9827360) 1 day, 3:17:53.60',
@@ -749,6 +758,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c0211a',
@@ -818,9 +828,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'c1309a',
             SERIAL       => 'FBT340010',
             UPTIME       => '(184090216) 21 days, 7:21:42.16',
@@ -838,6 +848,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c1309a',
@@ -907,9 +918,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'c2410a',
             SERIAL       => 'FBT261951',
             UPTIME       => '(72059111) 8 days, 8:09:51.11',
@@ -927,6 +938,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c2410a',
@@ -996,9 +1008,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'c3312a',
             SERIAL       => 'FBT163983',
             UPTIME       => '(745216738) 86 days, 6:02:47.38',
@@ -1016,6 +1028,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c3312a',
@@ -1085,9 +1098,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'c0400a',
             SERIAL       => 'FBT261925',
             UPTIME       => '(537900356) 62 days, 6:10:03.56',
@@ -1105,6 +1118,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c0400a',
@@ -1174,9 +1188,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-
             SNMPHOSTNAME => 'Phaser 8560DN-2',
             SERIAL       => 'FBT133950',
             UPTIME       => '(53965840) 6 days, 5:54:18.40',
@@ -1194,6 +1208,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
                 NAME         => 'Phaser 8560DN-2',
@@ -1263,9 +1278,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-
             SNMPHOSTNAME => 'c2206a',
             SERIAL       => 'FBT163981',
             UPTIME       => '(504016756) 58 days, 8:02:47.56',
@@ -1283,6 +1298,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
                 NAME         => 'c2206a',
@@ -1352,9 +1368,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-
             SNMPHOSTNAME => 'c1500a',
             SERIAL       => 'FBT133984',
             UPTIME       => '(745557553) 86 days, 6:59:35.53',
@@ -1372,6 +1388,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
                 NAME         => 'c1500a',
@@ -1441,9 +1458,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-
             SNMPHOSTNAME => 'c1715a',
             SERIAL       => 'FBT133868',
             UPTIME       => '(745560805) 86 days, 7:00:08.05',
@@ -1461,6 +1478,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
                 NAME         => 'c1715a',
@@ -1530,9 +1548,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
-
             SNMPHOSTNAME => 'c3111a',
             SERIAL       => 'FBT164018',
             UPTIME       => '(182596303) 21 days, 3:12:43.03',
@@ -1550,6 +1568,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 7.86, PS 4.1.0, Eng 22.L0.4.1.0, Net 31.92.12.14.2006',
                 NAME         => 'c3111a',
@@ -1619,9 +1638,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DN',
             DESCRIPTION  => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'c3003a',
             SERIAL       => 'FBT261865',
             UPTIME       => '(80535700) 9 days, 7:42:37.00',
@@ -1639,6 +1658,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DN',
                 COMMENTS     => 'Xerox Phaser 8560DN; OS 9.86, PS 4.10.0, Eng 22.L0.4.10.0, Net 37.58.08.31.2009, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'c3003a',
@@ -1708,9 +1728,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DP',
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-
             SNMPHOSTNAME => 'c1A110a-1',
             SERIAL       => 'WYP050086',
             UPTIME       => '(339691530) 39 days, 7:35:15.30',
@@ -1728,6 +1748,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DP',
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
                 NAME         => 'c1A110a-1',
@@ -1797,9 +1818,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DP',
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-
             SNMPHOSTNAME => 'c2009a',
             SERIAL       => 'WYP050250',
             UPTIME       => '(284944040) 32 days, 23:30:40.40',
@@ -1817,6 +1838,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DP',
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
                 NAME         => 'c2009a',
@@ -1886,9 +1908,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DP',
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-
             SNMPHOSTNAME => 'Phaser 8550DP',
             SERIAL       => 'WYP050085',
             UPTIME       => '(543157724) 62 days, 20:46:17.24',
@@ -1906,6 +1928,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DP',
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
                 NAME         => 'Phaser 8550DP',
@@ -1975,9 +1998,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DP',
             DESCRIPTION  => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
-
             SNMPHOSTNAME => 'c2700a',
             SERIAL       => 'WYP050251',
             UPTIME       => '(543164034) 62 days, 20:47:20.34',
@@ -1995,6 +2018,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DP',
                 COMMENTS     => 'Xerox Phaser 8550DP;PS 3.11.0,Net 24.38.04.28.2005,Eng 18.P1.3.11.0,OS 4.278',
                 NAME         => 'c2700a',
@@ -2064,9 +2088,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'Phaser 8560DT',
             DESCRIPTION  => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
-
             SNMPHOSTNAME => 'ciT400a',
             SERIAL       => 'FBT340011',
             UPTIME       => '(132190381) 15 days, 7:11:43.81',
@@ -2084,6 +2108,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'Phaser 8560DT',
                 COMMENTS     => 'Xerox Phaser 8560DT; OS 9.82, PS 4.7.0, Eng 22.L0.4.7.0, Net 37.54.03.02.2008, Adobe PostScript 3016.101 (11), PCL 5c Version 5.0',
                 NAME         => 'ciT400a',
@@ -2153,9 +2178,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'WorkCentre 5632 v1',
             DESCRIPTION  => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-
             SNMPHOSTNAME => 'SO007XN',
             LOCATION     => 'machine location not set',
             CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
@@ -2175,6 +2200,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'WorkCentre 5632 v1',
                 COMMENTS     => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
                 NAME         => 'SO007XN',
@@ -2239,9 +2265,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'WorkCentre 5632 v1',
             DESCRIPTION  => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
-
             SNMPHOSTNAME => 'SO011XN',
             LOCATION     => 'machine location not set',
             CONTACT      => 'System Administrator name not set; System Administrator phone number not set; System Administrator location not set; Device Administrator name not set; Device Administrator phone number not set; Device Administrator location not set; company URL not set',
@@ -2261,6 +2287,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'WorkCentre 5632 v1',
                 COMMENTS     => 'Xerox WorkCentre 5632 v1 Multifunction System; System Software 025.054.055.00060, ESS 061.060.03400',
                 NAME         => 'SO011XN',
@@ -2325,9 +2352,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'WorkCentre 7125',
             DESCRIPTION  => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
-
             SNMPHOSTNAME => 'XEROX WorkCentre 7125',
             SERIAL       => '3325295030',
             UPTIME       => '(9495100) 1 day, 2:22:31.00',
@@ -2345,6 +2372,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'WorkCentre 7125',
                 COMMENTS     => 'Xerox WorkCentre 7125;System 71.21.21,ESS1.210.4,IOT 5.12.0,FIN A15.2.0,ADF 11.0.1,SJFI3.0.16,SSMI1.14.1',
                 NAME         => 'XEROX WorkCentre 7125',
@@ -2431,9 +2459,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Xerox',
+            VENDOR       => 'Xerox',
             MODEL        => 'WorkCentre 7435',
             DESCRIPTION  => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
-
             SNMPHOSTNAME => 'WorkCentre 7435',
             SERIAL       => '3900723635',
             MAC          => '08:00:37:9b:8f:ca',
@@ -2443,6 +2471,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Xerox',
+                VENDOR       => 'Xerox',
                 MODEL        => 'WorkCentre 7435',
                 COMMENTS     => 'Xerox WorkCentre 7435;System 75.3.1,ESS PS1.222.18,IOT 41.1.0,FIN B13.8.0,IIT 22.13.1,ADF 20.0.0,SJFI3.0.12,SSMI1.11.1',
                 NAME         => 'WorkCentre 7435',

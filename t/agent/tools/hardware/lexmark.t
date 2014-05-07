@@ -14,6 +14,7 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Lexmark',
+            VENDOR       => 'Lexmark',
             MODEL        => 'Lexmark T622 41XT225  543.006',
             DESCRIPTION  => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
 
@@ -33,6 +34,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Lexmark',
+                VENDOR       => 'Lexmark',
                 MODEL        => 'Lexmark T622 41XT225  543.006',
                 COMMENTS     => 'Lexmark T622 version 54.30.06 kernel 2.4.0-test6 All-N-1',
                 NAME         => 'LXK3936A4',
@@ -92,6 +94,7 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Lexmark',
+            VENDOR       => 'Lexmark',
             MODEL        => 'X792',
             DESCRIPTION  => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
 
@@ -104,6 +107,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Lexmark',
+                VENDOR       => 'Lexmark',
                 MODEL        => 'X792',
                 COMMENTS     => 'Lexmark X792 version NH.HS2.N211La kernel 2.6.28.10.1 All-N-1',
                 NAME         => 'ET0021B7427721',

@@ -14,9 +14,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Ricoh',
+            VENDOR       => 'Ricoh',
             MODEL        => 'RICOH Aficio AP3800C',
             DESCRIPTION  => 'RICOH Aficio AP3800C 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model',
-
             SNMPHOSTNAME => 'Aficio AP3800C',
             SERIAL       => 'P6011202081',
             UPTIME       => '(166369300) 19 days, 6:08:13.00',
@@ -34,6 +34,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Ricoh',
+                VENDOR       => 'Ricoh',
                 MODEL        => 'RICOH Aficio AP3800C',
                 COMMENTS     => 'RICOH Aficio AP3800C 1.12 / RICOH Network Printer C model / RICOH Network Scanner C model',
                 NAME         => 'Aficio AP3800C',
@@ -100,9 +101,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Ricoh',
+            VENDOR       => 'Ricoh',
             MODEL        => 'RICOH Aficio MP C2050',
             DESCRIPTION  => 'RICOH Aficio MP C2050 1.17 / RICOH Network Printer C model / RICOH Network Scanner C model',
-
             SNMPHOSTNAME => 'Aficio MP C2050',
             LOCATION     => 'Schoelcher - 1er',
             SERIAL       => 'V2294502833',
@@ -122,6 +123,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Ricoh',
+                VENDOR       => 'Ricoh',
                 MODEL        => 'RICOH Aficio MP C2050',
                 COMMENTS     => 'RICOH Aficio MP C2050 1.17 / RICOH Network Printer C model / RICOH Network Scanner C model',
                 NAME         => 'Aficio MP C2050',
@@ -206,9 +208,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Ricoh',
+            VENDOR       => 'Ricoh',
             MODEL        => 'RICOH Aficio SP C420DN',
             DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
-
             SNMPHOSTNAME => 'Aficio SP C420DN',
             LOCATION     => 'Ugo',
             SERIAL       => 'S3899202523',
@@ -219,6 +221,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Ricoh',
+                VENDOR       => 'Ricoh',
                 MODEL        => 'RICOH Aficio SP C420DN',
                 COMMENTS     => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
                 NAME         => 'Aficio SP C420DN',
@@ -285,9 +288,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Ricoh',
+            VENDOR       => 'Ricoh',
             MODEL        => 'RICOH Aficio SP C420DN',
             DESCRIPTION  => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
-
             SNMPHOSTNAME => 'Aficio SP C420DN',
             LOCATION     => 'Ugo',
             SERIAL       => 'S3899202523',
@@ -298,6 +301,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Ricoh',
+                VENDOR       => 'Ricoh',
                 MODEL        => 'RICOH Aficio SP C420DN',
                 COMMENTS     => 'RICOH Aficio SP C420DN 1.05 / RICOH Network Printer C model',
                 NAME         => 'Aficio SP C420DN',

@@ -15,9 +15,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Sharp',
+            VENDOR       => 'Sharp',
             MODEL        => 'MX-2600N',
             DESCRIPTION  => 'SHARP MX-2600N',
-
             SNMPHOSTNAME => 'PASTEK',
             LOCATION     => '2eme etage Bureau POTHIN',
             UPTIME       => '(94252230) 10 days, 21:48:42.30',
@@ -33,6 +33,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Sharp',
+                VENDOR       => 'Sharp',
                 MODEL        => 'MX-2600N',
                 COMMENTS     => 'SHARP MX-2600N',
                 NAME         => 'PASTEK',
@@ -72,9 +73,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Sharp',
+            VENDOR       => 'Sharp',
             MODEL        => 'MX-5001N',
             DESCRIPTION  => 'SHARP MX-5001N',
-
             SNMPHOSTNAME => 'KENET - DPE2',
             LOCATION     => 'RDC - apers escalier en bois',
             SERIAL       => '9801405X00',
@@ -92,6 +93,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Sharp',
+                VENDOR       => 'Sharp',
                 MODEL        => 'MX-5001N',
                 COMMENTS     => 'SHARP MX-5001N',
                 NAME         => 'KENET - DPE2',
@@ -147,9 +149,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Sharp',
+            VENDOR       => 'Sharp',
             MODEL        => 'MX-5001N',
             DESCRIPTION  => 'SHARP MX-5001N',
-
             SNMPHOSTNAME => 'WASAI -- DFP',
             LOCATION     => '1er etage couloir',
             UPTIME       => '(28125680) 3 days, 6:07:36.80',
@@ -165,6 +167,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Sharp',
+                VENDOR       => 'Sharp',
                 MODEL        => 'MX-5001N',
                 COMMENTS     => 'SHARP MX-5001N',
                 NAME         => 'WASAI -- DFP',
@@ -204,9 +207,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Sharp',
+            VENDOR       => 'Sharp',
             MODEL        => 'MX-5001N',
             DESCRIPTION  => 'SHARP MX-5001N',
-
             SNMPHOSTNAME => 'MALAKA  - DOS -- IA-IPR',
             LOCATION     => 'Bat. Réhabilité ',
             SERIAL       => '9801391X00',
@@ -224,6 +227,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Sharp',
+                VENDOR       => 'Sharp',
                 MODEL        => 'MX-5001N',
                 COMMENTS     => 'SHARP MX-5001N',
                 NAME         => 'MALAKA  - DOS -- IA-IPR',

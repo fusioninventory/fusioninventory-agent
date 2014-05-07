@@ -15,6 +15,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.3R1.7 #0: 2011-08-30 11:49:21 UTC     builder@dagmath.juniper.net:/volume/build/junos/11.3/release/11.3R1.7/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-08-30 11:32:01',
 
@@ -35,6 +36,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.3R1.7 #0: 2011-08-30 11:49:21 UTC     builder@dagmath.juniper.net:/volume/build/junos/11.3/release/11.3R1.7/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-08-30 11:32:01',
                 NAME         => 'AB-B404-23-ex2200',
@@ -785,6 +787,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.4R1.6 #0: 2011-11-15 10:11:59 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R1.6/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-11-15 09:57:14',
 
@@ -805,6 +808,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-c-12p-2g internet router, kernel JUNOS 11.4R1.6 #0: 2011-11-15 10:11:59 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R1.6/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2011-11-15 09:57:14',
                 NAME         => 'C005-236b-ex2200',
@@ -1555,6 +1559,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-24t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
 
@@ -1580,6 +1585,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-24t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
                 NAME         => 'INTERUFR-219-ex2200-24',
@@ -2870,6 +2876,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
 
@@ -2895,6 +2902,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.1R3.5 #0: 2011-06-25 00:35:00 UTC     builder@briath.juniper.net:/volume/build/junos/11.1/release/11.1R3.5/obj-arm/bsd/kernels/JUNIPER-EX/kernel Build date: 2011-06-25 00:31:37 UTC Cop',
                 NAME         => 'AB-BU6-132-ex2200-48',
@@ -5416,6 +5424,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
 
@@ -5436,6 +5445,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
                 NAME         => 'jtc407-01',
@@ -7415,6 +7425,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
 
@@ -7427,6 +7438,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-48t-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
                 NAME         => 'jtc407-01',
@@ -8269,6 +8281,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX2200',
             DESCRIPTION  => 'Juniper Networks, Inc. ex2200-48p-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
 
@@ -8292,6 +8305,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX2200',
                 COMMENTS     => 'Juniper Networks, Inc. ex2200-48p-4g internet router, kernel JUNOS 11.4R5.5 #0: 2012-08-25 05:21:13 UTC     builder@evenath.juniper.net:/volume/build/junos/11.4/release/11.4R5.5/obj-arm/bsd/kernels/JUNIPER-EX-2200/kernel Build date: 2012-08-25 04:48:47 U',
                 NAME         => 'jtc13-03',
@@ -10457,6 +10471,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX3200-24t',
             DESCRIPTION  => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 11.4R5.7 #0: 2013-01-05 14:23:01 UTC     builder@queth.juniper.net:/volume/build/junos/11.4/release/11.4R5.7/obj-powerpc/bsd/kernels/JUNIPER-EX/kernel Build date: 2013-01-05 14:01:19 UTC Cop',
 
@@ -10483,6 +10498,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX3200-24t',
                 COMMENTS     => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 11.4R5.7 #0: 2013-01-05 14:23:01 UTC     builder@queth.juniper.net:/volume/build/junos/11.4/release/11.4R5.7/obj-powerpc/bsd/kernels/JUNIPER-EX/kernel Build date: 2013-01-05 14:01:19 UTC Cop',
                 NAME         => 'jmsea3-10',
@@ -13249,6 +13265,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX3200-24t',
             DESCRIPTION  => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
             SNMPHOSTNAME => 'jmsea3-11',
@@ -13274,6 +13291,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX3200-24t',
                 COMMENTS     => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
                 NAME         => 'jmsea3-11',
@@ -15352,6 +15370,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX3200-24t',
             DESCRIPTION  => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R2.6 #0: 2011-02-06 23:48:13 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R2.6/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-02-06 23:17:05 UTC Copyri',
 
@@ -15376,6 +15395,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX3200-24t',
                 COMMENTS     => 'Juniper Networks, Inc. ex3200-48p internet router, kernel JUNOS 10.4R2.6 #0: 2011-02-06 23:48:13 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R2.6/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-02-06 23:17:05 UTC Copyri',
                 NAME         => 'jtc20-03',
@@ -17779,6 +17799,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX4200-24t',
             DESCRIPTION  => 'Juniper Networks, Inc. ex4200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
 
@@ -17803,6 +17824,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX4200-24t',
                 COMMENTS     => 'Juniper Networks, Inc. ex4200-48p internet router, kernel JUNOS 10.4R3.4 #0: 2011-03-19 22:06:32 UTC     builder@warth.juniper.net:/volume/build/junos/10.4/release/10.4R3.4/obj-powerpc/bsd/sys/compile/JUNIPER-EX Build date: 2011-03-19 21:51:24 UTC Copyri',
                 NAME         => 'jte4-01',
@@ -29602,6 +29624,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             DESCRIPTION  => 'Juniper Networks, Inc. ex6210 Ethernet Switch, kernel JUNOS 12.3R3.4, Build date: 2013-06-14 01:37:19 UTC Copyright (c) 1996-2013 Juniper Networks, Inc.',
 
             SNMPHOSTNAME => 'sw-ex6210-tmk',
@@ -29631,6 +29654,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 COMMENTS     => 'Juniper Networks, Inc. ex6210 Ethernet Switch, kernel JUNOS 12.3R3.4, Build date: 2013-06-14 01:37:19 UTC Copyright (c) 1996-2013 Juniper Networks, Inc.',
                 NAME         => 'sw-ex6210-tmk',
                 LOCATION     => 'Nowhere',
@@ -38632,6 +38656,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'EX8208',
             DESCRIPTION  => 'Juniper Networks, Inc. ex8208 Ethernet Switch, kernel JUNOS 12.3R3.4, Build date: 2013-06-14 01:37:19 UTC Copyright (c) 1996-2013 Juniper Networks, Inc.',
 
@@ -38745,6 +38770,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'EX8208',
                 COMMENTS     => 'Juniper Networks, Inc. ex8208 Ethernet Switch, kernel JUNOS 12.3R3.4, Build date: 2013-06-14 01:37:19 UTC Copyright (c) 1996-2013 Juniper Networks, Inc.',
                 NAME         => 'sw-ex8208-tmk',
@@ -46474,6 +46500,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'SRX3400',
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
 
@@ -46486,6 +46513,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
@@ -47089,6 +47117,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'SRX3400',
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
 
@@ -47101,6 +47130,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',
@@ -47690,6 +47720,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Juniper',
+            VENDOR       => 'Juniper',
             MODEL        => 'SRX3400',
             DESCRIPTION  => 'Routeur Dauphine Juniper SRX3400',
 
@@ -47702,6 +47733,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Juniper',
+                VENDOR       => 'Juniper',
                 MODEL        => 'SRX3400',
                 COMMENTS     => 'Routeur Dauphine Juniper SRX3400',
                 NAME         => 'Dauphine-routeur',

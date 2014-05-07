@@ -14,8 +14,8 @@ my %tests = (
         {
             TYPE         => 'VIDEO',
             MANUFACTURER => 'Tandberg',
+            VENDOR       => 'Tandberg',
             DESCRIPTION  => 'TANDBERG Codec',
-
             SNMPHOSTNAME => 'VISIO.1',
             MAC          => '00:50:60:02:9b:79',
         },
@@ -24,6 +24,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'VIDEO',
                 MANUFACTURER => 'Tandberg',
+                VENDOR       => 'Tandberg',
                 COMMENTS     => 'TANDBERG Codec',
                 NAME         => 'VISIO.1',
                 MAC          => '00:50:60:02:9b:79',

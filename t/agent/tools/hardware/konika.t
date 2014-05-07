@@ -14,9 +14,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Konica',
+            VENDOR       => 'Konica',
             MODEL        => 'bizhub 421',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-
             SERIAL       => 'A0R6021004189',
             UPTIME       => '(80180925) 9 days, 6:43:29.25',
             MAC          => '00:50:aa:27:95:9e',
@@ -32,6 +32,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Konica',
+                VENDOR       => 'Konica',
                 MODEL        => 'bizhub 421',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
                 SERIAL       => 'A0R6021004189',
@@ -90,9 +91,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Konica',
+            VENDOR       => 'Konica',
             MODEL        => 'bizhub 421',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-
             SERIAL       => 'A0R6021004159',
             UPTIME       => '(105584922) 12 days, 5:17:29.22',
             MAC          => '00:50:aa:27:96:68',
@@ -108,6 +109,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Konica',
+                VENDOR       => 'Konica',
                 MODEL        => 'bizhub 421',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
                 SERIAL       => 'A0R6021004159',
@@ -166,9 +168,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Konica',
+            VENDOR       => 'Konica',
             MODEL        => 'bizhub 421',
             DESCRIPTION  => 'KONICA MINOLTA bizhub 421',
-
             SERIAL       => 'A0R6021004184',
             UPTIME       => '(8072382) 22:25:23.82',
             MAC          => '00:50:aa:27:95:a3',
@@ -184,6 +186,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Konica',
+                VENDOR       => 'Konica',
                 MODEL        => 'bizhub 421',
                 COMMENTS     => 'KONICA MINOLTA bizhub 421',
                 SERIAL       => 'A0R6021004184',
@@ -242,9 +245,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Konica',
+            VENDOR       => 'Konica',
             MODEL        => 'bizhub C224',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
-
             SERIAL       => 'A5C4021018159',
             UPTIME       => '(17995666) 2 days, 1:59:16.66',
             MEMORY       => '0',
@@ -261,6 +264,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Konica',
+                VENDOR       => 'Konica',
                 MODEL        => 'bizhub C224',
                 COMMENTS     => 'KONICA MINOLTA bizhub C224e',
                 SERIAL       => 'A5C4021018159',
@@ -329,9 +333,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Konica',
+            VENDOR       => 'Konica',
             MODEL        => 'bizhub C224',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C224e',
-
             SERIAL       => 'A5C4021018159',
             UPTIME       => '(7570291) 21:01:42.91',
             MEMORY       => '0',
@@ -348,6 +352,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Konica',
+                VENDOR       => 'Konica',
                 MODEL        => 'bizhub C224',
                 COMMENTS     => 'KONICA MINOLTA bizhub C224e',
                 SERIAL       => 'A5C4021018159',
@@ -416,6 +421,7 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Konica',
+            VENDOR       => 'Konica',
             MODEL        => 'bizhub C554',
             DESCRIPTION  => 'KONICA MINOLTA bizhub C554e',
 
@@ -435,6 +441,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Konica',
+                VENDOR       => 'Konica',
                 MODEL        => 'bizhub C554',
                 COMMENTS     => 'KONICA MINOLTA bizhub C554e',
                 SERIAL       => 'A5AY021001363',
