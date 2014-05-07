@@ -14,9 +14,10 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Kyocera',
+            VENDOR       => 'Kyocera',
+            VENDOR       => 'Kyocera',
             MODEL        => 'FS-C5350DN',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
-
             SERIAL       => 'QVS0Z04925',
             UPTIME       => '(55544038) 6 days, 10:17:20.38',
             MAC          => '00:c0:ee:80:ca:dd',
@@ -31,6 +32,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Kyocera',
+                VENDOR       => 'Kyocera',
                 MODEL        => 'FS-C5350DN',
                 COMMENTS     => 'KYOCERA MITA Printing System',
                 SERIAL       => 'QVS0Z04925',
@@ -75,9 +77,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Kyocera',
+            VENDOR       => 'Kyocera',
             MODEL        => 'FS-C5350DN',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
-
             SERIAL       => 'QVS0Y04720',
             UPTIME       => '(44432286) 5 days, 3:25:22.86',
             MAC          => '00:c0:ee:80:73:71',
@@ -92,6 +94,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Kyocera',
+                VENDOR       => 'Kyocera',
                 MODEL        => 'FS-C5350DN',
                 COMMENTS     => 'KYOCERA MITA Printing System',
                 SERIAL       => 'QVS0Y04720',
@@ -136,9 +139,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Kyocera',
+            VENDOR       => 'Kyocera',
             MODEL        => 'FS-C5350DN',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
-
             SERIAL       => 'QVS0Y04715',
             UPTIME       => '(3145468) 8:44:14.68',
             MAC          => '00:c0:ee:80:73:6c',
@@ -153,6 +156,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Kyocera',
+                VENDOR       => 'Kyocera',
                 MODEL        => 'FS-C5350DN',
                 COMMENTS     => 'KYOCERA MITA Printing System',
                 SERIAL       => 'QVS0Y04715',
@@ -197,9 +201,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Kyocera',
+            VENDOR       => 'Kyocera',
             MODEL        => 'FS-2000D',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
-
             SERIAL       => 'XLM7Y21506',
             UPTIME       => '(19416556) 2 days, 5:56:05.56',
             MEMORY       => '0',
@@ -215,6 +219,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Kyocera',
+                VENDOR       => 'Kyocera',
                 MODEL        => 'FS-2000D',
                 COMMENTS     => 'KYOCERA MITA Printing System',
                 SERIAL       => 'XLM7Y21506',
@@ -256,9 +261,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Kyocera',
+            VENDOR       => 'Kyocera',
             MODEL        => 'FS-2000D',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
-
             SERIAL       => 'XLM7Y21503',
             UPTIME       => '(749216) 2:04:52.16',
             MEMORY       => '0',
@@ -274,6 +279,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Kyocera',
+                VENDOR       => 'Kyocera',
                 MODEL        => 'FS-2000D',
                 COMMENTS     => 'KYOCERA MITA Printing System',
                 SERIAL       => 'XLM7Y21503',
@@ -315,9 +321,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Kyocera',
+            VENDOR       => 'Kyocera',
             MODEL        => 'CD 1218_DC 2218',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
-
             SERIAL       => 'QQM0701192',
             UPTIME       => '(17673056) 2 days, 1:05:30.56',
             MAC          => '00:c0:ee:2f:0d:d9',
@@ -332,6 +338,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Kyocera',
+                VENDOR       => 'Kyocera',
                 MODEL        => 'CD 1218_DC 2218',
                 COMMENTS     => 'KYOCERA MITA Printing System',
                 SERIAL       => 'QQM0701192',
@@ -372,9 +379,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Kyocera',
+            VENDOR       => 'Kyocera',
             MODEL        => 'CD 1182_DC 2182',
             DESCRIPTION  => 'KYOCERA MITA Printing System',
-
             SERIAL       => 'QJX9400014',
             UPTIME       => '(11310876) 1 day, 7:25:08.76',
             MAC          => '00:c0:ee:31:84:6b',
@@ -389,6 +396,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Kyocera',
+                VENDOR       => 'Kyocera',
                 MODEL        => 'CD 1182_DC 2182',
                 COMMENTS     => 'KYOCERA MITA Printing System',
                 SERIAL       => 'QJX9400014',
@@ -429,9 +437,9 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Kyocera',
+            VENDOR       => 'Kyocera',
             MODEL        => 'CD 1430_DC 2430',
             DESCRIPTION  => 'UTAX_TA Printing System',
-
             SERIAL       => 'Q250Z01068',
             UPTIME       => '(281437) 0:46:54.37',
             MAC          => '00:c0:ee:80:dd:2d',
@@ -446,6 +454,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Kyocera',
+                VENDOR       => 'Kyocera',
                 MODEL        => 'CD 1430_DC 2430',
                 COMMENTS     => 'UTAX_TA Printing System',
                 SERIAL       => 'Q250Z01068',

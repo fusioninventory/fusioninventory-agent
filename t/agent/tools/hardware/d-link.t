@@ -14,6 +14,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'D-Link',
+            VENDOR       => 'D-Link',
             DESCRIPTION  => 'D-Link DP-303 Print Server',
 
             SNMPHOSTNAME => 'Print Server PS-57B3C4',
@@ -24,6 +25,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'D-Link',
+                VENDOR       => 'D-Link',
                 COMMENTS     => 'D-Link DP-303 Print Server',
                 NAME         => 'Print Server PS-57B3C4',
                 MAC          => '00:05:5d:57:b3:c4',
@@ -52,6 +54,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'D-Link',
+            VENDOR       => 'D-Link',
             DESCRIPTION  => 'D-Link DP-303 Print Server',
 
             SNMPHOSTNAME => 'Print Server PS-57B3C7',
@@ -62,6 +65,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'D-Link',
+                VENDOR       => 'D-Link',
                 COMMENTS     => 'D-Link DP-303 Print Server',
                 NAME         => 'Print Server PS-57B3C7',
                 MAC          => '00:05:5d:57:b3:c7',

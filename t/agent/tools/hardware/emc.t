@@ -14,6 +14,7 @@ my %tests = (
         {
             TYPE         => 'STORAGE',
             MANUFACTURER => 'EMC',
+            VENDOR       => 'EMC',
             DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
 
             SNMPHOSTNAME => 'server_2',
@@ -25,6 +26,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'STORAGE',
                 MANUFACTURER => 'EMC',
+                VENDOR       => 'EMC',
                 COMMENTS     => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
                 NAME         => 'server_2',
                 LOCATION     => 'here',
@@ -124,6 +126,7 @@ my %tests = (
         {
             TYPE         => 'STORAGE',
             MANUFACTURER => 'EMC',
+            VENDOR       => 'EMC',
             DESCRIPTION  => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
 
             SNMPHOSTNAME => 'server_2',
@@ -135,6 +138,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'STORAGE',
                 MANUFACTURER => 'EMC',
+                VENDOR       => 'EMC',
                 COMMENTS     => 'Product: EMC Celerra File Server   Project: SNAS   Version: T5.6.52.201',
                 NAME         => 'server_2',
                 LOCATION     => 'here',
@@ -234,6 +238,7 @@ my %tests = (
         {
             TYPE         => 'STORAGE',
             MANUFACTURER => 'EMC',
+            VENDOR       => 'EMC',
             DESCRIPTION  => 'CX3-10c - Flare 3.26.0.10.5.032',
             SNMPHOSTNAME => 'BNK5RD1',
             UPTIME       => '(2246605893) 260 days, 0:34:18.93',
@@ -243,6 +248,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'STORAGE',
                 MANUFACTURER => 'EMC',
+                VENDOR       => 'EMC',
                 COMMENTS     => 'CX3-10c - Flare 3.26.0.10.5.032',
                 NAME         => 'BNK5RD1',
                 UPTIME       => '(2246605893) 260 days, 0:34:18.93',

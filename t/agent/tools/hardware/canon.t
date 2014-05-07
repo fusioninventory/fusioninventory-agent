@@ -14,6 +14,7 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Canon',
+            VENDOR       => 'Canon',
             MODEL        => 'Canon LBP7660C',
             DESCRIPTION  => 'Canon LBP7660C /P',
 
@@ -26,6 +27,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Canon',
+                VENDOR       => 'Canon',
                 MODEL        => 'Canon LBP7660C',
                 COMMENTS     => 'Canon LBP7660C /P',
                 NAME         => 'LBP7660C',
@@ -62,6 +64,7 @@ my %tests = (
         {
             TYPE         => 'PRINTER',
             MANUFACTURER => 'Canon',
+            VENDOR       => 'Canon',
             MODEL        => 'Canon MF4500 Series',
             DESCRIPTION  => 'Canon MF4500 Series /P',
 
@@ -73,6 +76,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'PRINTER',
                 MANUFACTURER => 'Canon',
+                VENDOR       => 'Canon',
                 MODEL        => 'Canon MF4500 Series',
                 COMMENTS     => 'Canon MF4500 Series /P',
                 NAME         => 'MF4500 Series',

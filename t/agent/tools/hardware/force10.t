@@ -14,6 +14,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Force10',
+            VENDOR       => 'Dell',
             DESCRIPTION  => 'Dell Force10 OS
 Operating System Version: 1.0
 Application Software Version: 8.4.2.7
@@ -37,6 +38,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Force10',
+                VENDOR       => 'Dell',
                 COMMENTS     => 'Dell Force10 OS
 Operating System Version: 1.0
 Application Software Version: 8.4.2.7
@@ -10079,6 +10081,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Force10',
+            VENDOR       => 'Force10',
             DESCRIPTION  => 'Force10 Networks Real Time Operating System Software
 Force10 Operating System Version: 1.0
 Force10 Application Software Version: 8.4.2.1
@@ -10101,6 +10104,7 @@ Build Time: Sun Dec 26 20:21:44 2010',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Force10',
+                VENDOR       => 'Force10',
                 COMMENTS     => 'Force10 Networks Real Time Operating System Software
 Force10 Operating System Version: 1.0
 Force10 Application Software Version: 8.4.2.1

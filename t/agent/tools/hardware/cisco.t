@@ -14,6 +14,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => '888',
             DESCRIPTION  => 'Cisco IOS Software, C880 Software (C880DATA-UNIVERSALK9-M), Version 12.4(20)T6, RELEASE SOFTWARE (fc2)
 Technical Support: http://www.cisco.com/techsupport
@@ -40,6 +41,7 @@ Compiled Fri 03-Sep-10 18:37 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => '888',
                 COMMENTS     => 'Cisco IOS Software, C880 Software (C880DATA-UNIVERSALK9-M), Version 12.4(20)T6, RELEASE SOFTWARE (fc2)
 Technical Support: http://www.cisco.com/techsupport
@@ -473,6 +475,7 @@ Compiled Fri 03-Sep-10 18:37 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Aironet 1040 series',
             DESCRIPTION  => 'Cisco IOS Software, C1040 Software (C1140-K9W7-M), Version 12.4(25d)JA1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -496,6 +499,7 @@ Compiled Thu 11-Aug-11 02:58 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Aironet 1040 series',
                 COMMENTS     => 'Cisco IOS Software, C1040 Software (C1140-K9W7-M), Version 12.4(25d)JA1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -703,6 +707,7 @@ Compiled Thu 11-Aug-11 02:58 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Aironet 1130 series',
             DESCRIPTION  => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -720,6 +725,7 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Aironet 1130 series',
                 COMMENTS     => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -894,6 +900,7 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Aironet 1130 series',
             DESCRIPTION  => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -917,6 +924,7 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Aironet 1130 series',
                 COMMENTS     => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(10b)JA3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -1127,6 +1135,7 @@ Compiled Wed 19-Mar-08 18:08 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Aironet 1130 series',
             DESCRIPTION  => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(21a)JA1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -1150,6 +1159,7 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Aironet 1130 series',
                 COMMENTS     => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(21a)JA1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -1388,6 +1398,7 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Aironet 1130 series',
             DESCRIPTION  => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(21a)JA1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -1411,6 +1422,7 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Aironet 1130 series',
                 COMMENTS     => 'Cisco IOS Software, C1130 Software (C1130-K9W7-M), Version 12.4(21a)JA1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -1649,6 +1661,7 @@ Compiled Wed 16-Sep-09 18:36 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2924 XLv',
             DESCRIPTION  => 'Cisco Internetwork Operating System Software 
 IOS (tm) C2900XL Software (C2900XL-C3H2S-M), Version 12.0(5)WC17, RELEASE SOFTWARE (fc1)
@@ -1666,6 +1679,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2924 XLv',
                 COMMENTS     => 'Cisco Internetwork Operating System Software 
 IOS (tm) C2900XL Software (C2900XL-C3H2S-M), Version 12.0(5)WC17, RELEASE SOFTWARE (fc1)
@@ -2128,6 +2142,7 @@ Compiled Tue 13-Feb-07 15:27 by antonino',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2950-24',
             DESCRIPTION  => 'Cisco Internetwork Operating System Software 
 IOS (tm) C2950 Software (C2950-I6K2L2Q4-M), Version 12.1(22)EA13, RELEASE SOFTWARE (fc2)
@@ -2147,6 +2162,7 @@ Compiled Fri 27-F',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2950-24',
                 COMMENTS     => 'Cisco Internetwork Operating System Software 
 IOS (tm) C2950 Software (C2950-I6K2L2Q4-M), Version 12.1(22)EA13, RELEASE SOFTWARE (fc2)
@@ -2632,6 +2648,7 @@ Compiled Fri 27-F',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-24TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -2654,6 +2671,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-24TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -3304,6 +3322,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-24TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -3323,6 +3342,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-24TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -3965,6 +3985,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-24TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -3984,6 +4005,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-24TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -4632,6 +4654,7 @@ Compiled Thu 05-May-11 02:53 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TT',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(50)SE1, RELEASE SOFTWARE (fc2)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -4648,6 +4671,7 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TT',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(50)SE1, RELEASE SOFTWARE (fc2)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -5595,6 +5619,7 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-24TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(55)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -5622,6 +5647,7 @@ Compiled Thu 09-Feb-12 19:11 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-24TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(55)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -6416,6 +6442,7 @@ Compiled Thu 09-Feb-12 19:11 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(55)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -6443,6 +6470,7 @@ Compiled Thu 09-Feb-12 19:11 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(55)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -8020,6 +8048,7 @@ Compiled Thu 09-Feb-12 19:11 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -8045,6 +8074,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -9425,6 +9455,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -9444,6 +9475,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -10638,6 +10670,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -10657,6 +10690,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -11851,6 +11885,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -11870,6 +11905,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -13064,6 +13100,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -13083,6 +13120,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(1)SE3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -14277,6 +14315,7 @@ Compiled Wed 30-May-12 14:26 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-8TC-S',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -14302,6 +14341,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-8TC-S',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -14608,6 +14648,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-8TC-S',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -14627,6 +14668,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-8TC-S',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -14893,6 +14935,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-8TC-S',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -14912,6 +14955,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-8TC-S',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE5, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -15171,6 +15215,7 @@ Compiled Tue 28-Sep-10 13:44 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-8TC-S',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE4, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -15196,6 +15241,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-8TC-S',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANLITEK9-M), Version 12.2(50)SE4, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -15496,6 +15542,7 @@ Compiled Fri 26-Mar-10 09:14 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -15520,6 +15567,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -16886,6 +16934,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -16910,6 +16959,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -18278,6 +18328,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -18302,6 +18353,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -19674,6 +19726,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -19698,6 +19751,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -21089,6 +21143,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -21107,6 +21162,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -22284,6 +22340,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -22302,6 +22359,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -23505,6 +23563,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -23523,6 +23582,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -24700,6 +24760,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -24718,6 +24779,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -25911,6 +25973,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -25929,6 +25992,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -27124,6 +27188,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960-48TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -27142,6 +27207,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960-48TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASE-M), Version 12.2(50)SE, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -28335,6 +28401,7 @@ Compiled Fri 27-Feb-09 23:25 by weiliu',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960G-24TC',
             DESCRIPTION  => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(50)SE1, RELEASE SOFTWARE (fc2)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -28351,6 +28418,7 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960G-24TC',
                 COMMENTS     => 'Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 12.2(50)SE1, RELEASE SOFTWARE (fc2)
 Copyright (c) 1986-2009 by Cisco Systems, Inc.
@@ -28852,6 +28920,7 @@ Compiled Mon 06-Apr-09 08:36 by amvarma',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960S Software',
             DESCRIPTION  => 'Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -28871,6 +28940,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960S Software',
                 COMMENTS     => 'Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -29899,6 +29969,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960S Software',
             DESCRIPTION  => 'Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -29924,6 +29995,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960S Software',
                 COMMENTS     => 'Cisco IOS Software, C2960S Software (C2960S-UNIVERSALK9-M), Version 12.2(58)SE1, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -30780,6 +30852,7 @@ Compiled Thu 05-May-11 03:03 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960S Software',
             DESCRIPTION  => 'Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.0(2)EX3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -30806,6 +30879,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960S Software',
                 COMMENTS     => 'Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.0(2)EX3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -31677,6 +31751,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960S Software',
             DESCRIPTION  => 'Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.0(2)EX3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -31703,6 +31778,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960S Software',
                 COMMENTS     => 'Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.0(2)EX3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -32570,6 +32646,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960S Software',
             DESCRIPTION  => 'Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.0(2)EX3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -32596,6 +32673,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960S Software',
                 COMMENTS     => 'Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.0(2)EX3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -33480,6 +33558,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960S Software',
             DESCRIPTION  => 'Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.0(2)EX3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -33506,6 +33585,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960S Software',
                 COMMENTS     => 'Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.0(2)EX3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -34375,6 +34455,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 2960S Software',
             DESCRIPTION  => 'Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.0(2)EX3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -34401,6 +34482,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 2960S Software',
                 COMMENTS     => 'Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.0(2)EX3, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
@@ -35274,6 +35356,7 @@ Compiled Wed 11-Sep-13 02:04 by prod_rel_team',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 3550-12G',
             DESCRIPTION  => 'Cisco Internetwork Operating System Software 
 IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
@@ -35292,6 +35375,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 3550-12G',
                 COMMENTS     => 'Cisco Internetwork Operating System Software 
 IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
@@ -36451,6 +36535,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 3550-12G',
             DESCRIPTION  => 'Cisco Internetwork Operating System Software 
 IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
@@ -36469,6 +36554,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 3550-12G',
                 COMMENTS     => 'Cisco Internetwork Operating System Software 
 IOS (tm) C3550 Software (C3550-I5Q3L2-M), Version 12.1(20)EA1a, RELEASE SOFTWARE (fc1)
@@ -37628,6 +37714,7 @@ Compiled Mon 19-Apr-04 21:50 by yenanh',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 3750-24/48',
             DESCRIPTION  => 'Cisco IOS Software, C3750 Software (C3750-IPBASE-M), Version 12.2(25)SEB4, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2005 by Cisco Systems, Inc.
@@ -37653,6 +37740,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 3750-24/48',
                 COMMENTS     => 'Cisco IOS Software, C3750 Software (C3750-IPBASE-M), Version 12.2(25)SEB4, RELEASE SOFTWARE (fc1)
 Copyright (c) 1986-2005 by Cisco Systems, Inc.
@@ -39072,6 +39160,7 @@ Compiled Tue 30-Aug-05 15:47 by yenanh',
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Cisco',
+            VENDOR       => 'Cisco',
             MODEL        => 'Catalyst 6509VSS',
             DESCRIPTION  => 'Cisco IOS Software, s72033_rp Software (s72033_rp-IPSERVICESK9_WAN-VM), Version 12.2(33)SXI5, RELEASE SOFTWARE (fc2)
 Technical Support: http://www.cisco.com/techsupport
@@ -39123,6 +39212,7 @@ Compiled Sat 23-Oct-10 17:57 by prod',
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Cisco',
+                VENDOR       => 'Cisco',
                 MODEL        => 'Catalyst 6509VSS',
                 COMMENTS     => 'Cisco IOS Software, s72033_rp Software (s72033_rp-IPSERVICESK9_WAN-VM), Version 12.2(33)SXI5, RELEASE SOFTWARE (fc2)
 Technical Support: http://www.cisco.com/techsupport

@@ -26,52 +26,52 @@ my %types = (
 );
 
 # http://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
-my %sysobjectid_vendors = (
-    2     => { vendor => 'IBM',             type => 'COMPUTER'   },
-    9     => { vendor => 'Cisco',           type => 'NETWORKING' },
-    11    => { vendor => 'Hewlett-Packard'                       },
-    23    => { vendor => 'Novell',          type => 'COMPUTER'   },
-    36    => { vendor => 'DEC',             type => 'COMPUTER'   },
-    42    => { vendor => 'Sun',             type => 'COMPUTER'   },
-    43    => { vendor => '3Com',            type => 'NETWORKING' },
-    45    => { vendor => 'Nortel',          type => 'NETWORKING' },
-    63    => { vendor => 'Apple',                                },
-    171   => { vendor => 'D-Link',          type => 'NETWORKING' },
-    186   => { vendor => 'Toshiba',         type => 'PRINTER'    },
-    207   => { vendor => 'Allied',          type => 'NETWORKING' },
-    236   => { vendor => 'Samsung',         type => 'PRINTER'    },
-    253   => { vendor => 'Xerox',           type => 'PRINTER'    },
-    289   => { vendor => 'Brocade',         type => 'NETWORKING' },
-    367   => { vendor => 'Ricoh',           type => 'PRINTER'    },
-    368   => { vendor => 'Axis',            type => 'NETWORKING' },
-    534   => { vendor => 'Eaton',           type => 'NETWORKING' },
-    637   => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
-    641   => { vendor => 'Lexmark',         type => 'PRINTER'    },
-    674   => { vendor => 'Dell'                                  },
-    714   => { vendor => 'Wyse',            type => 'PRINTER'    },
-    1139  => { vendor => 'EMC',             type => 'STORAGE'    },
-    1248  => { vendor => 'Epson',           type => 'PRINTER'    },
-    1347  => { vendor => 'Kyocera',         type => 'PRINTER'    },
-    1602  => { vendor => 'Canon',           type => 'PRINTER'    },
-    1805  => { vendor => 'Sagem',           type => 'NETWORKING' },
-    1872  => { vendor => 'Alteon',          type => 'NETWORKING' },
-    1916  => { vendor => 'Extreme',         type => 'NETWORKING' },
-    1981  => { vendor => 'EMC',             type => 'STORAGE'    },
-    1991  => { vendor => 'Foundry',         type => 'NETWORKING' },
-    2385  => { vendor => 'Sharp',           type => 'PRINTER'    },
-    2435  => { vendor => 'Brother',         type => 'PRINTER'    },
-    2636  => { vendor => 'Juniper',         type => 'NETWORKING' },
-    2699  => { vendor => 'Axis',            type => 'PRINTER'    },
-    3224  => { vendor => 'NetScreen',       type => 'NETWORKING' },
-    3977  => { vendor => 'Broadband',       type => 'NETWORKING' },
-    5596  => { vendor => 'Tandberg',        type => 'VIDEO'      },
-    6027  => { vendor => 'Force10',         type => 'NETWORKING' },
-    6486  => { vendor => 'Alcatel',         type => 'NETWORKING' },
-    6889  => { vendor => 'Avaya',           type => 'NETWORKING' },
-    10418 => { vendor => 'Avocent'                               },
-    16885 => { vendor => 'Nortel',          type => 'NETWORKING' },
-    18334 => { vendor => 'Konica',          type => 'PRINTER'    },
-    25506 => { vendor => 'H3C',             type => 'NETWORKING' },
+my %sysobjectid_manufacturers = (
+    2     => { manufacturer => 'IBM',             type => 'COMPUTER'   },
+    9     => { manufacturer => 'Cisco',           type => 'NETWORKING' },
+    11    => { manufacturer => 'Hewlett-Packard'                       },
+    23    => { manufacturer => 'Novell',          type => 'COMPUTER'   },
+    36    => { manufacturer => 'DEC',             type => 'COMPUTER'   },
+    42    => { manufacturer => 'Sun',             type => 'COMPUTER'   },
+    43    => { manufacturer => '3Com',            type => 'NETWORKING' },
+    45    => { manufacturer => 'Nortel',          type => 'NETWORKING' },
+    63    => { manufacturer => 'Apple',                                },
+    171   => { manufacturer => 'D-Link',          type => 'NETWORKING' },
+    186   => { manufacturer => 'Toshiba',         type => 'PRINTER'    },
+    207   => { manufacturer => 'Allied',          type => 'NETWORKING' },
+    236   => { manufacturer => 'Samsung',         type => 'PRINTER'    },
+    253   => { manufacturer => 'Xerox',           type => 'PRINTER'    },
+    289   => { manufacturer => 'Brocade',         type => 'NETWORKING' },
+    367   => { manufacturer => 'Ricoh',           type => 'PRINTER'    },
+    368   => { manufacturer => 'Axis',            type => 'NETWORKING' },
+    534   => { manufacturer => 'Eaton',           type => 'NETWORKING' },
+    637   => { manufacturer => 'Alcatel-Lucent',  type => 'NETWORKING' },
+    641   => { manufacturer => 'Lexmark',         type => 'PRINTER'    },
+    674   => { manufacturer => 'Dell'                                  },
+    714   => { manufacturer => 'Wyse',            type => 'PRINTER'    },
+    1139  => { manufacturer => 'EMC',             type => 'STORAGE'    },
+    1248  => { manufacturer => 'Epson',           type => 'PRINTER'    },
+    1347  => { manufacturer => 'Kyocera',         type => 'PRINTER'    },
+    1602  => { manufacturer => 'Canon',           type => 'PRINTER'    },
+    1805  => { manufacturer => 'Sagem',           type => 'NETWORKING' },
+    1872  => { manufacturer => 'Alteon',          type => 'NETWORKING' },
+    1916  => { manufacturer => 'Extreme',         type => 'NETWORKING' },
+    1981  => { manufacturer => 'EMC',             type => 'STORAGE'    },
+    1991  => { manufacturer => 'Foundry',         type => 'NETWORKING' },
+    2385  => { manufacturer => 'Sharp',           type => 'PRINTER'    },
+    2435  => { manufacturer => 'Brother',         type => 'PRINTER'    },
+    2636  => { manufacturer => 'Juniper',         type => 'NETWORKING' },
+    2699  => { manufacturer => 'Axis',            type => 'PRINTER'    },
+    3224  => { manufacturer => 'NetScreen',       type => 'NETWORKING' },
+    3977  => { manufacturer => 'Broadband',       type => 'NETWORKING' },
+    5596  => { manufacturer => 'Tandberg',        type => 'VIDEO'      },
+    6027  => { manufacturer => 'Force10',         type => 'NETWORKING' },
+    6486  => { manufacturer => 'Alcatel',         type => 'NETWORKING' },
+    6889  => { manufacturer => 'Avaya',           type => 'NETWORKING' },
+    10418 => { manufacturer => 'Avocent'                               },
+    16885 => { manufacturer => 'Nortel',          type => 'NETWORKING' },
+    18334 => { manufacturer => 'Konica',          type => 'PRINTER'    },
+    25506 => { manufacturer => 'H3C',             type => 'NETWORKING' },
 );
 
 my %sysobjectid_models;
@@ -101,6 +101,7 @@ my %sysdescr_first_word = (
     'epson'          => { vendor => 'Epson',           type => 'PRINTER'    },
     'extreme'        => { vendor => 'Extreme',         type => 'NETWORKING' },
     'extremexos'     => { vendor => 'Extreme',         type => 'NETWORKING' },
+    'force10'        => { vendor => 'Force10',         type => 'NETWORKING' },
     'foundry'        => { vendor => 'Foundry',         type => 'NETWORKING' },
     'fuji'           => { vendor => 'Fuji',            type => 'NETWORKING' },
     'h3c'            => { vendor => 'H3C',             type => 'NETWORKING' },
@@ -349,24 +350,24 @@ sub getDeviceInfo {
             iso\.3\.6\.1\.4\.1      |
             \.1\.3\.6\.1\.4\.1
         )/x;
-        my ($vendor_id, $model_id) =
+        my ($manufacturer_id, $model_id) =
             $sysobjectid =~ /^ $prefix \. (\d+) (?: \. (.+) )? $/x;
-        if ($vendor_id) {
-            my $result = $sysobjectid_vendors{$vendor_id};
+        if ($manufacturer_id) {
+            my $result = $sysobjectid_manufacturers{$manufacturer_id};
             if ($result) {
                 $result->{model} = _getDeviceModel(
-                    vendor  => $result->{vendor},
-                    id      => $model_id,
-                    datadir => $datadir,
+                    manufacturer => $result->{manufacturer},
+                    id           => $model_id,
+                    datadir      => $datadir,
                 );
-                $device{MANUFACTURER} = $result->{vendor};
+                $device{MANUFACTURER} = $result->{manufacturer};
                 $device{TYPE}         = $result->{type}  if $result->{type};
                 $device{MODEL}        = $result->{model} if $result->{model};
             }
         }
     }
 
-    # manufacturer and type identification attempt, using sysDescr
+    # vendor and type identification attempt, using sysDescr
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
     if ($sysdescr) {
 
@@ -375,19 +376,15 @@ sub getDeviceInfo {
         my $result = $sysdescr_first_word{lc($first_word)};
 
         if ($result) {
-            $device{MANUFACTURER} = $result->{vendor} if $result->{vendor} and
-                                                         !$device{MANUFACTURER};
-            $device{TYPE}         = $result->{type}   if $result->{type} and
-                                                         !$device{TYPE};
+            $device{VENDOR} = $result->{vendor} if $result->{vendor};
+            $device{TYPE}   = $result->{type}   if $result->{type};
         }
 
         # whole sysdescr value
         foreach my $rule (@sysdescr_rules) {
             next unless $sysdescr =~ $rule->{match};
-            $device{MANUFACTURER} = $rule->{vendor} if $rule->{vendor} and
-                                                       !$device{MANUFACTURER};
-            $device{TYPE}         = $rule->{type}   if $rule->{type} and
-                                                       !$device{TYPE};
+            $device{VENDOR} = $rule->{vendor} if $rule->{vendor};
+            $device{TYPE}   = $rule->{type}   if $rule->{type};
             last;
         }
         $device{DESCRIPTION} = $sysdescr;
@@ -407,6 +404,11 @@ sub getDeviceInfo {
     if (!exists $device{MANUFACTURER}) {
         my $manufacturer = $snmp->get('.1.3.6.1.2.1.43.8.2.1.14.1.1');
         $device{MANUFACTURER} = $manufacturer if $manufacturer;
+    }
+    
+    # fallback vendor, using manufacturer
+    if (!exists $device{VENDOR} && exists $device{MANUFACTURER}) {
+        $device{VENDOR} = $device{MANUFACTURER};
     }
 
     # remaining informations
@@ -457,13 +459,13 @@ sub _getDeviceModel {
     return unless $params{id};
 
     # load vendor-specific database if not already done
-    my $vendor = lc($params{vendor});
-    $vendor =~ s/ /_/g;
-    $sysobjectid_models{$vendor} = _loadDeviceModels(
-        file => "$params{datadir}/sysobjectid.$vendor.ids"
-    ) if !exists $sysobjectid_models{$vendor};
+    my $manufacturer = lc($params{manufacturer});
+    $manufacturer =~ s/ /_/g;
+    $sysobjectid_models{$manufacturer} = _loadDeviceModels(
+        file => "$params{datadir}/sysobjectid.$manufacturer.ids"
+    ) if !exists $sysobjectid_models{$manufacturer};
 
-    return $sysobjectid_models{$vendor}->{$params{id}};
+    return $sysobjectid_models{$manufacturer}->{$params{id}};
 }
 
 sub _loadDeviceModels {

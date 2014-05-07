@@ -14,6 +14,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Nortel',
+            VENDOR       => 'Nortel',
             MODEL        => 'Ethernet Routing Switch 4548GT-PWR',
             DESCRIPTION  => 'Ethernet Routing Switch 4548GT-PWR    HW:06       FW:5.2.0.3   SW:v5.2.0.008 BN:08 (c) Nortel Networks',
 
@@ -28,6 +29,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Nortel',
+                VENDOR       => 'Nortel',
                 MODEL        => 'Ethernet Routing Switch 4548GT-PWR',
                 COMMENTS     => 'Ethernet Routing Switch 4548GT-PWR    HW:06       FW:5.2.0.3   SW:v5.2.0.008 BN:08 (c) Nortel Networks',
                 NAME         => '4548_DOULEUR',
@@ -1592,6 +1594,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Nortel',
+            VENDOR       => 'Nortel',
             MODEL        => 'Baystack 470 24T',
             DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
 
@@ -1611,6 +1614,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Nortel',
+                VENDOR       => 'Nortel',
                 MODEL        => 'Baystack 470 24T',
                 COMMENTS     => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
                 NAME         => 'Bay470',
@@ -2234,6 +2238,7 @@ my %tests = (
         {
             TYPE         => 'NETWORKING',
             MANUFACTURER => 'Nortel',
+            VENDOR       => 'Nortel',
             MODEL        => 'Baystack 470 24T',
             DESCRIPTION  => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
 
@@ -2248,6 +2253,7 @@ my %tests = (
                 ID           => undef,
                 TYPE         => 'NETWORKING',
                 MANUFACTURER => 'Nortel',
+                VENDOR       => 'Nortel',
                 MODEL        => 'Baystack 470 24T',
                 COMMENTS     => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
                 NAME         => '470_99_OBS',
