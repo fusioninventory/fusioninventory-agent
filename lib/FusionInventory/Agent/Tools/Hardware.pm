@@ -71,6 +71,7 @@ my %sysobjectid_vendors = (
     10418 => { vendor => 'Avocent'                               },
     16885 => { vendor => 'Nortel',          type => 'NETWORKING' },
     18334 => { vendor => 'Konica',          type => 'PRINTER'    },
+    25506 => { vendor => 'H3C',             type => 'NETWORKING' },
 );
 
 my %sysobjectid_models;
