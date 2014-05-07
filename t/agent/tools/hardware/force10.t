@@ -13,7 +13,7 @@ my %tests = (
     'force10/c300.01.walk' => [
         {
             TYPE         => 'NETWORKING',
-            MANUFACTURER => 'Dell',
+            MANUFACTURER => 'Force10',
             DESCRIPTION  => 'Dell Force10 OS
 Operating System Version: 1.0
 Application Software Version: 8.4.2.7
@@ -36,7 +36,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
             INFO => {
                 ID           => undef,
                 TYPE         => 'NETWORKING',
-                MANUFACTURER => 'Dell',
+                MANUFACTURER => 'Force10',
                 COMMENTS     => 'Dell Force10 OS
 Operating System Version: 1.0
 Application Software Version: 8.4.2.7

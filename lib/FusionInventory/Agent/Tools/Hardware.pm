@@ -375,15 +375,19 @@ sub getDeviceInfo {
         my $result = $sysdescr_first_word{lc($first_word)};
 
         if ($result) {
-            $device{MANUFACTURER} = $result->{vendor} if $result->{vendor};
-            $device{TYPE}         = $result->{type} if $result->{type};
+            $device{MANUFACTURER} = $result->{vendor} if $result->{vendor} and
+                                                         !$device{MANUFACTURER};
+            $device{TYPE}         = $result->{type}   if $result->{type} and
+                                                         !$device{TYPE};
         }
 
         # whole sysdescr value
         foreach my $rule (@sysdescr_rules) {
             next unless $sysdescr =~ $rule->{match};
-            $device{MANUFACTURER} = $rule->{vendor} if $rule->{vendor};
-            $device{TYPE}         = $rule->{type}   if $rule->{type};
+            $device{MANUFACTURER} = $rule->{vendor} if $rule->{vendor} and
+                                                       !$device{MANUFACTURER};
+            $device{TYPE}         = $rule->{type}   if $rule->{type} and
+                                                       !$device{TYPE};
             last;
         }
         $device{DESCRIPTION} = $sysdescr;
