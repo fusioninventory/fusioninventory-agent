@@ -59,7 +59,7 @@ sub doInventory {
     }
 
     $inventory->setHardware({
-        USERID => _getLastUser(logger => $logger)
+        LASTLOGGEDUSER => _getLastUser(logger => $logger)
     });
 }
 
