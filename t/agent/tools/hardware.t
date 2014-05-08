@@ -426,7 +426,12 @@ my $snmp2 = FusionInventory::Agent::SNMP::Mock->new(
 my %device2 = getDeviceInfo(snmp => $snmp2);
 cmp_deeply(
     \%device2,
-    { DESCRIPTION => 'foo', TYPE => 'NETWORKING', MANUFACTURER => 'Nortel' },
+    {
+        DESCRIPTION  => 'foo',
+        TYPE         => 'NETWORKING',
+        MANUFACTURER => 'Nortel',
+        VENDOR       => 'Nortel'
+    },
     'getDeviceInfo() with sysobjectid'
 );
 
