@@ -17,7 +17,6 @@ my %tests = (
             VENDOR       => 'Nortel',
             MODEL        => 'Ethernet Routing Switch 4548GT-PWR',
             DESCRIPTION  => 'Ethernet Routing Switch 4548GT-PWR    HW:06       FW:5.2.0.3   SW:v5.2.0.008 BN:08 (c) Nortel Networks',
-
             SNMPHOSTNAME => '4548_DOULEUR',
             LOCATION     => 'Tour B - 1er - DOULEUR',
             CONTACT      => 'Service Informatique',
@@ -53,6 +52,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '2',
@@ -67,6 +67,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '3',
@@ -81,6 +82,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '4',
@@ -95,6 +97,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '5',
@@ -109,6 +112,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '6',
@@ -123,6 +127,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '7',
@@ -137,6 +142,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '8',
@@ -151,6 +157,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '9',
@@ -165,6 +172,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '10',
@@ -179,6 +187,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '11',
@@ -193,6 +202,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1051638929',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -214,6 +224,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1402372525',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -235,6 +246,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '14',
@@ -249,6 +261,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '15',
@@ -263,6 +276,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '16',
@@ -277,6 +291,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '17',
@@ -291,6 +306,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '18',
@@ -305,6 +321,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '19',
@@ -319,6 +336,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '20',
@@ -333,6 +351,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '21',
@@ -347,6 +366,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1483892414',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -368,6 +388,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '23',
@@ -382,6 +403,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3306682979',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -403,6 +425,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2250499601',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '25',
@@ -417,6 +440,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3360469774',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '26',
@@ -431,6 +455,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3578746593',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -452,6 +477,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '28',
@@ -466,6 +492,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '29',
@@ -480,6 +507,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '30',
@@ -494,6 +522,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '31',
@@ -508,6 +537,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '32',
@@ -522,6 +552,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '33',
@@ -536,6 +567,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '34',
@@ -550,6 +582,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '35',
@@ -564,6 +597,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '603867627',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '36',
@@ -578,6 +612,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '37',
@@ -592,6 +627,7 @@ my %tests = (
                         IFINERRORS       => '48',
                         IFOUTOCTETS      => '198684286',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '38',
@@ -606,6 +642,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1215255295',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '39',
@@ -620,6 +657,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '40',
@@ -634,6 +672,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '41',
@@ -648,6 +687,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '42',
@@ -662,6 +702,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '43',
@@ -676,6 +717,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '44',
@@ -690,6 +732,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '45',
@@ -704,6 +747,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '46',
@@ -718,6 +762,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '47',
@@ -732,6 +777,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1325560369',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -1503,6 +1549,7 @@ my %tests = (
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2005702186',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '8193',
@@ -1597,7 +1644,6 @@ my %tests = (
             VENDOR       => 'Nortel',
             MODEL        => 'Baystack 470 24T',
             DESCRIPTION  => 'BayStack 470 - 24T           HW:06       FW:3.0.0.5   SW:v3.1.2.06 ISVN:2',
-
             SNMPHOSTNAME => 'Bay470',
             LOCATION     => 'Dost 111',
             SERIAL       => 'SACC170NLH',
@@ -2241,7 +2287,6 @@ my %tests = (
             VENDOR       => 'Nortel',
             MODEL        => 'Baystack 470 24T',
             DESCRIPTION  => 'Ethernet Switch 470-24T      HW:34       FW:3.6.0.6   SW:v3.6.2.04 BN:4 ISVN:2 (c) Nortel Networks',
-
             SNMPHOSTNAME => '470_99_OBS',
             LOCATION     => 'Salle Informatique',
             CONTACT      => 'OBS',

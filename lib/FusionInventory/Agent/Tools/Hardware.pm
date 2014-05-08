@@ -640,9 +640,8 @@ sub _setGenericProperties {
     my $snmp   = $params{snmp};
     my $logger = $params{logger};
 
-
-
-    # ports is a sparse list of network ports, indexed by native port number
+    # ports is a sparse hash of network ports, indexed by interface identifier
+    # (ifIndex, or IFNUMBER in agent output)
     my $ports;
 
     foreach my $key (keys %interface_variables) {
@@ -1214,17 +1213,48 @@ sub _getTrunkPorts {
     my $snmp   = $params{snmp};
 
     my $results;
-    my $vlanStatus = $snmp->walk('.1.3.6.1.4.1.9.9.46.1.6.1.1.14');
 
-    # Values:
-    # 1 : trunking
-    # 2 : notTrunking
-    while (my ($suffix, $status) = each %{$vlanStatus}) {
-        my $port_id = _getElement($suffix, -1);
-        $results->{$port_id} = $status == 1 ? 1 : 0;
+    # cisco use vlanTrunkPortDynamicStatus, using the following schema:
+    # prefix.x = value
+    # x is the interface id
+    # value is 1 for trunk, 2 for access
+    my $vlanStatus = $snmp->walk('.1.3.6.1.4.1.9.9.46.1.6.1.1.14');
+    if ($vlanStatus) {
+        while (my ($interface_id, $value) = each %{$vlanStatus}) {
+            $results->{$interface_id} = $value == 1 ? 1 : 0;
+        }
+        return $results;
     }
 
-    return $results;
+    # juniper use jnxExVlanPortAccessMode, using the following schema:
+    # prefix.x.y = value
+    # x is the vlan id
+    # y is the port id
+    # value is 1 for access, 2 for trunk
+    my $accessMode = $snmp->walk('.1.3.6.1.4.1.2636.3.40.1.5.1.7.1.5');
+    if ($accessMode) {
+        my $port2interface = $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');
+        while (my ($suffix, $value) = each %{$accessMode}) {
+            my $port_id = _getElement($suffix, -1);
+            my $interface_id = $port2interface->{$port_id};
+            $results->{$interface_id} = $value == 2 ? 1 : 0;
+        }
+        return $results;
+    }
+
+    # force10 use lldpXdot1LocPortVlanId
+    # prefix.x = value
+    # x is the interface id
+    # value is the vlan id, 0 for trunk
+    my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
+    if ($vlanId) {
+        while (my ($interface_id, $value) = each %{$vlanId}) {
+            $results->{$interface_id} = $value == 0 ? 1 : 0;
+        }
+        return $results;
+    }
+
+    return;
 }
 
 1;
