@@ -27,6 +27,7 @@ sub doInventory {
     );
 
     my $office = $machKey->{"SOFTWARE/Microsoft/Office"};
+    return unless $office;
 
     my @licenses = _scanOffice($office);
 
