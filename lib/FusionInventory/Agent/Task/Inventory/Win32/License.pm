@@ -74,8 +74,9 @@ sub _scanOffice {
     my @licenses;
     push @licenses, \%license if $license{KEY};
 
-    foreach my $subKey ($key->SubKeyNames()) {
-        next if $subKey =~ /\//; # Oops, that's our delimitator
+    foreach my $subKey (keys %$key) {
+        # skip variables
+        next if $subKey =~ m{^/};
         push @licenses, _scanOffice($key->{$subKey});
     }
 
