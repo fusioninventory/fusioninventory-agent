@@ -21,7 +21,6 @@ Application Software Version: 8.4.2.7
 Series: C300
 Copyright (c) 1999-2012 by Dell Inc. All Rights Reserved.
 Build Time: Thu Sep 27 14:19:20 PDT 2012',
-
             SNMPHOSTNAME => 'sw-c300-1-tmk',
             LOCATION     => 'Nowhere',
             CONTACT      => 'admin@foo.bar',
@@ -74,6 +73,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '34128900',
@@ -91,6 +91,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '13170650',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '34391044',
@@ -108,6 +109,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '34653188',
@@ -125,6 +127,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '34915332',
@@ -142,6 +145,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '35177476',
@@ -159,6 +163,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '35439620',
@@ -176,6 +181,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '35701764',
@@ -193,6 +199,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '35963908',
@@ -210,6 +217,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '36226052',
@@ -227,6 +235,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '36488196',
@@ -244,6 +253,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '36750340',
@@ -261,6 +271,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '37012484',
@@ -278,6 +289,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '37274628',
@@ -295,6 +307,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '37536772',
@@ -312,6 +325,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '37798916',
@@ -329,6 +343,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '38061060',
@@ -346,6 +361,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '38323204',
@@ -363,6 +379,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '38585348',
@@ -380,6 +397,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '38847492',
@@ -397,6 +415,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '39109636',
@@ -414,6 +433,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '39371780',
@@ -431,6 +451,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '39633924',
@@ -448,6 +469,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '39896068',
@@ -465,6 +487,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '40158212',
@@ -482,6 +505,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '40420356',
@@ -499,6 +523,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '40682500',
@@ -516,6 +541,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '40944644',
@@ -533,6 +559,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '41206788',
@@ -550,6 +577,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '41468932',
@@ -567,6 +595,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '41731076',
@@ -584,6 +613,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '41993220',
@@ -601,6 +631,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '42255364',
@@ -618,6 +649,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '42517508',
@@ -635,6 +667,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '42779652',
@@ -652,6 +685,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '43041796',
@@ -669,6 +703,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '43303940',
@@ -686,6 +721,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '43566084',
@@ -703,6 +739,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '43828228',
@@ -720,6 +757,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '44090372',
@@ -737,6 +775,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '44352516',
@@ -754,6 +793,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '44614660',
@@ -771,6 +811,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '44876804',
@@ -788,6 +829,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '45138948',
@@ -805,6 +847,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '45417476',
@@ -823,6 +866,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3105352857',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                         CONNECTIONS      => {
                             CDP        => 1,
                             CONNECTION => {
@@ -850,6 +894,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '67421188',
@@ -867,6 +912,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '67683332',
@@ -884,6 +930,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '67945476',
@@ -901,6 +948,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '68207620',
@@ -918,6 +966,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '68469764',
@@ -935,6 +984,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '68731908',
@@ -952,6 +1002,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '68994052',
@@ -969,6 +1020,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '69256196',
@@ -986,6 +1038,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '69518340',
@@ -1003,6 +1056,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '69780484',
@@ -1020,6 +1074,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '70042628',
@@ -1037,6 +1092,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '70304772',
@@ -1054,6 +1110,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '70566916',
@@ -1071,6 +1128,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '70829060',
@@ -1088,6 +1146,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '71091204',
@@ -1105,6 +1164,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '71353348',
@@ -1122,6 +1182,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '71615492',
@@ -1139,6 +1200,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '71877636',
@@ -1156,6 +1218,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '72139780',
@@ -1173,6 +1236,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '72401924',
@@ -1190,6 +1254,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '72664068',
@@ -1207,6 +1272,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '72926212',
@@ -1224,6 +1290,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '73188356',
@@ -1241,6 +1308,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '73450500',
@@ -1258,6 +1326,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '73712644',
@@ -1275,6 +1344,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '73974788',
@@ -1292,6 +1362,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '74236932',
@@ -1309,6 +1380,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '74499076',
@@ -1326,6 +1398,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '74761220',
@@ -1343,6 +1416,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '75023364',
@@ -1360,6 +1434,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '75285508',
@@ -1377,6 +1452,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '75547652',
@@ -1394,6 +1470,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '75809796',
@@ -1411,6 +1488,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '76071940',
@@ -1428,6 +1506,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '76334084',
@@ -1445,6 +1524,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '76596228',
@@ -1462,6 +1542,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '76858372',
@@ -1479,6 +1560,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '77120516',
@@ -1496,6 +1578,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '77382660',
@@ -1513,6 +1596,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '77644804',
@@ -1530,6 +1614,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '77906948',
@@ -1547,6 +1632,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '78169092',
@@ -1564,6 +1650,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '78431236',
@@ -1581,6 +1668,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '78693380',
@@ -1598,6 +1686,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '78971908',
@@ -1616,6 +1705,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1980027494',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                         CONNECTIONS      => {
                             CDP        => 1,
                             CONNECTION => {
@@ -1643,6 +1733,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '100975616',
@@ -1660,6 +1751,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '101237760',
@@ -1677,6 +1769,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '101499904',
@@ -1694,6 +1787,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '101762048',
@@ -1711,6 +1805,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '102024192',
@@ -1728,6 +1823,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '102286336',
@@ -1745,6 +1841,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '102548480',
@@ -1762,6 +1859,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '102810624',
@@ -1779,6 +1877,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '103072768',
@@ -1796,6 +1895,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '103334912',
@@ -1813,6 +1913,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '103597056',
@@ -1830,6 +1931,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '103859200',
@@ -1847,6 +1949,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '104121344',
@@ -1864,6 +1967,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '104383488',
@@ -1881,6 +1985,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '104645632',
@@ -1898,6 +2003,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '104907776',
@@ -1915,6 +2021,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '105169920',
@@ -1932,6 +2039,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '105432064',
@@ -1949,6 +2057,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '105694208',
@@ -1966,6 +2075,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '105956352',
@@ -1983,6 +2093,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '106218496',
@@ -2000,6 +2111,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '106480640',
@@ -2017,6 +2129,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '106742784',
@@ -2034,6 +2147,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '107004928',
@@ -2051,6 +2165,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '107267072',
@@ -2068,6 +2183,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '107529216',
@@ -2085,6 +2201,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '107791360',
@@ -2102,6 +2219,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '108053504',
@@ -2119,6 +2237,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '108315648',
@@ -2136,6 +2255,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '108577792',
@@ -2153,6 +2273,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '108839936',
@@ -2170,6 +2291,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '109102080',
@@ -2187,6 +2309,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '109364224',
@@ -2204,6 +2327,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '109626368',
@@ -2221,6 +2345,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '109888512',
@@ -2238,6 +2363,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '110150656',
@@ -2255,6 +2381,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '110412800',
@@ -2272,6 +2399,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '110674944',
@@ -2289,6 +2417,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '110937088',
@@ -2306,6 +2435,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '111199232',
@@ -2323,6 +2453,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '111461376',
@@ -2340,6 +2471,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '111723520',
@@ -2357,6 +2489,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '111985664',
@@ -2374,6 +2507,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '112247808',
@@ -2391,6 +2525,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '112509952',
@@ -2408,6 +2543,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '112772096',
@@ -2425,6 +2561,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '113034240',
@@ -2442,6 +2579,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '113296384',
@@ -2459,6 +2597,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '134530048',
@@ -2476,6 +2615,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '134792192',
@@ -2493,6 +2633,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '135054336',
@@ -2510,6 +2651,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '135316480',
@@ -2527,6 +2669,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '135578624',
@@ -2544,6 +2687,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '135840768',
@@ -2561,6 +2705,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '136102912',
@@ -2578,6 +2723,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '136365056',
@@ -2595,6 +2741,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '136627200',
@@ -2612,6 +2759,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '136889344',
@@ -2629,6 +2777,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '137151488',
@@ -2646,6 +2795,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '137413632',
@@ -2663,6 +2813,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '137675776',
@@ -2680,6 +2831,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '137937920',
@@ -2697,6 +2849,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '138200064',
@@ -2714,6 +2867,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '138462208',
@@ -2731,6 +2885,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '138724352',
@@ -2748,6 +2903,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '138986496',
@@ -2765,6 +2921,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '139248640',
@@ -2782,6 +2939,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '139510784',
@@ -2799,6 +2957,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '139772928',
@@ -2816,6 +2975,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '140035072',
@@ -2833,6 +2993,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '140297216',
@@ -2850,6 +3011,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '140559360',
@@ -2867,6 +3029,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '140821504',
@@ -2884,6 +3047,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '141083648',
@@ -2901,6 +3065,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '141345792',
@@ -2918,6 +3083,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '141607936',
@@ -2935,6 +3101,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '141870080',
@@ -2952,6 +3119,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '142132224',
@@ -2969,6 +3137,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '142394368',
@@ -2986,6 +3155,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '142656512',
@@ -3003,6 +3173,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '142918656',
@@ -3020,6 +3191,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '143180800',
@@ -3037,6 +3209,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '143442944',
@@ -3054,6 +3227,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '143705088',
@@ -3071,6 +3245,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '143967232',
@@ -3088,6 +3263,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '144229376',
@@ -3105,6 +3281,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '144491520',
@@ -3122,6 +3299,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '144753664',
@@ -3139,6 +3317,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '145015808',
@@ -3156,6 +3335,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '145277952',
@@ -3173,6 +3353,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '145540096',
@@ -3190,6 +3371,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '145802240',
@@ -3207,6 +3389,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '146064384',
@@ -3224,6 +3407,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '146326528',
@@ -3241,6 +3425,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '146588672',
@@ -3258,6 +3443,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '146850816',
@@ -3275,6 +3461,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '168084480',
@@ -3292,6 +3479,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '168346624',
@@ -3309,6 +3497,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '168608768',
@@ -3326,6 +3515,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '168870912',
@@ -3343,6 +3533,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '169133056',
@@ -3360,6 +3551,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '169395200',
@@ -3377,6 +3569,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '169657344',
@@ -3394,6 +3587,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '169919488',
@@ -3411,6 +3605,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '170181632',
@@ -3428,6 +3623,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '170443776',
@@ -3445,6 +3641,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '170705920',
@@ -3462,6 +3659,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '170968064',
@@ -3479,6 +3677,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '171230208',
@@ -3496,6 +3695,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '171492352',
@@ -3513,6 +3713,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '171754496',
@@ -3530,6 +3731,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '172016640',
@@ -3547,6 +3749,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '172278784',
@@ -3564,6 +3767,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '172540928',
@@ -3581,6 +3785,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '172803072',
@@ -3598,6 +3803,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '173065216',
@@ -3615,6 +3821,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '173327360',
@@ -3632,6 +3839,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '173589504',
@@ -3649,6 +3857,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '173851648',
@@ -3666,6 +3875,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '174113792',
@@ -3683,6 +3893,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '174375936',
@@ -3700,6 +3911,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '174638080',
@@ -3717,6 +3929,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '174900224',
@@ -3734,6 +3947,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '175162368',
@@ -3751,6 +3965,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '175424512',
@@ -3768,6 +3983,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '175686656',
@@ -3785,6 +4001,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '175948800',
@@ -3802,6 +4019,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '176210944',
@@ -3819,6 +4037,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '176473088',
@@ -3836,6 +4055,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '176735232',
@@ -3853,6 +4073,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '176997376',
@@ -3870,6 +4091,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '177259520',
@@ -3887,6 +4109,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '177521664',
@@ -3904,6 +4127,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '177783808',
@@ -3921,6 +4145,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '178045952',
@@ -3938,6 +4163,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '178308096',
@@ -3955,6 +4181,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '178570240',
@@ -3972,6 +4199,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '178832384',
@@ -3989,6 +4217,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '179094528',
@@ -4006,6 +4235,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '179356672',
@@ -4023,6 +4253,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '179618816',
@@ -4040,6 +4271,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '179880960',
@@ -4057,6 +4289,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '180143104',
@@ -4074,6 +4307,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '180405248',
@@ -4091,6 +4325,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '201638912',
@@ -4109,6 +4344,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2986277307',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4134,6 +4370,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2438282272',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4159,6 +4396,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2791100415',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4184,6 +4422,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3423212546',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4209,6 +4448,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4010244149',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4234,6 +4474,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2766276419',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4259,6 +4500,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1487423878',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4284,6 +4526,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '468660524',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4309,6 +4552,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3910037470',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4334,6 +4578,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '118178861',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4359,6 +4604,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '411267155',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4384,6 +4630,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '410948197',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4409,6 +4656,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '419648178',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4434,6 +4682,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '411695772',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4459,6 +4708,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '413867635',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4484,6 +4734,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '412279118',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4509,6 +4760,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '411615180',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4534,6 +4786,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '411569433',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4558,6 +4811,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '443619516',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4582,6 +4836,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '206881792',
@@ -4599,6 +4854,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '207143936',
@@ -4616,6 +4872,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '207406080',
@@ -4633,6 +4890,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '207668224',
@@ -4650,6 +4908,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '207930368',
@@ -4667,6 +4926,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '208192512',
@@ -4684,6 +4944,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '208454656',
@@ -4701,6 +4962,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '208716800',
@@ -4718,6 +4980,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '208978944',
@@ -4735,6 +4998,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '209241088',
@@ -4752,6 +5016,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '209503232',
@@ -4769,6 +5034,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '209765376',
@@ -4786,6 +5052,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '210027520',
@@ -4803,6 +5070,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '210289664',
@@ -4820,6 +5088,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '210551808',
@@ -4837,6 +5106,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '210813952',
@@ -4854,6 +5124,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '211076096',
@@ -4871,6 +5142,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '211338240',
@@ -4888,6 +5160,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '211600384',
@@ -4905,6 +5178,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '26176722',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4929,6 +5203,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '26928831',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4953,6 +5228,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '41207703',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -4977,6 +5253,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '26165276',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5001,6 +5278,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3198376270',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5025,6 +5303,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3351730834',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5049,6 +5328,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '655001183',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5073,6 +5353,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '3571561446',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5097,6 +5378,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '26736860',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5121,6 +5403,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '25917221',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5146,6 +5429,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '116460244',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5171,6 +5455,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3949740553',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5196,6 +5481,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1893251894',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5221,6 +5507,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '612655181',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5246,6 +5533,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '84864674',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5271,6 +5559,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1013939346',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5296,6 +5585,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1937787870',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5321,6 +5611,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '570178698',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5346,6 +5637,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2692632369',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5371,6 +5663,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '469965831',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5396,6 +5689,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2450489765',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5421,6 +5715,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1050670299',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5446,6 +5741,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1255134365',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5471,6 +5767,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2733913187',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5496,6 +5793,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3819303164',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5521,6 +5819,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '2',
                         IFOUTOCTETS      => '3444146939',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5546,6 +5845,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '278125430',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5571,6 +5871,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3716955214',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5596,6 +5897,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2444704044',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5621,6 +5923,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2016273782',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5646,6 +5949,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2951909740',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5671,6 +5975,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1848742552',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5696,6 +6001,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2431417814',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5721,6 +6027,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1024928758',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5746,6 +6053,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2002047506',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5771,6 +6079,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3707340373',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5796,6 +6105,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2714510840',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5821,6 +6131,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1269847365',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5846,6 +6157,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1030455287',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5871,6 +6183,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3775972538',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5896,6 +6209,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4126960867',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5921,6 +6235,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '67527328',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5946,6 +6261,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3852842347',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5971,6 +6287,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1862925292',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -5996,6 +6313,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3854683788',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6021,6 +6339,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '486803903',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6046,6 +6365,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3716081301',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6071,6 +6391,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '420577894',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6096,6 +6417,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1827060498',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6121,6 +6443,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '349319905',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6145,6 +6468,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '245941248',
@@ -6162,6 +6486,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '246203392',
@@ -6179,6 +6504,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '246465536',
@@ -6196,6 +6522,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '246727680',
@@ -6213,6 +6540,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '246989824',
@@ -6230,6 +6558,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '247251968',
@@ -6247,6 +6576,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '247514112',
@@ -6265,6 +6595,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '1',
                     },
                     {
                         IFNUMBER         => '268747776',
@@ -6283,6 +6614,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1824079805',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6308,6 +6640,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1822187945',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6333,6 +6666,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1824119643',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6358,6 +6692,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1565591001',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6383,6 +6718,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1824409358',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6408,6 +6744,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1825107080',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6433,6 +6770,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1825688536',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6458,6 +6796,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1829891209',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6483,6 +6822,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1824072596',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6508,6 +6848,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1803243404',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6533,6 +6874,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1823082144',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6558,6 +6900,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1822950801',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6583,6 +6926,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1822898121',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6608,6 +6952,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1823027754',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6633,6 +6978,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1823018124',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6658,6 +7004,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1822959211',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6683,6 +7030,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1823156802',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6708,6 +7056,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1825531288',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6733,6 +7082,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1822920610',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6758,6 +7108,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1826534729',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6782,6 +7133,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '274252800',
@@ -6799,6 +7151,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '0',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '274514944',
@@ -6816,6 +7169,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '164220',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '274777088',
@@ -6833,6 +7187,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1980',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '275039232',
@@ -6851,6 +7206,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2492520397',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6876,6 +7232,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '411750414',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6901,6 +7258,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2500477623',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6926,6 +7284,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '434576219',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6951,6 +7310,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4271041239',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -6976,6 +7336,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '370616094',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7001,6 +7362,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1638092029',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7026,6 +7388,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '4256930572',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7051,6 +7414,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '411872529',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7076,6 +7440,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '3546919474',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7101,6 +7466,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '3',
                         IFOUTOCTETS      => '2064868086',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                     },
                     {
                         IFNUMBER         => '277922816',
@@ -7119,6 +7485,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1807387235',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7144,6 +7511,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1807521332',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7169,6 +7537,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1756679333',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7194,6 +7563,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '1761235502',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7219,6 +7589,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2501536984',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7244,6 +7615,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '1',
                         IFOUTOCTETS      => '2500405460',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7269,6 +7641,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2498628720',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7294,6 +7667,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2498681395',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7319,6 +7693,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2498743921',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7344,6 +7719,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2498826956',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7369,6 +7745,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2498979612',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7394,6 +7771,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2502885797',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -7419,6 +7797,7 @@ Build Time: Thu Sep 27 14:19:20 PDT 2012',
                         IFINERRORS       => '0',
                         IFOUTOCTETS      => '2498466609',
                         IFOUTERRORS      => '0',
+                        TRUNK            => '0',
                         CONNECTIONS      => {
                             CONNECTION => {
                                 MAC => [
@@ -10087,7 +10466,6 @@ Force10 Operating System Version: 1.0
 Force10 Application Software Version: 8.4.2.1
 Copyright (c) 1999-2010 by Force10 Networks, Inc.
 Build Time: Sun Dec 26 20:21:44 2010',
-
             SNMPHOSTNAME => 'sw-s50-2-tmk',
             LOCATION     => 'Nowhere',
             CONTACT      => 'admin@foo.bar',
