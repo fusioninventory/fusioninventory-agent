@@ -430,22 +430,11 @@ cmp_deeply(
     'getDeviceInfo() with sysobjectid'
 );
 
-my $cdp_model = {
-    oids => {
-        cdpCacheAddress    => '.1.3.6.1.4.1.9.9.23.1.2.1.1.4',
-        cdpCacheVersion    => '.1.3.6.1.4.1.9.9.23.1.2.1.1.5',
-        cdpCacheDeviceId   => '.1.3.6.1.4.1.9.9.23.1.2.1.1.6',
-        cdpCacheDevicePort => '.1.3.6.1.4.1.9.9.23.1.2.1.1.7',
-        cdpCachePlatform   => '.1.3.6.1.4.1.9.9.23.1.2.1.1.8'
-    }
-};
-
 foreach my $test (@cdp_info_extraction_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
     my $cdp_info = FusionInventory::Agent::Tools::Hardware::_getConnectedDevicesInfoCDP(
         snmp  => $snmp,
-        model => $cdp_model,
     );
 
     cmp_deeply(
@@ -486,18 +475,11 @@ foreach my $test (@mac_addresses_addition_tests) {
     );
 }
 
-my $trunk_model = {
-    oids => {
-        vlanTrunkPortDynamicStatus => '.1.3.6.1.4.1.9.9.46.1.6.1.1.14'
-    }
-};
-
 foreach my $test (@trunk_ports_extraction_tests) {
     my $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
     my $trunk_ports = FusionInventory::Agent::Tools::Hardware::_getTrunkPorts(
         snmp  => $snmp,
-        model => $trunk_model,
     );
 
     cmp_deeply(
