@@ -1,5 +1,20 @@
 Revision history for FusionInventory agent
 
+2.3.8 Sun, 11 May 2014 18:55:46 +0200
+netinventory tasks:
+* add support for trunk port identification on non-cisco hardware (#2386)
+* add VENDOR element, and keep MANUFACTURER bound to original manufacturer
+* add H3C hardware database
+* better error messages for non-existing interfaces
+
+inventory task:
+* fix crash in Linux LVM module
+* fix crash in Windows License module when office is not installed (#2202)
+* fix last loggued user in Windows retrieval (#2458)
+
+test suite:
+* transfer hardware tests in private hardware repository
+
 2.3.7.1 Wed, 30 Apr 2014 12:27:56 +0200
 inventory task:
 * fix crash introduced by command logging on BSD hosts
