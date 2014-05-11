@@ -1296,13 +1296,18 @@ sub _getTrunkPorts {
         return $results;
     }
 
-    # force10 use lldpXdot1LocPortVlanId
+
+    # others use lldpXdot1LocPortVlanId
     # prefix.x = value
-    # x is the interface id
+    # x is either an interface or a port id
     # value is the vlan id, 0 for trunk
     my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
     if ($vlanId) {
-        while (my ($interface_id, $value) = each %{$vlanId}) {
+        my $port2interface = $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');
+        while (my ($id, $value) = each %{$vlanId}) {
+            my $interface_id =
+                ! exists $port2interface->{$id} ? $id                   :
+                                                  $port2interface->{$id};
             $results->{$interface_id} = $value == 0 ? 1 : 0;
         }
         return $results;
