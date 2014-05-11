@@ -7,6 +7,7 @@ use utf8;
 use Test::More;
 use Test::Deep qw(cmp_deeply);
 
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::SNMP::Mock;
 use FusionInventory::Agent::Tools::Hardware;
 
@@ -48516,6 +48517,8 @@ plan skip_all => 'SNMP walks database required'
     if !$ENV{SNMPWALK_DATABASE};
 plan tests => 2 * scalar keys %tests;
 
+my $logger = FusionInventory::Agent::Logger->new(debug => 0);
+
 foreach my $test (sort keys %tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(
         file => "$ENV{SNMPWALK_DATABASE}/$test"
@@ -48523,7 +48526,8 @@ foreach my $test (sort keys %tests) {
 
     my %discovery = getDeviceInfo(
         snmp    => $snmp,
-        datadir => './share'
+        datadir => './share',
+        logger  => $logger
     );
     cmp_deeply(
         \%discovery,
@@ -48533,7 +48537,8 @@ foreach my $test (sort keys %tests) {
 
     my $inventory = getDeviceFullInfo(
         snmp    => $snmp,
-        datadir => './share'
+        datadir => './share',
+        logger  => $logger
     );
     cmp_deeply(
         $inventory,
