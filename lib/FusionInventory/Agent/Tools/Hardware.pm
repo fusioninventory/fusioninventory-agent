@@ -691,13 +691,15 @@ sub _setGenericProperties {
         my $value = $results->{$suffix};
         next unless $value;
         # safety checks
-        if (!$ports->{$value}) {
-            $logger->error("non-existing port $value, check ifaddr mapping") if $logger;
+        if (! exists $ports->{$value}) {
+            $logger->error(
+                "invalid interface ID $value while setting IP address, aborting"
+            ) if $logger;
             last;
         }
         if ($suffix !~ /^$ip_address_pattern$/) {
-            $logger->error("invalid IP address $suffix, check ifaddr mapping") if $logger;
-            last;
+            $logger->error("invalid IP address $suffix") if $logger;
+            next;
         }
         $ports->{$value}->{IP} = $suffix;
     }
@@ -1013,10 +1015,12 @@ sub _addAssociatedMacAddresses {
 
     foreach my $port_id (keys %$mac_addresses) {
         # safety check
-        if (!$ports->{$port_id}) {
-            $logger->error("non-existing port $port_id, check dot1d* mappings")
-                if $logger;
-            last;
+        if (! exists $ports->{$port_id}) {
+            $logger->error(
+                "invalid interface ID $port_id while setting known mac " .
+                "addresses, aborting"
+            ) if $logger;
+            next;
         }
 
         my $port = $ports->{$port_id};
@@ -1091,11 +1095,12 @@ sub _setConnectedDevicesInfo {
 
     foreach my $port_id (keys %$info) {
         # safety check
-        if (!$ports->{$port_id}) {
+        if (! exists $ports->{$port_id}) {
             $logger->error(
-                "non-existing port $port_id, check CDP/LLDP mappings"
+                "invalid inteface ID $port_id while setting connected devices" .
+                " aborting"
             ) if $logger;
-            next;
+            last;
         }
 
         $ports->{$port_id}->{CONNECTIONS} = {
@@ -1196,9 +1201,10 @@ sub _setVlans {
 
     foreach my $port_id (keys %$vlans) {
         # safety check
-        if (!$ports->{$port_id}) {
-            $logger->error("non-existing port $port_id, check vmvlan mapping")
-                if $logger;
+        if (! exists $ports->{$port_id}) {
+            $logger->error(
+                "invalid interface ID $port_id while setting vlans, aborting"
+            ) if $logger;
             last;
         }
         $ports->{$port_id}->{VLANS}->{VLAN} = $vlans->{$port_id};
@@ -1244,9 +1250,11 @@ sub _setTrunkPorts {
 
     foreach my $port_id (keys %$trunk_ports) {
         # safety check
-        if (!$ports->{$port_id}) {
-            $logger->error("non-existing port $port_id, check vlanTrunkPortDynamicStatus mapping")
-                if $logger;
+        if (! exists $ports->{$port_id}) {
+            $logger->error(
+                "invalid interface ID $port_id while setting trunk flag, " .
+                "aborting"
+            ) if $logger;
             last;
         }
         $ports->{$port_id}->{TRUNK} = $trunk_ports->{$port_id};
