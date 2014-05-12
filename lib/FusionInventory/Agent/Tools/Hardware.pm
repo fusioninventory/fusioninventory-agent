@@ -405,7 +405,7 @@ sub getDeviceInfo {
         my $manufacturer = $snmp->get('.1.3.6.1.2.1.43.8.2.1.14.1.1');
         $device{MANUFACTURER} = $manufacturer if $manufacturer;
     }
-    
+
     # fallback vendor, using manufacturer
     if (!exists $device{VENDOR} && exists $device{MANUFACTURER}) {
         $device{VENDOR} = $device{MANUFACTURER};
