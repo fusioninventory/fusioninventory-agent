@@ -125,7 +125,7 @@ sub _loadUserSoftware {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $is64bit   = is64bit();
+    my $is64bit   = $params{is64bit};
     my $logger    = $params{logger};
 
     my $machKey = $Registry->Open('LMachine', {
@@ -163,7 +163,7 @@ sub _loadUserSoftware {
 
         my $softwares = _getSoftwaresList(
             softwares => $softwaresKey,
-            is64bit   => 1,
+            is64bit   => $is64bit,
             userid    => $sid,
             username  => $user
         );
