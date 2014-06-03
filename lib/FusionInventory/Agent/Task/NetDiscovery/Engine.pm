@@ -136,7 +136,8 @@ sub _scanAddressBySNMPReal {
         # SNMPv3 exception for non-responding host
         return if $EVAL_ERROR =~ /^No response from remote host/;
         # SNMPv3 exception for invalid credentials
-        return if $EVAL_ERROR =~ /^Received usmStatsWrongDigests/;
+        return if $EVAL_ERROR =~
+            /^Received usmStats(WrongDigests|UnknownUserNames)/;
         # other exception
         $self->{logger}->error(
             "Unable to create SNMP session for $address: $EVAL_ERROR\n"
