@@ -61,6 +61,8 @@ Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
 '
 '
 
+SetupVersion = "2.3.0-1"
+
 ' SetupLocation
 '    Depending on your needs or your environment, you can use either a HTTP or
 '    CIFS/SMB.
@@ -80,8 +82,6 @@ Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
 ' SetupVersion
 '    Setup version with the pattern <major>.<minor>.<release>[-<package>]
 '
-SetupVersion = "2.3.0-1"
-
 SetupLocation = "http://freefr.dl.sourceforge.net/project/fiawi/2.3.x/2.3.0"
 
 ' SetupArchitecture
