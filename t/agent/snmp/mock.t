@@ -46,9 +46,7 @@ my %walks = (
     },
     sample5 => {
         get => {
-            '.1.3.6.1.2.1.1.1.0' => 'H3C Comware Platform Software, Software Version 5.20 Release 2208
-H3C S5500-52C-EI
-Copyright (c) 2004-2010 Hangzhou H3C Tech. Co., Ltd. All rights reserved.'
+            '.1.3.6.1.2.1.1.1.0' => 'H3C Comware Platform Software, Software Version 5.20 Release 2208',
         }
     }
 );
