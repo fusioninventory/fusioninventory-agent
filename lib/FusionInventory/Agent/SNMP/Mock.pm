@@ -74,10 +74,6 @@ sub _readNumericalOids {
 
     my $values;
     while (my $line = <$handle>) {
-       # Get multi-line block
-       while (!eof($handle) && $line =~ /\r\n$/) {
-           $line .= <$handle>;
-       }
        next unless $line =~ /^(\S+) \s = \s (\S+): \s (.*)/sx;
        $values->{$1} = [ $2, $3 ];
     }
@@ -116,10 +112,6 @@ sub _readSymbolicOids {
     binmode($handle);
     my $values;
     while (my $line = <$handle>) {
-       # Get multi-line block
-       while (!eof($handle) && $line =~ /\r\n$/) {
-           $line .= <$handle>;
-       }
        next unless $line =~ /^([^.]+) \. ([\d.]+) \s = \s (\S+): \s (.*)/sx;
        my ($mib, $suffix) = ($1, $2);
        next unless $prefixes{$mib};
