@@ -72,16 +72,37 @@ sub _getIndexedValues {
 sub _readNumericalOids {
     my ($handle) = @_;
 
-    my $values;
+    my ($values, $last_oid);
     while (my $line = <$handle>) {
-       next unless $line =~ /^
+
+        if ($line =~ /^
            (\S+) \s
            = \s
            (?:Wrong \s Type \s \(should \s be \s [^:]+\): \s)?
            ([^:]+): \s
            (.*)
-           /x;
-       $values->{$1} = [ $2, $3 ];
+           /x
+        ) {
+            my ($oid, $type, $value) = ($1, $2, $3);
+            $values->{$oid} = [ $type, $value ];
+            $last_oid = $oid;
+            next;
+        }
+
+        # potential continuation
+        if (
+            $line !~ /^$/ &&
+            $line !~ /= ""$/ &&
+            $last_oid &&
+            $values->{$last_oid}->[0] eq 'STRING' &&
+            $values->{$last_oid}->[1] !~ /"$/
+        ) {
+            chomp $line;
+            $values->{$last_oid}->[1] .= "\n" . $line;
+            next;
+        }
+
+        $last_oid = undef;
     }
 
     return $values;
@@ -115,21 +136,45 @@ sub _readSymbolicOids {
         'HOST-RESOURCES-MIB::hrDeviceDescr' => '.1.3.6.1.2.1.25.3.2.1.3',
     );
 
-    binmode($handle);
-    my $values;
+    my ($values, $last_oid);
     while (my $line = <$handle>) {
-       next unless $line =~ /^
+
+        if ($line =~ /^
            ([^.]+) \. ([\d.]+) \s
            = \s
            (?:Wrong \s Type \s \(should \s be \s [^:]+\): \s)?
            ([^:]+): \s
            (.*)
-           /x;
-       my ($mib, $suffix) = ($1, $2);
-       next unless $prefixes{$mib};
-       my $oid = $prefixes{$mib} . '.' . $suffix;
-       $values->{$oid} = [ $3, $4 ];
+           /x
+        ) {
+            my ($mib, $suffix, $type, $value) = ($1, $2, $3, $4);
 
+            if ($prefixes{$mib}) {
+                my $oid = $prefixes{$mib} . '.' . $suffix;
+                $values->{$oid} = [ $type, $value ];
+                $last_oid = $oid;
+            } else {
+                # irrelevant OID
+                $last_oid = undef;
+            }
+
+            next;
+        }
+
+        # potential continuation
+        if (
+            $line !~ /^$/ &&
+            $line !~ /= ""$/ &&
+            $last_oid &&
+            $values->{$last_oid}->[0] eq 'STRING' &&
+            $values->{$last_oid}->[1] !~ /"$/
+        ) {
+            chomp $line;
+            $values->{$last_oid}->[1] .= "\n" . $line;
+            next
+        }
+
+        $last_oid = undef;
     }
 
     return $values;
@@ -167,16 +212,12 @@ sub walk {
 sub _getSanitizedValue {
     my ($format, $value) = @_;
 
-    chomp($value);
     if ($format eq 'Hex-STRING') {
         $value =~ s/\s//g;
         $value = "0x".$value;
     } elsif ($format eq 'STRING') {
         $value =~ s/^"//;
         $value =~ s/"$//;
-        $value =~ s/\r$//;
-    } else {
-        $value =~ s/\r$//;
     }
 
     return $value;
