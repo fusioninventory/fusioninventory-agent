@@ -42,11 +42,14 @@
 800.1.1.2.1.7.1.6	OmniSwitch 6850-P48
 800.1.1.2.1.7.1.8	OmniSwitch 6850-P48X
 800.1.1.2.1.7.1.9	OmniSwitch 6850-U24
-800.1.1.2.1.7.1.10	OminSwitch 6850-U24X
+800.1.1.2.1.7.1.10	OmniSwitch 6850-U24X
 800.1.1.2.1.7.1.45	OmniSwitch 6850E-48X
 800.1.1.2.1.7.1.48	OmniSwitch 6850E-U24X
 800.1.1.2.1.8.1.1	OmniSwitch 9700
 800.1.1.2.1.8.1.2	OmniSwitch 9800
+800.1.1.2.1.8.1.4	OmniSwitch 9700E 10-slot Chassis
 801.1.1.2.1.10.1.2	OmniSwitch 6900-X40
 800.1.1.2.1.10.1.5	OmniSwitch 6400-48
+800.1.1.2.1.11.2.1	OmniSwitch 6250
+800.1.1.2.2.4.1.2	OmniStack LS 6200
 800.1.1.2.2.4.1.6	OmniStack LS 6200
