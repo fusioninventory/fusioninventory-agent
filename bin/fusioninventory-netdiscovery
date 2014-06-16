@@ -12,7 +12,6 @@ use FusionInventory::Agent::Task::NetDiscovery;
 use FusionInventory::Agent::Logger;
 
 my $options = {
-    community => 'public',
     threads   => 1
 };
 
@@ -27,7 +26,8 @@ GetOptions(
     $options,
     'first=s',
     'last=s',
-    'community=s',
+    'community=s@',
+    'credential=s@',
     'entity=s',
     'threads=i',
     'timeout=i',
@@ -58,6 +58,28 @@ my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
     )
 );
 
+my $credentials_id = 1;
+my @credentials;
+if ($options->{community}) {
+    foreach my $community (@{$options->{community}}) {
+        push @credentials,
+            { ID => $credentials_id++, VERSION => 1, COMMUNITY => $community };
+    }
+} elsif ($options->{credential}) {
+    foreach my $specification (@{$options->{credential}}) {
+        my $credential = { ID => $credentials_id++ };
+        foreach my $parameter (split(',', $specification)) {
+            my ($key, $value) = split(':', $parameter);
+            $credential->{uc($key)} = $value;
+        }
+        push @credentials, $credential;
+    }
+} else {
+    push @credentials, {
+        ID => $credentials_id++, VERSION => 1, COMMUNITY => 'public'
+    };
+}
+
 $discovery->{options} = {
     NAME => 'NETDISCOVERY',
     PARAM => [
@@ -74,18 +96,7 @@ $discovery->{options} = {
             IPEND   => $options->{last},
         }
     ],
-    AUTHENTICATION => [
-        {
-            ID        => 1,
-            COMMUNITY => $options->{community},
-            VERSION   => '1'
-        },
-        {
-            ID        => 2,
-            COMMUNITY => $options->{community},
-            VERSION   => '2c'
-        },
-    ]
+    AUTHENTICATION => \@credentials
 };
 if (defined($options->{entity})) {
     $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
@@ -146,7 +157,7 @@ fusioninventory-netdiscovery [options] --first <start> --last <stop>
   Options:
     --first address IP range first address
     --last address  IP range last address
-    --community     community string (default: public)
+    --credential    SNMP credential (default: version:1,community:public)
     --entity        GLPI entity
     --threads nb    number of discovery threads (default: 1)
     --timeout val   SNMP timeout (default: 1s)
