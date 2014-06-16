@@ -385,7 +385,7 @@ plan tests =>
     scalar @mac_addresses_extraction_tests +
     scalar @mac_addresses_addition_tests   +
     scalar @trunk_ports_extraction_tests   +
-    7;
+    8;
 
 foreach my $test (@mac_tests) {
     is(
@@ -426,6 +426,15 @@ my $snmp2 = FusionInventory::Agent::SNMP::Mock->new(
 my %device2 = getDeviceInfo(snmp => $snmp2);
 cmp_deeply(
     \%device2,
+    {
+        DESCRIPTION  => 'foo',
+    },
+    'getDeviceInfo() with sysobjectid'
+);
+
+my %device3 = getDeviceInfo(snmp => $snmp2, datadir => './share');
+cmp_deeply(
+    \%device3,
     {
         DESCRIPTION  => 'foo',
         TYPE         => 'NETWORKING',
