@@ -156,8 +156,8 @@ sub _getLastUser {
     my $user;
 
     foreach my $key (
-        "SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName",
         "SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser"
+        "SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName",
     ) {
         $user = encodeFromRegistry($machKey->{$key});
         last if $user;
