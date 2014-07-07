@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Win32;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
@@ -38,7 +39,9 @@ sub doInventory {
 sub _getCPUs {
     my ($logger) = @_;
 
-    my @dmidecodeInfos = getCpusFromDmidecode();
+    my @dmidecodeInfos = Win32::GetOSName() eq 'Win2003' ?
+        () : getCpusFromDmidecode();
+
     # the CPU description in WMI is false, we use the registry instead
     my $registryInfos = getRegistryKey(
         path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor",
