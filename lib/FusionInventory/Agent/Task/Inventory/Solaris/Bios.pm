@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Solaris::Bios;
 use strict;
 use warnings;
 
+use Config;
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
@@ -18,18 +20,15 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    my $arch = $Config{Archname} =~ /^i86pc/ ? 'i386' : 'sparc';
+
     my ($bios, $hardware);
 
     if (getZone() eq 'global') {
-        my $arch;
         if (canRun('showrev')) {
             my $infos = _parseShowRev(logger => $logger);
             $bios->{SMODEL}        = $infos->{'Application architecture'};
             $bios->{SMANUFACTURER} = $infos->{'Hardware provider'};
-            $arch               = $infos->{'Application architecture'};
-        } else {
-            $arch =
-                getFirstLine(command => 'arch') eq 'i86pc' ? 'i386' : 'unknown';
         }
 
         if ($arch eq "i386") {
@@ -50,7 +49,7 @@ sub doInventory {
             $bios->{MMODEL}        = $motherboardInfos->{'Product'};
             $bios->{MSN}           = $motherboardInfos->{'Serial Number'};
             $bios->{MMANUFACTURER} = $motherboardInfos->{'Manufacturer'};
-        } elsif ($arch =~ /sparc/i) {
+        } else {
             my $infos = _parsePrtconf(logger => $logger);
             $bios->{SMODEL} = $infos->{'banner-name'};
             $bios->{SMODEL} .= " ($infos->{name})" if $infos->{name};
@@ -79,7 +78,7 @@ sub doInventory {
     }
 
     #On SPARC, get the UUID by using zoneadmin command (on a container or a global zone)
-    if (getFirstLine(command => 'arch')=~ /(sparc|sun)/i) {
+    if ($arch eq 'sparc') {
         # Get hardware UUID on SPARC
         # Note: zoneadmin list -p return line like "1:zone8:running:/:93f3f07e-3f28-c786-b52b-a3df3020dcdb:native:shared"
         # If test is done on a global zone, add " | grep -v global" to command to emulate as if we were on a local zone
