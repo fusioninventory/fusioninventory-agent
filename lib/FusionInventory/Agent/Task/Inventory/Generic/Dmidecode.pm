@@ -14,11 +14,7 @@ sub isEnabled {
     # http://forge.fusioninventory.org/issues/379
     if ($OSNAME eq 'MSWin32') {
         Win32->require();
-        my @osver = Win32::GetOSVersion();
-        return if
-            $osver[4] == 2 &&
-            $osver[1] == 5 &&
-            $osver[2] == 2;
+        return if Win32::GetOSName() eq 'Win2003';
     }
 
     return canRun('dmidecode');
