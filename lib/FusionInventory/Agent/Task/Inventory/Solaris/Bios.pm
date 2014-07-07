@@ -78,6 +78,16 @@ sub doInventory {
         $bios->{SMODEL}        = "Solaris Containers";
     }
 
+    #On SPARC, get the UUID by using zoneadmin command (on a container or a global zone)
+    if (getFirstLine(command => 'arch')=~ /(sparc|sun)/i) {
+            # Get hardware UUID on SPARC
+            # Note: zoneadmin list -p return line like "1:zone8:running:/:93f3f07e-3f28-c786-b52b-a3df3020dcdb:native:shared"
+            # If test is done on a global zone, add " | grep -v global" to command to emulate as if we were on a local zone
+                    my $firstlinezoneadm = getFirstLine(command => '/usr/sbin/zoneadm list -p', logger => $logger);
+                        $logger->debug2("First line of zoneadm list -p is not global, so we can set the hardware uuid.");
+                        my ($zoneid, $zonename, $zonestatus, undef, $uuid) = split(/:/, $firstlinezoneadm);
+                            if ($uuid) { $hardware->{UUID}      = $uuid; }
+    }
     $inventory->setBios($bios);
     $inventory->setHardware($hardware);
 }
