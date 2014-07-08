@@ -60,7 +60,7 @@ sub doInventory {
             inventory => $inventory,
             is64bit   => 1,
             logger    => $logger
-        );
+        ) if $params{scan_profiles};
 
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
@@ -84,7 +84,7 @@ sub doInventory {
             inventory => $inventory,
             is64bit   => 0,
             logger    => $logger
-        );
+        ) if $params{scan_profiles};
     } else {
         my $machKey = $Registry->Open('LMachine', {
             Access => KEY_READ
@@ -107,7 +107,7 @@ sub doInventory {
             inventory => $inventory,
             is64bit   => 0,
             logger    => $logger
-        );
+        ) if $params{scan_profiles};
 
     }
 
