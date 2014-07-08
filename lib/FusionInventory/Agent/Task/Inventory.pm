@@ -69,6 +69,12 @@ sub run {
         );
     }
 
+    if (not $self->{config}->{'scan-profiles'}) {
+        $self->{logger}->debug(
+            "--scan-profiles missing. Don't scan user profiles"
+        );
+    }
+
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
         $ENV{PATH} =
@@ -162,7 +168,8 @@ sub _initModulesList {
                 logger        => $self->{logger},
                 datadir       => $self->{config}->{datadir},
                 registry      => $self->{config}->{registry},
-                scan_homedirs => $self->{config}->{scan_homedirs},
+                scan_homedirs => $self->{config}->{'scan-homedirs'},
+                scan_profiles => $self->{config}->{'scan-profiles'},
             }
         );
         if (!$enabled) {
@@ -244,7 +251,8 @@ sub _runModule {
             no_category   => $disabled,
             logger        => $self->{logger},
             registry      => $self->{registry},
-            scan_homedirs => $self->{config}->{scan_homedirs},
+            scan_homedirs => $self->{config}->{'scan-homedirs'},
+            scan_profiles => $self->{config}->{'scan-profiles'},
         }
     );
     $self->{modules}->{$module}->{done} = 1;

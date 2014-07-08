@@ -46,6 +46,7 @@ GetOptions(
     'httpd-port=s',
     'httpd-trust=s',
     'scan-homedirs',
+    'scan-profiles',
     'server|s=s',
     'tag|t=s',
     'timeout=i',
@@ -137,6 +138,7 @@ S<[B<--lazy>]>
 S<[B<--no-task> I<string>]>
 S<[B<--no-category> I<string>]>
 S<[B<--scan-homedir>]>
+S<[B<--scan-profiles>]>
 S<[B<--force>]>
 S<[B<--collect-timeout> I<time>]>
 S<[B<--additional-content> I<file>]>
@@ -332,6 +334,10 @@ Set B<no-category> directive, see L<agent.cfg> for details.
 =item B<--scan-homedirs>
 
 Set B<scan-homedirs> directive, see L<agent.cfg> for details.
+
+=item B<--scan-profiles>
+
+Set B<scan-profiles> directive, see L<agent.cfg> for details.
 
 =item B<-f>, B<--force>
 

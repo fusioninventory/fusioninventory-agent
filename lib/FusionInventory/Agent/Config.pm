@@ -34,6 +34,7 @@ my $default = {
     'httpd-port'              => 62354,
     'httpd-trust'             => [],
     'scan-homedirs'           => undef,
+    'scan-profiles'           => undef,
     'server'                  => undef,
     'tag'                     => undef,
     'timeout'                 => 180,
