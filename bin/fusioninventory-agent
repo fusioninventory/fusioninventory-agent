@@ -137,7 +137,7 @@ S<[B<--delaytime> I<time>]>
 S<[B<--lazy>]>
 S<[B<--no-task> I<string>]>
 S<[B<--no-category> I<string>]>
-S<[B<--scan-homedir>]>
+S<[B<--scan-homedirs>]>
 S<[B<--scan-profiles>]>
 S<[B<--force>]>
 S<[B<--collect-timeout> I<time>]>
