@@ -146,7 +146,7 @@ B<fusioninventory-agent> [options] [--server server|--local path]
 
   Inventory task specific options:
     --no-category=CATEGORY         do not list given category items
-    --scan-homedirs                scan use home directories (false)
+    --scan-homedirs                scan user home directories (false)
     --scan-profiles                scan user profiles (false)
     --html                         save the inventory as HTML (false)
     -f --force                     always send data to server (false)
