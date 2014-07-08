@@ -71,15 +71,22 @@ sub doInventory {
                 logger  => $logger
             );
 
-            $hardware->{UUID} = _getUUID(logger => $logger);
+            $hardware->{UUID} = _getUUID(
+                command => '/usr/sbin/zoneadm -z global list -p',
+                logger  => $logger
+            );
         }
     } else {
         my $infos = _parseShowRev(logger => $logger);
         $bios->{SMANUFACTURER} = $infos->{'Hardware provider'};
         $bios->{SMODEL}        = "Solaris Containers";
 
-        $hardware->{UUID} = _getUUID(logger => $logger)
-            if $arch eq 'sparc';
+        if ($arch eq 'sparc') {
+            $hardware->{UUID} = _getUUID(
+                command => '/usr/sbin/zoneadm list -p',
+                logger  => $logger
+            )
+        }
     }
 
     $inventory->setBios($bios);
@@ -157,18 +164,11 @@ sub _getUUID {
         @_
     );
 
-    my $handle = getFileHandle(%params);
-    return unless $handle;
+    my $line = getFirstLine(%params);
+    return unless $line;
 
-    my $uuid;
-    while (my $line = <$handle>) {
-        next if $line =~ /global/;
-        my @info = split(/:/, $line);
-        $uuid = $info[4];
-        last;
-    }
-
-    close $handle;
+    my @info = split(/:/, $line);
+    my $uuid = $info[4];
 
     return $uuid;
 }
