@@ -423,7 +423,7 @@ sub _loadSysObjectIDDatabase {
 
     return unless $params{datadir};
 
-    my $handle = getFileHandle(file => "$params{datadir}/sysobjectid.ids");
+    my $handle = getFileHandle(file => "$params{datadir}/sysobject.ids");
     return unless $handle;
 
     my $manufacturer_id;
