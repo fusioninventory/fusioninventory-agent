@@ -202,6 +202,7 @@ my %interface_variables = (
 
 my %consumable_references = (
     'C4127X' => 'TONERBLACK',
+    'C8061X' => 'TONERBLACK',
     'C9730A' => 'TONERBLACK',
     'C9731A' => 'TONERCYAN',
     'C9732A' => 'TONERYELLOW',
