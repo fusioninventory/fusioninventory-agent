@@ -90,16 +90,19 @@ sub _readNumericalOids {
         }
 
         # potential continuation
-        if (
-            $line !~ /^$/ &&
-            $line !~ /= ""$/ &&
-            $last_oid &&
-            $values->{$last_oid}->[0] eq 'STRING' &&
-            $values->{$last_oid}->[1] !~ /"$/
-        ) {
-            chomp $line;
-            $values->{$last_oid}->[1] .= "\n" . $line;
-            next;
+        if ($line !~ /^$/ && $line !~ /= ""$/ && $last_oid) {
+            if ($values->{$last_oid}->[0] eq 'STRING' &&
+                $values->{$last_oid}->[1] !~ /"$/
+            ) {
+                chomp $line;
+                $values->{$last_oid}->[1] .= "\n" . $line;
+                next;
+            }
+            if ($values->{$last_oid}->[0] eq 'Hex-STRING') {
+                chomp $line;
+                $values->{$last_oid}->[1] .= $line;
+                next;
+            }
         }
 
         $last_oid = undef;
@@ -162,16 +165,19 @@ sub _readSymbolicOids {
         }
 
         # potential continuation
-        if (
-            $line !~ /^$/ &&
-            $line !~ /= ""$/ &&
-            $last_oid &&
-            $values->{$last_oid}->[0] eq 'STRING' &&
-            $values->{$last_oid}->[1] !~ /"$/
-        ) {
-            chomp $line;
-            $values->{$last_oid}->[1] .= "\n" . $line;
-            next
+        if ($line !~ /^$/ && $line !~ /= ""$/ && $last_oid) {
+            if ($values->{$last_oid}->[0] eq 'STRING' &&
+                $values->{$last_oid}->[1] !~ /"$/
+            ) {
+                chomp $line;
+                $values->{$last_oid}->[1] .= "\n" . $line;
+                next
+            }
+            if ($values->{$last_oid}->[0] eq 'Hex-STRING') {
+                chomp $line;
+                $values->{$last_oid}->[1] .= $line;
+                next
+            }
         }
 
         $last_oid = undef;
