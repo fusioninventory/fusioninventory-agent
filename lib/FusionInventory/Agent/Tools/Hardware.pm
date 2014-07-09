@@ -200,6 +200,65 @@ my %interface_variables = (
     },
 );
 
+my %consumable_references = (
+    'C4127X' => 'TONERBLACK',
+    'C9730A' => 'TONERBLACK',
+    'C9731A' => 'TONERCYAN',
+    'C9732A' => 'TONERYELLOW',
+    'C9733A' => 'TONERMAGENTA',
+    'CB540A' => 'TONERBLACK',
+    'CB541A' => 'TONERCYAN',
+    'CB542A' => 'TONERYELLOW',
+    'CB543A' => 'TONERMAGENTA',
+    'CC530A' => 'TONERBLACK',
+    'CC531A' => 'TONERCYAN',
+    'CC532A' => 'TONERYELLOW',
+    'CC533A' => 'TONERMAGENTA',
+    'CE270A' => 'TONERBLACK',
+    'CE271A' => 'TONERCYAN',
+    'CE272A' => 'TONERYELLOW',
+    'CE273A' => 'TONERMAGENTA',
+    'CE285A' => 'TONERBLACK',
+    'CE310A' => 'TONERBLACK',
+    'CE311A' => 'TONERCYAN',
+    'CE312A' => 'TONERYELLOW',
+    'CE313A' => 'TONERMAGENTA',
+    'CE314A' => undef,
+    'CE320A' => 'TONERBLACK',
+    'CE321A' => 'TONERCYAN',
+    'CE322A' => 'TONERYELLOW',
+    'CE323A' => 'TONERMAGENTA',
+    'CE410A' => 'TONERBLACK',
+    'CE411A' => 'TONERCYAN',
+    'CE412A' => 'TONERYELLOW',
+    'CE413A' => 'TONERMAGENTA',
+    'CE505A' => 'TONERBLACK',
+    'CE505X' => 'TONERBLACK',
+    'CE980A' => 'WASTETONER',
+    'Q5950A' => 'TONERBLACK',
+    'Q5951A' => 'TONERCYAN',
+    'Q5952A' => 'TONERYELLOW',
+    'Q5953A' => 'TONERMAGENTA',
+    'Q5942X' => 'TONERBLACK',
+    'Q6470A' => 'TONERBLACK',
+    'Q1338A' => 'TONERBLACK',
+    'Q2610A' => 'TONERBLACK',
+    'Q6000A' => 'TONERBLACK',
+    'Q6001A' => 'TONERCYAN',
+    'Q6002A' => 'TONERYELLOW',
+    'Q6003A' => 'TONERMAGENTA',
+    'Q6471A' => 'TONERCYAN',
+    'Q6472A' => 'TONERYELLOW',
+    'Q6473A' => 'TONERMAGENTA',
+    'Q7551A' => 'TONERBLACK',
+    'Q7551X' => 'TONERBLACK',
+    'TK-160S' => 'TONERBLACK',
+    'TK-560C' => 'TONERCYAN',
+    'TK-560K' => 'TONERBLACK',
+    'TK-560M' => 'TONERMAGENTA',
+    'TK-560Y' => 'TONERYELLOW',
+);
+
 my @consumable_type_rules = (
     {
         match => qr/cyan/i,
@@ -709,6 +768,10 @@ sub _setPrinterProperties {
 
 sub _getConsumableVariableFromDescription {
     my ($description) = @_;
+
+    foreach my $key (keys %consumable_references) {
+        return $consumable_references{$key} if $description =~ /$key/;
+    }
 
     # find type
     my $type;
