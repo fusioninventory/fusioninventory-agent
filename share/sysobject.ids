@@ -1885,10 +1885,135 @@
 	1.5.1.1.4.5.1	EdgeIron 48G
 	1.5.1.1.4.10.1	EdgeIron 48G1X10G
 2011	Huawei	NETWORKING
-	2.239.5	CE6850-48S4Q-EI
-	2.239.6	CE6850-48T4Q-EI
-	2.23.166	S5700-52P-PWR-LI
-	2.23.167	S5710-28C-EI
+	1.1.1.2 	QuidWay NetEngine R2611
+	1.1.1.1600 	QuidWay NetEngine R1600
+	1.1.1.1602 	QuidWay NetEngine R1602
+	1.1.1.1612 	QuidWay NetEngine R1612
+	1.1.1.1613 	QuidWay NetEngine R1613
+	1.1.1.1614 	QuidWay NetEngine R1614
+	1.1.1.1615 	QuidWay NetEngine R1615
+	1.1.1.1760 	QuidWay NetEngine R1760
+	1.1.1.1761 	QuidWay NetEngine R1760B
+	1.1.1.2501 	QuidWay NetEngine R2501
+	1.1.1.2509 	QuidWay NetEngine R2509
+	1.1.1.2511 	QuidWay NetEngine R2511
+	1.1.1.2601 	QuidWay NetEngine R2501E
+	1.1.1.2606 	QuidWay NetEngine R4001E
+	1.1.1.2608 	QuidWay NetEngine R2509E
+	1.1.1.2609 	QuidWay NetEngine R2511E
+	1.1.1.2610 	QuidWay NetEngine R2610
+	1.1.1.2611 	QuidWay NetEngine R2611
+	1.1.1.2620 	QuidWay NetEngine R2620
+	1.1.1.2621 	QuidWay NetEngine R2621
+	1.1.1.2630 	QuidWay NetEngine R2630E
+	1.1.1.2631 	QuidWay NetEngine R2631E
+	1.1.1.3640 	QuidWay NetEngine R3640E
+	1.1.1.3680 	QuidWay NetEngine R3680E
+	1.1.1.4001 	QuidWay NetEngine R4001
+	2.2.1.7508 	QuidWay NetEngine 08
+	2.2.1.7516 	QuidWay NetEngine R7516
+	2.4.1.0 	QuidWay S2403
+	2.17 	QuidWay NetEngine NE80
+	2.23.11 	QuidWay S8016
+	2.23.11.2 	QuidWay S8016
+	2.23.12 	QuidWay S3526
+	2.23.13 	QuidWay S3026
+	2.23.14 	QuidWay S3026V
+	2.23.15 	QuidWay S3026V
+	2.23.16 	QuidWay S2016
+	2.23.17 	QuidWay S3526F
+	2.23.18 	QuidWay S5516
+	2.23.19 	QuidWay S6506
+	2.23.20 	QuidWay S3026-FM/FS
+	2.23.21 	QuidWay S3526E
+	2.23.22 	QuidWay S2206
+	2.23.23 	QuidWay S2403H
+	2.23.27 	QuidWay S3526EFM
+	2.23.28 	QuidWay S3526EFS
+	2.23.29 	QuidWay S3050C
+	2.23.30 	QuidWay S6503
+	2.23.31 	QuidWay S8512
+	2.23.32 	QuidWay S8505
+	2.23.33 	QuidWay S6506R
+	2.23.34 	QuidWay S3026C
+	2.23.24 	QuidWay S3026E
+	2.23.25 	QuidWay S3026EFM
+	2.23.26 	QuidWay S3026EFS
+	2.23.35 	QuidWay S3026G
+	2.23.36 	QuidWay S3026T
+	2.23.37 	QuidWay S3552G
+	2.23.38 	QuidWay S3552P
+	2.23.39 	QuidWay S3528G
+	2.23.40 	QuidWay S3528P
+	2.23.41 	QuidWay S3526c
+	2.23.42 	QuidWay S3026C-24-12FS
+	2.23.43 	QuidWay S3026C-24-12FM
+	2.23.44 	QuidWay S3526C-24-12FS
+	2.23.45 	QuidWay S3526C-24-12FM
+	2.23.46 	QuidWay S5012G
+	2.23.47 	QuidWay S5012G-DC
+	2.23.48 	QuidWay S5012T-12-10GBC
+	2.23.49 	QuidWay S5012T-12-10GBC-DC
+	2.23.50 	QuidWay S5024G-24-20TP
+	2.23.51 	QuidWay S5024G-24-20TP-DC
+	2.23.52 	QuidWay S2026Z
+	2.23.53 	QuidWay S2026C
+	2.23.54 	QuidWay S3026G-SI
+	2.23.55 	QuidWay S3026C-SI
+	2.23.56 	QuidWay S3026S-SI
+	2.23.81 	QuidWay S3328
+	2.23.166	QuidWay S5700-52P-PWR-LI
+	2.23.167	QuidWay S5710-28C-EI
+	2.29 	QuidWay NetEngine NE40-2
+	2.30 	QuidWay NetEngine NE40-4
+	2.31 	QuidWay NetEngine NE40-8
+	2.47 	QuidWay NetEngine NE20-2
+	2.48 	QuidWay NetEngine NE20-4
+	2.49 	QuidWay NetEngine NE20-8
+	2.62 	QuidWay NetEngine 5000E
+	2.62.2.1 	QuidWay NetEngine NE5000oem
+	2.62.2.2 	QuidWay NetEngine NE80E
+	2.62.2.3 	QuidWay NetEngine NE5000E
+	2.62.2.4 	QuidWay NetEngine NE5000EMulti
+	2.62.2.5 	QuidWay NetEngine NE40E
+	2.87.18	CX600-X8
+	2.88 	QuidWay NetEngine 20E
+	2.170.2 	QuidWay S9306
+	2.239.5	QuidWay CE6850-48S4Q-EI
+	2.239.6	QuidWay CE6850-48T4Q-EI
+	10.1.9 	QuidWay S3924-SI
+	10.1.10 	QuidWay S3928P-SI
+	10.1.11 	QuidWay S3952P-SI
+	10.1.12 	QuidWay S3928TP-SI
+	10.1.13 	QuidWay S3928P-EI
+	10.1.14 	QuidWay S3952P-EI
+	10.1.15 	QuidWay S3928P-PWR-EI
+	10.1.16 	QuidWay S3952P-PWR-EI
+	10.1.17 	QuidWay S3928F-EI
+	10.1.18 	QuidWay S5600M
+	10.1.22 	QuidWay S8508
+	10.1.43 	QuidWay S5624P
+	10.1.44 	QuidWay S5624P-PWR
+	10.1.45 	QuidWay S5648P
+	10.1.46 	QuidWay S5648P-PWR
+	10.1.47 	QuidWay S2008C
+	10.1.48 	QuidWay S2016C
+	10.1.49 	QuidWay S2024C
+	10.1.80 	QuidWay S6500
+	10.1.81 	QuidWay S5124P-EI
+	10.1.82 	QuidWay S5126C-EI
+	10.1.83 	QuidWay S5148P-EI
+	10.1.84 	QuidWay S5150C-EI
+	10.1.85 	QuidWay S5116P-SI
+	10.1.86 	QuidWay S5124P-SI
+	10.1.87 	QuidWay S5148P-SI
+	10.1.94 	QuidWay S2108-SI
+	10.1.95 	QuidWay S2116-SI
+	10.1.96 	QuidWay S2126-SI
+	10.1.97 	QuidWay S2108-EI
+	10.1.98 	QuidWay S2116-EI
+	10.1.99 	QuidWay S2126-EI
+	10.1.211 	QuidWay S3552P-EA
 2385	Sharp	PRINTER
 	3.1.4.1.5	AR-275
 	3.1.1.1.12	AR-505/S505
