@@ -257,6 +257,10 @@ my %consumable_references = (
     'TK-560K' => 'TONERBLACK',
     'TK-560M' => 'TONERMAGENTA',
     'TK-560Y' => 'TONERYELLOW',
+    'TK-8705C' => 'TONERCYAN',
+    'TK-8705K' => 'TONERBLACK',
+    'TK-8705M' => 'TONERMAGENTA',
+    'TK-8705Y' => 'TONERYELLOW',
 );
 
 my @consumable_type_rules = (
