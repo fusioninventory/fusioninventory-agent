@@ -259,9 +259,9 @@ sub runCommand {
 # inspired by http://poshcode.org/4363
 sub parseProductKey {
     my ($key_string) = @_;
-    
+
     ## no critic (ProhibitBitwise)
-    
+
     return unless $key_string;
 
     my @key_bytes = unpack 'C*', $key_string;
