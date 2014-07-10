@@ -173,7 +173,9 @@ sub _readSymbolicOids {
                 $values->{$last_oid}->[1] .= "\n" . $line;
                 next
             }
-            if ($values->{$last_oid}->[0] eq 'Hex-STRING') {
+            if ($values->{$last_oid}->[0] eq 'Hex-STRING' &&
+                $line =~ /^([A-F0-9]{2})( [A-F0-9]{2})?/
+            ) {
                 chomp $line;
                 $values->{$last_oid}->[1] .= $line;
                 next
