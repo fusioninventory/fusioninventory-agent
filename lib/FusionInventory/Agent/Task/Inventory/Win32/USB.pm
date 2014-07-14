@@ -43,6 +43,7 @@ sub _getDevices {
             my $entry = $vendor->{devices}->{lc($device->{PRODUCTID})};
             if ($entry) {
                 $device->{CAPTION} = $entry->{name};
+                $device->{NAME} = $entry->{name};
             }
         }
 
@@ -57,11 +58,12 @@ sub _getDevicesFromWMI {
 
     foreach my $object (getWMIObjects(
         class      => 'CIM_LogicalDevice',
-        properties => [ qw/DeviceID Name/ ]
+        properties => [ qw/Caption DeviceID Name/ ]
     )) {
         next unless $object->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)\\(.*)/;
 
         push @devices, {
+            CAPTION   => $object->{Caption},
             NAME      => $object->{Name},
             VENDORID  => $1,
             PRODUCTID => $2,
