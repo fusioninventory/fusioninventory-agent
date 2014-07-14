@@ -1,7 +1,32 @@
 Revision history for FusionInventory agent
 
+2.3.9 Mon, 14 Jul 2014 18:46:33 +0200
+netinventory and netdiscovery tasks:
+* merge all files from sysobjectid database into a single one
+* update sysobjectid database
+
+netdiscovery task:
+* catch more SNMPv3 authentication errors
+* allow multiple SNMP credentials for netdiscovery executable
+
+netinventory task:
+* better printer consumable identification, using vendor references
+  (#2581,#2582,#2583,#2584,#2587,#2589,#2591,#2592,#2593,#2594)
+* report 0% level instead of 100% for wastetoners with OK status (#2593) 
+* skip problematic address only for non-existing interfaces (#2599)
+
+inventory task:
+* disable user profile scanning for software by default on Windows (#2555)
+* avoid fatal dmidecode usage on Windows 2003 for CPUs (#2562)
+* fix last loggued user identification on Windows (#2553)
+* fix product key decoding on Windows 8 (#2544)
+* fix IE 10+ version retrieval on Windows (#2528)
+* more details for USB devices on Windows (#2598)
+* get OS UUID for SPARC on Solaris (#2539)
+* add Xen Citrix server VM support (#2529)
+
 2.3.8 Sun, 11 May 2014 18:55:46 +0200
-netinventory tasks:
+netinventory task:
 * add support for trunk port identification on non-cisco hardware (#2386)
 * add VENDOR element, and keep MANUFACTURER bound to original manufacturer
 * add H3C hardware database
