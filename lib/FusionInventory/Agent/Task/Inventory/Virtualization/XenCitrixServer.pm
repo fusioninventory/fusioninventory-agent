@@ -43,7 +43,7 @@ sub _getUUID {
     while (my $line = <$handle>) {
         chomp $line;
         next unless $line =~ /uuid ( RO)/;
-        my ($label, $uuid) = split(':', $line);
+        my (undef, $uuid) = split(':', $line);
         chomp $uuid;
 
         my $machine = {
