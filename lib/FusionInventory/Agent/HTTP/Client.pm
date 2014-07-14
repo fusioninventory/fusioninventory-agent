@@ -132,7 +132,7 @@ sub _setSSLOptions {
        # LWP 6 default behaviour is to check hostname
        # Fedora also backported this behaviour change in its LWP5 package, so
        # just checking on LWP version is not enough
-       $self->{ua}->ssl_opts(verify_hostname => 0)
+       $self->{ua}->ssl_opts(verify_hostname => 0, SSL_verify_mode => 0)
            if $self->{ua}->can('ssl_opts');
     } else {
         # only IO::Socket::SSL can perform full server certificate validation,
