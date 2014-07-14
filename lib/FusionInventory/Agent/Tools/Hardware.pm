@@ -742,15 +742,19 @@ sub _setPrinterProperties {
         my $current = $snmp->get($current_oid);
         next unless defined $max and defined $current;
 
-        my $value = $current == -3 ?
-            100 : _getPercentValue($max, $current);
-        next unless defined $value;
-
         # consumable identification
         my $variable =
             _getConsumableVariableFromDescription($description);
-
         next unless $variable;
+
+        my $value;
+        if ($current == -3) {
+            # OK means 100% for a container, but 0% for a receptacle
+            $value = $variable eq 'WASTETONER' ? 0 : 100;
+        } else {
+            $value = _getPercentValue($max, $current);
+        }
+        next unless defined $value;
 
         $device->{CARTRIDGES}->{$variable} = $value;
     }
