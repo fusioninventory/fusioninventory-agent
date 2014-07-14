@@ -25,59 +25,62 @@ use FusionInventory::Agent::Task::Inventory::Win32::USB;
 my %tests = (
     7 => [
         {
-            NAME         => 'Generic USB Hub',
+            NAME         => 'Integrated Rate Matching Hub',
+            CAPTION      => 'Integrated Rate Matching Hub',
+            MANUFACTURER => 'Intel Corp.',
             VENDORID     => '8087',
             PRODUCTID    => '0024',
-            MANUFACTURER => 'Intel Corp.',
-            CAPTION      => 'Integrated Rate Matching Hub'
         },
         {
-            NAME         => 'Generic USB Hub',
+            NAME         => 'Integrated Rate Matching Hub',
+            CAPTION      => 'Integrated Rate Matching Hub',
+            MANUFACTURER => 'Intel Corp.',
             VENDORID     => '8087',
             PRODUCTID    => '0024',
-            MANUFACTURER => 'Intel Corp.',
-            CAPTION      => 'Integrated Rate Matching Hub'
         },
         {
             NAME         => 'ASUS Bluetooth',
-            VENDORID     => '0B05',
+            CAPTION      => 'ASUS Bluetooth',
             MANUFACTURER => 'ASUSTek Computer, Inc.',
-            PRODUCTID    => '179C'
+            VENDORID     => '0B05',
+            PRODUCTID    => '179C',
         },
         {
-            NAME         => 'Périphérique USB composite',
+            NAME         => 'QuickCam Ultra Vision',
+            CAPTION      => 'QuickCam Ultra Vision',
+            MANUFACTURER => 'Logitech, Inc.',
             SERIAL       => '6BE882AB',
             VENDORID     => '046D',
             PRODUCTID    => '08C9',
-            CAPTION      => 'QuickCam Ultra Vision',
-            MANUFACTURER => 'Logitech, Inc.'
 
         },
         {
+            NAME         => 'Premium Optical Wheel Mouse (M-BT58)',
             CAPTION      => 'Premium Optical Wheel Mouse (M-BT58)',
             MANUFACTURER => 'Logitech, Inc.',
-            NAME         => 'Périphérique d’entrée USB',
             VENDORID     => '046D',
             PRODUCTID    => 'C03E'
         },
         {
-            NAME         => 'Périphérique USB composite',
+            NAME         => 'iTouch Composite',
+            CAPTION      => 'iTouch Composite',
+            MANUFACTURER => 'Logitech, Inc.',
             VENDORID     => '046D',
             PRODUCTID    => 'C30A',
-            CAPTION      => 'iTouch Composite',
-            MANUFACTURER => 'Logitech, Inc.'
         },
     ],
     xppro2 => [
         {
             MANUFACTURER => 'Cherry GmbH',
-            NAME         => "Concentrador USB genérico",
+            NAME         => 'Concentrador USB genérico',
+            CAPTION      => 'Concentrador USB genérico',
             VENDORID     => '046A',
             PRODUCTID    => '0009'
         },
         {
             MANUFACTURER => 'Cherry GmbH',
             NAME         => 'Dispositivo compuesto USB',
+            CAPTION       => 'Dispositivo compuesto USB',
             VENDORID     => '046A',
             PRODUCTID    => '0019'
         },
@@ -85,13 +88,15 @@ my %tests = (
             CAPTION      => 'SmartTerminal XX44',
             MANUFACTURER => 'Cherry GmbH',
             NAME         => 'SmartTerminal XX44',
+            CAPTION      => 'SmartTerminal XX44',
             VENDORID     => '046A',
             PRODUCTID    => '002D'
         },
         {
             CAPTION      => 'Printing Support',
             MANUFACTURER => 'Hewlett-Packard',
-            NAME         => 'Compatibilidad con impresoras USB',
+            NAME         => 'Printing Support',
+            CAPTION      => 'Printing Support',
             SERIAL       => 'JV40VNJ',
             VENDORID     => '03F0',
             PRODUCTID    => '3A17'
@@ -99,7 +104,8 @@ my %tests = (
         {
             CAPTION      => 'HL-5250DN Printer',
             MANUFACTURER => 'Brother Industries, Ltd',
-            NAME         => 'Compatibilidad con impresoras USB',
+            NAME         => 'HL-5250DN Printer',
+            CAPTION      => 'HL-5250DN Printer',
             SERIAL       => 'J5J126789',
             VENDORID     => '04F9',
             PRODUCTID    => '002B'
@@ -107,7 +113,8 @@ my %tests = (
         {
             CAPTION      => 'LaserJet P2015 series',
             MANUFACTURER => 'Hewlett-Packard',
-            NAME         => 'Dispositivo compuesto USB',
+            NAME         => 'LaserJet P2015 series',
+            CAPTION      => 'LaserJet P2015 series',
             SERIAL       => '00CNBW86S20B',
             VENDORID     => '03F0',
             PRODUCTID    => '3817'
