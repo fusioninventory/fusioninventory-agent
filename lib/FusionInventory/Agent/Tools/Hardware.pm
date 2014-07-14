@@ -719,9 +719,9 @@ sub _setGenericProperties {
         # safety checks
         if (! exists $ports->{$value}) {
             $logger->error(
-                "invalid interface ID $value while setting IP address, aborting"
+                "no interface with ID $value for IP address $suffix, ignoring"
             ) if $logger;
-            last;
+            next;
         }
         if ($suffix !~ /^$ip_address_pattern$/) {
             $logger->error("invalid IP address $suffix") if $logger;
