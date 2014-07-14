@@ -1,6 +1,9 @@
 Revision history for FusionInventory agent
 
 2.3.9 Mon, 14 Jul 2014 18:46:33 +0200
+core:
+* disable lower-level SSL checks when no-ssl-checks is used
+
 netinventory and netdiscovery tasks:
 * merge all files from sysobjectid database into a single one
 * update sysobjectid database
