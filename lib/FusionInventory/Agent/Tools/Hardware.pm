@@ -227,6 +227,14 @@ my @consumable_type_rules = (
         match => qr/maintenance/i,
         value => 'maintenance'
     },
+    {
+        match => qr/fuser/i,
+        value => 'fuser'
+    },
+    {
+        match => qr/transfer/i,
+        value => 'transfer'
+    },
 );
 
 my @consumable_subtype_rules = (
@@ -267,6 +275,8 @@ my %consumable_variables_from_type = (
     },
     waste       => 'WASTETONER',
     maintenance => 'MAINTENANCEKIT',
+    fuser       => 'FUSERKIT',
+    transfer    => 'TRANSFERKIT',
 );
 
 # printer-specific page counter variables
