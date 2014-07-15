@@ -144,7 +144,7 @@ my @consumable_tests = (
     [ "Toner Bottle CRU", undef ],
     [ "Toner Cartridge", undef ],
     [ "Toner Cartridge HP C4127X", 'TONERBLACK' ],
-    [ "Toner Cartridge, Phaser 5550-PagePack, P/N 113R00684", undef ],
+    [ "Toner Cartridge, Phaser 5550-PagePack, P/N 113R00684", 'TONERBLACK' ],
     [ "Toner Collection", undef ],
     [ "Toner Container", undef ],
     [ "Toner cyan", 'TONERCYAN' ],
