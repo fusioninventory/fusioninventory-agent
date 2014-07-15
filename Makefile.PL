@@ -212,6 +212,7 @@ data_install :
 	install -m 644 share/pci.ids $(DESTDIR)$(DATADIR)/
 	install -m 644 share/usb.ids $(DESTDIR)$(DATADIR)/
 	install -m 644 share/sysobject.ids $(DESTDIR)$(DATADIR)/
+	install -m 644 share/consumables.ids $(DESTDIR)$(DATADIR)/
 	mkdir -p $(DESTDIR)$(DATADIR)/html
 	chmod 755 $(DESTDIR)$(DATADIR)/html
 	install -m 644 share/html/* $(DESTDIR)$(DATADIR)/html
