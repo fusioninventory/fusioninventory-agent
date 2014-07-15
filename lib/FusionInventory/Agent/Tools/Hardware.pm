@@ -200,79 +200,7 @@ my %interface_variables = (
     },
 );
 
-my %consumable_references = (
-    'C4127X' => 'TONERBLACK',
-    'C8061X' => 'TONERBLACK',
-    'C9730A' => 'TONERBLACK',
-    'C9731A' => 'TONERCYAN',
-    'C9732A' => 'TONERYELLOW',
-    'C9733A' => 'TONERMAGENTA',
-    'CB540A' => 'TONERBLACK',
-    'CB541A' => 'TONERCYAN',
-    'CB542A' => 'TONERYELLOW',
-    'CB543A' => 'TONERMAGENTA',
-    'CC530A' => 'TONERBLACK',
-    'CC531A' => 'TONERCYAN',
-    'CC532A' => 'TONERYELLOW',
-    'CC533A' => 'TONERMAGENTA',
-    'CE270A' => 'TONERBLACK',
-    'CE271A' => 'TONERCYAN',
-    'CE272A' => 'TONERYELLOW',
-    'CE273A' => 'TONERMAGENTA',
-    'CE285A' => 'TONERBLACK',
-    'CE310A' => 'TONERBLACK',
-    'CE311A' => 'TONERCYAN',
-    'CE312A' => 'TONERYELLOW',
-    'CE313A' => 'TONERMAGENTA',
-    'CE314A' => undef,
-    'CE320A' => 'TONERBLACK',
-    'CE321A' => 'TONERCYAN',
-    'CE322A' => 'TONERYELLOW',
-    'CE323A' => 'TONERMAGENTA',
-    'CE410A' => 'TONERBLACK',
-    'CE411A' => 'TONERCYAN',
-    'CE412A' => 'TONERYELLOW',
-    'CE413A' => 'TONERMAGENTA',
-    'CE505A' => 'TONERBLACK',
-    'CE505X' => 'TONERBLACK',
-    'CE980A' => 'WASTETONER',
-    'Q5950A' => 'TONERBLACK',
-    'Q5951A' => 'TONERCYAN',
-    'Q5952A' => 'TONERYELLOW',
-    'Q5953A' => 'TONERMAGENTA',
-    'Q5942X' => 'TONERBLACK',
-    'Q6470A' => 'TONERBLACK',
-    'Q1338A' => 'TONERBLACK',
-    'Q2610A' => 'TONERBLACK',
-    'Q6000A' => 'TONERBLACK',
-    'Q6001A' => 'TONERCYAN',
-    'Q6002A' => 'TONERYELLOW',
-    'Q6003A' => 'TONERMAGENTA',
-    'Q6471A' => 'TONERCYAN',
-    'Q6472A' => 'TONERYELLOW',
-    'Q6473A' => 'TONERMAGENTA',
-    'Q6511X' => 'TONERBLACK',
-    'Q7551A' => 'TONERBLACK',
-    'Q7551X' => 'TONERBLACK',
-    'Q7581A' => 'TONERCYAN',
-    'Q7582A' => 'TONERYELLOW',
-    'Q7583A' => 'TONERMAGENTA',
-    'TK-160S' => 'TONERBLACK',
-    'TK-340'  => 'TONERBLACK',
-    'TK-560C' => 'TONERCYAN',
-    'TK-560K' => 'TONERBLACK',
-    'TK-560M' => 'TONERMAGENTA',
-    'TK-560Y' => 'TONERYELLOW',
-    'TK-590C' => 'TONERCYAN',
-    'TK-590K' => 'TONERBLACK',
-    'TK-590M' => 'TONERMAGENTA',
-    'TK-590Y' => 'TONERYELLOW',
-    'TK-3110S' => 'TONERBLACK',
-    'TK-8705C' => 'TONERCYAN',
-    'TK-8705K' => 'TONERBLACK',
-    'TK-8705M' => 'TONERMAGENTA',
-    'TK-8705Y' => 'TONERYELLOW',
-);
+my %consumables;
 
 my @consumable_type_rules = (
     {
@@ -516,6 +444,22 @@ sub _loadSysObjectIDDatabase {
     close $handle;
 }
 
+sub _loadConsumablesDatabase {
+    my (%params) = @_;
+
+    return unless $params{datadir};
+
+    my $handle = getFileHandle(file => "$params{datadir}/consumables.ids");
+    return unless $handle;
+
+    while (my $line = <$handle>) {
+        next unless $line =~ /(\S+) \t (\S+)/x;
+        $consumables{$1} = $2;
+    }
+
+    close $handle;
+}
+
 sub _getSerial {
     my ($snmp, $type) = @_;
 
@@ -645,15 +589,17 @@ sub getDeviceFullInfo {
     );
 
     _setPrinterProperties(
-        device => $device,
-        snmp   => $snmp,
-        logger => $logger
+        device  => $device,
+        snmp    => $snmp,
+        logger  => $logger,
+        datadir => $params{datadir}
     ) if $info{TYPE} && $info{TYPE} eq 'PRINTER';
 
     _setNetworkingProperties(
         device  => $device,
         snmp    => $snmp,
-        logger  => $logger
+        logger  => $logger,
+        datadir => $params{datadir}
     ) if $info{TYPE} && $info{TYPE} eq 'NETWORKING';
 
     # convert ports hashref to an arrayref, sorted by interface number
@@ -756,7 +702,10 @@ sub _setPrinterProperties {
 
         # consumable identification
         my $variable =
-            _getConsumableVariableFromDescription($description);
+            _getConsumableVariableFromDescription(
+                datadir     => $params{datadir},
+                description => $description
+            );
         next unless $variable;
 
         my $value;
@@ -786,10 +735,15 @@ sub _setPrinterProperties {
 }
 
 sub _getConsumableVariableFromDescription {
-    my ($description) = @_;
+    my (%params) = @_;
 
-    foreach my $key (keys %consumable_references) {
-        return $consumable_references{$key} if $description =~ /$key/;
+    my $description = $params{description};
+    return unless $description;
+
+    _loadConsumablesDatabase(%params) if !%consumables;
+
+    foreach my $key (keys %consumables) {
+        return $consumables{$key} if $description =~ /$key/;
     }
 
     # find type
