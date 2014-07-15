@@ -1,5 +1,9 @@
 Revision history for FusionInventory agent
 
+2.3.9.1 Tue, 15 Jul 2014 22:17:04 +0200
+install:
+* fix sysobjectid and consumables databases files installation
+
 2.3.9 Tue, 15 Jul 2014 22:17:04 +0200
 core:
 * disable lower-level SSL checks when no-ssl-checks is used
