@@ -59,6 +59,8 @@ pod2usage(
     -message => "no host nor file given, aborting\n", -verbose => 0
 ) unless $options->{host} or $options->{file};
 
+warn "deprecated option model, ignoring\n" if $options->{model};
+
 my $device = {
     ID           => 0,
     IP           => $options->{host},
@@ -67,16 +69,7 @@ my $device = {
     MODELSNMP_ID => 1
 };
 
-my $model       = { ID => 1 };
 my $credentials = { ID => 1 };
-
-if ($options->{model}) {
-    pod2usage(
-        -message => "invalid file '$options->{model}', aborting\n",
-        -verbose => 0
-    ) unless -f $options->{model};
-    $model = loadModel($options->{model});
-}
 
 if ($options->{type}) {
     pod2usage(
@@ -123,7 +116,6 @@ $inventory->{options} = {
         }
     ],
     DEVICE         => [ $device ],
-    MODEL          => [ $model ],
     AUTHENTICATION => [ $credentials ]
 };
 
@@ -135,39 +127,6 @@ $inventory->{client} =
 $inventory->{deviceid} = 'foo';
 
 $inventory->run();
-
-sub loadModel {
-    my ($file) = @_;
-
-    my $model = XML::TreePP->new()->parsefile($file)->{model};
-
-    my @get = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-        }
-    } grep {
-        $_->{dynamicport} == 0
-    } @{$model->{oidlist}->{oidobject}};
-
-    my @walk = map {
-        {
-            OID    => $_->{oid},
-            OBJECT => $_->{mapping_name},
-        }
-    } grep {
-        $_->{dynamicport} == 1
-    } @{$model->{oidlist}->{oidobject}};
-
-    return {
-        ID   => 1,
-        NAME => $model->{name},
-        TYPE => $model->{type},
-        GET  => \@get,
-        WALK => \@walk,
-    }
-}
-
 
 package FusionInventory::Agent::Task::NetInventory::Client;
 
@@ -213,12 +172,10 @@ fusioninventory-netinventory - Standalone network inventory
 =head1 SYNOPSIS
 
 fusioninventory-netinventory [options] [--host <host>--file <file>]
-  [--model <model>]
 
   Options:
     --host host    host to inventorize
     --file         snmpwalk output file
-    --model model  XML model file
     --community    community string (default: public)
     --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)
