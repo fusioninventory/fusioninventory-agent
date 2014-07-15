@@ -397,7 +397,10 @@ foreach my $test (@mac_tests) {
 
 foreach my $test (@consumable_tests) {
     is(
-        FusionInventory::Agent::Tools::Hardware::_getConsumableVariableFromDescription($test->[0]),
+        FusionInventory::Agent::Tools::Hardware::_getConsumableVariableFromDescription(
+            datadir     => './share',
+            description => $test->[0]
+        ),
         $test->[1],
         "$test->[0] identification"
     );
