@@ -1162,7 +1162,7 @@ sub _getConnectedDevicesInfoCDP {
             IP       => $ip,
             IFDESCR  => $cdpCacheDevicePort->{$suffix},
             SYSDESCR => $cdpCacheVersion->{$suffix},
-            SYSNAME  => $cdpCacheDeviceId->{$suffix},
+            SYSNAME  => hex2char($cdpCacheDeviceId->{$suffix}),
             MODEL    => $cdpCachePlatform->{$suffix}
         };
 
@@ -1207,7 +1207,7 @@ sub _getConnectedDevicesInfoLLDP {
             SYSMAC   => lc(alt2canonical($mac)),
             IFDESCR  => $lldpRemPortDesc->{$suffix},
             SYSDESCR => $lldpRemSysDesc->{$suffix},
-            SYSNAME  => $lldpRemSysName->{$suffix},
+            SYSNAME  => hex2char($lldpRemSysName->{$suffix}),
             IFNUMBER => $lldpRemPortId->{$suffix}
         };
     }
