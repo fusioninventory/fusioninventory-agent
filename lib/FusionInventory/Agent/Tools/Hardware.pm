@@ -1089,28 +1089,55 @@ sub _getAssociatedMacAddresses {
 sub _setConnectedDevicesInfo {
     my (%params) = @_;
 
-    my $info =
-        _getConnectedDevicesInfoCDP(%params) ||
-        _getConnectedDevicesInfoLLDP(%params);
-    return unless $info;
-
     my $logger = $params{logger};
     my $ports  = $params{ports};
 
-    foreach my $port_id (keys %$info) {
-        # safety check
-        if (! exists $ports->{$port_id}) {
-            $logger->error(
-                "invalid inteface ID $port_id while setting connected devices" .
-                " aborting"
-            ) if $logger;
-            last;
-        }
+    my $cdp_info = _getConnectedDevicesInfoCDP(%params);
+    if ($cdp_info) {
+        foreach my $port_id (keys %$cdp_info) {
+            # safety check
+            if (! exists $ports->{$port_id}) {
+                $logger->error(
+                    "invalid interface ID $port_id while setting connected " .
+                    "devices through CDP, aborting"
+                ) if $logger;
+                last;
+            }
 
-        $ports->{$port_id}->{CONNECTIONS} = {
-            CDP        => 1,
-            CONNECTION => $info->{$port_id}
-        };
+            my $port = $ports->{$port_id};
+
+            $port->{CONNECTIONS} = {
+                CDP        => 1,
+                CONNECTION => $cdp_info->{$port_id}
+            };
+        }
+    }
+
+    my $lldp_info = _getConnectedDevicesInfoLLDP(%params);
+    if ($lldp_info) {
+        foreach my $port_id (keys %$lldp_info) {
+            # safety check
+            if (! exists $ports->{$port_id}) {
+                $logger->error(
+                    "invalid interface ID $port_id while setting connected " .
+                    "devices through LLDP, aborting"
+                ) if $logger;
+                last;
+            }
+
+            my $port = $ports->{$port_id};
+
+            # already set through CDP
+            next if
+                exists $port->{CONNECTIONS} &&
+                exists $port->{CONNECTIONS}->{CDP} &&
+                $port->{CONNECTIONS}->{CDP};
+
+            $port->{CONNECTIONS} = {
+                CDP        => 1,
+                CONNECTION => $lldp_info->{$port_id}
+            };
+        }
     }
 }
 
