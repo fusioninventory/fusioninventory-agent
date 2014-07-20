@@ -1098,9 +1098,9 @@ sub _setConnectedDevicesInfo {
             # safety check
             if (! exists $ports->{$port_id}) {
                 $logger->error(
-                    "invalid interface ID $port_id in CDP info, aborting"
+                    "invalid interface ID $port_id in CDP info, ignoring"
                 ) if $logger;
-                last;
+                next;
             }
 
             my $port = $ports->{$port_id};
@@ -1118,9 +1118,9 @@ sub _setConnectedDevicesInfo {
             # safety check
             if (! exists $ports->{$port_id}) {
                 $logger->error(
-                    "invalid interface ID $port_id in LLDP info, aborting"
+                    "invalid interface ID $port_id in LLDP info, ignoring"
                 ) if $logger;
-                last;
+                next;
             }
 
             my $port = $ports->{$port_id};
