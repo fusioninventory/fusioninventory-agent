@@ -19,17 +19,35 @@ sub isEnabled {
 sub doInventory {
     my (%params) = @_;
 
-    # TODO: 64/32 bit support
-    my $machKey = $Registry->Open('LMachine', {
-        Access => KEY_READ ## no critic (ProhibitBitwise)
-    }) or $params{logger}->error(
-        "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
-    );
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
-    my $office = $machKey->{"SOFTWARE/Microsoft/Office"};
-    return unless $office;
+    my $is64bit = is64bit();
+    my @licenses;
 
-    my @licenses = _scanOffice($office);
+    if ($is64bit) {
+        my $machKey64 = $Registry->Open('LMachine', {
+            Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
+        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        my $officeKey64 = $machKey64->{"SOFTWARE/Microsoft/Office"};
+        push @licenses, _scanOffice($officeKey64 ) if $officeKey64;
+
+        my $machKey32 = $Registry->Open('LMachine', {
+            Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
+        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+
+        my $officeKey32 = $machKey32->{"SOFTWARE/Microsoft/Office"};
+        push @licenses, _scanOffice($officeKey32) if $officeKey32;
+    } else {
+        my $machKey = $Registry->Open('LMachine', {
+            Access => KEY_READ ## no critic (ProhibitBitwise)
+        }) or $logger->error(
+            "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
+        );
+
+        my $officeKey = $machKey->{"SOFTWARE/Microsoft/Office"};
+        push @licenses, _scanOffice($officeKey) if $officeKey;
+    }
 
     foreach my $license (@licenses) {
         $params{inventory}->addEntry(
@@ -37,7 +55,6 @@ sub doInventory {
             entry   => $license
         );
     }
-
 }
 
 sub _scanOffice {
