@@ -450,7 +450,7 @@ cmp_deeply(
 foreach my $test (@cdp_info_extraction_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
-    my $cdp_info = FusionInventory::Agent::Tools::Hardware::_getConnectedDevicesInfoCDP(
+    my $cdp_info = FusionInventory::Agent::Tools::Hardware::_getCDPInfo(
         snmp  => $snmp,
     );
 

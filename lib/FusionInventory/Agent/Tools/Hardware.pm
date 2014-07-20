@@ -1092,14 +1092,13 @@ sub _setConnectedDevicesInfo {
     my $logger = $params{logger};
     my $ports  = $params{ports};
 
-    my $cdp_info = _getConnectedDevicesInfoCDP(%params);
+    my $cdp_info = _getCDPInfo(%params);
     if ($cdp_info) {
         foreach my $port_id (keys %$cdp_info) {
             # safety check
             if (! exists $ports->{$port_id}) {
                 $logger->error(
-                    "invalid interface ID $port_id while setting connected " .
-                    "devices through CDP, aborting"
+                    "invalid interface ID $port_id in CDP info, aborting"
                 ) if $logger;
                 last;
             }
@@ -1113,14 +1112,13 @@ sub _setConnectedDevicesInfo {
         }
     }
 
-    my $lldp_info = _getConnectedDevicesInfoLLDP(%params);
+    my $lldp_info = _getLLDPInfo(%params);
     if ($lldp_info) {
         foreach my $port_id (keys %$lldp_info) {
             # safety check
             if (! exists $ports->{$port_id}) {
                 $logger->error(
-                    "invalid interface ID $port_id while setting connected " .
-                    "devices through LLDP, aborting"
+                    "invalid interface ID $port_id in LLDP info, aborting"
                 ) if $logger;
                 last;
             }
@@ -1141,7 +1139,7 @@ sub _setConnectedDevicesInfo {
     }
 }
 
-sub _getConnectedDevicesInfoCDP {
+sub _getCDPInfo {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
@@ -1182,7 +1180,7 @@ sub _getConnectedDevicesInfoCDP {
     return $results;
 }
 
-sub _getConnectedDevicesInfoLLDP {
+sub _getLLDPInfo {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
