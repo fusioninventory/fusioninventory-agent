@@ -1133,6 +1133,32 @@ sub _setConnectedDevicesInfo {
             };
         }
     }
+
+    my $edp_info = _getEDPInfo(%params);
+    if ($edp_info) {
+        foreach my $port_id (keys %$edp_info) {
+            # safety check
+            if (! exists $ports->{$port_id}) {
+                $logger->error(
+                    "invalid interface ID $port_id in EDP info, ignoring"
+                ) if $logger;
+                next;
+            }
+
+            my $port = $ports->{$port_id};
+
+            # already set through CDP
+            next if
+                exists $port->{CONNECTIONS} &&
+                exists $port->{CONNECTIONS}->{CDP} &&
+                $port->{CONNECTIONS}->{CDP};
+
+            $port->{CONNECTIONS} = {
+                CDP        => 1,
+                CONNECTION => $edp_info->{$port_id}
+            };
+        }
+    }
 }
 
 sub _getCDPInfo {
@@ -1171,6 +1197,57 @@ sub _getCDPInfo {
         next if !$connection->{SYSDESCR} || !$connection->{MODEL};
 
         $results->{$port_id} = $connection;
+    }
+
+    return $results;
+}
+
+sub _getEDPInfo {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+
+    my ($results, $blacklist);
+    my $edpNeighborVlanIpAddress = $snmp->walk('.1.3.6.1.4.1.1916.1.13.3.1.3');
+    my $edpNeighborName          = $snmp->walk('.1.3.6.1.4.1.1916.1.13.2.1.3');
+    my $edpNeighborPort          = $snmp->walk('.1.3.6.1.4.1.1916.1.13.2.1.6');
+
+    # each entry from extremeEdpTable matches the following scheme:
+    # $prefix.x.0.0.y1.y2.y3.y4.y5.y6 = $value
+    # - x: the interface id
+    # - y1.y2.y3.y4.y5.y6: the remote mac address
+
+    # each entry from extremeEdpNeighborTable matches the following scheme:
+    # $prefix.x.0.0.y1.y2.y3.y4.y5.y6.z1.z2...zz = $value
+    # - x: the interface id,
+    # - y1.y2.y3.y4.y5.y6: the remote mac address
+    # - z1.z2...zz: the vlan name in ASCII
+
+    while (my ($suffix, $ip) = each %{$edpNeighborVlanIpAddress}) {
+        next if $ip eq '0.0.0.0';
+
+        my $interface_id = _getElement($suffix, 0);
+        my @mac_elements = _getElements($suffix, 1, 8);
+        my $short_suffix = join('.', $interface_id, @mac_elements);
+
+        my $connection = {
+            IFDESCR  => $edpNeighborPort->{$short_suffix},
+            SYSNAME  => $edpNeighborName->{$short_suffix},
+            SYSMAC   => sprintf "%02x:%02x:%02x:%02x:%02x:%02x", @mac_elements
+        };
+
+        # warning: multiple neighbors announcement for the same interface
+        # usually means a non-EDP aware intermediate equipement
+        if ($results->{$interface_id}) {
+            $blacklist->{$interface_id} = 1;
+        } else {
+            $results->{$interface_id} = $connection;
+        }
+    }
+
+    # remove blacklisted results
+    foreach my $interface_id (keys %$blacklist) {
+        delete $results->{$interface_id};
     }
 
     return $results;
