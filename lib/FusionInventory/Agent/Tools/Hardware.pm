@@ -1231,8 +1231,8 @@ sub _getEDPInfo {
         next if $ip eq '0.0.0.0';
 
         my $interface_id = _getElement($suffix, 0);
-        my @mac_elements = _getElements($suffix, 1, 8);
-        my $short_suffix = join('.', $interface_id, @mac_elements);
+        my @mac_elements = _getElements($suffix, 3, 8);
+        my $short_suffix = join('.', $interface_id, 0, 0, @mac_elements);
 
         my $connection = {
             IFDESCR  => $edpNeighborPort->{$short_suffix},
