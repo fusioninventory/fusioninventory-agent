@@ -1169,8 +1169,9 @@ sub _getCDPInfo {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
+    my $logger = $params{logger};
 
-    my $results;
+    my ($results, $blacklist);
     my $cdpCacheAddress    = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.4');
     my $cdpCacheVersion    = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.5');
     my $cdpCacheDeviceId   = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.6');
@@ -1182,7 +1183,7 @@ sub _getCDPInfo {
     # whereas x is the port number
 
     while (my ($suffix, $ip) = each %{$cdpCacheAddress}) {
-        my $port_id = _getElement($suffix, -2);
+        my $interface_id = _getElement($suffix, -2);
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
@@ -1200,8 +1201,21 @@ sub _getCDPInfo {
 
         next if !$connection->{SYSDESCR} || !$connection->{MODEL};
 
-        $results->{$port_id} = $connection;
+        # warning: multiple neighbors announcement for the same interface
+        # usually means a non-CDP aware intermediate equipement
+        if ($results->{$interface_id}) {
+            $logger->error(
+                "multiple neighbors found by CDP for same interface " .
+                "$interface_id, ignoring"
+            );
+            $blacklist->{$interface_id} = 1;
+        } else {
+            $results->{$interface_id} = $connection;
+        }
     }
+    
+    # remove blacklisted results
+    delete $results->{$_} foreach keys %$blacklist;
 
     return $results;
 }
@@ -1210,6 +1224,7 @@ sub _getEDPInfo {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
+    my $logger = $params{logger};
 
     my ($results, $blacklist);
     my $edpNeighborVlanIpAddress = $snmp->walk('.1.3.6.1.4.1.1916.1.13.3.1.3');
@@ -1243,6 +1258,10 @@ sub _getEDPInfo {
         # warning: multiple neighbors announcement for the same interface
         # usually means a non-EDP aware intermediate equipement
         if ($results->{$interface_id}) {
+            $logger->error(
+                "multiple neighbors found by EDP for same interface " .
+                "$interface_id, ignoring"
+            );
             $blacklist->{$interface_id} = 1;
         } else {
             $results->{$interface_id} = $connection;
@@ -1250,9 +1269,7 @@ sub _getEDPInfo {
     }
 
     # remove blacklisted results
-    foreach my $interface_id (keys %$blacklist) {
-        delete $results->{$interface_id};
-    }
+    delete $results->{$_} foreach keys %$blacklist;
 
     return $results;
 }
