@@ -814,14 +814,14 @@ sub _setNetworkingProperties {
         logger => $logger
     );
 
-    _setConnectedDevicesInfo(
+    _setConnectedDevices(
         snmp   => $snmp,
         ports  => $ports,
         logger => $logger,
         vendor => $device->{INFO}->{MANUFACTURER}
     );
 
-    _setAssociatedMacAddresses(
+    _setKnownMacAddresses(
         snmp         => $snmp,
         ports        => $ports,
         logger       => $logger,
@@ -936,7 +936,7 @@ sub _getElements {
     return @array[$first .. $last];
 }
 
-sub _setAssociatedMacAddresses {
+sub _setKnownMacAddresses {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
@@ -944,14 +944,14 @@ sub _setAssociatedMacAddresses {
     my $logger = $params{logger};
 
     # start with mac addresses seen on default VLAN
-    my $addresses = _getAssociatedMacAddresses(
+    my $addresses = _getKnownMacAddresses(
         snmp           => $snmp,
         address2port   => '.1.3.6.1.2.1.17.4.3.1.2', # dot1dTpFdbPort
         port2interface => '.1.3.6.1.2.1.17.1.4.1.2', # dot1dBasePortIfIndex
     );
 
     if ($addresses) {
-        _addAssociatedMacAddresses(
+        _addKnownMacAddresses(
             ports     => $ports,
             logger    => $logger,
             addresses => $addresses,
@@ -959,14 +959,14 @@ sub _setAssociatedMacAddresses {
     }
 
     # add additional mac addresses for other VLANs
-    $addresses = _getAssociatedMacAddresses(
+    $addresses = _getKnownMacAddresses(
         snmp           => $snmp,
         address2port   => '.1.3.6.1.2.1.17.7.1.2.2.1.2', # dot1qTpFdbPort
         port2interface => '.1.3.6.1.2.1.17.1.4.1.2',     # dot1dBasePortIfIndex
     );
 
     if ($addresses) {
-        _addAssociatedMacAddresses(
+        _addKnownMacAddresses(
             ports     => $ports,
             logger    => $logger,
             addresses => $addresses,
@@ -992,14 +992,14 @@ sub _setAssociatedMacAddresses {
         foreach my $vlan (@vlans) {
             $logger->debug("switching SNMP context to vlan $vlan") if $logger;
             $snmp->switch_vlan_context($vlan);
-            my $mac_addresses = _getAssociatedMacAddresses(
+            my $mac_addresses = _getKnownMacAddresses(
                 snmp           => $snmp,
                 address2port   => '.1.3.6.1.2.1.17.4.3.1.2', # dot1dTpFdbPort
                 port2interface => '.1.3.6.1.2.1.17.1.4.1.2', # dot1dBasePortIfIndex
             );
             next unless $mac_addresses;
 
-            _addAssociatedMacAddresses(
+            _addKnownMacAddresses(
                 ports     => $ports,
                 logger    => $logger,
                 addresses => $mac_addresses,
@@ -1010,7 +1010,7 @@ sub _setAssociatedMacAddresses {
 
 }
 
-sub _addAssociatedMacAddresses {
+sub _addKnownMacAddresses {
     my (%params) = @_;
 
     my $ports         = $params{ports};
@@ -1054,7 +1054,7 @@ sub _addAssociatedMacAddresses {
     }
 }
 
-sub _getAssociatedMacAddresses {
+sub _getKnownMacAddresses {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
@@ -1086,7 +1086,7 @@ sub _getAssociatedMacAddresses {
     return $results;
 }
 
-sub _setConnectedDevicesInfo {
+sub _setConnectedDevices {
     my (%params) = @_;
 
     my $logger = $params{logger};

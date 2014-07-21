@@ -464,7 +464,7 @@ foreach my $test (@cdp_info_extraction_tests) {
 foreach my $test (@mac_addresses_extraction_tests) {
     my $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
-    my $mac_addresses = FusionInventory::Agent::Tools::Hardware::_getAssociatedMacAddresses(
+    my $mac_addresses = FusionInventory::Agent::Tools::Hardware::_getKnownMacAddresses(
         snmp           => $snmp,
         address2port   => '.1.3.6.1.2.1.17.4.3.1.2',
         port2interface => '.1.3.6.1.2.1.17.1.4.1.2',
@@ -480,7 +480,7 @@ foreach my $test (@mac_addresses_extraction_tests) {
 foreach my $test (@mac_addresses_addition_tests) {
     my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
 
-    FusionInventory::Agent::Tools::Hardware::_setAssociatedMacAddresses(
+    FusionInventory::Agent::Tools::Hardware::_setKnownMacAddresses(
         snmp  => $snmp,
         ports => $test->[1],
     );
