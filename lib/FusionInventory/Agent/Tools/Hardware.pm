@@ -1213,7 +1213,7 @@ sub _getCDPInfo {
             $results->{$interface_id} = $connection;
         }
     }
-    
+
     # remove blacklisted results
     delete $results->{$_} foreach keys %$blacklist;
 
