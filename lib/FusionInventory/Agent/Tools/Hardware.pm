@@ -1282,8 +1282,10 @@ sub _getLLDPInfo {
     my $lldpRemSysName   = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.9');
     my $lldpRemSysDesc   = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.10');
 
-    # dot1dBasePortIfIndex
-    my $port2interface = $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');
+    # port to interface mapping
+    my $port2interface =
+        $snmp->walk('.1.3.6.1.4.1.9.5.1.4.1.1.11.1') || # Cisco portIfIndex
+        $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');         # dot1dBasePortIfIndex
 
     # each lldp variable matches the following scheme:
     # $prefix.x.y.z = $value
