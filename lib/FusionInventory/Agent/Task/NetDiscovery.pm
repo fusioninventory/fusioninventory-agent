@@ -81,8 +81,8 @@ sub run {
            pattern => qr/Nmap version (\d+)\.(\d+)/
        );
        $nmap_parameters = compareVersion($major, $minor, 5, 29) ?
-           "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms " :
-           "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000ms "     ;
+           "-sP -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms" :
+           "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000ms"     ;
     } else {
         $self->{logger}->info(
             "Can't run nmap, nmap detection can't be used"
