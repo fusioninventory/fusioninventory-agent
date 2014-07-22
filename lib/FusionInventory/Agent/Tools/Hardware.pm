@@ -1302,13 +1302,19 @@ sub _getLLDPInfo {
             ! exists $port2interface->{$id} ? $id                   :
             $params{vendor} eq 'Juniper'    ? $id                   :
                                               $port2interface->{$id};
-        $results->{$interface_id} = {
+
+
+        my $connection = {
             SYSMAC   => lc(alt2canonical($mac)),
             IFDESCR  => $lldpRemPortDesc->{$suffix},
             SYSDESCR => $lldpRemSysDesc->{$suffix},
             SYSNAME  => hex2char($lldpRemSysName->{$suffix}),
             IFNUMBER => $lldpRemPortId->{$suffix}
         };
+
+        next if !$connection->{SYSDESCR};
+
+        $results->{$interface_id} = $connection;
     }
 
     return $results;
