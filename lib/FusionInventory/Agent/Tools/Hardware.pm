@@ -1092,26 +1092,6 @@ sub _setConnectedDevices {
     my $logger = $params{logger};
     my $ports  = $params{ports};
 
-    my $cdp_info = _getCDPInfo(%params);
-    if ($cdp_info) {
-        foreach my $port_id (keys %$cdp_info) {
-            # safety check
-            if (! exists $ports->{$port_id}) {
-                $logger->error(
-                    "invalid interface ID $port_id in CDP info, ignoring"
-                ) if $logger;
-                next;
-            }
-
-            my $port = $ports->{$port_id};
-
-            $port->{CONNECTIONS} = {
-                CDP        => 1,
-                CONNECTION => $cdp_info->{$port_id}
-            };
-        }
-    }
-
     my $lldp_info = _getLLDPInfo(%params);
     if ($lldp_info) {
         foreach my $port_id (keys %$lldp_info) {
@@ -1123,18 +1103,51 @@ sub _setConnectedDevices {
                 next;
             }
 
-            my $port = $ports->{$port_id};
-
-            # already set through CDP
-            next if
-                exists $port->{CONNECTIONS} &&
-                exists $port->{CONNECTIONS}->{CDP} &&
-                $port->{CONNECTIONS}->{CDP};
+            my $port            = $ports->{$port_id};
+            my $lldp_connection = $lldp_info->{$port_id};
 
             $port->{CONNECTIONS} = {
                 CDP        => 1,
-                CONNECTION => $lldp_info->{$port_id}
+                CONNECTION => $lldp_connection
             };
+        }
+    }
+
+    my $cdp_info = _getCDPInfo(%params);
+    if ($cdp_info) {
+        foreach my $port_id (keys %$cdp_info) {
+            # safety check
+            if (! exists $ports->{$port_id}) {
+                $logger->error(
+                    "invalid interface ID $port_id in CDP info, ignoring"
+                ) if $logger;
+                next;
+            }
+
+            my $port            = $ports->{$port_id};
+            my $lldp_connection = $port->{CONNECTIONS}->{CONNECTION};
+            my $cdp_connection  = $cdp_info->{$port_id};
+
+            if ($lldp_connection) {
+                if ($cdp_connection->{SYSNAME} eq $lldp_connection->{SYSNAME}) {
+                    # same device, everything OK
+                    foreach my $key (qw/IP MODEL/) {
+                        $lldp_connection->{$key} = $cdp_connection->{$key};
+                    }
+                } else {
+                    # undecidable situation
+                    $logger->error(
+                        "multiple neighbors found by LLDP and CDP for same " .
+                        "interface $port_id, ignoring"
+                    );
+                    delete $port->{CONNECTIONS};
+                }
+            } else {
+                $port->{CONNECTIONS} = {
+                    CDP        => 1,
+                    CONNECTION => $cdp_connection
+                };
+            }
         }
     }
 
@@ -1149,18 +1162,30 @@ sub _setConnectedDevices {
                 next;
             }
 
-            my $port = $ports->{$port_id};
+            my $port            = $ports->{$port_id};
+            my $lldp_connection = $port->{CONNECTIONS}->{CONNECTION};
+            my $edp_connection  = $edp_info->{$port_id};
 
-            # already set through CDP
-            next if
-                exists $port->{CONNECTIONS} &&
-                exists $port->{CONNECTIONS}->{CDP} &&
-                $port->{CONNECTIONS}->{CDP};
-
-            $port->{CONNECTIONS} = {
-                CDP        => 1,
-                CONNECTION => $edp_info->{$port_id}
-            };
+            if ($lldp_connection) {
+                if ($edp_connection->{SYSNAME} eq $lldp_connection->{SYSNAME}) {
+                    # same device, everything OK
+                    foreach my $key (qw/IP/) {
+                        $lldp_connection->{$key} = $edp_connection->{$key};
+                    }
+                } else {
+                    # undecidable situation
+                    $logger->error(
+                        "multiple neighbors found by LLDP and EDP for same " .
+                        "interface $port_id, ignoring"
+                    );
+                    delete $port->{CONNECTIONS};
+                }
+            } else {
+                $port->{CONNECTIONS} = {
+                    CDP        => 1,
+                    CONNECTION => $edp_connection
+                };
+            }
         }
     }
 }
