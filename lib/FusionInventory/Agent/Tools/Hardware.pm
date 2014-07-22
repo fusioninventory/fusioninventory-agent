@@ -1246,6 +1246,7 @@ sub _getEDPInfo {
         my $short_suffix = join('.', $interface_id, 0, 0, @mac_elements);
 
         my $connection = {
+            IP       => $ip,
             IFDESCR  => $edpNeighborPort->{$short_suffix},
             SYSNAME  => $edpNeighborName->{$short_suffix},
             SYSMAC   => sprintf "%02x:%02x:%02x:%02x:%02x:%02x", @mac_elements
