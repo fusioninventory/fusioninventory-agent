@@ -1123,7 +1123,7 @@ sub _setConnectedDevices {
                 } else {
                     # undecidable situation
                     $logger->error(
-                        "multiple neighbors found by LLDP and CDP for same " .
+                        "multiple neighbors found by LLDP and CDP for " .
                         "interface $port_id, ignoring"
                     );
                     delete $port->{CONNECTIONS};
@@ -1161,7 +1161,7 @@ sub _setConnectedDevices {
                 } else {
                     # undecidable situation
                     $logger->error(
-                        "multiple neighbors found by LLDP and EDP for same " .
+                        "multiple neighbors found by LLDP and EDP for " .
                         "interface $port_id, ignoring"
                     );
                     delete $port->{CONNECTIONS};
@@ -1237,8 +1237,8 @@ sub _getCDPInfo {
         # usually means a non-CDP aware intermediate equipement
         if ($results->{$interface_id}) {
             $logger->error(
-                "multiple neighbors found by CDP for same interface " .
-                "$interface_id, ignoring"
+                "multiple neighbors found by CDP for interface $interface_id," .
+                " ignoring"
             );
             $blacklist->{$interface_id} = 1;
         } else {
@@ -1292,8 +1292,8 @@ sub _getEDPInfo {
         # usually means a non-EDP aware intermediate equipement
         if ($results->{$interface_id}) {
             $logger->error(
-                "multiple neighbors found by EDP for same interface " .
-                "$interface_id, ignoring"
+                "multiple neighbors found by EDP for interface $interface_id," .
+                " ignoring"
             );
             $blacklist->{$interface_id} = 1;
         } else {
