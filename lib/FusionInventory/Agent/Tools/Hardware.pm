@@ -1169,6 +1169,51 @@ sub _setConnectedDevices {
     }
 }
 
+sub _getLLDPInfo {
+    my (%params) = @_;
+
+    my $snmp   = $params{snmp};
+
+    my $results;
+    my $lldpRemChassisId = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.5');
+    my $lldpRemPortId    = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.7');
+    my $lldpRemPortDesc  = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.8');
+    my $lldpRemSysName   = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.9');
+    my $lldpRemSysDesc   = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.10');
+
+    # port to interface mapping
+    my $port2interface =
+        $snmp->walk('.1.3.6.1.4.1.9.5.1.4.1.1.11.1') || # Cisco portIfIndex
+        $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');         # dot1dBasePortIfIndex
+
+    # each lldp variable matches the following scheme:
+    # $prefix.x.y.z = $value
+    # whereas y is either a port or an interface id
+
+    while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
+        my $id           = _getElement($suffix, -2);
+        my $interface_id =
+            ! exists $port2interface->{$id} ? $id                   :
+            $params{vendor} eq 'Juniper'    ? $id                   :
+                                              $port2interface->{$id};
+
+
+        my $connection = {
+            SYSMAC   => lc(alt2canonical($mac)),
+            IFDESCR  => $lldpRemPortDesc->{$suffix},
+            SYSDESCR => $lldpRemSysDesc->{$suffix},
+            SYSNAME  => hex2char($lldpRemSysName->{$suffix}),
+            IFNUMBER => $lldpRemPortId->{$suffix}
+        };
+
+        next if !$connection->{SYSDESCR};
+
+        $results->{$interface_id} = $connection;
+    }
+
+    return $results;
+}
+
 sub _getCDPInfo {
     my (%params) = @_;
 
@@ -1300,50 +1345,6 @@ sub _getEDPInfo {
     return $results;
 }
 
-sub _getLLDPInfo {
-    my (%params) = @_;
-
-    my $snmp   = $params{snmp};
-
-    my $results;
-    my $lldpRemChassisId = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.5');
-    my $lldpRemPortId    = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.7');
-    my $lldpRemPortDesc  = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.8');
-    my $lldpRemSysName   = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.9');
-    my $lldpRemSysDesc   = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.10');
-
-    # port to interface mapping
-    my $port2interface =
-        $snmp->walk('.1.3.6.1.4.1.9.5.1.4.1.1.11.1') || # Cisco portIfIndex
-        $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');         # dot1dBasePortIfIndex
-
-    # each lldp variable matches the following scheme:
-    # $prefix.x.y.z = $value
-    # whereas y is either a port or an interface id
-
-    while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
-        my $id           = _getElement($suffix, -2);
-        my $interface_id =
-            ! exists $port2interface->{$id} ? $id                   :
-            $params{vendor} eq 'Juniper'    ? $id                   :
-                                              $port2interface->{$id};
-
-
-        my $connection = {
-            SYSMAC   => lc(alt2canonical($mac)),
-            IFDESCR  => $lldpRemPortDesc->{$suffix},
-            SYSDESCR => $lldpRemSysDesc->{$suffix},
-            SYSNAME  => hex2char($lldpRemSysName->{$suffix}),
-            IFNUMBER => $lldpRemPortId->{$suffix}
-        };
-
-        next if !$connection->{SYSDESCR};
-
-        $results->{$interface_id} = $connection;
-    }
-
-    return $results;
-}
 
 sub _setVlans {
     my (%params) = @_;
