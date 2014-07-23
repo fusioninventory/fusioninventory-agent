@@ -167,7 +167,6 @@ sub _initModulesList {
                 no_category   => $disabled,
                 logger        => $self->{logger},
                 datadir       => $self->{config}->{datadir},
-                registry      => $self->{config}->{registry},
                 scan_homedirs => $self->{config}->{'scan-homedirs'},
                 scan_profiles => $self->{config}->{'scan-profiles'},
             }
@@ -250,7 +249,6 @@ sub _runModule {
             inventory     => $inventory,
             no_category   => $disabled,
             logger        => $self->{logger},
-            registry      => $self->{registry},
             scan_homedirs => $self->{config}->{'scan-homedirs'},
             scan_profiles => $self->{config}->{'scan-profiles'},
         }
