@@ -1084,7 +1084,7 @@ sub _setConnectedDevices {
             # safety check
             if (! exists $ports->{$interface_id}) {
                 $logger->error(
-                    "invalid interface ID $interface_id in LLDP info, ignoring"
+                    "unknown interface $interface_id in LLDP info, ignoring"
                 ) if $logger;
                 next;
             }
@@ -1105,7 +1105,7 @@ sub _setConnectedDevices {
             # safety check
             if (! exists $ports->{$interface_id}) {
                 $logger->error(
-                    "invalid interface ID $interface_id in CDP info, ignoring"
+                    "unknown interface $interface_id in CDP info, ignoring"
                 ) if $logger;
                 next;
             }
@@ -1143,7 +1143,7 @@ sub _setConnectedDevices {
             # safety check
             if (! exists $ports->{$interface_id}) {
                 $logger->error(
-                    "invalid interface ID $interface_id in EDP info, ignoring"
+                    "unknown interface $interface_id in EDP info, ignoring"
                 ) if $logger;
                 next;
             }
