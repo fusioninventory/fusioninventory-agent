@@ -1073,17 +1073,17 @@ sub _setConnectedDevices {
 
     my $lldp_info = _getLLDPInfo(%params);
     if ($lldp_info) {
-        foreach my $port_id (keys %$lldp_info) {
+        foreach my $interface_id (keys %$lldp_info) {
             # safety check
-            if (! exists $ports->{$port_id}) {
+            if (! exists $ports->{$interface_id}) {
                 $logger->error(
-                    "invalid interface ID $port_id in LLDP info, ignoring"
+                    "invalid interface ID $interface_id in LLDP info, ignoring"
                 ) if $logger;
                 next;
             }
 
-            my $port            = $ports->{$port_id};
-            my $lldp_connection = $lldp_info->{$port_id};
+            my $port            = $ports->{$interface_id};
+            my $lldp_connection = $lldp_info->{$interface_id};
 
             $port->{CONNECTIONS} = {
                 CDP        => 1,
@@ -1094,18 +1094,18 @@ sub _setConnectedDevices {
 
     my $cdp_info = _getCDPInfo(%params);
     if ($cdp_info) {
-        foreach my $port_id (keys %$cdp_info) {
+        foreach my $interface_id (keys %$cdp_info) {
             # safety check
-            if (! exists $ports->{$port_id}) {
+            if (! exists $ports->{$interface_id}) {
                 $logger->error(
-                    "invalid interface ID $port_id in CDP info, ignoring"
+                    "invalid interface ID $interface_id in CDP info, ignoring"
                 ) if $logger;
                 next;
             }
 
-            my $port            = $ports->{$port_id};
+            my $port            = $ports->{$interface_id};
             my $lldp_connection = $port->{CONNECTIONS}->{CONNECTION};
-            my $cdp_connection  = $cdp_info->{$port_id};
+            my $cdp_connection  = $cdp_info->{$interface_id};
 
             if ($lldp_connection) {
                 if ($cdp_connection->{SYSDESCR} eq $lldp_connection->{SYSDESCR}) {
@@ -1117,7 +1117,7 @@ sub _setConnectedDevices {
                     # undecidable situation
                     $logger->error(
                         "multiple neighbors found by LLDP and CDP for " .
-                        "interface $port_id, ignoring"
+                        "interface $interface_id, ignoring"
                     );
                     delete $port->{CONNECTIONS};
                 }
@@ -1132,18 +1132,18 @@ sub _setConnectedDevices {
 
     my $edp_info = _getEDPInfo(%params);
     if ($edp_info) {
-        foreach my $port_id (keys %$edp_info) {
+        foreach my $interface_id (keys %$edp_info) {
             # safety check
-            if (! exists $ports->{$port_id}) {
+            if (! exists $ports->{$interface_id}) {
                 $logger->error(
-                    "invalid interface ID $port_id in EDP info, ignoring"
+                    "invalid interface ID $interface_id in EDP info, ignoring"
                 ) if $logger;
                 next;
             }
 
-            my $port            = $ports->{$port_id};
+            my $port            = $ports->{$interface_id};
             my $lldp_connection = $port->{CONNECTIONS}->{CONNECTION};
-            my $edp_connection  = $edp_info->{$port_id};
+            my $edp_connection  = $edp_info->{$interface_id};
 
             if ($lldp_connection) {
                 if ($edp_connection->{SYSDESCR} eq $lldp_connection->{SYSDESCR}) {
@@ -1155,7 +1155,7 @@ sub _setConnectedDevices {
                     # undecidable situation
                     $logger->error(
                         "multiple neighbors found by LLDP and EDP for " .
-                        "interface $port_id, ignoring"
+                        "interface $interface_id, ignoring"
                     );
                     delete $port->{CONNECTIONS};
                 }
