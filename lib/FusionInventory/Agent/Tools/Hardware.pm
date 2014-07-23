@@ -667,7 +667,7 @@ sub _setGenericProperties {
         # safety checks
         if (! exists $ports->{$value}) {
             $logger->error(
-                "no interface with ID $value for IP address $suffix, ignoring"
+                "unknown interface $value for IP address $suffix, ignoring"
             ) if $logger;
             next;
         }
