@@ -1200,10 +1200,17 @@ sub _getCDPInfo {
 
         my $connection = {
             IP       => $ip,
-            IFDESCR  => $cdpCacheDevicePort->{$suffix},
             SYSDESCR => $cdpCacheVersion->{$suffix},
             MODEL    => $cdpCachePlatform->{$suffix}
         };
+
+        # cdpCacheDevicePort is either a port number or a port description
+        my $devicePort = $cdpCacheDevicePort->{$suffix};
+        if ($devicePort =~ /^\d+$/) {
+            $connection->{IFNUMBER} = $devicePort;
+        } else {
+            $connection->{IFDESCR} = $devicePort;
+        }
 
         # cdpCacheDeviceId is either remote host name, either remote mac address
         my $deviceId = $cdpCacheDeviceId->{$suffix};
