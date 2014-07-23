@@ -1195,11 +1195,25 @@ sub _getCDPInfo {
             IP       => $ip,
             IFDESCR  => $cdpCacheDevicePort->{$suffix},
             SYSDESCR => $cdpCacheVersion->{$suffix},
-            SYSNAME  => hex2char($cdpCacheDeviceId->{$suffix}),
             MODEL    => $cdpCachePlatform->{$suffix}
         };
 
-        if ($connection->{SYSNAME} =~ /^SIP([A-F0-9a-f]*)$/) {
+        # cdpCacheDeviceId is either remote host name, either remote mac address
+        my $deviceId = $cdpCacheDeviceId->{$suffix};
+        if ($deviceId =~ /^0x/) {
+            if (length($deviceId) == 14) {
+                # let's assume it is a mac address if the length is 6 bytes
+                $connection->{SYSMAC} = lc(alt2canonical($deviceId));
+            } else {
+                # otherwise it's an hex-encode hostname
+                $connection->{SYSNAME} = hex2char($deviceId);
+            }
+        } else {
+            $connection->{SYSNAME} = $deviceId;
+        }
+
+        if ($connection->{SYSNAME} &&
+            $connection->{SYSNAME} =~ /^SIP([A-F0-9a-f]*)$/) {
             $connection->{MAC} = lc(alt2canonical("0x".$1));
         }
 
