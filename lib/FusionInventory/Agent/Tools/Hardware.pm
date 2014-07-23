@@ -1108,7 +1108,7 @@ sub _setConnectedDevices {
             my $cdp_connection  = $cdp_info->{$port_id};
 
             if ($lldp_connection) {
-                if ($cdp_connection->{SYSNAME} eq $lldp_connection->{SYSNAME}) {
+                if ($cdp_connection->{SYSDESCR} eq $lldp_connection->{SYSDESCR}) {
                     # same device, everything OK
                     foreach my $key (qw/IP MODEL/) {
                         $lldp_connection->{$key} = $cdp_connection->{$key};
@@ -1146,7 +1146,7 @@ sub _setConnectedDevices {
             my $edp_connection  = $edp_info->{$port_id};
 
             if ($lldp_connection) {
-                if ($edp_connection->{SYSNAME} eq $lldp_connection->{SYSNAME}) {
+                if ($edp_connection->{SYSDESCR} eq $lldp_connection->{SYSDESCR}) {
                     # same device, everything OK
                     foreach my $key (qw/IP/) {
                         $lldp_connection->{$key} = $edp_connection->{$key};
