@@ -29,6 +29,7 @@ GetOptions(
     'collect-timeout=s',
     'no-category=s@',
     'scan-homedirs',
+    'scan-profiles',
     'tag|t=s',
     'recipient=s',
     'verbose',
@@ -84,8 +85,9 @@ fusioninventory-inventory - Standalone inventory
 
 B<fusioninventory-inventory>
 S<[B<--additional-content> I<file>]> S<[B<--no-category> I<string>]>
-S<[B<--scan-homedirs>]> S<[B<--timeout> I<integer>]> S<[B<--tag> I<string>]>
-S<[B<--recipient> I<string>]> S<[B<--verbose>]> S<[B<--debug>]>
+S<[B<--scan-homedirs>]> S<[B<--scan-profiles>]> S<[B<--timeout> I<integer>]>
+S<[B<--tag> I<string>]> S<[B<--recipient> I<string>]> S<[B<--verbose>]>
+S<[B<--debug>]>
 
 =head1 OPTIONS
 
@@ -109,7 +111,11 @@ exclude specific inventory section
 
 =item B<--scan-homedirs>
 
-scan use home directories (false)
+scan user home directories (false)
+
+=item B<--scan-profiles>
+
+scan user profiles (false)
 
 =item B<--recipient> I<string>
 
