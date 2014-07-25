@@ -32,6 +32,7 @@ GetOptions(
     'html',
     'no-category=s',
     'scan-homedirs',
+    'scan-profiles',
     'tag|t=s',
     'verbose',
     'debug+',
@@ -77,6 +78,7 @@ fusioninventory-inventory [options]
 
   Options:
     --scan-homedirs                scan use home directories (false)
+    --scan-profiles                scan user profiles (false)
     --html                         save the inventory as HTML (false)
     -t --tag=TAG                   mark the machine with given tag
     --backend-collect-timeout=TIME timeout for inventory modules
