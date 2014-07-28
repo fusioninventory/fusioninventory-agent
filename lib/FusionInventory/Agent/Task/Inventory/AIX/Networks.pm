@@ -43,14 +43,24 @@ sub _getInterfaces {
 
     # get a first list of interfaces objects from lscfg
     my @interfaces = _parseLscfg(
-        command => 'lscfg -v -l en*',
+        command => 'lscfg -v -l ent*',
         logger  => $logger
     );
 
+    my @interfaces_ifconfig;
     # complete with empty interfaces objects from ifconfig
-    push @interfaces,
+    # in another list
+    push @interfaces_ifconfig,
         map { { DESCRIPTION => $_ } }
         split(/ /, getFirstLine(command => 'ifconfig -l'));
+
+    # merge the two lists, making sure there is no duplicated
+    # interfaces in the final result
+    foreach my $interface (@interfaces_ifconfig) {
+        if ( _searchDescription($interface, \@interfaces) ) {
+            push @interfaces, $interface;
+        }
+    }
 
     foreach my $interface (@interfaces) {
         my $handle = getFileHandle(
@@ -81,6 +91,22 @@ sub _getInterfaces {
     }
 
     return @interfaces;
+}
+
+# search for an interface description in a list
+# if found => return 0
+# if not   => return 1
+sub _searchDescription {
+
+    my $element = shift;
+    my $list    = shift;
+
+    foreach my $entry (@$list) {
+        if ( $element->{DESCRIPTION} eq $entry->{DESCRIPTION}) {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 sub _parseLscfg {
