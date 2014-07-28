@@ -42,7 +42,9 @@ sub _getInterfaces {
     my $logger = $params{logger};
 
     # get a list of interfaces from ifconfig
-    my @interfaces = split(/ /, getFirstLine(command => 'ifconfig -l'));
+    my @interfaces =
+        map { { DESCRIPTION => $_ } }
+        split(/ /, getFirstLine(command => 'ifconfig -l'));
 
     # complete with hardware addresses, extracted from lscfg
     my %addresses = _parseLscfg(
