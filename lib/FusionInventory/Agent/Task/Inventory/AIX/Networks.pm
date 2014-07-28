@@ -48,8 +48,11 @@ sub _getInterfaces {
     );
 
     # complete with empty interfaces objects from ifconfig
+    # filtering those already found in the first step
+    my $seen = map { $_->{DESCRIPTION} => 1 } @interfaces;
     push @interfaces,
         map { { DESCRIPTION => $_ } }
+        grep { !$seen{$_} }
         split(/ /, getFirstLine(command => 'ifconfig -l'));
 
     foreach my $interface (@interfaces) {
