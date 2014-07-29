@@ -60,7 +60,7 @@ sub doInventory {
     my $boottime;
     if ($operatingSystem->{LastBootUpTime} =~
             /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/) {
-        $boottime = getFormatedDate($1, $2, $3, $4, $5, 6);
+        $boottime = getFormatedDate($1, $2, $3, $4, $5, $6);
     }
 
     # get the name through native Win32::API, as WMI DB is sometimes broken
