@@ -19,7 +19,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $operatingSystem = getWMIObjects(
+    my ($operatingSystem) = getWMIObjects(
         class      => 'Win32_OperatingSystem',
         properties => [ qw/
             OSLanguage Caption Version SerialNumber Organization RegisteredUser
@@ -27,14 +27,14 @@ sub doInventory {
         / ]
     );
 
-    my $computerSystem = getWMIObjects(
+    my ($computerSystem) = getWMIObjects(
         class      => 'Win32_ComputerSystem',
         properties => [ qw/
             Name Domain Workgroup PrimaryOwnerName TotalPhysicalMemory
         / ]
     );
 
-    my $computerSystemProduct = getWMIObjects(
+    my ($computerSystemProduct) = getWMIObjects(
         class      => 'Win32_ComputerSystemProduct',
         properties => [ qw/UUID/ ]
     );
