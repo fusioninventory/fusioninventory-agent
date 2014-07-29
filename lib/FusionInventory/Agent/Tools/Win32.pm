@@ -282,6 +282,9 @@ sub parseProductKey {
     # extract bytes 52 to 66
     my @bytes = @key_bytes[52 .. 66];
 
+    # return immediatly for null keys
+    return if all { $_ == 00 } @bytes;
+
     # decoded product key
     my @chars;
 
