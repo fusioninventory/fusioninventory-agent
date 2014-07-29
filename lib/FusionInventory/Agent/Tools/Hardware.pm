@@ -322,7 +322,7 @@ sub getDeviceInfo {
     if ($sysdescr) {
 
         # first word
-        my ($first_word) = $sysdescr =~ /^(\S+)/;
+        my ($first_word) = $sysdescr =~ /(\S+)/;
         my $result = $sysdescr_first_word{lc($first_word)};
 
         if ($result) {
