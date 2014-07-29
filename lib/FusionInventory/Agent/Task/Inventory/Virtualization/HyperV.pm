@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Virtualization::Hyperv;
+package FusionInventory::Agent::Task::Inventory::Virtualization::HyperV;
 
 use strict;
 use warnings;
@@ -25,7 +25,7 @@ sub doInventory {
     }
 }
 
-sub  _getVirtualMachines {
+sub _getVirtualMachines {
 
     my $host = FusionInventory::Agent::Tools::Hostname::getHostname() ||
                $ENV{COMPUTERNAME};
