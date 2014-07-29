@@ -18,7 +18,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
     my $operatingSystem = getWMIObjects(
         class      => 'Win32_OperatingSystem',
@@ -44,15 +43,19 @@ sub doInventory {
         parseProductKey(getRegistryValue(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId')) ||
         parseProductKey(getRegistryValue(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId4'));
 
-    my $description = encodeFromRegistry(getRegistryValue(
-        path   => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment',
-        logger => $logger
-    ));
-
-    $operatingSystem->{TotalSwapSpaceSize} = int($operatingSystem->{TotalSwapSpaceSize} / (1024 * 1024))
-        if $operatingSystem->{TotalSwapSpaceSize};
+    my $description =
+        encodeFromRegistry(getRegistryValue(path => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment'));
 
     my $arch = is64bit() ? '64-bit' : '32-bit';
+
+    my $swap = $operatingSystem->{TotalSwapSpaceSize} ?
+        int($operatingSystem->{TotalSwapSpaceSize} / (1024 * 1024)) : undef;
+
+    my $memory = $computerSystem->{TotalPhysicalMemory} ?
+        int($computerSystem->{TotalPhysicalMemory} / (1024 * 1024)) : undef;
+
+    my $uuid = $computerSystemProduct->{UUID} !~ /^[0-]+$/ ?
+        $computerSystemProduct->{UUID} : undef;
 
     my $boottime;
     if ($operatingSystem->{LastBootUpTime} =~
@@ -60,44 +63,38 @@ sub doInventory {
         $boottime = getFormatedDate($1, $2, $3, $4, $5, 6);
     }
 
-    # We get the name through native Win32::API, as WMI DB is sometimes broken
+    # get the name through native Win32::API, as WMI DB is sometimes broken
     my $name = FusionInventory::Agent::Tools::Hostname::getHostname() ||
                $ENV{COMPUTERNAME};
     $name =~ s/^([^.]+)/$1/;
 
-    $computerSystem->{TotalPhysicalMemory} = int($computerSystem->{TotalPhysicalMemory} / (1024 * 1024))
-        if $computerSystem->{TotalPhysicalMemory};
-
-    my $uuid = $computerSystemProduct->{UUID};
-    $uuid = '' if $uuid =~ /^[0-]+$/;
-
     $inventory->setOperatingSystem({
         NAME           => "Windows",
+        ARCH           => $arch,
         INSTALL_DATE   => _getInstallDate(),
+        BOOT_TIME      => $boottime,
         KERNEL_VERSION => $operatingSystem->{Version},
         FULL_NAME      => $operatingSystem->{Caption},
         SERVICE_PACK   => $operatingSystem->{CSDVersion},
-        ARCH           => $arch,
-        BOOT_TIME      => $boottime,
     });
 
     $inventory->setHardware({
+        NAME        => $name,
+        DESCRIPTION => $description,
+        UUID        => $uuid,
+        WINPRODKEY  => $key,
         WINLANG     => $operatingSystem->{OSLanguage},
         OSNAME      => $operatingSystem->{Caption},
         OSVERSION   => $operatingSystem->{Version},
-        WINPRODKEY  => $key,
         WINPRODID   => $operatingSystem->{SerialNumber},
         WINCOMPANY  => $operatingSystem->{Organization},
         WINOWNER    => $operatingSystem->{RegisteredUser},
         OSCOMMENTS  => $operatingSystem->{CSDVersion},
         SWAP        => $operatingSystem->{TotalSwapSpaceSize},
-        DESCRIPTION => $description,
         MEMORY      => $computerSystem->{TotalPhysicalMemory},
         WORKGROUP   => $computerSystem->{Domain} ||
                        $computerSystem->{Workgroup},
         WINOWNER    => $computerSystem->{PrimaryOwnerName},
-        UUID        => $uuid,
-        NAME        => $name,
     });
 }
 
@@ -112,7 +109,5 @@ sub _getInstallDate {
 
     return getFormatedLocalTime($dec);
 }
-
-
 
 1;
