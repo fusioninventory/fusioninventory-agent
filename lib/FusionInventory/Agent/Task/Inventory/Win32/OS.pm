@@ -60,16 +60,10 @@ sub doInventory {
         $boottime = getFormatedDate($1, $2, $3, $4, $5, 6);
     }
 
-    # In the rare case WMI DB is broken,
-    # We first initialize the name by kernel32
-    # call
-    my $name = FusionInventory::Agent::Tools::Hostname::getHostname();
-    $name = $ENV{COMPUTERNAME} unless $name;
-    my $domain;
-
-    if ($name  =~ s/^([^\.]+)\.(.*)/$1/) {
-        $domain = $2;
-    }
+    # We get the name through native Win32::API, as WMI DB is sometimes broken
+    my $name = FusionInventory::Agent::Tools::Hostname::getHostname() ||
+               $ENV{COMPUTERNAME};
+    $name =~ s/^([^.]+)/$1/;
 
     $computerSystem->{TotalPhysicalMemory} = int($computerSystem->{TotalPhysicalMemory} / (1024 * 1024))
         if $computerSystem->{TotalPhysicalMemory};
@@ -104,7 +98,6 @@ sub doInventory {
         WINOWNER    => $computerSystem->{PrimaryOwnerName},
         UUID        => $uuid,
         NAME        => $name,
-        WORKGROUP   => $domain
     });
 }
 
