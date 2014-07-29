@@ -23,10 +23,21 @@ sub doInventory {
     my $operatingSystem = getWMIObjects(
         class      => 'Win32_OperatingSystem',
         properties => [ qw/
-            OSLanguage Caption Version SerialNumber Organization
-            RegisteredUser CSDVersion TotalSwapSpaceSize
-            OSArchitecture LastBootUpTime
+            OSLanguage Caption Version SerialNumber Organization RegisteredUser
+            CSDVersion TotalSwapSpaceSize OSArchitecture LastBootUpTime
         / ]
+    );
+
+    my $computerSystem = getWMIObjects(
+        class      => 'Win32_ComputerSystem',
+        properties => [ qw/
+            Name Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
+        / ]
+    );
+
+    my $computerSystemProduct = getWMIObjects(
+        class      => 'Win32_ComputerSystemProduct',
+        properties => [ qw/UUID/ ]
     );
 
     my $key =
@@ -41,19 +52,6 @@ sub doInventory {
     $operatingSystem->{TotalSwapSpaceSize} = int($operatingSystem->{TotalSwapSpaceSize} / (1024 * 1024))
         if $operatingSystem->{TotalSwapSpaceSize};
 
-    $inventory->setHardware({
-        WINLANG       => $operatingSystem->{OSLanguage},
-        OSNAME        => $operatingSystem->{Caption},
-        OSVERSION     => $operatingSystem->{Version},
-        WINPRODKEY    => $key,
-        WINPRODID     => $operatingSystem->{SerialNumber},
-        WINCOMPANY    => $operatingSystem->{Organization},
-        WINOWNER      => $operatingSystem->{RegistredUser},
-        OSCOMMENTS    => $operatingSystem->{CSDVersion},
-        SWAP          => $operatingSystem->{TotalSwapSpaceSize},
-        DESCRIPTION   => $description,
-    });
-
     my $osArchitecture =  $operatingSystem->{OSArchitecture} || '32-bit';
     $osArchitecture =~ s/ /-/; # "64 bit" => "64-bit"
 
@@ -62,16 +60,6 @@ sub doInventory {
             /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/) {
         $boottime = getFormatedDate($1, $2, $3, $4, $5, 6);
     }
-
-    $inventory->setOperatingSystem({
-        NAME           => "Windows",
-        INSTALL_DATE   => _getInstallDate(),
-        KERNEL_VERSION => $operatingSystem->{Version},
-        FULL_NAME      => $operatingSystem->{Caption},
-        SERVICE_PACK   => $operatingSystem->{CSDVersion},
-        ARCH           => $osArchitecture,
-        BOOT_TIME      => $boottime,
-    });
 
     # In the rare case WMI DB is broken,
     # We first initialize the name by kernel32
@@ -84,42 +72,40 @@ sub doInventory {
         $domain = $2;
     }
 
-    $inventory->setHardware({
-        NAME       => $name,
-        WORKGROUP  => $domain
-    });
-
-    my $computerSystem = getWMIObjects(
-        class      => 'Win32_ComputerSystem',
-        properties => [ qw/
-            Name Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
-        / ]
-    );
-
     $computerSystem->{TotalPhysicalMemory} = int($computerSystem->{TotalPhysicalMemory} / (1024 * 1024))
         if $computerSystem->{TotalPhysicalMemory};
 
-    $inventory->setHardware({
-        MEMORY     => $computerSystem->{TotalPhysicalMemory},
-        WORKGROUP  => $computerSystem->{Domain} || $computerSystem->{Workgroup},
-        WINOWNER   => $computerSystem->{PrimaryOwnerName}
-    });
-
-    if (!$name) {
-        $inventory->setHardware({
-            NAME => $computerSystem->{Name},
-        });
-    }
-
-    my $computerSystemProduct = getWMIObjects(
-        class      => 'Win32_ComputerSystemProduct',
-        properties => [ qw/UUID/ ]
-    );
-
     my $uuid = $computerSystemProduct->{UUID};
     $uuid = '' if $uuid =~ /^[0-]+$/;
+
+    $inventory->setOperatingSystem({
+        NAME           => "Windows",
+        INSTALL_DATE   => _getInstallDate(),
+        KERNEL_VERSION => $operatingSystem->{Version},
+        FULL_NAME      => $operatingSystem->{Caption},
+        SERVICE_PACK   => $operatingSystem->{CSDVersion},
+        ARCH           => $osArchitecture,
+        BOOT_TIME      => $boottime,
+    });
+
     $inventory->setHardware({
-        UUID => $uuid,
+        WINLANG     => $operatingSystem->{OSLanguage},
+        OSNAME      => $operatingSystem->{Caption},
+        OSVERSION   => $operatingSystem->{Version},
+        WINPRODKEY  => $key,
+        WINPRODID   => $operatingSystem->{SerialNumber},
+        WINCOMPANY  => $operatingSystem->{Organization},
+        WINOWNER    => $operatingSystem->{RegistredUser},
+        OSCOMMENTS  => $operatingSystem->{CSDVersion},
+        SWAP        => $operatingSystem->{TotalSwapSpaceSize},
+        DESCRIPTION => $description,
+        MEMORY      => $computerSystem->{TotalPhysicalMemory},
+        WORKGROUP   => $computerSystem->{Domain} ||
+                       $computerSystem->{Workgroup},
+        WINOWNER    => $computerSystem->{PrimaryOwnerName},
+        UUID        => $uuid,
+        NAME        => $name,
+        WORKGROUP   => $domain
     });
 }
 
