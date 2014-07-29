@@ -307,6 +307,7 @@ sub getDeviceInfo {
 
     my $snmp    = $params{snmp};
     my $datadir = $params{datadir};
+    my $logger  = $params{logger};
 
     my %device;
 
@@ -315,7 +316,8 @@ sub getDeviceInfo {
     if ($sysobjectid) {
         my ($manufacturer, $type, $model) = _getSysObjectIDInfo(
             id      => $sysobjectid,
-            datadir => $datadir
+            datadir => $datadir,
+            logger  => $logger
         );
         $device{MANUFACTURER} = $manufacturer if $manufacturer;
         $device{TYPE}         = $type         if $type;
@@ -423,24 +425,53 @@ sub _getSysObjectIDInfo {
 
     _loadSysObjectIDDatabase(%params) if !%sysobjectid;
 
+    my $logger = $params{logger};
     my $prefix = qr/(?:
         SNMPv2-SMI::enterprises |
         iso\.3\.6\.1\.4\.1      |
         \.1\.3\.6\.1\.4\.1
     )/x;
-    my ($manufacturer_id, $model_id) =
+    my ($manufacturer_id, $device_id) =
         $params{id} =~ /^ $prefix \. (\d+) (?: \. (.+) )? $/x;
 
-    return unless $manufacturer_id;
-    return unless $sysobjectid{$manufacturer_id};
+    # no match
+    if (!$manufacturer_id) {
+        $logger->debug(
+            "no match in sysobjectID database: " .
+            "no manufacturer ID"
+        );
+        return ();
+    }
 
-    my ($manufacturer, $type, $model);
-    $manufacturer = $sysobjectid{$manufacturer_id}->{manufacturer};
-    $type         = $sysobjectid{$manufacturer_id}->{type};
-    $model        = $sysobjectid{$manufacturer_id}->{devices}->{$model_id}
-        if $model_id;
+    my $manufacturer = $sysobjectid{$manufacturer_id};
+    if (!$manufacturer) {
+        $logger->debug(
+            "no match in sysobjectID database: " .
+            "unknown manufacturer ID $manufacturer_id"
+        );
+        return ();
+    }
 
-    return ($manufacturer, $type, $model);
+    if (!$device_id) {
+        $logger->debug(
+            "partial match in sysobjectID database: " .
+            "no device ID"
+        );
+        return ($manufacturer->{name}, $manufacturer->{type});
+    }
+
+    my $device = $manufacturer->{devices}->{$device_id};
+    if (!$device) {
+        $logger->debug(
+            "partial match in sysobjectID database: " .
+            "unknown device ID $device_id"
+        );
+        return ($manufacturer->{name}, $manufacturer->{type});
+    }
+
+
+    $logger->debug("full match in sysobjectID database");
+    return ($manufacturer->{name}, $device->{type}, $device->{name});
 }
 
 sub _loadSysObjectIDDatabase {
@@ -453,14 +484,15 @@ sub _loadSysObjectIDDatabase {
 
     my $manufacturer_id;
     while (my $line = <$handle>) {
-        if ($line =~ /^\t ([\d.]+) \t (.+)/x) {
-            $sysobjectid{$manufacturer_id}->{devices}->{$1} = $2;
+        if ($line =~ /^\t ([\d.]+) \t ([^\t]*) (?:\t (\S+))?/x) {
+            $sysobjectid{$manufacturer_id}->{devices}->{$1}->{name} = $2;
+            $sysobjectid{$manufacturer_id}->{devices}->{$1}->{type} = $3;
         }
 
         if ($line =~ /^(\d+) \t (\S+) (?:\t (\S+))?/x) {
             $manufacturer_id = $1;
-            $sysobjectid{$manufacturer_id}->{manufacturer} = $2;
-            $sysobjectid{$manufacturer_id}->{type}         = $3;
+            $sysobjectid{$manufacturer_id}->{name} = $2;
+            $sysobjectid{$manufacturer_id}->{type} = $3;
         }
     }
 
