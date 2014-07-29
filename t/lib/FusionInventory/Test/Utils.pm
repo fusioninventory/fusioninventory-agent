@@ -99,6 +99,8 @@ sub loadWMIDump {
     }
     close $handle;
 
+    push @objects, $object if $object;
+
     return @objects;
 }
 
