@@ -88,13 +88,13 @@ sub doInventory {
         OSVERSION   => $operatingSystem->{Version},
         WINPRODID   => $operatingSystem->{SerialNumber},
         WINCOMPANY  => $operatingSystem->{Organization},
-        WINOWNER    => $operatingSystem->{RegisteredUser},
+        WINOWNER    => $operatingSystem->{RegisteredUser} ||
+                       $computerSystem->{PrimaryOwnerName},
         OSCOMMENTS  => $operatingSystem->{CSDVersion},
         SWAP        => $operatingSystem->{TotalSwapSpaceSize},
         MEMORY      => $computerSystem->{TotalPhysicalMemory},
         WORKGROUP   => $computerSystem->{Domain} ||
                        $computerSystem->{Workgroup},
-        WINOWNER    => $computerSystem->{PrimaryOwnerName},
     });
 }
 
