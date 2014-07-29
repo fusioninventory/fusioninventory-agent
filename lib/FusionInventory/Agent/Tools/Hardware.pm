@@ -345,6 +345,16 @@ sub getDeviceInfo {
         $device{DESCRIPTION} = $sysdescr;
     }
 
+    # fallback type identification attempt, using type-specific OID presence
+    if (!exists $device{TYPE}) {
+         if (
+             $snmp->get('.1.3.6.1.2.1.43.11.1.1.6.1.1') ||
+             $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1')
+         ) {
+            $device{TYPE} = 'PRINTER'
+        }
+    }
+
     # fallback model identification attempt, using type-specific OID
     if (!exists $device{MODEL} && exists $device{TYPE}) {
         my $type = $device{TYPE};
