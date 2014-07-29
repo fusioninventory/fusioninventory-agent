@@ -30,7 +30,7 @@ sub doInventory {
     my $computerSystem = getWMIObjects(
         class      => 'Win32_ComputerSystem',
         properties => [ qw/
-            Name Domain Workgroup UserName PrimaryOwnerName TotalPhysicalMemory
+            Name Domain Workgroup PrimaryOwnerName TotalPhysicalMemory
         / ]
     );
 
