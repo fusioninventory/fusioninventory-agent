@@ -355,13 +355,11 @@ sub getDeviceInfo {
         }
     }
 
-    # fallback model identification attempt, using type-specific OID
-    if (!exists $device{MODEL} && exists $device{TYPE}) {
-        my $type = $device{TYPE};
-        my $model =
-            $type eq 'PRINTER'    ? $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1')    :
-            $type eq 'NETWORKING' ? $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') :
-                                    undef;
+    # fallback model identification attempt, using type-specific OID value
+    if (!exists $device{MODEL}) {
+        my $model = exists $device{TYPE} && $device{TYPE} eq 'PRINTER' ?
+            $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1')    :
+            $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') ;
         $device{MODEL} = $model if $model;
     }
 
