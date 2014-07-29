@@ -62,7 +62,7 @@ my %sysdescr_first_word = (
     'konica'         => { vendor => 'Konica',          type => 'PRINTER'    },
     'kyocera'        => { vendor => 'Kyocera',         type => 'PRINTER'    },
     'lexmark'        => { vendor => 'Lexmark',         type => 'PRINTER'    },
-    'netapp'         => { vendor => 'NetApp',                               },
+    'netapp'         => { vendor => 'NetApp',          type => 'STORAGE'    },
     'netgear'        => { vendor => 'NetGear',         type => 'NETWORKING' },
     'nortel'         => { vendor => 'Nortel',          type => 'NETWORKING' },
     'nrg'            => { vendor => 'NRG',             type => 'PRINTER'    },
