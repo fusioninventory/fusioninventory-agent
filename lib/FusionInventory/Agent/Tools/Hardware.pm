@@ -56,7 +56,7 @@ my %sysdescr_first_word = (
     'foundry'        => { vendor => 'Foundry',         type => 'NETWORKING' },
     'fuji'           => { vendor => 'Fuji',            type => 'NETWORKING' },
     'h3c'            => { vendor => 'H3C',             type => 'NETWORKING' },
-    'hp'             => { vendor => 'Hewlett-Packard', type => 'PRINTER'    },
+    'hp'             => { vendor => 'Hewlett-Packard',                      },
     'ibm'            => { vendor => 'IBM',             type => 'COMPUTER'   },
     'juniper'        => { vendor => 'Juniper',         type => 'NETWORKING' },
     'konica'         => { vendor => 'Konica',          type => 'PRINTER'    },
