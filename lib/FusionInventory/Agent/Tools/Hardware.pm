@@ -92,6 +92,11 @@ my @sysdescr_rules = (
         match => qr/JETDIRECT/,
         type  => 'PRINTER',
     },
+    {
+        match  => qr/Linux TS-\d+/,
+        type   => 'STORAGE',
+        vendor => 'Qnap'
+    },
 );
 
 # common base variables
