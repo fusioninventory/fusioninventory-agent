@@ -362,11 +362,15 @@ my $monthPattern = join ('|', keys %month);
 sub _getProcessStartTime {
     my ($localtime, $elapsedtime_string) = @_;
 
+
     # POSIX specifies that ps etime entry looks like [[dd-]hh:]mm:ss
     # if either day and hour are not present then they will eat
     # up the minutes and seconds so split on a non digit and reverse it:
     my ($psec, $pmin, $phour, $pday) =
         reverse(split(/\D/, $elapsedtime_string));
+
+    ## no critic (ExplicitReturnUndef)
+    return undef unless defined $psec && defined $pmin;
 
     # Compute a timestamp from the process etime value
     my $elapsedtime = $psec                                +
