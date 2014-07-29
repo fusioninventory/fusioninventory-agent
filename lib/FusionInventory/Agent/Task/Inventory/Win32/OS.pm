@@ -94,7 +94,7 @@ sub doInventory {
         WINPRODKEY  => $key,
         WINPRODID   => $operatingSystem->{SerialNumber},
         WINCOMPANY  => $operatingSystem->{Organization},
-        WINOWNER    => $operatingSystem->{RegistredUser},
+        WINOWNER    => $operatingSystem->{RegisteredUser},
         OSCOMMENTS  => $operatingSystem->{CSDVersion},
         SWAP        => $operatingSystem->{TotalSwapSpaceSize},
         DESCRIPTION => $description,
