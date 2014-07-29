@@ -24,7 +24,7 @@ sub doInventory {
         class      => 'Win32_OperatingSystem',
         properties => [ qw/
             OSLanguage Caption Version SerialNumber Organization RegisteredUser
-            CSDVersion TotalSwapSpaceSize OSArchitecture LastBootUpTime
+            CSDVersion TotalSwapSpaceSize LastBootUpTime
         / ]
     );
 
@@ -52,8 +52,7 @@ sub doInventory {
     $operatingSystem->{TotalSwapSpaceSize} = int($operatingSystem->{TotalSwapSpaceSize} / (1024 * 1024))
         if $operatingSystem->{TotalSwapSpaceSize};
 
-    my $osArchitecture =  $operatingSystem->{OSArchitecture} || '32-bit';
-    $osArchitecture =~ s/ /-/; # "64 bit" => "64-bit"
+    my $arch = is64bit() ? '64-bit' : '32-bit';
 
     my $boottime;
     if ($operatingSystem->{LastBootUpTime} =~
@@ -84,7 +83,7 @@ sub doInventory {
         KERNEL_VERSION => $operatingSystem->{Version},
         FULL_NAME      => $operatingSystem->{Caption},
         SERVICE_PACK   => $operatingSystem->{CSDVersion},
-        ARCH           => $osArchitecture,
+        ARCH           => $arch,
         BOOT_TIME      => $boottime,
     });
 
