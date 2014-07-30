@@ -1,5 +1,27 @@
 Revision history for FusionInventory agent
 
+2.3.10 Wed, 30 Jul 2014 08:34:12 +0200
+inventory:
+* fix serial key retrieval regression on Windows (#2632)
+* fix office 32bits serial retrieval on 64bits Windows (#2616)
+* fix duplicate network interface on AIX (#2527)
+* fix warnings for non-parsable etime on Unix (#2636)
+* fix global zone identification on Solaris (#2620)
+* better file system types identification on Solaris
+* add support for HyperV machines enumeration (#2141)
+* add support for LXC container identification (#2311)
+* add --scan-profiles option to fusioninventory-inventory (#2625)
+
+netdiscovery:
+* fix nmap parameters computation (#2618)
+* better device identification (#2601, #2194)
+
+netinventory:
+* fix invalid character presence in XML output
+* add support for Extreme Discovery Protocol (EDP)
+* better handling of CDP implementation differences
+* better handling of multiple discovery protocols
+
 2.3.9.1 Tue, 15 Jul 2014 22:17:04 +0200
 install:
 * fix sysobjectid and consumables databases files installation
