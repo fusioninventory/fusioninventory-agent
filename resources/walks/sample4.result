@@ -39,11 +39,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>141</IFDESCR>
+              <IFDESCR>F21</IFDESCR>
+              <IFNUMBER>141</IFNUMBER>
               <IP>172.31.196.140</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB010B00</SYSNAME>
+              <SYSMAC>00:19:bb:01:0b:00</SYSMAC>
+              <SYSNAME>couribo Serv.-01</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A1</IFDESCR>
@@ -67,11 +69,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>143</IFDESCR>
+              <IFDESCR>F23</IFDESCR>
+              <IFNUMBER>143</IFNUMBER>
               <IP>172.31.196.140</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB010B00</SYSNAME>
+              <SYSMAC>00:19:bb:01:0b:00</SYSMAC>
+              <SYSNAME>couribo Serv.-01</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A2</IFDESCR>
@@ -95,11 +99,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>141</IFDESCR>
+              <IFDESCR>F21</IFDESCR>
+              <IFNUMBER>141</IFNUMBER>
               <IP>172.31.196.141</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB0D8100</SYSNAME>
+              <SYSMAC>00:19:bb:0d:81:00</SYSMAC>
+              <SYSNAME>ouaqui Serv.-02</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A3</IFDESCR>
@@ -123,11 +129,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>143</IFDESCR>
+              <IFDESCR>F23</IFDESCR>
+              <IFNUMBER>143</IFNUMBER>
               <IP>172.31.196.141</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB0D8100</SYSNAME>
+              <SYSMAC>00:19:bb:0d:81:00</SYSMAC>
+              <SYSNAME>ouaqui Serv.-02</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A4</IFDESCR>
@@ -151,11 +159,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>141</IFDESCR>
+              <IFDESCR>F21</IFDESCR>
+              <IFNUMBER>141</IFNUMBER>
               <IP>172.31.196.142</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0016B9138000</SYSNAME>
+              <SYSMAC>00:16:b9:13:80:00</SYSMAC>
+              <SYSNAME>inini Serv.-03</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A5</IFDESCR>
@@ -179,11 +189,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>143</IFDESCR>
+              <IFDESCR>F23</IFDESCR>
+              <IFNUMBER>143</IFNUMBER>
               <IP>172.31.196.142</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0016B9138000</SYSNAME>
+              <SYSMAC>00:16:b9:13:80:00</SYSMAC>
+              <SYSNAME>inini Serv.-03</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A6</IFDESCR>
@@ -207,11 +219,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>141</IFDESCR>
+              <IFDESCR>F21</IFDESCR>
+              <IFNUMBER>141</IFNUMBER>
               <IP>172.31.196.143</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0016B9142B00</SYSNAME>
+              <SYSMAC>00:16:b9:14:2b:00</SYSMAC>
+              <SYSNAME>cokioco Serv.-04</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A7</IFDESCR>
@@ -235,11 +249,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>143</IFDESCR>
+              <IFDESCR>F23</IFDESCR>
+              <IFNUMBER>143</IFNUMBER>
               <IP>172.31.196.143</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0016B9142B00</SYSNAME>
+              <SYSMAC>00:16:b9:14:2b:00</SYSMAC>
+              <SYSNAME>cokioco Serv.-04</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A8</IFDESCR>
@@ -263,11 +279,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>141</IFDESCR>
+              <IFDESCR>F21</IFDESCR>
+              <IFNUMBER>141</IFNUMBER>
               <IP>172.31.196.150</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB1B4D00</SYSNAME>
+              <SYSMAC>00:19:bb:1b:4d:00</SYSMAC>
+              <SYSNAME>arouany CAO-104</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A9</IFDESCR>
@@ -291,11 +309,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>143</IFDESCR>
+              <IFDESCR>F23</IFDESCR>
+              <IFNUMBER>143</IFNUMBER>
               <IP>172.31.196.150</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB1B4D00</SYSNAME>
+              <SYSMAC>00:19:bb:1b:4d:00</SYSMAC>
+              <SYSNAME>arouany CAO-104</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A10</IFDESCR>
@@ -353,11 +373,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>141</IFDESCR>
+              <IFDESCR>F21</IFDESCR>
+              <IFNUMBER>141</IFNUMBER>
               <IP>172.31.196.151</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB1ACC00</SYSNAME>
+              <SYSMAC>00:19:bb:1a:cc:00</SYSMAC>
+              <SYSNAME>counamama CAO-105</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A13</IFDESCR>
@@ -398,11 +420,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>118</IFDESCR>
+              <IFDESCR>E22</IFDESCR>
+              <IFNUMBER>118</IFNUMBER>
               <IP>172.31.196.160</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB01A600</SYSNAME>
+              <SYSMAC>00:19:bb:01:a6:00</SYSMAC>
+              <SYSNAME>comte GR0</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A15</IFDESCR>
@@ -443,11 +467,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>118</IFDESCR>
+              <IFDESCR>E22</IFDESCR>
+              <IFNUMBER>118</IFNUMBER>
               <IP>172.31.196.161</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB058200</SYSNAME>
+              <SYSMAC>00:19:bb:05:82:00</SYSMAC>
+              <SYSNAME>ouanary RH0</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A17</IFDESCR>
@@ -488,11 +514,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>262</IFDESCR>
+              <IFDESCR>K22</IFDESCR>
+              <IFNUMBER>262</IFNUMBER>
               <IP>172.31.196.162</IP>
               <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0018FEF9A800</SYSNAME>
+              <SYSMAC>00:18:fe:f9:a8:00</SYSMAC>
+              <SYSNAME>approuague GR1 </SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A19</IFDESCR>
@@ -533,11 +561,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>262</IFDESCR>
+              <IFDESCR>K22</IFDESCR>
+              <IFNUMBER>262</IFNUMBER>
               <IP>172.31.196.163</IP>
               <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x001C2EE58B00</SYSNAME>
+              <SYSMAC>00:1c:2e:e5:8b:00</SYSMAC>
+              <SYSNAME>mahury GR2</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A21</IFDESCR>
@@ -561,11 +591,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>22</IFDESCR>
+              <IFDESCR>A22</IFDESCR>
+              <IFNUMBER>22</IFNUMBER>
               <IP>172.31.192.245</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB172200</SYSNAME>
+              <SYSMAC>00:19:bb:17:22:00</SYSMAC>
+              <SYSNAME>maroni CR1</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A22</IFDESCR>
@@ -589,11 +621,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>23</IFDESCR>
+              <IFDESCR>A23</IFDESCR>
+              <IFNUMBER>23</IFNUMBER>
               <IP>172.31.192.245</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB172200</SYSNAME>
+              <SYSMAC>00:19:bb:17:22:00</SYSMAC>
+              <SYSNAME>maroni CR1</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A23</IFDESCR>
@@ -617,11 +651,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>24</IFDESCR>
+              <IFDESCR>A24</IFDESCR>
+              <IFNUMBER>24</IFNUMBER>
               <IP>172.31.192.245</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB172200</SYSNAME>
+              <SYSMAC>00:19:bb:17:22:00</SYSMAC>
+              <SYSNAME>maroni CR1</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>A24</IFDESCR>
@@ -645,11 +681,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>143</IFDESCR>
+              <IFDESCR>F23</IFDESCR>
+              <IFNUMBER>143</IFNUMBER>
               <IP>172.31.196.151</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB1ACC00</SYSNAME>
+              <SYSMAC>00:19:bb:1a:cc:00</SYSMAC>
+              <SYSNAME>counamama CAO-105</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B1</IFDESCR>
@@ -673,11 +711,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>118</IFDESCR>
+              <IFDESCR>E22</IFDESCR>
+              <IFNUMBER>118</IFNUMBER>
               <IP>172.31.196.151</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB1ACC00</SYSNAME>
+              <SYSMAC>00:19:bb:1a:cc:00</SYSMAC>
+              <SYSNAME>counamama CAO-105</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B2</IFDESCR>
@@ -701,11 +741,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>141</IFDESCR>
+              <IFDESCR>F21</IFDESCR>
+              <IFNUMBER>141</IFNUMBER>
               <IP>172.31.196.160</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB01A600</SYSNAME>
+              <SYSMAC>00:19:bb:01:a6:00</SYSMAC>
+              <SYSNAME>comte GR0</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B3</IFDESCR>
@@ -729,11 +771,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>143</IFDESCR>
+              <IFDESCR>F23</IFDESCR>
+              <IFNUMBER>143</IFNUMBER>
               <IP>172.31.196.160</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB01A600</SYSNAME>
+              <SYSMAC>00:19:bb:01:a6:00</SYSMAC>
+              <SYSNAME>comte GR0</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B4</IFDESCR>
@@ -757,11 +801,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>141</IFDESCR>
+              <IFDESCR>F21</IFDESCR>
+              <IFNUMBER>141</IFNUMBER>
               <IP>172.31.196.161</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB058200</SYSNAME>
+              <SYSMAC>00:19:bb:05:82:00</SYSMAC>
+              <SYSNAME>ouanary RH0</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B5</IFDESCR>
@@ -803,11 +849,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>285</IFDESCR>
+              <IFDESCR>L21</IFDESCR>
+              <IFNUMBER>285</IFNUMBER>
               <IP>172.31.196.162</IP>
               <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0018FEF9A800</SYSNAME>
+              <SYSMAC>00:18:fe:f9:a8:00</SYSMAC>
+              <SYSNAME>approuague GR1 </SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B7</IFDESCR>
@@ -831,11 +879,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>287</IFDESCR>
+              <IFDESCR>L23</IFDESCR>
+              <IFNUMBER>287</IFNUMBER>
               <IP>172.31.196.162</IP>
               <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0018FEF9A800</SYSNAME>
+              <SYSMAC>00:18:fe:f9:a8:00</SYSMAC>
+              <SYSNAME>approuague GR1 </SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B8</IFDESCR>
@@ -859,11 +909,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>285</IFDESCR>
+              <IFDESCR>L21</IFDESCR>
+              <IFNUMBER>285</IFNUMBER>
               <IP>172.31.196.163</IP>
               <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x001C2EE58B00</SYSNAME>
+              <SYSMAC>00:1c:2e:e5:8b:00</SYSMAC>
+              <SYSNAME>mahury GR2</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B9</IFDESCR>
@@ -887,11 +939,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>287</IFDESCR>
+              <IFDESCR>L23</IFDESCR>
+              <IFNUMBER>287</IFNUMBER>
               <IP>172.31.196.163</IP>
               <MODEL>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8698A Switch 5412zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x001C2EE58B00</SYSNAME>
+              <SYSMAC>00:1c:2e:e5:8b:00</SYSMAC>
+              <SYSNAME>mahury GR2</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B10</IFDESCR>
@@ -949,11 +1003,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>118</IFDESCR>
+              <IFDESCR>E22</IFDESCR>
+              <IFNUMBER>118</IFNUMBER>
               <IP>172.31.196.140</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB010B00</SYSNAME>
+              <SYSMAC>00:19:bb:01:0b:00</SYSMAC>
+              <SYSNAME>couribo Serv.-01</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B13</IFDESCR>
@@ -994,11 +1050,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>118</IFDESCR>
+              <IFDESCR>E22</IFDESCR>
+              <IFNUMBER>118</IFNUMBER>
               <IP>172.31.196.141</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB0D8100</SYSNAME>
+              <SYSMAC>00:19:bb:0d:81:00</SYSMAC>
+              <SYSNAME>ouaqui Serv.-02</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B15</IFDESCR>
@@ -1039,11 +1097,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>118</IFDESCR>
+              <IFDESCR>E22</IFDESCR>
+              <IFNUMBER>118</IFNUMBER>
               <IP>172.31.196.142</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0016B9138000</SYSNAME>
+              <SYSMAC>00:16:b9:13:80:00</SYSMAC>
+              <SYSNAME>inini Serv.-03</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B17</IFDESCR>
@@ -1084,11 +1144,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>118</IFDESCR>
+              <IFDESCR>E22</IFDESCR>
+              <IFNUMBER>118</IFNUMBER>
               <IP>172.31.196.143</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0016B9142B00</SYSNAME>
+              <SYSMAC>00:16:b9:14:2b:00</SYSMAC>
+              <SYSNAME>cokioco Serv.-04</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B19</IFDESCR>
@@ -1129,11 +1191,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>118</IFDESCR>
+              <IFDESCR>E22</IFDESCR>
+              <IFNUMBER>118</IFNUMBER>
               <IP>172.31.196.150</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB1B4D00</SYSNAME>
+              <SYSMAC>00:19:bb:1b:4d:00</SYSMAC>
+              <SYSNAME>arouany CAO-104</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B21</IFDESCR>
@@ -1157,11 +1221,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>46</IFDESCR>
+              <IFDESCR>B22</IFDESCR>
+              <IFNUMBER>46</IFNUMBER>
               <IP>172.31.192.245</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB172200</SYSNAME>
+              <SYSMAC>00:19:bb:17:22:00</SYSMAC>
+              <SYSNAME>maroni CR1</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B22</IFDESCR>
@@ -1185,11 +1251,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>47</IFDESCR>
+              <IFDESCR>B23</IFDESCR>
+              <IFNUMBER>47</IFNUMBER>
               <IP>172.31.192.245</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB172200</SYSNAME>
+              <SYSMAC>00:19:bb:17:22:00</SYSMAC>
+              <SYSNAME>maroni CR1</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B23</IFDESCR>
@@ -1213,11 +1281,13 @@
           <CONNECTIONS>
             <CDP>1</CDP>
             <CONNECTION>
-              <IFDESCR>48</IFDESCR>
+              <IFDESCR>B24</IFDESCR>
+              <IFNUMBER>48</IFNUMBER>
               <IP>172.31.192.245</IP>
               <MODEL>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</MODEL>
               <SYSDESCR>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_charleston_qaoff))</SYSDESCR>
-              <SYSNAME>0x0019BB172200</SYSNAME>
+              <SYSMAC>00:19:bb:17:22:00</SYSMAC>
+              <SYSNAME>maroni CR1</SYSNAME>
             </CONNECTION>
           </CONNECTIONS>
           <IFDESCR>B24</IFDESCR>
