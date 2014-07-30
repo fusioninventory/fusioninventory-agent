@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.3.10 Wed, 30 Jul 2014 08:34:12 +0200
+2.3.10 Wed, 30 Jul 2014
 inventory:
 * fix serial key retrieval regression on Windows (#2632)
 * fix office 32bits serial retrieval on 64bits Windows (#2616)
@@ -22,11 +22,11 @@ netinventory:
 * better handling of CDP implementation differences
 * better handling of multiple discovery protocols
 
-2.3.9.1 Tue, 15 Jul 2014 22:17:04 +0200
+2.3.9.1 Tue, 15 Jul 2014
 install:
 * fix sysobjectid and consumables databases files installation
 
-2.3.9 Tue, 15 Jul 2014 22:17:04 +0200
+2.3.9 Tue, 15 Jul 2014
 core:
 * disable lower-level SSL checks when no-ssl-checks is used
 
@@ -56,7 +56,7 @@ inventory task:
 * get OS UUID for SPARC on Solaris (#2539)
 * add Xen Citrix server VM support (#2529)
 
-2.3.8 Sun, 11 May 2014 18:55:46 +0200
+2.3.8 Sun, 11 May 2014
 netinventory task:
 * add support for trunk port identification on non-cisco hardware (#2386)
 * add VENDOR element, and keep MANUFACTURER bound to original manufacturer
@@ -72,11 +72,11 @@ inventory task:
 test suite:
 * transfer hardware tests in private hardware repository
 
-2.3.7.1 Wed, 30 Apr 2014 12:27:56 +0200
+2.3.7.1 Wed, 30 Apr 2014
 inventory task:
 * fix crash introduced by command logging on BSD hosts
 
-2.3.7 Tue, 29 Apr 2014 10:38:11 +0200
+2.3.7 Tue, 29 Apr 2014
 install:
 * do not rely on GNU install specific options
 
@@ -102,7 +102,7 @@ inventory task:
 test suite:
 * ship missing LXC test file (#2483)
 
-2.3.6 Mon, 10 Mar 2014 11:21:12 +0100
+2.3.6 Mon, 10 Mar 2014
 core:
 * abort with explicit error message when there is 
   no available task
@@ -130,12 +130,12 @@ wake-on-lan task
 test suite:
 * fix network interface test on Solaris (#2438)
 
-2.3.5.1 Tue, 14 Jan 2014 22:15:29 +0100
+2.3.5.1 Tue, 14 Jan 2014
 inventory task:
 * fix AIX LVM regression introduced by incorrect fix (#2384)
 * fix another potential warning on AIX
 
-2.3.5  Tue, 14 Jan 2014 20:08:41 +0100
+2.3.5  Tue, 14 Jan 2014
 netinventory task:
 * add more default OIDs for mappings undefined in SNMP model
 * fallback on default OID if SNMP model mapping doesn't bring any result
@@ -158,7 +158,7 @@ test suite:
 * fix test files list (#2394)
 * fix network interface enumeration test on Solaris (#2346)
 
-2.3.4  Fri, 29 Nov 2013 16:17:31 +0100
+2.3.4  Fri, 29 Nov 2013
 netdiscovery task:
 * install missing sysobjectid database files
 * add additional device types (phones, storage, etc...) support
@@ -177,7 +177,7 @@ netinventory and netdiscovery tasks:
 linux:
 * OpenVZ: disable the Virtuozzo module if libvirt is already plugged on OpenVZ
 
-2.3.3  Wed, 06 Nov 2013 21:00:25 +0100
+2.3.3  Wed, 06 Nov 2013
 core
 * clean up in the distribution, thanks Olivier Mengué <dolmen@cpan.org>
 
@@ -193,7 +193,7 @@ netinventory task
 netdiscovery task
 * backport device model identification from sysobjectid value
 
-2.3.2  Fri, 20 Sep 2013 10:52:30 +0200
+2.3.2  Fri, 20 Sep 2013
 core
 * avoid some warning messages
 
@@ -201,7 +201,7 @@ netinventory task
 * fix: properly pass the SNMP credentials
 * better handling of mac addresses
 
-2.3.1  Mon, 09 Sep 2013 15:36:40 +0200
+2.3.1  Mon, 09 Sep 2013
 inventory task
 * report when running in a BSD Jail or a LXC system, thanks Igor Morozov
 * better strategy for extracting USB printer serial on windows (#2213)
@@ -224,7 +224,7 @@ netinventory task
 wake-on-lan task
 * fix wrong mac address pattern check
 
-2.3.0  Thu, 01 Aug 2013 11:38:40 +0200
+2.3.0  Thu, 01 Aug 2013
 distribution:
 * Deploy, Network and ESX tasks are now integrated in the distribution
 * new fusioninventory-inventory executable, dedicated to inventory task
@@ -284,7 +284,7 @@ test suite:
 AIX:
 * minor fixes in LVM support
 
-2.2.7  Tue, 13 Nov 2012 14:22:34 +0100
+2.2.7  Tue, 13 Nov 2012
 
 General:
 * additional hack for LG screens (#1848)
@@ -296,7 +296,7 @@ General:
 Windows:
 * fix missing bios release information on some machines (#1820, #1825)
 
-2.2.6  Fri, 14 Sep 2012 16:49:13 +0200
+2.2.6  Fri, 14 Sep 2012
 
 Installation:
 * fix installation with older MakeMaker versions
@@ -311,7 +311,7 @@ General:
 Linux:
 * fix parsing of newer ifconfig output, such as used on Fedora 17
 
-2.2.5  Thu, 16 Aug 2012 12:03:30 +0200
+2.2.5  Thu, 16 Aug 2012
 General:
 * Fix: deal with broken last_state file
 * Fix: fix HP RAID size parsing
@@ -337,7 +337,7 @@ Test suite:
 * use the first available TCP port for network tests
 * Enable SSL test even in IPv6 environment
 
-2.2.4  Sun, 22 Jul 2012 23:23:12 +0200
+2.2.4  Sun, 22 Jul 2012
 General:
 * Fix: non blocking flock() on log file
 
@@ -356,7 +356,7 @@ Windows:
 Solaris:
 * Fix: Collect ZFS drives properly
 
-2.2.3  Mon, 25 Jun 2012 21:36:29 +0200
+2.2.3  Mon, 25 Jun 2012
 General:
 * Fix battery voltage and capacity retrieval
 * Add --timeout option
@@ -368,7 +368,7 @@ MacOSX:
 Linux:
 * LXC support (Egor Morozov)
 
-2.2.2  Wed, 30 May 2012 16:56:43 +0200
+2.2.2  Wed, 30 May 2012
 General:
 * Improve README
 * Fix Screen.pm syntax error
@@ -382,7 +382,7 @@ Windows:
 Linux:
 * detect Virtuozzo VM (Alexander Evseev)
 
-2.2.1  Thu, 24 May 2012 14:39:50 +0200
+2.2.1  Thu, 24 May 2012
 General:
 * failure encoding with UTF8 content when using Fusion protocol (#1663)
 * wrong CSS path (#1580)
@@ -423,7 +423,7 @@ Linux:
 * sparc arch mismatch (#1573)
 * read EDID data directly from /sys when available
 
-2.2.0  Sat, 07 Apr 2012 18:57:49 +0200
+2.2.0  Sat, 07 Apr 2012
 
 Major changes:
 * large speed improvement: up to 150% for a local inventory
@@ -486,7 +486,7 @@ Minor changes:
 * HPUX: don't report unoccupied memory slots
 * AIX: add LVM support
 
-2.1.14  Wed, 22 Feb 2012 14:56:51 -0000
+2.1.14  Wed, 22 Feb 2012
 
 LINUX
  ✔ Detected OS is &quot;RedHat&quot; for CentOS servers if lsb_release not available
@@ -520,7 +520,7 @@ WINDOWS
      http://forge.fusioninventory.org/issues/1441
    thanks: Walid Nouh, Xavier Caillaud, jerome slayer
 
-2.1.13  Wed, 14 Dec 2011 13:06:44 +0100
+2.1.13  Wed, 14 Dec 2011
 
 TEST-SUITE
  ✔ 2.1.10 Test suite fails
@@ -536,7 +536,7 @@ WINDOWS
  ✔ Fix the CPU detection on Windows
    thanks: Anthony Facchin
 
-2.1.12  Wed, 23 Nov 2011 18:14:52 +0100
+2.1.12  Wed, 23 Nov 2011
 
 GENERIC
  ✔ Memory: Add ECC / no ECC information
@@ -570,14 +570,14 @@ SOLARIS
  ✔ Fix some warnings for spurious stat() calls
  ✔ Fix hostname being forced to 'SOLARIS'
 
-2.1.11  Mon, 12 Sep 2011 17:34:38 +0200
+2.1.11  Mon, 12 Sep 2011
 
 WINDOWS
  ✔ Fix the BIOS information collect on Win2003 <= system
        commit:8c2427da5, commit: fe345815
      http://forge.fusioninventory.org/issues/1156
 
-2.1.10  Tue, 06 Sep 2011 08:48:27 -0000
+2.1.10  Tue, 06 Sep 2011
 
  ✔ Model and SSN don't correct
        commit:7bb7b1
@@ -630,7 +630,7 @@ WINDOWS
      http://forge.fusioninventory.org/issues/788
    thanks: David Durieux, Fabrice Flore-Thebault, jerome slayer
 
-2.1.9  Tue, 14 Jun 2011 19:26:55 -0000
+2.1.9  Tue, 14 Jun 2011
 
 HPUX
  ✔ HARDWARE/MEMORY missing on HPUX PA-RISC 11.11
@@ -761,7 +761,7 @@ WINDOWS
      http://forge.fusioninventory.org/issues/927
    thanks: David Durieux, Peter Luk
 
-2.1.8  Fri, 25 Mar 2011 16:09:15 +0100
+2.1.8  Fri, 25 Mar 2011
        * Show a larger part of the string returned by the server in case of
          error
        * Win32: Decrease the severity of a winkey read error
@@ -782,7 +782,7 @@ WINDOWS
        * add support for the task called «Deploy»
        * add support for the task called «ESX»
 
-2.1.8_rc1  Sat, 05 Mar 2011 14:56:58 +0100
+2.1.8_rc1  Sat, 05 Mar 2011
        * Linux, correctly read the number of core from /proc/cpuinfo
        * MacOSX: KB unit in missing in Mac OS X Drive.pm
          http://forge.fusioninventory.org/issues/521
@@ -849,7 +849,7 @@ WINDOWS
          the feedbacks http://forge.fusioninventory.org/issues/582
        * Drop the Ping task. Was not used.
 
-2.1.7  Sun, 12 Dec 2010 20:05:16 +01000
+2.1.7  Sun, 12 Dec 2010
        * RPC: Better message if access is denied
        * add --no-p2p parameter
          http://forge.fusioninventory.org/issues/507
@@ -874,7 +874,7 @@ WINDOWS
          https://bugs.launchpad.net/bugs/682689
        * No warning if ddcprobe is not avalaible
 
-2.1.7_beta1  Fri, 19 Nov 2010 14:15:08 +0100
+2.1.7_beta1  Fri, 19 Nov 2010
        * replace Cwd::abs_path with File::Spec->rel2abs
          abs_path fails if the directory doesn't exist yet. This was breaking
          --basevardir on UNIX system.
@@ -966,7 +966,7 @@ WINDOWS
        * Linux/Storage: avoid error message with fdisk -s on invalid devices
        * RPC: Allow access to / from everywhere
 
-2.1.6    Tue, 05 Oct 2010 21:03:39 +0200
+2.1.6    Tue, 05 Oct 2010
        * Ensure the RPC serivce URL printed in the log message targets
          http://127.0.0.1::62354 with the default settings
        * Restore the Storage even if the target is not a server.
@@ -990,13 +990,13 @@ WINDOWS
        * AIX: Erroor in harddrive module on AIX 6.1, thanks Luka KODRIC
          http://forge.fusioninventory.org/issues/398
 
-2.1.5    Wed, 15 Sep 2010 11:08:56 +0200
+2.1.5    Wed, 15 Sep 2010
        * Win32: Do not fail if the log file doesn't exist yet, thanks Igor
        * Win32: Correclty launch the sub Perl process, thanks Igor
        * Fix: Some NETWORKS/VIRTUALDEV were set to yes instead of 1
          http://forge.fusioninventory.org/issues/352
 
-2.1.4    Wed, 15 Sep 2010 00:26:03 +0200
+2.1.4    Wed, 15 Sep 2010
        * Save the realm if we found it by ourself. With this changes
          we avoid useless request with the wrong realm from sub module
        * Add Win32::OLE and Win32::TieRegistry dependency on Win32
@@ -1019,7 +1019,7 @@ WINDOWS
        * fix Solaris Zone detection and add a test and some Solaris release file
          http://forge.fusioninventory.org/issues/323
 
-2.1.3    Wed, 01 Sep 2010 21:31:25 +0200
+2.1.3    Wed, 01 Sep 2010
        * Linux: Avoid error on system with no /proc/bus/input/devices
        * agent.cfg, add more server= parameter example
        * --server remove spaces at the begin and end of the server parameter
@@ -1028,7 +1028,7 @@ WINDOWS
          arch
        * fix t/app.t on Windows
 
-2.1.2    Mon, 23 Aug 2010 17:24:47 +0200
+2.1.2    Mon, 23 Aug 2010 
        * set a default SNMP version to really avoid warnings
        * Add ./t/README.t to check is README{,.html} files are present
        * Really set a default SNMP version, and bails out if an invalid version
@@ -1039,7 +1039,7 @@ WINDOWS
        * Linux: fix DNS domain detection
        * t/modules.t: do not fail on Syslog on Windows
 
-2.1.1    Wed, 18 Aug 2010 21:04:30 +0200
+2.1.1    Wed, 18 Aug 2010
        * Turn daemon mode off in the base configuration file
        * Fix some POD warnings
        * POD: document the common server URL for OCS and FusInv for GLPI
@@ -1060,7 +1060,7 @@ WINDOWS
        * Fix error message for non-present zoneadmin command
        * Do not call getCapacity() in parseUdev(), thanks Michał Panasiewicz
 
-2.1      Sun, 15 Aug 2010 19:32:43 +0200
+2.1      Sun, 15 Aug 2010
        * cleanup Makefile.PL
        * enhance documentation with optional and mandatory dependencies
        * drop README file lost in the middle of perl modules
@@ -1101,7 +1101,7 @@ WINDOWS
          and it may be normal.
        * web interface: do not open a new windows when an inventory is forced
 
-2.1_rc3  Sun, 25 Jul 2010 21:26:40 +0200
+2.1_rc3  Sun, 25 Jul 2010
        * MacOSX: fix if diskutils gives size in GB/MB instead of GiB/MiB
        * MacOSX: ignore printer if name start with:
          The printers list is empty. To add printers (fixes: #169)
@@ -1169,7 +1169,7 @@ WINDOWS
        * Win32: set the NT Domain for the WORKGROUP if avalaible like OCS agent
        * MacOSX: Collect Firewire disk
 
-2.1_rc2  Thu, 01 Jul 2010 23:05:10 +0200
+2.1_rc2  Thu, 01 Jul 2010
        * MANIFEST.SKIP, we need the resources files for the test suite
        * Linux: set back DRIVES/FREE
        * Linux: CONTROLLERS/NAME drop the trailing whitespace
@@ -1216,7 +1216,7 @@ WINDOWS
        * Linux + Lsilogic, avoid a warning if smartctl is installed
        * Linux Storage, parseUdev() use SERIALNUMBER _SHORT if avalaible
 
-2.1_rc1 Sat, 26 Jun 2010 00:49:44 +0200
+2.1_rc1 Sat, 26 Jun 2010
        * Add Windows support for 2000/XP/2003/Vista/2008/Seven
        * Windows: Add new values for SOFTWARES key
        * Add Windows service
@@ -1333,14 +1333,14 @@ WINDOWS
        * Add --html parameter
        * Improve --help presentation
 
-2.0.7    Mon, 14 Jun 2010 18:09:27 +0200
+2.0.7    Mon, 14 Jun 2010
        * Avoid a warning if --stdout is used.
        * print help messages on STDERR
        * --wait: no need to wait before the final exit
        * Inventory PROCESSES. Support more different date format and avoid
          warning
 
-2.0.6    Fri, 28 May 2010 15:53:16 +0200
+2.0.6    Fri, 28 May 2010
        * Fix DRIVES/CREATEDATE for ext* filesystem
        * Inventory: Always generate a CHECKSUM, OCS is not able to import
          inventory is the key is missing, thanks Eric Feron
@@ -1353,7 +1353,7 @@ WINDOWS
          https://bugs.launchpad.net/ocsinventory-unix-agent/+bug/586337
          (Guillaume Rousse)
 
-2.0.5    Wed, 12 May 2010 10:50:51 +0200
+2.0.5    Wed, 12 May 2010
        * Don't use dmidecode with -t and -s parameter since it's not
          supported on RHEL4
        * Remove wrong code to detect problem with umask. umask(077) will
@@ -1375,7 +1375,7 @@ WINDOWS
        * BIOS: correctly set SMANUFACTURER and SSN instead of
          SMANUFACTURERSSN
 
-2.0.4    Thu, 06 May 2010 18:43:30 +0200
+2.0.4    Thu, 06 May 2010
        * Add debug message on WOL and correction when no mac address comes
          in xml file from server (David DURIEUX)
        * etc/cron.d/fusioninventory-agent, call fusioninventory-agent
@@ -1387,10 +1387,10 @@ WINDOWS
        * Bump "Next server contact planned for ..." message severity from
          debug to info
 
-2.0.3     Sun, 11 Apr 2010 00:38:18 +0200
+2.0.3     Sun, 11 Apr 2010
        * Fix a syntax problem in FusionInventory::Agent::Network
 
-2.0.2     Sat Apr 10 23:31:48 2010 +0200
+2.0.2     Sat Apr 10
        * fusioninventory-agent-config: Fix a typo, thank you Act
        * --delaytime really read the parameter, thanks Walid NOUH
        * fix --no-socket
@@ -1405,7 +1405,7 @@ WINDOWS
          (David DURIEUX)
        * Set 2.0.1 release date in Changes file
 
-2.0.1 (Solarium)    Sun Mar 28 22:26:47 2010 +0200
+2.0.1 (Solarium)    Sun, 28 Mar 2010
        * tools/build-perl-tree.sh: clean up
        * Only use thread if Perl has got thread support, thank you
          Lei Andy Shi for the bug report (LP: #545477)
@@ -1414,7 +1414,7 @@ WINDOWS
        * Add a warning for the Storage.pm breakage with pre 2.0 tasks
        * SNMP.pm: fixes (David DURIEUX)
 
-2.0 (Zygotene Bouquet)   Tue, 23 Mar 2010 18:53:36 +0100
+2.0 (Zygotene Bouquet)   Tue, 23 Mar 2010
        * OcsDeploy: avoid a warning when the server don't send DOWNLOAD
          option
        * Drop the Net::Walk dependency
@@ -1442,7 +1442,7 @@ WINDOWS
        * Makefile.PL add Net::CUPS is recommended
        * Linux, retrieve the PCI Class
 
-2.0beta4 Thu, 04 Mar 2010 12:19:47 +0100
+2.0beta4 Thu, 04 Mar 2010
        * Drop the dependency on Net::SSLGlue::LWP because its own dependencies
          are not avalaible on RHEL5.x, thank you Remi Collet for pointing
          this issue.
@@ -1474,7 +1474,7 @@ WINDOWS
        * rename FusionInventory::Agent::Task::NetDiscovery::dico in FusionInventory::Agent::Task::NetDiscovery::Dico;
        * WAKEONLAN : Begin to rewrite good WOL, so send magic packet directly on OSI2 of network card (ONLY FOR LINUX UNDER ROOT) (David DURIEUX)
 
-2.0beta3 Mon, 22 Feb 2010 00:51:36 +0100
+2.0beta3 Mon, 22 Feb 2010
        * README: clean up
        * Do not use IPC::Run, thanks Mario Gzuk
        * Fix --local
@@ -1495,12 +1495,12 @@ WINDOWS
        * Inventory: correctly save OcsDeploy package ID
        * NetDiscover/SNMP: Various changes (David DURIEUX)
 
-2.0beta2 Wed, 17 Feb 2010 23:21:59 +0100
+2.0beta2 Wed, 17 Feb 2010
        * Update dico for detected devices in NETDISCOVERY module
          (David DURIEUX)
        * Changes file clean up
 
-2.0beta1 Wed, 17 Feb 2010 22:08:00 +0100
+2.0beta1 Wed, 17 Feb 2010
        * Use Sys::Hostname instead of uname for better portability
        * add --daemon-no-fork
        * post-install.pl: Don't ask the user if Download.pm should be
@@ -1546,12 +1546,12 @@ WINDOWS
        * run dosfslabel on the correct device
        * Nmap: Check ip send by server
 
-1.1.2    Sun, 27 Dec 2009 17:24:43 +0100
+1.1.2    Sun, 27 Dec 2009
        * Avoid problem with dmidecode -V output on RHEL3.9 (Remi COLLET)
        * Fix internal --delaytime handling. That's seconds, not hours!
        * Download.pm: improve a error message
 
-1.1.1    Mon, 21 Dec 2009 22:38:12 +0100
+1.1.1    Mon, 21 Dec 2009
        * NETWORKS/VIRTUALDEV should be 1 or 0
        * FreeBSD: Fix CPU detection (David DURIEUX)
        * Virtualization::Qemu, fix kvm detection
@@ -1566,7 +1566,7 @@ WINDOWS
        * LP: #490774 Fix PowerPC CPU detection on Linux, thanks darkpep for
          the bug report
 
-1.1     Fri, 06 Nov 2009 16:07:08 +0100
+1.1     Fri, 06 Nov 2009
        * addMemorie() renamed to addMemories(), this had been broken during
          the addMemories() → addMemory() transition
        * Debug mode: msg "check function failed" changed to "ignored" since
@@ -1596,7 +1596,7 @@ WINDOWS
        * Generic/Screen: HSD code for "Hanns.G" (Remi COLLET)
        * postinst.pl, put user $PATH in /etc/cron.d/ocsinventory-agent
 
-1.1_beta1    Fri, 18 Sep 2009 11:54:12 +0200
+1.1_beta1    Fri, 18 Sep 2009
        * Can use Net::CUPS to find the default printer
        * AIX: Hide procfs in Filesystem
        * OS::Linux::Storages, correctly retrieve the serial (Vladimir ELISSEEV)
@@ -1698,10 +1698,10 @@ WINDOWS
        * use addUser() instead of setHardware()
        * Add the runcmd() in the Backend modules
 
-1.0.1    Sun, 22 Mar 2009 20:48:49 +0100
+1.0.1    Sun, 22 Mar 2009
        * Fix a typo in Ocsinventory::Agent::Backend::OS::AIX::Memory
 
-1.0    Sun, 22 Mar 2009 20:14:26 +0100
+1.0    Sun, 22 Mar 2009
        * Hide warning messages when tw_cli or hpacucli are not present on CentOS
        * Avoid unnecessary about missing 'http://' in local mode
        * Ipmi.pm: use can_run do detect ipmitool
@@ -1749,7 +1749,7 @@ WINDOWS
        * Bump 0.0.10 to 1.0 because it's the first release to be officially part
          of the OCSInventory distribution
 
-0.0.10beta2    Wed, 24 Sep 2008 23:41:21 +0200
+0.0.10beta2    Wed, 24 Sep 2008
        * README: add a not about the $PATH varible on Solaris.
        * Added extra section support for backends (Pascal DANEK)
        * Fix the way submodules are disabled with $runMeIfTheseChecksFailed
@@ -1763,7 +1763,7 @@ WINDOWS
        * Apply a little change in standalone.sh that may fix the ParserDetails.ini problem,
          thanks tharoun
 
-0.0.10beta1    Thu, 04 Sep 2008 18:16:49 +0200
+0.0.10beta1    Thu, 04 Sep 2008
        * Fix a "ocs server name" => URI side effect (Pascal DANEK)
        * Download::Store: used absolute path to "cp" on STORE action (Pascal DANEK)
        * Download::Store: set -dpR flags to "cp" (Pascal DANEK)
