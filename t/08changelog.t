@@ -5,23 +5,24 @@ use warnings;
 
 use Test::More;
 use English qw(-no_match_vars);
-use UNIVERSAL::require;
+
+use FusionInventory::Agent;
 
 plan(skip_all => 'Author test, set $ENV{TEST_AUTHOR} to a true value to run')
     if !$ENV{TEST_AUTHOR};
 
-DateTime::Format::Mail->require();
-plan(skip_all => 'DateTime::Format::Mail required') if $EVAL_ERROR;
-
 plan tests => 1;
 
-open CHANGES, 'Changes' or die;
+open (my $handle, '<', 'Changes') or die "unable to open Change file: $ERRNO";
 
-# Skip the 2 first lines;
-<CHANGES>;
-<CHANGES>;
+# skip the 2 first lines;
+<$handle>;
+<$handle>;
 
-my $line = <CHANGES>;
-
-$line =~ /^[\d\.]+\s+(\S.*)/;
-ok($1 && DateTime::Format::Mail->parse_datetime($1), "RFC822 date format (date -R)");
+# read third line
+my $line = <$handle>;
+like(
+    $line,
+    qr/$FusionInventory::Agent::VERSION \w{3}, \d{1,2} \w{3} \d{4}$/,
+    'changelog entry matches expected format'
+);
