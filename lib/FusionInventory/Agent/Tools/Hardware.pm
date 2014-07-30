@@ -439,7 +439,7 @@ sub _getSysObjectIDInfo {
         $logger->debug(
             "no match in sysobjectID database: " .
             "no manufacturer ID"
-        );
+        ) if $logger;
         return ();
     }
 
@@ -448,7 +448,7 @@ sub _getSysObjectIDInfo {
         $logger->debug(
             "no match in sysobjectID database: " .
             "unknown manufacturer ID $manufacturer_id"
-        );
+        ) if $logger;
         return ();
     }
 
@@ -456,7 +456,7 @@ sub _getSysObjectIDInfo {
         $logger->debug(
             "partial match in sysobjectID database: " .
             "no device ID"
-        );
+        ) if $logger;
         return ($manufacturer->{name}, $manufacturer->{type});
     }
 
@@ -465,10 +465,9 @@ sub _getSysObjectIDInfo {
         $logger->debug(
             "partial match in sysobjectID database: " .
             "unknown device ID $device_id"
-        );
+        ) if $logger;
         return ($manufacturer->{name}, $manufacturer->{type});
     }
-
 
     $logger->debug("full match in sysobjectID database");
     return ($manufacturer->{name}, $device->{type}, $device->{name});
