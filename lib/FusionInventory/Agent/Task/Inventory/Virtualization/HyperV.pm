@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools::Hostname;
 
 sub isEnabled {
