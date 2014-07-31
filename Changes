@@ -2,11 +2,12 @@ Revision history for FusionInventory agent
 
 2.3.10 Wed, 30 Jul 2014
 inventory:
-* fix serial key retrieval regression on Windows (#2632)
+* fix serial key retrieval regression on Windows (#2632,#2641)
 * fix office 32bits serial retrieval on 64bits Windows (#2616)
 * fix duplicate network interface on AIX (#2527)
 * fix warnings for non-parsable etime on Unix (#2636)
 * fix global zone identification on Solaris (#2620)
+* fix software retrieval on recent BSDs (#2637)
 * better file system types identification on Solaris
 * add support for HyperV machines enumeration (#2141)
 * add support for LXC container identification (#2311)
