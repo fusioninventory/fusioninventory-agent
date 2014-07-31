@@ -59,8 +59,10 @@ plan tests => (2 * scalar keys %tests) + 1;
 
 my $inventory = FusionInventory::Agent::Inventory->new();
 
+# fake Tools::Win32, instead of Task::Inventory::Virtualization::HyperV, as
+# it is loaded at runtime
 my $module = Test::MockModule->new(
-    'FusionInventory::Agent::Task::Inventory::Virtualization::HyperV'
+    'FusionInventory::Agent::Tools::Win32'
 );
 
 foreach my $test (keys %tests) {
