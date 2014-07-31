@@ -34,6 +34,7 @@ sub doInventory {
 
 sub _getPackagesList {
     my $handle = getFileHandle(@_);
+    return unless $handle;
 
     my @packages;
     while (my $line = <$handle>) {
