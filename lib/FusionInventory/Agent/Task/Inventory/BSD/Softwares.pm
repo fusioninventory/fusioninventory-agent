@@ -22,6 +22,7 @@ sub doInventory {
     my $packages =
         _getPackagesList(logger => $logger, command => 'pkg_info') ||
         _getPackagesList(logger => $logger, command => 'pkg info');
+    return unless $packages;
 
     foreach my $package (@$packages) {
         $inventory->addEntry(
@@ -46,7 +47,7 @@ sub _getPackagesList {
 
     close $handle;
 
-    return \@packages;
+    return @packages ? \@packages : undef;
 }
 
 1;
