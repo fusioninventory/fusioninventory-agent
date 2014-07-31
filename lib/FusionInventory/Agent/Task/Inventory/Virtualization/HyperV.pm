@@ -4,9 +4,9 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools::Hostname;
 
 sub isEnabled {
@@ -27,6 +27,8 @@ sub doInventory {
 }
 
 sub _getVirtualMachines {
+
+    FusionInventory::Agent::Tools::Win32->use();
 
     my $host = FusionInventory::Agent::Tools::Hostname::getHostname() ||
                $ENV{COMPUTERNAME};
