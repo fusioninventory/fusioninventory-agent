@@ -23,6 +23,7 @@ my %types = (
     5 => 'POWER',
     6 => 'PHONE',
     7 => 'VIDEO',
+    8 => 'KVM',
 );
 
 my %sysobjectid;
