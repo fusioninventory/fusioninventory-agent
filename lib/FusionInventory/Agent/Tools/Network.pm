@@ -138,8 +138,10 @@ sub resolve {
     my ($error, @results) = Socket::GetAddrInfo::getaddrinfo(
         $string, "", { socktype => Socket::SOCK_RAW() }
     );
-    if ($error && $logger) {
-        $logger->error("unable to resolve `$string': $error");
+    if ($error) {
+        $logger->error(
+            "unable to get address for '$string': $error"
+        ) if $logger;
         return;
     }
 
@@ -149,12 +151,16 @@ sub resolve {
             $result->{addr},
             Socket::GetAddrInfo::NI_NUMERICHOST(),
         );
-        # Drop the zone index. Net::IP do not support them
-        if ($error && $logger) {
-            $logger->error("unable to get hostname of IP address `$result->{addr}': $error");
+        if ($error) {
+            $logger->error(
+                "unable to translate binary address for '$string': $error"
+            ) if $logger;
             next;
         }
+
+        # Drop the zone index, as Net::IP does not support it
         $host =~ s/%.*$//;
+
         push @ret, Net::IP->new($host);
     }
 
