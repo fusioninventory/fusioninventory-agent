@@ -191,7 +191,7 @@ my @key_tests = (
 
 plan tests =>
     (scalar keys %tests) +
-    (scalar keys @key_tests) +
+    (scalar @key_tests) +
     4;
 
 my $module = Test::MockModule->new(
