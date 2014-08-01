@@ -36,7 +36,7 @@ sub new {
             $controller->isa('FusionInventory::Agent::Controller::Server');
         my $url  = $controller->getUrl();
         my $host = URI->new($url)->host();
-        my @addresses = compile($host);
+        my @addresses = compile($host, $self->{logger});
         $self->{trust}->{$url} = \@addresses;
     }
     if ($params{trust}) {
