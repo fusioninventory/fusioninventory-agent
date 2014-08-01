@@ -153,10 +153,9 @@ sub _getLastUser {
         Access => KEY_READ
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
-    my $user = encodeFromRegistry(
-        $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser"} ||
-        $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/DefaultUserName"}
-    );
+    my $user =
+        encodeFromRegistry($machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser"}) ||
+        encodeFromRegistry($machKey->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName"});
     return unless $user;
 
     $user =~ s,.*\\,,;
