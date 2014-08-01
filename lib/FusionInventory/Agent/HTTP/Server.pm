@@ -35,7 +35,7 @@ sub new {
         next unless $target->isa('FusionInventory::Agent::Target::Server');
         my $url  = $target->getUrl();
         my $host = URI->new($url)->host();
-        my @addresses = compile($host);
+        my @addresses = compile($host, $self->{logger});
         $self->{trust}->{$url} = \@addresses;
     }
     if ($params{trust}) {
