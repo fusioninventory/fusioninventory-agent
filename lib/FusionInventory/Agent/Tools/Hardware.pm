@@ -470,7 +470,7 @@ sub _getSysObjectIDInfo {
         return ($manufacturer->{name}, $manufacturer->{type});
     }
 
-    $logger->debug("full match in sysobjectID database");
+    $logger->debug("full match in sysobjectID database") if $logger;
     return ($manufacturer->{name}, $device->{type}, $device->{name});
 }
 
