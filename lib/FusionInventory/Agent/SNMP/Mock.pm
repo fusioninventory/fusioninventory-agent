@@ -224,8 +224,8 @@ sub _getSanitizedValue {
         $value =~ s/\s//g;
         $value = "0x".$value;
     } elsif ($format eq 'STRING') {
-        $value =~ s/^"//;
-        $value =~ s/"$//;
+        $value =~ s/^(?<!\\)"//;
+        $value =~ s/(?<!\\)"$//;
     }
 
     return $value;
