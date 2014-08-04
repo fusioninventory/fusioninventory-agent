@@ -529,3 +529,8 @@ pairs:
     'Foo' => x,
     'Bar' => y,
 );
+
+=head1 LICENSE
+
+This software is licensed under the terms of GPLv2+, see LICENSE file for
+details.
