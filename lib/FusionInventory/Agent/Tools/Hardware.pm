@@ -908,8 +908,8 @@ sub _getCanonicalString {
     $value = hex2char($value);
     return unless $value;
 
-    $value =~ s/^["']//;
-    $value =~ s/["']$//;
+    $value =~ s/^\\?["']//;
+    $value =~ s/\\?["']$//;
     return unless $value;
 
     return $value;
