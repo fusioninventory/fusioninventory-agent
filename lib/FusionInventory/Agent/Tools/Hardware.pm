@@ -721,6 +721,7 @@ sub _setGenericProperties {
             next;
         }
         $ports->{$value}->{IP} = $suffix;
+        push @{$ports->{$value}->{IPS}->{IP}}, $suffix;
     }
 
     $device->{PORTS}->{PORT} = $ports;
