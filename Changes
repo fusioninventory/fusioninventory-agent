@@ -1,5 +1,14 @@
 Revision history for FusionInventory agent
 
+2.3.10.1 Mon, 04 Aug 2014
+inventory:
+* fix regression introduced in 2.3.10 wrt hostname on Windows (#2647)
+* fix regression introduced in 2.3.10 wrt last logged user on Windows
+* provide error messages for name to resolution failures
+
+netdiscovery and netinventory:
+* avoid crash for missing logger with command-line tools
+
 2.3.10 Wed, 30 Jul 2014
 inventory:
 * fix serial key retrieval regression on Windows (#2632,#2641)
