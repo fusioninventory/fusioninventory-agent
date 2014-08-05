@@ -16,8 +16,8 @@ use FusionInventory::Agent::Inventory;
 plan tests => 24;
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ],
-    debug    => 1
+    backends  => [ 'Test' ],
+    verbosity => LOG_DEBUG
 );
 
 my $inventory;
