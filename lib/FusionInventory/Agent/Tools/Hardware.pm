@@ -852,6 +852,12 @@ sub _setNetworkingProperties {
         ports        => $ports,
         logger       => $logger,
     );
+
+    _setAggregatePorts(
+        snmp   => $snmp,
+        ports  => $ports,
+        logger => $logger
+    );
 }
 
 sub _getPercentValue {
@@ -1519,6 +1525,45 @@ sub _getTrunkPorts {
     }
 
     return;
+}
+
+sub _setAggregatePorts {
+    my (%params) = @_;
+
+    my $ports  = $params{ports};
+    my $logger = $params{logger};
+
+    my $lacp_info = _getLACPInfo(%params);
+    if ($lacp_info) {
+        foreach my $interface_id (keys %$lacp_info) {
+            # safety check
+            if (!$ports->{$interface_id}) {
+                $logger->error(
+                    "unknown interface $interface_id in LACP info, ignoring"
+                ) if $logger;
+                next;
+            }
+            $ports->{$interface_id}->{AGGREGATE}->{PORT} = $lacp_info->{$interface_id};
+        }
+    }
+}
+
+sub _getLACPInfo {
+    my (%params) = @_;
+
+    my $snmp = $params{snmp};
+
+    my $results;
+    my $aggPortAttachedAggID = $snmp->walk('.1.2.840.10006.300.43.1.2.1.1.13');
+
+    foreach my $interface_id (sort keys %$aggPortAttachedAggID) {
+        my $aggregator_id = $aggPortAttachedAggID->{$interface_id};
+        next if $aggregator_id == 0;
+        next if $aggregator_id == $interface_id;
+        push @{$results->{$aggregator_id}}, $interface_id;
+    }
+
+    return $results;
 }
 
 1;
