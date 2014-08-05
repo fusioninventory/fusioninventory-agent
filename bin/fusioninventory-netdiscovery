@@ -12,7 +12,8 @@ use FusionInventory::Agent::Task::NetDiscovery;
 use FusionInventory::Agent::Logger;
 
 my $options = {
-    threads   => 1
+    debug   => 0,
+    threads => 1
 };
 
 my %setup = (
@@ -50,12 +51,16 @@ pod2usage(
     -message => "no last address, aborting\n", -verbose => 0
 ) unless $options->{last};
 
+my $verbosity =
+    $options->{debug} == 0 ? LOG_INFO   :
+    $options->{debug} == 1 ? LOG_DEBUG  :
+    $options->{debug} == 2 ? LOG_DEBUG2 :
+                             LOG_DEBUG2 ;
+
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
     %setup,
     target => FusionInventory::Agent::Task::NetInventory::Target->new(),
-    logger =>  FusionInventory::Agent::Logger->new(
-        debug => $options->{debug}
-    )
+    logger => FusionInventory::Agent::Logger->new(verbosity => $verbosity)
 );
 
 my $credentials_id = 1;

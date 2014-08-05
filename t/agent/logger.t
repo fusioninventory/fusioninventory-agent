@@ -12,7 +12,7 @@ use Test::More;
 
 use FusionInventory::Agent::Logger;
 
-plan tests => 29;
+plan tests => 27;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
@@ -110,8 +110,8 @@ ok(
 );
 
 $logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/Stderr/ ],
-    debug    => 1
+    backends  => [ qw/Stderr/ ],
+    verbosity => LOG_DEBUG
 );
 
 ok(
@@ -148,15 +148,9 @@ is(
     'fault message formating'
 );
 
-is(
-    getStderrOutput(sub { $logger->log(message => 'message'); }),
-    "[info] message",
-    'default logging level'
-);
-
 $logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/Stderr/ ],
-    debug    => 2
+    backends  => [ qw/Stderr/ ],
+    verbosity => LOG_DEBUG2
 );
 
 ok(
@@ -170,9 +164,9 @@ ok(
 );
 
 $logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/Stderr/ ],
-    config   => { color => 1 },
-    debug    => 1
+    backends  => [ qw/Stderr/ ],
+    config    => { color => 1 },
+    verbosity => LOG_DEBUG
 );
 
 is(
@@ -218,9 +212,9 @@ ok(
 
 $logfile = "$tmpdir/test2";
 $logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/File/ ],
-    config   => { logfile => $logfile },
-    debug    => 1
+    backends  => [ qw/File/ ],
+    config    => { logfile => $logfile },
+    verbosity => LOG_DEBUG
 );
 $logger->debug('message');
 
@@ -251,12 +245,6 @@ is(
     getFileOutput($logfile, sub { $logger->fault('message'); }),
     '[' . localtime() . '][fault] message',
     'fault message formating'
-);
-
-is(
-    getFileOutput($logfile, sub { $logger->log(message => 'message'); }),
-    '[' . localtime() . '][info] message',
-    'default logging level'
 );
 
 $logfile = "$tmpdir/test3";

@@ -22,6 +22,7 @@ my %setup = (
 );
 
 my $options = {
+    debug  => 0,
     config => 'none'
 };
 
@@ -50,15 +51,19 @@ my $config = FusionInventory::Agent::Config->new(
     options => $options,
 );
 
+my $verbosity =
+    $options->{debug} == 0 ? LOG_INFO   :
+    $options->{debug} == 1 ? LOG_DEBUG  :
+    $options->{debug} == 2 ? LOG_DEBUG2 :
+                             LOG_DEBUG2 ;
+
 my $inventory = FusionInventory::Agent::Task::Inventory->new(
     target => FusionInventory::Agent::Target::Local->new(
         path       => '-',
         html       => $options->{html},
         basevardir => File::Temp->newdir(CLEANUP => 1),
     ),
-    logger =>  FusionInventory::Agent::Logger->new(
-        debug => $options->{debug}
-    ),
+    logger  => FusionInventory::Agent::Logger->new(verbosity => $verbosity),
     datadir => $setup{datadir},
     confdir => $setup{confdir},
     config  => $config

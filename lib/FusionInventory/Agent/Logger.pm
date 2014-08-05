@@ -2,15 +2,27 @@ package FusionInventory::Agent::Logger;
 
 use strict;
 use warnings;
+use base qw/Exporter/;
+
+use constant {
+    LOG_DEBUG2 => 5,
+    LOG_DEBUG  => 4,
+    LOG_INFO   => 3,
+    LOG_ERROR  => 2,
+    LOG_FAULT  => 1,
+    LOG_NONE   => 0,
+};
 
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
+
+our @EXPORT = qw/LOG_DEBUG2 LOG_DEBUG LOG_INFO LOG_ERROR LOG_FAULT LOG_NONE/;
 
 sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        debug => $params{debug} || 0,
+        verbosity => defined $params{verbosity} ? $params{verbosity} : LOG_INFO,
     };
     bless $self, $class;
 
@@ -40,7 +52,7 @@ sub new {
     return $self;
 }
 
-sub log {
+sub _log {
     my ($self, %params) = @_;
 
     # levels: debug2, debug, info, error, fault
@@ -48,8 +60,6 @@ sub log {
     my $message = $params{message};
 
     return unless $message;
-    return if $level eq 'debug2' && $self->{debug} < 2;
-    return if $level eq 'debug'  && $self->{debug} < 1;
 
     chomp($message);
 
@@ -64,31 +74,36 @@ sub log {
 sub debug2 {
     my ($self, $message) = @_;
 
-    $self->log(level => 'debug2', message => $message);
+    return unless $self->{verbosity} >= LOG_DEBUG2;
+    $self->_log(level => 'debug2', message => $message);
 }
 
 sub debug {
     my ($self, $message) = @_;
 
-    $self->log(level => 'debug', message => $message);
+    return unless $self->{verbosity} >= LOG_DEBUG;
+    $self->_log(level => 'debug', message => $message);
 }
 
 sub info {
     my ($self, $message) = @_;
 
-    $self->log(level => 'info', message => $message);
+    return unless $self->{verbosity} >= LOG_INFO;
+    $self->_log(level => 'info', message => $message);
 }
 
 sub error {
     my ($self, $message) = @_;
 
-    $self->log(level => 'error', message => $message);
+    return unless $self->{verbosity} >= LOG_ERROR;
+    $self->_log(level => 'error', message => $message);
 }
 
 sub fault {
     my ($self, $message) = @_;
 
-    $self->log(level => 'fault', message => $message);
+    return unless $self->{verbosity} >= LOG_FAULT;
+    $self->_log(level => 'fault', message => $message);
 }
 
 1;
@@ -119,36 +134,9 @@ the agent configuration object, to be passed to backends
 
 a list of backends to use (default: Stderr)
 
-=item I<debug>
+=item I<verbosity>
 
-a flag allowing debug messages (default: false)
-
-=back
-
-=head2 log(%params)
-
-Add a log message, with a specific level. %params is an hash, with the
-following keys:
-
-=over
-
-=item I<level>
-
-Can be one of:
-
-=over
-
-=item debug
-
-=item info
-
-=item error
-
-=item fault
-
-=back
-
-=item I<message>
+the verbosity level (default: LOG_INFO)
 
 =back
 
