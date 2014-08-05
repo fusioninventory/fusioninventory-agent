@@ -42,7 +42,7 @@ sub _getFilesystems {
         foreach my $filesystem (@filesystems) {
             $filesystem->{SERIAL} = getFirstMatch(
                 logger  => $logger,
-                command => "blkid $filesystem->{VOLUMN}",
+                command => "blkid -w /dev/null $filesystem->{VOLUMN}",
                 pattern => qr/\sUUID="(\S*)"\s/
             );
         }
