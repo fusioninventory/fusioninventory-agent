@@ -438,7 +438,7 @@ sub _getSysObjectIDInfo {
     # no match
     if (!$manufacturer_id) {
         $logger->debug(
-            "no match in sysobjectID database: " .
+            "no match for sysobjectID $params{id} in database: " .
             "no manufacturer ID"
         ) if $logger;
         return ();
@@ -447,15 +447,15 @@ sub _getSysObjectIDInfo {
     my $manufacturer = $sysobjectid{$manufacturer_id};
     if (!$manufacturer) {
         $logger->debug(
-            "no match in sysobjectID database: " .
-            "unknown manufacturer ID $manufacturer_id"
+            "no match for sysobjectID $params{id} in database: " .
+            "unknown manufacturer ID"
         ) if $logger;
         return ();
     }
 
     if (!$device_id) {
         $logger->debug(
-            "partial match in sysobjectID database: " .
+            "partial match for sysobjectID $params{id} in database: " .
             "no device ID"
         ) if $logger;
         return ($manufacturer->{name}, $manufacturer->{type});
@@ -464,13 +464,14 @@ sub _getSysObjectIDInfo {
     my $device = $manufacturer->{devices}->{$device_id};
     if (!$device) {
         $logger->debug(
-            "partial match in sysobjectID database: " .
-            "unknown device ID $device_id"
+            "partial match for sysobjectID $params{id} in database: " .
+            "unknown device ID"
         ) if $logger;
         return ($manufacturer->{name}, $manufacturer->{type});
     }
 
-    $logger->debug("full match in sysobjectID database") if $logger;
+    $logger->debug("full match for sysobjectID $params{id} in database")
+        if $logger;
     return ($manufacturer->{name}, $device->{type}, $device->{name});
 }
 
