@@ -65,9 +65,9 @@ sub init {
                                                                 LOG_INFO   ;
 
     my $logger = FusionInventory::Agent::Logger->new(
-        config   => $config,
-        backends => $config->{logger},
-        level    => $verbosity
+        config    => $config,
+        backends  => $config->{logger},
+        verbosity => $verbosity
     );
     $self->{logger} = $logger;
 
