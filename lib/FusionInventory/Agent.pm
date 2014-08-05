@@ -63,10 +63,14 @@ sub init {
     );
     $self->{config} = $config;
 
+    my $verbosity = $config->{debug} && $config->{debug} == 1 ? LOG_DEBUG  :
+                    $config->{debug} && $config->{debug} == 2 ? LOG_DEBUG2 :
+                                                                LOG_INFO   ;
+
     my $logger = FusionInventory::Agent::Logger->new(
         config   => $config,
         backends => $config->{logger},
-        debug    => $config->{debug}
+        level    => $verbosity
     );
     $self->{logger} = $logger;
 
