@@ -1531,27 +1531,39 @@ sub _getTrunkPorts {
 sub _setAggregatePorts {
     my (%params) = @_;
 
-    my $aggregatePorts = _getAggregatePorts(
-        snmp => $params{snmp}
-    );
-
-    return unless $aggregatePorts;
-
     my $ports  = $params{ports};
     my $logger = $params{logger};
 
-    foreach my $port_id (keys %$aggregatePorts) {
-        # safety check
-        if (!$ports->{$port_id}) {
-            $logger->error("non-existing port $port_id")
-                if $logger;
-            last;
+    my $lacp_info = _getLACPInfo(%params);
+    if ($lacp_info) {
+        foreach my $interface_id (keys %$lacp_info) {
+            # safety check
+            if (!$ports->{$interface_id}) {
+                $logger->error(
+                    "unknown interface $interface_id in LACP info, ignoring"
+                ) if $logger;
+                next;
+            }
+            $ports->{$interface_id}->{AGGREGATE}->{PORT} = $lacp_info->{$interface_id};
         }
-        $ports->{$port_id}->{AGGREGATE}->{PORT} = $aggregatePorts->{$port_id};
+    }
+
+    my $pagp_info = _getPAGPInfo(%params);
+    if ($pagp_info) {
+        foreach my $interface_id (keys %$pagp_info) {
+            # safety check
+            if (!$ports->{$interface_id}) {
+                $logger->error(
+                    "unknown interface $interface_id in PAGP info, ignoring"
+                ) if $logger;
+                next;
+            }
+            $ports->{$interface_id}->{AGGREGATE}->{PORT} = $pagp_info->{$interface_id};
+        }
     }
 }
 
-sub _getAggregatePorts {
+sub _getLACPInfo {
     my (%params) = @_;
 
     my $snmp = $params{snmp};
@@ -1559,7 +1571,6 @@ sub _getAggregatePorts {
     my $results;
     my $lacpPorts = $snmp->walk('.1.2.840.10006.300.43.1.1.1.1.6');
     my $allPorts  = $snmp->walk('.1.2.840.10006.300.43.1.2.1.1.4');
-    my $pagpPorts = $snmp->walk('.1.3.6.1.4.1.9.9.98.1.1.1.1.5');
 
     while (my ($aggregatePort_id, $trunk) = each %{$lacpPorts}) {
         my $portShortNum = $aggregatePort_id;
@@ -1569,6 +1580,17 @@ sub _getAggregatePorts {
             push @{$results->{$aggregatePort_id}}, $port_id;
         }
     }
+
+    return $results;
+}
+
+sub _getPAGPInfo {
+    my (%params) = @_;
+
+    my $snmp = $params{snmp};
+
+    my $results;
+    my $pagpPorts = $snmp->walk('.1.3.6.1.4.1.9.9.98.1.1.1.1.5');
 
     while (my ($port_id, $portShortNum) = each %{$pagpPorts}) {
         next unless $portShortNum > 0;
