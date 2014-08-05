@@ -1569,16 +1569,13 @@ sub _getLACPInfo {
     my $snmp = $params{snmp};
 
     my $results;
-    my $lacpPorts = $snmp->walk('.1.2.840.10006.300.43.1.1.1.1.6');
-    my $allPorts  = $snmp->walk('.1.2.840.10006.300.43.1.2.1.1.4');
+    my $aggPortAttachedAggID = $snmp->walk('.1.2.840.10006.300.43.1.2.1.1.13');
 
-    while (my ($aggregatePort_id, $trunk) = each %{$lacpPorts}) {
-        my $portShortNum = $aggregatePort_id;
-        substr $portShortNum, 0, 1, "";
-        while (my ($port_id, $portShortNumFind) = each %{$allPorts}) {
-            next unless $portShortNum == $portShortNumFind;
-            push @{$results->{$aggregatePort_id}}, $port_id;
-        }
+    foreach my $interface_id (sort keys %$aggPortAttachedAggID) {
+        my $aggregator_id = $aggPortAttachedAggID->{$interface_id};
+        next if $aggregator_id == 0;
+        next if $aggregator_id == $interface_id;
+        push @{$results->{$aggregator_id}}, $interface_id;
     }
 
     return $results;
