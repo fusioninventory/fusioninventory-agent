@@ -145,7 +145,7 @@ sub _setSSLOptions {
             "You can use 'no-ssl-check' option to disable it."
             if $EVAL_ERROR;
 
-        if ($self->{logger}{debug} >= 3) {
+        if ($self->{logger}{verbosity} > LOG_DEBUG2) {
             $Net::SSLeay::trace = 2;
         }
 
