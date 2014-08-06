@@ -71,7 +71,7 @@ sub _scanAddressByNetbios {
     $self->{logger}->debug2(
         sprintf "scanning %s with netbios: %s",
         $address,
-        $ns ? 'success' : 'failure'
+        $ns ? 'device found' : 'nothing found'
     );
     return unless $ns;
 
@@ -109,7 +109,7 @@ sub _scanAddressBySNMP {
             sprintf "scanning %s with snmp credentials %d: %s",
             $address,
             $credential->{id},
-            %device ? 'success' : 'failure'
+            %device ? 'device found' : 'nothing found'
         );
 
         if (%device) {
