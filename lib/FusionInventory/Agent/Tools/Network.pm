@@ -4,8 +4,9 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-use UNIVERSAL::require;
 use Net::IP qw(:PROC);
+use Socket qw(SOCK_RAW);
+use Socket::GetAddrInfo qw(getaddrinfo getnameinfo NI_NUMERICHOST);
 
 use FusionInventory::Agent::Tools;
 
@@ -132,12 +133,7 @@ sub resolve {
 
     my @ret;
 
-    Socket::GetAddrInfo->require();
-    Socket->require();
-
-    my ($error, @results) = Socket::GetAddrInfo::getaddrinfo(
-        $string, "", { socktype => Socket::SOCK_RAW() }
-    );
+    my ($error, @results) = getaddrinfo($string, "", { socktype => SOCK_RAW });
     if ($error) {
         $logger->error(
             "unable to get address for '$string': $error"
@@ -147,10 +143,7 @@ sub resolve {
 
     # and push all of their addresses in the list
     foreach my $result (@results) {
-        my ($error, $host) = Socket::GetAddrInfo::getnameinfo(
-            $result->{addr},
-            Socket::GetAddrInfo::NI_NUMERICHOST(),
-        );
+        my ($error, $host) = getnameinfo($result->{addr}, NI_NUMERICHOST);
         if ($error) {
             $logger->error(
                 "unable to translate binary address for '$string': $error"
