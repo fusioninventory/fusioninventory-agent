@@ -349,7 +349,7 @@ sub _scanAddressByNmap {
         sprintf "thread %d: scanning %s with nmap: %s",
         threads->tid(),
         $params{ip},
-        $device ? 'success' : 'failure'
+        $device ? 'device found' : 'nothing found'
     );
 
     return $device ? %$device : ();
@@ -366,7 +366,7 @@ sub _scanAddressByNetbios {
         sprintf "thread %d: scanning %s with netbios: %s",
         threads->tid(),
         $params{ip},
-        $ns ? 'success' : 'failure'
+        $ns ? 'device found' : 'nothing found'
     );
     return unless $ns;
 
@@ -409,7 +409,7 @@ sub _scanAddressBySNMP {
             threads->tid(),
             $params{ip},
             $credential->{ID},
-            %device ? 'success' : 'failure'
+            %device ? 'device found' : 'nothing found'
         );
 
         if (%device) {
