@@ -1308,6 +1308,11 @@
           <TRUNK>0</TRUNK>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>3</PORT>
+            <PORT>39</PORT>
+            <PORT>4</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:19:bb:0d:81:00</MAC>
@@ -1342,6 +1347,11 @@
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>17</PORT>
+            <PORT>29</PORT>
+            <PORT>30</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:00:f0:ac:ea:a9</MAC>
@@ -1379,6 +1389,11 @@
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>13</PORT>
+            <PORT>25</PORT>
+            <PORT>26</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:00:f0:a9:62:13</MAC>
@@ -1473,6 +1488,11 @@
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>10</PORT>
+            <PORT>45</PORT>
+            <PORT>9</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:0b:82:08:65:49</MAC>
@@ -1530,6 +1550,11 @@
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>19</PORT>
+            <PORT>31</PORT>
+            <PORT>32</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:14:38:4a:d0:31</MAC>
@@ -1582,6 +1607,11 @@
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>1</PORT>
+            <PORT>2</PORT>
+            <PORT>37</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:19:bb:01:0b:00</MAC>
@@ -1612,6 +1642,11 @@
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>43</PORT>
+            <PORT>7</PORT>
+            <PORT>8</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:16:b9:14:2b:00</MAC>
@@ -1640,6 +1675,11 @@
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>41</PORT>
+            <PORT>5</PORT>
+            <PORT>6</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:16:b9:13:80:00</MAC>
@@ -1675,6 +1715,11 @@
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>21</PORT>
+            <PORT>33</PORT>
+            <PORT>34</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:00:85:bb:5f:e9</MAC>
@@ -1736,6 +1781,11 @@
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>15</PORT>
+            <PORT>27</PORT>
+            <PORT>28</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:0b:84:00:1f:7d</MAC>
@@ -1774,6 +1824,14 @@
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
+          <AGGREGATE>
+            <PORT>22</PORT>
+            <PORT>23</PORT>
+            <PORT>24</PORT>
+            <PORT>46</PORT>
+            <PORT>47</PORT>
+            <PORT>48</PORT>
+          </AGGREGATE>
           <CONNECTIONS>
             <CONNECTION>
               <MAC>00:00:00:00:fe:00</MAC>
@@ -1951,6 +2009,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.31.192.244</IP>
+          <IPS>
+            <IP>172.31.192.244</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2054,6 +2115,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.27.192.226</IP>
+          <IPS>
+            <IP>172.27.192.226</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2361,6 +2425,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.27.192.33</IP>
+          <IPS>
+            <IP>172.27.192.33</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2396,6 +2463,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.31.203.253</IP>
+          <IPS>
+            <IP>172.31.203.253</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2431,6 +2501,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.31.193.246</IP>
+          <IPS>
+            <IP>172.31.193.246</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2449,6 +2522,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.27.193.125</IP>
+          <IPS>
+            <IP>172.27.193.125</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2467,6 +2543,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.27.205.253</IP>
+          <IPS>
+            <IP>172.27.205.253</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2485,6 +2564,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.31.196.253</IP>
+          <IPS>
+            <IP>172.31.196.253</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2503,6 +2585,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.31.201.253</IP>
+          <IPS>
+            <IP>172.31.201.253</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2538,6 +2623,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.31.204.125</IP>
+          <IPS>
+            <IP>172.31.204.125</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2556,6 +2644,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.31.205.125</IP>
+          <IPS>
+            <IP>172.31.205.125</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2574,6 +2665,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.31.204.253</IP>
+          <IPS>
+            <IP>172.31.204.253</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2592,6 +2686,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>172.31.205.253</IP>
+          <IPS>
+            <IP>172.31.205.253</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2661,6 +2758,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>53</IFTYPE>
           <IP>192.168.227.246</IP>
+          <IPS>
+            <IP>192.168.227.246</IP>
+          </IPS>
           <MAC>00:18:71:c1:e0:00</MAC>
         </PORT>
         <PORT>
@@ -2730,6 +2830,9 @@
           <IFSTATUS>1</IFSTATUS>
           <IFTYPE>24</IFTYPE>
           <IP>127.0.0.1</IP>
+          <IPS>
+            <IP>127.0.0.1</IP>
+          </IPS>
         </PORT>
         <PORT>
           <IFALIAS>lo1</IFALIAS>
