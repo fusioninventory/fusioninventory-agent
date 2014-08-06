@@ -12,13 +12,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
-
-    return
-        $OSNAME eq 'MSWin32'                 ||
-        -d '/sys'                            ||
-        canRun('monitor-get-edid-using-vbe') ||
-        canRun('monitor-get-edid')           ||
-        canRun('get-edid');
+    return 1;
 }
 
 sub doInventory {
