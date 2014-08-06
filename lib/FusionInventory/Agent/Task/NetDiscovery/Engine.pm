@@ -58,6 +58,12 @@ sub _scanAddressByNmap {
         command => "nmap $self->{nmap_parameters} $address -oX -"
     );
 
+    $self->{logger}->debug2(
+        sprintf "scanning %s with nmap: %s",
+        $params{ip},
+        $device ? 'device found' : 'no device found'
+    );
+
     return $device ? %$device : ();
 }
 
