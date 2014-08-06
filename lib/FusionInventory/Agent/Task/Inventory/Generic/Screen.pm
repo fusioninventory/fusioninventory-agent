@@ -171,9 +171,11 @@ sub _getScreensFromWindows {
 sub _getScreensFromUnix {
     my (%params) = @_;
 
-    my @screens;
+    my $logger = $params{logger};
+    $logger->debug("trying to get EDID data...");
 
     if (-d '/sys/devices') {
+        my @screens;
         my $wanted = sub {
             return unless $_ eq 'edid';
             return unless -e $File::Find::name;
@@ -184,30 +186,63 @@ sub _getScreensFromUnix {
         no warnings 'File::Find';
         File::Find::find($wanted, '/sys/devices');
 
+        _log_result($logger, 'reading /sys/devices content', @screens);
+
         return @screens if @screens;
+    } else {
+        _log_unavailability($logger, '/sys/devices directory');
     }
 
-    my $edid =
-        getAllLines(command => 'monitor-get-edid-using-vbe') ||
-        getAllLines(command => 'monitor-get-edid');
-    push @screens, { edid => $edid };
+    if (canRun('monitor-get-edid-using-vbe')) {
+        my $edid = getAllLines(command => 'monitor-get-edid-using-vbe');
+        _log_result($logger, 'running monitor-get-edid-using-vbe command', $edid);
+        return { edid => $edid } if $edid;
+    } else {
+        _log_unavailability($logger, 'monitor-get-edid-using-vbe command');
+    }
 
-    return @screens if @screens;
+    if (canRun('monitor-get-edid')) {
+        my $edid = getAllLines(command => 'monitor-get-edid');
+        _log_result($logger, 'running monitor-get-edid command', $edid);
+        return { edid => $edid } if $edid;
+    } else {
+        _log_unavailability($logger, 'monitor-get-edid command');
+    }
 
-    foreach (1..5) { # Sometime get-edid return an empty string...
-        $edid = getFirstLine(command => 'get-edid');
-        if ($edid) {
-            push @screens, { edid => $edid };
-            last;
+    if (canRun('get-edid')) {
+        my $edid;
+        foreach (1..5) { # Sometime get-edid return an empty string...
+            $edid = getFirstLine(command => 'get-edid');
+            last if $edid;
         }
+        _log_result($logger, 'running get-edid command', $edid);
+        return { edid => $edid } if $edid;
+    } else {
+        _log_unavailability($logger, 'get-edid command');
     }
 
-    return @screens;
+    return;
 }
 
 sub _getScreens {
     return $OSNAME eq 'MSWin32' ?
         _getScreensFromWindows(@_) : _getScreensFromUnix(@_);
+}
+
+sub _log_result {
+    my ($logger, $message, $result) = @_;
+    return unless $logger;
+    $logger->debug(
+        sprintf('%s: %s', $message, $result ? 'success' : 'no result')
+    );
+}
+
+sub _log_unavailability {
+    my ($logger, $message) = @_;
+    return unless $logger;
+    $logger->debug(
+        sprintf('%s not available', $message)
+    );
 }
 
 1;
