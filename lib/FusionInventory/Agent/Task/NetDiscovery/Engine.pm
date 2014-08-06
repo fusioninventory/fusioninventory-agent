@@ -60,7 +60,7 @@ sub _scanAddressByNmap {
 
     $self->{logger}->debug2(
         sprintf "scanning %s with nmap: %s",
-        $params{ip},
+        $address,
         $device ? 'device found' : 'no device found'
     );
 
