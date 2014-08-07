@@ -21,29 +21,10 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+    my $datadir   = $params{datadir};
 
-    foreach my $screen (_getScreens(
-        logger  => $params{logger},
-    )) {
-
-        if ($screen->{edid}) {
-            my $info = _getEdidInfo(
-                edid    => $screen->{edid},
-                logger  => $params{logger},
-                datadir => $params{datadir},
-            );
-            $screen->{CAPTION}      = $info->{CAPTION};
-            $screen->{DESCRIPTION}  = $info->{DESCRIPTION};
-            $screen->{MANUFACTURER} = $info->{MANUFACTURER};
-            $screen->{SERIAL}       = $info->{SERIAL};
-
-            $screen->{BASE64} = encode_base64($screen->{edid});
-        }
-
-        if (defined($screen->{edid})) {
-            delete $screen->{edid};
-        }
-
+    foreach my $screen (_getScreens(logger => $logger, datadir => $datadir)) {
         $inventory->addEntry(
             section => 'MONITORS',
             entry   => $screen
@@ -227,8 +208,31 @@ sub _getScreensFromUnix {
 }
 
 sub _getScreens {
-    return $OSNAME eq 'MSWin32' ?
-        _getScreensFromWindows(@_) : _getScreensFromUnix(@_);
+    my (%params) = @_;
+
+    my @screens = $OSNAME eq 'MSWin32' ?
+        _getScreensFromWindows(%params) :
+        _getScreensFromUnix(%params);
+
+    foreach my $screen (@screens) {
+        next unless $screen->{edid};
+
+        my $info = _getEdidInfo(
+            edid    => $screen->{edid},
+            logger  => $params{logger},
+            datadir => $params{datadir},
+        );
+        $screen->{CAPTION}      = $info->{CAPTION};
+        $screen->{DESCRIPTION}  = $info->{DESCRIPTION};
+        $screen->{MANUFACTURER} = $info->{MANUFACTURER};
+        $screen->{SERIAL}       = $info->{SERIAL};
+
+        $screen->{BASE64} = encode_base64($screen->{edid});
+
+        delete $screen->{edid};
+    }
+
+    return @screens;
 }
 
 sub _log_result {
