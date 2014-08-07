@@ -63,7 +63,8 @@ sub doInventory {
             );
         } else {
             $logger->info(
-                "scan-profiles disabled, won't scan user profiles for software"
+                "'scan-profiles' configuration parameter disabled, " .
+                "ignoring software in user profiles"
             );
         }
 
