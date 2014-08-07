@@ -31,8 +31,6 @@ our @EXPORT = qw(
     getLinesCount
     compareVersion
     canRun
-    canRead
-    canLoad
     hex2char
     hex2dec
     dec2hex
@@ -54,7 +52,6 @@ my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
 # Anonymous function called in forbidden scalar context
 if ($OSNAME ne 'MSWin32') {
     memoize('canRun');
-    memoize('canRead');
 }
 
 sub getFormatedLocalTime {
@@ -360,18 +357,6 @@ sub canRun {
     return $binary =~ m{^/} ?
         -x $binary :            # full path
         scalar(which($binary)); # executable name
-}
-
-sub canRead {
-    my ($file) = @_;
-
-    return -f $file;
-}
-
-sub canLoad {
-    my ($module) = @_;
-
-    return $module->require();
 }
 
 sub hex2char {
