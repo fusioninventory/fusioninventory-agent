@@ -168,11 +168,6 @@ sub _setSSLOptions {
                 ca_cert_file => $self->{ca_cert_file},
                 ca_cert_dir  => $self->{ca_cert_dir},
             );
-            die
-                "failed to load FusionInventory::Agent::HTTP::Protocol::https" .
-                ", unable to perform SSL certificate validation.\n"            .
-                "You can use 'no-ssl-check' option to disable it."
-                if $EVAL_ERROR;
 
             LWP::Protocol::implementor(
                 'https', 'FusionInventory::Agent::HTTP::Protocol::https'
