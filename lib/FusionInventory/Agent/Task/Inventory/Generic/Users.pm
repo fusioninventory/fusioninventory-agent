@@ -13,7 +13,7 @@ sub isEnabled {
     return
         canRun('who')  ||
         canRun('last') ||
-        canRead('/etc/passwd');
+        -r '/etc/passwd';
 }
 
 sub doInventory {
