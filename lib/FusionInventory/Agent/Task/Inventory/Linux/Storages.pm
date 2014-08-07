@@ -18,6 +18,16 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    foreach my $device (_getDevices(logger => $logger)) {
+        $inventory->addEntry(section => 'STORAGES', entry => $device);
+    }
+}
+
+sub _getDevices {
+    my (%params) = @_;
+
+    my $logger    = $params{logger};
+
     # get devices list from hal, if available, from sysfs otherwise
     my @devices = canRun('lshal') ?
         getDevicesFromHal(logger => $logger) :
@@ -96,9 +106,9 @@ sub doInventory {
         if ($device->{DISKSIZE} && $device->{TYPE} =~ /^cd/) {
             $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME});
         }
-
-        $inventory->addEntry(section => 'STORAGES', entry => $device);
     }
+
+    return @devices;
 }
 
 sub _getDescription {
