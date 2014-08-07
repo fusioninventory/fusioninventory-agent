@@ -22,8 +22,13 @@ sub doInventory {
 
     # Transmit
     my @transmitFiles = glob('/System/Library/User Template/*.lproj/Library/Preferences/com.panic.Transmit.plist');
+
     if ($params{scan_homedirs}) {
-        push (@transmitFiles, glob('/Users/*/Library/Preferences/com.panic.Transmit.plist'));
+        push @transmitFiles, glob('/Users/*/Library/Preferences/com.panic.Transmit.plist');
+    } else {
+        $self->{logger}->info(
+            "scan-homedirs disabled, won't scan user directories for licenses"
+        );
     }
 
     foreach my $transmitFile (@transmitFiles) {
