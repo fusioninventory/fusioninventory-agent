@@ -30,7 +30,9 @@ sub isEnabled {
 
     if ($Net::CUPS::VERSION < 0.60) {
         $params{logger}->debug(
-            "Net::CUPS Perl module too old, unable to retrieve printers"
+            "Net::CUPS Perl module too old " .
+            "(available: $Net::CUPS::VERSION, required: 0.60), ".
+            "unable to retrieve printers"
         ) if $params{logger};
         return 0;
     }
