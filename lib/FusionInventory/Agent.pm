@@ -205,7 +205,7 @@ sub run {
                 eval {
                     $self->_runTarget($target);
                 };
-                $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+                $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
                 $target->resetNextRunDate();
             }
 
@@ -228,7 +228,7 @@ sub run {
             eval {
                 $self->_runTarget($target);
             };
-            $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+            $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         }
     }
 }

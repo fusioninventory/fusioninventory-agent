@@ -25,9 +25,9 @@ sub addMessage {
 
     my $format;
     if ($self->{color}) {
-        if ($level eq 'error') {
+        if ($level eq 'warning') {
             $format = "\033[1;35m[%s] %s\033[0m\n";
-        } elsif ($level eq 'fault') {
+        } elsif ($level eq 'error') {
             $format = "\033[1;31m[%s] %s\033[0m\n";
         } elsif ($level eq 'info') {
             $format = "\033[1;34m[%s]\033[0m %s\n";

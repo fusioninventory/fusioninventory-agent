@@ -137,15 +137,15 @@ is(
 );
 
 is(
-    getStderrOutput(sub { $logger->error('message'); }),
-    "[error] message",
-    'error message formating'
+    getStderrOutput(sub { $logger->warning('message'); }),
+    "[warning] message",
+    'warning message formating'
 );
 
 is(
-    getStderrOutput(sub { $logger->fault('message'); }),
-    "[fault] message",
-    'fault message formating'
+    getStderrOutput(sub { $logger->error('message'); }),
+    "[error] message",
+    'error message formating'
 );
 
 $logger = FusionInventory::Agent::Logger->new(
@@ -182,15 +182,15 @@ is(
 );
 
 is(
-    getStderrOutput(sub { $logger->error('message'); }),
-    "\033[1;35m[error] message\033[0m",
-    'error message color formating'
+    getStderrOutput(sub { $logger->warning('message'); }),
+    "\033[1;35m[warning] message\033[0m",
+    'warning message color formating'
 );
 
 is(
-    getStderrOutput(sub { $logger->fault('message'); }),
-    "\033[1;31m[fault] message\033[0m",
-    'fault message color formating'
+    getStderrOutput(sub { $logger->error('message'); }),
+    "\033[1;31m[error] message\033[0m",
+    'error message color formating'
 );
 
 # file backend tests
@@ -236,15 +236,15 @@ is(
 );
 
 is(
-    getFileOutput($logfile, sub { $logger->error('message'); }),
-    '[' . localtime() . '][error] message',
-    'error message formating'
+    getFileOutput($logfile, sub { $logger->warning('message'); }),
+    '[' . localtime() . '][warning] message',
+    'warning message formating'
 );
 
 is(
-    getFileOutput($logfile, sub { $logger->fault('message'); }),
-    '[' . localtime() . '][fault] message',
-    'fault message formating'
+    getFileOutput($logfile, sub { $logger->error('message'); }),
+    '[' . localtime() . '][error] message',
+    'error message formating'
 );
 
 $logfile = "$tmpdir/test3";

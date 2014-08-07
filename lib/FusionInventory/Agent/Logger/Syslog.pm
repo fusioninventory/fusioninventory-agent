@@ -7,10 +7,10 @@ use base 'FusionInventory::Agent::Logger::Backend';
 use Sys::Syslog qw(:standard :macros);
 
 my %syslog_levels = (
-    fault => LOG_ERR,
-    error => LOG_WARNING,
-    info  => LOG_INFO,
-    debug => LOG_DEBUG
+    error   => LOG_ERR,
+    warning => LOG_WARNING,
+    info    => LOG_INFO,
+    debug   => LOG_DEBUG
 );
 
 sub new {

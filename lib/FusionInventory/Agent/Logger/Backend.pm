@@ -45,9 +45,9 @@ Can be one of:
 
 =item info
 
-=item error
+=item warning
 
-=item fault
+=item error
 
 =back
 
