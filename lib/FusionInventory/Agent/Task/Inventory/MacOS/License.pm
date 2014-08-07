@@ -14,6 +14,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
 
     # Adobe
     my @found = getAdobeLicenses(
@@ -26,8 +27,9 @@ sub doInventory {
     if ($params{scan_homedirs}) {
         push @transmitFiles, glob('/Users/*/Library/Preferences/com.panic.Transmit.plist');
     } else {
-        $self->{logger}->info(
-            "scan-homedirs disabled, won't scan user directories for licenses"
+        $logger->info(
+            "'scan-homedirs' configuration parameters disabled, " .
+            "ignoring transmit installations in user directories"
         );
     }
 
