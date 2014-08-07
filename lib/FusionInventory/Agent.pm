@@ -253,7 +253,7 @@ sub run {
                     eval {
                         $self->_runScheduledTasks($controller);
                     };
-                    $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+                    $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
                     exit(0);
                 }
             }
@@ -282,7 +282,7 @@ sub run {
             eval {
                 $self->_runScheduledTasks($controller);
             };
-            $self->{logger}->fault($EVAL_ERROR) if $EVAL_ERROR;
+            $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         }
     }
 }

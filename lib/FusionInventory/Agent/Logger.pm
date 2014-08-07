@@ -5,19 +5,19 @@ use warnings;
 use base qw/Exporter/;
 
 use constant {
-    LOG_DEBUG2 => 5,
-    LOG_DEBUG  => 4,
-    LOG_INFO   => 3,
-    LOG_ERROR  => 2,
-    LOG_FAULT  => 1,
-    LOG_NONE   => 0,
+    LOG_DEBUG2  => 5,
+    LOG_DEBUG   => 4,
+    LOG_INFO    => 3,
+    LOG_WARNING => 1,
+    LOG_ERROR   => 1,
+    LOG_NONE    => 0,
 };
 
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 
-our @EXPORT = qw/LOG_DEBUG2 LOG_DEBUG LOG_INFO LOG_ERROR LOG_FAULT LOG_NONE/;
+our @EXPORT = qw/LOG_DEBUG2 LOG_DEBUG LOG_INFO LOG_WARNING LOG_ERROR LOG_NONE/;
 
 sub new {
     my ($class, %params) = @_;
@@ -108,18 +108,18 @@ sub info {
     $self->_log(level => 'info', message => $message);
 }
 
+sub warning {
+    my ($self, $message) = @_;
+
+    return unless $self->{verbosity} >= LOG_WARNING;
+    $self->_log(level => 'warning', message => $message);
+}
+
 sub error {
     my ($self, $message) = @_;
 
     return unless $self->{verbosity} >= LOG_ERROR;
     $self->_log(level => 'error', message => $message);
-}
-
-sub fault {
-    my ($self, $message) = @_;
-
-    return unless $self->{verbosity} >= LOG_FAULT;
-    $self->_log(level => 'fault', message => $message);
 }
 
 1;
@@ -168,10 +168,10 @@ Add a log message with debug level.
 
 Add a log message with info level.
 
+=head2 warning($message)
+
+Add a log message with warning level.
+
 =head2 error($message)
 
 Add a log message with error level.
-
-=head2 fault($message)
-
-Add a log message with fault level.
