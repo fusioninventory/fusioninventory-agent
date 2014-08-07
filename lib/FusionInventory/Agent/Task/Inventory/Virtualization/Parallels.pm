@@ -19,8 +19,8 @@ sub doInventory {
 
     if (!$params{scan_homedirs}) {
         $logger->info(
-            "scan-homedirs disabled, won't scan user directories for " .
-            "parallels virtual machines"
+            "'scan-homedirs' configuration parameter disabled, " .
+            "ignoring parallels virtual machines in user directories"
         );
         return;
     }
