@@ -316,7 +316,7 @@ sub _scanAddress {
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
-    $logger->debug("thread $id: scanning $params{ip}");
+    $logger->debug("thread $id: scanning $params{ip}...");
 
     my %device = (
         $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : (),
@@ -330,10 +330,8 @@ sub _scanAddress {
 
     if ($device{MAC} || $device{DNSHOSTNAME} || $device{NETBIOSNAME}) {
         $device{IP}     = $params{ip};
-        $logger->debug("thread $id: device found for $params{ip}");
         return \%device;
     } else {
-        $logger->debug("thread $id: nothing found for $params{ip}");
         return;
     }
 }
@@ -345,11 +343,11 @@ sub _scanAddressByNmap {
         command => "nmap $params{nmap_parameters} $params{ip} -oX -"
     );
 
-    $self->{logger}->debug2(
+    $self->{logger}->debug(
         sprintf "thread %d: scanning %s with nmap: %s",
         threads->tid(),
         $params{ip},
-        $device ? 'device found' : 'nothing found'
+        $device ? 'success' : 'no result'
     );
 
     return $device ? %$device : ();
@@ -362,11 +360,11 @@ sub _scanAddressByNetbios {
 
     my $ns = $nb->node_status($params{ip});
 
-    $self->{logger}->debug2(
+    $self->{logger}->debug(
         sprintf "thread %d: scanning %s with netbios: %s",
         threads->tid(),
         $params{ip},
-        $ns ? 'device found' : 'nothing found'
+        $ns ? 'success' : 'no result'
     );
     return unless $ns;
 
@@ -409,7 +407,7 @@ sub _scanAddressBySNMP {
             threads->tid(),
             $params{ip},
             $credential->{ID},
-            %device ? 'device found' : 'nothing found'
+            %device ? 'success' : 'no result'
         );
 
         if (%device) {
