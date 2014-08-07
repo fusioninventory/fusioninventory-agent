@@ -452,6 +452,7 @@ sub _scanAddressBySNMPReal {
     return getDeviceInfo(
         snmp       => $snmp,
         datadir    => $self->{datadir},
+        logger     => $self->{logger},
     );
 }
 
