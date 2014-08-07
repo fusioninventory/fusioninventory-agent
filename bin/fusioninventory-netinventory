@@ -44,7 +44,7 @@ GetOptions(
     'credentials=s',
     'entity=s',
     'timeout=i',
-    'verbose',
+    'control',
     'debug+',
     'help',
     'version',
@@ -126,7 +126,7 @@ $inventory->{options} = {
 
 $inventory->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new(
-        verbose => $options->{verbose}
+        control => $options->{control}
     );
 # TODO: need to be dropped the day we will depend on agent >= 2.3.0
 $inventory->{deviceid} = 'foo';
@@ -139,7 +139,7 @@ sub new {
     my ($class, %params) = @_;
 
     return bless {
-        verbose => $params{verbose}
+        control => $params{control}
     }, $class;
 }
 
@@ -147,7 +147,7 @@ sub send {
     my ($self, %params) = @_;
 
     # don't display control message by default
-    return unless $self->{verbose}
+    return unless $self->{control}
         or $params{message}->{h}->{CONTENT}->{DEVICE};
 
     print $params{message}->getContent();
@@ -185,7 +185,7 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)
     --entity       GLPI entity
-    --verbose      verbose output (control messages)
+    --control      output control messages
     --debug        debug output (execution traces)
     -h --help      print this message and exit
     --version      print the task version and exit

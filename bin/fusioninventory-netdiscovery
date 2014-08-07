@@ -32,7 +32,7 @@ GetOptions(
     'entity=s',
     'threads=i',
     'timeout=i',
-    'verbose',
+    'control',
     'debug+',
     'help',
     'version'
@@ -108,7 +108,7 @@ if (defined($options->{entity})) {
 }
 $discovery->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new(
-        verbose => $options->{verbose}
+        control => $options->{control}
     );
 $discovery->{deviceid} = 'foo';
 
@@ -120,7 +120,7 @@ sub new {
     my ($class, %params) = @_;
 
     return bless {
-        verbose => $params{verbose}
+        control => $params{control}
     }, $class;
 }
 
@@ -128,7 +128,7 @@ sub send {
     my ($self, %params) = @_;
 
     # don't display control message by default
-    return unless $self->{verbose}
+    return unless $self->{control}
         or $params{message}->{h}->{CONTENT}->{DEVICE};
 
     print $params{message}->getContent();
