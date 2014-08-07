@@ -63,18 +63,6 @@ sub run {
         tag      => $self->{config}->{tag}
     );
 
-    if (not $self->{config}->{'scan-homedirs'}) {
-        $self->{logger}->debug(
-            "--scan-homedirs missing. Don't scan user directories"
-        );
-    }
-
-    if (not $self->{config}->{'scan-profiles'}) {
-        $self->{logger}->debug(
-            "--scan-profiles missing. Don't scan user profiles"
-        );
-    }
-
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
         $ENV{PATH} =

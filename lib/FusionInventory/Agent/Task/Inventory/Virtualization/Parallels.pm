@@ -8,10 +8,7 @@ use FusionInventory::Agent::Tools;
 sub isEnabled {
     my (%params) = @_;
 
-    # We don't want to scan user directories unless --scan-homedirs is used
-    return
-        canRun('prlctl') &&
-        $params{scan_homedirs};
+    return canRun('prlctl');
 }
 
 sub doInventory {
@@ -19,6 +16,14 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
+
+    if (!$params{scan_homedirs}) {
+        $logger->info(
+            "scan-homedirs disabled, won't scan user directories for " .
+            "parallels virtual machines"
+        );
+        return;
+    }
 
     foreach my $user ( glob("/Users/*") ) {
         $user =~ s/.*\///; # Just keep the login

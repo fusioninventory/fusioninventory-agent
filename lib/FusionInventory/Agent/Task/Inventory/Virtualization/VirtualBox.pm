@@ -9,6 +9,8 @@ use User::pwent;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
+    my (%params) = @_;
+
     return unless canRun('VBoxManage');
 
     my ($major, $minor) = getFirstMatch(
@@ -35,7 +37,13 @@ sub doInventory {
         );
     }
 
-    return unless $params{scan_homedirs} && $REAL_USER_ID == 0;
+    if (!$params{scan_homedirs}) {
+        $logger->info(
+            "scan-homedirs disabled, won't scan user directories for " .
+            "virtualbox virtual machines"
+        );
+        return;
+    }
 
     # assume all system users with a suitable homedir is an actual human user
     my $pattern = $OSNAME eq 'darwin' ?

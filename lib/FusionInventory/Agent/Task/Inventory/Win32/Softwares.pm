@@ -54,11 +54,18 @@ sub doInventory {
             inventory => $inventory,
             is64bit   => 1
         );
-        _loadUserSoftware(
-            inventory => $inventory,
-            is64bit   => 1,
-            logger    => $logger
-        ) if $params{scan_profiles};
+
+        if ($params{scan_profiles}) {
+            _loadUserSoftware(
+                inventory => $inventory,
+                is64bit   => 1,
+                logger    => $logger
+            );
+        } else {
+            $logger->info(
+                "scan-profiles disabled, won't scan user profiles for software"
+            );
+        }
 
         my $machKey32 = $Registry->Open('LMachine', {
             Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
