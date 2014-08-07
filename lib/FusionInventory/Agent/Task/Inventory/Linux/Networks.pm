@@ -44,9 +44,7 @@ sub _getInterfaces {
 
     my $logger = $params{logger};
 
-    my @interfaces = canRun('/sbin/ip') ?
-        getInterfacesFromIp(logger => $logger):
-        getInterfacesFromIfconfig(logger => $logger);
+    my @interfaces = _getInterfacesBase(logger => $logger);
 
     foreach my $interface (@interfaces) {
         if (_isWifi($logger, $interface->{DESCRIPTION})) {
@@ -75,6 +73,31 @@ sub _getInterfaces {
     }
 
     return @interfaces;
+}
+
+sub _getInterfacesBase {
+    my (%params) = @_;
+
+    my $logger = $params{logger};
+    $logger->debug("retrieving interfaces list...");
+
+    if (canRun('/sbin/ip')) {
+        my @interfaces = getInterfacesFromIp(logger => $logger);
+        _log_result($logger, 'running /sbin/ip command', @interfaces);
+        return @interfaces if @interfaces;
+    } else {
+        _log_unavailability($logger, '/sbin/ip command');
+    }
+
+    if (canRun('/sbin/ifconfig')) {
+        my @interfaces = getInterfacesFromIfconfig(logger => $logger);
+        _log_result($logger, 'running /sbin/ifconfig command', @interfaces);
+        return @interfaces if @interfaces;
+    } else {
+        _log_unavailability($logger, '/sbin/ifconfig command');
+    }
+
+    return;
 }
 
 # Handle slave devices (bonding)
@@ -146,6 +169,22 @@ sub _getUevent {
     close $handle;
 
     return ($driver, $pcislot);
+}
+
+sub _log_result {
+    my ($logger, $message, $result) = @_;
+    return unless $logger;
+    $logger->debug(
+        sprintf('%s: %s', $message, $result ? 'success' : 'no result')
+    );
+}
+
+sub _log_unavailability {
+    my ($logger, $message) = @_;
+    return unless $logger;
+    $logger->debug(
+        sprintf('%s not available', $message)
+    );
 }
 
 1;
