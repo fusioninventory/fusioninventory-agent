@@ -23,9 +23,8 @@ sub isEnabled {
     if ($EVAL_ERROR) {
         $params{logger}->debug(
             "Net::CUPS Perl module not available, unable to retrieve printers"
-        ) if $params{logger};
+        );
         return 0;
-
     }
 
     if ($Net::CUPS::VERSION < 0.60) {
@@ -33,7 +32,7 @@ sub isEnabled {
             "Net::CUPS Perl module too old " .
             "(available: $Net::CUPS::VERSION, required: 0.60), ".
             "unable to retrieve printers"
-        ) if $params{logger};
+        );
         return 0;
     }
 
