@@ -55,7 +55,12 @@ sub _getEdidInfo {
     my (%params) = @_;
 
     Parse::EDID->require();
-    return if $EVAL_ERROR;
+    if ($EVAL_ERROR) {
+        $params{logger}->debug(
+            "Parse::EDID Perl module not available, unable to parse EDID data"
+        ) if $params{logger};
+        return;
+    }
 
     my $edid = Parse::EDID::parse_edid($params{edid});
     if (my $error = Parse::EDID::check_parsed_edid($edid)) {
