@@ -9,9 +9,7 @@ use FusionInventory::Agent::Tools::Unix;
 use FusionInventory::Agent::Tools::Linux;
 
 sub isEnabled {
-    return
-        canRun('ifconfig') ||
-        canRun('ip');
+    return 1;
 }
 
 sub doInventory {
