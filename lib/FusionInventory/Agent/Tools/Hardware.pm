@@ -712,7 +712,7 @@ sub _setGenericProperties {
         next unless $value;
         # safety checks
         if (! exists $ports->{$value}) {
-            $logger->error(
+            $logger->warning(
                 "unknown interface $value for IP address $suffix, ignoring"
             ) if $logger;
             next;
@@ -1130,7 +1130,7 @@ sub _setConnectedDevices {
         foreach my $interface_id (keys %$lldp_info) {
             # safety check
             if (! exists $ports->{$interface_id}) {
-                $logger->error(
+                $logger->warning(
                     "unknown interface $interface_id in LLDP info, ignoring"
                 ) if $logger;
                 next;
@@ -1151,7 +1151,7 @@ sub _setConnectedDevices {
         foreach my $interface_id (keys %$cdp_info) {
             # safety check
             if (! exists $ports->{$interface_id}) {
-                $logger->error(
+                $logger->warning(
                     "unknown interface $interface_id in CDP info, ignoring"
                 ) if $logger;
                 next;
@@ -1169,7 +1169,7 @@ sub _setConnectedDevices {
                     }
                 } else {
                     # undecidable situation
-                    $logger->error(
+                    $logger->warning(
                         "multiple neighbors found by LLDP and CDP for " .
                         "interface $interface_id, ignoring"
                     );
@@ -1189,7 +1189,7 @@ sub _setConnectedDevices {
         foreach my $interface_id (keys %$edp_info) {
             # safety check
             if (! exists $ports->{$interface_id}) {
-                $logger->error(
+                $logger->warning(
                     "unknown interface $interface_id in EDP info, ignoring"
                 ) if $logger;
                 next;
@@ -1207,7 +1207,7 @@ sub _setConnectedDevices {
                     }
                 } else {
                     # undecidable situation
-                    $logger->error(
+                    $logger->warning(
                         "multiple neighbors found by LLDP and EDP for " .
                         "interface $interface_id, ignoring"
                     );
@@ -1328,7 +1328,7 @@ sub _getCDPInfo {
         # warning: multiple neighbors announcement for the same interface
         # usually means a non-CDP aware intermediate equipement
         if ($results->{$interface_id}) {
-            $logger->error(
+            $logger->warning(
                 "multiple neighbors found by CDP for interface $interface_id," .
                 " ignoring"
             );
@@ -1383,7 +1383,7 @@ sub _getEDPInfo {
         # warning: multiple neighbors announcement for the same interface
         # usually means a non-EDP aware intermediate equipement
         if ($results->{$interface_id}) {
-            $logger->error(
+            $logger->warning(
                 "multiple neighbors found by EDP for interface $interface_id," .
                 " ignoring"
             );
@@ -1539,7 +1539,7 @@ sub _setAggregatePorts {
         foreach my $interface_id (keys %$lacp_info) {
             # safety check
             if (!$ports->{$interface_id}) {
-                $logger->error(
+                $logger->warning(
                     "unknown interface $interface_id in LACP info, ignoring"
                 ) if $logger;
                 next;
