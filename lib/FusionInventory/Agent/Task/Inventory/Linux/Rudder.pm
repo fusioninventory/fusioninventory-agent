@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
 
