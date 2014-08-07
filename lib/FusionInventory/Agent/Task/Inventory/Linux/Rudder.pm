@@ -6,10 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-
-    #If you can read /opt/rudder/etc/uuid.hive then you can do that inventory
-    return
-        canRead("/opt/rudder/etc/uuid.hive");
+    return -r '/opt/rudder/etc/uuid.hive';
 }
 
 sub doInventory {
