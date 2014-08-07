@@ -4,18 +4,38 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     my (%params) = @_;
 
-    return
-        # we use system profiler on MacOS
-        $OSNAME ne 'darwin' &&
-        !$params{no_category}->{printer} &&
-        canLoad("Net::CUPS") &&
-        $Net::CUPS::VERSION >= 0.60;
+    return 0 if $params{no_category}->{printer};
+
+    # we use system profiler on MacOS
+    return 0 if $OSNAME eq 'darwin';
+
+    # we use WMI on Windows
+    return 0 if $OSNAME eq 'MSWin32';
+
+    Net::CUPS->require();
+    if ($EVAL_ERROR) {
+        $params{logger}->debug(
+            "Net::CUPS Perl module not available, unable to retrieve printers"
+        ) if $params{logger};
+        return 0;
+
+    }
+
+    if ($Net::CUPS::VERSION < 0.60) {
+        $params{logger}->debug(
+            "Net::CUPS Perl module too old, unable to retrieve printers"
+        ) if $params{logger};
+        return 0;
+    }
+
+    return 1;
 }
 
 sub doInventory {
