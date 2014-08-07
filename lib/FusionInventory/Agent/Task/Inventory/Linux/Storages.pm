@@ -28,10 +28,7 @@ sub _getDevices {
 
     my $logger    = $params{logger};
 
-    # get devices list from hal, if available, from sysfs otherwise
-    my @devices = canRun('lshal') ?
-        getDevicesFromHal(logger => $logger) :
-        getDevicesFromProc(logger => $logger);
+    my @devices = _getDevicesBase(logger => $logger);
 
     # complete with udev for missing bits, if available
     if (-d '/dev/.udev/db/') {
@@ -109,6 +106,31 @@ sub _getDevices {
     }
 
     return @devices;
+}
+
+sub _getDevicesBase {
+    my (%params) = @_;
+
+    my $logger = $params{logger};
+    $logger->debug("retrieving devices list...");
+
+    if (canRun('/usr/bin/lshal')) {
+        my @devices = getDevicesFromHal(logger => $logger);
+        $logger->debug_result('running /usr/bin/lshal command', @devices);
+        return @devices if @devices;
+    } else {
+        $logger->debug_absence('/usr/bin/lshal command');
+    }
+
+    if (-d '/sys/block') {
+        my @devices = getDevicesFromProc(logger => $logger);
+        $logger->debug_result('reading /sys/block content', @devices);
+        return @devices if @devices;
+    } else {
+        $logger->debug_absence('/sys/block directory');
+    }
+
+    return;
 }
 
 sub _getDescription {
