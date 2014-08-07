@@ -167,27 +167,27 @@ sub _getScreensFromUnix {
         no warnings 'File::Find';
         File::Find::find($wanted, '/sys/devices');
 
-        _log_result($logger, 'reading /sys/devices content', @screens);
+        $logger->debug_result('reading /sys/devices content', @screens);
 
         return @screens if @screens;
     } else {
-        _log_unavailability($logger, '/sys/devices directory');
+        $logger->debug_absence('/sys/devices directory');
     }
 
     if (canRun('monitor-get-edid-using-vbe')) {
         my $edid = getAllLines(command => 'monitor-get-edid-using-vbe');
-        _log_result($logger, 'running monitor-get-edid-using-vbe command', $edid);
+        $logger->debug_result('running monitor-get-edid-using-vbe command', $edid);
         return { edid => $edid } if $edid;
     } else {
-        _log_unavailability($logger, 'monitor-get-edid-using-vbe command');
+        $logger->debug_absence('monitor-get-edid-using-vbe command');
     }
 
     if (canRun('monitor-get-edid')) {
         my $edid = getAllLines(command => 'monitor-get-edid');
-        _log_result($logger, 'running monitor-get-edid command', $edid);
+        $logger->debug_result('running monitor-get-edid command', $edid);
         return { edid => $edid } if $edid;
     } else {
-        _log_unavailability($logger, 'monitor-get-edid command');
+        $logger->debug_absence('monitor-get-edid command');
     }
 
     if (canRun('get-edid')) {
@@ -196,10 +196,10 @@ sub _getScreensFromUnix {
             $edid = getFirstLine(command => 'get-edid');
             last if $edid;
         }
-        _log_result($logger, 'running get-edid command', $edid);
+        $logger->debug_result('running get-edid command', $edid);
         return { edid => $edid } if $edid;
     } else {
-        _log_unavailability($logger, 'get-edid command');
+        $logger->debug_absence('get-edid command');
     }
 
     return;
@@ -231,22 +231,6 @@ sub _getScreens {
     }
 
     return @screens;
-}
-
-sub _log_result {
-    my ($logger, $message, $result) = @_;
-    return unless $logger;
-    $logger->debug(
-        sprintf('%s: %s', $message, $result ? 'success' : 'no result')
-    );
-}
-
-sub _log_unavailability {
-    my ($logger, $message) = @_;
-    return unless $logger;
-    $logger->debug(
-        sprintf('%s not available', $message)
-    );
 }
 
 1;

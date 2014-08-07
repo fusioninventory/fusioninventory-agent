@@ -81,18 +81,18 @@ sub _getInterfacesBase {
 
     if (canRun('/sbin/ip')) {
         my @interfaces = getInterfacesFromIp(logger => $logger);
-        _log_result($logger, 'running /sbin/ip command', @interfaces);
+        $logger->debug_result('running /sbin/ip command', @interfaces);
         return @interfaces if @interfaces;
     } else {
-        _log_unavailability($logger, '/sbin/ip command');
+        $logger->debug_absence($logger, '/sbin/ip command');
     }
 
     if (canRun('/sbin/ifconfig')) {
         my @interfaces = getInterfacesFromIfconfig(logger => $logger);
-        _log_result($logger, 'running /sbin/ifconfig command', @interfaces);
+        $logger->debug_result('running /sbin/ifconfig command', @interfaces);
         return @interfaces if @interfaces;
     } else {
-        _log_unavailability($logger, '/sbin/ifconfig command');
+        $logger->debug_absence('/sbin/ifconfig command');
     }
 
     return;
@@ -167,22 +167,6 @@ sub _getUevent {
     close $handle;
 
     return ($driver, $pcislot);
-}
-
-sub _log_result {
-    my ($logger, $message, $result) = @_;
-    return unless $logger;
-    $logger->debug(
-        sprintf('%s: %s', $message, $result ? 'success' : 'no result')
-    );
-}
-
-sub _log_unavailability {
-    my ($logger, $message) = @_;
-    return unless $logger;
-    $logger->debug(
-        sprintf('%s not available', $message)
-    );
 }
 
 1;
