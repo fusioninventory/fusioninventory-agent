@@ -118,11 +118,6 @@ sub _getScreensFromWindows {
     my (%params) = @_;
 
     FusionInventory::Agent::Tools::Win32->use();
-    if ($EVAL_ERROR) {
-        print
-            "Failed to load FusionInventory::Agent::Tools::Win32: $EVAL_ERROR";
-        return;
-    }
 
     my @screens;
 
