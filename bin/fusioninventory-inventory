@@ -85,6 +85,7 @@ fusioninventory-inventory [options]
     --scan-homedirs                scan use home directories (false)
     --scan-profiles                scan user profiles (false)
     --html                         save the inventory as HTML (false)
+    --no-category=CATEGORY         do not list given category items
     -t --tag=TAG                   mark the machine with given tag
     --backend-collect-timeout=TIME timeout for inventory modules
                                      execution (30)
