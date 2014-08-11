@@ -240,6 +240,11 @@ sub _checkContent {
         die "use either 'ca-cert-file' or 'ca-cert-dir' option, not both\n";
     }
 
+    # logger backend without a logfile isn't enoguh
+    if ($self->{'logger'} =~ /file/i && ! $self->{'logfile'}) {
+        die "usage of 'file' logger backend makes 'logfile' option mandatory\n";
+    }
+
     # multi-values options, the default separator is a ','
     foreach my $option (qw/
             logger
