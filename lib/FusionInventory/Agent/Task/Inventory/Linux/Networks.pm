@@ -54,23 +54,35 @@ sub _getInterfaces {
             $interface->{DESCRIPTION}
         );
 
-        if (_isWifi($logger, $interface->{DESCRIPTION})) {
+        # check if it is a physical interface
+        if (-d "/sys/class/net/$interface->{DESCRIPTION}/device") {
+            my ($driver, $pcislot) = _getUevent(
+                $interface->{DESCRIPTION}
+            );
+            $interface->{DRIVER} = $driver if $driver;
+            $interface->{PCISLOT} = $pcislot if $pcislot;
+        }
+
+        # check if it is a wifi interface
+        if (-d "/sys/class/net/$interface->{DESCRIPTION}/wireless") {
             $interface->{TYPE} = "wifi";
         }
 
-        my ($driver, $pcislot) = _getUevent(
-            $interface->{DESCRIPTION}
-        );
-        $interface->{DRIVER} = $driver if $driver;
-        $interface->{PCISLOT} = $pcislot if $pcislot;
+        # check if is is a bridge
+        if (-d "/sys/class/net/$interface->{DESCRIPTION}/brif") {
+            $interface->{VIRTUALDEV} = 1;
+        }
 
-        $interface->{VIRTUALDEV} = _isVirtual(
-            logger => $logger,
-            name   => $interface->{DESCRIPTION},
-            slot   => $interface->{PCISLOT}
-        );
+        # check if it is a bond
+        if (-d "/sys/class/net/$interface->{DESCRIPTION}/bonding") {
+            $interface->{SLAVES}     = _getSlaves($interface->{DESCRIPTION});
+            $interface->{VIRTUALDEV} = 1;
+        }
 
-        $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
+        # check if it is a virtual interface
+        if (-d "/sys/devices/virtual/net/$interface->{DESCRIPTION}") {
+            $interface->{VIRTUALDEV} = 1;
+        }
     }
 
     return @interfaces;
@@ -101,7 +113,6 @@ sub _getInterfacesBase {
     return;
 }
 
-# Handle slave devices (bonding)
 sub _getSlaves {
     my ($name) = @_;
 
@@ -113,46 +124,6 @@ sub _getSlaves {
     }
 
     return join (",", @slaves);
-}
-
-# Handle virtual devices (bridge)
-sub _isVirtual {
-    my (%params) = @_;
-
-    return 0 if $params{slot};
-
-    if (-d "/sys/devices/virtual/net/") {
-        return -d "/sys/devices/virtual/net/$params{name}";
-    }
-
-    if (canRun('brctl')) {
-        # Let's guess
-        my %bridge;
-        my $handle = getFileHandle(
-            logger => $params{logger},
-            command => 'brctl show'
-        );
-        my $line = <$handle>;
-        while (my $line = <$handle>) {
-            next unless $line =~ /^(\w+)\s/;
-            $bridge{$1} = 1;
-        }
-        close $handle;
-
-        return defined $bridge{$params{name}};
-    }
-
-    return 0;
-}
-
-sub _isWifi {
-    my ($logger, $name) = @_;
-
-    my $count = getLinesCount(
-        logger  => $logger,
-        command => "/sbin/iwconfig $name"
-    );
-    return $count > 2;
 }
 
 sub _getUevent {
