@@ -88,11 +88,20 @@ sub _getInterfaces {
             $interface->{VIRTUALDEV} = 1;
         }
 
-        # check if it is a bond
+        # check if it is a bonding master
         if (-d "/sys/class/net/$interface->{DESCRIPTION}/bonding") {
             $interface->{SLAVES}     = _getSlaves($interface->{DESCRIPTION});
             $interface->{TYPE}       = 'aggregate';
             $interface->{VIRTUALDEV} = 1;
+        }
+
+        # check if it is a bonding slave
+        if (-d "/sys/class/net/$interface->{DESCRIPTION}/bonding_slave") {
+            $interface->{MACADDR} = getFirstMatch(
+                command => "ethtool -P $interface->{DESCRIPTION}",
+                pattern => qr/^Permanent address: ($mac_address_pattern)$/,
+                logger  => $logger
+            );
         }
 
         # check if it is a virtual interface
