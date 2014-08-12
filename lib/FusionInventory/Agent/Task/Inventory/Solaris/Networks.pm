@@ -59,6 +59,11 @@ sub _getInterfaces {
     );
 
     foreach my $interface (@interfaces) {
+        $interface->{IPSUBNET} = getSubnetAddress(
+            $interface->{IPADDRESS},
+            $interface->{IPMASK}
+        );
+
         if ($interface->{DESCRIPTION} =~ /^(\S+)(\d+)/) {
             my $nic = $1;
             my $num = $2;
@@ -73,11 +78,6 @@ sub _getInterfaces {
                 $nic =~ /e1000g/ ? _check_ce_nic($nic, $num)   :
                                    _check_nic($nic, $num);
         }
-
-        $interface->{IPSUBNET} = getSubnetAddress(
-            $interface->{IPADDRESS},
-            $interface->{IPMASK}
-        );
     }
 
     my $zone = getZone();

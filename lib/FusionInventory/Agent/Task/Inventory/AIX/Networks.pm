@@ -19,7 +19,6 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # set list of network interfaces
     my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
     my @interfaces = _getInterfaces(logger => $logger);
 
@@ -80,13 +79,14 @@ sub _getInterfaces {
     }
 
     foreach my $interface (@interfaces) {
-        $interface->{STATUS} = "Down" unless $interface->{IPADDRESS};
-        $interface->{IPDHCP} = "No";
-
         $interface->{IPSUBNET} = getSubnetAddress(
             $interface->{IPADDRESS},
             $interface->{IPMASK},
         );
+
+        $interface->{STATUS} = "Down" unless $interface->{IPADDRESS};
+        $interface->{IPDHCP} = "No";
+
     }
 
     return @interfaces;
