@@ -54,17 +54,6 @@ sub _getInterfaces {
             $interface->{DESCRIPTION}
         );
 
-        ($interface->{TYPE}, $interface->{VIRTUALDEV}) =
-            $interface->{DESCRIPTION} eq 'lo'      ? ('loopback', 1) :
-            $interface->{DESCRIPTION} =~ m/^ppp/   ? ('dialup'  , 1) :
-                                                     ('ethernet', 0) ;
-
-        # check if it is an alias or a tagged interface
-         if ($interface->{DESCRIPTION} =~ m/^([\w\d]+)[:.]\d+$/) {
-            $interface->{TYPE} = 'alias';
-            $interface->{BASE} = $1;
-         }
-
         # check if it is a physical interface
         if (-d "/sys/class/net/$interface->{DESCRIPTION}/device") {
             my ($driver, $pcislot) = _getUevent(
@@ -72,25 +61,43 @@ sub _getInterfaces {
             );
             $interface->{DRIVER} = $driver if $driver;
             $interface->{PCISLOT} = $pcislot if $pcislot;
-        }
 
-        # check if it is a wifi interface
-        if (-d "/sys/class/net/$interface->{DESCRIPTION}/wireless") {
-            $interface->{TYPE} = "wifi";
-        }
+            $interface->{VIRTUALDEV} = 0;
 
-        # check if is is a bridge
-        if (-d "/sys/class/net/$interface->{DESCRIPTION}/brif") {
-            $interface->{SLAVES}     = _getSlaves($interface->{DESCRIPTION});
-            $interface->{TYPE}       = 'bridge';
+            # check if it is a wifi interface, otherwise assume ethernet
+            if (-d "/sys/class/net/$interface->{DESCRIPTION}/wireless") {
+                $interface->{TYPE} = 'wifi';
+            } else {
+                $interface->{TYPE} = 'ethernet';
+            }
+
+        } else {
             $interface->{VIRTUALDEV} = 1;
-        }
 
-        # check if it is a bonding master
-        if (-d "/sys/class/net/$interface->{DESCRIPTION}/bonding") {
-            $interface->{SLAVES}     = _getSlaves($interface->{DESCRIPTION});
-            $interface->{TYPE}       = 'aggregate';
-            $interface->{VIRTUALDEV} = 1;
+            if ($interface->{DESCRIPTION} eq 'lo') {
+                $interface->{TYPE} = 'loopback';
+            }
+
+            if ($interface->{DESCRIPTION} =~ m/^ppp/) {
+                $interface->{TYPE} = 'dialup';
+            }
+
+            # check if it is an alias or a tagged interface
+            if ($interface->{DESCRIPTION} =~ m/^([\w\d]+)[:.]\d+$/) {
+                $interface->{TYPE} = 'alias';
+                $interface->{BASE} = $1;
+             }
+            # check if is is a bridge
+            if (-d "/sys/class/net/$interface->{DESCRIPTION}/brif") {
+                $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
+                $interface->{TYPE}   = 'bridge';
+            }
+
+            # check if it is a bonding master
+            if (-d "/sys/class/net/$interface->{DESCRIPTION}/bonding") {
+                $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
+                $interface->{TYPE}   = 'aggregate';
+            }
         }
 
         # check if it is a bonding slave
