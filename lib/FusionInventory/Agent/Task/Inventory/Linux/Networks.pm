@@ -98,6 +98,12 @@ sub _getInterfaces {
         if (-d "/sys/devices/virtual/net/$interface->{DESCRIPTION}") {
             $interface->{VIRTUALDEV} = 1;
         }
+
+        if (-r "/sys/class/net/$interface->{DESCRIPTION}/speed") {
+            $interface->{SPEED} = getFirstLine(
+                file => "/sys/class/net/$interface->{DESCRIPTION}/speed"
+            );
+        }
     }
 
     return @interfaces;
