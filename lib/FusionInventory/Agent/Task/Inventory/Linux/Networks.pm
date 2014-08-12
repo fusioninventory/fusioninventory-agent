@@ -57,9 +57,13 @@ sub _getInterfaces {
         ($interface->{TYPE}, $interface->{VIRTUALDEV}) =
             $interface->{DESCRIPTION} eq 'lo'      ? ('loopback', 1) :
             $interface->{DESCRIPTION} =~ m/^ppp/   ? ('dialup'  , 1) :
-            $interface->{DESCRIPTION} =~ m/:\d+$/  ? ('alias'   , 1) :
-            $interface->{DESCRIPTION} =~ m/\.\d+$/ ? ('alias'   , 1) :
                                                      ('ethernet', 0) ;
+
+        # check if it is an alias or a tagged interface
+         if ($interface->{DESCRIPTION} =~ m/^([\w\d]+)[:.]\d+$/) {
+            $interface->{TYPE} = 'alias';
+            $interface->{BASE} = $1;
+         }
 
         # check if it is a physical interface
         if (-d "/sys/class/net/$interface->{DESCRIPTION}/device") {

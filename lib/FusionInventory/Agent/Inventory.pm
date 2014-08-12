@@ -34,7 +34,7 @@ my %fields = (
                         IPDHCP IPGATEWAY IPMASK IPMASK6 IPSUBNET IPSUBNET6
                         MANAGEMENT MANUFACTURER MACADDR MODEL MTU PCISLOT
                         PNPDEVICEID STATUS SLAVES SPEED SSID TYPE VIRTUALDEV
-                        WWN/ ],
+                        WWN BASE/ ],
     PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
     PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
     REGISTRY    => [ qw/NAME REGVALUE HIVE/ ],
