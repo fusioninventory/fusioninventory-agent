@@ -83,7 +83,7 @@ sub _getInterfaces {
 
         # check if is is a bridge
         if (-d "/sys/class/net/$interface->{DESCRIPTION}/brif") {
-            $interface->{SLAVES}     = _getBridgeSlaves($interface->{DESCRIPTION});
+            $interface->{SLAVES}     = _getSlaves($interface->{DESCRIPTION});
             $interface->{TYPE}       = 'bridge';
             $interface->{VIRTUALDEV} = 1;
         }
@@ -138,24 +138,9 @@ sub _getInterfacesBase {
 sub _getSlaves {
     my ($name) = @_;
 
-    my @slaves = ();
-    while (my $slave = glob("/sys/class/net/$name/slave_*")) {
-        if ($slave =~ /\/slave_(\w+)/) {
-            push(@slaves, $1);
-        }
-    }
-
-    return join (",", @slaves);
-}
-
-sub _getBridgeSlaves {
-    my ($name) = @_;
-
-    my @slaves;
-    while (my $slave = glob("/sys/class/net/$name/brif/*")) {
-        next unless $slave =~ /\/(\w+)$/;
-        push(@slaves, $1);
-    }
+    my @slaves =
+        map { $_ =~ /\/lower_(\w+)$/ }
+        glob("/sys/class/net/$name/lower_*");
 
     return join (",", @slaves);
 }
