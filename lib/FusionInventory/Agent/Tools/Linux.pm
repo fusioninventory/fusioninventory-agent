@@ -397,7 +397,7 @@ sub getInterfacesFromIp {
     my (@interfaces, @addresses, $interface);
 
     while (my $line = <$handle>) {
-        if ($line =~ /^\d+:\s+(\S+): <([^>]+)>(.*)/) {
+        if ($line =~ /^\d+:\s+(\S+): <([^>]+)>/) {
 
             if (@addresses) {
                 push @interfaces, @addresses;
@@ -406,21 +406,14 @@ sub getInterfacesFromIp {
                 push @interfaces, $interface;
             }
 
+            my ($name, $flags) = ($1, $2);
+            my $status =
+                (any { $_ eq 'UP' } split(/,/, $flags)) ? 'Up' : 'Down';
+
             $interface = {
-                DESCRIPTION => $1
+                DESCRIPTION => $name,
+                STATUS      => $status
             };
-
-            my $flags = $2;
-            my $remaining = $3;
-
-            if ($remaining =~ /state DOWN /) {
-                $interface->{STATUS} = 'Down';
-            } else {
-                foreach my $flag (split(/,/, $flags)) {
-                    next unless $flag eq 'UP' || $flag eq 'DOWN';
-                    $interface->{STATUS} = ucfirst(lc($flag));
-                }
-            }
         } elsif ($line =~ /link\/\S+ ($any_mac_address_pattern)?/) {
             $interface->{MACADDR} = $1;
         } elsif ($line =~ /inet6 (\S+)\/(\d{1,2})/) {
