@@ -18,7 +18,6 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # get the list of network interfaces
     my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
     my @interfaces = _getInterfaces(logger => $logger);
 
@@ -45,14 +44,19 @@ sub _getInterfaces {
     my @interfaces = _getInterfacesBase(logger => $logger);
 
     foreach my $interface (@interfaces) {
-        if (_isWifi($logger, $interface->{DESCRIPTION})) {
-            $interface->{TYPE} = "wifi";
-        }
-
         $interface->{IPSUBNET} = getSubnetAddress(
             $interface->{IPADDRESS},
             $interface->{IPMASK}
         );
+
+        $interface->{IPDHCP} = getIpDhcp(
+            $logger,
+            $interface->{DESCRIPTION}
+        );
+
+        if (_isWifi($logger, $interface->{DESCRIPTION})) {
+            $interface->{TYPE} = "wifi";
+        }
 
         my ($driver, $pcislot) = _getUevent(
             $interface->{DESCRIPTION}
@@ -66,7 +70,6 @@ sub _getInterfaces {
             slot   => $interface->{PCISLOT}
         );
 
-        $interface->{IPDHCP} = getIpDhcp($logger, $interface->{DESCRIPTION});
         $interface->{SLAVES} = _getSlaves($interface->{DESCRIPTION});
     }
 

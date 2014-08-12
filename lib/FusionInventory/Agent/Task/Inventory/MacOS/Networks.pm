@@ -19,7 +19,6 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # set list of network interfaces
     my $routes = getRoutingTable(logger => $logger);
     my @interfaces = _getInterfaces(logger => $logger);
 

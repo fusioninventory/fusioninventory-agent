@@ -50,12 +50,13 @@ sub _getInterfaces {
             $interface->{IPMASK}
         );
 
+        $interface->{IPDHCP} = getIpDhcp(
+            $params{logger},
+            $interface->{DESCRIPTION}
+        );
+
         $interface->{VIRTUALDEV} =
             $interface->{DESCRIPTION} =~ /^(lo|vboxnet|vmnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)\d+$/;
-
-        $interface->{IPDHCP} = getIpDhcp(
-            $params{logger}, $interface->{DESCRIPTION}
-        );
     }
 
     return @interfaces;
