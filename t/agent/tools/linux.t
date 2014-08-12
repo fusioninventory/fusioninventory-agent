@@ -717,188 +717,188 @@ my %ifconfig_tests = (
 my %ipaddrshow_tests = (
     'ip_addr-1' => [
         {
-            IPSUBNET    => '127.0.0.0',
-            IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo',
+            MACADDR     => '00:00:00:00:00:00',
             STATUS      => 'Up',
             IPADDRESS   => '127.0.0.1',
-            MACADDR     => '00:00:00:00:00:00',
+            IPSUBNET    => '127.0.0.0',
+            IPMASK      => '255.0.0.0',
         },
         {
             DESCRIPTION => 'lo',
+            MACADDR     => '00:00:00:00:00:00',
             STATUS      => 'Up',
             IPADDRESS6  => '::1',
-            IPMASK6     => 'fff0::',
             IPSUBNET6   => '::',
-            MACADDR     => '00:00:00:00:00:00',
+            IPMASK6     => 'fff0::',
         },
         {
+            DESCRIPTION => 'eth0',
+            STATUS      => 'Up',
+            MACADDR     => '00:23:18:91:db:8d',
+            IPADDRESS   => '192.168.0.10',
             IPSUBNET    => '192.168.0.0',
             IPMASK      => '255.255.255.0',
-            MACADDR     => '00:23:18:91:db:8d',
-            DESCRIPTION => 'eth0',
-            STATUS      => 'Up',
-            IPADDRESS   => '192.168.0.10'
         },
         {
-            MACADDR     => '00:23:18:91:db:8d',
             DESCRIPTION => 'eth0',
+            MACADDR     => '00:23:18:91:db:8d',
             STATUS      => 'Up',
             IPADDRESS6  => '2a01:e34:ef9c:64d0:223:18ff:fe91:db8d',
+            IPSUBNET6   => '2a01:e34:ef9c:64d0::',
             IPMASK6     => 'ffff:ffff:ffff:ffff::',
-            IPSUBNET6   => '2a01:e34:ef9c:64d0::'
         },
         {
-            MACADDR     => '00:23:18:91:db:8d',
             DESCRIPTION => 'eth0',
+            MACADDR     => '00:23:18:91:db:8d',
             STATUS      => 'Up',
             IPADDRESS6  => 'fe80::223:18ff:fe91:db8d',
+            IPSUBNET6   => 'fe80::',
             IPMASK6     => 'ffff:ffff:ffff:ffff::',
-            IPSUBNET6   => 'fe80::'
         },
         {
-            STATUS      => 'Up',
             DESCRIPTION => 'tun0',
+            MACADDR     => undef,
+            STATUS      => 'Up',
             IPADDRESS   => '192.168.41.6',
             IPSUBNET    => undef,
             IPMASK      => undef,
-            MACADDR     => undef
         },
         {
-            STATUS      => 'Up',
             DESCRIPTION => 'tun1',
+            MACADDR     => undef,
+            STATUS      => 'Up',
             IPADDRESS   => '192.168.222.14',
             IPSUBNET    => undef,
             IPMASK      => undef,
-            MACADDR     => undef
         },
         {
-            STATUS      => 'Up',
             DESCRIPTION => 'wlan0',
-            MACADDR     => 'e8:39:df:3f:7d:ef'
+            MACADDR     => 'e8:39:df:3f:7d:ef',
+            STATUS      => 'Up',
         },
         {
+            DESCRIPTION => 'tap0',
+            MACADDR     => '8a:84:99:29:46:05',
+            STATUS      => 'Up',
+            IPADDRESS   => '172.28.218.101',
             IPSUBNET    => '172.28.218.0',
             IPMASK      => '255.255.255.0',
-            MACADDR     => '8a:84:99:29:46:05',
-            DESCRIPTION => 'tap0',
-            STATUS      => 'Up',
-            IPADDRESS   => '172.28.218.101'
         },
         {
-            MACADDR     => '8a:84:99:29:46:05',
             DESCRIPTION => 'tap0',
+            MACADDR     => '8a:84:99:29:46:05',
             STATUS      => 'Up',
             IPADDRESS6  => 'fe80::8884:99ff:fe29:4605',
+            IPSUBNET6   => 'fe80::',
             IPMASK6     => 'ffff:ffff:ffff:ffff::',
-            IPSUBNET6   => 'fe80::'
         }
     ],
     'ip_addr-2' => [
         {
-            IPSUBNET    => '127.0.0.0',
-            IPMASK      => '255.0.0.0',
             DESCRIPTION => 'lo',
+            MACADDR     => '00:00:00:00:00:00',
             STATUS      => 'Up',
             IPADDRESS   => '127.0.0.1',
-            MACADDR     => '00:00:00:00:00:00',
+            IPSUBNET    => '127.0.0.0',
+            IPMASK      => '255.0.0.0',
         },
         {
             DESCRIPTION => 'lo',
+            MACADDR     => '00:00:00:00:00:00',
             STATUS      => 'Up',
             IPADDRESS6  => '::1',
-            IPMASK6     => 'fff0::',
             IPSUBNET6   => '::',
-            MACADDR     => '00:00:00:00:00:00',
+            IPMASK6     => 'fff0::',
         },
         {
+            DESCRIPTION => 'eth0',
+            MACADDR     => '0f:0f:0f:0f:0f:0f',
+            STATUS      => 'Up',
+            IPADDRESS   => '11.11.11.11',
             IPSUBNET    => '11.11.11.0',
             IPMASK      => '255.255.255.128',
-            MACADDR     => '0f:0f:0f:0f:0f:0f',
-            DESCRIPTION => 'eth0',
-            STATUS      => 'Up',
-            IPADDRESS   => '11.11.11.11'
         },
         {
+            DESCRIPTION => 'eth0',
+            MACADDR     => '0f:0f:0f:0f:0f:0f',
+            STATUS      => 'Up',
+            IPADDRESS   => '172.16.0.201',
             IPSUBNET    => '172.16.0.0',
             IPMASK      => '255.255.128.0',
-            MACADDR     => '0f:0f:0f:0f:0f:0f',
-            DESCRIPTION => 'eth0',
-            STATUS      => 'Up',
-            IPADDRESS   => '172.16.0.201'
         },
         {
-            MACADDR     => '0f:0f:0f:0f:0f:0f',
             DESCRIPTION => 'eth0',
+            MACADDR     => '0f:0f:0f:0f:0f:0f',
             STATUS      => 'Up',
             IPADDRESS6  => 'fe80::201:29ff:fed1:feb4',
+            IPSUBNET6   => 'fe80::',
             IPMASK6     => 'ffff:ffff:ffff:ffff::',
-            IPSUBNET6   => 'fe80::'
         },
         {
-            STATUS      => 'Down',
             DESCRIPTION => 'eql',
-            MACADDR     => undef
-        },
-        {
+            MACADDR     => undef,
             STATUS      => 'Down',
-            DESCRIPTION => 'sit0',
-            MACADDR     => undef
         },
         {
-            STATUS      => 'Up',
+            DESCRIPTION => 'sit0',
+            MACADDR     => undef,
+            STATUS      => 'Down',
+        },
+        {
             DESCRIPTION => 'wlan0',
-            MACADDR     => '0f:0f:0f:0f:0f:0f'
+            MACADDR     => '0f:0f:0f:0f:0f:0f',
+            STATUS      => 'Up',
         }
     ],
     # RHEL 5.6
     'ip_addr-3' => [
         {
+            DESCRIPTION => 'lo',
+            MACADDR     => '00:00:00:00:00:00',
+            STATUS      => 'Up',
             IPSUBNET    => '127.0.0.0',
             IPMASK      => '255.0.0.0',
-            DESCRIPTION => 'lo',
-            STATUS      => 'Up',
             IPADDRESS   => '127.0.0.1',
-            MACADDR     => '00:00:00:00:00:00',
         },
         {
             DESCRIPTION => 'lo',
+            MACADDR     => '00:00:00:00:00:00',
             STATUS      => 'Up',
             IPADDRESS6  => '::1',
-            IPMASK6     => 'fff0::',
             IPSUBNET6   => '::',
-            MACADDR     => '00:00:00:00:00:00',
+            IPMASK6     => 'fff0::',
         },
         {
-            IPSUBNET    => '10.40.1.0',
-            IPMASK      => '255.255.255.0',
-            MACADDR     => '00:50:56:8b:70:b7',
             DESCRIPTION => 'eth0',
+            MACADDR     => '00:50:56:8b:70:b7',
             STATUS      => 'Up',
             IPADDRESS   => '10.40.1.16',
+            IPSUBNET    => '10.40.1.0',
+            IPMASK      => '255.255.255.0',
         },
         {
-            MACADDR     => '00:50:56:8b:70:b7',
             DESCRIPTION => 'eth0',
+            MACADDR     => '00:50:56:8b:70:b7',
             STATUS      => 'Up',
             IPADDRESS6  => 'fe80::250:56ff:fe8b:70b7',
+            IPSUBNET6   => 'fe80::',
             IPMASK6     => 'ffff:ffff:ffff:ffff::',
-            IPSUBNET6   => 'fe80::'
         },
         {
             DESCRIPTION => 'sit0',
+            MACADDR     => undef,
             STATUS      => 'Down',
-            MACADDR     => undef
         },
     ],
     'ip_addr-4' => [
         {
             DESCRIPTION => 'ib0',
-            IPADDRESS   => '10.89.96.11',
-            IPMASK      => '255.255.240.0',
-            IPSUBNET    => '10.89.96.0',
             MACADDR     => 'a0:00:01:00:fe:80:00:00:00:00:00:00:00:02:c9:03:00:15:94:d1',
             STATUS      => 'Up',
+            IPADDRESS   => '10.89.96.11',
+            IPSUBNET    => '10.89.96.0',
+            IPMASK      => '255.255.240.0',
         }
     ],
     'ip_addr-5' => [
