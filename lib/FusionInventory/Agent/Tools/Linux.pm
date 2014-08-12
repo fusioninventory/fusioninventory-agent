@@ -394,11 +394,17 @@ sub getInterfacesFromIp {
     my $handle = getFileHandle(%params);
     return unless $handle;
 
-    my @interfaces;
-    my $interface;
+    my (@interfaces, @addresses, $interface);
 
     while (my $line = <$handle>) {
         if ($line =~ /^\d+:\s+(\S+): <([^>]+)>(.*)/) {
+
+            if (@addresses) {
+                push @interfaces, @addresses;
+                undef @addresses;
+            } elsif ($interface) {
+                push @interfaces, $interface;
+            }
 
             $interface = {
                 DESCRIPTION => $1
@@ -417,16 +423,12 @@ sub getInterfacesFromIp {
             }
         } elsif ($line =~ /link\/\S+ ($any_mac_address_pattern)?/) {
             $interface->{MACADDR} = $1;
-
-            # if courrent interface is not up, there won't be any address lines
-            push @interfaces, $interface
-                unless $interface->{STATUS} && $interface->{STATUS} eq 'Up';
         } elsif ($line =~ /inet6 (\S+)\/(\d{1,2})/) {
             my $address = $1;
             my $mask    = getNetworkMaskIPv6($2);
             my $subnet  = getSubnetAddressIPv6($address, $mask);
 
-            push @interfaces, {
+            push @addresses, {
                 IPADDRESS6  => $address,
                 IPMASK6     => $mask,
                 IPSUBNET6   => $subnet,
@@ -439,7 +441,7 @@ sub getInterfacesFromIp {
             my $mask    = getNetworkMask($2);
             my $subnet  = getSubnetAddress($address, $mask);
 
-            push @interfaces, {
+            push @addresses, {
                 IPADDRESS   => $address,
                 IPMASK      => $mask,
                 IPSUBNET    => $subnet,
@@ -448,6 +450,13 @@ sub getInterfacesFromIp {
                 MACADDR     => $interface->{MACADDR}
             };
         }
+    }
+
+    if (@addresses) {
+        push @interfaces, @addresses;
+        undef @addresses;
+    } elsif ($interface) {
+        push @interfaces, $interface;
     }
 
     return @interfaces;
