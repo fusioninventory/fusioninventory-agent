@@ -773,7 +773,7 @@ my %ipaddrshow_tests = (
             MACADDR     => undef
         },
         {
-            STATUS      => 'Down',
+            STATUS      => 'Up',
             DESCRIPTION => 'wlan0',
             MACADDR     => 'e8:39:df:3f:7d:ef'
         },
@@ -846,7 +846,7 @@ my %ipaddrshow_tests = (
             MACADDR     => undef
         },
         {
-            STATUS      => 'Down',
+            STATUS      => 'Up',
             DESCRIPTION => 'wlan0',
             MACADDR     => '0f:0f:0f:0f:0f:0f'
         }
@@ -887,6 +887,7 @@ my %ipaddrshow_tests = (
         },
         {
             DESCRIPTION => 'sit0',
+            STATUS      => 'Down',
             MACADDR     => undef
         },
     ],
@@ -944,7 +945,7 @@ my %ipaddrshow_tests = (
         {
             DESCRIPTION => 'eth0',
             MACADDR     => 'f0:1f:af:0f:a4:0c',
-            STATUS      => 'Down',
+            STATUS      => 'Up',
             IPADDRESS   => '192.168.1.11',
             IPSUBNET    => '192.168.1.0',
             IPMASK      => '255.255.255.0',
@@ -952,7 +953,7 @@ my %ipaddrshow_tests = (
         {
             DESCRIPTION => 'bond0',
             MACADDR     => '8e:b2:64:1a:0b:00',
-            STATUS      => 'Down'
+            STATUS      => 'Up'
         },
         {
             DESCRIPTION => 'br0',
