@@ -899,7 +899,67 @@ my %ipaddrshow_tests = (
             MACADDR     => 'a0:00:01:00:fe:80:00:00:00:00:00:00:00:02:c9:03:00:15:94:d1',
             STATUS      => 'Up',
         }
-    ]
+    ],
+    'ip_addr-5' => [
+        {
+            DESCRIPTION => 'lo',
+            MACADDR     => '00:00:00:00:00:00',
+            STATUS      => 'Up',
+            IPSUBNET    => '127.0.0.0',
+            IPADDRESS   => '127.0.0.1',
+            IPMASK      => '255.0.0.0',
+        },
+        {
+            DESCRIPTION => 'lo',
+            MACADDR     => '00:00:00:00:00:00',
+            STATUS      => 'Up',
+            IPADDRESS6  => '::1',
+            IPSUBNET6   => '::',
+            IPMASK6     => 'fff0::',
+        },
+        {
+            DESCRIPTION => 'wlan0',
+            MACADDR     => '00:1a:6b:0d:78:03',
+            STATUS      => 'Up',
+            IPADDRESS   => '128.93.189.62',
+            IPSUBNET    => '128.93.188.0',
+            IPMASK      => '255.255.252.0'
+        },
+        {
+            DESCRIPTION => 'wlan0',
+            MACADDR     => '00:1a:6b:0d:78:03',
+            STATUS      => 'Up',
+            IPADDRESS   => '192.168.1.11',
+            IPSUBNET    => '192.168.1.0',
+            IPMASK      => '255.255.255.0',
+        },
+        {
+            DESCRIPTION => 'wlan0',
+            MACADDR     => '00:1a:6b:0d:78:03',
+            STATUS      => 'Up',
+            IPADDRESS6  => 'fe80::21a:6bff:fe0d:7803',
+            IPSUBNET6   => 'fe80::',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::'
+        },
+        {
+            DESCRIPTION => 'eth0',
+            MACADDR     => 'f0:1f:af:0f:a4:0c',
+            STATUS      => 'Down',
+            IPADDRESS   => '192.168.1.11',
+            IPSUBNET    => '192.168.1.0',
+            IPMASK      => '255.255.255.0',
+        },
+        {
+            DESCRIPTION => 'bond0',
+            MACADDR     => '8e:b2:64:1a:0b:00',
+            STATUS      => 'Down'
+        },
+        {
+            DESCRIPTION => 'br0',
+            STATUS      => 'Up',
+            MACADDR     => 'aa:4b:c2:02:31:15'
+        }
+    ],
 );
 
 plan tests =>
