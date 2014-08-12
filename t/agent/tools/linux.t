@@ -927,7 +927,7 @@ my %ipaddrshow_tests = (
             IPMASK      => '255.255.252.0'
         },
         {
-            DESCRIPTION => 'wlan0',
+            DESCRIPTION => 'wlan0:0',
             MACADDR     => '00:1a:6b:0d:78:03',
             STATUS      => 'Up',
             IPADDRESS   => '192.168.1.11',
@@ -943,7 +943,7 @@ my %ipaddrshow_tests = (
             IPMASK6     => 'ffff:ffff:ffff:ffff::'
         },
         {
-            DESCRIPTION => 'eth0',
+            DESCRIPTION => 'eth0:0',
             MACADDR     => 'f0:1f:af:0f:a4:0c',
             STATUS      => 'Up',
             IPADDRESS   => '192.168.1.11',

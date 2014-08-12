@@ -429,17 +429,25 @@ sub getInterfacesFromIp {
                 DESCRIPTION => $interface->{DESCRIPTION},
                 MACADDR     => $interface->{MACADDR}
             };
-        } elsif ($line =~ /inet ($ip_address_pattern)(?:\/(\d{1,3}))?/) {
+        } elsif ($line =~ /
+            inet \s
+            ($ip_address_pattern)(?:\/(\d{1,3}))? \s
+            .* \s
+            (\S+)$
+            /x) {
             my $address = $1;
             my $mask    = getNetworkMask($2);
             my $subnet  = getSubnetAddress($address, $mask);
+            my $name    = $3;
 
+            # the name associated with the address differs from the current
+            # interface if the address is actually attached to an alias
             push @addresses, {
                 IPADDRESS   => $address,
                 IPMASK      => $mask,
                 IPSUBNET    => $subnet,
                 STATUS      => $interface->{STATUS},
-                DESCRIPTION => $interface->{DESCRIPTION},
+                DESCRIPTION => $name,
                 MACADDR     => $interface->{MACADDR}
             };
         }
