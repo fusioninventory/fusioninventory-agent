@@ -54,6 +54,13 @@ sub _getInterfaces {
             $interface->{DESCRIPTION}
         );
 
+        ($interface->{TYPE}, $interface->{VIRTUALDEV}) =
+            $interface->{DESCRIPTION} eq 'lo'      ? ('loopback', 1) :
+            $interface->{DESCRIPTION} =~ m/^ppp/   ? ('dialup'  , 1) :
+            $interface->{DESCRIPTION} =~ m/:\d+$/  ? ('alias'   , 1) :
+            $interface->{DESCRIPTION} =~ m/\.\d+$/ ? ('alias'   , 1) :
+                                                     ('ethernet', 0) ;
+
         # check if it is a physical interface
         if (-d "/sys/class/net/$interface->{DESCRIPTION}/device") {
             my ($driver, $pcislot) = _getUevent(
@@ -70,12 +77,14 @@ sub _getInterfaces {
 
         # check if is is a bridge
         if (-d "/sys/class/net/$interface->{DESCRIPTION}/brif") {
+            $interface->{TYPE}       = 'bridge';
             $interface->{VIRTUALDEV} = 1;
         }
 
         # check if it is a bond
         if (-d "/sys/class/net/$interface->{DESCRIPTION}/bonding") {
             $interface->{SLAVES}     = _getSlaves($interface->{DESCRIPTION});
+            $interface->{TYPE}       = 'aggregate';
             $interface->{VIRTUALDEV} = 1;
         }
 
