@@ -58,7 +58,7 @@ sub getInterfacesFromIfconfig {
         /x) {
             foreach my $address (@addresses) {
                 $address->{WIFI_SSID}    = $1;
-                $address->{WIFI_VERSION} = $2;
+                $address->{WIFI_VERSION} = '802.' . $2;
                 $address->{WIFI_BSSID}   = $3;
             }
         } elsif ($line =~ /inet ($ip_address_pattern) (?:--> $ip_address_pattern )?netmask 0x($hex_ip_address_pattern)/) {

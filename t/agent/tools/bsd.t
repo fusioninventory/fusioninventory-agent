@@ -219,7 +219,7 @@ my %ifconfig_tests = (
             IPMASK       => '255.255.255.0',
             WIFI_SSID    => 'BZH',
             WIFI_BSSID   => '00:07:cb:01:85:50',
-            WIFI_VERSION => '11g',
+            WIFI_VERSION => '802.11g',
         },
         {
             DESCRIPTION => 'vboxnet0',
