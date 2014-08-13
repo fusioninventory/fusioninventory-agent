@@ -341,9 +341,7 @@ sub getInterfaces {
                     MACADDR     => $configuration->{MACADDR},
                     DESCRIPTION => $configuration->{DESCRIPTION},
                     STATUS      => $configuration->{STATUS},
-                    IPDHCP      => $configuration->{IPDHCP},
                     MTU         => $configuration->{MTU},
-                    IPGATEWAY   => $configuration->{IPGATEWAY},
                     dns         => $configuration->{dns},
                 };
 
@@ -354,6 +352,8 @@ sub getInterfaces {
                         $interface->{IPADDRESS},
                         $interface->{IPMASK}
                     );
+                    $interface->{IPDHCP}    = $configuration->{IPDHCP};
+                    $interface->{IPGATEWAY} = $configuration->{IPGATEWAY};
                 } else {
                     $interface->{IPADDRESS6} = $address->[0];
                     $interface->{IPMASK6}    = getNetworkMaskIPv6($address->[1]);
@@ -377,9 +377,7 @@ sub getInterfaces {
                 MACADDR     => $configuration->{MACADDR},
                 DESCRIPTION => $configuration->{DESCRIPTION},
                 STATUS      => $configuration->{STATUS},
-                IPDHCP      => $configuration->{IPDHCP},
                 MTU         => $configuration->{MTU},
-                IPGATEWAY   => $configuration->{IPGATEWAY},
                 dns         => $configuration->{dns},
             };
 
