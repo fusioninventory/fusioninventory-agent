@@ -57,8 +57,19 @@ sub _getInterfaces {
             $interface->{DESCRIPTION}
         );
 
-        $interface->{VIRTUALDEV} =
-            $interface->{DESCRIPTION} =~ /^(lo|vboxnet|vmnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)\d+$/;
+        if ($interface->{DESCRIPTION} =~ m/^(lo|vboxnet|vmnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)/) {
+            $interface->{VIRTUALDEV} = 1;
+
+            if ($interface->{DESCRIPTION} =~ m/^lo/) {
+                $interface->{TYPE} = 'loopback';
+            }
+
+            if ($interface->{DESCRIPTION} =~ m/^ppp/) {
+                $interface->{TYPE} = 'dialup';
+            }
+        } else {
+            $interface->{VIRTUALDEV} = 0;
+        }
     }
 
     return @interfaces;
