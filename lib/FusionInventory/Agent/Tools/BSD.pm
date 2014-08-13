@@ -39,17 +39,15 @@ sub getInterfacesFromIfconfig {
             } else {
                 push @interfaces, $interface if $interface;
             }
+            my ($name, $flags, $mtu) = ($1, $2, $3);
+            my $status =
+                (any { $_ eq 'UP' } split(/,/, $flags)) ? 'Up' : 'Down';
 
             $interface = {
-                DESCRIPTION => $1,
-                MTU         => $3
+                DESCRIPTION => $name,
+                STATUS      => $status,
+                MTU         => $mtu
             };
-            my $flags = $2;
-
-            foreach my $flag (split(/,/, $flags)) {
-                next unless $flag eq 'UP' || $flag eq 'DOWN';
-                $interface->{STATUS} = ucfirst(lc($flag));
-            }
         } elsif ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
             $interface->{MACADDR} = $1;
 
