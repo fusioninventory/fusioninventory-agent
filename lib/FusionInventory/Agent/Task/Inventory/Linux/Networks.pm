@@ -116,11 +116,6 @@ sub _getInterfaces {
             );
         }
 
-        # check if it is a virtual interface
-        if (-d "/sys/devices/virtual/net/$interface->{DESCRIPTION}") {
-            $interface->{VIRTUALDEV} = 1;
-        }
-
         if (-r "/sys/class/net/$interface->{DESCRIPTION}/speed") {
             $interface->{SPEED} = getFirstLine(
                 file => "/sys/class/net/$interface->{DESCRIPTION}/speed"
