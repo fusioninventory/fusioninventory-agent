@@ -72,6 +72,8 @@ sub _getInterfaces {
                 $interface->{WIFI_SSID}    = $info->{SSID};
                 $interface->{WIFI_BSSID}   = $info->{BSSID};
                 $interface->{WIFI_VERSION} = $info->{version};
+            } elsif (-f "/sys/class/net/$interface->{DESCRIPTION}/mode") {
+                $interface->{TYPE} = 'infiniband';
             } else {
                 $interface->{TYPE} = 'ethernet';
             }
