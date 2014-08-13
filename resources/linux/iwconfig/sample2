@@ -1,0 +1,9 @@
+wlan0     IEEE 802.11abgn  ESSID:"INRIA-roc"  
+          Mode:Managed  Frequency:5.2 GHz  Access Point: 00:0B:0E:8F:D0:43   
+          Bit Rate=6 Mb/s   Tx-Power=13 dBm   
+          Retry short limit:7   RTS thr:off   Fragment thr:off
+          Power Management:off
+          Link Quality=63/70  Signal level=-47 dBm  
+          Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
+          Tx excessive retries:0  Invalid misc:18   Missed beacon:0
+

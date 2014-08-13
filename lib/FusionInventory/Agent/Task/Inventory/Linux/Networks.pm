@@ -69,6 +69,10 @@ sub _getInterfaces {
             # check if it is a wifi interface, otherwise assume ethernet
             if (-d "/sys/class/net/$interface->{DESCRIPTION}/wireless") {
                 $interface->{TYPE} = 'wifi';
+                my $info = _parseIwconfig(name => $interface->{DESCRIPTION});
+                $interface->{WIFI_MODE}    = $info->{mode};
+                $interface->{WIFI_SSID}    = $info->{SSID};
+                $interface->{WIFI_VERSION} = $info->{version};
             } else {
                 $interface->{TYPE} = 'ethernet';
             }
@@ -176,6 +180,39 @@ sub _getUevent {
     close $handle;
 
     return ($driver, $pcislot);
+}
+
+sub _parseIwconfig {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(
+        %params,
+        command => $params{name} ? "iwconfig $params{name}" : undef
+    );
+    return unless $handle;
+
+    my $info;
+    while (my $line = <$handle>) {
+        if ($line =~ /IEEE (\S+)/) {
+            $info->{version} = $1;
+        }
+
+        if ($line =~ /ESSID:"([^"]+)"/) {
+            $info->{SSID} = $1;
+        }
+
+        if ($line =~ /Mode:(\S+)/) {
+            $info->{mode} = $1;
+        }
+
+        if ($line =~ /Access Point: ($mac_address_pattern)/) {
+            $info->{ap} = $1;
+        }
+    }
+
+    close $handle;
+
+    return $info;
 }
 
 1;
