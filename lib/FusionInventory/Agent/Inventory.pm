@@ -34,7 +34,7 @@ my %fields = (
                         IPDHCP IPGATEWAY IPMASK IPMASK6 IPSUBNET IPSUBNET6
                         MANAGEMENT MANUFACTURER MACADDR MODEL MTU PCISLOT
                         PNPDEVICEID STATUS SLAVES SPEED TYPE VIRTUALDEV
-                        WWN BASE WIFI_SSID WIFI_MODE WIFI_VERSION/ ],
+                        WWN BASE WIFI_BSSID WIFI_SSID WIFI_MODE WIFI_VERSION/ ],
     PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
     PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
     REGISTRY    => [ qw/NAME REGVALUE HIVE/ ],
@@ -1386,13 +1386,21 @@ Whether or not it is a HP iLO, Sun SC, HP MP or other kind of Remote Management 
 
 Interface speed in Mb/s
 
-=item BSSID
+=item WIFI_BSSID
 
-Wifi only, Access point MAC Address
+Wifi Access point MAC Address
 
-=item SSID
+=item WIFI_SSID
 
-Wifi only, Access point name
+Wifi Access point name
+
+=item WIFI_MODE
+
+Wifi mode
+
+=item WIFI_Version
+
+Wifi protocol version
 
 =back
 
