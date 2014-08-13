@@ -23,10 +23,12 @@ my %ifconfig_tests = (
         {
             DESCRIPTION => 'fwe0',
             MACADDR     => '02:24:1b:9d:ca:01',
+            STATUS      => 'Down',
             MTU         => '1500',
         },
         {
             DESCRIPTION => 'fwip0',
+            STATUS      => 'Down',
             MTU         => '1500',
         },
         {
@@ -59,6 +61,7 @@ my %ifconfig_tests = (
         {
             DESCRIPTION => 'vboxnet0',
             MACADDR     => '0a:00:27:00:00:00',
+            STATUS      => 'Down',
             MTU         => '1500',
         },
         {
@@ -218,6 +221,7 @@ my %ifconfig_tests = (
         {
             DESCRIPTION => 'vboxnet0',
             MACADDR     => '0a:00:27:00:00:00',
+            STATUS      => 'Down',
             MTU         => '1500',
         }
     ]
