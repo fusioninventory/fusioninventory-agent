@@ -303,15 +303,24 @@ sub _parsefcinfo {
     my $inc = 1;
     my $interface;
     while (my $line = <$handle>) {
-        $interface->{DESCRIPTION} = "HBA_Port_WWN_" . $inc if $line =~ /HBA Port WWN:\s+(\S+)/;
-        $interface->{DESCRIPTION} .= " " . $1 if $line =~ /OS Device Name:\s+(\S+)/;
-        $interface->{SPEED} = $1 if $line =~ /Current Speed:\s+(\S+)/;
-        $interface->{WWN} = $1 if $line =~ /Node WWN:\s+(\S+)/;
-        $interface->{DRIVER} = $1 if $line =~ /Driver Name:\s+(\S+)/i;
-        $interface->{MANUFACTURER} = $1 if $line =~ /Manufacturer:\s+(.*)$/;
-        $interface->{MODEL} = $1 if $line =~ /Model:\s+(.*)$/;
-        $interface->{FIRMWARE} = $1 if $line =~ /Firmware Version:\s+(.*)$/;
-        $interface->{STATUS} = 'Up' if $line =~ /online/;
+        $interface->{DESCRIPTION} = "HBA_Port_WWN_" . $inc
+            if $line =~ /HBA Port WWN:\s+(\S+)/;
+        $interface->{DESCRIPTION} .= " " . $1
+            if $line =~ /OS Device Name:\s+(\S+)/;
+        $interface->{SPEED} = $1
+            if $line =~ /Current Speed:\s+(\S+)/;
+        $interface->{WWN} = $1
+            if $line =~ /Node WWN:\s+(\S+)/;
+        $interface->{DRIVER} = $1
+            if $line =~ /Driver Name:\s+(\S+)/i;
+        $interface->{MANUFACTURER} = $1
+            if $line =~ /Manufacturer:\s+(.*)$/;
+        $interface->{MODEL} = $1
+            if $line =~ /Model:\s+(.*)$/;
+        $interface->{FIRMWARE} = $1
+            if $line =~ /Firmware Version:\s+(.*)$/;
+        $interface->{STATUS} = 'Up'
+            if $line =~ /online/;
 
         if ($interface->{DESCRIPTION} && $interface->{WWN}) {
             $interface->{STATUS} = 'Down' if !$interface->{STATUS};

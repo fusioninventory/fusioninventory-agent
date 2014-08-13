@@ -192,21 +192,14 @@ sub _parseIwconfig {
 
     my $info;
     while (my $line = <$handle>) {
-        if ($line =~ /IEEE (\S+)/) {
-            $info->{version} = $1;
-        }
-
-        if ($line =~ /ESSID:"([^"]+)"/) {
-            $info->{SSID} = $1;
-        }
-
-        if ($line =~ /Mode:(\S+)/) {
-            $info->{mode} = $1;
-        }
-
-        if ($line =~ /Access Point: ($mac_address_pattern)/) {
-            $info->{BSSID} = $1;
-        }
+        $info->{version} = $1
+            if $line =~ /IEEE (\S+)/;
+        $info->{SSID} = $1
+            if $line =~ /ESSID:"([^"]+)"/;
+        $info->{mode} = $1
+            if $line =~ /Mode:(\S+)/;
+        $info->{BSSID} = $1
+            if $line =~ /Access Point: ($mac_address_pattern)/;
     }
 
     close $handle;
