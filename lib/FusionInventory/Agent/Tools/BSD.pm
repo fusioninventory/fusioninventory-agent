@@ -50,7 +50,17 @@ sub getInterfacesFromIfconfig {
             };
         } elsif ($line =~ /(?:address:|ether|lladdr) ($mac_address_pattern)/) {
             $interface->{MACADDR} = $1;
-
+        } elsif ($line =~ /
+            ssid \s (\S+) \s
+            channel \s \d+ \s
+            \(\d+ \s MHz \s (\S+)[^)]*\) \s
+            bssid \s ($mac_address_pattern)
+        /x) {
+            foreach my $address (@addresses) {
+                $address->{WIFI_SSID}    = $1;
+                $address->{WIFI_VERSION} = $2;
+                $address->{WIFI_BSSID}   = $3;
+            }
         } elsif ($line =~ /inet ($ip_address_pattern) (?:--> $ip_address_pattern )?netmask 0x($hex_ip_address_pattern)/) {
             my $address = $1;
             my $mask    = hex2canonical($2);
