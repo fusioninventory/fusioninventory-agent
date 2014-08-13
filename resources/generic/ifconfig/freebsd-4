@@ -1,0 +1,16 @@
+iwn0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 2290
+        ether 3c:a9:f4:5a:04:b8
+        nd6 options=21<PERFORMNUD,AUTO_LINKLOCAL>
+        media: IEEE 802.11 Wireless Ethernet autoselect mode 11ng
+        status: associated
+wlan0: flags=8843<UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST> metric 0 mtu 1500
+        ether 3c:a9:f4:5a:04:b8
+        inet 192.168.20.114 netmask 0xffffff00 broadcast 192.168.20.255 
+        nd6 options=29<PERFORMNUD,IFDISABLED,AUTO_LINKLOCAL>
+        media: IEEE 802.11 Wireless Ethernet MCS mode 11ng
+        status: associated
+        ssid ciscosb-2 channel 1 (2412 MHz 11g ht/40+) bssid c6:64:13:c5:50:c7
+        country US authmode OPEN privacy OFF txpower 14 bmiss 10 scanvalid 60
+        bgscan bgscanintvl 300 bgscanidle 250 roam:rssi 7 roam:rate 64
+        protmode CTS ampdulimit 64k ampdudensity 8 -amsdutx amsdurx shortgi
+        wme

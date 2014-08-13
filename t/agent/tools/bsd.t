@@ -227,7 +227,29 @@ my %ifconfig_tests = (
             STATUS      => 'Down',
             MTU         => '1500',
         }
-    ]
+    ],
+    'freebsd-4' => [
+        {
+            DESCRIPTION => 'iwn0',
+            MACADDR     => '3c:a9:f4:5a:04:b8',
+            STATUS      => 'Up',
+            TYPE        => 'wifi',
+            MTU         => '2290',
+        },
+        {
+            DESCRIPTION  => 'wlan0',
+            MACADDR      => '3c:a9:f4:5a:04:b8',
+            STATUS       => 'Up',
+            MTU          => '1500',
+            TYPE         => 'wifi',
+            IPADDRESS    => '192.168.20.114',
+            IPSUBNET     => '192.168.20.0',
+            IPMASK       => '255.255.255.0',
+            WIFI_SSID    => 'ciscosb-2',
+            WIFI_BSSID   => 'c6:64:13:c5:50:c7',
+            WIFI_VERSION => '802.11g',
+        }
+    ],
 );
 
 plan tests => scalar keys %ifconfig_tests;
