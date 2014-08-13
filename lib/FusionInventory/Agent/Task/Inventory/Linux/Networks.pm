@@ -70,6 +70,7 @@ sub _getInterfaces {
                 my $info = _parseIwconfig(name => $interface->{DESCRIPTION});
                 $interface->{WIFI_MODE}    = $info->{mode};
                 $interface->{WIFI_SSID}    = $info->{SSID};
+                $interface->{WIFI_BSSID}   = $info->{BSSID};
                 $interface->{WIFI_VERSION} = $info->{version};
             } else {
                 $interface->{TYPE} = 'ethernet';
@@ -191,21 +192,14 @@ sub _parseIwconfig {
 
     my $info;
     while (my $line = <$handle>) {
-        if ($line =~ /IEEE (\S+)/) {
-            $info->{version} = $1;
-        }
-
-        if ($line =~ /ESSID:"([^"]+)"/) {
-            $info->{SSID} = $1;
-        }
-
-        if ($line =~ /Mode:(\S+)/) {
-            $info->{mode} = $1;
-        }
-
-        if ($line =~ /Access Point: ($mac_address_pattern)/) {
-            $info->{ap} = $1;
-        }
+        $info->{version} = $1
+            if $line =~ /IEEE (\S+)/;
+        $info->{SSID} = $1
+            if $line =~ /ESSID:"([^"]+)"/;
+        $info->{mode} = $1
+            if $line =~ /Mode:(\S+)/;
+        $info->{BSSID} = $1
+            if $line =~ /Access Point: ($mac_address_pattern)/;
     }
 
     close $handle;

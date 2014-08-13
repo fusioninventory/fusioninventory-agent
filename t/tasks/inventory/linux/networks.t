@@ -17,9 +17,9 @@ my %tests = (
     },
     'sample2' => {
         SSID    => 'INRIA-roc',
+        BSSID   => '00:0B:0E:8F:D0:43',
         version => '802.11abgn',
         mode    => 'Managed',
-        ap      => '00:0B:0E:8F:D0:43',
     }
 );
 

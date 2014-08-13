@@ -30,11 +30,13 @@ my %fields = (
     MODEMS      => [ qw/DESCRIPTION NAME/ ],
     MONITORS    => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
                         UUENCODE/ ],
-    NETWORKS    => [ qw/DESCRIPTION DRIVER FIRMWARE IPADDRESS IPADDRESS6
-                        IPDHCP IPGATEWAY IPMASK IPMASK6 IPSUBNET IPSUBNET6
-                        MANAGEMENT MANUFACTURER MACADDR MODEL MTU PCISLOT
-                        PNPDEVICEID STATUS SLAVES SPEED TYPE VIRTUALDEV
-                        WWN BASE WIFI_SSID WIFI_MODE WIFI_VERSION/ ],
+    NETWORKS    => [ qw/DESCRIPTION MANUFACTURER MODEL
+                        MANAGEMENT TYPE VIRTUALDEV MACADDR WWN
+                        DRIVER FIRMWARE PCISLOT PNPDEVICEID
+                        MTU SPEED STATUS SLAVES BASE
+                        IPADDRESS IPSUBNET IPMASK IPDHCP IPGATEWAY
+                        IPADDRESS6 IPSUBNET6 IPMASK6
+                        WIFI_BSSID WIFI_SSID WIFI_MODE WIFI_VERSION/ ],
     PORTS       => [ qw/CAPTION DESCRIPTION NAME TYPE/ ],
     PROCESSES   => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED CMD/ ],
     REGISTRY    => [ qw/NAME REGVALUE HIVE/ ],
@@ -1328,71 +1330,108 @@ The name of the device (optional)
 
 =head2 NETWORKS
 
-A network configuration.
+A network configuration, ie either an adressless interface, either a
+combination of an interface and an IP address.
 
 =over
 
 =item DESCRIPTION
 
-The name of the interface as seen in the OS settings, e.g: eth0 (Linux) or AMD PCNET Family Ethernet Adapter (Windows)
+The interface name, as seen in the OS settings, e.g: eth0 (Linux) or AMD PCNET Family Ethernet Adapter (Windows)
 
-=item DRIVER
+=item MANUFACTURER
 
-The name of the driver used by the network interface
+The interface manufacturer
 
-=item IPADDRESS
+=item MODEL
 
-=item IPADDRESS6
-
-=item IPDHCP
-
-The IP address of the DHCP server (optional).
-
-=item IPGATEWAY
-
-=item IPMASK
-
-=item IPSUBNET
-
-=item MACADDR
-
-=item MTU
-
-=item PCISLOT
-
-The PCI slot name.
-
-=item STATUS
-
-Up or Down
-
-=item TYPE
-
-Interface type: Ethernet, Wifi
-
-=item VIRTUALDEV
-
-If the interface exist or not (1 or empty)
-
-=item SLAVES
-
-Bonded interfaces list in the eth0/eth1/eth2 format (/ is the separator).
+The interface model
 
 =item MANAGEMENT
 
-Whether or not it is a HP iLO, Sun SC, HP MP or other kind of Remote Management Interface
+True for HP iLO, Sun SC, HP MP or other kind of Remote Management Interface
+
+=item TYPE
+
+The interface type: ethernet|wifi|loopback|alias|aggregate|bridge|dialup
+
+=item VIRTUALDEV
+
+True for virtual interfaces
+
+=item DRIVER
+
+The driver name
+
+=item FIRMWARE
+
+=item PCISLOT
+
+The PCI slot name
+
+=item IPADDRESS
+
+The IPv4 address
+
+=item IPSUBNET
+
+=item IPMASK
+
+=item IPDHCP
+
+The IP address of the DHCP server
+
+=item IPGATEWAY
+
+The IP address of the gateway
+
+=item IPADDRESS6
+
+The IPv6 address of the interface
+
+=item IPSUBNET6
+
+=item IPMASK6
+
+=item MACADDR
+
+=item WWN
+
+World Wide Name http://fr.wikipedia.org/wiki/World_Wide_Name
+
+=item MTU
 
 =item SPEED
 
 Interface speed in Mb/s
 
-=item BSSID
+=item STATUS
 
-Wifi only, Access point MAC Address
+Up or Down
 
-=item SSID
+=item SLAVES
 
-Wifi only, Access point name
+Comma-sepatated list of component interfaces, for aggregate and bridges
+
+=item BASE
+
+Actual interface for aliases
+
+=item WIFI_BSSID
+
+Wifi Access point MAC Address
+
+=item WIFI_SSID
+
+Wifi Access point name
+
+=item WIFI_MODE
+
+Wifi mode
+
+=item WIFI_Version
+
+Wifi protocol version
 
 =back
 
