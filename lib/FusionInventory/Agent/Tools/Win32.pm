@@ -315,7 +315,7 @@ sub getInterfaces {
             foreach my $address (@{$configuration->{addresses}}) {
 
                 my $interface = {
-                    SPEED       => $object->{Speed},
+                    SPEED       => $object->{Speed} / 1_000_000,
                     PNPDEVICEID => $object->{PNPDeviceID},
                     PCIID       => $pciid,
                     MACADDR     => $configuration->{MACADDR},
@@ -352,7 +352,7 @@ sub getInterfaces {
             next unless $configuration->{MACADDR};
 
             my $interface = {
-                SPEED       => $object->{Speed},
+                SPEED       => $object->{Speed} / 1_000_000,
                 PNPDEVICEID => $object->{PNPDeviceID},
                 PCIID       => $pciid,
                 MACADDR     => $configuration->{MACADDR},
