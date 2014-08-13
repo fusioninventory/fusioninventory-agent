@@ -61,6 +61,9 @@ sub _getIndexedValues {
     my $first_line = <$handle>;
     seek($handle, 0, 0);
 
+    # check first line for safety
+    die "invalid file format\n" unless $first_line =~ /^(\S+) = .*/;
+
     my $values = substr($first_line, 0, 1) eq '.' ?
         _readNumericalOids($handle) :
         _readSymbolicOids($handle)  ;
