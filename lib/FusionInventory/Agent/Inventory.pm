@@ -32,7 +32,7 @@ my %fields = (
                         UUENCODE/ ],
     NETWORKS    => [ qw/DESCRIPTION MANUFACTURER MODEL
                         MANAGEMENT TYPE VIRTUALDEV MACADDR WWN
-                        DRIVER FIRMWARE PCISLOT PNPDEVICEID
+                        DRIVER FIRMWARE PCIID PCISLOT PNPDEVICEID
                         MTU SPEED STATUS SLAVES BASE
                         IPADDRESS IPSUBNET IPMASK IPDHCP IPGATEWAY
                         IPADDRESS6 IPSUBNET6 IPMASK6
@@ -1368,6 +1368,14 @@ The driver name
 =item PCISLOT
 
 The PCI slot name
+
+=item PCIID
+
+The PCI ID
+
+=item PNPDEVICEID
+
+The PCI ID (windows-specific format)
 
 =item IPADDRESS
 
