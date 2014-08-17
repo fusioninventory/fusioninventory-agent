@@ -63,6 +63,9 @@ sub _getInterfaces {
                 if $info->{DRIVER};
             $interface->{PCISLOT} = $info->{PCI_SLOT_NAME}
                 if $info->{PCI_SLOT_NAME};
+            $interface->{PCIID} =
+                $info->{PCI_ID} . ':' . $info->{PCI_SUBSYS_ID}
+                if $info->{PCI_SUBSYS_ID} && $info->{PCI_ID};
 
             $interface->{VIRTUALDEV} = 0;
 
