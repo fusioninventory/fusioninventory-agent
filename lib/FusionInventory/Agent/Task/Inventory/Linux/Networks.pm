@@ -58,11 +58,11 @@ sub _getInterfaces {
 
         # check if it is a physical interface
         if (-d "/sys/class/net/$interface->{DESCRIPTION}/device") {
-            my ($driver, $pcislot) = _getUevent(
-                $interface->{DESCRIPTION}
-            );
-            $interface->{DRIVER} = $driver if $driver;
-            $interface->{PCISLOT} = $pcislot if $pcislot;
+            my $info = _getUevent($interface->{DESCRIPTION});
+            $interface->{DRIVER}  = $info->{DRIVER}
+                if $info->{DRIVER};
+            $interface->{PCISLOT} = $info->{PCI_SLOT_NAME}
+                if $info->{PCI_SLOT_NAME};
 
             $interface->{VIRTUALDEV} = 0;
 
@@ -170,14 +170,14 @@ sub _getUevent {
     my $handle = getFileHandle(file => $file);
     return unless $handle;
 
-    my ($driver, $pcislot);
+    my $info;
     while (my $line = <$handle>) {
-        $driver = $1 if $line =~ /^DRIVER=(\S+)/;
-        $pcislot = $1 if $line =~ /^PCI_SLOT_NAME=(\S+)/;
+        next unless $line =~ /^(\w+)=(\S+)$/;
+        $info->{$1} = $2;
     }
     close $handle;
 
-    return ($driver, $pcislot);
+    return $info;
 }
 
 sub _parseIwconfig {
