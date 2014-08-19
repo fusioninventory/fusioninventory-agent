@@ -1,0 +1,198 @@
+00:00.0 Host bridge [0600]: Intel Corporation 82975X Memory Controller Hub [8086:277c]
+	Subsystem: Dell Device [1028:01de]
+	Flags: bus master, fast devsel, latency 0
+	Capabilities: [e0] Vendor Specific Information: Len=09 <?>
+	Kernel driver in use: i82975x_edac
+	Kernel modules: i82975x_edac
+
+00:01.0 PCI bridge [0604]: Intel Corporation 82975X PCI Express Root Port [8086:277d] (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0
+	Bus: primary=00, secondary=01, subordinate=01, sec-latency=0
+	Memory behind bridge: e8000000-efefffff
+	Prefetchable memory behind bridge: 00000000d8000000-00000000dfffffff
+	Capabilities: [88] Subsystem: Dell Device [1028:01de]
+	Capabilities: [80] Power Management version 2
+	Capabilities: [90] MSI: Enable+ Count=1/1 Maskable- 64bit-
+	Capabilities: [a0] Express Root Port (Slot+), MSI 00
+	Capabilities: [100] Virtual Channel
+	Capabilities: [140] Root Complex Link
+	Kernel driver in use: pcieport
+	Kernel modules: shpchp
+
+00:1b.0 Audio device [0403]: Intel Corporation NM10/ICH7 Family High Definition Audio Controller [8086:27d8] (rev 01)
+	Subsystem: Dell Device [1028:01de]
+	Flags: bus master, fast devsel, latency 0, IRQ 45
+	Memory at efffc000 (64-bit, non-prefetchable) [size=16K]
+	Capabilities: [50] Power Management version 2
+	Capabilities: [60] MSI: Enable+ Count=1/1 Maskable- 64bit+
+	Capabilities: [70] Express Root Complex Integrated Endpoint, MSI 00
+	Capabilities: [100] Virtual Channel
+	Capabilities: [130] Root Complex Link
+	Kernel driver in use: snd_hda_intel
+	Kernel modules: snd_hda_intel
+
+00:1c.0 PCI bridge [0604]: Intel Corporation NM10/ICH7 Family PCI Express Port 1 [8086:27d0] (rev 01) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0
+	Bus: primary=00, secondary=02, subordinate=02, sec-latency=0
+	I/O behind bridge: 00001000-00001fff
+	Memory behind bridge: e7f00000-e7ffffff
+	Prefetchable memory behind bridge: 00000000e0000000-00000000e01fffff
+	Capabilities: [40] Express Root Port (Slot+), MSI 00
+	Capabilities: [80] MSI: Enable+ Count=1/1 Maskable- 64bit-
+	Capabilities: [90] Subsystem: Dell Device [1028:01de]
+	Capabilities: [a0] Power Management version 2
+	Capabilities: [100] Virtual Channel
+	Capabilities: [180] Root Complex Link
+	Kernel driver in use: pcieport
+	Kernel modules: shpchp
+
+00:1c.4 PCI bridge [0604]: Intel Corporation 82801GR/GH/GHM (ICH7 Family) PCI Express Port 5 [8086:27e0] (rev 01) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0
+	Bus: primary=00, secondary=03, subordinate=03, sec-latency=0
+	I/O behind bridge: 00002000-00002fff
+	Memory behind bridge: e0200000-e03fffff
+	Prefetchable memory behind bridge: 00000000e0400000-00000000e05fffff
+	Capabilities: [40] Express Root Port (Slot+), MSI 00
+	Capabilities: [80] MSI: Enable+ Count=1/1 Maskable- 64bit-
+	Capabilities: [90] Subsystem: Dell Device [1028:01de]
+	Capabilities: [a0] Power Management version 2
+	Capabilities: [100] Virtual Channel
+	Capabilities: [180] Root Complex Link
+	Kernel driver in use: pcieport
+	Kernel modules: shpchp
+
+00:1c.5 PCI bridge [0604]: Intel Corporation 82801GR/GH/GHM (ICH7 Family) PCI Express Port 6 [8086:27e2] (rev 01) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0
+	Bus: primary=00, secondary=04, subordinate=04, sec-latency=0
+	I/O behind bridge: 00003000-00003fff
+	Memory behind bridge: e7e00000-e7efffff
+	Prefetchable memory behind bridge: 00000000e0600000-00000000e07fffff
+	Capabilities: [40] Express Root Port (Slot+), MSI 00
+	Capabilities: [80] MSI: Enable+ Count=1/1 Maskable- 64bit-
+	Capabilities: [90] Subsystem: Dell Device [1028:01de]
+	Capabilities: [a0] Power Management version 2
+	Capabilities: [100] Virtual Channel
+	Capabilities: [180] Root Complex Link
+	Kernel driver in use: pcieport
+	Kernel modules: shpchp
+
+00:1d.0 USB controller [0c03]: Intel Corporation NM10/ICH7 Family USB UHCI Controller #1 [8086:27c8] (rev 01) (prog-if 00 [UHCI])
+	Subsystem: Dell Device [1028:01de]
+	Flags: bus master, medium devsel, latency 0, IRQ 21
+	I/O ports at ff80 [size=32]
+	Kernel driver in use: uhci_hcd
+	Kernel modules: uhci_hcd
+
+00:1d.1 USB controller [0c03]: Intel Corporation NM10/ICH7 Family USB UHCI Controller #2 [8086:27c9] (rev 01) (prog-if 00 [UHCI])
+	Subsystem: Dell Device [1028:01de]
+	Flags: bus master, medium devsel, latency 0, IRQ 22
+	I/O ports at ff60 [size=32]
+	Kernel driver in use: uhci_hcd
+	Kernel modules: uhci_hcd
+
+00:1d.2 USB controller [0c03]: Intel Corporation NM10/ICH7 Family USB UHCI Controller #3 [8086:27ca] (rev 01) (prog-if 00 [UHCI])
+	Subsystem: Dell Device [1028:01de]
+	Flags: bus master, medium devsel, latency 0, IRQ 18
+	I/O ports at ff40 [size=32]
+	Kernel driver in use: uhci_hcd
+	Kernel modules: uhci_hcd
+
+00:1d.3 USB controller [0c03]: Intel Corporation NM10/ICH7 Family USB UHCI Controller #4 [8086:27cb] (rev 01) (prog-if 00 [UHCI])
+	Subsystem: Dell Device [1028:01de]
+	Flags: bus master, medium devsel, latency 0, IRQ 23
+	I/O ports at ff20 [size=32]
+	Kernel driver in use: uhci_hcd
+	Kernel modules: uhci_hcd
+
+00:1d.7 USB controller [0c03]: Intel Corporation NM10/ICH7 Family USB2 EHCI Controller [8086:27cc] (rev 01) (prog-if 20 [EHCI])
+	Subsystem: Dell Device [1028:01de]
+	Flags: bus master, medium devsel, latency 0, IRQ 21
+	Memory at ff980800 (32-bit, non-prefetchable) [size=1K]
+	Capabilities: [50] Power Management version 2
+	Capabilities: [58] Debug port: BAR=1 offset=00a0
+	Kernel driver in use: ehci-pci
+	Kernel modules: ehci_pci
+
+00:1e.0 PCI bridge [0604]: Intel Corporation 82801 PCI Bridge [8086:244e] (rev e1) (prog-if 01 [Subtractive decode])
+	Flags: bus master, fast devsel, latency 0
+	Bus: primary=00, secondary=05, subordinate=05, sec-latency=32
+	Memory behind bridge: e7d00000-e7dfffff
+	Capabilities: [50] Subsystem: Dell Device [1028:01de]
+
+00:1f.0 ISA bridge [0601]: Intel Corporation 82801GB/GR (ICH7 Family) LPC Interface Bridge [8086:27b8] (rev 01)
+	Flags: bus master, medium devsel, latency 0
+	Capabilities: [e0] Vendor Specific Information: Len=0c <?>
+	Kernel driver in use: lpc_ich
+	Kernel modules: intel_rng, lpc_ich, leds_ss4200
+
+00:1f.1 IDE interface [0101]: Intel Corporation 82801G (ICH7 Family) IDE Controller [8086:27df] (rev 01) (prog-if 8a [Master SecP PriP])
+	Subsystem: Dell Device [1028:01de]
+	Flags: bus master, medium devsel, latency 0, IRQ 16
+	I/O ports at 01f0 [size=8]
+	I/O ports at 03f4
+	I/O ports at 0170 [size=8]
+	I/O ports at 0374
+	I/O ports at ffa0 [size=16]
+	Kernel driver in use: ata_piix
+	Kernel modules: ata_piix, pata_acpi, ata_generic, piix, ide_pci_generic
+
+00:1f.2 SATA controller [0106]: Intel Corporation NM10/ICH7 Family SATA Controller [AHCI mode] [8086:27c1] (rev 01) (prog-if 01 [AHCI 1.0])
+	Subsystem: Dell Device [1028:01de]
+	Flags: bus master, 66MHz, medium devsel, latency 0, IRQ 44
+	I/O ports at fe00 [size=8]
+	I/O ports at fe10 [size=4]
+	I/O ports at fe20 [size=8]
+	I/O ports at fe30 [size=4]
+	I/O ports at fec0 [size=16]
+	Memory at ff970000 (32-bit, non-prefetchable) [size=1K]
+	Capabilities: [80] MSI: Enable+ Count=1/1 Maskable- 64bit-
+	Capabilities: [70] Power Management version 2
+	Kernel driver in use: ahci
+
+00:1f.3 SMBus [0c05]: Intel Corporation NM10/ICH7 Family SMBus Controller [8086:27da] (rev 01)
+	Subsystem: Dell Device [1028:01de]
+	Flags: medium devsel, IRQ 17
+	I/O ports at ece0 [size=32]
+	Kernel driver in use: i801_smbus
+	Kernel modules: i2c_i801
+
+01:00.0 VGA compatible controller [0300]: NVIDIA Corporation NV43GL [Quadro FX 550] [10de:014d] (rev a2) (prog-if 00 [VGA controller])
+	Subsystem: NVIDIA Corporation Device [10de:0349]
+	Flags: bus master, fast devsel, latency 0, IRQ 16
+	Memory at e8000000 (32-bit, non-prefetchable) [size=64M]
+	Memory at d8000000 (64-bit, prefetchable) [size=128M]
+	Memory at ee000000 (64-bit, non-prefetchable) [size=16M]
+	[virtual] Expansion ROM at efe00000 [disabled] [size=128K]
+	Capabilities: [60] Power Management version 2
+	Capabilities: [68] MSI: Enable- Count=1/1 Maskable- 64bit+
+	Capabilities: [78] Express Endpoint, MSI 00
+	Capabilities: [100] Virtual Channel
+	Capabilities: [128] Power Budgeting <?>
+	Kernel driver in use: nvidia
+	Kernel modules: nvidiafb, nouveau, nvidia304, nvidia_current
+
+04:00.0 Ethernet controller [0200]: Broadcom Corporation NetXtreme BCM5754 Gigabit Ethernet PCI Express [14e4:167a] (rev 02)
+	Subsystem: Dell Precision 390 [1028:01de]
+	Flags: bus master, fast devsel, latency 0, IRQ 46
+	Memory at e7ef0000 (64-bit, non-prefetchable) [size=64K]
+	Expansion ROM at <ignored> [disabled]
+	Capabilities: [48] Power Management version 3
+	Capabilities: [50] Vital Product Data
+	Capabilities: [58] Vendor Specific Information: Len=78 <?>
+	Capabilities: [e8] MSI: Enable+ Count=1/1 Maskable- 64bit+
+	Capabilities: [d0] Express Endpoint, MSI 00
+	Capabilities: [100] Advanced Error Reporting
+	Capabilities: [13c] Virtual Channel
+	Capabilities: [160] Device Serial Number 00-13-72-ff-fe-35-42-05
+	Capabilities: [16c] Power Budgeting <?>
+	Kernel driver in use: tg3
+	Kernel modules: tg3
+
+05:02.0 FireWire (IEEE 1394) [0c00]: LSI Corporation FW322/323 [TrueFire] 1394a Controller [11c1:5811] (rev 61) (prog-if 10 [OHCI])
+	Subsystem: Dell Device [1028:8010]
+	Flags: bus master, medium devsel, latency 64, IRQ 18
+	Memory at e7dff000 (32-bit, non-prefetchable) [size=4K]
+	Capabilities: [44] Power Management version 2
+	Kernel driver in use: firewire_ohci
+	Kernel modules: firewire_ohci
+
