@@ -175,7 +175,7 @@ sub getPCIDevices {
             (\S+) \s                     # slot
             ([^[]+) \s                   # name
             \[([a-f\d]+)\]: \s           # class
-            ([^[]+) \s                   # manufacturer
+            (\S.+) \s                   # manufacturer
             \[([a-f\d]+:[a-f\d]+)\]      # id
             (?:\s \(rev \s (\d+)\))?     # optional version
             /x) {

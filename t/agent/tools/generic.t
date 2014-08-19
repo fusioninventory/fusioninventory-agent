@@ -6845,6 +6845,15 @@ my %lspci_tests = (
             PCISLOT      => '00:1f.0'
         },
         {
+            PCIID        => '8086:282a',
+            PCICLASS     => '0104',
+            REV          => '03',
+            MANUFACTURER => 'Intel Corporation 82801 Mobile SATA Controller [RAID mode]',
+            DRIVER       => 'ahci',
+            NAME         => 'RAID bus controller',
+            PCISLOT      => '00:1f.2'
+        },
+        {
             PCICLASS     => '0c05',
             NAME         => 'SMBus',
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) SMBus Controller',
@@ -6889,7 +6898,179 @@ my %lspci_tests = (
             DRIVER       => 'iwlwifi',
             PCISLOT      => '0c:00.0'
         }
-    ]
+    ],
+    'linux-2' => [
+        {
+            REV          => undef,
+            NAME         => 'Host bridge',
+            DRIVER       => 'i82975x_edac',
+            PCICLASS     => '0600',
+            PCISLOT      => '00:00.0',
+            MANUFACTURER => 'Intel Corporation 82975X Memory Controller Hub',
+            PCIID        => '8086:277c'
+        },
+        {
+            REV          => undef,
+            NAME         => 'PCI bridge',
+            DRIVER       => 'pcieport',
+            PCICLASS     => '0604',
+            PCISLOT      => '00:01.0',
+            MANUFACTURER => 'Intel Corporation 82975X PCI Express Root Port',
+            PCIID        => '8086:277d'
+        },
+        {
+            NAME         => 'Audio device',
+            REV          => '01',
+            PCICLASS     => '0403',
+            DRIVER       => 'snd_hda_intel',
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family High Definition Audio Controller',
+            PCISLOT      => '00:1b.0',
+            PCIID        => '8086:27d8'
+        },
+        {
+            REV          => '01',
+            NAME         => 'PCI bridge',
+            DRIVER       => 'pcieport',
+            PCICLASS     => '0604',
+            PCISLOT      => '00:1c.0',
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family PCI Express Port 1',
+            PCIID        => '8086:27d0'
+        },
+        {
+            NAME         => 'PCI bridge',
+            REV          => '01',
+            PCICLASS     => '0604',
+            DRIVER       => 'pcieport',
+            MANUFACTURER => 'Intel Corporation 82801GR/GH/GHM (ICH7 Family) PCI Express Port 5',
+            PCISLOT      => '00:1c.4',
+            PCIID        => '8086:27e0'
+        },
+        {
+            MANUFACTURER => 'Intel Corporation 82801GR/GH/GHM (ICH7 Family) PCI Express Port 6',
+            PCISLOT      => '00:1c.5',
+            PCIID        => '8086:27e2',
+            NAME         => 'PCI bridge',
+            REV          => '01',
+            PCICLASS     => '0604',
+            DRIVER       => 'pcieport'
+        },
+        {
+            DRIVER       => 'uhci_hcd',
+            PCICLASS     => '0c03',
+            REV          => '01',
+            NAME         => 'USB controller',
+            PCIID        => '8086:27c8',
+            PCISLOT      => '00:1d.0',
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB UHCI Controller #1'
+        },
+        {
+            NAME         => 'USB controller',
+            REV          => '01',
+            PCICLASS     => '0c03',
+            DRIVER       => 'uhci_hcd',
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB UHCI Controller #2',
+            PCISLOT      => '00:1d.1',
+            PCIID        => '8086:27c9'
+        },
+        {
+            DRIVER       => 'uhci_hcd',
+            PCICLASS     => '0c03',
+            REV          => '01',
+            NAME         => 'USB controller',
+            PCIID        => '8086:27ca',
+            PCISLOT      => '00:1d.2',
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB UHCI Controller #3'
+        },
+        {
+            PCIID        => '8086:27cb',
+            PCISLOT      => '00:1d.3',
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB UHCI Controller #4',
+            DRIVER       => 'uhci_hcd',
+            PCICLASS     => '0c03',
+            REV          => '01',
+            NAME         => 'USB controller'
+        },
+        {
+            PCICLASS     => '0c03',
+            DRIVER       => 'ehci',
+            NAME         => 'USB controller',
+            REV          => '01',
+            PCIID        => '8086:27cc',
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB2 EHCI Controller',
+            PCISLOT      => '00:1d.7'
+        },
+        {
+            PCISLOT      => '00:1e.0',
+            MANUFACTURER => 'Intel Corporation 82801 PCI Bridge',
+            PCIID        => '8086:244e',
+            REV          => undef,
+            NAME         => 'PCI bridge',
+            PCICLASS     => '0604'
+        },
+        {
+            REV          => '01',
+            NAME         => 'ISA bridge',
+            DRIVER       => 'lpc_ich',
+            PCICLASS     => '0601',
+            PCISLOT      => '00:1f.0',
+            MANUFACTURER => 'Intel Corporation 82801GB/GR (ICH7 Family) LPC Interface Bridge',
+            PCIID        => '8086:27b8'
+        },
+        {
+            MANUFACTURER => 'Intel Corporation 82801G (ICH7 Family) IDE Controller',
+            PCISLOT      => '00:1f.1',
+            PCIID        => '8086:27df',
+            NAME         => 'IDE interface',
+            REV          => '01',
+            PCICLASS     => '0101',
+            DRIVER       => 'ata_piix'
+        },
+        {
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family SATA Controller [AHCI mode]',
+            DRIVER       => 'ahci',
+            REV          => '01',
+            PCISLOT      => '00:1f.2',
+            PCICLASS     => '0106',
+            PCIID        => '8086:27c1',
+            NAME         => 'SATA controller'
+        },
+        {
+            PCICLASS     => '0c05',
+            DRIVER       => 'i801_smbus',
+            NAME         => 'SMBus',
+            REV          => '01',
+            PCIID        => '8086:27da',
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family SMBus Controller',
+            PCISLOT      => '00:1f.3'
+        },
+        {
+            DRIVER       => 'nvidia',
+            PCISLOT      => '01:00.0',
+            PCICLASS     => '0300',
+            REV          => undef,
+            PCIID        => '10de:014d',
+            NAME         => 'VGA compatible controller',
+            MANUFACTURER => 'NVIDIA Corporation NV43GL [Quadro FX 550]'
+        },
+        {
+            NAME         => 'Ethernet controller',
+            REV          => '02',
+            PCICLASS     => '0200',
+            DRIVER       => 'tg3',
+            MANUFACTURER => 'Broadcom Corporation NetXtreme BCM5754 Gigabit Ethernet PCI Express',
+            PCISLOT      => '04:00.0',
+            PCIID        => '14e4:167a'
+        },
+        {
+            PCISLOT      => '05:02.0',
+            DRIVER       => 'firewire_ohci',
+            REV          => '61',
+            PCIID        => '11c1:5811',
+            MANUFACTURER => 'LSI Corporation FW322/323 [TrueFire] 1394a Controller',
+            NAME         => 'FireWire (IEEE 1394)',
+            PCICLASS     => '0c00'
+        }
+    ],
 );
 
 my %edid_vendor_tests = (
