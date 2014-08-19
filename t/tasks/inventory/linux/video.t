@@ -151,13 +151,19 @@ my %xorg = (
         product    => 'Intel(r)GM965/PM965/GL960 Graphics Controller'
     },
     'linux-nvidia-1' => {
-        pcislot    => '05@00:00.0',
+        pcislot    => '05:00.0',
         resolution => '1680x1050',
         name       => 'GeForce 8400 GS (G98)'
     },
     'linux-nvidia-2' => {
+        pcislot    => '01:00.0',
         resolution => '2960x1050',
         name       => 'GeForce 7300 SE/7200 GS (G72)'
+    },
+    'linux-nvidia-3' => {
+        pcislot    => '01:00.0',
+        resolution => '1600x1200',
+        name       => 'Quadro FX 550 (NV43GL)',
     },
     'linux-vesa-1' => {
         memory     => '12288kB',
@@ -174,6 +180,7 @@ my %xorg = (
         product    => 'Oracle VM VirtualBox VBE Adapter'
     },
     'linux-ati-1' => {
+        pcislot    => '01:05.0',
         resolution => '1920x1080',
         name       => 'ATI Radeon HD 4290'
     },
@@ -185,8 +192,9 @@ my %xorg = (
         product    => 'MACH64GM'
     },
     'linux-nouveau' => {
-        'resolution' => '1680x1050',
-        'product' => 'NVIDIA NV86'
+        pcislot    => '01:00.0',
+        resolution => '1680x1050',
+        product    => 'NVIDIA NV86'
     }
 
 );

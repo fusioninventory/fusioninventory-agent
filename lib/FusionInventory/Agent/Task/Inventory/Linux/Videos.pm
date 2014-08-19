@@ -110,11 +110,9 @@ sub _parseXorgFd {
         } elsif ($line =~ /Virtual size is (\S+)/i) {
             # VESA / XFree86
             $data->{resolution} = $1;
-        } elsif ($line =~ /Primary Device is: PCI (.+)/i) {
-            $data->{pcislot} = $1;
+        } elsif ($line =~ /PCI: \* \( (?:\d+:)? (\d+) : (\d+) : (\d+) \)/x) {
             # mimic lspci pci slot format
-            $data->{pcislot} =~ s/^00@//;
-            $data->{pcislot} =~ s/(\d{2}):(\d{2}):(\d)$/$1:$2.$3/;
+            $data->{pcislot} = sprintf("%02d:%02d.%d", $1, $2, $3);
         } elsif ($line =~ /NOUVEAU\(0\): Chipset: "(.*)"/) {
             # Nouveau
             $data->{product} = $1;
