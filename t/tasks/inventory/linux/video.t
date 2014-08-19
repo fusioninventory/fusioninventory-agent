@@ -130,16 +130,19 @@ my %ddcprobe = (
 my %xorg = (
     'linux-intel-1' => {
         pcislot    => '00:02.0',
+        pciid      => '8086:27ae:1025:022f',
         resolution => '1024x600',
         name       => 'Intel(R) 945GME'
     },
     'linux-intel-2' => {
         pcislot    => '00:02.0',
+        pciid      => '8086:27ae:144d:ca00',
         resolution => '1024x600',
         name       => 'Intel(R) 945GME'
     },
     'linux-intel-3' => {
         pcislot    => '00:02.0',
+        pciid      => '8086:2e32:1028:0400',
         resolution => '1920x1080',
         name       => 'Intel(R) G41'
     },
@@ -152,16 +155,19 @@ my %xorg = (
     },
     'linux-nvidia-1' => {
         pcislot    => '05:00.0',
+        pciid      => '10de:06e4:0000:0000',
         resolution => '1680x1050',
         name       => 'GeForce 8400 GS (G98)'
     },
     'linux-nvidia-2' => {
         pcislot    => '01:00.0',
+        pciid      => '10de:01d3:10b0:0401',
         resolution => '2960x1050',
         name       => 'GeForce 7300 SE/7200 GS (G72)'
     },
     'linux-nvidia-3' => {
         pcislot    => '01:00.0',
+        pciid      => '10de:014d:10de:0349',
         resolution => '1600x1200',
         name       => 'Quadro FX 550 (NV43GL)',
     },
@@ -181,6 +187,7 @@ my %xorg = (
     },
     'linux-ati-1' => {
         pcislot    => '01:05.0',
+        pciid      => '1002:9715:1458:d000',
         resolution => '1920x1080',
         name       => 'ATI Radeon HD 4290'
     },
@@ -193,6 +200,7 @@ my %xorg = (
     },
     'linux-nouveau' => {
         pcislot    => '01:00.0',
+        pciid      => '10de:0421:1043:8264',
         resolution => '1680x1050',
         product    => 'NVIDIA NV86'
     }
