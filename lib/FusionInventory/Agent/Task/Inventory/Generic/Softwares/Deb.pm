@@ -20,8 +20,7 @@ sub doInventory {
         '${Package}\t' .
         '${Architecture}\t' .
         '${Version}\t'.
-        '${Installed-Size}\t' .
-        '${Description}\n' .
+        '${Installed-Size}\n' .
         '\'';
 
     my $packages = _getPackagesList(
