@@ -54,6 +54,7 @@ sub doInventory {
         NAME       => $xorgData->{name}       || $ddcprobeData->{oem},
         RESOLUTION => $xorgData->{resolution} || $ddcprobeData->{dtiming},
         PCISLOT    => $xorgData->{pcislot},
+        PCIID      => $xorgData->{pciid},
     };
 
     if ($video->{MEMORY} && $video->{MEMORY} =~ s/kb$//i) {
@@ -112,9 +113,12 @@ sub _parseXorgFd {
         } elsif ($line =~ /Virtual size is (\S+)/i) {
             # VESA / XFree86
             $data->{resolution} = $1;
-        } elsif ($line =~ /PCI: \* \( (?:\d+:)? (\d+) : (\d+) : (\d+) \)/x) {
-            # mimic lspci pci slot format
+        } elsif ($line =~ /
+            PCI: \* \( (?:\d+:)? (\d+) : (\d+) : (\d+) \) \s
+            (\w{4}:\w{4}:\w{4}:\w{4})?
+        /x) {
             $data->{pcislot} = sprintf("%02d:%02d.%d", $1, $2, $3);
+            $data->{pciid}   = $4 if $4;
         } elsif ($line =~ /NOUVEAU\(0\): Chipset: "(.*)"/) {
             # Nouveau
             $data->{product} = $1;
