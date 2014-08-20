@@ -361,6 +361,11 @@ sub getInterfaces {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $object->{PNPDeviceID};
 
+        my $pciid;
+        if ($object->{PNPDeviceID} =~ /PCI\\VEN_(\w{4})&DEV_(\w{4})&SUBSYS_(\w{4})(\w{4})/) {
+            $pciid = join(':', $1 , $2 , $3 , $4);
+        }
+
         my $configuration = $configurations[$object->{Index}];
 
         if ($configuration->{addresses}) {
@@ -369,6 +374,7 @@ sub getInterfaces {
                 my $interface = {
                     SPEED       => $object->{Speed},
                     PNPDEVICEID => $object->{PNPDeviceID},
+                    PCIID       => $pciid,
                     MACADDR     => $configuration->{MACADDR},
                     DESCRIPTION => $configuration->{DESCRIPTION},
                     STATUS      => $configuration->{STATUS},
@@ -405,6 +411,7 @@ sub getInterfaces {
             my $interface = {
                 SPEED       => $object->{Speed},
                 PNPDEVICEID => $object->{PNPDeviceID},
+                PCIID       => $pciid,
                 MACADDR     => $configuration->{MACADDR},
                 DESCRIPTION => $configuration->{DESCRIPTION},
                 STATUS      => $configuration->{STATUS},
