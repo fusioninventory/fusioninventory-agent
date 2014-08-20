@@ -47,16 +47,19 @@ sub _getPackagesList {
     while (my $line = <$handle>) {
         chomp $line;
         my @infos = split("\t", $line);
-        push @packages, {
+        my $package = {
             NAME        => $infos[0],
             ARCH        => $infos[1],
             VERSION     => $infos[2],
             INSTALLDATE => $infos[3],
             FILESIZE    => $infos[4],
-            PUBLISHER   => $infos[5],
             COMMENTS    => $infos[6],
             FROM        => 'rpm'
         };
+
+        $package->{PUBLISHER} = $infos[5] if $infos[5] ne '(none)';
+
+        push @packages, $package;
     }
 
     close $handle;
