@@ -100,22 +100,34 @@ sub _getDevicesBase {
     my (%params) = @_;
 
     my $logger = $params{logger};
-    $logger->debug("retrieving devices list...");
+    $logger->debug("retrieving devices list:");
 
     if (-d '/sys/block') {
         my @devices = getDevicesFromProc(logger => $logger);
-        $logger->debug_result('reading /sys/block content', @devices);
+        $logger->debug_result(
+            action => 'reading /sys/block content',
+            data   => scalar @devices
+        );
         return @devices if @devices;
     } else {
-        $logger->debug_absence('/sys/block directory');
+        $logger->debug_result(
+            action => 'reading /sys/block content',
+            status => 'directory not available'
+        );
     }
 
     if (canRun('/usr/bin/lshal')) {
         my @devices = getDevicesFromHal(logger => $logger);
-        $logger->debug_result('running /usr/bin/lshal command', @devices);
+        $logger->debug_result(
+            action => 'running lshal command',
+            data   => scalar @devices
+        );
         return @devices if @devices;
     } else {
-        $logger->debug_absence('/usr/bin/lshal command');
+        $logger->debug_result(
+            action => 'running lshal command',
+            status => 'command not available'
+        );
     }
 
     return;

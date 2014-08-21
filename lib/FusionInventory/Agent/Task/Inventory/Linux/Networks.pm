@@ -135,22 +135,34 @@ sub _getInterfacesBase {
     my (%params) = @_;
 
     my $logger = $params{logger};
-    $logger->debug("retrieving interfaces list...");
+    $logger->debug("retrieving interfaces list:");
 
     if (canRun('/sbin/ip')) {
         my @interfaces = getInterfacesFromIp(logger => $logger);
-        $logger->debug_result('running /sbin/ip command', @interfaces);
+        $logger->debug_result(
+            action => 'running /sbin/ip command',
+            data   => scalar @interfaces
+        );
         return @interfaces if @interfaces;
     } else {
-        $logger->debug_absence($logger, '/sbin/ip command');
+        $logger->debug_result(
+            action => 'running /sbin/ip command',
+            status => 'command not available'
+        );
     }
 
     if (canRun('/sbin/ifconfig')) {
         my @interfaces = getInterfacesFromIfconfig(logger => $logger);
-        $logger->debug_result('running /sbin/ifconfig command', @interfaces);
+        $logger->debug_result(
+            action => 'running /sbin/ifconfig command',
+            data   => scalar @interfaces
+        );
         return @interfaces if @interfaces;
     } else {
-        $logger->debug_absence('/sbin/ifconfig command');
+        $logger->debug_result(
+            action => 'running /sbin/ifconfig command',
+            status => 'command not available'
+        );
     }
 
     return;

@@ -89,26 +89,15 @@ sub debug {
 }
 
 sub debug_result {
-    my ($self, $message, $result) = @_;
+    my ($self, %params) = @_;
 
     return unless $self->{verbosity} >= LOG_DEBUG;
+
+    my $status = $params{status} || ($params{data} ? 'success' : 'no result');
+
     $self->_log(
         level   => 'debug',
-        message => sprintf(
-            '%s: %s', $message, $result ? 'success' : 'no result'
-        )
-    );
-}
-
-sub debug_absence {
-    my ($self, $message) = @_;
-
-    return unless $self->{verbosity} >= LOG_DEBUG;
-    $self->_log(
-        level   => 'debug',
-        message => sprintf(
-            '%s not available', $message
-        )
+        message => sprintf('- %s: %s', $params{action}, $status)
     );
 }
 

@@ -155,7 +155,7 @@ sub _getScreensFromUnix {
     my (%params) = @_;
 
     my $logger = $params{logger};
-    $logger->debug("trying to get EDID data...");
+    $logger->debug("retrieving EDID data:");
 
     if (-d '/sys/devices') {
         my @screens;
@@ -169,27 +169,45 @@ sub _getScreensFromUnix {
         no warnings 'File::Find';
         File::Find::find($wanted, '/sys/devices');
 
-        $logger->debug_result('reading /sys/devices content', @screens);
+        $logger->debug_result(
+            action => 'reading /sys/devices content',
+            data   => scalar @screens
+        );
 
         return @screens if @screens;
     } else {
-        $logger->debug_absence('/sys/devices directory');
+        $logger->debug_result(
+            action => 'reading /sys/devices content',
+            status => 'directory not available'
+        );
     }
 
     if (canRun('monitor-get-edid-using-vbe')) {
         my $edid = getAllLines(command => 'monitor-get-edid-using-vbe');
-        $logger->debug_result('running monitor-get-edid-using-vbe command', $edid);
+        $logger->debug_result(
+            action => 'running monitor-get-edid-using-vbe command',
+            data   => $edid
+        );
         return { edid => $edid } if $edid;
     } else {
-        $logger->debug_absence('monitor-get-edid-using-vbe command');
+        $logger->debug_result(
+            action => 'running monitor-get-edid-using-vbe command',
+            status => 'command not available'
+        );
     }
 
     if (canRun('monitor-get-edid')) {
         my $edid = getAllLines(command => 'monitor-get-edid');
-        $logger->debug_result('running monitor-get-edid command', $edid);
+        $logger->debug_result(
+            action => 'running monitor-get-edid command',
+            data   => $edid
+        );
         return { edid => $edid } if $edid;
     } else {
-        $logger->debug_absence('monitor-get-edid command');
+        $logger->debug_result(
+            action => 'running monitor-get-edid command',
+            status => 'command not available'
+        );
     }
 
     if (canRun('get-edid')) {
@@ -198,10 +216,16 @@ sub _getScreensFromUnix {
             $edid = getFirstLine(command => 'get-edid');
             last if $edid;
         }
-        $logger->debug_result('running get-edid command', $edid);
+        $logger->debug_result(
+            action => 'running get-edid command',
+            data   => $edid
+        );
         return { edid => $edid } if $edid;
     } else {
-        $logger->debug_absence('get-edid command');
+        $logger->debug_result(
+            action => 'running get-edid command',
+            status => 'command not available'
+        );
     }
 
     return;
