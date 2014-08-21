@@ -336,7 +336,6 @@ sub getInterfaces {
             foreach my $address (@{$configuration->{addresses}}) {
 
                 my $interface = {
-                    SPEED       => $object->{Speed} / 1_000_000,
                     PNPDEVICEID => $object->{PNPDeviceID},
                     MACADDR     => $configuration->{MACADDR},
                     DESCRIPTION => $configuration->{DESCRIPTION},
@@ -363,6 +362,8 @@ sub getInterfaces {
                     );
                 }
 
+                $interface->{SPEED}      = $object->{Speed} / 1_000_000
+                    if $object->{Speed};
                 $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
                 $interface->{TYPE}       = _getType($object);
 
@@ -372,7 +373,6 @@ sub getInterfaces {
             next unless $configuration->{MACADDR};
 
             my $interface = {
-                SPEED       => $object->{Speed} / 1_000_000,
                 PNPDEVICEID => $object->{PNPDeviceID},
                 MACADDR     => $configuration->{MACADDR},
                 DESCRIPTION => $configuration->{DESCRIPTION},
@@ -381,6 +381,8 @@ sub getInterfaces {
                 dns         => $configuration->{dns},
             };
 
+            $interface->{SPEED}      = $object->{Speed} / 1_000_000
+                if $object->{Speed};
             $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
             $interface->{TYPE}       = _getType($object);
 
