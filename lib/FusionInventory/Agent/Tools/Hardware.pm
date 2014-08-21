@@ -751,6 +751,7 @@ sub _setPrinterProperties {
         my $variable =
             _getConsumableVariableFromDescription(
                 datadir     => $params{datadir},
+                logger      => $logger,
                 description => $description
             );
         next unless $variable;
@@ -784,14 +785,21 @@ sub _setPrinterProperties {
 sub _getConsumableVariableFromDescription {
     my (%params) = @_;
 
+    my $logger      = $params{logger};
     my $description = $params{description};
     return unless $description;
 
     _loadConsumablesDatabase(%params) if !%consumables;
 
     foreach my $key (keys %consumables) {
-        return $consumables{$key} if $description =~ /$key/;
+        next unless $description =~ /$key/;
+        $logger->debug("match for consumable $description in database")
+            if $logger;
+        return $consumables{$key};
     }
+
+    $logger->debug("no match for consumable $description in database") 
+        if $logger;
 
     # find type
     my $type;
@@ -800,7 +808,14 @@ sub _getConsumableVariableFromDescription {
         $type = $rule->{value};
         last;
     }
-    return unless $type;
+    if ($type) {
+        $logger->debug("match for consumable $description in type rules")
+            if $logger;
+    } else {
+        $logger->debug("no match for consumable $description in type rules")
+            if $logger;
+        return;
+    }
 
     my $result = $consumable_variables_from_type{$type};
     # for waste and toner, type is enough
@@ -814,7 +829,14 @@ sub _getConsumableVariableFromDescription {
         $subtype = $rule->{value};
         last;
     }
-    return unless $subtype;
+    if ($subtype) {
+        $logger->debug("match for consumable $description in subtype rules")
+            if $logger;
+    } else {
+        $logger->debug("no match for consumable $description in subtype rules")
+            if $logger;
+        return;
+    }
 
     return $consumable_variables_from_type{$type}->{$subtype};
 }
