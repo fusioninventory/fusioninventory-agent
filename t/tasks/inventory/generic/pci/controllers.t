@@ -228,6 +228,18 @@ my %tests = (
             PRODUCTID    => '2917'
         },
         {
+            TYPE         => 'RAID bus controller',
+            PRODUCTID    => '282a',
+            DRIVER       => 'ahci',
+            VENDORID     => '8086',
+            MANUFACTURER => 'Intel Corporation',
+            PCISLOT      => '00:1f.2',
+            NAME         => '82801 Mobile SATA Controller [RAID mode]',
+            REV          => '03',
+            PCICLASS     => '0104',
+            CAPTION      => '82801 Mobile SATA Controller [RAID mode]'
+        },
+        {
             NAME         => re('^82801I \([^)]+\) SMBus Controller'),
             TYPE         => 'SMBus',
             CAPTION      => re('^82801I \([^)]+\) SMBus Controller'),
