@@ -1,0 +1,288 @@
+[    29.337] 
+X.Org X Server 1.14.5
+Release Date: 2013-12-12
+[    29.337] X Protocol Version 11, Revision 0
+[    29.337] Build Operating System: Linux_3.4.69-server-1.mga2 Mageia
+[    29.337] Current Operating System: Linux torquemada.inria.fr 3.12.13-desktop-2.mga4 #1 SMP Sat Feb 22 23:45:28 UTC 2014 x86_64
+[    29.337] Kernel command line: BOOT_IMAGE=linux root=UUID=2d9a47ab-f979-4fbc-b390-627df7c92a47 splash quiet nokmsboot resume=UUID=46393840-e9b5-408a-9c29-1be74a9d2029 vga=788
+[    29.337] Build Date: 27 December 2013  09:29:22AM
+[    29.337]  
+[    29.337] Current version of pixman: 0.32.4
+[    29.337] 	Before reporting problems, check http://bugs.mageia.org
+	to make sure that you have the latest version.
+[    29.337] Markers: (--) probed, (**) from config file, (==) default setting,
+	(++) from command line, (!!) notice, (II) informational,
+	(WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+[    29.337] (==) Log file: "/var/log/Xorg.0.log", Time: Wed Apr 30 09:26:18 2014
+[    29.337] (==) Using config file: "/etc/X11/xorg.conf"
+[    29.337] (==) Using system config directory "/usr/share/X11/xorg.conf.d"
+[    29.338] (==) ServerLayout "layout1"
+[    29.338] (**) |-->Screen "screen1" (0)
+[    29.338] (**) |   |-->Monitor "monitor1"
+[    29.338] (**) |   |-->Device "device1"
+[    29.338] (**) Option "DontZap" "False"
+[    29.338] (**) Option "AllowMouseOpenFail"
+[    29.338] (==) Automatically adding devices
+[    29.338] (==) Automatically enabling devices
+[    29.338] (==) Automatically adding GPU devices
+[    29.338] (==) FontPath set to:
+	catalogue:/etc/X11/fontpath.d
+[    29.338] (==) ModulePath set to "/usr/lib64/xorg/extra-modules,/usr/lib64/xorg/modules"
+[    29.338] (II) The server relies on udev to provide the list of input devices.
+	If no devices become available, reconfigure udev or disable AutoAddDevices.
+[    29.338] (II) Loader magic: 0x7fdc40
+[    29.338] (II) Module ABI versions:
+[    29.338] 	X.Org ANSI C Emulation: 0.4
+[    29.338] 	X.Org Video Driver: 14.1
+[    29.338] 	X.Org XInput driver : 19.1
+[    29.338] 	X.Org Server Extension : 7.0
+[    29.339] (--) PCI:*(0:1:0:0) 10de:014d:10de:0349 rev 162, Mem @ 0xe8000000/67108864, 0xd8000000/134217728, 0xee000000/16777216, BIOS @ 0x????????/131072
+[    29.339] (II) Open ACPI successful (/var/run/acpid.socket)
+[    29.339] Initializing built-in extension Generic Event Extension
+[    29.339] Initializing built-in extension SHAPE
+[    29.339] Initializing built-in extension MIT-SHM
+[    29.339] Initializing built-in extension XInputExtension
+[    29.339] Initializing built-in extension XTEST
+[    29.339] Initializing built-in extension BIG-REQUESTS
+[    29.339] Initializing built-in extension SYNC
+[    29.339] Initializing built-in extension XKEYBOARD
+[    29.339] Initializing built-in extension XC-MISC
+[    29.339] Initializing built-in extension SECURITY
+[    29.339] Initializing built-in extension XINERAMA
+[    29.339] Initializing built-in extension XFIXES
+[    29.339] Initializing built-in extension XFree86-Bigfont
+[    29.339] Initializing built-in extension RENDER
+[    29.339] Initializing built-in extension RANDR
+[    29.339] Initializing built-in extension COMPOSITE
+[    29.339] Initializing built-in extension DAMAGE
+[    29.339] Initializing built-in extension MIT-SCREEN-SAVER
+[    29.340] Initializing built-in extension DOUBLE-BUFFER
+[    29.340] Initializing built-in extension RECORD
+[    29.340] Initializing built-in extension DPMS
+[    29.340] Initializing built-in extension X-Resource
+[    29.340] Initializing built-in extension XVideo
+[    29.340] Initializing built-in extension XVideo-MotionCompensation
+[    29.340] Initializing built-in extension XFree86-VidModeExtension
+[    29.340] Initializing built-in extension XFree86-DGA
+[    29.340] Initializing built-in extension XFree86-DRI
+[    29.340] Initializing built-in extension DRI2
+[    29.340] (II) "glx" will be loaded by default.
+[    29.340] (II) LoadModule: "v4l"
+[    29.464] (II) Loading /usr/lib64/xorg/modules/drivers/v4l_drv.so
+[    29.464] (II) Module v4l: vendor="X.Org Foundation"
+[    29.464] 	compiled for 1.14.3, module version = 0.1.1
+[    29.464] 	ABI class: X.Org Video Driver, version 14.1
+[    29.464] (II) LoadModule: "glx"
+[    29.464] (II) Loading /usr/lib64/xorg/extra-modules/libglx.so
+[    30.996] (II) Module glx: vendor="NVIDIA Corporation"
+[    30.996] 	compiled for 4.0.2, module version = 1.0.0
+[    30.996] 	Module class: X.Org Server Extension
+[    30.996] (II) NVIDIA GLX Module  304.119  Fri Jan 17 09:50:24 PST 2014
+[    30.996] Loading extension GLX
+[    30.996] (II) LoadModule: "nvidia"
+[    30.996] (II) Loading /usr/lib64/xorg/extra-modules/nvidia_drv.so
+[    30.996] (II) Module nvidia: vendor="NVIDIA Corporation"
+[    30.996] 	compiled for 4.0.2, module version = 1.0.0
+[    30.996] 	Module class: X.Org Video Driver
+[    30.996] (II) v4l driver for Video4Linux
+[    30.996] (II) NVIDIA dlloader X Driver  304.119  Fri Jan 17 09:32:25 PST 2014
+[    30.996] (II) NVIDIA Unified Driver for all Supported NVIDIA GPUs
+[    30.996] (++) using VT number 1
+
+[    30.996] (WW) Falling back to old probe method for v4l
+[    30.996] (II) Loading sub module "fb"
+[    30.996] (II) LoadModule: "fb"
+[    30.997] (II) Loading /usr/lib64/xorg/modules/libfb.so
+[    30.997] (II) Module fb: vendor="X.Org Foundation"
+[    30.997] 	compiled for 1.14.5, module version = 1.0.0
+[    30.997] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    30.997] (II) Loading sub module "wfb"
+[    30.997] (II) LoadModule: "wfb"
+[    30.997] (II) Loading /usr/lib64/xorg/modules/libwfb.so
+[    30.997] (II) Module wfb: vendor="X.Org Foundation"
+[    30.997] 	compiled for 1.14.5, module version = 1.0.0
+[    30.997] 	ABI class: X.Org ANSI C Emulation, version 0.4
+[    30.997] (II) Loading sub module "ramdac"
+[    30.997] (II) LoadModule: "ramdac"
+[    30.997] (II) Module "ramdac" already built-in
+[    30.998] (**) NVIDIA(0): Depth 24, (--) framebuffer bpp 32
+[    30.998] (==) NVIDIA(0): RGB weight 888
+[    30.998] (==) NVIDIA(0): Default visual is TrueColor
+[    30.998] (==) NVIDIA(0): Using gamma correction (1.0, 1.0, 1.0)
+[    30.998] (**) NVIDIA(0): Option "AddARGBGLXVisuals"
+[    30.998] (**) NVIDIA(0): Option "DynamicTwinView" "false"
+[    30.998] (**) NVIDIA(0): Enabling 2D acceleration
+[    31.901] (II) NVIDIA(GPU-0): Display (DELL 2007FP (DFP-1)) does not support NVIDIA 3D
+[    31.901] (II) NVIDIA(GPU-0):     Vision stereo.
+[    31.903] (II) NVIDIA(0): NVIDIA GPU Quadro FX 550 (NV43GL) at PCI:1:0:0 (GPU-0)
+[    31.903] (--) NVIDIA(0): Memory: 131072 kBytes
+[    31.903] (--) NVIDIA(0): VideoBIOS: 05.43.02.97.01
+[    31.903] (II) NVIDIA(0): Detected PCI Express Link width: 16X
+[    31.903] (--) NVIDIA(0): Interlaced video modes are supported on this GPU
+[    31.903] (--) NVIDIA(0): Valid display device(s) on Quadro FX 550 at PCI:1:0:0
+[    31.903] (--) NVIDIA(0):     CRT-0
+[    31.903] (--) NVIDIA(0):     CRT-1
+[    31.903] (--) NVIDIA(0):     DFP-0
+[    31.903] (--) NVIDIA(0):     DELL 2007FP (DFP-1) (connected)
+[    31.903] (--) NVIDIA(0): CRT-0: 400.0 MHz maximum pixel clock
+[    31.903] (--) NVIDIA(0): CRT-1: 400.0 MHz maximum pixel clock
+[    31.903] (--) NVIDIA(0): DFP-0: 155.0 MHz maximum pixel clock
+[    31.903] (--) NVIDIA(0): DFP-0: Internal Single Link TMDS
+[    31.903] (--) NVIDIA(0): DELL 2007FP (DFP-1): 155.0 MHz maximum pixel clock
+[    31.903] (--) NVIDIA(0): DELL 2007FP (DFP-1): Internal Single Link TMDS
+[    31.903] (**) NVIDIA(0): Using HorizSync/VertRefresh ranges from the EDID for display
+[    31.903] (**) NVIDIA(0):     device DELL 2007FP (DFP-1) (Using EDID frequencies has
+[    31.903] (**) NVIDIA(0):     been enabled on all display devices.)
+[    31.903] (WW) NVIDIA(0): No valid modes for "DFP-1:1400x1050"; removing.
+[    31.903] (WW) NVIDIA(0): No valid modes for "DFP-1:1280x960"; removing.
+[    31.904] (WW) NVIDIA(0): No valid modes for "DFP-1:832x624"; removing.
+[    31.904] (WW) NVIDIA(0): No valid modes for "DFP-1:480x360"; removing.
+[    31.904] (WW) NVIDIA(0): No valid modes for "DFP-1:320x240"; removing.
+[    31.904] (II) NVIDIA(0): Validated MetaModes:
+[    31.904] (II) NVIDIA(0):     "DFP-1:1600x1200"
+[    31.904] (II) NVIDIA(0):     "DFP-1:1280x1024"
+[    31.904] (II) NVIDIA(0):     "DFP-1:1152x864"
+[    31.904] (II) NVIDIA(0):     "DFP-1:1024x768"
+[    31.904] (II) NVIDIA(0):     "DFP-1:800x600"
+[    31.904] (II) NVIDIA(0):     "DFP-1:640x480"
+[    31.904] (II) NVIDIA(0): Virtual screen size determined to be 1600 x 1200
+[    31.905] (WW) NVIDIA(0): Unable to support custom viewPortOut 1600 x 900 +0 +150
+[    31.905] (WW) NVIDIA(0): Unable to support custom viewPortOut 1600 x 900 +0 +150
+[    31.905] (--) NVIDIA(0): DPI set to (99, 98); computed from "UseEdidDpi" X config
+[    31.905] (--) NVIDIA(0):     option
+[    31.905] (WW) NVIDIA(0): UBB is incompatible with the Composite extension.  Disabling
+[    31.905] (WW) NVIDIA(0):     UBB.
+[    31.905] (**) NVIDIA(0): Enabling 32-bit ARGB GLX visuals.
+[    31.905] (--) Depth 24 pixmap format is 32 bpp
+[    31.911] (II) NVIDIA(0): Setting mode "DFP-1:1600x1200"
+[    32.064] Loading extension NV-GLX
+[    32.087] (==) NVIDIA(0): Disabling shared memory pixmaps
+[    32.087] (==) NVIDIA(0): Backing store disabled
+[    32.087] (==) NVIDIA(0): Silken mouse enabled
+[    32.087] (**) NVIDIA(0): DPMS enabled
+[    32.087] Loading extension NV-CONTROL
+[    32.087] Loading extension XINERAMA
+[    32.087] (II) Loading sub module "dri2"
+[    32.087] (II) LoadModule: "dri2"
+[    32.087] (II) Module "dri2" already built-in
+[    32.088] (II) NVIDIA(0): [DRI2] Setup complete
+[    32.088] (II) NVIDIA(0): [DRI2]   VDPAU driver: nvidia
+[    32.088] (--) RandR disabled
+[    32.094] (II) Initializing extension GLX
+[    32.230] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-8AA988DD479FAABEC4FC3CCCF4CC29B4948840B4.xkm
+[    32.251] (II) config/udev: Adding input device Power Button (/dev/input/event1)
+[    32.251] (**) Power Button: Applying InputClass "evdev keyboard catchall"
+[    32.251] (II) LoadModule: "evdev"
+[    32.252] (II) Loading /usr/lib64/xorg/modules/input/evdev_drv.so
+[    32.252] (II) Module evdev: vendor="X.Org Foundation"
+[    32.252] 	compiled for 1.14.3, module version = 2.8.2
+[    32.252] 	Module class: X.Org XInput Driver
+[    32.252] 	ABI class: X.Org XInput driver, version 19.1
+[    32.252] (II) Using input driver 'evdev' for 'Power Button'
+[    32.252] (**) Power Button: always reports core events
+[    32.252] (**) evdev: Power Button: Device: "/dev/input/event1"
+[    32.252] (--) evdev: Power Button: Vendor 0 Product 0x1
+[    32.252] (--) evdev: Power Button: Found keys
+[    32.252] (II) evdev: Power Button: Configuring as keyboard
+[    32.252] (**) Option "config_info" "udev:/sys/devices/LNXSYSTM:00/LNXPWRBN:00/input/input4/event1"
+[    32.252] (II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD, id 6)
+[    32.252] (**) Option "xkb_rules" "evdev"
+[    32.252] (**) Option "xkb_model" "pc105"
+[    32.252] (**) Option "xkb_layout" "fr"
+[    32.252] (**) Option "xkb_options" "compose:rwin"
+[    32.254] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-99CF0FBC2513CEA0B0411022FC44C24CB59D8944.xkm
+[    32.274] (II) config/udev: Adding input device Power Button (/dev/input/event0)
+[    32.274] (**) Power Button: Applying InputClass "evdev keyboard catchall"
+[    32.274] (II) Using input driver 'evdev' for 'Power Button'
+[    32.274] (**) Power Button: always reports core events
+[    32.274] (**) evdev: Power Button: Device: "/dev/input/event0"
+[    32.274] (--) evdev: Power Button: Vendor 0 Product 0x1
+[    32.274] (--) evdev: Power Button: Found keys
+[    32.274] (II) evdev: Power Button: Configuring as keyboard
+[    32.274] (**) Option "config_info" "udev:/sys/devices/LNXSYSTM:00/device:00/PNP0C0C:00/input/input3/event0"
+[    32.274] (II) XINPUT: Adding extended input device "Power Button" (type: KEYBOARD, id 7)
+[    32.274] (**) Option "xkb_rules" "evdev"
+[    32.274] (**) Option "xkb_model" "pc105"
+[    32.274] (**) Option "xkb_layout" "fr"
+[    32.274] (**) Option "xkb_options" "compose:rwin"
+[    32.275] (II) config/udev: Adding input device HDA Intel Front Headphone (/dev/input/event4)
+[    32.275] (II) No input driver specified, ignoring this device.
+[    32.275] (II) This device may have been added with another device file.
+[    32.275] (II) config/udev: Adding input device HDA Intel Rear Mic (/dev/input/event7)
+[    32.275] (II) No input driver specified, ignoring this device.
+[    32.275] (II) This device may have been added with another device file.
+[    32.275] (II) config/udev: Adding input device HDA Intel Front Mic (/dev/input/event6)
+[    32.275] (II) No input driver specified, ignoring this device.
+[    32.275] (II) This device may have been added with another device file.
+[    32.276] (II) config/udev: Adding input device HDA Intel Line Out (/dev/input/event5)
+[    32.276] (II) No input driver specified, ignoring this device.
+[    32.276] (II) This device may have been added with another device file.
+[    32.276] (II) config/udev: Adding input device Dell Dell USB Optical Mouse (/dev/input/event2)
+[    32.276] (**) Dell Dell USB Optical Mouse: Applying InputClass "evdev pointer catchall"
+[    32.276] (II) Using input driver 'evdev' for 'Dell Dell USB Optical Mouse'
+[    32.276] (**) Dell Dell USB Optical Mouse: always reports core events
+[    32.276] (**) evdev: Dell Dell USB Optical Mouse: Device: "/dev/input/event2"
+[    32.276] (--) evdev: Dell Dell USB Optical Mouse: Vendor 0x413c Product 0x3012
+[    32.276] (--) evdev: Dell Dell USB Optical Mouse: Found 3 mouse buttons
+[    32.276] (--) evdev: Dell Dell USB Optical Mouse: Found scroll wheel(s)
+[    32.276] (--) evdev: Dell Dell USB Optical Mouse: Found relative axes
+[    32.276] (--) evdev: Dell Dell USB Optical Mouse: Found x and y relative axes
+[    32.276] (II) evdev: Dell Dell USB Optical Mouse: Configuring as mouse
+[    32.276] (II) evdev: Dell Dell USB Optical Mouse: Adding scrollwheel support
+[    32.276] (**) evdev: Dell Dell USB Optical Mouse: YAxisMapping: buttons 4 and 5
+[    32.276] (**) evdev: Dell Dell USB Optical Mouse: EmulateWheelButton: 4, EmulateWheelInertia: 10, EmulateWheelTimeout: 200
+[    32.276] (**) Option "config_info" "udev:/sys/devices/pci0000:00/0000:00:1d.7/usb5/5-4/5-4.3/5-4.3:1.0/input/input5/event2"
+[    32.276] (II) XINPUT: Adding extended input device "Dell Dell USB Optical Mouse" (type: MOUSE, id 8)
+[    32.276] (II) evdev: Dell Dell USB Optical Mouse: initialized for relative axes.
+[    32.276] (**) Dell Dell USB Optical Mouse: (accel) keeping acceleration scheme 1
+[    32.276] (**) Dell Dell USB Optical Mouse: (accel) acceleration profile 0
+[    32.276] (**) Dell Dell USB Optical Mouse: (accel) acceleration factor: 2.000
+[    32.276] (**) Dell Dell USB Optical Mouse: (accel) acceleration threshold: 4
+[    32.277] (II) config/udev: Adding input device Dell Dell USB Optical Mouse (/dev/input/mouse0)
+[    32.277] (II) No input driver specified, ignoring this device.
+[    32.277] (II) This device may have been added with another device file.
+[    32.277] (II) config/udev: Adding input device Dell Dell USB Keyboard (/dev/input/event3)
+[    32.277] (**) Dell Dell USB Keyboard: Applying InputClass "evdev keyboard catchall"
+[    32.277] (II) Using input driver 'evdev' for 'Dell Dell USB Keyboard'
+[    32.277] (**) Dell Dell USB Keyboard: always reports core events
+[    32.277] (**) evdev: Dell Dell USB Keyboard: Device: "/dev/input/event3"
+[    32.277] (--) evdev: Dell Dell USB Keyboard: Vendor 0x413c Product 0x2003
+[    32.277] (--) evdev: Dell Dell USB Keyboard: Found keys
+[    32.277] (II) evdev: Dell Dell USB Keyboard: Configuring as keyboard
+[    32.277] (**) Option "config_info" "udev:/sys/devices/pci0000:00/0000:00:1d.7/usb5/5-4/5-4.4/5-4.4:1.0/input/input6/event3"
+[    32.277] (II) XINPUT: Adding extended input device "Dell Dell USB Keyboard" (type: KEYBOARD, id 9)
+[    32.277] (**) Option "xkb_rules" "evdev"
+[    32.277] (**) Option "xkb_model" "pc105"
+[    32.277] (**) Option "xkb_layout" "fr"
+[    32.277] (**) Option "xkb_options" "compose:rwin"
+[    33.874] (II) NVIDIA(GPU-0): Display (DELL 2007FP (DFP-1)) does not support NVIDIA 3D
+[    33.874] (II) NVIDIA(GPU-0):     Vision stereo.
+[    33.874] (**) NVIDIA(0): Using HorizSync/VertRefresh ranges from the EDID for display
+[    33.874] (**) NVIDIA(0):     device DELL 2007FP (DFP-1) (Using EDID frequencies has
+[    33.874] (**) NVIDIA(0):     been enabled on all display devices.)
+[    33.876] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-06857493A005679C6E1BB29F32E14DBDFE415BA8.xkm
+[    33.902] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-06857493A005679C6E1BB29F32E14DBDFE415BA8.xkm
+[    33.969] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-06857493A005679C6E1BB29F32E14DBDFE415BA8.xkm
+[    34.087] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-D5FAEAF57B07B05E7E965CF5B921A125E88FFCC7.xkm
+[    34.360] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-D5FAEAF57B07B05E7E965CF5B921A125E88FFCC7.xkm
+[    34.381] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-D5FAEAF57B07B05E7E965CF5B921A125E88FFCC7.xkm
+[    34.404] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-D5FAEAF57B07B05E7E965CF5B921A125E88FFCC7.xkm
+[    34.531] (II) NVIDIA(GPU-0): Display (DELL 2007FP (DFP-1)) does not support NVIDIA 3D
+[    34.531] (II) NVIDIA(GPU-0):     Vision stereo.
+[    34.531] (**) NVIDIA(0): Using HorizSync/VertRefresh ranges from the EDID for display
+[    34.531] (**) NVIDIA(0):     device DELL 2007FP (DFP-1) (Using EDID frequencies has
+[    34.531] (**) NVIDIA(0):     been enabled on all display devices.)
+[1226784.717] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-D5FAEAF57B07B05E7E965CF5B921A125E88FFCC7.xkm
+[1226802.533] (II) NVIDIA(GPU-0): Display (DELL 2007FP (DFP-1)) does not support NVIDIA 3D
+[1226802.533] (II) NVIDIA(GPU-0):     Vision stereo.
+[1226802.533] (**) NVIDIA(0): Using HorizSync/VertRefresh ranges from the EDID for display
+[1226802.533] (**) NVIDIA(0):     device DELL 2007FP (DFP-1) (Using EDID frequencies has
+[1226802.533] (**) NVIDIA(0):     been enabled on all display devices.)
+[1226802.963] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-D5FAEAF57B07B05E7E965CF5B921A125E88FFCC7.xkm
+[1226803.986] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-0131BCD1131E5CB36DC6A2CB6A0B57D25F9A20E7.xkm
+[1226804.685] (II) NVIDIA(GPU-0): Display (DELL 2007FP (DFP-1)) does not support NVIDIA 3D
+[1226804.685] (II) NVIDIA(GPU-0):     Vision stereo.
+[1226804.685] (**) NVIDIA(0): Using HorizSync/VertRefresh ranges from the EDID for display
+[1226804.685] (**) NVIDIA(0):     device DELL 2007FP (DFP-1) (Using EDID frequencies has
+[1226804.685] (**) NVIDIA(0):     been enabled on all display devices.)
+[1226804.695] (II) XKB: generating xkmfile /usr/share/X11/xkb/compiled/server-66640A0B7A7242146A5DE4D5BDF68F7890B32046.xkm
