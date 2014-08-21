@@ -16,10 +16,25 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $ddcprobeData = _getDdcprobeData(
-        command => 'ddcprobe',
-        logger  => $logger
-    );
+    $logger->debug("retrieving display information:");
+
+    my $ddcprobeData;
+    if (canRun('ddcprobe')) {
+        $ddcprobeData = _getDdcprobeData(
+            command => 'ddcprobe',
+            logger  => $logger
+        );
+         $logger->debug_result(
+             action => 'running ddcprobe command',
+             data   => $ddcprobeData
+         );
+    } else {
+        $logger->debug_result(
+             action => 'running ddcprobe command',
+             status => 'command not available'
+        );
+    }
+
     my $xorgData;
 
     my $xorgPid;
@@ -41,7 +56,23 @@ sub doInventory {
 
     if ($xorgPid) {
         my $link = "/proc/$xorgPid/fd/0";
-        $xorgData = _parseXorgFd(file => $link) if -r $link;
+        if (-r $link) {
+            $xorgData = _parseXorgFd(file => $link);
+            $logger->debug_result(
+                 action => 'reading Xorg log file',
+                 data   => $xorgData
+            );
+        } else {
+            $logger->debug_result(
+                 action => 'reading Xorg log file',
+                 status => "non-readable link $link"
+            );
+        }
+    } else {
+        $logger->debug_result(
+             action => 'reading Xorg log file',
+             status => 'unable to get Xorg PID'
+        );
     }
 
     return unless $xorgData || $ddcprobeData;
