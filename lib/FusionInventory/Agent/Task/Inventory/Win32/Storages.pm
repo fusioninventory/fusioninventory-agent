@@ -32,6 +32,9 @@ sub doInventory {
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
+        $object->{SerialNumber} = undef
+            if $object->{SerialNumber} && $object->{SerialNumber} =~ /^ +$/;
+
         $inventory->addEntry(
             section => 'STORAGES',
             entry => {
@@ -68,6 +71,9 @@ sub doInventory {
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
+        $object->{SerialNumber} = undef
+            if $object->{SerialNumber} && $object->{SerialNumber} =~ /^ +$/;
+
         $inventory->addEntry(
             section => 'STORAGES',
             entry => {
@@ -98,6 +104,9 @@ sub doInventory {
 
         $object->{Size} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
+
+        $object->{SerialNumber} = undef
+            if $object->{SerialNumber} && $object->{SerialNumber} =~ /^ +$/;
 
         $inventory->addEntry(
             section => 'STORAGES',
