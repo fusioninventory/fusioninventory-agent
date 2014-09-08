@@ -20,7 +20,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $arch = $Config{Archname} =~ /^i86pc/ ? 'i386' : 'sparc';
+    my $arch = $Config{archname} =~ /^i86pc/ ? 'i386' : 'sparc';
 
     my ($bios, $hardware);
 
