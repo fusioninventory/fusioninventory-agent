@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Linux;
 
 sub isEnabled {
@@ -52,35 +53,20 @@ sub _getDevices {
     if (_correctHdparmAvailable()) {
         foreach my $device (@devices) {
             next if $device->{SERIALNUMBER} && $device->{FIRMWARE};
-
-            my $handle = getFileHandle(
-                command => "hdparm -I /dev/$device->{NAME}",
+            my $info = getHdparmInfo(
+                device => "/dev/" . $device->{NAME},
                 logger  => $logger
             );
-            next unless $handle;
 
-            while (my $line = <$handle>) {
-                if ($line =~ /^\s+Serial Number\s*:\s*(.+)/i) {
-                    my $value = $1;
-                    $value =~ s/\s+$//;
-                    $device->{SERIALNUMBER} = $value
-                        if !$device->{SERIALNUMBER};
-                    next;
-                } elsif ($line =~ /^\s+Firmware Revision\s*:\s*(.+)/i) {
-                    my $value = $1;
-                    $value =~ s/\s+$//;
-                    $device->{FIRMWARE} = $value
-                        if !$device->{FIRMWARE};
-                    next;
-                } elsif ($line =~ /^\s*Transport:.*(SCSI|SATA|USB)/) {
-                    $device->{DESCRIPTION} = $1;
-                } elsif ($line =~ /^\s*Model Number:\s*(.*?)\s*$/) {
-                    $device->{MODEL} = $1;
-                } elsif ($line =~ /Logical Unit WWN Device Identifier:\s*(.*?)\s*$/) {
-                    $device->{WWN} = $1;
-                }
-            }
-            close $handle;
+            $device->{SERIALNUMBER} = $info->{serial}
+                if $info->{serial} && !$device->{SERIALNUMBER};
+
+            $device->{FIRMWARE} = $info->{firmware}
+                if $info->{firmware} && !$device->{FIRMWARE};
+
+            $device->{DESCRIPTION} = $info->{transport} if $info->{transport};
+            $device->{MODEL}       = $info->{model} if $info->{model};
+            $device->{WWN}         = $info->{wwn} if $info->{wwn};
         }
     }
 
