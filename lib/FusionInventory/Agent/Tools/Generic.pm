@@ -377,6 +377,22 @@ $info = {
 
 Returns a list of CPUs, from dmidecode output.
 
+=head2 getHdparmInfo(%params)
+
+Returns some information about a device, using hdparm.
+
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item device the device to use
+
+=item file the file to use
+
+=back
+
 =head2 getPCIDevices(%params)
 
 Returns a list of PCI devices as a list of hashref, by parsing lspci command
