@@ -7,7 +7,7 @@ use Test::Deep;
 use Test::More;
 use Test::NoWarnings;
 
-use FusionInventory::Agent::Tools::Generic::License;
+use FusionInventory::Agent::Tools::License;
 
 my %adobe_tests = (
     'sample1' => [
@@ -30,7 +30,7 @@ plan tests => (scalar keys %adobe_tests) + 1;
 
 foreach my $test (keys %adobe_tests) {
     my $file = "resources/generic/license/adobe/cache.db-$test";
-    my @licenses = FusionInventory::Agent::Tools::Generic::License::getAdobeLicenses(file => $file);
+    my @licenses = getAdobeLicenses(file => $file);
     cmp_deeply(
         [ sort { compare() } @licenses ],
         [ sort { compare() } @{$adobe_tests{$test}} ],
