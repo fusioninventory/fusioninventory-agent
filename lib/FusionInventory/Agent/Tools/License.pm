@@ -10,6 +10,7 @@ use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
     getAdobeLicenses
+    decodeMicrosoftKey
 );
 
 sub _parseAdobeSerial {
@@ -80,7 +81,63 @@ sub getAdobeLicenses {
     return @licenses;
 
 }
+# inspired by http://poshcode.org/4363
+sub decodeMicrosoftKey {
+    my ($key_string) = @_;
 
+    ## no critic (ProhibitBitwise)
+
+    return unless $key_string;
+
+    my @key_bytes = unpack 'C*', $key_string;
+
+    # check for Windows 8/Office 2013 style key (can contains the letter "N")
+    my $containsN  = ($key_bytes[66] >> 3) & 1;
+    $key_bytes[66] = ($key_bytes[66] & 0xF7);
+
+    # length of product key, in chars
+    my $chars_length = 25;
+
+    # length of product key, in bytes
+    my $bytes_length = 15;
+
+    # product key available characters
+    my @letters = qw(B C D F G H J K M P Q R T V W X Y 2 3 4 6 7 8 9);
+
+    # extract bytes 52 to 66
+    my @bytes = @key_bytes[52 .. 66];
+
+    # return immediatly for null keys
+    return if all { $_ == 00 } @bytes;
+
+    # decoded product key
+    my @chars;
+
+    for (my $i = $chars_length - 1; $i >= 0; $i--) {
+        my $index = 0;
+        for (my $j = $bytes_length - 1; $j >= 0; $j--) {
+            my $value = ($index << 8) | $bytes[$j];
+            $bytes[$j] = $value / scalar @letters;
+            $index = $value % (scalar @letters);
+        }
+        $chars[$i] = $letters[$index];
+    }
+
+    if ($containsN != 0) {
+        my $first_char = shift @chars;
+        my $first_char_index = 0;
+        for (my $index = 0; $index < scalar @letters; $index++) {
+            next if $first_char ne $letters[$index];
+            $first_char_index = $index;
+            last;
+        }
+
+        splice @chars, $first_char_index, 0, 'N';
+    }
+
+    return sprintf
+        '%s%s%s%s%s-%s%s%s%s%s-%s%s%s%s%s-%s%s%s%s%s-%s%s%s%s%s', @chars;
+}
 
 1;
 __END__
@@ -99,3 +156,8 @@ information.
 =head2 getAdobeLicenses
 
 Returns a structured view of Adobe license.
+
+=head2 decodeMicrosoftKey($string)
+
+Return a decoded string from a binary binary microsoft product key (XP, office,
+etc)

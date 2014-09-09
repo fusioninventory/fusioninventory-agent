@@ -10,6 +10,7 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
+use FusionInventory::Agent::Tools::License;
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
@@ -71,7 +72,7 @@ sub _scanOffice {
     );
 
     if ($key->{DigitalProductID}) {
-        $license{KEY} = parseProductKey($key->{DigitalProductID});
+        $license{KEY} = decodeMicrosoftKey($key->{DigitalProductID});
     }
 
     if ($key->{TrialType} && $key->{TrialType} =~ /(\d+)$/) {
