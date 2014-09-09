@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::Inventory::Win32::Slots;
 
 use strict;
+use warnings;
 
 use FusionInventory::Agent::Tools::Win32;
 
