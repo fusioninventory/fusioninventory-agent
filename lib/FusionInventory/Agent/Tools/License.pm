@@ -13,12 +13,12 @@ our @EXPORT = qw(
     decodeMicrosoftKey
 );
 
-sub _parseAdobeSerial {
-    my ($raw) = @_;
-
 # Thanks to Brandon Mulcahy
 # http://www.a1vbcode.com/snippet-4796.asp
 # http://blog.eka808.com/?p=251
+sub _decodeAdobeKey {
+    my ($raw) = @_;
+
     my @subCipherKey = qw/
         0000000001 5038647192 1456053789 2604371895
         4753896210 8145962073 0319728564 7901235846
@@ -28,22 +28,20 @@ sub _parseAdobeSerial {
         3267408951 1426053789 4753896210 0319728564/;
 
     my $i = 0;
-    my $ret = "";
+    my @chars;
     while ($raw =~ s/^(\d)//) {
         $subCipherKey[$i++]=~ /^.{$1}(.)/;
-        $ret .= $1;
+        push @chars, $1;
     }
 
-    $ret =~ s/(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})(\d{4})/$1-$2-$3-$4-$5/;
-
-    return $ret;
+    return sprintf
+        '%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s', @chars;
 }
 
 sub getAdobeLicenses {
-    my (%params) = (@_);
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
-
 
     my @licenses;
 
@@ -73,23 +71,23 @@ sub getAdobeLicenses {
         push @licenses, {
             NAME => $key,
             FULLNAME => $data{$key}{ALM_LicInfo_EpicAppName},
-            KEY => _parseAdobeSerial($data{$key}{SN}),
+            KEY => _decodeAdobeKey($data{$key}{SN}),
             COMPONENTS => join('/', @{$data{$key}{with}})
         }
     }
 
     return @licenses;
-
 }
+
 # inspired by http://poshcode.org/4363
 sub decodeMicrosoftKey {
-    my ($key_string) = @_;
+    my ($raw) = @_;
 
     ## no critic (ProhibitBitwise)
 
-    return unless $key_string;
+    return unless $raw;
 
-    my @key_bytes = unpack 'C*', $key_string;
+    my @key_bytes = unpack 'C*', $raw;
 
     # check for Windows 8/Office 2013 style key (can contains the letter "N")
     my $containsN  = ($key_bytes[66] >> 3) & 1;
