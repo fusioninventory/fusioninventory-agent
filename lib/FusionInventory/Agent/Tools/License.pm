@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Tools::Generic::License;
+package FusionInventory::Agent::Tools::License;
 
 use strict;
 use warnings;

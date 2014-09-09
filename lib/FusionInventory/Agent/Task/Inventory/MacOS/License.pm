@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Generic::License;
+use FusionInventory::Agent::Tools::License;
 
 sub isEnabled {
     return 1;
