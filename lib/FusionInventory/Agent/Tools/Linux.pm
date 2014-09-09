@@ -533,7 +533,7 @@ Availables parameters:
 
 =head2 getInfoFromSmartctl(%params)
 
-Returns some information about a drive, using smartctl.
+Returns some information about a device, using smartctl.
 
 Availables parameters:
 
