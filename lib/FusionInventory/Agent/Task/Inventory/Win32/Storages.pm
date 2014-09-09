@@ -68,13 +68,7 @@ sub _getDrives {
         / ]
     )) {
 
-        $object->{Size} = int($object->{Size} / (1024 * 1024))
-            if $object->{Size};
-
-        $object->{SerialNumber} = undef
-            if $object->{SerialNumber} && $object->{SerialNumber} =~ /^ +$/;
-
-        push @drives, {
+        my $drive = {
             MANUFACTURER => $object->{Manufacturer},
             MODEL        => $object->{Model} || $object->{Caption},
             DESCRIPTION  => $object->{Description},
@@ -82,12 +76,18 @@ sub _getDrives {
             TYPE         => $object->{MediaType},
             INTERFACE    => $object->{InterfaceType},
             FIRMWARE     => $object->{FirmwareRevision},
-            SERIAL       => $object->{SerialNumber},
-            DISKSIZE     => $object->{Size},
             SCSI_COID    => $object->{SCSIPort},
             SCSI_LUN     => $object->{SCSILogicalUnit},
             SCSI_UNID    => $object->{SCSITargetId},
-        }
+        };
+
+        $drive->{DISKSIZE} = int($object->{Size} / (1024 * 1024))
+            if $object->{Size};
+
+        $drive->{SERIAL} = $object->{SerialNumber}
+            if $object->{SerialNumber} && $object->{SerialNumber} !~ /^ +$/;
+
+        push @drives, $drive;
     }
 
     return @drives;
