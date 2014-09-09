@@ -798,7 +798,7 @@ sub _getConsumableVariableFromDescription {
         return $consumables{$key};
     }
 
-    $logger->debug("no match for consumable $description in database") 
+    $logger->debug("no match for consumable $description in database")
         if $logger;
 
     # find type
