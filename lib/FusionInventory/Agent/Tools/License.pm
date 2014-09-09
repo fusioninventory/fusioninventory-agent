@@ -69,9 +69,9 @@ sub getAdobeLicenses {
         next unless $data{$key}{SN} || $data{$key}{with};
 
         push @licenses, {
-            NAME => $key,
-            FULLNAME => $data{$key}{ALM_LicInfo_EpicAppName},
-            KEY => _decodeAdobeKey($data{$key}{SN}),
+            NAME       => $key,
+            FULLNAME   => $data{$key}{ALM_LicInfo_EpicAppName},
+            KEY        => _decodeAdobeKey($data{$key}{SN}),
             COMPONENTS => join('/', @{$data{$key}{with}})
         }
     }
