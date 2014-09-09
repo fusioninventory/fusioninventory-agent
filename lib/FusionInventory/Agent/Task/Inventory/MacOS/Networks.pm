@@ -21,19 +21,15 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $routes = getRoutingTable(logger => $logger);
     my @interfaces = _getInterfaces(logger => $logger);
-
     foreach my $interface (@interfaces) {
-        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}}
-            if $interface->{IPSUBNET};
-
         $inventory->addEntry(
             section => 'NETWORKS',
             entry   => $interface
         );
     }
 
+    my $routes = getRoutingTable(logger => $logger);
     $inventory->setHardware({
         DEFAULTGATEWAY => $routes->{'0.0.0.0'}
     });
