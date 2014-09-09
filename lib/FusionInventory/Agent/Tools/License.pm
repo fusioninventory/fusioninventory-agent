@@ -144,12 +144,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Tools::Generic::License - OS-independent license functions
+FusionInventory::Agent::Tools::License - License-related functions
 
 =head1 DESCRIPTION
 
-This module provides some OS-independent generic functions to access license
-information.
+This module provides some functions to access license information.
 
 =head1 FUNCTIONS
 
