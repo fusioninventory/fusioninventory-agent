@@ -18,7 +18,7 @@ sub doInventory {
 
     foreach my $storage (_getDrives(class => 'Win32_DiskDrive')) {
         if ($hdparm && $storage->{NAME} =~ /(\d+)$/) {
-            my $info = _getInfo("hd", $1);
+            my $info = _getInfo("/dev/hd" . chr(ord('a') + $1));
             $storage->{MODEL}    = $info->{model}    if $info->{model};
             $storage->{FIRMWARE} = $info->{firmware} if $info->{firmware};
             $storage->{SERIAL}   = $info->{serial}   if $info->{serial};
@@ -33,7 +33,7 @@ sub doInventory {
 
     foreach my $storage (_getDrives(class => 'Win32_CDROMDrive')) {
         if ($hdparm && $storage->{NAME} =~ /(\d+)$/) {
-            my $info = _getInfo("cdrom", $1);
+            my $info = _getInfo("/dev/scd" . chr(ord('a') + $1));
             $storage->{MODEL}    = $info->{model}    if $info->{model};
             $storage->{FIRMWARE} = $info->{firmware} if $info->{firmware};
             $storage->{SERIAL}   = $info->{serial}   if $info->{serial};
@@ -94,12 +94,7 @@ sub _getDrives {
 }
 
 sub _getInfo {
-    my ($type, $nbr) = @_;
-
-
-    my $device = "/dev/";
-    $device .= $type eq 'hd'?'hd':'scd';
-    $device .= chr(ord('a')+$nbr);
+    my ($device) = @_;
 
     my $handle = getFileHandle(
         command => "hdparm -I $device",
