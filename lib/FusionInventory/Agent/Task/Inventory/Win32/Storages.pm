@@ -16,90 +16,55 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $hdparm = canRun('hdparm');
 
-    foreach my $storage (_getDisks()) {
+    foreach my $storage (_getDrives(class => 'Win32_DiskDrive')) {
         if ($hdparm && $storage->{NAME} =~ /(\d+)$/) {
-	    my $info = _getInfo("hd", $1);
-	    $storage->{MODEL}    = $info->{model}    if $info->{model};
-	    $storage->{FIRMWARE} = $info->{firmware} if $info->{firmware};
-	    $storage->{SERIAL}   = $info->{serial}   if $info->{serial};
-	    $storage->{DISKSIZE} = $info->{size}     if $info->{size};
+            my $info = _getInfo("hd", $1);
+            $storage->{MODEL}    = $info->{model}    if $info->{model};
+            $storage->{FIRMWARE} = $info->{firmware} if $info->{firmware};
+            $storage->{SERIAL}   = $info->{serial}   if $info->{serial};
+            $storage->{DISKSIZE} = $info->{size}     if $info->{size};
         }
 
         $inventory->addEntry(
             section => 'STORAGES',
             entry   => $storage
-	);
+        );
     }
 
-    foreach my $storage (_getCDROMs()) {
+    foreach my $storage (_getDrives(class => 'Win32_CDROMDrive')) {
         if ($hdparm && $storage->{NAME} =~ /(\d+)$/) {
             my $info = _getInfo("cdrom", $1);
-	    $storage->{MODEL}    = $info->{model}    if $info->{model};
-	    $storage->{FIRMWARE} = $info->{firmware} if $info->{firmware};
-	    $storage->{SERIAL}   = $info->{serial}   if $info->{serial};
-	    $storage->{DISKSIZE} = $info->{size}     if $info->{size};
+            $storage->{MODEL}    = $info->{model}    if $info->{model};
+            $storage->{FIRMWARE} = $info->{firmware} if $info->{firmware};
+            $storage->{SERIAL}   = $info->{serial}   if $info->{serial};
+            $storage->{DISKSIZE} = $info->{size}     if $info->{size};
         }
 
         $inventory->addEntry(
             section => 'STORAGES',
             entry   => $storage
-	);
+        );
     }
 
-    foreach my $storage (_getTapes()) {
+    foreach my $storage (_getDrives(class => 'Win32_TapeDrive')) {
         $inventory->addEntry(
             section => 'STORAGES',
             entry   => $storage
-	);
+        );
     }
 }
 
-sub _getDisks {
-    my @disks;
+sub _getDrives {
+    my (%params) = @_;
+
+    my @drives;
 
     foreach my $object (getWMIObjects(
-        class      => 'Win32_DiskDrive',
+        class      => $params{class},
         properties => [ qw/
-            Manufacturer Model Description Name MediaType InterfaceType
-	    FirmwareRevision SerialNumber Size
-	    SCSIPort SCSILogicalUnit SCSITargetId
-        / ]
-    )) {
-
-        $object->{Size} = int($object->{Size} / (1024 * 1024))
-            if $object->{Size};
-
-        $object->{SerialNumber} = undef
-            if $object->{SerialNumber} && $object->{SerialNumber} =~ /^ +$/;
-
-	push @disks, {
-	    MANUFACTURER => $object->{Manufacturer},
-	    MODEL        => $object->{Model},
-	    DESCRIPTION  => $object->{Description},
-	    NAME         => $object->{Name},
-	    TYPE         => $object->{MediaType},
-	    INTERFACE    => $object->{InterfaceType},
-	    FIRMWARE     => $object->{FirmwareRevision},
-	    SERIAL       => $object->{SerialNumber},
-	    DISKSIZE     => $object->{Size},
-	    SCSI_COID    => $object->{SCSIPort},
-	    SCSI_LUN     => $object->{SCSILogicalUnit},
-	    SCSI_UNID    => $object->{SCSITargetId},
-	}
-    }
-
-    return @disks;
-}
-
-sub _getCDROMs {
-    my @cdroms;
-
-    foreach my $object (getWMIObjects(
-        class      => 'Win32_CDROMDrive',
-        properties => [ qw/
-            Manufacturer Caption Description Name MediaType InterfaceType
+            Manufacturer Model Caption Description Name MediaType InterfaceType
             FirmwareRevision SerialNumber Size
-	    SCSIPort SCSILogicalUnit SCSITargetId
+            SCSIPort SCSILogicalUnit SCSITargetId
         / ]
     )) {
 
@@ -109,60 +74,23 @@ sub _getCDROMs {
         $object->{SerialNumber} = undef
             if $object->{SerialNumber} && $object->{SerialNumber} =~ /^ +$/;
 
-	push @cdroms, {
-	    MANUFACTURER => $object->{Manufacturer},
-	    MODEL        => $object->{Caption},
-	    DESCRIPTION  => $object->{Description},
-	    NAME         => $object->{Name},
-	    TYPE         => $object->{MediaType},
-	    INTERFACE    => $object->{InterfaceType},
-	    FIRMWARE     => $object->{FirmwareRevision},
-	    SERIAL       => $object->{SerialNumber},
-	    DISKSIZE     => $object->{Size},
-	    SCSI_COID    => $object->{SCSIPort},
-	    SCSI_LUN     => $object->{SCSILogicalUnit},
-	    SCSI_UNID    => $object->{SCSITargetId},
-	};
+        push @drives, {
+            MANUFACTURER => $object->{Manufacturer},
+            MODEL        => $object->{Model} || $object->{Caption},
+            DESCRIPTION  => $object->{Description},
+            NAME         => $object->{Name},
+            TYPE         => $object->{MediaType},
+            INTERFACE    => $object->{InterfaceType},
+            FIRMWARE     => $object->{FirmwareRevision},
+            SERIAL       => $object->{SerialNumber},
+            DISKSIZE     => $object->{Size},
+            SCSI_COID    => $object->{SCSIPort},
+            SCSI_LUN     => $object->{SCSILogicalUnit},
+            SCSI_UNID    => $object->{SCSITargetId},
+        }
     }
 
-    return @cdroms;
-}
-
-sub _getTapes {
-    my @tapes;
-
-    foreach my $object (getWMIObjects(
-        class      => 'Win32_TapeDrive',
-        properties => [ qw/
-            Manufacturer Caption Description Name MediaType InterfaceType
-            FirmwareRevision SerialNumber Size
-	    SCSIPort SCSILogicalUnit SCSITargetId
-        / ]
-    )) {
-
-        $object->{Size} = int($object->{Size} / (1024 * 1024))
-            if $object->{Size};
-
-        $object->{SerialNumber} = undef
-            if $object->{SerialNumber} && $object->{SerialNumber} =~ /^ +$/;
-
-	push @tapes, {
-	    MANUFACTURER => $object->{Manufacturer},
-	    MODEL        => $object->{Caption},
-	    DESCRIPTION  => $object->{Description},
-	    NAME         => $object->{Name},
-	    TYPE         => $object->{MediaType},
-	    INTERFACE    => $object->{InterfaceType},
-	    FIRMWARE     => $object->{FirmwareRevision},
-	    SERIAL       => $object->{SerialNumber},
-	    DISKSIZE     => $object->{Size},
-	    SCSI_COID    => $object->{SCSIPort},
-	    SCSI_LUN     => $object->{SCSILogicalUnit},
-	    SCSI_UNID    => $object->{SCSITargetId},
-	};
-    }
-
-    return @tapes;
+    return @drives;
 }
 
 sub _getInfo {
