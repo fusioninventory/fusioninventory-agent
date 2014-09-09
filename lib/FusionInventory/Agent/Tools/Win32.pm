@@ -87,16 +87,18 @@ sub getWMIObjects {
     )) {
         my $object;
         foreach my $property (@{$params{properties}}) {
-            if (!ref($instance->{$property}) && $instance->{$property}) {
-                # cast the Win32::OLE object in string
-                $object->{$property} = sprintf("%s", $instance->{$property});
-
-                # because of the Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
-                # we know it's UTF8, let's flag the string according because
-                # Win32::OLE don't do it
-                utf8::upgrade($object->{$property});
-            } else {
+            if (defined $instance->{$property} && !ref($instance->{$property})) {
+                # string value
                 $object->{$property} = $instance->{$property};
+                # despite CP_UTF8 usage, Win32::OLE downgrades string to native
+                # encoding, if possible, ie all characters have code <= 0x00FF:
+                # http://code.activestate.com/lists/perl-win32-users/Win32::OLE::CP_UTF8/
+                utf8::upgrade($object->{$property});
+            } elsif (defined $instance->{$property}) {
+                # list value
+                $object->{$property} = $instance->{$property};
+            } else {
+                $object->{$property} = undef;
             }
         }
         push @objects, $object;
