@@ -175,23 +175,22 @@ foreach my $test (keys %tests) {
 }
 
 SKIP: {
-skip 'Windows-specific test', 4 unless $OSNAME eq 'MSWin32';
+    skip 'Windows-specific test', 4 unless $OSNAME eq 'MSWin32';
 
-my ($code, $fd) = runCommand(command => "perl -V");
-ok($code eq 0, "perl -V returns 0");
+    my ($code, $fd) = runCommand(command => "perl -V");
+    ok($code eq 0, "perl -V returns 0");
 
-ok(any { /Summary of my perl5/ } <$fd>, "perl -V output looks good");
+    ok(any { /Summary of my perl5/ } <$fd>, "perl -V output looks good");
 
-($code, $fd) = runCommand(
-    timeout => 1,
-    command => "perl -e\"sleep 10\""
-);
-ok($code eq 293, "timeout=1: timeout catched");
-my $command = "perl -BAD";
-($code, $fd) = runCommand(
-    command => $command,
-    no_stderr => 1
-);
-ok(defined(<$fd>), "no_stderr=0: catch STDERR output");
-
+    ($code, $fd) = runCommand(
+        timeout => 1,
+        command => "perl -e\"sleep 10\""
+    );
+    ok($code eq 293, "timeout=1: timeout catched");
+    my $command = "perl -BAD";
+    ($code, $fd) = runCommand(
+        command => $command,
+        no_stderr => 1
+    );
+    ok(defined(<$fd>), "no_stderr=0: catch STDERR output");
 }
