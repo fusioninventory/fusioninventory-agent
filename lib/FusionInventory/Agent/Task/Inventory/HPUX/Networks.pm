@@ -24,7 +24,7 @@ sub doInventory {
     my @interfaces = _getInterfaces(logger => $logger);
 
     foreach my $interface (@interfaces) {
-        $interface->{IPGATEWAY} = $params{routes}->{$interface->{IPSUBNET}}
+        $interface->{IPGATEWAY} = $routes->{$interface->{IPSUBNET}}
             if $interface->{IPSUBNET};
 
         $inventory->addEntry(
