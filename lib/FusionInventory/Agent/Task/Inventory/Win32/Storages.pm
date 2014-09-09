@@ -7,13 +7,14 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
-    return canRun('hdparm');
+    return 1;
 }
 
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $hdparm = canRun('hdparm');
 
     foreach my $object (getWMIObjects(
         class      => 'Win32_DiskDrive',
@@ -25,7 +26,7 @@ sub doInventory {
 
         my $info = {};
 
-        if ($object->{Name} =~ /(\d+)$/) {
+        if ($object->{Name} =~ /(\d+)$/ && $hdparm) {
             $info = _getInfo("hd", $1);
         }
 
@@ -64,7 +65,7 @@ sub doInventory {
     )) {
         my $info = {};
 
-        if ($object->{Name} =~ /(\d+)$/) {
+        if ($object->{Name} =~ /(\d+)$/ && $hdparm) {
             $info = _getInfo("cdrom", $1);
         }
 
