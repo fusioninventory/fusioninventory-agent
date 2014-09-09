@@ -6892,6 +6892,17 @@ my %lspci_tests = (
     ]
 );
 
+my %hdparm_tests = (
+    linux1 => {
+        firmware  => 'CXM13D1Q',
+        model     => 'SAMSUNG SSD PM830 mSATA 256GB',
+        serial    => 'S0XPNYAD412339',
+        size      => '256060',
+        transport => 'SATA',
+        wwn       => '5002538043584d30'
+    }
+);
+
 my %edid_vendor_tests = (
     NVD => 'Nvidia',
     XQU => 'SHANGHAI SVA-DAV ELECTRONICS CO., LTD',
@@ -6901,6 +6912,7 @@ plan tests =>
     (scalar keys %dmidecode_tests) +
     (scalar keys %cpu_tests)       +
     (scalar keys %lspci_tests)     +
+    (scalar keys %hdparm_tests)    +
     (scalar keys %edid_vendor_tests);
 
 foreach my $test (keys %dmidecode_tests) {
@@ -6919,6 +6931,12 @@ foreach my $test (keys %lspci_tests) {
     my $file = "resources/generic/lspci/$test";
     my @devices = getPCIDevices(file => $file);
     cmp_deeply(\@devices, $lspci_tests{$test}, "$test lspci parsing");
+}
+
+foreach my $test (keys %hdparm_tests) {
+    my $file = "resources/generic/hdparm/$test";
+    my $info = getHdparmInfo(file => $file);
+    cmp_deeply($info, $hdparm_tests{$test}, "$test hdparm parsing");
 }
 
 foreach my $test (keys %edid_vendor_tests) {

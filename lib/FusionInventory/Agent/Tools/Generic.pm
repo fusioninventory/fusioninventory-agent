@@ -12,6 +12,7 @@ use FusionInventory::Agent::Tools;
 our @EXPORT = qw(
     getDmidecodeInfos
     getCpusFromDmidecode
+    getHdparmInfo
     getPCIDevices
     getPCIDeviceVendor
     getPCIDeviceClass
@@ -157,6 +158,29 @@ sub getCpusFromDmidecode {
     }
 
     return @cpus;
+}
+
+sub getHdparmInfo {
+    my (%params) = @_;
+
+    my $handle = getFileHandle(
+        %params,
+        command => $params{device} ? "hdparm -I $params{device}" : undef,
+    );
+    return unless $handle;
+
+    my $info;
+    while (my $line = <$handle>) {
+        $info->{model}     = $1 if $line =~ /Model Number:\s+(\S.+\S)/;
+        $info->{firmware}  = $1 if $line =~ /Firmware Revision:\s+(\S+)/;
+        $info->{serial}    = $1 if $line =~ /Serial Number:\s+(\S*)/;
+        $info->{size}      = $1 if $line =~ /1000:\s+(\d*)\sMBytes/;
+        $info->{transport} = $1 if $line =~ /Transport:.+(SCSI|SATA|USB)/;
+        $info->{wwn}       = $1 if $line =~ /WWN Device Identifier:\s+(\S+)/;
+    }
+    close $handle;
+
+    return $info;
 }
 
 sub getPCIDevices {

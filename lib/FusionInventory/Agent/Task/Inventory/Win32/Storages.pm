@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
@@ -14,11 +15,16 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
     my $hdparm = canRun('hdparm');
 
     foreach my $storage (_getDrives(class => 'Win32_DiskDrive')) {
         if ($hdparm && $storage->{NAME} =~ /(\d+)$/) {
-            my $info = _getInfo("/dev/hd" . chr(ord('a') + $1));
+            my $info = getHdparmsInfo(
+                device => "/dev/hd" . chr(ord('a') + $1),
+                logger => $logger
+            );
             $storage->{MODEL}    = $info->{model}    if $info->{model};
             $storage->{FIRMWARE} = $info->{firmware} if $info->{firmware};
             $storage->{SERIAL}   = $info->{serial}   if $info->{serial};
@@ -33,7 +39,10 @@ sub doInventory {
 
     foreach my $storage (_getDrives(class => 'Win32_CDROMDrive')) {
         if ($hdparm && $storage->{NAME} =~ /(\d+)$/) {
-            my $info = _getInfo("/dev/scd" . chr(ord('a') + $1));
+            my $info = getHdparmsInfo(
+                device => "/dev/scd" . chr(ord('a') + $1),
+                logger => $logger
+            );
             $storage->{MODEL}    = $info->{model}    if $info->{model};
             $storage->{FIRMWARE} = $info->{firmware} if $info->{firmware};
             $storage->{SERIAL}   = $info->{serial}   if $info->{serial};
@@ -91,26 +100,6 @@ sub _getDrives {
     }
 
     return @drives;
-}
-
-sub _getInfo {
-    my ($device) = @_;
-
-    my $handle = getFileHandle(
-        command => "hdparm -I $device",
-    );
-    return unless $handle;
-
-    my $info;
-    while (my $line = <$handle>) {
-        $info->{model} = $1 if $line =~ /Model Number:\s+(.*?)\s*$/;
-        $info->{firmware} = $1 if $line =~ /Firmware Revision:\s+(\S*)/;
-        $info->{serial} = $1 if $line =~ /Serial Number:\s+(\S*)/;
-        $info->{size} = $1 if $line =~ /1000:\s+(\d*)\sMBytes\s\(/;
-    }
-    close $handle;
-
-    return $info;
 }
 
 1;
