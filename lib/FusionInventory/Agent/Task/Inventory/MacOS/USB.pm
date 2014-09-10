@@ -9,6 +9,8 @@ use FusionInventory::Agent::Tools::MacOS;
 my $seen;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{usbdevice};
     return 1;
 }
 

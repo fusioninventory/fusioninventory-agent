@@ -8,6 +8,8 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{video};
     # both windows and linux have dedicated modules
     return
         $OSNAME ne 'MSWin32' &&

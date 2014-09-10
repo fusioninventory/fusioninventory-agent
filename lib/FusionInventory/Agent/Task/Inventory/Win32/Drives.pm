@@ -16,6 +16,8 @@ my @type = (
 );
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{drive};
     return 1;
 }
 

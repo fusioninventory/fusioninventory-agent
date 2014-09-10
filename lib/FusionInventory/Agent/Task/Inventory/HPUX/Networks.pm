@@ -10,6 +10,8 @@ use FusionInventory::Agent::Tools::Network;
 #TODO Get pcislot virtualdev
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{network};
     return canRun('lanscan');
 }
 

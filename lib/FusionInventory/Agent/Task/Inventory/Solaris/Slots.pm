@@ -7,6 +7,8 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{slot};
     return canRun('prtdiag');
 }
 

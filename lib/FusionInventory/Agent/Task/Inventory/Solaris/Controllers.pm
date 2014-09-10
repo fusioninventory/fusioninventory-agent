@@ -6,6 +6,8 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
+    my (%params) = @_;
+    return if $params{no_category}->{controller};
     return canRun('cfgadm');
 }
 
