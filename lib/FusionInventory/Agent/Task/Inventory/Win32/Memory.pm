@@ -72,6 +72,8 @@ my @memoryErrorProtection = (
 );
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{memory};
     return 1;
 }
 

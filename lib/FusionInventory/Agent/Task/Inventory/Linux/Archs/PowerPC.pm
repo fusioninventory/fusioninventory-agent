@@ -35,13 +35,15 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $cpu (_getCPUsFromProc(
-        logger => $logger, file => '/proc/cpuinfo'
-    )) {
-        $inventory->addEntry(
-            section => 'CPUS',
-            entry   => $cpu
-        );
+    if (!$params{no_category}->{cpu}) {
+	foreach my $cpu (_getCPUsFromProc(
+	    logger => $logger, file => '/proc/cpuinfo'
+	)) {
+	    $inventory->addEntry(
+		section => 'CPUS',
+		entry   => $cpu
+	    );
+	}
     }
 
     my $bios;

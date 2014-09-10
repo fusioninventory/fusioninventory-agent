@@ -13,6 +13,8 @@ my %status = (
 );
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{slot};
     return 1;
 }
 

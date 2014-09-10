@@ -8,6 +8,8 @@ use FusionInventory::Agent::Tools::Unix;
 use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{network};
     return canRun('lscfg');
 }
 
