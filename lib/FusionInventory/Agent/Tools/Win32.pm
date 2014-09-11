@@ -397,18 +397,28 @@ sub _isVirtual {
 }
 
 sub _getType {
-    my ($object) = @_;
+    my ($object, $logger) = @_;
 
-    return unless defined $object->{AdapterTypeId};
+    return unless defined $object->{PNPDeviceID};
 
-    # available adapter types:
-    # http://msdn.microsoft.com/en-us/library/windows/desktop/aa394216%28v=vs.85%29.aspx
-    # don't bother discriminating between wired and wireless ethernet adapters
-    # for sake of simplicity
-    return
-        $object->{AdapterTypeId} == 0 ? 'ethernet' :
-        $object->{AdapterTypeId} == 9 ? 'wifi'     :
-                                        undef      ;
+    my $key = getRegistryKey(
+        path   => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Network/{4D36E972-E325-11CE-BFC1-08002BE10318}",
+        logger => $logger
+    );
+
+    foreach my $subkey (values %$key) {
+        next unless
+            $subkey->{'Connection/'}                     &&
+            $subkey->{'Connection/'}->{'/PnpInstanceID'} &&
+            $subkey->{'Connection/'}->{'/PnpInstanceID'} eq $object->{PNPDeviceID};
+        my $subtype = $subkey->{'Connection/'}->{'/MediaSubType'};
+        return
+            !defined $subtype        ? 'ethernet' :
+            $subtype eq '0x00000002' ? 'wifi'     :
+                                       undef;
+    }
+
+    return undef;
 }
 
 1;
