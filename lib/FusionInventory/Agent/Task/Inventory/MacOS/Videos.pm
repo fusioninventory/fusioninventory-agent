@@ -7,6 +7,8 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{video};
     return canRun('/usr/sbin/system_profiler');
 }
 

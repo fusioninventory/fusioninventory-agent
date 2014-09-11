@@ -12,6 +12,8 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{monitor};
     return 1;
 }
 

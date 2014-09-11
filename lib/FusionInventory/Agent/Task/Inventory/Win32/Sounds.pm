@@ -6,6 +6,8 @@ use warnings;
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
+    my (%params) = @_;
+    return if $params{no_category}->{sound};
     return 1;
 }
 

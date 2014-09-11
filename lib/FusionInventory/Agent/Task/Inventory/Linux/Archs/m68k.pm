@@ -9,6 +9,8 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{cpu};
     return
         $Config{archname} =~ /^m68k/ &&
         -r '/proc/cpuinfo';

@@ -8,6 +8,8 @@ use FusionInventory::Agent::Tools::Win32;
 my $seen;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{antivirus};
     return 1;
 }
 

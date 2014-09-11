@@ -9,6 +9,8 @@ use FusionInventory::Agent::Tools::Unix;
 use FusionInventory::Agent::Tools::BSD;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{network};
     return canRun('ifconfig');
 }
 

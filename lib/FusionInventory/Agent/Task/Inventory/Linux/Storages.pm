@@ -10,6 +10,8 @@ use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Linux;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{storage};
     return 1;
 }
 
