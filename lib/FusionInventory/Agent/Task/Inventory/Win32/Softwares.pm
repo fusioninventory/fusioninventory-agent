@@ -4,8 +4,6 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Win32;
-use Win32::OLE('in');
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
