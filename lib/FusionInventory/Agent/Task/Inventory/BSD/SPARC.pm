@@ -76,6 +76,8 @@ sub doInventory {
 
     $inventory->setBios($bios);
 
+    return if $params{no_category}->{cpu};
+
     while ($count--) {
         $inventory->addEntry(
             section => 'CPUS',
