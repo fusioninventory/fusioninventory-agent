@@ -33,6 +33,8 @@ sub doInventory {
     my $infos = getInfosFromDmidecode(logger => $logger);
     return if $infos->{4};
 
+    return if $params{no_category}->{cpu};
+
     while ($count--) {
         $inventory->addEntry(
             section => 'CPUS',
