@@ -8,9 +8,7 @@ use Config;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled{
-    return
-        $Config{archname} eq 'i386' ||
-        $Config{archname} eq 'x86_64';
+    return $Config{archname} =~ /^(i\d86|x86_64)/;
 }
 
 sub doInventory {
