@@ -1,5 +1,28 @@
 Revision history for FusionInventory agent
 
+2.3.11 Mon, 15 Sep 2014
+core:
+* more flexible message filtering in logger
+
+inventory:
+* additional exclusion categories
+* more detailed log message for inventory execution
+* utf8 encoding fixes for local users and groups on Windows
+* fix mac address retrieval for bonded addresses on Linux (#2622)
+* fix network interface type identification on Windows
+* network interface type identification for BSD and Linux (#1838,#2622)
+* identify interfaces aliases on Linux (#2622)
+* enforce PCIID as consistent cross-reference key with PCI controllers
+  for network interfaces and video cards 
+* better Xorg log file parsing on Linux
+* ignore whitespace-only disk serial numbers on Windows (#2665)
+* fix architecture identification on Solaris (#2672)
+
+netinventory:
+* additional HP and Kyocera consumables IDs (#2627, #2707)
+* additional Hischmann and Fortinet devices IDs (#2631)
+
+
 2.3.10.1 Mon, 04 Aug 2014
 inventory:
 * fix regression introduced in 2.3.10 wrt hostname on Windows (#2647)
