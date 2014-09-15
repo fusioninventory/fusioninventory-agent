@@ -8,7 +8,9 @@ use warnings;
 use English qw(-no_match_vars);
 
 sub isEnabled {
-    canRun('lspv');
+    my (%params) = @_;
+    return 0 if $params{no_category}->{lvm};
+    return canRun('lspv');
 }
 
 sub doInventory {
