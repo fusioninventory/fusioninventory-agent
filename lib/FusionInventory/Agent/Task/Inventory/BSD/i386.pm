@@ -7,10 +7,6 @@ use Config;
 
 use FusionInventory::Agent::Tools;
 
-# Only run this module if dmidecode has not been found
-our $runMeIfTheseChecksFailed =
-    ["FusionInventory::Agent::Task::Inventory::Generic::Dmidecode"];
-
 sub isEnabled{
     return
         $Config{archname} eq 'i386' ||
