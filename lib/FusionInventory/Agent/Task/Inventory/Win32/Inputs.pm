@@ -24,7 +24,7 @@ my %mouseInterface = (
 
 sub isEnabled {
     my (%params) = @_;
-    return if $params{no_category}->{input};
+    return 0 if $params{no_category}->{input};
     return 1;
 }
 

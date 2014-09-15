@@ -8,7 +8,7 @@ use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
     my (%params) = @_;
-    return if $params{no_category}->{controller};
+    return 0 if $params{no_category}->{controller};
     return 1;
 }
 
