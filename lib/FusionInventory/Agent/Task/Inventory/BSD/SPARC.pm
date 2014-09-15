@@ -8,7 +8,7 @@ use Config;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return $Config{archname} =~ /^sun4/;
+    return $Config{archname} =~ /^sparc/;
 }
 
 sub doInventory {
