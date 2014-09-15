@@ -36,6 +36,7 @@ if ($OSNAME ne 'MSWin32') {
     recommends 'Proc::PID::File'  => undef;
 } else {
     recommends 'Win32::Daemon'    => undef;
+    recommends 'Win32::Unicode::File' => undef;
 }
 
 # test dependencies
