@@ -75,11 +75,12 @@ sub _getLocalUsers {
     my @users;
 
     foreach my $object (in $WMIService->ExecQuery($query)) {
-
-        push @users, {
+        my $user = {
             NAME => $object->{Name},
             ID   => $object->{SID},
         };
+        utf8::upgrade($user->{NAME});
+        push @users, $user;
     }
 
     return @users;
@@ -97,11 +98,12 @@ sub _getLocalGroups {
     my @groups;
 
     foreach my $object (in $WMIService->ExecQuery($query)) {
-
-        push @groups, {
+        my $group = {
             NAME => $object->{Name},
             ID   => $object->{SID},
         };
+        utf8::upgrade($group->{NAME});
+        push @groups, $group;
     }
 
     return @groups;
