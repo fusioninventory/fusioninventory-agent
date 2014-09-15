@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::BSD::Archs::Alpha;
+package FusionInventory::Agent::Task::Inventory::BSD::Alpha;
 
 use strict;
 use warnings;

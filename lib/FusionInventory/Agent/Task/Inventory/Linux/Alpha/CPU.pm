@@ -1,9 +1,7 @@
-package FusionInventory::Agent::Task::Inventory::Linux::Archs::SPARC;
+package FusionInventory::Agent::Task::Inventory::Linux::Alpha::CPU;
 
 use strict;
 use warnings;
-
-use Config;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
@@ -11,9 +9,7 @@ use FusionInventory::Agent::Tools::Linux;
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{cpu};
-    return
-        $Config{archname} =~ /^sparc/ &&
-        -r '/proc/cpuinfo';
+    return -r '/proc/cpuinfo';
 };
 
 sub doInventory {
@@ -23,32 +19,36 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $cpu (_getCPUsFromProc(
-        logger => $logger, file => '/proc/cpuinfo'
-    )) {
+        logger => $logger, file => '/proc/cpuinfo')
+    ) {
         $inventory->addEntry(
             section => 'CPUS',
             entry   => $cpu
         );
     }
-
 }
 
 sub _getCPUsFromProc {
-    my $cpu = (getCPUsFromProc(@_))[0];
-
-    return unless $cpu && $cpu->{'ncpus probed'};
-
     my @cpus;
-    foreach (1 .. $cpu->{'ncpus probed'}) {
+    foreach my $cpu (getCPUsFromProc(@_)) {
+
+        my $speed;
+        if (
+            $cpu->{'cycle frequency [hz]'} &&
+            $cpu->{'cycle frequency [hz]'} =~ /(\d+)000000/
+        ) {
+            $speed = $1;
+        }
+
         push @cpus, {
-            ARCH => 'SPARC',
-            NAME => $cpu->{cpu},
+            ARCH   => 'Alpha',
+            NAME   => $cpu->{processor},
+            SERIAL => $cpu->{'cpu serial number'},
+            SPEED  => $speed
         };
     }
 
     return @cpus;
 }
-
-
 
 1;
