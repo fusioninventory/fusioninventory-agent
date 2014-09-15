@@ -94,6 +94,8 @@ sub run {
                 unless $handle;
         }
 
+        binmode $handle, ':encoding(UTF-8)';
+
         $self->_printInventory(
             inventory => $inventory,
             handle    => $handle,
@@ -329,7 +331,11 @@ sub _printInventory {
     SWITCH: {
         if ($params{format} eq 'xml') {
 
-            my $tpp = XML::TreePP->new(indent => 2);
+            my $tpp = XML::TreePP->new(
+                indent          => 2,
+                utf8_flag       => 1,
+                output_encoding => 'UTF-8'
+            );
             print {$params{handle}} $tpp->write({
                 REQUEST => {
                     CONTENT => $params{inventory}->{content},
