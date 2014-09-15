@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::BSD::Archs::SPARC;
+package FusionInventory::Agent::Task::Inventory::BSD::SPARC;
 
 use strict;
 use warnings;

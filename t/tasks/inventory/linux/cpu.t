@@ -10,12 +10,12 @@ use Test::More;
 use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
-use FusionInventory::Agent::Task::Inventory::Linux::Archs::i386;
-use FusionInventory::Agent::Task::Inventory::Linux::Archs::Alpha;
-use FusionInventory::Agent::Task::Inventory::Linux::Archs::SPARC;
-use FusionInventory::Agent::Task::Inventory::Linux::Archs::MIPS;
-use FusionInventory::Agent::Task::Inventory::Linux::Archs::ARM;
-use FusionInventory::Agent::Task::Inventory::Linux::Archs::PowerPC;
+use FusionInventory::Agent::Task::Inventory::Linux::i386::CPU;
+use FusionInventory::Agent::Task::Inventory::Linux::Alpha::CPU;
+use FusionInventory::Agent::Task::Inventory::Linux::SPARC::CPU;
+use FusionInventory::Agent::Task::Inventory::Linux::MIPS::CPU;
+use FusionInventory::Agent::Task::Inventory::Linux::ARM::CPU;
+use FusionInventory::Agent::Task::Inventory::Linux::PowerPC::CPU;
 
 my %i386 = (
     'linux-686-1' => [
@@ -227,7 +227,7 @@ my $inventory = FusionInventory::Test::Inventory->new();
 foreach my $test (keys %i386) {
     my $cpuinfo   = "resources/linux/proc/cpuinfo/$test";
     my $dmidecode = "resources/generic/dmidecode/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::i386::_getCPUs(cpuinfo => $cpuinfo, dmidecode => $dmidecode);
+    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::i386::CPU::_getCPUs(cpuinfo => $cpuinfo, dmidecode => $dmidecode);
     cmp_deeply(\@cpus, $i386{$test}, "cpus: ".$test);
     lives_ok {
         $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
@@ -236,7 +236,7 @@ foreach my $test (keys %i386) {
 
 foreach my $test (keys %alpha) {
     my $file = "resources/linux/proc/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::Alpha::_getCPUsFromProc(file => $file);
+    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Alpha::CPU::_getCPUsFromProc(file => $file);
     cmp_deeply(\@cpus, $alpha{$test}, $test);
     lives_ok {
         $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
@@ -245,7 +245,7 @@ foreach my $test (keys %alpha) {
 
 foreach my $test (keys %sparc) {
     my $file = "resources/linux/proc/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::SPARC::_getCPUsFromProc(file => $file);
+    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::SPARC::CPU::_getCPUsFromProc(file => $file);
     cmp_deeply(\@cpus, $sparc{$test}, $test);
     lives_ok {
         $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
@@ -254,7 +254,7 @@ foreach my $test (keys %sparc) {
 
 foreach my $test (keys %mips) {
     my $file = "resources/linux/proc/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::MIPS::_getCPUsFromProc(file => $file);
+    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::MIPS::CPU::_getCPUsFromProc(file => $file);
     cmp_deeply(\@cpus, $mips{$test}, $test);
     lives_ok {
         $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
@@ -263,7 +263,7 @@ foreach my $test (keys %mips) {
 
 foreach my $test (keys %arm) {
     my $file = "resources/linux/proc/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::ARM::_getCPUsFromProc(file => $file);
+    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::ARM::CPU::_getCPUsFromProc(file => $file);
     cmp_deeply(\@cpus, $arm{$test}, $test);
     lives_ok {
         $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;
@@ -272,7 +272,7 @@ foreach my $test (keys %arm) {
 
 foreach my $test (keys %ppc) {
     my $file = "resources/linux/proc/cpuinfo/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::Archs::PowerPC::_getCPUsFromProc(file => $file);
+    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::PowerPC::CPU::_getCPUsFromProc(file => $file);
     cmp_deeply(\@cpus, $ppc{$test}, $test);
     lives_ok {
         $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;

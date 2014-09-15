@@ -1,19 +1,14 @@
-package FusionInventory::Agent::Task::Inventory::Linux::Archs::m68k;
+package FusionInventory::Agent::Task::Inventory::Linux::PowerPC::CPU;
 
 use strict;
 use warnings;
 
-use Config;
-
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{cpu};
-    return
-        $Config{archname} =~ /^m68k/ &&
-        -r '/proc/cpuinfo';
+    return -r '/proc/cpuinfo';
 }
 
 sub doInventory {
@@ -36,10 +31,26 @@ sub _getCPUsFromProc {
     my @cpus;
     foreach my $cpu (getCPUsFromProc(@_)) {
 
+        my $speed;
+        if (
+            $cpu->{clock} &&
+            $cpu->{clock} =~ /(\d+)/
+        ) {
+            $speed = $1;
+        }
+
+        my $manufacturer;
+        if ($cpu->{machine} &&
+            $cpu->{machine} =~ /IBM/
+        ) {
+            $manufacturer = 'IBM';
+        }
+
         push @cpus, {
-            ARCH  => 'm68k',
-            NAME  => $cpu->{'cpu'},
-            SPEED => $cpu->{'clocking'}
+            ARCH         => 'PowerPC',
+            NAME         => $cpu->{cpu},
+            MANUFACTURER => $manufacturer,
+            SPEED        => $speed
         };
     }
 

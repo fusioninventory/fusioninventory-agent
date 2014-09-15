@@ -1,9 +1,7 @@
-package FusionInventory::Agent::Task::Inventory::Linux::Archs::i386;
+package FusionInventory::Agent::Task::Inventory::Linux::i386::CPU;
 
 use strict;
 use warnings;
-
-use Config;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
@@ -12,11 +10,7 @@ use FusionInventory::Agent::Tools::Generic;
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{cpu};
-    return
-        $Config{archname} =~ /^(i\d86|x86_64)/ &&
-        (
-            -r '/proc/cpuinfo'
-        );
+    return -r '/proc/cpuinfo';
 }
 
 sub doInventory {
