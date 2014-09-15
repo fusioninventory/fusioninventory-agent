@@ -311,25 +311,53 @@ categories are:
 
 =over 4
 
-=item
+=item * battery
 
-printer
+=item * controller
 
-=item
+=item * cpu
 
-software
+=item * drive
 
-=item
+=item * environment
 
-environment
+=item * input
 
-=item
+=item * license
 
-process
+=item * local_group
 
-=item
+=item * local_user
 
-user
+=item * lvm
+
+=item * memory
+
+=item * modem
+
+=item * monitor
+
+=item * network
+
+=item * printer
+
+=item * process
+
+=item * slot
+
+=item * software
+
+=item * sound
+
+=item * storage
+
+=item * usb
+
+=item * user
+
+=item * video
+
+=item * virtualmachine
 
 =back
 
