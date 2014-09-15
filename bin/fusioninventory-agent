@@ -275,15 +275,9 @@ The available backends are:
 
 =over 4
 
-=item
-
 file: read configuration from a file (default anywhere else as Windows).
 
-=item
-
 registry: read configuration from the registry (default on Windows).
-
-=item
 
 none: don't read any configuration.
 
