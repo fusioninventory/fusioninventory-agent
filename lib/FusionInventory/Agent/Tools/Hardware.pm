@@ -1568,6 +1568,20 @@ sub _setAggregatePorts {
             $ports->{$interface_id}->{AGGREGATE}->{PORT} = $lacp_info->{$interface_id};
         }
     }
+
+    my $pagp_info = _getPAGPInfo(%params);
+    if ($pagp_info) {
+        foreach my $interface_id (keys %$pagp_info) {
+            # safety check
+            if (!$ports->{$interface_id}) {
+                $logger->error(
+                    "unknown interface $interface_id in PAGP info, ignoring"
+                ) if $logger;
+                next;
+            }
+            $ports->{$interface_id}->{AGGREGATE}->{PORT} = $pagp_info->{$interface_id};
+        }
+    }
 }
 
 sub _getLACPInfo {
@@ -1583,6 +1597,23 @@ sub _getLACPInfo {
         next if $aggregator_id == 0;
         next if $aggregator_id == $interface_id;
         push @{$results->{$aggregator_id}}, $interface_id;
+    }
+
+    return $results;
+}
+
+sub _getPAGPInfo {
+    my (%params) = @_;
+
+    my $snmp = $params{snmp};
+
+    my $results;
+    my $pagpPorts = $snmp->walk('.1.3.6.1.4.1.9.9.98.1.1.1.1.5');
+
+    while (my ($port_id, $portShortNum) = each %{$pagpPorts}) {
+        next unless $portShortNum > 0;
+        my $aggregatePort_id = $portShortNum + 5000;
+        push @{$results->{$aggregatePort_id}}, $port_id;
     }
 
     return $results;
