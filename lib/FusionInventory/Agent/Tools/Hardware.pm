@@ -736,7 +736,7 @@ sub _setPrinterProperties {
     my $logger = $params{logger};
 
     # consumable levels
-    foreach my $index (1 .. 10) {
+    foreach my $index (1 .. 20) {
         my $description_oid = '.1.3.6.1.2.1.43.11.1.1.6.1.' . $index;
         my $description = hex2char($snmp->get($description_oid));
         last unless $description;
