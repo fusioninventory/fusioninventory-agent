@@ -37,7 +37,6 @@ my %tests = (
             SPEED       => 100,
             PNPDEVICEID => 'PCI\VEN_10EC&DEV_8168&SUBSYS_84321043&REV_06\4&87D54EE&0&00E5',
             PCIID       => '10EC:8168:8432:1043',
-            TYPE        => 'ethernet'
         },
         {
             dns         => '192.168.0.254',
@@ -52,7 +51,6 @@ my %tests = (
             SPEED       => 100,
             PNPDEVICEID => 'PCI\VEN_10EC&DEV_8168&SUBSYS_84321043&REV_06\4&87D54EE&0&00E5',
             PCIID       => '10EC:8168:8432:1043',
-            TYPE        => 'ethernet'
         },
         {
             dns         => undef,
@@ -63,7 +61,6 @@ my %tests = (
             VIRTUALDEV  => 0,
             PNPDEVICEID => 'BTH\MS_BTHPAN\7&42D85A8&0&2',
             PCIID       => undef,
-            TYPE        => 'ethernet',
         },
     ],
     xp => [
@@ -74,7 +71,6 @@ my %tests = (
             PCIID       => undef,
             MACADDR     => '50:50:54:50:30:30',
             STATUS      => 'Up',
-            TYPE        => undef,
             MTU         => undef,
             DESCRIPTION => 'Minipuerto WAN (PPTP)'
         },
@@ -85,7 +81,6 @@ my %tests = (
             PCIID       => undef,
             MACADDR     => '33:50:6F:45:30:30',
             STATUS      => 'Up',
-            TYPE        => undef,
             MTU         => undef,
             DESCRIPTION => 'Minipuerto WAN (PPPOE)'
         },
@@ -96,7 +91,6 @@ my %tests = (
             PCIID       => undef,
             MACADDR     => '26:0F:20:52:41:53',
             STATUS      => 'Up',
-            TYPE        => 'ethernet',
             MTU         => undef,
             DESCRIPTION => 'Minipuerto del administrador de paquetes'
         },
@@ -109,7 +103,6 @@ my %tests = (
             PCIID       => '14E4:1677:3006:103C',
             MACADDR     => '00:14:C2:0D:B0:FB',
             STATUS      => 'Up',
-            TYPE        => 'ethernet',
             IPDHCP      => '10.36.6.100',
             IPSUBNET    => '10.36.6.0',
             MTU         => undef,
@@ -123,7 +116,6 @@ my %tests = (
             PCIID       => undef,
             MACADDR     => '00:14:C2:0D:B0:FB',
             STATUS      => 'Up',
-            TYPE        => 'ethernet',
             MTU         => undef,
             DESCRIPTION => 'Minipuerto del administrador de paquetes'
         },
@@ -134,7 +126,6 @@ my %tests = (
             PCIID       => undef,
             MACADDR     => '00:14:C2:0D:B0:FB',
             STATUS      => 'Up',
-            TYPE        => 'ethernet',
             MTU         => undef,
             DESCRIPTION => 'Teefer2 Miniport'
         },
@@ -145,7 +136,6 @@ my %tests = (
             PCIID       => undef,
             MACADDR     => '26:0F:20:52:41:53',
             STATUS      => 'Up',
-            TYPE        => 'ethernet',
             MTU         => undef,
             DESCRIPTION => 'Teefer2 Miniport'
         }
