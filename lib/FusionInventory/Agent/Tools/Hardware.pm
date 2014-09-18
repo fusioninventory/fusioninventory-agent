@@ -206,83 +206,18 @@ my %interface_variables = (
     },
 );
 
-my %consumables;
-
-my @consumable_type_rules = (
-    {
-        match => qr/cyan/i,
-        value => 'cyan'
-    },
-    {
-        match => qr/magenta/i,
-        value => 'magenta'
-    },
-    {
-        match => qr/(black|noir)/i,
-        value => 'black'
-    },
-    {
-        match => qr/(yellow|jaune)/i,
-        value => 'yellow'
-    },
-    {
-        match => qr/waste/i,
-        value => 'waste'
-    },
-    {
-        match => qr/maintenance/i,
-        value => 'maintenance'
-    },
-    {
-        match => qr/fuser/i,
-        value => 'fuser'
-    },
-    {
-        match => qr/transfer/i,
-        value => 'transfer'
-    },
-);
-
-my @consumable_subtype_rules = (
-    {
-        match => qr/toner/i,
-        value => 'toner'
-    },
-    {
-        match => qr/drum/i,
-        value => 'drum'
-    },
-    {
-        match => qr/ink/i,
-        value => 'cartridge'
-    },
-);
-
-my %consumable_variables_from_type = (
-    cyan => {
-        toner     => 'TONERCYAN',
-        drum      => 'DRUMCYAN',
-        cartridge => 'CARTRIDGECYAN',
-    },
-    magenta     => {
-        toner     => 'TONERMAGENTA',
-        drum      => 'DRUMMAGENTA',
-        cartridge => 'CARTRIDGEMAGENTA',
-    },
-    black     => {
-        toner     => 'TONERBLACK',
-        drum      => 'DRUMBLACK',
-        cartridge => 'CARTRIDGEBLACK',
-    },
-    yellow     => {
-        toner     => 'TONERYELLOW',
-        drum      => 'DRUMYELLOW',
-        cartridge => 'CARTRIDGEYELLOW',
-    },
-    waste       => 'WASTETONER',
-    maintenance => 'MAINTENANCEKIT',
-    fuser       => 'FUSERKIT',
-    transfer    => 'TRANSFERKIT',
+my %consumable_types = (
+     3 => 'TONER',
+     4 => 'WASTETONER',
+     5 => 'CARTRIDGE',
+     6 => 'CARTRIDGE',
+     8 => 'WASTETONER',
+     9 => 'DRUM',
+    12 => 'CARTRIDGE',
+    15 => 'FUSERKIT',
+    18 => 'MAINTENANCEKIT',
+    20 => 'TRANSFERKIT',
+    21 => 'TONER',
 );
 
 # printer-specific page counter variables
@@ -495,22 +430,6 @@ sub _loadSysObjectIDDatabase {
             $sysobjectid{$manufacturer_id}->{name} = $2;
             $sysobjectid{$manufacturer_id}->{type} = $3;
         }
-    }
-
-    close $handle;
-}
-
-sub _loadConsumablesDatabase {
-    my (%params) = @_;
-
-    return unless $params{datadir};
-
-    my $handle = getFileHandle(file => "$params{datadir}/consumables.ids");
-    return unless $handle;
-
-    while (my $line = <$handle>) {
-        next unless $line =~ /(\S+) \t (\S+)/x;
-        $consumables{$1} = $2;
     }
 
     close $handle;
@@ -735,36 +654,74 @@ sub _setPrinterProperties {
     my $snmp   = $params{snmp};
     my $logger = $params{logger};
 
+    # colors
+    my $colors = $snmp->walk('.1.3.6.1.2.1.43.12.1.1.4.1');
+
     # consumable levels
+    my $color_ids      = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.3.1');
+    my $type_ids       = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.5.1');
     my $descriptions   = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.6.1');
     my $max_levels     = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.8.1');
     my $current_levels = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.9.1');
 
     foreach my $consumable_id (sort keys %$descriptions) {
-        my $description = hex2char($descriptions->{$consumable_id});
         my $max         = $max_levels->{$consumable_id};
         my $current     = $current_levels->{$consumable_id};
         next unless defined $max and defined $current;
 
         # consumable identification
-        my $variable =
-            _getConsumableVariableFromDescription(
-                datadir     => $params{datadir},
-                logger      => $logger,
-                description => $description
-            );
-        next unless $variable;
+        my $type_id  = $type_ids->{$consumable_id};
+        my $color_id = $color_ids->{$consumable_id};
+
+        my $type;
+        if ($type_id != 1) {
+            $type = $consumable_types{$type_id};
+        } else {
+            # fallback on description
+            my $description = $descriptions->{$consumable_id};
+            $type =
+                $description =~ /maintenance/i ? 'MAINTENANCEKIT' :
+                $description =~ /fuser/i       ? 'FUSERKIT'       :
+                $description =~ /transfer/i    ? 'TRANSFERKIT'    :
+                                                 undef            ;
+        }
+
+        if (!$type) {
+            $logger->debug("unknown consumable type $type_id") if $logger;
+            next;
+        }
+
+        if ($type eq 'TONER' || $type eq 'DRUM' || $type eq 'CARTRIDGE') {
+            my $color;
+            if ($color_id) {
+                $color = hex2char($colors->{$color_id});
+                if (!$color) {
+                    $logger->debug("invalid color ID $color_id") if $logger;
+                    next;
+                }
+            } else {
+                # fallback on description
+                my $description = $descriptions->{$consumable_id};
+                $color =
+                    $description =~ /cyan/i           ? 'cyan'    : 
+                    $description =~ /magenta/i        ? 'magenta' : 
+                    $description =~ /(yellow|jaune)/i ? 'yellow'  : 
+                    $description =~ /(black|noir)/i   ? 'black'   : 
+                                                        'black'   ;
+            }
+            $type .= uc($color);
+        }
 
         my $value;
         if ($current == -3) {
             # OK means 100% for a container, but 0% for a receptacle
-            $value = $variable eq 'WASTETONER' ? 0 : 100;
+            $value = $type eq 'WASTETONER' ? 0 : 100;
         } else {
             $value = _getPercentValue($max, $current);
         }
         next unless defined $value;
 
-        $device->{CARTRIDGES}->{$variable} = $value;
+        $device->{CARTRIDGES}->{$type} = $value;
     }
 
     # page counters
@@ -779,65 +736,6 @@ sub _setPrinterProperties {
         }
         $device->{PAGECOUNTERS}->{$key} = $value;
     }
-}
-
-sub _getConsumableVariableFromDescription {
-    my (%params) = @_;
-
-    my $logger      = $params{logger};
-    my $description = $params{description};
-    return unless $description;
-
-    _loadConsumablesDatabase(%params) if !%consumables;
-
-    foreach my $key (keys %consumables) {
-        next unless $description =~ /$key/;
-        $logger->debug("match for consumable $description in database")
-            if $logger;
-        return $consumables{$key};
-    }
-
-    $logger->debug("no match for consumable $description in database")
-        if $logger;
-
-    # find type
-    my $type;
-    foreach my $rule (@consumable_type_rules) {
-        next unless $description =~ $rule->{match};
-        $type = $rule->{value};
-        last;
-    }
-    if ($type) {
-        $logger->debug("match for consumable $description in type rules")
-            if $logger;
-    } else {
-        $logger->debug("no match for consumable $description in type rules")
-            if $logger;
-        return;
-    }
-
-    my $result = $consumable_variables_from_type{$type};
-    # for waste and toner, type is enough
-    return $result unless ref $result;
-
-    # otherwise, let's find subtype
-
-    my $subtype;
-    foreach my $rule (@consumable_subtype_rules) {
-        next unless $description =~ $rule->{match};
-        $subtype = $rule->{value};
-        last;
-    }
-    if ($subtype) {
-        $logger->debug("match for consumable $description in subtype rules")
-            if $logger;
-    } else {
-        $logger->debug("no match for consumable $description in subtype rules")
-            if $logger;
-        return;
-    }
-
-    return $consumable_variables_from_type{$type}->{$subtype};
 }
 
 sub _setNetworkingProperties {
