@@ -736,15 +736,14 @@ sub _setPrinterProperties {
     my $logger = $params{logger};
 
     # consumable levels
-    foreach my $index (1 .. 20) {
-        my $description_oid = '.1.3.6.1.2.1.43.11.1.1.6.1.' . $index;
-        my $description = hex2char($snmp->get($description_oid));
-        last unless $description;
+    my $descriptions   = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.6.1');
+    my $max_levels     = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.8.1');
+    my $current_levels = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.9.1');
 
-        my $max_oid     = '.1.3.6.1.2.1.43.11.1.1.8.1.' . $index;
-        my $current_oid = '.1.3.6.1.2.1.43.11.1.1.9.1.' . $index;
-        my $max     = $snmp->get($max_oid);
-        my $current = $snmp->get($current_oid);
+    foreach my $consumable_id (sort keys %$descriptions) {
+        my $description = hex2char($descriptions->{$consumable_id});
+        my $max         = $max_levels->{$consumable_id};
+        my $current     = $current_levels->{$consumable_id};
         next unless defined $max and defined $current;
 
         # consumable identification
