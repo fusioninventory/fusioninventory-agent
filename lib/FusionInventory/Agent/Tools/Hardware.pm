@@ -714,8 +714,9 @@ sub _setPrinterProperties {
 
         my $value;
         if ($current == -3) {
-            # OK means 100% for a container, but 0% for a receptacle
-            $value = $type eq 'WASTETONER' ? 0 : 100;
+            # A value of (-3) means that the printer knows that there is some
+            # supply/remaining space, respectively.
+            $value = 'OK';
         } else {
             $value = _getPercentValue($max, $current);
         }
