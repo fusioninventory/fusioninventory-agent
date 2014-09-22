@@ -661,6 +661,7 @@ sub _setPrinterProperties {
     my $color_ids      = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.3.1');
     my $type_ids       = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.5.1');
     my $descriptions   = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.6.1');
+    my $unit_ids       = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.7.1');
     my $max_levels     = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.8.1');
     my $current_levels = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.9.1');
 
@@ -721,7 +722,24 @@ sub _setPrinterProperties {
             # supply/remaining space, respectively.
             $value = 'OK';
         } else {
-            $value = _getPercentValue($max, $current);
+            if ($max != -2) {
+                $value = _getPercentValue($max, $current);
+            } else {
+                # PrtMarkerSuppliesSupplyUnitTC in Printer MIB
+                my $unit_id = $unit_ids->{$consumable_id};
+                $value =
+                    $unit_id == 19 ?  $current                         :
+                    $unit_id == 18 ?  $current         . 'items'       :
+                    $unit_id == 17 ?  $current         . 'm'           :
+                    $unit_id == 16 ?  $current         . 'feet'        :
+                    $unit_id == 15 ? ($current / 10)   . 'ml'          :
+                    $unit_id == 13 ? ($current / 10)   . 'g'           :
+                    $unit_id == 11 ?  $current         . 'hours'       :
+                    $unit_id ==  8 ?  $current         . 'sheets'      :
+                    $unit_id ==  7 ?  $current         . 'impressions' :
+                    $unit_id ==  4 ? ($current / 1000) . 'mm'          :
+                                      $current         . '?'           ;
+            }
         }
 
         $device->{CARTRIDGES}->{$type} = $value;
