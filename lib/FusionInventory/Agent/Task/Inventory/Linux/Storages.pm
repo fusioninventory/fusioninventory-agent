@@ -88,7 +88,7 @@ sub _getDevices {
             );
         }
 
-        if ($device->{DISKSIZE} && $device->{TYPE} =~ /^cd/) {
+        if (!$device->{DISKSIZE} && $device->{TYPE} !~ /^cd/) {
             $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME});
         }
     }
