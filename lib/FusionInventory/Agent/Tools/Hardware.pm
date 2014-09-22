@@ -213,11 +213,13 @@ my %consumable_types = (
      6 => 'CARTRIDGE',
      8 => 'WASTETONER',
      9 => 'DRUM',
+    10 => 'DEVELOPER',
     12 => 'CARTRIDGE',
     15 => 'FUSERKIT',
     18 => 'MAINTENANCEKIT',
     20 => 'TRANSFERKIT',
     21 => 'TONER',
+    32 => 'STAPLES',
 );
 
 # printer-specific page counter variables
@@ -692,7 +694,7 @@ sub _setPrinterProperties {
             next;
         }
 
-        if ($type eq 'TONER' || $type eq 'DRUM' || $type eq 'CARTRIDGE') {
+        if ($type eq 'TONER' || $type eq 'DRUM' || $type eq 'CARTRIDGE' || $type eq 'DEVELOPER') {
             my $color;
             if ($color_id) {
                 $color = hex2char($colors->{$color_id});
