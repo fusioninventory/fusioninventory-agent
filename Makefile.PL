@@ -90,6 +90,12 @@ install_script 'bin/fusioninventory-netdiscovery';
 install_script 'bin/fusioninventory-netinventory';
 install_script 'bin/fusioninventory-esx';
 
+resources
+    homepage    => "http://www.fusioninventory.org",
+    bugtracker  => "http://forge.fusioninventory.org/projects/fusioninventory-agent/issues",
+    repository  => "http://github.com/fusinv/fusioninventory-agent/",
+    IRC         => "irc://irc.freenode.net/#fusioninventory";
+
 makemaker_args(
     test => {
         TESTS => join ' ', map { glob } qw(
