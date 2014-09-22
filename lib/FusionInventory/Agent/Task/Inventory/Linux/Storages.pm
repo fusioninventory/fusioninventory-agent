@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Linux;
+use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
     my (%params) = @_;
