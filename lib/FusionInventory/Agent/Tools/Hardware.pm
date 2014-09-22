@@ -713,14 +713,16 @@ sub _setPrinterProperties {
         }
 
         my $value;
-        if ($current == -3) {
-            # A value of (-3) means that the printer knows that there is some
+        if ($current == -2) {
+            # A value of -2 means unknown
+            $value = undef;
+        } elsif ($current == -3) {
+            # A value of -3 means that the printer knows that there is some
             # supply/remaining space, respectively.
             $value = 'OK';
         } else {
             $value = _getPercentValue($max, $current);
         }
-        next unless defined $value;
 
         $device->{CARTRIDGES}->{$type} = $value;
     }
