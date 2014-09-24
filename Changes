@@ -1,7 +1,8 @@
 Revision history for FusionInventory agent
 
-2.3.11 Mon, 15 Sep 2014
+2.3.11 Wed, 24 Sep 2014
 core:
+* additional distribution metadata
 * more flexible message filtering in logger
 
 inventory:
@@ -10,18 +11,26 @@ inventory:
 * utf8 encoding fixes for local users and groups on Windows
 * fix mac address retrieval for bonded addresses on Linux (#2622)
 * fix network interface type identification on Windows
-* network interface type identification for BSD and Linux (#1838,#2622)
+* add network interface type on BSD and Linux (#1838,#2622)
+* add WIFI info for network interfaces on BSD and Linux ()
 * identify interfaces aliases on Linux (#2622)
-* enforce PCIID as consistent cross-reference key with PCI controllers
-  for network interfaces and video cards 
+* add PCIID for network interfaces and video cards 
 * better Xorg log file parsing on Linux
+* fix disk size computation on Linux (#2718)
+* prevent abusive /etc/blkid.tab update on Linux
 * ignore whitespace-only disk serial numbers on Windows (#2665)
 * fix architecture identification on Solaris (#2672)
+* add publisher for dpkg-based distribution on Linux
 
 netinventory:
-* additional HP and Kyocera consumables IDs (#2627, #2707)
+* drop consumables database in favor of standard consumable identification data
+* no more arbitrary consumables number limit
+* report unknown and approximate consumable level values as such
+* fix negative consumable level values
+* report multiple IP addresses associated with each port (#1421)
+* report aggregated network ports (#2179,#2564,#2575)
+* log sysdescr lookup in devices database
 * additional Hischmann and Fortinet devices IDs (#2631)
-
 
 2.3.10.1 Mon, 04 Aug 2014
 inventory:
