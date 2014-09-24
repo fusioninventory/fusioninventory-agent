@@ -1175,6 +1175,7 @@ sub _getLLDPInfo {
     my $lldpRemPortDesc  = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.8');
     my $lldpRemSysName   = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.9');
     my $lldpRemSysDesc   = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.10');
+	 my $lldpRemManAddrIfSubtype;
 
     # port to interface mapping
     my $port2interface =
@@ -1192,6 +1193,12 @@ sub _getLLDPInfo {
             $params{vendor} eq 'Juniper'    ? $id                   :
                                               $port2interface->{$id};
 
+        my $ip = '';
+        $lldpRemManAddrIfSubtype = $snmp->walk('.1.0.8802.1.1.2.1.4.2.1.3.'.$suffix.'.1.4');
+
+        while (my ($suffixip, $resultip) = each %{$lldpRemManAddrIfSubtype}) {
+            $ip = $suffixip;
+        }
 
         my $connection = {
             SYSMAC   => lc(alt2canonical($mac)),
@@ -1200,6 +1207,7 @@ sub _getLLDPInfo {
             SYSNAME  => hex2char($lldpRemSysName->{$suffix}),
             IFNUMBER => $lldpRemPortId->{$suffix}
         };
+		  $connection->{IP} = $ip if $ip;
 
         next if !$connection->{SYSDESCR};
 
