@@ -1,5 +1,9 @@
 Revision history for FusionInventory agent
 
+2.3.11.1 Wed, 25 Sep 2014
+core:
+* update MANIFEST to fix missing files
+
 2.3.11 Wed, 25 Sep 2014
 core:
 * additional distribution metadata
