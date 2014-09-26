@@ -23,7 +23,7 @@ sub doInventory {
 
     foreach my $storage (_getDrives(class => 'Win32_DiskDrive')) {
         if ($hdparm && $storage->{NAME} =~ /(\d+)$/) {
-            my $info = getHdparmsInfo(
+            my $info = getHdparmInfo(
                 device => "/dev/hd" . chr(ord('a') + $1),
                 logger => $logger
             );
@@ -41,7 +41,7 @@ sub doInventory {
 
     foreach my $storage (_getDrives(class => 'Win32_CDROMDrive')) {
         if ($hdparm && $storage->{NAME} =~ /(\d+)$/) {
-            my $info = getHdparmsInfo(
+            my $info = getHdparmInfo(
                 device => "/dev/scd" . chr(ord('a') + $1),
                 logger => $logger
             );
