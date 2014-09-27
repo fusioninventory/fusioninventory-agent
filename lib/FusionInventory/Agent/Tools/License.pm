@@ -15,11 +15,10 @@ our @EXPORT = qw(
 
 # Thanks to Brandon Mulcahy
 # http://www.a1vbcode.com/snippet-4796.asp
-# http://blog.eka808.com/?p=251
 sub _decodeAdobeKey {
-    my ($raw) = @_;
+    my ($encrypted_key) = @_;
 
-    my @subCipherKey = qw/
+    my @cipher_key = qw/
         0000000001 5038647192 1456053789 2604371895
         4753896210 8145962073 0319728564 7901235846
         7901235846 0319728564 8145962073 4753896210
@@ -27,15 +26,15 @@ sub _decodeAdobeKey {
         5038647192 2604371895 8145962073 7901235846
         3267408951 1426053789 4753896210 0319728564/;
 
-    my $i = 0;
-    my @chars;
-    while ($raw =~ s/^(\d)//) {
-        $subCipherKey[$i++]=~ /^.{$1}(.)/;
-        push @chars, $1;
+    my @decrypted_key_chars;
+    foreach my $char (split(//, $encrypted_key)) {
+        my $sub_cipher_key = shift @cipher_key;
+        push @decrypted_key_chars, (split(//, $sub_cipher_key))[$char];
     }
 
     return sprintf
-        '%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s', @chars;
+        '%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s',
+        @decrypted_key_chars;
 }
 
 sub getAdobeLicenses {
