@@ -35,7 +35,7 @@ sub _decodeAdobeKey {
     }
 
     return sprintf
-        '%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s', @chars;
+        '%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s-%s%s%s%s', @chars;
 }
 
 sub getAdobeLicenses {
