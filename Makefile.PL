@@ -17,7 +17,6 @@ requires 'Net::IP'            => undef;
 requires 'UNIVERSAL::require' => undef;
 requires 'Text::Template'     => undef;
 requires 'XML::TreePP'        => '0.26';
-requires 'Socket::GetAddrInfo'=> undef;
 
 if ($OSNAME eq 'MSWin32') {
     requires 'Win32::OLE'         => undef;
