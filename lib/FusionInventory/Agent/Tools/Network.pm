@@ -4,9 +4,10 @@ use strict;
 use warnings;
 use base 'Exporter';
 
+use English qw(-no_match_vars);
 use Net::IP qw(:PROC);
-use Socket qw(SOCK_RAW);
-use Socket::GetAddrInfo qw(getaddrinfo getnameinfo NI_NUMERICHOST);
+use Net::hostent;
+use Socket;
 
 use FusionInventory::Agent::Tools;
 
@@ -129,35 +130,54 @@ sub getNetworkMaskIPv6 {
 }
 
 sub resolve {
-    my ($string, $logger) = @_;
+    my ($name, $logger) = @_;
 
-    my @ret;
+    my @addresses;
 
-    my ($error, @results) = getaddrinfo($string, "", { socktype => SOCK_RAW });
-    if ($error) {
-        $logger->error(
-            "unable to get address for '$string': $error"
-        ) if $logger;
-        return;
-    }
-
-    # and push all of their addresses in the list
-    foreach my $result (@results) {
-        my ($error, $host) = getnameinfo($result->{addr}, NI_NUMERICHOST);
+    if ($Socket::VERSION >= 1.94) {
+        # IPv6 compatible version
+        my ($error, @results) = Socket::getaddrinfo(
+            $name, undef, { socktype => SOCK_RAW }
+        );
         if ($error) {
             $logger->error(
-                "unable to translate binary address for '$string': $error"
+                "unable to get address for '$name': $error"
             ) if $logger;
-            next;
+            return;
         }
 
-        # Drop the zone index, as Net::IP does not support it
-        $host =~ s/%.*$//;
+        # and push all of their addresses in the list
+        foreach my $result (@results) {
+            my ($error, $address) = Socket::getnameinfo(
+                $result->{addr}, Socket::NI_NUMERICHOST()
+            );
+            if ($error) {
+                $logger->error(
+                    "unable to translate binary address for '$name': $error"
+                ) if $logger;
+                next;
+            }
 
-        push @ret, Net::IP->new($host);
+            # Drop the zone index, as Net::IP does not support it
+            $address =~ s/%.*$//;
+
+            push @addresses, $address;
+        }
+    } else {
+        # IPv4-only version
+        my $result = gethostbyname($name);
+        if (!$result) {
+            $logger->error(
+                "unable to get address for '$name': $ERRNO"
+            ) if $logger;
+            return;
+        }
+        foreach my $packed_address (@{$result->addr_list()}) {
+            push @addresses, inet_ntoa($packed_address);
+        }
     }
 
-    return @ret;
+    return map { Net::IP->new($_) } @addresses;
 }
 
 sub compile {
