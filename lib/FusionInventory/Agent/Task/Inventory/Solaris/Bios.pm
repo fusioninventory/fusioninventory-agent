@@ -56,9 +56,9 @@ sub doInventory {
                 my $root = first { ref $_ eq 'HASH' } values %$info;
                 $bios->{SMODEL} = $root->{'banner-name'};
                 if ($root->{openprom}->{version} =~
-                    m{OBP \s+ (\S+) \s+ (\S+)}x) {
+                    m{OBP \s+ ([\d.]+) \s+ (\d{4})/(\d{2})/(\d{2})}x) {
                     $bios->{BVERSION} = $1;
-                    $bios->{BDATE}    = $2;
+                    $bios->{BDATE}    = join('/', $4, $3, $2);
                 }
             }
 
