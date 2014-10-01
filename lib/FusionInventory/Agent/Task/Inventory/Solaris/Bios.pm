@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Config;
+use List::Util qw(first);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
@@ -50,17 +51,15 @@ sub doInventory {
             $bios->{MSN}           = $motherboardInfos->{'Serial Number'};
             $bios->{MMANUFACTURER} = $motherboardInfos->{'Manufacturer'};
         } else {
-            my $infos = _parsePrtconf(logger => $logger);
-            $bios->{SMODEL} = $infos->{'banner-name'};
-            $bios->{SMODEL} .= " ($infos->{name})" if $infos->{name};
-
-            # looks like : "OBP 4.16.4 2004/12/18 05:18"
-            #    with further informations sometime
-            if ($infos->{version} =~ m{OBP\s+([\d|\.]+)\s+(\d+)/(\d+)/(\d+)}) {
-                $bios->{BVERSION} = "OBP $1";
-                $bios->{BDATE}    = "$2/$3/$4";
-            } else {
-                $bios->{BVERSION} = $infos->{version};
+            my $info = getPrtconfInfos(logger => $logger);
+            if ($info) {
+                my $root = first { ref $_ eq 'HASH' } values %$info;
+                $bios->{SMODEL} = $root->{'banner-name'};
+                if ($root->{openprom}->{version} =~
+                    m{OBP \s+ (\S+) \s+ (\S+)}x) {
+                    $bios->{BVERSION} = $1;
+                    $bios->{BDATE}    = $2;
+                }
             }
 
             my $command = -x '/opt/SUNWsneep/bin/sneep' ?
@@ -132,26 +131,6 @@ sub _parseSmbios {
             $infos->{$current}->{$1} = $2;
             next;
         }
-    }
-    close $handle;
-
-    return $infos;
-}
-
-sub _parsePrtconf {
-    my (%params) = (
-        command => '/usr/sbin/prtconf -pv',
-        @_
-    );
-
-    my $handle = getFileHandle(%params);
-    return unless $handle;
-
-    my $infos;
-    while (my $line = <$handle>) {
-        next unless $line =~ /^ \s* ([^:]+) : \s* ' (.+) '$/x;
-        next if $infos->{$1};
-        $infos->{$1} = $2;
     }
     close $handle;
 
