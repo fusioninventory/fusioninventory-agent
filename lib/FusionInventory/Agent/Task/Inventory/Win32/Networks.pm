@@ -55,7 +55,10 @@ sub _getType {
         logger => $logger
     );
 
-    foreach my $subkey (values %$key) {
+    foreach my $subkey_name (keys %$key) {
+        # skip variables
+        next if $subkey_name =~ m{^/};
+        my $subkey = $key->{$subkey_name};
         next unless
             $subkey->{'Connection/'}                     &&
             $subkey->{'Connection/'}->{'/PnpInstanceID'} &&
