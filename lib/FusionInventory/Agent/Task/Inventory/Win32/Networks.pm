@@ -29,7 +29,7 @@ sub doInventory {
             if $interface->{IPADDRESS};
 
         delete $interface->{dns};
-        $interface->{TYPE} = _getType($interface->{PNPDEVICEID});
+        $interface->{TYPE} = _getMediaType($interface->{PNPDEVICEID});
 
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -45,7 +45,7 @@ sub doInventory {
 
 }
 
-sub _getType {
+sub _getMediaType {
     my ($deviceId, $logger) = @_;
 
     return unless defined $deviceId;

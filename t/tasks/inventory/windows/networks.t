@@ -47,7 +47,7 @@ foreach my $test (keys %tests) {
 
     foreach my $deviceId (keys %{$tests{$test}}) {
         is(
-            FusionInventory::Agent::Task::Inventory::Win32::Networks::_getType($deviceId),
+            FusionInventory::Agent::Task::Inventory::Win32::Networks::_getMediaType($deviceId),
             $tests{$test}->{$deviceId},
             "$test sample, $deviceId device"
         );
