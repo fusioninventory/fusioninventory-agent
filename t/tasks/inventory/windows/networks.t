@@ -20,7 +20,7 @@ use FusionInventory::Agent::Task::Inventory::Win32::Networks;
 
 my %tests = (
     xp => {
-        'PCI\VEN_1022&DEV_2000&SUBSYS_20001022&REV_10\\4&47B7341&0&0088' => undef,
+        'PCI\VEN_1022&DEV_2000&SUBSYS_20001022&REV_10\\4&47B7341&0&0088' => 'ethernet',
         'ROOT\\MS_PSCHEDMP\\0001' => undef,
         'ROOT\\MS_PSCHEDMP\\0002' => undef,
         'ROOT\\MS_PSCHEDMP\\0003' => undef,
