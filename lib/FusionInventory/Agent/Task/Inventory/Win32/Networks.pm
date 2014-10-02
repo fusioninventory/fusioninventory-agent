@@ -66,6 +66,7 @@ sub _getType {
         my $subtype = $subkey->{'Connection/'}->{'/MediaSubType'};
         return
             !defined $subtype        ? 'ethernet' :
+            $subtype eq '0x00000001' ? 'ethernet' :
             $subtype eq '0x00000002' ? 'wifi'     :
                                        undef;
     }
