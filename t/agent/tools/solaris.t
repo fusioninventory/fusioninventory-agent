@@ -559,10 +559,59 @@ my %prtconf_tests = (
     }
 );
 
-plan tests => scalar (keys %prtconf_tests);
+my %prtdiag_tests = (
+    sample1 => {
+        'System Configuration' => 'Sun Microsystems  sun4v SPARC Enterprise T5120',
+        'Memory size' => '3968 Megabytes'
+    },
+    sample2 => {
+        'System Configuration' => 'Sun Microsystems  sun4u Sun Fire V890',
+        'Memory size' => '32768 Megabytes',
+        'System clock frequency' => '150 MHz'
+    },
+    sample3 => {
+        'BMC Configuration' => 'IPMI 2.0 (KCS: Keyboard Controller Style)',
+        'System Configuration' => 'Sun Microsystems     Sun Fire X4540',
+        'BIOS Configuration' => 'American Megatrends Inc. 0ABNF032 05/19/2009'
+    },
+    sample4 => {
+        'System Configuration' => 'SUN MICROSYSTEMS       SUN FIRE X2250    ',
+        'BIOS Configuration' => 'American Megatrends Inc. S86_3A16 12/03/2008',
+        'BMC Configuration' => 'IPMI 2.0 (KCS: Keyboard Controller Style)'
+    },
+    sample5 => {
+        'System Configuration' => 'VMware, Inc. VMware Virtual Platform',
+        'BIOS Configuration' => 'Phoenix Technologies LTD 6.00 06/22/2012'
+    },
+    sample6 => {
+        'System clock frequency' => '167 MHZ',
+        'System Configuration' => 'Sun Microsystems  sun4u Sun Fire V210',
+        'Memory size' => '4GB        ',
+    },
+    sample7 => {
+        'System clock frequency' => '188 MHZ',
+        'System Configuration' => 'Sun Microsystems  sun4u Sun Fire V215',
+        'Memory size' => '2GB        '
+    },
+    sample8 => {
+        'BMC Configuration' => 'IPMI 2.0 (KCS: Keyboard Controller Style)',
+        'BIOS Configuration' => 'American Megatrends Inc. S86_3A16 12/03/2008',
+        'System Configuration' => 'SUN MICROSYSTEMS       SUN FIRE X2250    '
+    }
+);
+
+plan tests => 
+    scalar (keys %prtconf_tests) +
+    scalar (keys %prtdiag_tests);
 
 foreach my $test (keys %prtconf_tests) {
     my $file = "resources/solaris/prtconf/$test";
     my $info = getPrtconfInfos(file => $file);
     cmp_deeply($info, $prtconf_tests{$test}, "$test prtconf parsing");
+}
+
+foreach my $test (keys %prtdiag_tests) {
+    my $file = "resources/solaris/prtdiag/$test";
+    my $info = getPrtconfInfos(file => $file);
+    cmp_deeply($info, $prtdiag_tests{$test}, "$test prtdiag parsing");
 }
