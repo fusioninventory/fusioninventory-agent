@@ -1,0 +1,34 @@
+System Configuration: SUN MICROSYSTEMS       SUN FIRE X2250    
+BIOS Configuration: American Megatrends Inc. S86_3A16 12/03/2008
+BMC Configuration: IPMI 2.0 (KCS: Keyboard Controller Style)
+
+==== Processor Sockets ====================================
+
+Version                          Location Tag
+-------------------------------- --------------------------
+Intel(R) Xeon(R) CPU           X5472  @ 3.00GHz CPU 1
+Intel(R) Xeon(R) CPU           X5472  @ 3.00GHz CPU 2
+
+==== Memory Device Sockets ================================
+
+Type    Status Set Device Locator      Bank Locator
+------- ------ --- ------------------- --------------------
+DDR     in use 0   DIMM 1A             BANK
+DDR     in use 0   DIMM 2A             BANK
+DDR     in use 0   DIMM 1B             BANK
+DDR     in use 0   DIMM 2B             BANK
+DDR     in use 0   DIMM 1C             BANK
+DDR     in use 0   DIMM 2C             BANK
+DDR     in use 0   DIMM 1D             BANK
+DDR     in use 0   DIMM 2D             BANK
+
+==== On-Board Devices =====================================
+ AST2000
+ Gilgal PHY
+ Gilgal PHY
+
+==== Upgradeable Slots ====================================
+
+ID  Status    Type             Description
+--- --------- ---------------- ----------------------------
+1   available PCI Express      PCIE1
