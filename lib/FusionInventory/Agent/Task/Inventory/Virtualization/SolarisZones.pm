@@ -10,7 +10,7 @@ sub isEnabled {
     return
         canRun('zoneadm') &&
         getZone() eq 'global' &&
-        _check_solaris_valid_release('/etc/release');
+        _check_solaris_valid_release();
 }
 
 sub doInventory {
@@ -64,29 +64,14 @@ sub doInventory {
 
 # check if Solaris 10 release is higher than 08/07
 sub _check_solaris_valid_release{
-    my ($releaseFile) = @_;
 
-    my $release = getFirstMatch(
-        file => $releaseFile,
-        pattern => qr/((?:Open)?Solaris .*)/
-    );
-
-    my ($version, $year);
-    if ($release =~ m/Solaris 10 (\d+)\/(\d+)/) {
-        $version = $1;
-        $year = $2;
-    } elsif ($release =~ /OpenSolaris 20(\d+)\.(\d+)\s/) {
-        $version = $1;
-        $year = $2;
-    } else {
-        return 0;
-    }
-
-    if ($year <= 7 and $version < 8) {
-        return 0;
-    }
-
-    return 1;
+    my $info = getReleaseInfo();
+    return
+        $info->{version} > 10
+        ||
+        $info->{version} == 10 &&
+        $info->{subversion}    &&
+        $info->{subversion} >= 'u4';
 }
 
 1;
