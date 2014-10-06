@@ -93,6 +93,10 @@ sub doInventory {
 sub _getType {
     my ($logger) = @_;
 
+    if (-f '/.dockerinit') {
+        return 'Docker';
+    }
+
     # Solaris zones
     if (canRun('/usr/sbin/zoneadm')) {
         my $zone = getZone();
