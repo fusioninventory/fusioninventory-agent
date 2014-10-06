@@ -1,5 +1,17 @@
 Revision history for FusionInventory agent
 
+2.3.12 Mon, 06 Oct 2014
+core:
+* drop Socket::GetAddrInfo usage, and use Socket directly for name to address
+  resolution
+
+inventory:
+* fix networks interface enumeration on Windows XP (#2733)
+* fix BIOS date format error on Solaris (#2735)
+* retrieve OS minor version on Solaris (#2736)
+* identify dockers containers (#2731)
+* fix adobe license key format (RT #99164)
+
 2.3.11.1 Wed, 25 Sep 2014
 core:
 * update MANIFEST to fix missing files
