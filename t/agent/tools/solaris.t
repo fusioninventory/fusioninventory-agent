@@ -600,9 +600,69 @@ my %prtdiag_tests = (
     }
 );
 
+my %release_tests = (
+    'sample1' => {
+        fullname   => 'Solaris 10 5/09 s10s_u7wos_08 SPARC',
+        version    => 10,
+        subversion => 'u7',
+        date       => '5/09',
+        id         => 's10s_u7wos_08'
+    },
+    'sample2' => {
+        fullname   => 'Solaris 9 s9_41e SPARC',
+        version    => 9,
+        subversion => undef,
+        date       => undef,
+        id         => 's9_41e'
+     },
+    'sample3' => {
+        fullname   => 'Solaris 9 s9_50 SPARC',
+        version    => 9,
+        subversion => undef,
+        date       => undef,
+        id         => 's9_50'
+     },
+    'sample4' => {
+        fullname => 'Solaris 8 2/02 s28s_u7wos_08a SPARC',
+        version    => 8,
+        subversion => 'u7',
+        date       => '2/02',
+        id         => 's28s_u7wos_08a',
+    },
+    'sample5' => {
+        fullname   => 'Solaris 9 9/05 s9s_u8wos_05 SPARC',
+        version    => 9,
+        subversion => 'u8',
+        date       => '9/05',
+        id         => 's9s_u8wos_05',
+    },
+    'sample6' => {
+        fullname   => 'Solaris 10 3/05 s10_74L2a SPARC',
+        version    => 10,
+        subversion => undef,
+        date       => '3/05',
+        id         => 's10_74L2a',
+     },
+    'sample7' => {
+        fullname   => 'Oracle Solaris 10 1/13 s10s_u11wos_24a SPARC',
+        version    => 10,
+        subversion => 'u11',
+        date       => '1/13',
+        id         => 's10s_u11wos_24a',
+     },
+    'sample8' => {
+        fullname   => 'Oracle Solaris 10 8/11 s10s_u10wos_17b SPARC',
+        version    => 10,
+        subversion => 'u10',
+        date       => '8/11',
+        id         => 's10s_u10wos_17b',
+     },
+);
+
 plan tests => 
     scalar (keys %prtconf_tests) +
-    scalar (keys %prtdiag_tests);
+    scalar (keys %prtdiag_tests) +
+    scalar (keys %release_tests);
 
 foreach my $test (keys %prtconf_tests) {
     my $file = "resources/solaris/prtconf/$test";
@@ -614,4 +674,10 @@ foreach my $test (keys %prtdiag_tests) {
     my $file = "resources/solaris/prtdiag/$test";
     my $info = getPrtconfInfos(file => $file);
     cmp_deeply($info, $prtdiag_tests{$test}, "$test prtdiag parsing");
+}
+
+foreach my $test (keys %release_tests) {
+    my $file = "resources/solaris/release/$test";
+    my $info = getReleaseInfo(file => $file);
+    cmp_deeply($info, $release_tests{$test}, "$test /etc/release parsing");
 }

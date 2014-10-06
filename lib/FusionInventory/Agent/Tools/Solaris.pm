@@ -13,10 +13,12 @@ our @EXPORT = qw(
     getZone
     getPrtconfInfos
     getPrtdiagInfos
+    getReleaseInfo
 );
 
 memoize('getZone');
 memoize('getPrtdiagInfos');
+memoize('getReleaseInfo');
 
 sub getZone {
     return canRun('zonename') ?
@@ -328,6 +330,32 @@ sub _parseAnySection {
     }
 
     return \@items;
+}
+
+sub getReleaseInfo {
+    my (%params) = (
+        file => '/etc/release',
+        @_
+    );
+
+    my $first_line = getFirstLine(
+        file    => $params{file},
+        logger  => $params{logger},
+    );
+
+    my ($fullname)            =
+        $first_line =~ /^ \s+ (.+)/x;
+    my ($version, $date, $id) =
+        $fullname =~ /Solaris \s ([\d.]+) \s (?: (\d+\/\d+) \s)? (\S+)/x;
+    my ($subversion) = $id =~ /_(u\d+)/;
+
+    return {
+        fullname   => $fullname,
+        version    => $version,
+        subversion => $subversion,
+        date       => $date,
+        id         => $id
+    };
 }
 
 1;
