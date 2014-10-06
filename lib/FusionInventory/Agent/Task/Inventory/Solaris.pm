@@ -20,36 +20,27 @@ sub doInventory {
     my $logger    = $params{logger};
 
     # Operating system informations
-    my $OSName = getFirstLine(command => 'uname -s');
-    my $OSLevel = getFirstLine(command => 'uname -r');
-    my $OSComment = getFirstLine(command => 'uname -v');
-
-    my $OSVersion = getFirstLine(file => '/etc/release', logger => $logger);
-    $OSVersion =~ s/^\s+//;
-
-    if (!$OSVersion) {
-        $OSVersion = $OSComment;
-    }
-
-    # Hardware informations
-    my $karch = getFirstLine(command => 'arch -k');
-    my $hostid = getFirstLine(command => 'hostid');
-    my $proct = getFirstLine(command => 'uname -p');
-    my $platform = getFirstLine(command => 'uname -i');
-    my $HWDescription = "$platform($karch)/$proct HostID=$hostid";
+    my $info           = getReleaseInfo();
+    my $kernel_arch    = getFirstLine(command => 'arch -k');
+    my $kernel_version = getFirstLine(command => 'uname -v');
+    my $proct          = getFirstLine(command => 'uname -p');
+    my $platform       = getFirstLine(command => 'uname -i');
+    my $hostid         = getFirstLine(command => 'hostid');
+    my $description    = "$platform($kernel_arch)/$proct HostID=$hostid";
 
     $inventory->setHardware({
-        OSNAME      => "$OSName $OSLevel",
-        OSVERSION   => $OSVersion,
-        OSCOMMENTS  => $OSComment,
-        DESCRIPTION => $HWDescription
+        OSNAME      => "Solaris",
+        OSVERSION   => $info->{version},
+        OSCOMMENTS  => $info->{subversion},
+        DESCRIPTION => $description
     });
 
     $inventory->setOperatingSystem({
         NAME           => "Solaris",
-        VERSION        => $OSLevel,
-        KERNEL_VERSION => $OSComment,
-        FULL_NAME      => "$OSName $OSLevel"
+        FULL_NAME      => $info->{fullname},
+        VERSION        => $info->{version},
+        SERVICE_PACK   => $info->{subversion},
+        KERNEL_VERSION => $kernel_version
     });
 }
 
