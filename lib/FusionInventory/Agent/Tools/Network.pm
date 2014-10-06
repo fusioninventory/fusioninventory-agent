@@ -137,7 +137,10 @@ sub resolve {
     if ($Socket::VERSION >= 1.94) {
         # IPv6 compatible version
         my ($error, @results) = Socket::getaddrinfo(
-            $name, undef, { socktype => SOCK_RAW }
+            $name, undef, {
+                family   => Socket::AF_UNSPEC(),
+                protocol => Socket::IPPROTO_TCP()
+            }
         );
         if ($error) {
             $logger->error(
