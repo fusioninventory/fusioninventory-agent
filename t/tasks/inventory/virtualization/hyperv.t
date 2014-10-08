@@ -52,6 +52,22 @@ my %tests = (
             STATUS    => 'shutdown',
             UUID      => 'F3AE8A91-00D9-42EB-8556-CC7CAA4A92E6',
         }
+    ],
+    '2008' => [
+        {
+            VMTYPE    => 'HyperV',
+            SUBSYSTEM => 'MS HyperV',
+            NAME      => 'SRV00093',
+            STATUS    => 'running',
+            UUID      => 'SRV00093',
+        },
+        {
+            VMTYPE    => 'HyperV',
+            SUBSYSTEM => 'MS HyperV',
+            NAME      => 'vm-0450-glpi',
+            STATUS    => 'shutdown',
+            UUID      => '6A257FA0-FA76-4BF4-A3FB-67AEE79316BD'
+        },
     ]
 );
 
