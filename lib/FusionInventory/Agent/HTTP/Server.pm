@@ -63,32 +63,34 @@ sub _handle {
     $logger->debug($log_prefix . "request $path from client $clientIp");
 
     my $method = $request->method();
+    my $status;
     if ($method ne 'GET') {
         $logger->error($log_prefix . "invalid request type: $method");
         $client->send_error(400);
+        $status = 400;
     } else {
         SWITCH: {
             # root request
             if ($path eq '/') {
-                $self->_handle_root($client, $request, $clientIp);
+                $status = $self->_handle_root($client, $request, $clientIp);
                 last SWITCH;
             }
 
             # deploy request
             if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
-                $self->_handle_deploy($client, $request, $clientIp, $1);
+                $status = $self->_handle_deploy($client, $request, $clientIp, $1);
                 last SWITCH;
             }
 
             # now request
             if ($path =~ m{^/now(?:/(\S*))?$}) {
-                $self->_handle_now($client, $request, $clientIp, $1);
+                $status = $self->_handle_now($client, $request, $clientIp, $1);
                 last SWITCH;
             }
 
             # status request
             if ($path eq '/status') {
-                $self->_handle_status($client, $request, $clientIp);
+                $status = $self->_handle_status($client, $request, $clientIp);
                 last SWITCH;
             }
 
@@ -96,13 +98,17 @@ sub _handle {
             if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
                 my $file = $1;
                 $client->send_file_response("$self->{htmldir}/$file");
+                $status = 200;
                 last SWITCH;
             }
 
             $logger->error($log_prefix . "unknown path: $path");
             $client->send_error(400);
+            $status = 400;
         }
     }
+
+    $logger->debug($log_prefix . "response status $status");
 
     $client->close();
 }
@@ -116,8 +122,9 @@ sub _handle_root {
         TYPE => 'FILE', SOURCE => "$self->{htmldir}/index.tpl"
     );
     if (!$template) {
-        $logger->error($log_prefix . "Template access failed: $Text::Template::ERROR");
-        ;
+        $logger->error(
+            $log_prefix . "Template access failed: $Text::Template::ERROR"
+        );
 
         my $response = HTTP::Response->new(
             500,
@@ -127,7 +134,7 @@ sub _handle_root {
         );
 
         $client->send_response($response);
-        return;
+        return 500;
     }
 
     my @server_controllers =
@@ -156,6 +163,7 @@ sub _handle_root {
     );
 
     $client->send_response($response);
+    return 200;
 }
 
 sub _handle_deploy {
@@ -182,11 +190,11 @@ sub _handle_deploy {
         }
     }
     if ($path) {
-        $logger->debug($log_prefix . "file $sha512 found");
         $client->send_file_response($path);
-        $logger->debug($log_prefix . "file $path sent");
+        return 200;
     } else {
         $client->send_error(404);
+        return 404;
     }
 }
 
@@ -242,6 +250,7 @@ sub _handle_now {
 
     $client->send_response($response);
     $logger->debug($log_prefix . $trace);
+    return $code;
 }
 
 sub _handle_status {
@@ -255,6 +264,7 @@ sub _handle_status {
        "status: ".$status
     );
     $client->send_response($response);
+    return 200;
 }
 
 sub _isTrusted {
