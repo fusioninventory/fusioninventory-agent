@@ -64,7 +64,7 @@ sub _handle {
 
     my $method = $request->method();
     if ($method ne 'GET') {
-        $logger->debug($log_prefix . "error, invalid request type: $method");
+        $logger->error($log_prefix . "invalid request type: $method");
         $client->send_error(400);
     } else {
         SWITCH: {
@@ -99,7 +99,7 @@ sub _handle {
                 last SWITCH;
             }
 
-            $logger->debug("error, unknown path: $path");
+            $logger->error($log_prefix . "unknown path: $path");
             $client->send_error(400);
         }
     }
