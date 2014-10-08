@@ -62,51 +62,46 @@ sub _handle {
     my $path = $request->uri()->path();
     $logger->debug($log_prefix . "request $path from client $clientIp");
 
-    # non-GET requests
     my $method = $request->method();
     if ($method ne 'GET') {
         $logger->debug($log_prefix . "error, invalid request type: $method");
         $client->send_error(400);
-        $client->close;
-        undef($client);
-        return;
-    }
+    } else {
+        SWITCH: {
+            # root request
+            if ($path eq '/') {
+                $self->_handle_root($client, $request, $clientIp);
+                last SWITCH;
+            }
 
-    # GET requests
-    SWITCH: {
-        # root request
-        if ($path eq '/') {
-            $self->_handle_root($client, $request, $clientIp);
-            last SWITCH;
+            # deploy request
+            if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
+                $self->_handle_deploy($client, $request, $clientIp, $1);
+                last SWITCH;
+            }
+
+            # now request
+            if ($path =~ m{^/now(?:/(\S*))?$}) {
+                $self->_handle_now($client, $request, $clientIp, $1);
+                last SWITCH;
+            }
+
+            # status request
+            if ($path eq '/status') {
+                $self->_handle_status($client, $request, $clientIp);
+                last SWITCH;
+            }
+
+            # static content request
+            if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
+                my $file = $1;
+                $client->send_file_response("$self->{htmldir}/$file");
+                last SWITCH;
+            }
+
+            $logger->debug("error, unknown path: $path");
+            $client->send_error(400);
         }
-
-        # deploy request
-        if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
-            $self->_handle_deploy($client, $request, $clientIp, $1);
-            last SWITCH;
-        }
-
-        # now request
-        if ($path =~ m{^/now(?:/(\S*))?$}) {
-            $self->_handle_now($client, $request, $clientIp, $1);
-            last SWITCH;
-        }
-
-        # status request
-        if ($path eq '/status') {
-            $self->_handle_status($client, $request, $clientIp);
-            last SWITCH;
-        }
-
-        # static content request
-        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
-            my $file = $1;
-            $client->send_file_response("$self->{htmldir}/$file");
-            last SWITCH;
-        }
-
-        $logger->debug("error, unknown path: $path");
-        $client->send_error(400);
     }
 
     $client->close();
