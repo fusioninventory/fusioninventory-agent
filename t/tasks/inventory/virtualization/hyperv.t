@@ -30,6 +30,8 @@ my %tests = (
             NAME      => undef,
             STATUS    => 'running',
             UUID      => 'NITROGENIO',
+            VCPU      => undef,
+            MEMORY    => undef,
         },
         {
             VMTYPE    => 'HyperV',
@@ -37,6 +39,8 @@ my %tests = (
             NAME      => 'vmw7cainf295537',
             STATUS    => 'running',
             UUID      => '0346A680-ADF9-4B2C-8681-70E0D9C7F889',
+            VCPU      => undef,
+            MEMORY    => undef,
         },
         {
             VMTYPE    => 'HyperV',
@@ -44,6 +48,8 @@ my %tests = (
             NAME      => 'COLETA_FABIANO',
             STATUS    => 'running',
             UUID      => 'E3E2976B-FC19-489D-B579-24F80EDEDB68',
+            VCPU      => undef,
+            MEMORY    => undef,
         },
         {
             SUBSYSTEM => 'MS HyperV',
@@ -51,6 +57,8 @@ my %tests = (
             NAME      => 'W2012',
             STATUS    => 'shutdown',
             UUID      => 'F3AE8A91-00D9-42EB-8556-CC7CAA4A92E6',
+            VCPU      => undef,
+            MEMORY    => undef,
         }
     ],
     '2008' => [
@@ -60,13 +68,17 @@ my %tests = (
             NAME      => 'SRV00093',
             STATUS    => 'running',
             UUID      => 'SRV00093',
+            VCPU      => undef,
+            MEMORY    => undef,
         },
         {
             VMTYPE    => 'HyperV',
             SUBSYSTEM => 'MS HyperV',
             NAME      => 'vm-0450-glpi',
             STATUS    => 'shutdown',
-            UUID      => '6A257FA0-FA76-4BF4-A3FB-67AEE79316BD'
+            UUID      => '6A257FA0-FA76-4BF4-A3FB-67AEE79316BD',
+            VCPU      => 2,
+            MEMORY    => 2048,
         },
     ]
 );
