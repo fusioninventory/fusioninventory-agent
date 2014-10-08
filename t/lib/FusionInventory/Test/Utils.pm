@@ -60,7 +60,7 @@ sub mockGetWMIObjects {
 sub loadWMIDump {
     my ($file, $properties) = @_;
 
-    open (my $handle, '<', $file) or die "can't open $file: $ERRNO";
+    open (my $handle, '<', $file) or return;
 
     # this is a windows file
     binmode $handle, ':encoding(UTF-16LE)';
