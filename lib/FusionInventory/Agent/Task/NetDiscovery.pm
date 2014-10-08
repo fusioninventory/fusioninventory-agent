@@ -324,16 +324,20 @@ sub _scanAddress {
         $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP(%params)    : ()
     );
 
+    # don't report anything without a minimal amount of information
+    return unless
+        $device{MAC}          ||
+        $device{SNMPHOSTNAME} ||
+        $device{DNSHOSTNAME}  ||
+        $device{NETBIOSNAME};
+
+    $device{IP} = $params{ip};
+
     if ($device{MAC}) {
         $device{MAC} =~ tr/A-F/a-f/;
     }
 
-    if ($device{MAC} || $device{DNSHOSTNAME} || $device{NETBIOSNAME}) {
-        $device{IP}     = $params{ip};
-        return \%device;
-    } else {
-        return;
-    }
+    return \%device;
 }
 
 sub _scanAddressByNmap {
