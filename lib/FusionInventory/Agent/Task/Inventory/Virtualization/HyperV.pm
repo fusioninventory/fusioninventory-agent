@@ -36,6 +36,29 @@ sub _getVirtualMachines {
 
     my @machines;
 
+    # index memory and cpu information
+    my %memory;
+    foreach my $object (getWMIObjects(
+        moniker    => 'winmgmts://./root/virtualization',
+        class      => 'MSVM_MemorySettingData',
+        properties => [ qw/InstanceID VirtualQuantity/ ]
+    )) {
+        my $id = $object->{InstanceID};
+        next unless $id =~ /^Microsoft:([^\\]+)/;
+        $memory{$1} = $object->{VirtualQuantity};
+    }
+
+    my %vcpu;
+    foreach my $object (getWMIObjects(
+        moniker    => 'winmgmts://./root/virtualization',
+        class      => 'MSVM_ProcessorSettingData',
+        properties => [ qw/InstanceID VirtualQuantity/ ]
+    )) {
+        my $id = $object->{InstanceID};
+        next unless $id =~ /^Microsoft:([^\\]+)/;
+        $vcpu{$1} = $object->{VirtualQuantity};
+    }
+
     foreach my $object (getWMIObjects(
         moniker    => 'winmgmts://./root/virtualization',
         class      => 'MSVM_ComputerSystem',
@@ -55,6 +78,8 @@ sub _getVirtualMachines {
             STATUS    => $status,
             NAME      => $object->{ElementName},
             UUID      => $object->{Name},
+            MEMORY    => $memory{$object->{Name}},
+            VCPU      => $vcpu{$object->{Name}},
         };
 
         push @machines, $machine;
