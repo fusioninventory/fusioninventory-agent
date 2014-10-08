@@ -37,6 +37,7 @@ sub _getVirtualMachines {
     my @machines;
 
     foreach my $object (getWMIObjects(
+        moniker    => 'winmgmts://./root/virtualization',
         class      => 'MSVM_ComputerSystem',
         properties => [ qw/ElementName EnabledState Name/ ]
     )) {
