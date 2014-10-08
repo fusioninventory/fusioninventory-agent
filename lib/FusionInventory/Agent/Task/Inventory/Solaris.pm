@@ -6,6 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Solaris;
 
 our $runAfter = ["FusionInventory::Agent::Task::Inventory::Generic"];
 
