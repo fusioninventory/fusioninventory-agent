@@ -151,14 +151,7 @@ sub run {
     }
 
     # send initial message to the server
-    $self->_sendMessage({
-        AGENT => {
-            START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
-    });
+    $self->_sendStartMessage($pid);
 
     # set all threads in RUN state
     $_ = RUN foreach @states;
@@ -175,12 +168,7 @@ sub run {
         );
 
         # send block size to the server
-        $self->_sendMessage({
-            AGENT => {
-                NBIP => scalar @addresses
-            },
-            PROCESSNUMBER => $pid
-        });
+        $self->_sendCountMessage($pid, scalar @addresses);
 
         # set all threads in RUN state
         $_ = RUN foreach @states;
@@ -207,14 +195,7 @@ sub run {
     delay(1);
 
     # send final message to the server
-    $self->_sendMessage({
-        AGENT => {
-            END => 1,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
-    });
-
+    $self->_sendStopMessage($pid);
 }
 
 sub _sendUpdateMessage {
@@ -489,6 +470,42 @@ sub _parseNmap {
     }
 
     return $result;
+}
+
+sub _sendStartMessage {
+    my ($self, $pid) = @_;
+
+    $self->_sendMessage({
+        AGENT => {
+            START        => 1,
+            AGENTVERSION => $FusionInventory::Agent::VERSION,
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $pid
+    });
+}
+
+sub _sendStopMessage {
+    my ($self, $pid) = @_;
+
+    $self->_sendMessage({
+        AGENT => {
+            END => 1,
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $pid
+    });
+}
+
+sub _sendCountMessage {
+    my ($self, $pid, $count) = @_;
+
+    $self->_sendMessage({
+        AGENT => {
+            NBIP => $count
+        },
+        PROCESSNUMBER => $pid
+    });
 }
 
 1;
