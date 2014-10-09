@@ -161,6 +161,10 @@ sub run {
 
     # send initial message to the server
     _sendStartMessage($recipient, $pid, $deviceid);
+    
+    # register temporary signal handlers
+    local $SIG{TERM} = sub { _sendStopMessage($recipient, $pid, $deviceid); };
+    local $SIG{DIE}  = sub { _sendStopMessage($recipient, $pid, $deviceid); };
 
     # proceed each given IP block
     foreach my $block (@blocks) {
