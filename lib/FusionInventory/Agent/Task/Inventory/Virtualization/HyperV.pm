@@ -65,7 +65,7 @@ sub _getVirtualMachines {
         properties => [ qw/ElementName EnabledState Name/ ]
     )) {
         # skip host
-        next if $object->{Name} eq $host;
+        next if lc($object->{Name}) eq lc($host);
 
         my $status =
             $object->{EnabledState} == 2     ? 'running'  :
