@@ -153,6 +153,10 @@ sub run {
     # send initial message to the server
     $self->_sendStartMessage($pid);
 
+    # register temporary signal handlers
+    local $SIG{TERM} = sub { $self->_sendStopMessage($pid); };
+    local $SIG{DIE}  = sub { $self->_sendStopMessage($pid); };
+
     # set all threads in RUN state
     $_ = RUN foreach @states;
 
