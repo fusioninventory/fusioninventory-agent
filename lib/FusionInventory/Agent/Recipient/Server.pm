@@ -12,6 +12,7 @@ sub new {
     die "missing target parameter" unless $params{target};
 
     my $ocs = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $params{logger},
         user         => $params{user},
         password     => $params{password},
         proxy        => $params{proxy},
@@ -21,6 +22,7 @@ sub new {
     );
 
     my $fusion = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        logger       => $params{logger},
         user         => $params{user},
         password     => $params{password},
         proxy        => $params{proxy},
