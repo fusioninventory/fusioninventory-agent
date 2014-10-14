@@ -15,20 +15,19 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        ua  => LWP::UserAgent->new( ssl_opts => { verify_hostname => 0 } ),
         url => $params{url},
+        tpp => XML::TreePP->new(force_array => [qw(returnval propSet)]),
     };
-
-    $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
-
-    my $cookie = HTTP::Cookies->new( ignore_discard => 1 );
-    $self->{ua}->cookie_jar($cookie);
-
-    push @{ $self->{ua}->requests_redirectable }, 'POST';
-    $self->{ua}->agent("VMware::PoorBoySOAP/0.1 ");
-
-    $self->{tpp} = XML::TreePP->new( force_array => [qw( returnval propSet )] );
     bless $self, $class;
+
+    # create user agent
+    $self->{ua} = LWP::UserAgent->new(
+        requests_redirectable => ['POST', 'GET', 'HEAD'],
+        agent                 => $FusionInventory::Agent::AGENT_STRING,
+        timeout               => $params{timeout} || 180,
+        ssl_opts              => { verify_hostname => 0 },
+        cookie_jar            => HTTP::Cookies->new(ignore_discard => 1),
+    );
 
     return $self;
 }
