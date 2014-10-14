@@ -27,7 +27,6 @@ sub new {
                           FusionInventory::Agent::Logger->new(),
         user         => $params{user},
         password     => $params{password},
-        timeout      => $params{timeout} || 180,
         ssl_set      => 0,
         no_ssl_check => $params{no_ssl_check},
         ca_cert_dir  => $params{ca_cert_dir},
@@ -65,7 +64,7 @@ sub request {
     my $result = HTTP::Response->new( 500 );
     eval {
         if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
-            alarm $self->{timeout};
+            alarm $self->{ua}->timeout();
         }
         $result = $self->{ua}->request($request, $file);
         alarm 0;
