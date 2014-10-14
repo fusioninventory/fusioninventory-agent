@@ -30,7 +30,7 @@ sub _getVirtualMachines {
 
     FusionInventory::Agent::Tools::Win32->use();
 
-    my $host = getHostname(short => 1);
+    my $hostname = getHostname(short => 1);
 
     my @machines;
 
@@ -63,7 +63,7 @@ sub _getVirtualMachines {
         properties => [ qw/ElementName EnabledState Name/ ]
     )) {
         # skip host
-        next if lc($object->{Name}) eq lc($host);
+        next if lc($object->{Name}) eq lc($hostname);
 
         my $status =
             $object->{EnabledState} == 2     ? 'running'  :

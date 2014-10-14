@@ -65,7 +65,7 @@ sub doInventory {
     }
 
     # get the name through native Win32::API, as WMI DB is sometimes broken
-    my $name = getHostname(short => 1);
+    my $hostname = getHostname(short => 1);
 
     $inventory->setOperatingSystem({
         NAME           => "Windows",
@@ -78,7 +78,7 @@ sub doInventory {
     });
 
     $inventory->setHardware({
-        NAME        => $name,
+        NAME        => $hostname,
         DESCRIPTION => $description,
         UUID        => $uuid,
         WINPRODKEY  => $key,
