@@ -8,6 +8,7 @@ use HTTP::Status;
 use LWP::UserAgent;
 use UNIVERSAL::require;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Logger;
 
 my $log_prefix = "[http client] ";
