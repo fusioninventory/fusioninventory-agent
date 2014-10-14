@@ -19,12 +19,19 @@ BEGIN {
 }
 
 sub getHostname {
+    my $hostname = $OSNAME eq 'MSWin32' ?
+        _getHostnameWindows() :
+        _getHostnameUnix()    ;
 
-    if ($OSNAME ne 'MSWin32') {
-        Sys::Hostname->require();
-        return Sys::Hostname::hostname();
-    }
+    return $hostname;
+}
 
+sub _getHostnameUnix {
+    Sys::Hostname->require();
+    return Sys::Hostname::hostname();
+}
+
+sub _getHostnameWindows {
     my $getComputerName = Win32::API->new(
         "kernel32", "GetComputerNameExW", ["I", "P", "P"], "N"
     );
