@@ -157,22 +157,10 @@ sub run {
         timeout          => $self->{config}->{timeout}
     );
 
+    my $deviceid = $self->{config}->{deviceid};
+
     # send initial message to the server
-    my $start = FusionInventory::Agent::Message::Outbound->new(
-        query    => 'NETDISCOVERY',
-        deviceid => $self->{config}->{deviceid},
-        content  => {
-            AGENT => {
-                START        => 1,
-                AGENTVERSION => $FusionInventory::Agent::VERSION,
-            },
-            MODULEVERSION => $FusionInventory::Agent::VERSION,
-            PROCESSNUMBER => $pid
-        },
-    );
-    $recipient->send(
-        message => $start, control => 1, filename => 'discovery_start.xml'
-    );
+    _sendStartMessage($recipient, $pid, $deviceid);
 
     # proceed each given IP block
     foreach my $block (@blocks) {
@@ -183,21 +171,7 @@ sub run {
         $self->{logger}->debug("scanning block $block->{spec}");
 
         # send block size to the server
-        my $message = FusionInventory::Agent::Message::Outbound->new(
-            query    => 'NETDISCOVERY',
-            deviceid => $self->{config}->{deviceid},
-            content  => {
-                AGENT => {
-                    NBIP => scalar @addresses
-                },
-                PROCESSNUMBER => $pid
-            },
-        );
-        my $filename = sprintf('discovery_%s_size.xml', $block->{spec});
-        $filename =~ s{/}{_}g;
-        $recipient->send(
-            message => $message, control => 1, filename => $filename
-        );
+        _sendCountMessage($recipient, $pid, $deviceid, scalar @addresses, $block->{spec});
 
         my @results = $engine->scan(@addresses);
 
@@ -206,7 +180,7 @@ sub run {
             $result->{ENTITY} = $block->{ENTITY} if defined($block->{ENTITY});
             my $message = FusionInventory::Agent::Message::Outbound->new(
                 query    => 'NETDISCOVERY',
-                deviceid => $self->{config}->{deviceid},
+                deviceid => $deviceid,
                 content  => {
                     DEVICE        => [$result],
                     MODULEVERSION => $VERSION,
@@ -223,20 +197,7 @@ sub run {
     $engine->finish();
 
     # send final message to the server
-    my $stop = FusionInventory::Agent::Message::Outbound->new(
-        query    => 'NETDISCOVERY',
-        deviceid => $self->{config}->{deviceid},
-        content  => {
-            AGENT => {
-                END => 1,
-            },
-            MODULEVERSION => $VERSION,
-            PROCESSNUMBER => $pid
-        }
-    );
-    $recipient->send(
-        message => $stop, control => 1, filename => 'discovery_stop.xml'
-    );
+    _sendStopMessage($recipient, $pid, $deviceid);
 }
 
 sub _filterCredentials {
@@ -263,6 +224,69 @@ sub _isValidCredential {
     }
 
     return 1;
+}
+
+sub _sendStartMessage {
+    my ($recipient, $pid, $deviceid) = @_;
+
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        query    => 'NETDISCOVERY',
+        deviceid => $deviceid,
+        content  => {
+            AGENT => {
+                START        => 1,
+                AGENTVERSION => $FusionInventory::Agent::VERSION,
+            },
+            MODULEVERSION => $FusionInventory::Agent::VERSION,
+            PROCESSNUMBER => $pid
+        },
+    );
+
+    $recipient->send(
+        message => $message, control => 1, filename => 'discovery_start.xml'
+    );
+}
+
+sub _sendStopMessage {
+    my ($recipient, $pid, $deviceid) = @_;
+
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        query    => 'NETDISCOVERY',
+        deviceid => $deviceid,
+        content  => {
+            AGENT => {
+                END => 1,
+            },
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $pid
+        }
+    );
+
+    $recipient->send(
+        message => $message, control => 1, filename => 'discovery_stop.xml'
+    );
+}
+
+sub _sendCountMessage {
+    my ($recipient, $pid, $deviceid, $count, $spec) = @_;
+
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        query    => 'NETDISCOVERY',
+        deviceid => $deviceid,
+        content  => {
+            AGENT => {
+                NBIP => $count
+            },
+            PROCESSNUMBER => $pid
+        },
+    );
+
+    my $filename = sprintf('discovery_%s_size.xml', $spec);
+    $filename =~ s{/}{_}g;
+
+    $recipient->send(
+        message => $message, control => 1, filename => $filename
+    );
 }
 
 1;
