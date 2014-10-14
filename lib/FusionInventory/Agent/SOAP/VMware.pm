@@ -306,20 +306,20 @@ FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
 This module allow access to VMware hypervisor using VMware SOAP API
 and _WITHOUT_ their Perl library.
 
-=head1 FUNCTIONS
+=head1 METHODS
 
-=head2 new($class, %params)
+=head2 new(%params)
 
 Returns a VMware object.
 
-=head2 connect( $self, $user, $password )
+=head2 connect($user, $password)
 
 Connect the VMware object with the given credentials.
 
-=head2 getHostFullInfo ( $self, $id )
+=head2 getHostFullInfo($id)
 
 Returns a large hash structure with the host information.
 
-=head2 getHostIds ( $self )
+=head2 getHostIds()
 
 Returns the list of the virtual machine ID in an array reference.
