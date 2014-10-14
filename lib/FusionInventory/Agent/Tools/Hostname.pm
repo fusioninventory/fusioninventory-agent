@@ -45,9 +45,10 @@ sub _getHostnameWindows {
 
     $getComputerName->Call(3, $buffer, $n);
 
-    # GetComputerNameExW returns the string in UTF16, we have to change it
-    # to UTF8
-    return substr(decode("UCS-2le", $buffer), 0, ord $n);
+    # convert from UTF16 to UTF8
+    my $hostname = substr(decode("UCS-2le", $buffer), 0, ord $n);
+
+    return $hostname || $ENV{COMPUTERNAME};
 }
 
 1;
