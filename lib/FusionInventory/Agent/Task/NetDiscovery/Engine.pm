@@ -37,18 +37,25 @@ sub _scanAddress {
         $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP($address)    : ()
     );
 
+    # don't report anything without a minimal amount of information
+    if (
+        !$device{MAC}          &&
+        !$device{SNMPHOSTNAME} &&
+        !$device{DNSHOSTNAME}  &&
+        !$device{NETBIOSNAME}
+    ) {
+        $logger->debug("nothing found for $address");
+        return;
+    }
+
+    $device{IP} = $address;
+
     if ($device{MAC}) {
         $device{MAC} =~ tr/A-F/a-f/;
     }
 
-    if ($device{MAC} || $device{DNSHOSTNAME} || $device{NETBIOSNAME}) {
-        $device{IP}     = $address;
-        $logger->debug("device found for $address");
-        return \%device;
-    } else {
-        $logger->debug("nothing found for $address");
-        return;
-    }
+    $logger->debug("device found for $address");
+    return \%device;
 }
 
 sub _scanAddressByNmap {
