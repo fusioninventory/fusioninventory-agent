@@ -37,9 +37,11 @@ sub new {
 
     # create user agent
     $self->{ua} = LWP::UserAgent->new(
-        parse_head => 0, # No need to parse HTML
-        keep_alive => 1,
-        requests_redirectable => ['POST', 'GET', 'HEAD']
+        requests_redirectable => ['POST', 'GET', 'HEAD'],
+        agent                 => $FusionInventory::Agent::AGENT_STRING,
+        timeout               => $params{timeout} || 180,
+        parse_head            => 0, # No need to parse HTML
+        keep_alive            => 1,
     );
 
     if ($params{proxy}) {
@@ -47,9 +49,6 @@ sub new {
     }  else {
         $self->{ua}->env_proxy();
     }
-
-    $self->{ua}->agent($FusionInventory::Agent::AGENT_STRING);
-    $self->{ua}->timeout($self->{timeout});
 
     return $self;
 }
