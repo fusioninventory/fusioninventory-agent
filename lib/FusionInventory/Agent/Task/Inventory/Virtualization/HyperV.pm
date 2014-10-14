@@ -30,8 +30,7 @@ sub _getVirtualMachines {
 
     FusionInventory::Agent::Tools::Win32->use();
 
-    my $host = FusionInventory::Agent::Tools::Hostname::getHostname() ||
-               $ENV{COMPUTERNAME};
+    my $host = getHostname() || $ENV{COMPUTERNAME};
     $host =~ s/^([^.]+)/$1/;
 
     my @machines;

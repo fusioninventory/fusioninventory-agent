@@ -65,8 +65,7 @@ sub doInventory {
     }
 
     # get the name through native Win32::API, as WMI DB is sometimes broken
-    my $name = FusionInventory::Agent::Tools::Hostname::getHostname() ||
-               $ENV{COMPUTERNAME};
+    my $name = getHostname() || $ENV{COMPUTERNAME};
     $name =~ s/\..*$//; # use short host name
 
     $inventory->setOperatingSystem({
