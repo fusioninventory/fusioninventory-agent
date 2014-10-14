@@ -24,9 +24,15 @@ BEGIN {
 }
 
 sub getHostname {
+    my (%params) = @_;
+
     my $hostname = $OSNAME eq 'MSWin32' ?
         _getHostnameWindows() :
         _getHostnameUnix()    ;
+
+    if ($params{short}) {
+        $hostname =~ s/\..*$//;
+    }
 
     return $hostname;
 }
