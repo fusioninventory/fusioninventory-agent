@@ -71,7 +71,7 @@ sub _check_solaris_valid_release{
         ||
         $info->{version} == 10 &&
         $info->{subversion}    &&
-        $info->{subversion} >= 'u4';
+        substr($info->{subversion}, 1) >= 4;
 }
 
 1;
