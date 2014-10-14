@@ -2,10 +2,15 @@ package FusionInventory::Agent::Tools::Hostname;
 
 use strict;
 use warnings;
+use base 'Exporter';
 
 use UNIVERSAL::require();
 use Encode;
 use English qw(-no_match_vars);
+
+our @EXPORT = qw(
+    getHostname
+);
 
 BEGIN {
     if ($OSNAME eq 'MSWin32') {
