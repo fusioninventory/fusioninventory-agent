@@ -236,7 +236,7 @@ sub _queryDevice {
             );
         };
         if ($EVAL_ERROR) {
-            $logger->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
+            $logger->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR\n");
             return;
         }
     }
