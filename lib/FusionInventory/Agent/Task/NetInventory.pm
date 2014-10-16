@@ -70,9 +70,6 @@ sub run {
     my $max_threads = $options->{PARAM}->[0]->{THREADS_QUERY};
     my $timeout     = $options->{PARAM}->[0]->{TIMEOUT};
 
-    # SNMP models
-    my $models = _getIndexedModels($options->{MODEL});
-
     # SNMP credentials
     my $credentials = _getIndexedCredentials($options->{AUTHENTICATION});
 
@@ -99,7 +96,6 @@ sub run {
             \$states[$i],
             \@devices,
             \@results,
-            $models,
             $credentials,
             $timeout,
         )->detach();
@@ -160,7 +156,7 @@ sub _sendMessage {
 }
 
 sub _queryDevices {
-    my ($self, $state, $devices, $results, $models, $credentials, $timeout) = @_;
+    my ($self, $state, $devices, $results, $credentials, $timeout) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
@@ -180,7 +176,6 @@ sub _queryDevices {
         my $result = $self->_queryDevice(
             device      => $device,
             timeout     => $timeout,
-            model       => $models->{$device->{MODELSNMP_ID}},
             credentials => $credentials->{$device->{AUTHSNMP_ID}}
         );
 
@@ -256,21 +251,6 @@ sub _queryDevice {
     );
 
     return $result;
-}
-
-sub _getIndexedModels {
-    my ($models) = @_;
-
-    foreach my $model (@{$models}) {
-        # index oids
-        $model->{oids} = {
-            map { $_->{OBJECT} => $_->{OID} }
-            @{$model->{GET}}, @{$model->{WALK}}
-        };
-    }
-
-    # index models by their ID
-    return { map { $_->{ID} => $_ } @{$models} };
 }
 
 sub _getIndexedCredentials {
