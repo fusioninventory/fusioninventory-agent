@@ -240,7 +240,7 @@ sub _scanAddresses {
     my $logger = $self->{logger};
     my $id     = threads->tid();
 
-    $logger->debug("Thread $id created");
+    $logger->debug("[thread $id] creation");
 
     # start: wait for state to change
     while ($$state == START) {
@@ -249,7 +249,7 @@ sub _scanAddresses {
 
     OUTER: while (1) {
         # run: process available addresses until exhaustion
-        $logger->debug("Thread $id switched to RUN state");
+        $logger->debug("[thread $id] switching to RUN state");
 
         while (my $address = do { lock @{$addresses}; shift @{$addresses}; }) {
 
@@ -268,7 +268,7 @@ sub _scanAddresses {
 
         # stop: wait for state to change
         $$state = STOP;
-        $logger->debug("Thread $id switched to STOP state");
+        $logger->debug("[thread $id] switching to STOP state");
         while ($$state == STOP) {
             delay(1);
         }
@@ -277,7 +277,7 @@ sub _scanAddresses {
         last OUTER if $$state == EXIT;
     }
 
-    $logger->debug("Thread $id deleted");
+    $logger->debug("[thread $id] deletion");
 }
 
 sub _sendMessage {
@@ -300,7 +300,7 @@ sub _scanAddress {
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
-    $logger->debug("thread $id: scanning $params{ip}...");
+    $logger->debug("[thread $id] scanning $params{ip}:");
 
     my %device = (
         $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : (),
@@ -332,7 +332,7 @@ sub _scanAddressByNmap {
     );
 
     $self->{logger}->debug(
-        sprintf "thread %d: scanning %s with nmap: %s",
+        sprintf "[thread %d] - scanning %s with nmap: %s",
         threads->tid(),
         $params{ip},
         $device ? 'success' : 'no result'
@@ -349,7 +349,7 @@ sub _scanAddressByNetbios {
     my $ns = $nb->node_status($params{ip});
 
     $self->{logger}->debug(
-        sprintf "thread %d: scanning %s with netbios: %s",
+        sprintf "[thread %d] - scanning %s with netbios: %s",
         threads->tid(),
         $params{ip},
         $ns ? 'success' : 'no result'
@@ -391,7 +391,7 @@ sub _scanAddressBySNMP {
 
         # no result means either no host, no response, or invalid credentials
         $self->{logger}->debug(
-            sprintf "thread %d: scanning %s with snmp credentials %d: %s",
+            sprintf "[thread %d] - scanning %s with SNMP, credentials %d: %s",
             threads->tid(),
             $params{ip},
             $credential->{ID},
