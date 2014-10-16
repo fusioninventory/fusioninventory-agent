@@ -54,8 +54,6 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory NetInventory task $VERSION");
-
     # task-specific client, if needed
     $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},

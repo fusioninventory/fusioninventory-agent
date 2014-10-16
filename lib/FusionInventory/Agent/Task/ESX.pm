@@ -164,8 +164,6 @@ sub getHostIds {
 sub run {
     my ( $self, %params ) = @_;
 
-    $self->{logger}->debug("FusionInventory ESX task $VERSION");
-
     $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
         user         => $params{user},

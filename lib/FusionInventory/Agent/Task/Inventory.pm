@@ -39,8 +39,6 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory Inventory task $VERSION");
-
     $self->{modules} = {};
 
     my $inventory = FusionInventory::Agent::Inventory->new(

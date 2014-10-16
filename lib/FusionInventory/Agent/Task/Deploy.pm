@@ -25,7 +25,6 @@ sub isEnabled {
     my ($self) = @_;
 
     return $self->{target}->isa('FusionInventory::Agent::Target::Server');
-
 }
 
 sub _validateAnswer {

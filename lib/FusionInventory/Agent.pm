@@ -294,13 +294,12 @@ sub _runTask {
             # child
             die "fork failed: $ERRNO" unless defined $pid;
 
-            $self->{logger}->debug("running task $name in process $PID");
+            $self->{logger}->debug("forking process $PID to handle task $name");
             $self->_runTaskReal($target, $name, $response);
             exit(0);
         }
     } else {
         # standalone mode: run each task directly
-        $self->{logger}->debug("running task $name");
         $self->_runTaskReal($target, $name, $response);
     }
 }
@@ -322,9 +321,11 @@ sub _runTaskReal {
     );
 
     if (!$task->isEnabled($response)) {
-        $self->{logger}->info("task $name execution not requested");
+        $self->{logger}->debug("task $name execution not enabled");
         return;
     }
+
+    $self->{logger}->info("running task $name");
 
     $task->run(
         user         => $self->{config}->{user},

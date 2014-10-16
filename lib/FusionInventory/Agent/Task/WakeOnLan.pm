@@ -48,8 +48,6 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    $self->{logger}->debug("FusionInventory WakeOnLan task $VERSION");
-
     my @methods = $params{methods} ? @{$params{methods}} : qw/ethernet udp/;
 
     METHODS: foreach my $method (@methods) {
