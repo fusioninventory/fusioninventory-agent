@@ -50,7 +50,7 @@ sub new {
     }
 
     ($self->{session}, my $error) = Net::SNMP->session(%options);
-    die $error unless $self->{session};
+    die $error . "\n" unless $self->{session};
 
     bless $self, $class;
 

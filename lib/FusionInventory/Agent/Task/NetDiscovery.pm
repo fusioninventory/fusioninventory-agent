@@ -432,7 +432,7 @@ sub _scanAddressBySNMPReal {
             /^Received usmStats(WrongDigests|UnknownUserNames)/;
         # other exception
         $self->{logger}->error(
-            "Unable to create SNMP session for $params{ip}: $EVAL_ERROR\n"
+            "Unable to create SNMP session for $params{ip}: $EVAL_ERROR"
         );
         return;
     }
