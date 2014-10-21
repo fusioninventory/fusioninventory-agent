@@ -1196,7 +1196,6 @@ sub _getLLDPInfo {
 
         my $connection = {
             SYSMAC   => lc(alt2canonical($mac)),
-            IFDESCR  => hex2char($lldpRemPortDesc->{$suffix}),
             SYSDESCR => hex2char($lldpRemSysDesc->{$suffix}),
         };
 
@@ -1206,6 +1205,9 @@ sub _getLLDPInfo {
         if ($portId !~ /^0x/ or length($portId) != 14) {
             $connection->{IFNUMBER} = $portId;
         }
+
+        my $ifdescr = hex2char($lldpRemPortDesc->{$suffix});
+        $connection->{IFDESCR} = $ifdescr if $ifdescr;
 
         my $sysname = hex2char($lldpRemSysName->{$suffix});
         $connection->{SYSNAME} = $sysname if $sysname;
