@@ -121,6 +121,7 @@ my @whitespace_tests = (
 
 my @hex2char_tests = (
     [ '0x41', 'A'  ],
+    [ '0x4100', 'A'  ],
     [ '41',   '41' ],
 );
 
