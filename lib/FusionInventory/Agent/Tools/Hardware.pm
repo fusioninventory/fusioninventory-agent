@@ -1195,8 +1195,8 @@ sub _getLLDPInfo {
 
         my $connection = {
             SYSMAC   => lc(alt2canonical($mac)),
-            IFDESCR  => $lldpRemPortDesc->{$suffix},
-            SYSDESCR => $lldpRemSysDesc->{$suffix},
+            IFDESCR  => hex2char($lldpRemPortDesc->{$suffix}),
+            SYSDESCR => hex2char($lldpRemSysDesc->{$suffix}),
             SYSNAME  => hex2char($lldpRemSysName->{$suffix}),
             IFNUMBER => $lldpRemPortId->{$suffix}
         };
