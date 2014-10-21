@@ -1234,8 +1234,8 @@ sub _getCDPInfo {
 
         my $connection = {
             IP       => $ip,
-            SYSDESCR => $cdpCacheVersion->{$suffix},
-            MODEL    => $cdpCachePlatform->{$suffix}
+            SYSDESCR => hex2char($cdpCacheVersion->{$suffix}),
+            MODEL    => hex2char($cdpCachePlatform->{$suffix})
         };
 
         # cdpCacheDevicePort is either a port number or a port description
