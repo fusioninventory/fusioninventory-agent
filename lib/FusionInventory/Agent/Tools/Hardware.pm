@@ -1187,17 +1187,12 @@ sub _getLLDPInfo {
     # whereas y is either a port or an interface id
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
-        my $id           = _getElement($suffix, -2);
-        my $interface_id =
-            ! exists $port2interface->{$id} ? $id                   :
-            $params{vendor} eq 'Juniper'    ? $id                   :
-                                              $port2interface->{$id};
-
-
         my $connection = {
             SYSMAC   => lc(alt2canonical($mac)),
             SYSDESCR => hex2char($lldpRemSysDesc->{$suffix}),
         };
+
+        next if !$connection->{SYSDESCR};
 
         # portId is either a port number or a port mac address,
         # duplicating chassiId
@@ -1212,7 +1207,11 @@ sub _getLLDPInfo {
         my $sysname = hex2char($lldpRemSysName->{$suffix});
         $connection->{SYSNAME} = $sysname if $sysname;
 
-        next if !$connection->{SYSDESCR};
+        my $id           = _getElement($suffix, -2);
+        my $interface_id =
+            ! exists $port2interface->{$id} ? $id                   :
+            $params{vendor} eq 'Juniper'    ? $id                   :
+                                              $port2interface->{$id};
 
         $results->{$interface_id} = $connection;
     }
@@ -1248,6 +1247,8 @@ sub _getCDPInfo {
             MODEL    => hex2char($cdpCachePlatform->{$suffix})
         };
 
+        next if !$connection->{SYSDESCR} || !$connection->{MODEL};
+
         # cdpCacheDevicePort is either a port number or a port description
         my $devicePort = $cdpCacheDevicePort->{$suffix};
         if ($devicePort =~ /^\d+$/) {
@@ -1274,8 +1275,6 @@ sub _getCDPInfo {
             $connection->{SYSNAME} =~ /^SIP([A-F0-9a-f]*)$/) {
             $connection->{MAC} = lc(alt2canonical("0x".$1));
         }
-
-        next if !$connection->{SYSDESCR} || !$connection->{MODEL};
 
         # warning: multiple neighbors announcement for the same interface
         # usually means a non-CDP aware intermediate equipement
