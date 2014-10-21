@@ -1198,8 +1198,14 @@ sub _getLLDPInfo {
             IFDESCR  => hex2char($lldpRemPortDesc->{$suffix}),
             SYSDESCR => hex2char($lldpRemSysDesc->{$suffix}),
             SYSNAME  => hex2char($lldpRemSysName->{$suffix}),
-            IFNUMBER => $lldpRemPortId->{$suffix}
         };
+
+        # portId is either a port number or a port mac address,
+        # duplicating chassiId
+        my $portId = $lldpRemPortId->{$suffix};
+        if ($portId !~ /^0x/ or length($portId) != 14) {
+            $connection->{IFNUMBER} = $portId;
+        }
 
         next if !$connection->{SYSDESCR};
 
