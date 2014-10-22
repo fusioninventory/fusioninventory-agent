@@ -52,6 +52,17 @@ sub new {
     ($self->{session}, my $error) = Net::SNMP->session(%options);
     die $error . "\n" unless $self->{session};
 
+    if ($version ne 'snmpv3') {
+        my $oid = '.1.3.6.1.2.1.1.1.0';
+        my $response = $self->{session}->get_request(
+            -varbindlist => [$oid]
+        );
+        die "No response from remote host\n"
+            if !$response;
+        die "No response from remote host\n"
+            if $response->{$oid} =~ /No response from remote host/;
+    }
+
     bless $self, $class;
 
     return $self;
