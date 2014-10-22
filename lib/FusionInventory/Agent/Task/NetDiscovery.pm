@@ -424,18 +424,8 @@ sub _scanAddressBySNMPReal {
             privprotocol => $params{credential}->{PRIVPROTOCOL},
         );
     };
-    if ($EVAL_ERROR) {
-        # SNMPv3 exception for non-responding host
-        return if $EVAL_ERROR =~ /^No response from remote host/;
-        # SNMPv3 exception for invalid credentials
-        return if $EVAL_ERROR =~
-            /^Received usmStats(WrongDigests|UnknownUserNames)/;
-        # other exception
-        $self->{logger}->error(
-            "Unable to create SNMP session for $params{ip}: $EVAL_ERROR"
-        );
-        return;
-    }
+    # an exception here just means no device,  or wrong credentials
+    return if $EVAL_ERROR;
 
     return getDeviceInfo(
         snmp       => $snmp,
