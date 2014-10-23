@@ -14,9 +14,9 @@ sub new {
 
     SWITCH: {
         if ($params{file}) {
-            die "non-existing $params{file} file parameter"
+            die "non-existing file '$params{file}'\n"
                 unless -f $params{file};
-            die "unreadable $params{file} file parameter"
+            die "unreadable file '$params{file}'\n"
                 unless -r $params{file};
             $self->{values} = _getIndexedValues($params{file});
             $self->{file}   = $params{file};
