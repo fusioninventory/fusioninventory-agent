@@ -226,9 +226,9 @@ my $snmp1 = FusionInventory::Agent::SNMP::Mock->new(
     }
 );
 
-my %device1 = getDeviceInfo(snmp => $snmp1);
+my $device1 = getDeviceInfo(snmp => $snmp1);
 cmp_deeply(
-    \%device1,
+    $device1,
     { DESCRIPTION => 'foo' },
     'getDeviceInfo() with no sysobjectid'
 );
@@ -240,18 +240,18 @@ my $snmp2 = FusionInventory::Agent::SNMP::Mock->new(
     }
 );
 
-my %device2 = getDeviceInfo(snmp => $snmp2);
+my $device2 = getDeviceInfo(snmp => $snmp2);
 cmp_deeply(
-    \%device2,
+    $device2,
     {
         DESCRIPTION  => 'foo',
     },
     'getDeviceInfo() with sysobjectid'
 );
 
-my %device3 = getDeviceInfo(snmp => $snmp2, datadir => './share');
+my $device3 = getDeviceInfo(snmp => $snmp2, datadir => './share');
 cmp_deeply(
-    \%device3,
+    $device3,
     {
         DESCRIPTION  => 'foo',
         TYPE         => 'NETWORKING',

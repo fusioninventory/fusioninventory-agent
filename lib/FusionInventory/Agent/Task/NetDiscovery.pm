@@ -427,11 +427,14 @@ sub _scanAddressBySNMPReal {
     # an exception here just means no device,  or wrong credentials
     return if $EVAL_ERROR;
 
-    return getDeviceInfo(
-        snmp       => $snmp,
-        datadir    => $self->{datadir},
-        logger     => $self->{logger},
+    my $info = getDeviceInfo(
+        snmp    => $snmp,
+        datadir => $self->{datadir},
+        logger  => $self->{logger},
     );
+    return unless $info;
+
+    return %$info;
 }
 
 sub _parseNmap {
