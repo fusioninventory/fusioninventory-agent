@@ -50,16 +50,22 @@ sub new {
     }
 
     ($self->{session}, my $error) = Net::SNMP->session(%options);
-    die $error unless $self->{session};
+    if (!$self->{session}) {
+        die "no response from host $params{hostname}\n"
+            if $error =~ /^No response from remote host/;
+        die "authentication error on host $params{hostname}\n"
+            if $error =~ /^Received usmStats(WrongDigests|UnknownUserNames)/;
+        die $error . "\n";
+    }
 
     if ($version ne 'snmpv3') {
         my $oid = '.1.3.6.1.2.1.1.1.0';
         my $response = $self->{session}->get_request(
             -varbindlist => [$oid]
         );
-        die "No response from remote host\n"
+        die "no response from host $params{hostname}\n"
             if !$response;
-        die "No response from remote host\n"
+        die "no response from host $params{hostname}\n"
             if $response->{$oid} =~ /No response from remote host/;
     }
 
