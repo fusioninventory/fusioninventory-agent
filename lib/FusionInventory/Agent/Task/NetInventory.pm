@@ -173,19 +173,25 @@ sub _queryDevices {
 
     while (my $device = do { lock @{$devices}; shift @{$devices}; }) {
 
-        my $result = $self->_queryDevice(
-            device      => $device,
-            timeout     => $timeout,
-            credentials => $credentials->{$device->{AUTHSNMP_ID}}
-        );
-
-        $result = {
-            ERROR => {
+        my $result;
+        eval {
+            $result = $self->_queryDevice(
+                device      => $device,
+                timeout     => $timeout,
+                credentials => $credentials->{$device->{AUTHSNMP_ID}}
+            );
+        };
+        if ($EVAL_ERROR) {
+            chomp $EVAL_ERROR;
+            $result = {
+                ERROR => {
                     ID      => $device->{ID},
                     TYPE    => $device->{TYPE},
-                    MESSAGE => "No response from remote host"
+                    MESSAGE => $EVAL_ERROR
                 }
-        } if !$result;
+            };
+            $logger->error($EVAL_ERROR);
+        }
 
         if ($result) {
             lock $results;
@@ -216,10 +222,7 @@ sub _queryDevice {
                 file => $device->{FILE}
             );
         };
-        if ($EVAL_ERROR) {
-            $logger->error("Unable to create SNMP session for $device->{FILE}: $EVAL_ERROR");
-            return;
-        }
+        die "SNMP emulation error: $EVAL_ERROR" if $EVAL_ERROR;
     } else {
         eval {
             FusionInventory::Agent::SNMP::Live->require();
@@ -235,10 +238,7 @@ sub _queryDevice {
                 privprotocol => $credentials->{PRIVPROTOCOL},
             );
         };
-        if ($EVAL_ERROR) {
-            $logger->error("Unable to create SNMP session for $device->{IP}: $EVAL_ERROR");
-            return;
-        }
+        die "SNMP communication error: $EVAL_ERROR" if $EVAL_ERROR;
     }
 
     my $result = getDeviceFullInfo(
