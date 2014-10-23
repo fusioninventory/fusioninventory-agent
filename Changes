@@ -1,5 +1,21 @@
 Revision history for FusionInventory agent
 
+2.3.13 Fri, 24 Oct 2014
+core:
+* log HTTP replies status
+
+netdiscovery:
+* skip SNMP scan immediatly if there is no answer from remote host
+* send task termination message to server when shutting down (#185)
+
+netinventory:
+* propagate error messages to server
+* fix null-character presence in CDP/LLDP info (#2670,#2746,#2754)
+* send task termination message to server when shutting down (#185)
+
+inventory:
+* fix HyperV machines enumeration (#2141)
+
 2.3.12 Mon, 06 Oct 2014
 core:
 * drop Socket::GetAddrInfo usage, and use Socket directly for name to address
