@@ -240,7 +240,7 @@ sub _scanAddresses {
     my $logger = $self->{logger};
     my $id     = threads->tid();
 
-    $logger->debug("[thread $id] creation");
+    $logger->debug("[thread $id] creation, PAUSE state");
 
     # start: wait for state to change
     while ($$state == START) {

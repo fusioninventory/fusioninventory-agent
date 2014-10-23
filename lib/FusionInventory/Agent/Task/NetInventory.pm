@@ -161,7 +161,7 @@ sub _queryDevices {
     my $logger = $self->{logger};
     my $id     = threads->tid();
 
-    $logger->debug("Thread $id created in PAUSE state");
+    $logger->debug("[thread $id] creation, PAUSE state");
 
     # start: wait for state to change
     while ($$state == START) {
@@ -169,7 +169,7 @@ sub _queryDevices {
     }
 
     # run: process available addresses until exhaustion
-    $logger->debug("Thread $id switched to RUN state");
+    $logger->debug("[thread $id] switching to RUN state");
 
     while (my $device = do { lock @{$devices}; shift @{$devices}; }) {
 
@@ -202,7 +202,7 @@ sub _queryDevices {
     }
 
     $$state = EXIT;
-    $logger->debug("Thread $id switched to EXIT state");
+    $logger->debug("[thread $id] switching to EXIT state");
 }
 
 sub _queryDevice {
@@ -212,7 +212,7 @@ sub _queryDevice {
     my $device      = $params{device};
     my $logger      = $self->{logger};
     my $id          = threads->tid();
-    $logger->debug("thread $id: scanning $device->{ID}");
+    $logger->debug("[thread $id] scanning $device->{ID}");
 
     my $snmp;
     if ($device->{FILE}) {
