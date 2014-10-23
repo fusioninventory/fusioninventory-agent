@@ -128,11 +128,10 @@ sub get {
     return unless $oid;
 
     my $session = $self->{session};
+    my %options = (-varbindlist => [$oid]);
+    $options{'-contextname'} = $self->{context} if $self->{context};
 
-    my $response = $session->get_request(
-        -varbindlist => [$oid],
-        ($self->{context} ? (-contextname => $self->{context}) : ())
-    );
+    my $response = $session->get_request(%options);
 
     return unless $response;
 
@@ -152,13 +151,11 @@ sub walk {
     return unless $oid;
 
     my $session = $self->{session};
-    my $version_id = $self->{session}->version();
+    my %options = (-baseoid => $oid);
+    $options{'-contextname'}    = $self->{context} if $self->{context};
+    $options{'-maxrepetitions'} = 1                if $session->version() != 0;
 
-    my $response = $session->get_table(
-        -baseoid => $oid,
-        ($version_id != 0 ? (-maxrepetitions => 1)                : ()),
-        ($self->{context} ? (-contextname    => $self->{context}) : ())
-    );
+    my $response = $session->get_table(%options);
 
     return unless $response;
 
