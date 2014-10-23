@@ -152,11 +152,12 @@ sub walk {
     return unless $oid;
 
     my $session = $self->{session};
+    my $version_id = $self->{session}->version();
 
     my $response = $session->get_table(
         -baseoid => $oid,
-        -maxrepetitions => 1,
-        ($self->{context} ? (-contextname => $self->{context}) : ())
+        ($version_id != 0 ? (-maxrepetitions => 1)                : ()),
+        ($self->{context} ? (-contextname    => $self->{context}) : ())
     );
 
     return unless $response;
