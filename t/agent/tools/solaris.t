@@ -659,7 +659,7 @@ my %release_tests = (
      },
 );
 
-plan tests => 
+plan tests =>
     scalar (keys %prtconf_tests) +
     scalar (keys %prtdiag_tests) +
     scalar (keys %release_tests);

@@ -706,10 +706,10 @@ sub _setPrinterProperties {
                 # fallback on description
                 my $description = $descriptions->{$consumable_id};
                 $color =
-                    $description =~ /cyan/i           ? 'cyan'    : 
-                    $description =~ /magenta/i        ? 'magenta' : 
-                    $description =~ /(yellow|jaune)/i ? 'yellow'  : 
-                    $description =~ /(black|noir)/i   ? 'black'   : 
+                    $description =~ /cyan/i           ? 'cyan'    :
+                    $description =~ /magenta/i        ? 'magenta' :
+                    $description =~ /(yellow|jaune)/i ? 'yellow'  :
+                    $description =~ /(black|noir)/i   ? 'black'   :
                                                         'black'   ;
             }
             $type .= uc($color);
