@@ -27,8 +27,7 @@ sub doInventory {
 }
 
 sub _getVirtualMachines {
-
-    FusionInventory::Agent::Tools::Win32->use();
+    FusionInventory::Agent::Tools::Win32->require();
 
     my $hostname = getHostname(short => 1);
 
@@ -36,7 +35,7 @@ sub _getVirtualMachines {
 
     # index memory and cpu information
     my %memory;
-    foreach my $object (getWMIObjects(
+    foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
         moniker    => 'winmgmts://./root/virtualization',
         class      => 'MSVM_MemorySettingData',
         properties => [ qw/InstanceID VirtualQuantity/ ]
@@ -47,7 +46,7 @@ sub _getVirtualMachines {
     }
 
     my %vcpu;
-    foreach my $object (getWMIObjects(
+    foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
         moniker    => 'winmgmts://./root/virtualization',
         class      => 'MSVM_ProcessorSettingData',
         properties => [ qw/InstanceID VirtualQuantity/ ]
@@ -57,7 +56,7 @@ sub _getVirtualMachines {
         $vcpu{$1} = $object->{VirtualQuantity};
     }
 
-    foreach my $object (getWMIObjects(
+    foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
         moniker    => 'winmgmts://./root/virtualization',
         class      => 'MSVM_ComputerSystem',
         properties => [ qw/ElementName EnabledState Name/ ]
