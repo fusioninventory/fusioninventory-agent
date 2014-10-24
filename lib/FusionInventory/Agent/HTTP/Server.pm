@@ -168,8 +168,6 @@ sub _handle_root {
 sub _handle_deploy {
     my ($self, $client, $request, $clientIp, $sha512) = @_;
 
-    my $logger = $self->{logger};
-
     return unless $sha512 =~ /^(.)(.)(.{6})/;
     my $subFilePath = $1.'/'.$2.'/'.$3;
 

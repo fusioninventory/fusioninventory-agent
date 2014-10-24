@@ -18,7 +18,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
     # Operating system informations
     my $info           = getReleaseInfo();

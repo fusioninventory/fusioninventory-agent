@@ -46,9 +46,8 @@ sub getPrtconfInfos {
         chomp $line;
 
         # new node
-        if ($line =~ /^(\s*)Node \s (0x[a-f\d]+)/x) {
+        if ($line =~ /^(\s*)Node \s 0x[a-f\d]+/x) {
             my $level   = defined $1 ? length($1) : 0;
-            my $address = $2;
 
             my $parent_level = $parents[-1]->[1];
 

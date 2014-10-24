@@ -251,10 +251,9 @@ sub _getLibvirtLXC_UUID {
 
     my $uuid;
 
-    my $hardware;
     foreach my $var (@environ) {
       if ( $var =~ /^LIBVIRT_LXC_UUID/) {
-        my ( $name, $value ) = split( '=', $var );
+        my (undef, $value ) = split( '=', $var );
         $uuid = $value;
       }
     }

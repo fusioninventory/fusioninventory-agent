@@ -53,7 +53,7 @@ sub doInventory {
     }
 
     foreach my $license (@licenses) {
-        $params{inventory}->addEntry(
+        $inventory->addEntry(
             section => 'LICENSEINFOS',
             entry   => $license
         );
