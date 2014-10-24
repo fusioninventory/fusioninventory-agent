@@ -249,16 +249,14 @@ sub _getLibvirtLXC_UUID {
 
     my @environ = split( '\0', getAllLines( %params ) );
 
-    my $uuid;
-
-    foreach my $var (@environ) {
-      if ( $var =~ /^LIBVIRT_LXC_UUID/) {
-        my (undef, $value ) = split( '=', $var );
-        $uuid = $value;
-      }
+    foreach my $variable (@environ) {
+        next unless $variable =~ /^LIBVIRT_LXC_UUID/;
+        my (undef, $value) = split('=', $variable);
+        return $value;
     }
 
-    return $uuid;
+    ## no critic (ExplicitReturnUndef)
+    return undef;
 }
 
 1;
