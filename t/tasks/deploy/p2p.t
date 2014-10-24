@@ -3,10 +3,14 @@
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use Test::Deep;
 use Test::More;
+use UNIVERSAL::require;
 
-use FusionInventory::Agent::Task::Deploy::P2P;
+plan(skip_all => 'POE incompatibility with perl 5.8')
+    if !$PERL_VERSION lt v5.10;
+FusionInventory::Agent::Task::Deploy::P2P->use();
 
 my @tests = (
     {

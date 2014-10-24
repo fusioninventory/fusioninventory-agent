@@ -33,5 +33,9 @@ sub filter {
         return 0 if $_ =~ m{FusionInventory/Agent/Threads.pm};
     }
 
+    if ($PERL_VERSION lt v5.10) {
+        return 0 if $_ =~ m{FusionInventory/Agent/Task/Deploy/P2P.pm};
+    }
+
     return 1;
 }
