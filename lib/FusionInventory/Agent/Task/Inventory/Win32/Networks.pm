@@ -71,6 +71,7 @@ sub _getMediaType {
                                        undef;
     }
 
+    ## no critic (ExplicitReturnUndef)
     return undef;
 }
 
