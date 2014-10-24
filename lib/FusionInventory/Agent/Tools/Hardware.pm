@@ -853,6 +853,7 @@ sub _getCanonicalString {
 
     $value =~ s/^\\?["']//;
     $value =~ s/\\?["']$//;
+    $value =~ s/\000$//;
     return unless $value;
 
     return $value;
