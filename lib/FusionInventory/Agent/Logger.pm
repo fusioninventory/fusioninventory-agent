@@ -172,3 +172,7 @@ Add a log message with warning level.
 =head2 error($message)
 
 Add a log message with error level.
+
+=head2 debug_result(%params)
+
+Add a log message with debug level related to an action result.
