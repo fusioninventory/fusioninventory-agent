@@ -90,8 +90,8 @@ sub doInventory {
         WINOWNER    => $operatingSystem->{RegisteredUser} ||
                        $computerSystem->{PrimaryOwnerName},
         OSCOMMENTS  => $operatingSystem->{CSDVersion},
-        SWAP        => $operatingSystem->{TotalSwapSpaceSize},
-        MEMORY      => $computerSystem->{TotalPhysicalMemory},
+        SWAP        => $swap,
+        MEMORY      => $memory,
         WORKGROUP   => $computerSystem->{Domain} ||
                        $computerSystem->{Workgroup},
     });
