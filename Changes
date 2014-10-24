@@ -17,6 +17,9 @@ netinventory:
 inventory:
 * fix HyperV machines enumeration (#2141)
 
+test suite:
+* disable tests requiring POE under perl 5.8
+
 2.3.12 Mon, 06 Oct 2014
 core:
 * drop Socket::GetAddrInfo usage, and use Socket directly for name to address
