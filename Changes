@@ -3,6 +3,7 @@ Revision history for FusionInventory agent
 2.3.13 Fri, 24 Oct 2014
 core:
 * log HTTP replies status
+* fix SNMPv1 multiple values queries
 
 netdiscovery:
 * skip SNMP scan immediatly if there is no answer from remote host
