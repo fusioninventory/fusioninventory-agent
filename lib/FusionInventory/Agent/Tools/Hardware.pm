@@ -1540,7 +1540,8 @@ sub _getPAGPInfo {
     my $results;
     my $pagpPorts = $snmp->walk('.1.3.6.1.4.1.9.9.98.1.1.1.1.5');
 
-    while (my ($port_id, $portShortNum) = each %{$pagpPorts}) {
+    foreach my $port_id (sort keys %$pagpPorts) {
+        my $portShortNum = $pagpPorts->{$port_id};
         next unless $portShortNum > 0;
         my $aggregatePort_id = $portShortNum + 5000;
         push @{$results->{$aggregatePort_id}}, $port_id;
