@@ -126,6 +126,22 @@ sub init {
         exit 1;
     }
 
+    # compute list of allowed tasks
+    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
+    my @tasks = keys %available;
+
+    if (!@tasks) {
+        $logger->error("No tasks available, aborting");
+        exit 1;
+    }
+
+    $logger->debug("Available tasks:");
+    foreach my $task (keys %available) {
+        $logger->debug("- $task: $available{$task}");
+    }
+
+    $self->{tasks} = \@tasks;
+
     if ($config->{daemon}) {
         if ($self->_isAlreadyRunning()) {
             $logger->debug("An agent is already runnnig, exiting...");
@@ -152,21 +168,6 @@ sub init {
         $logger->info("Daemon started");
     }
 
-    # compute list of allowed tasks
-    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
-    my @tasks = keys %available;
-
-    if (!@tasks) {
-        $logger->error("No tasks available, aborting");
-        exit 1;
-    }
-
-    $logger->debug("Available tasks:");
-    foreach my $task (keys %available) {
-        $logger->debug("- $task: $available{$task}");
-    }
-
-    $self->{tasks} = \@tasks;
 
     # create HTTP interface
     if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
