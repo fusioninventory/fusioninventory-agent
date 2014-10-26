@@ -187,6 +187,11 @@ sub init {
         }
     }
 
+    # install signal handler to handle graceful exit
+    $SIG{INT}     = sub { $self->exit(); exit 0; };
+    $SIG{TERM}    = sub { $self->exit(); exit 0; };
+    $SIG{__DIE__} = sub { $self->exit(); die @_; };
+
     $logger->debug("FusionInventory Agent initialised");
 }
 
@@ -232,6 +237,13 @@ sub run {
             $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         }
     }
+}
+
+sub exit {
+    my ($self) = @_;
+
+    $self->{logger}->info("Daemon exiting") if $self->{config}->{daemon};
+    $self->{current_task}->exit() if $self->{current_task};
 }
 
 sub _runTarget {
@@ -324,6 +336,7 @@ sub _runTaskReal {
     return if !$task->isEnabled($response);
 
     $self->{logger}->info("running task $name");
+    $self->{current_task} = $task;
 
     $task->run(
         user         => $self->{config}->{user},
@@ -333,6 +346,7 @@ sub _runTaskReal {
         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},
     );
+    delete $self->{current_task};
 }
 
 sub getStatus {

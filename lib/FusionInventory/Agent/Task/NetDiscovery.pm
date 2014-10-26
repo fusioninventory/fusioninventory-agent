@@ -105,7 +105,6 @@ sub run {
         $snmp_credentials = $self->_getCredentials($options);
     }
 
-
     # create the required number of threads, sharing variables
     # for synchronisation
     my @addresses :shared;
@@ -149,13 +148,11 @@ sub run {
         )->detach();
     }
 
-    # send initial message to the server
-    $self->_sendStartMessage($pid);
+    # set internal state
+    $self->{pid} = $pid;
 
-    # register temporary signal handlers
-    local $SIG{INT}     = sub { $self->_sendStopMessage($pid); exit(0); };
-    local $SIG{TERM}    = sub { $self->_sendStopMessage($pid); exit(0); };
-    local $SIG{__DIE__} = sub { $self->_sendStopMessage($pid); die @_; };
+    # send initial message to the server
+    $self->_sendStartMessage();
 
     # set all threads in RUN state
     $_ = RUN foreach @states;
@@ -172,7 +169,7 @@ sub run {
         );
 
         # send block size to the server
-        $self->_sendCountMessage($pid, scalar @addresses);
+        $self->_sendCountMessage(scalar @addresses);
 
         # set all threads in RUN state
         $_ = RUN foreach @states;
@@ -199,18 +196,27 @@ sub run {
     delay(1);
 
     # send final message to the server
-    $self->_sendStopMessage($pid);
+    $self->_sendStopMessage();
+
+    delete $self->{pid};
+}
+
+sub exit {
+    my ($self) = @_;
+
+    $self->_sendStopMessage() if $self->{pid};
+    $self->SUPER::exit();
 }
 
 sub _sendUpdateMessage {
-    my ($self, $pid) = @_;
+    my ($self) = @_;
 
     $self->_sendMessage({
         AGENT => {
             END => '1'
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid,
+        PROCESSNUMBER => $self->{pid},
         DICO          => "REQUEST",
     });
 }
@@ -470,7 +476,7 @@ sub _parseNmap {
 }
 
 sub _sendStartMessage {
-    my ($self, $pid) = @_;
+    my ($self) = @_;
 
     $self->_sendMessage({
         AGENT => {
@@ -478,19 +484,19 @@ sub _sendStartMessage {
             AGENTVERSION => $FusionInventory::Agent::VERSION,
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
+        PROCESSNUMBER => $self->{pid}
     });
 }
 
 sub _sendStopMessage {
-    my ($self, $pid) = @_;
+    my ($self) = @_;
 
     $self->_sendMessage({
         AGENT => {
             END => 1,
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
+        PROCESSNUMBER => $self->{pid}
     });
 }
 

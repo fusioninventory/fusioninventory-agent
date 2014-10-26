@@ -28,6 +28,11 @@ sub new {
     return $self;
 }
 
+sub exit {
+    my ($self) = @_;
+    $self->{logger}->info("aborting task");
+}
+
 sub getModules {
     my ($class, $prefix) = @_;
 
