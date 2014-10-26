@@ -143,14 +143,13 @@ sub init {
 
             my $cwd = getcwd();
             Proc::Daemon::Init();
-            $logger->debug("Daemon started");
-
 
             # If we use relative path, we must stay in the current directory
             if (substr( $params{libdir}, 0, 1 ) ne '/') {
                 chdir($cwd);
             }
         }
+        $logger->info("Daemon started");
     }
 
     # compute list of allowed tasks
