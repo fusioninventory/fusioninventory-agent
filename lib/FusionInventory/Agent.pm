@@ -127,6 +127,10 @@ sub init {
     }
 
     if ($config->{daemon}) {
+        if ($self->_isAlreadyRunning()) {
+            $logger->debug("An agent is already runnnig, exiting...");
+            exit 1;
+        }
         if (!$config->{'no-fork'}) {
 
             $logger->debug("Time to call Proc::Daemon");
@@ -146,11 +150,6 @@ sub init {
             if (substr( $params{libdir}, 0, 1 ) ne '/') {
                 chdir($cwd);
             }
-        }
-
-        if ($self->_isAlreadyRunning()) {
-            $logger->debug("An agent is already runnnig, exiting...");
-            exit 1;
         }
     }
 
