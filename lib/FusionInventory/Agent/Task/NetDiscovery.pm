@@ -34,8 +34,10 @@ our $VERSION = '2.2.0';
 sub isEnabled {
     my ($self, $response) = @_;
 
-    return unless
-        $self->{target}->isa('FusionInventory::Agent::Target::Server');
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        $self->{logger}->debug("NetDiscovery task not compatible with local target");
+        return;
+    }
 
     my $options = $response->getOptionsInfoByName('NETDISCOVERY');
     if (!$options) {
