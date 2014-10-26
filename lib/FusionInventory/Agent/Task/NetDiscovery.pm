@@ -37,13 +37,14 @@ sub isEnabled {
     return unless
         $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
-    my $options = $self->getOptionsFromServer(
-        $response, 'NETDISCOVERY', 'NetDiscovery'
-    );
-    return unless $options;
+    my $options = $response->getOptionsInfoByName('NETDISCOVERY');
+    if (!$options) {
+        $self->{logger}->debug("NetDiscovery task execution not requested");
+        return;
+    }
 
     if (!$options->{RANGEIP}) {
-        $self->{logger}->debug("No IP range defined in the prolog response");
+        $self->{logger}->error("no IP range defined");
         return;
     }
 

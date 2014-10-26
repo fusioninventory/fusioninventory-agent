@@ -28,23 +28,6 @@ sub new {
     return $self;
 }
 
-sub getOptionsFromServer {
-    my ($self, $response, $name, $feature) = @_;
-
-    if (!$response) {
-        $self->{logger}->debug("No server response");
-        return;
-    }
-
-    my $options = $response->getOptionsInfoByName($name);
-    if (!$options) {
-        $self->{logger}->debug("No $feature requested in the prolog");
-        return;
-    }
-
-    return $options;
-}
-
 sub getModules {
     my ($class, $prefix) = @_;
 

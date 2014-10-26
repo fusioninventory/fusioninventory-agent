@@ -20,10 +20,11 @@ sub isEnabled {
     return unless
         $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
-    my $options = $self->getOptionsFromServer(
-        $response, 'WAKEONLAN', 'WakeOnLan'
-    );
-    return unless $options;
+    my $options = $response->getOptionsInfoByName('WAKEONLAN');
+    if (!$options) {
+        $self->{logger}->debug("WakeOnLan task execution not requested");
+        return;
+    }
 
     my @addresses;
     foreach my $param (@{$options->{PARAM}}) {
@@ -37,7 +38,7 @@ sub isEnabled {
     }
 
     if (!@addresses) {
-        $self->{logger}->error("No mac address defined in the prolog response");
+        $self->{logger}->error("no mac address defined");
         return;
     }
 

@@ -37,13 +37,14 @@ sub isEnabled {
     return unless
         $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
-    my $options = $self->getOptionsFromServer(
-        $response, 'SNMPQUERY', 'SNMPQuery'
-    );
-    return unless $options;
+    my $options = $response->getOptionsInfoByName('SNMPQUERY');
+    if (!$options) {
+        $self->{logger}->debug("NetInventory task execution not requested");
+        return;
+    }
 
     if (!$options->{DEVICE}) {
-        $self->{logger}->debug("No device defined in the prolog response");
+        $self->{logger}->error("no device defined");
         return;
     }
 

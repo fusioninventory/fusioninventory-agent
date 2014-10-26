@@ -21,15 +21,14 @@ sub isEnabled {
     return 1 unless
         $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
-    if ($self->{config}->{force}) {
-        $self->{logger}->debug("Prolog response ignored");
-        return 1;
-    }
-
     my $content = $response->getContent();
     if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
-        $self->{logger}->debug("No inventory requested in the prolog response");
-        return;
+        if ($self->{config}->{force}) {
+            $self->{logger}->debug("Inventory task execution not requested, but execution forced");
+        } else {
+            $self->{logger}->debug("Inventory task execution not requested");
+            return;
+        }
     }
 
     $self->{registry} = $response->getOptionsInfoByName('REGISTRY');

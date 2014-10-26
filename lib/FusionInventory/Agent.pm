@@ -321,10 +321,7 @@ sub _runTaskReal {
         deviceid     => $self->{deviceid},
     );
 
-    if (!$task->isEnabled($response)) {
-        $self->{logger}->debug("task $name execution not enabled");
-        return;
-    }
+    return if !$task->isEnabled($response);
 
     $self->{logger}->info("running task $name");
 
