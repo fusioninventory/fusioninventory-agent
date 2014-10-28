@@ -135,6 +135,7 @@ sub run {
         $max_threads = $addresses_count;
     }
 
+    $self->{logger}->debug("creating $max_threads discovery threads");
     for (my $i = 0; $i < $max_threads; $i++) {
         $states[$i] = START;
 
@@ -157,6 +158,7 @@ sub run {
     $self->_sendStartMessage();
 
     # set all threads in RUN state
+    $self->{logger}->debug("activating discovery threads");
     $_ = RUN foreach @states;
 
     # proceed each given IP block
@@ -194,6 +196,7 @@ sub run {
     }
 
     # set all threads in EXIT state
+    $self->{logger}->debug("terminating discovery threads");
     $_ = EXIT foreach @states;
     delay(1);
 
