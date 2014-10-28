@@ -506,13 +506,13 @@ sub _sendStopMessage {
 }
 
 sub _sendCountMessage {
-    my ($self, $pid, $count) = @_;
+    my ($self, $count) = @_;
 
     $self->_sendMessage({
         AGENT => {
             NBIP => $count
         },
-        PROCESSNUMBER => $pid
+        PROCESSNUMBER => $self->{pid}
     });
 }
 
