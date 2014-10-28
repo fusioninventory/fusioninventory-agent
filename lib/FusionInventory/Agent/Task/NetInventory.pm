@@ -84,7 +84,7 @@ sub run {
     # no need for more threads than devices to scan
     my $threads_count = $max_threads > @devices ? @devices : $max_threads;
 
-    $self->{logger}->debug("creating $threads_count inventory threads");
+    $self->{logger}->debug("creating $threads_count worker threads");
     for (my $i = 0; $i < $threads_count; $i++) {
 
         threads->create(
@@ -114,7 +114,7 @@ sub run {
         delay(1);
     }
 
-    # cleanup threads
+    $self->{logger}->debug("cleaning $threads_count worker threads");
     $_->join() foreach threads->list(threads::joinable);
 
     # send final message to the server
