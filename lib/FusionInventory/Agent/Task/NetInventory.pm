@@ -6,7 +6,7 @@ use threads;
 use threads::shared;
 use base 'FusionInventory::Agent::Task';
 
-use constant START => 0;
+use constant PAUSE => 0;
 use constant RUN   => 1;
 use constant STOP  => 2;
 use constant EXIT  => 3;
@@ -76,22 +76,23 @@ sub run {
     # SNMP credentials
     my $credentials = _getIndexedCredentials($options->{AUTHENTICATION});
 
-    # create the required number of threads, sharing variables
-    # for synchronisation
+    # set internal state
+    $self->{pid} = $pid;
+
+    # send initial message to the server
+    $self->_sendStartMessage();
+
+    # synchronisation variables
     my @devices :shared = map { shared_clone($_) } @{$options->{DEVICE}};
     my @results :shared;
     my @states  :shared;
 
     # no need for more threads than devices to scan
-    if ($max_threads > @devices) {
-        $max_threads = @devices;
-    }
+    my $threads_count = $max_threads > @devices ? @devices : $max_threads;
 
-    #===================================
-    # Create all Threads
-    #===================================
-    for (my $i = 0; $i < $max_threads; $i++) {
-        $states[$i] = START;
+    $self->{logger}->debug("creating $threads_count inventory threads");
+    for (my $i = 0; $i < $threads_count; $i++) {
+        $states[$i] = PAUSE;
 
         threads->create(
             '_queryDevices',
@@ -104,17 +105,8 @@ sub run {
         )->detach();
     }
 
-    # send initial message to the server
-    $self->_sendMessage({
-        AGENT => {
-            START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
-    });
-
     # set all threads in RUN state
+    $self->{logger}->debug("activating inventory threads");
     $_ = RUN foreach @states;
 
     # wait for all threads to reach EXIT state
@@ -133,13 +125,9 @@ sub run {
     }
 
     # send final message to the server
-    $self->_sendMessage({
-        AGENT => {
-            END => 1,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
-    });
+    $self->_sendStopMessage();
+
+    delete $self->{pid};
 }
 
 sub _sendMessage {
@@ -158,6 +146,31 @@ sub _sendMessage {
    );
 }
 
+sub _sendStartMessage {
+    my ($self) = @_;
+
+    $self->_sendMessage({
+        AGENT => {
+            START        => 1,
+            AGENTVERSION => $FusionInventory::Agent::VERSION,
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $self->{pid}
+    });
+}
+
+sub _sendStopMessage {
+    my ($self) = @_;
+
+    $self->_sendMessage({
+        AGENT => {
+            END => 1,
+        },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $self->{pid}
+    });
+}
+
 sub _queryDevices {
     my ($self, $state, $devices, $results, $credentials, $timeout) = @_;
 
@@ -167,11 +180,11 @@ sub _queryDevices {
     $logger->debug("[thread $id] creation, PAUSE state");
 
     # start: wait for state to change
-    while ($$state == START) {
+    while ($$state == PAUSE) {
         delay(1);
     }
 
-    # run: process available addresses until exhaustion
+    # run: process available devices until exhaustion
     $logger->debug("[thread $id] switching to RUN state");
 
     while (my $device = do { lock @{$devices}; shift @{$devices}; }) {
@@ -205,7 +218,7 @@ sub _queryDevices {
     }
 
     $$state = EXIT;
-    $logger->debug("[thread $id] switching to EXIT state");
+    $logger->debug("[thread $id] termination");
 }
 
 sub _queryDevice {
