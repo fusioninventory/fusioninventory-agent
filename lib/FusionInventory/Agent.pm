@@ -268,6 +268,7 @@ sub _runTarget {
             deviceid => $self->{deviceid},
         );
 
+        $self->{logger}->info("sending prolog request to server $target->{id}");
         $response = $client->send(
             url     => $target->getUrl(),
             message => $prolog
