@@ -6,11 +6,6 @@ use threads;
 use threads::shared;
 use base 'FusionInventory::Agent::Task';
 
-use constant PAUSE => 0;
-use constant RUN   => 1;
-use constant STOP  => 2;
-use constant EXIT  => 3;
-
 use Encode qw(encode);
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
@@ -85,35 +80,27 @@ sub run {
     # synchronisation variables
     my @devices :shared = map { shared_clone($_) } @{$options->{DEVICE}};
     my @results :shared;
-    my @states  :shared;
 
     # no need for more threads than devices to scan
     my $threads_count = $max_threads > @devices ? @devices : $max_threads;
 
     $self->{logger}->debug("creating $threads_count inventory threads");
     for (my $i = 0; $i < $threads_count; $i++) {
-        $states[$i] = PAUSE;
 
         threads->create(
             '_queryDevices',
             $self,
-            \$states[$i],
             \@devices,
             \@results,
             $credentials,
             $timeout,
-        )->detach();
+        );
     }
 
-    # set all threads in RUN state
-    $self->{logger}->debug("activating inventory threads");
-    $_ = RUN foreach @states;
+    # as long as some threads are still running...
+    while (threads->list(threads::running)) {
 
-    # wait for all threads to reach EXIT state
-    while (any { $_ != EXIT } @states) {
-        delay(1);
-
-        # send results to the server
+        # send available results to the server
         while (my $result = do { lock @results; shift @results; }) {
             my $data = {
                 DEVICE        => $result,
@@ -122,7 +109,13 @@ sub run {
             };
             $self->_sendMessage($data);
         }
+
+        # wait for a second
+        delay(1);
     }
+
+    # cleanup threads
+    $_->join() foreach threads->list(threads::joinable);
 
     # send final message to the server
     $self->_sendStopMessage();
@@ -172,21 +165,14 @@ sub _sendStopMessage {
 }
 
 sub _queryDevices {
-    my ($self, $state, $devices, $results, $credentials, $timeout) = @_;
+    my ($self, $devices, $results, $credentials, $timeout) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
 
-    $logger->debug("[thread $id] creation, PAUSE state");
+    $logger->debug("[thread $id] creation");
 
-    # start: wait for state to change
-    while ($$state == PAUSE) {
-        delay(1);
-    }
-
-    # run: process available devices until exhaustion
-    $logger->debug("[thread $id] switching to RUN state");
-
+    # run as long as they are devices to process
     while (my $device = do { lock @{$devices}; shift @{$devices}; }) {
 
         my $result;
@@ -213,11 +199,8 @@ sub _queryDevices {
             lock $results;
             push @$results, shared_clone($result);
         }
-
-        delay(1);
     }
 
-    $$state = EXIT;
     $logger->debug("[thread $id] termination");
 }
 

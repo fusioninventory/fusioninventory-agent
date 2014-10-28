@@ -8,11 +8,6 @@ use base 'FusionInventory::Agent::Task';
 
 use constant DEVICE_PER_MESSAGE => 4;
 
-use constant PAUSE => 0;
-use constant RUN   => 1;
-use constant STOP  => 2;
-use constant EXIT  => 3;
-
 use English qw(-no_match_vars);
 use Net::IP;
 use Time::localtime;
@@ -133,7 +128,6 @@ sub run {
         # synchronisation variables
         my @addresses :shared;
         my @results   :shared;
-        my @states    :shared;
 
         do {
             push @addresses, $block->ip(),
@@ -143,33 +137,27 @@ sub run {
         $self->_sendBlockMessage(scalar @addresses);
 
         # no need for more threads than addresses to scan in this range
-        my $threads_count = $max_threads > @addresses ? @addresses : $max_threads;
+        my $threads_count = $max_threads > @addresses ?
+            @addresses : $max_threads;
 
         $self->{logger}->debug("creating $threads_count discovery threads");
         for (my $i = 0; $i < $threads_count; $i++) {
-            $states[$i] = PAUSE;
 
             threads->create(
                 '_scanAddresses',
                 $self,
-                \$states[$i],
                 \@addresses,
                 \@results,
                 $snmp_credentials,
                 $nmap_parameters,
                 $timeout
-            )->detach();
+            );
         }
 
-        # set all threads in RUN state
-        $self->{logger}->debug("activating discovery threads");
-        $_ = RUN foreach @states;
+        # as long as some threads are still running...
+        while (threads->list(threads::running)) {
 
-        # wait for all threads to reach EXIT state
-        while (any { $_ != EXIT } @states) {
-            delay(1);
-
-            # send results to the server
+            # send available results to the server
             while (my $result = do { lock @results; shift @results; }) {
                 $result->{ENTITY} = $range->{ENTITY} if defined($range->{ENTITY});
                 my $data = {
@@ -179,7 +167,13 @@ sub run {
                 };
                 $self->_sendMessage($data);
             }
+
+            # wait for a second
+            delay(1);
         }
+
+        # cleanup threads
+        $_->join() foreach threads->list(threads::joinable);
     }
 
     # send final message to the server
@@ -216,21 +210,14 @@ sub _getCredentials {
 }
 
 sub _scanAddresses {
-    my ($self, $state, $addresses, $results, $snmp_credentials, $nmap_parameters, $timeout) = @_;
+    my ($self, $addresses, $results, $snmp_credentials, $nmap_parameters, $timeout) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
 
-    $logger->debug("[thread $id] creation, PAUSE state");
+    $logger->debug("[thread $id] creation");
 
-    # start: wait for state to change
-    while ($$state == PAUSE) {
-        delay(1);
-    }
-
-    # run: process available addresses until exhaustion
-    $logger->debug("[thread $id] switching to RUN state");
-
+    # run as long as they are addresses to process
     while (my $address = do { lock @{$addresses}; shift @{$addresses}; }) {
 
         my $result = $self->_scanAddress(
@@ -246,7 +233,7 @@ sub _scanAddresses {
         }
     }
 
-    $$state = EXIT;
+    # then exit
     $logger->debug("[thread $id] termination");
 }
 
