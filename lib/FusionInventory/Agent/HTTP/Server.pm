@@ -296,11 +296,9 @@ sub init {
         return;
     }
 
-    my $url = $self->{ip} ?
-        "http://$self->{ip}:$self->{port}" :
-        "http://localhost:$self->{port}" ;
-
-    $logger->info($log_prefix . "HTTPD service started at $url");
+    $logger->info(
+        $log_prefix . "HTTPD service started on port $self->{port}"
+    );
 }
 
 sub handleRequests {
