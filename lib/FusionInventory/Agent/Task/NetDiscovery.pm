@@ -195,19 +195,6 @@ sub exit {
     $self->SUPER::exit();
 }
 
-sub _sendUpdateMessage {
-    my ($self) = @_;
-
-    $self->_sendMessage({
-        AGENT => {
-            END => '1'
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid},
-        DICO          => "REQUEST",
-    });
-}
-
 sub _getCredentials {
     my ($self, $options) = @_;
 
