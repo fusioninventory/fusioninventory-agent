@@ -190,7 +190,6 @@ sub init {
     # install signal handler to handle graceful exit
     $SIG{INT}     = sub { $self->exit(); exit 0; };
     $SIG{TERM}    = sub { $self->exit(); exit 0; };
-    $SIG{__DIE__} = sub { $self->exit(); die @_; };
 
     $logger->debug("FusionInventory Agent initialised");
 }
