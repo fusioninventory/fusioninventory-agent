@@ -296,7 +296,7 @@ sub init {
         return;
     }
 
-    $logger->info(
+    $logger->debug(
         $log_prefix . "HTTPD service started on port $self->{port}"
     );
 }
