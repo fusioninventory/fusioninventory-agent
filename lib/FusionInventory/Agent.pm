@@ -71,10 +71,6 @@ sub init {
     );
     $self->{logger} = $logger;
 
-    if ( $REAL_USER_ID != 0 ) {
-        $logger->info("You should run this program as super-user.");
-    }
-
     $logger->debug("Configuration directory: $self->{confdir}");
     $logger->debug("Data directory: $self->{datadir}");
     $logger->debug("Storage directory: $self->{vardir}");

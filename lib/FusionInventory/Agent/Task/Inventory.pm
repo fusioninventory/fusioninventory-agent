@@ -38,6 +38,10 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
+    if ( $REAL_USER_ID != 0 ) {
+        $logger->info("You should execute this task as super-user.");
+    }
+
     $self->{modules} = {};
 
     my $inventory = FusionInventory::Agent::Inventory->new(
