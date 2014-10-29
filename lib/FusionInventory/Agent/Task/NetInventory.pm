@@ -89,7 +89,7 @@ sub run {
         $self->{logger}->debug("[thread $id] creation");
 
         # run as long as they are devices to process
-        while (my $device = $devices->dequeue_nb()) {
+        while (my $device = do { lock $devices; $devices->dequeue_nb(); }) {
 
             my $result;
             eval {
@@ -111,7 +111,10 @@ sub run {
                 $self->{logger}->error($EVAL_ERROR);
             }
 
-            $results->enqueue($result) if $result;
+            if ($result) {
+                lock $results;
+                $results->enqueue($result);
+            }
         }
 
         $self->{logger}->debug("[thread $id] termination");

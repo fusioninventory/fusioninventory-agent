@@ -140,7 +140,7 @@ sub run {
             $self->{logger}->debug("[thread $id] creation");
 
             # run as long as they are addresses to process
-            while (my $address = $addresses->dequeue_nb()) {
+            while (my $address = do { lock $addresses; $addresses->dequeue_nb(); }) {
 
                 my $result = $self->_scanAddress(
                     ip               => $address,
@@ -149,7 +149,10 @@ sub run {
                     snmp_credentials => $snmp_credentials,
                 );
 
-                $results->enqueue($result) if $result;
+                if ($result) {
+                    lock $results;
+                    $results->enqueue($result);
+                }
             }
 
             $self->{logger}->debug("[thread $id] termination");
