@@ -39,7 +39,9 @@ sub run {
     my ($self, %params) = @_;
 
     if ( $REAL_USER_ID != 0 ) {
-        $logger->warning("You should execute this task as super-user.");
+        $self->{logger}->warning(
+            "You should execute this task as super-user"
+        );
     }
 
     $self->{modules} = {};
