@@ -79,7 +79,6 @@ sub run {
     foreach my $device (@{$options->{DEVICE}}) {
         $devices->enqueue($device);
     }
-    $devices->end();
     my $size = $devices->pending();
 
     # no need for more threads than devices to scan
@@ -90,7 +89,7 @@ sub run {
         $self->{logger}->debug("[thread $id] creation");
 
         # run as long as they are devices to process
-        while (my $device = $devices->dequeue()) {
+        while (my $device = $devices->dequeue_nb()) {
 
             my $result;
             eval {

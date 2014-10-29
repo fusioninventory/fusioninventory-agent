@@ -127,7 +127,6 @@ sub run {
         do {
             $addresses->enqueue($block->ip()),
         } while (++$block);
-        $addresses->end();
         my $size = $addresses->pending();
 
         # send block size to the server
@@ -141,7 +140,7 @@ sub run {
             $self->{logger}->debug("[thread $id] creation");
 
             # run as long as they are addresses to process
-            while (my $address = $addresses->dequeue()) {
+            while (my $address = $addresses->dequeue_nb()) {
 
                 my $result = $self->_scanAddress(
                     ip               => $address,
