@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::NetDiscovery;
 use strict;
 use warnings;
 use threads;
-use threads::shared;
 use base 'FusionInventory::Agent::Task';
 
 use constant DEVICE_PER_MESSAGE => 4;
@@ -11,6 +10,7 @@ use constant DEVICE_PER_MESSAGE => 4;
 use English qw(-no_match_vars);
 use Net::IP;
 use Time::localtime;
+use Thread::Queue;
 use UNIVERSAL::require;
 use XML::TreePP;
 
@@ -18,11 +18,6 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::XML::Query;
-
-# needed for perl < 5.10.1 compatbility
-if ($threads::shared::VERSION < 1.21) {
-    FusionInventory::Agent::Threads->use();
-}
 
 our $VERSION = '2.2.0';
 
@@ -125,27 +120,28 @@ sub run {
             "scanning block $range->{IPSTART}-$range->{IPEND}"
         );
 
-        # synchronisation variables
-        my @addresses :shared;
-        my @results   :shared;
+        # initialize FIFOs
+        my $addresses = Thread::Queue->new();
+        my $results   = Thread::Queue->new();
 
         do {
-            push @addresses, $block->ip(),
+            $addresses->enqueue($block->ip()),
         } while (++$block);
+        $addresses->end();
+        my $size = $addresses->pending();
 
         # send block size to the server
-        $self->_sendBlockMessage(scalar @addresses);
+        $self->_sendBlockMessage($size);
 
         # no need for more threads than addresses to scan in this range
-        my $threads_count = $max_threads > @addresses ?
-            @addresses : $max_threads;
+        my $threads_count = $max_threads > $size ? $size : $max_threads;
 
         my $sub = sub {
             my $id = threads->tid();
             $self->{logger}->debug("[thread $id] creation");
 
             # run as long as they are addresses to process
-            while (my $address = do { lock @addresses; shift @addresses; }) {
+            while (my $address = $addresses->dequeue()) {
 
                 my $result = $self->_scanAddress(
                     ip               => $address,
@@ -154,10 +150,7 @@ sub run {
                     snmp_credentials => $snmp_credentials,
                 );
 
-                if ($result) {
-                    lock @results;
-                    push @results, shared_clone($result);
-                }
+                $results->enqueue($result) if $result;
             }
 
             $self->{logger}->debug("[thread $id] termination");
@@ -172,7 +165,7 @@ sub run {
         while (threads->list(threads::running)) {
 
             # send available results to the server
-            while (my $result = do { lock @results; shift @results; }) {
+            while (my $result = $results->dequeue_nb()) {
                 $result->{ENTITY} = $range->{ENTITY} if defined($range->{ENTITY});
                 my $data = {
                     DEVICE        => [$result],

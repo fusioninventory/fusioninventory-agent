@@ -3,22 +3,17 @@ package FusionInventory::Agent::Task::NetInventory;
 use strict;
 use warnings;
 use threads;
-use threads::shared;
 use base 'FusionInventory::Agent::Task';
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
+use Thread::Queue;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Network;
-
-# needed for perl < 5.10.1 compatbility
-if ($threads::shared::VERSION < 1.21) {
-    FusionInventory::Agent::Threads->use();
-}
 
 our $VERSION = '2.2.0';
 
@@ -77,19 +72,25 @@ sub run {
     # send initial message to the server
     $self->_sendStartMessage();
 
-    # synchronisation variables
-    my @devices :shared = map { shared_clone($_) } @{$options->{DEVICE}};
-    my @results :shared;
+    # initialize FIFOs
+    my $devices = Thread::Queue->new();
+    my $results = Thread::Queue->new();
+
+    foreach my $device (@{$options->{DEVICE}}) {
+        $devices->enqueue($device);
+    }
+    $devices->end();
+    my $size = $devices->pending();
 
     # no need for more threads than devices to scan
-    my $threads_count = $max_threads > @devices ? @devices : $max_threads;
+    my $threads_count = $max_threads > $size ? $size : $max_threads;
 
     my $sub = sub {
         my $id = threads->tid();
         $self->{logger}->debug("[thread $id] creation");
 
         # run as long as they are devices to process
-        while (my $device = do { lock @devices; shift @devices; }) {
+        while (my $device = $devices->dequeue()) {
 
             my $result;
             eval {
@@ -111,10 +112,7 @@ sub run {
                 $self->{logger}->error($EVAL_ERROR);
             }
 
-            if ($result) {
-                lock @results;
-                push @results, shared_clone($result);
-            }
+            $results->enqueue($result) if $result;
         }
 
         $self->{logger}->debug("[thread $id] termination");
@@ -129,7 +127,7 @@ sub run {
     while (threads->list(threads::running)) {
 
         # send available results to the server
-        while (my $result = do { lock @results; shift @results; }) {
+        while (my $result = $results->dequeue_nb()) {
             my $data = {
                 DEVICE        => $result,
                 MODULEVERSION => $VERSION,
