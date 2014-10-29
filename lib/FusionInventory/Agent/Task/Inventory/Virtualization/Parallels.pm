@@ -18,7 +18,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     if (!$params{scan_homedirs}) {
-        $logger->info(
+        $logger->warning(
             "'scan-homedirs' configuration parameter disabled, " .
             "ignoring parallels virtual machines in user directories"
         );

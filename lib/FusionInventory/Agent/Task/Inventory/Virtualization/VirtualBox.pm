@@ -38,7 +38,7 @@ sub doInventory {
     }
 
     if (!$params{scan_homedirs}) {
-        $logger->info(
+        $logger->warning(
             "'scan-homedirs' configuration parameters disabled, " .
             "ignoring virtualbox virtual machines in user directories"
         );
