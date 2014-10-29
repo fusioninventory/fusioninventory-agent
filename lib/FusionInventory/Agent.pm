@@ -165,9 +165,7 @@ sub init {
                 chdir($cwd);
             }
         }
-        $logger->info("Daemon started");
     }
-
 
     # create HTTP interface
     if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
@@ -191,7 +189,8 @@ sub init {
     $SIG{INT}     = sub { $self->terminate(); exit 0; };
     $SIG{TERM}    = sub { $self->terminate(); exit 0; };
 
-    $logger->debug("FusionInventory Agent initialised");
+    $self->{logger}->info("FusionInventory Agent starting")
+        if $self->{config}->{daemon} || $self->{config}->{service};
 }
 
 sub run {
@@ -241,7 +240,8 @@ sub run {
 sub terminate {
     my ($self) = @_;
 
-    $self->{logger}->info("Daemon exiting") if $self->{config}->{daemon};
+    $self->{logger}->info("FusionInventory Agent exiting")
+        if $self->{config}->{daemon} || $self->{config}->{service};
     $self->{current_task}->abort() if $self->{current_task};
 }
 
