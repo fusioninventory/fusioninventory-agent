@@ -84,17 +84,45 @@ sub run {
     # no need for more threads than devices to scan
     my $threads_count = $max_threads > @devices ? @devices : $max_threads;
 
+    my $sub = sub {
+        my $id = threads->tid();
+        $self->{logger}->debug("[thread $id] creation");
+
+        # run as long as they are devices to process
+        while (my $device = do { lock @devices; shift @devices; }) {
+
+            my $result;
+            eval {
+                $result = $self->_queryDevice(
+                    device      => $device,
+                    timeout     => $timeout,
+                    credentials => $credentials->{$device->{AUTHSNMP_ID}}
+                );
+            };
+            if ($EVAL_ERROR) {
+                chomp $EVAL_ERROR;
+                $result = {
+                    ERROR => {
+                        ID      => $device->{ID},
+                        TYPE    => $device->{TYPE},
+                        MESSAGE => $EVAL_ERROR
+                    }
+                };
+                $self->{logger}->error($EVAL_ERROR);
+            }
+
+            if ($result) {
+                lock @results;
+                push @results, shared_clone($result);
+            }
+        }
+
+        $self->{logger}->debug("[thread $id] termination");
+    };
+
     $self->{logger}->debug("creating $threads_count worker threads");
     for (my $i = 0; $i < $threads_count; $i++) {
-
-        threads->create(
-            '_queryDevices',
-            $self,
-            \@devices,
-            \@results,
-            $credentials,
-            $timeout,
-        );
+        threads->create($sub);
     }
 
     # as long as some threads are still running...
@@ -162,46 +190,6 @@ sub _sendStopMessage {
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $self->{pid}
     });
-}
-
-sub _queryDevices {
-    my ($self, $devices, $results, $credentials, $timeout) = @_;
-
-    my $logger = $self->{logger};
-    my $id     = threads->tid();
-
-    $logger->debug("[thread $id] creation");
-
-    # run as long as they are devices to process
-    while (my $device = do { lock @{$devices}; shift @{$devices}; }) {
-
-        my $result;
-        eval {
-            $result = $self->_queryDevice(
-                device      => $device,
-                timeout     => $timeout,
-                credentials => $credentials->{$device->{AUTHSNMP_ID}}
-            );
-        };
-        if ($EVAL_ERROR) {
-            chomp $EVAL_ERROR;
-            $result = {
-                ERROR => {
-                    ID      => $device->{ID},
-                    TYPE    => $device->{TYPE},
-                    MESSAGE => $EVAL_ERROR
-                }
-            };
-            $logger->error($EVAL_ERROR);
-        }
-
-        if ($result) {
-            lock $results;
-            push @$results, shared_clone($result);
-        }
-    }
-
-    $logger->debug("[thread $id] termination");
 }
 
 sub _queryDevice {

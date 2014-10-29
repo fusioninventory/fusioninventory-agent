@@ -140,18 +140,32 @@ sub run {
         my $threads_count = $max_threads > @addresses ?
             @addresses : $max_threads;
 
+        my $sub = sub {
+            my $id = threads->tid();
+            $self->{logger}->debug("[thread $id] creation");
+
+            # run as long as they are addresses to process
+            while (my $address = do { lock @addresses; shift @addresses; }) {
+
+                my $result = $self->_scanAddress(
+                    ip               => $address,
+                    timeout          => $timeout,
+                    nmap_parameters  => $nmap_parameters,
+                    snmp_credentials => $snmp_credentials,
+                );
+
+                if ($result) {
+                    lock @results;
+                    push @results, shared_clone($result);
+                }
+            }
+
+            $self->{logger}->debug("[thread $id] termination");
+        };
+
         $self->{logger}->debug("creating $threads_count worker threads");
         for (my $i = 0; $i < $threads_count; $i++) {
-
-            threads->create(
-                '_scanAddresses',
-                $self,
-                \@addresses,
-                \@results,
-                $snmp_credentials,
-                $nmap_parameters,
-                $timeout
-            );
+            threads->create($sub);
         }
 
         # as long as some threads are still running...
@@ -207,33 +221,6 @@ sub _getCredentials {
     }
 
     return \@credentials;
-}
-
-sub _scanAddresses {
-    my ($self, $addresses, $results, $snmp_credentials, $nmap_parameters, $timeout) = @_;
-
-    my $logger = $self->{logger};
-    my $id     = threads->tid();
-
-    $logger->debug("[thread $id] creation");
-
-    # run as long as they are addresses to process
-    while (my $address = do { lock @{$addresses}; shift @{$addresses}; }) {
-
-        my $result = $self->_scanAddress(
-            ip               => $address,
-            timeout          => $timeout,
-            nmap_parameters  => $nmap_parameters,
-            snmp_credentials => $snmp_credentials,
-        );
-
-        if ($result) {
-            lock $results;
-            push @$results, shared_clone($result);
-        }
-    }
-
-    $logger->debug("[thread $id] termination");
 }
 
 sub _sendMessage {
