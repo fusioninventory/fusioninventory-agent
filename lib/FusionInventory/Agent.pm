@@ -171,7 +171,7 @@ sub init {
     if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
         FusionInventory::Agent::HTTP::Server->require();
         if ($EVAL_ERROR) {
-            $logger->debug("Failed to load HTTP server: $EVAL_ERROR");
+            $logger->error("Failed to load HTTP server: $EVAL_ERROR");
         } else {
             $self->{server} = FusionInventory::Agent::HTTP::Server->new(
                 logger          => $logger,
