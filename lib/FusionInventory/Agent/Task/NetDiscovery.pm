@@ -189,11 +189,11 @@ sub run {
     delete $self->{pid};
 }
 
-sub exit {
+sub abort {
     my ($self) = @_;
 
     $self->_sendStopMessage() if $self->{pid};
-    $self->SUPER::exit();
+    $self->SUPER::abort();
 }
 
 sub _getCredentials {

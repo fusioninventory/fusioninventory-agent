@@ -28,7 +28,7 @@ sub new {
     return $self;
 }
 
-sub exit {
+sub abort {
     my ($self) = @_;
     $self->{logger}->info("aborting task");
 }

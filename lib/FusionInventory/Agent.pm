@@ -188,8 +188,8 @@ sub init {
     }
 
     # install signal handler to handle graceful exit
-    $SIG{INT}     = sub { $self->exit(); exit 0; };
-    $SIG{TERM}    = sub { $self->exit(); exit 0; };
+    $SIG{INT}     = sub { $self->terminate(); exit 0; };
+    $SIG{TERM}    = sub { $self->terminate(); exit 0; };
 
     $logger->debug("FusionInventory Agent initialised");
 }
@@ -238,11 +238,11 @@ sub run {
     }
 }
 
-sub exit {
+sub terminate {
     my ($self) = @_;
 
     $self->{logger}->info("Daemon exiting") if $self->{config}->{daemon};
-    $self->{current_task}->exit() if $self->{current_task};
+    $self->{current_task}->abort() if $self->{current_task};
 }
 
 sub _runTarget {
