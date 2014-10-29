@@ -149,11 +149,9 @@ sub init {
         }
         if (!$config->{'no-fork'}) {
 
-            $logger->debug("Time to call Proc::Daemon");
-
             Proc::Daemon->require();
             if ($EVAL_ERROR) {
-                $logger->error("Can't load Proc::Daemon. Is the module installed?");
+                $logger->error("Failed to load Proc::Daemon: $EVAL_ERROR");
                 exit 1;
             }
 
@@ -164,6 +162,8 @@ sub init {
             if (substr( $params{libdir}, 0, 1 ) ne '/') {
                 chdir($cwd);
             }
+
+            $self->{logger}->debug("Agent daemonized");
         }
     }
 
