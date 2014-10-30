@@ -125,18 +125,18 @@ sub run {
     # as long as some threads are still running...
     while (threads->list(threads::running)) {
 
-        # send available results to the server
+        # send available results on the fly
         while (my $result = $results->dequeue_nb()) {
-            my $data = {
-                DEVICE        => $result,
-                MODULEVERSION => $VERSION,
-                PROCESSNUMBER => $pid
-            };
-            $self->_sendMessage($data);
+            $self->_sendResultMessage($result);
         }
 
         # wait for a second
         delay(1);
+    }
+
+    # purge remaining results
+    while (my $result = $results->dequeue_nb()) {
+        $self->_sendResultMessage($result);
     }
 
     $self->{logger}->debug("cleaning $threads_count worker threads");
@@ -184,6 +184,16 @@ sub _sendStopMessage {
         AGENT => {
             END => 1,
         },
+        MODULEVERSION => $VERSION,
+        PROCESSNUMBER => $self->{pid}
+    });
+}
+
+sub _sendResultMessage {
+    my ($self, $result) = @_;
+
+    $self->_sendMessage({
+        DEVICE        => $result,
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $self->{pid}
     });
