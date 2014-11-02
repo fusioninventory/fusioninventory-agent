@@ -53,8 +53,8 @@ sub doInventory {
         class      => 'Win32_Printer',
         properties => [ qw/
             ExtendedDetectedErrorState HorizontalResolution VerticalResolution Name
-            Comment DescriptionDriverName DriverName PortName Network Shared
-            PrinterStatus ServerName ShareName PrintProcessor
+            Comment Description DriverName PortName Network Shared PrinterStatus
+            ServerName ShareName PrintProcessor
         / ]
     )) {
 
