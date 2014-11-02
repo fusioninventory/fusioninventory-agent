@@ -10,7 +10,8 @@ my %syslog_levels = (
     error   => LOG_ERR,
     warning => LOG_WARNING,
     info    => LOG_INFO,
-    debug   => LOG_DEBUG
+    debug   => LOG_DEBUG,
+    debu2   => LOG_DEBUG
 );
 
 sub new {
