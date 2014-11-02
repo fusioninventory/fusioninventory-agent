@@ -3,19 +3,25 @@ Revision history for FusionInventory agent
 2.3.13 Fri, 24 Oct 2014
 core:
 * log HTTP replies status
+* log agent stop event (#61)
+* better logging of task initialisation process
+* fix syslog logger usage with debug level >= 2 (#2780)
 * fix SNMPv1 multiple values queries
 
 netdiscovery:
 * skip SNMP scan immediatly if there is no answer from remote host
 * send task termination message to server when shutting down (#185)
+* thread usage cleanup
 
 netinventory:
 * propagate error messages to server
 * fix null-character presence in CDP/LLDP info (#2670,#2746,#2754)
 * send task termination message to server when shutting down (#185)
+* thread usage cleanup
 
 inventory:
 * fix HyperV machines enumeration (#2141)
+* fix typo in printer property name on Windows (#2782)
 
 test suite:
 * disable tests requiring POE under perl 5.8
