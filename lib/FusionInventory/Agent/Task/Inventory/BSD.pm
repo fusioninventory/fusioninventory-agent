@@ -22,24 +22,6 @@ sub doInventory {
     my $kernelVersion = getFirstLine(command => 'uname -v');
     my $kernelRelease = getFirstLine(command => 'uname -r');
 
-    # Get more information from the kernel configuration file
-    my $date;
-    my $handle = getFileHandle(command => "sysctl -n kern.version");
-    while (my $line = <$handle>) {
-        if ($line =~ /^\S.*\#\d+:\s*(.*)/) {
-            $date = $1;
-            next;
-        }
-
-        if ($line =~ /^\s+(.+):(.+)$/) {
-            my $origin = $1;
-            my $kernconf = $2;
-            $kernconf =~ s/\/.*\///; # remove the path
-            $kernelVersion = $kernconf . " (" . $date . ")\n" . $origin;
-        }
-    }
-    close $handle;
-
     my $boottime = getFirstMatch(
         command => "sysctl -n kern.boottime",
         pattern => qr/sec = (\d+)/
