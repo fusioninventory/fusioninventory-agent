@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Linux::iLO;
+package FusionInventory::Agent::Task::Inventory::Linux::Networks::iLO;
 
 use strict;
 use warnings;
@@ -7,9 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 sub isEnabled {
-    my (%params) = @_;
-    return 0 if $params{no_category}->{network};
-    return unless canRun('hponcfg');
+    return canRun('hponcfg');
 }
 
 sub _parseHponcfg {
