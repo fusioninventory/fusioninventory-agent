@@ -57,11 +57,11 @@ sub doInventory {
     });
 
     $inventory->setOperatingSystem({
-        NAME                 => $OSName,
-        VERSION              => $OSVersion,
-        KERNEL_VERSION       => $OSVersion,
-        FULL_NAME            => $OSNAME,
-        BOOT_TIME            => getFormatedLocalTime($boottime)
+        NAME           => $OSName,
+        VERSION        => $OSVersion,
+        KERNEL_VERSION => $OSVersion,
+        FULL_NAME      => $OSNAME,
+        BOOT_TIME      => getFormatedLocalTime($boottime)
     });
 }
 

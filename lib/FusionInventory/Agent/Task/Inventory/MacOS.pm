@@ -33,22 +33,25 @@ sub doInventory {
 
     # add the uname -v as the comment, not really needed, but extra info
     # never hurt
-    my $OSComment = getFirstLine(command => 'uname -v');
+    my $OSComment     = getFirstLine(command => 'uname -v');
     my $KernelVersion = getFirstLine(command => 'uname -r');
-    my $boottime = getFirstMatch(command => "sysctl -n kern.boottime", pattern => qr/sec = (\d+)/);
+    my $boottime      = getFirstMatch(
+        command => "sysctl -n kern.boottime",
+        pattern => qr/sec = (\d+)/
+    );
 
     $inventory->setHardware({
         OSNAME     => $OSName,
-        OSCOMMENTS => $OSComment,
         OSVERSION  => $OSVersion,
+        OSCOMMENTS => $OSComment,
     });
 
     $inventory->setOperatingSystem({
-        NAME                 => "MacOSX",
-        VERSION              => $OSVersion,
-        KERNEL_VERSION       => $KernelVersion,
-        FULL_NAME            => $OSName,
-        BOOT_TIME            => getFormatedLocalTime($boottime)
+        NAME           => "MacOSX",
+        FULL_NAME      => $OSName,
+        VERSION        => $OSVersion,
+        KERNEL_VERSION => $KernelVersion,
+        BOOT_TIME      => getFormatedLocalTime($boottime)
     });
 }
 

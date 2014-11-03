@@ -29,7 +29,7 @@ sub doInventory {
     $inventory->setHardware({
         OSVERSION  => $osversion,
         OSCOMMENTS => $oscomment,
-        WINPRODID =>  $systemId,
+        WINPRODID  => $systemId,
     });
 
     $inventory->setOperatingSystem({
