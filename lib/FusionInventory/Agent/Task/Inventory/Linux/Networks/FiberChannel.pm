@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Linux::FiberChannel;
+package FusionInventory::Agent::Task::Inventory::Linux::Networks::FiberChannel;
 
 use strict;
 use warnings;
