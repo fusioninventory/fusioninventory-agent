@@ -17,14 +17,14 @@ my %tests = (
         {
             STATUS      => 'Up',
             SPEED       => '4 Gbit',
-            TYPE        => 'ethernet',
+            TYPE        => 'fiberchannel',
             DESCRIPTION => 'host5',
             MACADDR     => '10:00:00:00:c9:af:df:c6',
         },
         {
             STATUS      => 'Up',
             SPEED       => '4 Gbit',
-            TYPE        => 'ethernet',
+            TYPE        => 'fiberchannel',
             DESCRIPTION => 'host6',
             MACADDR     => '10:00:00:00:c9:af:df:c7',
         },

@@ -40,7 +40,7 @@ sub _getInterfacesFromFcHost {
         if ($line =~ /Class Device = "(.+)"/) {
             $interface = {
                 DESCRIPTION => $1,
-                TYPE        => 'ethernet'
+                TYPE        => 'fiberchannel'
             };
         } elsif ($line =~ /port_name\s+= "0x(\w+)"/) {
             $interface->{'MACADDR'} = join(':', unpack '(A2)*', $1);
