@@ -1191,12 +1191,13 @@ sub _getLLDPInfo {
     # whereas y is either a port or an interface id
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
+        my $sysdescr = _getCanonicalString($lldpRemSysDesc->{$suffix});
+        next unless $sysdescr;
+
         my $connection = {
             SYSMAC   => lc(alt2canonical($mac)),
-            SYSDESCR => _getCanonicalString($lldpRemSysDesc->{$suffix});
+            SYSDESCR => $sysdescr
         };
-
-        next if !$connection->{SYSDESCR};
 
         # portId is either a port number or a port mac address,
         # duplicating chassiId
