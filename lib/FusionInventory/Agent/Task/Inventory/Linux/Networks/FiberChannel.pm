@@ -43,7 +43,7 @@ sub _getInterfacesFromFcHost {
                 TYPE        => 'fiberchannel'
             };
         } elsif ($line =~ /port_name\s+= "0x(\w+)"/) {
-            $interface->{'MACADDR'} = join(':', unpack '(A2)*', $1);
+            $interface->{'WWN'} = join(':', unpack '(A2)*', $1);
         } elsif ($line =~ /port_state\s+= "(\w+)"/) {
             if ($1 eq 'Online') {
                 $interface->{'STATUS'} = 'Up';

@@ -19,14 +19,14 @@ my %tests = (
             SPEED       => '4 Gbit',
             TYPE        => 'fiberchannel',
             DESCRIPTION => 'host5',
-            MACADDR     => '10:00:00:00:c9:af:df:c6',
+            WWN         => '10:00:00:00:c9:af:df:c6',
         },
         {
             STATUS      => 'Up',
             SPEED       => '4 Gbit',
             TYPE        => 'fiberchannel',
             DESCRIPTION => 'host6',
-            MACADDR     => '10:00:00:00:c9:af:df:c7',
+            WWN         => '10:00:00:00:c9:af:df:c7',
         },
     ],
 );
@@ -38,9 +38,8 @@ my $inventory = FusionInventory::Test::Inventory->new();
 foreach my $test (keys %tests) {
     my $file = "resources/linux/systool/$test";
     my @interfaces = FusionInventory::Agent::Task::Inventory::Linux::Networks::FiberChannel::_getInterfacesFromFcHost(file => $file);
-    cmp_deeply(\@interfaces, $tests{$test}, $test);
+    cmp_deeply(\@interfaces, $tests{$test}, "$test: parsing");
     lives_ok {
-        $inventory->addEntry(section => 'NETWORKS', entry => $_)
-        foreach @interfaces;
-    } 'no unknown fields';
+        $inventory->addEntry(section => 'NETWORKS', entry => $_) foreach @interfaces;
+    } "$test: registering";
 }
