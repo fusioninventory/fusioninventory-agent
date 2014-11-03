@@ -697,7 +697,7 @@ sub _setPrinterProperties {
         if ($type eq 'TONER' || $type eq 'DRUM' || $type eq 'CARTRIDGE' || $type eq 'DEVELOPER') {
             my $color;
             if ($color_id) {
-                $color = hex2char($colors->{$color_id});
+                $color = _getCanonicalString($colors->{$color_id});
                 if (!$color) {
                     $logger->debug("invalid color ID $color_id") if $logger;
                     next;
@@ -851,9 +851,13 @@ sub _getCanonicalString {
     $value = hex2char($value);
     return unless $value;
 
+    # truncate after first null-character
+    $value =~ s/\000.*$//;
+
+    # unquote string
     $value =~ s/^\\?["']//;
     $value =~ s/\\?["']$//;
-    $value =~ s/\000$//;
+
     return unless $value;
 
     return $value;
@@ -1189,7 +1193,7 @@ sub _getLLDPInfo {
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
         my $connection = {
             SYSMAC   => lc(alt2canonical($mac)),
-            SYSDESCR => hex2char($lldpRemSysDesc->{$suffix}),
+            SYSDESCR => _getCanonicalString($lldpRemSysDesc->{$suffix});
         };
 
         next if !$connection->{SYSDESCR};
@@ -1201,10 +1205,10 @@ sub _getLLDPInfo {
             $connection->{IFNUMBER} = $portId;
         }
 
-        my $ifdescr = hex2char($lldpRemPortDesc->{$suffix});
+        my $ifdescr = _getCanonicalString($lldpRemPortDesc->{$suffix});
         $connection->{IFDESCR} = $ifdescr if $ifdescr;
 
-        my $sysname = hex2char($lldpRemSysName->{$suffix});
+        my $sysname = _getCanonicalString($lldpRemSysName->{$suffix});
         $connection->{SYSNAME} = $sysname if $sysname;
 
         my $id           = _getElement($suffix, -2);
@@ -1243,8 +1247,8 @@ sub _getCDPInfo {
 
         my $connection = {
             IP       => $ip,
-            SYSDESCR => hex2char($cdpCacheVersion->{$suffix}),
-            MODEL    => hex2char($cdpCachePlatform->{$suffix})
+            SYSDESCR => _getCanonicalString($cdpCacheVersion->{$suffix}),
+            MODEL    => _getCanonicalString($cdpCachePlatform->{$suffix})
         };
 
         next if !$connection->{SYSDESCR} || !$connection->{MODEL};
@@ -1265,7 +1269,7 @@ sub _getCDPInfo {
                 $connection->{SYSMAC} = lc(alt2canonical($deviceId));
             } else {
                 # otherwise it's an hex-encode hostname
-                $connection->{SYSNAME} = hex2char($deviceId);
+                $connection->{SYSNAME} = _getCanonicalString($deviceId);
             }
         } else {
             $connection->{SYSNAME} = $deviceId;

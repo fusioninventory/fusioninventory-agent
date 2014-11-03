@@ -366,12 +366,8 @@ sub hex2char {
     return undef unless $value;
     return $value unless $value =~ /^0x/;
 
-    my $string = '';
-    foreach my $char (substr($value, 2) =~ /\w{2}/g) {
-        last if $char eq '00';
-        $string .= chr(hex($char));
-    }
-    return $string;
+    $value =~ s/^0x//; # drop hex prefix
+    return pack('H*', $value);
 }
 
 sub hex2dec {
