@@ -1,0 +1,60 @@
+Class = "fc_host"
+
+  Class Device = "host5"
+  Class Device path = "/sys/devices/pci0000:00/0000:00:03.0/0000:09:00.0/host5/fc_host/host5"
+    active_fc4s         = "0x00 0x00 0x01 0x00 0x00 0x00 0x00 0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 "
+    dev_loss_tmo        = "60"
+    fabric_name         = "0x100000c0dd0cc527"
+    issue_lip           = <store method only>
+    max_npiv_vports     = "255"
+    maxframe_size       = "2048 bytes"
+    node_name           = "0x20000000c9afdfc6"
+    npiv_vports_inuse   = "0"
+    port_id             = "0x020100"
+    port_name           = "0x10000000c9afdfc6"
+    port_state          = "Online"
+    port_type           = "NPort (fabric via point-to-point)"
+    speed               = "4 Gbit"
+    supported_classes   = "Class 3"
+    supported_fc4s      = "0x00 0x00 0x01 0x00 0x00 0x00 0x00 0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 "
+    supported_speeds    = "2 Gbit, 4 Gbit, 8 Gbit"
+    symbolic_name       = "Emulex AJ763A/AH403A FV1.11A5 DV8.3.7.10.7p"
+    tgtid_bind_type     = "wwpn (World Wide Port Name)"
+    uevent              = 
+    vport_create        = <store method only>
+    vport_delete        = <store method only>
+
+    Device = "host5"
+    Device path = "/sys/devices/pci0000:00/0000:00:03.0/0000:09:00.0/host5"
+      uevent              = "DEVTYPE=scsi_host"
+
+
+  Class Device = "host6"
+  Class Device path = "/sys/devices/pci0000:00/0000:00:03.0/0000:09:00.1/host6/fc_host/host6"
+    active_fc4s         = "0x00 0x00 0x01 0x00 0x00 0x00 0x00 0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 "
+    dev_loss_tmo        = "60"
+    fabric_name         = "0x100000c0dd0cc527"
+    issue_lip           = <store method only>
+    max_npiv_vports     = "255"
+    maxframe_size       = "2048 bytes"
+    node_name           = "0x20000000c9afdfc7"
+    npiv_vports_inuse   = "0"
+    port_id             = "0x010100"
+    port_name           = "0x10000000c9afdfc7"
+    port_state          = "Online"
+    port_type           = "NPort (fabric via point-to-point)"
+    speed               = "4 Gbit"
+    supported_classes   = "Class 3"
+    supported_fc4s      = "0x00 0x00 0x01 0x00 0x00 0x00 0x00 0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 "
+    supported_speeds    = "2 Gbit, 4 Gbit, 8 Gbit"
+    symbolic_name       = "Emulex AJ763A/AH403A FV1.11A5 DV8.3.7.10.7p"
+    tgtid_bind_type     = "wwpn (World Wide Port Name)"
+    uevent              = 
+    vport_create        = <store method only>
+    vport_delete        = <store method only>
+
+    Device = "host6"
+    Device path = "/sys/devices/pci0000:00/0000:00:03.0/0000:09:00.1/host6"
+      uevent              = "DEVTYPE=scsi_host"
+
+

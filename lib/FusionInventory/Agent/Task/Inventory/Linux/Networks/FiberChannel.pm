@@ -26,7 +26,11 @@ sub doInventory {
 }
 
 sub _getInterfacesFromFcHost {
-    my $handle = getFileHandle(command => 'systool -c fc_host -v');
+    my (%params) = (
+        command => 'systool -c fc_host -v',
+        @_
+    );
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my @interfaces;
