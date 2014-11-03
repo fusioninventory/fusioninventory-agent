@@ -32,27 +32,27 @@ sub _getInterfacesFromFcHost {
     my @interfaces;
     my $interface;
 
-    while (<$handle>) {
-        if (/Class Device = "(.+)"/) {
+    while (my $line = <$handle>) {
+        if ($line =~ /Class Device = "(.+)"/) {
             $interface = {
                 DESCRIPTION => $1,
                 TYPE        => 'ethernet'
-            };	
-        } elsif (/port_name\s+= "0x(\w+)"/) {
+            };
+        } elsif ($line =~ /port_name\s+= "0x(\w+)"/) {
             $interface->{'MACADDR'} = join(':', unpack '(A2)*', $1);
-        } elsif (/port_state\s+= "(\w+)"/) {
+        } elsif ($line =~ /port_state\s+= "(\w+)"/) {
             if ($1 eq 'Online') {
                 $interface->{'STATUS'} = 'Up';
             } elsif ($1 eq 'Linkdown') {
                 $interface->{'STATUS'} = 'Down';
             }
-        } elsif (/speed\s+= "(.+)"/) {
+        } elsif ($line =~ /speed\s+= "(.+)"/) {
             $interface->{'SPEED'} = $1 if ($1 ne 'unknown');
 
             push @interfaces, $interface;
         }
     }
-  
+
     return @interfaces;
 }
 
