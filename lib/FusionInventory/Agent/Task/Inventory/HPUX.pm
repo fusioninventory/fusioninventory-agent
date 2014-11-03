@@ -19,20 +19,20 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     # Operating system informations
-    my $OSVersion = getFirstLine(command => 'uname -v');
-    my $OSRelease = getFirstLine(command => 'uname -r');
-    my $OSLicense = getFirstLine(command => 'uname -l');
+    my $kernelVersion = getFirstLine(command => 'uname -v');
+    my $kernelRelease = getFirstLine(command => 'uname -r');
+    my $OSLicense     = getFirstLine(command => 'uname -l');
 
     $inventory->setHardware({
         OSNAME     => 'HP-UX',
-        OSVERSION  => $OSVersion . ' ' . $OSLicense,
-        OSCOMMENTS => $OSRelease,
+        OSVERSION  => $kernelVersion . ' ' . $OSLicense,
+        OSCOMMENTS => $kernelRelease,
     });
 
     $inventory->setOperatingSystem({
-        NAME           => "HP-UX",
-        VERSION        => $OSRelease,
-        KERNEL_VERSION => $OSRelease,
+        NAME           => 'HP-UX',
+        VERSION        => $kernelRelease,
+        KERNEL_VERSION => $kernelRelease,
     });
 }
 

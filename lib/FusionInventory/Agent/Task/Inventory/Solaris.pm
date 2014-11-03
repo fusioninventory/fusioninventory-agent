@@ -20,13 +20,13 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     # Operating system informations
-    my $info           = getReleaseInfo();
-    my $kernel_arch    = getFirstLine(command => 'arch -k');
-    my $kernel_version = getFirstLine(command => 'uname -v');
-    my $proct          = getFirstLine(command => 'uname -p');
-    my $platform       = getFirstLine(command => 'uname -i');
-    my $hostid         = getFirstLine(command => 'hostid');
-    my $description    = "$platform($kernel_arch)/$proct HostID=$hostid";
+    my $info          = getReleaseInfo();
+    my $kernelArch    = getFirstLine(command => 'arch -k');
+    my $kernelVersion = getFirstLine(command => 'uname -v');
+    my $proct         = getFirstLine(command => 'uname -p');
+    my $platform      = getFirstLine(command => 'uname -i');
+    my $hostid        = getFirstLine(command => 'hostid');
+    my $description   = "$platform($kernelArch)/$proct HostID=$hostid";
 
     $inventory->setHardware({
         OSNAME      => "Solaris",
@@ -40,7 +40,7 @@ sub doInventory {
         FULL_NAME      => $info->{fullname},
         VERSION        => $info->{version},
         SERVICE_PACK   => $info->{subversion},
-        KERNEL_VERSION => $kernel_version
+        KERNEL_VERSION => $kernelVersion
     });
 }
 

@@ -18,9 +18,9 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    # Basic operating system informations
-    my $OSVersion = getFirstLine(command => 'uname -r');
-    my $OSComment = getFirstLine(command => 'uname -v');
+    # basic operating system informations
+    my $kernelVersion = getFirstLine(command => 'uname -v');
+    my $kernelRelease = getFirstLine(command => 'uname -r');
 
     # Get more information from the kernel configuration file
     my $date;
@@ -35,32 +35,33 @@ sub doInventory {
             my $origin = $1;
             my $kernconf = $2;
             $kernconf =~ s/\/.*\///; # remove the path
-            $OSComment = $kernconf . " (" . $date . ")\n" . $origin;
+            $kernelVersion = $kernconf . " (" . $date . ")\n" . $origin;
         }
     }
     close $handle;
 
-    my $boottime = getFirstMatch(command => "sysctl -n kern.boottime", pattern => qr/sec = (\d+)/);
+    my $boottime = getFirstMatch(
+        command => "sysctl -n kern.boottime",
+        pattern => qr/sec = (\d+)/
+    );
 
-    my $OSName = $OSNAME;
-    if (canRun('lsb_release')) {
-        $OSName = getFirstMatch(
+    my $name = canRun('lsb_release') ?
+        getFirstMatch(
             command => 'lsb_release -d',
             pattern => qr/Description:\s+(.+)/
-        );
-    }
+        ) : $OSNAME;
 
     $inventory->setHardware({
-        OSNAME     => $OSName,
-        OSVERSION  => $OSVersion,
-        OSCOMMENTS => $OSComment,
+        OSNAME     => $name,
+        OSVERSION  => $kernelRelease,
+        OSCOMMENTS => $kernelVersion,
     });
 
     $inventory->setOperatingSystem({
-        NAME           => $OSName,
-        VERSION        => $OSVersion,
-        KERNEL_VERSION => $OSVersion,
+        NAME           => $name,
         FULL_NAME      => $OSNAME,
+        VERSION        => $kernelRelease,
+        KERNEL_VERSION => $kernelRelease,
         BOOT_TIME      => getFormatedLocalTime($boottime)
     });
 }

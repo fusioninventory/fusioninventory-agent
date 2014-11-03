@@ -20,20 +20,22 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $osversion = getFirstLine(command => 'uname -r');
-    my $oscomment = getFirstLine(command => 'uname -v');
+    my $kernelVersion = getFirstLine(command => 'uname -v');
+    my $kernelRelease = getFirstLine(command => 'uname -r');
+
     my $systemId  = _getRHNSystemId('/etc/sysconfig/rhn/systemid');
 
-    my $boottime = time - getFirstMatch(file => '/proc/uptime', pattern => qr/^(\d+)/);
+    my $boottime =
+        time - getFirstMatch(file => '/proc/uptime', pattern => qr/^(\d+)/);
 
     $inventory->setHardware({
-        OSVERSION  => $osversion,
-        OSCOMMENTS => $oscomment,
+        OSVERSION  => $kernelRelease,
+        OSCOMMENTS => $kernelVersion,
         WINPRODID  => $systemId,
     });
 
     $inventory->setOperatingSystem({
-        KERNEL_VERSION => $osversion,
+        KERNEL_VERSION => $kernelRelease,
         BOOT_TIME      => getFormatedLocalTime($boottime)
     });
 

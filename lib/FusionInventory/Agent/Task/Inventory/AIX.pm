@@ -23,10 +23,10 @@ sub doInventory {
     my $logger = $params{logger};
 
     # Operating system informations
-    my $OSName = getFirstLine(command => 'uname -s');
+    my $kernelName = getFirstLine(command => 'uname -s');
 
-    my $OSVersion = getFirstLine(command => 'oslevel');
-    $OSVersion =~ s/(.0)*$//;
+    my $version = getFirstLine(command => 'oslevel');
+    $version =~ s/(.0)*$//;
 
     my $OSLevel = getFirstLine(command => 'oslevel -r');
     my @OSLevelParts = split(/-/, $OSLevel);
@@ -74,7 +74,7 @@ sub doInventory {
     }
 
     $inventory->setHardware({
-        OSNAME     => "$OSName $OSVersion",
+        OSNAME     => "$kernelName $version",
         OSVERSION  => $OSLevel,
         OSCOMMENTS => "Maintenance Level: $OSLevelParts[1]",
         VMID       => $vmid,
@@ -84,10 +84,10 @@ sub doInventory {
     });
 
     $inventory->setOperatingSystem({
-        NAME         => "AIX",
-        VERSION      => $OSVersion,
+        NAME         => 'AIX',
+        FULL_NAME    => "$kernelName $version",
+        VERSION      => $version,
         SERVICE_PACK => "$RevisionParts[2]-$RevisionParts[3]",
-        FULL_NAME    => "$OSName $OSVersion"
     });
 
     $inventory->setBios({
