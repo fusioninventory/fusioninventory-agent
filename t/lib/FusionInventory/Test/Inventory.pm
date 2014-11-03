@@ -10,8 +10,8 @@ sub new {
     my ($class, %params) = @_;
 
     my $logger  = FusionInventory::Agent::Logger->new(
-        backends => [ 'fatal' ],
-        debug    => 1
+        backends  => [ 'fatal' ],
+        verbosity => 5
     );
 
     return $class->SUPER::new(logger => $logger);
