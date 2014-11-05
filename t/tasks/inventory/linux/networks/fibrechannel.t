@@ -10,21 +10,21 @@ use Test::More;
 use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
-use FusionInventory::Agent::Task::Inventory::Linux::Networks::FiberChannel;
+use FusionInventory::Agent::Task::Inventory::Linux::Networks::FibreChannel;
 
 my %tests = (
     'sample1' => [
         {
             STATUS      => 'Up',
             SPEED       => '4 Gbit',
-            TYPE        => 'fiberchannel',
+            TYPE        => 'fibrechannel',
             DESCRIPTION => 'host5',
             WWN         => '10:00:00:00:c9:af:df:c6',
         },
         {
             STATUS      => 'Up',
             SPEED       => '4 Gbit',
-            TYPE        => 'fiberchannel',
+            TYPE        => 'fibrechannel',
             DESCRIPTION => 'host6',
             WWN         => '10:00:00:00:c9:af:df:c7',
         },

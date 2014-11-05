@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Linux::Networks::FiberChannel;
+package FusionInventory::Agent::Task::Inventory::Linux::Networks::FibreChannel;
 
 use strict;
 use warnings;
@@ -40,7 +40,7 @@ sub _getInterfacesFromFcHost {
         if ($line =~ /Class Device = "(.+)"/) {
             $interface = {
                 DESCRIPTION => $1,
-                TYPE        => 'fiberchannel'
+                TYPE        => 'fibrechannel'
             };
         } elsif ($line =~ /port_name\s+= "0x(\w+)"/) {
             $interface->{'WWN'} = join(':', unpack '(A2)*', $1);
