@@ -6,8 +6,9 @@ use warnings;
 use Config;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 
-sub isEnabled{
+sub isEnabled {
     return $Config{archname} =~ /^(i\d86|x86_64)/;
 }
 
@@ -30,7 +31,7 @@ sub doInventory {
     $inventory->setBios($bios);
 
     # don't deal with CPUs if information can be computed from dmidecode
-    my $infos = getInfosFromDmidecode(logger => $logger);
+    my $infos = getDmidecodeInfos(logger => $logger);
     return if $infos->{4};
 
     return if $params{no_category}->{cpu};
