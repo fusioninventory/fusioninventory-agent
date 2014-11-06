@@ -1,0 +1,71 @@
+#!/bin/sh
+#
+# chkconfig: - 88 12
+# description:  FusionInventory Agent
+# processname: fusioninventory-agent
+# config: /etc/sysconfig/fusioninventory-agent.pid
+# pidfile: /var/run/fusioninventory-agent.pid
+### BEGIN INIT INFO
+# Provides: fusioninventory-agent
+# Required-Start: $remote_fs $network $named $syslog
+# Required-Stop: $remote_fs $network $named $syslog
+# Default-Start: 3 5
+# Default-Stop: 0 1 6
+# Short-Description: FusionInventory agent
+# Description: FusionInventory agent
+### END INIT INFO
+
+# source function library
+. /etc/rc.d/init.d/functions
+
+desc="FusionInventory Agent"
+prog=fusioninventory-agent
+lockfile=/var/lock/subsys/$prog
+pidfile=/var/run/$prog.pid
+
+if [ -r /etc/sysconfig/fusioninventory-agent ]; then
+    . /etc/sysconfig/fusioninventory-agent
+fi
+
+start() {
+    echo -n "Starting $prog: "
+    daemon fusioninventory-agent --daemon $OPTIONS 2>/dev/null
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+}
+
+stop() {
+    echo -n "Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart|reload|force-reload)
+        stop
+        start
+        ;;
+    condrestart)
+        if [ -f $lockfile ]; then
+            stop
+            start
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+        exit 1
+        ;;
+esac
+

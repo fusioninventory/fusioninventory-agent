@@ -1,0 +1,11 @@
+[Unit]
+Description=FusionInventory agent
+After=syslog.target network.target
+ 
+[Service]
+EnvironmentFile=-/etc/sysconfig/fusioninventory-agent
+Type=forking
+ExecStart=/usr/bin/fusioninventory-agent --daemon $OPTIONS
+ 
+[Install]
+WantedBy=multi-user.target
