@@ -37,7 +37,7 @@ my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/systool/$test";
-    my @interfaces = FusionInventory::Agent::Task::Inventory::Linux::Networks::FiberChannel::_getInterfacesFromFcHost(file => $file);
+    my @interfaces = FusionInventory::Agent::Task::Inventory::Linux::Networks::FibreChannel::_getInterfacesFromFcHost(file => $file);
     cmp_deeply(\@interfaces, $tests{$test}, "$test: parsing");
     lives_ok {
         $inventory->addEntry(section => 'NETWORKS', entry => $_) foreach @interfaces;
