@@ -1248,13 +1248,15 @@ sub _getCDPInfo {
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
+        my $sysdescr = _getCanonicalString($cdpCacheVersion->{$suffix});
+        my $model    = _getCanonicalString($cdpCachePlatform->{$suffix});
+        next unless $sysdescr && $model;
+
         my $connection = {
             IP       => $ip,
-            SYSDESCR => _getCanonicalString($cdpCacheVersion->{$suffix}),
-            MODEL    => _getCanonicalString($cdpCachePlatform->{$suffix})
+            SYSDESCR => $sysdescr,
+            MODEL    => $model,
         };
-
-        next if !$connection->{SYSDESCR} || !$connection->{MODEL};
 
         # cdpCacheDevicePort is either a port number or a port description
         my $devicePort = $cdpCacheDevicePort->{$suffix};
