@@ -25,6 +25,7 @@ my %vpcu_tests = (
     v490        => [ _map( 8, { speed => '1350', type => 'sparcv9' }) ],
     t1          => [ _map(16, { speed => '1000', type => 'sparcv9' }) ],
     t5120       => [ _map(32, { speed => '1165', type => 'sparcv9' }) ],
+    solaris11   => [ _map(32, { speed => '1000', type => 'sparcv9' }) ],
     e6900       => [
         _map(8, { speed => '1350', type => 'sparcv9' }) ,
         _map(4, { speed =>  '900', type => 'sparcv9' }) ,
@@ -65,6 +66,9 @@ my %pcpu_tests = (
     ],
     t5120 => [
         _map(1, { speed => '1165', type => 'UltraSPARC-T2', count => 32 })
+    ],
+    solaris11 => [
+        _map(1, { speed => '1000', type => 'UltraSPARC-T1', count => 32 })
     ],
     e6900 => [
         _map(8, { speed => '1350', type => 'UltraSPARC-IV'  , count => 2 }),
@@ -191,6 +195,17 @@ my %cpu_tests = (
                 SPEED        => 1165,
                 THREAD       => 8,
                 CORE         => 4
+            }
+        )
+    ],
+    solaris11 => [
+                _map(1,
+            {
+                NAME         => 'UltraSPARC-T1',
+                MANUFACTURER => 'SPARC',
+                SPEED        => 1000,
+                THREAD       => 4,
+                CORE         => 8
             }
         )
     ]

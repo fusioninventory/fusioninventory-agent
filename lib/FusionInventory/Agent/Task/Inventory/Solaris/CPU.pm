@@ -160,6 +160,13 @@ sub _getPhysicalCPUs {
             next;
         }
 
+        if ($line =~ /^The physical processor has (\d+) cores and (\d+) virtual/) {
+            push @cpus, {
+                count => $2
+            };
+            next;
+        }
+
         if ($line =~ /^The (\S+) physical processor has (\d+) virtual/) {
             push @cpus, {
                 type  => $1,
