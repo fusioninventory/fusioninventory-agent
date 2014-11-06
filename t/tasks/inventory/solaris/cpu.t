@@ -199,7 +199,7 @@ my %cpu_tests = (
         )
     ],
     solaris11 => [
-                _map(1,
+        _map(1,
             {
                 NAME         => 'UltraSPARC-T1',
                 MANUFACTURER => 'SPARC',
@@ -208,7 +208,27 @@ my %cpu_tests = (
                 CORE         => 8
             }
         )
-    ]
+    ],
+    e6900 => [
+        _map(4,
+            {
+                NAME         => 'UltraSPARC-III+',
+                SPEED        => '900',
+                MANUFACTURER => 'SPARC',
+                CORE         => 1,
+                THREAD       => 1
+            }
+        ),
+        _map(8,
+            {
+                NAME         => 'UltraSPARC-IV',
+                MANUFACTURER => 'SPARC',
+                SPEED        => '1350',
+                CORE         => 2,
+                THREAD       => 1
+            }
+        ),
+    ],
 );
 
 plan tests =>
