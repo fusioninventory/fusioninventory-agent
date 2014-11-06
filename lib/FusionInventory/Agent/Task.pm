@@ -106,6 +106,10 @@ This is a method to be implemented by each subclass.
 
 This is a method to be implemented by each subclass.
 
+=head2 abort()
+
+Abort running task immediatly.
+
 =head2 getOptionsFromServer($response, $name, $feature)
 
 Get task-specific options in server response to prolog message.

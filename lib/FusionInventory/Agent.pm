@@ -525,6 +525,10 @@ Initialize the agent.
 
 Run the agent.
 
+=head2 terminate()
+
+Terminate the agent.
+
 =head2 getStatus()
 
 Get the current agent status.
