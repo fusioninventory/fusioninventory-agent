@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.3.13 Fri, 24 Oct 2014
+2.3.13 Thu, 6 Nov 2014
 core:
 * log HTTP replies status
 * log agent stop event (#61)
@@ -15,13 +15,18 @@ netdiscovery:
 
 netinventory:
 * propagate error messages to server
-* fix null-character presence in CDP/LLDP info (#2670,#2746,#2754)
+* fix null-character presence in XML output (#2670,#2746,#2754,#2784)
+* fix WWN physical address parsing (#2759)
 * send task termination message to server when shutting down (#185)
 * thread usage cleanup
 
 inventory:
+* add support for FibreChannel controller on Linux (#2759)
 * fix HyperV machines enumeration (#2141)
 * fix typo in printer property name on Windows (#2782)
+* fix wrong function call on BSD i386 (#2797)
+* fix wrong function call on Solaris (#2799)
+* fix parsing of psrinfo -vp output on Solaris (#2798)
 
 test suite:
 * disable tests requiring POE under perl 5.8
