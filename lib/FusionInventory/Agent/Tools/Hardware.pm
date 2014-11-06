@@ -829,8 +829,9 @@ sub _getCanonicalMacAddress {
         $result = sprintf
             "%02x:%02x:%02x:%02x:%02x:%02x",
             map { hex($_) } split(':', $value);
-    } elsif ($value =~ /^0x([0-9A-F]{1,11})$/i) {
-        $result = alt2canonical(sprintf('0x%012d', $1));
+    } elsif ($value =~ /^\d{2}:\d{2}:\d{2}:\d{2}:\d{2}$/) {
+        # WWN format
+        $result = '10:00:00:' . $value;
     } else {
         # this was stored as an hex-string
         # 0xD205A86C26D5 or 0x6001D205A86C26D5
