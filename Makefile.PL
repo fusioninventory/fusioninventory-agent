@@ -72,6 +72,7 @@ test_requires 'Test::HTTP::Server::Simple'   => undef;
 test_requires 'POE::Component::Client::Ping' => undef;
 
 # Network
+requires   'Parallel::ForkManager' => undef;
 recommends 'Net::SNMP'   => undef;
 recommends 'Net::NBName' => undef;
 recommends 'Digest::MD5' => undef;

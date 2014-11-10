@@ -2,12 +2,11 @@ package FusionInventory::Agent::Task::NetInventory;
 
 use strict;
 use warnings;
-use threads;
 use base 'FusionInventory::Agent::Task';
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
-use Thread::Queue;
+use Parallel::ForkManager;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query;
@@ -72,75 +71,37 @@ sub run {
     # send initial message to the server
     $self->_sendStartMessage();
 
-    # initialize FIFOs
-    my $devices = Thread::Queue->new();
-    my $results = Thread::Queue->new();
+    my @devices = @{$options->{DEVICE}};
 
-    foreach my $device (@{$options->{DEVICE}}) {
-        $devices->enqueue($device);
-    }
-    my $size = $devices->pending();
+    my $manager = Parallel::ForkManager->new($max_threads);
 
-    # no need for more threads than devices to scan
-    my $threads_count = $max_threads > $size ? $size : $max_threads;
+    foreach my $device (@devices) {
+        $manager->start() and next;
 
-    my $sub = sub {
-        my $id = threads->tid();
-        $self->{logger}->debug("[thread $id] creation");
-
-        # run as long as they are devices to process
-        while (my $device = $devices->dequeue_nb()) {
-
-            my $result;
-            eval {
-                $result = $self->_queryDevice(
-                    device      => $device,
-                    timeout     => $timeout,
-                    credentials => $credentials->{$device->{AUTHSNMP_ID}}
-                );
+        my $result;
+        eval {
+            $result = $self->_queryDevice(
+                device      => $device,
+                timeout     => $timeout,
+                credentials => $credentials->{$device->{AUTHSNMP_ID}}
+            );
+        };
+        if ($EVAL_ERROR) {
+            chomp $EVAL_ERROR;
+            $result = {
+                ERROR => {
+                    ID      => $device->{ID},
+                    TYPE    => $device->{TYPE},
+                    MESSAGE => $EVAL_ERROR
+                }
             };
-            if ($EVAL_ERROR) {
-                chomp $EVAL_ERROR;
-                $result = {
-                    ERROR => {
-                        ID      => $device->{ID},
-                        TYPE    => $device->{TYPE},
-                        MESSAGE => $EVAL_ERROR
-                    }
-                };
-                $self->{logger}->error($EVAL_ERROR);
-            }
-
-            $results->enqueue($result) if $result;
+            $self->{logger}->error($EVAL_ERROR);
         }
 
-        $self->{logger}->debug("[thread $id] termination");
-    };
-
-    $self->{logger}->debug("creating $threads_count worker threads");
-    for (my $i = 0; $i < $threads_count; $i++) {
-        threads->create($sub);
-    }
-
-    # as long as some threads are still running...
-    while (threads->list(threads::running)) {
-
-        # send available results on the fly
-        while (my $result = $results->dequeue_nb()) {
-            $self->_sendResultMessage($result);
-        }
-
-        # wait for a second
-        delay(1);
-    }
-
-    # purge remaining results
-    while (my $result = $results->dequeue_nb()) {
         $self->_sendResultMessage($result);
     }
 
-    $self->{logger}->debug("cleaning $threads_count worker threads");
-    $_->join() foreach threads->list(threads::joinable);
+    $manager->wait_all_children();
 
     # send final message to the server
     $self->_sendStopMessage();
@@ -205,8 +166,7 @@ sub _queryDevice {
     my $credentials = $params{credentials};
     my $device      = $params{device};
     my $logger      = $self->{logger};
-    my $id          = threads->tid();
-    $logger->debug("[thread $id] scanning $device->{ID}");
+    $logger->debug("[worker $PID] scanning $device->{ID}");
 
     my $snmp;
     if ($device->{FILE}) {
