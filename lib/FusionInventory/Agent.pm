@@ -151,13 +151,15 @@ sub init {
                 exit 1;
             }
 
-            my $cwd = getcwd();
-            Proc::Daemon::Init();
-
             # If we use relative path, we must stay in the current directory
-            if (substr( $params{libdir}, 0, 1 ) ne '/') {
-                chdir($cwd);
-            }
+            my $workdir = substr($params{libdir}, 0, 1) eq '/' ? '/' : getcwd();
+            my $pidfile = '/var/run/fusioninventory.pid';
+
+            Proc::Daemon::Init({
+                work_dir => $workdir,
+                pid_file => $pidfile
+            });
+
 
             $self->{logger}->debug("Agent daemonized");
         }
@@ -446,7 +448,10 @@ sub _isAlreadyRunning {
         return 0;
     }
 
-    return Proc::PID::File->running();
+    return Proc::PID::File->running(
+        dir  => '/var/run',
+        name => 'fusioninventory'
+    );
 }
 
 sub _loadState {
