@@ -28,6 +28,8 @@ sub isEnabled {
         $self->{logger}->debug("Deploy task not compatible with local target");
         return;
     }
+
+    return 1;
 }
 
 sub _validateAnswer {
