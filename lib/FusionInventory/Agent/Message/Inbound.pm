@@ -1,4 +1,4 @@
-package FusionInventory::Agent::XML::Response;
+package FusionInventory::Agent::Message::Inbound;
 
 use strict;
 use warnings;
@@ -52,11 +52,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::XML::Response - Generic server message
+FusionInventory::Agent::Message::Inbound - Message from server to agent
 
 =head1 DESCRIPTION
 
-This is a generic message sent by the server to the agent.
+This is an XML message sent by the server to the agent.
 
 =head1 METHODS
 
@@ -66,10 +66,6 @@ The constructor. The following parameters are allowed, as keys of the %params
 hash:
 
 =over
-
-=item I<logger>
-
-the logger object to use (default: a new stderr logger)
 
 =item I<content>
 

@@ -10,7 +10,7 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
-use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::Message::Outbound;
 
 our $VERSION = '1.0';
 
@@ -67,9 +67,11 @@ sub run {
         no_ssl_check => $params{no_ssl_check},
     );
 
-    my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-        deviceid => $self->{deviceid},
-        content  => $inventory->getContent()
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        query      => 'INVENTORY',
+        deviceid   => $self->{deviceid},
+        stylesheet => $self->{datadir} . '/inventory.xsl',
+        content    => $inventory->getContent()
     );
 
     my $response = $client->send(

@@ -8,26 +8,25 @@ use Test::Exception;
 use Test::More;
 use XML::TreePP;
 
-use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::Message::Outbound;
 
 plan tests => 7;
 
 my $message;
 throws_ok {
-    $message = FusionInventory::Agent::XML::Query->new(
+    $message = FusionInventory::Agent::Message::Outbound->new(
         deviceid => 'foo',
     );
 } qr/^no query/, 'no query type';
 
 lives_ok {
-    $message = FusionInventory::Agent::XML::Query->new(
+    $message = FusionInventory::Agent::Message::Outbound->new(
         deviceid => 'foo',
         query    => 'TEST',
-        foo      => 'foo',
     );
 } 'everything OK';
 
-isa_ok($message, 'FusionInventory::Agent::XML::Query');
+isa_ok($message, 'FusionInventory::Agent::Message::Outbound');
 
 my $tpp = XML::TreePP->new();
 
@@ -36,7 +35,6 @@ cmp_deeply(
     {
         REQUEST => {
             DEVICEID => 'foo',
-            FOO      => 'foo',
             QUERY    => 'TEST'
         }
     },
@@ -44,11 +42,10 @@ cmp_deeply(
 );
 
 lives_ok {
-    $message = FusionInventory::Agent::XML::Query->new(
+    $message = FusionInventory::Agent::Message::Outbound->new(
         deviceid => 'foo',
         query    => 'TEST',
-        foo => 'foo',
-        castor => [
+        content  => [
             {
                 FOO => 'fu',
                 FFF => 'GG',
@@ -61,13 +58,13 @@ lives_ok {
     );
 } 'everything OK';
 
-isa_ok($message, 'FusionInventory::Agent::XML::Query');
+isa_ok($message, 'FusionInventory::Agent::Message::Outbound');
 
 cmp_deeply(
     scalar $tpp->parse($message->getContent()),
     {
         REQUEST => {
-            CASTOR => [
+            CONTENT => [
                 {
                     FFF => 'GG',
                     FOO => 'fu',
@@ -78,8 +75,7 @@ cmp_deeply(
                 }
             ],
             DEVICEID => 'foo',
-            FOO => 'foo',
-            QUERY => 'TEST'
+            QUERY    => 'TEST'
         }
     },
     'expected content'

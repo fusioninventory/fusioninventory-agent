@@ -9,10 +9,10 @@ use Test::Exception;
 use Test::More;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::XML::Response;
+use FusionInventory::Agent::Message::Inbound;
 
 my %tests = (
-    message1 => {
+    registry => {
         OPTION => [
             {
                 NAME => 'REGISTRY',
@@ -43,7 +43,7 @@ my %tests = (
         RESPONSE => 'SEND',
         PROLOG_FREQ => '1'
     },
-    message2 => {
+    netinventory3 => {
         OPTION => [
             {
                 AUTHENTICATION => [
@@ -143,7 +143,7 @@ my %tests = (
         ],
         PROCESSNUMBER => '1280265498/024'
     },
-    message3 => {
+    netdiscovery => {
         OPTION => [
             {
                 AUTHENTICATION => [
@@ -187,15 +187,47 @@ my %tests = (
             }
         ],
         PROCESSNUMBER => '1280265592/024'
-    }
+    },
+    wakeonlan => {
+        RESPONSE => 'SEND',
+        OPTION => [
+            {
+                PARAM => [
+                    {
+                        MAC => '00:1e:c2:0c:36:27'
+                    },
+                    {
+                        MAC => '00:1e:c2:a7:26:6f'
+                    },
+                    {
+                        MAC => '00:1e:52:ff:fe:67'
+                    },
+                    {
+                        MAC => '00:00:39:23:0c:e1'
+                    },
+                    {
+                        MAC => '00:00:39:23:0c:e1'
+                    },
+                    {
+                        MAC => 'f6:68:20:52:41:53'
+                    },
+                    {
+                        MAC => '52:08:19:1f:b6:f6'
+                    }
+                ],
+                NAME => 'WAKEONLAN'
+            }
+        ],
+        PROLOG_FREQ => '24'
+    },
 );
 
 plan tests => 2 * (scalar keys %tests);
 
 foreach my $test (keys %tests) {
-    my $file = "resources/xml/response/$test.xml";
+    my $file = "resources/messages/$test.xml";
     my $string = getAllLines(file => $file);
-    my $message = FusionInventory::Agent::XML::Response->new(
+    my $message = FusionInventory::Agent::Message::Inbound->new(
         content => $string
     );
 

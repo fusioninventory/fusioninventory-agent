@@ -8,7 +8,7 @@ use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
-use FusionInventory::Agent::XML::Query::Inventory;
+use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::SOAP::VMware;
 
 our $VERSION = "2.2.1";
@@ -252,9 +252,11 @@ sub run {
                 $hostId, $self->{config}->{tag}
             );
 
-            my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-                deviceid => $self->{deviceid},
-                content  => $inventory->getContent()
+            my $message = FusionInventory::Agent::Message::Outbound->new(
+                query      => 'INVENTORY',
+                deviceid   => $self->{deviceid},
+                stylesheet => $self->{datadir} . '/inventory.xsl',
+                content    => $inventory->getContent()
             );
 
             $ocsClient->send(

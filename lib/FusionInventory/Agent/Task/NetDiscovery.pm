@@ -14,10 +14,10 @@ use Thread::Queue v2.01;
 use UNIVERSAL::require;
 use XML::TreePP;
 
+use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Hardware;
-use FusionInventory::Agent::XML::Query;
 
 our $VERSION = '2.2.0';
 
@@ -216,9 +216,9 @@ sub _getCredentials {
 sub _sendMessage {
     my ($self, $content) = @_;
 
-    my $message = FusionInventory::Agent::XML::Query->new(
-        deviceid => $self->{deviceid},
+    my $message = FusionInventory::Agent::Message::Outbound->new(
         query    => 'NETDISCOVERY',
+        deviceid => $self->{deviceid},
         content  => $content
     );
 

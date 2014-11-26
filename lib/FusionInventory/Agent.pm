@@ -18,7 +18,7 @@ use FusionInventory::Agent::Task;
 use FusionInventory::Agent::Controller;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
-use FusionInventory::Agent::XML::Query::Prolog;
+use FusionInventory::Agent::Message::Outbound;
 
 our $VERSION = '2.3.14';
 our $VERSION_STRING = _versionString($VERSION);
@@ -241,7 +241,9 @@ sub _runTarget {
         no_ssl_check => $self->{config}->{'no-ssl-check'},
     );
 
-    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
+    my $prolog = FusionInventory::Agent::Message::Outbound->new(
+        query    => 'PROLOG',
+        token    => '123456678',
         deviceid => $self->{deviceid},
     );
 

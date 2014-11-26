@@ -10,7 +10,7 @@ use English qw(-no_match_vars);
 use Thread::Queue v2.01;
 use UNIVERSAL::require;
 
-use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Network;
@@ -147,9 +147,9 @@ sub _sendMessage {
     my ($self, $content) = @_;
 
 
-   my $message = FusionInventory::Agent::XML::Query->new(
-       deviceid => $self->{deviceid},
+   my $message = FusionInventory::Agent::Message::Outbound->new(
        query    => 'SNMPQUERY',
+       deviceid => $self->{deviceid},
        content  => $content
    );
 
