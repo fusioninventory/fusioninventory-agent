@@ -12,73 +12,73 @@ perl_version '5.008';
 authors 'FusionInventory Team';
 
 # mandatory dependencies
-requires 'File::Which'        => undef;
+requires 'File::Which'        => '0';
 requires 'LWP'                => '5.8';
-requires 'Net::IP'            => undef;
-requires 'UNIVERSAL::require' => undef;
-requires 'Text::Template'     => undef;
+requires 'Net::IP'            => '0';
+requires 'UNIVERSAL::require' => '0';
+requires 'Text::Template'     => '0';
 requires 'XML::TreePP'        => '0.26';
 
 if ($OSNAME eq 'MSWin32') {
-    requires 'Win32::OLE'         => undef;
-    requires 'Win32::TieRegistry' => undef;
-    requires 'Win32::Job'         => undef;
+    requires 'Win32::OLE'         => '0';
+    requires 'Win32::TieRegistry' => '0';
+    requires 'Win32::Job'         => '0';
 }
 
-recommends 'Compress::Zlib'       => undef;
-recommends 'HTTP::Daemon'         => undef;
-recommends 'IO::Socket::SSL'      => undef;
-recommends 'LWP::Protocol::https' => undef;
+recommends 'Compress::Zlib'       => '0';
+recommends 'HTTP::Daemon'         => '0';
+recommends 'IO::Socket::SSL'      => '0';
+recommends 'LWP::Protocol::https' => '0';
 
 if ($OSNAME ne 'MSWin32') {
-    recommends 'Proc::Daemon'     => undef;
-    recommends 'Proc::PID::File'  => undef;
+    recommends 'Proc::Daemon'     => '0';
+    recommends 'Proc::PID::File'  => '0';
 } else {
-    recommends 'Win32::Daemon'    => undef;
-    recommends 'Win32::Unicode::File' => undef;
+    recommends 'Win32::Daemon'    => '0';
+    recommends 'Win32::Unicode::File' => '0';
 }
 
 # test dependencies
-test_requires 'HTTP::Proxy'                  => undef;
-test_requires 'HTTP::Server::Simple'         => undef;
-test_requires 'HTTP::Server::Simple::Authen' => undef;
-test_requires 'IO::Socket::SSL'              => undef;
-test_requires 'IO::Capture::Stderr'          => undef;
-test_requires 'IPC::Run'                     => undef;
-test_requires 'Test::Compile'                => undef;
-test_requires 'Test::Deep'                   => undef;
-test_requires 'Test::Exception'              => undef;
-test_requires 'Test::MockModule'             => undef;
+test_requires 'HTTP::Proxy'                  => '0';
+test_requires 'HTTP::Server::Simple'         => '0';
+test_requires 'HTTP::Server::Simple::Authen' => '0';
+test_requires 'IO::Socket::SSL'              => '0';
+test_requires 'IO::Capture::Stderr'          => '0';
+test_requires 'IPC::Run'                     => '0';
+test_requires 'Test::Compile'                => '0';
+test_requires 'Test::Deep'                   => '0';
+test_requires 'Test::Exception'              => '0';
+test_requires 'Test::MockModule'             => '0';
 test_requires 'Test::More'                   => '0.93'; # subtest
-test_requires 'Test::NoWarnings'             => undef;
-test_requires 'LWP::Protocol::https'         => undef;
-test_requires 'Test::MockObject'             => undef;
-test_requires 'JSON'                         => undef;
-test_requires 'Net::SNMP'                    => undef;
+test_requires 'Test::NoWarnings'             => '0';
+test_requires 'LWP::Protocol::https'         => '0';
+test_requires 'Test::MockObject'             => '0';
+test_requires 'JSON'                         => '0';
+test_requires 'Net::SNMP'                    => '0';
 
 # Inventory
-recommends 'Parse::EDID' => undef;
+recommends 'Parse::EDID' => '0';
 recommends 'Net::CUPS'   => 0.60 if $OSNAME ne 'MSWin32';
 
 # Deploy
-recommends 'Archive::Extract'             => undef;
-recommends 'Digest::SHA'                  => undef;
-recommends 'File::Copy::Recursive'        => undef;
-recommends 'JSON'                         => undef;
-recommends 'URI::Escape'                  => undef;
-recommends 'POE::Component::Client::Ping' => undef;
+recommends 'Archive::Extract'             => '0';
+recommends 'Digest::SHA'                  => '0';
+recommends 'File::Copy::Recursive'        => '0';
+recommends 'JSON'                         => '0';
+recommends 'URI::Escape'                  => '0';
+recommends 'POE::Component::Client::Ping' => '0';
 
-test_requires 'Test::HTTP::Server::Simple'   => undef;
-test_requires 'POE::Component::Client::Ping' => undef;
+test_requires 'Test::HTTP::Server::Simple'   => '0';
+test_requires 'POE::Component::Client::Ping' => '0';
 
 # Network
-recommends 'Net::SNMP'   => undef;
-recommends 'Net::NBName' => undef;
-recommends 'Digest::MD5' => undef;
-recommends 'Crypt::DES'  => undef;
+recommends 'Net::SNMP'   => '0';
+recommends 'Net::NBName' => '0';
+recommends 'Digest::MD5' => '0';
+recommends 'Crypt::DES'  => '0';
 
 # Wake-On-LAN
-recommends 'Net::Write::Layer2' => undef;
+recommends 'Net::Write::Layer2' => '0';
 
 install_script 'bin/fusioninventory-agent';
 install_script 'bin/fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
