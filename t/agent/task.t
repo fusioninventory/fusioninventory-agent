@@ -5,22 +5,13 @@ use warnings;
 
 use File::Temp qw(tempdir);
 use Test::More;
-use Test::Exception;
 
 use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::Tools;
 
-plan tests => 4;
+plan tests => 2;
 
-my $task;
-throws_ok {
-    $task = FusionInventory::Agent::Task::Inventory->new();
-} qr/^no target parameter/,
-'instanciation: no target';
-
-lives_ok {
-    $task = FusionInventory::Agent::Task::Inventory->new();
-} 'instanciation: ok';
+my $task = FusionInventory::Agent::Task::Inventory->new();
 
 my @modules = $task->getModules();
 ok(@modules != 0, 'modules list is not empty');

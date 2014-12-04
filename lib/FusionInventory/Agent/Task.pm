@@ -12,8 +12,6 @@ use FusionInventory::Agent::Logger;
 sub new {
     my ($class, %params) = @_;
 
-    die 'no target parameter' unless $params{target};
-
     my $self = {
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->new(),
