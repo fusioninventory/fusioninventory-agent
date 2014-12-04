@@ -27,7 +27,7 @@ if ($OSNAME eq 'MSWin32') {
 
 recommends 'Compress::Zlib'       => '0';
 recommends 'HTTP::Daemon'         => '0';
-recommends 'IO::Socket::SSL'      => '0';
+recommends 'IO::Socket::SSL'      => '1.14';
 recommends 'LWP::Protocol::https' => '0';
 
 if ($OSNAME ne 'MSWin32') {
