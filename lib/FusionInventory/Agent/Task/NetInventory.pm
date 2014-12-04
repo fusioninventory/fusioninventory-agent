@@ -7,7 +7,7 @@ use base 'FusionInventory::Agent::Task';
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
-use Thread::Queue;
+use Thread::Queue v2.01;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query;

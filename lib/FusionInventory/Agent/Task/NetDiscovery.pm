@@ -10,7 +10,7 @@ use constant DEVICE_PER_MESSAGE => 4;
 use English qw(-no_match_vars);
 use Net::IP;
 use Time::localtime;
-use Thread::Queue;
+use Thread::Queue v2.01;
 use UNIVERSAL::require;
 use XML::TreePP;
 
