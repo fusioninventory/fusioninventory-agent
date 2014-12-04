@@ -31,7 +31,6 @@ GetOptions(
     'lazy',
     'list-tasks',
     'setup',
-    'local|l=s',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
@@ -57,6 +56,7 @@ GetOptions(
     # deprecated options
     'html',
     'force|f',
+    'local|l=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -128,11 +128,10 @@ fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
 
 =head1 SYNOPSIS
 
-B<fusioninventory-agent> [options] [--server server|--local path]
+B<fusioninventory-agent> [options] --server server
 
   Target definition options:
     -s --server=URI                send tasks result to a server
-    -l --local=PATH                write tasks results locally
 
   Target scheduling options:
     --delaytime=LIMIT              maximum delay before first target,
@@ -231,30 +230,6 @@ In general, OCS Inventory server URL have this format:
 and FusionInventory for GLPI this one:
 
     http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
-
-Multiple values can be specified, using comma as a separator.
-
-=item B<-l>, B<--local>=I<PATH>
-
-Write the results of tasks execution locally.
-
-Exact behaviour according to given path:
-
-=over
-
-=item *
-
-if I<PATH> is a directory, a file will be created therein
-
-=item *
-
-if I<PATH> is a file, it will be used directly
-
-=item *
-
-if I<PATH> is '-', STDOUT will be used
-
-=back
 
 Multiple values can be specified, using comma as a separator.
 

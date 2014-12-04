@@ -15,7 +15,6 @@ use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
-use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
@@ -87,20 +86,6 @@ sub init {
     $self->{deviceid} = _computeDeviceId() if !$self->{deviceid};
 
     $self->_saveState();
-
-    # create target list
-    if ($config->{local}) {
-        foreach my $path (@{$config->{local}}) {
-            push @{$self->{targets}},
-                FusionInventory::Agent::Target::Local->new(
-                    logger     => $logger,
-                    deviceid   => $self->{deviceid},
-                    delaytime  => $config->{delaytime},
-                    basevardir => $self->{vardir},
-                    path       => $path,
-                );
-        }
-    }
 
     if ($config->{server}) {
         foreach my $url (@{$config->{server}}) {

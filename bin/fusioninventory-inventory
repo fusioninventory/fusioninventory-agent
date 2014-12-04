@@ -10,7 +10,6 @@ use File::Temp;
 use Pod::Usage;
 
 use FusionInventory::Agent::Task::Inventory;
-use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Config;
 
@@ -57,10 +56,6 @@ my $verbosity =
                              LOG_DEBUG2 ;
 
 my $inventory = FusionInventory::Agent::Task::Inventory->new(
-    target => FusionInventory::Agent::Target::Local->new(
-        path       => '-',
-        basevardir => File::Temp->newdir(CLEANUP => 1),
-    ),
     logger  => FusionInventory::Agent::Logger->new(verbosity => $verbosity),
     datadir => $setup{datadir},
     confdir => $setup{confdir},

@@ -141,17 +141,11 @@ sub _handle_root {
         grep { $_->isa('FusionInventory::Agent::Target::Server') }
         $self->{agent}->getTargets();
 
-    my @local_targets =
-        map { { name => $_->getPath(), date => $_->getFormatedNextRunDate() } }
-        grep { $_->isa('FusionInventory::Agent::Target::Local') }
-        $self->{agent}->getTargets();
-
     my $hash = {
         version        => $FusionInventory::Agent::VERSION,
         trust          => $self->_isTrusted($clientIp),
         status         => $self->{agent}->getStatus(),
         server_targets => \@server_targets,
-        local_targets  => \@local_targets
     };
 
     my $response = HTTP::Response->new(

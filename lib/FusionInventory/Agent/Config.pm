@@ -17,7 +17,6 @@ my $default = {
     'debug'                   => undef,
     'delaytime'               => 3600,
     'lazy'                    => undef,
-    'local'                   => undef,
     'logger'                  => 'Stderr',
     'logfile'                 => undef,
     'logfacility'             => 'LOG_USER',
@@ -41,6 +40,7 @@ my $default = {
     # deprecated options
     'html'                    => undef,
     'force'                   => undef,
+    'local'                   => undef,
     # multi-values options that will be converted to array ref
     'httpd-trust'             => "",
     'no-task'                 => "",
@@ -52,6 +52,9 @@ my $deprecated = {
         message => 'process the result with provided XSLT stylesheet if needed'
     },
     'force' => {
+        message => 'use dedicated fusioninventory-inventory executable'
+    },
+    'local' => {
         message => 'use dedicated fusioninventory-inventory executable'
     },
 };
