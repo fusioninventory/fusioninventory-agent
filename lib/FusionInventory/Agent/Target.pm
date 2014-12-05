@@ -4,37 +4,37 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use URI;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 
+my $count = 0;
+
 sub new {
     my ($class, %params) = @_;
 
+    die 'no url parameter'        unless $params{url};
     die 'no basevardir parameter' unless $params{basevardir};
 
     my $self = {
+        id           => 'server' . $count++,
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->new(),
         maxDelay     => $params{maxDelay} || 3600,
         initialDelay => $params{delaytime},
+        url          => _getCanonicalURL($params{url}),
     };
     bless $self, $class;
 
-    return $self;
-}
-
-sub _init {
-    my ($self, %params) = @_;
-
-    my $logger = $self->{logger};
-
-    # target identity
-    $self->{id} = $params{id};
+    # compute storage subdirectory from url
+    my $subdir = $self->{url};
+    $subdir =~ s/\//_/g;
+    $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
 
     $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $self->{logger},
-        directory => $params{vardir}
+        directory => $params{basevardir} . '/' . $subdir
     );
 
     # handle persistent state
@@ -45,11 +45,18 @@ sub _init {
 
     $self->_saveState();
 
-    $logger->debug(
+    $self->{logger}->debug(
         "[target $self->{id}] Next server contact planned for " .
         localtime($self->{nextRunDate})
     );
 
+    return $self;
+}
+
+sub getUrl {
+    my ($self) = @_;
+
+    return $self->{url};
 }
 
 sub getStorage {
@@ -98,6 +105,28 @@ sub setMaxDelay {
 
     $self->{maxDelay} = $maxDelay;
     $self->_saveState();
+}
+
+sub _getCanonicalURL {
+    my ($string) = @_;
+
+    my $url = URI->new($string);
+
+    my $scheme = $url->scheme();
+    if (!$scheme) {
+        # this is likely a bare hostname
+        # as parsing relies on scheme, host and path have to be set explicitely
+        $url->scheme('http');
+        $url->host($string);
+        $url->path('ocsinventory');
+    } else {
+        die "invalid protocol for URL: $string"
+            if $scheme ne 'http' && $scheme ne 'https';
+        # complete path if needed
+        $url->path('ocsinventory') if !$url->path();
+    }
+
+    return $url;
 }
 
 # compute a run date, as current date and a random delay
@@ -173,7 +202,15 @@ the maximum delay before contacting the target, in seconds
 
 the base directory of the storage area (mandatory)
 
+=item I<url>
+
+the server URL (mandatory)
+
 =back
+
+=head2 getUrl()
+
+Get URL attribute.
 
 =head2 getNextRunDate()
 

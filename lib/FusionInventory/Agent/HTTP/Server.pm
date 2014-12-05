@@ -32,7 +32,6 @@ sub new {
 
     # compute addresses allowed for push requests
     foreach my $target ($self->{agent}->getTargets()) {
-        next unless $target->isa('FusionInventory::Agent::Target::Server');
         my $url  = $target->getUrl();
         my $host = URI->new($url)->host();
         my @addresses = compile($host, $self->{logger});
@@ -138,7 +137,6 @@ sub _handle_root {
 
     my @server_targets =
         map { { name => $_->getUrl(), date => $_->getFormatedNextRunDate() } }
-        grep { $_->isa('FusionInventory::Agent::Target::Server') }
         $self->{agent}->getTargets();
 
     my $hash = {
@@ -198,7 +196,6 @@ sub _handle_now {
 
     BLOCK: {
         foreach my $target ($self->{agent}->getTargets()) {
-            next unless $target->isa('FusionInventory::Agent::Target::Server');
             my $url       = $target->getUrl();
             my $addresses = $self->{trust}->{$url};
             next unless isPartOf($clientIp, $addresses, $logger);

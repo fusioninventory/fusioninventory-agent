@@ -16,11 +16,6 @@ our $VERSION = "2.2.1";
 sub isEnabled {
     my ($self) = @_;
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{logger}->debug("ESX task not compatible with local target");
-        return;
-    }
-
     return 1;
 }
 

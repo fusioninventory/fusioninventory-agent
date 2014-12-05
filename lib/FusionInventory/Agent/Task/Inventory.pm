@@ -17,10 +17,6 @@ our $VERSION = '1.0';
 sub isEnabled {
     my ($self, $response) = @_;
 
-    # always enabled for local target
-    return 1 unless
-        $self->{target}->isa('FusionInventory::Agent::Target::Server');
-
     my $content = $response->getContent();
     if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
         $self->{logger}->debug("Inventory task execution not requested");
@@ -61,71 +57,27 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
-        my $path   = $self->{target}->getPath();
-        my ($file, $handle);
+    my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    );
 
-        SWITCH: {
-            if ($path eq '-') {
-                $handle = \*STDOUT;
-                last SWITCH;
-            }
+    my $message = FusionInventory::Agent::XML::Query::Inventory->new(
+        deviceid => $self->{deviceid},
+        content  => $inventory->getContent()
+    );
 
-            if (-d $path) {
-                $file =
-                    $path . "/" . $self->{deviceid} . 'ocs';
-                last SWITCH;
-            }
+    my $response = $client->send(
+        url     => $self->{target}->getUrl(),
+        message => $message
+    );
 
-            $file = $path;
-        }
-
-        if ($file) {
-            if (Win32::Unicode::File->require()) {
-                $handle = Win32::Unicode::File->new('w', $file);
-            } else {
-                open($handle, '>', $file);
-            }
-            $self->{logger}->error("Can't write to $file: $ERRNO")
-                unless $handle;
-        }
-
-        binmode $handle, ':encoding(UTF-8)';
-
-        $self->_printInventory(
-            inventory => $inventory,
-            handle    => $handle,
-        );
-
-        if ($file) {
-            $self->{logger}->info("Inventory saved in $file");
-            close $handle;
-        }
-
-    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-        );
-
-        my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-            deviceid => $self->{deviceid},
-            content  => $inventory->getContent()
-        );
-
-        my $response = $client->send(
-            url     => $self->{target}->getUrl(),
-            message => $message
-        );
-
-        return unless $response;
-    }
-
+    return unless $response;
 }
 
 sub _initModulesList {

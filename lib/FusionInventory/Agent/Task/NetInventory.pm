@@ -24,11 +24,6 @@ our $VERSION = '2.2.0';
 sub isEnabled {
     my ($self, $response) = @_;
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{logger}->debug("NetInventory task not compatible with local target");
-        return;
-    }
-
     my $options = $response->getOptionsInfoByName('SNMPQUERY');
     if (!$options) {
         $self->{logger}->debug("NetInventory task execution not requested");

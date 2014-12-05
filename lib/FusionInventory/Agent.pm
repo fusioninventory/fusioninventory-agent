@@ -15,7 +15,7 @@ use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task;
-use FusionInventory::Agent::Target::Server;
+use FusionInventory::Agent::Target;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
@@ -90,7 +90,7 @@ sub init {
     if ($config->{server}) {
         foreach my $url (@{$config->{server}}) {
             push @{$self->{targets}},
-                FusionInventory::Agent::Target::Server->new(
+                FusionInventory::Agent::Target->new(
                     logger     => $logger,
                     deviceid   => $self->{deviceid},
                     delaytime  => $config->{delaytime},
@@ -232,36 +232,33 @@ sub _runTarget {
     my ($self, $target) = @_;
 
     # the prolog dialog must be done once for all tasks,
-    # but only for server targets
-    my $response;
-    if ($target->isa('FusionInventory::Agent::Target::Server')) {
-        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            timeout      => $self->{timeout},
-            user         => $self->{config}->{user},
-            password     => $self->{config}->{password},
-            proxy        => $self->{config}->{proxy},
-            ca_cert_file => $self->{config}->{'ca-cert-file'},
-            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-            no_ssl_check => $self->{config}->{'no-ssl-check'},
-        );
+    my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        timeout      => $self->{timeout},
+        user         => $self->{config}->{user},
+        password     => $self->{config}->{password},
+        proxy        => $self->{config}->{proxy},
+        ca_cert_file => $self->{config}->{'ca-cert-file'},
+        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+        no_ssl_check => $self->{config}->{'no-ssl-check'},
+    );
 
-        my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-            deviceid => $self->{deviceid},
-        );
+    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
+        deviceid => $self->{deviceid},
+    );
 
-        $self->{logger}->info("sending prolog request to server $target->{id}");
-        $response = $client->send(
-            url     => $target->getUrl(),
-            message => $prolog
-        );
-        die "No answer from the server" unless $response;
+    $self->{logger}->info("sending prolog request to server $target->{id}");
 
-        # update target
-        my $content = $response->getContent();
-        if (defined($content->{PROLOG_FREQ})) {
-            $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
-        }
+    my $response = $client->send(
+        url     => $target->getUrl(),
+        message => $prolog
+    );
+    die "No answer from the server" unless $response;
+
+    # update target
+    my $content = $response->getContent();
+    if (defined($content->{PROLOG_FREQ})) {
+        $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
     }
 
     foreach my $name (@{$self->{tasks}}) {
