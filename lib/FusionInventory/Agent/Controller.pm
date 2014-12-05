@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Target;
+package FusionInventory::Agent::Controller;
 
 use strict;
 use warnings;
@@ -174,7 +174,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Target - Abstract target
+FusionInventory::Agent::Controller - Controller
 
 =head1 DESCRIPTION
 

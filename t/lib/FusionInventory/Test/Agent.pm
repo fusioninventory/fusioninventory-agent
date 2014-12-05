@@ -9,7 +9,7 @@ sub new {
 
     my $self = {
         status  => 'ok',
-        targets => [],
+        controllers => [],
     };
     bless $self, $class;
 

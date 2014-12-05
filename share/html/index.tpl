@@ -22,11 +22,11 @@ The current status is {$status}<br />
 
 <br />
 {
-    if (@server_targets) {
-        $OUT .=  "Next server target execution planned for:\n";
+    if (@controllers) {
+        $OUT .=  "Next server contact planned for:\n";
         $OUT .=  "<ul>\n";
-        foreach my $target (@server_targets) {
-           $OUT .= "<li>$target->{name}: $target->{date}</li>\n";
+        foreach my $controller (@controllers) {
+           $OUT .= "<li>$controller->{name}: $controller->{date}</li>\n";
         }
         $OUT .=  "</ul>\n";
     } else {

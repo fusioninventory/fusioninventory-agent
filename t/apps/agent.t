@@ -32,13 +32,13 @@ like(
 );
 
 ($out, $err, $rc) = run_executable('fusioninventory-agent', );
-ok($rc == 1, 'no target exit status');
+ok($rc == 1, 'no server exit status');
 like(
     $err,
-    qr/No target defined/,
-    'no target stderr'
+    qr/No server defined/,
+    'no server stderr'
 );
-is($out, '', 'no target stdout');
+is($out, '', 'no server stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-agent',

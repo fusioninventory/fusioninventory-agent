@@ -31,8 +31,8 @@ sub new {
     bless $self, $class;
 
     # compute addresses allowed for push requests
-    foreach my $target ($self->{agent}->getTargets()) {
-        my $url  = $target->getUrl();
+    foreach my $controller ($self->{agent}->getControllers()) {
+        my $url  = $controller->getUrl();
         my $host = URI->new($url)->host();
         my @addresses = compile($host, $self->{logger});
         $self->{trust}->{$url} = \@addresses;
@@ -135,15 +135,15 @@ sub _handle_root {
         return 500;
     }
 
-    my @server_targets =
+    my @controllers =
         map { { name => $_->getUrl(), date => $_->getFormatedNextRunDate() } }
-        $self->{agent}->getTargets();
+        $self->{agent}->getControllers();
 
     my $hash = {
-        version        => $FusionInventory::Agent::VERSION,
-        trust          => $self->_isTrusted($clientIp),
-        status         => $self->{agent}->getStatus(),
-        server_targets => \@server_targets,
+        version     => $FusionInventory::Agent::VERSION,
+        trust       => $self->_isTrusted($clientIp),
+        status      => $self->{agent}->getStatus(),
+        controllers => \@controllers,
     };
 
     my $response = HTTP::Response->new(
@@ -166,8 +166,8 @@ sub _handle_deploy {
     Digest::SHA->require();
 
     my $path;
-    LOOP: foreach my $target ($self->{agent}->getTargets()) {
-        foreach (File::Glob::glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
+    LOOP: foreach my $controller ($self->{agent}->getControllers()) {
+        foreach (File::Glob::glob($controller->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');
@@ -195,11 +195,11 @@ sub _handle_now {
     my ($code, $message, $trace);
 
     BLOCK: {
-        foreach my $target ($self->{agent}->getTargets()) {
-            my $url       = $target->getUrl();
+        foreach my $controller ($self->{agent}->getControllers()) {
+            my $url       = $controller->getUrl();
             my $addresses = $self->{trust}->{$url};
             next unless isPartOf($clientIp, $addresses, $logger);
-            $target->setNextRunDate(1);
+            $controller->setNextRunDate(1);
             $code    = 200;
             $message = "OK";
             $trace   = "rescheduling next contact for target $url right now";
@@ -207,8 +207,8 @@ sub _handle_now {
         }
 
         if ($self->_isTrusted($clientIp)) {
-            foreach my $target ($self->{agent}->getTargets()) {
-                $target->setNextRunDate(1);
+            foreach my $controller ($self->{agent}->getControllers()) {
+                $controller->setNextRunDate(1);
             }
             $code    = 200;
             $message = "OK";
