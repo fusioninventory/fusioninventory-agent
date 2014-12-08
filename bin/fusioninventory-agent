@@ -27,7 +27,6 @@ GetOptions(
     'no-fork',
     'debug+',
     'delaytime=s',
-    'force|f',
     'help|h',
     'lazy',
     'list-tasks',
@@ -57,6 +56,7 @@ GetOptions(
     'wait|w=s',
     # deprecated options
     'html',
+    'force|f',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -148,7 +148,6 @@ B<fusioninventory-agent> [options] [--server server|--local path]
     --no-category=CATEGORY         do not list given category items
     --scan-homedirs                scan user home directories (false)
     --scan-profiles                scan user profiles (false)
-    -f --force                     always send data to server (false)
     --backend-collect-timeout=TIME timeout for inventory modules
                                      execution (30)
     --additional-content=FILE      additional inventory content file
@@ -367,10 +366,6 @@ Allow the agent to scan home directories for virtual machines.
 =item B<--scan-profiles>
 
 Allow the agent to scan user profiles for softwares.
-
-=item B<-f>, B<--force>
-
-Send an inventory to the server, even if this last one doesn't ask for it.
 
 =item B<--backend-collect-timeout>=I<TIME>
 
