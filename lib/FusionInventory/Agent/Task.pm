@@ -24,6 +24,14 @@ sub new {
     return $self;
 }
 
+sub configure {
+    my ($self, %params) = @_;
+
+    foreach my $key (keys %params) {
+        $self->{config}->{$key} = $params{$key};
+    }
+}
+
 sub abort {
     my ($self) = @_;
     $self->{logger}->info("aborting task");
