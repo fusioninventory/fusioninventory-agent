@@ -152,14 +152,13 @@ sub init {
             }
 
             # If we use relative path, we must stay in the current directory
-            my $workdir = substr($params{libdir}, 0, 1) eq '/' ? '/' : getcwd();
+            my $workdir = substr($self->{libdir}, 0, 1) eq '/' ? '/' : getcwd();
             my $pidfile = $self->{vardir} . '/fusioninventory.pid';
 
             Proc::Daemon::Init({
                 work_dir => $workdir,
                 pid_file => $pidfile
             });
-
 
             $self->{logger}->debug("Agent daemonized");
         }
