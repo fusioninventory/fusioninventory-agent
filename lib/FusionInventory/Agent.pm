@@ -139,7 +139,10 @@ sub init {
     $self->{tasks} = \@tasks;
 
     if ($config->{daemon}) {
-        if ($self->_isAlreadyRunning()) {
+        my $piddir  = $config->{'pid-dir'} || $self->{vardir};
+        my $pidfile = $piddir . '/fusioninventory.pid';
+
+        if ($self->_isAlreadyRunning($piddir)) {
             $logger->error("An agent is already running, exiting...");
             exit 1;
         }
@@ -153,7 +156,6 @@ sub init {
 
             # If we use relative path, we must stay in the current directory
             my $workdir = substr($self->{libdir}, 0, 1) eq '/' ? '/' : getcwd();
-            my $pidfile = $self->{vardir} . '/fusioninventory.pid';
 
             Proc::Daemon::Init({
                 work_dir => $workdir,
@@ -437,7 +439,7 @@ sub _getTaskVersion {
 }
 
 sub _isAlreadyRunning {
-    my ($self) = @_;
+    my ($self, $piddir) = @_;
 
     Proc::PID::File->require();
     if ($EVAL_ERROR) {
@@ -448,7 +450,7 @@ sub _isAlreadyRunning {
     }
 
     return Proc::PID::File->running(
-        dir  => $self->{vardir},
+        dir  => $piddir,
         name => 'fusioninventory'
     );
 }

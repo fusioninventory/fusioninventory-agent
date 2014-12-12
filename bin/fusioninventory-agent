@@ -43,6 +43,7 @@ GetOptions(
     'no-task=s',
     'no-p2p',
     'password|p=s',
+    'pid-dir=s',
     'proxy|P=s',
     'httpd-ip=s',
     'httpd-port=s',
@@ -567,6 +568,12 @@ Run the agent as a daemon.
 =item B<--no-fork>
 
 Don't fork in background.
+
+This is only useful when running as a daemon.
+
+=item B<--pid-dir>
+
+The directory for storing pid file.
 
 This is only useful when running as a daemon.
 
