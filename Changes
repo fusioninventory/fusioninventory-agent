@@ -1,5 +1,16 @@
 Revision history for FusionInventory agent
 
+2.3.14 Fri, 12 Dev 2014
+core:
+* fix ESX and Deploy task execution from server request (#2809, #2820, #2823)
+* manage PID file explicitely (#2796), and make its location configurable
+
+netdiscovery:
+* add a few H3C/HP models in sysobject.ids (#2812)
+
+install:
+* add versioned dependencies on IO::Socket::SSL and Thread::Queue
+
 2.3.13 Thu, 6 Nov 2014
 core:
 * log HTTP replies status
