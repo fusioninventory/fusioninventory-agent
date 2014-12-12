@@ -140,7 +140,7 @@ sub init {
 
     if ($config->{daemon}) {
         if ($self->_isAlreadyRunning()) {
-            $logger->debug("An agent is already running, exiting...");
+            $logger->error("An agent is already running, exiting...");
             exit 1;
         }
         if (!$config->{'no-fork'}) {
