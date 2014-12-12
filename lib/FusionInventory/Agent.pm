@@ -21,7 +21,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.3.13';
+our $VERSION = '2.3.14';
 our $VERSION_STRING = _versionString($VERSION);
 our $AGENT_STRING = "FusionInventory-Agent_v$VERSION";
 
@@ -153,7 +153,7 @@ sub init {
 
             # If we use relative path, we must stay in the current directory
             my $workdir = substr($params{libdir}, 0, 1) eq '/' ? '/' : getcwd();
-            my $pidfile = '/var/run/fusioninventory.pid';
+            my $pidfile = $self->{vardir} . '/fusioninventory.pid';
 
             Proc::Daemon::Init({
                 work_dir => $workdir,
@@ -449,7 +449,7 @@ sub _isAlreadyRunning {
     }
 
     return Proc::PID::File->running(
-        dir  => '/var/run',
+        dir  => $self->{vardir},
         name => 'fusioninventory'
     );
 }
