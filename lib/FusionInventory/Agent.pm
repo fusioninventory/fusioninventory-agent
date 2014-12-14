@@ -139,10 +139,10 @@ sub init {
     $self->{tasks} = \@tasks;
 
     if ($config->{daemon}) {
-        my $piddir  = $config->{'pid-dir'} || $self->{vardir};
-        my $pidfile = $piddir . '/fusioninventory.pid';
+        my $pidfile  = $config->{pidfile} ||
+                       $self->{vardir} . '/fusioninventory.pid';
 
-        if ($self->_isAlreadyRunning($piddir)) {
+        if ($self->_isAlreadyRunning($pidfile)) {
             $logger->error("An agent is already running, exiting...");
             exit 1;
         }
@@ -439,7 +439,7 @@ sub _getTaskVersion {
 }
 
 sub _isAlreadyRunning {
-    my ($self, $piddir) = @_;
+    my ($self, $pidfile) = @_;
 
     Proc::PID::File->require();
     if ($EVAL_ERROR) {
@@ -449,10 +449,9 @@ sub _isAlreadyRunning {
         return 0;
     }
 
-    return Proc::PID::File->running(
-        dir  => $piddir,
-        name => 'fusioninventory'
-    );
+    my $pid = Proc::PID::File->new();
+    $pid->{path} = $pidfile;
+    return $pid->alive();
 }
 
 sub _loadState {

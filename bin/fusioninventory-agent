@@ -43,7 +43,7 @@ GetOptions(
     'no-task=s',
     'no-p2p',
     'password|p=s',
-    'pid-dir=s',
+    'pidfile=s',
     'proxy|P=s',
     'httpd-ip=s',
     'httpd-port=s',
@@ -571,9 +571,9 @@ Don't fork in background.
 
 This is only useful when running as a daemon.
 
-=item B<--pid-dir>
+=item B<--pidfile>=I<FILE>
 
-The directory for storing pid file.
+Store pid in I<FILE>.
 
 This is only useful when running as a daemon.
 
