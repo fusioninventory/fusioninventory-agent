@@ -160,10 +160,6 @@ my %interface_variables = (
         oid  => '.1.3.6.1.2.1.2.2.1.4',
         type => 'count',
     },
-    IFSPEED          => {
-        oid  => '.1.3.6.1.2.1.2.2.1.5',
-        type => 'count',
-    },
     IFSTATUS         => {
         oid  => '.1.3.6.1.2.1.2.2.1.8',
         type => 'constant',
@@ -622,6 +618,16 @@ sub _setGenericProperties {
                                       $raw_value;
             $ports->{$suffix}->{$key} = $value if defined $value;
         }
+    }
+
+    my $highspeed_results = $snmp->walk('.1.3.6.1.2.1.31.1.1.1.15');
+    my $speed_results     = $snmp->walk('.1.3.6.1.2.1.2.2.1.5');
+    # ifSpeed is expressed in b/s, and available for all interfaces
+    # HighSpeed is expressed in Mb/s, available for fast interfaces only
+    while (my ($suffix, $speed_value) = each %{$speed_results}) {
+        my $highspeed_value = $highspeed_results->{$suffix};
+        $ports->{$suffix}->{IFSPEED} = $highspeed_value ? 
+            $highspeed_value * 1000 * 1000 : $speed_value;
     }
 
     my $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');
