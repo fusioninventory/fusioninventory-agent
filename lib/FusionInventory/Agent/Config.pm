@@ -17,7 +17,6 @@ my $default = {
     'debug'                   => undef,
     'delaytime'               => 3600,
     'force'                   => undef,
-    'html'                    => undef,
     'lazy'                    => undef,
     'local'                   => undef,
     'logger'                  => 'Stderr',
@@ -41,6 +40,7 @@ my $default = {
     'timeout'                 => 180,
     'user'                    => undef,
     # deprecated options
+    'html'                    => undef,
     # multi-values options that will be converted to array ref
     'httpd-trust'             => "",
     'no-task'                 => "",
@@ -48,6 +48,9 @@ my $default = {
 };
 
 my $deprecated = {
+    'html' => {
+        message => 'process the result with provided XSLT stylesheet if needed'
+    }
 };
 
 sub new {

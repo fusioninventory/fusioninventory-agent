@@ -98,7 +98,6 @@ sub init {
                     delaytime  => $config->{delaytime},
                     basevardir => $self->{vardir},
                     path       => $path,
-                    html       => $config->{html},
                 );
         }
     }

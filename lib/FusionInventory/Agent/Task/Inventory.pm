@@ -67,7 +67,6 @@ sub run {
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();
-        my $format = $self->{target}->{format};
         my ($file, $handle);
 
         SWITCH: {
@@ -78,8 +77,7 @@ sub run {
 
             if (-d $path) {
                 $file =
-                    $path . "/" . $self->{deviceid} .
-                    ($format eq 'xml' ? '.ocs' : '.html');
+                    $path . "/" . $self->{deviceid} . 'ocs';
                 last SWITCH;
             }
 
@@ -101,7 +99,6 @@ sub run {
         $self->_printInventory(
             inventory => $inventory,
             handle    => $handle,
-            format    => $format
         );
 
         if ($file) {
@@ -328,45 +325,25 @@ sub _injectContent {
 sub _printInventory {
     my ($self, %params) = @_;
 
-    SWITCH: {
-        if ($params{format} eq 'xml') {
+    my $declaration =<<'EOF';
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="share/inventory.xsl" ?>
+EOF
 
-            my $tpp = XML::TreePP->new(
-                indent          => 2,
-                utf8_flag       => 1,
-                output_encoding => 'UTF-8'
-            );
-            print {$params{handle}} $tpp->write({
-                REQUEST => {
-                    CONTENT => $params{inventory}->{content},
-                    DEVICEID => $self->{deviceid},
-                    QUERY => "INVENTORY",
-                }
-            });
+    my $tpp = XML::TreePP->new(
+        indent          => 2,
+        utf8_flag       => 1,
+        output_encoding => 'UTF-8',
+        xml_decl        => $declaration
+    );
 
-            last SWITCH;
+    print {$params{handle}} $tpp->write({
+        REQUEST => {
+            CONTENT => $params{inventory}->{content},
+            DEVICEID => $self->{deviceid},
+            QUERY => "INVENTORY",
         }
-
-        if ($params{format} eq 'html') {
-            Text::Template->require();
-            my $template = Text::Template->new(
-                TYPE => 'FILE', SOURCE => "$self->{datadir}/html/inventory.tpl"
-            );
-
-             my $hash = {
-                version  => $FusionInventory::Agent::VERSION,
-                deviceid => $params{inventory}->{deviceid},
-                data     => $params{inventory}->{content},
-                fields   => $params{inventory}->{fields},
-            };
-
-            print {$params{handle}} $template->fill_in(HASH => $hash);
-
-            last SWITCH;
-        }
-
-        die "unknown format $params{format}";
-    }
+    });
 }
 
 1;

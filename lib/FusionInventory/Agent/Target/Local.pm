@@ -15,8 +15,6 @@ sub new {
 
     $self->{path} = $params{path};
 
-    $self->{format} = $params{html} ? 'html' :'xml';
-
     $self->_init(
         id     => 'local' . $count++,
         vardir => $params{basevardir} . '/__LOCAL__',
