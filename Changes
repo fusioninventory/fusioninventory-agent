@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.3.14 Fri, 12 Dev 2014
+2.3.14 Mon, 15 Dec 2014
 core:
 * fix ESX and Deploy task execution from server request (#2809, #2820, #2823)
 * manage PID file explicitely (#2796)
