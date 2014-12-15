@@ -626,7 +626,7 @@ sub _setGenericProperties {
     # HighSpeed is expressed in Mb/s, available for fast interfaces only
     while (my ($suffix, $speed_value) = each %{$speed_results}) {
         my $highspeed_value = $highspeed_results->{$suffix};
-        $ports->{$suffix}->{IFSPEED} = $highspeed_value ? 
+        $ports->{$suffix}->{IFSPEED} = $highspeed_value ?
             $highspeed_value * 1000 * 1000 : $speed_value;
     }
 
