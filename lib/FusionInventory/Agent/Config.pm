@@ -41,7 +41,6 @@ my $default = {
     'timeout'                 => 180,
     'user'                    => undef,
     # deprecated options
-    'stdout'                  => undef,
     # multi-values options that will be converted to array ref
     'httpd-trust'             => "",
     'no-task'                 => "",
@@ -49,10 +48,6 @@ my $default = {
 };
 
 my $deprecated = {
-    'stdout' => {
-        message => 'use --local - option instead',
-        new     => { 'local' => '-' }
-    },
 };
 
 sub new {
