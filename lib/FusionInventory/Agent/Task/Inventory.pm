@@ -30,6 +30,8 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
+    my $target = $params{target} or die "no target provided, aborting";
+
     if ( $REAL_USER_ID != 0 ) {
         $self->{logger}->warning(
             "You should execute this task as super-user"
@@ -57,16 +59,6 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
-
     my $message = FusionInventory::Agent::Message::Outbound->new(
         query      => 'INVENTORY',
         deviceid   => $self->{deviceid},
@@ -74,12 +66,10 @@ sub run {
         content    => $inventory->getContent()
     );
 
-    my $response = $client->send(
-        url     => $self->{target}->getUrl(),
-        message => $message
+    $target->send(
+        message  => $message,
+        filename => sprintf('inventory_%s.xml', $self->{deviceid})
     );
-
-    return unless $response;
 }
 
 sub _initModulesList {
@@ -270,30 +260,6 @@ sub _injectContent {
     }
 
     $inventory->mergeContent($content);
-}
-
-sub _printInventory {
-    my ($self, %params) = @_;
-
-    my $declaration =<<'EOF';
-<?xml version="1.0" encoding="UTF-8" ?>
-<?xml-stylesheet type="text/xsl" href="share/inventory.xsl" ?>
-EOF
-
-    my $tpp = XML::TreePP->new(
-        indent          => 2,
-        utf8_flag       => 1,
-        output_encoding => 'UTF-8',
-        xml_decl        => $declaration
-    );
-
-    print {$params{handle}} $tpp->write({
-        REQUEST => {
-            CONTENT => $params{inventory}->{content},
-            DEVICEID => $self->{deviceid},
-            QUERY => "INVENTORY",
-        }
-    });
 }
 
 1;

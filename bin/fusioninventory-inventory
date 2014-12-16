@@ -12,6 +12,7 @@ use Pod::Usage;
 use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Target;
 
 my %setup = (
     confdir => './etc',
@@ -27,6 +28,8 @@ my $options = {
 
 GetOptions(
     $options,
+    'directory=s',
+    'server=s',
     'additional-content=s',
     'backend-collect-timeout=s',
     'no-category=s',
@@ -55,14 +58,22 @@ my $verbosity =
     $options->{debug} == 2 ? LOG_DEBUG2 :
                              LOG_DEBUG2 ;
 
+my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
+
 my $inventory = FusionInventory::Agent::Task::Inventory->new(
-    logger  => FusionInventory::Agent::Logger->new(verbosity => $verbosity),
+    logger  => $logger,
     datadir => $setup{datadir},
     confdir => $setup{confdir},
     config  => $config
 );
 
-$inventory->run();
+my $target = FusionInventory::Agent::Target->create(
+    url    => $options->{server},
+    path   => $options->{directory},
+    logger => $logger
+);
+
+$inventory->run(target => $target);
 
 __END__
 
@@ -75,6 +86,8 @@ fusioninventory-inventory - Standalone inventory
 fusioninventory-inventory [options]
 
   Options:
+    --directory                    directory target
+    --server                       server target
     --scan-homedirs                scan use home directories (false)
     --scan-profiles                scan user profiles (false)
     --no-category=CATEGORY         do not list given category items

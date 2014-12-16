@@ -164,6 +164,8 @@ sub getHostIds {
 sub run {
     my ( $self, %params ) = @_;
 
+    my $target = $params{target} or die "no target provided, aborting";
+
     $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
         user         => $params{user},
@@ -214,15 +216,6 @@ sub run {
     #            config => $config
     #            });
 
-    my $ocsClient = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
 
     foreach my $job ( @{ $jobs->{jobs} } ) {
 
@@ -231,10 +224,9 @@ sub run {
                 user     => $job->{user},
                 password => $job->{password}
         )) {
-            $self->{client}->send(
-                "url" => $self->{esxRemote},
-                args  => {
-                    action => 'setLog',
+            $target->send(
+                message  => {
+                    action    => 'setLog',
                     machineid => $self->{deviceid},
                     part      => 'login',
                     uuid      => $job->{uuid},
@@ -259,21 +251,16 @@ sub run {
                 content    => $inventory->getContent()
             );
 
-            $ocsClient->send(
-                url     => $self->{target}->getUrl(),
-                message => $message
-            );
+            $target->send(message => $message);
         }
-        $self->{client}->send(
-            "url" => $self->{esxRemote},
-            args  => {
+        $target->send(
+            message  => {
                 action => 'setLog',
                 machineid => $self->{deviceid},
                 uuid      => $job->{uuid},
                 code      => 'ok'
             }
         );
-
     }
 
     return $self;

@@ -42,16 +42,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    # task-specific client, if needed
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    ) if !$self->{client};
+    my $target = $params{target} or die "no target provided, aborting";
 
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
@@ -94,6 +85,7 @@ sub run {
 
     # set internal state
     $self->{pid} = $pid;
+    $self->{target} = $target;
 
     # send initial message to the server
     $self->_sendStartMessage();
@@ -184,6 +176,7 @@ sub run {
     $self->_sendStopMessage();
 
     delete $self->{pid};
+    delete $self->{target};
 }
 
 sub abort {
@@ -213,21 +206,6 @@ sub _getCredentials {
     return \@credentials;
 }
 
-sub _sendMessage {
-    my ($self, $content) = @_;
-
-    my $message = FusionInventory::Agent::Message::Outbound->new(
-        query    => 'NETDISCOVERY',
-        deviceid => $self->{deviceid},
-        content  => $content
-    );
-
-    $self->{client}->send(
-        url     => $self->{target}->getUrl(),
-        message => $message
-    );
-}
-
 sub _scanAddress {
     my ($self, %params) = @_;
 
@@ -253,6 +231,8 @@ sub _scanAddress {
     if ($device{MAC}) {
         $device{MAC} =~ tr/A-F/a-f/;
     }
+
+    $device{origin} = $params{IP};
 
     return \%device;
 }
@@ -404,47 +384,76 @@ sub _parseNmap {
 sub _sendStartMessage {
     my ($self) = @_;
 
-    $self->_sendMessage({
-        AGENT => {
-            START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid}
-    });
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        deviceid => $self->{deviceid},
+        query    => 'NETDISCOVERY',
+        content  => {
+            AGENT => {
+                START        => 1,
+                AGENTVERSION => $FusionInventory::Agent::VERSION,
+            },
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $self->{pid}
+        }
+    );
+
+    $self->{target}->send(message => $message);
 }
 
 sub _sendStopMessage {
     my ($self) = @_;
 
-    $self->_sendMessage({
-        AGENT => {
-            END => 1,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid}
-    });
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        deviceid => $self->{deviceid},
+        query    => 'NETDISCOVERY',
+        content  => {
+            AGENT => {
+                END => 1,
+            },
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $self->{pid}
+        }
+    );
+
+    $self->{target}->send(message => $message);
 }
 
 sub _sendBlockMessage {
     my ($self, $count) = @_;
 
-    $self->_sendMessage({
-        AGENT => {
-            NBIP => $count
-        },
-        PROCESSNUMBER => $self->{pid}
-    });
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        deviceid => $self->{deviceid},
+        query    => 'NETDISCOVERY',
+        content  => {
+            AGENT => {
+                NBIP => $count
+            },
+            PROCESSNUMBER => $self->{pid}
+        }
+    );
+
+    $self->{target}->send(message => $message);
 }
 
 sub _sendResultMessage {
     my ($self, $result) = @_;
 
-    $self->_sendMessage({
-        DEVICE        => [$result],
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid}
-    });
+    my $origin = delete $result->{origin};
+
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        deviceid => $self->{deviceid},
+        query    => 'NETDISCOVERY',
+        content  => {
+            DEVICE        => [$result],
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $self->{pid}
+        }
+    );
+
+    $self->{target}->send(
+        message  => $message,
+        filename => sprintf('netdiscovery_%s.xml', $origin),
+    );
 }
 
 1;

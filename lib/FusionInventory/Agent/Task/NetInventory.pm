@@ -42,16 +42,7 @@ sub isEnabled {
 sub run {
     my ($self, %params) = @_;
 
-    # task-specific client, if needed
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    ) if !$self->{client};
+    my $target = $params{target} or die "no target provided, aborting";
 
     my $options     = $self->{options};
     my $pid         = $options->{PARAM}->[0]->{PID};
@@ -63,6 +54,7 @@ sub run {
 
     # set internal state
     $self->{pid} = $pid;
+    $self->{target} = $target;
 
     # send initial message to the server
     $self->_sendStartMessage();
@@ -141,57 +133,65 @@ sub run {
     $self->_sendStopMessage();
 
     delete $self->{pid};
-}
-
-sub _sendMessage {
-    my ($self, $content) = @_;
-
-
-   my $message = FusionInventory::Agent::Message::Outbound->new(
-       query    => 'SNMPQUERY',
-       deviceid => $self->{deviceid},
-       content  => $content
-   );
-
-   $self->{client}->send(
-       url     => $self->{target}->getUrl(),
-       message => $message
-   );
+    delete $self->{target};
 }
 
 sub _sendStartMessage {
     my ($self) = @_;
 
-    $self->_sendMessage({
-        AGENT => {
-            START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid}
-    });
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+       deviceid => $self->{deviceid},
+       query    => 'SNMPQUERY',
+       content  => {
+           AGENT => {
+               START        => 1,
+               AGENTVERSION => $FusionInventory::Agent::VERSION,
+            },
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $self->{pid}
+        }
+    );
+
+    $self->{target}->send(message => $message);
 }
 
 sub _sendStopMessage {
     my ($self) = @_;
 
-    $self->_sendMessage({
-        AGENT => {
-            END => 1,
-        },
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid}
-    });
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+       deviceid => $self->{deviceid},
+       query    => 'SNMPQUERY',
+       content  => {
+           AGENT => {
+               END => 1,
+            },
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $self->{pid}
+       }
+    );
+
+    $self->{target}->send(message => $message);
 }
 
 sub _sendResultMessage {
     my ($self, $result) = @_;
 
-    $self->_sendMessage({
-        DEVICE        => $result,
-        MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid}
-    });
+    my $origin = delete $result->{origin};
+
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        deviceid => $self->{deviceid},
+        query    => 'SNMPQUERY',
+        content  => {
+            DEVICE        => $result,
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $self->{pid}
+        }
+    );
+
+    $self->{target}->send(
+        message  => $message,
+        filename => sprintf('netinventory_%s.xml', $origin),
+    );
 }
 
 sub _queryDevice {
@@ -236,7 +236,8 @@ sub _queryDevice {
          snmp    => $snmp,
          model   => $params{model},
          logger  => $self->{logger},
-         datadir => $self->{datadir}
+         datadir => $self->{datadir},
+         origin  => $device->{IP} || $device->{FILE}
     );
 
     return $result;

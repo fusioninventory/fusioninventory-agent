@@ -12,6 +12,7 @@ use XML::TreePP;
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Target;
 
 my %types = (
     1 => 'COMPUTER',
@@ -36,6 +37,8 @@ my %setup = (
 
 GetOptions(
     $options,
+    'server=s',
+    'directory=s',
     'model=s',
     'type=s',
     'host=s',
@@ -44,7 +47,6 @@ GetOptions(
     'credentials=s',
     'entity=s',
     'timeout=i',
-    'control',
     'debug+',
     'help',
     'version',
@@ -105,10 +107,13 @@ my $verbosity =
     $options->{debug} == 2 ? LOG_DEBUG2 :
                              LOG_DEBUG2 ;
 
+my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
+
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
-    %setup,
-    target => FusionInventory::Agent::Task::NetInventory::Target->new(),
-    logger => FusionInventory::Agent::Logger->new(verbosity => $verbosity)
+    logger   => $logger,
+    datadir  => $setup{datadir},
+    confdir  => $setup{confdir},
+    deviceid => 'foo',
 );
 
 $inventory->{options} = {
@@ -124,49 +129,13 @@ $inventory->{options} = {
     AUTHENTICATION => [ $credentials ]
 };
 
-$inventory->{client} =
-    FusionInventory::Agent::Task::NetInventory::Client->new(
-        control => $options->{control}
-    );
-# TODO: need to be dropped the day we will depend on agent >= 2.3.0
-$inventory->{deviceid} = 'foo';
+my $target = FusionInventory::Agent::Target->create(
+    url    => $options->{server},
+    path   => $options->{directory},
+    logger => $logger,
+);
 
-$inventory->run();
-
-package FusionInventory::Agent::Task::NetInventory::Client;
-
-sub new {
-    my ($class, %params) = @_;
-
-    return bless {
-        control => $params{control}
-    }, $class;
-}
-
-sub send {
-    my ($self, %params) = @_;
-
-    # don't display control message by default
-    return unless $self->{control}
-        or $params{message}->{h}->{CONTENT}->{DEVICE};
-
-    print $params{message}->getContent();
-}
-
-package FusionInventory::Agent::Task::NetInventory::Target;
-
-sub new {
-    my ($class) = @_;
-
-    return bless {}, $class;
-}
-
-sub getUrl {
-    my ($self, %params) = @_;
-
-    ## no critic (ExplicitReturnUndef)
-    return undef;
-}
+$inventory->run(target => $target);
 
 __END__
 
@@ -179,13 +148,14 @@ fusioninventory-netinventory - Standalone network inventory
 fusioninventory-netinventory [options] [--host <host>--file <file>]
 
   Options:
+    --directory    directory target
+    --server       server target
     --host host    host to inventorize
     --file         snmpwalk output file
     --community    community string (default: public)
     --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)
     --entity       GLPI entity
-    --control      output control messages
     --debug        debug output (execution traces)
     -h --help      print this message and exit
     --version      print the task version and exit

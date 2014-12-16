@@ -8,6 +8,7 @@ use English qw(-no_match_vars) ;
 use Getopt::Long;
 use Pod::Usage;
 
+use FusionInventory::Agent::Target;
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Agent::Logger;
 
@@ -20,6 +21,7 @@ GetOptions(
     'user=s',
     'password=s',
     'directory=s',
+    'server=s',
     'tag=s',
     'help',
     'version',
@@ -35,11 +37,18 @@ if ($options->{version}) {
 pod2usage(-verbose => 0) unless
     $options->{host}      and
     $options->{user}      and
-    $options->{password}  and
-    $options->{directory};
+    $options->{password};
+
+my $logger = FusionInventory::Agent::Logger->new();
 
 my $esx = FusionInventory::Agent::Task::ESX->new(
-    target => {},
+    logger => $logger,
+);
+
+my $target = FusionInventory::Agent::Target->create(
+    url    => $options->{server},
+    path   => $options->{directory},
+    logger => $logger,
 );
 
 if (!$esx->connect(
@@ -50,34 +59,25 @@ if (!$esx->connect(
     exit 1;
 }
 
-my $logger = FusionInventory::Agent::Logger->new();
-
 my $hasError = 0;
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId, $options->{tag});
 
-    my $file =  $options->{directory} . '/' . $inventory->{deviceid} . ".ocs";
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        query      => 'INVENTORY',
+        deviceid   => $inventory->{deviceid},
+        content    => $inventory->getContent()
+    );
 
-    if (open my $handle, '>', $file) {
-        my $tpp = XML::TreePP->new(indent => 2);
-        print $handle $tpp->write({
-            REQUEST  => {
-                CONTENT  => $inventory->{content},
-                DEVICEID => $inventory->{deviceid},
-                QUERY    => "INVENTORY",
-            }
-        });
-
-        close $handle;
-        print("Inventory saved in $file\n");
-    } else {
-        $hasError = 1;
-        print("Can't write to $file: $ERRNO\n");
-    }
-
+    $target->send(
+        message  => $message,
+        filename => sprintf('inventory_%s.xml', $inventory->{deviceid})
+    );
 }
+
 exit($hasError);
+
 __END__
 
 =head1 NAME
@@ -86,10 +86,11 @@ fusioninventory-esx - vCenter/ESX/ESXi remote inventory from command line
 
 =head1 SYNOPSIS
 
-fusioninventory-esx --host <host> --user <user> --password <password> --directory <directory>
+fusioninventory-esx --host <host> --user <user> --password <password>
 
   Options:
     --help                 this menu
+    --output               where to send result (default: stdout)
     --host hostname        ESX server hostname
     --user username        user name
     --password xxxx        user password
