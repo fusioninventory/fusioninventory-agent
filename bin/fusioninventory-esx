@@ -12,7 +12,15 @@ use FusionInventory::Agent::Target;
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Agent::Logger;
 
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
+
 my $options = {
+    debug => 0,
 };
 
 GetOptions(
@@ -23,26 +31,35 @@ GetOptions(
     'directory=s',
     'server=s',
     'tag=s',
+    'debug+',
     'help',
     'version',
 ) or pod2usage(-verbose => 0);
-
-pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
 if ($options->{version}) {
     print "fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION\n";
     exit 0;
 }
 
+pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
+
 pod2usage(-verbose => 0) unless
     $options->{host}      and
     $options->{user}      and
     $options->{password};
 
-my $logger = FusionInventory::Agent::Logger->new();
+my $verbosity =
+    $options->{debug} == 0 ? LOG_INFO   :
+    $options->{debug} == 1 ? LOG_DEBUG  :
+    $options->{debug} == 2 ? LOG_DEBUG2 :
+                             LOG_DEBUG2 ;
 
-my $esx = FusionInventory::Agent::Task::ESX->new(
+my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
+
+my $task = FusionInventory::Agent::Task::ESX->new(
     logger => $logger,
+    datadir => $setup{datadir},
+    confdir => $setup{confdir},
 );
 
 my $target = FusionInventory::Agent::Target->create(
@@ -51,7 +68,7 @@ my $target = FusionInventory::Agent::Target->create(
     logger => $logger,
 );
 
-if (!$esx->connect(
+if (!$task->connect(
     host     => $options->{host},
     user     => $options->{user},
     password => $options->{password},
@@ -60,9 +77,9 @@ if (!$esx->connect(
 }
 
 my $hasError = 0;
-my $hostIds = $esx->getHostIds();
+my $hostIds = $task->getHostIds();
 foreach my $hostId (@$hostIds) {
-    my $inventory = $esx->createInventory($hostId, $options->{tag});
+    my $inventory = $task->createInventory($hostId, $options->{tag});
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
         query      => 'INVENTORY',

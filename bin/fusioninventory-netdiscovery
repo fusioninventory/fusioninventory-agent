@@ -61,7 +61,7 @@ my $verbosity =
 
 my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
 
-my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
+my $task = FusionInventory::Agent::Task::NetDiscovery->new(
     logger   => $logger,
     datadir  => $setup{datadir},
     confdir  => $setup{confdir},
@@ -90,7 +90,7 @@ if ($options->{community}) {
     };
 }
 
-$discovery->{options} = {
+$task->{options} = {
     NAME => 'NETDISCOVERY',
     PARAM => [
         {
@@ -109,7 +109,7 @@ $discovery->{options} = {
     AUTHENTICATION => \@credentials
 };
 if (defined($options->{entity})) {
-    $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
+    $task->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
 }
 
 my $target = FusionInventory::Agent::Target->create(
@@ -118,7 +118,7 @@ my $target = FusionInventory::Agent::Target->create(
     logger => $logger,
 );
 
-$discovery->run(target => $target);
+$task->run(target => $target);
 
 __END__
 

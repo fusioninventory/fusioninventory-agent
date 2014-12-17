@@ -109,14 +109,14 @@ my $verbosity =
 
 my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
 
-my $inventory = FusionInventory::Agent::Task::NetInventory->new(
+my $task = FusionInventory::Agent::Task::NetInventory->new(
     logger   => $logger,
     datadir  => $setup{datadir},
     confdir  => $setup{confdir},
     deviceid => 'foo',
 );
 
-$inventory->{options} = {
+$task->{options} = {
     NAME => 'SNMPQUERY',
     PARAM => [
         {
@@ -135,7 +135,7 @@ my $target = FusionInventory::Agent::Target->create(
     logger => $logger,
 );
 
-$inventory->run(target => $target);
+$task->run(target => $target);
 
 __END__
 

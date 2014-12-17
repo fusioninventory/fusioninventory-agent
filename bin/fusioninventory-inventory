@@ -46,6 +46,7 @@ if ($options->{version}) {
   print "Inventory task $FusionInventory::Agent::Task::Inventory::VERSION\n";
   exit 0;
 }
+
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 my $config = FusionInventory::Agent::Config->new(
@@ -60,7 +61,7 @@ my $verbosity =
 
 my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
 
-my $inventory = FusionInventory::Agent::Task::Inventory->new(
+my $task = FusionInventory::Agent::Task::Inventory->new(
     logger  => $logger,
     datadir => $setup{datadir},
     confdir => $setup{confdir},
@@ -73,7 +74,7 @@ my $target = FusionInventory::Agent::Target->create(
     logger => $logger
 );
 
-$inventory->run(target => $target);
+$task->run(target => $target);
 
 __END__
 

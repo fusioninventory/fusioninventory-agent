@@ -12,6 +12,13 @@ use FusionInventory::Agent::Task::WakeOnLan;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools::Network;
 
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
+
 my $options = {
     debug => 0,
 };
@@ -43,9 +50,13 @@ my $verbosity =
     $options->{debug} == 2 ? LOG_DEBUG2 :
                              LOG_DEBUG2 ;
 
+my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
+
 my $task = FusionInventory::Agent::Task::WakeOnLan->new(
-    target => {},
-    logger => FusionInventory::Agent::Logger->new(verbosity => $verbosity)
+    logger   => $logger,
+    datadir  => $setup{datadir},
+    confdir  => $setup{confdir},
+    deviceid => 'foo',
 );
 
 $task->{options} = {
@@ -59,6 +70,7 @@ $task->{options} = {
 
 my %params = $options->{methods} ?
     (methods => [ split(/,/, $options->{methods}) ]) : ();
+
 $task->run(%params);
 
 __END__
