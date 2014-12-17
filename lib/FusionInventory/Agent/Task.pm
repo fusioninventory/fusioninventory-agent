@@ -15,10 +15,8 @@ sub new {
     my $self = {
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->new(),
-        config       => $params{config},
         confdir      => $params{confdir},
         datadir      => $params{datadir},
-        target       => $params{target},
         deviceid     => $params{deviceid},
     };
     bless $self, $class;
@@ -82,15 +80,9 @@ hash:
 
 the logger object to use (default: a new stderr logger)
 
-=item I<config>
+=item I<confdir>
 
-=item I<target>
-
-=item I<storage>
-
-=item I<prologresp>
-
-=item I<client>
+=item I<datadir>
 
 =item I<deviceid>
 

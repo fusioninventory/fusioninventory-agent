@@ -316,11 +316,9 @@ sub _runTaskReal {
     $class->require();
 
     my $task = $class->new(
-        config       => $self->{config},
         confdir      => $self->{confdir},
         datadir      => $self->{datadir},
         logger       => $self->{logger},
-        target       => $controller,
         deviceid     => $self->{deviceid},
     );
 
