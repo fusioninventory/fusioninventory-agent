@@ -11,7 +11,6 @@ use JSON;
 use LWP;
 use URI::Escape;
 
-use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
 use FusionInventory::Agent::Task::Deploy::CheckProcessor;
@@ -24,17 +23,7 @@ our $VERSION = '2.0.4';
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $response = $params{response};
-
-    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
+    my $client = $params{client};
 
     my $remoteConfig = $client->sendXML(
         url  => $params{url},
@@ -71,9 +60,10 @@ sub run {
 
     my @remotes = @{$self->{config}->{remotes}}
         or die "no remote provided, aborting";
+    my $client = $params{client};
 
     foreach my $remote (@remotes) {
-        $self->_processRemote($remote);
+        $self->_processRemote($remote, $client);
     }
 
     return 1;
@@ -129,7 +119,7 @@ sub _validateAnswer {
 }
 
 sub _processRemote {
-    my ($self, $remoteUrl) = @_;
+    my ($self, $remoteUrl, $client) = @_;
 
     if ( !$remoteUrl ) {
         return;
@@ -144,7 +134,7 @@ sub _processRemote {
     my $jobList = [];
     my $files;
 
-    my $answer = $self->{client}->sendXML(
+    my $answer = $client->sendXML(
         url  => $remoteUrl,
         args => {
             action    => "getJobs",
@@ -164,7 +154,7 @@ sub _processRemote {
 
     foreach my $sha512 ( keys %{ $answer->{associatedFiles} } ) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new(
-            client    => $self->{client},
+            client    => $client,
             sha512    => $sha512,
             data      => $answer->{associatedFiles}{$sha512},
             datastore => $datastore,
@@ -193,7 +183,7 @@ sub _processRemote {
   JOB: foreach my $job (@$jobList) {
 
         # RECEIVED
-        $self->{client}->sendXML(
+        $client->sendXML(
             url  => $remoteUrl,
             args => {
                 action      => "setStatus",
@@ -216,7 +206,7 @@ sub _processRemote {
                 next if $checkStatus eq "ok";
                 next if $checkStatus eq "ignore";
 
-                $self->{client}->sendXML(
+                $client->sendXML(
                     url  => $remoteUrl,
                     args => {
                         action      => "setStatus",
@@ -234,7 +224,7 @@ sub _processRemote {
             }
         }
 
-        $self->{client}->sendXML(
+        $client->sendXML(
             url  => $remoteUrl,
             args => {
                 action      => "setStatus",
@@ -250,7 +240,7 @@ sub _processRemote {
 
         # DOWNLOADING
 
-        $self->{client}->sendXML(
+        $client->sendXML(
             url  => $remoteUrl,
             args => {
                 action      => "setStatus",
@@ -268,7 +258,7 @@ sub _processRemote {
 
             # File exists, no need to download
             if ( $file->filePartsExists() ) {
-                $self->{client}->sendXML(
+                $client->sendXML(
                     url  => $remoteUrl,
                     args => {
                         action     => "setStatus",
@@ -287,7 +277,7 @@ sub _processRemote {
             }
 
             # File doesn't exist, lets try or retry a download
-            $self->{client}->sendXML(
+            $client->sendXML(
                 url  => $remoteUrl,
                 args => {
                     action      => "setStatus",
@@ -307,7 +297,7 @@ sub _processRemote {
 
             if ( $downloadIsOK ) {
 
-                $self->{client}->sendXML(
+                $client->sendXML(
                     url  => $remoteUrl,
                     args => {
                         action      => "setStatus",
@@ -330,7 +320,7 @@ sub _processRemote {
 
                 if ($retry--) { # Retry
 # OK, retry!
-                    $self->{client}->sendXML(
+                    $client->sendXML(
                         url  => $remoteUrl,
                         args => {
                             action      => "setStatus",
@@ -346,7 +336,7 @@ sub _processRemote {
                     redo FETCHFILE;
                 } else { # Give up...
 
-                    $self->{client}->sendXML(
+                    $client->sendXML(
                         url  => $remoteUrl,
                         args => {
                             action      => "setStatus",
@@ -367,7 +357,7 @@ sub _processRemote {
         }
 
 
-        $self->{client}->sendXML(
+        $client->sendXML(
             url  => $remoteUrl,
             args => {
                 action      => "setStatus",
@@ -390,7 +380,7 @@ sub _processRemote {
 #         }
 
         if (!$workdir->prepare()) {
-            $self->{client}->sendXML(
+            $client->sendXML(
                 url  => $remoteUrl,
                 args => {
                     action      => "setStatus",
@@ -404,7 +394,7 @@ sub _processRemote {
             );
             next JOB;
         } else {
-            $self->{client}->sendXML(
+            $client->sendXML(
                 url  => $remoteUrl,
                 args => {
                     action      => "setStatus",
@@ -419,7 +409,7 @@ sub _processRemote {
         }
 
         # PROCESSING
-#        $self->{client}->sendXML(
+#        $client->sendXML(
 #            url  => $remoteUrl,
 #            args => {
 #                action      => "setStatus",
@@ -446,7 +436,7 @@ sub _processRemote {
                     );
                     if ( $checkStatus ne 'ok') {
 
-                        $self->{client}->sendXML(
+                        $client->sendXML(
                             url  => $remoteUrl,
                             args => {
                                 action      => "setStatus",
@@ -472,7 +462,7 @@ sub _processRemote {
             $ret->{msg} = [] unless $ret->{msg};
             push @{$ret->{msg}}, $@ if $@;
             if ( !$ret->{status} ) {
-                $self->{client}->sendXML(
+                $client->sendXML(
                     url  => $remoteUrl,
                     args => {
                         action    => "setStatus",
@@ -483,7 +473,7 @@ sub _processRemote {
                     }
                 );
 
-                $self->{client}->sendXML(
+                $client->sendXML(
                     url  => $remoteUrl,
                     args => {
                         action      => "setStatus",
@@ -499,7 +489,7 @@ sub _processRemote {
 
                 next JOB;
             }
-            $self->{client}->sendXML(
+            $client->sendXML(
                 url  => $remoteUrl,
                 args => {
                     action      => "setStatus",
@@ -516,7 +506,7 @@ sub _processRemote {
             $actionnum++;
         }
 
-        $self->{client}->sendXML(
+        $client->sendXML(
             url  => $remoteUrl,
             args => {
                 action    => "setStatus",

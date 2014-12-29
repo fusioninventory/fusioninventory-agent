@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::SOAP::VMware;
@@ -14,17 +13,7 @@ our $VERSION = "2.2.1";
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $response = $params{response};
-
-    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
+    my $client = $params{client};
 
     my $remoteConfig = $client->sendXML(
         url  => $params{url},

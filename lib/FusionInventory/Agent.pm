@@ -274,7 +274,7 @@ sub _runTarget {
 
     foreach my $name (@{$self->{tasks}}) {
         eval {
-            $self->_runTask($controller, $name, $response, $target);
+            $self->_runTask($controller, $name, $response, $target, $client);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
@@ -282,7 +282,7 @@ sub _runTarget {
 }
 
 sub _runTask {
-    my ($self, $controller, $name, $response, $target) = @_;
+    my ($self, $controller, $name, $response, $target, $client) = @_;
 
     $self->{status} = "running task $name";
 
@@ -299,17 +299,17 @@ sub _runTask {
             die "fork failed: $ERRNO" unless defined $pid;
 
             $self->{logger}->debug("forking process $PID to handle task $name");
-            $self->_runTaskReal($controller, $name, $response, $target);
+            $self->_runTaskReal($controller, $name, $response, $target, $client);
             exit(0);
         }
     } else {
         # standalone mode: run each task directly
-        $self->_runTaskReal($controller, $name, $response, $target);
+        $self->_runTaskReal($controller, $name, $response, $target, $client);
     }
 }
 
 sub _runTaskReal {
-    my ($self, $controller, $name, $response, $target) = @_;
+    my ($self, $controller, $name, $response, $target, $client) = @_;
 
     my $class = "FusionInventory::Agent::Task::$name";
 
@@ -323,12 +323,9 @@ sub _runTaskReal {
     );
 
     my %configuration = $task->getConfiguration(
-        user         => $self->{config}->{user},
-        password     => $self->{config}->{password},
-        proxy        => $self->{config}->{proxy},
-        ca_cert_file => $self->{config}->{'ca-cert-file'},
-        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        response => $response,
+        client   => $client,
+        url      => $controller->getURL(),
     );
     if (!%configuration) {
         $self->{logger}->debug("no $name task execution requested");
@@ -348,13 +345,8 @@ sub _runTaskReal {
     $self->{current_task} = $task;
 
     $task->run(
-        target       => $target,
-        user         => $self->{config}->{user},
-        password     => $self->{config}->{password},
-        proxy        => $self->{config}->{proxy},
-        ca_cert_file => $self->{config}->{'ca-cert-file'},
-        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        target => $target,
+        client => $client
     );
     delete $self->{current_task};
 }
