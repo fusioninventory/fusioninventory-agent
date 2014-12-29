@@ -25,7 +25,7 @@ sub getConfiguration {
 
     my $client = $params{client};
 
-    my $remoteConfig = $client->sendXML(
+    my $remoteConfig = $client->sendJSON(
         url  => $params{url},
         args => {
             action    => "getConfig",
@@ -134,7 +134,7 @@ sub _processRemote {
     my $jobList = [];
     my $files;
 
-    my $answer = $client->sendXML(
+    my $answer = $client->sendJSON(
         url  => $remoteUrl,
         args => {
             action    => "getJobs",
@@ -183,7 +183,7 @@ sub _processRemote {
   JOB: foreach my $job (@$jobList) {
 
         # RECEIVED
-        $client->sendXML(
+        $client->sendJSON(
             url  => $remoteUrl,
             args => {
                 action      => "setStatus",
@@ -206,7 +206,7 @@ sub _processRemote {
                 next if $checkStatus eq "ok";
                 next if $checkStatus eq "ignore";
 
-                $client->sendXML(
+                $client->sendJSON(
                     url  => $remoteUrl,
                     args => {
                         action      => "setStatus",
@@ -224,7 +224,7 @@ sub _processRemote {
             }
         }
 
-        $client->sendXML(
+        $client->sendJSON(
             url  => $remoteUrl,
             args => {
                 action      => "setStatus",
@@ -240,7 +240,7 @@ sub _processRemote {
 
         # DOWNLOADING
 
-        $client->sendXML(
+        $client->sendJSON(
             url  => $remoteUrl,
             args => {
                 action      => "setStatus",
@@ -258,7 +258,7 @@ sub _processRemote {
 
             # File exists, no need to download
             if ( $file->filePartsExists() ) {
-                $client->sendXML(
+                $client->sendJSON(
                     url  => $remoteUrl,
                     args => {
                         action     => "setStatus",
@@ -277,7 +277,7 @@ sub _processRemote {
             }
 
             # File doesn't exist, lets try or retry a download
-            $client->sendXML(
+            $client->sendJSON(
                 url  => $remoteUrl,
                 args => {
                     action      => "setStatus",
@@ -297,7 +297,7 @@ sub _processRemote {
 
             if ( $downloadIsOK ) {
 
-                $client->sendXML(
+                $client->sendJSON(
                     url  => $remoteUrl,
                     args => {
                         action      => "setStatus",
@@ -320,7 +320,7 @@ sub _processRemote {
 
                 if ($retry--) { # Retry
 # OK, retry!
-                    $client->sendXML(
+                    $client->sendJSON(
                         url  => $remoteUrl,
                         args => {
                             action      => "setStatus",
@@ -336,7 +336,7 @@ sub _processRemote {
                     redo FETCHFILE;
                 } else { # Give up...
 
-                    $client->sendXML(
+                    $client->sendJSON(
                         url  => $remoteUrl,
                         args => {
                             action      => "setStatus",
@@ -357,7 +357,7 @@ sub _processRemote {
         }
 
 
-        $client->sendXML(
+        $client->sendJSON(
             url  => $remoteUrl,
             args => {
                 action      => "setStatus",
@@ -380,7 +380,7 @@ sub _processRemote {
 #         }
 
         if (!$workdir->prepare()) {
-            $client->sendXML(
+            $client->sendJSON(
                 url  => $remoteUrl,
                 args => {
                     action      => "setStatus",
@@ -394,7 +394,7 @@ sub _processRemote {
             );
             next JOB;
         } else {
-            $client->sendXML(
+            $client->sendJSON(
                 url  => $remoteUrl,
                 args => {
                     action      => "setStatus",
@@ -409,7 +409,7 @@ sub _processRemote {
         }
 
         # PROCESSING
-#        $client->sendXML(
+#        $client->sendJSON(
 #            url  => $remoteUrl,
 #            args => {
 #                action      => "setStatus",
@@ -436,7 +436,7 @@ sub _processRemote {
                     );
                     if ( $checkStatus ne 'ok') {
 
-                        $client->sendXML(
+                        $client->sendJSON(
                             url  => $remoteUrl,
                             args => {
                                 action      => "setStatus",
@@ -462,7 +462,7 @@ sub _processRemote {
             $ret->{msg} = [] unless $ret->{msg};
             push @{$ret->{msg}}, $@ if $@;
             if ( !$ret->{status} ) {
-                $client->sendXML(
+                $client->sendJSON(
                     url  => $remoteUrl,
                     args => {
                         action    => "setStatus",
@@ -473,7 +473,7 @@ sub _processRemote {
                     }
                 );
 
-                $client->sendXML(
+                $client->sendJSON(
                     url  => $remoteUrl,
                     args => {
                         action      => "setStatus",
@@ -489,7 +489,7 @@ sub _processRemote {
 
                 next JOB;
             }
-            $client->sendXML(
+            $client->sendJSON(
                 url  => $remoteUrl,
                 args => {
                     action      => "setStatus",
@@ -506,7 +506,7 @@ sub _processRemote {
             $actionnum++;
         }
 
-        $client->sendXML(
+        $client->sendJSON(
             url  => $remoteUrl,
             args => {
                 action    => "setStatus",

@@ -15,7 +15,7 @@ sub getConfiguration {
 
     my $client = $params{client};
 
-    my $remoteConfig = $client->sendXML(
+    my $remoteConfig = $client->sendJSON(
         url  => $params{url},
         args => {
             action    => "getConfig",
@@ -36,7 +36,7 @@ sub getConfiguration {
 
     return unless @remotes;
 
-    my $jobs = $client->sendXML(
+    my $jobs = $client->sendJSON(
         url  => $remotes[-1],
         args => {
             action    => "getJobs",
@@ -71,7 +71,7 @@ sub run {
                 user     => $job->{user},
                 password => $job->{password}
         )) {
-            $target->sendXML(
+            $target->send(
                 message  => {
                     action    => 'setLog',
                     machineid => $self->{deviceid},
@@ -98,9 +98,9 @@ sub run {
                 content    => $inventory->getContent()
             );
 
-            $target->sendXML(message => $message);
+            $target->send(message => $message);
         }
-        $target->sendXML(
+        $target->send(
             message  => {
                 action => 'setLog',
                 machineid => $self->{deviceid},
