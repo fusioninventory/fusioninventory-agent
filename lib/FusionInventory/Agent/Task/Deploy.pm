@@ -18,7 +18,7 @@ use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
 
-our $VERSION = '2.0.4';
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub getConfiguration {
     my ($self, %params) = @_;

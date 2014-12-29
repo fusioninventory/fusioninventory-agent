@@ -11,12 +11,13 @@ use List::Util qw(first);
 use Thread::Queue v2.01;
 use UNIVERSAL::require;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Network;
 
-our $VERSION = '2.2.0';
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub getConfiguration {
     my ($self, %params) = @_;

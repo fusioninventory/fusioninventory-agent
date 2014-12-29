@@ -8,7 +8,7 @@ use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::SOAP::VMware;
 
-our $VERSION = "2.2.1";
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub getConfiguration {
     my ($self, %params) = @_;

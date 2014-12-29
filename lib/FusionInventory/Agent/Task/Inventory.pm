@@ -9,11 +9,12 @@ use English qw(-no_match_vars);
 use List::Util qw(first);
 use UNIVERSAL::require;
 
+use FusionInventory::Agent;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Message::Outbound;
 
-our $VERSION = '1.0';
+our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub getConfiguration {
     my ($self, %params) = @_;
