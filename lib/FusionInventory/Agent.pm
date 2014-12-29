@@ -104,20 +104,19 @@ sub init {
     }
 
     # compute list of allowed tasks
-    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
-    my @tasks = keys %available;
+    my %tasks = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
 
-    if (!@tasks) {
+    if (!%tasks) {
         $logger->error("No tasks available, aborting");
         exit 1;
     }
 
     $logger->debug("Available tasks:");
-    foreach my $task (keys %available) {
-        $logger->debug("- $task: $available{$task}");
+    foreach my $task (keys %tasks) {
+        $logger->debug("- $task: $tasks{$task}");
     }
 
-    $self->{tasks} = \@tasks;
+    $self->{tasks} = \%tasks;
 
     if ($config->{daemon}) {
         my $pidfile  = $config->{pidfile} ||
@@ -262,7 +261,7 @@ sub _runTarget {
         args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
-            task      => { map { $_ => $VERSION } @{$self->{tasks}} },
+            task      => $self->{tasks},
         }
     );
     die "No answer to getConfig request from the server" unless $config;
@@ -278,7 +277,7 @@ sub _runTarget {
         client => $client
     );
 
-    foreach my $name (@{$self->{tasks}}) {
+    foreach my $name (keys %{$self->{tasks}}) {
         eval {
             $self->_runTask($controller, $name, $prolog, $target, $client, $schedule);
         };
