@@ -14,17 +14,22 @@ use FusionInventory::Agent::Message::Outbound;
 
 our $VERSION = '1.0';
 
-sub isEnabled {
-    my ($self, $response) = @_;
+sub getConfiguration {
+    my ($self, %params) = @_;
+
+    my $response = $params{response};
 
     my $content = $response->getContent();
-    if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
-        $self->{logger}->debug("Inventory task execution not requested");
-        return;
-    }
+    return unless
+        $content             &&
+        $content->{RESPONSE} &&
+        $content->{RESPONSE} eq 'SEND';
 
-    $self->{registry} = $response->getOptionsInfoByName('REGISTRY');
-    return 1;
+    my $registry = $response->getOptionsInfoByName('REGISTRY');
+
+    return (
+        registry => $registry
+    );
 }
 
 sub run {
@@ -42,7 +47,7 @@ sub run {
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         logger   => $self->{logger},
-        tag      => $self->{config}->{'tag'}
+        tag      => $self->{config}->{tag}
     );
 
     if (not $ENV{PATH}) {
@@ -54,7 +59,7 @@ sub run {
         );
     }
 
-    my %disabled = map { $_ => 1 } @{$self->{config}->{'no-category'}};
+    my %disabled = map { $_ => 1 } @{$self->{config}->{no_category}};
 
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
@@ -112,8 +117,8 @@ sub _initModulesList {
                 datadir       => $self->{datadir},
                 logger        => $self->{logger},
                 registry      => $self->{registry},
-                scan_homedirs => $self->{config}->{'scan-homedirs'},
-                scan_profiles => $self->{config}->{'scan-profiles'},
+                scan_homedirs => $self->{config}->{scan_homedirs},
+                scan_profiles => $self->{config}->{scan_profiles},
             }
         );
         if (!$enabled) {
@@ -188,15 +193,15 @@ sub _runModule {
         module   => $module,
         function => "doInventory",
         logger => $logger,
-        timeout  => $self->{config}->{'backend-collect-timeout'},
+        timeout  => $self->{config}->{timeout},
         params => {
             datadir       => $self->{datadir},
             inventory     => $inventory,
             no_category   => $disabled,
             logger        => $self->{logger},
             registry      => $self->{registry},
-            scan_homedirs => $self->{config}->{'scan-homedirs'},
-            scan_profiles => $self->{config}->{'scan-profiles'},
+            scan_homedirs => $self->{config}->{scan_homedirs},
+            scan_profiles => $self->{config}->{scan_profiles},
         }
     );
     $self->{modules}->{$module}->{done} = 1;
@@ -222,8 +227,8 @@ sub _feedInventory {
         );
     }
 
-    if ($self->{config}->{'additional-content'} && -f $self->{config}->{'additional-content'}) {
-        $self->_injectContent($self->{config}->{'additional-content'}, $inventory)
+    if ($self->{config}->{additional_content} && -f $self->{config}->{additional_content}) {
+        $self->_injectContent($self->{config}->{additional_content}, $inventory)
     }
 
     # Execution time

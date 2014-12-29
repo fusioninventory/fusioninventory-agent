@@ -65,40 +65,36 @@ pod2usage(
 warn "deprecated option model, ignoring\n" if $options->{model};
 
 my $device = {
-    ID           => 0,
-    IP           => $options->{host},
-    FILE         => $options->{file},
-    AUTHSNMP_ID  => 1,
-    MODELSNMP_ID => 1
+    id           => 0,
+    ip           => $options->{host},
+    file         => $options->{file},
+    authsnmp_id  => 1,
+    modelsnmp_id => 1
 };
 
-my $credentials = { ID => 1 };
+if ($options->{entity}) {
+    $device->{entity} = $options->{entity};
+}
+
+my $credentials = { id => 1 };
 
 if ($options->{type}) {
     pod2usage(
         -message => "invalid type '$options->{type}', aborting\n",
         -verbose => 0
     ) unless any { $options->{type} eq $_ } values %types;
-    $device->{TYPE} = $options->{type};
+    $device->{type} = $options->{type};
 }
 
 if ($options->{community}) {
-    $credentials->{COMMUNITY} = $options->{community};
+    $credentials->{community} = $options->{community};
 } elsif (defined $options->{credentials}) {
     foreach my $parameter (split(',', $options->{credentials})) {
         my ($key, $value) = split(':', $parameter);
-        my $newkey =
-            $key eq 'authpassword' ? 'AUTHPASSPHRASE' :
-            $key eq 'privpassword' ? 'PRIVPASSPHRASE' :
-                                     uc($key);
-        $credentials->{$newkey} = $value;
+        $credentials->{$key} = $value;
     }
 } else {
-    $credentials->{COMMUNITY} = 'public';
-}
-
-if ($options->{entity}) {
-    $device = $options->{entity};
+    $credentials->{community} = 'public';
 }
 
 my $verbosity =
@@ -116,18 +112,12 @@ my $task = FusionInventory::Agent::Task::NetInventory->new(
     deviceid => 'foo',
 );
 
-$task->{options} = {
-    NAME => 'SNMPQUERY',
-    PARAM => [
-        {
-            PID           => 1,
-            THREADS_QUERY => 1,
-            TIMEOUT       => $options->{timeout},
-        }
-    ],
-    DEVICE         => [ $device ],
-    AUTHENTICATION => [ $credentials ]
-};
+$task->configure(
+    pid         => 1,
+    timeout     => $options->{timeout},
+    devices     => [ $device ],
+    credentials => [ $credentials ]
+);
 
 my $target = FusionInventory::Agent::Target->create(
     url    => $options->{server},

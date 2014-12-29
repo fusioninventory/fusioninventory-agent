@@ -21,36 +21,61 @@ use FusionInventory::Agent::Tools::Hardware;
 
 our $VERSION = '2.2.0';
 
-sub isEnabled {
-    my ($self, $response) = @_;
+sub getConfiguration {
+    my ($self, %params) = @_;
+
+    my $response = $params{response};
 
     my $options = $response->getOptionsInfoByName('NETDISCOVERY');
-    if (!$options) {
-        $self->{logger}->debug("NetDiscovery task execution not requested");
-        return;
+    return unless $options;
+
+    my @credentials;
+    foreach my $item (@{$options->{AUTHENTICATION}}) {
+        my $credentials;
+        foreach my $key (keys %$item) {
+            my $newkey =
+                $key eq 'AUTHPASSPHRASE' ? 'authpassword' :
+                $key eq 'PRIVPASSPHRASE' ? 'privpassword' :
+                                            lc($key)      ;
+            $credentials->{$newkey} = $item->{$key};
+        }
+        push @credentials, $credentials;
     }
 
-    if (!$options->{RANGEIP}) {
-        $self->{logger}->error("no IP range defined");
-        return;
+    my @blocks;
+    foreach my $item (@{$options->{RANGEIP}}) {
+        push @blocks, {
+            id      => $item->{ID},
+            ipstart => $item->{IPSTART},
+            ipend   => $item->{IPEND},
+            entity  => $item->{ENTITY}
+        };
     }
 
-    $self->{options} = $options;
-    return 1;
+    return (
+        pid         => $options->{PARAM}->[0]->{PID},
+        threads     => $options->{PARAM}->[0]->{THREADS_DISCOVERY},
+        timeout     => $options->{PARAM}->[0]->{TIMEOUT},
+        credentials => \@credentials,
+        blocks      => \@blocks
+    );
 }
 
 sub run {
     my ($self, %params) = @_;
 
-    my $target = $params{target} or die "no target provided, aborting";
-
-    my $options     = $self->{options};
-    my $pid         = $options->{PARAM}->[0]->{PID};
-    my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
-    my $timeout     = $options->{PARAM}->[0]->{TIMEOUT};
+    my $target = $params{target}
+        or die "no target provided, aborting";
+    my @blocks = @{$self->{config}->{blocks}}
+        or die "no blocks provided, aborting";
+    my $snmp_credentials =
+        _filterCredentials($self->{config}->{snmp_credentials});
+    my $max_threads = $self->{config}->{threads} || 1;
+    my $pid         = $self->{config}->{pid}     || 1;
+    my $timeout     = $self->{config}->{timeout} || 1;
 
     # check discovery methods available
-    my ($nmap_parameters, $snmp_credentials);
+    my $nmap_parameters;
 
     if (canRun('nmap')) {
        my ($major, $minor) = getFirstMatch(
@@ -79,8 +104,6 @@ sub run {
             "Can't load FusionInventory::Agent::SNMP::Live, snmp detection " .
             "can't be used"
         );
-    } else {
-        $snmp_credentials = $self->_getCredentials($options);
     }
 
     # set internal state
@@ -91,43 +114,37 @@ sub run {
     $self->_sendStartMessage();
 
     # process each address block
-    foreach my $range (@{$options->{RANGEIP}}) {
-        my $block = Net::IP->new(
-            $range->{IPSTART} . '-' . $range->{IPEND}
-        );
-        if (!$block || $block->{binip} !~ /1/) {
-            $self->{logger}->error(
-                "IPv4 range not supported by Net::IP: ".
-                $range->{IPSTART} . '-' . $range->{IPEND}
-            );
+    foreach my $block (@blocks) {
+        my $spec = $block->{ipstart} . '-' . $block->{ipend};
+        my $object = Net::IP->new($spec);
+        if (!$object || $object->{binip} !~ /1/) {
+            $self->{logger}->error("invalid IP block specification: $spec");
             next;
         }
 
-        $self->{logger}->debug(
-            "scanning block $range->{IPSTART}-$range->{IPEND}"
-        );
+        $self->{logger}->debug("scanning block $spec");
 
         # initialize FIFOs
-        my $addresses = Thread::Queue->new();
-        my $results   = Thread::Queue->new();
+        my $addresses_queue = Thread::Queue->new();
+        my $results_queue   = Thread::Queue->new();
 
         do {
-            $addresses->enqueue($block->ip()),
-        } while (++$block);
-        my $size = $addresses->pending();
-
-        # send block size to the server
-        $self->_sendBlockMessage($size);
+            $addresses_queue->enqueue($object->ip()),
+        } while (++$object);
+        my $size = $addresses_queue->pending();
 
         # no need for more threads than addresses to scan in this range
         my $threads_count = $max_threads > $size ? $size : $max_threads;
+
+        # send block size to the server
+        $self->_sendBlockMessage($size);
 
         my $sub = sub {
             my $id = threads->tid();
             $self->{logger}->debug("[thread $id] creation");
 
             # run as long as they are addresses to process
-            while (my $address = $addresses->dequeue_nb()) {
+            while (my $address = $addresses_queue->dequeue_nb()) {
 
                 my $result = $self->_scanAddress(
                     ip               => $address,
@@ -136,7 +153,7 @@ sub run {
                     snmp_credentials => $snmp_credentials,
                 );
 
-                $results->enqueue($result) if $result;
+                $results_queue->enqueue($result) if $result;
             }
 
             $self->{logger}->debug("[thread $id] termination");
@@ -151,9 +168,8 @@ sub run {
         while (threads->list(threads::running)) {
 
             # send available results on the fly
-            while (my $result = $results->dequeue_nb()) {
-                $result->{ENTITY} = $range->{ENTITY}
-                    if defined($range->{ENTITY});
+            while (my $result = $results_queue->dequeue_nb()) {
+                $result->{entity} = $block->{entity} if $block->{ENTITY};
                 $self->_sendResultMessage($result);
             }
 
@@ -162,9 +178,8 @@ sub run {
         }
 
         # purge remaning results
-        while (my $result = $results->dequeue_nb()) {
-            $result->{ENTITY} = $range->{ENTITY}
-                if defined($range->{ENTITY});
+        while (my $result = $results_queue->dequeue_nb()) {
+            $result->{entity} = $block->{entity} if $block->{entity};
             $self->_sendResultMessage($result);
         }
 
@@ -186,24 +201,25 @@ sub abort {
     $self->SUPER::abort();
 }
 
-sub _getCredentials {
-    my ($self, $options) = @_;
+sub _filterCredentials {
+    my ($credentials) = @_;
 
-    my @credentials;
+    return [ grep { _validCredentials($_) } @$credentials ];
+}
 
-    foreach my $credential (@{$options->{AUTHENTICATION}}) {
-        if ($credential->{VERSION} eq '3') {
-            # a user name is required
-            next unless $credential->{USERNAME};
-            # DES support is required
-            next unless Crypt::DES->require();
-        } else {
-            next unless $credential->{COMMUNITY};
-        }
-        push @credentials, $credential;
+sub _validCredentials {
+    my ($credentials) = @_;
+
+    if ($credentials->{version} eq '3') {
+        # a user name is required
+        return 0 unless $credentials->{username};
+        # DES support is required
+        return 0 unless Crypt::DES->require();
+    } else {
+        return 0 unless $credentials->{community};
     }
 
-    return \@credentials;
+    return 1;
 }
 
 sub _scanAddress {
@@ -307,12 +323,12 @@ sub _scanAddressBySNMP {
             sprintf "[thread %d] - scanning %s with SNMP, credentials %d: %s",
             threads->tid(),
             $params{ip},
-            $credential->{ID},
+            $credential->{id},
             %device ? 'success' : 'no result'
         );
 
         if (%device) {
-            $device{AUTHSNMP} = $credential->{ID};
+            $device{AUTHSNMP} = $credential->{id};
             return %device;
         }
     }
@@ -326,15 +342,15 @@ sub _scanAddressBySNMPReal {
     my $snmp;
     eval {
         $snmp = FusionInventory::Agent::SNMP::Live->new(
-            version      => $params{credential}->{VERSION},
+            version      => $params{credential}->{version},
             hostname     => $params{ip},
-            timeout      => $params{timeout} || 1,
-            community    => $params{credential}->{COMMUNITY},
-            username     => $params{credential}->{USERNAME},
-            authpassword => $params{credential}->{AUTHPASSPHRASE},
-            authprotocol => $params{credential}->{AUTHPROTOCOL},
-            privpassword => $params{credential}->{PRIVPASSPHRASE},
-            privprotocol => $params{credential}->{PRIVPROTOCOL},
+            timeout      => $params{timeout},
+            community    => $params{credential}->{community},
+            username     => $params{credential}->{username},
+            authpassword => $params{credential}->{authpassphrase},
+            authprotocol => $params{credential}->{authprotocol},
+            privpassword => $params{credential}->{privpassphrase},
+            privprotocol => $params{credential}->{privprotocol},
         );
     };
     # an exception here just means no device,  or wrong credentials

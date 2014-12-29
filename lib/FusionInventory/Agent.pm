@@ -322,7 +322,27 @@ sub _runTaskReal {
         deviceid     => $self->{deviceid},
     );
 
-    return if !$task->isEnabled($response);
+    my %configuration = $task->getConfiguration(
+        user         => $self->{config}->{user},
+        password     => $self->{config}->{password},
+        proxy        => $self->{config}->{proxy},
+        ca_cert_file => $self->{config}->{'ca-cert-file'},
+        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+        no_ssl_check => $self->{config}->{'no-ssl-check'},
+    );
+    if (!%configuration) {
+        $self->{logger}->debug("no $name task execution requested");
+        return;
+    }
+
+    $task->configure(
+        tag                => $self->{config}->{tag},
+        timeout            => $self->{config}->{'collect-timeout'},
+        additional_content => $self->{config}->{'additional-content'},
+        scan_homedirs      => $self->{config}->{'scan-homedirs'},
+        no_category        => $self->{config}->{'no-category'},
+        %configuration
+    );
 
     $self->{logger}->info("running task $name");
     $self->{current_task} = $task;

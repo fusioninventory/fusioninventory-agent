@@ -14,43 +14,36 @@ use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = '2.0';
 
-sub isEnabled {
-    my ($self, $response) = @_;
+sub getConfiguration {
+    my ($self, %params) = @_;
+
+    my $response = $params{response};
 
     my $options = $response->getOptionsInfoByName('WAKEONLAN');
-    if (!$options) {
-        $self->{logger}->debug("WakeOnLan task execution not requested");
-        return;
-    }
+    return unless $options;
 
-    my @addresses;
-    foreach my $param (@{$options->{PARAM}}) {
-        my $address = $param->{MAC};
-        if ($address !~ /^$mac_address_pattern$/) {
-            $self->{logger}->error("invalid MAC address $address, skipping");
-            next;
-        }
-        $address =~ s/://g;
-        push @addresses, $address;
-    }
+    my @addresses = map {
+        $_->{MAC}
+    } @{$options->{PARAM}};
 
-    if (!@addresses) {
-        $self->{logger}->error("no mac address defined");
-        return;
-    }
-
-    $self->{addresses} = \@addresses;
-    return 1;
+    return (
+        addresse => \@addresses
+    );
 }
 
 sub run {
     my ($self, %params) = @_;
 
-    my @methods = $params{methods} ? @{$params{methods}} : qw/ethernet udp/;
+    my @addresses = @{$self->{config}->{addresses}}
+        or die "no addresses provided, aborting";
+    my @methods   = @{$self->{config}->{methods}} || qw/ethernet udp/;
+    $self->{logger}->debug(
+        "got " . scalar @addresses . " mac address as magic packets recipients"
+    );
 
     METHODS: foreach my $method (@methods) {
         my $function = '_send_magic_packet_' . $method;
-        ADDRESSES: foreach my $address (@{$self->{addresses}}) {
+        ADDRESSES: foreach my $address (@addresses) {
             eval {
                 $self->$function($address);
             };

@@ -68,49 +68,45 @@ my $task = FusionInventory::Agent::Task::NetDiscovery->new(
     deviceid => 'foo',
 );
 
+my $block = {
+    id      => 1,
+    ipstart => $options->{first},
+    ipend   => $options->{last},
+};
+
+if ($options->{entity}) {
+    $block->{entity} = $options->{entity};
+}
+
 my $credentials_id = 1;
 my @credentials;
 if ($options->{community}) {
     foreach my $community (@{$options->{community}}) {
         push @credentials,
-            { ID => $credentials_id++, VERSION => 1, COMMUNITY => $community };
+            { id => $credentials_id++, version => 1, community => $community };
     }
 } elsif ($options->{credential}) {
     foreach my $specification (@{$options->{credential}}) {
-        my $credential = { ID => $credentials_id++ };
+        my $credential = { id => $credentials_id++ };
         foreach my $parameter (split(',', $specification)) {
             my ($key, $value) = split(':', $parameter);
-            $credential->{uc($key)} = $value;
+            $credential->{$key} = $value;
         }
         push @credentials, $credential;
     }
 } else {
     push @credentials, {
-        ID => $credentials_id++, VERSION => 1, COMMUNITY => 'public'
+        id => $credentials_id++, version => 1, community => 'public'
     };
 }
 
-$task->{options} = {
-    NAME => 'NETDISCOVERY',
-    PARAM => [
-        {
-            PID               => 1,
-            THREADS_DISCOVERY => $options->{threads},
-            TIMEOUT           => $options->{timeout},
-        }
-    ],
-    RANGEIP => [
-        {
-            ID      => 1,
-            IPSTART => $options->{first},
-            IPEND   => $options->{last},
-        }
-    ],
-    AUTHENTICATION => \@credentials
-};
-if (defined($options->{entity})) {
-    $task->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
-}
+$task->configure(
+    pid         => 1,
+    threads     => $options->{threads},
+    timeout     => $options->{timeout},
+    blocks      => [ $block ],
+    snmp_credentials => \@credentials,
+);
 
 my $target = FusionInventory::Agent::Target->create(
     url    => $options->{server},

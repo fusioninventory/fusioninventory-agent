@@ -17,40 +17,57 @@ use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = '2.2.0';
 
-# list of devices properties, indexed by XML element name
-# the link to a specific OID is made by the model
+sub getConfiguration {
+    my ($self, %params) = @_;
 
-
-sub isEnabled {
-    my ($self, $response) = @_;
+    my $response = $params{response};
 
     my $options = $response->getOptionsInfoByName('SNMPQUERY');
-    if (!$options) {
-        $self->{logger}->debug("NetInventory task execution not requested");
-        return;
+    return unless $options;
+
+    my @credentials;
+    foreach my $item (@{$options->{AUTHENTICATION}}) {
+        my $credentials;
+        foreach my $key (keys %$item) {
+            my $newkey =
+                $key eq 'AUTHPASSPHRASE' ? 'authpassword' :
+                $key eq 'PRIVPASSPHRASE' ? 'privpassword' :
+                                            lc($key)      ;
+            $credentials->{$newkey} = $item->{$key};
+        }
+        push @credentials, $credentials;
     }
 
-    if (!$options->{DEVICE}) {
-        $self->{logger}->error("no device defined");
-        return;
+    my @devices;
+    foreach my $item (@{$options->{DEVICE}}) {
+        my $device;
+        foreach my $key (keys %$item) {
+            my $newkey = $key eq 'IP' ? 'host' : lc($key);
+            $device->{$newkey} = $item->{$key};
+        }
+        push @devices, $device;
     }
 
-    $self->{options} = $options;
-    return 1;
+    return (
+        pid         => $options->{PARAM}->[0]->{PID},
+        threads     => $options->{PARAM}->[0]->{THREADS_QUERY},
+        timeout     => $options->{PARAM}->[0]->{TIMEOUT},
+        credentials => \@credentials,
+        devices     => \@devices
+    );
 }
 
 sub run {
     my ($self, %params) = @_;
 
-    my $target = $params{target} or die "no target provided, aborting";
-
-    my $options     = $self->{options};
-    my $pid         = $options->{PARAM}->[0]->{PID};
-    my $max_threads = $options->{PARAM}->[0]->{THREADS_QUERY};
-    my $timeout     = $options->{PARAM}->[0]->{TIMEOUT};
-
-    # SNMP credentials
-    my $credentials = _getIndexedCredentials($options->{AUTHENTICATION});
+    my $target  = $params{target}
+        or die "no target provided, aborting";
+    my @devices = @{$self->{config}->{devices}}
+        or die "no devices provided, aborting";
+    my $credentials = _indexCredentials($self->{config}->{credentials});
+    my $max_threads = $self->{config}->{threads} || 1;
+    my $pid         = $self->{config}->{pid}     || 1;
+    my $timeout     = $self->{config}->{timeout} || 15;
 
     # set internal state
     $self->{pid} = $pid;
@@ -60,13 +77,13 @@ sub run {
     $self->_sendStartMessage();
 
     # initialize FIFOs
-    my $devices = Thread::Queue->new();
-    my $results = Thread::Queue->new();
+    my $devices_queue = Thread::Queue->new();
+    my $results_queue = Thread::Queue->new();
 
-    foreach my $device (@{$options->{DEVICE}}) {
-        $devices->enqueue($device);
+    foreach my $device (@devices) {
+        $devices_queue->enqueue($device);
     }
-    my $size = $devices->pending();
+    my $size = $devices_queue->pending();
 
     # no need for more threads than devices to scan
     my $threads_count = $max_threads > $size ? $size : $max_threads;
@@ -76,29 +93,29 @@ sub run {
         $self->{logger}->debug("[thread $id] creation");
 
         # run as long as they are devices to process
-        while (my $device = $devices->dequeue_nb()) {
+        while (my $device = $devices_queue->dequeue_nb()) {
 
             my $result;
             eval {
                 $result = $self->_queryDevice(
                     device      => $device,
                     timeout     => $timeout,
-                    credentials => $credentials->{$device->{AUTHSNMP_ID}}
+                    credentials => $credentials->{$device->{authsnmp_id}}
                 );
             };
             if ($EVAL_ERROR) {
                 chomp $EVAL_ERROR;
                 $result = {
                     ERROR => {
-                        ID      => $device->{ID},
-                        TYPE    => $device->{TYPE},
+                        ID      => $device->{id},
+                        TYPE    => $device->{type},
                         MESSAGE => $EVAL_ERROR
                     }
                 };
                 $self->{logger}->error($EVAL_ERROR);
             }
 
-            $results->enqueue($result) if $result;
+            $results_queue->enqueue($result) if $result;
         }
 
         $self->{logger}->debug("[thread $id] termination");
@@ -113,7 +130,7 @@ sub run {
     while (threads->list(threads::running)) {
 
         # send available results on the fly
-        while (my $result = $results->dequeue_nb()) {
+        while (my $result = $results_queue->dequeue_nb()) {
             $self->_sendResultMessage($result);
         }
 
@@ -122,7 +139,7 @@ sub run {
     }
 
     # purge remaining results
-    while (my $result = $results->dequeue_nb()) {
+    while (my $result = $results_queue->dequeue_nb()) {
         $self->_sendResultMessage($result);
     }
 
@@ -201,14 +218,14 @@ sub _queryDevice {
     my $device      = $params{device};
     my $logger      = $self->{logger};
     my $id          = threads->tid();
-    $logger->debug("[thread $id] scanning $device->{ID}");
+    $logger->debug("[thread $id] scanning $device->{id}");
 
     my $snmp;
-    if ($device->{FILE}) {
+    if ($device->{file}) {
         FusionInventory::Agent::SNMP::Mock->require();
         eval {
             $snmp = FusionInventory::Agent::SNMP::Mock->new(
-                file => $device->{FILE}
+                file => $device->{file}
             );
         };
         die "SNMP emulation error: $EVAL_ERROR" if $EVAL_ERROR;
@@ -216,38 +233,37 @@ sub _queryDevice {
         eval {
             FusionInventory::Agent::SNMP::Live->require();
             $snmp = FusionInventory::Agent::SNMP::Live->new(
-                version      => $credentials->{VERSION},
-                hostname     => $device->{IP},
-                timeout      => $params{timeout} || 15,
-                community    => $credentials->{COMMUNITY},
-                username     => $credentials->{USERNAME},
-                authpassword => $credentials->{AUTHPASSPHRASE},
-                authprotocol => $credentials->{AUTHPROTOCOL},
-                privpassword => $credentials->{PRIVPASSPHRASE},
-                privprotocol => $credentials->{PRIVPROTOCOL},
+                version      => $credentials->{version},
+                hostname     => $device->{ip},
+                timeout      => $params{timeout},
+                community    => $credentials->{community},
+                username     => $credentials->{username},
+                authpassword => $credentials->{authpassphrase},
+                authprotocol => $credentials->{authprotocol},
+                privpassword => $credentials->{privpassphrase},
+                privprotocol => $credentials->{privprotocol},
             );
         };
         die "SNMP communication error: $EVAL_ERROR" if $EVAL_ERROR;
     }
 
     my $result = getDeviceFullInfo(
-         id      => $device->{ID},
-         type    => $device->{TYPE},
+         id      => $device->{id},
+         type    => $device->{type},
          snmp    => $snmp,
          model   => $params{model},
          logger  => $self->{logger},
          datadir => $self->{datadir},
-         origin  => $device->{IP} || $device->{FILE}
+         origin  => $device->{ip} || $device->{file}
     );
 
     return $result;
 }
 
-sub _getIndexedCredentials {
+sub _indexCredentials {
     my ($credentials) = @_;
 
-    # index credentials by their ID
-    return { map { $_->{ID} => $_ } @{$credentials} };
+    return { map { $_->{id} => $_ } @$credentials };
 }
 
 1;

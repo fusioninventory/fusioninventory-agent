@@ -21,10 +21,45 @@ use FusionInventory::Agent::Task::Deploy::Job;
 
 our $VERSION = '2.0.4';
 
-sub isEnabled {
-    my ($self) = @_;
+sub getConfiguration {
+    my ($self, %params) = @_;
 
-    return 1;
+    my $response = $params{response};
+
+    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    );
+
+    my $remoteConfig = $client->send(
+        url  => $params{url},
+        args => {
+            action    => "getConfig",
+            machineid => $self->{deviceid},
+            task      => { Deploy => $VERSION },
+        }
+    );
+
+    my $schedule = $remoteConfig->{schedule};
+    return unless $schedule;
+    return unless ref $schedule eq 'ARRAY';
+
+    my @remotes =
+        grep { $_ }
+        map  { $_->{remote} }
+        grep { $_->{task} eq "ESX" }
+        @{$schedule};
+
+    return unless @remotes;
+
+    return (
+        remotes => \@remotes
+    );
 }
 
 sub _validateAnswer {
@@ -489,32 +524,11 @@ sub run {
     $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
     $ENV{LANG} = 'C'; # Turn off localised output for commands
 
-    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-        debug        => $self->{debug}
-    );
+    my @remotes = @{$self->{config}->{remotes}}
+        or die "no remote provided, aborting";
 
-    my $globalRemoteConfig = $self->{client}->send(
-        url  => $self->{target}->{url},
-        args => {
-            action    => "getConfig",
-            machineid => $self->{deviceid},
-            task      => { Deploy => $VERSION },
-        }
-    );
-
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
-
-    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
-        next unless $job->{task} eq "Deploy";
-        $self->processRemote($job->{remote});
+    foreach my $remote (@remotes) {
+        $self->processRemote($remote);
     }
 
     return 1;

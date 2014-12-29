@@ -67,6 +67,14 @@ my $task = FusionInventory::Agent::Task::Inventory->new(
     confdir => $setup{confdir},
 );
 
+$task->configure(
+    tag                => $options->{tag},
+    timeout            => $options->{'collect-timeout'},
+    additional_content => $options->{'additional-content'},
+    scan_homedirs      => $options->{'scan-homedirs'},
+    no_category        => $options->{'no-category'},
+);
+
 my $target = FusionInventory::Agent::Target->create(
     url    => $options->{server},
     path   => $options->{directory},

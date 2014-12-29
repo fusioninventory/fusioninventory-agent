@@ -62,38 +62,23 @@ my $task = FusionInventory::Agent::Task::ESX->new(
     confdir => $setup{confdir},
 );
 
+$task->configure(
+    jobs => [
+        {
+            host     => $options->{host},
+            user     => $options->{user},
+            password => $options->{password},
+        }
+    ]
+);
+
 my $target = FusionInventory::Agent::Target->create(
     url    => $options->{server},
     path   => $options->{directory},
     logger => $logger,
 );
 
-if (!$task->connect(
-    host     => $options->{host},
-    user     => $options->{user},
-    password => $options->{password},
-)) {
-    exit 1;
-}
-
-my $hasError = 0;
-my $hostIds = $task->getHostIds();
-foreach my $hostId (@$hostIds) {
-    my $inventory = $task->createInventory($hostId, $options->{tag});
-
-    my $message = FusionInventory::Agent::Message::Outbound->new(
-        query      => 'INVENTORY',
-        deviceid   => $inventory->{deviceid},
-        content    => $inventory->getContent()
-    );
-
-    $target->send(
-        message  => $message,
-        filename => sprintf('inventory_%s.xml', $inventory->{deviceid})
-    );
-}
-
-exit($hasError);
+$task->run(target => $target);
 
 __END__
 

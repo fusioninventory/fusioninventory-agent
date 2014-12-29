@@ -13,14 +13,64 @@ use FusionInventory::Agent::SOAP::VMware;
 
 our $VERSION = "2.2.1";
 
-sub isEnabled {
-    my ($self) = @_;
+sub getConfiguration {
+    my ($self, %params) = @_;
 
-    return 1;
+    my $response = $params{response};
+
+    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+    );
+
+    my $remoteConfig = $client->send(
+        url  => $params{url},
+        args => {
+            action    => "getConfig",
+            machineid => $self->{deviceid},
+            task      => { ESX => $VERSION },
+        }
+    );
+
+    my $schedule = $remoteConfig->{schedule};
+    return unless $schedule;
+    return unless ref $schedule eq 'ARRAY';
+
+    my @remotes =
+        grep { $_ }
+        map  { $_->{remote} }
+        grep { $_->{task} eq "ESX" }
+        @{$schedule};
+
+    return unless @remotes;
+
+    my $jobs = $client->send(
+        url  => $remotes[-1],
+        args => {
+            action    => "getJobs",
+            machineid => $params{deviceid}
+        }
+    );
+
+    die "No host in the server request"
+        if !$jobs;
+
+    die "Invalid server request format"
+        if ref $jobs->{jobs} ne 'ARRAY';
+
+    return (
+        url  => $remotes[-1],
+        jobs => $jobs->{jobs}
+    );
 }
 
 sub connect {
-    my ( $self, %params ) = @_;
+    my ($self, %params) = @_;
 
     my $url = 'https://' . $params{host} . '/sdk/vimService';
 
@@ -162,62 +212,14 @@ sub getHostIds {
 }
 
 sub run {
-    my ( $self, %params ) = @_;
+    my ($self, %params) = @_;
 
-    my $target = $params{target} or die "no target provided, aborting";
+    my $target = $params{target}
+        or die "no target provided, aborting";
+    my @jobs = @{$self->{config}->{jobs}}
+        or die "no jobs provided, aborting";
 
-    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
-        logger       => $self->{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-        debug        => $self->{debug}
-    );
-    die unless $self->{client};
-
-    my $globalRemoteConfig = $self->{client}->send(
-        "url" => $self->{target}->{url},
-        args  => {
-            action    => "getConfig",
-            machineid => $self->{deviceid},
-            task      => { ESX => $VERSION },
-        }
-    );
-
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
-
-    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
-        next unless $job->{task} eq "ESX";
-        $self->{esxRemote} = $job->{remote};
-    }
-    if ( !$self->{esxRemote} ) {
-        $self->{logger}->info("ESX support disabled server side.");
-        return;
-    }
-
-    my $jobs = $self->{client}->send(
-        "url" => $self->{esxRemote},
-        args  => {
-            action    => "getJobs",
-            machineid => $self->{deviceid}
-        }
-    );
-
-    return unless $jobs;
-    return unless ref( $jobs->{jobs} ) eq 'ARRAY';
-    $self->{logger}->info(
-        "Got " . int( @{ $jobs->{jobs} } ) . " VMware host(s) to inventory." );
-
-    #    my $esx = FusionInventory::Agent::Task::ESX->new({
-    #            config => $config
-    #            });
-
-
-    foreach my $job ( @{ $jobs->{jobs} } ) {
+    foreach my $job (@jobs) {
 
         if ( !$self->connect(
                 host     => $job->{host},

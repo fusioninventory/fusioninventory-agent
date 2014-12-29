@@ -59,19 +59,12 @@ my $task = FusionInventory::Agent::Task::WakeOnLan->new(
     deviceid => 'foo',
 );
 
-$task->{options} = {
-    NAME => 'WAKEONLAN',
-    PARAM => [
-        {
-            MAC           => $options->{mac},
-        }
-    ],
-};
+$task->configure(
+    addresses => [ $options->{mac} ],
+    methods   => [ $options->{methods} ? split(/,/, $options->{methods}) : () ]
+);
 
-my %params = $options->{methods} ?
-    (methods => [ split(/,/, $options->{methods}) ]) : ();
-
-$task->run(%params);
+$task->run();
 
 __END__
 
