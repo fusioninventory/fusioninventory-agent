@@ -272,14 +272,9 @@ sub _executeScheduledTasks {
         $controller->setMaxDelay($prolog->{PROLOG_FREQ} * 3600);
     }
 
-    my $target = FusionInventory::Agent::Target::Server->new(
-        url    => $controller->getURL(),
-        client => $client
-    );
-
     foreach my $name (keys %{$self->{tasks}}) {
         eval {
-            $self->_executeTask($controller, $name, $prolog, $target, $client, $schedule);
+            $self->_executeTask($controller, $name, $prolog, $client, $schedule);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
@@ -287,7 +282,7 @@ sub _executeScheduledTasks {
 }
 
 sub _executeTask {
-    my ($self, $controller, $name, $prolog, $target, $client, $schedule) = @_;
+    my ($self, $controller, $name, $prolog, $client, $schedule) = @_;
 
     $self->{status} = "running task $name";
 
@@ -304,17 +299,17 @@ sub _executeTask {
             die "fork failed: $ERRNO" unless defined $pid;
 
             $self->{logger}->debug("forking process $PID to handle task $name");
-            $self->_executeTaskReal($controller, $name, $prolog, $target, $client, $schedule);
+            $self->_executeTaskReal($controller, $name, $prolog, $client, $schedule);
             exit(0);
         }
     } else {
         # standalone mode: run each task directly
-        $self->_executeTaskReal($controller, $name, $prolog, $target, $client, $schedule);
+        $self->_executeTaskReal($controller, $name, $prolog, $client, $schedule);
     }
 }
 
 sub _executeTaskReal {
-    my ($self, $controller, $name, $prolog, $target, $client, $schedule) = @_;
+    my ($self, $controller, $name, $prolog, $client, $schedule) = @_;
 
     my $class = "FusionInventory::Agent::Task::$name";
 
@@ -349,6 +344,11 @@ sub _executeTaskReal {
 
     $self->{logger}->info("running task $name");
     $self->{current_task} = $task;
+
+    my $target = FusionInventory::Agent::Target::Server->new(
+        url    => $controller->getURL(),
+        client => $client
+    );
 
     $task->run(
         target => $target,
