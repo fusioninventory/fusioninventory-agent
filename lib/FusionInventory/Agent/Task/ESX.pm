@@ -69,7 +69,64 @@ sub getConfiguration {
     );
 }
 
-sub connect {
+sub run {
+    my ($self, %params) = @_;
+
+    my $target = $params{target}
+        or die "no target provided, aborting";
+    my @jobs = @{$self->{config}->{jobs}}
+        or die "no jobs provided, aborting";
+
+    foreach my $job (@jobs) {
+
+        if ( !$self->_connect(
+                host     => $job->{host},
+                user     => $job->{user},
+                password => $job->{password}
+        )) {
+            $target->send(
+                message  => {
+                    action    => 'setLog',
+                    machineid => $self->{deviceid},
+                    part      => 'login',
+                    uuid      => $job->{uuid},
+                    msg       => $self->{lastError},
+                    code      => 'ko'
+                }
+            );
+
+            next;
+        }
+
+        my $hostIds = $self->_getHostIds();
+        foreach my $hostId (@$hostIds) {
+            my $inventory = $self->_createInventory(
+                $hostId, $self->{config}->{tag}
+            );
+
+            my $message = FusionInventory::Agent::Message::Outbound->new(
+                query      => 'INVENTORY',
+                deviceid   => $self->{deviceid},
+                stylesheet => $self->{datadir} . '/inventory.xsl',
+                content    => $inventory->getContent()
+            );
+
+            $target->send(message => $message);
+        }
+        $target->send(
+            message  => {
+                action => 'setLog',
+                machineid => $self->{deviceid},
+                uuid      => $job->{uuid},
+                code      => 'ok'
+            }
+        );
+    }
+
+    return $self;
+}
+
+sub _connect {
     my ($self, %params) = @_;
 
     my $url = 'https://' . $params{host} . '/sdk/vimService';
@@ -84,7 +141,7 @@ sub connect {
     $self->{vpbs} = $vpbs;
 }
 
-sub createFakeDeviceid {
+sub _createFakeDeviceid {
     my ( $self, $host ) = @_;
 
     my $hostname = $host->getHostname();
@@ -114,7 +171,7 @@ sub createFakeDeviceid {
     return $deviceid;
 }
 
-sub createInventory {
+sub _createInventory {
     my ( $self, $id, $tag ) = @_;
 
     die unless $self->{vpbs};
@@ -128,7 +185,7 @@ sub createInventory {
         logger => $self->{logger},
         tag    => $tag
     );
-    $inventory->{deviceid} = $self->createFakeDeviceid($host);
+    $inventory->{deviceid} = $self->_createFakeDeviceid($host);
 
     $inventory->{isInitialised} = 1;
     $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME} = ['remote'];
@@ -205,68 +262,12 @@ sub createInventory {
 #    return from_json( $jsonText, { utf8  => 1 } );
 #}
 
-sub getHostIds {
+sub _getHostIds {
     my ($self) = @_;
 
-    return $self->{vpbs}->getHostIds();
+    return $self->{vpbs}->_getHostIds();
 }
 
-sub run {
-    my ($self, %params) = @_;
-
-    my $target = $params{target}
-        or die "no target provided, aborting";
-    my @jobs = @{$self->{config}->{jobs}}
-        or die "no jobs provided, aborting";
-
-    foreach my $job (@jobs) {
-
-        if ( !$self->connect(
-                host     => $job->{host},
-                user     => $job->{user},
-                password => $job->{password}
-        )) {
-            $target->send(
-                message  => {
-                    action    => 'setLog',
-                    machineid => $self->{deviceid},
-                    part      => 'login',
-                    uuid      => $job->{uuid},
-                    msg       => $self->{lastError},
-                    code      => 'ko'
-                }
-            );
-
-            next;
-        }
-
-        my $hostIds = $self->getHostIds();
-        foreach my $hostId (@$hostIds) {
-            my $inventory = $self->createInventory(
-                $hostId, $self->{config}->{tag}
-            );
-
-            my $message = FusionInventory::Agent::Message::Outbound->new(
-                query      => 'INVENTORY',
-                deviceid   => $self->{deviceid},
-                stylesheet => $self->{datadir} . '/inventory.xsl',
-                content    => $inventory->getContent()
-            );
-
-            $target->send(message => $message);
-        }
-        $target->send(
-            message  => {
-                action => 'setLog',
-                machineid => $self->{deviceid},
-                uuid      => $job->{uuid},
-                code      => 'ok'
-            }
-        );
-    }
-
-    return $self;
-}
 
 # Only used by the command line tool
 #sub new {
@@ -290,23 +291,3 @@ FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
 
 This module allow access to VMware hypervisor using VMware SOAP API
 and _WITHOUT_ their Perl library.
-
-=head1 FUNCTIONS
-
-=head2 connect ( $self, %params )
-
-Connect the task to the VMware ESX, ESXi or vCenter.
-
-=head2 createFakeDeviceid ( $self, $host )
-
-Generate a fake deviceid based on the machine name and the
-boot date.
-
-=head2 createInventory ( $self, $id, $tag )
-
-Returns an FusionInventory::Agent::Inventory object for a given
-host id.
-
-=head2 getHostIds
-
-Returns the list of the host id.
