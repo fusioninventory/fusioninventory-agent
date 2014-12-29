@@ -186,7 +186,7 @@ sub run {
                 next if $time < $controller->getNextRunDate();
 
                 eval {
-                    $self->_runTarget($controller);
+                    $self->_executeScheduledTasks($controller);
                 };
                 $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
                 $controller->resetNextRunDate();
@@ -209,7 +209,7 @@ sub run {
             }
 
             eval {
-                $self->_runTarget($controller);
+                $self->_executeScheduledTasks($controller);
             };
             $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         }
@@ -224,7 +224,7 @@ sub terminate {
     $self->{current_task}->abort() if $self->{current_task};
 }
 
-sub _runTarget {
+sub _executeScheduledTasks {
     my ($self, $controller) = @_;
 
     # create a single client object for this run
@@ -279,14 +279,14 @@ sub _runTarget {
 
     foreach my $name (keys %{$self->{tasks}}) {
         eval {
-            $self->_runTask($controller, $name, $prolog, $target, $client, $schedule);
+            $self->_executeTask($controller, $name, $prolog, $target, $client, $schedule);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
     }
 }
 
-sub _runTask {
+sub _executeTask {
     my ($self, $controller, $name, $prolog, $target, $client, $schedule) = @_;
 
     $self->{status} = "running task $name";
@@ -304,16 +304,16 @@ sub _runTask {
             die "fork failed: $ERRNO" unless defined $pid;
 
             $self->{logger}->debug("forking process $PID to handle task $name");
-            $self->_runTaskReal($controller, $name, $prolog, $target, $client, $schedule);
+            $self->_executeTaskReal($controller, $name, $prolog, $target, $client, $schedule);
             exit(0);
         }
     } else {
         # standalone mode: run each task directly
-        $self->_runTaskReal($controller, $name, $prolog, $target, $client, $schedule);
+        $self->_executeTaskReal($controller, $name, $prolog, $target, $client, $schedule);
     }
 }
 
-sub _runTaskReal {
+sub _executeTaskReal {
     my ($self, $controller, $name, $prolog, $target, $client, $schedule) = @_;
 
     my $class = "FusionInventory::Agent::Task::$name";
