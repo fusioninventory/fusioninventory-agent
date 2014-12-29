@@ -228,7 +228,7 @@ sub terminate {
 sub _runTarget {
     my ($self, $controller) = @_;
 
-    # the prolog dialog must be done once for all tasks,
+    # create a single client object for this run
     my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
         timeout      => $self->{timeout},
@@ -240,24 +240,37 @@ sub _runTarget {
         no_ssl_check => $self->{config}->{'no-ssl-check'},
     );
 
-    my $prolog = FusionInventory::Agent::Message::Outbound->new(
-        query    => 'PROLOG',
-        token    => '123456678',
-        deviceid => $self->{deviceid},
-    );
-
+    # get scheduled tasks, using legacy protocol
     $self->{logger}->info("sending prolog request to server $controller->{id}");
 
-    my $response = $client->sendXML(
+    my $answer = $client->sendXML(
         url     => $controller->getUrl(),
-        message => $prolog
+        message => FusionInventory::Agent::Message::Outbound->new(
+            query    => 'PROLOG',
+            token    => '123456678',
+            deviceid => $self->{deviceid},
+        )
     );
-    die "No answer from the server" unless $response;
+    die "No answer to prolog request from the server" unless $answer;
+    my $prolog = $answer->getContent();
+
+    # get scheduled tasks, using new protocol
+    $self->{logger}->info("sending getConfig request to server $controller->{id}");
+
+    my $config = $client->sendJSON(
+        url  => $controller->getUrl(),
+        args => {
+            action    => "getConfig",
+            machineid => $self->{deviceid},
+            task      => { map { $_ => $VERSION } @{$self->{tasks}} },
+        }
+    );
+    die "No answer to getConfig request from the server" unless $config;
+    my $schedule = $config->{schedule};
 
     # update controller
-    my $content = $response->getContent();
-    if (defined($content->{PROLOG_FREQ})) {
-        $controller->setMaxDelay($content->{PROLOG_FREQ} * 3600);
+    if (defined($prolog->{PROLOG_FREQ})) {
+        $controller->setMaxDelay($prolog->{PROLOG_FREQ} * 3600);
     }
 
     my $target = FusionInventory::Agent::Target::Server->new(
@@ -267,7 +280,7 @@ sub _runTarget {
 
     foreach my $name (@{$self->{tasks}}) {
         eval {
-            $self->_runTask($controller, $name, $response, $target, $client);
+            $self->_runTask($controller, $name, $prolog, $target, $client, $schedule);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
@@ -275,7 +288,7 @@ sub _runTarget {
 }
 
 sub _runTask {
-    my ($self, $controller, $name, $response, $target, $client) = @_;
+    my ($self, $controller, $name, $prolog, $target, $client, $schedule) = @_;
 
     $self->{status} = "running task $name";
 
@@ -292,17 +305,17 @@ sub _runTask {
             die "fork failed: $ERRNO" unless defined $pid;
 
             $self->{logger}->debug("forking process $PID to handle task $name");
-            $self->_runTaskReal($controller, $name, $response, $target, $client);
+            $self->_runTaskReal($controller, $name, $prolog, $target, $client, $schedule);
             exit(0);
         }
     } else {
         # standalone mode: run each task directly
-        $self->_runTaskReal($controller, $name, $response, $target, $client);
+        $self->_runTaskReal($controller, $name, $prolog, $target, $client, $schedule);
     }
 }
 
 sub _runTaskReal {
-    my ($self, $controller, $name, $response, $target, $client) = @_;
+    my ($self, $controller, $name, $prolog, $target, $client, $schedule) = @_;
 
     my $class = "FusionInventory::Agent::Task::$name";
 
@@ -316,7 +329,8 @@ sub _runTaskReal {
     );
 
     my %configuration = $task->getConfiguration(
-        response => $response,
+        prolog   => $prolog,
+        schedule => $schedule,
         client   => $client,
         url      => $controller->getURL(),
     );

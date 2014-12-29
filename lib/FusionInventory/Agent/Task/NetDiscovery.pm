@@ -8,6 +8,7 @@ use base 'FusionInventory::Agent::Task';
 use constant DEVICE_PER_MESSAGE => 4;
 
 use English qw(-no_match_vars);
+use List::Util qw(first);
 use Net::IP;
 use Time::localtime;
 use Thread::Queue v2.01;
@@ -24,13 +25,18 @@ our $VERSION = '2.2.0';
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $response = $params{response};
+    my $prolog = $params{prolog};
+    return unless $prolog;
+    return unless $prolog->{OPTION};
 
-    my $options = $response->getOptionsInfoByName('NETDISCOVERY');
-    return unless $options;
+    my $task =
+        first { $_->{NAME} eq 'NETDISCOVERY' }
+        @{$prolog->{OPTION}};
+
+    return unless $task;
 
     my @credentials;
-    foreach my $item (@{$options->{AUTHENTICATION}}) {
+    foreach my $item (@{$task->{AUTHENTICATION}}) {
         my $credentials;
         foreach my $key (keys %$item) {
             my $newkey =
@@ -43,7 +49,7 @@ sub getConfiguration {
     }
 
     my @blocks;
-    foreach my $item (@{$options->{RANGEIP}}) {
+    foreach my $item (@{$task->{RANGEIP}}) {
         push @blocks, {
             id      => $item->{ID},
             ipstart => $item->{IPSTART},
@@ -53,9 +59,9 @@ sub getConfiguration {
     }
 
     return (
-        pid         => $options->{PARAM}->[0]->{PID},
-        threads     => $options->{PARAM}->[0]->{THREADS_DISCOVERY},
-        timeout     => $options->{PARAM}->[0]->{TIMEOUT},
+        pid         => $task->{PARAM}->[0]->{PID},
+        threads     => $task->{PARAM}->[0]->{THREADS_DISCOVERY},
+        timeout     => $task->{PARAM}->[0]->{TIMEOUT},
         credentials => \@credentials,
         blocks      => \@blocks
     );

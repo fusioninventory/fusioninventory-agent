@@ -7,6 +7,7 @@ use base 'FusionInventory::Agent::Task';
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
+use List::Util qw(first);
 use Thread::Queue v2.01;
 use UNIVERSAL::require;
 
@@ -20,13 +21,18 @@ our $VERSION = '2.2.0';
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $response = $params{response};
+    my $prolog = $params{prolog};
+    return unless $prolog;
+    return unless $prolog->{OPTION};
 
-    my $options = $response->getOptionsInfoByName('SNMPQUERY');
-    return unless $options;
+    my $task =
+        first { $_->{NAME} eq 'SNMPQUERY' }
+        @{$prolog->{OPTION}};
+
+    return unless $task;
 
     my @credentials;
-    foreach my $item (@{$options->{AUTHENTICATION}}) {
+    foreach my $item (@{$task->{AUTHENTICATION}}) {
         my $credentials;
         foreach my $key (keys %$item) {
             my $newkey =
@@ -39,7 +45,7 @@ sub getConfiguration {
     }
 
     my @devices;
-    foreach my $item (@{$options->{DEVICE}}) {
+    foreach my $item (@{$task->{DEVICE}}) {
         my $device;
         foreach my $key (keys %$item) {
             my $newkey = $key eq 'IP' ? 'host' : lc($key);
@@ -49,9 +55,9 @@ sub getConfiguration {
     }
 
     return (
-        pid         => $options->{PARAM}->[0]->{PID},
-        threads     => $options->{PARAM}->[0]->{THREADS_QUERY},
-        timeout     => $options->{PARAM}->[0]->{TIMEOUT},
+        pid         => $task->{PARAM}->[0]->{PID},
+        threads     => $task->{PARAM}->[0]->{THREADS_QUERY},
+        timeout     => $task->{PARAM}->[0]->{TIMEOUT},
         credentials => \@credentials,
         devices     => \@devices
     );

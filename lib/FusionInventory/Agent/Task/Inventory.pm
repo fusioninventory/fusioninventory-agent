@@ -6,6 +6,7 @@ use base 'FusionInventory::Agent::Task';
 
 use Config;
 use English qw(-no_match_vars);
+use List::Util qw(first);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
@@ -17,15 +18,16 @@ our $VERSION = '1.0';
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $response = $params{response};
+    my $prolog = $params{prolog};
+    return unless $prolog;
 
-    my $content = $response->getContent();
     return unless
-        $content             &&
-        $content->{RESPONSE} &&
-        $content->{RESPONSE} eq 'SEND';
+        $prolog->{RESPONSE} &&
+        $prolog->{RESPONSE} eq 'SEND';
 
-    my $registry = $response->getOptionsInfoByName('REGISTRY');
+    my $registry =
+        first { $_->{NAME} eq 'REGISTRY' }
+        @{$prolog->{OPTION}};
 
     return (
         registry => $registry

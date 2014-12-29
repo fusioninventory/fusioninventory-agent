@@ -13,31 +13,20 @@ our $VERSION = "2.2.1";
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $client = $params{client};
+    my $client   = $params{client};
+    my $schedule = $params{schedule};
 
-    my $remoteConfig = $client->sendJSON(
-        url  => $params{url},
-        args => {
-            action    => "getConfig",
-            machineid => $self->{deviceid},
-            task      => { ESX => $VERSION },
-        }
-    );
+    return unless $client && $schedule;
 
-    my $schedule = $remoteConfig->{schedule};
-    return unless $schedule;
-    return unless ref $schedule eq 'ARRAY';
-
-    my @remotes =
-        grep { $_ }
-        map  { $_->{remote} }
+    my @tasks =
+        grep { $_->{remote} }
         grep { $_->{task} eq "ESX" }
         @{$schedule};
 
-    return unless @remotes;
+    return unless @tasks;
 
     my $jobs = $client->sendJSON(
-        url  => $remotes[-1],
+        url  => $tasks[-1]->{remote},
         args => {
             action    => "getJobs",
             machineid => $params{deviceid}
@@ -51,7 +40,7 @@ sub getConfiguration {
         if ref $jobs->{jobs} ne 'ARRAY';
 
     return (
-        url  => $remotes[-1],
+        url  => $tasks[-1]->{remote},
         jobs => $jobs->{jobs}
     );
 }

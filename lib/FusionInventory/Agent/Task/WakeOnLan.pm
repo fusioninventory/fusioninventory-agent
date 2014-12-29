@@ -17,14 +17,19 @@ our $VERSION = '2.0';
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $response = $params{response};
+    my $prolog = $params{prolog};
+    return unless $prolog;
+    return unless $prolog->{OPTION};
 
-    my $options = $response->getOptionsInfoByName('WAKEONLAN');
-    return unless $options;
+    my $task = 
+        first { $_->{NAME} eq 'WAKEONLAN' }
+        @{$prolog->{OPTION}};
+
+    return unless $task;
 
     my @addresses = map {
         $_->{MAC}
-    } @{$options->{PARAM}};
+    } @{$task->{PARAM}};
 
     return (
         addresse => \@addresses

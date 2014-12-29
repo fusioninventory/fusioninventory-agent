@@ -36,16 +36,6 @@ sub getContent {
     return $self->{content};
 }
 
-sub getOptionsInfoByName {
-    my ($self, $name) = @_;
-
-    return unless $self->{content}->{OPTION};
-
-    return
-        first { $_->{NAME} eq $name }
-        @{$self->{content}->{OPTION}};
-}
-
 1;
 
 __END__
@@ -76,7 +66,3 @@ the raw XML content
 =head2 getContent
 
 Get content, as a perl data structure.
-
-=head2 getOptionsInfoByName($name)
-
-Get parameters of a specific option

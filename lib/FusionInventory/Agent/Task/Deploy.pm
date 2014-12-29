@@ -23,31 +23,20 @@ our $VERSION = '2.0.4';
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $client = $params{client};
+    my $client   = $params{client};
+    my $schedule = $params{schedule};
 
-    my $remoteConfig = $client->sendJSON(
-        url  => $params{url},
-        args => {
-            action    => "getConfig",
-            machineid => $self->{deviceid},
-            task      => { Deploy => $VERSION },
-        }
-    );
+    return unless $client && $schedule;
 
-    my $schedule = $remoteConfig->{schedule};
-    return unless $schedule;
-    return unless ref $schedule eq 'ARRAY';
-
-    my @remotes =
-        grep { $_ }
-        map  { $_->{remote} }
-        grep { $_->{task} eq "ESX" }
+    my @tasks =
+        grep { $_->{remote} }
+        grep { $_->{task} eq "Deploy" }
         @{$schedule};
 
-    return unless @remotes;
+    return unless @tasks;
 
     return (
-        remotes => \@remotes
+        tasks => \@tasks
     );
 }
 
@@ -58,12 +47,12 @@ sub run {
     $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
     $ENV{LANG} = 'C'; # Turn off localised output for commands
 
-    my @remotes = @{$self->{config}->{remotes}}
-        or die "no remote provided, aborting";
+    my @tasks = @{$self->{config}->{tasks}}
+        or die "no tasks provided, aborting";
     my $client = $params{client};
 
-    foreach my $remote (@remotes) {
-        $self->_processRemote($remote, $client);
+    foreach my $task (@tasks) {
+        $self->_processRemote($task->{remote}, $client);
     }
 
     return 1;

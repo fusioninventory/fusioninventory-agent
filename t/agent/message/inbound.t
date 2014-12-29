@@ -222,7 +222,7 @@ my %tests = (
     },
 );
 
-plan tests => 2 * (scalar keys %tests);
+plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
     my $file = "resources/messages/$test.xml";
@@ -233,16 +233,4 @@ foreach my $test (keys %tests) {
 
     my $content = $message->getContent();
     cmp_deeply($content, $tests{$test}, $test);
-
-    subtest 'options' => sub {
-        my $options = $content->{OPTION};
-        plan tests => scalar @$options;
-        foreach my $option (@$options) {
-            cmp_deeply(
-                $message->getOptionsInfoByName($option->{NAME}),
-                $option,
-                "$test option $option->{NAME}"
-            );
-        }
-    };
 }
