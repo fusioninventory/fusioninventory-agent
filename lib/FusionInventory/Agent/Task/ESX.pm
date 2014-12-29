@@ -4,9 +4,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::Fusion;
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::SOAP::VMware;
