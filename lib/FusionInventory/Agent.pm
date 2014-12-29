@@ -103,20 +103,20 @@ sub init {
         exit 1;
     }
 
-    # compute list of allowed tasks
-    my %tasks = $self->getAvailableTasks(disabledTasks => $config->{'no-module'});
+    # compute list of available modules
+    my %modules = $self->getAvailableModules(disabled => $config->{'no-module'});
 
-    if (!%tasks) {
-        $logger->error("No tasks available, aborting");
+    if (!%modules) {
+        $logger->error("No modules available, aborting");
         exit 1;
     }
 
-    $logger->debug("Available tasks:");
-    foreach my $task (keys %tasks) {
-        $logger->debug("- $task: $tasks{$task}");
+    $logger->debug("Available modules");
+    foreach my $module (keys %modules) {
+        $logger->debug("- $module $modules{$module}");
     }
 
-    $self->{tasks} = \%tasks;
+    $self->{modules} = \%modules;
 
     if ($config->{daemon}) {
         my $pidfile  = $config->{pidfile} ||
@@ -272,7 +272,7 @@ sub _executeScheduledTasks {
         $controller->setMaxDelay($prolog->{PROLOG_FREQ} * 3600);
     }
 
-    foreach my $name (keys %{$self->{tasks}}) {
+    foreach my $name (keys %{$self->{modules}}) {
         eval {
             $self->_executeTask($controller, $name, $prolog, $client, $schedule);
         };
@@ -368,11 +368,11 @@ sub getControllers {
     return @{$self->{controllers}};
 }
 
-sub getAvailableTasks {
+sub getAvailableModules {
     my ($self, %params) = @_;
 
-    my %tasks;
-    my %disabled  = map { lc($_) => 1 } @{$params{disabledTasks}};
+    my %modules;
+    my %disabled  = map { lc($_) => 1 } @{$params{disabled}};
 
     # tasks may be located only in agent libdir
     my $directory = $self->{libdir};
@@ -404,26 +404,26 @@ sub getAvailableTasks {
                 die "fork failed: $ERRNO" unless defined $pid;
 
                 close $reader;
-                $version = $self->_getTaskVersion($module);
+                $version = $self->_getModuleVersion($module);
                 print $writer $version if $version;
                 close $writer;
                 exit(0);
             }
         } else {
             # standalone mode: check each task version directly
-            $version = $self->_getTaskVersion($module);
+            $version = $self->_getModuleVersion($module);
         }
 
         # no version means non-functionning task
         next unless $version;
 
-        $tasks{$name} = $version;
+        $modules{$name} = $version;
     }
 
-    return %tasks;
+    return %modules;
 }
 
-sub _getTaskVersion {
+sub _getModuleVersion {
     my ($self, $module) = @_;
 
     my $logger = $self->{logger};
@@ -551,12 +551,12 @@ Get the current agent status.
 
 Get all controllers.
 
-=head2 getAvailableTasks()
+=head2 getAvailableModules()
 
-Get all available tasks found on the system, as a list of module / version
+Get all available modules found on the system, as a list of module / version
 pairs:
 
-%tasks = (
+(
     'Foo' => x,
     'Bar' => y,
 );

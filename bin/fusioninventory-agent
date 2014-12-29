@@ -103,9 +103,9 @@ if ($options->{'list-tasks'}) {
 }
 
 if ($options->{'list-modules'}) {
-    my %tasks = $agent->getAvailableTasks();
-    foreach my $task (keys %tasks) {
-        print "$task (v$tasks{$task})\n";
+    my %modules = $agent->getAvailableModules();
+    foreach my $module (keys %modules) {
+        print "$module (v$modules{$module})\n";
     }
     exit 0;
 }
