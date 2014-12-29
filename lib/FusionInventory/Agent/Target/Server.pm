@@ -4,26 +4,15 @@ use strict;
 use warnings;
 use base qw(FusionInventory::Agent::Target);
 
-use FusionInventory::Agent::HTTP::Client::Fusion;
-
 sub new {
     my ($class, %params) = @_;
 
     die "missing url parameter" unless $params{url};
-
-    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
-        logger       => $params{logger},
-        user         => $params{user},
-        password     => $params{password},
-        proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
-        no_ssl_check => $params{no_ssl_check},
-    );
+    die "missing client parameter" unless $params{client};
 
     return bless {
         url    => $params{url},
-        client => $client
+        client => $params{client}
     }, $class;
 }
 

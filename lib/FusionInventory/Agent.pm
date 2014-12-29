@@ -261,13 +261,8 @@ sub _runTarget {
     }
 
     my $target = FusionInventory::Agent::Target::Server->new(
-        url          => $controller->getURL(),
-        user         => $self->{config}->{user},
-        password     => $self->{config}->{password},
-        proxy        => $self->{config}->{proxy},
-        ca_cert_file => $self->{config}->{'ca-cert-file'},
-        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        url    => $controller->getURL(),
+        client => $client
     );
 
     foreach my $name (@{$self->{tasks}}) {
