@@ -279,32 +279,9 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetInventory - Remote inventory support for FusionInventory Agent
+FusionInventory::Agent::Task::NetInventory - Remote inventory support
 
 =head1 DESCRIPTION
 
-This task extracts various information from remote hosts through SNMP
-protocol:
-
-=over
-
-=item *
-
-printer cartridges and counters status
-
-=item *
-
-router/switch ports status
-
-=item *
-
-relations between devices and router/switch ports
-
-=back
-
-This task requires a GLPI server with FusionInventory plugin.
-
-=head1 AUTHORS
-
-Copyright (C) 2009 David Durieux
-Copyright (C) 2010-2012 FusionInventory Team
+This module allows the FusionInventory agent to retrieve an inventory of a
+remote host through SNMP protocol.

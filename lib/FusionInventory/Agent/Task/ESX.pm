@@ -231,9 +231,9 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
+FusionInventory::Agent::Task::ESX - ESX inventory support
 
 =head1 DESCRIPTION
 
-This module allow access to VMware hypervisor using VMware SOAP API
-and _WITHOUT_ their Perl library.
+This module allows the FusionInventory agent to retrieve an inventory from a
+remote ESX host SOAP protocol.

@@ -201,9 +201,9 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::WakeOnLan - Wake-on-lan task for FusionInventory
+FusionInventory::Agent::Task::WakeOnLan - Wake-on-lan support
 
 =head1 DESCRIPTION
 
-This task send a wake-on-lan packet to another host on the same network as the
-agent host.
+This modules allows the FusionInventory agent to send a wake-on-lan packet to
+another host on the same network as its own host.

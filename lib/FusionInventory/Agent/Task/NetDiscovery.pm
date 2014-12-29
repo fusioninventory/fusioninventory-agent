@@ -485,27 +485,9 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetDiscovery - Net discovery support for FusionInventory Agent
+FusionInventory::Agent::Task::NetDiscovery - Net discovery support
 
 =head1 DESCRIPTION
 
-This tasks scans the network to find connected devices, allowing:
-
-=over
-
-=item *
-
-devices discovery within an IP range, through nmap, NetBios or SNMP
-
-=item *
-
-devices identification, through SNMP
-
-=back
-
-This task requires a GLPI server with FusionInventory plugin.
-
-=head1 AUTHORS
-
-Copyright (C) 2009 David Durieux
-Copyright (C) 2010-2012 FusionInventory Team
+This module allows the FusionInventory agent to perform connected devices
+discovery through SNMP, NetBios, and ICMP protocols.

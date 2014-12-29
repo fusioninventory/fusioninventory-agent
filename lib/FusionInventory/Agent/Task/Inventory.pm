@@ -275,8 +275,9 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Inventory - Inventory task for FusionInventory
+FusionInventory::Agent::Task::Inventory - Local inventory support
 
 =head1 DESCRIPTION
 
-This task extract various hardware and software information on the agent host.
+This modules allows the FusionInventory agent to retrieve an inventory of its
+own host.
