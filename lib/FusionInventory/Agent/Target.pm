@@ -9,8 +9,8 @@ sub create {
     my ($class, %params) = @_;
 
     if ($params{url}) {
-        require FusionInventory::Agent::Target::Server;
-        require FusionInventory::Agent::HTTP::Client::Fusion;
+        FusionInventory::Agent::Target::Server->require();
+        FusionInventory::Agent::HTTP::Client::Fusion->require();
         return FusionInventory::Agent::Target::Server->new(
             url   => $params{url},
             agent => FusionInventory::Agent::HTTP::Client::Fusion->new(
@@ -26,13 +26,13 @@ sub create {
     }
 
     if ($params{path}) {
-        require FusionInventory::Agent::Target::Directory;
+        FusionInventory::Agent::Target::Directory->require();
         return FusionInventory::Agent::Target::Directory->new(
             path => $params{path}
         );
     }
 
-    require FusionInventory::Agent::Target::Stdout;
+    FusionInventory::Agent::Target::Stdout->require();
     return FusionInventory::Agent::Target::Stdout->new();
 
 }
