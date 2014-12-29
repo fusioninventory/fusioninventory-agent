@@ -104,7 +104,7 @@ sub init {
     }
 
     # compute list of allowed tasks
-    my %tasks = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
+    my %tasks = $self->getAvailableTasks(disabledTasks => $config->{'no-module'});
 
     if (!%tasks) {
         $logger->error("No tasks available, aborting");

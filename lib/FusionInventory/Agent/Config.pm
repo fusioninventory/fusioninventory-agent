@@ -24,7 +24,7 @@ my $default = {
     'no-category'             => [],
     'no-httpd'                => undef,
     'no-ssl-check'            => undef,
-    'no-task'                 => [],
+    'no-module'               => [],
     'no-p2p'                  => undef,
     'password'                => undef,
     'proxy'                   => undef,
@@ -41,9 +41,10 @@ my $default = {
     'html'                    => undef,
     'force'                   => undef,
     'local'                   => undef,
+    'no-task'                 => undef,
     # multi-values options that will be converted to array ref
     'httpd-trust'             => "",
-    'no-task'                 => "",
+    'no-module'               => "",
     'no-category'             => ""
 };
 
@@ -56,6 +57,10 @@ my $deprecated = {
     },
     'local' => {
         message => 'use dedicated fusioninventory-inventory executable'
+    },
+    'no-task' => {
+        message => "use 'no-module' option instead",
+        new     => 'no-module'
     },
 };
 
@@ -255,7 +260,7 @@ sub _checkContent {
             local
             server
             httpd-trust
-            no-task
+            no-module
             no-category
             /) {
 

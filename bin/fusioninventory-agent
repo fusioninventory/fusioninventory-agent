@@ -29,7 +29,7 @@ GetOptions(
     'delaytime=s',
     'help|h',
     'lazy',
-    'list-tasks',
+    'list-modules',
     'setup',
     'logger=s',
     'logfile=s',
@@ -37,7 +37,7 @@ GetOptions(
     'no-category=s',
     'no-httpd',
     'no-ssl-check',
-    'no-task=s',
+    'no-module=s',
     'no-p2p',
     'password|p=s',
     'pidfile=s',
@@ -57,6 +57,8 @@ GetOptions(
     'html',
     'force|f',
     'local|l=s',
+    'list-tasks',
+    'no-task=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -95,6 +97,12 @@ if ($options->{'conf-file'}) {
 my $agent = FusionInventory::Agent->new(%setup);
 
 if ($options->{'list-tasks'}) {
+    print STDERR
+        "--list-tasks is deprecated, use --list-modules instead\n";
+    $options->{'list-modules'} = 1;
+}
+
+if ($options->{'list-modules'}) {
     my %tasks = $agent->getAvailableTasks();
     foreach my $task (keys %tasks) {
         print "$task (v$tasks{$task})\n";
@@ -139,9 +147,9 @@ B<fusioninventory-agent> [options] --server server
     --lazy                         do not contact the target before
                                    next scheduled time
 
-  Task selection options:
-    --list-tasks                   list available tasks and exit
-    --no-task=TASK                 do not run given task
+  Modules selection options:
+    --list-modules                 list available modules and exit
+    --no-module=MODULE             do not run given module
 
   Inventory task specific options:
     --no-category=CATEGORY         do not list given category items
@@ -254,20 +262,20 @@ This option is only available when the agent is not run as a server.
 
 =back
 
-=head2 Task selection options
+=head2 Module selection options
 
 =over
 
-=item B<--list-tasks>
+=item B<--list-modules>
 
-List available tasks and exit
+List available modules and exit
 
-=item B<--no-task>=I<TASK>
+=item B<--no-module>=I<MODULE>
 
-Do not run given task.
+Do not run given module.
 
 Multiple values can be specified, using comma as a separator. See option
-I<--list-tasks> for the list of available tasks.
+I<--list-modules> for the list of available modules.
 
 =back
 
