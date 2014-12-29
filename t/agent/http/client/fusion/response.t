@@ -12,7 +12,7 @@ use Test::Exception;
 use Test::More;
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::HTTP::Client::OCS;
+use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
@@ -41,7 +41,7 @@ my $message = FusionInventory::Agent::Message::Outbound->new(
     },
 );
 
-my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
     logger => $logger
 );
 
@@ -67,7 +67,7 @@ $server->background() or BAIL_OUT("can't launch the server");
 
 subtest "error response" => sub {
     check_response_nok(
-        scalar $client->send(
+        scalar $client->sendXML(
             message => $message,
             url     => "http://localhost:$port/error",
         ),
@@ -78,7 +78,7 @@ subtest "error response" => sub {
 
 subtest "empty content" => sub {
     check_response_nok(
-        scalar $client->send(
+        scalar $client->sendXML(
             message => $message,
             url     => "http://localhost:$port/empty",
         ),
@@ -90,7 +90,7 @@ subtest "empty content" => sub {
 
 subtest "mixedhtml content" => sub {
     check_response_ok(
-        scalar $client->send(
+        scalar $client->sendXML(
             message => $message,
             url     => "http://localhost:$port/mixedhtml",
         ),
@@ -100,7 +100,7 @@ subtest "mixedhtml content" => sub {
 
 subtest "uncompressed content" => sub {
     check_response_nok(
-        scalar $client->send(
+        scalar $client->sendXML(
             message => $message,
             url     => "http://localhost:$port/uncompressed",
         ),
@@ -111,7 +111,7 @@ subtest "uncompressed content" => sub {
 
 subtest "unexpected content" => sub {
     check_response_nok(
-        scalar $client->send(
+        scalar $client->sendXML(
             message => $message,
             url     => "http://localhost:$port/unexpected",
         ),
@@ -122,7 +122,7 @@ subtest "unexpected content" => sub {
 
 subtest "correct response" => sub {
     check_response_ok(
-        scalar $client->send(
+        scalar $client->sendXML(
             message => $message,
             url     => "http://localhost:$port/correct",
         ),
@@ -131,7 +131,7 @@ subtest "correct response" => sub {
 
 subtest "altered response" => sub {
     check_response_ok(
-        scalar $client->send(
+        scalar $client->sendXML(
             message => $message,
             url     => "http://localhost:$port/altered",
         ),

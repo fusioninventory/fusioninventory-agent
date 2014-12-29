@@ -26,7 +26,7 @@ sub getConfiguration {
         no_ssl_check => $params{no_ssl_check},
     );
 
-    my $remoteConfig = $client->send(
+    my $remoteConfig = $client->sendXML(
         url  => $params{url},
         args => {
             action    => "getConfig",
@@ -47,7 +47,7 @@ sub getConfiguration {
 
     return unless @remotes;
 
-    my $jobs = $client->send(
+    my $jobs = $client->sendXML(
         url  => $remotes[-1],
         args => {
             action    => "getJobs",
@@ -82,7 +82,7 @@ sub run {
                 user     => $job->{user},
                 password => $job->{password}
         )) {
-            $target->send(
+            $target->sendXML(
                 message  => {
                     action    => 'setLog',
                     machineid => $self->{deviceid},
@@ -109,9 +109,9 @@ sub run {
                 content    => $inventory->getContent()
             );
 
-            $target->send(message => $message);
+            $target->sendXML(message => $message);
         }
-        $target->send(
+        $target->sendXML(
             message  => {
                 action => 'setLog',
                 machineid => $self->{deviceid},

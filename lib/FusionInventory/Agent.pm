@@ -11,7 +11,7 @@ use IO::Handle;
 use POSIX ":sys_wait_h"; # WNOHANG
 
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::HTTP::Client::OCS;
+use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Server;
@@ -231,7 +231,7 @@ sub _runTarget {
     my ($self, $controller) = @_;
 
     # the prolog dialog must be done once for all tasks,
-    my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
         timeout      => $self->{timeout},
         user         => $self->{config}->{user},
@@ -250,7 +250,7 @@ sub _runTarget {
 
     $self->{logger}->info("sending prolog request to server $controller->{id}");
 
-    my $response = $client->send(
+    my $response = $client->sendXML(
         url     => $controller->getUrl(),
         message => $prolog
     );
