@@ -243,41 +243,11 @@ sub _createInventory {
 
 }
 
-#sub getJobs {
-#    my ($self) = @_;
-#
-#    my $logger = $self->{logger};
-#    my $network = $self->{network};
-#
-#    my $jsonText = $network->get ({
-#        source => $self->{backendURL}.'/?a=getJobs&d=TODO',
-#        timeout => 60,
-#        });
-#    if (!defined($jsonText)) {
-#        $logger->debug("No answer from server for deployment job.");
-#        return;
-#    }
-#
-#
-#    return from_json( $jsonText, { utf8  => 1 } );
-#}
-
 sub _getHostIds {
     my ($self) = @_;
 
     return $self->{vpbs}->_getHostIds();
 }
-
-
-# Only used by the command line tool
-#sub new {
-#    my ( undef, $params ) = @_;
-#
-#    my $logger = FusionInventory::Agent::Logger->new();
-#
-#    my $self = { config => $params->{config}, logger => $logger };
-#    bless $self;
-#}
 
 1;
 
