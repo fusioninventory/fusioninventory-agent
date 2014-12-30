@@ -158,7 +158,7 @@ sub run {
             next if $time < $controller->getNextRunDate();
 
             eval {
-                $self->executeScheduledTasks($controller);
+                $self->executeScheduledTasks($controller, 1);
             };
             $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
             $controller->resetNextRunDate();
@@ -179,7 +179,7 @@ sub terminate {
 }
 
 sub executeScheduledTasks {
-    my ($self, $controller) = @_;
+    my ($self, $controller, $fork) = @_;
 
     # create a single client object for this run
     my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
@@ -228,7 +228,7 @@ sub executeScheduledTasks {
 
     foreach my $name (keys %{$self->{modules}}) {
         eval {
-            $self->_executeTask($controller, $name, $prolog, $client, $schedule);
+            $self->_executeTask($controller, $name, $prolog, $client, $schedule, $fork);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
@@ -236,12 +236,12 @@ sub executeScheduledTasks {
 }
 
 sub _executeTask {
-    my ($self, $controller, $name, $prolog, $client, $schedule) = @_;
+    my ($self, $controller, $name, $prolog, $client, $schedule, $fork) = @_;
 
     $self->{status} = "running task $name";
 
-    if ($self->{config}->{daemon} || $self->{config}->{service}) {
-        # server mode: run each task in a child process
+    if ($fork) {
+        # run each task in a child process
         if (my $pid = fork()) {
             # parent
             while (waitpid($pid, WNOHANG) == 0) {
@@ -257,7 +257,7 @@ sub _executeTask {
             exit(0);
         }
     } else {
-        # standalone mode: run each task directly
+        # run each task directly
         $self->_executeTaskReal($controller, $name, $prolog, $client, $schedule);
     }
 }
