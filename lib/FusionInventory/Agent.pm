@@ -3,7 +3,6 @@ package FusionInventory::Agent;
 use strict;
 use warnings;
 
-use Cwd;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use File::Glob;
@@ -117,34 +116,6 @@ sub init {
     }
 
     $self->{modules} = \%modules;
-
-    if ($config->{daemon}) {
-        my $pidfile  = $config->{pidfile} ||
-                       $self->{vardir} . '/fusioninventory.pid';
-
-        if ($self->_isAlreadyRunning($pidfile)) {
-            $logger->error("An agent is already running, exiting...");
-            exit 1;
-        }
-        if (!$config->{'no-fork'}) {
-
-            Proc::Daemon->require();
-            if ($EVAL_ERROR) {
-                $logger->error("Failed to load Proc::Daemon: $EVAL_ERROR");
-                exit 1;
-            }
-
-            # If we use relative path, we must stay in the current directory
-            my $workdir = substr($self->{libdir}, 0, 1) eq '/' ? '/' : getcwd();
-
-            Proc::Daemon::Init({
-                work_dir => $workdir,
-                pid_file => $pidfile
-            });
-
-            $self->{logger}->debug("Agent daemonized");
-        }
-    }
 
     # create HTTP interface
     if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
@@ -445,22 +416,6 @@ sub _getModuleVersion {
     }
 
     return $version;
-}
-
-sub _isAlreadyRunning {
-    my ($self, $pidfile) = @_;
-
-    Proc::PID::File->require();
-    if ($EVAL_ERROR) {
-        $self->{logger}->debug(
-            'Proc::PID::File unavailable, unable to check for running agent'
-        );
-        return 0;
-    }
-
-    my $pid = Proc::PID::File->new();
-    $pid->{path} = $pidfile;
-    return $pid->alive();
 }
 
 sub _loadState {

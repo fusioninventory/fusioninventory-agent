@@ -4,9 +4,12 @@ use strict;
 use warnings;
 use lib './lib';
 
+use Cwd;
 use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
+use Proc::Daemon;
+use Proc::PID::File;
 
 use FusionInventory::Agent;
 
@@ -68,7 +71,35 @@ if ($options->{'conf-file'}) {
 my $agent = FusionInventory::Agent->new(%setup);
 
 eval {
+    # initialize agent
     $agent->init(options => $options);
+
+    # daemonize agent
+    my $pidfile  = $options->{pidfile} ||
+                   $setup{vardir} . '/fusioninventory.pid';
+
+    my $pid = Proc::PID::File->new();
+    $pid->{path} = $pidfile;
+
+    if ($pid->alive()) {
+        $agent->{logger}->error("An agent is already running, exiting...");
+        exit 1;
+    }
+
+    if (!$options->{'no-fork'}) {
+
+        # If we use relative path, we must stay in the current directory
+        my $workdir = substr($setup{libdir}, 0, 1) eq '/' ? '/' : getcwd();
+
+        Proc::Daemon::Init({
+            work_dir => $workdir,
+            pid_file => $pidfile
+        });
+
+        $agent->{logger}->debug("Agent daemonized");
+    }
+
+    # run infinite loop
     $agent->run();
 };
 
