@@ -17,7 +17,7 @@ Minimum perl version: 5.8
 Additional mandatory perl modules:
 
 * File::Which
-* LWP
+* LWP::UserAgent
 * Net::IP
 * Text::Template
 * UNIVERSAL::require
