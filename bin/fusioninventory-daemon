@@ -121,35 +121,34 @@ fusioninventory-daemon - FusionInventory agent daemon for Unix
 B<fusioninventory-daemon> [options] --server server
 
   Executable-specific options:
-    --config=BACKEND               configuration backend
-    --conf-file=FILE               configuration file
-    --no-fork                      don't fork in background (false)
-    --pidfile                      path to PID file
+    --config=BACKEND         configuration backend
+    --conf-file=FILE         configuration file
+    --no-fork                don't fork in background (false)
+    --pidfile                path to PID file
 
   Agent configuration options:
-    -s --server=URI                send tasks result to a server
-    --delaytime=LIMIT              maximum delay before first server contact
-                                     in seconds (3600)
-    --no-module=MODULE             do not use given module
-    -P --proxy=PROXY               proxy address
-    -u --user=USER                 user name for server authentication
-    -p --password=PASSWORD         password for server authentication
-    --ca-cert-dir=DIRECTORY        CA certificates directory
-    --ca-cert-file=FILE            CA certificates file
-    --no-ssl-check                 do not check server SSL certificate
-                                     (false)
-    --timeout=TIME                 connection timeout, in seconds (180)
-    --no-httpd                     disable embedded web server (false)
-    --httpd-ip=IP                  network interface to listen to (all)
-    --httpd-port=PORT              network port to listen to (62354)
-    --httpd-trust=IP               trust requests without authentication
-                                     token (false)
-    --logger=BACKEND               logger backend (stderr)
-    --logfile=FILE                 log file
-    --logfile-maxsize=SIZE         maximum size of the log file in MB (0)
-    --logfacility=FACILITY         syslog facility (LOG_USER)
-    --color                        use color in the console (false)
-    --debug                        debug mode (false)
+    --server=URI             send tasks result to a server
+    --delaytime=LIMIT        maximum delay before first server contact in
+                                 seconds (3600)
+    --no-module=MODULE       do not use given module
+    --proxy=PROXY            proxy address
+    --user=USER              user name for server authentication
+    --password=PASSWORD      password for server authentication
+    --ca-cert-dir=DIRECTORY  CA certificates directory
+    --ca-cert-file=FILE      CA certificates file
+    --no-ssl-check           do not check server SSL certificate (false)
+    --timeout=TIME           connection timeout, in seconds (180)
+    --no-httpd               disable embedded web server (false)
+    --httpd-ip=IP            network interface to listen to (all)
+    --httpd-port=PORT        network port to listen to (62354)
+    --httpd-trust=IP         trust requests without authentication token
+                                 (false)
+    --logger=BACKEND         logger backend (stderr)
+    --logfile=FILE           log file
+    --logfile-maxsize=SIZE   maximum size of the log file in MB (0)
+    --logfacility=FACILITY   syslog facility (LOG_USER)
+    --color                  use color in the console (false)
+    --debug                  debug mode (false)
 
 =head1 DESCRIPTION
 
@@ -160,12 +159,6 @@ combination with a compatible server (OCS, GLPI, OTRS) acting as a centralized
 control point.
 
 =head1 OPTIONS
-
-Most of the options are available in a I<short> form and a I<long> form.  For
-example, the two lines below are all equivalent:
-
-    % fusioninventory-agent -s localhost
-    % fusioninventory-agent --server localhost
 
 =head2 Executable-specific options
 
