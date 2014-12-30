@@ -20,17 +20,25 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
+    my $default = $routes->{'0.0.0.0'};
+
     my @interfaces = _getInterfaces(logger => $logger);
     foreach my $interface (@interfaces) {
+        # if the default gateway address and the interface address belongs to
+        # the same network, that's the gateway for this network
+        $interface->{IPGATEWAY} = $default if isSameNetwork(
+            $default, $interface->{IPADDRESS}, $interface->{IPMASK}
+        );
+
         $inventory->addEntry(
             section => 'NETWORKS',
             entry   => $interface
         );
     }
 
-    my $routes = getRoutingTable(command => 'netstat -nr', logger => $logger);
     $inventory->setHardware({
-        DEFAULTGATEWAY => $routes->{'0.0.0.0'}
+        DEFAULTGATEWAY => $default
     });
 }
 
