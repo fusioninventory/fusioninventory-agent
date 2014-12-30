@@ -104,7 +104,10 @@ sub init {
     }
 
     # compute list of available modules
-    my %modules = $self->getAvailableModules(disabled => $config->{'no-module'});
+    my %modules = $self->getAvailableModules(
+        disabled => $config->{'no-module'},
+        fork     => $params{server}
+    );
 
     if (!%modules) {
         $logger->error("No modules available, aborting");
@@ -119,7 +122,7 @@ sub init {
     $self->{modules} = \%modules;
 
     # create HTTP interface
-    if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
+    if ($params{server} && !$config->{'no-httpd'}) {
         FusionInventory::Agent::HTTP::Server->require();
         if ($EVAL_ERROR) {
             $logger->error("Failed to load HTTP server: $EVAL_ERROR");
@@ -141,7 +144,7 @@ sub init {
     $SIG{TERM}    = sub { $self->terminate(); exit 0; };
 
     $self->{logger}->info("FusionInventory Agent starting")
-        if $self->{config}->{daemon} || $self->{config}->{service};
+        if $params{server};
 }
 
 sub run {
@@ -338,8 +341,8 @@ sub getAvailableModules {
         next if $disabled{lc($name)};
 
         my $version;
-        if ($self->{config}->{daemon} || $self->{config}->{service}) {
-            # server mode: check each task version in a child process
+        if ($params{fork}) {
+            # check each task version in a child process
             my ($reader, $writer);
             pipe($reader, $writer);
             $writer->autoflush(1);
@@ -361,7 +364,7 @@ sub getAvailableModules {
                 exit(0);
             }
         } else {
-            # standalone mode: check each task version directly
+            # check each task version directly
             $version = $self->_getModuleVersion($module);
         }
 

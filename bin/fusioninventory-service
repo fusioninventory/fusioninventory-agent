@@ -106,7 +106,7 @@ sub startAgent {
             vardir  => $directory . '/../../var',
             libdir  => $directory . '/../../lib',
         );
-        $agent->init(options => { service => 1 });
+        $agent->init(server => 1);
         $agent->run();
     });
 }

@@ -72,7 +72,7 @@ my $agent = FusionInventory::Agent->new(%setup);
 
 eval {
     # initialize agent
-    $agent->init(options => $options);
+    $agent->init(options => $options, server => 1);
 
     # daemonize agent
     my $pidfile  = $options->{pidfile} ||
