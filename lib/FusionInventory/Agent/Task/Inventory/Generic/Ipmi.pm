@@ -43,6 +43,7 @@ sub doInventory {
     my $interface = {
         DESCRIPTION => 'bmc',
         TYPE        => 'ethernet',
+        MANAGEMENT  => 1,
         STATUS      => 'Down',
     };
 
