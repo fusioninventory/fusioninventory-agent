@@ -10,23 +10,34 @@ use Pod::Usage;
 
 use FusionInventory::Agent;
 
-Getopt::Long::Configure( "no_ignorecase" );
+
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
 
 my $options = {};
 
+Getopt::Long::Configure( "no_ignorecase" );
 GetOptions(
     $options,
-    'ca-cert-dir=s',
-    'ca-cert-file=s',
-    'conf-file=s',
-    'config=s',
-    'color',
-    'debug+',
-    'delaytime=s',
-    'help|h',
+    # executable-specific options
     'lazy',
     'list-modules',
     'setup',
+    'wait|w=s',
+    'version',
+    'help|h',
+    'conf-file=s',
+    'config=s',
+    # agent configuration options
+    'ca-cert-dir=s',
+    'ca-cert-file=s',
+    'color',
+    'debug+',
+    'delaytime=s',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
@@ -37,8 +48,6 @@ GetOptions(
     'server|s=s',
     'timeout=i',
     'user|u=s',
-    'version',
-    'wait|w=s',
     # deprecated options
     'html',
     'force|f',
@@ -80,13 +89,6 @@ foreach my $option (qw/no-category scan-homedirs scan-profiles backend-collect-t
     print STDERR
         "module-specific option --$option is deprecated, use either configuration file or dedicated executable\n";
 }
-
-my %setup = (
-    confdir => './etc',
-    datadir => './share',
-    libdir  => './lib',
-    vardir  => './var',
-);
 
 if ($options->{setup}) {
     foreach my $key (keys %setup) {
@@ -163,20 +165,23 @@ fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
 
 B<fusioninventory-agent> [options] --server server
 
-  Target definition options:
-    -s --server=URI                send tasks result to a server
-
-  Target scheduling options:
-    --delaytime=LIMIT              maximum delay before first target,
-                                     in seconds (3600)
-    --lazy                         do not contact the target before
-                                   next scheduled time
-
-  Modules selection options:
+  Executable-specific options:
+    --config=BACKEND               configuration backend
+    --conf-file=FILE               configuration file
+    --lazy                         do not contact the server before next
+                                     scheduled time
+    -w --wait=LIMIT                maximum delay before execution,
+                                     in seconds
     --list-modules                 list available modules and exit
-    --no-module=MODULE             do not run given module
+    --setup                        print the agent setup directories
+                                     and exit
+    --version                      print the version and exit
 
-  Network options:
+  Agent configuration options:
+    -s --server=URI                send tasks result to a server
+        --delaytime=LIMIT          maximum delay before first server contact
+                                     in seconds (3600)
+    --no-module=MODULE             do not use given module
     -P --proxy=PROXY               proxy address
     -u --user=USER                 user name for server authentication
     -p --password=PASSWORD         password for server authentication
@@ -185,25 +190,12 @@ B<fusioninventory-agent> [options] --server server
     --no-ssl-check                 do not check server SSL certificate
                                      (false)
     --timeout=TIME                 connection timeout, in seconds (180)
-
-  Logging options:
     --logger=BACKEND               logger backend (stderr)
     --logfile=FILE                 log file
     --logfile-maxsize=SIZE         maximum size of the log file in MB (0)
     --logfacility=FACILITY         syslog facility (LOG_USER)
     --color                        use color in the console (false)
-
-  Configuration options:
-    --config=BACKEND               configuration backend
-    --conf-file=FILE               configuration file
-
-  Execution mode options:
-    -w --wait=LIMIT                maximum delay before execution,
-                                     in seconds
     --debug                        debug mode (false)
-    --setup                        print the agent setup directories
-                                     and exit
-    --version                      print the version and exit
 
 =head1 DESCRIPTION
 
@@ -221,7 +213,65 @@ example, the two lines below are all equivalent:
     % fusioninventory-agent -s localhost
     % fusioninventory-agent --server localhost
 
-=head2 Target definition options
+=head2 Executable-specific options
+
+Those options can be passed on command-line only.
+
+=over
+
+=item B<--config>=I<BACKEND>
+
+Configuration backend to use.
+
+The available backends are:
+
+=over 4
+
+=item
+
+file: read configuration from a file (default anywhere else as Windows).
+
+=item
+
+registry: read configuration from the registry (default on Windows).
+
+=item
+
+none: don't read any configuration.
+
+=back
+
+=item B<--conf-file>=I<FILE>
+
+Use I<FILE> as configuration file (implies file configuration backend).
+
+=item B<--lazy>
+
+Do not contact the target before next scheduled time.
+
+=item B<-w> I<LIMIT>, B<--wait>=I<LIMIT>
+
+Wait a random delay whose value is computed randomly between 0 and LIMIT
+seconds, before execution. This is useful when execution is triggered from some
+kind of system scheduling on multiple clients, to spread the server load.
+
+=item B<--list-modules>
+
+List available modules and exit
+
+=item B<--setup>
+
+Print the agent setup directories and exit.
+
+=item B<--version>
+
+Print the version and exit.
+
+=back
+
+=head2 Agent configuration options
+
+Those options can be passed on command-line to override values found in configuration.
 
 =over
 
@@ -244,12 +294,6 @@ and FusionInventory for GLPI this one:
 
 Multiple values can be specified, using comma as a separator.
 
-=back
-
-=head2 Target scheduling options
-
-=over
-
 =item B<--delaytime>=I<LIMIT>
 
 Set an initial delay before the first target, whose value is computed randomly
@@ -257,32 +301,12 @@ between LIMIT / 2 and LIMIT seconds. This setting is ignored for server targets
 after the initial contact, in favor of server-specified parameter
 (PROLOG_FREQ).
 
-=item B<--lazy>
-
-Do not contact the target before next scheduled time.
-
-=back
-
-=head2 Module selection options
-
-=over
-
-=item B<--list-modules>
-
-List available modules and exit
-
 =item B<--no-module>=I<MODULE>
 
 Do not run given module.
 
 Multiple values can be specified, using comma as a separator. See option
 I<--list-modules> for the list of available modules.
-
-=back
-
-=head2 Server target specific options
-
-=over
 
 =item B<-P>, B<--proxy>=I<PROXY>
 
@@ -313,12 +337,6 @@ Do not check server SSL certificate.
 =item B<--timeout>=I<TIME>
 
 Timeout for server connections.
-
-=back
-
-=head2 Logging options
-
-=over
 
 =item B<--logger>=I<BACKEND>
 
@@ -365,55 +383,6 @@ Display color on the terminal, when the Stderr backend is used.
 
 This options is ignored on Windows.
 
-=back
-
-=head2 Configuration options
-
-=over
-
-
-=item B<--config>=I<BACKEND>
-
-Configuration backend to use.
-
-The available backends are:
-
-=over 4
-
-=item
-
-file: read configuration from a file (default anywhere else as Windows).
-
-=item
-
-registry: read configuration from the registry (default on Windows).
-
-=item
-
-none: don't read any configuration.
-
-=back
-
-=item B<--conf-file>=I<FILE>
-
-Use I<FILE> as configuration file (implies file configuration backend).
-
-=back
-
-=head2 Execution mode options
-
-=over
-
-=item B<-w> I<LIMIT>, B<--wait>=I<LIMIT>
-
-Wait a random delay whose value is computed randomly between 0 and LIMIT
-seconds, before execution. This is useful when execution is triggered from some
-kind of system scheduling on multiple clients, to spread the server load.
-
-=item B<--tag>=I<TAG>
-
-Add the given tag to every inventory results.
-
 =item B<--debug>
 
 Turn the debug mode on. You can use the parameter up to 3 times in a row
@@ -422,12 +391,5 @@ to increase the verbosity (e.g: B<--debug --debug>).
 Level 3 turns on the debug mode of some external libraries like Net::SSLeay.
 These messages will only be be printed on STDERR.
 
-=item B<--setup>
-
-Print the agent setup directories and exit.
-
-=item B<--version>
-
-Print the version and exit.
 
 =back

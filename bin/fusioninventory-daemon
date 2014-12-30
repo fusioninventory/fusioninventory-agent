@@ -13,23 +13,30 @@ use Proc::PID::File;
 
 use FusionInventory::Agent;
 
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
+
+my $options = {};
+
 Getopt::Long::Configure( "no_ignorecase" );
-
-my $options = {
-    daemon => 1,
-};
-
 GetOptions(
     $options,
-    'ca-cert-dir=s',
-    'ca-cert-file=s',
+    # executable options
     'conf-file=s',
     'config=s',
-    'color',
+    'pidfile=s',
     'no-fork',
+    'help|h',
+    # agent configuration options
+    'ca-cert-dir=s',
+    'ca-cert-file=s',
+    'color',
     'debug+',
     'delaytime=s',
-    'help|h',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
@@ -37,7 +44,6 @@ GetOptions(
     'no-ssl-check',
     'no-module=s',
     'password|p=s',
-    'pidfile=s',
     'proxy|P=s',
     'httpd-ip=s',
     'httpd-port=s',
@@ -48,13 +54,6 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
-
-my %setup = (
-    confdir => './etc',
-    datadir => './share',
-    libdir  => './lib',
-    vardir  => './var',
-);
 
 if ($options->{'conf-file'}) {
     if ($options->{config}) {
@@ -121,17 +120,17 @@ fusioninventory-daemon - FusionInventory agent daemon for Unix
 
 B<fusioninventory-daemon> [options] --server server
 
-  Target definition options:
+  Executable-specific options:
+    --config=BACKEND               configuration backend
+    --conf-file=FILE               configuration file
+    --no-fork                      don't fork in background (false)
+    --pidfile                      path to PID file
+
+  Agent configuration options:
     -s --server=URI                send tasks result to a server
-
-  Target scheduling options:
-    --delaytime=LIMIT              maximum delay before first target,
+    --delaytime=LIMIT              maximum delay before first server contact
                                      in seconds (3600)
-
-  Modules selection options:
-    --no-module=MODULE             do not run given module
-
-  Network options:
+    --no-module=MODULE             do not use given module
     -P --proxy=PROXY               proxy address
     -u --user=USER                 user name for server authentication
     -p --password=PASSWORD         password for server authentication
@@ -140,27 +139,16 @@ B<fusioninventory-daemon> [options] --server server
     --no-ssl-check                 do not check server SSL certificate
                                      (false)
     --timeout=TIME                 connection timeout, in seconds (180)
-
-  Web interface options:
     --no-httpd                     disable embedded web server (false)
     --httpd-ip=IP                  network interface to listen to (all)
     --httpd-port=PORT              network port to listen to (62354)
     --httpd-trust=IP               trust requests without authentication
                                      token (false)
-
-  Logging options:
     --logger=BACKEND               logger backend (stderr)
     --logfile=FILE                 log file
     --logfile-maxsize=SIZE         maximum size of the log file in MB (0)
     --logfacility=FACILITY         syslog facility (LOG_USER)
     --color                        use color in the console (false)
-
-  Configuration options:
-    --config=BACKEND               configuration backend
-    --conf-file=FILE               configuration file
-
-  Execution mode options:
-    --no-fork                      don't fork in background (false)
     --debug                        debug mode (false)
 
 =head1 DESCRIPTION
@@ -179,7 +167,51 @@ example, the two lines below are all equivalent:
     % fusioninventory-agent -s localhost
     % fusioninventory-agent --server localhost
 
-=head2 Target definition options
+=head2 Executable-specific options
+
+Those options can be passed on command-line only.
+
+=over
+
+=item B<--config>=I<BACKEND>
+
+Configuration backend to use.
+
+The available backends are:
+
+=over 4
+
+=item
+
+file: read configuration from a file (default anywhere else as Windows).
+
+=item
+
+registry: read configuration from the registry (default on Windows).
+
+=item
+
+none: don't read any configuration.
+
+=back
+
+=item B<--conf-file>=I<FILE>
+
+Use I<FILE> as configuration file (implies file configuration backend).
+
+=item B<--no-fork>
+
+Don't fork in background.
+
+=item B<--pidfile>=I<FILE>
+
+Store pid in I<FILE>.
+
+=back
+
+=head2 Agent configuration options
+
+Those options can be passed on command-line to override values found in configuration.
 
 =over
 
@@ -202,12 +234,6 @@ and FusionInventory for GLPI this one:
 
 Multiple values can be specified, using comma as a separator.
 
-=back
-
-=head2 Target scheduling options
-
-=over
-
 =item B<--delaytime>=I<LIMIT>
 
 Set an initial delay before the first target, whose value is computed randomly
@@ -215,24 +241,12 @@ between LIMIT / 2 and LIMIT seconds. This setting is ignored for server targets
 after the initial contact, in favor of server-specified parameter
 (PROLOG_FREQ).
 
-=back
-
-=head2 Module selection options
-
-=over
-
 =item B<--no-module>=I<MODULE>
 
 Do not run given module.
 
 Multiple values can be specified, using comma as a separator. See option
 I<--list-modules> for the list of available modules.
-
-=back
-
-=head2 Server target specific options
-
-=over
 
 =item B<-P>, B<--proxy>=I<PROXY>
 
@@ -264,12 +278,6 @@ Do not check server SSL certificate.
 
 Timeout for server connections.
 
-=back
-
-=head2 Web interface options
-
-=over
-
 =item B<--no-httpd>
 
 Disable the embedded web server.
@@ -291,12 +299,6 @@ For example: "192.168.0.0/24", "192.168.168.0.5" or an IP range like
 documentation to get more example.
 
 Multiple values can be specified, using comma as a separator.
-
-=back
-
-=head2 Logging options
-
-=over
 
 =item B<--logger>=I<BACKEND>
 
@@ -342,53 +344,6 @@ Syslog facility to use (default LOG_USER).
 Display color on the terminal, when the Stderr backend is used.
 
 This options is ignored on Windows.
-
-=back
-
-=head2 Configuration options
-
-=over
-
-
-=item B<--config>=I<BACKEND>
-
-Configuration backend to use.
-
-The available backends are:
-
-=over 4
-
-=item
-
-file: read configuration from a file (default anywhere else as Windows).
-
-=item
-
-registry: read configuration from the registry (default on Windows).
-
-=item
-
-none: don't read any configuration.
-
-=back
-
-=item B<--conf-file>=I<FILE>
-
-Use I<FILE> as configuration file (implies file configuration backend).
-
-=back
-
-=head2 Execution mode options
-
-=over
-
-=item B<--no-fork>
-
-Don't fork in background.
-
-=item B<--pidfile>=I<FILE>
-
-Store pid in I<FILE>.
 
 =item B<--debug>
 
