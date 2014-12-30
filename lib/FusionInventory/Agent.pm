@@ -148,42 +148,21 @@ sub run {
 
     $self->{status} = 'waiting';
 
-    if ($self->{config}->{daemon} || $self->{config}->{service}) {
-
-        # background mode:
-        while (1) {
-            my $time = time();
-            foreach my $controller (@{$self->{controllers}}) {
-                next if $time < $controller->getNextRunDate();
-
-                eval {
-                    $self->_executeScheduledTasks($controller);
-                };
-                $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-                $controller->resetNextRunDate();
-            }
-
-            # check for http interface messages
-            $self->{server}->handleRequests() if $self->{server};
-            delay(1);
-        }
-    } else {
-        # foreground mode: check each controller once
+    while (1) {
         my $time = time();
         foreach my $controller (@{$self->{controllers}}) {
-            if ($self->{config}->{lazy} && $time < $controller->getNextRunDate()) {
-                $self->{logger}->info(
-                    "$controller->{id} is not ready yet, next server contact " .
-                    "planned for " . localtime($controller->getNextRunDate())
-                );
-                next;
-            }
+            next if $time < $controller->getNextRunDate();
 
             eval {
-                $self->_executeScheduledTasks($controller);
+                $self->executeScheduledTasks($controller);
             };
             $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
+            $controller->resetNextRunDate();
         }
+
+        # check for http interface messages
+        $self->{server}->handleRequests() if $self->{server};
+        delay(1);
     }
 }
 
@@ -195,7 +174,7 @@ sub terminate {
     $self->{current_task}->abort() if $self->{current_task};
 }
 
-sub _executeScheduledTasks {
+sub executeScheduledTasks {
     my ($self, $controller) = @_;
 
     # create a single client object for this run

@@ -130,7 +130,19 @@ if ($options->{wait}) {
 
 eval {
     $agent->init(options => $options);
-    $agent->run();
+
+    my $time = time();
+    foreach my $controller (@{$agent->{controllers}}) {
+        if ($options->{lazy} && $time < $controller->getNextRunDate()) {
+            $agent->{logger}->info(
+                "$controller->{id} is not ready yet, next server contact " .
+                "planned for " . localtime($controller->getNextRunDate())
+            );
+            next;
+        }
+
+        $agent->executeScheduledTasks($controller);
+    }
 };
 
 if ($EVAL_ERROR) {
