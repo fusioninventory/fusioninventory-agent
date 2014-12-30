@@ -47,21 +47,19 @@ sub doInventory {
 
     while (my $line = <$handle>) {
         if ($line =~ /^IP Address\s+:\s+($ip_address_pattern)/) {
-            $ipaddress = $1;
+            $ipaddress = $1 unless $1 eq '0.0.0.0';
         }
         if ($line =~ /^Default Gateway IP\s+:\s+($ip_address_pattern)/) {
-            $ipgateway = $1;
+            $ipgateway = $1 unless $1 eq '0.0.0.0';
         }
         if ($line =~ /^Subnet Mask\s+:\s+($ip_address_pattern)/) {
-            $ipmask = $1;
+            $ipmask = $1 unless $1 eq '0.0.0.0';
         }
         if ($line =~ /^MAC Address\s+:\s+($mac_address_pattern)/) {
             $macaddr = $1;
         }
     }
     close $handle;
-
-    return unless $ipaddress && $ipmask;
 
     my $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
 
