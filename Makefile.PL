@@ -83,7 +83,7 @@ recommends 'Net::Write::Layer2' => '0';
 
 install_script 'bin/fusioninventory-agent';
 if ($OSNAME eq 'MSWin32') {
-    install_script 'bin/fusioninventory-win32-service';
+    install_script 'bin/fusioninventory-service';
 } else {
     install_script 'bin/fusioninventory-daemon';
 }

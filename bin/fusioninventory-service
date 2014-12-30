@@ -120,4 +120,4 @@ __END__
 
 =head1 NAME
 
-fusioninventory-win32-service - FusionInventory Agent service for Windows
+fusioninventory-service - FusionInventory Agent service for Windows
