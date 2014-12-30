@@ -40,46 +40,37 @@ sub doInventory {
 
     return unless $handle;
 
-    my $ipaddress;
-    my $ipgateway;
-    my $ipmask;
-    my $macaddr;
+    my $interface = {
+        DESCRIPTION => 'bmc',
+        TYPE        => 'Ethernet',
+        STATUS      => 'Down',
+    };
 
     while (my $line = <$handle>) {
         if ($line =~ /^IP Address\s+:\s+($ip_address_pattern)/) {
-            $ipaddress = $1 unless $1 eq '0.0.0.0';
+            $interface->{IPADDRESS} = $1 unless $1 eq '0.0.0.0';
         }
         if ($line =~ /^Default Gateway IP\s+:\s+($ip_address_pattern)/) {
-            $ipgateway = $1 unless $1 eq '0.0.0.0';
+            $interface->{IPGATEWAY} = $1 unless $1 eq '0.0.0.0';
         }
         if ($line =~ /^Subnet Mask\s+:\s+($ip_address_pattern)/) {
-            $ipmask = $1 unless $1 eq '0.0.0.0';
+            $interface->{IPMASK} = $1 unless $1 eq '0.0.0.0';
         }
         if ($line =~ /^MAC Address\s+:\s+($mac_address_pattern)/) {
-            $macaddr = $1;
+            $interface->{MACADDR} = $1;
         }
     }
     close $handle;
 
-    my $ipsubnet = getSubnetAddress($ipaddress, $ipmask);
+    $interface->{IPSUBNET} = getSubnetAddress(
+        $interface->{IPADDRESS}, $interface->{IPMASK}
+    );
 
-    my $status = "Down";
-    if ($ipaddress && ($ipaddress ne '0.0.0.0')) {
-        $status = "Up";
-    }
+    $interface->{STATUS} = 'Up' if $interface->{IPADDRESS};
 
     $inventory->addEntry(
         section => 'NETWORKS',
-        entry   => {
-            DESCRIPTION => 'bmc',
-            IPADDRESS   => $ipaddress,
-            IPGATEWAY   => $ipgateway,
-            IPMASK      => $ipmask,
-            IPSUBNET    => $ipsubnet,
-            MACADDR     => $macaddr,
-            STATUS      => $status,
-            TYPE        => 'Ethernet'
-        }
+        entry   => $interface
     );
 }
 
