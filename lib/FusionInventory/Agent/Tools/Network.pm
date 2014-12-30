@@ -23,6 +23,8 @@ our @EXPORT = qw(
     getSubnetAddressIPv6
     getNetworkMask
     getNetworkMaskIPv6
+    isSameNetwork
+    isSameNetworkIPv6
     hex2canonical
     alt2canonical
     resolve
@@ -95,6 +97,34 @@ sub getSubnetAddressIPv6 {
     my $binsubnet  = $binaddress & $binmask; ## no critic (ProhibitBitwise)
 
     return ip_compress_address(ip_bintoip($binsubnet, 6), 6);
+}
+
+sub isSameNetwork {
+    my ($address1, $address2, $mask) = @_;
+
+    ## no critic (ExplicitReturnUndef)
+    return undef unless $address1 && $address2 && $mask;
+
+    my $binaddress1 = ip_iptobin($address1, 4);
+    my $binaddress2 = ip_iptobin($address2, 4);
+    my $binmask     = ip_iptobin($mask, 4);
+
+    ## no critic (ProhibitBitwise)
+    return ($binaddress1 & $binmask) eq ($binaddress2 & $binmask);
+}
+
+sub isSameNetworkIPv6 {
+    my ($address1, $address2, $mask) = @_;
+
+    ## no critic (ExplicitReturnUndef)
+    return undef unless $address1 && $address2 && $mask;
+
+    my $binaddress1 = ip_iptobin(ip_expand_address($address1, 6), 6);
+    my $binaddress2 = ip_iptobin(ip_expand_address($address2, 6), 6);
+    my $binmask     = ip_iptobin(ip_expand_address($mask, 6), 6);
+
+    ## no critic (ProhibitBitwise)
+    return ($binaddress1 & $binmask) eq ($binaddress2 & $binmask);
 }
 
 sub hex2canonical {
@@ -281,6 +311,14 @@ Returns the network mask for IPv4.
 =head2 getNetworkMaskIPv6($prefix)
 
 Returns the network mask for IPv6.
+
+=head2 isSameNetwork($address1, $address2, $mask)
+
+Returns true if both addresses belongs to the same network, for IPv4.
+
+=head2 isSameNetworkIPv6($address1, $address2, $mask)
+
+Returns true if both addresses belongs to the same network, for IPv6.
 
 =head2 resolve($host, $logger)
 

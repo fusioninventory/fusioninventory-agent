@@ -34,12 +34,22 @@ my @mask_tests = (
     [ '191.168.0.1', 24, '255.255.255.0'   ],
 );
 
+my @same_network_ok_tests = (
+    [ '192.168.0.1', '192.168.0.254', '255.255.255.0' ],
+);
+
+my @same_network_nok_tests = (
+    [ '192.168.0.1', '192.168.0.254', '255.255.255.128' ],
+);
+
 plan tests =>
     scalar @network_ok_tests    +
     scalar @network_nok_tests   +
     scalar @hex2canonical_tests +
     scalar @alt2canonical_tests +
     scalar @mask_tests          +
+    scalar @same_network_ok_tests  +
+    scalar @same_network_nok_tests +
     2;
 
 foreach my $test (@network_ok_tests) {
@@ -48,6 +58,14 @@ foreach my $test (@network_ok_tests) {
 
 foreach my $test (@network_nok_tests) {
     ok($test !~ $network_pattern, "$test doesn't match network pattern");
+}
+
+foreach my $test (@same_network_ok_tests) {
+    ok(isSameNetwork(@$test), "$test->[0] and $test->[1] share same network");
+}
+
+foreach my $test (@same_network_nok_tests) {
+    ok(!isSameNetwork(@$test), "$test->[0] and $test->[1] don't share same network");
 }
 
 foreach my $test (@hex2canonical_tests) {
