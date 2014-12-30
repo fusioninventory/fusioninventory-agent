@@ -16,8 +16,6 @@ my $options = {};
 
 GetOptions(
     $options,
-    'additional-content=s',
-    'backend-collect-timeout=s',
     'ca-cert-dir=s',
     'ca-cert-file=s',
     'conf-file=s',
@@ -32,16 +30,11 @@ GetOptions(
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
-    'no-category=s',
     'no-ssl-check',
     'no-module=s',
-    'no-p2p',
     'password|p=s',
     'proxy|P=s',
-    'scan-homedirs',
-    'scan-profiles',
     'server|s=s',
-    'tag|t=s',
     'timeout=i',
     'user|u=s',
     'version',
@@ -59,6 +52,13 @@ GetOptions(
     'httpd-ip=s',
     'httpd-port=s',
     'httpd-trust=s',
+    'additional-content=s',
+    'backend-collect-timeout=s',
+    'no-category=s',
+    'scan-homedirs',
+    'scan-profiles',
+    'no-p2p',
+    'tag|t=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -73,6 +73,12 @@ foreach my $option (qw/daemon no-fork no-httpd pidfile httpd-id httpd-port httpd
     print STDERR
         "option --$option is deprecated, used fusioninventory-daemon instead\n";
     exit 1;
+}
+
+foreach my $option (qw/no-category scan-homedirs scan-profiles backend-collect-timeout additional-content tag no-p2p/) {
+    next unless $options->{$option};
+    print STDERR
+        "module-specific option --$option is deprecated, use either configuration file or dedicated executable\n";
 }
 
 my %setup = (
@@ -158,18 +164,6 @@ B<fusioninventory-agent> [options] --server server
     --list-modules                 list available modules and exit
     --no-module=MODULE             do not run given module
 
-  Inventory task specific options:
-    --no-category=CATEGORY         do not list given category items
-    --scan-homedirs                scan user home directories (false)
-    --scan-profiles                scan user profiles (false)
-    --backend-collect-timeout=TIME timeout for inventory modules
-                                     execution (30)
-    --additional-content=FILE      additional inventory content file
-
-  Package deployment task specific options:
-    --no-p2p                       do not use peer to peer to download
-                                     files (false)
-
   Network options:
     -P --proxy=PROXY               proxy address
     -u --user=USER                 user name for server authentication
@@ -194,7 +188,6 @@ B<fusioninventory-agent> [options] --server server
   Execution mode options:
     -w --wait=LIMIT                maximum delay before execution,
                                      in seconds
-    -t --tag=TAG                   add given tag to inventory results
     --debug                        debug mode (false)
     --setup                        print the agent setup directories
                                      and exit
@@ -272,100 +265,6 @@ Do not run given module.
 
 Multiple values can be specified, using comma as a separator. See option
 I<--list-modules> for the list of available modules.
-
-=back
-
-=head2 Inventory task specific options
-
-=over
-
-=item B<--no-category>=I<CATEGORY>
-
-Do not list given category items in inventory.
-
-Multiple values can be specified, using comma as a separator. The available
-categories are:
-
-=over 4
-
-=item * battery
-
-=item * controller
-
-=item * cpu
-
-=item * drive
-
-=item * environment
-
-=item * input
-
-=item * license
-
-=item * local_group
-
-=item * local_user
-
-=item * lvm
-
-=item * memory
-
-=item * modem
-
-=item * monitor
-
-=item * network
-
-=item * printer
-
-=item * process
-
-=item * slot
-
-=item * software
-
-=item * sound
-
-=item * storage
-
-=item * usb
-
-=item * user
-
-=item * video
-
-=item * virtualmachine
-
-=back
-
-=item B<--scan-homedirs>
-
-Allow the agent to scan home directories for virtual machines.
-
-=item B<--scan-profiles>
-
-Allow the agent to scan user profiles for softwares.
-
-=item B<--backend-collect-timeout>=I<TIME>
-
-Timeout for inventory modules execution.
-
-=item B<--additional-content>=I<FILE>
-
-Additional inventory content file.
-
-This file should be an XML file, using same syntax as the one produced by the
-agent.
-
-=back
-
-=head2 Package deployment task specific options
-
-=over
-
-=item B<--no-p2p>
-
-Do not use peer to peer to download files.
 
 =back
 
