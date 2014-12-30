@@ -83,9 +83,10 @@ sub init {
     # handle persistent state
     $self->_loadState();
 
-    $self->{deviceid} = _computeDeviceId() if !$self->{deviceid};
-
-    $self->_saveState();
+    if (!$self->{deviceid}) {
+        $self->{deviceid} = _computeDeviceId();
+        $self->_saveState();
+    }
 
     foreach my $server (@{$config->{server}}) {
         push @{$self->{controllers}},
