@@ -23,8 +23,6 @@ GetOptions(
     'conf-file=s',
     'config=s',
     'color',
-    'daemon|d',
-    'no-fork',
     'debug+',
     'delaytime=s',
     'help|h',
@@ -35,16 +33,11 @@ GetOptions(
     'logfile=s',
     'logfile-maxsize=i',
     'no-category=s',
-    'no-httpd',
     'no-ssl-check',
     'no-module=s',
     'no-p2p',
     'password|p=s',
-    'pidfile=s',
     'proxy|P=s',
-    'httpd-ip=s',
-    'httpd-port=s',
-    'httpd-trust=s',
     'scan-homedirs',
     'scan-profiles',
     'server|s=s',
@@ -59,6 +52,13 @@ GetOptions(
     'local|l=s',
     'list-tasks',
     'no-task=s',
+    'daemon|d',
+    'no-fork',
+    'no-httpd',
+    'pidfile=s',
+    'httpd-ip=s',
+    'httpd-port=s',
+    'httpd-trust=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -66,6 +66,13 @@ pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 if ($options->{version}) {
     print $FusionInventory::Agent::VERSION_STRING . "\n";
     exit 0;
+}
+
+foreach my $option (qw/daemon no-fork no-httpd pidfile httpd-id httpd-port httpd-trust/) {
+    next unless $options->{$option};
+    print STDERR
+        "option --$option is deprecated, used fusioninventory-daemon instead\n";
+    exit 1;
 }
 
 my %setup = (
@@ -173,13 +180,6 @@ B<fusioninventory-agent> [options] --server server
                                      (false)
     --timeout=TIME                 connection timeout, in seconds (180)
 
-  Web interface options:
-    --no-httpd                     disable embedded web server (false)
-    --httpd-ip=IP                  network interface to listen to (all)
-    --httpd-port=PORT              network port to listen to (62354)
-    --httpd-trust=IP               trust requests without authentication
-                                     token (false)
-
   Logging options:
     --logger=BACKEND               logger backend (stderr)
     --logfile=FILE                 log file
@@ -194,8 +194,6 @@ B<fusioninventory-agent> [options] --server server
   Execution mode options:
     -w --wait=LIMIT                maximum delay before execution,
                                      in seconds
-    -d --daemon                    run the agent as a daemon (false)
-    --no-fork                      don't fork in background (false)
     -t --tag=TAG                   add given tag to inventory results
     --debug                        debug mode (false)
     --setup                        print the agent setup directories
@@ -257,8 +255,6 @@ after the initial contact, in favor of server-specified parameter
 =item B<--lazy>
 
 Do not contact the target before next scheduled time.
-
-This option is only available when the agent is not run as a server.
 
 =back
 
@@ -409,34 +405,6 @@ Timeout for server connections.
 
 =back
 
-=head2 Web interface options
-
-=over
-
-=item B<--no-httpd>
-
-Disable the embedded web server.
-
-=item B<--httpd-ip>=I<IP>
-
-The network interface to use for the embedded web server (all).
-
-=item B<--httpd-port>=I<PORT>
-
-The network port to use for the embedded web server (62354).
-
-=item B<--httpd-trust>=I<IP>
-
-Trust requests from given addresses without authentication token (false).
-
-For example: "192.168.0.0/24", "192.168.168.0.5" or an IP range like
-"20.34.101.207 - 201.3.9.99". Hostnames are also accepted. See L<Net::IP>
-documentation to get more example.
-
-Multiple values can be specified, using comma as a separator.
-
-=back
-
 =head2 Logging options
 
 =over
@@ -530,22 +498,6 @@ Use I<FILE> as configuration file (implies file configuration backend).
 Wait a random delay whose value is computed randomly between 0 and LIMIT
 seconds, before execution. This is useful when execution is triggered from some
 kind of system scheduling on multiple clients, to spread the server load.
-
-=item B<-d>, B<--daemon>
-
-Run the agent as a daemon.
-
-=item B<--no-fork>
-
-Don't fork in background.
-
-This is only useful when running as a daemon.
-
-=item B<--pidfile>=I<FILE>
-
-Store pid in I<FILE>.
-
-This is only useful when running as a daemon.
 
 =item B<--tag>=I<TAG>
 
