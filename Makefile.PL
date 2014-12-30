@@ -82,7 +82,11 @@ recommends 'Thread::Queue' => '2.01';
 recommends 'Net::Write::Layer2' => '0';
 
 install_script 'bin/fusioninventory-agent';
-install_script 'bin/fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
+if ($OSNAME eq 'MSWin32') {
+    install_script 'bin/fusioninventory-win32-service';
+} else {
+    install_script 'bin/fusioninventory-daemon';
+}
 install_script 'bin/fusioninventory-injector';
 install_script 'bin/fusioninventory-inventory';
 install_script 'bin/fusioninventory-wakeonlan';
