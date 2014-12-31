@@ -15,7 +15,6 @@ my $default = {
     'ca-cert-file'            => undef,
     'color'                   => undef,
     'debug'                   => undef,
-    'delaytime'               => 3600,
     'lazy'                    => undef,
     'logger'                  => 'Stderr',
     'logfile'                 => undef,
@@ -42,6 +41,7 @@ my $default = {
     'force'                   => undef,
     'local'                   => undef,
     'no-task'                 => undef,
+    'delaytime'               => undef,
     # multi-values options that will be converted to array ref
     'httpd-trust'             => "",
     'no-module'               => "",
@@ -62,6 +62,9 @@ my $deprecated = {
         message => "use 'no-module' option instead",
         new     => 'no-module'
     },
+    'delaytime' => {
+        message => 'no more used'
+    }
 };
 
 sub new {

@@ -92,7 +92,6 @@ sub init {
         push @{$self->{controllers}},
             FusionInventory::Agent::Controller->new(
                 logger     => $logger,
-                delaytime  => $config->{delaytime},
                 basevardir => $self->{vardir},
                 url        => $server,
             );

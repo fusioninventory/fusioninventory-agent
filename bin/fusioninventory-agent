@@ -37,7 +37,6 @@ GetOptions(
     'ca-cert-file=s',
     'color',
     'debug+',
-    'delaytime=s',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
@@ -49,6 +48,7 @@ GetOptions(
     'timeout=i',
     'user|u=s',
     # deprecated options
+    'delaytime=s',
     'html',
     'force|f',
     'local|l=s',
@@ -177,8 +177,6 @@ B<fusioninventory-agent> [options] --server server
 
   Agent configuration options:
     --server=URI             send tasks result to a server
-    --delaytime=LIMIT        maximum delay before first server contact in 
-                                 seconds (3600)
     --no-module=MODULE       do not use given module
     --proxy=PROXY            proxy address
     --user=USER              user name for server authentication
@@ -284,13 +282,6 @@ and FusionInventory for GLPI this one:
     http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
 
 Multiple values can be specified, using comma as a separator.
-
-=item B<--delaytime>=I<LIMIT>
-
-Set an initial delay before the first target, whose value is computed randomly
-between LIMIT / 2 and LIMIT seconds. This setting is ignored for server targets
-after the initial contact, in favor of server-specified parameter
-(PROLOG_FREQ).
 
 =item B<--no-module>=I<MODULE>
 

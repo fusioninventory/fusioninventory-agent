@@ -21,9 +21,8 @@ sub new {
         id           => 'server' . $count++,
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->new(),
-        maxDelay     => $params{maxDelay} || 3600,
-        initialDelay => $params{delaytime},
         url          => _getCanonicalURL($params{url}),
+        maxDelay     => $params{maxDelay} || 3600;
     };
     bless $self, $class;
 
@@ -134,18 +133,12 @@ sub _getCanonicalURL {
 sub _computeNextRunDate {
     my ($self) = @_;
 
-    my $ret;
-    if ($self->{initialDelay}) {
-        $ret = time + ($self->{initialDelay} / 2) + int rand($self->{initialDelay} / 2);
-        $self->{initialDelay} = undef;
-    } else {
-        $ret =
-            time                   +
-            $self->{maxDelay} / 2  +
-            int rand($self->{maxDelay} / 2);
-    }
+    my $date =
+        time()                +
+        $self->{maxDelay} / 2 +
+        int rand($self->{maxDelay} / 2);
 
-    return $ret;
+    return $date;
 }
 
 sub _loadState {
