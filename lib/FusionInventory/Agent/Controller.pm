@@ -39,10 +39,10 @@ sub new {
     # handle persistent state
     $self->_loadState();
 
-    $self->{nextRunDate} = $self->_computeNextRunDate()
-        if !$self->{nextRunDate};
-
-    $self->_saveState();
+    if (!$self->{nextRunDate}) {
+        $self->{nextRunDate} = $self->_computeNextRunDate();
+        $self->_saveState();
+    }
 
     $self->{logger}->debug(
         "[target $self->{id}] Next server contact planned for " .
