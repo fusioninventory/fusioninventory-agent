@@ -159,46 +159,38 @@ __END__
 
 =head1 NAME
 
-fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
+fusioninventory-agent - FusionInventory agent
 
 =head1 SYNOPSIS
 
-B<fusioninventory-agent> [options] --server server
+B<fusioninventory-agent>
+S<[B<--config> I<string>]>
+S<[B<--conf-file> I<file>]>
+S<[B<--lazy>]>
+S<[B<--wait> I<integer>]>
+S<[B<--server> I<url>]>
+S<[B<--no-module> I<string>]>
+S<[B<--proxy> I<url>]>
+S<[B<--user> I<string>]>
+S<[B<--password> I<string>]>
+S<[B<--ca-cert-dir> I<directory>]>
+S<[B<--ca-cert-file> I<file>]>
+S<[B<--no-ssl-check>]>
+S<[B<--timeout> I<time>]>
+S<[B<--logger> I<string>]>
+S<[B<--logfile> I<file>]>
+S<[B<--logfile-maxsize> I<integer>]>
+S<[B<--logfacility> I<string>]>
+S<[B<--color>]>
 
-  Executable-specific options:
-    --config=BACKEND         configuration backend
-    --conf-file=FILE         configuration file
-    --lazy                   do not contact the server before next
-                                 scheduled time
-    --wait=LIMIT             maximum delay before execution, in seconds
-    --list-modules           list available modules and exit
-    --setup                  print the agent setup directories and exit
-    --version                print the version and exit
+B<fusioninventory-agent> B<--list-modules>
 
-  Agent configuration options:
-    --server=URI             send tasks result to a server
-    --no-module=MODULE       do not use given module
-    --proxy=PROXY            proxy address
-    --user=USER              user name for server authentication
-    --password=PASSWORD      password for server authentication
-    --ca-cert-dir=DIRECTORY  CA certificates directory
-    --ca-cert-file=FILE      CA certificates file
-    --no-ssl-check           do not check server SSL certificate (false)
-    --timeout=TIME           connection timeout, in seconds (180)
-    --logger=BACKEND         logger backend (stderr)
-    --logfile=FILE           log file
-    --logfile-maxsize=SIZE   maximum size of the log file in MB (0)
-    --logfacility=FACILITY   syslog facility (LOG_USER)
-    --color                  use color in the console (false)
-    --debug                  debug mode (false)
+B<fusioninventory-agent> B<--setup>
 
 =head1 DESCRIPTION
 
-The F<fusioninventory-agent> agent is a generic multi-platform agent. It can
-perform a large array of management tasks, such as local inventory, software
-deployment or network discovery. It can be used either standalone, or in
-combination with a compatible server (OCS, GLPI, OTRS) acting as a centralized
-control point.
+This executable allows to run the agent in half-managed mode: the agent contact
+its server immediatly, executes required tasks, and stops.
 
 =head1 OPTIONS
 
@@ -260,118 +252,69 @@ Print the version and exit.
 
 =head2 Agent configuration options
 
-Those options can be passed on command-line to override values found in configuration.
+Those options can be passed on command-line to override values found in
+configuration file.
 
 =over
 
 =item B<-s>, B<--server>=I<URI>
 
-Send the results of tasks execution to given server.
-
-If I<URI> doesn't start with http:// or https://, the agent assume the
-parameter is a hostname and rewrite it as:
-
-    % --server=http://servername/ocsinventory
-
-In general, OCS Inventory server URL have this format:
-
-    http://servername/ocsinventory
-
-and FusionInventory for GLPI this one:
-
-    http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
-
-Multiple values can be specified, using comma as a separator.
+Set B<server> option, see L<agent.cfg> for details.
 
 =item B<--no-module>=I<MODULE>
 
-Do not run given module.
-
-Multiple values can be specified, using comma as a separator. See option
-I<--list-modules> for the list of available modules.
+Set B<no-module> option, see L<agent.cfg> for details.
 
 =item B<-P>, B<--proxy>=I<PROXY>
 
-Use I<PROXY> as HTTP proxy.
-
-By default, the agent uses HTTP_PROXY environment variable.
+Set B<proxy> option, see L<agent.cfg> for details.
 
 =item B<-u> I<USER>, B<--user>=I<USER>
 
-Use I<USER> for server authentication.
+Set B<user> option, see L<agent.cfg> for details.
 
 =item B<-p>, B<--password>=I<PASSWORD>
 
-Use I<PASSWORD> for server authentication.
+Set B<password> option, see L<agent.cfg> for details.
 
 =item B<--ca-cert-dir>=I<DIRECTORY>
 
-CA certificates directory.
+Set B<ca-cert-dir> option, see L<agent.cfg> for details.
 
 =item B<--ca-cert-file>=I<FILE>
 
-CA certificates file.
+Set B<ca-cert-file> option, see L<agent.cfg> for details.
 
 =item B<--no-ssl-check>
 
-Do not check server SSL certificate.
+Set B<no-ssl-check> option, see L<agent.cfg> for details.
 
 =item B<--timeout>=I<TIME>
 
-Timeout for server connections.
+Set B<timeout> option, see L<agent.cfg> for details.
 
 =item B<--logger>=I<BACKEND>
 
-Logger backend to use.
-
-Multiple values can be specified, using comma as a separator. The available
-backends are:
-
-=over 4
-
-=item
-
-stderr: log messages directly in the console.
-
-=item
-
-file: log messages in a file.
-
-=item
-
-syslog: log messages through the local syslog server.
-
-=back
-
-Multiple values can be specified, using comma as a separator.
+Set B<logger> option, see L<agent.cfg> for details.
 
 =item B<--logfile>=I<FILE>
 
-Log message in I<FILE> (implies File logger backend).
+Set B<logfile> option, see L<agent.cfg> for details.
 
 =item B<--logfile-maxsize>=I<SIZE>
 
-Max logfile size in MB, default is unlimited. When the max size is reached, the
-file is truncated. This is only useful if there is no log rotation mechanism on
-the system.
+Set B<logfile-maxsize> option, see L<agent.cfg> for details.
 
 =item B<--logfacility>=I<FACILITY>
 
-Syslog facility to use (default LOG_USER).
+Set B<logfacility> option, see L<agent.cfg> for details.
 
 =item B<--color>
 
-Display color on the terminal, when the Stderr backend is used.
-
-This options is ignored on Windows.
+Set B<color> option, see L<agent.cfg> for details.
 
 =item B<--debug>
 
-Turn the debug mode on. You can use the parameter up to 3 times in a row
-to increase the verbosity (e.g: B<--debug --debug>).
-
-Level 3 turns on the debug mode of some external libraries like Net::SSLeay.
-These messages will only be be printed on STDERR.
-
+Set B<debug> option, see L<agent.cfg> for details.
 
 =back

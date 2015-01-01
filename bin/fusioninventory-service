@@ -120,4 +120,15 @@ __END__
 
 =head1 NAME
 
-fusioninventory-service - FusionInventory Agent service for Windows
+fusioninventory-service - FusionInventory agent service for Windows
+
+=head1 SYNOPSIS
+
+B<fusioninventory-service>
+
+=head1 DESCRIPTION
+
+This executable allows to run the agent in managed mode on a Windows system:
+the agent runs continuously in the background, wakes up periodically to contact
+its server and execute required tasks. It may also be contacted out of schedule
+by the server, through its web interface.
