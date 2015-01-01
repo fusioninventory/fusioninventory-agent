@@ -162,6 +162,7 @@ sub constants {
         INSTALLMAN3DIR       => '$(PREFIX)/share/man/man3',
         INSTALLSITEMAN3DIR   => '$(PREFIX)/share/man/man3',
         INSTALLVENDORMAN3DIR => '$(PREFIX)/share/man/man3',
+        INSTALLMAN5DIR       => '$(PREFIX)/share/man/man5',
         SYSCONFDIR           => '$(PREFIX)/etc/fusioninventory',
         DATADIR              => '$(PREFIX)/share/fusioninventory',
         LOCALSTATEDIR        => '$(PREFIX)/var/fusioninventory',
@@ -187,7 +188,7 @@ sub constants {
     }
 
     # add out own variables
-    foreach my $name (qw/SYSCONFDIR DATADIR LOCALSTATEDIR/) {
+    foreach my $name (qw/SYSCONFDIR DATADIR LOCALSTATEDIR INSTALLMAN5DIR/) {
         push @code, "$name = $variables{$name}";
     }
 
@@ -217,6 +218,8 @@ config_install :
 	else \
 	    install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg; \
 	fi
+	install -d -m 755 $(DESTDIR)$(INSTALLMAN5DIR)
+	pod2man --section 5 etc/agent.cfg.pod $(DESTDIR)$(INSTALLMAN5DIR)/agent.cfg.5
 
 data_install :
 	install -d -m 755 $(DESTDIR)$(DATADIR)
