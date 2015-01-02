@@ -22,7 +22,7 @@ sub new {
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->new(),
         url          => _getCanonicalURL($params{url}),
-        maxDelay     => $params{maxDelay} || 3600;
+        maxDelay     => $params{maxDelay} || 3600
     };
     bless $self, $class;
 
