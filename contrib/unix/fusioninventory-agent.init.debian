@@ -18,7 +18,7 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="FusionInventory Agent"
 NAME=fusioninventory-agent
-DAEMON=/usr/sbin/$NAME
+DAEMON=/usr/sbin/fusioninventory-daemon
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
@@ -27,7 +27,7 @@ SCRIPTNAME=/etc/init.d/$NAME
 
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
-DAEMON_ARGS="-d -s $SERVER --pidfile $PIDFILE"
+DAEMON_ARGS="-s $SERVER --pidfile $PIDFILE"
 
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh

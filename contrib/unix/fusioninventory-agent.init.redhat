@@ -29,7 +29,7 @@ fi
 
 start() {
     echo -n "Starting $prog: "
-    daemon fusioninventory-agent --daemon $OPTIONS --pidfile $pidfile 2>/dev/null
+    daemon fusioninventory-daemon $OPTIONS --pidfile $pidfile 2>/dev/null
     RETVAL=$?
     echo
     [ $RETVAL -eq 0 ] && touch $lockfile
