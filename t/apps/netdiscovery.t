@@ -18,7 +18,7 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
 
 FusionInventory::Agent::Task::NetDiscovery->use();
 
-plan tests => 12;
+plan tests => 9;
 
 my ($out, $err, $rc);
 
@@ -30,15 +30,6 @@ like(
     '--help stdout'
 );
 is($err, '', '--help stderr');
-
-($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '--version');
-ok($rc == 0, '--version exit status');
-is($err, '', '--version stderr');
-like(
-    $out,
-    qr/$FusionInventory::Agent::Task::NetDiscovery::VERSION/,
-    '--version stdout'
-);
 
 ($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', );
 ok($rc == 2, 'no first address exit status');

@@ -49,13 +49,8 @@ GetOptions(
     'timeout=i',
     'debug+',
     'help',
-    'version',
 ) or pod2usage(-verbose => 0);
 
-if ($options->{version}) {
-  print "NetInventory task $FusionInventory::Agent::Task::NetInventory::VERSION\n";
-  exit 0;
-}
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 pod2usage(
@@ -148,7 +143,6 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --entity       GLPI entity
     --debug        debug output (execution traces)
     -h --help      print this message and exit
-    --version      print the task version and exit
 
 =head1 DESCRIPTION
 

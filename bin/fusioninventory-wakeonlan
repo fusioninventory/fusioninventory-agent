@@ -29,13 +29,8 @@ GetOptions(
     'methods=s',
     'debug+',
     'help',
-    'version',
 ) or pod2usage(-verbose => 0);
 
-if ($options->{version}) {
-  print "WakeOnLan task $FusionInventory::Agent::Task::WakeOnLan::VERSION\n";
-  exit 0;
-}
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 pod2usage(
     -message => "no mac address given, aborting\n", -verbose => 0

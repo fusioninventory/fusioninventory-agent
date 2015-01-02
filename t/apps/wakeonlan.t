@@ -10,7 +10,7 @@ use Test::More;
 use FusionInventory::Agent::Task::WakeOnLan;
 use FusionInventory::Test::Utils;
 
-plan tests => 6;
+plan tests => 3;
 
 my ($out, $err, $rc);
 
@@ -22,12 +22,3 @@ like(
     '--help stdout'
 );
 is($err, '', '--help stderr');
-
-($out, $err, $rc) = run_executable('fusioninventory-wakeonlan', '--version');
-ok($rc == 0, '--version exit status');
-is($err, '', '--version stderr');
-like(
-    $out,
-    qr/$FusionInventory::Agent::Task::WakeOnLan::VERSION/,
-    '--version stdout'
-);

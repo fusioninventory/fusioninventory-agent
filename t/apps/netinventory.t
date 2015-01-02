@@ -18,7 +18,7 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
     plan skip_all => 'thread support required';
 }
 
-plan tests => 12;
+plan tests => 9;
 
 FusionInventory::Agent::Task::NetInventory->use();
 
@@ -32,15 +32,6 @@ like(
     '--help stdout'
 );
 is($err, '', '--help stderr');
-
-($out, $err, $rc) = run_executable('fusioninventory-netinventory', '--version');
-ok($rc == 0, '--version exit status');
-is($err, '', '--version stderr');
-like(
-    $out,
-    qr/$FusionInventory::Agent::Task::NetInventory::VERSION/,
-    '--version stdout'
-);
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',
