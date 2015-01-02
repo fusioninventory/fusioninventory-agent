@@ -20,7 +20,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::Message::Outbound;
 
-our $VERSION = '2.3.14';
+our $VERSION = '2.3.99';
 our $VERSION_STRING = _versionString($VERSION);
 our $AGENT_STRING = "FusionInventory-Agent_v$VERSION";
 
