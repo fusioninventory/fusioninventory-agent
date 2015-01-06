@@ -13,10 +13,10 @@ authors 'FusionInventory Team';
 
 # mandatory dependencies
 requires 'File::Which'        => '0';
-requires 'LWP'                => '5.8';
+requires 'LWP::UserAgent'     => '5.8';
 requires 'Net::IP'            => '0';
-requires 'UNIVERSAL::require' => '0';
 requires 'Text::Template'     => '0';
+requires 'UNIVERSAL::require' => '0';
 requires 'XML::TreePP'        => '0.26';
 
 if ($OSNAME eq 'MSWin32') {
@@ -74,8 +74,6 @@ test_requires 'POE::Component::Client::Ping' => '0';
 # Network
 recommends 'Net::SNMP'   => '0';
 recommends 'Net::NBName' => '0';
-recommends 'Digest::MD5' => '0';
-recommends 'Crypt::DES'  => '0';
 recommends 'Thread::Queue' => '2.01';
 
 # Wake-On-LAN
