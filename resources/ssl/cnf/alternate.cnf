@@ -4,6 +4,7 @@ encrypt_key        = no
 distinguished_name = req_dn
 req_extensions     = req_ext
 prompt             = no
+string_mask        = pkix
 
 [ req_dn ]
 organizationName       = fusioninventory.org
@@ -14,4 +15,4 @@ emailAddress           = test@fusioninventory.org
 [ req_ext ]
 basicConstraints     = CA:false
 subjectKeyIdentifier = hash
-subjectAltName       = DNS:other.fusioninventory.org, DNS:localhost
+subjectAltName       = DNS:other.fusioninventory.org, IP:127.0.0.1

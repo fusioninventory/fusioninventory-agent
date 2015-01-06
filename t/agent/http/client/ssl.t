@@ -20,13 +20,8 @@ unsetProxyEnvVar();
 # find an available port
 my $port = first { test_port($_) } 8080 .. 8090;
 
-# check than localhost resolves correctly
-my $localhost_ok = test_localhost();
-
 if (!$port) {
     plan skip_all => 'no available port';
-} elsif (!$localhost_ok) {
-    plan skip_all => 'localhost resolution failure';
 } elsif ($OSNAME eq 'MSWin32') {
     plan skip_all => 'non working test on Windows';
 } elsif ($OSNAME eq 'darwin') {
@@ -51,7 +46,7 @@ my $proxy = FusionInventory::Test::Proxy->new();
 $proxy->background();
 
 my $server;
-my $url = "https://localhost:$port/public";
+my $url = "https://127.0.0.1:$port/public";
 my $unsafe_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
     no_ssl_check => 1,
