@@ -12,9 +12,11 @@ TODO.
 
 ## Dependencies
 
+### Core
+
 Minimum perl version: 5.8
 
-Additional mandatory perl modules:
+Mandatory Perl modules:
 
 * File::Which
 * LWP::UserAgent
@@ -23,21 +25,72 @@ Additional mandatory perl modules:
 * UNIVERSAL::require
 * XML::TreePP
 
-Additional optional perl modules:
+Optional Perl modules:
 
 * Compress::Zlib, for message compression
 * HTTP::Daemon, for web interface
-* IO::Socket::SSL, for HTTPS support with certificate validation
-* Net::CUPS (v0.60 minimum), for printers detection 
-* Parse::EDID, for screen identification
+* IO::Socket::SSL, for HTTPS support
+* LWP::Protocol::https, for HTTPS support
 * Proc::Daemon, for daemon mode (Unix only)
-* Win32::Daemon, for Win32 service mode (Windows only)
 * Proc::PID::File, for daemon mode (Unix only)
 
-Additional optional programs:
+### Inventory task
 
-* dmidecode, for hardware inventory
-* lspci, for hardware inventory
+Optional Perl modules:
+
+* Net::CUPS, for printers detection
+* Parse::EDID, for EDID data parsing
+
+Optional programs:
+
+* dmidecode, for DMI data retrieval
+* lspci, for PCI bus scanning
+* hdparm, for additional disk drive info retrieval
+* monitor-get-edid-using-vbe, monitor-get-edid or get-edid, for EDID data access
+* ssh-keyscan, for host SSH public key retrieval
+
+### Network discovery tasks
+
+Mandatory Perl modules:
+
+* Thread::Queue
+
+Optional Perl modules:
+
+* Net::NBName, for NetBios method support
+* Net::SNMP, for SNMP method support
+
+Optional programs:
+
+* nmap, for ICMP method support
+
+### Network inventory tasks
+
+Mandatory Perl modules:
+
+* Net::SNMP
+* Thread::Queue
+
+Optional Perl modules:
+
+* Crypt::DES, for SNMPv3 support
+
+### Wake on LAN task
+
+Optional Perl modules:
+
+* Net::Write::Layer2, for ethernet method support
+
+### Deploy task
+
+Mandatory Perl modules:
+
+* Archive::Extract
+* Digest::SHA
+* File::Copy::Recursive
+* JSON
+* POE::Component::Client::Ping
+* URI::Escape
 
 ## Contacts
 
