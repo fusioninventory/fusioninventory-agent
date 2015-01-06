@@ -4,6 +4,7 @@ Revision history for FusionInventory agent
 inventory:
 * retrieve attached network gateway from default gateway
 * do not report 0.0.0.0 as address for non-configured IPMI interfaces
+* fix last user retrieval with 32 bit agent on 64 bit Windows
 
 netinventory:
 * better firmware retrieval (#2806)
