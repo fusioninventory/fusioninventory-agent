@@ -145,18 +145,44 @@ fusioninventory-netinventory - Standalone network inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-netinventory [options] <host>
-
-  Options:
-    --directory    directory target
-    --server       server target
-    --credentials  SNMP credentials
-    --timeout val  SNMP timeout (default: 15s)
-    --entity       GLPI entity
-    --debug        debug output (execution traces)
-    -h --help      print this message and exit
+B<fusioninventory-netinventory>
+S<[B<--credentials> I<string>]> S<[B<--timeout> I<integer>]>
+S<[B<--entity> I<string>]>
+S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
+S<[B<--debug>]>
+I<host> ...
 
 =head1 DESCRIPTION
 
 F<fusioninventory-netinventory> allows to run a network inventory task without
 a GLPI server.
+
+=head1 OPTIONS
+
+=over
+
+=item B<--credentials> I<string>
+
+SNMP credentials (default: version:1,community:public)
+
+=item B<--timeout> I<integer>
+
+SNMP timeout (default: 15s)
+
+=item B<--entity> I<string>
+
+GLPI entity
+
+=item B<--directory> I<path>
+
+directory target path.
+
+=item B<--server> I<url>
+
+server target url.
+
+=item B<--debug>
+
+debug output (execution traces)
+
+=back
