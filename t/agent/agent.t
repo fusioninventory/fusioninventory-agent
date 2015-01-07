@@ -23,7 +23,7 @@ package FusionInventory::Agent::Task::Task1;
 use base qw(FusionInventory::Agent::Task);
 our $VERSION = 42;
 EOF
-%tasks = $agent->getAvailableTasks();
+%tasks = $agent->getAvailableModules();
 cmp_deeply (
     \%tasks,
     { 'Task1' => 42 },
@@ -35,7 +35,7 @@ package FusionInventory::Agent::Task::Task2;
 use base qw(FusionInventory::Agent::Task);
 our $VERSION = 42;
 EOF
-%tasks = $agent->getAvailableTasks();
+%tasks = $agent->getAvailableModules();
 cmp_deeply (
     \%tasks,
     {
@@ -51,7 +51,7 @@ use base qw(FusionInventory::Agent::Task;
 use Does::Not::Exists;
 our $VERSION = 42;
 EOF
-%tasks = $agent->getAvailableTasks();
+%tasks = $agent->getAvailableModules();
 cmp_deeply(
     \%tasks,
     {
@@ -65,7 +65,7 @@ create_file("$libdir/FusionInventory/Agent/Task", "Test4.pm", <<'EOF');
 package FusionInventory::Agent::Task::Test4;
 our $VERSION = 42;
 EOF
-%tasks = $agent->getAvailableTasks();
+%tasks = $agent->getAvailableModules();
 cmp_deeply(
     \%tasks,
     {
