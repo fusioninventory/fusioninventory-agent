@@ -173,15 +173,15 @@ GLPI entity
 
 =item B<--directory> I<path>
 
-directory target path.
+directory target path
 
 =item B<--server> I<url>
 
-server target url.
+server target url
 
 =item B<--debug>
 
-debug output (execution traces)
+debug output
 
 =back
 
