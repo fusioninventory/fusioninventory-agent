@@ -39,7 +39,6 @@ GetOptions(
     $options,
     'server=s',
     'directory=s',
-    'model=s',
     'type=s',
     'host=s',
     'file=s',
@@ -66,8 +65,6 @@ pod2usage(
 pod2usage(
     -message => "no host given, aborting\n", -verbose => 0
 ) unless @ARGV;
-
-warn "deprecated option model, ignoring\n" if $options->{model};
 
 pod2usage(
     -message => "invalid type '$options->{type}', aborting\n",
