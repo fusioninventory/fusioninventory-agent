@@ -52,10 +52,9 @@ sub getConfiguration {
     my @blocks;
     foreach my $item (@{$task->{RANGEIP}}) {
         push @blocks, {
-            id      => $item->{ID},
-            ipstart => $item->{IPSTART},
-            ipend   => $item->{IPEND},
-            entity  => $item->{ENTITY}
+            id     => $item->{ID},
+            spec   => $item->{IPSTART} . '-' . $item->{IPEND},
+            entity => $item->{ENTITY}
         };
     }
 
@@ -122,14 +121,15 @@ sub run {
 
     # process each address block
     foreach my $block (@blocks) {
-        my $spec = $block->{ipstart} . '-' . $block->{ipend};
-        my $object = Net::IP->new($spec);
+        my $object = Net::IP->new($block->{spec});
         if (!$object || $object->{binip} !~ /1/) {
-            $self->{logger}->error("invalid IP block specification: $spec");
+            $self->{logger}->error(
+                "invalid IP block specification: $block->{spec}"
+            );
             next;
         }
 
-        $self->{logger}->debug("scanning block $spec");
+        $self->{logger}->debug("scanning block $block->{spec}");
 
         # initialize FIFOs
         my $addresses_queue = Thread::Queue->new();
