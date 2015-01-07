@@ -54,32 +54,48 @@ GetOptions(
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 pod2usage(
-    -message => "no host nor file given, aborting\n", -verbose => 0
-) unless $options->{host} or $options->{file};
+    -message => "--host option is deprecated, use regular argument instead\n",
+    -verbose => 0
+) if $options->{host};
+
+pod2usage(
+    -message => "--file option is deprecated, use regular argument instead\n",
+    -verbose => 0
+) if $options->{file};
+
+pod2usage(
+    -message => "no host given, aborting\n", -verbose => 0
+) unless @ARGV;
 
 warn "deprecated option model, ignoring\n" if $options->{model};
 
-my $device = {
-    id           => 0,
-    ip           => $options->{host},
-    file         => $options->{file},
-    authsnmp_id  => 1,
-    modelsnmp_id => 1
-};
+pod2usage(
+    -message => "invalid type '$options->{type}', aborting\n",
+    -verbose => 0
+) if $options->{type} && none { $options->{type} eq $_ } values %types;
 
-if ($options->{entity}) {
-    $device->{entity} = $options->{entity};
+my $host_id = 0;
+my @hosts;
+foreach my $arg (@ARGV) {
+    my $host = {
+        authsnmp_id => 1,
+    };
+    foreach my $parameter (split(',', $arg)) {
+        my ($key, $value) = split(':', $parameter);
+        if (!$value) {
+            $host->{ip} = $key;
+        } else {
+            $host->{$key} = $value;
+        }
+    }
+    $host->{id}     = $host_id++ unless $host->{id};
+    $host->{entity} = $options->{entity} if $options->{entity};
+    $host->{type}   = $options->{type} if $options->{type};
+    push @hosts, $host;
 }
 
 my $credentials = { id => 1 };
 
-if ($options->{type}) {
-    pod2usage(
-        -message => "invalid type '$options->{type}', aborting\n",
-        -verbose => 0
-    ) unless any { $options->{type} eq $_ } values %types;
-    $device->{type} = $options->{type};
-}
 
 if ($options->{community}) {
     $credentials->{community} = $options->{community};
@@ -110,7 +126,7 @@ my $task = FusionInventory::Agent::Task::NetInventory->new(
 $task->configure(
     pid         => 1,
     timeout     => $options->{timeout},
-    devices     => [ $device ],
+    devices     => \@hosts,
     credentials => [ $credentials ]
 );
 
@@ -130,13 +146,11 @@ fusioninventory-netinventory - Standalone network inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-netinventory [options] [--host <host>--file <file>]
+fusioninventory-netinventory [options] <host>
 
   Options:
     --directory    directory target
     --server       server target
-    --host host    host to inventorize
-    --file         snmpwalk output file
     --community    community string (default: public)
     --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)

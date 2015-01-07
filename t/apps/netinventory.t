@@ -40,14 +40,14 @@ is($err, '', '--help stderr');
 ok($rc == 2, 'no target exit status');
 like(
     $err,
-    qr/no host nor file given, aborting/,
+    qr/no host given, aborting/,
     'no target stderr'
 );
 is($out, '', 'no target stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',
-    '--file resources/walks/sample4.walk'
+    'file:resources/walks/sample4.walk'
 );
 ok($rc == 0, 'success exit status');
 
