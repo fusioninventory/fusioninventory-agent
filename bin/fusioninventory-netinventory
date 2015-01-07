@@ -7,7 +7,6 @@ use lib './lib';
 use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
-use XML::TreePP;
 
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools;
