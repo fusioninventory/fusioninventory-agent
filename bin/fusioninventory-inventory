@@ -50,6 +50,7 @@ if ($options->{version}) {
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 my $config = FusionInventory::Agent::Config->new(
+    confdir => $setup{confdir},
     options => $options,
 );
 
@@ -59,7 +60,11 @@ my $verbosity =
     $options->{debug} == 2 ? LOG_DEBUG2 :
                              LOG_DEBUG2 ;
 
-my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
+my $logger = FusionInventory::Agent::Logger->new(
+    config    => $config,
+    backends  => $config->{logger},
+    verbosity => $verbosity
+);
 
 my $task = FusionInventory::Agent::Task::Inventory->new(
     logger  => $logger,

@@ -9,7 +9,6 @@ use File::Glob;
 use IO::Handle;
 use POSIX ":sys_wait_h"; # WNOHANG
 
-use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
@@ -44,6 +43,9 @@ sub new {
         datadir => $params{datadir},
         libdir  => $params{libdir},
         vardir  => $params{vardir},
+        config  => $params{config},
+        logger  => $params{logger} ||
+                   FusionInventory::Agent::Logger->new(),
     };
     bless $self, $class;
 
@@ -53,22 +55,8 @@ sub new {
 sub init {
     my ($self, %params) = @_;
 
-    my $config = FusionInventory::Agent::Config->new(
-        confdir => $self->{confdir},
-        options => $params{options},
-    );
-    $self->{config} = $config;
-
-    my $verbosity = $config->{debug} && $config->{debug} == 1 ? LOG_DEBUG  :
-                    $config->{debug} && $config->{debug} == 2 ? LOG_DEBUG2 :
-                                                                LOG_INFO   ;
-
-    my $logger = FusionInventory::Agent::Logger->new(
-        config    => $config,
-        backends  => $config->{logger},
-        verbosity => $verbosity
-    );
-    $self->{logger} = $logger;
+    my $logger = $self->{logger};
+    my $config = $self->{config};
 
     $logger->debug("Configuration directory: $self->{confdir}");
     $logger->debug("Data directory: $self->{datadir}");
