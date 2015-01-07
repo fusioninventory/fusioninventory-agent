@@ -153,7 +153,7 @@ S<[B<--credentials> I<string>]> S<[B<--timeout> I<integer>]>
 S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
 S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
 S<[B<--debug>]>
-I<host> ...
+I<host> S<[I<host> ...]>
 
 =head1 DESCRIPTION
 
