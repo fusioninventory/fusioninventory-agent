@@ -12,9 +12,9 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logfile         => $params{config}->{logfile},
-        logfile_maxsize => $params{config}->{'logfile-maxsize'} ?
-            $params{config}->{'logfile-maxsize'} * 1024 * 1024 : 0
+        logfile         => $params{logfile},
+        logfile_maxsize => $params{'logfile-maxsize'} ?
+            $params{'logfile-maxsize'} * 1024 * 1024 : 0
     };
     bless $self, $class;
 

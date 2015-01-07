@@ -20,7 +20,7 @@ sub new {
     my $self = {};
     bless $self, $class;
 
-    openlog("fusinv-agent", 'cons,pid', $params{config}->{logfacility});
+    openlog("fusinv-agent", 'cons,pid', $params{logfacility});
 
     return $self;
 }

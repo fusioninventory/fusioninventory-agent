@@ -122,9 +122,14 @@ my $verbosity =
                              LOG_DEBUG2 ;
 
 my $logger = FusionInventory::Agent::Logger->new(
-    config    => $config,
-    backends  => $config->{logger},
-    verbosity => $verbosity
+    verbosity => $verbosity,
+    backends  => $config->{'logger'},
+    config    => {
+        logfile         => $config->{'logfile'},
+        logfile_maxsize => $config->{'logfile-maxsize'},
+        logfacility     => $config->{'logfacility'},
+        color           => $config->{'color'},
+    }
 );
 
 my $agent = FusionInventory::Agent->new(

@@ -44,7 +44,7 @@ sub new {
         $self->debug("Logger backend $backend initialised");
         push
             @{$self->{backends}},
-            $package->new(%params);
+            $package->new(%{$params{config}});
     }
 
     $self->debug($FusionInventory::Agent::VERSION_STRING);

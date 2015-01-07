@@ -10,7 +10,7 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        color => $params{config}->{color},
+        color => $params{color},
     };
     bless $self, $class;
 
