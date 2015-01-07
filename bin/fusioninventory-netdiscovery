@@ -161,7 +161,7 @@ SNMP credentials (default: version:2c,community:public)
 
 =item B<--timeout> I<integer>
 
-SNMP timeout (default: 15s)
+SNMP timeout (default: 1s)
 
 =item B<--threads> I<integer>
 
