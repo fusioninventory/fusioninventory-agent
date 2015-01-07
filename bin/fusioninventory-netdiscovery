@@ -31,7 +31,8 @@ GetOptions(
     'first=s',
     'last=s',
     'community=s@',
-    'credential=s@',
+    'credential=s',
+    'credentials=s@',
     'entity=s',
     'threads=i',
     'timeout=i',
@@ -55,6 +56,11 @@ pod2usage(
     -message => "--community option is deprecated, use --credentials instead\n",
     -verbose => 0
 ) if $options->{community};
+
+pod2usage(
+    -message => "--credential option has been renamed to --credentials\n",
+    -verbose => 0
+) if $options->{credential};
 
 pod2usage(
     -message => "no network given, aborting\n", -verbose => 0
@@ -94,14 +100,14 @@ foreach my $arg (@ARGV) {
 
 my $credentials_id = 1;
 my @credentials;
-if ($options->{credential}) {
-    foreach my $specification (@{$options->{credential}}) {
-        my $credential = { id => $credentials_id++ };
+if ($options->{credentials}) {
+    foreach my $specification (@{$options->{credentials}}) {
+        my $credentials = { id => $credentials_id++ };
         foreach my $parameter (split(',', $specification)) {
             my ($key, $value) = split(':', $parameter);
-            $credential->{$key} = $value;
+            $credentials->{$key} = $value;
         }
-        push @credentials, $credential;
+        push @credentials, $credentials;
     }
 } else {
     push @credentials, {
@@ -134,7 +140,7 @@ fusioninventory-netdiscovery - Standalone network discovery
 =head1 SYNOPSIS
 
 B<fusioninventory-netdiscovery>
-S<[B<--credential> I<string>]> S<[B<--timeout> I<integer>]>
+S<[B<--credentials> I<string>]> S<[B<--timeout> I<integer>]>
 S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
 S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
 S<[B<--debug>]>
@@ -149,7 +155,7 @@ GLPI server.
 
 =over
 
-=item B<--credential> I<string>
+=item B<--credentials> I<string>
 
 SNMP credentials (default: version:1,community:public)
 
