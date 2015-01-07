@@ -24,7 +24,8 @@ my %types = (
 );
 
 my $options = {
-    debug => 0
+    debug   => 0,
+    threads => 1
 };
 
 my %setup = (
@@ -44,6 +45,7 @@ GetOptions(
     'community=s',
     'credentials=s',
     'entity=s',
+    'threads=i',
     'timeout=i',
     'debug+',
     'help',
@@ -123,6 +125,7 @@ my $task = FusionInventory::Agent::Task::NetInventory->new(
 
 $task->configure(
     pid         => 1,
+    threads     => $options->{threads},
     timeout     => $options->{timeout},
     devices     => \@hosts,
     credentials => [ $credentials ]
@@ -146,7 +149,7 @@ fusioninventory-netinventory - Standalone network inventory
 
 B<fusioninventory-netinventory>
 S<[B<--credentials> I<string>]> S<[B<--timeout> I<integer>]>
-S<[B<--entity> I<string>]>
+S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
 S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
 S<[B<--debug>]>
 I<host> ...
@@ -167,6 +170,10 @@ SNMP credentials (default: version:1,community:public)
 =item B<--timeout> I<integer>
 
 SNMP timeout (default: 15s)
+
+=item B<--threads> I<integer>
+
+threads number (default: 1)
 
 =item B<--entity> I<string>
 
