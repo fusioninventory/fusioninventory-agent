@@ -42,11 +42,18 @@ GetOptions(
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 pod2usage(
-    -message => "no first address, aborting\n", -verbose => 0
-) unless $options->{first};
+    -message => "--first option is deprecated, use regular argument instead\n",
+    -verbose => 0
+) if $options->{first};
+
 pod2usage(
-    -message => "no last address, aborting\n", -verbose => 0
-) unless $options->{last};
+    -message => "--last option is deprecated, use regular argument instead\n",
+    -verbose => 0
+) if $options->{last};
+
+pod2usage(
+    -message => "no network given, aborting\n", -verbose => 0
+) unless @ARGV;
 
 my $verbosity =
     $options->{debug} == 0 ? LOG_INFO   :
@@ -63,14 +70,21 @@ my $task = FusionInventory::Agent::Task::NetDiscovery->new(
     deviceid => 'foo',
 );
 
-my $block = {
-    id      => 1,
-    ipstart => $options->{first},
-    ipend   => $options->{last},
-};
-
-if ($options->{entity}) {
-    $block->{entity} = $options->{entity};
+my $block_id = 1;
+my @blocks;
+foreach my $arg (@ARGV) {
+    my $block;
+    foreach my $parameter (split(',', $arg)) {
+        my ($key, $value) = split(':', $parameter);
+        if (!$value) {
+            $block->{spec} = $key;
+        } else {
+            $block->{$key} = $value;
+        }
+    }
+    $block->{id}     = $block_id++ unless $block->{id};
+    $block->{entity} = $options->{entity} if $options->{entity};
+    push @blocks, $block;
 }
 
 my $credentials_id = 1;
@@ -99,7 +113,7 @@ $task->configure(
     pid         => 1,
     threads     => $options->{threads},
     timeout     => $options->{timeout},
-    blocks      => [ $block ],
+    blocks      => \@blocks,
     snmp_credentials => \@credentials,
 );
 
@@ -119,13 +133,11 @@ fusioninventory-netdiscovery - Standalone network discovery
 
 =head1 SYNOPSIS
 
-fusioninventory-netdiscovery [options] --first <start> --last <stop>
+fusioninventory-netdiscovery [options] <network>
 
   Options:
     --directory     directory target
     --server        server target
-    --first address IP range first address
-    --last address  IP range last address
     --credential    SNMP credential (default: version:1,community:public)
     --entity        GLPI entity
     --threads nb    number of discovery threads (default: 1)
