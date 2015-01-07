@@ -133,20 +133,48 @@ fusioninventory-netdiscovery - Standalone network discovery
 
 =head1 SYNOPSIS
 
-fusioninventory-netdiscovery [options] <network>
-
-  Options:
-    --directory     directory target
-    --server        server target
-    --credential    SNMP credential (default: version:1,community:public)
-    --entity        GLPI entity
-    --threads nb    number of discovery threads (default: 1)
-    --timeout val   SNMP timeout (default: 1s)
-    --debug         debug output (execution traces)
-    -h --help       print this message and exit
-    --version       print the task version and exit
+B<fusioninventory-netdiscovery>
+S<[B<--credential> I<string>]> S<[B<--timeout> I<integer>]>
+S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
+S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
+S<[B<--debug>]>
+I<network> ...
 
 =head1 DESCRIPTION
 
 F<fusioninventory-netdiscovery> allows to run a network discovery task without a
 GLPI server.
+
+=head1 OPTIONS
+
+=over
+
+=item B<--credential> I<string>
+
+SNMP credentials (default: version:1,community:public)
+
+=item B<--timeout> I<integer>
+
+SNMP timeout (default: 15s)
+
+=item B<--threads> I<integer>
+
+threads number (default: 1)
+
+=item B<--entity> I<string>
+
+GLPI entity
+
+=item B<--directory> I<path>
+
+directory target path.
+
+=item B<--server> I<url>
+
+server target url.
+
+=item B<--debug>
+
+debug output (execution traces)
+
+=back
