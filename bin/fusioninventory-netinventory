@@ -63,6 +63,11 @@ pod2usage(
 ) if $options->{file};
 
 pod2usage(
+    -message => "--community option is deprecated, use --credentials instead\n",
+    -verbose => 0
+) if $options->{community};
+
+pod2usage(
     -message => "no host given, aborting\n", -verbose => 0
 ) unless @ARGV;
 
@@ -93,10 +98,7 @@ foreach my $arg (@ARGV) {
 
 my $credentials = { id => 1 };
 
-
-if ($options->{community}) {
-    $credentials->{community} = $options->{community};
-} elsif (defined $options->{credentials}) {
+if ($options->{credentials}) {
     foreach my $parameter (split(',', $options->{credentials})) {
         my ($key, $value) = split(':', $parameter);
         $credentials->{$key} = $value;
@@ -148,7 +150,6 @@ fusioninventory-netinventory [options] <host>
   Options:
     --directory    directory target
     --server       server target
-    --community    community string (default: public)
     --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)
     --entity       GLPI entity
