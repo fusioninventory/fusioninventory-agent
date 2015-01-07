@@ -13,8 +13,8 @@ sub new {
 
     my $self = {
         logfile         => $params{logfile},
-        logfile_maxsize => $params{'logfile-maxsize'} ?
-            $params{'logfile-maxsize'} * 1024 * 1024 : 0
+        logfile_maxsize => $params{logfile_maxsize} ?
+            $params{logfile_maxsize} * 1024 * 1024 : 0
     };
     bless $self, $class;
 

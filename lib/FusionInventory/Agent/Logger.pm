@@ -21,8 +21,22 @@ our @EXPORT = qw/LOG_DEBUG2 LOG_DEBUG LOG_INFO LOG_WARNING LOG_ERROR LOG_NONE/;
 sub new {
     my ($class, %params) = @_;
 
+    if ($params{config}) {
+        my $config = delete $params{config};
+        $params{backends}        = $config->{'logger'};
+        $params{logfile}         = $config->{'logfile'};
+        $params{logfile_maxsize} = $config->{'logfile-maxsize'};
+        $params{logfacility}     = $config->{'logfacility'};
+        $params{color}           = $config->{'color'};
+        $params{verbosity}       =
+            $config->{debug} == 0 ? LOG_INFO   :
+            $config->{debug} == 1 ? LOG_DEBUG  :
+            $config->{debug} == 2 ? LOG_DEBUG2 :
+                                    LOG_DEBUG2 ;
+    }
+
     my $self = {
-        verbosity => defined $params{verbosity} ? $params{verbosity} : LOG_INFO,
+        verbosity => $params{verbosity} || LOG_INFO
     };
     bless $self, $class;
 
@@ -44,7 +58,7 @@ sub new {
         $self->debug("Logger backend $backend initialised");
         push
             @{$self->{backends}},
-            $package->new(%{$params{config}});
+            $package->new(%params);
     }
 
     $self->debug($FusionInventory::Agent::VERSION_STRING);

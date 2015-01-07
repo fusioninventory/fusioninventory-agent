@@ -165,7 +165,7 @@ ok(
 
 $logger = FusionInventory::Agent::Logger->new(
     backends  => [ qw/Stderr/ ],
-    config    => { color => 1 },
+    color     => 1,
     verbosity => LOG_DEBUG
 );
 
@@ -200,7 +200,7 @@ my $logfile;
 $logfile = "$tmpdir/test1";
 $logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
-    config   => { logfile => $logfile }
+    logfile  => $logfile
 );
 
 $logger->debug('message');
@@ -213,7 +213,7 @@ ok(
 $logfile = "$tmpdir/test2";
 $logger = FusionInventory::Agent::Logger->new(
     backends  => [ qw/File/ ],
-    config    => { logfile => $logfile },
+    logfile   => $logfile,
     verbosity => LOG_DEBUG
 );
 $logger->debug('message');
@@ -250,7 +250,7 @@ is(
 $logfile = "$tmpdir/test3";
 $logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
-    config   => { logfile => $logfile },
+    logfile  => $logfile,
 );
 fillLogFile($logger);
 ok(
@@ -260,11 +260,9 @@ ok(
 
 $logfile = "$tmpdir/test4";
 $logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/File/ ],
-    config   => {
-        'logfile'         => $logfile,
-        'logfile-maxsize' => 1
-    }
+    backends        => [ qw/File/ ],
+    logfile         => $logfile,
+    logfile_maxsize => 1
 );
 fillLogFile($logger);
 ok(
