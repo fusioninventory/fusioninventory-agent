@@ -11,6 +11,7 @@ use XML::TreePP;
 use UNIVERSAL::require;
 use Config;
 
+use FusionInventory::Agent;
 use FusionInventory::Test::Utils;
 
 # check thread support availability
@@ -55,4 +56,6 @@ my $content = XML::TreePP->new()->parse($out);
 ok($content, 'valid output');
 
 my $result = XML::TreePP->new()->parsefile('resources/walks/sample4.result');
+$result->{'REQUEST'}{'CONTENT'}{'MODULEVERSION'} =
+    $FusionInventory::Agent::VERSION;
 cmp_deeply($content, $result, "expected output");
