@@ -76,7 +76,7 @@ pod2usage(
     -verbose => 0
 ) if $options->{type} && none { $options->{type} eq $_ } values %types;
 
-my $host_id = 0;
+my $host_id = 1;
 my @hosts;
 foreach my $arg (@ARGV) {
     my $host = {

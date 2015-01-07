@@ -6,7 +6,7 @@
         <COMMENTS>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_</COMMENTS>
         <CONTACT>systeme@example.com</CONTACT>
         <FIRMWARE>K.15.28</FIRMWARE>
-        <ID>0</ID>
+        <ID>1</ID>
         <IPS>
           <IP>127.0.0.1</IP>
           <IP>172.27.192.226</IP>
