@@ -186,3 +186,16 @@ server target url.
 debug output (execution traces)
 
 =back
+
+=head1 EXAMPLES
+
+    $> fusioninventory-netinventory 192.168.1.24
+    $> fusioninventory-netinventory 192.168.1.24
+        --directory /tmp
+    $> fusioninventory-netinventory 192.168.1.24
+        --server http://glpi.domain.com/plugins/fusioninventory/
+    $> fusioninventory-netinventory ip:192.168.1.24,id:1,type:network
+    $> fusioninventory-netinventory ip:192.168.1.24,id:1,type:network
+        --credentials version:3,username:foo,authprotocol:sha1,authpassword:bar
+    $> fusioninventory-netinventory 192.168.1.24 192.168.1.25
+    $> fusioninventory-netinventory ip:192.168.1.24,id:1 ip:192.168.1.25,id:2
