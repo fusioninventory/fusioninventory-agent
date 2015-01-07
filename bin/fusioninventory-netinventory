@@ -105,6 +105,7 @@ if ($options->{credentials}) {
         $credentials->{$key} = $value;
     }
 } else {
+    $credentials->{version}   = '2c';
     $credentials->{community} = 'public';
 }
 
@@ -165,7 +166,7 @@ a GLPI server.
 
 =item B<--credentials> I<string>
 
-SNMP credentials (default: version:1,community:public)
+SNMP credentials (default: version:2c,community:public)
 
 =item B<--timeout> I<integer>
 

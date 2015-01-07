@@ -111,7 +111,7 @@ if ($options->{credentials}) {
     }
 } else {
     push @credentials, {
-        id => $credentials_id++, version => 1, community => 'public'
+        id => $credentials_id++, version => '2c', community => 'public'
     };
 }
 
@@ -157,7 +157,7 @@ GLPI server.
 
 =item B<--credentials> I<string>
 
-SNMP credentials (default: version:1,community:public)
+SNMP credentials (default: version:2c,community:public)
 
 =item B<--timeout> I<integer>
 
