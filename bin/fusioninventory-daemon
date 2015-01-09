@@ -83,14 +83,13 @@ my $agent = FusionInventory::Agent->new(
     %setup
 );
 
+# initialize the agent
 eval {
-    # initialize agent
     $agent->init(options => $options, server => 1);
     $agent->initModules(fork => 1);
     $agent->initControllers();
     $agent->initHTTPInterface() unless $config->{'no-httpd'};
 
-    # daemonize agent
     my $pidfile  = $options->{pidfile} ||
                    $setup{vardir} . '/fusioninventory.pid';
 
@@ -116,8 +115,16 @@ eval {
     }
 
     $agent->{logger}->info("FusionInventory Agent starting");
+};
 
-    # run infinite loop
+if ($EVAL_ERROR) {
+    print STDERR "Initialization failure:.\n";
+    print STDERR $EVAL_ERROR;
+    exit 1;
+}
+
+# run the agent endless loop
+eval {
     $agent->run();
 };
 
