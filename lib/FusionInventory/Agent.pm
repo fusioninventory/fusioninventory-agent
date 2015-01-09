@@ -76,21 +76,6 @@ sub init {
         $self->_saveState();
     }
 
-    foreach my $server (@{$config->{server}}) {
-        push @{$self->{controllers}},
-            FusionInventory::Agent::Controller->new(
-                logger     => $logger,
-                basevardir => $self->{vardir},
-                url        => $server,
-            );
-    }
-
-    if (!$self->{controllers}) {
-        $logger->error("No server defined, aborting");
-        exit 1;
-    }
-
-
     # install signal handler to handle graceful exit
     $SIG{INT}     = sub { $self->terminate(server => $params{server}); exit 0; };
     $SIG{TERM}    = sub { $self->terminate(server => $params{server}); exit 0; };
@@ -114,6 +99,23 @@ sub initModules {
     }
 
     $self->{modules} = \%modules;
+}
+
+sub initControllers {
+    my ($self) = @_;
+
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+
+    foreach my $url (@{$config->{server}}) {
+        my $controller = FusionInventory::Agent::Controller->new(
+            logger     => $logger,
+            basevardir => $self->{vardir},
+            url        => $url,
+        );
+        push @{$self->{controllers}}, $controller;
+    }
+
 }
 
 sub initHTTPInterface {
