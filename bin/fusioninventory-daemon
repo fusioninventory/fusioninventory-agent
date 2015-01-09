@@ -110,6 +110,8 @@ eval {
         $agent->{logger}->debug("Agent daemonized");
     }
 
+    $agent->{logger}->info("FusionInventory Agent starting");
+
     # run infinite loop
     $agent->run();
 };

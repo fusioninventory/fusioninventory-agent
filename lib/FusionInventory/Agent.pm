@@ -129,9 +129,6 @@ sub init {
     # install signal handler to handle graceful exit
     $SIG{INT}     = sub { $self->terminate(server => $params{server}); exit 0; };
     $SIG{TERM}    = sub { $self->terminate(server => $params{server}); exit 0; };
-
-    $self->{logger}->info("FusionInventory Agent starting")
-        if $params{server};
 }
 
 sub run {
