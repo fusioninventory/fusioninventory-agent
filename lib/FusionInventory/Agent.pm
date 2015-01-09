@@ -283,7 +283,7 @@ sub _executeTaskReal {
 
     $task->configure(
         tag                => $self->{config}->{tag},
-        timeout            => $self->{config}->{'collect-timeout'},
+        timeout            => $self->{config}->{'execution-timeout'},
         additional_content => $self->{config}->{'additional-content'},
         scan_homedirs      => $self->{config}->{'scan-homedirs'},
         no_category        => $self->{config}->{'no-category'},

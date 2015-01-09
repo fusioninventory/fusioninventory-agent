@@ -10,7 +10,7 @@ use UNIVERSAL::require;
 
 my $default = {
     'additional-content'      => undef,
-    'backend-collect-timeout' => 180,
+    'execution-timeout'       => 180,
     'ca-cert-dir'             => undef,
     'ca-cert-file'            => undef,
     'color'                   => undef,
@@ -42,6 +42,7 @@ my $default = {
     'no-task'                 => undef,
     'delaytime'               => undef,
     'lazy'                    => undef,
+    'backend-collect-timeout' => undef,
     # multi-values options that will be converted to array ref
     'httpd-trust'             => "",
     'no-module'               => "",
@@ -67,6 +68,10 @@ my $deprecated = {
     },
     'lazy' => {
         message => 'use --lazy command-line option if needed'
+    },
+    'backend-collect-timeout' => {
+        message => 'use execution-timeout option instead',
+        new     => 'execution-timeout'
     }
 };
 

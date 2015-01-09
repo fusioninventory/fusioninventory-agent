@@ -114,7 +114,7 @@ sub _initModulesList {
             module   => $module,
             function => "isEnabled",
             logger => $logger,
-            timeout  => $config->{'backend-collect-timeout'},
+            timeout  => $config->{'execution-timeout'},
             params => {
                 no_category   => $disabled,
                 datadir       => $self->{datadir},

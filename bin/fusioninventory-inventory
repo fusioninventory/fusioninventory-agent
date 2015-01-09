@@ -31,7 +31,7 @@ GetOptions(
     'directory=s',
     'server=s',
     'additional-content=s',
-    'backend-collect-timeout=s',
+    'execution-timeout=s',
     'no-category=s@',
     'scan-homedirs',
     'scan-profiles',
@@ -40,6 +40,8 @@ GetOptions(
     'debug+',
     'help',
     'version',
+    # deprecated options
+    'backend-collect-timeout=s',
 ) or pod2usage(-verbose => 0);
 
 if ($options->{version}) {
@@ -66,7 +68,7 @@ my $task = FusionInventory::Agent::Task::Inventory->new(
 
 $task->configure(
     tag                => $options->{tag},
-    timeout            => $options->{'collect-timeout'},
+    timeout            => $options->{'execution-timeout'},
     additional_content => $options->{'additional-content'},
     scan_homedirs      => $options->{'scan-homedirs'},
     no_category        => $options->{'no-category'},
@@ -97,8 +99,7 @@ fusioninventory-inventory [options]
     --scan-profiles                scan user profiles (false)
     --no-category=CATEGORY         do not list given category items
     -t --tag=TAG                   mark the machine with given tag
-    --backend-collect-timeout=TIME timeout for inventory modules
-                                     execution (30)
+    --execution-timeout=TIME       timeout for inventory modules execution (30)
     --additional-content=FILE      additional inventory content file
     --verbose                      verbose output (control messages)
     --debug                        debug output (execution traces)
