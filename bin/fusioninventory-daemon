@@ -12,6 +12,8 @@ use Proc::Daemon;
 use Proc::PID::File;
 
 use FusionInventory::Agent;
+use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Logger;
 
 my %setup = (
     confdir => './etc',
