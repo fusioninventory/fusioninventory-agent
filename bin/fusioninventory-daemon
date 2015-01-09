@@ -84,6 +84,7 @@ my $agent = FusionInventory::Agent->new(
 eval {
     # initialize agent
     $agent->init(options => $options, server => 1);
+    $agent->initHTTPInterface() unless $config->{'no-httpd'};
 
     # daemonize agent
     my $pidfile  = $options->{pidfile} ||

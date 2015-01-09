@@ -108,27 +108,32 @@ sub init {
 
     $self->{modules} = \%modules;
 
-    # create HTTP interface
-    if ($params{server} && !$config->{'no-httpd'}) {
-        FusionInventory::Agent::HTTP::Server->require();
-        if ($EVAL_ERROR) {
-            $logger->error("Failed to load HTTP server: $EVAL_ERROR");
-        } else {
-            $self->{server} = FusionInventory::Agent::HTTP::Server->new(
-                logger          => $logger,
-                agent           => $self,
-                htmldir         => $self->{datadir} . '/html',
-                ip              => $config->{'httpd-ip'},
-                port            => $config->{'httpd-port'},
-                trust           => $config->{'httpd-trust'}
-            );
-            $self->{server}->init();
-        }
-    }
-
     # install signal handler to handle graceful exit
     $SIG{INT}     = sub { $self->terminate(server => $params{server}); exit 0; };
     $SIG{TERM}    = sub { $self->terminate(server => $params{server}); exit 0; };
+}
+
+sub initHTTPInterface {
+    my ($self) = @_;
+
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+
+    FusionInventory::Agent::HTTP::Server->require();
+    if ($EVAL_ERROR) {
+        $logger->error("Failed to load HTTP server: $EVAL_ERROR");
+        return;
+    }
+
+    $self->{server} = FusionInventory::Agent::HTTP::Server->new(
+        logger          => $self->{logger},
+        agent           => $self,
+        htmldir         => $self->{datadir} . '/html',
+        ip              => $config->{'httpd-ip'},
+        port            => $config->{'httpd-port'},
+        trust           => $config->{'httpd-trust'}
+    );
+    $self->{server}->init();
 }
 
 sub run {
