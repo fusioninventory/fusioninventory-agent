@@ -146,6 +146,7 @@ if ($options->{wait}) {
 
 eval {
     $agent->init(options => $options);
+    $agent->initModules();
 
     my $time = time();
     foreach my $controller (@{$agent->{controllers}}) {

@@ -90,16 +90,23 @@ sub init {
         exit 1;
     }
 
+
+    # install signal handler to handle graceful exit
+    $SIG{INT}     = sub { $self->terminate(server => $params{server}); exit 0; };
+    $SIG{TERM}    = sub { $self->terminate(server => $params{server}); exit 0; };
+}
+
+sub initModules {
+    my ($self, %params) = @_;
+
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+
     # compute list of available modules
     my %modules = $self->getAvailableModules(
         disabled => $config->{'no-module'},
-        fork     => $params{server}
+        fork     => $params{fork}
     );
-
-    if (!%modules) {
-        $logger->error("No modules available, aborting");
-        exit 1;
-    }
 
     $logger->debug("Available modules");
     foreach my $module (keys %modules) {
@@ -107,10 +114,6 @@ sub init {
     }
 
     $self->{modules} = \%modules;
-
-    # install signal handler to handle graceful exit
-    $SIG{INT}     = sub { $self->terminate(server => $params{server}); exit 0; };
-    $SIG{TERM}    = sub { $self->terminate(server => $params{server}); exit 0; };
 }
 
 sub initHTTPInterface {
