@@ -71,16 +71,35 @@ fusioninventory-wakeonlan - Standalone wake-on-lan
 
 =head1 SYNOPSIS
 
-fusioninventory-wakeonlan [options]
-
-  Options:
-    --mac=MAC         target mac address
-    --methods=METHODS comma-separated list of methods to use (ethernet, udp)
-    --debug           debug output (execution traces)
-    -h --help         print this message and exit
-    --version         print the task version and exit
+B<fusioninventory-wakeonlan>
+S<[B<-mac> I<string>]> S<[B<--methods> I<string>]>
+S<[B<--debug>]>
 
 =head1 DESCRIPTION
 
 F<fusioninventory-wakeonlan> allows to run a wakeonlan task without a GLPI
 server.
+
+=head1 OPTIONS
+
+=over
+
+=item B<--mac> I<string>
+
+target mac address
+
+=item B<--methods> I<string>
+
+comma-separated list of methods to use (ethernet, udp)
+
+=item B<--debug>
+
+debug output
+
+=back
+
+=head1 EXAMPLES
+
+    $> fusioninventory-wakeonlan --mac f0:1f:af:0f:a4:0c
+    $> fusioninventory-wakeonlan --mac f0:1f:af:0f:a4:0c --methods udp
+    $> fusioninventory-wakeonlan --mac f0:1f:af:0f:a4:0c,f0:1f:af:0f:a4:0d
