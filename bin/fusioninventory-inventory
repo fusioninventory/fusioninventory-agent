@@ -143,3 +143,13 @@ server target url
 debug output
 
 =back
+
+=head1 EXAMPLES
+
+    $> fusioninventory-inventory
+    $> fusioninventory-inventory
+        --directory /tmp
+    $> fusioninventory-inventory
+        --server http://glpi.domain.com/plugins/fusioninventory
+    $> fusioninventory-inventory --no-category printers --no-category softwares
+    $> fusioninventory-inventory --additional-content override.xml
