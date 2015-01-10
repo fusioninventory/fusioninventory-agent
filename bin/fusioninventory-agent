@@ -145,7 +145,7 @@ if ($options->{wait}) {
 }
 
 eval {
-    $agent->init(options => $options);
+    $agent->init();
     $agent->initModules();
     $agent->initControllers();
 };

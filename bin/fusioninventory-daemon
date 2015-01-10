@@ -85,7 +85,7 @@ my $agent = FusionInventory::Agent->new(
 
 # initialize the agent
 eval {
-    $agent->init(options => $options, server => 1);
+    $agent->init(server => 1);
     $agent->initModules(fork => 1);
     $agent->initControllers();
     $agent->initHTTPInterface() unless $config->{'no-httpd'};
