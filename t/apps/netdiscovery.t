@@ -18,7 +18,7 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
 
 FusionInventory::Agent::Task::NetDiscovery->use();
 
-plan tests => 9;
+plan tests => 6;
 
 my ($out, $err, $rc);
 
@@ -35,16 +35,7 @@ is($err, '', '--help stderr');
 ok($rc == 2, 'no first address exit status');
 like(
     $err,
-    qr/no first address/,
-    'no target stderr'
-);
-is($out, '', 'no target stdout');
-
-($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '--first 192.168.0.1');
-ok($rc == 2, 'no last address exit status');
-like(
-    $err,
-    qr/no last address/,
+    qr/no network given/,
     'no target stderr'
 );
 is($out, '', 'no target stdout');
