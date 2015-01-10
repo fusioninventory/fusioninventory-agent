@@ -46,6 +46,7 @@ sub new {
         config  => $params{config},
         logger  => $params{logger} ||
                    FusionInventory::Agent::Logger->new(),
+        controllers => []
     };
     bless $self, $class;
 
