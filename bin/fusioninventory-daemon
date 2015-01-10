@@ -6,6 +6,7 @@ use lib './lib';
 
 use Cwd;
 use English qw(-no_match_vars);
+use File::Spec;
 use Getopt::Long;
 use Pod::Usage;
 use Proc::Daemon;
@@ -102,11 +103,14 @@ eval {
 
     if (!$options->{'no-fork'}) {
 
-        # If we use relative path, we must stay in the current directory
-        my $workdir = substr($setup{libdir}, 0, 1) eq '/' ? '/' : getcwd();
+        # enforce absolute pathes, as daemonization changes working directory
+        $pidfile = File::Spec->rel2abs($pidfile);
+        foreach my $key (%{$agent->{setup}}) {
+            $agent->{setup}->{$key} =
+                File::Spec->rel2abs($agent->{setup}->{$key});
+        }
 
         Proc::Daemon::Init({
-            work_dir => $workdir,
             pid_file => $pidfile
         });
 
