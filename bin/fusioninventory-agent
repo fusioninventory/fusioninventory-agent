@@ -139,11 +139,6 @@ if ($options->{'list-modules'}) {
     exit 0;
 }
 
-if ($options->{wait}) {
-    my $time = int rand($options->{wait});
-    sleep $time;
-}
-
 eval {
     $agent->init();
     $agent->initModules();
@@ -154,6 +149,11 @@ if ($EVAL_ERROR) {
     print STDERR "Initialization failure:\n";
     print STDERR $EVAL_ERROR;
     exit 1;
+}
+
+if ($options->{wait}) {
+    my $time = int rand($options->{wait});
+    sleep $time;
 }
 
 eval {
