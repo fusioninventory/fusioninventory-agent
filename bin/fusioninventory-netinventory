@@ -8,11 +8,12 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
 
-use FusionInventory::Agent::Task::NetInventory;
+use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Target;
+use FusionInventory::Agent::Task::NetInventory;
+use FusionInventory::Agent::Tools;
 
 my %types = (
     1 => 'COMPUTER',
@@ -117,6 +118,12 @@ my $config = FusionInventory::Agent::Config->new(
 
 my $logger = FusionInventory::Agent::Logger->new(
     config => $config
+);
+
+my $agent = FusionInventory::Agent->new(
+    config => $config,
+    logger => $logger,
+    %setup
 );
 
 my $task = FusionInventory::Agent::Task::NetInventory->new(

@@ -9,10 +9,11 @@ use Getopt::Long;
 use File::Temp;
 use Pod::Usage;
 
-use FusionInventory::Agent::Task::Inventory;
-use FusionInventory::Agent::Logger;
+use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Target;
+use FusionInventory::Agent::Task::Inventory;
 
 my %setup = (
     confdir => './etc',
@@ -58,6 +59,12 @@ my $config = FusionInventory::Agent::Config->new(
 
 my $logger = FusionInventory::Agent::Logger->new(
     config => $config
+);
+
+my $agent = FusionInventory::Agent->new(
+    config => $config,
+    logger => $logger,
+    %setup
 );
 
 my $task = FusionInventory::Agent::Task::Inventory->new(

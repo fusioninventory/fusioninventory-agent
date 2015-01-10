@@ -8,10 +8,11 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
 
-use FusionInventory::Agent::Task::NetDiscovery;
+use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Target;
+use FusionInventory::Agent::Task::NetDiscovery;
 
 my $options = {
     debug   => 0,
@@ -76,11 +77,17 @@ my $logger = FusionInventory::Agent::Logger->new(
     config => $config
 );
 
+my $agent = FusionInventory::Agent->new(
+    config => $config,
+    logger => $logger,
+    %setup
+);
+
 my $task = FusionInventory::Agent::Task::NetDiscovery->new(
     logger   => $logger,
     datadir  => $setup{datadir},
     confdir  => $setup{confdir},
-    deviceid => 'foo',
+    deviceid => 'foo'
 );
 
 my $block_id = 1;
