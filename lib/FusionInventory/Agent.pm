@@ -27,8 +27,8 @@ sub _versionString {
     my ($VERSION) = @_;
 
     my $string = "FusionInventory Agent ($VERSION)";
-    if ($VERSION =~ /^\d\.\d\.99(\d\d)/) {
-        $string .= " **THIS IS A DEVELOPMENT RELEASE **";
+    if ($VERSION =~ /^\d\.\d\.99/) {
+        $string .= " **THIS IS A DEVELOPMENT RELEASE**";
     }
 
     return $string;
