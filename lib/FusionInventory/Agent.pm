@@ -39,10 +39,7 @@ sub new {
 
     my $self = {
         status  => 'unknown',
-        confdir => $params{confdir},
-        datadir => $params{datadir},
-        libdir  => $params{libdir},
-        vardir  => $params{vardir},
+        setup   => $params{setup},
         config  => $params{config},
         logger  => $params{logger} ||
                    FusionInventory::Agent::Logger->new(),
@@ -58,15 +55,16 @@ sub init {
 
     my $logger = $self->{logger};
     my $config = $self->{config};
+    my $setup  = $self->{setup};
 
-    $logger->debug("Configuration directory: $self->{confdir}");
-    $logger->debug("Data directory: $self->{datadir}");
-    $logger->debug("Storage directory: $self->{vardir}");
-    $logger->debug("Lib directory: $self->{libdir}");
+    $logger->debug("Configuration directory: $setup->{confdir}");
+    $logger->debug("Data directory: $setup->{datadir}");
+    $logger->debug("Storage directory: $setup->{vardir}");
+    $logger->debug("Lib directory: $setup->{libdir}");
 
     $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $logger,
-        directory => $self->{vardir}
+        directory => $setup->{vardir}
     );
 
     # handle persistent state
@@ -111,7 +109,7 @@ sub initControllers {
     foreach my $url (@{$config->{server}}) {
         my $controller = FusionInventory::Agent::Controller->new(
             logger     => $logger,
-            basevardir => $self->{vardir},
+            basevardir => $self->{setup}->{vardir},
             url        => $url,
         );
         push @{$self->{controllers}}, $controller;
@@ -134,7 +132,7 @@ sub initHTTPInterface {
     $self->{server} = FusionInventory::Agent::HTTP::Server->new(
         logger          => $self->{logger},
         agent           => $self,
-        htmldir         => $self->{datadir} . '/html',
+        htmldir         => $self->{setup}->{datadir} . '/html',
         ip              => $config->{'httpd-ip'},
         port            => $config->{'httpd-port'},
         trust           => $config->{'httpd-trust'}
@@ -265,8 +263,8 @@ sub _executeTaskReal {
     $class->require();
 
     my $task = $class->new(
-        confdir      => $self->{confdir},
-        datadir      => $self->{datadir},
+        confdir      => $self->{setup}->{confdir},
+        datadir      => $self->{setup}->{datadir},
         logger       => $self->{logger},
         deviceid     => $self->{deviceid},
     );
@@ -328,7 +326,7 @@ sub getAvailableModules {
     my %disabled  = map { lc($_) => 1 } @{$params{disabled}};
 
     # tasks may be located only in agent libdir
-    my $directory = $self->{libdir};
+    my $directory = $self->{setup}->{libdir};
     $directory =~ s,\\,/,g;
     my $subdirectory = "FusionInventory/Agent/Task";
     # look for all perl modules here

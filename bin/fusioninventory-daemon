@@ -80,7 +80,7 @@ my $logger = FusionInventory::Agent::Logger->new(
 my $agent = FusionInventory::Agent->new(
     config => $config,
     logger => $logger,
-    %setup
+    setup  => \%setup
 );
 
 # initialize the agent

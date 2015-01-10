@@ -111,12 +111,14 @@ sub startAgent {
         );
 
         my $agent = FusionInventory::Agent->new(
-            confdir => $directory . '/../../etc/fusioninventory',
-            datadir => $directory . '/../../share',
-            vardir  => $directory . '/../../var',
-            libdir  => $directory . '/../../lib',
             config => $config,
             logger => $logger,
+            setup  => {
+                confdir => $directory . '/../../etc/fusioninventory',
+                datadir => $directory . '/../../share',
+                vardir  => $directory . '/../../var',
+                libdir  => $directory . '/../../lib',
+            }
         );
         $agent->init(server => 1);
         $agent->initModules(fork => 1);

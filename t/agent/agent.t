@@ -14,7 +14,7 @@ plan tests => 4;
 
 my $libdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 push @INC, $libdir;
-my $agent = FusionInventory::Agent->new(libdir => $libdir);
+my $agent = FusionInventory::Agent->new(setup => {libdir => $libdir});
 
 my %tasks;
 

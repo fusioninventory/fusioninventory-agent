@@ -64,7 +64,7 @@ my $logger = FusionInventory::Agent::Logger->new(
 my $agent = FusionInventory::Agent->new(
     config => $config,
     logger => $logger,
-    %setup
+    setup  => \%setup
 );
 
 my $task = FusionInventory::Agent::Task::Inventory->new(
