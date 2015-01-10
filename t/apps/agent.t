@@ -35,7 +35,7 @@ like(
 ok($rc == 1, 'no server exit status');
 like(
     $err,
-    qr/No server defined/,
+    qr/no server defined/,
     'no server stderr'
 );
 is($out, '', 'no server stdout');
