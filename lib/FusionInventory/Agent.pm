@@ -55,16 +55,10 @@ sub init {
 
     my $logger = $self->{logger};
     my $config = $self->{config};
-    my $setup  = $self->{setup};
-
-    $logger->debug("Configuration directory: $setup->{confdir}");
-    $logger->debug("Data directory: $setup->{datadir}");
-    $logger->debug("Storage directory: $setup->{vardir}");
-    $logger->debug("Lib directory: $setup->{libdir}");
 
     $self->{storage} = FusionInventory::Agent::Storage->new(
         logger    => $logger,
-        directory => $setup->{vardir}
+        directory => $self->{setup}->{vardir}
     );
 
     # handle persistent state
@@ -78,6 +72,8 @@ sub init {
     # install signal handler to handle graceful exit
     $SIG{INT}     = sub { $self->terminate(server => $params{server}); exit 0; };
     $SIG{TERM}    = sub { $self->terminate(server => $params{server}); exit 0; };
+
+    $logger->debug("agent state initialized");
 }
 
 sub initModules {
@@ -86,18 +82,17 @@ sub initModules {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    # compute list of available modules
     my %modules = $self->getAvailableModules(
         disabled => $config->{'no-module'},
         fork     => $params{fork}
     );
+    $self->{modules} = \%modules;
 
-    $logger->debug("Available modules");
-    foreach my $module (keys %modules) {
-        $logger->debug("- $module $modules{$module}");
+    $logger->debug("agent modules initialized:");
+    foreach my $module (keys %{$self->{modules}}) {
+        $logger->debug("- $module $self->{modules}->{$module}");
     }
 
-    $self->{modules} = \%modules;
 }
 
 sub initControllers {
@@ -115,6 +110,10 @@ sub initControllers {
         push @{$self->{controllers}}, $controller;
     }
 
+    $logger->debug("agent controllers initialized:");
+    foreach my $controller (@{$self->{controllers}}) {
+        $logger->debug("- $controller->{id} ($controller->{url})");
+    }
 }
 
 sub initHTTPInterface {
@@ -138,6 +137,8 @@ sub initHTTPInterface {
         trust           => $config->{'httpd-trust'}
     );
     $self->{server}->init();
+
+    $logger->debug("agent HTTP interface initialized");
 }
 
 sub run {
