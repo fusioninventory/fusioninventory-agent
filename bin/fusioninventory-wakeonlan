@@ -8,8 +8,9 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
 
-use FusionInventory::Agent::Task::WakeOnLan;
+use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Task::WakeOnLan;
 use FusionInventory::Agent::Tools::Network;
 
 my %setup = (
@@ -39,13 +40,14 @@ pod2usage(
     -message => "invalid mac address given, aborting\n", -verbose => 0
 ) if $options->{mac} !~ /^$mac_address_pattern$/;
 
-my $verbosity =
-    $options->{debug} == 0 ? LOG_INFO   :
-    $options->{debug} == 1 ? LOG_DEBUG  :
-    $options->{debug} == 2 ? LOG_DEBUG2 :
-                             LOG_DEBUG2 ;
+my $config = FusionInventory::Agent::Config->new(
+    confdir => $setup{confdir},
+    options => $options,
+);
 
-my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
+my $logger = FusionInventory::Agent::Logger->new(
+    config => $config
+);
 
 my $task = FusionInventory::Agent::Task::WakeOnLan->new(
     logger   => $logger,
