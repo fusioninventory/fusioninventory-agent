@@ -10,7 +10,7 @@ use Test::More;
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Test::Utils;
 
-plan tests => 7;
+plan tests => 4;
 
 my ($out, $err, $rc);
 
@@ -28,12 +28,3 @@ like(
     '--host unknowndevice --user a --password a --directory /tmp'
 );
 like($err, qr/500\s\S/, 'Bad hostname');
-
-($out, $err, $rc) = run_executable('fusioninventory-esx', '--version');
-ok($rc == 0, '--version exit status');
-is($err, '', '--version stderr');
-like(
-    $out,
-    qr{fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION},
-    '--version stdout'
-);
