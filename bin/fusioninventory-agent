@@ -148,7 +148,15 @@ eval {
     $agent->init(options => $options);
     $agent->initModules();
     $agent->initControllers();
+};
 
+if ($EVAL_ERROR) {
+    print STDERR "Initialization failure:\n";
+    print STDERR $EVAL_ERROR;
+    exit 1;
+}
+
+eval {
     my $time = time();
     foreach my $controller (@{$agent->{controllers}}) {
         if ($options->{lazy} && $time < $controller->getNextRunDate()) {
@@ -164,7 +172,7 @@ eval {
 };
 
 if ($EVAL_ERROR) {
-    print STDERR "Execution failure:.\n";
+    print STDERR "Execution failure:\n";
     print STDERR $EVAL_ERROR;
     exit 1;
 }

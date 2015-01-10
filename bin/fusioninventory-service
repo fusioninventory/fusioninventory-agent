@@ -120,11 +120,13 @@ sub startAgent {
                 libdir  => $directory . '/../../lib',
             }
         );
+
         $agent->init(server => 1);
         $agent->initModules(fork => 1);
         $agent->initControllers();
         $agent->initHTTPInterface() unless $config->{'no-httpd'};
         $agent->{logger}->info("FusionInventory Agent starting");
+
         $agent->run();
     });
 }
