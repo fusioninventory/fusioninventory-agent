@@ -125,20 +125,6 @@ my $agent = FusionInventory::Agent->new(
     setup  => \%setup
 );
 
-if ($options->{'list-tasks'}) {
-    print STDERR
-        "--list-tasks is deprecated, use --list-modules instead\n";
-    $options->{'list-modules'} = 1;
-}
-
-if ($options->{'list-modules'}) {
-    my %modules = $agent->getAvailableModules();
-    foreach my $module (keys %modules) {
-        print "$module (v$modules{$module})\n";
-    }
-    exit 0;
-}
-
 eval {
     $agent->init();
     $agent->initModules();
@@ -149,6 +135,20 @@ if ($EVAL_ERROR) {
     print STDERR "Initialization failure:\n";
     print STDERR $EVAL_ERROR;
     exit 1;
+}
+
+if ($options->{'list-tasks'}) {
+    print STDERR
+        "--list-tasks is deprecated, use --list-modules instead\n";
+    $options->{'list-modules'} = 1;
+}
+
+if ($options->{'list-modules'}) {
+    my %modules = $agent->getModules();
+    foreach my $module (keys %modules) {
+        print "$module (v$modules{$module})\n";
+    }
+    exit 0;
 }
 
 if ($options->{wait}) {
@@ -262,7 +262,7 @@ kind of system scheduling on multiple clients, to spread the server load.
 
 =item B<--list-modules>
 
-List available modules and exit
+List configured modules and exit
 
 =item B<--setup>
 

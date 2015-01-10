@@ -16,16 +16,16 @@ my $libdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 push @INC, $libdir;
 my $agent = FusionInventory::Agent->new(setup => {libdir => $libdir});
 
-my %tasks;
+my $modules;
 
 create_file("$libdir/FusionInventory/Agent/Task", "Task1.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task1;
 use base qw(FusionInventory::Agent::Task);
 our $VERSION = 42;
 EOF
-%tasks = $agent->getAvailableModules();
+$modules = $agent->_loadModules();
 cmp_deeply (
-    \%tasks,
+    $modules,
     { 'Task1' => 42 },
     "single task"
 );
@@ -35,9 +35,9 @@ package FusionInventory::Agent::Task::Task2;
 use base qw(FusionInventory::Agent::Task);
 our $VERSION = 42;
 EOF
-%tasks = $agent->getAvailableModules();
+$modules = $agent->_loadModules();
 cmp_deeply (
-    \%tasks,
+    $modules,
     {
         'Task1' => 42,
         'Task2' => 42
@@ -51,9 +51,9 @@ use base qw(FusionInventory::Agent::Task;
 use Does::Not::Exists;
 our $VERSION = 42;
 EOF
-%tasks = $agent->getAvailableModules();
+$modules = $agent->_loadModules();
 cmp_deeply(
-    \%tasks,
+    $modules,
     {
         'Task1' => 42,
         'Task2' => 42
@@ -65,9 +65,9 @@ create_file("$libdir/FusionInventory/Agent/Task", "Test4.pm", <<'EOF');
 package FusionInventory::Agent::Task::Test4;
 our $VERSION = 42;
 EOF
-%tasks = $agent->getAvailableModules();
+$modules = $agent->_loadModules();
 cmp_deeply(
-    \%tasks,
+    $modules,
     {
         'Task1' => 42,
         'Task2' => 42

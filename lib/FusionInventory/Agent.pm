@@ -43,7 +43,8 @@ sub new {
         config  => $params{config},
         logger  => $params{logger} ||
                    FusionInventory::Agent::Logger->new(),
-        controllers => []
+        controllers => [],
+        modules     => {},
     };
     bless $self, $class;
 
@@ -82,11 +83,10 @@ sub initModules {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    my %modules = $self->getAvailableModules(
+    $self->{modules} = $self->_loadModules(
         disabled => $config->{'no-module'},
         fork     => $params{fork}
     );
-    $self->{modules} = \%modules;
 
     $logger->debug("agent modules initialized:");
     foreach my $module (keys %{$self->{modules}}) {
@@ -320,7 +320,12 @@ sub getControllers {
     return @{$self->{controllers}};
 }
 
-sub getAvailableModules {
+sub getModules {
+    my ($self) = @_;
+    return %{$self->{modules}};
+}
+
+sub _loadModules {
     my ($self, %params) = @_;
 
     my %modules;
@@ -372,7 +377,7 @@ sub getAvailableModules {
         $modules{$name} = $version;
     }
 
-    return %modules;
+    return \%modules;
 }
 
 sub _getModuleVersion {
@@ -491,10 +496,9 @@ Get the agent status.
 
 Get the agent controllers.
 
-=head2 getAvailableModules()
+=head2 getModules()
 
-Get all available modules found on the system, as a list of module / version
-pairs:
+Get the agent modules, as a list of module / version pairs:
 
 (
     'Foo' => x,
