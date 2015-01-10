@@ -27,6 +27,7 @@ GetOptions(
     # executable-specific options
     'lazy',
     'list-modules',
+    'list-servers',
     'setup',
     'wait|w=s',
     'version',
@@ -151,6 +152,14 @@ if ($options->{'list-modules'}) {
     exit 0;
 }
 
+if ($options->{'list-servers'}) {
+    my @controllers = $agent->getControllers();
+    foreach my $controller (@controllers) {
+        print "$controller->{id} ($controller->{url})\n";
+    }
+    exit 0;
+}
+
 if ($options->{wait}) {
     my $time = int rand($options->{wait});
     sleep $time;
@@ -209,6 +218,8 @@ S<[B<--color>]>
 
 B<fusioninventory-agent> B<--list-modules>
 
+B<fusioninventory-agent> B<--list-servers>
+
 B<fusioninventory-agent> B<--setup>
 
 =head1 DESCRIPTION
@@ -263,6 +274,10 @@ kind of system scheduling on multiple clients, to spread the server load.
 =item B<--list-modules>
 
 List configured modules and exit
+
+=item B<--list-servers>
+
+List defined servers and exit
 
 =item B<--setup>
 
