@@ -119,21 +119,49 @@ fusioninventory-injector - A tool to push inventory in an OCS Inventory or compa
 
 =head1 SYNOPSIS
 
-fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdin]
-
-  Options:
-    -h --help      this menu
-    -d --directory load every .ocs files from a directory
-    -f --file      load a speficic file
-    -u --url       server URL
-    -r --remove    remove succesfuly injected files
-    -v --verbose   verbose mode
-    --stdin        read data from STDIN
-
-  Examples:
-    fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/ocsinventory
+B<fusioninventory-injector>
+S<[B<--file> I<path>]>
+S<[B<--directory> I<path>]>
+S<[B<--stdin>]>
+S<[B<--url> I<url>]>
+S<[B<--remove>]>
+S<[B<--verbose>]>
 
 =head1 DESCRIPTION
 
 This tool can be used to test your server, do benchmark or push inventory from
 off-line machine.
+
+=head1 OPTIONS
+
+=over
+
+=item B<--file> I<file>
+
+load a speficic file
+
+=item B<--directory> I<path>
+
+load every .ocs files from a directory
+
+=item B<--url> I<url>
+
+server URL
+
+=item B<--stdin>
+
+read data from STDIN
+
+=item B<--remove>
+
+remove succesfuly injected files
+
+=item B<--verbose>
+
+verbose mode
+
+=back
+
+=head1 EXAMPLES
+
+    $> fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/ocsinventory
