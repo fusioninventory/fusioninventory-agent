@@ -110,11 +110,15 @@ eval {
                 File::Spec->rel2abs($agent->{setup}->{$key});
         }
 
-        Proc::Daemon::Init({
+        my $daemon = Proc::Daemon->new(
             pid_file => $pidfile
-        });
+        );
 
-        $agent->{logger}->debug("Agent daemonized");
+        my $pid = $daemon->init();
+        if ($pid) {
+            $agent->{logger}->debug("agent daemonized");
+            exit 0;
+        }
     }
 
     $agent->{logger}->info("FusionInventory Agent starting");
