@@ -306,6 +306,11 @@ sub _executeTaskReal {
     delete $self->{current_task};
 }
 
+sub getId {
+    my ($self) = @_;
+    return $self->{deviceid};
+}
+
 sub getStatus {
     my ($self) = @_;
     return $self->{status};
@@ -313,7 +318,6 @@ sub getStatus {
 
 sub getControllers {
     my ($self) = @_;
-
     return @{$self->{controllers}};
 }
 
@@ -476,13 +480,17 @@ Run the agent.
 
 Terminate the agent.
 
+=head2 getId()
+
+Get the agent identifier.
+
 =head2 getStatus()
 
-Get the current agent status.
+Get the agent status.
 
 =head2 getControllers()
 
-Get all controllers.
+Get the agent controllers.
 
 =head2 getAvailableModules()
 
