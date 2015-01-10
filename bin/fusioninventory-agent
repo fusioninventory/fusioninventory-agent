@@ -159,6 +159,17 @@ if ($options->{'list-servers'}) {
     exit 0;
 }
 
+eval {
+    die "no module available\n" unless $agent->getModules();
+    die "no server defined\n" unless $agent->getControllers();
+};
+
+if ($EVAL_ERROR) {
+    print STDERR "Initialization failure, aborting: $EVAL_ERROR";
+    exit 1;
+}
+
+
 if ($options->{wait}) {
     my $time = int rand($options->{wait});
     sleep $time;
@@ -271,7 +282,7 @@ kind of system scheduling on multiple clients, to spread the server load.
 
 =item B<--list-modules>
 
-List configured modules and exit
+List available modules and exit
 
 =item B<--list-servers>
 

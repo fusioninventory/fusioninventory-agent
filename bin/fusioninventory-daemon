@@ -89,6 +89,8 @@ eval {
     $agent->initModules(fork => 1);
     $agent->initControllers();
     $agent->initHTTPInterface() unless $config->{'no-httpd'};
+    die "no module available\n" unless $agent->getModules();
+    die "no server defined\n" unless $agent->getControllers();
 
     my $pidfile  = $options->{pidfile} ||
                    $setup{vardir} . '/fusioninventory.pid';
@@ -96,10 +98,7 @@ eval {
     my $pid = Proc::PID::File->new();
     $pid->{path} = $pidfile;
 
-    if ($pid->alive()) {
-        $agent->{logger}->error("An agent is already running, exiting...");
-        exit 1;
-    }
+    die "an agent is already running\n" if $pid->alive();
 
     if (!$options->{'no-fork'}) {
 
