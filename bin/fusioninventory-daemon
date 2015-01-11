@@ -125,7 +125,7 @@ eval {
 };
 
 if ($EVAL_ERROR) {
-    print STDERR "Initialization failure, aborting: $EVAL_ERROR";
+    $agent->{logger}->error("Initialization failure, aborting: $EVAL_ERROR");
     exit 1;
 }
 
