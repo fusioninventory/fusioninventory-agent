@@ -208,10 +208,12 @@ sub executeScheduledTasks {
         no_ssl_check => $self->{config}->{'no-ssl-check'},
     );
 
+    my @tasks;
+
     # get scheduled tasks, using legacy protocol
     $self->{logger}->info("sending prolog request to server $controller->{id}");
 
-    my $answer = $client->sendXML(
+    my $prolog = $client->sendXML(
         url     => $controller->getUrl(),
         message => FusionInventory::Agent::Message::Outbound->new(
             query    => 'PROLOG',
@@ -219,8 +221,8 @@ sub executeScheduledTasks {
             deviceid => $self->{deviceid},
         )
     );
-    die "No answer to prolog request from the server" unless $answer;
-    my $prolog = $answer->getContent();
+    die "No answer to prolog request from the server" unless $prolog;
+    push @tasks, $prolog->getTasks();
 
     # get scheduled tasks, using new protocol
     $self->{logger}->info("sending getConfig request to server $controller->{id}");
@@ -235,15 +237,17 @@ sub executeScheduledTasks {
     );
     die "No answer to getConfig request from the server" unless $config;
     my $schedule = $config->{schedule};
+    push @tasks, @$schedule;
 
     # update controller
-    if (defined($prolog->{PROLOG_FREQ})) {
-        $controller->setMaxDelay($prolog->{PROLOG_FREQ} * 3600);
+    my $maxDelay = $prolog->getMaxDelay();
+    if ($maxDelay) {
+        $controller->setMaxDelay($maxDelay * 3600);
     }
 
-    foreach my $name (keys %{$self->{modules}}) {
+    foreach my $spec (@tasks) {
         eval {
-            $self->_executeTask($controller, $name, $prolog, $client, $schedule, $fork);
+            $self->_executeTask($spec, $controller, $client, $fork);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
@@ -251,9 +255,9 @@ sub executeScheduledTasks {
 }
 
 sub _executeTask {
-    my ($self, $controller, $name, $prolog, $client, $schedule, $fork) = @_;
+    my ($self, $spec, $controller, $client, $fork) = @_;
 
-    $self->{status} = "running task $name";
+    $self->{status} = "running task $spec->{task}";
 
     if ($fork) {
         # run each task in a child process
@@ -267,20 +271,20 @@ sub _executeTask {
             # child
             die "fork failed: $ERRNO" unless defined $pid;
 
-            $self->{logger}->debug("forking process $PID to handle task $name");
-            $self->_executeTaskReal($controller, $name, $prolog, $client, $schedule);
+            $self->{logger}->debug("forking process $PID to handle task $spec->{task}");
+            $self->_executeTaskReal($spec, $controller, $client);
             exit(0);
         }
     } else {
         # run each task directly
-        $self->_executeTaskReal($controller, $name, $prolog, $client, $schedule);
+        $self->_executeTaskReal($spec, $controller, $client);
     }
 }
 
 sub _executeTaskReal {
-    my ($self, $controller, $name, $prolog, $client, $schedule) = @_;
+    my ($self, $spec, $controller, $client) = @_;
 
-    my $class = "FusionInventory::Agent::Task::$name";
+    my $class = "FusionInventory::Agent::Task::$spec->{task}";
 
     $class->require();
 
@@ -292,13 +296,11 @@ sub _executeTaskReal {
     );
 
     my %configuration = $task->getConfiguration(
-        prolog   => $prolog,
-        schedule => $schedule,
         client   => $client,
-        url      => $controller->getURL(),
+        spec     => $spec
     );
     if (!%configuration) {
-        $self->{logger}->debug("no $name task execution requested");
+        $self->{logger}->debug("no $spec->{task} task execution requested");
         return;
     }
 
@@ -311,7 +313,7 @@ sub _executeTaskReal {
         %configuration
     );
 
-    $self->{logger}->info("running task $name");
+    $self->{logger}->info("running task $spec->{task}");
     $self->{current_task} = $task;
 
     my $target = FusionInventory::Agent::Target::Server->new(

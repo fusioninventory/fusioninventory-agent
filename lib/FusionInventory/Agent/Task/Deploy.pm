@@ -23,21 +23,10 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $client   = $params{client};
-    my $schedule = $params{schedule};
+    my $spec   = $params{spec};
+    my $client = $params{client};
 
-    return unless $client && $schedule;
-
-    my @tasks =
-        grep { $_->{remote} }
-        grep { $_->{task} eq "Deploy" }
-        @{$schedule};
-
-    return unless @tasks;
-
-    return (
-        tasks => \@tasks
-    );
+    return ();
 }
 
 sub run {

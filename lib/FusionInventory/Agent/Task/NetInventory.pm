@@ -22,18 +22,10 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $prolog = $params{prolog};
-    return unless $prolog;
-    return unless $prolog->{OPTION};
-
-    my $task =
-        first { $_->{NAME} eq 'SNMPQUERY' }
-        @{$prolog->{OPTION}};
-
-    return unless $task;
+    my $options = $params{spec}->{options};
 
     my @credentials;
-    foreach my $item (@{$task->{AUTHENTICATION}}) {
+    foreach my $item (@{$options->{AUTHENTICATION}}) {
         my $credentials;
         foreach my $key (keys %$item) {
             my $newkey =
@@ -46,7 +38,7 @@ sub getConfiguration {
     }
 
     my @devices;
-    foreach my $item (@{$task->{DEVICE}}) {
+    foreach my $item (@{$options->{DEVICE}}) {
         my $device;
         foreach my $key (keys %$item) {
             my $newkey = $key eq 'IP' ? 'host' : lc($key);
@@ -56,9 +48,9 @@ sub getConfiguration {
     }
 
     return (
-        pid         => $task->{PARAM}->[0]->{PID},
-        threads     => $task->{PARAM}->[0]->{THREADS_QUERY},
-        timeout     => $task->{PARAM}->[0]->{TIMEOUT},
+        pid         => $options->{PARAM}->[0]->{PID},
+        threads     => $options->{PARAM}->[0]->{THREADS_QUERY},
+        timeout     => $options->{PARAM}->[0]->{TIMEOUT},
         credentials => \@credentials,
         devices     => \@devices
     );

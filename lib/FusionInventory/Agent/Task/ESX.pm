@@ -13,20 +13,11 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $client   = $params{client};
-    my $schedule = $params{schedule};
-
-    return unless $client && $schedule;
-
-    my @tasks =
-        grep { $_->{remote} }
-        grep { $_->{task} eq "ESX" }
-        @{$schedule};
-
-    return unless @tasks;
+    my $spec   = $params{spec};
+    my $client = $params{client};
 
     my $jobs = $client->sendJSON(
-        url  => $tasks[-1]->{remote},
+        url  => $spec->{remote},
         args => {
             action    => "getJobs",
             machineid => $params{deviceid}
@@ -40,7 +31,7 @@ sub getConfiguration {
         if ref $jobs->{jobs} ne 'ARRAY';
 
     return (
-        url  => $tasks[-1]->{remote},
+        url  => $spec->{remote},
         jobs => $jobs->{jobs}
     );
 }

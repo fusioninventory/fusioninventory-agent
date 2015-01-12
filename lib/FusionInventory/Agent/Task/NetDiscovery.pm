@@ -26,18 +26,10 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $prolog = $params{prolog};
-    return unless $prolog;
-    return unless $prolog->{OPTION};
-
-    my $task =
-        first { $_->{NAME} eq 'NETDISCOVERY' }
-        @{$prolog->{OPTION}};
-
-    return unless $task;
+    my $options = $params{spec}->{options};
 
     my @credentials;
-    foreach my $item (@{$task->{AUTHENTICATION}}) {
+    foreach my $item (@{$options->{AUTHENTICATION}}) {
         my $credentials;
         foreach my $key (keys %$item) {
             my $newkey =
@@ -50,7 +42,7 @@ sub getConfiguration {
     }
 
     my @blocks;
-    foreach my $item (@{$task->{RANGEIP}}) {
+    foreach my $item (@{$options->{RANGEIP}}) {
         push @blocks, {
             id     => $item->{ID},
             spec   => $item->{IPSTART} . '-' . $item->{IPEND},
@@ -59,9 +51,9 @@ sub getConfiguration {
     }
 
     return (
-        pid         => $task->{PARAM}->[0]->{PID},
-        threads     => $task->{PARAM}->[0]->{THREADS_DISCOVERY},
-        timeout     => $task->{PARAM}->[0]->{TIMEOUT},
+        pid         => $options->{PARAM}->[0]->{PID},
+        threads     => $options->{PARAM}->[0]->{THREADS_DISCOVERY},
+        timeout     => $options->{PARAM}->[0]->{TIMEOUT},
         credentials => \@credentials,
         blocks      => \@blocks
     );

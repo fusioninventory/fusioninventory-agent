@@ -19,13 +19,6 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $prolog = $params{prolog};
-    return unless $prolog;
-
-    return unless
-        $prolog->{RESPONSE} &&
-        $prolog->{RESPONSE} eq 'SEND';
-
     return ();
 }
 
