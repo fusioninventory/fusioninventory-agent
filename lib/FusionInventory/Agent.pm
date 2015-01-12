@@ -231,7 +231,7 @@ sub _handleController {
         args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
-            task      => $self->{tasks},
+            task      => $self->{modules},
         }
     );
     die "No answer to getConfig request from the server" unless $globalConfig;
