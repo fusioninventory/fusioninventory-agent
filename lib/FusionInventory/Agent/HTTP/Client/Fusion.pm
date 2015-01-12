@@ -141,7 +141,7 @@ sub sendXML {
         return;
     }
 
-    return $result;
+    return $result->getContent();
 }
 
 sub _prepareVal {
@@ -291,4 +291,4 @@ the message to send (mandatory)
 
 =back
 
-This method returns an C<FusionInventory::Agent::Message::Inbound> instance.
+This method returns a perl data structure.
