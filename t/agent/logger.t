@@ -125,26 +125,26 @@ ok(
 );
 
 is(
-    getStderrOutput(sub { $logger->debug('message'); }),
-    "[debug] message",
+    getStderrOutput(sub { $logger->debug('message: %s', 'hello'); }),
+    "[debug] message: hello",
     'debug message formating'
 );
 
 is(
-    getStderrOutput(sub { $logger->info('message'); }),
-    "[info] message",
+    getStderrOutput(sub { $logger->info('message: %s', 'hello'); }),
+    "[info] message: hello",
     'info message formating'
 );
 
 is(
-    getStderrOutput(sub { $logger->warning('message'); }),
-    "[warning] message",
+    getStderrOutput(sub { $logger->warning('message: %s', 'hello'); }),
+    "[warning] message: hello",
     'warning message formating'
 );
 
 is(
-    getStderrOutput(sub { $logger->error('message'); }),
-    "[error] message",
+    getStderrOutput(sub { $logger->error('message: %s', 'hello'); }),
+    "[error] message: hello",
     'error message formating'
 );
 

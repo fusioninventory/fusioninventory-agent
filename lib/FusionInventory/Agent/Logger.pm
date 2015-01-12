@@ -86,17 +86,19 @@ sub _log {
 }
 
 sub debug2 {
-    my ($self, $message) = @_;
+    my ($self, $message, @args) = @_;
 
+    return unless $message;
     return unless $self->{verbosity} >= LOG_DEBUG2;
-    $self->_log(level => 'debug2', message => $message);
+    $self->_log(level => 'debug2', message => sprintf($message, @args));
 }
 
 sub debug {
-    my ($self, $message) = @_;
+    my ($self, $message, @args) = @_;
 
+    return unless $message;
     return unless $self->{verbosity} >= LOG_DEBUG;
-    $self->_log(level => 'debug', message => $message);
+    $self->_log(level => 'debug', message => sprintf($message, @args));
 }
 
 sub debug_result {
@@ -113,24 +115,27 @@ sub debug_result {
 }
 
 sub info {
-    my ($self, $message) = @_;
+    my ($self, $message, @args) = @_;
 
+    return unless $message;
     return unless $self->{verbosity} >= LOG_INFO;
-    $self->_log(level => 'info', message => $message);
+    $self->_log(level => 'info', message => sprintf($message, @args));
 }
 
 sub warning {
-    my ($self, $message) = @_;
+    my ($self, $message, @args) = @_;
 
+    return unless $message;
     return unless $self->{verbosity} >= LOG_WARNING;
-    $self->_log(level => 'warning', message => $message);
+    $self->_log(level => 'warning', message => sprintf($message, @args));
 }
 
 sub error {
-    my ($self, $message) = @_;
+    my ($self, $message, @args) = @_;
 
+    return unless $message;
     return unless $self->{verbosity} >= LOG_ERROR;
-    $self->_log(level => 'error', message => $message);
+    $self->_log(level => 'error', message => sprintf($message, @args));
 }
 
 1;
