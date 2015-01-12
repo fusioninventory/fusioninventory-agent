@@ -245,9 +245,14 @@ sub executeScheduledTasks {
         $controller->setMaxDelay($maxDelay * 3600);
     }
 
+    my $target = FusionInventory::Agent::Target::Server->new(
+        url    => $controller->getURL(),
+        client => $client
+    );
+
     foreach my $spec (@tasks) {
         eval {
-            $self->_executeTask($spec, $controller, $client, $fork);
+            $self->_executeTask($spec, $target, $client, $fork);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
@@ -255,7 +260,7 @@ sub executeScheduledTasks {
 }
 
 sub _executeTask {
-    my ($self, $spec, $controller, $client, $fork) = @_;
+    my ($self, $spec, $target, $client, $fork) = @_;
 
     $self->{status} = "running task $spec->{task}";
 
@@ -272,17 +277,17 @@ sub _executeTask {
             die "fork failed: $ERRNO" unless defined $pid;
 
             $self->{logger}->debug("forking process $PID to handle task $spec->{task}");
-            $self->_executeTaskReal($spec, $controller, $client);
+            $self->_executeTaskReal($spec, $target, $client);
             exit(0);
         }
     } else {
         # run each task directly
-        $self->_executeTaskReal($spec, $controller, $client);
+        $self->_executeTaskReal($spec, $target, $client);
     }
 }
 
 sub _executeTaskReal {
-    my ($self, $spec, $controller, $client) = @_;
+    my ($self, $spec, $target, $client) = @_;
 
     my $class = "FusionInventory::Agent::Task::$spec->{task}";
 
@@ -315,11 +320,6 @@ sub _executeTaskReal {
 
     $self->{logger}->info("running task $spec->{task}");
     $self->{current_task} = $task;
-
-    my $target = FusionInventory::Agent::Target::Server->new(
-        url    => $controller->getURL(),
-        client => $client
-    );
 
     $task->run(
         target => $target,
