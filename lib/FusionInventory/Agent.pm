@@ -165,7 +165,7 @@ sub terminate {
     my ($self, $signal) = @_;
 
     $self->{logger}->info("Signal SIG$signal received, exiting");
-    $self->{current_task}->abort() if $self->{current_task};
+    $self->{task}->abort() if $self->{task};
 }
 
 sub handleControllers {
@@ -334,13 +334,14 @@ sub _handleTaskReal {
     );
 
     $self->{logger}->info("running task $spec->{task}");
-    $self->{current_task} = $task;
+    $self->{task} = $task;
 
     $task->run(
         target => $target,
         client => $client
     );
-    delete $self->{current_task};
+
+    delete $self->{task};
 }
 
 sub getId {
