@@ -30,10 +30,36 @@ sub new {
     return $self;
 }
 
-sub getContent {
+sub getMaxDelay {
     my ($self) = @_;
 
-    return $self->{content};
+    return $self->{content}->{PROLOG_FREQ};
+}
+
+sub getTasks {
+    my ($self) = @_;
+
+    my $content = $self->{content};
+
+    my @tasks;
+
+    push @tasks, { task => 'Inventory' }
+        if $content->{RESPONSE} && $content->{RESPONSE} eq 'SEND';
+
+    if ($content->{OPTION}) {
+        my %handlers = (
+            WAKEONLAN    => 'WakeOnLan',
+            NETDISCOVERY => 'NetDiscovery',
+            SNMPQUERY    => 'NetInventory',
+        );
+        foreach my $option (@{$content->{OPTION}}) {
+            my $name = delete $option->{NAME};
+            next unless $handlers{$name};
+            push @tasks, { task => $handlers{$name}, options => $option };
+        }
+    }
+
+    return @tasks;
 }
 
 1;
