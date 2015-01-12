@@ -56,8 +56,6 @@ sub new {
 sub sendJSON {
     my ($self, %params) = @_;
 
-    push @{$self->{msgStack}}, $params{args} if $self->{debug};
-
     my $url = ref $params{url} eq 'URI' ?
         $params{url} : URI->new($params{url});
 
