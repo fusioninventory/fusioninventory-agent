@@ -170,10 +170,8 @@ sub handleControllers {
         if ($time < $nextContactTime) {
             if (!$params{force}) {
                 $self->{logger}->debug(
-                    sprintf(
-                        "next contact time for $controller->{id} is %s, skipping",
-                        localtime($nextContactTime)
-                    )
+                    "next contact time for $controller->{id} is %s, skipping",
+                    localtime($nextContactTime)
                 );
                 next;
             }

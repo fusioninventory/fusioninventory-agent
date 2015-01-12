@@ -268,7 +268,7 @@ sub _scanAddressByNmap {
     );
 
     $self->{logger}->debug(
-        sprintf "[thread %d] - scanning %s with nmap: %s",
+        "[thread %d] - scanning %s with nmap: %s",
         threads->tid(),
         $params{ip},
         $device ? 'success' : 'no result'
@@ -285,7 +285,7 @@ sub _scanAddressByNetbios {
     my $ns = $nb->node_status($params{ip});
 
     $self->{logger}->debug(
-        sprintf "[thread %d] - scanning %s with netbios: %s",
+        "[thread %d] - scanning %s with netbios: %s",
         threads->tid(),
         $params{ip},
         $ns ? 'success' : 'no result'
@@ -327,7 +327,7 @@ sub _scanAddressBySNMP {
 
         # no result means either no host, no response, or invalid credentials
         $self->{logger}->debug(
-            sprintf "[thread %d] - scanning %s with SNMP, credentials %d: %s",
+            "[thread %d] - scanning %s with SNMP, credentials %d: %s",
             threads->tid(),
             $params{ip},
             $credential->{id},
