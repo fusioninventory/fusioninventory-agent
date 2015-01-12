@@ -66,7 +66,6 @@ my %fields = (
                              SHARENAME PRINTPROCESSOR SERIAL/ ],
     PROCESSES        => [ qw/USER PID CPUUSAGE MEM VIRTUALMEMORY TTY STARTED
                              CMD/ ],
-    REGISTRY         => [ qw/NAME REGVALUE HIVE/ ],
     RUDDER           => [ qw/AGENT UUID HOSTNAME/ ],
     SLOTS            => [ qw/DESCRIPTION DESIGNATION NAME STATUS/ ],
     SOFTWARES        => [ qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE

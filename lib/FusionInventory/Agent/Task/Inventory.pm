@@ -26,13 +26,7 @@ sub getConfiguration {
         $prolog->{RESPONSE} &&
         $prolog->{RESPONSE} eq 'SEND';
 
-    my $registry =
-        first { $_->{NAME} eq 'REGISTRY' }
-        @{$prolog->{OPTION}};
-
-    return (
-        registry => $registry
-    );
+    return ();
 }
 
 sub run {
@@ -119,7 +113,6 @@ sub _initModulesList {
                 no_category   => $disabled,
                 datadir       => $self->{datadir},
                 logger        => $self->{logger},
-                registry      => $self->{registry},
                 scan_homedirs => $self->{config}->{scan_homedirs},
                 scan_profiles => $self->{config}->{scan_profiles},
             }
@@ -202,7 +195,6 @@ sub _runModule {
             inventory     => $inventory,
             no_category   => $disabled,
             logger        => $self->{logger},
-            registry      => $self->{registry},
             scan_homedirs => $self->{config}->{scan_homedirs},
             scan_profiles => $self->{config}->{scan_profiles},
         }
