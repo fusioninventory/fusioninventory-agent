@@ -86,10 +86,11 @@ my $agent = FusionInventory::Agent->new(
 
 # initialize the agent
 eval {
-    $agent->init(server => 1);
+    $agent->init();
     $agent->initModules(fork => 1);
     $agent->initControllers();
     $agent->initHTTPInterface() unless $config->{'no-httpd'};
+    $agent->initHandlers();
     die "no module available\n" unless $agent->getModules();
     die "no server defined\n" unless $agent->getControllers();
 

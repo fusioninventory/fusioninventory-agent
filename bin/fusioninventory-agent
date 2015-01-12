@@ -130,6 +130,7 @@ eval {
     $agent->init();
     $agent->initModules();
     $agent->initControllers();
+    $agent->initHandlers();
 };
 
 if ($EVAL_ERROR) {

@@ -70,10 +70,6 @@ sub init {
         $self->_saveState();
     }
 
-    # install signal handler to handle graceful exit
-    $SIG{INT}     = sub { $self->terminate(server => $params{server}); exit 0; };
-    $SIG{TERM}    = sub { $self->terminate(server => $params{server}); exit 0; };
-
     $logger->debug("agent state initialized");
 }
 
@@ -141,6 +137,18 @@ sub initHTTPInterface {
     $logger->debug("agent HTTP interface initialized");
 }
 
+sub initHandlers {
+    my ($self, %params) = @_;
+
+    my $logger = $self->{logger};
+
+    my $handler = sub { $self->terminate(@_); exit 0; };
+    $SIG{INT}   = $handler;
+    $SIG{TERM}  = $handler;
+
+    $logger->debug("agent signal handlers initialized");
+}
+
 sub run {
     my ($self) = @_;
 
@@ -154,10 +162,9 @@ sub run {
 }
 
 sub terminate {
-    my ($self, %params) = @_;
+    my ($self, $signal) = @_;
 
-    $self->{logger}->info("FusionInventory Agent exiting")
-        if $params{server};
+    $self->{logger}->info("Signal SIG$signal received, exiting");
     $self->{current_task}->abort() if $self->{current_task};
 }
 
