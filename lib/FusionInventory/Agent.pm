@@ -221,7 +221,7 @@ sub _handleController {
         )
     );
     die "No answer to prolog request from the server" unless $prolog;
-    push @tasks, $prolog->getTasks();
+    push @tasks, $self->_getScheduledTasksLegacy($prolog);
 
     # get scheduled tasks, using new protocol
     $self->{logger}->info("sending getConfig request to server $controller->{id}");
@@ -250,7 +250,7 @@ sub _handleController {
     }
 
     # update controller
-    my $maxDelay = $prolog->getMaxDelay();
+    my $maxDelay = $prolog->{PROLOG_FREQ};
     if ($maxDelay) {
         $controller->setMaxDelay($maxDelay * 3600);
     }
@@ -271,6 +271,30 @@ sub _handleController {
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
     }
+}
+
+sub _getScheduledTasksLegacy {
+    my ($self, $prolog) = @_;
+
+    my @tasks;
+
+    push @tasks, { task => 'Inventory' }
+        if $prolog->{RESPONSE} && $prolog->{RESPONSE} eq 'SEND';
+
+    if ($prolog->{OPTION}) {
+        my %handlers = (
+            WAKEONLAN    => 'WakeOnLan',
+            NETDISCOVERY => 'NetDiscovery',
+            SNMPQUERY    => 'NetInventory',
+        );
+        foreach my $option (@{$prolog->{OPTION}}) {
+            my $name = delete $option->{NAME};
+            next unless $handlers{$name};
+            push @tasks, { task => $handlers{$name}, options => $option };
+        }
+    }
+
+    return @tasks;
 }
 
 sub _handleTask {

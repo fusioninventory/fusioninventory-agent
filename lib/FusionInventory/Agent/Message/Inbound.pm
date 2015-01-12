@@ -3,11 +3,12 @@ package FusionInventory::Agent::Message::Inbound;
 use strict;
 use warnings;
 
-use List::Util qw(first);
 use XML::TreePP;
 
 sub new {
     my ($class, %params) = @_;
+
+    die "no content parameter" unless $params{content};
 
     my $tpp = XML::TreePP->new(
         force_array   => [ qw/
@@ -34,38 +35,6 @@ sub getContent {
      my ($self) = @_;
 
     return $self->{content};
-}
-
-sub getMaxDelay {
-    my ($self) = @_;
-
-    return $self->{content}->{PROLOG_FREQ};
-}
-
-sub getTasks {
-    my ($self) = @_;
-
-    my $content = $self->{content};
-
-    my @tasks;
-
-    push @tasks, { task => 'Inventory' }
-        if $content->{RESPONSE} && $content->{RESPONSE} eq 'SEND';
-
-    if ($content->{OPTION}) {
-        my %handlers = (
-            WAKEONLAN    => 'WakeOnLan',
-            NETDISCOVERY => 'NetDiscovery',
-            SNMPQUERY    => 'NetInventory',
-        );
-        foreach my $option (@{$content->{OPTION}}) {
-            my $name = delete $option->{NAME};
-            next unless $handlers{$name};
-            push @tasks, { task => $handlers{$name}, options => $option };
-        }
-    }
-
-    return @tasks;
 }
 
 1;

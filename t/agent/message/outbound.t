@@ -3,14 +3,15 @@
 use strict;
 use warnings;
 
-use Test::Deep;
+use English qw(-no_match_vars);
+use Test::Deep qw(cmp_deeply);
 use Test::Exception;
 use Test::More;
 use XML::TreePP;
 
 use FusionInventory::Agent::Message::Outbound;
 
-plan tests => 7;
+plan tests => 5;
 
 my $message;
 throws_ok {
@@ -25,8 +26,6 @@ lives_ok {
         query    => 'TEST',
     );
 } 'everything OK';
-
-isa_ok($message, 'FusionInventory::Agent::Message::Outbound');
 
 my $tpp = XML::TreePP->new();
 
@@ -57,8 +56,6 @@ lives_ok {
         ]
     );
 } 'everything OK';
-
-isa_ok($message, 'FusionInventory::Agent::Message::Outbound');
 
 cmp_deeply(
     scalar $tpp->parse($message->getContent()),
