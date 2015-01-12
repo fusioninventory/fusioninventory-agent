@@ -12,7 +12,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Message::Inbound;
 
 my %tests = (
-    netdiscovery => [
+    prolog1 => [
         {
             task    => 'NetDiscovery',
             options =>  {
@@ -56,7 +56,7 @@ my %tests = (
             }
         }
     ],
-    netinventory1 => [
+    prolog2 => [
         {
             task    => 'NetInventory',
             options => {
@@ -125,7 +125,7 @@ my %tests = (
             }
         },
     ],
-    netinventory2 => [
+    prolog3 => [
         {
             task    => 'NetInventory',
             options => {
@@ -226,7 +226,7 @@ my %tests = (
             }
         }
     ],
-    netinventory3 => [
+    prolog4 => [
         {
             task    => 'NetInventory',
             options => {
@@ -325,12 +325,12 @@ my %tests = (
             }
         },
     ],
-    registry => [
+    prolog5 => [
         {
             task => 'Inventory',
         },
     ],
-    wakeonlan => [
+    prolog6 => [
         {
             task => 'Inventory',
         },
@@ -368,7 +368,7 @@ my %tests = (
 plan tests => scalar keys %tests;
 
 foreach my $test (keys %tests) {
-    my $file = "resources/messages/$test.xml";
+    my $file = "resources/messages/xml/$test.xml";
     my $string = getAllLines(file => $file);
     my $message = FusionInventory::Agent::Message::Inbound->new(
         content => $string
