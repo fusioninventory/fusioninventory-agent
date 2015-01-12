@@ -185,7 +185,7 @@ sub handleControllers {
         }
 
         eval {
-            $self->executeScheduledTasks($controller, $params{fork});
+            $self->_handleController(controller => $controller, fork => $params{fork});
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
 
@@ -193,8 +193,10 @@ sub handleControllers {
     }
 }
 
-sub executeScheduledTasks {
-    my ($self, $controller, $fork) = @_;
+sub _handleController {
+    my ($self, %params) = @_;
+
+    my $controller = $params{controller};
 
     # create a single client object for this run
     my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
@@ -252,19 +254,28 @@ sub executeScheduledTasks {
 
     foreach my $spec (@tasks) {
         eval {
-            $self->_executeTask($spec, $target, $client, $fork);
+            $self->_handleTask(
+                spec   => $spec,
+                target => $target,
+                client => $client,
+                fork   => $params{fork}
+            );
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
     }
 }
 
-sub _executeTask {
-    my ($self, $spec, $target, $client, $fork) = @_;
+sub _handleTask {
+    my ($self, %params) = @_;
+
+    my $spec   = $params{spec};
+    my $client = $params{client};
+    my $target = $params{target};
 
     $self->{status} = "running task $spec->{task}";
 
-    if ($fork) {
+    if ($params{fork}) {
         # run each task in a child process
         if (my $pid = fork()) {
             # parent
@@ -277,17 +288,21 @@ sub _executeTask {
             die "fork failed: $ERRNO" unless defined $pid;
 
             $self->{logger}->debug("forking process $PID to handle task $spec->{task}");
-            $self->_executeTaskReal($spec, $target, $client);
+            $self->_handleTaskReal(spec => $spec, target => $target, client => $client);
             exit(0);
         }
     } else {
         # run each task directly
-        $self->_executeTaskReal($spec, $target, $client);
+        $self->_handleTaskReal(spec => $spec, target => $target, client => $client);
     }
 }
 
-sub _executeTaskReal {
-    my ($self, $spec, $target, $client) = @_;
+sub _handleTaskReal {
+    my ($self, %params) = @_;
+
+    my $spec   = $params{spec};
+    my $client = $params{client};
+    my $target = $params{target};
 
     my $class = "FusionInventory::Agent::Task::$spec->{task}";
 
@@ -301,8 +316,8 @@ sub _executeTaskReal {
     );
 
     my %configuration = $task->getConfiguration(
-        client   => $client,
-        spec     => $spec
+        client => $client,
+        spec   => $spec
     );
     if (!%configuration) {
         $self->{logger}->debug("no $spec->{task} task execution requested");
