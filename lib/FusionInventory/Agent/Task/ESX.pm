@@ -13,26 +13,10 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $spec   = $params{spec};
-    my $client = $params{client};
-
-    my $jobs = $client->sendJSON(
-        url  => $spec->{remote},
-        args => {
-            action    => "getJobs",
-            machineid => $params{deviceid}
-        }
-    );
-
-    die "No host in the server request"
-        if !$jobs;
-
-    die "Invalid server request format"
-        if ref $jobs->{jobs} ne 'ARRAY';
+    my $config = $params{spec}->{config};
 
     return (
-        url  => $spec->{remote},
-        jobs => $jobs->{jobs}
+        jobs => $config->{jobs}
     );
 }
 

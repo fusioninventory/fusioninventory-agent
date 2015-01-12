@@ -226,7 +226,7 @@ sub _handleController {
     # get scheduled tasks, using new protocol
     $self->{logger}->info("sending getConfig request to server $controller->{id}");
 
-    my $config = $client->sendJSON(
+    my $globalConfig = $client->sendJSON(
         url  => $controller->getUrl(),
         args => {
             action    => "getConfig",
@@ -234,9 +234,20 @@ sub _handleController {
             task      => $self->{tasks},
         }
     );
-    die "No answer to getConfig request from the server" unless $config;
-    my $schedule = $config->{schedule};
-    push @tasks, @$schedule;
+    die "No answer to getConfig request from the server" unless $globalConfig;
+    my $schedule = $globalConfig->{schedule};
+    foreach my $task (@$schedule) {
+        my $taskConfig = $client->sendJSON(
+            url  => $task->{remote},
+            args => {
+                action    => "getJobs",
+                machineid => $self->{deviceid},
+            }
+        );
+        die "No answer to getJobs request from the server" unless $taskConfig;
+        $task->{config} = $taskConfig;
+        push @tasks, $task;
+    }
 
     # update controller
     my $maxDelay = $prolog->getMaxDelay();

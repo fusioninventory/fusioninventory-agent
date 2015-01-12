@@ -23,10 +23,37 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $spec   = $params{spec};
-    my $client = $params{client};
+    my $config = $params{spec}->{config};
 
-    return ();
+    die "invalid server answer" unless ref $config eq 'HASH';
+
+    die "missing files list" unless $config->{associatedFiles};
+    die "invalid files list format" unless ref $config->{associatedFiles} eq 'HASH';
+
+    foreach my $file_id (keys %{$config->{associatedFiles}}) {
+        my $file = $config->{associatedFiles}->{$file_id};
+        foreach my $key (qw/mirrors multiparts name p2p-retention-duration p2p uncompress/) {
+            die "missing key '$key' in file $file_id" unless defined $file->{$key};
+        }
+    }
+
+    die "missing jobs list" unless $config->{jobs};
+    die "invalid jobs list format" unless ref $config->{jobs} eq 'ARRAY';
+
+    my $count = 0;
+    foreach my $job (@{$config->{jobs}}) {
+        $count++;
+        foreach my $key (qw/uuid associatedFiles actions checks/) {
+            die "missing key '$key' in job #$count" unless defined $job->{$key};
+        }
+        die "invalid actions list format" unless ref $job->{actions} eq 'ARRAY';
+    }
+
+    return (
+        jobs  => $config->{jobs},
+        files => $config->{associatedFiles},
+        url   => $params{spec}->{url}
+    );
 }
 
 sub run {
@@ -36,72 +63,13 @@ sub run {
     $ENV{LC_ALL} = 'C'; # Turn off localised output for commands
     $ENV{LANG} = 'C'; # Turn off localised output for commands
 
-    my @tasks = @{$self->{config}->{tasks}}
-        or die "no tasks provided, aborting";
+    my @jobs = @{$self->{config}->{jobs}}
+        or die "no jobs provided, aborting";
+    my %files = @{$self->{config}->{files}}
+        or die "no files provided, aborting";
+    my $url = $self->{config}->{url}
+        or die "no url provided, aborting";
     my $client = $params{client};
-
-    foreach my $task (@tasks) {
-        $self->_processRemote($task->{remote}, $client);
-    }
-
-    return 1;
-}
-
-sub _validateAnswer {
-    my ($msgRef, $answer) = @_;
-
-    $$msgRef = "";
-
-    if (!defined($answer)) {
-        $$msgRef = "No answer from server.";
-        return;
-    }
-
-    if (ref($answer) ne 'HASH') {
-        $$msgRef = "Bad answer from server. Not a hash reference.";
-        return;
-    }
-
-    if (!defined($answer->{associatedFiles})) {
-        $$msgRef = "missing associatedFiles key";
-        return;
-    }
-
-    if (ref($answer->{associatedFiles}) ne 'HASH') {
-        $$msgRef = "associatedFiles should be an hash";
-        return;
-    }
-    foreach my $k (keys %{$answer->{associatedFiles}}) {
-        foreach (qw/mirrors multiparts name p2p-retention-duration p2p uncompress/) {
-            if (!defined($answer->{associatedFiles}->{$k}->{$_})) {
-                $$msgRef = "Missing key `$_' in associatedFiles";
-                return;
-            }
-        }
-    }
-    foreach my $job (@{$answer->{jobs}}) {
-        foreach (qw/uuid associatedFiles actions checks/) {
-            if (!defined($job->{$_})) {
-                $$msgRef = "Missing key `$_' in jobs";
-                return;
-            }
-
-            if (ref($job->{actions}) ne 'ARRAY') {
-                $$msgRef = "jobs/actions must be an array";
-                return;
-            }
-        }
-    }
-
-    return 1;
-}
-
-sub _processRemote {
-    my ($self, $remoteUrl, $client) = @_;
-
-    if ( !$remoteUrl ) {
-        return;
-    }
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
         path => $self->{target}{storage}{directory}.'/deploy',
@@ -112,35 +80,17 @@ sub _processRemote {
     my $jobList = [];
     my $files;
 
-    my $answer = $client->sendJSON(
-        url  => $remoteUrl,
-        args => {
-            action    => "getJobs",
-            machineid => $self->{deviceid},
-        }
-    );
-    if (ref($answer) eq 'HASH' && !keys %$answer) {
-        $self->{logger}->debug("Nothing to do");
-        return;
-    }
-
-    my $msg;
-    if (!_validateAnswer(\$msg, $answer)) {
-        $self->{logger}->debug("bad JSON: ".$msg);
-        return;
-    }
-
-    foreach my $sha512 ( keys %{ $answer->{associatedFiles} } ) {
+    foreach my $sha512 (keys %files) {
         $files->{$sha512} = FusionInventory::Agent::Task::Deploy::File->new(
             client    => $client,
             sha512    => $sha512,
-            data      => $answer->{associatedFiles}{$sha512},
+            data      => $files{$sha512},
             datastore => $datastore,
             logger    => $self->{logger}
         );
     }
 
-    foreach ( @{ $answer->{jobs} } ) {
+    foreach (@jobs) {
         my $associatedFiles = [];
         if ( $_->{associatedFiles} ) {
             foreach my $uuid ( @{ $_->{associatedFiles} } ) {
@@ -162,7 +112,7 @@ sub _processRemote {
 
         # RECEIVED
         $client->sendJSON(
-            url  => $remoteUrl,
+            url  => $url,
             args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
@@ -185,7 +135,7 @@ sub _processRemote {
                 next if $checkStatus eq "ignore";
 
                 $client->sendJSON(
-                    url  => $remoteUrl,
+                    url  => $url,
                     args => {
                         action      => "setStatus",
                         machineid   => $self->{deviceid},
@@ -203,7 +153,7 @@ sub _processRemote {
         }
 
         $client->sendJSON(
-            url  => $remoteUrl,
+            url  => $url,
             args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
@@ -219,7 +169,7 @@ sub _processRemote {
         # DOWNLOADING
 
         $client->sendJSON(
-            url  => $remoteUrl,
+            url  => $url,
             args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
@@ -237,7 +187,7 @@ sub _processRemote {
             # File exists, no need to download
             if ( $file->filePartsExists() ) {
                 $client->sendJSON(
-                    url  => $remoteUrl,
+                    url  => $url,
                     args => {
                         action     => "setStatus",
                         machineid  => $self->{deviceid},
@@ -256,7 +206,7 @@ sub _processRemote {
 
             # File doesn't exist, lets try or retry a download
             $client->sendJSON(
-                url  => $remoteUrl,
+                url  => $url,
                 args => {
                     action      => "setStatus",
                     machineid   => $self->{deviceid},
@@ -276,7 +226,7 @@ sub _processRemote {
             if ( $downloadIsOK ) {
 
                 $client->sendJSON(
-                    url  => $remoteUrl,
+                    url  => $url,
                     args => {
                         action      => "setStatus",
                         machineid   => $self->{deviceid},
@@ -299,7 +249,7 @@ sub _processRemote {
                 if ($retry--) { # Retry
 # OK, retry!
                     $client->sendJSON(
-                        url  => $remoteUrl,
+                        url  => $url,
                         args => {
                             action      => "setStatus",
                             machineid   => $self->{deviceid},
@@ -315,7 +265,7 @@ sub _processRemote {
                 } else { # Give up...
 
                     $client->sendJSON(
-                        url  => $remoteUrl,
+                        url  => $url,
                         args => {
                             action      => "setStatus",
                             machineid   => $self->{deviceid},
@@ -336,7 +286,7 @@ sub _processRemote {
 
 
         $client->sendJSON(
-            url  => $remoteUrl,
+            url  => $url,
             args => {
                 action      => "setStatus",
                 machineid   => $self->{deviceid},
@@ -359,7 +309,7 @@ sub _processRemote {
 
         if (!$workdir->prepare()) {
             $client->sendJSON(
-                url  => $remoteUrl,
+                url  => $url,
                 args => {
                     action      => "setStatus",
                     machineid   => $self->{deviceid},
@@ -373,7 +323,7 @@ sub _processRemote {
             next JOB;
         } else {
             $client->sendJSON(
-                url  => $remoteUrl,
+                url  => $url,
                 args => {
                     action      => "setStatus",
                     machineid   => $self->{deviceid},
@@ -388,7 +338,7 @@ sub _processRemote {
 
         # PROCESSING
 #        $client->sendJSON(
-#            url  => $remoteUrl,
+#            url  => $url,
 #            args => {
 #                action      => "setStatus",
 #                machineid   => 'DEVICEID',
@@ -415,7 +365,7 @@ sub _processRemote {
                     if ( $checkStatus ne 'ok') {
 
                         $client->sendJSON(
-                            url  => $remoteUrl,
+                            url  => $url,
                             args => {
                                 action      => "setStatus",
                                 machineid   => $self->{deviceid},
@@ -441,7 +391,7 @@ sub _processRemote {
             push @{$ret->{msg}}, $@ if $@;
             if ( !$ret->{status} ) {
                 $client->sendJSON(
-                    url  => $remoteUrl,
+                    url  => $url,
                     args => {
                         action    => "setStatus",
                         machineid => $self->{deviceid},
@@ -452,7 +402,7 @@ sub _processRemote {
                 );
 
                 $client->sendJSON(
-                    url  => $remoteUrl,
+                    url  => $url,
                     args => {
                         action      => "setStatus",
                         machineid   => $self->{deviceid},
@@ -468,7 +418,7 @@ sub _processRemote {
                 next JOB;
             }
             $client->sendJSON(
-                url  => $remoteUrl,
+                url  => $url,
                 args => {
                     action      => "setStatus",
                     machineid   => $self->{deviceid},
@@ -485,7 +435,7 @@ sub _processRemote {
         }
 
         $client->sendJSON(
-            url  => $remoteUrl,
+            url  => $url,
             args => {
                 action    => "setStatus",
                 machineid => $self->{deviceid},
@@ -498,7 +448,6 @@ sub _processRemote {
     }
 
     $datastore->cleanUp();
-    1;
 }
 
 1;
