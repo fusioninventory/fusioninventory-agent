@@ -38,7 +38,6 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        status  => 'unknown',
         setup   => $params{setup},
         config  => $params{config},
         logger  => $params{logger} ||
@@ -152,8 +151,6 @@ sub initHandlers {
 sub run {
     my ($self) = @_;
 
-    $self->{status} = 'waiting';
-
     while (1) {
         $self->handleControllers(fork => 1, force => 0);
         $self->{server}->handleRequests() if $self->{server};
@@ -262,7 +259,6 @@ sub _handleController {
             );
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-        $self->{status} = 'waiting';
     }
 }
 
@@ -272,8 +268,6 @@ sub _handleTask {
     my $spec   = $params{spec};
     my $client = $params{client};
     my $target = $params{target};
-
-    $self->{status} = "running task $spec->{task}";
 
     if ($params{fork}) {
         # run each task in a child process
@@ -313,6 +307,7 @@ sub _handleTaskReal {
         datadir      => $self->{setup}->{datadir},
         logger       => $self->{logger},
         deviceid     => $self->{deviceid},
+        name         => $spec->{task}
     );
 
     my %configuration = $task->getConfiguration(
@@ -351,7 +346,10 @@ sub getId {
 
 sub getStatus {
     my ($self) = @_;
-    return $self->{status};
+
+    return $self->{task} ?
+        'running task' . $self->{task}->getName() :
+        'waiting';
 }
 
 sub getControllers {

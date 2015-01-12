@@ -17,6 +17,7 @@ sub new {
         confdir  => $params{confdir},
         datadir  => $params{datadir},
         deviceid => $params{deviceid},
+        name     => $params{name}
     };
     bless $self, $class;
 
@@ -34,6 +35,11 @@ sub configure {
 sub abort {
     my ($self) = @_;
     $self->{logger}->info("aborting task");
+}
+
+sub getName {
+    my ($self) = @_;
+    return $self->{name};
 }
 
 sub getModules {
