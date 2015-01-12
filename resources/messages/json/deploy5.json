@@ -1,0 +1,1 @@
+{"jobs":[{"checks":[{"path":"\/etc\/fstab","type":"filePresent","return":"error"}],"associatedFiles":[],"actions":{"move":[{"*":"\/tmp\/input"}]},"uuid":"4e4e3bfd90cc5"}],"associatedFiles":{}}
