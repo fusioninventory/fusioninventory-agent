@@ -175,18 +175,7 @@ if ($options->{wait}) {
 }
 
 eval {
-    my $time = time();
-    foreach my $controller (@{$agent->{controllers}}) {
-        if ($options->{lazy} && $time < $controller->getNextRunDate()) {
-            $agent->{logger}->info(
-                "$controller->{id} is not ready yet, next server contact " .
-                "planned for " . localtime($controller->getNextRunDate())
-            );
-            next;
-        }
-
-        $agent->executeScheduledTasks($controller);
-    }
+    $agent->handleControllers(fork => 0, force => $options->{lazy} ? 0 : 1);
 };
 
 if ($EVAL_ERROR) {

@@ -147,18 +147,7 @@ sub run {
     $self->{status} = 'waiting';
 
     while (1) {
-        my $time = time();
-        foreach my $controller (@{$self->{controllers}}) {
-            next if $time < $controller->getNextRunDate();
-
-            eval {
-                $self->executeScheduledTasks($controller, 1);
-            };
-            $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-            $controller->resetNextRunDate();
-        }
-
-        # check for http interface messages
+        $self->handleControllers(fork => 1, force => 0);
         $self->{server}->handleRequests() if $self->{server};
         delay(1);
     }
@@ -170,6 +159,33 @@ sub terminate {
     $self->{logger}->info("FusionInventory Agent exiting")
         if $params{server};
     $self->{current_task}->abort() if $self->{current_task};
+}
+
+sub handleControllers {
+    my ($self, %params) = @_;
+
+    my $time = time();
+    foreach my $controller (@{$self->{controllers}}) {
+        my $nextContactTime = $controller->getNextRunDate();
+        if ($time < $nextContactTime) {
+            if (!$params{force}) {
+                $self->{logger}->debug(
+                    sprintf(
+                        "next contact time for $controller->{id} is %s, skipping",
+                        localtime($nextContactTime)
+                    )
+                );
+                next;
+            }
+        }
+
+        eval {
+            $self->executeScheduledTasks($controller, $params{fork});
+        };
+        $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
+
+        $controller->resetNextRunDate();
+    }
 }
 
 sub executeScheduledTasks {
