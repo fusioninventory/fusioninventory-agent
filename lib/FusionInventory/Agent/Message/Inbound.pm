@@ -30,6 +30,12 @@ sub new {
     return $self;
 }
 
+sub getContent {
+     my ($self) = @_;
+
+    return $self->{content};
+}
+
 sub getMaxDelay {
     my ($self) = @_;
 
