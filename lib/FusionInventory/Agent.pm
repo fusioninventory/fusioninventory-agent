@@ -314,10 +314,6 @@ sub _handleTaskReal {
         client => $client,
         spec   => $spec
     );
-    if (!%configuration) {
-        $self->{logger}->debug("no $spec->{task} task execution requested");
-        return;
-    }
 
     $task->configure(
         tag                => $self->{config}->{tag},
