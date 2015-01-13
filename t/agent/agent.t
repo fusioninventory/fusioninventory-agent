@@ -15,7 +15,7 @@ my %prolog_parsing_tests = (
     prolog1 => [
         {
             task    => 'NetDiscovery',
-            options =>  {
+            config =>  {
                 RANGEIP => [
                     {
                         ID      => '1',
@@ -59,7 +59,7 @@ my %prolog_parsing_tests = (
     prolog2 => [
         {
             task    => 'NetInventory',
-            options => {
+            config => {
                 DEVICE => [
                     {
                         IP           => '192.168.0.151',
@@ -128,7 +128,7 @@ my %prolog_parsing_tests = (
     prolog3 => [
         {
             task    => 'NetInventory',
-            options => {
+            config => {
                 DEVICE => [
                     {
                         IP           => '192.168.0.151',
@@ -229,7 +229,7 @@ my %prolog_parsing_tests = (
     prolog4 => [
         {
             task    => 'NetInventory',
-            options => {
+            config => {
                 DEVICE => [
                     {
                         ID           => '72',
@@ -336,7 +336,7 @@ my %prolog_parsing_tests = (
         },
         {
             task    => 'WakeOnLan',
-            options => {
+            config => {
                 PARAM => [
                     {
                         MAC => '00:1e:c2:0c:36:27'

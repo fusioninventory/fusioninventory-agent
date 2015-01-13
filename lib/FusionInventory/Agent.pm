@@ -290,7 +290,7 @@ sub _getScheduledTasksLegacy {
         foreach my $option (@{$prolog->{OPTION}}) {
             my $name = delete $option->{NAME};
             next unless $handlers{$name};
-            push @tasks, { task => $handlers{$name}, options => $option };
+            push @tasks, { task => $handlers{$name}, config => $option };
         }
     }
 
