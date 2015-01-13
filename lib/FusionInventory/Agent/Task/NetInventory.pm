@@ -28,11 +28,12 @@ sub getConfiguration {
     foreach my $authentication (@{$config->{AUTHENTICATION}}) {
         my $credentials;
         foreach my $key (keys %$authentication) {
+            next unless $authentication->{$key};
             my $newkey =
                 $key eq 'AUTHPASSPHRASE' ? 'authpassword' :
                 $key eq 'PRIVPASSPHRASE' ? 'privpassword' :
                                             lc($key)      ;
-            $credentials->{$newkey} = $authentication->{$key} ;
+            $credentials->{$newkey} = $authentication->{$key};
         }
         my $id = delete $credentials->{id};
         $credentials[$id] = $credentials;
@@ -51,7 +52,7 @@ sub getConfiguration {
                  }
             } elsif ($key eq 'IP') {
                 $job->{host} = $device->{IP};
-            } else {
+            } elsif ($key eq 'ID' || $key eq 'TYPE' || $key eq 'ENTITY') {
                 $job->{lc($key)} = $device->{$key};
             }
         }

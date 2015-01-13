@@ -21,14 +21,8 @@ my %tests = (
                 'id'           => '72',
                 'type'         => 'PRINTER',
                 'host'         => '192.168.0.151',
-                'modelsnmp_id' => '196',
                 'community'    => 'public',
-                'authpassword' => '',
-                'username'     => '',
                 'version'      => '1',
-                'privpassword' => '',
-                'privprotocol' => '',
-                'authprotocol' => ''
             }
         ]
     },
@@ -41,14 +35,8 @@ my %tests = (
                 'id'           => '72',
                 'type'         => 'PRINTER',
                 'host'         => '192.168.0.151',
-                'modelsnmp_id' => '196',
                 'community'    => 'public',
-                'authpassword' => '',
-                'username'     => '',
                 'version'      => '1',
-                'privpassword' => '',
-                'privprotocol' => '',
-                'authprotocol' => ''
             }
         ]
     },
@@ -60,15 +48,9 @@ my %tests = (
             {
                 'id'           => '72',
                 'type'         => 'PRINTER',
-                'modelsnmp_id' => '196',
                 'host'         => '192.168.0.151',
-                'privpassword' => '',
-                'privprotocol' => '',
-                'authprotocol' => '',
-                'authpassword' => '',
                 'community'    => 'public',
                 'version'      => '1',
-                'username'     => ''
             }
         ]
     }
