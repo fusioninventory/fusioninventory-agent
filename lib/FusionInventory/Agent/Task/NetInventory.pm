@@ -22,37 +22,47 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $options = $params{spec}->{options};
+    my $config = $params{spec}->{config};
 
     my @credentials;
-    foreach my $item (@{$options->{AUTHENTICATION}}) {
+    foreach my $authentication (@{$config->{AUTHENTICATION}}) {
         my $credentials;
-        foreach my $key (keys %$item) {
+        foreach my $key (keys %$authentication) {
             my $newkey =
                 $key eq 'AUTHPASSPHRASE' ? 'authpassword' :
                 $key eq 'PRIVPASSPHRASE' ? 'privpassword' :
                                             lc($key)      ;
-            $credentials->{$newkey} = $item->{$key};
+            $credentials->{$newkey} = $authentication->{$key} ;
         }
-        push @credentials, $credentials;
+        my $id = delete $credentials->{id};
+        $credentials[$id] = $credentials;
     }
 
-    my @devices;
-    foreach my $item (@{$options->{DEVICE}}) {
-        my $device;
-        foreach my $key (keys %$item) {
-            my $newkey = $key eq 'IP' ? 'host' : lc($key);
-            $device->{$newkey} = $item->{$key};
+    my @jobs;
+    foreach my $device (@{$config->{DEVICE}}) {
+        my $job;
+        foreach my $key (keys %$device) {
+                 if ($key eq 'AUTHSNMP_ID') {
+                 my $credentials = $credentials[$device->{AUTHSNMP_ID}];
+                 if ($credentials) {
+                     $job->{$_} = $credentials->{$_} foreach keys %$credentials;
+                 } else {
+                     die "invalid AUTHSNMP_ID $device->{AUTHSNMP_ID}";
+                 }
+            } elsif ($key eq 'IP') {
+                $job->{host} = $device->{IP};
+            } else {
+                $job->{lc($key)} = $device->{$key};
+            }
         }
-        push @devices, $device;
+        push @jobs, $job;
     }
 
     return (
-        pid         => $options->{PARAM}->[0]->{PID},
-        threads     => $options->{PARAM}->[0]->{THREADS_QUERY},
-        timeout     => $options->{PARAM}->[0]->{TIMEOUT},
-        credentials => \@credentials,
-        devices     => \@devices
+        pid     => $config->{PARAM}->[0]->{PID},
+        threads => $config->{PARAM}->[0]->{THREADS_QUERY},
+        timeout => $config->{PARAM}->[0]->{TIMEOUT},
+        jobs    => \@jobs
     );
 }
 
@@ -61,9 +71,8 @@ sub run {
 
     my $target  = $params{target}
         or die "no target provided, aborting";
-    my @devices = @{$self->{config}->{devices}}
-        or die "no devices provided, aborting";
-    my $credentials = _indexCredentials($self->{config}->{credentials});
+    my @jobs = @{$self->{config}->{jobs}}
+        or die "no hosts provided, aborting";
     my $max_threads = $self->{config}->{threads} || 1;
     my $pid         = $self->{config}->{pid}     || 1;
     my $timeout     = $self->{config}->{timeout} || 15;
@@ -79,8 +88,8 @@ sub run {
     my $devices_queue = Thread::Queue->new();
     my $results_queue = Thread::Queue->new();
 
-    foreach my $device (@devices) {
-        $devices_queue->enqueue($device);
+    foreach my $job (@jobs) {
+        $devices_queue->enqueue($job);
     }
     my $size = $devices_queue->pending();
 
@@ -97,9 +106,8 @@ sub run {
             my $result;
             eval {
                 $result = $self->_queryDevice(
-                    device      => $device,
-                    timeout     => $timeout,
-                    credentials => $credentials->{$device->{authsnmp_id}}
+                    device  => $device,
+                    timeout => $timeout,
                 );
             };
             if ($EVAL_ERROR) {
@@ -213,7 +221,6 @@ sub _sendResultMessage {
 sub _queryDevice {
     my ($self, %params) = @_;
 
-    my $credentials = $params{credentials};
     my $device      = $params{device};
     my $logger      = $self->{logger};
     my $id          = threads->tid();
@@ -232,15 +239,15 @@ sub _queryDevice {
         eval {
             FusionInventory::Agent::SNMP::Live->require();
             $snmp = FusionInventory::Agent::SNMP::Live->new(
-                version      => $credentials->{version},
-                hostname     => $device->{ip},
                 timeout      => $params{timeout},
-                community    => $credentials->{community},
-                username     => $credentials->{username},
-                authpassword => $credentials->{authpassphrase},
-                authprotocol => $credentials->{authprotocol},
-                privpassword => $credentials->{privpassphrase},
-                privprotocol => $credentials->{privprotocol},
+                hostname     => $device->{host},
+                version      => $device->{version},
+                community    => $device->{community},
+                username     => $device->{username},
+                authpassword => $device->{authpassphrase},
+                authprotocol => $device->{authprotocol},
+                privpassword => $device->{privpassphrase},
+                privprotocol => $device->{privprotocol},
             );
         };
         die "SNMP communication error: $EVAL_ERROR" if $EVAL_ERROR;
@@ -253,16 +260,10 @@ sub _queryDevice {
          model   => $params{model},
          logger  => $self->{logger},
          datadir => $self->{datadir},
-         origin  => $device->{ip} || $device->{file}
+         origin  => $device->{host} || $device->{file}
     );
 
     return $result;
-}
-
-sub _indexCredentials {
-    my ($credentials) = @_;
-
-    return { map { $_->{id} => $_ } @$credentials };
 }
 
 1;

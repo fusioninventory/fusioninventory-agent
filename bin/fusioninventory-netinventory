@@ -26,8 +26,10 @@ my %types = (
 );
 
 my $options = {
-    debug   => 0,
-    threads => 1
+    debug     => 0,
+    threads   => 1,
+    version   => '2c',
+    community => 'public'
 };
 
 my %setup = (
@@ -45,7 +47,12 @@ GetOptions(
     'host=s',
     'file=s',
     'community=s',
-    'credentials=s',
+    'version=s',
+    'username=s',
+    'authpassword=s',
+    'authprotocol=s',
+    'privpassword=s',
+    'privprotocol=s',
     'entity=s',
     'threads=i',
     'timeout=i',
@@ -66,11 +73,6 @@ pod2usage(
 ) if $options->{file};
 
 pod2usage(
-    -message => "--community option is deprecated, use --credentials instead\n",
-    -verbose => 0
-) if $options->{community};
-
-pod2usage(
     -message => "no host given, aborting\n", -verbose => 0
 ) unless @ARGV;
 
@@ -78,26 +80,6 @@ pod2usage(
     -message => "invalid type '$options->{type}', aborting\n",
     -verbose => 0
 ) if $options->{type} && none { $options->{type} eq $_ } values %types;
-
-my $host_id = 1;
-my @hosts;
-foreach my $arg (@ARGV) {
-    my $host = {
-        authsnmp_id => 1,
-    };
-    foreach my $parameter (split(',', $arg)) {
-        my ($key, $value) = split(':', $parameter);
-        if (!$value) {
-            $host->{ip} = $key;
-        } else {
-            $host->{$key} = $value;
-        }
-    }
-    $host->{id}     = $host_id++ unless $host->{id};
-    $host->{entity} = $options->{entity} if $options->{entity};
-    $host->{type}   = $options->{type} if $options->{type};
-    push @hosts, $host;
-}
 
 my $credentials = { id => 1 };
 
@@ -110,6 +92,31 @@ if ($options->{credentials}) {
     $credentials->{version}   = '2c';
     $credentials->{community} = 'public';
 }
+
+my $host_id = 1;
+my @jobs;
+foreach my $arg (@ARGV) {
+    my $job;
+    foreach my $parameter (split(',', $arg)) {
+        my ($key, $value) = split(':', $parameter);
+        if (!$value) {
+            $job->{host} = $key;
+        } else {
+            $job->{$key} = $value;
+        }
+    }
+    $job->{id}           ||= $host_id++;
+    $job->{entity}       ||= $options->{entity};
+    $job->{type}         ||= $options->{type};
+    $job->{version}      ||= $options->{version};
+    $job->{community}    ||= $options->{community};
+    $job->{authpassword} ||= $options->{authpassword};
+    $job->{authprotocol} ||= $options->{authprotocol};
+    $job->{privpassword} ||= $options->{privpassword};
+    $job->{privprotocol} ||= $options->{privprotocol};
+    push @jobs, $job;
+}
+
 
 my $config = FusionInventory::Agent::Config->new(
     confdir => $setup{confdir},
@@ -136,11 +143,10 @@ my $task = FusionInventory::Agent::Task::NetInventory->new(
 );
 
 $task->configure(
-    pid         => 1,
-    threads     => $options->{threads},
-    timeout     => $options->{timeout},
-    devices     => \@hosts,
-    credentials => [ $credentials ]
+    pid     => 1,
+    threads => $options->{threads},
+    timeout => $options->{timeout},
+    jobs    => \@jobs,
 );
 
 my $target = FusionInventory::Agent::Target->create(
@@ -160,7 +166,12 @@ fusioninventory-netinventory - Standalone network inventory
 =head1 SYNOPSIS
 
 B<fusioninventory-netinventory>
-S<[B<--credentials> I<string>]> S<[B<--timeout> I<integer>]>
+S<[B<--version> I<string>]>
+S<[B<--community> I<string>]>
+S<[B<--username> I<string>]>
+S<[B<--authpassword> I<string>]> S<[B<--authprotocol> I<string>]>
+S<[B<--privpassword> I<string>]> S<[B<--privprotocol> I<string>]>
+S<[B<--timeout> I<integer>]>
 S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
 S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
 S<[B<--debug>]>
@@ -175,9 +186,33 @@ a GLPI server.
 
 =over
 
-=item B<--credentials> I<string>
+=item B<--version> I<string>
 
-SNMP credentials (default: version:2c,community:public)
+SNMP version (default: 2c)
+
+=item B<--community> I<string>
+
+SNMP v1/v2c community (default: public)
+
+=item B<--username> I<string>
+
+SNMP v3 username
+
+=item B<--authprotocol> I<string>
+
+SNMP v3 authentication protocol
+
+=item B<--authpassword> I<string>
+
+SNMP v3 authentication password
+
+=item B<--privprotocol> I<string>
+
+SNMP v3 privacy protocol
+
+=item B<--privpassword> I<string>
+
+SNMP v3 privacy password
 
 =item B<--timeout> I<integer>
 
@@ -212,8 +247,9 @@ debug output
         --directory /tmp
     $> fusioninventory-netinventory 192.168.1.24
         --server http://glpi.domain.com/plugins/fusioninventory/
-    $> fusioninventory-netinventory ip:192.168.1.24,id:1,type:network
-    $> fusioninventory-netinventory ip:192.168.1.24,id:1,type:network
-        --credentials version:3,username:foo,authprotocol:sha1,authpassword:bar
     $> fusioninventory-netinventory 192.168.1.24 192.168.1.25
-    $> fusioninventory-netinventory ip:192.168.1.24,id:1 ip:192.168.1.25,id:2
+    $> fusioninventory-netinventory --version 1 --community foo
+        192.168.1.24 192.168.1.25
+    $> fusioninventory-netinventory
+        host:192.168.1.24,version:1,community:foo
+        host:192.168.1.25,version:2c,community:bar
