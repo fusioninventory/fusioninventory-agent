@@ -109,6 +109,14 @@ debug output
 
 =head1 EXAMPLES
 
+Send wake-on-lan packets to a single mac address:
+
     $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c
+
+Send wake-on-lan packets to a single mac address, disabling ethernet method:
+
     $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c --noethernet
+
+Send wake-on-lan packets to two mac addresses:
+
     $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c f0:1f:af:0f:a4:0d

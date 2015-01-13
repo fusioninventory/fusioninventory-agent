@@ -155,10 +155,25 @@ debug output
 
 =head1 EXAMPLES
 
+Execute an inventory of local host, sending the results to stdout:
+
     $> fusioninventory-inventory
-    $> fusioninventory-inventory
-        --directory /tmp
-    $> fusioninventory-inventory
+
+Execute an inventory of local host, sending the results to a directory:
+
+    $> fusioninventory-inventory --directory /tmp
+
+Execute an inventory of local host, sending the results to a server
+
+    $> fusioninventory-inventory \
         --server http://glpi.domain.com/plugins/fusioninventory
+
+Execute an inventory of local host, skipping printers and softwares, sending
+the results to stdout:
+
     $> fusioninventory-inventory --no-category printers --no-category softwares
+
+Execute an inventory of local host, adding the result of a local XML file,
+sending the results to stdout:
+
     $> fusioninventory-inventory --additional-content override.xml

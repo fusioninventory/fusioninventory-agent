@@ -242,14 +242,43 @@ debug output
 
 =head1 EXAMPLES
 
+Execute an inventory of a single remote host, sending the results to stdout:
+
     $> fusioninventory-netinventory 192.168.1.24
-    $> fusioninventory-netinventory 192.168.1.24
-        --directory /tmp
-    $> fusioninventory-netinventory 192.168.1.24
-        --server http://glpi.domain.com/plugins/fusioninventory/
+
+Execute an inventory of a single remote host, sending the results to a directory:
+
+    $> fusioninventory-netinventory --directory /tmp 192.168.1.24
+
+Execute an inventory of a single remote host, sending the results to a server:
+
+    $> fusioninventory-netinventory \
+        --server http://glpi.domain.com/plugins/fusioninventory/ \
+        192.168.1.24
+
+Execute an inventory of two remote hosts, sending the results to stdout:
+
     $> fusioninventory-netinventory 192.168.1.24 192.168.1.25
-    $> fusioninventory-netinventory --version 1 --community foo
+
+Execute an inventory of two remote hosts, using same SNMP credentials,
+sending the results to stdout:
+
+    $> fusioninventory-netinventory --version 1 --community foo \
         192.168.1.24 192.168.1.25
-    $> fusioninventory-netinventory
-        host:192.168.1.24,version:1,community:foo
+
+Execute an inventory of two remote hosts, using different SNMP credentials,
+sending the results to stdout:
+
+    $> fusioninventory-netinventory \
+        host:192.168.1.24,version:1,community:foo \
         host:192.168.1.25,version:2c,community:bar
+
+Execute an inventory of a single host, identified as a printer, sending the
+results to stdout:
+
+    $> fusioninventory-netinventory host:192.168.1.24,type:printer
+
+Execute an inventory of a single host, from a snmpwalk capture, sending the
+results to stdout:
+
+    $> fusioninventory-netinventory file:192.168.1.24.walk
