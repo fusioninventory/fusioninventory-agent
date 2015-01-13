@@ -10,7 +10,7 @@ use Test::More;
 use FusionInventory::Agent::Task::WakeOnLan;
 use FusionInventory::Test::Utils;
 
-plan tests => 3;
+plan tests => 9;
 
 my ($out, $err, $rc);
 
@@ -22,3 +22,27 @@ like(
     '--help stdout'
 );
 is($err, '', '--help stderr');
+
+($out, $err, $rc) = run_executable(
+    'fusioninventory-wakeonlan',
+    ''
+);
+ok($rc == 2, 'no mac address exit status');
+like(
+    $err,
+    qr/no mac address given, aborting/,
+    'no mac address stderr'
+);
+is($out, '', 'no mac address stdout');
+
+($out, $err, $rc) = run_executable(
+    'fusioninventory-wakeonlan',
+    'foo:bar'
+);
+ok($rc == 0, 'invalid mac address exit status');
+like(
+    $err,
+    qr/invalid MAC address foo:bar, skipping/,
+    'invalid mac address stderr'
+);
+is($out, '', 'invalid mac address stdout');
