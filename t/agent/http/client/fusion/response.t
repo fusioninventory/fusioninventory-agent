@@ -145,14 +145,9 @@ sub check_response_ok {
 
     plan tests => 3;
     ok(defined $response, "response from server");
-    isa_ok(
-        $response,
-        'FusionInventory::Agent::Message::Inbound',
-        'response class'
-    );
-    my $content = $response->getContent();
+    is(ref $response, 'HASH', "response format");
     cmp_deeply(
-        $content,
+        $response,
         { word => 'hello' },
         'response content'
     );
