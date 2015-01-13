@@ -39,10 +39,14 @@ GetOptions(
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
-pod2usage(-verbose => 0) unless
-    $options->{host}      and
-    $options->{user}      and
-    $options->{password};
+pod2usage(
+    -message => "--host option is deprecated, use regular argument instead\n",
+    -verbose => 0
+) if $options->{host};
+
+pod2usage(
+    -message => "no host given, aborting\n", -verbose => 0
+) unless @ARGV;
 
 my $config = FusionInventory::Agent::Config->new(
     confdir => $setup{confdir},
@@ -67,14 +71,24 @@ my $task = FusionInventory::Agent::Task::ESX->new(
     confdir => $setup{confdir},
 );
 
-$task->configure(
-    jobs => [
-        {
-            host     => $options->{host},
-            user     => $options->{user},
-            password => $options->{password},
+my @jobs;
+foreach my $arg (@ARGV) {
+    my $job;
+    foreach my $parameter (split(',', $arg)) {
+        my ($key, $value) = split(':', $parameter);
+        if (!$value) {
+            $job->{host} = $key;
+        } else {
+            $job->{$key} = $value;
         }
-    ]
+    }
+    $job->{user}     = $options->{user}     if $options->{user};
+    $job->{password} = $options->{password} if $options->{password};
+    push @jobs, $job;
+}
+
+$task->configure(
+    jobs => \@jobs
 );
 
 my $target = FusionInventory::Agent::Target->create(
@@ -94,10 +108,11 @@ fusioninventory-esx - Standalone ESX inventory
 =head1 SYNOPSIS
 
 B<fusioninventory-esx>
-S<[B<--tag> I<string>]> S<[B<--host> I<string>]>
+S<[B<--tag> I<string>]>
 S<[B<--user> I<string>]> S<[B<--password> I<string>]>
 S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
 S<[B<--debug>]>
+I<host> S<[I<host> ...]>
 
 =head1 DESCRIPTION
 
@@ -111,10 +126,6 @@ a GLPI server.
 =item B<--tag> I<string>
 
 inventory tag
-
-=item B<--host> I<string>
-
-ESX server hostname
 
 =item B<--user> I<string>
 
@@ -140,8 +151,10 @@ debug output
 
 =head1 EXAMPLES
 
-    $> fusioninventory-esx --user foo --password bar --host esx1
-    $> fusioninventory-esx --user foo --password bar --host esx1
+    $> fusioninventory-esx --user foo --password bar esx1
+    $> fusioninventory-esx --user foo --password bar esx1
         --directory /tmp
-    $> fusioninventory-esx --user foo --password bar --host esx1
+    $> fusioninventory-esx --user foo --password bar esx1
         --server http://glpi.domain.com/plugins/fusioninventory
+    $> fusioninventory-esx --user foo --password bar esx1 esx2
+    $> fusioninventory-esx host:esx1,user:foo,password:bar

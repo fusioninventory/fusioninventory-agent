@@ -10,7 +10,7 @@ use Test::More;
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Test::Utils;
 
-plan tests => 4;
+plan tests => 6;
 
 my ($out, $err, $rc);
 
@@ -23,8 +23,11 @@ like(
     '--help stdout'
 );
 
-($out, $err, $rc) = run_executable(
-    'fusioninventory-esx',
-    '--host unknowndevice --user a --password a --directory /tmp'
+($out, $err, $rc) = run_executable( 'fusioninventory-esx', '');
+ok($rc == 2, 'no host exit status');
+like(
+    $err,
+    qr/no host given, aborting/,
+    'no host stderr'
 );
-like($err, qr/500\s\S/, 'Bad hostname');
+is($out, '', 'no host stdout');
