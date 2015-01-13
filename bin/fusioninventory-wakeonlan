@@ -27,19 +27,17 @@ my $options = {
 
 GetOptions(
     $options,
-    'mac=s',
-    'methods=s',
+    'ethernet!',
+    'udp!',
     'debug+',
     'help',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
+
 pod2usage(
     -message => "no mac address given, aborting\n", -verbose => 0
-) unless $options->{mac};
-pod2usage(
-    -message => "invalid mac address given, aborting\n", -verbose => 0
-) if $options->{mac} !~ /^$mac_address_pattern$/;
+) unless @ARGV;
 
 my $config = FusionInventory::Agent::Config->new(
     confdir => $setup{confdir},
@@ -66,8 +64,9 @@ my $task = FusionInventory::Agent::Task::WakeOnLan->new(
 );
 
 $task->configure(
-    addresses => [ $options->{mac} ],
-    methods   => [ $options->{methods} ? split(/,/, $options->{methods}) : () ]
+    addresses => [ @ARGV ],
+    ethernet  => $options->{ethernet},
+    udp       => $options->{udp}
 );
 
 $task->run();
@@ -81,8 +80,9 @@ fusioninventory-wakeonlan - Standalone wake-on-lan
 =head1 SYNOPSIS
 
 B<fusioninventory-wakeonlan>
-S<[B<-mac> I<string>]> S<[B<--methods> I<string>]>
+S<[B<--ethernet>]> S<[B<--udp>]>
 S<[B<--debug>]>
+I<mac> S<[I<mac> ...]>
 
 =head1 DESCRIPTION
 
@@ -93,13 +93,13 @@ server.
 
 =over
 
-=item B<--mac> I<string>
+=item B<--ethernet>
 
-target mac address
+use ethernet method if available (true).
 
-=item B<--methods> I<string>
+=item B<--udp>
 
-comma-separated list of methods to use (ethernet, udp)
+use UDP method if available (true).
 
 =item B<--debug>
 
@@ -109,6 +109,6 @@ debug output
 
 =head1 EXAMPLES
 
-    $> fusioninventory-wakeonlan --mac f0:1f:af:0f:a4:0c
-    $> fusioninventory-wakeonlan --mac f0:1f:af:0f:a4:0c --methods udp
-    $> fusioninventory-wakeonlan --mac f0:1f:af:0f:a4:0c,f0:1f:af:0f:a4:0d
+    $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c
+    $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c --noethernet
+    $> fusioninventory-wakeonlan f0:1f:af:0f:a4:0c f0:1f:af:0f:a4:0d
