@@ -33,36 +33,90 @@ sub run {
     my ($self, %params) = @_;
 
     my @addresses = @{$self->{config}->{addresses}}
-        or die "no addresses provided, aborting";
-    my @methods   = @{$self->{config}->{methods}} || qw/ethernet udp/;
+        or die "no mac addresses provided, aborting";
+    my $use_ethernet = $self->{config}->{ethernet} && $self->_canUseEthernet();
+    my $use_udp      = $self->{config}->{udp}      && $self->_canUseUDP();
+
     $self->{logger}->debug(
         "got " . scalar @addresses . " mac address as magic packets recipients"
     );
 
-    METHODS: foreach my $method (@methods) {
-        my $function = '_send_magic_packet_' . $method;
-        ADDRESSES: foreach my $address (@addresses) {
-            eval {
-                $self->$function($address);
-            };
-            if ($EVAL_ERROR) {
-                $self->{logger}->error(
-                    "Impossible to use $method method: $EVAL_ERROR"
-                );
-                # this method doesn't work, skip remaining addresses
-                last ADDRESSES;
-            }
+    foreach my $address (@addresses) {
+        if ($address !~ /^$mac_address_pattern$/) {
+            $self->{logger}->error(
+                "invalid MAC address $address, skipping"
+            );
+            next;
         }
-        # all addresses have been processed, skip other methods
-        last METHODS;
+
+        $address =~ s/://g;
+
+        if ($use_ethernet) {
+            eval {
+                $self->_send_magic_packet_ethernet($address);
+            };
+            next unless $EVAL_ERROR;
+            $self->{logger}->error("Error with ethernet method: $EVAL_ERROR");
+        }
+
+        if ($use_udp) {
+            eval {
+                $self->_send_magic_packet_udp($address);
+            };
+            next unless $EVAL_ERROR;
+            $self->{logger}->error("Error with UDP method: $EVAL_ERROR");
+        }
     }
+}
+
+sub _canUseEthernet {
+    my ($self) = @_;
+
+    if (!$UID == 0) {
+        $self->{logger}->debug(
+            "no root privileges, disabling ethernet method"
+        );
+        return;
+    }
+
+    if (!canLoad('Net::Write::Layer2')) {
+        $self->{logger}->debug(
+            "unable to load Net::Write, disabling ethernet method"
+        );
+        return;
+    }
+
+    return 1;
+}
+
+sub _canUseUDP {
+    my ($self) = @_;
+
+    socket(my $socket, PF_INET, SOCK_DGRAM, getprotobyname('udp'));
+
+    if (!$socket) {
+        $self->{logger}->debug(
+            "unable to open UDP socket ($ERRNO), disabling UDP method"
+        );
+        return;
+    }
+
+    setsockopt($socket, SOL_SOCKET, SO_BROADCAST, 1);
+
+    if (!$socket) {
+        $self->{logger}->debug(
+            "unable to set broadcast flag ($ERRNO), disabling UDP method"
+        );
+        return;
+    }
+
+    close($socket);
+
+    return 1;
 }
 
 sub _send_magic_packet_ethernet {
     my ($self, $target) = @_;
-
-    die "root privileges needed\n" unless $UID == 0;
-    die "Net::Write module needed\n" unless Net::Write::Layer2->require();
 
     my $interface = $self->_getInterface();
     my $source = $interface->{MACADDR};
