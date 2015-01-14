@@ -152,20 +152,20 @@ fusioninventory-daemon - FusionInventory agent daemon for Unix
 
 B<fusioninventory-daemon>
 S<[B<--config> I<string>]>
-S<[B<--conf-file> I<file>]>
+S<[B<--conf-file> I<path>]>
 S<[B<--no-fork>]>
-S<[B<--pidfile> I<file>]>
+S<[B<--pidfile> I<path>]>
 S<[B<--server> I<url>]>
 S<[B<--no-module> I<string>]>
 S<[B<--proxy> I<url>]>
 S<[B<--user> I<string>]>
 S<[B<--password> I<string>]>
-S<[B<--ca-cert-dir> I<directory>]>
-S<[B<--ca-cert-file> I<file>]>
+S<[B<--ca-cert-dir> I<path>]>
+S<[B<--ca-cert-file> I<path>]>
 S<[B<--no-ssl-check>]>
-S<[B<--timeout> I<time>]>
+S<[B<--timeout> I<integer>]>
 S<[B<--logger> I<string>]>
-S<[B<--logfile> I<file>]>
+S<[B<--logfile> I<path>]>
 S<[B<--logfile-maxsize> I<integer>]>
 S<[B<--logfacility> I<string>]>
 S<[B<--color>]>
@@ -189,7 +189,7 @@ Those options can be passed on command-line only.
 
 =over
 
-=item B<--config>=I<BACKEND>
+=item B<--config> I<string>
 
 Configuration backend to use.
 
@@ -211,17 +211,17 @@ none: don't read any configuration.
 
 =back
 
-=item B<--conf-file>=I<FILE>
+=item B<--conf-file> I<path>
 
-Use I<FILE> as configuration file (implies file configuration backend).
+Use I<path> as configuration file (implies file configuration backend).
 
 =item B<--no-fork>
 
 Don't fork in background.
 
-=item B<--pidfile>=I<FILE>
+=item B<--pidfile> I<path>
 
-Store pid in I<FILE>.
+Store pid in I<path>.
 
 =back
 
@@ -232,31 +232,31 @@ configuration file.
 
 =over
 
-=item B<-s>, B<--server>=I<URI>
+=item B<-s>, B<--server> I<url>
 
 Set B<server> option, see L<agent.cfg> for details.
 
-=item B<--no-module>=I<MODULE>
+=item B<--no-module> I<string>
 
 Set B<no-module> option, see L<agent.cfg> for details.
 
-=item B<-P>, B<--proxy>=I<PROXY>
+=item B<-P>, B<--proxy> I<url>
 
 Set B<proxy> option, see L<agent.cfg> for details.
 
-=item B<-u> I<USER>, B<--user>=I<USER>
+=item B<-u>, B<--user> I<string>
 
 Set B<user> option, see L<agent.cfg> for details.
 
-=item B<-p>, B<--password>=I<PASSWORD>
+=item B<-p>, B<--password> I<string>
 
 Set B<password> option, see L<agent.cfg> for details.
 
-=item B<--ca-cert-dir>=I<DIRECTORY>
+=item B<--ca-cert-dir> I<path>
 
 Set B<ca-cert-dir> option, see L<agent.cfg> for details.
 
-=item B<--ca-cert-file>=I<FILE>
+=item B<--ca-cert-file> I<path>
 
 Set B<ca-cert-file> option, see L<agent.cfg> for details.
 
@@ -264,23 +264,23 @@ Set B<ca-cert-file> option, see L<agent.cfg> for details.
 
 Set B<no-ssl-check> option, see L<agent.cfg> for details.
 
-=item B<--timeout>=I<TIME>
+=item B<--timeout> I<integer>
 
 Set B<timeout> option, see L<agent.cfg> for details.
 
-=item B<--logger>=I<BACKEND>
+=item B<--logger> I<string>
 
 Set B<logger> option, see L<agent.cfg> for details.
 
-=item B<--logfile>=I<FILE>
+=item B<--logfile> I<path>
 
 Set B<logfile> option, see L<agent.cfg> for details.
 
-=item B<--logfile-maxsize>=I<SIZE>
+=item B<--logfile-maxsize> I<integer>
 
 Set B<logfile-maxsize> option, see L<agent.cfg> for details.
 
-=item B<--logfacility>=I<FACILITY>
+=item B<--logfacility> I<string>
 
 Set B<logfacility> option, see L<agent.cfg> for details.
 
@@ -296,15 +296,15 @@ Set B<debug> option, see L<agent.cfg> for details.
 
 Set B<no-httpd> option, see L<agent.cfg> for details.
 
-=item B<--httpd-ip>=I<IP>
+=item B<--httpd-ip> I<integer>
 
 Set B<httpd-ip> option, see L<agent.cfg> for details.
 
-=item B<--httpd-port>=I<PORT>
+=item B<--httpd-port> I<integer>
 
 Set B<httpd-port> option, see L<agent.cfg> for details.
 
-=item B<--httpd-trust>=I<IP>
+=item B<--httpd-trust> I<address>
 
 Set B<httpd-trust> option, see L<agent.cfg> for details.
 

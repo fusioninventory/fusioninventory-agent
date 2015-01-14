@@ -100,7 +100,7 @@ fusioninventory-inventory - Standalone inventory
 =head1 SYNOPSIS
 
 B<fusioninventory-inventory>
-S<[B<--additional-content> I<file>]> S<[B<--no-category> I<string>]>
+S<[B<--additional-content> I<path>]> S<[B<--no-category> I<string>]>
 S<[B<--scan-homedirs>]> S<[B<--scan-profiles>]>
 S<[B<--execution-timeout> I<integer>]> S<[B<--tag> I<string>]>
 S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
@@ -123,7 +123,7 @@ inventory tag
 
 execution timeout (default: 30s)
 
-=item B<--additional-content> I<file>
+=item B<--additional-content> I<path>
 
 additional inventory content file
 
