@@ -258,7 +258,6 @@ sub _queryDevice {
          id      => $device->{id},
          type    => $device->{type},
          snmp    => $snmp,
-         model   => $params{model},
          logger  => $self->{logger},
          datadir => $self->{config}->{datadir},
          origin  => $device->{host} || $device->{file}
