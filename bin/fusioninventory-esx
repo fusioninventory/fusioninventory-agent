@@ -29,14 +29,14 @@ GetOptions(
     $options,
     'config=s',
     'conf-file=s',
-    'directory=s',
-    'server=s',
+    'target=s',
     'user=s',
     'password=s',
     'tag=s',
     'debug+',
     'help',
     # deprecated
+    'directory=s',
     'host=s',
 ) or pod2usage(-verbose => 0);
 
@@ -94,8 +94,7 @@ $task->configure(
 );
 
 my $target = FusionInventory::Agent::Target->create(
-    url    => $options->{server},
-    path   => $options->{directory},
+    spec   => $options->{target},
     logger => $logger,
     config => $config,
 );
@@ -113,8 +112,7 @@ fusioninventory-esx - Standalone ESX inventory
 B<fusioninventory-esx>
 S<[B<--config> I<string>]>
 S<[B<--conf-file> I<path>]>
-S<[B<--directory> I<path>]>
-S<[B<--server> I<url>]>
+S<[B<--target> I<string>]>
 S<[B<--tag> I<string>]>
 S<[B<--user> I<string>]> S<[B<--password> I<string>]>
 S<[B<--debug>]>
@@ -155,13 +153,9 @@ none: don't read any configuration.
 
 Use I<path> as configuration file (implies file configuration backend).
 
-=item B<--directory> I<path>
+=item B<--target> I<string>
 
-directory target path
-
-=item B<--server> I<url>
-
-server target url
+target path (for directory) or url (for server)
 
 =item B<--tag> I<string>
 

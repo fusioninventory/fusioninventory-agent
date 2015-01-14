@@ -8,11 +8,14 @@ use UNIVERSAL::require;
 sub create {
     my ($class, %params) = @_;
 
-    if ($params{url}) {
+    my $spec = $params{spec};
+
+    if ($spec && $spec =~ m{^https?://}) {
+        # url specification
         FusionInventory::Agent::Target::Server->require();
         FusionInventory::Agent::HTTP::Client::Fusion->require();
         return FusionInventory::Agent::Target::Server->new(
-            url   => $params{url},
+            url   => $spec,
             agent => FusionInventory::Agent::HTTP::Client::Fusion->new(
                 logger       => $params{logger},
                 user         => $params{config}->{user},
@@ -26,16 +29,17 @@ sub create {
         );
     }
 
-    if ($params{path}) {
+    if ($spec) {
+        # path specification
         FusionInventory::Agent::Target::Directory->require();
         return FusionInventory::Agent::Target::Directory->new(
-            path => $params{path}
+            path => $spec
         );
     }
 
+    # no specification
     FusionInventory::Agent::Target::Stdout->require();
     return FusionInventory::Agent::Target::Stdout->new();
-
 }
 
 1;
