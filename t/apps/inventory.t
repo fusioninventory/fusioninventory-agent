@@ -13,7 +13,7 @@ use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Test::Utils;
 
-plan tests => 24;
+plan tests => 21;
 
 my ($content, $out, $err, $rc);
 
@@ -25,15 +25,6 @@ like(
     '--help stdout'
 );
 is($err, '', '--help stderr');
-
-($out, $err, $rc) = run_executable('fusioninventory-inventory', '--version');
-ok($rc == 0, '--version exit status');
-is($err, '', '--version stderr');
-like(
-    $out,
-    qr/$FusionInventory::Agent::Task::Inventory::VERSION/,
-    '--version stdout'
-);
 
 # first inventory
 ($out, $err, $rc) = run_executable(
