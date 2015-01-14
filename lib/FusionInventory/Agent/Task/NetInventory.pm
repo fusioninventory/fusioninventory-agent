@@ -2,13 +2,11 @@ package FusionInventory::Agent::Task::NetInventory;
 
 use strict;
 use warnings;
-use threads;
 use base 'FusionInventory::Agent::Task';
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
-use List::Util qw(first);
-use Thread::Queue v2.01;
+use Parallel::ForkManager;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent;
@@ -74,7 +72,7 @@ sub run {
         or die "no target provided, aborting";
     my @jobs = @{$self->{config}->{jobs}}
         or die "no hosts provided, aborting";
-    my $max_threads = $self->{config}->{threads} || 1;
+    my $max_workers = $self->{config}->{threads} || 1;
     my $pid         = $self->{config}->{pid}     || 1;
     my $timeout     = $self->{config}->{timeout} || 15;
 
@@ -85,74 +83,36 @@ sub run {
     # send initial message to the server
     $self->_sendStartMessage();
 
-    # initialize FIFOs
-    my $devices_queue = Thread::Queue->new();
-    my $results_queue = Thread::Queue->new();
+    # no need for more workers than jobs to process
+    my $workers_count = $max_workers > @jobs ? @jobs : $max_workers;
+    my $manager = Parallel::ForkManager->new($workers_count);
 
-    foreach my $job (@jobs) {
-        $devices_queue->enqueue($job);
-    }
-    my $size = $devices_queue->pending();
+    foreach my $device (@jobs) {
+        $manager->start() and next;
 
-    # no need for more threads than devices to scan
-    my $threads_count = $max_threads > $size ? $size : $max_threads;
-
-    my $sub = sub {
-        my $id = threads->tid();
-        $self->{logger}->debug("[thread $id] creation");
-
-        # run as long as they are devices to process
-        while (my $device = $devices_queue->dequeue_nb()) {
-
-            my $result;
-            eval {
-                $result = $self->_queryDevice(
-                    device  => $device,
-                    timeout => $timeout,
-                );
+        my $result;
+        eval {
+            $result = $self->_queryDevice(
+                device  => $device,
+                timeout => $timeout,
+            );
+        };
+        if ($EVAL_ERROR) {
+            chomp $EVAL_ERROR;
+            $result = {
+                ERROR => {
+                    ID      => $device->{id},
+                    TYPE    => $device->{type},
+                    MESSAGE => $EVAL_ERROR
+                }
             };
-            if ($EVAL_ERROR) {
-                chomp $EVAL_ERROR;
-                $result = {
-                    ERROR => {
-                        ID      => $device->{id},
-                        TYPE    => $device->{type},
-                        MESSAGE => $EVAL_ERROR
-                    }
-                };
-                $self->{logger}->error($EVAL_ERROR);
-            }
-
-            $results_queue->enqueue($result) if $result;
+            $self->{logger}->error($EVAL_ERROR);
         }
 
-        $self->{logger}->debug("[thread $id] termination");
-    };
-
-    $self->{logger}->debug("creating $threads_count worker threads");
-    for (my $i = 0; $i < $threads_count; $i++) {
-        threads->create($sub);
-    }
-
-    # as long as some threads are still running...
-    while (threads->list(threads::running)) {
-
-        # send available results on the fly
-        while (my $result = $results_queue->dequeue_nb()) {
-            $self->_sendResultMessage($result);
-        }
-
-        # wait for a second
-        delay(1);
-    }
-
-    # purge remaining results
-    while (my $result = $results_queue->dequeue_nb()) {
         $self->_sendResultMessage($result);
     }
 
-    $self->{logger}->debug("cleaning $threads_count worker threads");
-    $_->join() foreach threads->list(threads::joinable);
+    $manager->wait_all_children();
 
     # send final message to the server
     $self->_sendStopMessage();
@@ -224,8 +184,7 @@ sub _queryDevice {
 
     my $device      = $params{device};
     my $logger      = $self->{logger};
-    my $id          = threads->tid();
-    $logger->debug("[thread $id] scanning $device->{id}");
+    $logger->debug("[worker $PID] scanning $device->{id}");
 
     my $snmp;
     if ($device->{file}) {

@@ -76,7 +76,7 @@ recommends 'Net::SNMP'   => '0';
 recommends 'Net::NBName' => '0';
 recommends 'Digest::MD5' => '0';
 recommends 'Crypt::DES'  => '0';
-recommends 'Thread::Queue' => '2.01';
+requires   'Parallel::ForkManager' => undef;
 
 # Wake-On-LAN
 recommends 'Net::Write::Layer2' => '0';

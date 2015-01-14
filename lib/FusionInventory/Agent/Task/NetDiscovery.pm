@@ -2,7 +2,6 @@ package FusionInventory::Agent::Task::NetDiscovery;
 
 use strict;
 use warnings;
-use threads;
 use base 'FusionInventory::Agent::Task';
 
 use constant DEVICE_PER_MESSAGE => 4;
@@ -10,8 +9,8 @@ use constant DEVICE_PER_MESSAGE => 4;
 use English qw(-no_match_vars);
 use List::Util qw(first);
 use Net::IP;
+use Parallel::ForkManager;
 use Time::localtime;
-use Thread::Queue v2.01;
 use UNIVERSAL::require;
 use XML::TreePP;
 
@@ -68,7 +67,7 @@ sub run {
         or die "no blocks provided, aborting";
     my $snmp_credentials =
         _filterCredentials($self->{config}->{snmp_credentials});
-    my $max_threads = $self->{config}->{threads} || 1;
+    my $max_workers = $self->{config}->{threads} || 1;
     my $pid         = $self->{config}->{pid}     || 1;
     my $timeout     = $self->{config}->{timeout} || 1;
 
@@ -123,67 +122,39 @@ sub run {
 
         $self->{logger}->debug("scanning block $block->{spec}");
 
-        # initialize FIFOs
-        my $addresses_queue = Thread::Queue->new();
-        my $results_queue   = Thread::Queue->new();
-
+        my @addresses;
         do {
-            $addresses_queue->enqueue($object->ip()),
-        } while (++$object);
-        my $size = $addresses_queue->pending();
-
-        # no need for more threads than addresses to scan in this range
-        my $threads_count = $max_threads > $size ? $size : $max_threads;
+            push @addresses, $block->ip();
+        } while (++$block);
+        my $size = scalar @addresses;
 
         # send block size to the server
         $self->_sendBlockMessage($size);
 
-        my $sub = sub {
-            my $id = threads->tid();
-            $self->{logger}->debug("[thread $id] creation");
+        # no need for more workers than IP address to process
+        my $workers_count = $max_workers > $size ? $size : $max_workers;
+        my $manager = Parallel::ForkManager->new($workers_count);
 
-            # run as long as they are addresses to process
-            while (my $address = $addresses_queue->dequeue_nb()) {
+        foreach my $address (@addresses) {
+            $manager->start() and next;
 
-                my $result = $self->_scanAddress(
-                    ip               => $address,
-                    timeout          => $timeout,
-                    nmap_parameters  => $nmap_parameters,
-                    snmp_credentials => $snmp_credentials,
-                );
+            my $result = $self->_scanAddress(
+                ip               => $address,
+                timeout          => $timeout,
+                nmap_parameters  => $nmap_parameters,
+                snmp_credentials => $snmp_credentials,
+            );
 
-                $results_queue->enqueue($result) if $result;
-            }
-
-            $self->{logger}->debug("[thread $id] termination");
-        };
-
-        $self->{logger}->debug("creating $threads_count worker threads");
-        for (my $i = 0; $i < $threads_count; $i++) {
-            threads->create($sub);
-        }
-
-        # as long as some threads are still running...
-        while (threads->list(threads::running)) {
-
-            # send available results on the fly
-            while (my $result = $results_queue->dequeue_nb()) {
-                $result->{entity} = $block->{entity} if $block->{ENTITY};
+            if ($result) {
+                $result->{entity} = $block->{entity}
+                    if defined($block->{entity});
                 $self->_sendResultMessage($result);
             }
 
-            # wait for a second
-            delay(1);
+            $manager->finish();
         }
 
-        # purge remaning results
-        while (my $result = $results_queue->dequeue_nb()) {
-            $result->{entity} = $block->{entity} if $block->{entity};
-            $self->_sendResultMessage($result);
-        }
-
-        $self->{logger}->debug("cleaning $threads_count worker threads");
-        $_->join() foreach threads->list(threads::joinable);
+        $manager->wait_all_children();
     }
 
     # send final message to the server
@@ -225,8 +196,7 @@ sub _scanAddress {
     my ($self, %params) = @_;
 
     my $logger = $self->{logger};
-    my $id     = threads->tid();
-    $logger->debug("[thread $id] scanning $params{ip}:");
+    $logger->debug("[worker $PID] scanning $params{ip}:");
 
     my %device = (
         $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : (),
@@ -260,8 +230,8 @@ sub _scanAddressByNmap {
     );
 
     $self->{logger}->debug(
-        "[thread %d] - scanning %s with nmap: %s",
-        threads->tid(),
+        "[worker %s] - scanning %s with nmap: %s",
+        $PID,
         $params{ip},
         $device ? 'success' : 'no result'
     );
@@ -277,8 +247,8 @@ sub _scanAddressByNetbios {
     my $ns = $nb->node_status($params{ip});
 
     $self->{logger}->debug(
-        "[thread %d] - scanning %s with netbios: %s",
-        threads->tid(),
+        "[worker %s] - scanning %s with netbios: %s",
+        $PID,
         $params{ip},
         $ns ? 'success' : 'no result'
     );
@@ -319,8 +289,8 @@ sub _scanAddressBySNMP {
 
         # no result means either no host, no response, or invalid credentials
         $self->{logger}->debug(
-            "[thread %d] - scanning %s with SNMP, credentials %d: %s",
-            threads->tid(),
+            "[worker %s] - scanning %s with SNMP, credentials %d: %s",
+            $PID,
             $params{ip},
             $credential->{id},
             %device ? 'success' : 'no result'
