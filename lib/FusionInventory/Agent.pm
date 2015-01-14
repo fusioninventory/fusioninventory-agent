@@ -198,7 +198,7 @@ sub _handleController {
     # create a single client object for this run
     my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
-        timeout      => $self->{timeout},
+        timeout      => $self->{config}->{timeout},
         user         => $self->{config}->{user},
         password     => $self->{config}->{password},
         proxy        => $self->{config}->{proxy},
