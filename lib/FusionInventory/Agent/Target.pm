@@ -15,12 +15,13 @@ sub create {
             url   => $params{url},
             agent => FusionInventory::Agent::HTTP::Client::Fusion->new(
                 logger       => $params{logger},
-                user         => $params{user},
-                password     => $params{password},
-                proxy        => $params{proxy},
-                ca_cert_file => $params{ca_cert_file},
-                ca_cert_dir  => $params{ca_cert_dir},
-                no_ssl_check => $params{no_ssl_check},
+                user         => $params{config}->{user},
+                password     => $params{config}->{password},
+                proxy        => $params{config}->{proxy},
+                timeout      => $params{config}->{timeout},
+                ca_cert_file => $params{config}->{'ca-cert-file'},
+                ca_cert_dir  => $params{config}->{'ca-cert-dir'},
+                no_ssl_check => $params{config}->{'no-ssl-check'},
             )
         );
     }

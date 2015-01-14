@@ -198,10 +198,10 @@ sub _handleController {
     # create a single client object for this run
     my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
         logger       => $self->{logger},
-        timeout      => $self->{config}->{timeout},
         user         => $self->{config}->{user},
         password     => $self->{config}->{password},
         proxy        => $self->{config}->{proxy},
+        timeout      => $self->{config}->{timeout},
         ca_cert_file => $self->{config}->{'ca-cert-file'},
         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},

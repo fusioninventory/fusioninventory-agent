@@ -81,7 +81,8 @@ $task->configure(
 my $target = FusionInventory::Agent::Target->create(
     url    => $options->{server},
     path   => $options->{directory},
-    logger => $logger
+    logger => $logger,
+    config => $config,
 );
 
 $task->run(target => $target);
