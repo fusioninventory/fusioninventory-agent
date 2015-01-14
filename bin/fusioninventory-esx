@@ -27,6 +27,8 @@ my $options = {
 
 GetOptions(
     $options,
+    'config=s',
+    'conf-file=s',
     'host=s',
     'user=s',
     'password=s',
@@ -108,6 +110,8 @@ fusioninventory-esx - Standalone ESX inventory
 =head1 SYNOPSIS
 
 B<fusioninventory-esx>
+S<[B<--config> I<string>]>
+S<[B<--conf-file> I<path>]>
 S<[B<--tag> I<string>]>
 S<[B<--user> I<string>]> S<[B<--password> I<string>]>
 S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
@@ -122,6 +126,32 @@ a GLPI server.
 =head1 OPTIONS
 
 =over
+
+=item B<--config> I<string>
+
+Configuration backend to use.
+
+The available backends are:
+
+=over 4
+
+=item
+
+file: read configuration from a file (default anywhere else as Windows).
+
+=item
+
+registry: read configuration from the registry (default on Windows).
+
+=item
+
+none: don't read any configuration.
+
+=back
+
+=item B<--conf-file> I<path>
+
+Use I<path> as configuration file (implies file configuration backend).
 
 =item B<--tag> I<string>
 

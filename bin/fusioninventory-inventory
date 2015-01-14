@@ -29,6 +29,8 @@ my $options = {
 
 GetOptions(
     $options,
+    'config=s',
+    'conf-file=s',
     'directory=s',
     'server=s',
     'additional-content=s',
@@ -94,6 +96,8 @@ fusioninventory-inventory - Standalone inventory
 =head1 SYNOPSIS
 
 B<fusioninventory-inventory>
+S<[B<--config> I<string>]>
+S<[B<--conf-file> I<path>]>
 S<[B<--additional-content> I<path>]> S<[B<--no-category> I<string>]>
 S<[B<--scan-homedirs>]> S<[B<--scan-profiles>]>
 S<[B<--execution-timeout> I<integer>]> S<[B<--tag> I<string>]>
@@ -108,6 +112,32 @@ server.
 =head1 OPTIONS
 
 =over
+
+=item B<--config> I<string>
+
+Configuration backend to use.
+
+The available backends are:
+
+=over 4
+
+=item
+
+file: read configuration from a file (default anywhere else as Windows).
+
+=item
+
+registry: read configuration from the registry (default on Windows).
+
+=item
+
+none: don't read any configuration.
+
+=back
+
+=item B<--conf-file> I<path>
+
+Use I<path> as configuration file (implies file configuration backend).
 
 =item B<--tag> I<string>
 
