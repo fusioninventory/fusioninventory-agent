@@ -31,16 +31,17 @@ GetOptions(
     'config=s',
     'conf-file=s',
     'target=s',
-    'first=s',
-    'last=s',
-    'community=s@',
-    'credential=s',
     'credentials=s@',
     'entity=s',
     'threads=i',
     'timeout=i',
     'debug+',
     'help',
+    # deprecated
+    'community=s@',
+    'credential=s',
+    'first=s',
+    'last=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
