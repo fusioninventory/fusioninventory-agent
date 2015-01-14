@@ -39,7 +39,6 @@ GetOptions(
     'scan-homedirs',
     'scan-profiles',
     'tag|t=s',
-    'verbose',
     'debug+',
     'help',
     # deprecated options
