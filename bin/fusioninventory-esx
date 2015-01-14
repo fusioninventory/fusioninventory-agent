@@ -48,6 +48,11 @@ pod2usage(
 ) if $options->{host};
 
 pod2usage(
+    -message => "--directory option is deprecated, use --target instead\n",
+    -verbose => 0
+) if $options->{directory};
+
+pod2usage(
     -message => "no host given, aborting\n", -verbose => 0
 ) unless @ARGV;
 
