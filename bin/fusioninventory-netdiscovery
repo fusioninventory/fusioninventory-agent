@@ -155,9 +155,10 @@ fusioninventory-netdiscovery - Standalone network discovery
 B<fusioninventory-netdiscovery>
 S<[B<--config> I<string>]>
 S<[B<--conf-file> I<path>]>
+S<[B<--directory> I<path>]>
+S<[B<--server> I<url>]>
 S<[B<--credentials> I<string>]> S<[B<--timeout> I<integer>]>
 S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
-S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
 S<[B<--debug>]>
 I<network> S<[I<network> ...]>
 
@@ -170,7 +171,7 @@ GLPI server.
 
 =over
 
-item B<--config> I<string>
+=item B<--config> I<string>
 
 Configuration backend to use.
 
@@ -196,6 +197,15 @@ none: don't read any configuration.
 
 Use I<path> as configuration file (implies file configuration backend).
 
+=item B<--directory> I<path>
+
+directory target path
+
+=item B<--server> I<url>
+
+server target url
+
+
 =item B<--credentials> I<string>
 
 SNMP credentials (default: version:2c,community:public)
@@ -211,14 +221,6 @@ threads number (default: 1)
 =item B<--entity> I<string>
 
 GLPI entity
-
-=item B<--directory> I<path>
-
-directory target path
-
-=item B<--server> I<url>
-
-server target url
 
 =item B<--debug>
 

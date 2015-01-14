@@ -43,8 +43,8 @@ GetOptions(
     $options,
     'config=s',
     'conf-file=s',
-    'server=s',
     'directory=s',
+    'server=s',
     'type=s',
     'host=s',
     'file=s',
@@ -170,6 +170,8 @@ fusioninventory-netinventory - Standalone network inventory
 B<fusioninventory-netinventory>
 S<[B<--config> I<string>]>
 S<[B<--conf-file> I<path>]>
+S<[B<--directory> I<path>]>
+S<[B<--server> I<url>]>
 S<[B<--version> I<string>]>
 S<[B<--community> I<string>]>
 S<[B<--username> I<string>]>
@@ -177,7 +179,6 @@ S<[B<--authpassword> I<string>]> S<[B<--authprotocol> I<string>]>
 S<[B<--privpassword> I<string>]> S<[B<--privprotocol> I<string>]>
 S<[B<--timeout> I<integer>]>
 S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
-S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
 S<[B<--debug>]>
 I<host> S<[I<host> ...]>
 
@@ -215,6 +216,14 @@ none: don't read any configuration.
 =item B<--conf-file> I<path>
 
 Use I<path> as configuration file (implies file configuration backend).
+
+=item B<--directory> I<path>
+
+directory target path
+
+=item B<--server> I<url>
+
+server target url
 
 =item B<--version> I<string>
 
@@ -255,14 +264,6 @@ threads number (default: 1)
 =item B<--entity> I<string>
 
 GLPI entity
-
-=item B<--directory> I<path>
-
-directory target path
-
-=item B<--server> I<url>
-
-server target url
 
 =item B<--debug>
 

@@ -98,10 +98,11 @@ fusioninventory-inventory - Standalone inventory
 B<fusioninventory-inventory>
 S<[B<--config> I<string>]>
 S<[B<--conf-file> I<path>]>
+S<[B<--directory> I<path>]>
+S<[B<--server> I<url>]>
 S<[B<--additional-content> I<path>]> S<[B<--no-category> I<string>]>
 S<[B<--scan-homedirs>]> S<[B<--scan-profiles>]>
 S<[B<--execution-timeout> I<integer>]> S<[B<--tag> I<string>]>
-S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
 S<[B<--debug>]>
 
 =head1 DESCRIPTION
@@ -139,6 +140,14 @@ none: don't read any configuration.
 
 Use I<path> as configuration file (implies file configuration backend).
 
+=item B<--directory> I<path>
+
+directory target path
+
+=item B<--server> I<url>
+
+server target url
+
 =item B<--tag> I<string>
 
 inventory tag
@@ -162,14 +171,6 @@ scan user home directories (false)
 =item B<--scan-profiles>
 
 scan user profiles (false)
-
-=item B<--directory> I<path>
-
-directory target path
-
-=item B<--server> I<url>
-
-server target url
 
 =item B<--debug>
 

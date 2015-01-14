@@ -29,14 +29,15 @@ GetOptions(
     $options,
     'config=s',
     'conf-file=s',
-    'host=s',
-    'user=s',
-    'password=s',
     'directory=s',
     'server=s',
+    'user=s',
+    'password=s',
     'tag=s',
     'debug+',
     'help',
+    # deprecated
+    'host=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -112,9 +113,10 @@ fusioninventory-esx - Standalone ESX inventory
 B<fusioninventory-esx>
 S<[B<--config> I<string>]>
 S<[B<--conf-file> I<path>]>
+S<[B<--directory> I<path>]>
+S<[B<--server> I<url>]>
 S<[B<--tag> I<string>]>
 S<[B<--user> I<string>]> S<[B<--password> I<string>]>
-S<[B<--directory> I<path>]> S<[B<--server> I<url>]>
 S<[B<--debug>]>
 I<host> S<[I<host> ...]>
 
@@ -153,6 +155,14 @@ none: don't read any configuration.
 
 Use I<path> as configuration file (implies file configuration backend).
 
+=item B<--directory> I<path>
+
+directory target path
+
+=item B<--server> I<url>
+
+server target url
+
 =item B<--tag> I<string>
 
 inventory tag
@@ -164,14 +174,6 @@ ESX user name
 =item B<--password> I<string>
 
 ESX user password
-
-=item B<--directory> I<path>
-
-directory target path
-
-=item B<--server> I<url>
-
-server target url
 
 =item B<--debug>
 
