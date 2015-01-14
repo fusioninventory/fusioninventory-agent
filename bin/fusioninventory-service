@@ -9,6 +9,8 @@ use constant SERVICE_SLEEP_TIME => 2000; # 20 milliseconds
 
 use File::Spec;
 use File::Basename;
+use Getopt::Long;
+use Pod::Usage;
 
 use English qw(-no_match_vars);
 use Win32;
@@ -17,6 +19,18 @@ use Win32::Daemon;
 use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
+
+my $options = {
+};
+
+GetOptions(
+    $options,
+    'config=s',
+    'conf-file=s',
+    'help'
+) or pod2usage(-verbose => 0);
+
+pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});
@@ -103,7 +117,8 @@ sub startAgent {
     return if $thread;
     $thread = threads->create(sub {
         my $config = FusionInventory::Agent::Config->new(
-            confdir => $directory . '/../../etc/fusioninventory'
+            confdir => $directory . '/../../etc/fusioninventory',
+            options => $options,
         );
 
         my $logger = FusionInventory::Agent::Logger->new(
@@ -146,6 +161,8 @@ fusioninventory-service - FusionInventory agent service for Windows
 =head1 SYNOPSIS
 
 B<fusioninventory-service>
+S<[B<--config> I<string>]>
+S<[B<--conf-file> I<path>]>
 
 =head1 DESCRIPTION
 
@@ -153,3 +170,35 @@ This executable allows to run the agent in managed mode on a Windows system:
 the agent runs continuously in the background, wakes up periodically to contact
 its server and execute required tasks. It may also be contacted out of schedule
 by the server, through its web interface.
+
+=head1 OPTIONS
+
+=over
+
+=item B<--config> I<string>
+
+Configuration backend to use.
+
+The available backends are:
+
+=over 4
+
+=item
+
+file: read configuration from a file (default anywhere else as Windows).
+
+=item
+
+registry: read configuration from the registry (default on Windows).
+
+=item
+
+none: don't read any configuration.
+
+=back
+
+=item B<--conf-file> I<path>
+
+Use I<path> as configuration file (implies file configuration backend).
+
+=back
