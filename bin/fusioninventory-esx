@@ -70,8 +70,7 @@ $agent->initHandlers();
 
 my $task = FusionInventory::Agent::Task::ESX->new(
     logger => $logger,
-    datadir => $setup{datadir},
-    confdir => $setup{confdir},
+    name   => 'ESX'
 );
 
 my @jobs;
@@ -101,7 +100,7 @@ my $target = FusionInventory::Agent::Target->create(
     config => $config,
 );
 
-$task->run(target => $target);
+$agent->executeTask(task => $task, target => $target);
 
 __END__
 

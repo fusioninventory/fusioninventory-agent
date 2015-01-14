@@ -88,10 +88,8 @@ $agent->init();
 $agent->initHandlers();
 
 my $task = FusionInventory::Agent::Task::NetDiscovery->new(
-    logger   => $logger,
-    datadir  => $setup{datadir},
-    confdir  => $setup{confdir},
-    deviceid => 'foo'
+    logger => $logger,
+    name   => 'NetDiscovery'
 );
 
 my $block_id = 1;
@@ -143,7 +141,7 @@ my $target = FusionInventory::Agent::Target->create(
     config => $config,
 );
 
-$task->run(target => $target);
+$agent->executeTask(task => $task, target => $target);
 
 __END__
 

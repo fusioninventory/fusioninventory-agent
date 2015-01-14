@@ -165,9 +165,9 @@ sub _sendStartMessage {
     my ($self) = @_;
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
-       deviceid => $self->{deviceid},
-       query    => 'SNMPQUERY',
-       content  => {
+        deviceid => $self->{config}->{deviceid},
+        query    => 'SNMPQUERY',
+        content  => {
            AGENT => {
                START        => 1,
                AGENTVERSION => $FusionInventory::Agent::VERSION,
@@ -184,7 +184,7 @@ sub _sendStopMessage {
     my ($self) = @_;
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
-       deviceid => $self->{deviceid},
+       deviceid => $self->{config}->{deviceid},
        query    => 'SNMPQUERY',
        content  => {
            AGENT => {
@@ -204,7 +204,7 @@ sub _sendResultMessage {
     my $origin = delete $result->{origin};
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
-        deviceid => $self->{deviceid},
+        deviceid => $self->{config}->{deviceid},
         query    => 'SNMPQUERY',
         content  => {
             DEVICE        => $result,
@@ -260,7 +260,7 @@ sub _queryDevice {
          snmp    => $snmp,
          model   => $params{model},
          logger  => $self->{logger},
-         datadir => $self->{datadir},
+         datadir => $self->{config}->{datadir},
          origin  => $device->{host} || $device->{file}
     );
 

@@ -57,8 +57,8 @@ sub run {
 
             my $message = FusionInventory::Agent::Message::Outbound->new(
                 query      => 'INVENTORY',
-                deviceid   => $self->{deviceid},
-                stylesheet => $self->{datadir} . '/inventory.xsl',
+                deviceid   => $self->{config}->{deviceid},
+                stylesheet => $self->{config}->{datadir} . '/inventory.xsl',
                 content    => $inventory->getContent()
             );
 
@@ -67,7 +67,7 @@ sub run {
         $target->send(
             message  => {
                 action => 'setLog',
-                machineid => $self->{deviceid},
+                machineid => $self->{config}->{deviceid},
                 uuid      => $job->{uuid},
                 code      => 'ok'
             }

@@ -56,14 +56,14 @@ sub run {
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
         query      => 'INVENTORY',
-        deviceid   => $self->{deviceid},
-        stylesheet => $self->{datadir} . '/inventory.xsl',
+        deviceid   => $self->{config}->{deviceid},
+        stylesheet => $self->{config}->{datadir} . '/inventory.xsl',
         content    => $inventory->getContent()
     );
 
     $target->send(
         message  => $message,
-        filename => sprintf('inventory_%s.xml', $self->{deviceid})
+        filename => sprintf('inventory_%s.xml', $self->{config}->{deviceid})
     );
 }
 
@@ -104,8 +104,8 @@ sub _initModulesList {
             timeout  => $config->{'execution-timeout'},
             params => {
                 no_category   => $disabled,
-                datadir       => $self->{datadir},
                 logger        => $self->{logger},
+                datadir       => $self->{config}->{datadir},
                 scan_homedirs => $self->{config}->{scan_homedirs},
                 scan_profiles => $self->{config}->{scan_profiles},
             }
@@ -184,10 +184,10 @@ sub _runModule {
         logger => $logger,
         timeout  => $self->{config}->{timeout},
         params => {
-            datadir       => $self->{datadir},
             inventory     => $inventory,
             no_category   => $disabled,
             logger        => $self->{logger},
+            datadir       => $self->{config}->{datadir},
             scan_homedirs => $self->{config}->{scan_homedirs},
             scan_profiles => $self->{config}->{scan_profiles},
         }

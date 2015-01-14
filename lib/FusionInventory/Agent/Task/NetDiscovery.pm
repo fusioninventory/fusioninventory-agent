@@ -357,7 +357,7 @@ sub _scanAddressBySNMPReal {
 
     my $info = getDeviceInfo(
         snmp    => $snmp,
-        datadir => $self->{datadir},
+        datadir => $self->{config}->{datadir},
         logger  => $self->{logger},
     );
     return unless $info;
@@ -400,7 +400,7 @@ sub _sendStartMessage {
     my ($self) = @_;
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
-        deviceid => $self->{deviceid},
+        deviceid => $self->{config}->{deviceid},
         query    => 'NETDISCOVERY',
         content  => {
             AGENT => {
@@ -419,7 +419,7 @@ sub _sendStopMessage {
     my ($self) = @_;
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
-        deviceid => $self->{deviceid},
+        deviceid => $self->{config}->{deviceid},
         query    => 'NETDISCOVERY',
         content  => {
             AGENT => {
@@ -437,7 +437,7 @@ sub _sendBlockMessage {
     my ($self, $count) = @_;
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
-        deviceid => $self->{deviceid},
+        deviceid => $self->{config}->{deviceid},
         query    => 'NETDISCOVERY',
         content  => {
             AGENT => {
@@ -456,7 +456,7 @@ sub _sendResultMessage {
     my $origin = delete $result->{origin};
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
-        deviceid => $self->{deviceid},
+        deviceid => $self->{config}->{deviceid},
         query    => 'NETDISCOVERY',
         content  => {
             DEVICE        => [$result],

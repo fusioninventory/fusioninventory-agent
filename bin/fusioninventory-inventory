@@ -66,8 +66,7 @@ $agent->initHandlers();
 
 my $task = FusionInventory::Agent::Task::Inventory->new(
     logger  => $logger,
-    datadir => $setup{datadir},
-    confdir => $setup{confdir},
+    name    => 'Inventory',
 );
 
 $task->configure(
@@ -85,7 +84,7 @@ my $target = FusionInventory::Agent::Target->create(
     config => $config,
 );
 
-$task->run(target => $target);
+$agent->executeTask(task => $task, target =>  $target);
 
 __END__
 

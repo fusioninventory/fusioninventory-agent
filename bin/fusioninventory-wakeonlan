@@ -59,10 +59,8 @@ $agent->init();
 $agent->initHandlers();
 
 my $task = FusionInventory::Agent::Task::WakeOnLan->new(
-    logger   => $logger,
-    datadir  => $setup{datadir},
-    confdir  => $setup{confdir},
-    deviceid => 'foo',
+    logger => $logger,
+    name   => "WakeOnLan"
 );
 
 $task->configure(
@@ -71,7 +69,7 @@ $task->configure(
     udp       => $options->{udp}
 );
 
-$task->run();
+$agent->executeTask(task => $task);
 
 __END__
 

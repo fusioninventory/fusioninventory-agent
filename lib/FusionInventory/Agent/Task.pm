@@ -13,11 +13,8 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logger   => $params{logger} || FusionInventory::Agent::Logger->new(),
-        confdir  => $params{confdir},
-        datadir  => $params{datadir},
-        deviceid => $params{deviceid},
-        name     => $params{name}
+        logger => $params{logger} || FusionInventory::Agent::Logger->new(),
+        name   => $params{name}
     };
     bless $self, $class;
 

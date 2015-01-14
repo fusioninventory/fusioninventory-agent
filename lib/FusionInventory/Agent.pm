@@ -338,11 +338,8 @@ sub _handleTaskReal {
     $class->require();
 
     my $task = $class->new(
-        confdir      => $self->{setup}->{confdir},
-        datadir      => $self->{setup}->{datadir},
-        logger       => $self->{logger},
-        deviceid     => $self->{deviceid},
-        name         => $spec->{task}
+        logger => $self->{logger},
+        name   => $spec->{task}
     );
 
     my %configuration = $task->getConfiguration(
@@ -362,12 +359,27 @@ sub _handleTaskReal {
     $self->{logger}->info("running task $spec->{task}");
     $self->{task} = $task;
 
+    $self->executeTask(task => $task, target => $target, client => $client);
+
+    delete $self->{task};
+}
+
+sub executeTask {
+    my ($self, %params) = @_;
+
+    my $task   = $params{task};
+    my $target = $params{target};
+    my $client = $params{client};
+
+    $task->configure(
+        datadir  => $self->{setup}->{datadir},
+        deviceid => $self->{deviceid}
+    );
+
     $task->run(
         target => $target,
         client => $client
     );
-
-    delete $self->{task};
 }
 
 sub getId {
