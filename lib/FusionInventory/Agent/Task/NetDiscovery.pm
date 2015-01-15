@@ -25,7 +25,7 @@ our $VERSION = $FusionInventory::Agent::VERSION;
 sub getConfiguration {
     my ($self, %params) = @_;
 
-    my $options = $params{spec}->{options};
+    my $options = $params{spec}->{config};
 
     my @credentials;
     foreach my $item (@{$options->{AUTHENTICATION}}) {
