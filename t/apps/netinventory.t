@@ -5,6 +5,7 @@ use warnings;
 use lib 't/lib';
 
 use English qw(-no_match_vars);
+use File::Temp qw(tempdir);
 use Test::Deep;
 use Test::More;
 use XML::TreePP;
@@ -19,7 +20,7 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
     plan skip_all => 'thread support required';
 }
 
-plan tests => 9;
+plan tests => 11;
 
 FusionInventory::Agent::Task::NetInventory->use();
 
@@ -60,3 +61,12 @@ $result->{'REQUEST'}{'CONTENT'}{'MODULEVERSION'} =
     $FusionInventory::Agent::VERSION;
 $result->{'REQUEST'}{'DEVICEID'} = re('^\S+$');
 cmp_deeply($content, $result, "expected output");
+
+my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
+
+($out, $err, $rc) = run_executable(
+    'fusioninventory-netinventory',
+    "--target $tmpdir file:resources/walks/sample4.walk"
+);
+ok($rc == 0, 'success exit status');
+ok(-f "$tmpdir/netinventory_sample4.walk.xml", "result file presence");
