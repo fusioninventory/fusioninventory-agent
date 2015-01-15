@@ -10,15 +10,9 @@ use Test::Deep;
 use Test::More;
 use XML::TreePP;
 use UNIVERSAL::require;
-use Config;
 
 use FusionInventory::Agent;
 use FusionInventory::Test::Utils;
-
-# check thread support availability
-if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
-    plan skip_all => 'thread support required';
-}
 
 plan tests => 11;
 
