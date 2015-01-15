@@ -24,25 +24,25 @@ sub getConfiguration {
     my $options = $params{spec}->{config};
 
     my @credentials;
-    foreach my $item (@{$options->{AUTHENTICATION}}) {
+    foreach my $authentication (@{$options->{AUTHENTICATION}}) {
         my $credentials;
-        foreach my $key (keys %$item) {
-            next unless $item->{$key};
+        foreach my $key (keys %$authentication) {
+            next unless $authentication->{$key};
             my $newkey =
                 $key eq 'AUTHPASSPHRASE' ? 'authpassword' :
                 $key eq 'PRIVPASSPHRASE' ? 'privpassword' :
                                             lc($key)      ;
-            $credentials->{$newkey} = $item->{$key};
+            $credentials->{$newkey} = $authentication->{$key};
         }
         push @credentials, $credentials;
     }
 
     my @blocks;
-    foreach my $item (@{$options->{RANGEIP}}) {
+    foreach my $rangeip (@{$options->{RANGEIP}}) {
         push @blocks, {
-            id     => $item->{ID},
-            spec   => $item->{IPSTART} . '-' . $item->{IPEND},
-            entity => $item->{ENTITY}
+            id     => $rangeip->{ID},
+            spec   => $rangeip->{IPSTART} . '-' . $rangeip->{IPEND},
+            entity => $rangeip->{ENTITY}
         };
     }
 
