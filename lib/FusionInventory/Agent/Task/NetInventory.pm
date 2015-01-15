@@ -6,6 +6,7 @@ use base 'FusionInventory::Agent::Task';
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
+use File::Basename;
 use Parallel::ForkManager;
 use UNIVERSAL::require;
 
@@ -123,9 +124,10 @@ sub abort {
 sub _queryDevice {
     my ($self, %params) = @_;
 
-    my $device      = $params{device};
-    my $logger      = $self->{logger};
-    $logger->debug("[worker $PID] scanning $device->{id}");
+    my $device = $params{device};
+    my $logger = $self->{logger};
+    my $source = $device->{host} || basename($device->{file});
+    $logger->debug("[worker $PID] processing $source");
 
     my $snmp;
 
@@ -155,9 +157,8 @@ sub _queryDevice {
          snmp    => $snmp,
          logger  => $self->{logger},
          datadir => $self->{config}->{datadir},
-         origin  => $device->{host} || $device->{file}
     );
-    $self->_sendResultMessage($result);
+    $self->_sendResultMessage($result, $source);
 }
 
 sub _sendStartMessage {
@@ -198,9 +199,7 @@ sub _sendStopMessage {
 }
 
 sub _sendResultMessage {
-    my ($self, $result) = @_;
-
-    my $origin = delete $result->{origin};
+    my ($self, $result, $source) = @_;
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
         deviceid => $self->{config}->{deviceid},
@@ -214,7 +213,7 @@ sub _sendResultMessage {
 
     $self->{target}->send(
         message  => $message,
-        filename => sprintf('netinventory_%s.xml', $origin),
+        filename => sprintf('netinventory_%s.xml', $source),
     );
 }
 
