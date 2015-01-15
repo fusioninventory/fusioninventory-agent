@@ -63,7 +63,7 @@ sub run {
     my @blocks = @{$self->{config}->{blocks}}
         or die "no blocks provided, aborting";
     my $snmp_credentials =
-        _filterCredentials($self->{config}->{snmp_credentials});
+        _filterCredentials($self->{config}->{credentials});
     my $max_workers = $self->{config}->{workers} || 0;
     my $pid         = $self->{config}->{pid}     || 1;
     my $timeout     = $self->{config}->{timeout} || 1;
