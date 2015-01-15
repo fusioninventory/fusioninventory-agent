@@ -14,7 +14,7 @@ use UNIVERSAL::require;
 use FusionInventory::Agent;
 use FusionInventory::Test::Utils;
 
-plan tests => 11;
+plan tests => 16;
 
 FusionInventory::Agent::Task::NetInventory->use();
 
@@ -33,28 +33,30 @@ is($err, '', '--help stderr');
     'fusioninventory-netinventory',
     ''
 );
-ok($rc == 2, 'no target exit status');
+ok($rc == 2, 'no host exit status');
 like(
     $err,
     qr/no host given, aborting/,
-    'no target stderr'
+    'no host stderr'
 );
-is($out, '', 'no target stdout');
+is($out, '', 'no host stdout');
+
+my $expected_result =
+    XML::TreePP->new()->parsefile('resources/walks/sample4.result');
+$expected_result->{'REQUEST'}{'CONTENT'}{'MODULEVERSION'} =
+    $FusionInventory::Agent::VERSION;
+$expected_result->{'REQUEST'}{'DEVICEID'} = re('^\S+$');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',
     'file:resources/walks/sample4.walk'
 );
-ok($rc == 0, 'success exit status');
+ok($rc == 0, 'host inventory exit status');
+is($err, '', 'host inventory stderr');
 
-my $content = XML::TreePP->new()->parse($out);
-ok($content, 'valid output');
-
-my $result = XML::TreePP->new()->parsefile('resources/walks/sample4.result');
-$result->{'REQUEST'}{'CONTENT'}{'MODULEVERSION'} =
-    $FusionInventory::Agent::VERSION;
-$result->{'REQUEST'}{'DEVICEID'} = re('^\S+$');
-cmp_deeply($content, $result, "expected output");
+my $stdout_result = XML::TreePP->new()->parse($out);
+ok($stdout_result, 'result syntax');
+cmp_deeply($stdout_result, $expected_result, 'result content');
 
 my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 
@@ -62,5 +64,12 @@ my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
     'fusioninventory-netinventory',
     "--target $tmpdir file:resources/walks/sample4.walk"
 );
-ok($rc == 0, 'success exit status');
-ok(-f "$tmpdir/netinventory_sample4.walk.xml", "result file presence");
+ok($rc == 0, 'host inventory with file target exit status');
+is($err, '', 'host inventory with file target stderr');
+is($out, '', 'host inventory with file target stout');
+
+my $result_file = "$tmpdir/netinventory_sample4.walk.xml";
+ok(-f $result_file, 'result file presence');
+my $file_result = XML::TreePP->new()->parsefile($result_file);
+ok($file_result, 'result file syntax');
+cmp_deeply($file_result, $expected_result, 'result file content');
