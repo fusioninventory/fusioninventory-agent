@@ -17,6 +17,9 @@ our @EXPORT = qw(
     mockGetWMIObjects
     mockGetRegistryKey
     unsetProxyEnvVar
+    is_json_string
+    is_xml_string
+    is_xml_file
 );
 
 sub test_port {
@@ -183,4 +186,27 @@ sub run_executable {
         \my ($in, $out, $err)
     );
     return ($out, $err, $CHILD_ERROR >> 8);
+}
+
+sub is_json_string {
+    my ($string) = @_;
+
+    eval {
+        my $content = from_json($string);
+    };
+    return $EVAL_ERROR ? 0 : 1;
+}
+
+sub is_xml_string {
+    my ($string) = @_;
+
+    my $content = XML::TreePP->new()->parse($string);
+    return defined $content;
+}
+
+sub is_xml_file {
+    my ($file) = @_;
+
+    my $content = XML::TreePP->new()->parsefile($file);
+    return defined $content;
 }
