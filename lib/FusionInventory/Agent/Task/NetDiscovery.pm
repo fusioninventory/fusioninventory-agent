@@ -196,7 +196,11 @@ sub _scanAddress {
     my ($self, %params) = @_;
 
     my $logger = $self->{logger};
-    $logger->debug("[worker $PID] scanning $params{ip}:");
+    $logger->debug(
+        '%sscanning %s',
+        $self->{config}->{workers} ? "[worker $PID] " : '',
+        $params{ip}
+    );
 
     my %device = (
         $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : (),
@@ -230,8 +234,8 @@ sub _scanAddressByNmap {
     );
 
     $self->{logger}->debug(
-        "[worker %s] - scanning %s with nmap: %s",
-        $PID,
+        '%sscanning %s with nmap: %s',
+        $self->{config}->{workers} ? "[worker $PID] " : '',
         $params{ip},
         $device ? 'success' : 'no result'
     );
@@ -247,8 +251,8 @@ sub _scanAddressByNetbios {
     my $ns = $nb->node_status($params{ip});
 
     $self->{logger}->debug(
-        "[worker %s] - scanning %s with netbios: %s",
-        $PID,
+        '%sscanning %s with netbios: %s',
+        $self->{config}->{workers} ? "[worker $PID] " : '',
         $params{ip},
         $ns ? 'success' : 'no result'
     );
@@ -289,8 +293,8 @@ sub _scanAddressBySNMP {
 
         # no result means either no host, no response, or invalid credentials
         $self->{logger}->debug(
-            "[worker %s] - scanning %s with SNMP, credentials %d: %s",
-            $PID,
+            '%sscanning %s with SNMP, credentials %d: %s',
+            $self->{config}->{workers} ? "[worker $PID] " : '',
             $params{ip},
             $credential->{id},
             %device ? 'success' : 'no result'

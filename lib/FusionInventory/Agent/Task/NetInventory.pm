@@ -127,7 +127,11 @@ sub _queryDevice {
     my $device = $params{device};
     my $logger = $self->{logger};
     my $source = $device->{host} || basename($device->{file});
-    $logger->debug("[worker $PID] processing $source");
+    $logger->debug(
+        '%sprocessing %s',
+        $self->{config}->{workers} ? "[worker $PID] " : '',
+        $source
+    );
 
     my $snmp;
 
