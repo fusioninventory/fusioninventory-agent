@@ -27,7 +27,7 @@ my %types = (
 
 my $options = {
     debug     => 0,
-    threads   => 1,
+    workers   => 1,
     version   => '2c',
     community => 'public'
 };
@@ -55,7 +55,7 @@ GetOptions(
     'privpassword=s',
     'privprotocol=s',
     'entity=s',
-    'threads=i',
+    'workers=i',
     'timeout=i',
     'debug+',
     'help',
@@ -143,7 +143,7 @@ my $task = FusionInventory::Agent::Task::NetInventory->new(
 
 $task->configure(
     pid     => 1,
-    threads => $options->{threads},
+    workers => $options->{workers},
     timeout => $options->{timeout},
     jobs    => \@jobs,
 );
@@ -174,7 +174,7 @@ S<[B<--username> I<string>]>
 S<[B<--authpassword> I<string>]> S<[B<--authprotocol> I<string>]>
 S<[B<--privpassword> I<string>]> S<[B<--privprotocol> I<string>]>
 S<[B<--timeout> I<integer>]>
-S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
+S<[B<--workers> I<integer>]> S<[B<--entity> I<string>]>
 S<[B<--debug>]>
 I<host> S<[I<host> ...]>
 
@@ -249,9 +249,9 @@ SNMP v3 privacy password
 
 SNMP timeout (default: 15s)
 
-=item B<--threads> I<integer>
+=item B<--workers> I<integer>
 
-threads number (default: 1)
+worker processes number (default: 1)
 
 =item B<--entity> I<string>
 

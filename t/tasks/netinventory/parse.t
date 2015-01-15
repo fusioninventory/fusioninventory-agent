@@ -14,7 +14,7 @@ use FusionInventory::Agent::Tools;
 my %tests = (
     prolog2 => {
         'timeout' => undef,
-        'threads' => '4',
+        'workers' => '4',
         'pid'     => '1280265498/024',
         'jobs'    => [
             {
@@ -27,7 +27,7 @@ my %tests = (
         ]
     },
     prolog3 => {
-        'threads' => '4',
+        'workers' => '4',
         'timeout' => undef,
         'pid'     => '1280265498/024',
         'jobs'    => [
@@ -42,7 +42,7 @@ my %tests = (
     },
     prolog4 => {
         'timeout' => undef,
-        'threads' => '4',
+        'workers' => '4',
         'pid'     => '1280265498/024',
         'jobs'    => [
             {

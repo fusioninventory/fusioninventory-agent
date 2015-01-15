@@ -33,8 +33,8 @@ GetOptions(
     'target=s',
     'credentials=s@',
     'entity=s',
-    'threads=i',
     'timeout=i',
+    'workers=i',
     'debug+',
     'help',
     # deprecated
@@ -42,6 +42,7 @@ GetOptions(
     'credential=s',
     'first=s',
     'last=s',
+    'threads=i',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
@@ -65,6 +66,11 @@ pod2usage(
     -message => "--credential option has been renamed to --credentials\n",
     -verbose => 0
 ) if $options->{credential};
+
+pod2usage(
+    -message => "--threads option has been renamed to --workers\n",
+    -verbose => 0
+) if $options->{workers};
 
 pod2usage(
     -message => "no network given, aborting\n", -verbose => 0
@@ -128,7 +134,7 @@ if ($options->{credentials}) {
 
 $task->configure(
     pid         => 1,
-    threads     => $options->{threads},
+    workers     => $options->{workers},
     timeout     => $options->{timeout},
     blocks      => \@blocks,
     snmp_credentials => \@credentials,
@@ -155,7 +161,7 @@ S<[B<--config> I<string>]>
 S<[B<--conf-file> I<path>]>
 S<[B<--target> I<string>]>
 S<[B<--credentials> I<string>]> S<[B<--timeout> I<integer>]>
-S<[B<--threads> I<integer>]> S<[B<--entity> I<string>]>
+S<[B<--workers> I<integer>]> S<[B<--entity> I<string>]>
 S<[B<--debug>]>
 I<network> S<[I<network> ...]>
 
@@ -206,9 +212,9 @@ SNMP credentials (default: version:2c,community:public)
 
 SNMP timeout (default: 1s)
 
-=item B<--threads> I<integer>
+=item B<--workers> I<integer>
 
-threads number (default: 1)
+worker processes number (default: 1)
 
 =item B<--entity> I<string>
 

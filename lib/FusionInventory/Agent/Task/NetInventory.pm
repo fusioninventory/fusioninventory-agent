@@ -59,7 +59,7 @@ sub getConfiguration {
 
     return (
         pid     => $config->{PARAM}->[0]->{PID},
-        threads => $config->{PARAM}->[0]->{THREADS_QUERY},
+        workers => $config->{PARAM}->[0]->{THREADS_QUERY},
         timeout => $config->{PARAM}->[0]->{TIMEOUT},
         jobs    => \@jobs
     );
@@ -72,7 +72,7 @@ sub run {
         or die "no target provided, aborting";
     my @jobs = @{$self->{config}->{jobs}}
         or die "no hosts provided, aborting";
-    my $max_workers = $self->{config}->{threads} || 1;
+    my $max_workers = $self->{config}->{workers} || 1;
     my $pid         = $self->{config}->{pid}     || 1;
     my $timeout     = $self->{config}->{timeout} || 15;
 
