@@ -83,18 +83,6 @@ pod2usage(
     -verbose => 0
 ) if $options->{type} && none { $options->{type} eq $_ } values %types;
 
-my $credentials = { id => 1 };
-
-if ($options->{credentials}) {
-    foreach my $parameter (split(',', $options->{credentials})) {
-        my ($key, $value) = split(':', $parameter);
-        $credentials->{$key} = $value;
-    }
-} else {
-    $credentials->{version}   = '2c';
-    $credentials->{community} = 'public';
-}
-
 my $host_id = 1;
 my @jobs;
 foreach my $arg (@ARGV) {
