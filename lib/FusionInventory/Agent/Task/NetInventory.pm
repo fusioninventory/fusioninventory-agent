@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use Encode qw(encode);
 use English qw(-no_match_vars);
 use File::Basename;
 use Parallel::ForkManager;

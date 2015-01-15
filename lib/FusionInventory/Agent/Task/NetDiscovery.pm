@@ -7,10 +7,8 @@ use base 'FusionInventory::Agent::Task';
 use constant DEVICE_PER_MESSAGE => 4;
 
 use English qw(-no_match_vars);
-use List::Util qw(first);
 use Net::IP;
 use Parallel::ForkManager;
-use Time::localtime;
 use UNIVERSAL::require;
 use XML::TreePP;
 
