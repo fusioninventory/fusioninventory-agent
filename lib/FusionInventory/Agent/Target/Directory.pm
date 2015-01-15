@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base qw(FusionInventory::Agent::Target);
 
+use English qw(-no_match_vars);
 use JSON;
 
 sub new {
@@ -28,7 +29,7 @@ sub send {
 
     my $file = sprintf("%s/%s", $self->{path}, $params{filename});
 
-    open(my $handle, '>', $file);
+    open(my $handle, '>', $file) or die "unable to open $file: $ERRNO";
     if (ref $params{message} eq 'HASH') {
         print $handle to_json($params{message}, { ascii => 1, pretty => 1 } );
     } else {
