@@ -124,6 +124,46 @@ sub abort {
     $self->SUPER::abort();
 }
 
+sub _queryDevice {
+    my ($self, %params) = @_;
+
+    my $device      = $params{device};
+    my $logger      = $self->{logger};
+    $logger->debug("[worker $PID] scanning $device->{id}");
+
+    my $snmp;
+
+    if ($device->{file}) {
+        FusionInventory::Agent::SNMP::Mock->require();
+        $snmp = FusionInventory::Agent::SNMP::Mock->new(
+            file => $device->{file}
+        );
+    } else {
+        FusionInventory::Agent::SNMP::Live->require();
+        $snmp = FusionInventory::Agent::SNMP::Live->new(
+            timeout      => $params{timeout},
+            hostname     => $device->{host},
+            version      => $device->{version},
+            community    => $device->{community},
+            username     => $device->{username},
+            authpassword => $device->{authpassphrase},
+            authprotocol => $device->{authprotocol},
+            privpassword => $device->{privpassphrase},
+            privprotocol => $device->{privprotocol},
+        );
+    }
+
+    my $result = getDeviceFullInfo(
+         id      => $device->{id},
+         type    => $device->{type},
+         snmp    => $snmp,
+         logger  => $self->{logger},
+         datadir => $self->{config}->{datadir},
+         origin  => $device->{host} || $device->{file}
+    );
+    $self->_sendResultMessage($result);
+}
+
 sub _sendStartMessage {
     my ($self) = @_;
 
@@ -180,46 +220,6 @@ sub _sendResultMessage {
         message  => $message,
         filename => sprintf('netinventory_%s.xml', $origin),
     );
-}
-
-sub _queryDevice {
-    my ($self, %params) = @_;
-
-    my $device      = $params{device};
-    my $logger      = $self->{logger};
-    $logger->debug("[worker $PID] scanning $device->{id}");
-
-    my $snmp;
-
-    if ($device->{file}) {
-        FusionInventory::Agent::SNMP::Mock->require();
-        $snmp = FusionInventory::Agent::SNMP::Mock->new(
-            file => $device->{file}
-        );
-    } else {
-        FusionInventory::Agent::SNMP::Live->require();
-        $snmp = FusionInventory::Agent::SNMP::Live->new(
-            timeout      => $params{timeout},
-            hostname     => $device->{host},
-            version      => $device->{version},
-            community    => $device->{community},
-            username     => $device->{username},
-            authpassword => $device->{authpassphrase},
-            authprotocol => $device->{authprotocol},
-            privpassword => $device->{privpassphrase},
-            privprotocol => $device->{privprotocol},
-        );
-    }
-
-    my $result = getDeviceFullInfo(
-         id      => $device->{id},
-         type    => $device->{type},
-         snmp    => $snmp,
-         logger  => $self->{logger},
-         datadir => $self->{config}->{datadir},
-         origin  => $device->{host} || $device->{file}
-    );
-    $self->_sendResultMessage($result);
 }
 
 1;
