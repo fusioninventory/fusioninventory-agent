@@ -90,26 +90,22 @@ sub run {
     foreach my $device (@jobs) {
         $manager->start() and next;
 
-        my $result;
         eval {
-            $result = $self->_queryDevice(
+            $self->_queryDevice(
                 device  => $device,
                 timeout => $timeout,
             );
         };
         if ($EVAL_ERROR) {
-            chomp $EVAL_ERROR;
-            $result = {
+            $self->_sendResultMessage({
                 ERROR => {
                     ID      => $device->{id},
                     TYPE    => $device->{type},
                     MESSAGE => $EVAL_ERROR
                 }
-            };
+            });
             $self->{logger}->error($EVAL_ERROR);
         }
-
-        $self->_sendResultMessage($result);
     }
 
     $manager->wait_all_children();
@@ -194,30 +190,25 @@ sub _queryDevice {
     $logger->debug("[worker $PID] scanning $device->{id}");
 
     my $snmp;
+
     if ($device->{file}) {
         FusionInventory::Agent::SNMP::Mock->require();
-        eval {
-            $snmp = FusionInventory::Agent::SNMP::Mock->new(
-                file => $device->{file}
-            );
-        };
-        die "SNMP emulation error: $EVAL_ERROR" if $EVAL_ERROR;
+        $snmp = FusionInventory::Agent::SNMP::Mock->new(
+            file => $device->{file}
+        );
     } else {
-        eval {
-            FusionInventory::Agent::SNMP::Live->require();
-            $snmp = FusionInventory::Agent::SNMP::Live->new(
-                timeout      => $params{timeout},
-                hostname     => $device->{host},
-                version      => $device->{version},
-                community    => $device->{community},
-                username     => $device->{username},
-                authpassword => $device->{authpassphrase},
-                authprotocol => $device->{authprotocol},
-                privpassword => $device->{privpassphrase},
-                privprotocol => $device->{privprotocol},
-            );
-        };
-        die "SNMP communication error: $EVAL_ERROR" if $EVAL_ERROR;
+        FusionInventory::Agent::SNMP::Live->require();
+        $snmp = FusionInventory::Agent::SNMP::Live->new(
+            timeout      => $params{timeout},
+            hostname     => $device->{host},
+            version      => $device->{version},
+            community    => $device->{community},
+            username     => $device->{username},
+            authpassword => $device->{authpassphrase},
+            authprotocol => $device->{authprotocol},
+            privpassword => $device->{privpassphrase},
+            privprotocol => $device->{privprotocol},
+        );
     }
 
     my $result = getDeviceFullInfo(
@@ -228,8 +219,7 @@ sub _queryDevice {
          datadir => $self->{config}->{datadir},
          origin  => $device->{host} || $device->{file}
     );
-
-    return $result;
+    $self->_sendResultMessage($result);
 }
 
 1;
