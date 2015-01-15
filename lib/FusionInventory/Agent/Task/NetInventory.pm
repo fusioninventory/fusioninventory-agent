@@ -97,13 +97,7 @@ sub run {
             );
         };
         if ($EVAL_ERROR) {
-            $self->_sendResultMessage({
-                ERROR => {
-                    ID      => $device->{id},
-                    TYPE    => $device->{type},
-                    MESSAGE => $EVAL_ERROR
-                }
-            });
+            $self->_sendErrorMessage($device, $EVAL_ERROR);
             $self->{logger}->error($EVAL_ERROR);
         }
 
@@ -221,6 +215,30 @@ sub _sendResultMessage {
     $self->{target}->send(
         message  => $message,
         filename => sprintf('netinventory_%s.xml', $origin),
+    );
+}
+
+sub _sendErrorMessage {
+    my ($self, $device, $error) = @_;
+
+    my $message = FusionInventory::Agent::Message::Outbound->new(
+        deviceid => $self->{config}->{deviceid},
+        query    => 'SNMPQUERY',
+        content  => {
+            DEVICE => {
+                ERROR => {
+                    ID      => $device->{id},
+                    TYPE    => $device->{type},
+                    MESSAGE => $error
+                }
+            },
+            MODULEVERSION => $VERSION,
+            PROCESSNUMBER => $self->{pid}
+        }
+    );
+
+    $self->{target}->send(
+        message  => $message,
     );
 }
 
