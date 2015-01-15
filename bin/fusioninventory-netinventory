@@ -45,8 +45,6 @@ GetOptions(
     'conf-file=s',
     'target=s',
     'type=s',
-    'host=s',
-    'file=s',
     'community=s',
     'version=s',
     'username=s',
@@ -59,6 +57,9 @@ GetOptions(
     'timeout=i',
     'debug+',
     'help',
+    # deprecated
+    'host=s',
+    'file=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
