@@ -106,6 +106,8 @@ sub run {
             });
             $self->{logger}->error($EVAL_ERROR);
         }
+
+        $manager->finish();
     }
 
     $manager->wait_all_children();

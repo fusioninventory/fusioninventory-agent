@@ -124,8 +124,8 @@ sub run {
 
         my @addresses;
         do {
-            push @addresses, $block->ip();
-        } while (++$block);
+            push @addresses, $object->ip();
+        } while (++$object);
         my $size = scalar @addresses;
 
         # send block size to the server
@@ -148,7 +148,7 @@ sub run {
             if ($result) {
                 $result->{entity} = $block->{entity}
                     if defined($block->{entity});
-                $self->_sendResultMessage($result);
+                $self->_sendResultMessage($result, $address);
             }
 
             $manager->finish();
@@ -421,9 +421,7 @@ sub _sendBlockMessage {
 }
 
 sub _sendResultMessage {
-    my ($self, $result) = @_;
-
-    my $origin = delete $result->{origin};
+    my ($self, $result, $address) = @_;
 
     my $message = FusionInventory::Agent::Message::Outbound->new(
         deviceid => $self->{config}->{deviceid},
@@ -437,7 +435,7 @@ sub _sendResultMessage {
 
     $self->{target}->send(
         message  => $message,
-        filename => sprintf('netdiscovery_%s.xml', $origin),
+        filename => sprintf('netdiscovery_%s.xml', $address),
     );
 }
 
