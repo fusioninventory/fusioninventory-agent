@@ -16,7 +16,7 @@ use FusionInventory::Agent::Task::NetDiscovery;
 
 my $options = {
     debug   => 0,
-    threads => 1
+    workers => 0,
 };
 
 my %setup = (

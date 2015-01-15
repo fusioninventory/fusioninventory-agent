@@ -72,7 +72,7 @@ sub run {
         or die "no target provided, aborting";
     my @jobs = @{$self->{config}->{jobs}}
         or die "no hosts provided, aborting";
-    my $max_workers = $self->{config}->{workers} || 1;
+    my $max_workers = $self->{config}->{workers} || 0;
     my $pid         = $self->{config}->{pid}     || 1;
     my $timeout     = $self->{config}->{timeout} || 15;
 

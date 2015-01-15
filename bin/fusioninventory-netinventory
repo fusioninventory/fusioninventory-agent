@@ -27,7 +27,7 @@ my %types = (
 
 my $options = {
     debug     => 0,
-    workers   => 1,
+    workers   => 0,
     version   => '2c',
     community => 'public'
 };
