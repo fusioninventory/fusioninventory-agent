@@ -5,8 +5,10 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
+use JSON;
 use IPC::Run qw(run);
 use Socket;
+use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 
