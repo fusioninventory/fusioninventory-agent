@@ -31,6 +31,7 @@ sub getConfiguration {
     foreach my $item (@{$options->{AUTHENTICATION}}) {
         my $credentials;
         foreach my $key (keys %$item) {
+            next unless $item->{$key};
             my $newkey =
                 $key eq 'AUTHPASSPHRASE' ? 'authpassword' :
                 $key eq 'PRIVPASSPHRASE' ? 'privpassword' :

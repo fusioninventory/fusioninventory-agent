@@ -26,24 +26,14 @@ my %tests = (
         ],
         credentials => [
             {
-                privpassword => '',
-                authpassword => '',
-                username     => '',
                 id           => '1',
-                privprotocol => '',
-                authprotocol => '',
                 community    => 'public',
                 version      => '1'
             },
             {
                 version      => '2c',
                 community    => 'public',
-                authprotocol => '',
-                privprotocol => '',
                 id           => '2',
-                username     => '',
-                authpassword => '',
-                privpassword => ''
             }
 
         ],
