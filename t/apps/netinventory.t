@@ -9,14 +9,11 @@ use File::Temp qw(tempdir);
 use Test::Deep;
 use Test::More;
 use XML::TreePP;
-use UNIVERSAL::require;
 
 use FusionInventory::Agent;
 use FusionInventory::Test::Utils;
 
 plan tests => 16;
-
-FusionInventory::Agent::Task::NetInventory->use();
 
 my ($out, $err, $rc);
 
