@@ -121,6 +121,13 @@ sub run {
     delete $self->{target};
 }
 
+sub abort {
+    my ($self) = @_;
+
+    $self->_sendStopMessage() if $self->{pid};
+    $self->SUPER::abort();
+}
+
 sub _sendStartMessage {
     my ($self) = @_;
 
