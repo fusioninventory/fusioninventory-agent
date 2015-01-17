@@ -51,29 +51,29 @@ sub _processJob {
 
     my $job = $params{job};
 
-    if ( !$self->_connect(
-            host     => $job->{host},
-            user     => $job->{user},
-            password => $job->{password}
-    )) {
+    my $vpbs = FusionInventory::Agent::SOAP::VMware->new(
+        url     => "https://$job->{host}/sdk/vimService",
+        vcenter => 1
+    );
+
+    if (!$vpbs->connect($job->{user}, $job->{password})) {
         $self->{target}->send(
             message  => {
                 action    => 'setLog',
                 machineid => $self->{deviceid},
                 part      => 'login',
                 uuid      => $job->{uuid},
-                msg       => $self->{lastError},
+                msg       => $vpbs->{lastError},
                 code      => 'ko'
             }
         );
-
         return;
     }
 
-    my $hostIds = $self->_getHostIds();
+    my $hostIds = $vpbs->_getHostIds();
     foreach my $hostId (@$hostIds) {
         my $inventory = $self->_createInventory(
-            $hostId, $self->{config}->{tag}
+            $hostId, $self->{config}->{tag}, $vpbs
         );
 
         my $message = FusionInventory::Agent::Message::Outbound->new(
@@ -94,21 +94,6 @@ sub _processJob {
             code      => 'ok'
         }
     );
-}
-
-sub _connect {
-    my ($self, %params) = @_;
-
-    my $url = 'https://' . $params{host} . '/sdk/vimService';
-
-    my $vpbs =
-      FusionInventory::Agent::SOAP::VMware->new(url => $url, vcenter => 1 );
-    if ( !$vpbs->connect( $params{user}, $params{password} ) ) {
-        $self->{lastError} = $vpbs->{lastError};
-        return;
-    }
-
-    $self->{vpbs} = $vpbs;
 }
 
 sub _createFakeDeviceid {
@@ -142,11 +127,7 @@ sub _createFakeDeviceid {
 }
 
 sub _createInventory {
-    my ( $self, $id, $tag ) = @_;
-
-    die unless $self->{vpbs};
-
-    my $vpbs = $self->{vpbs};
+    my ($self, $id, $tag, $vpbs) = @_;
 
     my $host;
     $host = $vpbs->getHostFullInfo($id);
@@ -211,12 +192,6 @@ sub _createInventory {
 
     return $inventory;
 
-}
-
-sub _getHostIds {
-    my ($self) = @_;
-
-    return $self->{vpbs}->_getHostIds();
 }
 
 1;
