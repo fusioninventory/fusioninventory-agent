@@ -28,53 +28,61 @@ sub run {
     my @jobs = @{$self->{config}->{jobs}}
         or die "no jobs provided, aborting";
 
+    $self->{target} = $target;
+
     foreach my $job (@jobs) {
+        $self->_processJob(job => $job);
+    }
+}
 
-        if ( !$self->_connect(
-                host     => $job->{host},
-                user     => $job->{user},
-                password => $job->{password}
-        )) {
-            $target->send(
-                message  => {
-                    action    => 'setLog',
-                    machineid => $self->{deviceid},
-                    part      => 'login',
-                    uuid      => $job->{uuid},
-                    msg       => $self->{lastError},
-                    code      => 'ko'
-                }
-            );
+sub _processJob {
+    my ($self, %params) = @_;
 
-            next;
-        }
+    my $job = $params{job};
 
-        my $hostIds = $self->_getHostIds();
-        foreach my $hostId (@$hostIds) {
-            my $inventory = $self->_createInventory(
-                $hostId, $self->{config}->{tag}
-            );
-
-            my $message = FusionInventory::Agent::Message::Outbound->new(
-                query      => 'INVENTORY',
-                deviceid   => $self->{config}->{deviceid},
-                stylesheet => $self->{config}->{datadir} . '/inventory.xsl',
-                content    => $inventory->getContent()
-            );
-
-            $target->send(message => $message);
-        }
-        $target->send(
+    if ( !$self->_connect(
+            host     => $job->{host},
+            user     => $job->{user},
+            password => $job->{password}
+    )) {
+        $self->{target}->send(
             message  => {
-                action => 'setLog',
-                machineid => $self->{config}->{deviceid},
+                action    => 'setLog',
+                machineid => $self->{deviceid},
+                part      => 'login',
                 uuid      => $job->{uuid},
-                code      => 'ok'
+                msg       => $self->{lastError},
+                code      => 'ko'
             }
         );
+
+        return;
     }
 
-    return $self;
+    my $hostIds = $self->_getHostIds();
+    foreach my $hostId (@$hostIds) {
+        my $inventory = $self->_createInventory(
+            $hostId, $self->{config}->{tag}
+        );
+
+        my $message = FusionInventory::Agent::Message::Outbound->new(
+            query      => 'INVENTORY',
+            deviceid   => $self->{config}->{deviceid},
+            stylesheet => $self->{config}->{datadir} . '/inventory.xsl',
+            content    => $inventory->getContent()
+        );
+
+        $self->{target}->send(message => $message);
+    }
+
+    $self->{target}->send(
+        message  => {
+            action => 'setLog',
+            machineid => $self->{config}->{deviceid},
+            uuid      => $job->{uuid},
+            code      => 'ok'
+        }
+    );
 }
 
 sub _connect {
