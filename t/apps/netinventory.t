@@ -39,14 +39,14 @@ like(
 is($out, '', 'no host stdout');
 
 my $expected_result =
-    XML::TreePP->new()->parsefile('resources/walks/sample4.result');
+    XML::TreePP->new()->parsefile('resources/snmp/sample4.result');
 $expected_result->{'REQUEST'}{'CONTENT'}{'MODULEVERSION'} =
     $FusionInventory::Agent::VERSION;
 $expected_result->{'REQUEST'}{'DEVICEID'} = re('^\S+$');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',
-    'file:resources/walks/sample4.walk'
+    'file:resources/snmp/sample4.walk'
 );
 ok($rc == 0, 'host inventory exit status');
 is($err, '', 'host inventory stderr');
@@ -59,7 +59,7 @@ my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-netinventory',
-    "--target $tmpdir file:resources/walks/sample4.walk"
+    "--target $tmpdir file:resources/snmp/sample4.walk"
 );
 ok($rc == 0, 'host inventory with file target exit status');
 is($err, '', 'host inventory with file target stderr');

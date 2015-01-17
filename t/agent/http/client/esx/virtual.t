@@ -11,7 +11,7 @@ use Test::More;
 use FusionInventory::Agent::HTTP::Client::ESX::Virtual;
 
 my %tests = (
-    'esx-4.1.0-1' => {
+    '4.1.0' => {
         'connect' => [
           {
             'lastActiveTime' => '1970-01-25T03:53:04.326969+01:00',
@@ -460,7 +460,7 @@ plan tests =>
 
 foreach my $test (keys %tests) {
     my $vpbs = FusionInventory::Agent::HTTP::Client::ESX::Virtual->new(
-        directory => "resources/$test"
+        directory => "resources/esx/$test"
     );
 
     my $result;

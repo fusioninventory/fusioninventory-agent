@@ -64,7 +64,7 @@ plan tests => $testCpt;
 
 foreach my $walk (keys %walks) {
     my $snmp = FusionInventory::Agent::SNMP::Client::Virtual->new(
-        file => "resources/walks/$walk.walk"
+        file => "resources/snmp/$walk.walk"
     );
 
     foreach my $oid (keys %{$walks{$walk}->{get}}) {
