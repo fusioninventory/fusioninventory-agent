@@ -33,7 +33,7 @@ GetOptions(
     'conf-file=s',
     'target=s',
     'additional-content=s',
-    'execution-timeout=s',
+    'timeout=s',
     'no-category=s@',
     'scan-homedirs',
     'scan-profiles',
@@ -69,7 +69,7 @@ my $task = FusionInventory::Agent::Task::Inventory->new(
 
 $task->configure(
     tag                => $options->{tag},
-    timeout            => $options->{'execution-timeout'},
+    timeout            => $options->{'timeout'},
     additional_content => $options->{'additional-content'},
     scan_homedirs      => $options->{'scan-homedirs'},
     no_category        => $options->{'no-category'},
@@ -97,7 +97,7 @@ S<[B<--conf-file> I<path>]>
 S<[B<--target> I<string>]>
 S<[B<--additional-content> I<path>]> S<[B<--no-category> I<string>]>
 S<[B<--scan-homedirs>]> S<[B<--scan-profiles>]>
-S<[B<--execution-timeout> I<integer>]> S<[B<--tag> I<string>]>
+S<[B<--timeout> I<integer>]> S<[B<--tag> I<string>]>
 S<[B<--debug>]>
 
 =head1 DESCRIPTION
@@ -143,7 +143,7 @@ target path (for directory) or url (for server)
 
 inventory tag
 
-=item B<--execution-timeout> I<integer>
+=item B<--timeout> I<integer>
 
 execution timeout (default: 30s)
 
