@@ -13,7 +13,6 @@ my $default = {
     'execution-timeout'       => 180,
     'ca-cert-dir'             => undef,
     'ca-cert-file'            => undef,
-    'color'                   => undef,
     'debug'                   => undef,
     'logger'                  => 'Stderr',
     'logfile'                 => undef,
@@ -36,6 +35,7 @@ my $default = {
     'timeout'                 => 180,
     'user'                    => undef,
     # deprecated options
+    'color'                   => undef,
     'html'                    => undef,
     'force'                   => undef,
     'local'                   => undef,
@@ -68,7 +68,10 @@ my $deprecated = {
     'backend-collect-timeout' => {
         message => 'use execution-timeout option instead',
         new     => 'execution-timeout'
-    }
+    },
+    'color' => {
+        message => 'color is now automatically used if relevant'
+    },
 };
 
 sub new {

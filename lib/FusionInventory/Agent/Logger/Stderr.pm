@@ -10,7 +10,6 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        color => $params{color},
     };
     bless $self, $class;
 
@@ -24,7 +23,7 @@ sub addMessage {
     my $message = $params{message};
 
     my $format;
-    if ($self->{color}) {
+    if (-t STDERR) {
         if ($level eq 'warning') {
             $format = "\033[1;35m[%s] %s\033[0m\n";
         } elsif ($level eq 'error') {

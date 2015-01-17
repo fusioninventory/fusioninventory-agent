@@ -37,7 +37,6 @@ GetOptions(
     # agent configuration options
     'ca-cert-dir=s',
     'ca-cert-file=s',
-    'color',
     'debug+',
     'logger=s',
     'logfile=s',
@@ -50,6 +49,7 @@ GetOptions(
     'timeout=i',
     'user|u=s',
     # deprecated options
+    'color',
     'delaytime=s',
     'html',
     'force|f',
@@ -212,7 +212,6 @@ S<[B<--logger> I<string>]>
 S<[B<--logfile> I<path>]>
 S<[B<--logfile-maxsize> I<integer>]>
 S<[B<--logfacility> I<string>]>
-S<[B<--color>]>
 
 B<fusioninventory-agent> B<--list-modules>
 
@@ -345,10 +344,6 @@ Set B<logfile-maxsize> option, see L<agent.cfg> for details.
 =item B<--logfacility> I<string>
 
 Set B<logfacility> option, see L<agent.cfg> for details.
-
-=item B<--color>
-
-Set B<color> option, see L<agent.cfg> for details.
 
 =item B<--debug>
 

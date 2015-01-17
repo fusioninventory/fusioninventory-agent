@@ -12,7 +12,7 @@ use Test::More;
 
 use FusionInventory::Agent::Logger;
 
-plan tests => 27;
+plan tests => 23;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
@@ -126,25 +126,33 @@ ok(
 
 is(
     getStderrOutput(sub { $logger->debug('message: %s', 'hello'); }),
-    "[debug] message: hello",
+    -t STDERR ?
+        "\033[1;1m[debug]\033[0m message: hello" :
+        "[debug] message: hello",
     'debug message formating'
 );
 
 is(
     getStderrOutput(sub { $logger->info('message: %s', 'hello'); }),
-    "[info] message: hello",
+    -t STDERR ?
+        "\033[1;34m[info]\033[0m message: hello" :
+        "[info] message: hello",
     'info message formating'
 );
 
 is(
     getStderrOutput(sub { $logger->warning('message: %s', 'hello'); }),
-    "[warning] message: hello",
+    -t STDERR ?
+        "\033[1;35m[warning] message: hello\033[0m" :
+        "[warning] message: hello",
     'warning message formating'
 );
 
 is(
     getStderrOutput(sub { $logger->error('message: %s', 'hello'); }),
-    "[error] message: hello",
+    -t STDERR ?
+        "\033[1;31m[error] message: hello\033[0m" :
+        "[error] message: hello",
     'error message formating'
 );
 
@@ -161,36 +169,6 @@ ok(
 ok(
     getStderrOutput(sub { $logger->debug('message'); }),
     'debug message presence'
-);
-
-$logger = FusionInventory::Agent::Logger->new(
-    backends  => [ qw/Stderr/ ],
-    color     => 1,
-    verbosity => LOG_DEBUG
-);
-
-is(
-    getStderrOutput(sub { $logger->debug('message'); }),
-    "\033[1;1m[debug]\033[0m message",
-    'debug message color formating'
-);
-
-is(
-    getStderrOutput(sub { $logger->info('message'); }),
-    "\033[1;34m[info]\033[0m message",
-    'info message color formating'
-);
-
-is(
-    getStderrOutput(sub { $logger->warning('message'); }),
-    "\033[1;35m[warning] message\033[0m",
-    'warning message color formating'
-);
-
-is(
-    getStderrOutput(sub { $logger->error('message'); }),
-    "\033[1;31m[error] message\033[0m",
-    'error message color formating'
 );
 
 # file backend tests
