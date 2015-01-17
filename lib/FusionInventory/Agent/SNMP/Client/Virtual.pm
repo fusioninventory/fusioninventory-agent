@@ -2,6 +2,7 @@ package FusionInventory::Agent::SNMP::Client::Virtual;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Agent::SNMP::Client';
 
 use FusionInventory::Agent::Tools;
 
