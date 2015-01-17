@@ -8,6 +8,8 @@ use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::SOAP::VMware;
 
+use Parallel::ForkManager;
+
 our $VERSION = $FusionInventory::Agent::VERSION;
 
 sub getConfiguration {
@@ -27,12 +29,21 @@ sub run {
         or die "no target provided, aborting";
     my @jobs = @{$self->{config}->{jobs}}
         or die "no jobs provided, aborting";
+    my $max_workers = $self->{config}->{workers} || 0;
 
     $self->{target} = $target;
 
+    # no need for more workers than jobs to process
+    my $workers_count = $max_workers > @jobs ? @jobs : $max_workers;
+    my $manager = Parallel::ForkManager->new($workers_count);
+
     foreach my $job (@jobs) {
+        $manager->start() and next;
         $self->_processJob(job => $job);
+        $manager->finish();
     }
+
+    $manager->wait_all_children();
 }
 
 sub _processJob {
