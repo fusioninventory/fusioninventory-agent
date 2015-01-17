@@ -10,9 +10,9 @@ use List::Util qw(first);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Message::Outbound;
+use FusionInventory::Agent::Tools;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 

@@ -5,12 +5,11 @@ use warnings;
 use base 'FusionInventory::Agent::Task';
 
 use English qw(-no_match_vars);
+use Parallel::ForkManager;
 
+use FusionInventory::Agent::HTTP::Client::ESX;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Message::Outbound;
-use FusionInventory::Agent::HTTP::Client::ESX;
-
-use Parallel::ForkManager;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 

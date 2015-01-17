@@ -13,8 +13,8 @@ use XML::TreePP;
 use FusionInventory::Agent;
 use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Hardware;
+use FusionInventory::Agent::Tools::Network;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 

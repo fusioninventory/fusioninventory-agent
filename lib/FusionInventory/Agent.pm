@@ -4,20 +4,20 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use UNIVERSAL::require;
 use File::Glob;
 use IO::Handle;
 use POSIX ":sys_wait_h"; # WNOHANG
+use UNIVERSAL::require;
 
+use FusionInventory::Agent::Controller;
 use FusionInventory::Agent::HTTP::Client::GLPI;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Task;
-use FusionInventory::Agent::Controller;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
-use FusionInventory::Agent::Message::Outbound;
 
 our $VERSION = '2.3.99';
 our $VERSION_STRING = _versionString($VERSION);

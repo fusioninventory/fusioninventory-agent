@@ -6,14 +6,14 @@ use base 'FusionInventory::Agent::HTTP::Client';
 
 use Encode;
 use English qw(-no_match_vars);
-use JSON;
 use HTTP::Request;
+use JSON;
 use UNIVERSAL::require;
 use URI;
 use URI::Escape;
 
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Message::Inbound;
+use FusionInventory::Agent::Tools;
 
 my $log_prefix = "[http client] ";
 
