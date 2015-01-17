@@ -13,10 +13,10 @@ sub create {
     if ($spec && $spec =~ m{^https?://}) {
         # url specification
         FusionInventory::Agent::Target::Server->require();
-        FusionInventory::Agent::HTTP::Client::Fusion->require();
+        FusionInventory::Agent::HTTP::Client::GLPI->require();
         return FusionInventory::Agent::Target::Server->new(
             url   => $spec,
-            agent => FusionInventory::Agent::HTTP::Client::Fusion->new(
+            agent => FusionInventory::Agent::HTTP::Client::GLPI->new(
                 logger       => $params{logger},
                 user         => $params{config}->{user},
                 password     => $params{config}->{password},

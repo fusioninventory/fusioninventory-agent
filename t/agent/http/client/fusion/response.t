@@ -12,7 +12,7 @@ use Test::Exception;
 use Test::More;
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::HTTP::Client::Fusion;
+use FusionInventory::Agent::HTTP::Client::GLPI;
 use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
@@ -41,7 +41,7 @@ my $message = FusionInventory::Agent::Message::Outbound->new(
     },
 );
 
-my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
+my $client = FusionInventory::Agent::HTTP::Client::GLPI->new(
     logger => $logger
 );
 

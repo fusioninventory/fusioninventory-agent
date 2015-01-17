@@ -9,7 +9,7 @@ use File::Glob;
 use IO::Handle;
 use POSIX ":sys_wait_h"; # WNOHANG
 
-use FusionInventory::Agent::HTTP::Client::Fusion;
+use FusionInventory::Agent::HTTP::Client::GLPI;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Server;
@@ -196,7 +196,7 @@ sub _handleController {
     my $controller = $params{controller};
 
     # create a single client object for this run
-    my $client = FusionInventory::Agent::HTTP::Client::Fusion->new(
+    my $client = FusionInventory::Agent::HTTP::Client::GLPI->new(
         logger       => $self->{logger},
         user         => $self->{config}->{user},
         password     => $self->{config}->{password},

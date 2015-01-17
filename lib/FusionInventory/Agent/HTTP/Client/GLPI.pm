@@ -1,4 +1,4 @@
-package FusionInventory::Agent::HTTP::Client::Fusion;
+package FusionInventory::Agent::HTTP::Client::GLPI;
 
 use strict;
 use warnings;
@@ -242,7 +242,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::HTTP::Client::Fusion - An HTTP client for control server
+FusionInventory::Agent::HTTP::Client::GLPI - HTTP client for GLPI server
 
 =head1 DESCRIPTION
 

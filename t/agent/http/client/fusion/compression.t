@@ -8,11 +8,11 @@ use English qw(-no_match_vars);
 use Test::More;
 use Test::Exception;
 
-use FusionInventory::Agent::HTTP::Client::Fusion;
+use FusionInventory::Agent::HTTP::Client::GLPI;
 
 plan tests => 2;
 
-my $client = FusionInventory::Agent::HTTP::Client::Fusion->new();
+my $client = FusionInventory::Agent::HTTP::Client::GLPI->new();
 
 my $data = "this is a test";
 is(
