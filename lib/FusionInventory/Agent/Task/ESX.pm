@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Message::Outbound;
-use FusionInventory::Agent::SOAP::VMware;
+use FusionInventory::Agent::HTTP::Client::ESX;
 
 use Parallel::ForkManager;
 
@@ -53,7 +53,7 @@ sub _processJob {
 
     my $job = $params{job};
 
-    my $vpbs = FusionInventory::Agent::SOAP::VMware->new(
+    my $vpbs = FusionInventory::Agent::HTTP::Client::ESX->new(
         url     => "https://$job->{host}/sdk/vimService",
         vcenter => 1
     );

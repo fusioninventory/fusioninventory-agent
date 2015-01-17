@@ -1,4 +1,4 @@
-package FusionInventory::Agent::SOAP::VMware;
+package FusionInventory::Agent::HTTP::Client::ESX;
 
 use strict;
 use warnings;
@@ -297,12 +297,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
+FusionInventory::Agent::HTTP::Client::ESX - HTTP client for ESX hypervisor
 
 =head1 DESCRIPTION
 
-This module allow access to VMware hypervisor using VMware SOAP API
-and _WITHOUT_ their Perl library.
+This module allow access to VMware hypervisor using VMware SOAP API.
 
 =head1 METHODS
 
