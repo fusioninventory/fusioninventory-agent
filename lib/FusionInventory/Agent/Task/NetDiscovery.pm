@@ -81,22 +81,21 @@ sub run {
            "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000ms"     ;
     } else {
         $self->{logger}->info(
-            "Can't run nmap, nmap detection can't be used"
+            "Can't run nmap, no ICMP probing"
         );
     }
 
     Net::NBName->require();
     if ($EVAL_ERROR) {
         $self->{logger}->info(
-            "Can't load Net::NBName, netbios can't be used"
+            "Can't load Net::NBName, no netbios probing"
         );
     }
 
-    FusionInventory::Agent::SNMP::Live->require();
+    FusionInventory::Agent::SNMP::Client->require();
     if ($EVAL_ERROR) {
         $self->{logger}->info(
-            "Can't load FusionInventory::Agent::SNMP::Live, snmp detection " .
-            "can't be used"
+            "Can't load FusionInventory::Agent::SNMP::Client, no SNMP probing"
         );
     }
 
