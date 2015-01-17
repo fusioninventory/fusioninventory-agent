@@ -19,19 +19,19 @@ my $default = {
     'logfile'                 => undef,
     'logfacility'             => 'LOG_USER',
     'logfile-maxsize'         => undef,
-    'no-category'             => [],
     'no-httpd'                => undef,
+    'no-module'               => '',
+    'no-category'             => '',
     'no-ssl-check'            => undef,
-    'no-module'               => [],
     'no-p2p'                  => undef,
     'password'                => undef,
     'proxy'                   => undef,
     'httpd-ip'                => undef,
     'httpd-port'              => 62354,
-    'httpd-trust'             => [],
+    'httpd-trust'             => '',
     'scan-homedirs'           => undef,
     'scan-profiles'           => undef,
-    'server'                  => undef,
+    'server'                  => '',
     'tag'                     => undef,
     'timeout'                 => 180,
     'user'                    => undef,
@@ -43,10 +43,6 @@ my $default = {
     'delaytime'               => undef,
     'lazy'                    => undef,
     'backend-collect-timeout' => undef,
-    # multi-values options that will be converted to array ref
-    'httpd-trust'             => "",
-    'no-module'               => "",
-    'no-category'             => ""
 };
 
 my $deprecated = {
@@ -267,19 +263,13 @@ sub _checkContent {
 
     # multi-values options, the default separator is a ','
     foreach my $option (qw/
-            logger
-            local
-            server
-            httpd-trust
-            no-module
-            no-category
-            /) {
-
-        if ($self->{$option}) {
-            $self->{$option} = [split(/,/, $self->{$option})];
-        } else {
-            $self->{$option} = [];
-        }
+        logger
+        server
+        httpd-trust
+        no-module
+        no-category
+    /) {
+        $self->{$option} = [split(/,/, $self->{$option})];
     }
 
     # files location
