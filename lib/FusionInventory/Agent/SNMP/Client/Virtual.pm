@@ -1,8 +1,7 @@
-package FusionInventory::Agent::SNMP::Mock;
+package FusionInventory::Agent::SNMP::Client::Virtual;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::SNMP';
 
 use FusionInventory::Agent::Tools;
 

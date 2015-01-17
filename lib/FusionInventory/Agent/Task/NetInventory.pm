@@ -135,13 +135,13 @@ sub _queryDevice {
     my $snmp;
 
     if ($device->{file}) {
-        FusionInventory::Agent::SNMP::Mock->require();
-        $snmp = FusionInventory::Agent::SNMP::Mock->new(
+        FusionInventory::Agent::SNMP::Client::Virtual->require();
+        $snmp = FusionInventory::Agent::SNMP::Client::Virtual->new(
             file => $device->{file}
         );
     } else {
-        FusionInventory::Agent::SNMP::Live->require();
-        $snmp = FusionInventory::Agent::SNMP::Live->new(
+        FusionInventory::Agent::SNMP::Client->require();
+        $snmp = FusionInventory::Agent::SNMP::Client->new(
             timeout      => $params{timeout},
             hostname     => $device->{host},
             version      => $device->{version},

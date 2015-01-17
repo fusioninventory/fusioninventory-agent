@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::SNMP::Mock;
+use FusionInventory::Agent::SNMP::Client::Virtual;
 use FusionInventory::Agent::Tools::Hardware;
 
 my @mac_tests = (
@@ -220,7 +220,7 @@ foreach my $test (@mac_tests) {
     );
 }
 
-my $snmp1 = FusionInventory::Agent::SNMP::Mock->new(
+my $snmp1 = FusionInventory::Agent::SNMP::Client::Virtual->new(
     hash => {
         '.1.3.6.1.2.1.1.1.0'        => [ 'STRING', 'foo' ],
     }
@@ -233,7 +233,7 @@ cmp_deeply(
     'getDeviceInfo() with no sysobjectid'
 );
 
-my $snmp2 = FusionInventory::Agent::SNMP::Mock->new(
+my $snmp2 = FusionInventory::Agent::SNMP::Client::Virtual->new(
     hash => {
         '.1.3.6.1.2.1.1.1.0'        => [ 'STRING', 'foo' ],
         '.1.3.6.1.2.1.1.2.0'        => [ 'STRING', '.1.3.6.1.4.1.45' ],
@@ -262,7 +262,7 @@ cmp_deeply(
 );
 
 foreach my $test (@cdp_info_extraction_tests) {
-    my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
+    my $snmp  = FusionInventory::Agent::SNMP::Client::Virtual->new(hash => $test->[0]);
 
     my $cdp_info = FusionInventory::Agent::Tools::Hardware::_getCDPInfo(
         snmp  => $snmp,
@@ -276,7 +276,7 @@ foreach my $test (@cdp_info_extraction_tests) {
 }
 
 foreach my $test (@mac_addresses_extraction_tests) {
-    my $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
+    my $snmp = FusionInventory::Agent::SNMP::Client::Virtual->new(hash => $test->[0]);
 
     my $mac_addresses = FusionInventory::Agent::Tools::Hardware::_getKnownMacAddresses(
         snmp           => $snmp,
@@ -292,7 +292,7 @@ foreach my $test (@mac_addresses_extraction_tests) {
 }
 
 foreach my $test (@mac_addresses_addition_tests) {
-    my $snmp  = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
+    my $snmp  = FusionInventory::Agent::SNMP::Client::Virtual->new(hash => $test->[0]);
 
     FusionInventory::Agent::Tools::Hardware::_setKnownMacAddresses(
         snmp  => $snmp,
@@ -307,7 +307,7 @@ foreach my $test (@mac_addresses_addition_tests) {
 }
 
 foreach my $test (@trunk_ports_extraction_tests) {
-    my $snmp = FusionInventory::Agent::SNMP::Mock->new(hash => $test->[0]);
+    my $snmp = FusionInventory::Agent::SNMP::Client::Virtual->new(hash => $test->[0]);
 
     my $trunk_ports = FusionInventory::Agent::Tools::Hardware::_getTrunkPorts(
         snmp  => $snmp,
