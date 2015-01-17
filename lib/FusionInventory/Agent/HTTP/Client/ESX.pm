@@ -2,32 +2,23 @@ package FusionInventory::Agent::HTTP::Client::ESX;
 
 use strict;
 use warnings;
+use base 'FusionInventory::Agent::HTTP::Client';
 
 use English qw(-no_match_vars);
-use XML::TreePP;
-use LWP::UserAgent;
 use HTTP::Cookies;
+use XML::TreePP;
 
-use FusionInventory::Agent;
 use FusionInventory::Agent::SOAP::VMware::Host;
 
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {
-        url => $params{url},
-        tpp => XML::TreePP->new(force_array => [qw(returnval propSet)]),
-    };
-    bless $self, $class;
+    my $self = $class->SUPER::new(%params);
 
-    # create user agent
-    $self->{ua} = LWP::UserAgent->new(
-        requests_redirectable => ['POST', 'GET', 'HEAD'],
-        agent                 => $FusionInventory::Agent::AGENT_STRING,
-        timeout               => $params{timeout} || 180,
-        ssl_opts              => { verify_hostname => 0 },
-        cookie_jar            => HTTP::Cookies->new(ignore_discard => 1),
-    );
+    $self->{ua}->cookie_jar(HTTP::Cookies->new(ignore_discard => 1));
+
+    $self->{url} = $params{url};
+    $self->{tpp} = XML::TreePP->new(force_array => [qw(returnval propSet)]);
 
     return $self;
 }
