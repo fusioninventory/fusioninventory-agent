@@ -22,7 +22,8 @@ my %setup = (
 );
 
 my $options = {
-    debug => 0,
+    debug   => 0,
+    workers => 0,
 };
 
 GetOptions(
@@ -33,6 +34,7 @@ GetOptions(
     'user=s',
     'password=s',
     'tag=s',
+    'workers=i',
     'debug+',
     'help',
     # deprecated
@@ -95,7 +97,8 @@ foreach my $arg (@ARGV) {
 }
 
 $task->configure(
-    jobs => \@jobs
+    workers => $options->{workers},
+    jobs    => \@jobs
 );
 
 my $target = FusionInventory::Agent::Target->create(
@@ -120,6 +123,7 @@ S<[B<--conf-file> I<path>]>
 S<[B<--target> I<string>]>
 S<[B<--tag> I<string>]>
 S<[B<--user> I<string>]> S<[B<--password> I<string>]>
+S<[B<--workers> I<integer>]>
 S<[B<--debug>]>
 I<host> S<[I<host> ...]>
 
@@ -173,6 +177,10 @@ ESX user name
 =item B<--password> I<string>
 
 ESX user password
+
+=item B<--workers> I<integer>
+
+worker processes number (default: 0)
 
 =item B<--debug>
 
