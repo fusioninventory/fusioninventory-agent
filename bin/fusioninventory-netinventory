@@ -240,7 +240,7 @@ SNMP timeout (default: 15s)
 
 =item B<--workers> I<integer>
 
-worker processes number (default: 1)
+worker processes number (default: 0)
 
 =item B<--entity> I<string>
 
