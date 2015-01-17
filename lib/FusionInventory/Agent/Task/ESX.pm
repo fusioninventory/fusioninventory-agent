@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Message::Outbound;
 use FusionInventory::Agent::SOAP::VMware;
@@ -56,14 +58,17 @@ sub _processJob {
         vcenter => 1
     );
 
-    if (!$vpbs->connect($job->{user}, $job->{password})) {
+    eval {
+        $vpbs->connect($job->{user}, $job->{password});
+    };
+    if ($EVAL_ERROR) {
         $self->{target}->send(
             message  => {
                 action    => 'setLog',
                 machineid => $self->{config}->{deviceid},
                 part      => 'login',
                 uuid      => $job->{uuid},
-                msg       => $vpbs->{lastError},
+                msg       => $EVAL_ERROR,
                 code      => 'ko'
             }
         );

@@ -60,9 +60,7 @@ sub _send {
         if ( $tmpRef && $tmpRef->{faultstring} ) {
             $errorString .= ": " . $tmpRef->{faultstring};
         }
-        print STDERR $errorString . "\n";
-        $self->{lastError} = $errorString;
-        return;
+        die $errorString;
     }
 
     return 1;
