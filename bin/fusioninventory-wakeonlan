@@ -60,7 +60,6 @@ $agent->initHandlers();
 
 my $task = FusionInventory::Agent::Task::WakeOnLan->new(
     logger => $logger,
-    name   => "WakeOnLan"
 );
 
 $task->configure(

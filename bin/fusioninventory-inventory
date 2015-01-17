@@ -64,8 +64,7 @@ $agent->init();
 $agent->initHandlers();
 
 my $task = FusionInventory::Agent::Task::Inventory->new(
-    logger  => $logger,
-    name    => 'Inventory',
+    logger => $logger,
 );
 
 $task->configure(

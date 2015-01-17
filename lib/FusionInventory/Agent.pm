@@ -339,7 +339,6 @@ sub _handleTaskReal {
 
     my $task = $class->new(
         logger => $self->{logger},
-        name   => $spec->{task}
     );
 
     my %configuration = $task->getConfiguration(

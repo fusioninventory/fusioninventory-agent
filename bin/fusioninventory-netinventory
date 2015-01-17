@@ -127,7 +127,6 @@ $agent->initHandlers();
 
 my $task = FusionInventory::Agent::Task::NetInventory->new(
     logger => $logger,
-    name   => 'NetInventory',
 );
 
 $task->configure(

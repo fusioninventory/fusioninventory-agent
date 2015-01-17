@@ -77,7 +77,6 @@ $agent->initHandlers();
 
 my $task = FusionInventory::Agent::Task::ESX->new(
     logger => $logger,
-    name   => 'ESX'
 );
 
 my @jobs;

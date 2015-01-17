@@ -14,7 +14,6 @@ sub new {
 
     my $self = {
         logger => $params{logger} || FusionInventory::Agent::Logger->new(),
-        name   => $params{name}
     };
     bless $self, $class;
 
@@ -36,7 +35,7 @@ sub abort {
 
 sub getName {
     my ($self) = @_;
-    return $self->{name};
+    return (split(/::/, ref $self))[-1];
 }
 
 sub getModules {

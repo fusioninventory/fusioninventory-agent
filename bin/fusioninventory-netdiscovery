@@ -95,7 +95,6 @@ $agent->initHandlers();
 
 my $task = FusionInventory::Agent::Task::NetDiscovery->new(
     logger => $logger,
-    name   => 'NetDiscovery'
 );
 
 my $block_id = 1;
