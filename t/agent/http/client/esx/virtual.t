@@ -3,16 +3,12 @@
 use strict;
 use warnings;
 
-use LWP::UserAgent;
 use English qw(-no_match_vars);
-use HTTP::Response;
-use Test::More;
 use Test::Deep;
 use Test::Exception;
-use Test::MockObject::Extends;
-use Test::MockModule;
+use Test::More;
 
-use FusionInventory::Agent::HTTP::Client::ESX;
+use FusionInventory::Agent::HTTP::Client::ESX::Virtual;
 
 my %tests = (
     'esx-4.1.0-1' => {
@@ -447,6 +443,7 @@ my %tests = (
         ]
     },
 );
+
 my @methods = qw/
     getHostname
     getBiosInfo
@@ -461,49 +458,9 @@ my @methods = qw/
 plan tests =>
     (scalar keys %tests) * (scalar @methods + 3);
 
-my $module = Test::MockModule->new('LWP::UserAgent');
-
 foreach my $test (keys %tests) {
-    my $dir = "resources/$test";
-
-    # create mock user agent
-    my $ua   = LWP::UserAgent->new();
-    my $mock = Test::MockObject::Extends->new($ua);
-    $mock->mock(
-        'request',
-        sub {
-            my ($self, $request) = @_;
-
-            # compute SOAP dump file name
-            my ($action) =
-                $request->header('soapaction') =~ /"urn:vim25#(\S+)"/;
-
-            my $tree = XML::TreePP->new()->parse($request->content());
-            my $body =
-                $tree->{'soapenv:Envelope'}->{'soapenv:Body'};
-            my $obj  =
-                $body->{RetrieveProperties}->{specSet}->{objectSet}->{obj};
-            if ($obj->{'-type'} && $obj->{'-type'} eq 'VirtualMachine') {
-                $action .= "-VM-$obj->{'#text'}";
-            }
-            my $file = $dir . "/" . $action . ".soap";
-
-            local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-            open(my $handle, '<', $file) or die "failed to open $file";
-            my $content = <$handle>;
-            close $handle;
-
-            return HTTP::Response->new(
-                200, 'OK', undef, $content
-            );
-        }
-    );
-
-    # ensure a calll to LWP::UserAgent->new() return our mock agent
-    $module->mock(new => sub { return $mock; });
-
-    my $vpbs = FusionInventory::Agent::HTTP::Client::ESX->new(
-        user => 'foo',
+    my $vpbs = FusionInventory::Agent::HTTP::Client::ESX::Virtual->new(
+        directory => "resources/$test"
     );
 
     my $result;
