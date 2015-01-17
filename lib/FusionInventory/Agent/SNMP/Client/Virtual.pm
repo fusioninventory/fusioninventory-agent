@@ -239,7 +239,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::SNMP::Mock - Mock SNMP client
+FusionInventory::Agent::SNMP::Client::Virtual - Virtual SNMP client
 
 =head1 DESCRIPTION
 
