@@ -11,6 +11,7 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Message::Outbound;
+use FusionInventory::Agent::SNMP::Client;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Network;
@@ -140,7 +141,6 @@ sub _queryDevice {
             file => $device->{file}
         );
     } else {
-        FusionInventory::Agent::SNMP::Client->require();
         $snmp = FusionInventory::Agent::SNMP::Client->new(
             timeout      => $params{timeout},
             hostname     => $device->{host},
