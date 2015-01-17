@@ -60,7 +60,7 @@ sub _processJob {
         $self->{target}->send(
             message  => {
                 action    => 'setLog',
-                machineid => $self->{deviceid},
+                machineid => $self->{config}->{deviceid},
                 part      => 'login',
                 uuid      => $job->{uuid},
                 msg       => $vpbs->{lastError},
