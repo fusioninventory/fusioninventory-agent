@@ -72,6 +72,7 @@ $task->configure(
     timeout            => $options->{'timeout'},
     additional_content => $options->{'additional-content'},
     scan_homedirs      => $options->{'scan-homedirs'},
+    scan_profiles      => $options->{'scan-profiles'},
     no_category        => $options->{'no-category'},
 );
 
