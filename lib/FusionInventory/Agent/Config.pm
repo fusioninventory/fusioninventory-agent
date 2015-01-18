@@ -123,8 +123,7 @@ sub _loadUserParams {
     my ($self, $params) = @_;
 
     foreach my $key (keys %$params) {
-        $self->{$key} = $params->{$key}
-            if exists $default->{$key} or exists $deprecated->{$key};
+        $self->{$key} = $params->{$key} if $params->{$key};
     }
 }
 
