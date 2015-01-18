@@ -9,7 +9,7 @@ use Test::More;
 
 use FusionInventory::Test::Utils;
 
-plan tests => 12;
+plan tests => 9;
 
 my ($content, $out, $err, $rc);
 
@@ -39,15 +39,3 @@ like(
     'no server stderr'
 );
 is($out, '', 'no server stdout');
-
-($out, $err, $rc) = run_executable(
-    'fusioninventory-agent',
-    '--config none --conf-file /foo/bar'
-);
-ok($rc == 1, 'incompatible options exit status');
-like(
-    $err,
-    qr/don't use --conf-file/,
-    'incompatible options stderr'
-);
-is($out, '', 'incompatible options stdout');

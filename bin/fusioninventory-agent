@@ -99,18 +99,6 @@ if ($options->{setup}) {
     exit 0;
 }
 
-if ($options->{'conf-file'}) {
-    if ($options->{config}) {
-        if ($options->{config} ne 'file') {
-            print STDERR
-                "don't use --conf-file with $options->{config} backend";
-            exit 1;
-        }
-    } else {
-        $options->{config} = 'file';
-    }
-}
-
 my $config = FusionInventory::Agent::Config->create(
     backend   => $options->{config},
     directory => $setup{confdir},
@@ -272,7 +260,7 @@ none: don't read any configuration.
 
 =item B<--conf-file> I<path>
 
-Use I<path> as configuration file (implies file configuration backend).
+configuration file path (with file backend)
 
 =item B<--lazy>
 

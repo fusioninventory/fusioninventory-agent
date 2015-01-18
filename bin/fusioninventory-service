@@ -200,6 +200,6 @@ none: don't read any configuration.
 
 =item B<--conf-file> I<path>
 
-Use I<path> as configuration file (implies file configuration backend).
+configuration file path (with file backend)
 
 =back
