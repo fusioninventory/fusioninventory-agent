@@ -32,6 +32,11 @@ Disables given module.
 
 Multiple values can be specified, using a comma as a separator.
 
+=item B<tag>
+
+Specifies an arbitrary string to add to output. This can be used as an
+additional decision criteria on server side.
+
 =item B<proxy>
 
 Specifies the URL of the HTTP proxy to use. By default, the agent uses
@@ -145,11 +150,6 @@ Specifies the level of verbosity for log content. The possible values are:
 =head1 INVENTORY TASK SPECIFIC OPTIONS
 
 =over
-
-=item B<tag>
-
-Specifies an arbitrary string to add to output. This can be used as an
-additional decision criteria on server side.
 
 =item B<no-category>
 

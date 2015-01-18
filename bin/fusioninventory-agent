@@ -48,6 +48,7 @@ GetOptions(
     'server|s=s',
     'timeout=i',
     'user|u=s',
+    'tag|t=s',
     # deprecated options
     'color',
     'delaytime=s',
@@ -69,7 +70,6 @@ GetOptions(
     'scan-homedirs',
     'scan-profiles',
     'no-p2p',
-    'tag|t=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -86,7 +86,7 @@ foreach my $option (qw/daemon no-fork no-httpd pidfile httpd-id httpd-port httpd
     exit 1;
 }
 
-foreach my $option (qw/no-category scan-homedirs scan-profiles backend-collect-timeout additional-content tag no-p2p/) {
+foreach my $option (qw/no-category scan-homedirs scan-profiles backend-collect-timeout additional-content no-p2p/) {
     next unless $options->{$option};
     print STDERR
         "module-specific option --$option is deprecated, use either configuration file or dedicated executable\n";
@@ -115,6 +115,7 @@ my $config = FusionInventory::Agent::Config->create(
         password        => $options->{'password'},
         proxy           => $options->{'proxy'},
         server          => $options->{'server'},
+        tag             => $options->{'tag'},
         timeout         => $options->{'timeout'},
         user            => $options->{'user'},
     }
@@ -204,6 +205,7 @@ S<[B<--conf-file> I<path>]>
 S<[B<--lazy>]>
 S<[B<--wait> I<integer>]>
 S<[B<--server> I<url>]>
+S<[B<--tag> I<string>]>
 S<[B<--no-module> I<string>]>
 S<[B<--proxy> I<url>]>
 S<[B<--user> I<string>]>
@@ -300,6 +302,10 @@ configuration file.
 =item B<-s>, B<--server> I<url>
 
 Set B<server> option, see L<agent.cfg> for details.
+
+=item B<-t>, B<--tag> I<string>
+
+Set B<tag> option, see L<agent.cfg> for details.
 
 =item B<--no-module> I<string>
 

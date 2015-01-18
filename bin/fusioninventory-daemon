@@ -50,6 +50,7 @@ GetOptions(
     'httpd-port=s',
     'httpd-trust=s',
     'server|s=s',
+    'tag|t=s',
     'timeout=i',
     'user|u=s',
 ) or pod2usage(-verbose => 0);
@@ -73,6 +74,7 @@ my $config = FusionInventory::Agent::Config->create(
         password        => $options->{'password'},
         proxy           => $options->{'proxy'},
         server          => $options->{'server'},
+        tag             => $options->{'tag'},
         timeout         => $options->{'timeout'},
         user            => $options->{'user'},
         httpd_ip        => $options->{'httpd-ip'},
@@ -163,6 +165,7 @@ S<[B<--conf-file> I<path>]>
 S<[B<--no-fork>]>
 S<[B<--pidfile> I<path>]>
 S<[B<--server> I<url>]>
+S<[B<--tag> I<string>]>
 S<[B<--no-module> I<string>]>
 S<[B<--proxy> I<url>]>
 S<[B<--user> I<string>]>
@@ -241,6 +244,10 @@ configuration file.
 =item B<-s>, B<--server> I<url>
 
 Set B<server> option, see L<agent.cfg> for details.
+
+=item B<-t>, B<--tag> I<string>
+
+Set B<tag> option, see L<agent.cfg> for details.
 
 =item B<--no-module> I<string>
 

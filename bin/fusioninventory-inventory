@@ -49,6 +49,7 @@ my $config = FusionInventory::Agent::Config->create(
     backend   => $options->{config},
     directory => $setup{confdir},
     file      => $options->{'conf-file'},
+    options   => { tag => $options->{tag} }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
@@ -68,7 +69,7 @@ my $task = FusionInventory::Agent::Task::Inventory->new(
 );
 
 $task->configure(
-    tag                => $options->{tag},
+    tag                => $options->{'tag'},
     timeout            => $options->{'timeout'},
     additional_content => $options->{'additional-content'},
     scan_homedirs      => $options->{'scan-homedirs'},
@@ -140,10 +141,6 @@ configuration file path (with file backend)
 
 target path (for directory) or url (for server)
 
-=item B<--tag> I<string>
-
-inventory tag
-
 =item B<--timeout> I<integer>
 
 execution timeout (default: 30s)
@@ -167,6 +164,10 @@ scan user profiles (false)
 =item B<--debug>
 
 debug output
+
+=item B<--tag> I<string>
+
+Set B<tag> option, see L<agent.cfg> for details.
 
 =back
 
