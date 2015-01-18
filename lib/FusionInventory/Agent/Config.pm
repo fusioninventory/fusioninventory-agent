@@ -5,7 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 use File::Spec;
-use Getopt::Long;
 use UNIVERSAL::require;
 
 my $default = {
