@@ -64,39 +64,46 @@ my $deprecated = {
     },
 };
 
+sub create {
+    my ($class, %params) = @_;
+
+    my $backend = $params{backend} || 'file';
+
+    if ($backend eq 'registry') {
+        FusionInventory::Agent::Config::Registry->require();
+        return FusionInventory::Agent::Config::Registry->new(
+            options => $params{options}
+        );
+    }
+
+    if ($backend eq 'file') {
+        FusionInventory::Agent::Config::File->require();
+        return FusionInventory::Agent::Config::File->new(
+            directory => $params{directory},
+            file      => $params{file},
+            options   => $params{options}
+        );
+    }
+
+    if ($backend eq 'none') {
+        FusionInventory::Agent::Config::None->require();
+        return FusionInventory::Agent::Config::None->new(
+            options => $params{options}
+        );
+    }
+
+    die "Unknown configuration backend '$backend'\n";
+}
+
 sub new {
     my ($class, %params) = @_;
 
     my $self = {};
     bless $self, $class;
+
     $self->_loadDefaults();
-    my $backend =
-        $params{options}->{'conf-file'} ? 'file'                     :
-        $params{options}->{config}      ? $params{options}->{config} :
-                                          'file';
 
-    SWITCH: {
-        if ($backend eq 'registry') {
-            die "Unavailable configuration backend\n"
-                unless $OSNAME eq 'MSWin32';
-            $self->_loadFromRegistry();
-            last SWITCH;
-        }
-
-        if ($backend eq 'file') {
-            $self->_loadFromFile(
-                file      => $params{options}->{'conf-file'},
-                directory => $params{confdir},
-            );
-            last SWITCH;
-        }
-
-        if ($backend eq 'none') {
-            last SWITCH;
-        }
-
-        die "Unknown configuration backend '$backend'\n";
-    }
+    $self->_load(%params);
 
     $self->_loadUserParams($params{options});
 
@@ -111,71 +118,6 @@ sub _loadDefaults {
     foreach my $key (keys %$default) {
         $self->{$key} = $default->{$key};
     }
-}
-
-sub _loadFromRegistry {
-    my ($self) = @_;
-
-    my $Registry;
-    Win32::TieRegistry->require();
-    Win32::TieRegistry->import(
-        Delimiter   => '/',
-        ArrayValues => 0,
-        TiedRef     => \$Registry
-    );
-
-    my $machKey = $Registry->Open('LMachine', {
-        Access => Win32::TieRegistry::KEY_READ()
-    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-    my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
-
-    foreach my $rawKey (keys %$settings) {
-        next unless $rawKey =~ /^\/(\S+)/;
-        my $key = lc($1);
-        my $val = $settings->{$rawKey};
-        # Remove the quotes
-        $val =~ s/\s+$//;
-        $val =~ s/^'(.*)'$/$1/;
-        $val =~ s/^"(.*)"$/$1/;
-
-        $self->{$key} = $val;
-    }
-}
-
-sub _loadFromFile {
-    my ($self, %params) = @_;
-    my $file = $params{file} ?
-        $params{file} : $params{directory} . '/agent.cfg';
-
-    if ($file) {
-        die "non-existing file $file" unless -f $file;
-        die "non-readable file $file" unless -r $file;
-    } else {
-        die "no configuration file";
-    }
-
-    my $handle;
-    if (!open $handle, '<', $file) {
-        warn "Config: Failed to open $file: $ERRNO";
-        return;
-    }
-
-    while (my $line = <$handle>) {
-        $line =~ s/#.+//;
-        if ($line =~ /([\w-]+)\s*=\s*(.+)/) {
-            my $key = $1;
-            my $val = $2;
-
-            # Remove the quotes
-            $val =~ s/\s+$//;
-            $val =~ s/^'(.*)'$/$1/;
-            $val =~ s/^"(.*)"$/$1/;
-
-            $self->{$key} = $val;
-        }
-    }
-    close $handle;
 }
 
 sub _loadUserParams {

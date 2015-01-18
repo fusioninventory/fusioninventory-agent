@@ -116,9 +116,10 @@ sub getMessage {
 sub startAgent {
     return if $thread;
     $thread = threads->create(sub {
-        my $config = FusionInventory::Agent::Config->new(
-            confdir => $directory . '/../../etc/fusioninventory',
-            options => $options,
+        my $config = FusionInventory::Agent::Config->create(
+            backend   => $options->{config},
+            directory => $directory . '/../../etc/fusioninventory',
+            file      => $options->{'conf-file'},
         );
 
         my $logger = FusionInventory::Agent::Logger->new(

@@ -6,7 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Config::File;
 
 my %config = (
     sample1 => {
@@ -30,9 +30,9 @@ my %config = (
 plan tests => (scalar keys %config) * 3;
 
 foreach my $test (keys %config) {
-    my $c = FusionInventory::Agent::Config->new(options => {
-        'conf-file' => "resources/config/$test"
-    });
+    my $c = FusionInventory::Agent::Config::File->new(
+        file => "resources/config/$test"
+    );
 
     foreach my $k (qw/ no-module no-category httpd-trust /) {
         cmp_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
