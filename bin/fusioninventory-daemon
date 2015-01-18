@@ -189,7 +189,7 @@ Those options can be passed on command-line only.
 
 =item B<--config> I<string>
 
-Configuration backend to use.
+Configuration backend to use (default: file).
 
 The available backends are:
 
@@ -197,15 +197,15 @@ The available backends are:
 
 =item
 
-file: read configuration from a file (default anywhere else as Windows).
+file: read configuration from a file
 
 =item
 
-registry: read configuration from the registry (default on Windows).
+registry: read configuration from the registry
 
 =item
 
-none: don't read any configuration.
+none: don't read any configuration
 
 =back
 

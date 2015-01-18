@@ -74,7 +74,6 @@ sub new {
     my $backend =
         $params{options}->{'conf-file'} ? 'file'                     :
         $params{options}->{config}      ? $params{options}->{config} :
-        $OSNAME eq 'MSWin32'            ? 'registry'                 :
                                           'file';
 
     SWITCH: {
