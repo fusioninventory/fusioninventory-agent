@@ -34,15 +34,6 @@ my $default = {
     'tag'                     => undef,
     'timeout'                 => 180,
     'user'                    => undef,
-    # deprecated options
-    'color'                   => undef,
-    'html'                    => undef,
-    'force'                   => undef,
-    'local'                   => undef,
-    'no-task'                 => undef,
-    'delaytime'               => undef,
-    'lazy'                    => undef,
-    'backend-collect-timeout' => undef,
 };
 
 my $deprecated = {
@@ -150,7 +141,7 @@ sub _loadFromRegistry {
         $val =~ s/^'(.*)'$/$1/;
         $val =~ s/^"(.*)"$/$1/;
 
-        if (exists $default->{$key}) {
+        if (exists $default->{$key} or exists $deprecated->{$key}) {
             $self->{$key} = $val;
         } else {
             warn "unknown configuration directive $key";
@@ -187,7 +178,7 @@ sub _loadFromFile {
             $val =~ s/^'(.*)'$/$1/;
             $val =~ s/^"(.*)"$/$1/;
 
-            if (exists $default->{$key}) {
+            if (exists $default->{$key} or exists $deprecated->{$key}) {
                 $self->{$key} = $val;
             } else {
                 warn "unknown configuration directive $key";
