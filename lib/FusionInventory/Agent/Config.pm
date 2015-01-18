@@ -79,9 +79,8 @@ sub create {
     if ($backend eq 'file') {
         FusionInventory::Agent::Config::File->require();
         return FusionInventory::Agent::Config::File->new(
-            directory => $params{directory},
-            file      => $params{file},
-            options   => $params{options}
+            file    => $params{file},
+            options => $params{options}
         );
     }
 

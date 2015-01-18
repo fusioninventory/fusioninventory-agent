@@ -20,7 +20,16 @@ use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
 
+my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
+# on Win2k, Windows do not chdir to the bin directory
+# we need to do it by ourself
+chdir($directory);
+
+delete($ENV{PERL5LIB});
+delete($ENV{PERLLIB});
+
 my $options = {
+    'conf-file' => $directory . '/../../etc/fusioninventory//agent.cfg',
 };
 
 GetOptions(
@@ -31,14 +40,6 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
-
-delete($ENV{PERL5LIB});
-delete($ENV{PERLLIB});
-
-my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
-# on Win2k, Windows do not chdir to the bin directory
-# we need to do it by ourself
-chdir($directory);
 
 Win32::Daemon::StartService();
 
@@ -117,9 +118,8 @@ sub startAgent {
     return if $thread;
     $thread = threads->create(sub {
         my $config = FusionInventory::Agent::Config->create(
-            backend   => $options->{config},
-            directory => $directory . '/../../etc/fusioninventory',
-            file      => $options->{'conf-file'},
+            backend => $options->{'config'},
+            file    => $options->{'conf-file'},
         );
 
         my $logger = FusionInventory::Agent::Logger->new(

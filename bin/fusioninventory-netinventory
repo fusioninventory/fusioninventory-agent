@@ -25,19 +25,20 @@ my %types = (
     7 => 'VIDEO',
 );
 
-my $options = {
-    debug     => 0,
-    workers   => 0,
-    version   => '2c',
-    community => 'public'
-};
-
 my %setup = (
     confdir => './etc',
     datadir => './share',
     libdir  => './lib',
     vardir  => './var',
 );
+
+my $options = {
+    'debug'     => 0,
+    'workers'   => 0,
+    'version'   => '2c',
+    'community' => 'public',
+    'conf-file' => $setup{confdir} . '/agent.cfg',
+};
 
 GetOptions(
     $options,
@@ -107,11 +108,9 @@ foreach my $arg (@ARGV) {
     push @jobs, $job;
 }
 
-
 my $config = FusionInventory::Agent::Config->create(
-    backend   => $options->{config},
-    directory => $setup{confdir},
-    file      => $options->{'conf-file'},
+    backend => $options->{'config'},
+    file    => $options->{'conf-file'},
 );
 
 my $logger = FusionInventory::Agent::Logger->new(

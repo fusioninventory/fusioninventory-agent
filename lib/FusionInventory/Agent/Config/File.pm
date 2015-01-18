@@ -8,15 +8,11 @@ use English qw(-no_match_vars);
 
 sub _load {
     my ($self, %params) = @_;
-    my $file = $params{file} ?
-        $params{file} : $params{directory} . '/agent.cfg';
 
-    if ($file) {
-        die "non-existing file $file" unless -f $file;
-        die "non-readable file $file" unless -r $file;
-    } else {
-        die "no configuration file";
-    }
+    my $file = $params{file};
+    die "no configuration file" unless $file;
+    die "non-existing file $file" unless -f $file;
+    die "non-readable file $file" unless -r $file;
 
     my $handle;
     if (!open $handle, '<', $file) {

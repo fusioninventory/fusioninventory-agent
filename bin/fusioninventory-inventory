@@ -23,7 +23,8 @@ my %setup = (
 );
 
 my $options = {
-    debug  => 0,
+    'debug'     => 0,
+    'conf-file' => $setup{confdir} . '/agent.cfg',
 };
 
 GetOptions(
@@ -46,10 +47,9 @@ GetOptions(
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
 my $config = FusionInventory::Agent::Config->create(
-    backend   => $options->{config},
-    directory => $setup{confdir},
-    file      => $options->{'conf-file'},
-    options   => { tag => $options->{tag} }
+    backend => $options->{config},
+    file    => $options->{'conf-file'},
+    options => { tag => $options->{tag} }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(

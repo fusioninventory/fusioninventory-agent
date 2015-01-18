@@ -19,7 +19,9 @@ my %setup = (
     vardir  => './var',
 );
 
-my $options = {};
+my $options = {
+    'conf-file' => $setup{confdir} . '/agent.cfg',
+};
 
 Getopt::Long::Configure( "no_ignorecase" );
 GetOptions(
@@ -100,9 +102,8 @@ if ($options->{setup}) {
 }
 
 my $config = FusionInventory::Agent::Config->create(
-    backend   => $options->{config},
-    directory => $setup{confdir},
-    file      => $options->{'conf-file'},
+    backend => $options->{'config'},
+    file    => $options->{'conf-file'},
     options   => {
         ca_cert_dir     => $options->{'ca_cert_dir'},
         ca_cert_file    => $options->{'ca_cert_file'},
