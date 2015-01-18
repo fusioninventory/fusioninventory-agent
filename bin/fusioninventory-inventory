@@ -24,7 +24,6 @@ my %setup = (
 
 my $options = {
     debug  => 0,
-    config => 'none'
 };
 
 GetOptions(
