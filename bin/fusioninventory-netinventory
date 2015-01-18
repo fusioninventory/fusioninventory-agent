@@ -112,7 +112,6 @@ my $config = FusionInventory::Agent::Config->create(
     backend   => $options->{config},
     directory => $setup{confdir},
     file      => $options->{'conf-file'},
-    options   => $options,
 );
 
 my $logger = FusionInventory::Agent::Logger->new(

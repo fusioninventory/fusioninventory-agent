@@ -115,7 +115,21 @@ my $config = FusionInventory::Agent::Config->create(
     backend   => $options->{config},
     directory => $setup{confdir},
     file      => $options->{'conf-file'},
-    options   => $options,
+    options   => {
+        ca_cert_dir     => $options->{'ca_cert_dir'},
+        ca_cert_file    => $options->{'ca_cert_file'},
+        debug           => $options->{'debug'},
+        logger          => $options->{'logger'},
+        logfile         => $options->{'logfile'},
+        logfile_maxsize => $options->{'logfile-maxsize'},
+        no_ssl_check    => $options->{'no-ssl-check'},
+        no_module       => $options->{'no-module'},
+        password        => $options->{'password'},
+        proxy           => $options->{'proxy'},
+        server          => $options->{'server'},
+        timeout         => $options->{'timeout'},
+        user            => $options->{'user'},
+    }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
