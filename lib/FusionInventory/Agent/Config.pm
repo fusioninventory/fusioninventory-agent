@@ -84,10 +84,10 @@ sub new {
         }
 
         if ($backend eq 'file') {
-            $self->_loadFromFile({
+            $self->_loadFromFile(
                 file      => $params{options}->{'conf-file'},
                 directory => $params{confdir},
-            });
+            );
             last SWITCH;
         }
 
@@ -148,9 +148,9 @@ sub _loadFromRegistry {
 }
 
 sub _loadFromFile {
-    my ($self, $params) = @_;
-    my $file = $params->{file} ?
-        $params->{file} : $params->{directory} . '/agent.cfg';
+    my ($self, %params) = @_;
+    my $file = $params{file} ?
+        $params{file} : $params{directory} . '/agent.cfg';
 
     if ($file) {
         die "non-existing file $file" unless -f $file;
