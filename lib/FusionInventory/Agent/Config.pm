@@ -139,11 +139,7 @@ sub _loadFromRegistry {
         $val =~ s/^'(.*)'$/$1/;
         $val =~ s/^"(.*)"$/$1/;
 
-        if (exists $default->{$key} or exists $deprecated->{$key}) {
-            $self->{$key} = $val;
-        } else {
-            warn "unknown configuration directive $key";
-        }
+        $self->{$key} = $val;
     }
 }
 
@@ -176,11 +172,7 @@ sub _loadFromFile {
             $val =~ s/^'(.*)'$/$1/;
             $val =~ s/^"(.*)"$/$1/;
 
-            if (exists $default->{$key} or exists $deprecated->{$key}) {
-                $self->{$key} = $val;
-            } else {
-                warn "unknown configuration directive $key";
-            }
+            $self->{$key} = $val;
         }
     }
     close $handle;
@@ -190,52 +182,54 @@ sub _loadUserParams {
     my ($self, $params) = @_;
 
     foreach my $key (keys %$params) {
-        $self->{$key} = $params->{$key};
+        $self->{$key} = $params->{$key}
+            if exists $default->{$key} or exists $deprecated->{$key};
     }
 }
 
 sub _checkContent {
     my ($self) = @_;
 
-    # check for deprecated options
-    foreach my $old (keys %$deprecated) {
-        next unless defined $self->{$old};
+    # check for unknown and deprecated options
+    foreach my $key (keys %$self) {
+        next if exists $default->{$key};
 
-        next if $old =~ /^no-/ and !$self->{$old};
+        if (exists $deprecated->{$key}) {
+            my $handler = $deprecated->{$key};
 
-        my $handler = $deprecated->{$old};
+            # notify user of deprecation
+            warn "the '$key' option is deprecated, $handler->{message}\n";
 
-        # notify user of deprecation
-        warn "the '$old' option is deprecated, $handler->{message}\n";
-
-        # transfer the value to the new option, if possible
-        if ($handler->{new}) {
-            if (ref $handler->{new} eq 'HASH') {
-                # old boolean option replaced by new non-boolean options
-                foreach my $key (keys %{$handler->{new}}) {
-                    my $value = $handler->{new}->{$key};
-                    if ($value =~ /^\+(\S+)/) {
-                        # multiple values: add it to exiting one
-                        $self->{$key} = $self->{$key} ?
-                            $self->{$key} . ',' . $1 : $1;
-                    } else {
-                        # unique value: replace exiting value
-                        $self->{$key} = $value;
+            # transfer the value to the new option, if possible
+            if ($handler->{new}) {
+                if (ref $handler->{new} eq 'HASH') {
+                    # old boolean option replaced by new non-boolean options
+                    foreach my $new (keys %{$handler->{new}}) {
+                        my $value = $handler->{new}->{$new};
+                        if ($value =~ /^\+(\S+)/) {
+                            # multiple values: add it to exiting one
+                            $self->{$new} = $self->{$new} ?
+                                $self->{$new} . ',' . $1 : $1;
+                        } else {
+                            # unique value: replace exiting value
+                            $self->{$new} = $value;
+                        }
                     }
+                } elsif (ref $handler->{new} eq 'ARRAY') {
+                    # old boolean option replaced by new boolean options
+                    foreach my $new (@{$handler->{new}}) {
+                        $self->{$new} = $self->{$key};
+                    }
+                } else {
+                    # old non-boolean option replaced by new option
+                    $self->{$handler->{new}} = $self->{$key};
                 }
-            } elsif (ref $handler->{new} eq 'ARRAY') {
-                # old boolean option replaced by new boolean options
-                foreach my $new (@{$handler->{new}}) {
-                    $self->{$new} = $self->{$old};
-                }
-            } else {
-                # old non-boolean option replaced by new option
-                $self->{$handler->{new}} = $self->{$old};
             }
+        } else {
+            warn "unknown configuration option '$key'";
         }
 
-        # avoid cluttering configuration
-        delete $self->{$old};
+        delete $self->{$key};
     }
 
     # a logfile options implies a file logger backend
