@@ -49,13 +49,13 @@ my %config = (
             'no-p2p'  => undef
         },
         'wakeonlan' => {
-            'disable' => 0,
+            'disable' => 1,
         },
         'netdiscovery' => {
             'disable' => 0,
         },
         'netinventory' => {
-            'disable' => 0,
+            'disable' => 1,
         },
     },
     sample2 => {

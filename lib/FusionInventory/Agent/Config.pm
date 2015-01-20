@@ -70,6 +70,12 @@ my $deprecated = {
         },
         'no-task' => {
             message => "use '<module>/disable' options instead",
+            new => sub {
+                my ($self, $value) = @_;
+                foreach my $module (split(/,/, $value)) {
+                    $self->{$module}->{disable} = 1;
+                }
+            }
         },
         'delaytime' => {
             message => 'no more used'
@@ -188,11 +194,15 @@ sub _checkContent {
 
             # transfer the value to the new option, if possible
             if ($handler->{new}) {
-                next unless ref $handler->{new} eq 'HASH';
                 my $old_value   = $self->{$section}->{$key};
-                my $new_section = $handler->{new}->{section};
-                my $new_option  = $handler->{new}->{option};
-                $self->{$new_section}->{$new_option} = $old_value;
+                if (ref $handler->{new} eq 'HASH') {
+                    my $new_section = $handler->{new}->{section};
+                    my $new_option  = $handler->{new}->{option};
+                    $self->{$new_section}->{$new_option} = $old_value;
+                }
+                if (ref $handler->{new} eq 'CODE') {
+                    $handler->{new}->($self, $old_value);
+                }
             }
         } else {
             warn "unknown configuration option '$key' in section '$section'\n";
