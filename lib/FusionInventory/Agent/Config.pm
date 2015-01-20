@@ -195,7 +195,7 @@ sub _checkContent {
                 $self->{$new_section}->{$new_option} = $old_value;
             }
         } else {
-            warn "unknown configuration option '$key' in section '$section'";
+            warn "unknown configuration option '$key' in section '$section'\n";
         }
 
         delete $self->{$section}->{$key};
