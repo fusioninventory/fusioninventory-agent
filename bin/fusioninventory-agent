@@ -37,19 +37,19 @@ GetOptions(
     'conf-file=s',
     'config=s',
     # agent configuration options
-    'ca-cert-dir=s',
-    'ca-cert-file=s',
+    'server|s=s',
+    'tag|t=s',
+    'http-ca-cert-dir=s',
+    'http-ca-cert-file=s',
+    'http-no-ssl-check',
+    'http-password=s',
+    'http-proxy=s',
+    'http-timeout=i',
+    'http-user=s',
     'debug+',
     'logger-backend=s',
     'logger-file=s',
     'logger-maxsize=i',
-    'no-ssl-check',
-    'password|p=s',
-    'proxy|P=s',
-    'server|s=s',
-    'timeout=i',
-    'user|u=s',
-    'tag|t=s',
     # deprecated options
     'color',
     'delaytime=s',
@@ -74,6 +74,13 @@ GetOptions(
     'scan-homedirs',
     'scan-profiles',
     'no-p2p',
+    'ca-cert-dir=s',
+    'ca-cert-file=s',
+    'no-ssl-check',
+    'password=s',
+    'proxy=s',
+    'timeout=i',
+    'user=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -218,13 +225,13 @@ S<[B<--lazy>]>
 S<[B<--wait> I<integer>]>
 S<[B<--server> I<url>]>
 S<[B<--tag> I<string>]>
-S<[B<--proxy> I<url>]>
-S<[B<--user> I<string>]>
-S<[B<--password> I<string>]>
-S<[B<--ca-cert-dir> I<path>]>
-S<[B<--ca-cert-file> I<path>]>
-S<[B<--no-ssl-check>]>
-S<[B<--timeout> I<integer>]>
+S<[B<--http-proxy> I<url>]>
+S<[B<--http-user> I<string>]>
+S<[B<--http-password> I<string>]>
+S<[B<--http-ca-cert-dir> I<path>]>
+S<[B<--http-ca-cert-file> I<path>]>
+S<[B<--http-no-ssl-check>]>
+S<[B<--http-timeout> I<integer>]>
 S<[B<--logger-backend> I<string>]>
 S<[B<--logger-file> I<path>]>
 S<[B<--logger-maxsize> I<integer>]>
@@ -317,33 +324,33 @@ Set B<server> option, see L<agent.cfg> for details.
 
 Set B<tag> option, see L<agent.cfg> for details.
 
-=item B<-P>, B<--proxy> I<url>
+=item B<--http-proxy> I<url>
 
-Set B<proxy> option, see L<agent.cfg> for details.
+Set B<http/proxy> option, see L<agent.cfg> for details.
 
-=item B<-u>, B<--user> I<string>
+=item B<--http-user> I<string>
 
-Set B<user> option, see L<agent.cfg> for details.
+Set B<http/user> option, see L<agent.cfg> for details.
 
-=item B<-p>, B<--password> I<string>
+=item B<--http-password> I<string>
 
-Set B<password> option, see L<agent.cfg> for details.
+Set B<http/password> option, see L<agent.cfg> for details.
 
-=item B<--ca-cert-dir> I<path>
+=item B<--http-ca-cert-dir> I<path>
 
-Set B<ca-cert-dir> option, see L<agent.cfg> for details.
+Set B<http/ca-cert-dir> option, see L<agent.cfg> for details.
 
-=item B<--ca-cert-file> I<path>
+=item B<--http-ca-cert-file> I<path>
 
-Set B<ca-cert-file> option, see L<agent.cfg> for details.
+Set B<http/ca-cert-file> option, see L<agent.cfg> for details.
 
-=item B<--no-ssl-check>
+=item B<--http-no-ssl-check>
 
-Set B<no-ssl-check> option, see L<agent.cfg> for details.
+Set B<http/no-ssl-check> option, see L<agent.cfg> for details.
 
-=item B<--timeout> I<integer>
+=item B<--http-timeout> I<integer>
 
-Set B<timeout> option, see L<agent.cfg> for details.
+Set B<http/timeout> option, see L<agent.cfg> for details.
 
 =item B<--logger-backends> I<string>
 

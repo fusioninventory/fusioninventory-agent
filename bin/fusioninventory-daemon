@@ -37,23 +37,23 @@ GetOptions(
     'no-fork',
     'help|h',
     # agent configuration options
-    'ca-cert-dir=s',
-    'ca-cert-file=s',
-    'debug+',
-    'logger-backends=s',
-    'logger-file=s',
-    'logger-maxsize=i',
-    'no-ssl-check',
-    'password|p=s',
-    'proxy|P=s',
+    'server|s=s',
+    'tag|t=s',
+    'http-ca-cert-dir=s',
+    'http-ca-cert-file=s',
+    'http-no-ssl-check',
+    'http-password|p=s',
+    'http-proxy|P=s',
+    'http-timeout=i',
+    'http-user|u=s',
     'httpd-disable',
     'httpd-ip=s',
     'httpd-port=s',
     'httpd-trust=s',
-    'server|s=s',
-    'tag|t=s',
-    'timeout=i',
-    'user|u=s',
+    'debug+',
+    'logger-backends=s',
+    'logger-file=s',
+    'logger-maxsize=i',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -67,13 +67,13 @@ my $config = FusionInventory::Agent::Config->create(
             tag             => $options->{'tag'},
         },
         http => {
-            ca_cert_dir     => $options->{'ca_cert_dir'},
-            ca_cert_file    => $options->{'ca_cert_file'},
-            no_ssl_check    => $options->{'no-ssl-check'},
-            password        => $options->{'password'},
-            proxy           => $options->{'proxy'},
-            timeout         => $options->{'timeout'},
-            user            => $options->{'user'},
+            ca_cert_dir     => $options->{'http-ca-cert-dir'},
+            ca_cert_file    => $options->{'http-ca-cert-file'},
+            no_ssl_check    => $options->{'http-no-ssl-check'},
+            password        => $options->{'http-password'},
+            proxy           => $options->{'http-proxy'},
+            timeout         => $options->{'http-timeout'},
+            user            => $options->{'http-user'},
         }
         httpd => {
             disable         => $options->{'httpd-disable'},
@@ -177,13 +177,13 @@ S<[B<--no-fork>]>
 S<[B<--pidfile> I<path>]>
 S<[B<--server> I<url>]>
 S<[B<--tag> I<string>]>
-S<[B<--proxy> I<url>]>
-S<[B<--user> I<string>]>
-S<[B<--password> I<string>]>
-S<[B<--ca-cert-dir> I<path>]>
-S<[B<--ca-cert-file> I<path>]>
-S<[B<--no-ssl-check>]>
-S<[B<--timeout> I<integer>]>
+S<[B<--http-proxy> I<url>]>
+S<[B<--http-user> I<string>]>
+S<[B<--http-password> I<string>]>
+S<[B<--http-ca-cert-dir> I<path>]>
+S<[B<--http-ca-cert-file> I<path>]>
+S<[B<--http-no-ssl-check>]>
+S<[B<--http-timeout> I<integer>]>
 S<[B<--logger-backends> I<string>]>
 S<[B<--logger-file> I<path>]>
 S<[B<--logger-maxsize> I<integer>]>
@@ -258,33 +258,33 @@ Set B<server> option, see L<agent.cfg> for details.
 
 Set B<tag> option, see L<agent.cfg> for details.
 
-=item B<-P>, B<--proxy> I<url>
+=item B<--http-proxy> I<url>
 
-Set B<proxy> option, see L<agent.cfg> for details.
+Set B<http/proxy> option, see L<agent.cfg> for details.
 
-=item B<-u>, B<--user> I<string>
+=item B<--http-user> I<string>
 
-Set B<user> option, see L<agent.cfg> for details.
+Set B<http/user> option, see L<agent.cfg> for details.
 
-=item B<-p>, B<--password> I<string>
+=item B<--http-password> I<string>
 
-Set B<password> option, see L<agent.cfg> for details.
+Set B<http/password> option, see L<agent.cfg> for details.
 
-=item B<--ca-cert-dir> I<path>
+=item B<--http-ca-cert-dir> I<path>
 
-Set B<ca-cert-dir> option, see L<agent.cfg> for details.
+Set B<http/ca-cert-dir> option, see L<agent.cfg> for details.
 
-=item B<--ca-cert-file> I<path>
+=item B<--http-ca-cert-file> I<path>
 
-Set B<ca-cert-file> option, see L<agent.cfg> for details.
+Set B<http/ca-cert-file> option, see L<agent.cfg> for details.
 
-=item B<--no-ssl-check>
+=item B<--http-no-ssl-check>
 
-Set B<no-ssl-check> option, see L<agent.cfg> for details.
+Set B<http/no-ssl-check> option, see L<agent.cfg> for details.
 
-=item B<--timeout> I<integer>
+=item B<--http-timeout> I<integer>
 
-Set B<timeout> option, see L<agent.cfg> for details.
+Set B<http/timeout> option, see L<agent.cfg> for details.
 
 =item B<--logger-backends> I<string>
 
