@@ -83,10 +83,6 @@ my $deprecated = {
         'lazy' => {
             message => 'use --lazy command-line option if needed'
         },
-        'backend-collect-timeout' => {
-            message => "use 'inventory/timeout' option instead",
-            new     => { section => 'inventory',  option => 'timeout' },
-        },
         'color' => {
             message => 'color is now automatically used if relevant'
         },
@@ -105,6 +101,74 @@ my $deprecated = {
         'httpd-trust' => {
             message => "use 'httpd/trust' option instead",
             new     => { section => 'httpd',  option => 'trust' },
+        },
+        'user' => {
+            message => "use 'http/user' option instead",
+            new     => { section => 'http',  option => 'user' },
+        },
+        'password' => {
+            message => "use 'http/password' option instead",
+            new     => { section => 'http',  option => 'password' },
+        },
+        'proxy' => {
+            message => "use 'http/proxy' option instead",
+            new     => { section => 'http',  option => 'proxy' },
+        },
+        'timeout' => {
+            message => "use 'http/timeout' option instead",
+            new     => { section => 'http',  option => 'timeout' },
+        },
+        'no-ssl-check' => {
+            message => "use 'http/no-ssl-check' option instead",
+            new     => { section => 'http',  option => 'no-ssl-check' },
+        },
+        'ca-cert-file' => {
+            message => "use 'http/ca-cert-file' option instead",
+            new     => { section => 'http',  option => 'ca-cert-file' },
+        },
+        'ca-cert-dir' => {
+            message => "use 'http/ca-cert-dir' option instead",
+            new     => { section => 'http',  option => 'ca-cert-dir' },
+        },
+        'logger' => {
+            message => "use 'logger/logger' option instead",
+            new     => { section => 'logger',  option => 'logger' },
+        },
+        'logfile' => {
+            message => "use 'logger/logfile' option instead",
+            new     => { section => 'logger',  option => 'logfile' },
+        },
+        'logfile-maxsize' => {
+            message => "use 'logger/logfile-maxsize' option instead",
+            new     => { section => 'logger',  option => 'logfile-maxsize' },
+        },
+        'logfacility' => {
+            message => "use 'logger/logfacility' option instead",
+            new     => { section => 'logger',  option => 'logfacility' },
+        },
+        'debug' => {
+            message => "use 'logger/debug' option instead",
+            new     => { section => 'logger',  option => 'debug' },
+        },
+        'backend-collect-timeout' => {
+            message => "use 'inventory/timeout' option instead",
+            new     => { section => 'inventory',  option => 'timeout' },
+        },
+        'additional-content' => {
+            message => "use 'inventory/additional-content' option instead",
+            new     => { section => 'inventory',  option => 'additional-content' },
+        },
+        'scan-profiles' => {
+            message => "use 'inventory/scan-profiles' option instead",
+            new     => { section => 'inventory',  option => 'scan-profiles' },
+        },
+        'scan-homedirs' => {
+            message => "use 'inventory/scan-homedirs' option instead",
+            new     => { section => 'inventory',  option => 'scan-homedirs' },
+        },
+        'no-category' => {
+            message => "use 'inventory/no-category' option instead",
+            new     => { section => 'inventory',  option => 'no-category' },
         },
     }
 };
