@@ -44,7 +44,6 @@ GetOptions(
     'logfile=s',
     'logfile-maxsize=i',
     'no-ssl-check',
-    'no-module=s',
     'password|p=s',
     'proxy|P=s',
     'server|s=s',
@@ -106,7 +105,6 @@ my $config = FusionInventory::Agent::Config->create(
     file    => $options->{'conf-file'},
     options   => {
         _ => {
-            no_module       => $options->{'no-module'},
             server          => $options->{'server'},
             tag             => $options->{'tag'},
         },
@@ -217,7 +215,6 @@ S<[B<--lazy>]>
 S<[B<--wait> I<integer>]>
 S<[B<--server> I<url>]>
 S<[B<--tag> I<string>]>
-S<[B<--no-module> I<string>]>
 S<[B<--proxy> I<url>]>
 S<[B<--user> I<string>]>
 S<[B<--password> I<string>]>
@@ -317,10 +314,6 @@ Set B<server> option, see L<agent.cfg> for details.
 =item B<-t>, B<--tag> I<string>
 
 Set B<tag> option, see L<agent.cfg> for details.
-
-=item B<--no-module> I<string>
-
-Set B<no-module> option, see L<agent.cfg> for details.
 
 =item B<-P>, B<--proxy> I<url>
 

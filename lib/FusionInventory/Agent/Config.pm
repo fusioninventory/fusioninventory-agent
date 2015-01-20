@@ -9,7 +9,6 @@ use UNIVERSAL::require;
 
 my $default = {
     _ => {
-        'no-module'          => '',
         'server'             => '',
         'tag'                => undef,
     },
@@ -36,6 +35,7 @@ my $default = {
         'debug'              => 0,
     },
     inventory => {
+        'disable'            => 0,
         'additional-content' => undef,
         'execution-timeout'  => 180,
         'no-category'        => '',
@@ -43,8 +43,18 @@ my $default = {
         'scan-profiles'      => undef,
     },
     deploy => {
+        'disable'            => 0,
         'no-p2p'             => undef,
-    }
+    },
+    wakeonlan => {
+        'disable'            => 0,
+    },
+    netinventory => {
+        'disable'            => 0,
+    },
+    netdiscovery => {
+        'disable'            => 0,
+    },
 };
 
 my $deprecated = {
@@ -59,8 +69,7 @@ my $deprecated = {
             message => 'use dedicated fusioninventory-inventory executable'
         },
         'no-task' => {
-            message => "use 'no-module' option instead",
-            new     => 'no-module'
+            message => "use '<module>/disable' options instead",
         },
         'delaytime' => {
             message => 'no more used'
@@ -210,7 +219,6 @@ sub _checkContent {
 
     # multi-values options, the default separator is a ','
     $self->{_}->{server}      = [split(/,/, $self->{_}->{server})];
-    $self->{_}->{'no-module'} = [split(/,/, $self->{_}->{'no-module'})];
     $self->{logger}->{logger} = [split(/,/, $self->{logger}->{logger})];
     $self->{httpd}->{'trust'}   = [split(/,/, $self->{httpd}->{'trust'})];
     $self->{inventory}->{'no-category'} = [split(/,/, $self->{inventory}->{'no-category'})];

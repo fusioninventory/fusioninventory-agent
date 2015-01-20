@@ -26,12 +26,6 @@ as http://hostname/ocsinventory.
 
 Multiple values can be specified, using a comma as a separator.
 
-=item B<no-mdule>
-
-Disables given module.
-
-Multiple values can be specified, using a comma as a separator.
-
 =item B<tag>
 
 Specifies an arbitrary string to add to output. This can be used as an
@@ -169,6 +163,10 @@ Specifies the level of verbosity for log content. The possible values are:
 
 =over
 
+=item B<disable>
+
+Disable module (default: 0).
+
 =item B<no-category>
 
 Disables given category in output. The possible values are:
@@ -213,8 +211,42 @@ Specifies an XML file whose content will be automatically merged with output.
 
 =over
 
+=item B<disable>
+
+Disable module (default: 0).
+
 =item B<no-p2p>
 
 Disables peer to peer for downloading files.
+
+=back
+
+=head1 WAKE-ON-LAN MODULE OPTIONS
+
+=over
+
+=item B<disable>
+
+Disable module (default: 0).
+
+=back
+
+=head1 NETDISCOVERY MODULE OPTIONS
+
+=over
+
+=item B<disable>
+
+Disable module (default: 0).
+
+=back
+
+=head1 NETINVENTORY MODULE OPTIONS
+
+=over
+
+=item B<disable>
+
+Disable module (default: 0).
 
 =back

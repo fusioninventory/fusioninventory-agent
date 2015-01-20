@@ -13,7 +13,6 @@ my %config = (
         _ => {
             'tag'          => undef,
             'server'       => [],
-            'no-module'    => ['snmpquery', 'wakeonlan'],
         },
         'http' => {
             'no-ssl-check' => undef,
@@ -38,6 +37,7 @@ my %config = (
             'logger'          => [ 'Stderr' ],
         },
         inventory => {
+            'disable'            => 0,
             'additional-content' => undef,
             'scan-homedirs'      => undef,
             'no-category'        => [],
@@ -45,12 +45,21 @@ my %config = (
             'execution-timeout'  => 180
         },
         deploy => {
-            'no-p2p' => undef
-        }
+            'disable' => 0,
+            'no-p2p'  => undef
+        },
+        'wakeonlan' => {
+            'disable' => 0,
+        },
+        'netdiscovery' => {
+            'disable' => 0,
+        },
+        'netinventory' => {
+            'disable' => 0,
+        },
     },
     sample2 => {
         '_' => {
-            'no-module'    => [ ],
             'server'       => [ ],
             'tag'          => undef,
         },
@@ -77,6 +86,7 @@ my %config = (
             'logger'          => [ 'Stderr' ],
         },
         'inventory' => {
+            'disable'            => 0,
             'additional-content' => undef,
             'no-category'        => [ 'printer' ],
             'execution-timeout'  => 180,
@@ -84,12 +94,21 @@ my %config = (
             'scan-profiles'      => undef
         },
         'deploy' => {
-            'no-p2p' => undef
+            'disable' => 0,
+            'no-p2p'  => undef
+        },
+        'wakeonlan' => {
+            'disable' => 0,
+        },
+        'netdiscovery' => {
+            'disable' => 0,
+        },
+        'netinventory' => {
+            'disable' => 0,
         },
     },
     sample3 => {
         '_' => {
-            'no-module'    => [ ],
             'server'       => [ ],
             'tag'          => undef,
         },
@@ -116,6 +135,7 @@ my %config = (
             'logger'          => [ 'Stderr' ],
         },
         'inventory' => {
+            'disable'            => 0,
             'scan-homedirs'      => undef,
             'execution-timeout'  => 180,
             'no-category'        => [ ],
@@ -123,7 +143,17 @@ my %config = (
             'additional-content' => undef
         },
         'deploy' => {
-            'no-p2p' => undef
+            'disable' => 0,
+            'no-p2p'  => undef
+        },
+        'wakeonlan' => {
+            'disable' => 0,
+        },
+        'netdiscovery' => {
+            'disable' => 0,
+        },
+        'netinventory' => {
+            'disable' => 0,
         },
     }
 );
