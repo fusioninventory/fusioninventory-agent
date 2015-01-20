@@ -85,17 +85,17 @@ Specifies a timeout, in seconds, for server connections.
 Disables the embedded web interface, used to receive execution requests from the
 server. The default is 0 (false).
 
-=item B<httpd-ip>
+=item B<ip>
 
 Specifies the network interface to use for the embedded web interface. The
 default is to use all available ones.
 
-=item B<httpd-port>
+=item B<port>
 
 Specifies the network port to use for the embedded web interface. The default
 is 62354.
 
-=item B<httpd-trust>
+=item B<trust>
 
 Specifies which IP address should be trusted, for execution requests. The
 default is to only accept requests from the control servers.

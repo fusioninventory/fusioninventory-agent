@@ -25,10 +25,10 @@ my %config = (
             'user'         => undef,
         },
         httpd => {
-            'httpd-trust' => [],
-            'httpd-ip'    => undef,
-            'httpd-port'  => 62354,
-            'no-httpd'    => undef
+            'disable' => undef,
+            'trust'   => [],
+            'ip'      => undef,
+            'port'    => 62354,
         },
         logger => {
             'debug'           => 0,
@@ -64,10 +64,10 @@ my %config = (
             'user'         => undef,
         },
         'httpd' => {
-            'httpd-port'  => 62354,
-            'httpd-ip'    => undef,
-            'no-httpd'    => undef,
-            'httpd-trust' => [ 'example', '127.0.0.1', 'foobar', '123.0.0.0/10' ]
+            'disable' => undef,
+            'port'    => 62354,
+            'ip'      => undef,
+            'trust'   => [ 'example', '127.0.0.1', 'foobar', '123.0.0.0/10' ]
         },
         'logger' => {
             'debug'           => 0,
@@ -103,10 +103,10 @@ my %config = (
             'user'         => undef,
         },
         'httpd' => {
-            'httpd-ip'    => undef,
-            'no-httpd'    => undef,
-            'httpd-trust' => [ ],
-            'httpd-port'  => 62354
+            'disable' => undef,
+            'ip'      => undef,
+            'trust'   => [ ],
+            'port'    => 62354
         },
         'logger' => {
             'debug'           => 0,

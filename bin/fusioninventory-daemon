@@ -79,9 +79,9 @@ my $config = FusionInventory::Agent::Config->create(
         }
         httpd => {
             disable         => $options->{'httpd-disable'},
-            httpd_ip        => $options->{'httpd-ip'},
-            httpd_port      => $options->{'httpd-port'},
-            httpd_trust     => $options->{'httpd-trust'},
+            ip              => $options->{'httpd-ip'},
+            port            => $options->{'httpd-port'},
+            trust           => $options->{'httpd-trust'},
         }
         logger => {
             debug           => $options->{'debug'},
@@ -320,14 +320,14 @@ Set B<httpd/disable> option, see L<agent.cfg> for details.
 
 =item B<--httpd-ip> I<integer>
 
-Set B<httpd-ip> option, see L<agent.cfg> for details.
+Set B<httpd/ip> option, see L<agent.cfg> for details.
 
 =item B<--httpd-port> I<integer>
 
-Set B<httpd-port> option, see L<agent.cfg> for details.
+Set B<httpd/port> option, see L<agent.cfg> for details.
 
 =item B<--httpd-trust> I<address>
 
-Set B<httpd-trust> option, see L<agent.cfg> for details.
+Set B<httpd/trust> option, see L<agent.cfg> for details.
 
 =back

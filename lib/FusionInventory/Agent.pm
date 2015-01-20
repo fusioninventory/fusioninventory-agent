@@ -127,9 +127,9 @@ sub initHTTPInterface {
         logger          => $self->{logger},
         agent           => $self,
         htmldir         => $self->{setup}->{datadir} . '/html',
-        ip              => $config->{httpd}->{'httpd-ip'},
-        port            => $config->{httpd}->{'httpd-port'},
-        trust           => $config->{httpd}->{'httpd-trust'}
+        ip              => $config->{httpd}->{ip},
+        port            => $config->{httpd}->{port},
+        trust           => $config->{httpd}->{trust}
     );
     $self->{server}->init();
 

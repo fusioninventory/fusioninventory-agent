@@ -24,9 +24,9 @@ my $default = {
     },
     httpd => {
         'disable'            => undef,
-        'httpd-ip'           => undef,
-        'httpd-port'         => 62354,
-        'httpd-trust'        => '',
+        'ip'                 => undef,
+        'port'               => 62354,
+        'trust'              => '',
     },
     logger => {
         'logger'             => 'Stderr',
@@ -78,6 +78,18 @@ my $deprecated = {
         'no-httpd' => {
             message => "use httpd/disable option instead",
             new     => { section => 'httpd',  option => 'disable' },
+        },
+        'httpd-ip' => {
+            message => "use 'httpd/ip' option instead",
+            new     => { section => 'httpd',  option => 'ip' },
+        },
+        'httpd-port' => {
+            message => "use 'httpd/port' option instead",
+            new     => { section => 'httpd',  option => 'port' },
+        },
+        'httpd-trust' => {
+            message => "use 'httpd/trust' option instead",
+            new     => { section => 'httpd',  option => 'trust' },
         },
     }
 };
@@ -200,7 +212,7 @@ sub _checkContent {
     $self->{_}->{server}      = [split(/,/, $self->{_}->{server})];
     $self->{_}->{'no-module'} = [split(/,/, $self->{_}->{'no-module'})];
     $self->{logger}->{logger} = [split(/,/, $self->{logger}->{logger})];
-    $self->{httpd}->{'httpd-trust'}   = [split(/,/, $self->{httpd}->{'httpd-trust'})];
+    $self->{httpd}->{'trust'}   = [split(/,/, $self->{httpd}->{'trust'})];
     $self->{inventory}->{'no-category'} = [split(/,/, $self->{inventory}->{'no-category'})];
 
     # files location
