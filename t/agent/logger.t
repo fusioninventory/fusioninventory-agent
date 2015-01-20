@@ -191,7 +191,7 @@ ok(
 $logfile = "$tmpdir/test2";
 $logger = FusionInventory::Agent::Logger->new(
     backends  => [ qw/File/ ],
-    logfile   => $logfile,
+    file      => $logfile,
     verbosity => LOG_DEBUG
 );
 $logger->debug('message');
@@ -228,7 +228,7 @@ is(
 $logfile = "$tmpdir/test3";
 $logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
-    logfile  => $logfile,
+    file     => $logfile,
 );
 fillLogFile($logger);
 ok(
@@ -238,9 +238,9 @@ ok(
 
 $logfile = "$tmpdir/test4";
 $logger = FusionInventory::Agent::Logger->new(
-    backends        => [ qw/File/ ],
-    logfile         => $logfile,
-    logfile_maxsize => 1
+    backends => [ qw/File/ ],
+    file     => $logfile,
+    maxsize  => 1
 );
 fillLogFile($logger);
 ok(

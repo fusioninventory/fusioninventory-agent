@@ -120,18 +120,18 @@ my $config = FusionInventory::Agent::Config->create(
         logger => {
             debug           => $options->{'debug'},
             logger          => $options->{'logger'},
-            logfile         => $options->{'logfile'},
-            logfile_maxsize => $options->{'logfile-maxsize'},
+            file            => $options->{'file'},
+            maxsize         => $options->{'maxsize'},
         }
     }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends        => $config->{logger}->{'backends'},
-    logfile         => $config->{logger}->{'logfile'},
-    logfile_maxsize => $config->{logger}->{'logfile-maxsize'},
-    logfacility     => $config->{logger}->{'logfacility'},
-    debug           => $config->{logger}->{'debug'},
+    backends => $config->{logger}->{backends},
+    file     => $config->{logger}->{file},
+    maxsize  => $config->{logger}->{maxsize},
+    facility => $config->{logger}->{facility},
+    debug    => $config->{logger}->{debug},
 );
 
 my $agent = FusionInventory::Agent->new(
@@ -349,18 +349,18 @@ Set B<logger> option, see L<agent.cfg> for details.
 
 =item B<--logfile> I<path>
 
-Set B<logfile> option, see L<agent.cfg> for details.
+Set B<logger/file> option, see L<agent.cfg> for details.
 
 =item B<--logfile-maxsize> I<integer>
 
-Set B<logfile-maxsize> option, see L<agent.cfg> for details.
+Set B<logger/maxsize> option, see L<agent.cfg> for details.
 
-=item B<--logfacility> I<string>
+=item B<--logger/facility> I<string>
 
-Set B<logfacility> option, see L<agent.cfg> for details.
+Set B<logger/facility> option, see L<agent.cfg> for details.
 
 =item B<--debug>
 
-Set B<debug> option, see L<agent.cfg> for details.
+Set B<logger/debug> option, see L<agent.cfg> for details.
 
 =back

@@ -121,16 +121,16 @@ Specifies the logger backend to use. The possible values are:
 
 Multiple values can be specified, using a comma as a separator.
 
-=item B<logfile>
+=item B<file>
 
 Specifies the file to use for the file logger backend.
 
-=item B<logfile-maxsize>
+=item B<maxsize>
 
 Specifies the maximum size for the log file, in MB.  When the max size is
 reached, the file is truncated. The default is unlimited.
 
-=item B<logfacility>
+=item B<facility>
 
 Specifies the syslog facility to use for the syslog logger backend. The default
 is LOG_USER.

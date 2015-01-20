@@ -66,11 +66,11 @@ my $config = FusionInventory::Agent::Config->create(
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends        => $config->{logger}->{'backends'},
-    logfile         => $config->{logger}->{'logfile'},
-    logfile_maxsize => $config->{logger}->{'logfile-maxsize'},
-    logfacility     => $config->{logger}->{'logfacility'},
-    debug           => $config->{logger}->{'debug'},
+    backends => $config->{logger}->{backends},
+    file     => $config->{logger}->{file},
+    maxsize  => $config->{logger}->{maxsize},
+    facility => $config->{logger}->{facility},
+    debug    => $config->{logger}->{debug},
 );
 
 my $agent = FusionInventory::Agent->new(

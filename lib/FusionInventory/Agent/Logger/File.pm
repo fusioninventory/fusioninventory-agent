@@ -12,9 +12,8 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logfile         => $params{logfile},
-        logfile_maxsize => $params{logfile_maxsize} ?
-            $params{logfile_maxsize} * 1024 * 1024 : 0
+        file    => $params{file},
+        maxsize => $params{maxsize} ? $params{maxsize} * 1024 * 1024 : 0
     };
     bless $self, $class;
 
@@ -28,18 +27,18 @@ sub addMessage {
     my $message = $params{message};
 
     my $handle;
-    if ($self->{logfile_maxsize}) {
-        my $stat = stat($self->{logfile});
-        if ($stat && $stat->size() > $self->{logfile_maxsize}) {
-            if (!open $handle, '>', $self->{logfile}) {
-                warn "Can't open $self->{logfile}: $ERRNO";
+    if ($self->{maxsize}) {
+        my $stat = stat($self->{file});
+        if ($stat && $stat->size() > $self->{maxsize}) {
+            if (!open $handle, '>', $self->{file}) {
+                warn "Can't open $self->{file}: $ERRNO";
                 return;
             }
         }
     }
 
-    if (!$handle && !open $handle, '>>', $self->{logfile}) {
-        warn "can't open $self->{logfile}: $ERRNO";
+    if (!$handle && !open $handle, '>>', $self->{file}) {
+        warn "can't open $self->{file}: $ERRNO";
         return;
     }
 
@@ -53,7 +52,7 @@ sub addMessage {
     }
 
     if (!$locked) {
-        die "can't get an exclusive lock on $self->{logfile}: $ERRNO";
+        die "can't get an exclusive lock on $self->{file}: $ERRNO";
     }
 
     print {$handle}
