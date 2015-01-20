@@ -80,7 +80,7 @@ Specifies a timeout, in seconds, for server connections.
 
 =over
 
-=item B<no-httpd>
+=item B<disable>
 
 Disables the embedded web interface, used to receive execution requests from the
 server. The default is 0 (false).

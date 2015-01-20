@@ -23,7 +23,7 @@ my $default = {
         'password'           => undef,
     },
     httpd => {
-        'no-httpd'           => undef,
+        'disable'            => undef,
         'httpd-ip'           => undef,
         'httpd-port'         => 62354,
         'httpd-trust'        => '',
@@ -60,7 +60,7 @@ my $deprecated = {
         },
         'no-task' => {
             message => "use 'no-module' option instead",
-            new     => { section => '_', option => 'no-module' }
+            new     => 'no-module'
         },
         'delaytime' => {
             message => 'no more used'
@@ -70,10 +70,14 @@ my $deprecated = {
         },
         'backend-collect-timeout' => {
             message => 'use execution-timeout option instead',
-            new     => { section => 'inventory', option => 'execution-timeout' }
+            new     => 'execution-timeout'
         },
         'color' => {
             message => 'color is now automatically used if relevant'
+        },
+        'no-httpd' => {
+            message => "use httpd/disable option instead",
+            new     => { section => 'httpd',  option => 'disable' },
         },
     }
 };

@@ -43,11 +43,11 @@ GetOptions(
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
-    'no-httpd',
     'no-ssl-check',
     'no-module=s',
     'password|p=s',
     'proxy|P=s',
+    'httpd-disable',
     'httpd-ip=s',
     'httpd-port=s',
     'httpd-trust=s',
@@ -78,7 +78,7 @@ my $config = FusionInventory::Agent::Config->create(
             user            => $options->{'user'},
         }
         httpd => {
-            no_httpd        => $options->{'no-httpd'},
+            disable         => $options->{'httpd-disable'},
             httpd_ip        => $options->{'httpd-ip'},
             httpd_port      => $options->{'httpd-port'},
             httpd_trust     => $options->{'httpd-trust'},
@@ -191,7 +191,7 @@ S<[B<--logger> I<string>]>
 S<[B<--logfile> I<path>]>
 S<[B<--logfile-maxsize> I<integer>]>
 S<[B<--logfacility> I<string>]>
-S<[B<--no-httpd>]>
+S<[B<--httpd-disable>]>
 S<[B<--httpd-ip> I<address>]>
 S<[B<--httpd-port> I<integer>]>
 S<[B<--httpd-trust> I<address>]>
@@ -314,9 +314,9 @@ Set B<logfacility> option, see L<agent.cfg> for details.
 
 Set B<debug> option, see L<agent.cfg> for details.
 
-=item B<--no-httpd>
+=item B<--httpd-disable>
 
-Set B<no-httpd> option, see L<agent.cfg> for details.
+Set B<httpd/disable> option, see L<agent.cfg> for details.
 
 =item B<--httpd-ip> I<integer>
 
