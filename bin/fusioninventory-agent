@@ -225,7 +225,6 @@ S<[B<--timeout> I<integer>]>
 S<[B<--logger> I<string>]>
 S<[B<--logfile> I<path>]>
 S<[B<--logfile-maxsize> I<integer>]>
-S<[B<--logfacility> I<string>]>
 
 B<fusioninventory-agent> B<--list-modules>
 
@@ -354,10 +353,6 @@ Set B<logger/file> option, see L<agent.cfg> for details.
 =item B<--logfile-maxsize> I<integer>
 
 Set B<logger/maxsize> option, see L<agent.cfg> for details.
-
-=item B<--logger/facility> I<string>
-
-Set B<logger/facility> option, see L<agent.cfg> for details.
 
 =item B<--debug>
 
