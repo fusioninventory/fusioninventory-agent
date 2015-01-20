@@ -60,7 +60,7 @@ my $deprecated = {
         },
         'no-task' => {
             message => "use 'no-module' option instead",
-            new     => 'no-module'
+            new     => { section => '_', option => 'no-module' }
         },
         'delaytime' => {
             message => 'no more used'
@@ -70,7 +70,7 @@ my $deprecated = {
         },
         'backend-collect-timeout' => {
             message => 'use execution-timeout option instead',
-            new     => 'execution-timeout'
+            new     => { section => 'inventory', option => 'execution-timeout' }
         },
         'color' => {
             message => 'color is now automatically used if relevant'
@@ -163,28 +163,11 @@ sub _checkContent {
 
             # transfer the value to the new option, if possible
             if ($handler->{new}) {
-                if (ref $handler->{new} eq 'HASH') {
-                    # old boolean option replaced by new non-boolean options
-                    foreach my $new (keys %{$handler->{new}}) {
-                        my $value = $handler->{new}->{$new};
-                        if ($value =~ /^\+(\S+)/) {
-                            # multiple values: add it to exiting one
-                            $self->{$new} = $self->{$new} ?
-                                $self->{$new} . ',' . $1 : $1;
-                        } else {
-                            # unique value: replace exiting value
-                            $self->{$new} = $value;
-                        }
-                    }
-                } elsif (ref $handler->{new} eq 'ARRAY') {
-                    # old boolean option replaced by new boolean options
-                    foreach my $new (@{$handler->{new}}) {
-                        $self->{$section}->{$new} = $self->{$section}->{$key};
-                    }
-                } else {
-                    # old non-boolean option replaced by new option
-                    $self->{$section}->{$handler->{new}} = $self->{$section}->{$key};
-                }
+                next unless ref $handler->{new} eq 'HASH';
+                my $old_value   = $self->{$section}->{$key};
+                my $new_section = $handler->{new}->{section};
+                my $new_option  = $handler->{new}->{option};
+                $self->{$new_section}->{$new_option} = $old_value;
             }
         } else {
             warn "unknown configuration option '$key' in section '$section'";
