@@ -40,9 +40,9 @@ GetOptions(
     'ca-cert-dir=s',
     'ca-cert-file=s',
     'debug+',
-    'logger=s',
-    'logfile=s',
-    'logfile-maxsize=i',
+    'logger-backend=s',
+    'logger-file=s',
+    'logger-maxsize=i',
     'no-ssl-check',
     'password|p=s',
     'proxy|P=s',
@@ -65,6 +65,9 @@ GetOptions(
     'httpd-ip=s',
     'httpd-port=s',
     'httpd-trust=s',
+    'logger=s',
+    'logfile=s',
+    'logfile-maxsize=i',
     'additional-content=s',
     'backend-collect-timeout=s',
     'no-category=s',
@@ -119,9 +122,9 @@ my $config = FusionInventory::Agent::Config->create(
         },
         logger => {
             debug           => $options->{'debug'},
-            logger          => $options->{'logger'},
-            file            => $options->{'file'},
-            maxsize         => $options->{'maxsize'},
+            backends        => $options->{'logger-backends'},
+            file            => $options->{'logger-file'},
+            maxsize         => $options->{'logger-maxsize'},
         }
     }
 );
@@ -222,9 +225,9 @@ S<[B<--ca-cert-dir> I<path>]>
 S<[B<--ca-cert-file> I<path>]>
 S<[B<--no-ssl-check>]>
 S<[B<--timeout> I<integer>]>
-S<[B<--logger> I<string>]>
-S<[B<--logfile> I<path>]>
-S<[B<--logfile-maxsize> I<integer>]>
+S<[B<--logger-backend> I<string>]>
+S<[B<--logger-file> I<path>]>
+S<[B<--logger-maxsize> I<integer>]>
 
 B<fusioninventory-agent> B<--list-modules>
 
@@ -342,15 +345,15 @@ Set B<no-ssl-check> option, see L<agent.cfg> for details.
 
 Set B<timeout> option, see L<agent.cfg> for details.
 
-=item B<--logger> I<string>
+=item B<--logger-backends> I<string>
 
-Set B<logger> option, see L<agent.cfg> for details.
+Set B<logger/backends> option, see L<agent.cfg> for details.
 
-=item B<--logfile> I<path>
+=item B<--logger-file> I<path>
 
 Set B<logger/file> option, see L<agent.cfg> for details.
 
-=item B<--logfile-maxsize> I<integer>
+=item B<--logger-maxsize> I<integer>
 
 Set B<logger/maxsize> option, see L<agent.cfg> for details.
 
