@@ -34,7 +34,7 @@ my %config = (
             'logfile'         => undef,
             'logfile-maxsize' => undef,
             'logfacility'     => 'LOG_USER',
-            'logger'          => [ 'Stderr' ],
+            'backends'        => [ 'Stderr' ],
         },
         inventory => {
             'disable'            => 0,
@@ -83,7 +83,7 @@ my %config = (
             'logfile'         => undef,
             'logfile-maxsize' => undef,
             'logfacility'     => 'LOG_USER',
-            'logger'          => [ 'Stderr' ],
+            'backends'        => [ 'Stderr' ],
         },
         'inventory' => {
             'disable'            => 0,
@@ -132,7 +132,7 @@ my %config = (
             'logfile'         => undef,
             'logfile-maxsize' => undef,
             'logfacility'     => 'LOG_USER',
-            'logger'          => [ 'Stderr' ],
+            'backends'        => [ 'Stderr' ],
         },
         'inventory' => {
             'disable'            => 0,

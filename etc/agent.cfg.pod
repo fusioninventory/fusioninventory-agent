@@ -105,7 +105,7 @@ Multiple values can be specified, using a comma as a separator.
 
 =over
 
-=item B<logger>
+=item B<backends>
 
 Specifies the logger backend to use. The possible values are:
 

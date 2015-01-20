@@ -123,7 +123,7 @@ sub startAgent {
         );
 
         my $logger = FusionInventory::Agent::Logger->new(
-            backends        => $config->{logger}->{'logger'},
+            backends        => $config->{logger}->{'backends'},
             logfile         => $config->{logger}->{'logfile'},
             logfile_maxsize => $config->{logger}->{'logfile-maxsize'},
             logfacility     => $config->{logger}->{'logfacility'},

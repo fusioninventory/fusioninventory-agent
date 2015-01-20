@@ -28,7 +28,7 @@ my $default = {
         'trust'              => '',
     },
     logger => {
-        'logger'             => 'Stderr',
+        'backends'           => 'Stderr',
         'logfile'            => undef,
         'logfacility'        => 'LOG_USER',
         'logfile-maxsize'    => undef,
@@ -131,8 +131,8 @@ my $deprecated = {
             new     => { section => 'http',  option => 'ca-cert-dir' },
         },
         'logger' => {
-            message => "use 'logger/logger' option instead",
-            new     => { section => 'logger',  option => 'logger' },
+            message => "use 'logger/backends' option instead",
+            new     => { section => 'logger',  option => 'backends' },
         },
         'logfile' => {
             message => "use 'logger/logfile' option instead",
@@ -287,13 +287,13 @@ sub _checkContent {
     }
 
     # logger backend without a logfile isn't enoguh
-    if ($self->{logger}->{'logger'} =~ /file/i && ! $self->{logger}->{'logfile'}) {
+    if ($self->{logger}->{backends} =~ /file/i && ! $self->{logger}->{'logfile'}) {
         die "usage of 'file' logger backend makes 'logfile' option mandatory\n";
     }
 
     # multi-values options, the default separator is a ','
     $self->{_}->{server}      = [split(/,/, $self->{_}->{server})];
-    $self->{logger}->{logger} = [split(/,/, $self->{logger}->{logger})];
+    $self->{logger}->{backends} = [split(/,/, $self->{logger}->{backends})];
     $self->{httpd}->{'trust'}   = [split(/,/, $self->{httpd}->{'trust'})];
     $self->{inventory}->{'no-category'} = [split(/,/, $self->{inventory}->{'no-category'})];
 
