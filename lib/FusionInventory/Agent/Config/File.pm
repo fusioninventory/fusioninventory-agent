@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Config';
 
+use Config::Tiny;
 use English qw(-no_match_vars);
 
 sub _load {
@@ -14,27 +15,14 @@ sub _load {
     die "non-existing file $file" unless -f $file;
     die "non-readable file $file" unless -r $file;
 
-    my $handle;
-    if (!open $handle, '<', $file) {
-        warn "Config: Failed to open $file: $ERRNO";
-        return;
-    }
-
-    while (my $line = <$handle>) {
-        $line =~ s/#.+//;
-        if ($line =~ /([\w-]+)\s*=\s*(.+)/) {
-            my $key = $1;
-            my $val = $2;
-
-            # Remove the quotes
-            $val =~ s/\s+$//;
-            $val =~ s/^'(.*)'$/$1/;
-            $val =~ s/^"(.*)"$/$1/;
-
-            $self->{$key} = $val;
+    my $config = Config::Tiny->read($file);
+    foreach my $section (keys %{$config}) {
+        foreach my $key (keys %{$config->{$section}}) {
+            my $value = $config->{$section}->{$key};
+            next unless defined $value;
+            $self->{$section}->{$key} = $value;
         }
     }
-    close $handle;
 }
 
 1;

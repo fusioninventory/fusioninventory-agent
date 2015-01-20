@@ -20,17 +20,30 @@ sub _load {
 
     my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
 
-    foreach my $rawKey (keys %$settings) {
-        next unless $rawKey =~ /^\/(\S+)/;
-        my $key = lc($1);
-        my $val = $settings->{$rawKey};
-        # Remove the quotes
-        $val =~ s/\s+$//;
-        $val =~ s/^'(.*)'$/$1/;
-        $val =~ s/^"(.*)"$/$1/;
-
-        $self->{$key} = $val;
+    foreach my $entry (keys %$settings) {
+        if ($entry =~ /^\/(\S+)/) {
+            my $key = lc($1);
+            $self->{_}->{$key} = _unquote($settings->{$entry});
+        } elsif ($entry =~ /(\S+)\/$/) {
+            my $section = lc($1);
+            foreach my $subEntry (keys %{$settings->{$entry}}) {
+                next unless $subEntry =~ /^\/(\S+)/;
+                my $key = lc($1);
+                $self->{$section}->{$key} =
+                    _unquote($settings->{$section}->{$entry});
+            }
+        }
     }
+}
+
+sub _unquote {
+    my ($value) = @_;
+
+    $value =~ s/\s+$//;
+    $value =~ s/^'(.*)'$/$1/;
+    $value =~ s/^"(.*)"$/$1/;
+
+    return $value;
 }
 
 1;

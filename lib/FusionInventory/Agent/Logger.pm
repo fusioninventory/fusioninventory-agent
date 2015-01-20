@@ -21,22 +21,13 @@ our @EXPORT = qw/LOG_DEBUG2 LOG_DEBUG LOG_INFO LOG_WARNING LOG_ERROR LOG_NONE/;
 sub new {
     my ($class, %params) = @_;
 
-    if ($params{config}) {
-        my $config = delete $params{config};
-        $params{backends}        = $config->{'logger'};
-        $params{logfile}         = $config->{'logfile'};
-        $params{logfile_maxsize} = $config->{'logfile-maxsize'};
-        $params{logfacility}     = $config->{'logfacility'};
-        $params{color}           = $config->{'color'};
-        $params{verbosity}       =
-            $config->{debug} == 0 ? LOG_INFO   :
-            $config->{debug} == 1 ? LOG_DEBUG  :
-            $config->{debug} == 2 ? LOG_DEBUG2 :
-                                    LOG_DEBUG2 ;
-    }
+    my $verbosity =
+            defined $params{verbosity} ? $params{verbosity} :
+            defined $params{debug}     ? $params{debug} + 3 :
+                                         LOG_INFO           ;
 
     my $self = {
-        verbosity => $params{verbosity} || LOG_INFO
+        verbosity => $verbosity
     };
     bless $self, $class;
 

@@ -105,25 +105,35 @@ my $config = FusionInventory::Agent::Config->create(
     backend => $options->{'config'},
     file    => $options->{'conf-file'},
     options   => {
-        ca_cert_dir     => $options->{'ca_cert_dir'},
-        ca_cert_file    => $options->{'ca_cert_file'},
-        debug           => $options->{'debug'},
-        logger          => $options->{'logger'},
-        logfile         => $options->{'logfile'},
-        logfile_maxsize => $options->{'logfile-maxsize'},
-        no_ssl_check    => $options->{'no-ssl-check'},
-        no_module       => $options->{'no-module'},
-        password        => $options->{'password'},
-        proxy           => $options->{'proxy'},
-        server          => $options->{'server'},
-        tag             => $options->{'tag'},
-        timeout         => $options->{'timeout'},
-        user            => $options->{'user'},
+        _ => {
+            no_module       => $options->{'no-module'},
+            server          => $options->{'server'},
+            tag             => $options->{'tag'},
+        },
+        http => {
+            ca_cert_dir     => $options->{'ca_cert_dir'},
+            ca_cert_file    => $options->{'ca_cert_file'},
+            no_ssl_check    => $options->{'no-ssl-check'},
+            password        => $options->{'password'},
+            proxy           => $options->{'proxy'},
+            timeout         => $options->{'timeout'},
+            user            => $options->{'user'},
+        },
+        logger => {
+            debug           => $options->{'debug'},
+            logger          => $options->{'logger'},
+            logfile         => $options->{'logfile'},
+            logfile_maxsize => $options->{'logfile-maxsize'},
+        }
     }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    config => $config
+    backends        => $config->{logger}->{'logger'},
+    logfile         => $config->{logger}->{'logfile'},
+    logfile_maxsize => $config->{logger}->{'logfile-maxsize'},
+    logfacility     => $config->{logger}->{'logfacility'},
+    debug           => $config->{logger}->{'debug'},
 );
 
 my $agent = FusionInventory::Agent->new(

@@ -37,6 +37,12 @@ Multiple values can be specified, using a comma as a separator.
 Specifies an arbitrary string to add to output. This can be used as an
 additional decision criteria on server side.
 
+=back
+
+=head1 HTTP CLIENT OPTIONS
+
+=over
+
 =item B<proxy>
 
 Specifies the URL of the HTTP proxy to use. By default, the agent uses
@@ -68,6 +74,12 @@ Disables server SSL certificate validation. The default is 0 (false).
 
 Specifies a timeout, in seconds, for server connections.
 
+=back
+
+=head1 HTTP SERVER OPTIONS
+
+=over
+
 =item B<no-httpd>
 
 Disables the embedded web interface, used to receive execution requests from the
@@ -92,6 +104,12 @@ All formats supported by L<Net::IP> can be used (IP addresses, IP addresses
 ranges, networks in CIDR notatation), as well as hostnames.
 
 Multiple values can be specified, using a comma as a separator.
+
+=back
+
+=head1 LOGGER OPTIONS
+
+=over
 
 =item B<logger>
 
@@ -147,7 +165,7 @@ Specifies the level of verbosity for log content. The possible values are:
 
 =back
 
-=head1 INVENTORY TASK SPECIFIC OPTIONS
+=head1 INVENTORY MODULE OPTIONS
 
 =over
 
@@ -191,7 +209,7 @@ Specifies an XML file whose content will be automatically merged with output.
 
 =back
 
-=head1 INVENTORY TASK SPECIFIC OPTIONS
+=head1 DEPLOY MODULE OPTIONS
 
 =over
 

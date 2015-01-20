@@ -63,29 +63,41 @@ my $config = FusionInventory::Agent::Config->create(
     backend   => $options->{'config'},
     file      => $options->{'conf-file'},
     options   => {
-        ca_cert_dir     => $options->{'ca_cert_dir'},
-        ca_cert_file    => $options->{'ca_cert_file'},
-        debug           => $options->{'debug'},
-        logger          => $options->{'logger'},
-        logfile         => $options->{'logfile'},
-        logfile_maxsize => $options->{'logfile-maxsize'}
-        no_ssl_check    => $options->{'no-ssl-check'},
-        no_module       => $options->{'no-module'},
-        no_httpd        => $options->{'no-httpd'},
-        password        => $options->{'password'},
-        proxy           => $options->{'proxy'},
-        server          => $options->{'server'},
-        tag             => $options->{'tag'},
-        timeout         => $options->{'timeout'},
-        user            => $options->{'user'},
-        httpd_ip        => $options->{'httpd-ip'},
-        httpd_port      => $options->{'httpd-port'},
-        httpd_trust     => $options->{'httpd-trust'},
+        _ => {
+            no_module       => $options->{'no-module'},
+            server          => $options->{'server'},
+            tag             => $options->{'tag'},
+        },
+        http => {
+            ca_cert_dir     => $options->{'ca_cert_dir'},
+            ca_cert_file    => $options->{'ca_cert_file'},
+            no_ssl_check    => $options->{'no-ssl-check'},
+            password        => $options->{'password'},
+            proxy           => $options->{'proxy'},
+            timeout         => $options->{'timeout'},
+            user            => $options->{'user'},
+        }
+        httpd => {
+            no_httpd        => $options->{'no-httpd'},
+            httpd_ip        => $options->{'httpd-ip'},
+            httpd_port      => $options->{'httpd-port'},
+            httpd_trust     => $options->{'httpd-trust'},
+        }
+        logger => {
+            debug           => $options->{'debug'},
+            logger          => $options->{'logger'},
+            logfile         => $options->{'logfile'},
+            logfile_maxsize => $options->{'logfile-maxsize'}
+        },
     }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    config => $config
+    backends        => $config->{logger}->{'logger'},
+    logfile         => $config->{logger}->{'logfile'},
+    logfile_maxsize => $config->{logger}->{'logfile-maxsize'},
+    logfacility     => $config->{logger}->{'logfacility'},
+    debug           => $config->{logger}->{'debug'},
 );
 
 my $agent = FusionInventory::Agent->new(
@@ -99,7 +111,7 @@ eval {
     $agent->init();
     $agent->initModules(fork => 1);
     $agent->initControllers();
-    $agent->initHTTPInterface() unless $config->{'no-httpd'};
+    $agent->initHTTPInterface() unless $config->{httpd}->{'no-httpd'};
     $agent->initHandlers();
     die "no module available\n" unless $agent->getModules();
     die "no server defined\n" unless $agent->getControllers();
