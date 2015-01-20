@@ -37,7 +37,7 @@ my $default = {
     inventory => {
         'disable'            => 0,
         'additional-content' => undef,
-        'execution-timeout'  => 180,
+        'timeout'            => 180,
         'no-category'        => '',
         'scan-homedirs'      => undef,
         'scan-profiles'      => undef,
@@ -84,8 +84,8 @@ my $deprecated = {
             message => 'use --lazy command-line option if needed'
         },
         'backend-collect-timeout' => {
-            message => 'use execution-timeout option instead',
-            new     => 'execution-timeout'
+            message => "use 'inventory/timeout' option instead",
+            new     => { section => 'inventory',  option => 'timeout' },
         },
         'color' => {
             message => 'color is now automatically used if relevant'

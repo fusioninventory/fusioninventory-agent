@@ -42,7 +42,7 @@ my %config = (
             'scan-homedirs'      => undef,
             'no-category'        => [],
             'scan-profiles'      => undef,
-            'execution-timeout'  => 180
+            'timeout'            => 180
         },
         deploy => {
             'disable' => 0,
@@ -89,7 +89,7 @@ my %config = (
             'disable'            => 0,
             'additional-content' => undef,
             'no-category'        => [ 'printer' ],
-            'execution-timeout'  => 180,
+            'timeout'            => 180,
             'scan-homedirs'      => undef,
             'scan-profiles'      => undef
         },
@@ -137,7 +137,7 @@ my %config = (
         'inventory' => {
             'disable'            => 0,
             'scan-homedirs'      => undef,
-            'execution-timeout'  => 180,
+            'timeout'            => 180,
             'no-category'        => [ ],
             'scan-profiles'      => undef,
             'additional-content' => undef

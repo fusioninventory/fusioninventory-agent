@@ -197,7 +197,7 @@ Enables scanning user home directories for virtual machines. The default is 0
 Enables scanning user profiles for softwares. The default is 0
 (false).
 
-=item B<collect-timeout>
+=item B<timeout>
 
 Specifies the timeout for task modules execution.
 
