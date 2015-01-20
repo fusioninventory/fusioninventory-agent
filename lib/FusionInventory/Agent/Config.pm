@@ -91,7 +91,7 @@ my $deprecated = {
             message => 'color is now automatically used if relevant'
         },
         'no-httpd' => {
-            message => "use httpd/disable option instead",
+            message => "use 'httpd/disable' option instead",
             new     => { section => 'httpd',  option => 'disable' },
         },
         'httpd-ip' => {
