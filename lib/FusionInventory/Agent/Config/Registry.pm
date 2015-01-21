@@ -19,21 +19,24 @@ sub _load {
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
+    my $config;
 
     foreach my $entry (keys %$settings) {
         if ($entry =~ /^\/(\S+)/) {
             my $key = lc($1);
-            $self->{_}->{$key} = _unquote($settings->{$entry});
+            $config->{_}->{$key} = _unquote($settings->{$entry});
         } elsif ($entry =~ /(\S+)\/$/) {
             my $section = lc($1);
             foreach my $subEntry (keys %{$settings->{$entry}}) {
                 next unless $subEntry =~ /^\/(\S+)/;
                 my $key = lc($1);
-                $self->{$section}->{$key} =
+                $config->{$section}->{$key} =
                     _unquote($settings->{$section}->{$entry});
             }
         }
     }
+
+    return $config;
 }
 
 sub _unquote {

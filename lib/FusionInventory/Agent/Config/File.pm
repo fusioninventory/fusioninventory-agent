@@ -15,14 +15,7 @@ sub _load {
     die "non-existing file $file" unless -f $file;
     die "non-readable file $file" unless -r $file;
 
-    my $config = Config::Tiny->read($file);
-    foreach my $section (keys %{$config}) {
-        foreach my $key (keys %{$config->{$section}}) {
-            my $value = $config->{$section}->{$key};
-            next unless defined $value;
-            $self->{$section}->{$key} = $value;
-        }
-    }
+    return Config::Tiny->read($file);
 }
 
 1;

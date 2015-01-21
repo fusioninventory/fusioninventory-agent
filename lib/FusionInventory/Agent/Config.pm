@@ -211,9 +211,9 @@ sub new {
 
     $self->_loadDefaults();
 
-    $self->_load(%params);
+    $self->_apply($self->_load(%params));
 
-    $self->_loadUserParams($params{options});
+    $self->_apply($params{options});
 
     $self->_checkContent();
 
@@ -230,14 +230,16 @@ sub _loadDefaults {
     }
 }
 
-sub _loadUserParams {
-    my ($self, $params) = @_;
+sub _apply {
+    my ($self, $options) = @_;
 
-    foreach my $section (keys %{$params}) {
-        foreach my $key (keys %{$params->{$section}}) {
-            my $value = $params->{$section}->{$key};
+    return unless $options;
+
+    foreach my $section (keys %{$options}) {
+        foreach my $option (keys %{$options->{$section}}) {
+            my $value = $options->{$section}->{$option};
             next unless defined $value;
-            $self->{$section}->{$key} = $value;
+            $self->{$section}->{$option} = $value;
         }
     }
 }
