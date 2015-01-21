@@ -332,7 +332,10 @@ sub _handle_valid_option {
     } elsif ($type eq 'integer') {
         $self->{$section}->{$option} = $value;
     } elsif ($type eq 'boolean') {
-        $self->{$section}->{$option} = $value;
+        $self->{$section}->{$option} =
+            $value eq 'true'  ? 1      :
+            $value eq 'false' ? 0      :
+                                $value ;
     } elsif ($type eq 'path') {
         $self->{$section}->{$option} = File::Spec->rel2abs($value);
     } elsif ($type eq 'list') {
