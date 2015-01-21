@@ -236,9 +236,46 @@ sub _apply {
     return unless $options;
 
     foreach my $section (keys %{$options}) {
+        if (! exists $default->{$section}) {
+            warn "unknown configuration section '$section', skipping\n";
+            next;
+        }
         foreach my $option (keys %{$options->{$section}}) {
             my $value = $options->{$section}->{$option};
             next unless defined $value;
+
+            # deprecated option
+            if (exists $deprecated->{$section}->{$option}) {
+                my $handler = $deprecated->{$section}->{$option};
+
+                # notify user
+                warn
+                    "configuration option '$option' is deprecated, " .
+                    $handler->{message} . "\n";
+
+                # transfer the value to the new option, if possible
+                if ($handler->{new}) {
+                    if (ref $handler->{new} eq 'HASH') {
+                        my $new_section = $handler->{new}->{section};
+                        my $new_option  = $handler->{new}->{option};
+                        $self->{$new_section}->{$new_option} = $value;
+                    }
+                    if (ref $handler->{new} eq 'CODE') {
+                        $handler->{new}->($self, $value);
+                    }
+                }
+                next;
+            }
+
+            # unknown option
+            if (! exists $default->{$section}->{$option}) {
+                warn
+                    "unknown configuration option '$option' in " .
+                    "section '$section', skipping\n";
+                next;
+            }
+
+            # option
             $self->{$section}->{$option} = $value;
         }
     }
@@ -246,37 +283,6 @@ sub _apply {
 
 sub _checkContent {
     my ($self) = @_;
-
-    # check for unknown and deprecated options
-    foreach my $section (keys %{$self}) {
-        foreach my $key (keys %{$self->{$section}}) {
-        next if exists $default->{$section} && exists $default->{$section}->{$key};
-
-        if (exists $deprecated->{$section}->{$key}) {
-            my $handler = $deprecated->{$section}->{$key};
-
-            # notify user of deprecation
-            warn "the '$key' option is deprecated, $handler->{message}\n";
-
-            # transfer the value to the new option, if possible
-            if ($handler->{new}) {
-                my $old_value   = $self->{$section}->{$key};
-                if (ref $handler->{new} eq 'HASH') {
-                    my $new_section = $handler->{new}->{section};
-                    my $new_option  = $handler->{new}->{option};
-                    $self->{$new_section}->{$new_option} = $old_value;
-                }
-                if (ref $handler->{new} eq 'CODE') {
-                    $handler->{new}->($self, $old_value);
-                }
-            }
-        } else {
-            warn "unknown configuration option '$key' in section '$section'\n";
-        }
-
-        delete $self->{$section}->{$key};
-        }
-    }
 
     # a logfile options implies a file logger backend
     if ($self->{logger}->{logfile}) {
