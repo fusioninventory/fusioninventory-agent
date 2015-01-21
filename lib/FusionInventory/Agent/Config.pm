@@ -281,51 +281,62 @@ sub _apply {
             my $value = $options->{$section}->{$option};
             next unless defined $value;
 
-            # deprecated option
-            if (exists $deprecated->{$section}->{$option}) {
-                my $handler = $deprecated->{$section}->{$option};
-
-                # notify user
-                warn
-                    "configuration option '$option' is deprecated, " .
-                    $handler->{message} . "\n";
-
-                # transfer the value to the new option, if possible
-                if ($handler->{new}) {
-                    if (ref $handler->{new} eq 'HASH') {
-                        my $new_section = $handler->{new}->{section};
-                        my $new_option  = $handler->{new}->{option};
-                        $self->{$new_section}->{$new_option} = $value;
-                    }
-                    if (ref $handler->{new} eq 'CODE') {
-                        $handler->{new}->($self, $value);
-                    }
-                }
-                next;
-            }
-
-            # unknown option
-            if (! exists $self->{$section}->{$option}) {
-                warn
-                    "unknown configuration option '$option' in " .
-                    "section '$section', skipping\n";
-                next;
-            }
-
-            # option
             my $type = $valid->{$section}->{$option};
-                 if ($type eq 'string') {
-                $self->{$section}->{$option} = $value;
-            } elsif ($type eq 'integer') {
-                $self->{$section}->{$option} = $value;
-            } elsif ($type eq 'boolean') {
-                $self->{$section}->{$option} = $value;
-            } elsif ($type eq 'path') {
-                $self->{$section}->{$option} = File::Spec->rel2abs($value);
-            } elsif ($type eq 'list') {
-                $self->{$section}->{$option} = [split(/,/, $value) ];
+            if ($type) {
+                $self->_handle_valid_option($section, $option, $value, $type)
+            } else {
+                my $handler = $deprecated->{$section}->{$option};
+                if ($handler) {
+                    $self->_handle_deprecated_option($section, $option, $value, $handler)
+                } else {
+                    $self->_handle_unknown_option($section, $option, $value)
+                }
             }
         }
+    }
+}
+
+sub _handle_deprecated_option {
+    my ($self, $section, $option, $value, $handler) = @_;
+
+    # notify user
+    warn
+        "configuration option '$option' is deprecated, $handler->{message}\n";
+
+    # transfer the value to the new option, if possible
+    if ($handler->{new}) {
+        if (ref $handler->{new} eq 'HASH') {
+            my $new_section = $handler->{new}->{section};
+            my $new_option  = $handler->{new}->{option};
+            $self->{$new_section}->{$new_option} = $value;
+        }
+        if (ref $handler->{new} eq 'CODE') {
+            $handler->{new}->($self, $value);
+        }
+    }
+}
+
+sub _handle_unknown_option {
+    my ($self, $section, $option) = @_;
+
+    warn
+        "unknown configuration option '$option' in section '$section', ".
+        "skipping\n";
+}
+
+sub _handle_valid_option {
+    my ($self, $section, $option, $value, $type) = @_;
+
+         if ($type eq 'string') {
+        $self->{$section}->{$option} = $value;
+    } elsif ($type eq 'integer') {
+        $self->{$section}->{$option} = $value;
+    } elsif ($type eq 'boolean') {
+        $self->{$section}->{$option} = $value;
+    } elsif ($type eq 'path') {
+        $self->{$section}->{$option} = File::Spec->rel2abs($value);
+    } elsif ($type eq 'list') {
+        $self->{$section}->{$option} = [ split(/,/, $value) ];
     }
 }
 
