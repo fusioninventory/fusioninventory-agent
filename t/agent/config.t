@@ -15,7 +15,7 @@ my %config = (
             'server'       => [],
         },
         'http' => {
-            'no-ssl-check' => undef,
+            'no-ssl-check' => 0,
             'ca-cert-file' => undef,
             'ca-cert-dir'  => undef,
             'password'     => undef,
@@ -24,7 +24,7 @@ my %config = (
             'user'         => undef,
         },
         httpd => {
-            'disable' => undef,
+            'disable' => 0,
             'trust'   => [],
             'ip'      => undef,
             'port'    => 62354,
@@ -39,14 +39,14 @@ my %config = (
         inventory => {
             'disable'            => 0,
             'additional-content' => undef,
-            'scan-homedirs'      => undef,
             'no-category'        => [],
-            'scan-profiles'      => undef,
+            'scan-homedirs'      => 0,
+            'scan-profiles'      => 0,
             'timeout'            => 180
         },
         deploy => {
             'disable' => 0,
-            'no-p2p'  => undef
+            'no-p2p'  => 0,
         },
         'wakeonlan' => {
             'disable' => 1,
@@ -64,7 +64,7 @@ my %config = (
             'tag'          => undef,
         },
         'http' => {
-            'no-ssl-check' => undef,
+            'no-ssl-check' => 0,
             'ca-cert-file' => undef,
             'ca-cert-dir'  => undef,
             'password'     => undef,
@@ -73,7 +73,7 @@ my %config = (
             'user'         => undef,
         },
         'httpd' => {
-            'disable' => undef,
+            'disable' => 0,
             'port'    => 62354,
             'ip'      => undef,
             'trust'   => [ 'example', '127.0.0.1', 'foobar', '123.0.0.0/10' ]
@@ -90,12 +90,12 @@ my %config = (
             'additional-content' => undef,
             'no-category'        => [ 'printer' ],
             'timeout'            => 180,
-            'scan-homedirs'      => undef,
-            'scan-profiles'      => undef
+            'scan-homedirs'      => 0,
+            'scan-profiles'      => 0,
         },
         'deploy' => {
             'disable' => 0,
-            'no-p2p'  => undef
+            'no-p2p'  => 0,
         },
         'wakeonlan' => {
             'disable' => 0,
@@ -113,7 +113,7 @@ my %config = (
             'tag'          => undef,
         },
         'http' => {
-            'no-ssl-check' => undef,
+            'no-ssl-check' => 0,
             'ca-cert-file' => undef,
             'ca-cert-dir'  => undef,
             'password'     => undef,
@@ -122,7 +122,7 @@ my %config = (
             'user'         => undef,
         },
         'httpd' => {
-            'disable' => undef,
+            'disable' => 0,
             'ip'      => undef,
             'trust'   => [ ],
             'port'    => 62354
@@ -135,16 +135,16 @@ my %config = (
             'backends' => [ 'Stderr' ],
         },
         'inventory' => {
+            'additional-content' => undef,
             'disable'            => 0,
-            'scan-homedirs'      => undef,
-            'timeout'            => 180,
             'no-category'        => [ ],
-            'scan-profiles'      => undef,
-            'additional-content' => undef
+            'scan-homedirs'      => 0,
+            'scan-profiles'      => 0,
+            'timeout'            => 180,
         },
         'deploy' => {
             'disable' => 0,
-            'no-p2p'  => undef
+            'no-p2p'  => 0,
         },
         'wakeonlan' => {
             'disable' => 0,
