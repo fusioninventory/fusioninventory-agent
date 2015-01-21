@@ -342,7 +342,8 @@ sub _handle_valid_option {
     } elsif ($type eq 'path') {
         $self->{$section}->{$option} = File::Spec->rel2abs($value);
     } elsif ($type eq 'list') {
-        $self->{$section}->{$option} = [ split(/,/, $value) ];
+        $self->{$section}->{$option} =
+            ref $value ? $value : [ split(/,/, $value) ];
     }
 }
 
