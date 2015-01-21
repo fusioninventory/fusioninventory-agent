@@ -7,6 +7,56 @@ use English qw(-no_match_vars);
 use File::Spec;
 use UNIVERSAL::require;
 
+my $valid = {
+        _ => {
+            'server'             => 'list',
+            'tag'                => 'string'
+        },
+        http => {
+            'proxy'              => 'string',
+            'timeout'            => 'integer',
+            'ca-cert-dir'        => 'path',
+            'ca-cert-file'       => 'path',
+            'no-ssl-check'       => 'boolean',
+            'user'               => 'string',
+            'password'           => 'string'
+        },
+        httpd => {
+            'disable'            => 'boolean',
+            'ip'                 => 'string',
+            'port'               => 'integer',
+            'trust'              => 'list',
+        },
+        logger => {
+            'backends'           => 'list',
+            'file'               => 'path',
+            'facility'           => 'string',
+            'maxsize'            => 'integer',
+            'debug'              => 'boolean'
+        },
+        inventory => {
+            'disable'            => 'boolean',
+            'additional-content' => 'file',
+            'timeout'            => 'integer',
+            'no-category'        => 'list',
+            'scan-homedirs'      => 'boolean',
+            'scan-profiles'      => 'boolean'
+        },
+        deploy => {
+            'disable'            => 'boolean',
+            'no-p2p'             => 'boolean',
+        },
+        wakeonlan => {
+            'disable'            => 'boolean',
+        },
+        netinventory => {
+            'disable'            => 'boolean',
+        },
+        netdiscovery => {
+            'disable'            => 'boolean',
+        },
+};
+
 my $deprecated = {
     _ => {
         'html' => {
@@ -158,7 +208,7 @@ sub new {
 
     my $self = {
         _ => {
-            'server'             => '',
+            'server'             => [],
             'tag'                => undef,
         },
         http => {
@@ -174,10 +224,10 @@ sub new {
             'disable'            => 0,
             'ip'                 => undef,
             'port'               => 62354,
-            'trust'              => '',
+            'trust'              => [],
         },
         logger => {
-            'backends'           => 'Stderr',
+            'backends'           => [ 'Stderr' ],
             'file'               => undef,
             'facility'           => 'LOG_USER',
             'maxsize'            => undef,
@@ -187,7 +237,7 @@ sub new {
             'disable'            => 0,
             'additional-content' => undef,
             'timeout'            => 180,
-            'no-category'        => '',
+            'no-category'        => [],
             'scan-homedirs'      => 0,
             'scan-profiles'      => 0,
         },
@@ -263,7 +313,18 @@ sub _apply {
             }
 
             # option
-            $self->{$section}->{$option} = $value;
+            my $type = $valid->{$section}->{$option};
+                 if ($type eq 'string') {
+                $self->{$section}->{$option} = $value;
+            } elsif ($type eq 'integer') {
+                $self->{$section}->{$option} = $value;
+            } elsif ($type eq 'boolean') {
+                $self->{$section}->{$option} = $value;
+            } elsif ($type eq 'path') {
+                $self->{$section}->{$option} = File::Spec->rel2abs($value);
+            } elsif ($type eq 'list') {
+                $self->{$section}->{$option} = [split(/,/, $value) ];
+            }
         }
     }
 }
@@ -281,22 +342,6 @@ sub _checkContent {
         die "usage of 'file' logger backend makes 'file' option mandatory\n";
     }
 
-    # multi-values options, the default separator is a ','
-    $self->{_}->{server}      = [split(/,/, $self->{_}->{server})];
-    $self->{logger}->{backends} = [split(/,/, $self->{logger}->{backends})];
-    $self->{httpd}->{'trust'}   = [split(/,/, $self->{httpd}->{'trust'})];
-    $self->{inventory}->{'no-category'} = [split(/,/, $self->{inventory}->{'no-category'})];
-
-    # files location
-    $self->{http}->{'ca-cert-file'} =
-        File::Spec->rel2abs($self->{http}->{'ca-cert-file'})
-        if $self->{http}->{'ca-cert-file'};
-    $self->{http}->{'ca-cert-dir'} =
-        File::Spec->rel2abs($self->{http}->{'ca-cert-dir'})
-        if $self->{http}->{'ca-cert-dir'};
-    $self->{logger}->{file} =
-        File::Spec->rel2abs($self->{logger}->{file})
-        if $self->{logger}->{file};
 }
 
 1;
