@@ -330,6 +330,9 @@ sub _handle_valid_option {
          if ($type eq 'string') {
         $self->{$section}->{$option} = $value;
     } elsif ($type eq 'integer') {
+        warn
+            "invalid value '$value' for configuration option '$option': " .
+            "not an integer\n" if $value !~ /^\d+$/;
         $self->{$section}->{$option} = $value;
     } elsif ($type eq 'boolean') {
         $self->{$section}->{$option} =
