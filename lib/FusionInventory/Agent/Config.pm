@@ -178,9 +178,9 @@ sub new {
         },
         logger => {
             'backends'           => 'Stderr',
-            'logfile'            => undef,
-            'logfacility'        => 'LOG_USER',
-            'logfile-maxsize'    => undef,
+            'file'               => undef,
+            'facility'           => 'LOG_USER',
+            'maxsize'            => undef,
             'debug'              => 0,
         },
         inventory => {
@@ -272,8 +272,8 @@ sub _checkContent {
     my ($self) = @_;
 
     # a logfile options implies a file logger backend
-    if ($self->{logger}->{logfile}) {
-        $self->{logger}->{logger} .= ',File';
+    if ($self->{logger}->{file}) {
+        $self->{logger}->{backends} .= ',File';
     }
 
     # ca-cert-file and ca-cert-dir are antagonists
@@ -282,8 +282,8 @@ sub _checkContent {
     }
 
     # logger backend without a logfile isn't enoguh
-    if ($self->{logger}->{backends} =~ /file/i && ! $self->{logger}->{'logfile'}) {
-        die "usage of 'file' logger backend makes 'logfile' option mandatory\n";
+    if ($self->{logger}->{backends} =~ /file/i && ! $self->{logger}->{file}) {
+        die "usage of 'file' logger backend makes 'file' option mandatory\n";
     }
 
     # multi-values options, the default separator is a ','
@@ -299,9 +299,9 @@ sub _checkContent {
     $self->{http}->{'ca-cert-dir'} =
         File::Spec->rel2abs($self->{http}->{'ca-cert-dir'})
         if $self->{http}->{'ca-cert-dir'};
-    $self->{logger}->{'logfile'} =
-        File::Spec->rel2abs($self->{logger}->{'logfile'})
-        if $self->{logger}->{'logfile'};
+    $self->{logger}->{file} =
+        File::Spec->rel2abs($self->{logger}->{file})
+        if $self->{logger}->{file};
 }
 
 1;

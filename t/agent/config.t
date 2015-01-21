@@ -30,11 +30,11 @@ my %config = (
             'port'    => 62354,
         },
         logger => {
-            'debug'           => 0,
-            'logfile'         => undef,
-            'logfile-maxsize' => undef,
-            'logfacility'     => 'LOG_USER',
-            'backends'        => [ 'Stderr' ],
+            'debug'    => 0,
+            'file'     => undef,
+            'maxsize'  => undef,
+            'facility' => 'LOG_USER',
+            'backends' => [ 'Stderr' ],
         },
         inventory => {
             'disable'            => 0,
@@ -79,11 +79,11 @@ my %config = (
             'trust'   => [ 'example', '127.0.0.1', 'foobar', '123.0.0.0/10' ]
         },
         'logger' => {
-            'debug'           => 0,
-            'logfile'         => undef,
-            'logfile-maxsize' => undef,
-            'logfacility'     => 'LOG_USER',
-            'backends'        => [ 'Stderr' ],
+            'debug'    => 0,
+            'file'     => undef,
+            'maxsize'  => undef,
+            'facility' => 'LOG_USER',
+            'backends' => [ 'Stderr' ],
         },
         'inventory' => {
             'disable'            => 0,
@@ -128,11 +128,11 @@ my %config = (
             'port'    => 62354
         },
         'logger' => {
-            'debug'           => 0,
-            'logfile'         => undef,
-            'logfile-maxsize' => undef,
-            'logfacility'     => 'LOG_USER',
-            'backends'        => [ 'Stderr' ],
+            'debug'    => 0,
+            'file'     => undef,
+            'maxsize'  => undef,
+            'facility' => 'LOG_USER',
+            'backends' => [ 'Stderr' ],
         },
         'inventory' => {
             'disable'            => 0,
