@@ -11,6 +11,8 @@ use File::stat;
 sub new {
     my ($class, %params) = @_;
 
+    die "no log file" unless $params{file};
+
     my $self = {
         file    => $params{file},
         maxsize => $params{maxsize} ? $params{maxsize} * 1024 * 1024 : 0

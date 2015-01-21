@@ -37,7 +37,8 @@ isa_ok(
 if ($OSNAME eq 'MSWin32') {
 
     $logger = FusionInventory::Agent::Logger->new(
-        backends => [ qw/Stderr File/ ]
+        backends => [ qw/Stderr File/ ],
+        file     => 'foo'
     );
 
     is(
@@ -62,7 +63,8 @@ if ($OSNAME eq 'MSWin32') {
     };
 } else {
     $logger = FusionInventory::Agent::Logger->new(
-        backends => [ qw/Stderr Syslog File/ ]
+        backends => [ qw/Stderr Syslog File/ ],
+        file     => 'foo'
     );
 
     is(
@@ -178,7 +180,7 @@ my $logfile;
 $logfile = "$tmpdir/test1";
 $logger = FusionInventory::Agent::Logger->new(
     backends => [ qw/File/ ],
-    logfile  => $logfile
+    file     => $logfile
 );
 
 $logger->debug('message');
