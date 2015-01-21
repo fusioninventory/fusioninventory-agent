@@ -262,8 +262,6 @@ sub new {
 
     $self->_apply($params{options});
 
-    $self->_checkContent();
-
     return $self;
 }
 
@@ -345,21 +343,6 @@ sub _handle_valid_option {
         $self->{$section}->{$option} =
             ref $value ? $value : [ split(/,/, $value) ];
     }
-}
-
-sub _checkContent {
-    my ($self) = @_;
-
-    # ca-cert-file and ca-cert-dir are antagonists
-    if ($self->{http}->{'ca-cert-file'} && $self->{http}->{'ca-cert-dir'}) {
-        die "use either 'ca-cert-file' or 'ca-cert-dir' option, not both\n";
-    }
-
-    # logger backend without a logfile isn't enoguh
-    if ($self->{logger}->{backends} =~ /file/i && ! $self->{logger}->{file}) {
-        die "usage of 'file' logger backend makes 'file' option mandatory\n";
-    }
-
 }
 
 1;
