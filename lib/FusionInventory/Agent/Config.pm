@@ -271,11 +271,6 @@ sub _apply {
 sub _checkContent {
     my ($self) = @_;
 
-    # a logfile options implies a file logger backend
-    if ($self->{logger}->{file}) {
-        $self->{logger}->{backends} .= ',File';
-    }
-
     # ca-cert-file and ca-cert-dir are antagonists
     if ($self->{http}->{'ca-cert-file'} && $self->{http}->{'ca-cert-dir'}) {
         die "use either 'ca-cert-file' or 'ca-cert-dir' option, not both\n";
