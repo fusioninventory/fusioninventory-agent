@@ -7,56 +7,6 @@ use English qw(-no_match_vars);
 use File::Spec;
 use UNIVERSAL::require;
 
-my $default = {
-    _ => {
-        'server'             => '',
-        'tag'                => undef,
-    },
-    http => {
-        'proxy'              => undef,
-        'timeout'            => 180,
-        'ca-cert-dir'        => undef,
-        'ca-cert-file'       => undef,
-        'no-ssl-check'       => undef,
-        'user'               => undef,
-        'password'           => undef,
-    },
-    httpd => {
-        'disable'            => undef,
-        'ip'                 => undef,
-        'port'               => 62354,
-        'trust'              => '',
-    },
-    logger => {
-        'backends'           => 'Stderr',
-        'logfile'            => undef,
-        'logfacility'        => 'LOG_USER',
-        'logfile-maxsize'    => undef,
-        'debug'              => 0,
-    },
-    inventory => {
-        'disable'            => 0,
-        'additional-content' => undef,
-        'timeout'            => 180,
-        'no-category'        => '',
-        'scan-homedirs'      => undef,
-        'scan-profiles'      => undef,
-    },
-    deploy => {
-        'disable'            => 0,
-        'no-p2p'             => undef,
-    },
-    wakeonlan => {
-        'disable'            => 0,
-    },
-    netinventory => {
-        'disable'            => 0,
-    },
-    netdiscovery => {
-        'disable'            => 0,
-    },
-};
-
 my $deprecated = {
     _ => {
         'html' => {
@@ -206,10 +156,57 @@ sub create {
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {};
-    bless $self, $class;
+    my $self = {
+        _ => {
+            'server'             => '',
+            'tag'                => undef,
+        },
+        http => {
+            'proxy'              => undef,
+            'timeout'            => 180,
+            'ca-cert-dir'        => undef,
+            'ca-cert-file'       => undef,
+            'no-ssl-check'       => undef,
+            'user'               => undef,
+            'password'           => undef,
+        },
+        httpd => {
+            'disable'            => undef,
+            'ip'                 => undef,
+            'port'               => 62354,
+            'trust'              => '',
+        },
+        logger => {
+            'backends'           => 'Stderr',
+            'logfile'            => undef,
+            'logfacility'        => 'LOG_USER',
+            'logfile-maxsize'    => undef,
+            'debug'              => 0,
+        },
+        inventory => {
+            'disable'            => 0,
+            'additional-content' => undef,
+            'timeout'            => 180,
+            'no-category'        => '',
+            'scan-homedirs'      => undef,
+            'scan-profiles'      => undef,
+        },
+        deploy => {
+            'disable'            => 0,
+            'no-p2p'             => undef,
+        },
+        wakeonlan => {
+            'disable'            => 0,
+        },
+        netinventory => {
+            'disable'            => 0,
+        },
+        netdiscovery => {
+            'disable'            => 0,
+        },
+    };
 
-    $self->_loadDefaults();
+    bless $self, $class;
 
     $self->_apply($self->_load(%params));
 
@@ -220,23 +217,13 @@ sub new {
     return $self;
 }
 
-sub _loadDefaults {
-    my ($self) = @_;
-
-    foreach my $section (keys %{$default}) {
-        foreach my $key (keys %{$default->{$section}}) {
-            $self->{$section}->{$key} = $default->{$section}->{$key};
-        }
-    }
-}
-
 sub _apply {
     my ($self, $options) = @_;
 
     return unless $options;
 
     foreach my $section (keys %{$options}) {
-        if (! exists $default->{$section}) {
+        if (! exists $self->{$section}) {
             warn "unknown configuration section '$section', skipping\n";
             next;
         }
@@ -268,7 +255,7 @@ sub _apply {
             }
 
             # unknown option
-            if (! exists $default->{$section}->{$option}) {
+            if (! exists $self->{$section}->{$option}) {
                 warn
                     "unknown configuration option '$option' in " .
                     "section '$section', skipping\n";
