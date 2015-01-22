@@ -12,10 +12,8 @@ use UNIVERSAL::require;
 # POE Debug
 #sub POE::Kernel::TRACE_REFCNT () { 1 }
 
-my %cache = (
-    date => 0,
-    data => undef
-);
+my $last_run;
+my @peers;
 
 sub _computeIPToTest {
     my ($logger, $addresses, $ipLimit) = @_;
@@ -90,7 +88,7 @@ sub findPeers {
 
 #    $logger->debug("cachedate: ".$cache{date});
     $logger->info("looking for a peer in the network");
-    return $cache{data} if $cache{date} + 600 > time;
+    return @peers if $last_run + 600 > time;
 
     my @interfaces;
 
@@ -127,9 +125,12 @@ sub findPeers {
         return;
     }
 
-    $cache{date}=time;
-    $cache{data}=_scan({logger => $logger, port => $port}, _computeIPToTest($logger, \@addresses));
-    return @{$cache{data}};
+    $last_run = time;
+    @peers    = _scan(
+        {logger => $logger, port => $port}, _computeIPToTest($logger, \@addresses)
+    );
+
+    return @peers;
 }
 
 
