@@ -70,9 +70,7 @@ sub findPeers {
     }
 
     $last_run = time;
-    @peers    = _scanPeers(
-        {logger => $logger, port => $port}, @potential_peers
-    );
+    @peers    = _scanPeers($logger, $port, @potential_peers);
 
     return @peers;
 }
@@ -130,10 +128,7 @@ sub _getPotentialPeers {
 }
 
 sub _scanPeers {
-    my ($params, @addresses) = @_;
-    my $port = $params->{port};
-    my $logger = $params->{logger};
-
+    my ($logger, $port, @addresses) = @_;
 
     _fisher_yates_shuffle(\@addresses);
 
