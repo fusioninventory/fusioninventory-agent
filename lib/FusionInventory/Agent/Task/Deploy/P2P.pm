@@ -15,60 +15,56 @@ use UNIVERSAL::require;
 my $last_run;
 my @peers;
 
-sub _computeIPToTest {
-    my ($logger, $addresses, $ipLimit) = @_;
+sub _getPotentialPeers {
+    my ($logger, $address, $ipLimit) = @_;
 
     # Max number of IP to pick from a network range
     $ipLimit = 255 unless $ipLimit;
 
     my @ipToTest;
-    foreach my $address (@$addresses) {
-        my @ip_bytes   = split(/\./, $address->{ip});
-        my @mask_bytes = split(/\./, $address->{mask});
-        next if $ip_bytes[0] == 127; # Ignore 127.x.x.x addresses
-        next if $ip_bytes[0] == 169; # Ignore 169.x.x.x range too
 
-        # compute range
-        my @start;
-        my @end;
+    my @ip_bytes   = split(/\./, $address->{ip});
+    my @mask_bytes = split(/\./, $address->{mask});
+    return if $ip_bytes[0] == 127; # Ignore 127.x.x.x addresses
+    return if $ip_bytes[0] == 169; # Ignore 169.x.x.x range too
 
-        foreach my $idx (0..3) {
-            ## no critic (ProhibitBitwise)
-            push @start, $ip_bytes[$idx] & (255 & $mask_bytes[$idx]);
-            push @end,   $ip_bytes[$idx] | (255 - $mask_bytes[$idx]);
-        }
+    # compute range
+    my @start;
+    my @end;
 
-        my $ipStart = join('.', @start);
-        my $ipEnd   = join('.', @end);
-
-        my $ipInterval = Net::IP->new($ipStart.' - '.$ipEnd) || die Net::IP::Error();
-
-        next if $ipStart eq $ipEnd;
-
-        if ($ipInterval->size() > 5000) {
-            $logger->debug("Range to large: ".$ipInterval->size()." (max 5000)");
-            next;
-        }
-
-        my $after = 0;
-        my @newIPs;
-        do {
-            push @newIPs, $ipInterval->ip();
-            if ($after || $address->{ip} eq $ipInterval->ip()) {
-                $after++;
-            } elsif (@newIPs > ($ipLimit / 2)) {
-                shift @newIPs;
-            }
-        } while (++$ipInterval && ($after < ($ipLimit / 2)));
-
-
-        $logger->debug("Scanning from ".$newIPs[0]." to ".$newIPs[@newIPs-1]) if $logger;
-
-        push @ipToTest, @newIPs;
-
+    foreach my $idx (0..3) {
+        ## no critic (ProhibitBitwise)
+        push @start, $ip_bytes[$idx] & (255 & $mask_bytes[$idx]);
+        push @end,   $ip_bytes[$idx] | (255 - $mask_bytes[$idx]);
     }
-    return @ipToTest;
 
+    my $ipStart = join('.', @start);
+    my $ipEnd   = join('.', @end);
+
+    my $ipInterval = Net::IP->new($ipStart.' - '.$ipEnd) || die Net::IP::Error();
+
+    next if $ipStart eq $ipEnd;
+
+    if ($ipInterval->size() > 5000) {
+        $logger->debug("Range to large: ".$ipInterval->size()." (max 5000)");
+        next;
+    }
+
+    my $after = 0;
+    my @peers;
+    do {
+        push @peers, $ipInterval->ip();
+        if ($after || $address->{ip} eq $ipInterval->ip()) {
+            $after++;
+        } elsif (@peers > ($ipLimit / 2)) {
+            shift @peers;
+        }
+    } while (++$ipInterval && ($after < ($ipLimit / 2)));
+
+
+    $logger->debug("Scanning from $peers[0] to $peers[-1]") if $logger;
+
+    return @peers;
 }
 
 sub _fisher_yates_shuffle {
@@ -92,7 +88,6 @@ sub findPeers {
 
     my @interfaces;
 
-
     if ($OSNAME eq 'linux') {
         FusionInventory::Agent::Tools::Linux->require();
         @interfaces = FusionInventory::Agent::Tools::Linux::getInterfacesFromIfconfig();
@@ -102,6 +97,10 @@ sub findPeers {
         @interfaces = FusionInventory::Agent::Tools::Win32::getInterfaces();
     }
 
+    if (!@interfaces) {
+        $logger->info("No network interfaces found");
+        return;
+    }
 
     my @addresses;
 
@@ -112,41 +111,50 @@ sub findPeers {
         next unless lc($interface->{STATUS}) eq 'up';
         next if $interface->{IPADDRESS} =~ /^127\./;
 
-
         push @addresses, {
             ip   => $interface->{IPADDRESS},
             mask => $interface->{IPMASK}
         };
     }
 
-
     if (!@addresses) {
-        $logger->info("No network to scan...");
+        $logger->info("No local address found");
+        return;
+    }
+
+    my @potential_peers;
+    
+    foreach my $address (@addresses) {
+        push @potential_peers, _getPotentialPeers($logger, $address);
+    }
+
+    if (!@potential_peers) {
+        $logger->info("No neighbour address found");
         return;
     }
 
     $last_run = time;
-    @peers    = _scan(
-        {logger => $logger, port => $port}, _computeIPToTest($logger, \@addresses)
+    @peers    = _scanPeers(
+        {logger => $logger, port => $port}, @potential_peers
     );
 
     return @peers;
 }
 
 
-sub _scan {
-    my ($params, @ipToTestList) = @_;
+sub _scanPeers {
+    my ($params, @addresses) = @_;
     my $port = $params->{port};
     my $logger = $params->{logger};
 
 
-    _fisher_yates_shuffle(\@ipToTestList);
+    _fisher_yates_shuffle(\@addresses);
 
     POE::Component::Client::Ping->spawn(
         Timeout => 5,           # defaults to 1 second
     );
 
-    my $ipCpt = int(@ipToTestList);
+    my $ipCpt = int(@addresses);
     my @ipFound;
     POE::Session->create(
         inline_states => {
@@ -155,7 +163,7 @@ sub _scan {
                 $_[KERNEL]->yield( "add", 0 );
             },
             add => sub {
-            my $ipToTest = shift @ipToTestList;
+            my $ipToTest = shift @addresses;
 
             return unless $ipToTest;
 
@@ -168,7 +176,7 @@ sub _scan {
                 $ipToTest,    # This is the address we want to ping.
                 );
 
-            if (@ipToTestList && @ipFound < 30) {
+            if (@addresses && @ipFound < 30) {
                 $_[KERNEL]->delay(add => 0.1)
             } else {
                 $_[KERNEL]->yield("shutdown");

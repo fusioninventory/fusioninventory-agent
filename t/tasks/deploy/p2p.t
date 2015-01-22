@@ -14,25 +14,14 @@ FusionInventory::Agent::Task::Deploy::P2P->use();
 
 my @tests = (
     {
-        name => 'Ignore',
-        test => [
-            {
-                ip   => '127.0.0.1',
-                mask => '255.0.0.0'
-            }
-        ],
-        ret => [
-        ]
+        name    => 'Ignore',
+        address => { ip  => '127.0.0.1', mask => '255.0.0.0' },
+        result  => [ ]
     },
     {
-        name => '192.168.5.5',
-        test => [
-            {
-                ip   => '192.168.5.5',
-                mask => '255.255.255.0'
-            },
-        ],
-        ret => [
+        name    => '192.168.5.5',
+        address => { ip => '192.168.5.5', mask => '255.255.255.0' },
+        result  => [
           '192.168.5.2',
           '192.168.5.3',
           '192.168.5.4',
@@ -42,14 +31,9 @@ my @tests = (
         ]
     },
     {
-        name => '10.5.6.200',
-        test => [
-            {
-                ip   => '10.5.6.200',
-                mask => '255.255.250.0'
-            }
-        ],
-        ret => [
+        name    => '10.5.6.200',
+        address => { ip => '10.5.6.200', mask => '255.255.250.0' },
+        result  => [
           '10.5.6.197',
           '10.5.6.198',
           '10.5.6.199',
@@ -64,8 +48,10 @@ my @tests = (
 plan tests => scalar @tests;
 
 foreach my $test (@tests) {
-    my @ret = FusionInventory::Agent::Task::Deploy::P2P::_computeIPToTest(
+    my @peers = FusionInventory::Agent::Task::Deploy::P2P::_getPotentialPeers(
         undef, # $logger
-        $test->{test}, 6 );
-    cmp_deeply(\@ret, $test->{ret}, $test->{name});
+        $test->{address},
+        6
+    );
+    cmp_deeply(\@peers, $test->{result}, $test->{name});
 }
