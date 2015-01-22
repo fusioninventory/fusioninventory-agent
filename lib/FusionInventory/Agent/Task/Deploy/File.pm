@@ -72,11 +72,11 @@ sub download {
 
     die unless $self->{mirrors};
 
-    my $peers;
+    my @peers;
     if ($self->{p2p}) {
         FusionInventory::Agent::Task::Deploy::P2P->require();
         eval {
-            $peers = FusionInventory::Agent::Task::Deploy::P2P::findPeers(
+            @peers = FusionInventory::Agent::Task::Deploy::P2P::findPeers(
                 62354, $self->{logger}
             );
         };
@@ -99,7 +99,7 @@ sub download {
         }
         
         # try to download from peers
-        foreach my $peer (@{$peers}) {
+        foreach my $peer (@peers) {
             my $success = $self->_download($peer, $sha512, $path);
             if ($success) {
                 $lastPeer = $peer;

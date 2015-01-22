@@ -85,7 +85,7 @@ sub _fisher_yates_shuffle {
     }
 }
 
-sub findPeer {
+sub findPeers {
     my ( $port, $logger ) = @_;
 
 #    $logger->debug("cachedate: ".$cache{date});
@@ -129,7 +129,7 @@ sub findPeer {
 
     $cache{date}=time;
     $cache{data}=_scan({logger => $logger, port => $port}, _computeIPToTest($logger, \@addresses));
-    return $cache{data};
+    return @{$cache{data}};
 }
 
 
