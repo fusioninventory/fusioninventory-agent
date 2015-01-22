@@ -50,7 +50,9 @@ my $config = FusionInventory::Agent::Config->create(
     backend => $options->{config},
     file    => $options->{'conf-file'},
     options => {
-        tag    => $options->{tag}
+        _ => {
+            tag => $options->{tag}
+        },
         logger => {
             verbosity => $options->{'logger-verbosity'}
         },
