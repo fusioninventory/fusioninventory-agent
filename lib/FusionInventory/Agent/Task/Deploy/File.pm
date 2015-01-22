@@ -75,6 +75,12 @@ sub download {
 
 
     my $p2pHostList;
+    eval {
+        if ($self->{p2p} && (ref($p2pHostList) ne 'ARRAY') && FusionInventory::Agent::Task::Deploy::P2P->require) {
+            $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(62354, $self->{logger});
+        }
+    };
+    $self->{logger}->debug("failed to enable P2P: $@") if $@;
 
     MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $partFilePath = $self->getPartFilePath($sha512);
@@ -82,14 +88,6 @@ sub download {
         if (-f $partFilePath) {
             next MULTIPART if $self->_getSha512ByFile($partFilePath) eq $sha512;
         }
-
-        eval {
-            if ($self->{p2p} && (ref($p2pHostList) ne 'ARRAY') && FusionInventory::Agent::Task::Deploy::P2P->require) {
-                $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(62354, $self->{logger});
-            }
-        };
-        $self->{logger}->debug("failed to enable P2P: $@") if $@;
-
 
         my $lastGood;
         my %remote = (p2p => $p2pHostList, mirror => $mirrorList);
