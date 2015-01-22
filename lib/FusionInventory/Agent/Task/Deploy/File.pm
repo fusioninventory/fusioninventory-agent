@@ -71,16 +71,17 @@ sub download {
 
     die unless $self->{mirrors};
 
-    my $mirrorList =  $self->{mirrors};
-
-
-    my $p2pHostList;
-    eval {
-        if ($self->{p2p} && (ref($p2pHostList) ne 'ARRAY') && FusionInventory::Agent::Task::Deploy::P2P->require) {
-            $p2pHostList = FusionInventory::Agent::Task::Deploy::P2P::findPeer(62354, $self->{logger});
-        }
+    my $peers;
+    if ($self->{p2p}) {
+        FusionInventory::Agent::Task::Deploy::P2P->require();
+        eval {
+            $peers = FusionInventory::Agent::Task::Deploy::P2P::findPeers(
+                62354, $self->{logger}
+            );
+        };
+        $self->{logger}->debug("failed to enable P2P: $EVAL_ERROR")
+            if $EVAL_ERROR;
     };
-    $self->{logger}->debug("failed to enable P2P: $@") if $@;
 
     MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $partFilePath = $self->getPartFilePath($sha512);
@@ -90,7 +91,7 @@ sub download {
         }
 
         my $lastGood;
-        my %remote = (p2p => $p2pHostList, mirror => $mirrorList);
+        my %remote = (p2p => $peers, mirror => $self->{mirrors});
         foreach my $remoteType (qw/p2p mirror/)  {
             foreach my $mirror ($lastGood, @{$remote{$remoteType}}) {
                 next unless $mirror;
