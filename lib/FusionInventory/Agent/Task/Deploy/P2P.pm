@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use HTTP::Request::Common qw(GET);
 use Net::IP;
 use POE qw(Component::Client::TCP Component::Client::Ping);
 
