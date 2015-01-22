@@ -11,6 +11,10 @@ use Parallel::ForkManager;
 use UNIVERSAL::require;
 
 my $max_workers = 10;
+my $cache_timeout = 600;
+my $scan_timeout = 5;
+my $max_peers = 5;
+my $max_size = 5000;
 
 my $last_run;
 my @peers;
@@ -20,7 +24,7 @@ sub findPeers {
 
 #    $logger->debug("cachedate: ".$cache{date});
     #$logger->info("looking for a peer in the network");
-    return @peers if $last_run + 600 > time;
+    return @peers if $last_run && time - $last_run < $cache_timeout;
 
     my @interfaces;
 
@@ -75,10 +79,9 @@ sub findPeers {
 }
 
 sub _getPotentialPeers {
-    my ($logger, $address, $ipLimit) = @_;
+    my ($logger, $address, $limit) = @_;
 
-    # Max number of IP to pick from a network range
-    $ipLimit = 255 unless $ipLimit;
+    $limit = $max_peers unless defined $limit;
 
     my @ipToTest;
 
@@ -103,8 +106,9 @@ sub _getPotentialPeers {
 
     my $ipInterval = Net::IP->new($ipStart.' - '.$ipEnd) || die Net::IP::Error();
 
-    if ($ipInterval->size() > 5000) {
-        $logger->debug("Range to large: ".$ipInterval->size()." (max 5000)");
+    my $size = $ipInterval->size();
+    if ($size > $max_size) {
+        $logger->debug("Range too large: $size (max $max_size)");
         return;
     }
 
@@ -114,10 +118,10 @@ sub _getPotentialPeers {
         push @peers, $ipInterval->ip();
         if ($after || $address->{ip} eq $ipInterval->ip()) {
             $after++;
-        } elsif (@peers > ($ipLimit / 2)) {
+        } elsif (@peers > ($limit / 2)) {
             shift @peers;
         }
-    } while (++$ipInterval && ($after < ($ipLimit / 2)));
+    } while (++$ipInterval && ($after < ($limit / 2)));
 
     return @peers;
 }
@@ -143,7 +147,7 @@ sub _scanPeers {
 
     foreach my $address (@addresses) {
         $manager->start($address) and next;
-        $manager->finish($ping->ping($address, 5) ? 1 : 0);
+        $manager->finish($ping->ping($address, $scan_timeout) ? 1 : 0);
     }
 
     return @found;
