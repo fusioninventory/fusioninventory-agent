@@ -6,8 +6,11 @@ use warnings;
 use English qw(-no_match_vars);
 use Net::IP;
 use Net::Ping;
+use Parallel::ForkManager;
 
 use UNIVERSAL::require;
+
+my $max_workers = 10;
 
 my $last_run;
 my @peers;
@@ -131,9 +134,16 @@ sub _scanPeers {
     $ping->service_check(1);
 
     my @found;
+
+    my $manager = Parallel::ForkManager->new($max_workers);
+    $manager->run_on_finish(sub {
+        my ($pid, $exit_code, $address) = @_;
+        push @found, $address if $exit_code;
+     });
+
     foreach my $address (@addresses) {
-        next unless $ping->ping($address, 5);
-        push @found, $address;
+        $manager->start($address) and next;
+        $manager->finish($ping->ping($address, 5) ? 1 : 0);
     }
 
     return @found;
