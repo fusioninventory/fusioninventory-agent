@@ -15,70 +15,6 @@ use UNIVERSAL::require;
 my $last_run;
 my @peers;
 
-sub _getPotentialPeers {
-    my ($logger, $address, $ipLimit) = @_;
-
-    # Max number of IP to pick from a network range
-    $ipLimit = 255 unless $ipLimit;
-
-    my @ipToTest;
-
-    my @ip_bytes   = split(/\./, $address->{ip});
-    my @mask_bytes = split(/\./, $address->{mask});
-    return if $ip_bytes[0] == 127; # Ignore 127.x.x.x addresses
-    return if $ip_bytes[0] == 169; # Ignore 169.x.x.x range too
-
-    # compute range
-    my @start;
-    my @end;
-
-    foreach my $idx (0..3) {
-        ## no critic (ProhibitBitwise)
-        push @start, $ip_bytes[$idx] & (255 & $mask_bytes[$idx]);
-        push @end,   $ip_bytes[$idx] | (255 - $mask_bytes[$idx]);
-    }
-
-    my $ipStart = join('.', @start);
-    my $ipEnd   = join('.', @end);
-
-    my $ipInterval = Net::IP->new($ipStart.' - '.$ipEnd) || die Net::IP::Error();
-
-    next if $ipStart eq $ipEnd;
-
-    if ($ipInterval->size() > 5000) {
-        $logger->debug("Range to large: ".$ipInterval->size()." (max 5000)");
-        next;
-    }
-
-    my $after = 0;
-    my @peers;
-    do {
-        push @peers, $ipInterval->ip();
-        if ($after || $address->{ip} eq $ipInterval->ip()) {
-            $after++;
-        } elsif (@peers > ($ipLimit / 2)) {
-            shift @peers;
-        }
-    } while (++$ipInterval && ($after < ($ipLimit / 2)));
-
-
-    $logger->debug("Scanning from $peers[0] to $peers[-1]") if $logger;
-
-    return @peers;
-}
-
-sub _fisher_yates_shuffle {
-    my $deck = shift;  # $deck is a reference to an array
-
-    return unless @$deck; # must not be empty!
-
-    my $i = @$deck;
-    while (--$i) {
-        my $j = int rand ($i+1);
-        @$deck[$i,$j] = @$deck[$j,$i];
-    }
-}
-
 sub findPeers {
     my ( $port, $logger ) = @_;
 
@@ -141,6 +77,57 @@ sub findPeers {
     return @peers;
 }
 
+sub _getPotentialPeers {
+    my ($logger, $address, $ipLimit) = @_;
+
+    # Max number of IP to pick from a network range
+    $ipLimit = 255 unless $ipLimit;
+
+    my @ipToTest;
+
+    my @ip_bytes   = split(/\./, $address->{ip});
+    my @mask_bytes = split(/\./, $address->{mask});
+    return if $ip_bytes[0] == 127; # Ignore 127.x.x.x addresses
+    return if $ip_bytes[0] == 169; # Ignore 169.x.x.x range too
+
+    # compute range
+    my @start;
+    my @end;
+
+    foreach my $idx (0..3) {
+        ## no critic (ProhibitBitwise)
+        push @start, $ip_bytes[$idx] & (255 & $mask_bytes[$idx]);
+        push @end,   $ip_bytes[$idx] | (255 - $mask_bytes[$idx]);
+    }
+
+    my $ipStart = join('.', @start);
+    my $ipEnd   = join('.', @end);
+
+    my $ipInterval = Net::IP->new($ipStart.' - '.$ipEnd) || die Net::IP::Error();
+
+    next if $ipStart eq $ipEnd;
+
+    if ($ipInterval->size() > 5000) {
+        $logger->debug("Range to large: ".$ipInterval->size()." (max 5000)");
+        next;
+    }
+
+    my $after = 0;
+    my @peers;
+    do {
+        push @peers, $ipInterval->ip();
+        if ($after || $address->{ip} eq $ipInterval->ip()) {
+            $after++;
+        } elsif (@peers > ($ipLimit / 2)) {
+            shift @peers;
+        }
+    } while (++$ipInterval && ($after < ($ipLimit / 2)));
+
+
+    $logger->debug("Scanning from $peers[0] to $peers[-1]") if $logger;
+
+    return @peers;
+}
 
 sub _scanPeers {
     my ($params, @addresses) = @_;
@@ -214,5 +201,18 @@ sub _scanPeers {
     $logger->debug("end of POE loop");
     return \@ipFound;
 }
+
+sub _fisher_yates_shuffle {
+    my $deck = shift;  # $deck is a reference to an array
+
+    return unless @$deck; # must not be empty!
+
+    my $i = @$deck;
+    while (--$i) {
+        my $j = int rand ($i+1);
+        @$deck[$i,$j] = @$deck[$j,$i];
+    }
+}
+
 
 1;
