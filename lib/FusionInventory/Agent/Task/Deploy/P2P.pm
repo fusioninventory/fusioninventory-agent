@@ -103,11 +103,11 @@ sub _getPotentialPeers {
 
     my $ipInterval = Net::IP->new($ipStart.' - '.$ipEnd) || die Net::IP::Error();
 
-    next if $ipStart eq $ipEnd;
+    return if $ipStart eq $ipEnd;
 
     if ($ipInterval->size() > 5000) {
         $logger->debug("Range to large: ".$ipInterval->size()." (max 5000)");
-        next;
+        return;
     }
 
     my $after = 0;
