@@ -83,11 +83,11 @@ sub download {
             if $EVAL_ERROR;
     };
 
-    MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
-        my $partFilePath = $self->getPartFilePath($sha512);
-        File::Path::mkpath(dirname($partFilePath));
-        if (-f $partFilePath) {
-            next MULTIPART if $self->_getSha512ByFile($partFilePath) eq $sha512;
+    PART: foreach my $sha512 (@{$self->{multiparts}}) {
+        my $path = $self->getPartFilePath($sha512);
+        File::Path::mkpath(dirname($path));
+        if (-f $path) {
+            next PART if $self->_getSha512ByFile($path) eq $sha512;
         }
 
         my $lastGood;
@@ -102,17 +102,17 @@ sub download {
                 $self->{logger}->debug($mirror.$sha512dir.$sha512);
 
                 my $request = HTTP::Request->new(GET => $mirror.$sha512dir.$sha512);
-                my $response = $self->{client}->request($request, $partFilePath);
+                my $response = $self->{client}->request($request, $path);
 
-                if ($response && ($response->code == 200) && -f $partFilePath) {
-                    if ($self->_getSha512ByFile($partFilePath) eq $sha512) {
+                if ($response && ($response->code == 200) && -f $path) {
+                    if ($self->_getSha512ByFile($path) eq $sha512) {
                         $lastGood = $mirror if $remoteType eq 'p2p';
                         next MULTIPART;
                     }
                     $self->{logger}->debug("sha512 failure: $sha512");
                 }
                 # bad file, drop it
-                unlink($partFilePath);
+                unlink($path);
             }
         }
     }
