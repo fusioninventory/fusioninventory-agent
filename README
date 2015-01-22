@@ -16,6 +16,7 @@ Minimum perl version: 5.8
 
 Additional mandatory perl modules:
 
+* Config::Tiny
 * File::Which
 * LWP
 * Net::IP
