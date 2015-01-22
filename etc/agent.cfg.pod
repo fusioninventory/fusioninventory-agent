@@ -135,21 +135,30 @@ reached, the file is truncated. The default is unlimited.
 Specifies the syslog facility to use for the syslog logger backend. The default
 is LOG_USER.
 
-=item B<debug>
+=item B<verbosity>
 
-Specifies the level of verbosity for log content. The possible values are:
+Specifies the verbosity level for log content, as increasingly verbose log
+levels:
 
 =over 4
 
-=item * 0: basic agent processing
+=item * none
 
-=item * 1: extended agent processing
+=item * error
 
-=item * 2: messages exchanged with the server
+=item * warning
 
-=item * 3: additional traces for some external libraries as Net::SSLeay
+=item * info
+
+=item * debug
+
+=item * debug2
+
+=item * debug3
 
 =back
+
+The default value is info.
 
 =back
 

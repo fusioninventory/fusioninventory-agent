@@ -32,7 +32,7 @@ my $valid = {
             'file'               => 'path',
             'facility'           => 'string',
             'maxsize'            => 'integer',
-            'debug'              => 'boolean'
+            'verbosity'          => 'string'
         },
         inventory => {
             'disable'            => 'boolean',
@@ -85,6 +85,13 @@ my $deprecated = {
         },
         'color' => {
             message => 'color is now automatically used if relevant'
+        },
+        'debug' => {
+            message => "use 'logger/debug' option instead",
+            new => sub {
+                my ($self, $value) = @_;
+                $self->{logger}->{verbosity} = $value + 3;
+            }
         },
         'no-httpd' => {
             message => "use 'httpd/disable' option instead",
@@ -231,7 +238,7 @@ sub new {
             'file'               => undef,
             'facility'           => 'LOG_USER',
             'maxsize'            => undef,
-            'debug'              => 0,
+            'verbosity'          => 'info',
         },
         inventory => {
             'disable'            => 0,

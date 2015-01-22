@@ -50,10 +50,10 @@ GetOptions(
     'httpd-ip=s',
     'httpd-port=s',
     'httpd-trust=s',
-    'debug+',
     'logger-backends=s',
     'logger-file=s',
     'logger-maxsize=i',
+    'logger-verbosity=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -82,20 +82,20 @@ my $config = FusionInventory::Agent::Config->create(
             trust           => $options->{'httpd-trust'},
         }
         logger => {
-            debug           => $options->{'debug'},
             backends        => $options->{'logger-backends'},
             file            => $options->{'logger-file'},
             maxsize         => $options->{'logger-maxsize'}
+            verbosity       => $options->{'logger-verbosity'},
         },
     }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends => $config->{logger}->{backends},
-    file     => $config->{logger}->{logfile},
-    maxsize  => $config->{logger}->{maxsize},
-    facility => $config->{logger}->{facility},
-    debug    => $config->{logger}->{debug},
+    backends  => $config->{logger}->{backends},
+    file      => $config->{logger}->{logfile},
+    maxsize   => $config->{logger}->{maxsize},
+    facility  => $config->{logger}->{facility},
+    verbosity => $config->{logger}->{verbosity},
 );
 
 my $agent = FusionInventory::Agent->new(
@@ -187,6 +187,7 @@ S<[B<--http-timeout> I<integer>]>
 S<[B<--logger-backends> I<string>]>
 S<[B<--logger-file> I<path>]>
 S<[B<--logger-maxsize> I<integer>]>
+S<[B<--logger-verbosity> I<string>]>
 S<[B<--httpd-disable>]>
 S<[B<--httpd-ip> I<address>]>
 S<[B<--httpd-port> I<integer>]>
@@ -298,9 +299,9 @@ Set B<logger/file> option, see L<agent.cfg> for details.
 
 Set B<logger/maxsize> option, see L<agent.cfg> for details.
 
-=item B<--debug>
+=item B<--logger-verbosity> I<string>
 
-Set B<logger/debug> option, see L<agent.cfg> for details.
+Set B<logger/verbosity> option, see L<agent.cfg> for details.
 
 =item B<--httpd-disable>
 

@@ -33,7 +33,6 @@ my %setup = (
 );
 
 my $options = {
-    'debug'     => 0,
     'workers'   => 0,
     'version'   => '2c',
     'community' => 'public',
@@ -54,11 +53,12 @@ GetOptions(
     'privpassword=s',
     'privprotocol=s',
     'entity=s',
+    'logger-verbosity=s',
     'workers=i',
     'timeout=i',
-    'debug+',
     'help',
     # deprecated
+    'debug+',
     'host=s',
     'file=s',
 ) or pod2usage(-verbose => 0);
@@ -111,14 +111,19 @@ foreach my $arg (@ARGV) {
 my $config = FusionInventory::Agent::Config->create(
     backend => $options->{'config'},
     file    => $options->{'conf-file'},
+    options => {
+        logger => {
+            verbosity => $options->{'logger-verbosity'}
+        },
+    }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends => $config->{logger}->{backends},
-    file     => $config->{logger}->{file},
-    maxsize  => $config->{logger}->{maxsize},
-    facility => $config->{logger}->{facility},
-    debug    => $config->{logger}->{debug},
+    backends  => $config->{logger}->{backends},
+    file      => $config->{logger}->{file},
+    maxsize   => $config->{logger}->{maxsize},
+    facility  => $config->{logger}->{facility},
+    verbosity => $config->{logger}->{verbosity},
 );
 
 my $agent = FusionInventory::Agent->new(
@@ -167,7 +172,7 @@ S<[B<--authpassword> I<string>]> S<[B<--authprotocol> I<string>]>
 S<[B<--privpassword> I<string>]> S<[B<--privprotocol> I<string>]>
 S<[B<--timeout> I<integer>]>
 S<[B<--workers> I<integer>]> S<[B<--entity> I<string>]>
-S<[B<--debug>]>
+S<[B<--logger-verbosity> I<string>]>
 I<host> S<[I<host> ...]>
 
 =head1 DESCRIPTION
@@ -249,9 +254,9 @@ worker processes number (default: 0)
 
 GLPI entity
 
-=item B<--debug>
+=item B<--logger-verbosity> I<string>
 
-debug output
+Set B<logger/verbosity> option, see L<agent.cfg> for details.
 
 =back
 

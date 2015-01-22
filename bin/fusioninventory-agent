@@ -46,12 +46,13 @@ GetOptions(
     'http-proxy=s',
     'http-timeout=i',
     'http-user=s',
-    'debug+',
     'logger-backend=s',
     'logger-file=s',
+    'logger-verbosity=s',
     'logger-maxsize=i',
     # deprecated options
     'color',
+    'debug+',
     'delaytime=s',
     'html',
     'force|f',
@@ -128,20 +129,20 @@ my $config = FusionInventory::Agent::Config->create(
             user            => $options->{'user'},
         },
         logger => {
-            debug           => $options->{'debug'},
             backends        => $options->{'logger-backends'},
             file            => $options->{'logger-file'},
             maxsize         => $options->{'logger-maxsize'},
+            verbosity       => $options->{'logger-verbosity'},
         }
     }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends => $config->{logger}->{backends},
-    file     => $config->{logger}->{file},
-    maxsize  => $config->{logger}->{maxsize},
-    facility => $config->{logger}->{facility},
-    debug    => $config->{logger}->{debug},
+    backends  => $config->{logger}->{backends},
+    file      => $config->{logger}->{file},
+    maxsize   => $config->{logger}->{maxsize},
+    facility  => $config->{logger}->{facility},
+    verbosity => $config->{logger}->{verbosity},
 );
 
 my $agent = FusionInventory::Agent->new(
@@ -235,6 +236,7 @@ S<[B<--http-timeout> I<integer>]>
 S<[B<--logger-backend> I<string>]>
 S<[B<--logger-file> I<path>]>
 S<[B<--logger-maxsize> I<integer>]>
+S<[B<--logger-verbosity> I<string>]>
 
 B<fusioninventory-agent> B<--list-modules>
 
@@ -364,8 +366,8 @@ Set B<logger/file> option, see L<agent.cfg> for details.
 
 Set B<logger/maxsize> option, see L<agent.cfg> for details.
 
-=item B<--debug>
+=item B<--logger-verbosity> I<string>
 
-Set B<logger/debug> option, see L<agent.cfg> for details.
+Set B<logger/verbosity> option, see L<agent.cfg> for details.
 
 =back

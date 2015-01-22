@@ -113,7 +113,7 @@ ok(
 
 $logger = FusionInventory::Agent::Logger->new(
     backends  => [ qw/Stderr/ ],
-    verbosity => LOG_DEBUG
+    verbosity => 'debug'
 );
 
 ok(
@@ -160,7 +160,7 @@ is(
 
 $logger = FusionInventory::Agent::Logger->new(
     backends  => [ qw/Stderr/ ],
-    verbosity => LOG_DEBUG2
+    verbosity => 'debug2'
 );
 
 ok(
@@ -194,7 +194,7 @@ $logfile = "$tmpdir/test2";
 $logger = FusionInventory::Agent::Logger->new(
     backends  => [ qw/File/ ],
     file      => $logfile,
-    verbosity => LOG_DEBUG
+    verbosity => 'debug'
 );
 $logger->debug('message');
 
