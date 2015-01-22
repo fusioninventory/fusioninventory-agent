@@ -84,6 +84,7 @@ sub download {
             if $EVAL_ERROR;
     };
 
+    my $lastGood;
     PART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $path = $self->getPartFilePath($sha512);
         if (-f $path) {
@@ -91,7 +92,6 @@ sub download {
         }
         File::Path::mkpath(dirname($path));
 
-        my $lastGood;
         my %remote = (p2p => $peers, mirror => $self->{mirrors});
         foreach my $remoteType (qw/p2p mirror/)  {
             foreach my $mirror ($lastGood, @{$remote{$remoteType}}) {
