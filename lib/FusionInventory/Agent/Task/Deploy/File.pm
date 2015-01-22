@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Digest::SHA;
+use English qw(-no_match_vars);
 use File::Basename;
 use File::Path qw(mkpath);
 use File::Glob;
