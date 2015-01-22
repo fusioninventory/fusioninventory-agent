@@ -116,23 +116,23 @@ my $config = FusionInventory::Agent::Config->create(
     file    => $options->{'conf-file'},
     options   => {
         _ => {
-            server          => $options->{'server'},
-            tag             => $options->{'tag'},
+            'server'       => $options->{'server'},
+            'tag'          => $options->{'tag'},
         },
         http => {
-            ca_cert_dir     => $options->{'ca_cert_dir'},
-            ca_cert_file    => $options->{'ca_cert_file'},
-            no_ssl_check    => $options->{'no-ssl-check'},
-            password        => $options->{'password'},
-            proxy           => $options->{'proxy'},
-            timeout         => $options->{'timeout'},
-            user            => $options->{'user'},
+            'ca-cert-dir'  => $options->{'ca_cert_dir'},
+            'ca-cert-file' => $options->{'ca_cert_file'},
+            'no-ssl-check' => $options->{'no-ssl-check'},
+            'password'     => $options->{'password'},
+            'proxy'        => $options->{'proxy'},
+            'timeout'      => $options->{'timeout'},
+            'user'         => $options->{'user'},
         },
         logger => {
-            backends        => $options->{'logger-backends'},
-            file            => $options->{'logger-file'},
-            maxsize         => $options->{'logger-maxsize'},
-            verbosity       => $options->{'logger-verbosity'},
+            'backends'     => $options->{'logger-backends'},
+            'file'         => $options->{'logger-file'},
+            'maxsize'      => $options->{'logger-maxsize'},
+            'verbosity'    => $options->{'logger-verbosity'},
         }
     }
 );
