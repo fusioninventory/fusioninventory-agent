@@ -84,7 +84,7 @@ sub download {
             if $EVAL_ERROR;
     };
 
-    my $lastGood;
+    my $lastPeer;
     PART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $path = $self->getPartFilePath($sha512);
         if (-f $path) {
@@ -92,32 +92,51 @@ sub download {
         }
         File::Path::mkpath(dirname($path));
 
-        my %remote = (p2p => $peers, mirror => $self->{mirrors});
-        foreach my $remoteType (qw/p2p mirror/)  {
-            foreach my $mirror ($lastGood, @{$remote{$remoteType}}) {
-                next unless $mirror;
-
-                next unless $sha512 =~ /^(.)(.)/;
-                my $sha512dir = $1.'/'.$1.$2.'/';
-
-                $self->{logger}->debug($mirror.$sha512dir.$sha512);
-
-                my $request = HTTP::Request->new(GET => $mirror.$sha512dir.$sha512);
-                my $response = $self->{client}->request($request, $path);
-
-                if ($response && ($response->code == 200) && -f $path) {
-                    if ($self->_getSha512ByFile($path) eq $sha512) {
-                        $lastGood = $mirror if $remoteType eq 'p2p';
-                        next MULTIPART;
-                    }
-                    $self->{logger}->debug("sha512 failure: $sha512");
-                }
-                # bad file, drop it
-                unlink($path);
+        # try to download from the same peer as last part, if defined
+        if ($lastPeer) {
+            my $success = $self->_download($lastPeer, $sha512, $path);
+            next PART if $success;
+        }
+        
+        # try to download from peers
+        foreach my $peer (@{$peers}) {
+            my $success = $self->_download($peer, $sha512, $path);
+            if ($success) {
+                $lastPeer = $peer;
+                next PART;
             }
         }
+        
+        # try to download from mirrors
+        foreach my $mirror (@{$self->{mirrors}}) {
+            my $success = $self->_download($mirror, $sha512, $path);
+            next PART if $success;
+        }
+    }
+}
+
+sub _download {
+    my ($self, $source, $sha512, $path) = @_;
+
+    return unless $sha512 =~ /^(.)(.)/;
+    my $sha512dir = $1.'/'.$1.$2.'/';
+
+    my $url = $source.$sha512dir.$sha512;
+    $self->{logger}->debug($url);
+
+    my $request = HTTP::Request->new(GET => $url);
+    my $response = $self->{client}->request($request, $path);
+
+    return if $response->code != 200;
+    return if ! -f $path;
+
+    if ($self->_getSha512ByFile($path) ne $sha512) {
+        $self->{logger}->debug("sha512 failure: $sha512");
+        unlink($path);
+        return;
     }
 
+    return 1;
 }
 
 sub filePartsExists {
