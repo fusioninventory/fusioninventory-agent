@@ -4,11 +4,12 @@ encrypt_key        = no
 distinguished_name = req_dn
 req_extensions     = req_ext
 prompt             = no
+string_mask        = pkix
 
 [ req_dn ]
 organizationName       = fusioninventory.org
 organizationalUnitName = trusted test certificate
-commonName             = localhost
+commonName             = 127.0.0.1
 emailAddress           = test@fusioninventory.org
 
 [ req_ext ]

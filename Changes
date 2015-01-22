@@ -1,12 +1,30 @@
 Revision history for FusionInventory agent
 
-2.3.14 Fri, 12 Dev 2014
+2.3.15 Tue, 6 Jan 2015
+inventory:
+* retrieve attached network gateway from default gateway
+* do not report 0.0.0.0 as address for non-configured IPMI interfaces
+* fix last user retrieval with 32 bit agent on 64 bit Windows
+
+netinventory:
+* better firmware retrieval (#2806)
+
+test suite:
+* fix Perl version check for POE tests
+* force IPv4 for connection tests
+
+2.3.14 Mon, 15 Dec 2014
 core:
 * fix ESX and Deploy task execution from server request (#2809, #2820, #2823)
-* manage PID file explicitely (#2796), and make its location configurable
+* manage PID file explicitely (#2796)
+* make PID file location configurable, through --pidfile option (warning:
+  default location is now in agent state directory)
 
 netdiscovery:
 * add a few H3C/HP models in sysobject.ids (#2812)
+
+netdiscovery:
+* fix fast interface speed computation (#2833)
 
 install:
 * add versioned dependencies on IO::Socket::SSL and Thread::Queue

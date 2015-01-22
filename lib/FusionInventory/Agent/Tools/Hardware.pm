@@ -160,10 +160,6 @@ my %interface_variables = (
         oid  => '.1.3.6.1.2.1.2.2.1.4',
         type => 'count',
     },
-    IFSPEED          => {
-        oid  => '.1.3.6.1.2.1.2.2.1.5',
-        type => 'count',
-    },
     IFSTATUS         => {
         oid  => '.1.3.6.1.2.1.2.2.1.8',
         type => 'constant',
@@ -473,19 +469,28 @@ sub _getSerial {
 sub _getFirmware {
     my ($snmp, $type) = @_;
 
-    my @oids = (
-        '.1.3.6.1.2.1.47.1.1.1.1.9.1',
-        '.1.3.6.1.2.1.47.1.1.1.1.9.1000',
-        '.1.3.6.1.2.1.47.1.1.1.1.9.1001',
-        '.1.3.6.1.2.1.47.1.1.1.1.10.1',
-        '.1.3.6.1.4.1.9.9.25.1.1.1.2.5'
-    );
-
-    foreach my $oid (@oids) {
-        my $value = $snmp->get($oid);
-        next unless $value;
-        return $value;
+    my $entPhysicalSoftwareRev = $snmp->walk('.1.3.6.1.2.1.47.1.1.1.1.10');
+    if ($entPhysicalSoftwareRev) {
+        my $firmware =
+            first { $_ }
+            map   { $entPhysicalSoftwareRev->{$_} }
+            sort  { $a <=> $b }
+            keys %$entPhysicalSoftwareRev;
+        return $firmware if $firmware;
     }
+
+    my $entPhysicalFirmwareRev = $snmp->walk('.1.3.6.1.2.1.47.1.1.1.1.9');
+    if ($entPhysicalFirmwareRev) {
+        my $firmware =
+            first { $_ }
+            map   { $entPhysicalFirmwareRev->{$_} }
+            sort  { $a <=> $b }
+            keys %$entPhysicalFirmwareRev;
+        return $firmware if $firmware;
+    }
+
+    my $ios_version = $snmp->walk('.1.3.6.1.4.1.9.9.25.1.1.1.2.5');
+    return $ios_version if $ios_version;
 
     return;
 }
@@ -622,6 +627,16 @@ sub _setGenericProperties {
                                       $raw_value;
             $ports->{$suffix}->{$key} = $value if defined $value;
         }
+    }
+
+    my $highspeed_results = $snmp->walk('.1.3.6.1.2.1.31.1.1.1.15');
+    my $speed_results     = $snmp->walk('.1.3.6.1.2.1.2.2.1.5');
+    # ifSpeed is expressed in b/s, and available for all interfaces
+    # HighSpeed is expressed in Mb/s, available for fast interfaces only
+    while (my ($suffix, $speed_value) = each %{$speed_results}) {
+        my $highspeed_value = $highspeed_results->{$suffix};
+        $ports->{$suffix}->{IFSPEED} = $highspeed_value ?
+            $highspeed_value * 1000 * 1000 : $speed_value;
     }
 
     my $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');

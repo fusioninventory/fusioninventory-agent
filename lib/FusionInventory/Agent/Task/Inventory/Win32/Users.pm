@@ -149,8 +149,11 @@ sub _getLoggedUsers {
 
 sub _getLastUser {
 
+    # ensure native registry access, not the 32 bit view
+    my $flags = is64bit() ? KEY_READ | KEY_WOW64_64 : KEY_READ;
+
     my $machKey = $Registry->Open('LMachine', {
-        Access => KEY_READ
+        Access => $flags
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $user =

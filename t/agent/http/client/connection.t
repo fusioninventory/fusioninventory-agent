@@ -21,9 +21,6 @@ unsetProxyEnvVar();
 # find an available port
 my $port = first { test_port($_) } 8080 .. 8090;
 
-# check than localhost resolves correctly
-my $localhost_ok = test_localhost();
-
 if (!$port) {
     plan skip_all => 'no port available';
 } else {
@@ -48,9 +45,9 @@ my $client = FusionInventory::Agent::HTTP::Client->new(
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        "http://localhost:$port/public",
+        "http://127.0.0.1:$port/public",
         $logger,
-        qr/Can't connect to localhost:$port/
+        qr/Can't connect to 127.0.0.1:$port/
     );
 };
 
@@ -78,7 +75,7 @@ BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "http://localhost:$port/public"
+        "http://127.0.0.1:$port/public"
     );
 };
 
@@ -91,7 +88,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        "http://localhost:$port/private",
+        "http://127.0.0.1:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     );
@@ -108,7 +105,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "http://localhost:$port/private"
+        "http://127.0.0.1:$port/private"
     );
 };
 
@@ -117,7 +114,6 @@ $server->stop();
 SKIP: {
 skip 'non working test under MacOS', 12 if $OSNAME eq 'darwin';
 skip 'non working test under Windows', 12 if $OSNAME eq 'MSWin32';
-skip 'localhost resolution failure', 12 if !$localhost_ok;
 # https connection tests
 
 $server = FusionInventory::Test::Server->new(
@@ -148,7 +144,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "https://localhost:$port/public"
+        "https://127.0.0.1:$port/public"
     );
 };
 
@@ -162,7 +158,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        "https://localhost:$port/private",
+        "https://127.0.0.1:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     );
@@ -180,7 +176,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "https://localhost:$port/private",
+        "https://127.0.0.1:$port/private",
     );
 };
 
@@ -194,7 +190,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "https://localhost:$port/public",
+        "https://127.0.0.1:$port/public",
     );
 };
 
@@ -208,7 +204,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        "https://localhost:$port/private",
+        "https://127.0.0.1:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     );
@@ -226,7 +222,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "https://localhost:$port/private",
+        "https://127.0.0.1:$port/private",
     );
 };
 
@@ -235,7 +231,6 @@ $server->stop();
 
 SKIP: {
 skip 'non working test under Windows', 18 if $OSNAME eq 'MSWin32';
-skip 'localhost resolution failure', 18 if !$localhost_ok;
 # http connection through proxy tests
 
 $server = FusionInventory::Test::Server->new(
@@ -266,7 +261,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "http://localhost:$port/public",
+        "http://127.0.0.1:$port/public",
     );
 };
 
@@ -280,7 +275,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        "http://localhost:$port/private",
+        "http://127.0.0.1:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     );
@@ -298,7 +293,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "http://localhost:$port/private",
+        "http://127.0.0.1:$port/private",
     );
 };
 
@@ -351,7 +346,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "https://localhost:$port/public",
+        "https://127.0.0.1:$port/public",
     );
 };
 
@@ -366,7 +361,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        "https://localhost:$port/private",
+        "https://127.0.0.1:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     );
@@ -385,7 +380,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "https://localhost:$port/private",
+        "https://127.0.0.1:$port/private",
     );
 };
 
@@ -400,7 +395,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "https://localhost:$port/public",
+        "https://127.0.0.1:$port/public",
     );
 };
 
@@ -415,7 +410,7 @@ lives_ok {
 subtest "no response" => sub {
     check_response_nok(
         $client,
-        "https://localhost:$port/private",
+        "https://127.0.0.1:$port/private",
         $logger,
         "[http client] authentication required, no credentials available",
     );
@@ -434,7 +429,7 @@ lives_ok {
 subtest "correct response" => sub {
     check_response_ok(
         $client,
-        "https://localhost:$port/private",
+        "https://127.0.0.1:$port/private",
     );
 };
 

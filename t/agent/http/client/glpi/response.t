@@ -69,7 +69,7 @@ subtest "error response" => sub {
     check_response_nok(
         scalar $client->sendXML(
             message => $message,
-            url     => "http://localhost:$port/error",
+            url     => "http://127.0.0.1:$port/error",
         ),
         $logger,
         "[http client] communication error: 403 NOK",
@@ -80,7 +80,7 @@ subtest "empty content" => sub {
     check_response_nok(
         scalar $client->sendXML(
             message => $message,
-            url     => "http://localhost:$port/empty",
+            url     => "http://127.0.0.1:$port/empty",
         ),
         $logger,
         "[http client] unknown content format",
@@ -92,7 +92,7 @@ subtest "mixedhtml content" => sub {
     check_response_ok(
         scalar $client->sendXML(
             message => $message,
-            url     => "http://localhost:$port/mixedhtml",
+            url     => "http://127.0.0.1:$port/mixedhtml",
         ),
     );
 };
@@ -102,7 +102,7 @@ subtest "uncompressed content" => sub {
     check_response_nok(
         scalar $client->sendXML(
             message => $message,
-            url     => "http://localhost:$port/uncompressed",
+            url     => "http://127.0.0.1:$port/uncompressed",
         ),
         $logger,
         "[http client] unexpected content, starting with $html_content",
@@ -113,7 +113,7 @@ subtest "unexpected content" => sub {
     check_response_nok(
         scalar $client->sendXML(
             message => $message,
-            url     => "http://localhost:$port/unexpected",
+            url     => "http://127.0.0.1:$port/unexpected",
         ),
         $logger,
         "[http client] unexpected content, starting with $html_content",
@@ -124,7 +124,7 @@ subtest "correct response" => sub {
     check_response_ok(
         scalar $client->sendXML(
             message => $message,
-            url     => "http://localhost:$port/correct",
+            url     => "http://127.0.0.1:$port/correct",
         ),
     );
 };
@@ -133,7 +133,7 @@ subtest "altered response" => sub {
     check_response_ok(
         scalar $client->sendXML(
             message => $message,
-            url     => "http://localhost:$port/altered",
+            url     => "http://127.0.0.1:$port/altered",
         ),
     );
 };
