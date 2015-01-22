@@ -76,11 +76,11 @@ sub download {
 
     my $p2pHostList;
 
-MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
+    MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $partFilePath = $self->getPartFilePath($sha512);
         File::Path::mkpath(dirname($partFilePath));
         if (-f $partFilePath) {
-                next MULTIPART if $self->_getSha512ByFile($partFilePath) eq $sha512;
+            next MULTIPART if $self->_getSha512ByFile($partFilePath) eq $sha512;
         }
 
         eval {
@@ -112,7 +112,7 @@ MULTIPART: foreach my $sha512 (@{$self->{multiparts}}) {
                     }
                     $self->{logger}->debug("sha512 failure: $sha512");
                 }
-    # bad file, drop it
+                # bad file, drop it
                 unlink($partFilePath);
             }
         }
