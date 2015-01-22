@@ -73,7 +73,7 @@ sub _computeIPToTest {
 
 }
 
-sub fisher_yates_shuffle {
+sub _fisher_yates_shuffle {
     my $deck = shift;  # $deck is a reference to an array
 
     return unless @$deck; # must not be empty!
@@ -128,18 +128,18 @@ sub findPeer {
     }
 
     $cache{date}=time;
-    $cache{data}=scan({logger => $logger, port => $port}, _computeIPToTest($logger, \@addresses));
+    $cache{data}=_scan({logger => $logger, port => $port}, _computeIPToTest($logger, \@addresses));
     return $cache{data};
 }
 
 
-sub scan {
+sub _scan {
     my ($params, @ipToTestList) = @_;
     my $port = $params->{port};
     my $logger = $params->{logger};
 
 
-    fisher_yates_shuffle(\@ipToTestList);
+    _fisher_yates_shuffle(\@ipToTestList);
 
     POE::Component::Client::Ping->spawn(
         Timeout => 5,           # defaults to 1 second
