@@ -86,10 +86,10 @@ sub download {
 
     PART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $path = $self->getPartFilePath($sha512);
-        File::Path::mkpath(dirname($path));
         if (-f $path) {
             next PART if $self->_getSha512ByFile($path) eq $sha512;
         }
+        File::Path::mkpath(dirname($path));
 
         my $lastGood;
         my %remote = (p2p => $peers, mirror => $self->{mirrors});
