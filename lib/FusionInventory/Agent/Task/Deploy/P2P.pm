@@ -121,14 +121,13 @@ sub _getPotentialPeers {
         }
     } while (++$ipInterval && ($after < ($ipLimit / 2)));
 
-
-    $logger->debug("Scanning from $peers[0] to $peers[-1]") if $logger;
-
     return @peers;
 }
 
 sub _scanPeers {
     my ($logger, $port, @addresses) = @_;
+
+    $logger->debug("Scanning from $addresses[0] to $addresses[-1]") if $logger;
 
     _fisher_yates_shuffle(\@addresses);
 
