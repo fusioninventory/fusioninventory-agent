@@ -45,7 +45,6 @@ sub findPeers {
         next unless $interface->{IPADDRESS};
         next unless $interface->{IPMASK};
         next unless lc($interface->{STATUS}) eq 'up';
-        next if $interface->{IPADDRESS} =~ /^127\./;
 
         push @addresses, {
             ip   => $interface->{IPADDRESS},
