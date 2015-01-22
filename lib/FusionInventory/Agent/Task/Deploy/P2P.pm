@@ -5,12 +5,9 @@ use warnings;
 
 use English qw(-no_match_vars);
 use Net::IP;
-use POE qw(Component::Client::TCP Component::Client::Ping);
+use Net::Ping;
 
 use UNIVERSAL::require;
-
-# POE Debug
-#sub POE::Kernel::TRACE_REFCNT () { 1 }
 
 my $last_run;
 my @peers;
@@ -19,7 +16,7 @@ sub findPeers {
     my ( $port, $logger ) = @_;
 
 #    $logger->debug("cachedate: ".$cache{date});
-    $logger->info("looking for a peer in the network");
+    #$logger->info("looking for a peer in the network");
     return @peers if $last_run + 600 > time;
 
     my @interfaces;
@@ -129,69 +126,17 @@ sub _scanPeers {
 
     _fisher_yates_shuffle(\@addresses);
 
-    POE::Component::Client::Ping->spawn(
-        Timeout => 5,           # defaults to 1 second
-    );
+    my $ping = Net::Ping->new('tcp');
+    $ping->{port_num} = $port;
+    $ping->service_check(1);
 
-    my $ipCpt = int(@addresses);
-    my @ipFound;
-    POE::Session->create(
-        inline_states => {
-            _start => sub {
-                $_[HEAP]->{shutdown_on_error}=1;
-                $_[KERNEL]->yield( "add", 0 );
-            },
-            add => sub {
-            my $ipToTest = shift @addresses;
+    my @found;
+    foreach my $address (@addresses) {
+        next unless $ping->ping($address, 5);
+        push @found, $address;
+    }
 
-            return unless $ipToTest;
-
-            print ".";
-
-            $_[KERNEL]->post(
-                "pinger", # Post the request to the "pingthing" component.
-                "ping",      # Ask it to "ping" an address.
-                "pong",      # Have it post an answer as a "pong" event.
-                $ipToTest,    # This is the address we want to ping.
-                );
-
-            if (@addresses && @ipFound < 30) {
-                $_[KERNEL]->delay(add => 0.1)
-            } else {
-                $_[KERNEL]->yield("shutdown");
-            }
-
-
-            },
-            pong => sub {
-                my ($response) = $_[ARG1];
-
-                my ($addr) = @$response;
-
-                if (!$addr) {
-                    $ipCpt--;
-                    $logger->debug("cpt:".$ipCpt);
-
-                    return;
-                }
-                $logger->debug($addr." is up");
-
-                POE::Component::Client::TCP->new(
-                    RemoteAddress  => $addr,
-                    RemotePort     => $port,
-                    ConnectTimeout => 10,
-                    Connected      => sub {
-                        push @ipFound, "http://$addr:$port/deploy/getFile/";
-                    },
-                    ServerInput   => sub { }
-                );
-            },
-        },
-    );
-# Run everything, and exit when it's all done.
-    $poe_kernel->run();
-    $logger->debug("end of POE loop");
-    return \@ipFound;
+    return @found;
 }
 
 sub _fisher_yates_shuffle {
@@ -205,6 +150,5 @@ sub _fisher_yates_shuffle {
         @$deck[$i,$j] = @$deck[$j,$i];
     }
 }
-
 
 1;

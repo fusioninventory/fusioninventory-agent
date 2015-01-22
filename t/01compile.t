@@ -25,10 +25,5 @@ all_pm_files_ok(@files);
 
 # filename-based filter
 sub filter {
-
-    if ($PERL_VERSION lt v5.10) {
-        return 0 if $_ =~ m{FusionInventory/Agent/Task/Deploy/P2P.pm};
-    }
-
     return 1;
 }

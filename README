@@ -89,7 +89,7 @@ Mandatory Perl modules:
 * Digest::SHA
 * File::Copy::Recursive
 * JSON
-* POE::Component::Client::Ping
+* Net::Ping
 * URI::Escape
 
 ## Contacts
