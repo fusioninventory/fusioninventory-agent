@@ -105,7 +105,7 @@ Multiple values can be specified, using a comma as a separator.
 
 =over
 
-=item B<backends>
+=item B<backend>
 
 Specifies the logger backend to use. The possible values are:
 
@@ -118,8 +118,6 @@ Specifies the logger backend to use. The possible values are:
 =item * syslog: log messages through the local syslog server.
 
 =back
-
-Multiple values can be specified, using a comma as a separator.
 
 =item B<file>
 

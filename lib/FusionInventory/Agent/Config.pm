@@ -28,7 +28,7 @@ my $valid = {
             'trust'              => 'list',
         },
         logger => {
-            'backends'           => 'list',
+            'backend'            => 'string',
             'file'               => 'path',
             'facility'           => 'string',
             'maxsize'            => 'integer',
@@ -234,7 +234,7 @@ sub new {
             'trust'              => [],
         },
         logger => {
-            'backends'           => [ 'Stderr' ],
+            'backend'            => 'Stderr',
             'file'               => undef,
             'facility'           => 'LOG_USER',
             'maxsize'            => undef,

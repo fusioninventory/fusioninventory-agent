@@ -10,13 +10,12 @@ use Test::Exception;
 use Test::More;
 
 use FusionInventory::Agent;
-use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
+use FusionInventory::Agent::Logger::Test;
 
 plan tests => 24;
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends  => [ 'Test' ],
+my $logger = FusionInventory::Agent::Logger::Test->new(
     verbosity => 'debug'
 );
 
@@ -155,7 +154,7 @@ cmp_deeply(
 );
 
 is(
-    $logger->{backends}->[0]->{message},
+    $logger->{message},
     "unknown field LAV for section ENVS",
     'unknown field logged'
 );
@@ -260,7 +259,7 @@ $inventory->addEntry(
 );
 
 is(
-    $logger->{backends}->[0]->{message},
+    $logger->{message},
     "invalid value foo for field INTERFACE for section STORAGES",
     'invalid value logged'
 );

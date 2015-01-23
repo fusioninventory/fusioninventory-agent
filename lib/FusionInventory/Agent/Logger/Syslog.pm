@@ -2,7 +2,7 @@ package FusionInventory::Agent::Logger::Syslog;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Logger::Backend';
+use base 'FusionInventory::Agent::Logger';
 
 use Sys::Syslog qw(:standard :macros);
 
@@ -17,19 +17,22 @@ my %syslog_levels = (
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {};
-    bless $self, $class;
+    my $self = $class->SUPER::new(%params);
 
-    openlog("fusinv-agent", 'cons,pid', $params{logfacility});
+    openlog("fusinv-agent", 'cons,pid', $params{facility});
 
     return $self;
 }
 
-sub addMessage {
+sub _log {
     my ($self, %params) = @_;
 
-    my $level = $params{level};
+    my $level   = $params{level} || 'info';
     my $message = $params{message};
+
+    return unless $message;
+
+    chomp($message);
 
     syslog($syslog_levels{$level}, $message);
 }

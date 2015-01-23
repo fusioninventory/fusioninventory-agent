@@ -29,6 +29,38 @@ my %levels = (
     debug3  => LOG_DEBUG3,
 );
 
+sub create {
+    my ($class, %params) = @_;
+
+    my $backend = $params{backend} ? lc($params{backend}) : 'stderr';
+
+    if ($backend eq 'syslog') {
+        FusionInventory::Agent::Logger::Syslog->require();
+        return FusionInventory::Agent::Logger::Syslog->new(
+            facility  => $params{facility},
+            verbosity => $params{verbosity}
+        );
+    }
+
+    if ($backend eq 'file') {
+        FusionInventory::Agent::Logger::File->require();
+        return FusionInventory::Agent::Logger::File->new(
+            file      => $params{file},
+            maxsize   => $params{maxsize},
+            verbosity => $params{verbosity}
+        );
+    }
+
+    if ($backend eq 'stderr') {
+        FusionInventory::Agent::Logger::Stderr->require();
+        return FusionInventory::Agent::Logger::Stderr->new(
+            verbosity => $params{verbosity}
+        );
+    }
+
+    die "Unknown logger backend '$backend'\n";
+}
+
 sub new {
     my ($class, %params) = @_;
     
@@ -41,49 +73,7 @@ sub new {
     };
     bless $self, $class;
 
-    my %backends;
-    foreach (
-        $params{backends} ? @{$params{backends}} : 'Stderr'
-    ) {
-        my $backend = ucfirst($_);
-        next if $backends{$backend};
-        my $package = "FusionInventory::Agent::Logger::$backend";
-        $package->require();
-        if ($EVAL_ERROR) {
-            print STDERR
-                "Failed to load Logger backend $backend: ($EVAL_ERROR)\n";
-            next;
-        }
-        $backends{$backend} = 1;
-
-        $self->debug("Logger backend $backend initialised");
-        push
-            @{$self->{backends}},
-            $package->new(%params);
-    }
-
-    $self->debug($FusionInventory::Agent::VERSION_STRING);
-
     return $self;
-}
-
-sub _log {
-    my ($self, %params) = @_;
-
-    # levels: debug2, debug, info, error, fault
-    my $level = $params{level} || 'info';
-    my $message = $params{message};
-
-    return unless $message;
-
-    chomp($message);
-
-    foreach my $backend (@{$self->{backends}}) {
-        $backend->addMessage (
-            level => $level,
-            message => $message
-        );
-    }
 }
 
 sub debug2 {

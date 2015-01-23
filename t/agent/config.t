@@ -33,7 +33,7 @@ my %config = (
             'file'      => undef,
             'maxsize'   => undef,
             'facility'  => 'LOG_USER',
-            'backends'  => [ 'Stderr' ],
+            'backend'   => 'Stderr',
             'verbosity' => 'info',
         },
         inventory => {
@@ -82,7 +82,7 @@ my %config = (
             'file'      => undef,
             'maxsize'   => undef,
             'facility'  => 'LOG_USER',
-            'backends'  => [ 'Stderr' ],
+            'backend'   => 'Stderr',
             'verbosity' => 'info',
         },
         'inventory' => {
@@ -131,7 +131,7 @@ my %config = (
             'file'      => undef,
             'maxsize'   => undef,
             'facility'  => 'LOG_USER',
-            'backends'  => [ 'Stderr' ],
+            'backend'   => 'Stderr',
             'verbosity' => 'info',
         },
         'inventory' => {

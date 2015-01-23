@@ -129,7 +129,7 @@ my $config = FusionInventory::Agent::Config->create(
             'user'         => $options->{'user'},
         },
         logger => {
-            'backends'     => $options->{'logger-backends'},
+            'backend'      => $options->{'logger-backend'},
             'file'         => $options->{'logger-file'},
             'maxsize'      => $options->{'logger-maxsize'},
             'verbosity'    => $options->{'logger-verbosity'},
@@ -137,8 +137,8 @@ my $config = FusionInventory::Agent::Config->create(
     }
 );
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends  => $config->{logger}->{backends},
+my $logger = FusionInventory::Agent::Logger->create(
+    backend   => $config->{logger}->{backend},
     file      => $config->{logger}->{file},
     maxsize   => $config->{logger}->{maxsize},
     facility  => $config->{logger}->{facility},
@@ -354,9 +354,9 @@ Set B<http/no-ssl-check> option, see L<agent.cfg> for details.
 
 Set B<http/timeout> option, see L<agent.cfg> for details.
 
-=item B<--logger-backends> I<string>
+=item B<--logger-backend> I<string>
 
-Set B<logger/backends> option, see L<agent.cfg> for details.
+Set B<logger/backend> option, see L<agent.cfg> for details.
 
 =item B<--logger-file> I<path>
 

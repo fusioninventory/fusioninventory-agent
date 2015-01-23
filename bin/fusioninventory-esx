@@ -72,8 +72,8 @@ my $config = FusionInventory::Agent::Config->create(
     }
 );
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends  => $config->{logger}->{backends},
+my $logger = FusionInventory::Agent::Logger->create(
+    backend   => $config->{logger}->{backend},
     file      => $config->{logger}->{file},
     maxsize   => $config->{logger}->{maxsize},
     facility  => $config->{logger}->{facility},
