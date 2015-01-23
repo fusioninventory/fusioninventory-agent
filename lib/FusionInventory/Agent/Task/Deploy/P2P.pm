@@ -10,21 +10,35 @@ use Parallel::ForkManager;
 
 use UNIVERSAL::require;
 
-my $max_workers = 10;
-my $cache_timeout = 600;
-my $scan_timeout = 5;
-my $max_peers = 5;
-my $max_size = 5000;
+use FusionInventory::Agent::Logger;
 
-my $last_run;
-my @peers;
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = {
+        logger        => $params{logger} ||
+                         FusionInventory::Agent::Logger->new(),
+        max_workers   => $params{max_workers}   || 10,
+        cache_timeout => $params{cache_timeout} || 600,
+        scan_timeout  => $params{scan_timeout}  || 5,
+        max_peers     => $params{max_peers}     || 5,
+        max_size      => $params{max_size}      || 5000,
+        cache_time    => 0,
+        cache         => []
+    };
+
+    bless $self, $class;
+
+    return $self;
+}
 
 sub findPeers {
-    my ( $port, $logger ) = @_;
+    my ($self, $port) = @_;
 
 #    $logger->debug("cachedate: ".$cache{date});
-    #$logger->info("looking for a peer in the network");
-    return @peers if $last_run && time - $last_run < $cache_timeout;
+    $self->{logger}->info("looking for a peer in the network");
+    return @{$self->{cache}}
+        if time - $self->{cache_time} < $self->{cache_timeout};
 
     my @interfaces;
 
@@ -38,7 +52,7 @@ sub findPeers {
     }
 
     if (!@interfaces) {
-        $logger->info("No network interfaces found");
+        $self->{logger}->info("No network interfaces found");
         return;
     }
 
@@ -57,31 +71,31 @@ sub findPeers {
     }
 
     if (!@addresses) {
-        $logger->info("No local address found");
+        $self->{logger}->info("No local address found");
         return;
     }
 
     my @potential_peers;
     
     foreach my $address (@addresses) {
-        push @potential_peers, _getPotentialPeers($logger, $address);
+        push @potential_peers, $self->_getPotentialPeers($address);
     }
 
     if (!@potential_peers) {
-        $logger->info("No neighbour address found");
+        $self->{logger}->info("No neighbour address found");
         return;
     }
 
-    $last_run = time;
-    @peers    = _scanPeers($logger, $port, @potential_peers);
+    $self->{cache_time} = time;
+    $self->{cache}      = [ $self->_scanPeers($port, @potential_peers) ];
 
-    return @peers;
+    return @{$self->{cache}};
 }
 
 sub _getPotentialPeers {
-    my ($logger, $address, $limit) = @_;
+    my ($self, $address, $limit) = @_;
 
-    $limit = $max_peers unless defined $limit;
+    $limit = $self->{max_peers} unless defined $limit;
 
     my @ipToTest;
 
@@ -107,8 +121,10 @@ sub _getPotentialPeers {
     my $ipInterval = Net::IP->new($ipStart.' - '.$ipEnd) || die Net::IP::Error();
 
     my $size = $ipInterval->size();
-    if ($size > $max_size) {
-        $logger->debug("Range too large: $size (max $max_size)");
+    if ($size > $self->{max_size}) {
+        $self->{logger}->debug(
+            "Range too large: $size (max $self->{max_size})"
+        );
         return;
     }
 
@@ -127,9 +143,11 @@ sub _getPotentialPeers {
 }
 
 sub _scanPeers {
-    my ($logger, $port, @addresses) = @_;
+    my ($self, $port, @addresses) = @_;
 
-    $logger->debug("Scanning from $addresses[0] to $addresses[-1]") if $logger;
+    $self->{logger}->debug(
+        "Scanning from $addresses[0] to $addresses[-1]"
+    );
 
     _fisher_yates_shuffle(\@addresses);
 
@@ -139,7 +157,7 @@ sub _scanPeers {
 
     my @found;
 
-    my $manager = Parallel::ForkManager->new($max_workers);
+    my $manager = Parallel::ForkManager->new($self->{max_workers});
     $manager->run_on_finish(sub {
         my ($pid, $exit_code, $address) = @_;
         push @found, $address if $exit_code;
@@ -147,7 +165,7 @@ sub _scanPeers {
 
     foreach my $address (@addresses) {
         $manager->start($address) and next;
-        $manager->finish($ping->ping($address, $scan_timeout) ? 1 : 0);
+        $manager->finish($ping->ping($address, $self->{scan_timeout}) ? 1 : 0);
     }
 
     return @found;

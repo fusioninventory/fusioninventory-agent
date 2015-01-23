@@ -44,11 +44,9 @@ my @tests = (
 
 plan tests => scalar @tests;
 
+my $p2p = FusionInventory::Agent::Task::Deploy::P2P->new();
+
 foreach my $test (@tests) {
-    my @peers = FusionInventory::Agent::Task::Deploy::P2P::_getPotentialPeers(
-        undef, # $logger
-        $test->{address},
-        6
-    );
+    my @peers = $p2p->_getPotentialPeers($test->{address}, 6);
     cmp_deeply(\@peers, $test->{result}, $test->{name});
 }

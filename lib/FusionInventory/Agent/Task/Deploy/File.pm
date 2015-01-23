@@ -75,10 +75,11 @@ sub download {
     my @peers;
     if ($self->{p2p}) {
         FusionInventory::Agent::Task::Deploy::P2P->require();
+        my $p2p = FusionInventory::Agent::Task::Deploy::P2P->new(
+            logger => $self->{logger}
+        );
         eval {
-            @peers = FusionInventory::Agent::Task::Deploy::P2P::findPeers(
-                62354, $self->{logger}
-            );
+            @peers = $p2p->findPeers(62354);
         };
         $self->{logger}->debug("failed to enable P2P: $EVAL_ERROR")
             if $EVAL_ERROR;
