@@ -12,6 +12,7 @@ perl_version '5.008';
 authors 'FusionInventory Team';
 
 # mandatory dependencies
+requires 'Config::Tiny'       => '0';
 requires 'File::Which'        => '0';
 requires 'LWP::UserAgent'     => '5.8';
 requires 'Net::IP'            => '0';

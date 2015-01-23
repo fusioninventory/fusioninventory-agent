@@ -10,31 +10,163 @@ use FusionInventory::Agent::Config::File;
 
 my %config = (
     sample1 => {
-        'no-module'   => ['snmpquery', 'wakeonlan'],
-        'no-category' => [],
-        'httpd-trust' => []
+        _ => {
+            'tag'          => undef,
+            'server'       => [],
+        },
+        'http' => {
+            'no-ssl-check' => 0,
+            'ca-cert-file' => undef,
+            'ca-cert-dir'  => undef,
+            'password'     => undef,
+            'proxy'        => undef,
+            'timeout'      => 180,
+            'user'         => undef,
+        },
+        httpd => {
+            'disable' => 0,
+            'trust'   => [],
+            'ip'      => undef,
+            'port'    => 62354,
+        },
+        logger => {
+            'file'      => undef,
+            'maxsize'   => undef,
+            'facility'  => 'LOG_USER',
+            'backends'  => [ 'Stderr' ],
+            'verbosity' => 'info',
+        },
+        inventory => {
+            'disable'            => 0,
+            'additional-content' => undef,
+            'no-category'        => [],
+            'scan-homedirs'      => 0,
+            'scan-profiles'      => 0,
+            'timeout'            => 180
+        },
+        deploy => {
+            'disable' => 0,
+            'no-p2p'  => 0,
+        },
+        'wakeonlan' => {
+            'disable' => 1,
+        },
+        'netdiscovery' => {
+            'disable' => 0,
+        },
+        'netinventory' => {
+            'disable' => 1,
+        },
     },
     sample2 => {
-        'no-module'   => [],
-        'no-category' => ['printer'],
-        'httpd-trust' => ['example', '127.0.0.1', 'foobar', '123.0.0.0/10']
+        '_' => {
+            'server'       => [ ],
+            'tag'          => undef,
+        },
+        'http' => {
+            'no-ssl-check' => 0,
+            'ca-cert-file' => undef,
+            'ca-cert-dir'  => undef,
+            'password'     => undef,
+            'proxy'        => undef,
+            'timeout'      => 180,
+            'user'         => undef,
+        },
+        'httpd' => {
+            'disable' => 0,
+            'port'    => 62354,
+            'ip'      => undef,
+            'trust'   => [ 'example', '127.0.0.1', 'foobar', '123.0.0.0/10' ]
+        },
+        'logger' => {
+            'file'      => undef,
+            'maxsize'   => undef,
+            'facility'  => 'LOG_USER',
+            'backends'  => [ 'Stderr' ],
+            'verbosity' => 'info',
+        },
+        'inventory' => {
+            'disable'            => 0,
+            'additional-content' => undef,
+            'no-category'        => [ 'printer' ],
+            'timeout'            => 180,
+            'scan-homedirs'      => 0,
+            'scan-profiles'      => 0,
+        },
+        'deploy' => {
+            'disable' => 0,
+            'no-p2p'  => 0,
+        },
+        'wakeonlan' => {
+            'disable' => 0,
+        },
+        'netdiscovery' => {
+            'disable' => 0,
+        },
+        'netinventory' => {
+            'disable' => 0,
+        },
     },
     sample3 => {
-        'no-module'   => [],
-        'no-category' => [],
-        'httpd-trust' => []
+        '_' => {
+            'server'       => [ ],
+            'tag'          => undef,
+        },
+        'http' => {
+            'no-ssl-check' => 0,
+            'ca-cert-file' => undef,
+            'ca-cert-dir'  => undef,
+            'password'     => undef,
+            'proxy'        => undef,
+            'timeout'      => 180,
+            'user'         => undef,
+        },
+        'httpd' => {
+            'disable' => 0,
+            'ip'      => undef,
+            'trust'   => [ ],
+            'port'    => 62354
+        },
+        'logger' => {
+            'file'      => undef,
+            'maxsize'   => undef,
+            'facility'  => 'LOG_USER',
+            'backends'  => [ 'Stderr' ],
+            'verbosity' => 'info',
+        },
+        'inventory' => {
+            'additional-content' => undef,
+            'disable'            => 0,
+            'no-category'        => [ ],
+            'scan-homedirs'      => 0,
+            'scan-profiles'      => 0,
+            'timeout'            => 180,
+        },
+        'deploy' => {
+            'disable' => 0,
+            'no-p2p'  => 0,
+        },
+        'wakeonlan' => {
+            'disable' => 0,
+        },
+        'netdiscovery' => {
+            'disable' => 0,
+        },
+        'netinventory' => {
+            'disable' => 0,
+        },
     }
-
 );
 
-plan tests => (scalar keys %config) * 3;
+plan tests => scalar keys %config;
 
-foreach my $test (keys %config) {
-    my $c = FusionInventory::Agent::Config::File->new(
+foreach my $test (sort keys %config) {
+    my $config = FusionInventory::Agent::Config::File->new(
         file => "resources/config/$test"
     );
-
-    foreach my $k (qw/ no-module no-category httpd-trust /) {
-        cmp_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
-    }
+    cmp_deeply(
+        $config,
+        bless($config{$test}, 'FusionInventory::Agent::Config::File'),
+        $test
+    );
 }

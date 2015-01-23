@@ -26,16 +26,16 @@ as http://hostname/ocsinventory.
 
 Multiple values can be specified, using a comma as a separator.
 
-=item B<no-mdule>
-
-Disables given module.
-
-Multiple values can be specified, using a comma as a separator.
-
 =item B<tag>
 
 Specifies an arbitrary string to add to output. This can be used as an
 additional decision criteria on server side.
+
+=back
+
+=head1 HTTP CLIENT OPTIONS
+
+=over
 
 =item B<proxy>
 
@@ -68,22 +68,28 @@ Disables server SSL certificate validation. The default is 0 (false).
 
 Specifies a timeout, in seconds, for server connections.
 
-=item B<no-httpd>
+=back
+
+=head1 HTTP SERVER OPTIONS
+
+=over
+
+=item B<disable>
 
 Disables the embedded web interface, used to receive execution requests from the
 server. The default is 0 (false).
 
-=item B<httpd-ip>
+=item B<ip>
 
 Specifies the network interface to use for the embedded web interface. The
 default is to use all available ones.
 
-=item B<httpd-port>
+=item B<port>
 
 Specifies the network port to use for the embedded web interface. The default
 is 62354.
 
-=item B<httpd-trust>
+=item B<trust>
 
 Specifies which IP address should be trusted, for execution requests. The
 default is to only accept requests from the control servers.
@@ -93,7 +99,13 @@ ranges, networks in CIDR notatation), as well as hostnames.
 
 Multiple values can be specified, using a comma as a separator.
 
-=item B<logger>
+=back
+
+=head1 LOGGER OPTIONS
+
+=over
+
+=item B<backends>
 
 Specifies the logger backend to use. The possible values are:
 
@@ -109,47 +121,54 @@ Specifies the logger backend to use. The possible values are:
 
 Multiple values can be specified, using a comma as a separator.
 
-=item B<logfile>
+=item B<file>
 
 Specifies the file to use for the file logger backend.
 
-=item B<logfile-maxsize>
+=item B<maxsize>
 
 Specifies the maximum size for the log file, in MB.  When the max size is
 reached, the file is truncated. The default is unlimited.
 
-=item B<logfacility>
+=item B<facility>
 
 Specifies the syslog facility to use for the syslog logger backend. The default
 is LOG_USER.
 
-=item B<color>
+=item B<verbosity>
 
-Enables color display for the stderr logger backend.
-
-This directive is used on Unix only.
-
-=item B<debug>
-
-Specifies the level of verbosity for log content. The possible values are:
+Specifies the verbosity level for log content, as increasingly verbose log
+levels:
 
 =over 4
 
-=item * 0: basic agent processing
+=item * none
 
-=item * 1: extended agent processing
+=item * error
 
-=item * 2: messages exchanged with the server
+=item * warning
 
-=item * 3: additional traces for some external libraries as Net::SSLeay
+=item * info
+
+=item * debug
+
+=item * debug2
+
+=item * debug3
 
 =back
 
+The default value is info.
+
 =back
 
-=head1 INVENTORY TASK SPECIFIC OPTIONS
+=head1 INVENTORY MODULE OPTIONS
 
 =over
+
+=item B<disable>
+
+Disable module (default: 0).
 
 =item B<no-category>
 
@@ -181,7 +200,7 @@ Enables scanning user home directories for virtual machines. The default is 0
 Enables scanning user profiles for softwares. The default is 0
 (false).
 
-=item B<collect-timeout>
+=item B<timeout>
 
 Specifies the timeout for task modules execution.
 
@@ -191,12 +210,46 @@ Specifies an XML file whose content will be automatically merged with output.
 
 =back
 
-=head1 INVENTORY TASK SPECIFIC OPTIONS
+=head1 DEPLOY MODULE OPTIONS
 
 =over
+
+=item B<disable>
+
+Disable module (default: 0).
 
 =item B<no-p2p>
 
 Disables peer to peer for downloading files.
+
+=back
+
+=head1 WAKE-ON-LAN MODULE OPTIONS
+
+=over
+
+=item B<disable>
+
+Disable module (default: 0).
+
+=back
+
+=head1 NETDISCOVERY MODULE OPTIONS
+
+=over
+
+=item B<disable>
+
+Disable module (default: 0).
+
+=back
+
+=head1 NETINVENTORY MODULE OPTIONS
+
+=over
+
+=item B<disable>
+
+Disable module (default: 0).
 
 =back

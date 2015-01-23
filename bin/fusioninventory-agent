@@ -37,22 +37,22 @@ GetOptions(
     'conf-file=s',
     'config=s',
     # agent configuration options
-    'ca-cert-dir=s',
-    'ca-cert-file=s',
-    'debug+',
-    'logger=s',
-    'logfile=s',
-    'logfile-maxsize=i',
-    'no-ssl-check',
-    'no-module=s',
-    'password|p=s',
-    'proxy|P=s',
     'server|s=s',
-    'timeout=i',
-    'user|u=s',
     'tag|t=s',
+    'http-ca-cert-dir=s',
+    'http-ca-cert-file=s',
+    'http-no-ssl-check',
+    'http-password=s',
+    'http-proxy=s',
+    'http-timeout=i',
+    'http-user=s',
+    'logger-backend=s',
+    'logger-file=s',
+    'logger-verbosity=s',
+    'logger-maxsize=i',
     # deprecated options
     'color',
+    'debug+',
     'delaytime=s',
     'html',
     'force|f',
@@ -66,12 +66,22 @@ GetOptions(
     'httpd-ip=s',
     'httpd-port=s',
     'httpd-trust=s',
+    'logger=s',
+    'logfile=s',
+    'logfile-maxsize=i',
     'additional-content=s',
     'backend-collect-timeout=s',
     'no-category=s',
     'scan-homedirs',
     'scan-profiles',
     'no-p2p',
+    'ca-cert-dir=s',
+    'ca-cert-file=s',
+    'no-ssl-check',
+    'password=s',
+    'proxy=s',
+    'timeout=i',
+    'user=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -105,25 +115,34 @@ my $config = FusionInventory::Agent::Config->create(
     backend => $options->{'config'},
     file    => $options->{'conf-file'},
     options   => {
-        ca_cert_dir     => $options->{'ca_cert_dir'},
-        ca_cert_file    => $options->{'ca_cert_file'},
-        debug           => $options->{'debug'},
-        logger          => $options->{'logger'},
-        logfile         => $options->{'logfile'},
-        logfile_maxsize => $options->{'logfile-maxsize'},
-        no_ssl_check    => $options->{'no-ssl-check'},
-        no_module       => $options->{'no-module'},
-        password        => $options->{'password'},
-        proxy           => $options->{'proxy'},
-        server          => $options->{'server'},
-        tag             => $options->{'tag'},
-        timeout         => $options->{'timeout'},
-        user            => $options->{'user'},
+        _ => {
+            'server'       => $options->{'server'},
+            'tag'          => $options->{'tag'},
+        },
+        http => {
+            'ca-cert-dir'  => $options->{'ca_cert_dir'},
+            'ca-cert-file' => $options->{'ca_cert_file'},
+            'no-ssl-check' => $options->{'no-ssl-check'},
+            'password'     => $options->{'password'},
+            'proxy'        => $options->{'proxy'},
+            'timeout'      => $options->{'timeout'},
+            'user'         => $options->{'user'},
+        },
+        logger => {
+            'backends'     => $options->{'logger-backends'},
+            'file'         => $options->{'logger-file'},
+            'maxsize'      => $options->{'logger-maxsize'},
+            'verbosity'    => $options->{'logger-verbosity'},
+        }
     }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    config => $config
+    backends  => $config->{logger}->{backends},
+    file      => $config->{logger}->{file},
+    maxsize   => $config->{logger}->{maxsize},
+    facility  => $config->{logger}->{facility},
+    verbosity => $config->{logger}->{verbosity},
 );
 
 my $agent = FusionInventory::Agent->new(
@@ -207,18 +226,17 @@ S<[B<--lazy>]>
 S<[B<--wait> I<integer>]>
 S<[B<--server> I<url>]>
 S<[B<--tag> I<string>]>
-S<[B<--no-module> I<string>]>
-S<[B<--proxy> I<url>]>
-S<[B<--user> I<string>]>
-S<[B<--password> I<string>]>
-S<[B<--ca-cert-dir> I<path>]>
-S<[B<--ca-cert-file> I<path>]>
-S<[B<--no-ssl-check>]>
-S<[B<--timeout> I<integer>]>
-S<[B<--logger> I<string>]>
-S<[B<--logfile> I<path>]>
-S<[B<--logfile-maxsize> I<integer>]>
-S<[B<--logfacility> I<string>]>
+S<[B<--http-proxy> I<url>]>
+S<[B<--http-user> I<string>]>
+S<[B<--http-password> I<string>]>
+S<[B<--http-ca-cert-dir> I<path>]>
+S<[B<--http-ca-cert-file> I<path>]>
+S<[B<--http-no-ssl-check>]>
+S<[B<--http-timeout> I<integer>]>
+S<[B<--logger-backend> I<string>]>
+S<[B<--logger-file> I<path>]>
+S<[B<--logger-maxsize> I<integer>]>
+S<[B<--logger-verbosity> I<string>]>
 
 B<fusioninventory-agent> B<--list-modules>
 
@@ -308,56 +326,48 @@ Set B<server> option, see L<agent.cfg> for details.
 
 Set B<tag> option, see L<agent.cfg> for details.
 
-=item B<--no-module> I<string>
+=item B<--http-proxy> I<url>
 
-Set B<no-module> option, see L<agent.cfg> for details.
+Set B<http/proxy> option, see L<agent.cfg> for details.
 
-=item B<-P>, B<--proxy> I<url>
+=item B<--http-user> I<string>
 
-Set B<proxy> option, see L<agent.cfg> for details.
+Set B<http/user> option, see L<agent.cfg> for details.
 
-=item B<-u>, B<--user> I<string>
+=item B<--http-password> I<string>
 
-Set B<user> option, see L<agent.cfg> for details.
+Set B<http/password> option, see L<agent.cfg> for details.
 
-=item B<-p>, B<--password> I<string>
+=item B<--http-ca-cert-dir> I<path>
 
-Set B<password> option, see L<agent.cfg> for details.
+Set B<http/ca-cert-dir> option, see L<agent.cfg> for details.
 
-=item B<--ca-cert-dir> I<path>
+=item B<--http-ca-cert-file> I<path>
 
-Set B<ca-cert-dir> option, see L<agent.cfg> for details.
+Set B<http/ca-cert-file> option, see L<agent.cfg> for details.
 
-=item B<--ca-cert-file> I<path>
+=item B<--http-no-ssl-check>
 
-Set B<ca-cert-file> option, see L<agent.cfg> for details.
+Set B<http/no-ssl-check> option, see L<agent.cfg> for details.
 
-=item B<--no-ssl-check>
+=item B<--http-timeout> I<integer>
 
-Set B<no-ssl-check> option, see L<agent.cfg> for details.
+Set B<http/timeout> option, see L<agent.cfg> for details.
 
-=item B<--timeout> I<integer>
+=item B<--logger-backends> I<string>
 
-Set B<timeout> option, see L<agent.cfg> for details.
+Set B<logger/backends> option, see L<agent.cfg> for details.
 
-=item B<--logger> I<string>
+=item B<--logger-file> I<path>
 
-Set B<logger> option, see L<agent.cfg> for details.
+Set B<logger/file> option, see L<agent.cfg> for details.
 
-=item B<--logfile> I<path>
+=item B<--logger-maxsize> I<integer>
 
-Set B<logfile> option, see L<agent.cfg> for details.
+Set B<logger/maxsize> option, see L<agent.cfg> for details.
 
-=item B<--logfile-maxsize> I<integer>
+=item B<--logger-verbosity> I<string>
 
-Set B<logfile-maxsize> option, see L<agent.cfg> for details.
-
-=item B<--logfacility> I<string>
-
-Set B<logfacility> option, see L<agent.cfg> for details.
-
-=item B<--debug>
-
-Set B<debug> option, see L<agent.cfg> for details.
+Set B<logger/verbosity> option, see L<agent.cfg> for details.
 
 =back

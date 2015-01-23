@@ -22,7 +22,6 @@ my %setup = (
 );
 
 my $options = {
-    'debug'     => 0,
     'workers'   => 0,
     'conf-file' => $setup{confdir} . '/agent.cfg',
 };
@@ -36,9 +35,10 @@ GetOptions(
     'password=s',
     'tag=s',
     'workers=i',
-    'debug+',
+    'logger-verbosity=s',
     'help',
     # deprecated
+    'debug+',
     'directory=s',
     'host=s',
 ) or pod2usage(-verbose => 0);
@@ -62,11 +62,22 @@ pod2usage(
 my $config = FusionInventory::Agent::Config->create(
     backend   => $options->{'config'},
     file      => $options->{'conf-file'},
-    options   => { tag => $options->{tag} }
+    options   => {
+        _ => {
+            tag => $options->{tag},
+        },
+        logger => {
+            verbosity => $options->{'logger-verbosity'}
+        }
+    }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    config => $config
+    backends  => $config->{logger}->{backends},
+    file      => $config->{logger}->{file},
+    maxsize   => $config->{logger}->{maxsize},
+    facility  => $config->{logger}->{facility},
+    verbosity => $config->{logger}->{verbosity},
 );
 
 my $agent = FusionInventory::Agent->new(
@@ -125,7 +136,7 @@ S<[B<--target> I<string>]>
 S<[B<--tag> I<string>]>
 S<[B<--user> I<string>]> S<[B<--password> I<string>]>
 S<[B<--workers> I<integer>]>
-S<[B<--debug>]>
+S<[B<--logger-verbosity> I<string>]>
 I<host> S<[I<host> ...]>
 
 =head1 DESCRIPTION
@@ -179,9 +190,9 @@ ESX user password
 
 worker processes number (default: 0)
 
-=item B<--debug>
+=item B<--logger-verbosity> I<string>
 
-debug output
+Set B<logger/verbosity> option, see L<agent.cfg> for details.
 
 =item B<--tag> I<string>
 

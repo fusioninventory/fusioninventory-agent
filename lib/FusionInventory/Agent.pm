@@ -79,7 +79,7 @@ sub initModules {
     my $config = $self->{config};
 
     $self->{modules} = $self->_loadModules(
-        disabled => $config->{'no-module'},
+        disabled => $config->{_}->{'no-module'},
         fork     => $params{fork}
     );
 
@@ -96,7 +96,7 @@ sub initControllers {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    foreach my $url (@{$config->{server}}) {
+    foreach my $url (@{$config->{_}->{server}}) {
         my $controller = FusionInventory::Agent::Controller->new(
             logger     => $logger,
             basevardir => $self->{setup}->{vardir},
@@ -127,9 +127,9 @@ sub initHTTPInterface {
         logger          => $self->{logger},
         agent           => $self,
         htmldir         => $self->{setup}->{datadir} . '/html',
-        ip              => $config->{'httpd-ip'},
-        port            => $config->{'httpd-port'},
-        trust           => $config->{'httpd-trust'}
+        ip              => $config->{httpd}->{ip},
+        port            => $config->{httpd}->{port},
+        trust           => $config->{httpd}->{trust}
     );
     $self->{server}->init();
 
@@ -198,13 +198,13 @@ sub _handleController {
     # create a single client object for this run
     my $client = FusionInventory::Agent::HTTP::Client::GLPI->new(
         logger       => $self->{logger},
-        user         => $self->{config}->{user},
-        password     => $self->{config}->{password},
-        proxy        => $self->{config}->{proxy},
-        timeout      => $self->{config}->{timeout},
-        ca_cert_file => $self->{config}->{'ca-cert-file'},
-        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        user         => $self->{config}->{http}->{user},
+        password     => $self->{config}->{http}->{password},
+        proxy        => $self->{config}->{http}->{proxy},
+        timeout      => $self->{config}->{http}->{timeout},
+        ca_cert_file => $self->{config}->{http}->{'ca-cert-file'},
+        ca_cert_dir  => $self->{config}->{http}->{'ca-cert-dir'},
+        no_ssl_check => $self->{config}->{http}->{'no-ssl-check'},
     );
 
     my @tasks;

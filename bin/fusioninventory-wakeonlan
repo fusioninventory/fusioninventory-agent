@@ -22,7 +22,6 @@ my %setup = (
 );
 
 my $options = {
-    'debug'     => 0,
     'conf-file' => $setup{confdir} . '/agent.cfg',
 };
 
@@ -45,10 +44,19 @@ pod2usage(
 my $config = FusionInventory::Agent::Config->create(
     backend => $options->{'config'},
     file    => $options->{'conf-file'},
+    options => {
+        logger => {
+            verbosity => $options->{'logger-verbosity'}
+        },
+    }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    config => $config
+    backends  => $config->{logger}->{backends},
+    file      => $config->{logger}->{file},
+    maxsize   => $config->{logger}->{maxsize},
+    facility  => $config->{logger}->{facility},
+    verbosity => $config->{logger}->{verbosity},
 );
 
 my $agent = FusionInventory::Agent->new(
@@ -83,7 +91,7 @@ B<fusioninventory-wakeonlan>
 S<[B<--config> I<string>]>
 S<[B<--conf-file> I<path>]>
 S<[B<--ethernet>]> S<[B<--udp>]>
-S<[B<--debug>]>
+S<[B<--logger-verbosity> I<string>]>
 I<mac> S<[I<mac> ...]>
 
 =head1 DESCRIPTION
@@ -129,9 +137,9 @@ use ethernet method if available (true).
 
 use UDP method if available (true).
 
-=item B<--debug>
+=item B<--logger-verbosity> I<string>
 
-debug output
+Set B<logger/verbosity> option, see L<agent.cfg> for details.
 
 =back
 

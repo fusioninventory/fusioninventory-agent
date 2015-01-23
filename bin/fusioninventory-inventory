@@ -23,7 +23,6 @@ my %setup = (
 );
 
 my $options = {
-    'debug'     => 0,
     'conf-file' => $setup{confdir} . '/agent.cfg',
 };
 
@@ -38,10 +37,11 @@ GetOptions(
     'scan-homedirs',
     'scan-profiles',
     'tag|t=s',
-    'debug+',
+    'logger-verbosity=s',
     'help',
     # deprecated options
     'backend-collect-timeout=s',
+    'debug+',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
@@ -49,11 +49,22 @@ pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 my $config = FusionInventory::Agent::Config->create(
     backend => $options->{config},
     file    => $options->{'conf-file'},
-    options => { tag => $options->{tag} }
+    options => {
+        _ => {
+            tag => $options->{tag}
+        },
+        logger => {
+            verbosity => $options->{'logger-verbosity'}
+        },
+    }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    config => $config
+    backends  => $config->{logger}->{backends},
+    file      => $config->{logger}->{file},
+    maxsize   => $config->{logger}->{maxsize},
+    facility  => $config->{logger}->{facility},
+    verbosity => $config->{logger}->{verbosity},
 );
 
 my $agent = FusionInventory::Agent->new(
@@ -100,7 +111,7 @@ S<[B<--target> I<string>]>
 S<[B<--additional-content> I<path>]> S<[B<--no-category> I<string>]>
 S<[B<--scan-homedirs>]> S<[B<--scan-profiles>]>
 S<[B<--timeout> I<integer>]> S<[B<--tag> I<string>]>
-S<[B<--debug>]>
+S<[B<--logger-verbosity> I<string>]>
 
 =head1 DESCRIPTION
 
@@ -161,9 +172,9 @@ scan user home directories (false)
 
 scan user profiles (false)
 
-=item B<--debug>
+=item B<--logger-verbosity> I<string>
 
-debug output
+Set B<logger/verbosity> option, see L<agent.cfg> for details.
 
 =item B<--tag> I<string>
 

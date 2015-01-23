@@ -1,4 +1,6 @@
-#no-inventory=0
-#no-software=1
+[httpd]
+trust=example,127.0.0.1,foobar,123.0.0.0/10
+
+[inventory]
 no-category=printer
-httpd-trust=example,127.0.0.1,foobar,123.0.0.0/10
+

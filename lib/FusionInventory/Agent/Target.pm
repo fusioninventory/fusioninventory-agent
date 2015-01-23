@@ -18,13 +18,13 @@ sub create {
             url   => $spec,
             agent => FusionInventory::Agent::HTTP::Client::GLPI->new(
                 logger       => $params{logger},
-                user         => $params{config}->{user},
-                password     => $params{config}->{password},
-                proxy        => $params{config}->{proxy},
-                timeout      => $params{config}->{timeout},
-                ca_cert_file => $params{config}->{'ca-cert-file'},
-                ca_cert_dir  => $params{config}->{'ca-cert-dir'},
-                no_ssl_check => $params{config}->{'no-ssl-check'},
+                user         => $params{config}->{http}->{user},
+                password     => $params{config}->{http}->{password},
+                proxy        => $params{config}->{http}->{proxy},
+                timeout      => $params{config}->{http}->{timeout},
+                ca_cert_file => $params{config}->{http}->{'ca-cert-file'},
+                ca_cert_dir  => $params{config}->{http}->{'ca-cert-dir'},
+                no_ssl_check => $params{config}->{http}->{'no-ssl-check'},
             )
         );
     }

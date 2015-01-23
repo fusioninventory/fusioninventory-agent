@@ -5,6 +5,7 @@ use warnings;
 use base qw/Exporter/;
 
 use constant {
+    LOG_DEBUG3  => 6,
     LOG_DEBUG2  => 5,
     LOG_DEBUG   => 4,
     LOG_INFO    => 3,
@@ -18,25 +19,25 @@ use UNIVERSAL::require;
 
 our @EXPORT = qw/LOG_DEBUG2 LOG_DEBUG LOG_INFO LOG_WARNING LOG_ERROR LOG_NONE/;
 
+my %levels = (
+    none    => LOG_NONE,
+    error   => LOG_ERROR,
+    warning => LOG_WARNING,
+    info    => LOG_INFO,
+    debug   => LOG_DEBUG,
+    debug2  => LOG_DEBUG2,
+    debug3  => LOG_DEBUG3,
+);
+
 sub new {
     my ($class, %params) = @_;
-
-    if ($params{config}) {
-        my $config = delete $params{config};
-        $params{backends}        = $config->{'logger'};
-        $params{logfile}         = $config->{'logfile'};
-        $params{logfile_maxsize} = $config->{'logfile-maxsize'};
-        $params{logfacility}     = $config->{'logfacility'};
-        $params{color}           = $config->{'color'};
-        $params{verbosity}       =
-            $config->{debug} == 0 ? LOG_INFO   :
-            $config->{debug} == 1 ? LOG_DEBUG  :
-            $config->{debug} == 2 ? LOG_DEBUG2 :
-                                    LOG_DEBUG2 ;
-    }
+    
+    die "invalid log verbosity '$params{verbosity}'"
+        if $params{verbosity} && !$levels{$params{verbosity}};
 
     my $self = {
-        verbosity => $params{verbosity} || LOG_INFO
+        verbosity => $params{verbosity} ? $levels{$params{verbosity}} :
+                                          LOG_INFO
     };
     bless $self, $class;
 

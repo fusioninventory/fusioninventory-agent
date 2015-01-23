@@ -37,24 +37,23 @@ GetOptions(
     'no-fork',
     'help|h',
     # agent configuration options
-    'ca-cert-dir=s',
-    'ca-cert-file=s',
-    'debug+',
-    'logger=s',
-    'logfile=s',
-    'logfile-maxsize=i',
-    'no-httpd',
-    'no-ssl-check',
-    'no-module=s',
-    'password|p=s',
-    'proxy|P=s',
+    'server|s=s',
+    'tag|t=s',
+    'http-ca-cert-dir=s',
+    'http-ca-cert-file=s',
+    'http-no-ssl-check',
+    'http-password|p=s',
+    'http-proxy|P=s',
+    'http-timeout=i',
+    'http-user|u=s',
+    'httpd-disable',
     'httpd-ip=s',
     'httpd-port=s',
     'httpd-trust=s',
-    'server|s=s',
-    'tag|t=s',
-    'timeout=i',
-    'user|u=s',
+    'logger-backends=s',
+    'logger-file=s',
+    'logger-maxsize=i',
+    'logger-verbosity=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -63,29 +62,40 @@ my $config = FusionInventory::Agent::Config->create(
     backend   => $options->{'config'},
     file      => $options->{'conf-file'},
     options   => {
-        ca_cert_dir     => $options->{'ca_cert_dir'},
-        ca_cert_file    => $options->{'ca_cert_file'},
-        debug           => $options->{'debug'},
-        logger          => $options->{'logger'},
-        logfile         => $options->{'logfile'},
-        logfile_maxsize => $options->{'logfile-maxsize'}
-        no_ssl_check    => $options->{'no-ssl-check'},
-        no_module       => $options->{'no-module'},
-        no_httpd        => $options->{'no-httpd'},
-        password        => $options->{'password'},
-        proxy           => $options->{'proxy'},
-        server          => $options->{'server'},
-        tag             => $options->{'tag'},
-        timeout         => $options->{'timeout'},
-        user            => $options->{'user'},
-        httpd_ip        => $options->{'httpd-ip'},
-        httpd_port      => $options->{'httpd-port'},
-        httpd_trust     => $options->{'httpd-trust'},
+        _ => {
+            'server'       => $options->{'server'},
+            'tag'          => $options->{'tag'},
+        },
+        http => {
+            'ca_cert_dir'  => $options->{'http-ca-cert-dir'},
+            'ca_cert_file' => $options->{'http-ca-cert-file'},
+            'no_ssl_check' => $options->{'http-no-ssl-check'},
+            'password'     => $options->{'http-password'},
+            'proxy'        => $options->{'http-proxy'},
+            'timeout'      => $options->{'http-timeout'},
+            'user'         => $options->{'http-user'},
+        }
+        httpd => {
+            'disable'      => $options->{'httpd-disable'},
+            'ip'           => $options->{'httpd-ip'},
+            'port'         => $options->{'httpd-port'},
+            'trust'        => $options->{'httpd-trust'},
+        }
+        logger => {
+            'backends'     => $options->{'logger-backends'},
+            'file'         => $options->{'logger-file'},
+            'maxsize'      => $options->{'logger-maxsize'}
+            'verbosity'    => $options->{'logger-verbosity'},
+        },
     }
 );
 
 my $logger = FusionInventory::Agent::Logger->new(
-    config => $config
+    backends  => $config->{logger}->{backends},
+    file      => $config->{logger}->{logfile},
+    maxsize   => $config->{logger}->{maxsize},
+    facility  => $config->{logger}->{facility},
+    verbosity => $config->{logger}->{verbosity},
 );
 
 my $agent = FusionInventory::Agent->new(
@@ -99,7 +109,7 @@ eval {
     $agent->init();
     $agent->initModules(fork => 1);
     $agent->initControllers();
-    $agent->initHTTPInterface() unless $config->{'no-httpd'};
+    $agent->initHTTPInterface() unless $config->{httpd}->{'no-httpd'};
     $agent->initHandlers();
     die "no module available\n" unless $agent->getModules();
     die "no server defined\n" unless $agent->getControllers();
@@ -167,19 +177,18 @@ S<[B<--no-fork>]>
 S<[B<--pidfile> I<path>]>
 S<[B<--server> I<url>]>
 S<[B<--tag> I<string>]>
-S<[B<--no-module> I<string>]>
-S<[B<--proxy> I<url>]>
-S<[B<--user> I<string>]>
-S<[B<--password> I<string>]>
-S<[B<--ca-cert-dir> I<path>]>
-S<[B<--ca-cert-file> I<path>]>
-S<[B<--no-ssl-check>]>
-S<[B<--timeout> I<integer>]>
-S<[B<--logger> I<string>]>
-S<[B<--logfile> I<path>]>
-S<[B<--logfile-maxsize> I<integer>]>
-S<[B<--logfacility> I<string>]>
-S<[B<--no-httpd>]>
+S<[B<--http-proxy> I<url>]>
+S<[B<--http-user> I<string>]>
+S<[B<--http-password> I<string>]>
+S<[B<--http-ca-cert-dir> I<path>]>
+S<[B<--http-ca-cert-file> I<path>]>
+S<[B<--http-no-ssl-check>]>
+S<[B<--http-timeout> I<integer>]>
+S<[B<--logger-backends> I<string>]>
+S<[B<--logger-file> I<path>]>
+S<[B<--logger-maxsize> I<integer>]>
+S<[B<--logger-verbosity> I<string>]>
+S<[B<--httpd-disable>]>
 S<[B<--httpd-ip> I<address>]>
 S<[B<--httpd-port> I<integer>]>
 S<[B<--httpd-trust> I<address>]>
@@ -250,72 +259,64 @@ Set B<server> option, see L<agent.cfg> for details.
 
 Set B<tag> option, see L<agent.cfg> for details.
 
-=item B<--no-module> I<string>
+=item B<--http-proxy> I<url>
 
-Set B<no-module> option, see L<agent.cfg> for details.
+Set B<http/proxy> option, see L<agent.cfg> for details.
 
-=item B<-P>, B<--proxy> I<url>
+=item B<--http-user> I<string>
 
-Set B<proxy> option, see L<agent.cfg> for details.
+Set B<http/user> option, see L<agent.cfg> for details.
 
-=item B<-u>, B<--user> I<string>
+=item B<--http-password> I<string>
 
-Set B<user> option, see L<agent.cfg> for details.
+Set B<http/password> option, see L<agent.cfg> for details.
 
-=item B<-p>, B<--password> I<string>
+=item B<--http-ca-cert-dir> I<path>
 
-Set B<password> option, see L<agent.cfg> for details.
+Set B<http/ca-cert-dir> option, see L<agent.cfg> for details.
 
-=item B<--ca-cert-dir> I<path>
+=item B<--http-ca-cert-file> I<path>
 
-Set B<ca-cert-dir> option, see L<agent.cfg> for details.
+Set B<http/ca-cert-file> option, see L<agent.cfg> for details.
 
-=item B<--ca-cert-file> I<path>
+=item B<--http-no-ssl-check>
 
-Set B<ca-cert-file> option, see L<agent.cfg> for details.
+Set B<http/no-ssl-check> option, see L<agent.cfg> for details.
 
-=item B<--no-ssl-check>
+=item B<--http-timeout> I<integer>
 
-Set B<no-ssl-check> option, see L<agent.cfg> for details.
+Set B<http/timeout> option, see L<agent.cfg> for details.
 
-=item B<--timeout> I<integer>
+=item B<--logger-backends> I<string>
 
-Set B<timeout> option, see L<agent.cfg> for details.
+Set B<logger/backends> option, see L<agent.cfg> for details.
 
-=item B<--logger> I<string>
+=item B<--logger-file> I<path>
 
-Set B<logger> option, see L<agent.cfg> for details.
+Set B<logger/file> option, see L<agent.cfg> for details.
 
-=item B<--logfile> I<path>
+=item B<--logger-maxsize> I<integer>
 
-Set B<logfile> option, see L<agent.cfg> for details.
+Set B<logger/maxsize> option, see L<agent.cfg> for details.
 
-=item B<--logfile-maxsize> I<integer>
+=item B<--logger-verbosity> I<string>
 
-Set B<logfile-maxsize> option, see L<agent.cfg> for details.
+Set B<logger/verbosity> option, see L<agent.cfg> for details.
 
-=item B<--logfacility> I<string>
+=item B<--httpd-disable>
 
-Set B<logfacility> option, see L<agent.cfg> for details.
-
-=item B<--debug>
-
-Set B<debug> option, see L<agent.cfg> for details.
-
-=item B<--no-httpd>
-
-Set B<no-httpd> option, see L<agent.cfg> for details.
+Set B<httpd/disable> option, see L<agent.cfg> for details.
 
 =item B<--httpd-ip> I<integer>
 
-Set B<httpd-ip> option, see L<agent.cfg> for details.
+Set B<httpd/ip> option, see L<agent.cfg> for details.
 
 =item B<--httpd-port> I<integer>
 
-Set B<httpd-port> option, see L<agent.cfg> for details.
+Set B<httpd/port> option, see L<agent.cfg> for details.
 
 =item B<--httpd-trust> I<address>
 
-Set B<httpd-trust> option, see L<agent.cfg> for details.
+Set B<httpd/trust> option, see L<agent.cfg> for details.
 
 =back
