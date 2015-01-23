@@ -11,7 +11,7 @@ sub new {
 
     my $logger  = FusionInventory::Agent::Logger->new(
         backends  => [ 'fatal' ],
-        verbosity => 5
+        verbosity => 'debug'
     );
 
     return $class->SUPER::new(logger => $logger);
