@@ -34,7 +34,7 @@ sub _send {
     $req->{_protocol}                    = 'HTTP/1.1';
     $req->content_type('text/xml; charset=utf-8');
 
-    my $res = $self->{ua}->request($req);
+    my $res = $self->request($req);
 
     if ( $res->is_success ) {
         return $res->content;
