@@ -36,25 +36,20 @@ sub _send {
 
     my $response = $self->request($request);
 
-    if ( $response->is_success ) {
-        return $response->content;
-    } else {
-        my $err    = $response->content;
-        my $tmpRef = {};
+    return $response->content if $response->is_success();
 
-        eval {
-            $err =~ s/.*(<faultstring>.*<\/faultstring>).*/$1/sg;
-            $tmpRef = $self->{tpp}->parse($err);
-        };
-
-        my $errorString = $response->status_line;
-        if ( $tmpRef && $tmpRef->{faultstring} ) {
-            $errorString .= ": " . $tmpRef->{faultstring};
-        }
-        die $errorString;
+    my $status   = $response->status_line();
+    my $content  = $response->content();
+    my $error;
+    if ($content =~ /(<faultstring>.*<\/faultstring>)/sg) {
+        $error = $self->{tpp}->parse($1);
     }
 
-    return 1;
+    my $message =
+        $status .
+        $error->{faultstring} ? ': ' . $error->{faultstring} : '';
+
+    die $message;
 }
 
 sub _parseAnswer {
