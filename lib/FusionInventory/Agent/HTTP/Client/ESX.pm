@@ -28,11 +28,10 @@ sub _send {
 
     my $request = HTTP::Request->new(POST => $self->{url});
     $request->content($xml);
-    $request->{_headers}->{soapaction}       = "\"urn:vim25#" . $action . "\"";
-    $request->{_headers}->{accept}           = [ 'text/xml', 'application/soap' ];
-    $request->{_headers}->{'content-length'} = length($xml);
-    $request->{_protocol}                    = 'HTTP/1.1';
     $request->content_type('text/xml; charset=utf-8');
+    $request->protocol('HTTP/1.1');
+    $request->header(soapaction => '"urn:vim25#' . $action . '"');
+    $request->header(accept     => [ 'text/xml', 'application/soap' ]);
 
     my $response = $self->request($request);
 
