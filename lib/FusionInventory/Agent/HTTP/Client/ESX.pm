@@ -24,22 +24,22 @@ sub new {
 }
 
 sub _send {
-    my ( $self, $action, $xmlToSend ) = @_;
+    my ( $self, $action, $xml ) = @_;
 
-    my $req = HTTP::Request->new( POST => $self->{url} );
-    $req->content($xmlToSend);
-    $req->{_headers}->{soapaction}       = "\"urn:vim25#" . $action . "\"";
-    $req->{_headers}->{accept}           = [ 'text/xml', 'application/soap' ];
-    $req->{_headers}->{'content-length'} = length($xmlToSend);
-    $req->{_protocol}                    = 'HTTP/1.1';
-    $req->content_type('text/xml; charset=utf-8');
+    my $request = HTTP::Request->new(POST => $self->{url});
+    $request->content($xml);
+    $request->{_headers}->{soapaction}       = "\"urn:vim25#" . $action . "\"";
+    $request->{_headers}->{accept}           = [ 'text/xml', 'application/soap' ];
+    $request->{_headers}->{'content-length'} = length($xml);
+    $request->{_protocol}                    = 'HTTP/1.1';
+    $request->content_type('text/xml; charset=utf-8');
 
-    my $res = $self->request($req);
+    my $response = $self->request($request);
 
-    if ( $res->is_success ) {
-        return $res->content;
+    if ( $response->is_success ) {
+        return $response->content;
     } else {
-        my $err    = $res->content;
+        my $err    = $response->content;
         my $tmpRef = {};
 
         eval {
@@ -47,7 +47,7 @@ sub _send {
             $tmpRef = $self->{tpp}->parse($err);
         };
 
-        my $errorString = $res->status_line;
+        my $errorString = $response->status_line;
         if ( $tmpRef && $tmpRef->{faultstring} ) {
             $errorString .= ": " . $tmpRef->{faultstring};
         }
