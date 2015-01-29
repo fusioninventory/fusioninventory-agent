@@ -290,7 +290,7 @@ sub _apply {
         }
         foreach my $option (keys %{$options->{$section}}) {
             my $value = $options->{$section}->{$option};
-            next unless defined $value;
+            next unless defined $value && $value ne '';
 
             my $type = $valid->{$section}->{$option};
             if ($type) {
