@@ -251,3 +251,13 @@ Disable module (default: 0).
 Disable module (default: 0).
 
 =back
+
+=head1 COLLECT MODULE OPTIONS
+
+=over
+
+=item B<disable>
+
+Disable module (default: 0).
+
+=back

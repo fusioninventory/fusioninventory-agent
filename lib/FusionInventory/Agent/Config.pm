@@ -55,6 +55,9 @@ my $valid = {
         netdiscovery => {
             'disable'            => 'boolean',
         },
+        collect => {
+            'disable'            => 'boolean',
+        },
 };
 
 my $deprecated = {
@@ -259,6 +262,9 @@ sub new {
             'disable'            => 0,
         },
         netdiscovery => {
+            'disable'            => 0,
+        },
+        collect => {
             'disable'            => 0,
         },
     };

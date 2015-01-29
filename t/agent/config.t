@@ -57,6 +57,9 @@ my %config = (
         'netinventory' => {
             'disable' => 1,
         },
+        'collect' => {
+            'disable' => 0,
+        },
     },
     sample2 => {
         '_' => {
@@ -106,6 +109,9 @@ my %config = (
         'netinventory' => {
             'disable' => 0,
         },
+        'collect' => {
+            'disable' => 0,
+        },
     },
     sample3 => {
         '_' => {
@@ -153,6 +159,9 @@ my %config = (
             'disable' => 0,
         },
         'netinventory' => {
+            'disable' => 0,
+        },
+        'collect' => {
             'disable' => 0,
         },
     }
