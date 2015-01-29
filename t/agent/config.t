@@ -20,7 +20,7 @@ my %config = (
             'ca-cert-dir'  => undef,
             'password'     => undef,
             'proxy'        => undef,
-            'timeout'      => 180,
+            'timeout'      => 30,
             'user'         => undef,
         },
         httpd => {
@@ -42,7 +42,7 @@ my %config = (
             'no-category'        => [],
             'scan-homedirs'      => 0,
             'scan-profiles'      => 0,
-            'timeout'            => 180
+            'timeout'            => 30
         },
         deploy => {
             'disable' => 0,
@@ -72,7 +72,7 @@ my %config = (
             'ca-cert-dir'  => undef,
             'password'     => undef,
             'proxy'        => undef,
-            'timeout'      => 180,
+            'timeout'      => 30,
             'user'         => undef,
         },
         'httpd' => {
@@ -92,7 +92,7 @@ my %config = (
             'disable'            => 0,
             'additional-content' => undef,
             'no-category'        => [ 'printer' ],
-            'timeout'            => 180,
+            'timeout'            => 30,
             'scan-homedirs'      => 0,
             'scan-profiles'      => 0,
         },
@@ -124,7 +124,7 @@ my %config = (
             'ca-cert-dir'  => undef,
             'password'     => undef,
             'proxy'        => undef,
-            'timeout'      => 180,
+            'timeout'      => 30,
             'user'         => undef,
         },
         'httpd' => {
@@ -146,7 +146,7 @@ my %config = (
             'no-category'        => [ ],
             'scan-homedirs'      => 0,
             'scan-profiles'      => 0,
-            'timeout'            => 180,
+            'timeout'            => 30,
         },
         'deploy' => {
             'disable' => 0,
@@ -176,7 +176,7 @@ my %config = (
             'ca-cert-dir'  => undef,
             'password'     => undef,
             'proxy'        => undef,
-            'timeout'      => 180,
+            'timeout'      => 30,
             'user'         => undef,
         },
         httpd => {
@@ -228,7 +228,7 @@ my %config = (
             'ca-cert-dir'  => undef,
             'password'     => undef,
             'proxy'        => undef,
-            'timeout'      => 180,
+            'timeout'      => 30,
             'user'         => undef,
         },
         httpd => {
@@ -250,7 +250,7 @@ my %config = (
             'no-category'        => [],
             'scan-homedirs'      => 0,
             'scan-profiles'      => 0,
-            'timeout'            => 180
+            'timeout'            => 30
         },
         deploy => {
             'disable' => 0,

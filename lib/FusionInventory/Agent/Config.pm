@@ -223,7 +223,7 @@ sub new {
         },
         http => {
             'proxy'              => undef,
-            'timeout'            => 180,
+            'timeout'            => 30,
             'ca-cert-dir'        => undef,
             'ca-cert-file'       => undef,
             'no-ssl-check'       => 0,
@@ -246,7 +246,7 @@ sub new {
         inventory => {
             'disable'            => 0,
             'additional-content' => undef,
-            'timeout'            => 180,
+            'timeout'            => 30,
             'no-category'        => [],
             'scan-homedirs'      => 0,
             'scan-profiles'      => 0,
