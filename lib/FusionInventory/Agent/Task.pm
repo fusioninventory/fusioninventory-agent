@@ -109,10 +109,6 @@ This is a method to be implemented by each subclass.
 
 Abort running task immediatly.
 
-=head2 getOptionsFromServer($response, $name, $feature)
-
-Get task-specific options in server response to prolog message.
-
 =head2 getModules($prefix)
 
 Return a list of modules for this task. All modules installed at the same
