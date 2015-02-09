@@ -1,5 +1,16 @@
 Revision history for FusionInventory agent
 
+2.3.16 Mon, 9 Feb 2015
+inventory:
+* fix Rudder server UUID file location (#2865)
+
+netdiscovery:
+* fix communication with latest FusionInventory for GLPI (#2862)
+
+netinventory:
+* fix communication with latest FusionInventory for GLPI (#2862)
+* add hirschman-specific firmware and serial OIDs (#2631)
+
 2.3.15 Tue, 6 Jan 2015
 inventory:
 * retrieve attached network gateway from default gateway
