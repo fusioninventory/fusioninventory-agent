@@ -441,6 +441,7 @@ sub _getSerial {
         '.1.3.6.1.2.1.47.1.1.1.1.11.2',    # Entity-MIB::entPhysicalSerialNum
         '.1.3.6.1.2.1.47.1.1.1.1.11.1001', # Entity-MIB::entPhysicalSerialNum
         '.1.3.6.1.4.1.2636.3.1.3.0',       # Juniper-MIB
+        '.1.3.6.1.4.1.248.14.1.1.9.1.10.1',# Hirschman MIB
     );
 
     my @printer_oids = (
@@ -491,6 +492,9 @@ sub _getFirmware {
 
     my $ios_version = $snmp->walk('.1.3.6.1.4.1.9.9.25.1.1.1.2.5');
     return $ios_version if $ios_version;
+
+    my $firmware = $snmp->walk('.1.3.6.1.4.1.248.14.1.1.2.0');
+    return $firmware if $firmware;
 
     return;
 }
