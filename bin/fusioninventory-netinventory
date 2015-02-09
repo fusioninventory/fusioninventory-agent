@@ -111,18 +111,20 @@ my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     logger => FusionInventory::Agent::Logger->new(verbosity => $verbosity)
 );
 
-$inventory->{options} = {
-    NAME => 'SNMPQUERY',
-    PARAM => [
-        {
-            PID           => 1,
-            THREADS_QUERY => 1,
-            TIMEOUT       => $options->{timeout},
-        }
-    ],
-    DEVICE         => [ $device ],
-    AUTHENTICATION => [ $credentials ]
-};
+$inventory->{jobs} = [
+    {
+        NAME => 'SNMPQUERY',
+        PARAM => [
+            {
+                PID           => 1,
+                THREADS_QUERY => 1,
+                TIMEOUT       => $options->{timeout},
+            }
+        ],
+        DEVICE         => [ $device ],
+        AUTHENTICATION => [ $credentials ]
+    }
+];
 
 $inventory->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new(

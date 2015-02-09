@@ -29,18 +29,28 @@ sub isEnabled {
         return;
     }
 
-    my $options = $response->getOptionsInfoByName('NETDISCOVERY');
-    if (!$options) {
+    my @jobs = $response->getOptionsInfoByName('NETDISCOVERY');
+    if (!@jobs) {
         $self->{logger}->debug("NetDiscovery task execution not requested");
         return;
     }
 
-    if (!$options->{RANGEIP}) {
-        $self->{logger}->error("no IP range defined");
+    my @valid_jobs;
+    foreach my $job (@jobs) {
+        if (!$job->{RANGEIP}) {
+            $self->{logger}->error("invalid job: no IP range defined");
+            next;
+        }
+        push @valid_jobs, $job;
+    }
+
+    if (!@valid_jobs) {
+        $self->{logger}->error("no valid job found, aborting");
         return;
     }
 
-    $self->{options} = $options;
+    $self->{jobs} = \@valid_jobs;
+
     return 1;
 }
 
@@ -57,11 +67,6 @@ sub run {
         ca_cert_dir  => $params{ca_cert_dir},
         no_ssl_check => $params{no_ssl_check},
     ) if !$self->{client};
-
-    my $options     = $self->{options};
-    my $pid         = $options->{PARAM}->[0]->{PID};
-    my $max_threads = $options->{PARAM}->[0]->{THREADS_DISCOVERY};
-    my $timeout     = $options->{PARAM}->[0]->{TIMEOUT};
 
     # check discovery methods available
     my ($nmap_parameters, $snmp_credentials);
@@ -93,102 +98,107 @@ sub run {
             "Can't load FusionInventory::Agent::SNMP::Live, snmp detection " .
             "can't be used"
         );
-    } else {
-        $snmp_credentials = $self->_getCredentials($options);
     }
 
-    # set internal state
-    $self->{pid} = $pid;
+    foreach my $job (@{$self->{jobs}}) {
+        my $pid         = $job->{PARAM}->[0]->{PID};
+        my $max_threads = $job->{PARAM}->[0]->{THREADS_DISCOVERY};
+        my $timeout     = $job->{PARAM}->[0]->{TIMEOUT};
 
-    # send initial message to the server
-    $self->_sendStartMessage();
+        # SNMP credentials
+        my $snmp_credentials = _getValidCredentials($job->{AUTHENTICATION});
 
-    # process each address block
-    foreach my $range (@{$options->{RANGEIP}}) {
-        my $block = Net::IP->new(
-            $range->{IPSTART} . '-' . $range->{IPEND}
-        );
-        if (!$block || $block->{binip} !~ /1/) {
-            $self->{logger}->error(
-                "IPv4 range not supported by Net::IP: ".
+        # set internal state
+        $self->{pid} = $pid;
+
+        # send initial message to the server
+        $self->_sendStartMessage();
+
+        # process each address block
+        foreach my $range (@{$job->{RANGEIP}}) {
+            my $block = Net::IP->new(
                 $range->{IPSTART} . '-' . $range->{IPEND}
             );
-            next;
-        }
-
-        $self->{logger}->debug(
-            "scanning block $range->{IPSTART}-$range->{IPEND}"
-        );
-
-        # initialize FIFOs
-        my $addresses = Thread::Queue->new();
-        my $results   = Thread::Queue->new();
-
-        do {
-            $addresses->enqueue($block->ip()),
-        } while (++$block);
-        my $size = $addresses->pending();
-
-        # send block size to the server
-        $self->_sendBlockMessage($size);
-
-        # no need for more threads than addresses to scan in this range
-        my $threads_count = $max_threads > $size ? $size : $max_threads;
-
-        my $sub = sub {
-            my $id = threads->tid();
-            $self->{logger}->debug("[thread $id] creation");
-
-            # run as long as they are addresses to process
-            while (my $address = $addresses->dequeue_nb()) {
-
-                my $result = $self->_scanAddress(
-                    ip               => $address,
-                    timeout          => $timeout,
-                    nmap_parameters  => $nmap_parameters,
-                    snmp_credentials => $snmp_credentials,
+            if (!$block || $block->{binip} !~ /1/) {
+                $self->{logger}->error(
+                    "IPv4 range not supported by Net::IP: ".
+                    $range->{IPSTART} . '-' . $range->{IPEND}
                 );
-
-                $results->enqueue($result) if $result;
+                next;
             }
 
-            $self->{logger}->debug("[thread $id] termination");
-        };
+            $self->{logger}->debug(
+                "scanning block $range->{IPSTART}-$range->{IPEND}"
+            );
 
-        $self->{logger}->debug("creating $threads_count worker threads");
-        for (my $i = 0; $i < $threads_count; $i++) {
-            threads->create($sub);
-        }
+            # initialize FIFOs
+            my $addresses = Thread::Queue->new();
+            my $results   = Thread::Queue->new();
 
-        # as long as some threads are still running...
-        while (threads->list(threads::running)) {
+            do {
+                $addresses->enqueue($block->ip()),
+            } while (++$block);
+            my $size = $addresses->pending();
 
-            # send available results on the fly
+            # send block size to the server
+            $self->_sendBlockMessage($size);
+
+            # no need for more threads than addresses to scan in this range
+            my $threads_count = $max_threads > $size ? $size : $max_threads;
+
+            my $sub = sub {
+                my $id = threads->tid();
+                $self->{logger}->debug("[thread $id] creation");
+
+                # run as long as they are addresses to process
+                while (my $address = $addresses->dequeue_nb()) {
+
+                    my $result = $self->_scanAddress(
+                        ip               => $address,
+                        timeout          => $timeout,
+                        nmap_parameters  => $nmap_parameters,
+                        snmp_credentials => $snmp_credentials,
+                    );
+
+                    $results->enqueue($result) if $result;
+                }
+
+                $self->{logger}->debug("[thread $id] termination");
+            };
+
+            $self->{logger}->debug("creating $threads_count worker threads");
+            for (my $i = 0; $i < $threads_count; $i++) {
+                threads->create($sub);
+            }
+
+            # as long as some threads are still running...
+            while (threads->list(threads::running)) {
+
+                # send available results on the fly
+                while (my $result = $results->dequeue_nb()) {
+                    $result->{ENTITY} = $range->{ENTITY}
+                        if defined($range->{ENTITY});
+                    $self->_sendResultMessage($result);
+                }
+
+                # wait for a second
+                delay(1);
+            }
+
+            # purge remaning results
             while (my $result = $results->dequeue_nb()) {
                 $result->{ENTITY} = $range->{ENTITY}
                     if defined($range->{ENTITY});
                 $self->_sendResultMessage($result);
             }
 
-            # wait for a second
-            delay(1);
+            $self->{logger}->debug("cleaning $threads_count worker threads");
+            $_->join() foreach threads->list(threads::joinable);
         }
 
-        # purge remaning results
-        while (my $result = $results->dequeue_nb()) {
-            $result->{ENTITY} = $range->{ENTITY}
-                if defined($range->{ENTITY});
-            $self->_sendResultMessage($result);
-        }
-
-        $self->{logger}->debug("cleaning $threads_count worker threads");
-        $_->join() foreach threads->list(threads::joinable);
+        # send final message to the server
+        $self->_sendStopMessage();
     }
-
-    # send final message to the server
-    $self->_sendStopMessage();
-
-    delete $self->{pid};
 }
 
 sub abort {
@@ -198,12 +208,12 @@ sub abort {
     $self->SUPER::abort();
 }
 
-sub _getCredentials {
-    my ($self, $options) = @_;
+sub _getValidCredentials {
+    my ($credentials) = @_;
 
     my @credentials;
 
-    foreach my $credential (@{$options->{AUTHENTICATION}}) {
+    foreach my $credential (@{$credentials}) {
         if ($credential->{VERSION} eq '3') {
             # a user name is required
             next unless $credential->{USERNAME};

@@ -3,7 +3,6 @@ package FusionInventory::Agent::XML::Response;
 use strict;
 use warnings;
 
-use List::Util qw(first);
 use XML::TreePP;
 
 sub new {
@@ -42,7 +41,7 @@ sub getOptionsInfoByName {
     return unless $self->{content}->{OPTION};
 
     return
-        first { $_->{NAME} eq $name }
+        grep { $_->{NAME} eq $name }
         @{$self->{content}->{OPTION}};
 }
 

@@ -85,24 +85,26 @@ if ($options->{community}) {
     };
 }
 
-$discovery->{options} = {
-    NAME => 'NETDISCOVERY',
-    PARAM => [
-        {
-            PID               => 1,
-            THREADS_DISCOVERY => $options->{threads},
-            TIMEOUT           => $options->{timeout},
-        }
-    ],
-    RANGEIP => [
-        {
-            ID      => 1,
-            IPSTART => $options->{first},
-            IPEND   => $options->{last},
-        }
-    ],
-    AUTHENTICATION => \@credentials
-};
+$discovery->{jobs} = [
+    {
+        NAME => 'NETDISCOVERY',
+        PARAM => [
+            {
+                PID               => 1,
+                THREADS_DISCOVERY => $options->{threads},
+                TIMEOUT           => $options->{timeout},
+            }
+        ],
+        RANGEIP => [
+            {
+                ID      => 1,
+                IPSTART => $options->{first},
+                IPEND   => $options->{last},
+            }
+        ],
+        AUTHENTICATION => \@credentials
+    }
+];
 if (defined($options->{entity})) {
     $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
 }

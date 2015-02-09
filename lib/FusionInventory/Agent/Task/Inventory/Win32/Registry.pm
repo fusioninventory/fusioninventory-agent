@@ -21,7 +21,7 @@ my @hives = qw/
 sub isEnabled {
     my (%params) = @_;
 
-    return $params{registry};
+    return $params{registry} && @{$params{registry}};
 }
 
 sub _getRegistryData {

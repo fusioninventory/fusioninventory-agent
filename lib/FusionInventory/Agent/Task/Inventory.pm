@@ -31,7 +31,7 @@ sub isEnabled {
         }
     }
 
-    $self->{registry} = $response->getOptionsInfoByName('REGISTRY');
+    $self->{registry} = [ $response->getOptionsInfoByName('REGISTRY') ];
     return 1;
 }
 

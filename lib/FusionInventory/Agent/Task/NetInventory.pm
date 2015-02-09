@@ -29,18 +29,28 @@ sub isEnabled {
         return;
     }
 
-    my $options = $response->getOptionsInfoByName('SNMPQUERY');
-    if (!$options) {
+    my @jobs = $response->getOptionsInfoByName('SNMPQUERY');
+    if (!@jobs) {
         $self->{logger}->debug("NetInventory task execution not requested");
         return;
     }
 
-    if (!$options->{DEVICE}) {
-        $self->{logger}->error("no device defined");
+    my @valid_jobs;
+    foreach my $job (@jobs) {
+        if (!$job->{DEVICE}) {
+            $self->{logger}->error("invalid job: no device defined");
+            next;
+        }
+        push @valid_jobs, $job;
+    }
+
+    if (!@valid_jobs) {
+        $self->{logger}->error("no valid job found, aborting");
         return;
     }
 
-    $self->{options} = $options;
+    $self->{jobs} = \@valid_jobs;
+
     return 1;
 }
 
@@ -58,94 +68,93 @@ sub run {
         no_ssl_check => $params{no_ssl_check},
     ) if !$self->{client};
 
-    my $options     = $self->{options};
-    my $pid         = $options->{PARAM}->[0]->{PID};
-    my $max_threads = $options->{PARAM}->[0]->{THREADS_QUERY};
-    my $timeout     = $options->{PARAM}->[0]->{TIMEOUT};
+    foreach my $job (@{$self->{jobs}}) {
+        my $pid         = $job->{PARAM}->[0]->{PID};
+        my $max_threads = $job->{PARAM}->[0]->{THREADS_QUERY};
+        my $timeout     = $job->{PARAM}->[0]->{TIMEOUT};
 
-    # SNMP credentials
-    my $credentials = _getIndexedCredentials($options->{AUTHENTICATION});
+        # SNMP credentials
+        my $credentials = _getIndexedCredentials($job->{AUTHENTICATION});
 
-    # set internal state
-    $self->{pid} = $pid;
+        # set internal state
+        $self->{pid} = $pid;
 
-    # send initial message to the server
-    $self->_sendStartMessage();
+        # send initial message to the server
+        $self->_sendStartMessage();
 
-    # initialize FIFOs
-    my $devices = Thread::Queue->new();
-    my $results = Thread::Queue->new();
+        # initialize FIFOs
+        my $devices = Thread::Queue->new();
+        my $results = Thread::Queue->new();
 
-    foreach my $device (@{$options->{DEVICE}}) {
-        $devices->enqueue($device);
-    }
-    my $size = $devices->pending();
+        foreach my $device (@{$job->{DEVICE}}) {
+            $devices->enqueue($device);
+        }
+        my $size = $devices->pending();
 
-    # no need for more threads than devices to scan
-    my $threads_count = $max_threads > $size ? $size : $max_threads;
+        # no need for more threads than devices to scan
+        my $threads_count = $max_threads > $size ? $size : $max_threads;
 
-    my $sub = sub {
-        my $id = threads->tid();
-        $self->{logger}->debug("[thread $id] creation");
+        my $sub = sub {
+            my $id = threads->tid();
+            $self->{logger}->debug("[thread $id] creation");
 
-        # run as long as they are devices to process
-        while (my $device = $devices->dequeue_nb()) {
+            # run as long as they are devices to process
+            while (my $device = $devices->dequeue_nb()) {
 
-            my $result;
-            eval {
-                $result = $self->_queryDevice(
-                    device      => $device,
-                    timeout     => $timeout,
-                    credentials => $credentials->{$device->{AUTHSNMP_ID}}
-                );
-            };
-            if ($EVAL_ERROR) {
-                chomp $EVAL_ERROR;
-                $result = {
-                    ERROR => {
-                        ID      => $device->{ID},
-                        TYPE    => $device->{TYPE},
-                        MESSAGE => $EVAL_ERROR
-                    }
+                my $result;
+                eval {
+                    $result = $self->_queryDevice(
+                        device      => $device,
+                        timeout     => $timeout,
+                        credentials => $credentials->{$device->{AUTHSNMP_ID}}
+                    );
                 };
-                $self->{logger}->error($EVAL_ERROR);
+                if ($EVAL_ERROR) {
+                    chomp $EVAL_ERROR;
+                    $result = {
+                        ERROR => {
+                            ID      => $device->{ID},
+                            TYPE    => $device->{TYPE},
+                            MESSAGE => $EVAL_ERROR
+                        }
+                    };
+                    $self->{logger}->error($EVAL_ERROR);
+                }
+
+                $results->enqueue($result) if $result;
             }
 
-            $results->enqueue($result) if $result;
+            $self->{logger}->debug("[thread $id] termination");
+        };
+
+        $self->{logger}->debug("creating $threads_count worker threads");
+        for (my $i = 0; $i < $threads_count; $i++) {
+            threads->create($sub);
         }
 
-        $self->{logger}->debug("[thread $id] termination");
-    };
+        # as long as some threads are still running...
+        while (threads->list(threads::running)) {
 
-    $self->{logger}->debug("creating $threads_count worker threads");
-    for (my $i = 0; $i < $threads_count; $i++) {
-        threads->create($sub);
-    }
+            # send available results on the fly
+            while (my $result = $results->dequeue_nb()) {
+                $self->_sendResultMessage($result);
+            }
 
-    # as long as some threads are still running...
-    while (threads->list(threads::running)) {
+            # wait for a second
+            delay(1);
+        }
 
-        # send available results on the fly
+        # purge remaining results
         while (my $result = $results->dequeue_nb()) {
             $self->_sendResultMessage($result);
         }
 
-        # wait for a second
-        delay(1);
+        $self->{logger}->debug("cleaning $threads_count worker threads");
+        $_->join() foreach threads->list(threads::joinable);
+
+        # send final message to the server
+        $self->_sendStopMessage();
     }
-
-    # purge remaining results
-    while (my $result = $results->dequeue_nb()) {
-        $self->_sendResultMessage($result);
-    }
-
-    $self->{logger}->debug("cleaning $threads_count worker threads");
-    $_->join() foreach threads->list(threads::joinable);
-
-    # send final message to the server
-    $self->_sendStopMessage();
-
-    delete $self->{pid};
 }
 
 sub _sendMessage {
