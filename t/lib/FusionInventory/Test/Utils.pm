@@ -20,6 +20,7 @@ our @EXPORT = qw(
     mockGetRegistryKey
     unsetProxyEnvVar
     is_json_string
+    is_json_stream
     is_xml_string
     is_xml_file
 );
@@ -197,6 +198,14 @@ sub is_json_string {
         my $content = from_json($string);
     };
     return $EVAL_ERROR ? 0 : 1;
+}
+
+sub is_json_stream {
+    my ($string) = @_;
+
+    my @elements = split(/\n\n/, $string);
+
+    return all { is_json_string($_) } @elements;
 }
 
 sub is_xml_string {
