@@ -1,0 +1,167 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use lib './lib';
+
+use English qw(-no_match_vars);
+use Getopt::Long;
+use Pod::Usage;
+
+use FusionInventory::Agent;
+use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Target;
+use FusionInventory::Agent::Task::Collect;
+
+my %setup = (
+    confdir => './etc',
+    datadir => './share',
+    libdir  => './lib',
+    vardir  => './var',
+);
+
+my $options = {
+    'workers'   => 0,
+    'conf-file' => $setup{confdir} . '/agent.cfg',
+};
+
+GetOptions(
+    $options,
+    'config=s',
+    'conf-file=s',
+    'target=s',
+    'logger-verbosity=s',
+    'help',
+) or pod2usage(-verbose => 0);
+
+pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
+pod2usage(
+    -message => "no job given, aborting\n", -verbose => 0
+) unless @ARGV;
+
+my $config = FusionInventory::Agent::Config->create(
+    backend   => $options->{'config'},
+    file      => $options->{'conf-file'},
+    options   => {
+        logger => {
+            verbosity => $options->{'logger-verbosity'}
+        }
+    }
+);
+
+my $logger = FusionInventory::Agent::Logger->create(
+    backend   => $config->{logger}->{backend},
+    file      => $config->{logger}->{file},
+    maxsize   => $config->{logger}->{maxsize},
+    facility  => $config->{logger}->{facility},
+    verbosity => $config->{logger}->{verbosity},
+);
+
+my $agent = FusionInventory::Agent->new(
+    config => $config,
+    logger => $logger,
+    setup  => \%setup
+);
+$agent->init();
+$agent->initHandlers();
+
+my $task = FusionInventory::Agent::Task::Collect->new(
+    logger => $agent->{logger},
+);
+
+my @jobs;
+foreach my $arg (@ARGV) {
+    my $job;
+     foreach my $parameter (split(',', $arg)) {
+        my ($key, $value) = split(':', $parameter);
+        $job->{$key} = $value;
+    }
+    push @jobs, $job;
+}
+
+$task->configure(
+    workers => $options->{workers},
+    jobs    => \@jobs
+);
+
+my $target = FusionInventory::Agent::Target->create(
+    spec   => $options->{target},
+    logger => $logger,
+    config => $config,
+);
+
+$agent->executeTask(task => $task, target => $target);
+
+__END__
+
+=head1 NAME
+
+fusioninventory-collect - Standalone collect task
+
+=head1 SYNOPSIS
+
+B<fusioninventory-collect>
+S<[B<--config> I<string>]>
+S<[B<--conf-file> I<path>]>
+S<[B<--target> I<string>]>
+S<[B<--workers> I<integer>]>
+S<[B<--logger-verbosity> I<string>]>
+I<job> ...
+
+=head1 DESCRIPTION
+
+F<fusioninventory-collect> allows to run a collect task without
+a GLPI server.
+
+=head1 OPTIONS
+
+=over
+
+=item B<--config> I<string>
+
+Configuration backend to use (default: file).
+
+The available backends are:
+
+=over 4
+
+=item
+
+file: read configuration from a file
+
+=item
+
+registry: read configuration from the registry
+
+=item
+
+none: don't read any configuration.
+
+=back
+
+=item B<--conf-file> I<path>
+
+configuration file path (with file backend)
+
+=item B<--target> I<string>
+
+target path (for directory) or url (for server)
+
+=item B<--workers> I<integer>
+
+worker processes number (default: 0)
+
+=item B<--logger-verbosity> I<string>
+
+Set B<logger/verbosity> option, see L<agent.cfg> for details.
+
+=back
+
+=head1 EXAMPLES
+
+    $> fusioninventory-collect function:findFile,uuid:foo
+    $> fusioninventory-collect function:findFile,uuid:foo
+        --target /tmp
+    $> fusioninventory-collect function:findFile,uuid:foo
+        --target http://glpi.domain.com/plugins/fusioninventory
