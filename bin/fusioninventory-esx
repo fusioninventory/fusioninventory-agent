@@ -208,12 +208,12 @@ Execute an inventory of a single ESX host, sending the results to stdout:
 
 Execute an inventory of a single ESX host, sending the results to a directory:
 
-    $> fusioninventory-esx --user foo --password bar --directory /tmp esx1
+    $> fusioninventory-esx --user foo --password bar --target /tmp esx1
 
 Execute an inventory of a single ESX host, sending the results to a server
 
     $> fusioninventory-esx --user foo --password bar \
-        --server http://glpi.domain.com/plugins/fusioninventory esx1
+        --target http://glpi.domain.com/plugins/fusioninventory esx1
 
 Execute an inventory of two ESX hosts, using same credentials, sending the
 results to stdout:
