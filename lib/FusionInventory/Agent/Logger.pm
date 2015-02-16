@@ -65,7 +65,7 @@ sub new {
     my ($class, %params) = @_;
     
     die "invalid log verbosity '$params{verbosity}'"
-        if $params{verbosity} && !$levels{$params{verbosity}};
+        if $params{verbosity} && !exists $levels{$params{verbosity}};
 
     my $self = {
         verbosity => $params{verbosity} ? $levels{$params{verbosity}} :
