@@ -248,14 +248,15 @@ sub getDeviceInfo {
     # manufacturer, type and model identification attempt, using sysObjectID
     my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
     if ($sysobjectid) {
-        my ($manufacturer, $type, $model) = _getSysObjectIDInfo(
+        my $match = _getSysObjectIDInfo(
             id      => $sysobjectid,
             datadir => $datadir,
             logger  => $logger
         );
-        $device->{MANUFACTURER} = $manufacturer if $manufacturer;
-        $device->{TYPE}         = $type         if $type;
-        $device->{MODEL}        = $model        if $model;
+        $device->{TYPE}         = $match->{type} if $match->{type};
+        $device->{MODEL}        = $match->{model} if $match->{model};
+        $device->{MANUFACTURER} = $match->{manufacturer}
+            if $match->{manufacturer};
     }
 
     # vendor and type identification attempt, using sysDescr
@@ -366,46 +367,47 @@ sub _getSysObjectIDInfo {
         \.1\.3\.6\.1\.4\.1
     )/x;
     my ($manufacturer_id, $device_id) =
-        $params{id} =~ /^ $prefix \. (\d+) (?: \. (.+) )? $/x;
+        $params{id} =~ /^ $prefix \. (\d+) \. ([\d.]+) $/x;
 
-    # no match
     if (!$manufacturer_id) {
-        $logger->debug(
-            "no match for sysobjectID $params{id} in database: " .
-            "no manufacturer ID"
-        ) if $logger;
-        return ();
-    }
-
-    my $manufacturer = $sysobjectid{$manufacturer_id};
-    if (!$manufacturer) {
-        $logger->debug(
-            "no match for sysobjectID $params{id} in database: " .
-            "unknown manufacturer ID"
-        ) if $logger;
-        return ();
+        $logger->debug("invalid sysobjectID $params{id}: no manufacturer ID")
+            if $logger;
+        return;
     }
 
     if (!$device_id) {
-        $logger->debug(
-            "partial match for sysobjectID $params{id} in database: " .
-            "no device ID"
-        ) if $logger;
-        return ($manufacturer->{name}, $manufacturer->{type});
+        $logger->debug("invalid sysobjectID $params{id}: no device ID")
+            if $logger;
+        return;
     }
 
-    my $device = $manufacturer->{devices}->{$device_id};
-    if (!$device) {
+    my $match;
+
+    # attempt full match first
+    $match = $sysobjectid{$manufacturer_id . '.' . $device_id};
+    if ($match) {
         $logger->debug(
-            "partial match for sysobjectID $params{id} in database: " .
+            "full match for sysobjectID $params{id} in database"
+        ) if $logger;
+        return $match;
+    }
+
+    # fallback to partial match
+    $match = $sysobjectid{$manufacturer_id};
+    if ($match) {
+        $logger->debug(
+            "partial match for sysobjectID $params{id} in database: ".
             "unknown device ID"
         ) if $logger;
-        return ($manufacturer->{name}, $manufacturer->{type});
+        return $match;
     }
 
-    $logger->debug("full match for sysobjectID $params{id} in database")
-        if $logger;
-    return ($manufacturer->{name}, $device->{type}, $device->{name});
+    # no match
+    $logger->debug(
+        "no match for sysobjectID $params{id} in database: " .
+        "unknown manufacturer ID"
+    ) if $logger;
+    return;
 }
 
 sub _loadSysObjectIDDatabase {
@@ -416,18 +418,16 @@ sub _loadSysObjectIDDatabase {
     my $handle = getFileHandle(file => "$params{datadir}/sysobject.ids");
     return unless $handle;
 
-    my $manufacturer_id;
     while (my $line = <$handle>) {
-        if ($line =~ /^\t ([\d.]+) \t ([^\t]*) (?:\t (\S+))?/x) {
-            $sysobjectid{$manufacturer_id}->{devices}->{$1}->{name} = $2;
-            $sysobjectid{$manufacturer_id}->{devices}->{$1}->{type} = $3;
-        }
-
-        if ($line =~ /^(\d+) \t (\S+) (?:\t (\S+))?/x) {
-            $manufacturer_id = $1;
-            $sysobjectid{$manufacturer_id}->{name} = $2;
-            $sysobjectid{$manufacturer_id}->{type} = $3;
-        }
+        next if $line =~ /^#/;
+        next if $line =~ /^$/;
+        chomp $line;
+        my ($id, $manufacturer, $type, $model) = split(/\t/, $line);
+        $sysobjectid{$id} = {
+            manufacturer => $manufacturer,
+            type         => $type,
+            model        => $model
+        };
     }
 
     close $handle;
