@@ -159,7 +159,7 @@ sub _queryDevice {
          type    => $device->{type},
          snmp    => $snmp,
          logger  => $self->{logger},
-         datadir => $self->{config}->{datadir},
+         dbdir   => $self->{config}->{datadir} . '/db',
     );
     $self->_sendResultMessage($result, $source);
 }

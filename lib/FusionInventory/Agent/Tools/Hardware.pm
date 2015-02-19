@@ -240,7 +240,7 @@ sub getDeviceInfo {
     my (%params) = @_;
 
     my $snmp    = $params{snmp};
-    my $datadir = $params{datadir};
+    my $dbdir   = $params{dbdir};
     my $logger  = $params{logger};
 
     my $device;
@@ -250,7 +250,7 @@ sub getDeviceInfo {
     if ($sysobjectid) {
         my $match = _getSysObjectIDInfo(
             id      => $sysobjectid,
-            datadir => $datadir,
+            dbdir   => $dbdir,
             logger  => $logger
         );
         $device->{TYPE}         = $match->{type} if $match->{type};
@@ -413,9 +413,9 @@ sub _getSysObjectIDInfo {
 sub _loadSysObjectIDDatabase {
     my (%params) = @_;
 
-    return unless $params{datadir};
+    return unless $params{dbdir};
 
-    my $handle = getFileHandle(file => "$params{datadir}/sysobject.ids");
+    my $handle = getFileHandle(file => "$params{dbdir}/sysobject.ids");
     return unless $handle;
 
     while (my $line = <$handle>) {
@@ -564,14 +564,14 @@ sub getDeviceFullInfo {
         device  => $device,
         snmp    => $snmp,
         logger  => $logger,
-        datadir => $params{datadir}
+        dbdir   => $params{dbdir}
     ) if $info->{TYPE} && $info->{TYPE} eq 'PRINTER';
 
     _setNetworkingProperties(
         device  => $device,
         snmp    => $snmp,
         logger  => $logger,
-        datadir => $params{datadir}
+        dbdir   => $params{dbdir}
     ) if $info->{TYPE} && $info->{TYPE} eq 'NETWORKING';
 
     # convert ports hashref to an arrayref, sorted by interface number

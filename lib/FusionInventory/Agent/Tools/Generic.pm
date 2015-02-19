@@ -281,7 +281,7 @@ sub _loadPCIDatabase {
     my (%params) = @_;
 
     ($PCIVendors, $PCIClasses) = _loadDatabase(
-        file => "$params{datadir}/pci.ids"
+        file => "$params{dbdir}/pci.ids"
     );
 }
 
@@ -289,7 +289,7 @@ sub _loadUSBDatabase {
     my (%params) = @_;
 
     ($USBVendors, $USBClasses) = _loadDatabase(
-        file => "$params{datadir}/usb.ids"
+        file => "$params{dbdir}/usb.ids"
     );
 }
 
@@ -332,7 +332,7 @@ sub _loadDatabase {
 sub _loadEDIDDatabase {
     my (%params) = @_;
 
-    my $handle = getFileHandle(file => "$params{datadir}/edid.ids");
+    my $handle = getFileHandle(file => "$params{dbdir}/edid.ids");
     return unless $handle;
 
     foreach my $line (<$handle>) {
@@ -418,7 +418,7 @@ Returns the PCI vendor matching this ID.
 
 =item logger a logger object
 
-=item datadir the directory holding the PCI database
+=item dbdir the directory holding the PCI database
 
 =back
 
@@ -432,7 +432,7 @@ Returns the PCI class matching this ID.
 
 =item logger a logger object
 
-=item datadir the directory holding the PCI database
+=item dbdir the directory holding the PCI database
 
 =back
 
@@ -446,7 +446,7 @@ Returns the USB vendor matching this ID.
 
 =item logger a logger object
 
-=item datadir the directory holding the USB database
+=item dbdir the directory holding the USB database
 
 =back
 
@@ -460,7 +460,7 @@ Returns the USB class matching this ID.
 
 =item logger a logger object
 
-=item datadir the directory holding the USB database
+=item dbdir the directory holding the USB database
 
 =back
 
@@ -474,6 +474,6 @@ Returns the EDID vendor matching this ID.
 
 =item logger a logger object
 
-=item datadir the directory holding the edid vendors database
+=item dbdir the directory holding the edid vendors database
 
 =back

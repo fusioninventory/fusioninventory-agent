@@ -57,7 +57,7 @@ sub run {
     my $message = FusionInventory::Agent::Message::Outbound->new(
         query      => 'INVENTORY',
         deviceid   => $self->{config}->{deviceid},
-        stylesheet => $self->{config}->{datadir} . '/inventory.xsl',
+        stylesheet => $self->{config}->{datadir} . 'html/inventory.xsl',
         content    => $inventory->getContent()
     );
 
@@ -105,7 +105,7 @@ sub _initModulesList {
             params => {
                 no_category   => $disabled,
                 logger        => $self->{logger},
-                datadir       => $self->{config}->{datadir},
+                dbdir         => $self->{config}->{dbdir},
                 scan_homedirs => $self->{config}->{scan_homedirs},
                 scan_profiles => $self->{config}->{scan_profiles},
             }
@@ -187,7 +187,7 @@ sub _runModule {
             inventory     => $inventory,
             no_category   => $disabled,
             logger        => $self->{logger},
-            datadir       => $self->{config}->{datadir},
+            dbdir         => $self->{config}->{dbdir},
             scan_homedirs => $self->{config}->{scan_homedirs},
             scan_profiles => $self->{config}->{scan_profiles},
         }

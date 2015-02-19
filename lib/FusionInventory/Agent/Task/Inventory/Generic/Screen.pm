@@ -22,9 +22,9 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
-    my $datadir   = $params{datadir};
+    my $dbdir     = $params{dbdir};
 
-    foreach my $screen (_getScreens(logger => $logger, datadir => $datadir)) {
+    foreach my $screen (_getScreens(logger => $logger, dbdir => $dbdir)) {
         $inventory->addEntry(
             section => 'MONITORS',
             entry   => $screen
@@ -54,7 +54,7 @@ sub _getEdidInfo {
         DESCRIPTION  => $edid->{week} . "/" . $edid->{year},
         MANUFACTURER => getEDIDVendor(
                             id      => $edid->{manufacturer_name},
-                            datadir => $params{datadir}
+                            dbdir   => $params{dbdir}
                         ) || $edid->{manufacturer_name}
     };
 
@@ -244,7 +244,7 @@ sub _getScreens {
         my $info = _getEdidInfo(
             edid    => $screen->{edid},
             logger  => $params{logger},
-            datadir => $params{datadir},
+            dbdir   => $params{dbdir},
         );
         $screen->{CAPTION}      = $info->{CAPTION};
         $screen->{DESCRIPTION}  = $info->{DESCRIPTION};

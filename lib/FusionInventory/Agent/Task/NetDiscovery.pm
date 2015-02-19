@@ -327,7 +327,7 @@ sub _scanAddressBySNMPReal {
 
     my $info = getDeviceInfo(
         snmp    => $snmp,
-        datadir => $self->{config}->{datadir},
+        dbdir   => $self->{config}->{datadir} . '/db',
         logger  => $self->{logger},
     );
     return unless $info;

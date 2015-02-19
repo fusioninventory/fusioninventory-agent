@@ -135,7 +135,7 @@ sub startAgent {
             logger => $logger,
             setup  => {
                 confdir => $directory . '/../../etc/fusioninventory',
-                datadir => $directory . '/../../share',
+                datadir => $directory . '/../../',
                 vardir  => $directory . '/../../var',
                 libdir  => $directory . '/../../lib',
             }

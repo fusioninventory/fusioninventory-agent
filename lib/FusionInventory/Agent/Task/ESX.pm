@@ -83,7 +83,7 @@ sub _processJob {
         my $message = FusionInventory::Agent::Message::Outbound->new(
             query      => 'INVENTORY',
             deviceid   => $self->{config}->{deviceid},
-            stylesheet => $self->{config}->{datadir} . '/inventory.xsl',
+            stylesheet => $self->{config}->{datadir} . 'html/inventory.xsl',
             content    => $inventory->getContent()
         );
 
