@@ -18,7 +18,6 @@ use FusionInventory::Agent::Task::Inventory;
 my %setup = (
     confdir => './etc',
     datadir => './',
-    libdir  => './lib',
     vardir  => './var',
 );
 

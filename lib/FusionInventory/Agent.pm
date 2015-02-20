@@ -411,7 +411,7 @@ sub _loadModules {
     my %disabled  = map { lc($_) => 1 } @{$params{disabled}};
 
     # tasks may be located only in agent libdir
-    my $directory = $self->{setup}->{libdir};
+    my $directory = $self->{setup}->{datadir} . '/lib';
     $directory =~ s,\\,/,g;
     my $subdirectory = "FusionInventory/Agent/Task";
     # look for all perl modules here

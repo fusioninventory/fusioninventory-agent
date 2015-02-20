@@ -17,7 +17,6 @@ use FusionInventory::Agent::Tools::Network;
 my %setup = (
     confdir => './etc',
     datadir => './',
-    libdir  => './lib',
     vardir  => './var',
 );
 

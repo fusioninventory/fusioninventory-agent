@@ -28,7 +28,6 @@ my %types = (
 my %setup = (
     confdir => './etc',
     datadir => './',
-    libdir  => './lib',
     vardir  => './var',
 );
 

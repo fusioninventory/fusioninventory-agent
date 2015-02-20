@@ -241,7 +241,6 @@ FINALIZE = $(ABSPERLRUN) -pi \
     -e 's|use lib .*|use lib "$(DATADIR)/lib";|;' \
     -e 's|confdir => .*|confdir => "$(SYSCONFDIR)",|;' \
     -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
-    -e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
     -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
     --
 EOF

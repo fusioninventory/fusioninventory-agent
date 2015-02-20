@@ -15,7 +15,6 @@ use FusionInventory::Agent::Logger;
 my %setup = (
     confdir => './etc',
     datadir => './',
-    libdir  => './lib',
     vardir  => './var',
 );
 
