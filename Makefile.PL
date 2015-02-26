@@ -68,7 +68,6 @@ recommends 'JSON'                         => '0';
 recommends 'URI::Escape'                  => '0';
 recommends 'POE::Component::Client::Ping' => '0';
 
-test_requires 'Test::HTTP::Server::Simple'   => '0';
 test_requires 'POE::Component::Client::Ping' => '0';
 
 # Network
