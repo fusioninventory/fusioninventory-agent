@@ -29,27 +29,54 @@ sub isEnabled {
         return;
     }
 
-    my @jobs = $response->getOptionsInfoByName('NETDISCOVERY');
-    if (!@jobs) {
+    my @options = $response->getOptionsInfoByName('NETDISCOVERY');
+    if (!@options) {
         $self->{logger}->debug("NetDiscovery task execution not requested");
         return;
     }
 
-    my @valid_jobs;
-    foreach my $job (@jobs) {
-        if (!$job->{RANGEIP}) {
+    my @jobs;
+    foreach my $option (@options) {
+        if (!$option->{RANGEIP}) {
             $self->{logger}->error("invalid job: no IP range defined");
             next;
         }
-        push @valid_jobs, $job;
+
+        my @ranges;
+        foreach my $range (@{$option->{RANGEIP}}) {
+            if (!$range->{IPSTART}) {
+                $self->{logger}->error(
+                    "invalid range: no first address defined"
+                );
+                next;
+            }
+            if (!$range->{IPEND}) {
+                $self->{logger}->error(
+                    "invalid range: no last address defined"
+                );
+                next;
+            }
+            push @ranges, $range;
+        }
+
+        if (@ranges) {
+            $self->{logger}->error("invalid job: no valid IP range defined");
+            next;
+        }
+
+        push @jobs, {
+            params      => $option->{PARAM}->[0],
+            credentials => $option->{AUTHENTICATION},
+            ranges      => \@ranges,
+        };
     }
 
-    if (!@valid_jobs) {
+    if (!@jobs) {
         $self->{logger}->error("no valid job found, aborting");
         return;
     }
 
-    $self->{jobs} = \@valid_jobs;
+    $self->{jobs} = \@jobs;
 
     return 1;
 }
@@ -101,12 +128,12 @@ sub run {
     }
 
     foreach my $job (@{$self->{jobs}}) {
-        my $pid         = $job->{PARAM}->[0]->{PID};
-        my $max_threads = $job->{PARAM}->[0]->{THREADS_DISCOVERY};
-        my $timeout     = $job->{PARAM}->[0]->{TIMEOUT};
+        my $pid         = $job->{params}->{PID};
+        my $max_threads = $job->{params}->{THREADS_DISCOVERY};
+        my $timeout     = $job->{params}->{TIMEOUT};
 
         # SNMP credentials
-        my $snmp_credentials = _getValidCredentials($job->{AUTHENTICATION});
+        my $snmp_credentials = _getValidCredentials($job->{credentials});
 
         # set internal state
         $self->{pid} = $pid;
@@ -115,7 +142,7 @@ sub run {
         $self->_sendStartMessage();
 
         # process each address block
-        foreach my $range (@{$job->{RANGEIP}}) {
+        foreach my $range (@{$job->{ranges}}) {
             my $block = Net::IP->new(
                 $range->{IPSTART} . '-' . $range->{IPEND}
             );

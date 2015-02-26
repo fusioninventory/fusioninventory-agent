@@ -29,27 +29,46 @@ sub isEnabled {
         return;
     }
 
-    my @jobs = $response->getOptionsInfoByName('SNMPQUERY');
-    if (!@jobs) {
+    my @options = $response->getOptionsInfoByName('SNMPQUERY');
+    if (!@options) {
         $self->{logger}->debug("NetInventory task execution not requested");
         return;
     }
 
-    my @valid_jobs;
-    foreach my $job (@jobs) {
-        if (!$job->{DEVICE}) {
+    my @jobs;
+    foreach my $option (@options) {
+        if (!$option->{DEVICE}) {
             $self->{logger}->error("invalid job: no device defined");
             next;
         }
-        push @valid_jobs, $job;
+
+        my @devices;
+        foreach my $device (@{$option->{DEVICE}}) {
+            if (!$device->{IP}) {
+                $self->{logger}->error("invalid device: no address defined");
+                next;
+            }
+            push @devices, $device;
+        }
+
+        if (!@devices) {
+            $self->{logger}->error("invalid job: no valid device defined");
+            next;
+        }
+
+        push @jobs, {
+            params      => $option->{PARAM}->[0],
+            credentials => $option->{AUTHENTICATION},
+            devices     => \@devices
+        };
     }
 
-    if (!@valid_jobs) {
+    if (!@jobs) {
         $self->{logger}->error("no valid job found, aborting");
         return;
     }
 
-    $self->{jobs} = \@valid_jobs;
+    $self->{jobs} = \@jobs;
 
     return 1;
 }
@@ -69,12 +88,12 @@ sub run {
     ) if !$self->{client};
 
     foreach my $job (@{$self->{jobs}}) {
-        my $pid         = $job->{PARAM}->[0]->{PID};
-        my $max_threads = $job->{PARAM}->[0]->{THREADS_QUERY};
-        my $timeout     = $job->{PARAM}->[0]->{TIMEOUT};
+        my $pid         = $job->{params}->{PID};
+        my $max_threads = $job->{params}->{THREADS_QUERY};
+        my $timeout     = $job->{params}->{TIMEOUT};
 
         # SNMP credentials
-        my $credentials = _getIndexedCredentials($job->{AUTHENTICATION});
+        my $credentials = _getIndexedCredentials($job->{credentials});
 
         # set internal state
         $self->{pid} = $pid;
@@ -86,7 +105,7 @@ sub run {
         my $devices = Thread::Queue->new();
         my $results = Thread::Queue->new();
 
-        foreach my $device (@{$job->{DEVICE}}) {
+        foreach my $device (@{$job->{devices}}) {
             $devices->enqueue($device);
         }
         my $size = $devices->pending();

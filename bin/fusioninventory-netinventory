@@ -113,16 +113,13 @@ my $inventory = FusionInventory::Agent::Task::NetInventory->new(
 
 $inventory->{jobs} = [
     {
-        NAME => 'SNMPQUERY',
-        PARAM => [
-            {
-                PID           => 1,
-                THREADS_QUERY => 1,
-                TIMEOUT       => $options->{timeout},
-            }
-        ],
-        DEVICE         => [ $device ],
-        AUTHENTICATION => [ $credentials ]
+        params => {
+            PID           => 1,
+            THREADS_QUERY => 1,
+            TIMEOUT       => $options->{timeout},
+        },
+        devices     => [ $device ],
+        credentials => [ $credentials ]
     }
 ];
 

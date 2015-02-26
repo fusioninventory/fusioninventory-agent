@@ -87,22 +87,19 @@ if ($options->{community}) {
 
 $discovery->{jobs} = [
     {
-        NAME => 'NETDISCOVERY',
-        PARAM => [
-            {
-                PID               => 1,
-                THREADS_DISCOVERY => $options->{threads},
-                TIMEOUT           => $options->{timeout},
-            }
-        ],
-        RANGEIP => [
+        params => {
+            PID               => 1,
+            THREADS_DISCOVERY => $options->{threads},
+            TIMEOUT           => $options->{timeout},
+        },
+        ranges => [
             {
                 ID      => 1,
                 IPSTART => $options->{first},
                 IPEND   => $options->{last},
             }
         ],
-        AUTHENTICATION => \@credentials
+        credentials => \@credentials
     }
 ];
 if (defined($options->{entity})) {
