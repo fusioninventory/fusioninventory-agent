@@ -59,7 +59,7 @@ sub isEnabled {
             push @ranges, $range;
         }
 
-        if (@ranges) {
+        if (!@ranges) {
             $self->{logger}->error("invalid job: no valid IP range defined");
             next;
         }
