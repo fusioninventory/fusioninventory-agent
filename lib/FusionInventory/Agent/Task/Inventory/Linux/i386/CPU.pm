@@ -108,7 +108,7 @@ sub _getPhysicalCPUs {
             FAMILYNUMBER => $cpu->{'cpu family'},
             MODEL        => $cpu->{'model'},
             CORE         => $cpu->{'cpu cores'},
-            THREAD       => $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1)
+            THREAD       => $cpu->{'siblings'},
         };
     }
 
