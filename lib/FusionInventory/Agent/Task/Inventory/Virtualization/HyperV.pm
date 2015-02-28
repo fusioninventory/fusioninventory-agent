@@ -33,7 +33,7 @@ sub _getVirtualMachines {
 
     my @machines;
 
-    # index memory and cpu information
+    # index memory, cpu and BIOS UUID information
     my %memory;
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
         moniker    => 'winmgmts://./root/virtualization',
@@ -56,6 +56,18 @@ sub _getVirtualMachines {
         $vcpu{$1} = $object->{VirtualQuantity};
     }
 
+    my %biosguid;
+    foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
+        moniker => 'winmgmts://./root/virtualization',
+        class => 'MSVM_VirtualSystemSettingData',
+        properties => [ qw/InstanceID BIOSGUID/ ]
+    )) {
+        my $id = $object->{InstanceID};
+        next unless $id =~ /^Microsoft:([^\\]+)/;
+        $biosguid{$1} = $object->{BIOSGUID};
+        $biosguid{$1} =~ tr/{}//d;
+    }
+
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
         moniker    => 'winmgmts://./root/virtualization',
         class      => 'MSVM_ComputerSystem',
@@ -74,7 +86,7 @@ sub _getVirtualMachines {
             VMTYPE    => 'HyperV',
             STATUS    => $status,
             NAME      => $object->{ElementName},
-            UUID      => $object->{Name},
+            UUID      => $biosguid{$object->{Name}},
             MEMORY    => $memory{$object->{Name}},
             VCPU      => $vcpu{$object->{Name}},
         };
