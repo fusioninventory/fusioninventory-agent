@@ -95,29 +95,30 @@ sub _getPhysicalCPUs {
     my (@cpus) = @_;
 
     my @physical_cpus;
-    my %cpus;
 
-    foreach my $cpu (@cpus) {
-        my $id = $cpu->{'physical id'};
-        if (defined $id) {
-            $cpus{$id}{STEPPING}     = $cpu->{'stepping'};
-            $cpus{$id}{FAMILYNUMBER} = $cpu->{'cpu family'};
-            $cpus{$id}{MODEL}        = $cpu->{'model'};
-            $cpus{$id}{CORE}         = $cpu->{'cpu cores'};
-            $cpus{$id}{THREAD}       = $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1);
-        } else {
-            push @physical_cpus, {
-                STEPPING     => $cpu->{'stepping'},
-                FAMILYNUMBER => $cpu->{'cpu family'},
-                MODEL        => $cpu->{'model'},
-                CORE         => 1,
-                THREAD       => 1
-            }
-        }
+    # push all cpus without any physical CPU id directly
+    foreach my $cpu (grep { !defined $_->{'physical id'} } @cpus) {
+        push @physical_cpus, {
+            STEPPING     => $cpu->{'stepping'},
+            FAMILYNUMBER => $cpu->{'cpu family'},
+            MODEL        => $cpu->{'model'},
+            CORE         => 1,
+            THREAD       => 1
+        };
     }
 
-    # physical id may not start at 0!
-    push @physical_cpus, values %cpus if %cpus;
+    # push cpus with a physical CPU identifier once only
+    my %seen;
+    foreach my $cpu (grep { defined $_->{'physical id'} } @cpus) {
+        next if $seen{$cpu->{'physical id'}}++;
+        push @physical_cpus, {
+            STEPPING     => $cpu->{'stepping'},
+            FAMILYNUMBER => $cpu->{'cpu family'},
+            MODEL        => $cpu->{'model'},
+            CORE         => $cpu->{'cpu cores'},
+            THREAD       => $cpu->{'siblings'} / ($cpu->{'cpu cores'} || 1)
+        };
+    }
 
     return @physical_cpus;
 }
