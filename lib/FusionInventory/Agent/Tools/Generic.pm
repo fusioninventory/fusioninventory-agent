@@ -66,6 +66,7 @@ sub getDmidecodeInfos {
             $2 eq 'N/A'                        ||
             $2 eq 'Not Specified'              ||
             $2 eq 'Not Present'                ||
+            $2 eq 'Unknown'                    ||
             $2 eq '<BAD INDEX>'                ||
             $2 eq '<OUT OF SPEC>'              ||
             $2 eq '<OUT OF SPEC><OUT OF SPEC>' ;

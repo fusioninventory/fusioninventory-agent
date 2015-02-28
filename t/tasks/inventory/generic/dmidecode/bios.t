@@ -102,7 +102,7 @@ my %tests = (
         },
         hardware => {
             UUID         => undef,
-            CHASSIS_TYPE => 'Unknown'
+            CHASSIS_TYPE => undef,
         }
     },
     'openbsd-3.8' => {

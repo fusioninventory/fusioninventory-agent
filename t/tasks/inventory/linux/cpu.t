@@ -74,7 +74,7 @@ my %i386 = (
             CORE           => undef,
             STEPPING       => '7',
             FAMILYNUMBER   => '6',
-            FAMILYNAME     => 'Unknown',
+            FAMILYNAME     => undef,
             ID             => 'A7 06 02 00 FF FB AB 0F',
             SERIAL         => undef
         }
