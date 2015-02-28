@@ -63,6 +63,22 @@ my %i386 = (
             SERIAL         => undef
         }
     ],
+    'rhel-6.3' => [
+        {
+            NAME           => 'Intel(R) Core(TM) i5-2500S CPU @ 2.70GHz',
+            MANUFACTURER   => 'Intel',
+            MODEL          => '42',
+            SPEED          => '2700',
+            THREAD         => undef,
+            ARCH           => 'i386',
+            CORE           => undef,
+            STEPPING       => '7',
+            FAMILYNUMBER   => '6',
+            FAMILYNAME     => 'Unknown',
+            ID             => 'A7 06 02 00 FF FB AB 0F',
+            SERIAL         => undef
+        }
+    ],
     'linux-686-samsung-nc10-1' => [
         {
             ARCH         => 'i386',

@@ -6437,6 +6437,21 @@ my %cpu_tests = (
             CORE           => '4',
         }
     ],
+    'rhel-6.3' => [
+        {
+            ID             => 'A7 06 02 00 FF FB AB 0F',
+            NAME           => 'Unknown',
+            SPEED          => '2700',
+            THREAD         => undef,
+            SERIAL         => undef,
+            MANUFACTURER   => 'GenuineIntel',
+            STEPPING       => 7,
+            FAMILYNUMBER   => 6,
+            MODEL          => 42,
+            FAMILYNAME     => 'Unknown',
+            CORE           => undef,
+        }
+    ],
     'openbsd-3.7' => [
         {
             ID             => '52 06 00 00 FF F9 83 01',

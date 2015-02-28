@@ -87,24 +87,26 @@ sub getCpusFromDmidecode {
 
     my @cpus;
     foreach my $info (@{$infos->{4}}) {
-        next if $info->{Status} && $info->{Status} =~ /Unpopulated/i;
+        next if $info->{Status} && $info->{Status} =~ /Unpopulated|Disabled/i;
 
-        my $proc_manufacturer = $info->{'Processor Manufacturer'};
-        my $proc_version      = $info->{'Processor Version'};
+        my $manufacturer = $info->{'Manufacturer'} ||
+                           $info->{'Processor Manufacturer'};
+        my $version      = $info->{'Version'} ||
+                           $info->{'Processor Version'};
 
         # VMware
         next if
-            ($proc_manufacturer && $proc_manufacturer eq '000000000000') &&
-            ($proc_version      && $proc_version eq '00000000000000000000000000000000');
+            ($manufacturer && $manufacturer eq '000000000000') &&
+            ($version      && $version eq '00000000000000000000000000000000');
 
         my $cpu = {
-            SERIAL     => $info->{'Serial Number'},
-            ID         => $info->{ID},
-            CORE       => $info->{'Core Count'} || $info->{'Core Enabled'},
-            THREAD     => $info->{'Thread Count'},
-            FAMILYNAME => $info->{'Family'}
+            SERIAL       => $info->{'Serial Number'},
+            ID           => $info->{ID},
+            CORE         => $info->{'Core Count'} || $info->{'Core Enabled'},
+            THREAD       => $info->{'Thread Count'},
+            FAMILYNAME   => $info->{'Family'},
+            MANUFACTURER => $manufacturer
         };
-        $cpu->{MANUFACTURER} = $info->{'Manufacturer'} || $info->{'Processor Manufacturer'};
         $cpu->{NAME} =
             ($cpu->{MANUFACTURER} =~ /Intel/ ? $info->{'Family'} : undef) ||
             $info->{'Version'}                                     ||
