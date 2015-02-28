@@ -68,7 +68,7 @@ sub _getCPUs {
             CORE         => $dmidecodeInfo->{CORE} || $object->{NumberOfCores},
             THREAD       => $dmidecodeInfo->{THREAD},
             DESCRIPTION  => $registryInfo->{'/Identifier'},
-            NAME         => $registryInfo->{'/ProcessorNameString'},
+            NAME         => trimWhitespace($registryInfo->{'/ProcessorNameString'}),
             MANUFACTURER => getCanonicalManufacturer($registryInfo->{'/VendorIdentifier'}),
             SERIAL       => $dmidecodeInfo->{SERIAL},
             SPEED        => $dmidecodeInfo->{SPEED} || $object->{MaxClockSpeed},
@@ -91,10 +91,6 @@ sub _getCPUs {
         }
 
         if ($cpu->{NAME}) {
-            $cpu->{NAME} =~ s/^\s+//;
-            $cpu->{NAME} =~ s/\s+$//;
-
-
             if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
                 $cpu->{SPEED} = {
                     ghz => 1000,

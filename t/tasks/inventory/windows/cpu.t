@@ -69,7 +69,7 @@ my %tests = (
     '2003SP2' => [
         {
             ID           => '0FEBBBFF00010676',
-            NAME         => 'Intel(R) Xeon(R) CPU           E5440  @ 2.83GHz',
+            NAME         => 'Intel(R) Xeon(R) CPU E5440 @ 2.83GHz',
             SERIAL       => undef,
             MANUFACTURER => 'Intel',
             DESCRIPTION  => 'x86 Family 6 Model 23 Stepping 6',
@@ -82,7 +82,7 @@ my %tests = (
         },
         {
             ID           => '0FEBBBFF00000676',
-            NAME         => 'Intel(R) Xeon(R) CPU           E5440  @ 2.83GHz',
+            NAME         => 'Intel(R) Xeon(R) CPU E5440 @ 2.83GHz',
             SERIAL       => undef,
             MANUFACTURER => 'Intel',
             DESCRIPTION  => 'x86 Family 6 Model 23 Stepping 6',
@@ -97,7 +97,7 @@ my %tests = (
     'xp' => [
         {
             ID           => '76 06 01 00 FF FB EB BF',
-            NAME         => 'Intel(R) Core(TM)2 Duo CPU     T9400  @ 2.53GHz',
+            NAME         => 'Intel(R) Core(TM)2 Duo CPU T9400 @ 2.53GHz',
             SERIAL       => undef,
             MANUFACTURER => 'Intel',
             DESCRIPTION  => 'x86 Family 6 Model 23 Stepping 6',
