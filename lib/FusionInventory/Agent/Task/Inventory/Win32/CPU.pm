@@ -90,13 +90,11 @@ sub _getCPUs {
             $cpu->{SERIAL} =~ s/\s//g;
         }
 
-        if ($cpu->{NAME}) {
-            if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
-                $cpu->{SPEED} = {
-                    ghz => 1000,
-                    mhz => 1,
-                }->{lc($2)} * $1;
-            }
+        if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
+            $cpu->{SPEED} = {
+                ghz => 1000,
+                mhz => 1,
+            }->{lc($2)} * $1;
         }
 
         push @cpus, $cpu;
