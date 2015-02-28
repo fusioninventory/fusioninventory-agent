@@ -48,15 +48,7 @@ sub _getCPUs {
 
     foreach my $cpu (@baseCPUs) {
 
-        if ($info->{vendor_id}) {
-            $info->{vendor_id} =~ s/Genuine//;
-            $info->{vendor_id} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-            $info->{vendor_id} =~ s/CyrixInstead/Cyrix/;
-            $info->{vendor_id} =~ s/CentaurHauls/VIA/;
-            $info->{vendor_id} =~ s/AuthenticAMD/AMD/;
-
-            $cpu->{MANUFACTURER} = $info->{vendor_id};
-        }
+        $cpu->{MANUFACTURER} = getCanonicalManufacturer($info->{vendor_id});
 
         if ($info->{'model name'}) {
             $cpu->{NAME} = $info->{'model name'};

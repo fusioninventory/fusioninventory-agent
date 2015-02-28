@@ -90,7 +90,18 @@ sub getCanonicalManufacturer {
 
     return unless $manufacturer;
 
-    if ($manufacturer =~ /(
+    my %manufacturers = (
+        GenuineIntel => 'Intel',
+        AuthenticAMD => 'AMD',
+        TMx86        => 'Transmeta',
+        TransmetaCPU => 'Transmeta',
+        CyrixInstead => 'Cyrix',
+        CentaurHauls => 'VIA'
+    );
+
+    if (exists $manufacturers{$manufacturer}) {
+        $manufacturer = $manufacturers{$manufacturer};
+    } elsif ($manufacturer =~ /(
         maxtor    |
         sony      |
         compaq    |

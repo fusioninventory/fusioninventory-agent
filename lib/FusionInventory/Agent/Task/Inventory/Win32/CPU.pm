@@ -69,7 +69,7 @@ sub _getCPUs {
             THREAD       => $dmidecodeInfo->{THREAD},
             DESCRIPTION  => $registryInfo->{'/Identifier'},
             NAME         => $registryInfo->{'/ProcessorNameString'},
-            MANUFACTURER => $registryInfo->{'/VendorIdentifier'},
+            MANUFACTURER => getCanonicalManufacturer($registryInfo->{'/VendorIdentifier'}),
             SERIAL       => $dmidecodeInfo->{SERIAL},
             SPEED        => $dmidecodeInfo->{SPEED} || $object->{MaxClockSpeed},
             FAMILYNUMBER => $splitted_identifier[2],
@@ -84,13 +84,6 @@ sub _getCPUs {
             if ($cpu->{NAME} =~ s/,\s(\S+)$//) {
                 $cpu->{MANUFACTURER} = $1;
             }
-        }
-
-        if ($cpu->{MANUFACTURER}) {
-            $cpu->{MANUFACTURER} =~ s/Genuine//;
-            $cpu->{MANUFACTURER} =~ s/(TMx86|TransmetaCPU)/Transmeta/;
-            $cpu->{MANUFACTURER} =~ s/CyrixInstead/Cyrix/;
-            $cpu->{MANUFACTURER} =~ s/CentaurHauls/VIA/;
         }
 
         if ($cpu->{SERIAL}) {
