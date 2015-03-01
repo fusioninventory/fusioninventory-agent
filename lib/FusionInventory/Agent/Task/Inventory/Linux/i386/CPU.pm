@@ -63,7 +63,7 @@ sub _getCPUs {
             MODEL          => $logicalCpu->{'model'} ||
                               $dmidecodeInfo->{MODEL},
             NAME           => $logicalCpu->{'model name'},
-            CORE           => $core   || $dmidecodeInfo->{CORE}, 
+            CORE           => $core   || $dmidecodeInfo->{CORE},
             THREAD         => $thread || $dmidecodeInfo->{THREAD}
         };
 
