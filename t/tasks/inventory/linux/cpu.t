@@ -45,7 +45,6 @@ my %i386 = (
             EXTERNAL_CLOCK => 5860,
             FAMILYNAME     => 'Xeon',
             ID             => 'C2 06 02 00 FF FB EB BF',
-            SERIAL         => undef
         },
         {
             NAME           => 'Intel(R) Xeon(R) CPU E5620 @ 2.40GHz',
@@ -60,7 +59,6 @@ my %i386 = (
             EXTERNAL_CLOCK => 5860,
             FAMILYNAME     => 'Xeon',
             ID             => 'C2 06 02 00 FF FB EB BF',
-            SERIAL         => undef
         }
     ],
     'rhel-6.3' => [
@@ -69,14 +67,12 @@ my %i386 = (
             MANUFACTURER   => 'Intel',
             MODEL          => '42',
             SPEED          => '2700',
-            THREAD         => undef,
+            THREAD         => 1,
             ARCH           => 'i386',
-            CORE           => undef,
+            CORE           => 1,
             STEPPING       => '7',
             FAMILYNUMBER   => '6',
-            FAMILYNAME     => undef,
             ID             => 'A7 06 02 00 FF FB AB 0F',
-            SERIAL         => undef
         }
     ],
     'linux-686-samsung-nc10-1' => [
@@ -243,7 +239,7 @@ my $inventory = FusionInventory::Test::Inventory->new();
 foreach my $test (keys %i386) {
     my $cpuinfo   = "resources/linux/proc/cpuinfo/$test";
     my $dmidecode = "resources/generic/dmidecode/$test";
-    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::i386::CPU::_getCPUs(cpuinfo => $cpuinfo, dmidecode => $dmidecode);
+    my @cpus = FusionInventory::Agent::Task::Inventory::Linux::i386::CPU::_getCPUs(file => $cpuinfo, dmidecode => $dmidecode);
     cmp_deeply(\@cpus, $i386{$test}, "cpus: ".$test);
     lives_ok {
         $inventory->addEntry(section => 'CPUS', entry => $_) foreach @cpus;

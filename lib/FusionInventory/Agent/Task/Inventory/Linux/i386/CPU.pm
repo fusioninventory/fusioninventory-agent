@@ -30,42 +30,47 @@ sub doInventory {
 sub _getCPUs {
     my (%params) = @_;
 
-    my @cpusFromDmidecode = $params{dmidecode} ?
+    my @dmidecodeInfos = $params{dmidecode} ?
         getCpusFromDmidecode(file => $params{dmidecode}) :
         getCpusFromDmidecode();
-    my @cpusFromProc      = $params{cpuinfo} ?
-        getCPUsFromProc(file => $params{cpuinfo}) :
-        getCPUsFromProc();
 
-    my @physicalCPUs = _getPhysicalCPUs(@cpusFromProc);
-    my @baseCPUs = @cpusFromDmidecode ?
-        @cpusFromDmidecode : @physicalCPUs;
-
-    my $info = $cpusFromProc[-1];
-
-    my $cpt = 0;
+    my $count = 0;
     my @cpus;
+    my %seen;
 
-    foreach my $cpu (@baseCPUs) {
-
-        $cpu->{MANUFACTURER} = getCanonicalManufacturer($info->{vendor_id});
-
-        if ($info->{'model name'}) {
-            $cpu->{NAME} = $info->{'model name'};
+    foreach my $logicalCpu (getCPUsFromProc(@_)) {
+        my $cpuId = $logicalCpu->{'physical id'};
+        my ($core, $thread);
+        if (defined $cpuId) {
+            next if $seen{$cpuId}++;
+            $core   = $logicalCpu->{'cpu cores'};
+            $thread = $logicalCpu->{'siblings'};
+        } else {
+            $cpuId  = $count;
+            $core   = 1;
+            $thread = 1;
         }
 
-        # Get directly informations from cpuinfo if not already processed
-        # in dmidecode
-        $cpu->{CORE} = $cpusFromProc[$cpt]{CORE}
-            unless $cpu->{CORE};
-        $cpu->{THREAD} = $cpusFromProc[$cpt]{THREAD}
-            unless $cpu->{THREAD};
-        $cpu->{STEPPING} = $cpusFromProc[$cpt]{STEPPING}
-            unless $cpu->{STEPPING} ;
-        $cpu->{FAMILYNUMBER} = $cpusFromProc[$cpt]{FAMILYNUMBER}
-            unless $cpu->{FAMILYNUMBER};
-        $cpu->{MODEL} = $cpusFromProc[$cpt]{MODEL}
-            unless $cpu->{MODEL};
+        my $dmidecodeInfo = $dmidecodeInfos[$cpuId];
+
+        my $cpu = {
+            ARCH           => 'i386',
+            MANUFACTURER   => getCanonicalManufacturer($logicalCpu->{vendor_id}),
+            STEPPING       => $logicalCpu->{'stepping'} ||
+                              $dmidecodeInfo->{STEPPING},
+            FAMILYNUMBER   => $logicalCpu->{'cpu family'} ||
+                              $dmidecodeInfo->{FAMILYNUMBER},
+            MODEL          => $logicalCpu->{'model'} ||
+                              $dmidecodeInfo->{MODEL},
+            NAME           => $logicalCpu->{'model name'},
+            CORE           => $core   || $dmidecodeInfo->{CORE}, 
+            THREAD         => $thread || $dmidecodeInfo->{THREAD}
+        };
+
+        $cpu->{ID}     = $dmidecodeInfo->{ID} if $dmidecodeInfo->{ID};
+        $cpu->{SERIAL} = $dmidecodeInfo->{SERIAL} if $dmidecodeInfo->{SERIAL};
+        $cpu->{EXTERNAL_CLOCK} = $dmidecodeInfo->{EXTERNAL_CLOCK} if $dmidecodeInfo->{EXTERNAL_CLOCK};
+        $cpu->{FAMILYNAME} = $dmidecodeInfo->{FAMILYNAME} if $dmidecodeInfo->{FAMILYNAME};
 
         if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
             $cpu->{SPEED} = {
@@ -74,45 +79,11 @@ sub _getCPUs {
             }->{lc($2)} * $1;
         }
 
-        $cpu->{ARCH} = 'i386';
-
         push @cpus, $cpu;
-        $cpt++;
+        $count++;
     }
 
     return @cpus;
-}
-
-sub _getPhysicalCPUs {
-    my (@cpus) = @_;
-
-    my @physical_cpus;
-
-    # push all cpus without any physical CPU id directly
-    foreach my $cpu (grep { !defined $_->{'physical id'} } @cpus) {
-        push @physical_cpus, {
-            STEPPING     => $cpu->{'stepping'},
-            FAMILYNUMBER => $cpu->{'cpu family'},
-            MODEL        => $cpu->{'model'},
-            CORE         => 1,
-            THREAD       => 1
-        };
-    }
-
-    # push cpus with a physical CPU identifier once only
-    my %seen;
-    foreach my $cpu (grep { defined $_->{'physical id'} } @cpus) {
-        next if $seen{$cpu->{'physical id'}}++;
-        push @physical_cpus, {
-            STEPPING     => $cpu->{'stepping'},
-            FAMILYNUMBER => $cpu->{'cpu family'},
-            MODEL        => $cpu->{'model'},
-            CORE         => $cpu->{'cpu cores'},
-            THREAD       => $cpu->{'siblings'},
-        };
-    }
-
-    return @physical_cpus;
 }
 
 1;
