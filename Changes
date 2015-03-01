@@ -1,11 +1,16 @@
 Revision history for FusionInventory agent
 
-2.3.16 Mon, 9 Feb 2015
+2.3.16 Sun, 1 Mar 2015
 inventory:
 * fix Rudder server UUID file location (#2865)
+* use BIOS ID as guest ID for HyperV hypervisor (#2881)
+* filter disabled CPUs in DMI data (#2525)
+* minor fixes in CPU information retrieval
 
 netdiscovery:
 * fix communication with latest FusionInventory for GLPI (#2862)
+* add multiple H3C/SMC/HP models in sysobject.ids (#2873)
+* change sysobject.ids file format
 
 netinventory:
 * fix communication with latest FusionInventory for GLPI (#2862)
