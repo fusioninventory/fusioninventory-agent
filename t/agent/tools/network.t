@@ -95,13 +95,16 @@ foreach my $test (@mask_tests) {
 SKIP: {
 skip 'Author test', 2 unless $ENV{TEST_AUTHOR};
 
+my @localhost_results = resolve("localhost");
+
 ok(
-    resolve("localhost"),
+    @localhost_results,
     "Can resolve localhost"
 );
 
+my @google_results = resolve("www.google.com");
 ok(
-    resolve("www.google.com") > 2,
+    @google_results >= 2,
     "Can resolve www.google.com"
 );
 }
