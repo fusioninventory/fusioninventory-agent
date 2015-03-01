@@ -96,7 +96,7 @@ sub run {
     ) if !$self->{client};
 
     # check discovery methods available
-    my ($nmap_parameters, $snmp_credentials);
+    my $nmap_parameters;
 
     if (canRun('nmap')) {
        my ($major, $minor) = getFirstMatch(
