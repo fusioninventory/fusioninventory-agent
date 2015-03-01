@@ -236,7 +236,7 @@ cmp_deeply(
 my $snmp2 = FusionInventory::Agent::SNMP::Mock->new(
     hash => {
         '.1.3.6.1.2.1.1.1.0'        => [ 'STRING', 'foo' ],
-        '.1.3.6.1.2.1.1.2.0'        => [ 'STRING', '.1.3.6.1.4.1.45' ],
+        '.1.3.6.1.2.1.1.2.0'        => [ 'STRING', '.1.3.6.1.4.1.45.1' ],
     }
 );
 
