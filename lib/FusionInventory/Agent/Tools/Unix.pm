@@ -63,7 +63,7 @@ sub _findDhcpLeaseFile {
         /var/lib/dhcp
         /var/lib/dhclient
     );
-    my @patterns = ("*$if*.lease", "*.lease");
+    my @patterns = ("*$if*.lease", "*.lease", "dhclient.leases.$if");
     my @files;
 
     foreach my $directory (@directories) {
