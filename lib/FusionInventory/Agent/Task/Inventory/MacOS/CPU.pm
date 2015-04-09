@@ -31,6 +31,7 @@ sub _getCpus {
 
     # system profiler informations
     my $infos = getSystemProfilerInfos(
+        type   => 'SPHardwareDataType',
         logger => $params{logger},
         file   => $params{file}
     );

@@ -36,6 +36,7 @@ sub _getMemories {
     my (%params) = @_;
 
     my $infos = getSystemProfilerInfos(
+        type   => 'SPMemoryDataType',
         logger => $params{logger},
         file   => $params{file}
     );
@@ -82,6 +83,7 @@ sub _getMemory {
     my (%params) = @_;
 
     my $infos = getSystemProfilerInfos(
+        type   => 'SPMemoryDataType',
         logger => $params{logger},
         file   => $params{file}
     );

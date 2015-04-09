@@ -39,6 +39,7 @@ sub _getDisplays {
     my (%params) = @_;
 
     my $infos = getSystemProfilerInfos(
+        type   => 'SPDisplaysDataType',
         logger => $params{logger},
         file   => $params{file}
     );

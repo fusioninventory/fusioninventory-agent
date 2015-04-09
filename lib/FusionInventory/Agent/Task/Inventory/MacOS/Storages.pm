@@ -30,6 +30,7 @@ sub _getStorages {
     my (%params) = @_;
 
     my $infos = getSystemProfilerInfos(
+        type   => 'SPStorageDataType',
         logger => $params{logger},
         file   => $params{file}
     );

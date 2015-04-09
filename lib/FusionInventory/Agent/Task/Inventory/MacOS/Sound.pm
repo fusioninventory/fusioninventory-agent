@@ -18,7 +18,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $infos = getSystemProfilerInfos(logger => $logger);
+    my $infos = getSystemProfilerInfos(type => 'SPAudioDataType', logger => $logger);
     my $info = $infos->{'Audio (Built In)'};
 
     foreach my $sound (keys %$info){

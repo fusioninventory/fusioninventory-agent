@@ -20,7 +20,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $infos = getSystemProfilerInfos(logger => $logger);
+    my $infos = getSystemProfilerInfos(type => 'SPPrintersDataType', logger => $logger);
     my $info = $infos->{Printers};
 
     foreach my $printer (keys %$info) {

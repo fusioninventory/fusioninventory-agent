@@ -16,7 +16,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $infos = getSystemProfilerInfos(logger => $logger);
+    my $infos = getSystemProfilerInfos(type => 'SPHardwareDataType', logger => $logger);
     my $info = $infos->{'Hardware'}->{'Hardware Overview'};
 
     my ($device) = getIODevices(

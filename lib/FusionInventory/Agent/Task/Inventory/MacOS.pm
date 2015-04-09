@@ -23,7 +23,7 @@ sub doInventory {
     my $kernelRelease = getFirstLine(command => 'uname -r');
 
     my ($name, $version);
-    my $infos = getSystemProfilerInfos(logger => $logger);
+    my $infos = getSystemProfilerInfos(type => 'SPSoftwareDataType', logger => $logger);
     my $SystemVersion =
         $infos->{'Software'}->{'System Software Overview'}->{'System Version'};
     if ($SystemVersion =~ /^(.*?)\s+(\d+.*)/) {
