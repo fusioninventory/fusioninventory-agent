@@ -5,7 +5,6 @@ use warnings;
 use base 'Exporter';
 
 use English qw(-no_match_vars);
-use List::Util qw(first);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
@@ -438,26 +437,14 @@ sub _getSerial {
     my ($snmp, $type) = @_;
 
     # Entity-MIB::entPhysicalSerialNum
-    my $entPhysicalSerialNum = $snmp->walk('.1.3.6.1.2.1.47.1.1.1.1.11');
-    if ($entPhysicalSerialNum) {
-        my $serial =
-            first { $_ }
-            map   { $entPhysicalSerialNum->{$_} }
-            sort  { $a <=> $b }
-            keys %$entPhysicalSerialNum;
-        return _getCanonicalSerialNumber($serial) if $serial;
-    }
+    my $entPhysicalSerialNum = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.11');
+    return _getCanonicalSerialNumber($entPhysicalSerialNum)
+        if $entPhysicalSerialNum;
 
     # Printer-MIB::prtGeneralSerialNumber
-    my $prtGeneralSerialNumber = $snmp->walk('.1.3.6.1.2.1.43.5.1.1.17');
-    if ($prtGeneralSerialNumber) {
-        my $serial =
-            first { $_ }
-            map   { $prtGeneralSerialNumber->{$_} }
-            sort  { $a <=> $b }
-            keys %$prtGeneralSerialNumber;
-        return _getCanonicalSerialNumber($serial) if $serial;
-    }
+    my $prtGeneralSerialNumber = $snmp->get_first('.1.3.6.1.2.1.43.5.1.1.17');
+    return _getCanonicalSerialNumber($prtGeneralSerialNumber)
+        if $prtGeneralSerialNumber;
 
     # vendor specific OIDs
     my @oids = (
@@ -481,25 +468,11 @@ sub _getSerial {
 sub _getFirmware {
     my ($snmp, $type) = @_;
 
-    my $entPhysicalSoftwareRev = $snmp->walk('.1.3.6.1.2.1.47.1.1.1.1.10');
-    if ($entPhysicalSoftwareRev) {
-        my $firmware =
-            first { $_ }
-            map   { $entPhysicalSoftwareRev->{$_} }
-            sort  { $a <=> $b }
-            keys %$entPhysicalSoftwareRev;
-        return $firmware if $firmware;
-    }
+    my $entPhysicalSoftwareRev = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.10');
+    return $entPhysicalSoftwareRev if $entPhysicalSoftwareRev;
 
-    my $entPhysicalFirmwareRev = $snmp->walk('.1.3.6.1.2.1.47.1.1.1.1.9');
-    if ($entPhysicalFirmwareRev) {
-        my $firmware =
-            first { $_ }
-            map   { $entPhysicalFirmwareRev->{$_} }
-            sort  { $a <=> $b }
-            keys %$entPhysicalFirmwareRev;
-        return $firmware if $firmware;
-    }
+    my $entPhysicalFirmwareRev = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.9');
+    return $entPhysicalFirmwareRev if $entPhysicalFirmwareRev;
 
     my $ios_version = $snmp->get('.1.3.6.1.4.1.9.9.25.1.1.1.2.5');
     return $ios_version if $ios_version;

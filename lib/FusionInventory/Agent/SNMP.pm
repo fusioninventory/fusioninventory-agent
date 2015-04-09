@@ -6,7 +6,24 @@ use warnings;
 use Encode qw(encode);
 use English qw(-no_match_vars);
 
+use List::Util qw(first);
+
 our $VERSION = '1.1';
+
+sub get_first {
+    my ($self, $oid) = @_;
+
+    my $values = $self->walk($oid);
+    return unless $values;
+
+    my $value =
+        first { $_ }
+        map   { $values->{$_} }
+        sort  { $a <=> $b }
+        keys %$values;
+
+    return $value;
+}
 
 1;
 __END__
@@ -38,6 +55,11 @@ Reset to original context.
 This method returns a single value, corresponding to a single OID. The value is
 normalised to remove any control character, and hexadecimal mac addresses are
 translated into plain ascii.
+
+=head2 get_first($oid)
+
+This method returns a single value, corresponding to the first non-null value
+in an SNMP table, in ascending index order.
 
 =head2 walk($oid)
 
