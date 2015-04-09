@@ -367,7 +367,7 @@ sub _getSysObjectIDInfo {
         \.1\.3\.6\.1\.4\.1
     )/x;
     my ($manufacturer_id, $device_id) =
-        $params{id} =~ /^ $prefix \. (\d+) \. ([\d.]+) $/x;
+        $params{id} =~ /^ $prefix \. (\d+) (?:\. ([\d.]+))? $/x;
 
     if (!$manufacturer_id) {
         $logger->debug("invalid sysobjectID $params{id}: no manufacturer ID")
@@ -378,18 +378,19 @@ sub _getSysObjectIDInfo {
     if (!$device_id) {
         $logger->debug("invalid sysobjectID $params{id}: no device ID")
             if $logger;
-        return;
     }
 
     my $match;
 
     # attempt full match first
-    $match = $sysobjectid{$manufacturer_id . '.' . $device_id};
-    if ($match) {
-        $logger->debug(
-            "full match for sysobjectID $params{id} in database"
-        ) if $logger;
-        return $match;
+    if ($device_id) {
+        $match = $sysobjectid{$manufacturer_id . '.' . $device_id};
+        if ($match) {
+            $logger->debug(
+                "full match for sysobjectID $params{id} in database"
+            ) if $logger;
+            return $match;
+        }
     }
 
     # fallback to partial match
