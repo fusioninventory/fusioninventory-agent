@@ -1,5 +1,17 @@
 Revision history for FusionInventory agent
 
+2.3.17 not yet released
+inventory:
+* small fixes for DragonFlyBSD (#2899)
+* fix recurrent timeout for system_profile usage on MacOS (#2913)
+
+netinventory:
+* better serial retrieval (#2912)
+* fix vendor-specific OID usage for firmware retrieval (#2908)
+* additional Cisco devices in sysobject.ids (#2912)
+* minor fixes in sysobject.ids
+* relax constraints on sysobjectid syntax
+
 2.3.16 Sun, 1 Mar 2015
 inventory:
 * fix Rudder server UUID file location (#2865)
