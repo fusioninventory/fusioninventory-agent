@@ -500,10 +500,10 @@ sub _getFirmware {
         return $firmware if $firmware;
     }
 
-    my $ios_version = $snmp->walk('.1.3.6.1.4.1.9.9.25.1.1.1.2.5');
+    my $ios_version = $snmp->get('.1.3.6.1.4.1.9.9.25.1.1.1.2.5');
     return $ios_version if $ios_version;
 
-    my $firmware = $snmp->walk('.1.3.6.1.4.1.248.14.1.1.2.0');
+    my $firmware = $snmp->get('.1.3.6.1.4.1.248.14.1.1.2.0');
     return $firmware if $firmware;
 
     return;
