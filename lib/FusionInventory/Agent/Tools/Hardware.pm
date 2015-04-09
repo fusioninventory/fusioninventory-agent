@@ -436,28 +436,38 @@ sub _loadSysObjectIDDatabase {
 sub _getSerial {
     my ($snmp, $type) = @_;
 
-    my @network_oids = (
-        '.1.3.6.1.2.1.47.1.1.1.1.11.1',    # Entity-MIB::entPhysicalSerialNum
-        '.1.3.6.1.2.1.47.1.1.1.1.11.2',    # Entity-MIB::entPhysicalSerialNum
-        '.1.3.6.1.2.1.47.1.1.1.1.11.1001', # Entity-MIB::entPhysicalSerialNum
-        '.1.3.6.1.4.1.2636.3.1.3.0',       # Juniper-MIB
-        '.1.3.6.1.4.1.248.14.1.1.9.1.10.1',# Hirschman MIB
-    );
+    # Entity-MIB::entPhysicalSerialNum
+    my $entPhysicalSerialNum = $snmp->walk('.1.3.6.1.2.1.47.1.1.1.1.11');
+    if ($entPhysicalSerialNum) {
+        my $serial =
+            first { $_ }
+            map   { $entPhysicalSerialNum->{$_} }
+            sort  { $a <=> $b }
+            keys %$entPhysicalSerialNum;
+        return _getCanonicalSerialNumber($serial) if $serial;
+    }
 
-    my @printer_oids = (
-        '.1.3.6.1.2.1.43.5.1.1.17.1',      # Printer-MIB::prtGeneralSerialNumber
+    # Printer-MIB::prtGeneralSerialNumber
+    my $prtGeneralSerialNumber = $snmp->walk('.1.3.6.1.2.1.43.5.1.1.17');
+    if ($prtGeneralSerialNumber) {
+        my $serial =
+            first { $_ }
+            map   { $prtGeneralSerialNumber->{$_} }
+            sort  { $a <=> $b }
+            keys %$prtGeneralSerialNumber;
+        return _getCanonicalSerialNumber($serial) if $serial;
+    }
+
+    # vendor specific OIDs
+    my @oids = (
+        '.1.3.6.1.4.1.2636.3.1.3.0',             # Juniper-MIB
+        '.1.3.6.1.4.1.248.14.1.1.9.1.10.1',      # Hirschman MIB
         '.1.3.6.1.4.1.253.8.53.3.2.1.3.1',       # Xerox-MIB
         '.1.3.6.1.4.1.367.3.2.1.2.1.4.0',        # Ricoh-MIB
         '.1.3.6.1.4.1.641.2.1.2.1.6.1',          # Lexmark-MIB
         '.1.3.6.1.4.1.1602.1.2.1.4.0',           # Canon-MIB
         '.1.3.6.1.4.1.2435.2.3.9.4.2.1.5.5.1.0', # Brother-MIB
     );
-
-    my @oids =
-        $type && $type eq 'NETWORKING' ? @network_oids :
-        $type && $type eq 'PRINTER'    ? @printer_oids :
-                                         (@network_oids, @printer_oids);
-
     foreach my $oid (@oids) {
         my $value = $snmp->get($oid);
         next unless $value;
