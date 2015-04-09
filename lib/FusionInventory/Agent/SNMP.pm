@@ -52,17 +52,14 @@ Reset to original context.
 
 =head2 get($oid)
 
-This method returns a single value, corresponding to a single OID. The value is
-normalised to remove any control character, and hexadecimal mac addresses are
-translated into plain ascii.
+This method returns the value from the SNMP object with given OID.
 
 =head2 get_first($oid)
 
-This method returns a single value, corresponding to the first non-null value
-in an SNMP table, in ascending index order.
+This method returns the first first non-null value from the SNMP table with
+given OID.
 
 =head2 walk($oid)
 
-This method returns an hashref of values, indexed by their OIDs, starting from
-the given one. The values are normalised to remove any control character, and
-hexadecimal mac addresses are translated into plain ascii.
+This method returns all values from the SNMP table with given OID, indexed by
+their index.
