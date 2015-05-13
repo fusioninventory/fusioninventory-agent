@@ -30,6 +30,9 @@ sub doInventory {
 
     my $OSLevel = getFirstLine(command => 'oslevel -r');
     my @OSLevelParts = split(/-/, $OSLevel);
+    
+    $version = "$version TL$OSLevelParts[1]";
+    $version =~ s/TL00*$//;
 
     my $Revision = getFirstLine(command => 'oslevel -s');
     my @RevisionParts = split(/-/, $Revision);
