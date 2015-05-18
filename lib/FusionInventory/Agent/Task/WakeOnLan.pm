@@ -22,21 +22,23 @@ sub isEnabled {
         return;
     }
 
-    my $options = $response->getOptionsInfoByName('WAKEONLAN');
-    if (!$options) {
+    my @options = $response->getOptionsInfoByName('WAKEONLAN');
+    if (!@options) {
         $self->{logger}->debug("WakeOnLan task execution not requested");
         return;
     }
 
     my @addresses;
-    foreach my $param (@{$options->{PARAM}}) {
-        my $address = $param->{MAC};
-        if ($address !~ /^$mac_address_pattern$/) {
-            $self->{logger}->error("invalid MAC address $address, skipping");
-            next;
+    foreach my $option (@options) {
+        foreach my $param (@{$option->{PARAM}}) {
+            my $address = $param->{MAC};
+            if ($address !~ /^$mac_address_pattern$/) {
+                $self->{logger}->error("invalid MAC address $address, skipping");
+                next;
+            }
+            $address =~ s/://g;
+            push @addresses, $address;
         }
-        $address =~ s/://g;
-        push @addresses, $address;
     }
 
     if (!@addresses) {
