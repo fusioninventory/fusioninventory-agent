@@ -179,6 +179,9 @@ sub _check_bge_nic {
 sub _check_nxge_nic {
     my ($nic, $num) = @_;
 
+    # dladm show-dev can only be used in global zone (#2939)
+    return unless getZone() eq 'global';
+
     #nxge0           link: up        speed: 1000  Mbps       duplex: full
     my ($speed, $unit, $duplex) = getFirstMatch(
         command => "/usr/sbin/dladm show-dev $nic$num",
