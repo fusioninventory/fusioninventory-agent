@@ -2297,6 +2297,22 @@
 6889.1.69.3.2	Avaya	PHONE	1608
 6889.1.69.5.2	Avaya	PHONE	9611g
 
+8239	Juniper	NETWORKING
+8239.1.2.1	Juniper	Networking	WX 50
+8239.1.2.2	Juniper	Networking	WX 55
+8239.1.2.3	Juniper	Networking	WX 20
+8239.1.2.4	Juniper	Networking	WX 80
+8239.1.2.5	Juniper	Networking	WX 100
+8239.1.2.6	Juniper	Networking	WX C500
+8239.1.2.7	Juniper	Networking	WX 15
+8239.1.2.8	Juniper	Networking	WX C250
+8239.1.2.9	Juniper	Networking	WX 60
+8239.1.2.10	Juniper	Networking	WX C590
+8239.1.2.11	Juniper	Networking	Ism 200 WXC
+8239.1.2.12	Juniper	Networking	WXC 1800
+8239.1.2.13	Juniper	Networking	WXC 2600
+8239.1.2.14	Juniper	Networking	WXC 3400
+
 10418	Avocent	KVM
 10418.3.1.16	Avocent	KVM	GCM2
 10418.7.1.16	Avocent	KVM	DSR2030
