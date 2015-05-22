@@ -56,7 +56,7 @@ sub run {
         }
 
         if ( !defined( $functions{ $job->{function} } ) ) {
-            $self->{logger}->error("Bad function `$job->{function}'");
+            $self->{logger}->error("Bad function '$job->{function}'");
             next;
         }
 
