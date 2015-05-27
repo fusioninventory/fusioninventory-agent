@@ -25,6 +25,130 @@ my %functions = (
     getFromWMI      => \&_getFromWMI
 );
 
+# How to validate JSON for retreived jobs
+sub _OPTIONAL  { 0 }
+sub _MANDATORY { 1 }
+sub _OPTIONAL_EXCLUSIVE { 2 }
+my %json_validation = (
+    getFromRegistry => {
+        path   => _MANDATORY
+    },
+    findFile => {
+        dir       => _MANDATORY,
+        limit     => _MANDATORY,
+        recursive => _MANDATORY,
+        filter    => {
+            regex          => _OPTIONAL,
+            sizeEquals     => _OPTIONAL,
+            sizeGreater    => _OPTIONAL,
+            sizeLower      => _OPTIONAL,
+            checkSumSHA512 => _OPTIONAL,
+            checkSumSHA2   => _OPTIONAL,
+            name           => _OPTIONAL,
+            iname          => _OPTIONAL,
+            is_file        => _MANDATORY,
+            is_dir         => _MANDATORY
+        }
+    },
+    getFromWMI => {
+        class      => _MANDATORY,
+        properties => _MANDATORY
+    }
+);
+
+sub isEnabled {
+    my ($self) = @_;
+
+    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+        $self->{logger}->debug("ESX task not compatible with local target");
+        return;
+    }
+
+    return 1;
+}
+
+sub _validateSpec {
+    my ($self, $base, $key, $spec) = @_;
+
+    if (ref($spec) eq 'HASH') {
+        if (!exists($base->{$key})) {
+            $self->{logger}->debug("$key mandatory values are missing in job");
+            return 0;
+        }
+        $self->{logger}->debug("$key mandatory values are present in job");
+        foreach my $attribute (keys(%{$spec})) {
+            return 0 unless $self->_validateSpec($base->{$key}, $attribute, $spec->{$attribute});
+        }
+        return 1;
+    }
+
+    if ($spec == _MANDATORY) {
+        if (!exists($base->{$key})) {
+            $self->{logger}->debug("$key mandatory value is missing in job");
+            return 0;
+        }
+        $self->{logger}->debug("$key mandatory value is present in job with value '".$base->{$key}."'");
+        return 1;
+    }
+
+    if ($spec == _OPTIONAL && exists($base->{$key})) {
+        $self->{logger}->debug("$key optional value is present in job with value '".$base->{$key}."'");
+    }
+
+    1;
+}
+
+sub _validateAnswer {
+    my ($self, $msgRef, $answer) = @_;
+
+    $$msgRef = "";
+
+    if (!defined($answer)) {
+        $$msgRef = "No answer from server.";
+        return;
+    }
+
+    if (ref($answer) ne 'HASH') {
+        $$msgRef = "Bad answer from server. Not a hash reference.";
+        return;
+    }
+
+    if (!defined($answer->{jobs})) {
+        $$msgRef = "missing jobs key";
+        return;
+    }
+
+    foreach my $job (@{$answer->{jobs}}) {
+
+        foreach (qw/uuid function/) {
+            if (!defined($job->{$_})) {
+                $$msgRef = "Missing key '$_' in job";
+                return;
+            }
+        }
+
+        my $function = $job->{function};
+        if (!exists($functions{$function})) {
+            $$msgRef = "not supported 'function' key value in job";
+            return;
+        }
+
+        if (!exists($json_validation{$function})) {
+            $$msgRef = "can't validate job";
+            return;
+        }
+
+        foreach my $attribute (keys($json_validation{$function})) {
+            if (!$self->_validateSpec( $job, $attribute, $json_validation{$function}->{$attribute} )) {
+                $$msgRef = "'$function' job JSON format is not valid";
+                return;
+            }
+        }
+    }
+
+    return 1;
+}
+
 sub getConfiguration {
     my ($self, %params) = @_;
 
@@ -38,11 +162,65 @@ sub getConfiguration {
 sub run {
     my ($self, %params) = @_;
 
-    my $target = $params{target}
-        or die "no target provided, aborting";
-    my @jobs = @{$self->{config}->{jobs}}
+    $self->{client} = FusionInventory::Agent::HTTP::Client::Fusion->new(
+        logger       => $self->{logger},
+        user         => $params{user},
+        password     => $params{password},
+        proxy        => $params{proxy},
+        ca_cert_file => $params{ca_cert_file},
+        ca_cert_dir  => $params{ca_cert_dir},
+        no_ssl_check => $params{no_ssl_check},
+        debug        => $self->{debug}
+    );
+
+    my $globalRemoteConfig = $self->{client}->send(
+        url  => $self->{target}->{url},
+        args => {
+            action    => "getConfig",
+            machineid => $self->{deviceid},
+            task      => { Collect => $VERSION },
+        }
+    );
+
+    return unless $globalRemoteConfig->{schedule};
+    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
+
+    foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
+        next unless $job->{task} eq "Collect";
+        $self->processRemote($job->{remote});
+    }
+
+    return 1;
+}
+
+sub processRemote {
+    my ($self, $remoteUrl) = @_;
+
+    if ( !$remoteUrl ) {
+        return;
+    }
+
+    my $answer = $self->{client}->send(
+        url  => $remoteUrl,
+        args => {
+            action    => "getJobs",
+            machineid => $self->{deviceid},
+        }
+    );
+
+    if (ref($answer) eq 'HASH' && !keys %$answer) {
+        $self->{logger}->debug("Nothing to do");
+        return;
+    }
+
+    my $msg;
+    if (!$self->_validateAnswer(\$msg, $answer)) {
+        $self->{logger}->debug("bad JSON: ".$msg);
+        return;
+    }
+
+    my @jobs = @{$answer->{jobs}}
         or die "no jobs provided, aborting";
-    my $max_workers = $self->{config}->{workers} || 0;
 
     foreach my $job (@jobs) {
         if ( !$job->{uuid} ) {
@@ -69,9 +247,10 @@ sub run {
             $result->{uuid}   = $job->{uuid};
             $result->{action} = "setAnswer";
             $result->{_cpt}   = $count;
-            $target->send(
-                filename => sprintf('collect_%s_%s.js', $job->{uuid}, $count),
-                message  => $result
+            $self->{client}->send(
+               url      => $remoteUrl,
+               filename => sprintf('collect_%s_%s.js', $job->{uuid}, $count),
+               args     => $result
             );
             $count--;
         }
