@@ -138,7 +138,7 @@ sub _validateAnswer {
             return;
         }
 
-        foreach my $attribute (keys($json_validation{$function})) {
+        foreach my $attribute (keys(%{$json_validation{$function}})) {
             if (!$self->_validateSpec( $job, $attribute, $json_validation{$function}->{$attribute} )) {
                 $$msgRef = "'$function' job JSON format is not valid";
                 return;
