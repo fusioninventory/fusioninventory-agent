@@ -13,6 +13,7 @@ use File::stat;
 use FusionInventory::Agent;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::HTTP::Client::Fusion;
 
 our $VERSION = $FusionInventory::Agent::VERSION;
 
@@ -222,6 +223,9 @@ sub processRemote {
     my @jobs = @{$answer->{jobs}}
         or die "no jobs provided, aborting";
 
+    my $method  = exists($answer->{postmethod}) && $answer->{postmethod} eq 'POST' ? 'POST' : 'GET' ;
+    my $token = exists($answer->{token}) ? $answer->{token} : '';
+
     foreach my $job (@jobs) {
         if ( !$job->{uuid} ) {
             $self->{logger}->error("UUID key missing");
@@ -247,11 +251,15 @@ sub processRemote {
             $result->{uuid}   = $job->{uuid};
             $result->{action} = "setAnswer";
             $result->{_cpt}   = $count;
-            $self->{client}->send(
+            $result->{_glpi_csrf_token} = $token
+                if $token ;
+            $answer = $self->{client}->send(
                url      => $remoteUrl,
+               method   => $method,
                filename => sprintf('collect_%s_%s.js', $job->{uuid}, $count),
                args     => $result
             );
+            $token = exists($answer->{token}) ? $answer->{token} : '';
             $count--;
         }
     }
