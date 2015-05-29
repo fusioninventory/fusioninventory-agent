@@ -264,7 +264,7 @@ sub _getFromRegistry {
 
     return unless FusionInventory::Agent::Tools::Win32->require();
 
-    my $values = FusionInventory::Agent::Tools::Win32::getRegistryValues(path => $params{path});
+    my $values = FusionInventory::Agent::Tools::Win32::getRegistryValue(path => $params{path});
 
     return unless $values;
 
