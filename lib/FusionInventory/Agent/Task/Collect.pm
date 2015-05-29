@@ -76,7 +76,7 @@ sub _validateSpec {
             $self->{logger}->debug("$key mandatory values are missing in job");
             return 0;
         }
-        $self->{logger}->debug("$key mandatory values are present in job");
+        $self->{logger}->debug2("$key mandatory values are present in job");
         foreach my $attribute (keys(%{$spec})) {
             return 0 unless $self->_validateSpec($base->{$key}, $attribute, $spec->{$attribute});
         }
@@ -88,12 +88,12 @@ sub _validateSpec {
             $self->{logger}->debug("$key mandatory value is missing in job");
             return 0;
         }
-        $self->{logger}->debug("$key mandatory value is present in job with value '".$base->{$key}."'");
+        $self->{logger}->debug2("$key mandatory value is present in job with value '".$base->{$key}."'");
         return 1;
     }
 
     if ($spec == _OPTIONAL && exists($base->{$key})) {
-        $self->{logger}->debug("$key optional value is present in job with value '".$base->{$key}."'");
+        $self->{logger}->debug2("$key optional value is present in job with value '".$base->{$key}."'");
     }
 
     1;
