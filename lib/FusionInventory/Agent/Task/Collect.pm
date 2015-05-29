@@ -100,49 +100,47 @@ sub _validateSpec {
 }
 
 sub _validateAnswer {
-    my ($self, $msgRef, $answer) = @_;
-
-    $$msgRef = "";
+    my ($self, $answer) = @_;
 
     if (!defined($answer)) {
-        $$msgRef = "No answer from server.";
-        return;
+        $self->{logger}->debug("Bad JSON: No answer from server.");
+        return 0;
     }
 
     if (ref($answer) ne 'HASH') {
-        $$msgRef = "Bad answer from server. Not a hash reference.";
-        return;
+        $self->{logger}->debug("Bad JSON: Bad answer from server. Not a hash reference.");
+        return 0;
     }
 
-    if (!defined($answer->{jobs})) {
-        $$msgRef = "missing jobs key";
-        return;
+    if (!defined($answer->{jobs}) || ref($answer->{jobs}) ne 'ARRAY') {
+        $self->{logger}->debug("Bad JSON: Missing jobs");
+        return 0;
     }
 
     foreach my $job (@{$answer->{jobs}}) {
 
         foreach (qw/uuid function/) {
             if (!defined($job->{$_})) {
-                $$msgRef = "Missing key '$_' in job";
-                return;
+                $self->{logger}->debug("Bad JSON: Missing key '$_' in job");
+                return 0;
             }
         }
 
         my $function = $job->{function};
         if (!exists($functions{$function})) {
-            $$msgRef = "not supported 'function' key value in job";
-            return;
+            $self->{logger}->debug("Bad JSON: not supported 'function' key value in job");
+            return 0;
         }
 
         if (!exists($json_validation{$function})) {
-            $$msgRef = "can't validate job";
-            return;
+            $self->{logger}->debug("Bad JSON: Can't validate job");
+            return 0;
         }
 
         foreach my $attribute (keys(%{$json_validation{$function}})) {
             if (!$self->_validateSpec( $job, $attribute, $json_validation{$function}->{$attribute} )) {
-                $$msgRef = "'$function' job JSON format is not valid";
-                return;
+                $self->{logger}->debug("Bad JSON: '$function' job JSON format is not valid");
+                return 0;
             }
         }
     }
@@ -175,7 +173,7 @@ sub run {
     );
 
     my $globalRemoteConfig = $self->{client}->send(
-        url  => $self->{target}->{url},
+        url  => $self->{target}->getUrl(),
         args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
@@ -187,7 +185,8 @@ sub run {
     return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
 
     foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
-        next unless $job->{task} eq "Collect";
+        next unless (ref($job) eq 'HASH' && exists($job->{task})
+            && $job->{task} eq "Collect");
         $self->processRemote($job->{remote});
     }
 
@@ -214,11 +213,7 @@ sub processRemote {
         return;
     }
 
-    my $msg;
-    if (!$self->_validateAnswer(\$msg, $answer)) {
-        $self->{logger}->debug("bad JSON: ".$msg);
-        return;
-    }
+    return unless $self->_validateAnswer($answer);
 
     my @jobs = @{$answer->{jobs}}
         or die "no jobs provided, aborting";
