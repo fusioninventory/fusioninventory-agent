@@ -593,11 +593,6 @@ my %prtdiag_tests = (
         'System Configuration' => 'Sun Microsystems  sun4u Sun Fire V215',
         'Memory size' => '2GB        '
     },
-    sample8 => {
-        'BMC Configuration' => 'IPMI 2.0 (KCS: Keyboard Controller Style)',
-        'BIOS Configuration' => 'American Megatrends Inc. S86_3A16 12/03/2008',
-        'System Configuration' => 'SUN MICROSYSTEMS       SUN FIRE X2250    '
-    }
 );
 
 my %release_tests = (
