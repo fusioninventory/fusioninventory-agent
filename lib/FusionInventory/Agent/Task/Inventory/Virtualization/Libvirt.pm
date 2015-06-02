@@ -39,13 +39,13 @@ sub _getMachines {
     my $uri_param = $params{'uri'} ? "-c ".$params{'uri'} : "";
 
     my @machines = _parseList(
-        command => "virsh $uri_param list --all",
+        command => "virsh $uri_param --readonly list --all",
         logger  => $params{logger}
     );
 
     foreach my $machine (@machines) {
         my %infos = _parseDumpxml(
-            command => "virsh $uri_param dumpxml $machine->{NAME}",
+            command => "virsh $uri_param --readonly dumpxml $machine->{NAME}",
             logger  => $params{logger}
         );
 
