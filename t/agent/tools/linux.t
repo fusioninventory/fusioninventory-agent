@@ -529,6 +529,27 @@ my %cpuinfo_tests = (
             'fpu_exception' => 'yes',
             'wp' => 'yes'
           }
+    ],
+    'rhel-6.3-esx-1vcpu' => [
+        {
+            'flags' => 'fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall nx rdtscp lm constant_tsc up arch_perfmon pebs bts xtopology tsc_reliable nonstop_tsc aperfmperf unfair_spinlock pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic popcnt aes xsave avx hypervisor lahf_lm ida arat epb xsaveopt pln pts dts',
+            'stepping' => '7',
+            'wp' => 'yes',
+            'cpu family' => '6',
+            'cpu mhz' => '2694.293',
+            'model' => '42',
+            'fpu' => 'yes',
+            'vendor_id' => 'GenuineIntel',
+            'address sizes' => '40 bits physical, 48 bits virtual',
+            'cpuid level' => '13',
+            'fpu_exception' => 'yes',
+            'cache_alignment' => '64',
+            'cache size' => '6144 KB',
+            'model name' => 'Intel(R) Core(TM) i5-2500S CPU @ 2.70GHz',
+            'clflush size' => '64',
+            'bogomips' => '5388.58',
+            'processor' => '0'
+        }
     ]
 );
 

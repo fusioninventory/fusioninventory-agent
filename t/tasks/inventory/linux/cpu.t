@@ -61,15 +61,15 @@ my %i386 = (
             ID             => 'C2 06 02 00 FF FB EB BF',
         }
     ],
-    'rhel-6.3' => [
+    'rhel-6.3-esx-1vcpu' => [
         {
             NAME           => 'Intel(R) Core(TM) i5-2500S CPU @ 2.70GHz',
             MANUFACTURER   => 'Intel',
             MODEL          => '42',
             SPEED          => '2700',
-            THREAD         => 1,
+            THREAD         => '1',
             ARCH           => 'i386',
-            CORE           => 1,
+            CORE           => '1',
             STEPPING       => '7',
             FAMILYNUMBER   => '6',
             ID             => 'A7 06 02 00 FF FB AB 0F',
