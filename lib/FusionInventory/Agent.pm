@@ -256,7 +256,7 @@ sub _handleController {
     }
 
     my $target = FusionInventory::Agent::Target::Server->new(
-        url    => $controller->getURL(),
+        url    => $controller->getUrl(),
         client => $client
     );
 
