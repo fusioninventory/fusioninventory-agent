@@ -107,23 +107,10 @@ sub _getInterfaces {
 sub _check_nic {
     my ($nic, $num) = @_;
 
-    my $speed = getFirstMatch(
+    return getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic link_speed",
         pattern => qr/^(\d+)/
     );
-
-    my $duplex = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic link_mode",
-        pattern => qr/^(\d+)/
-    );
-
-    my $arg = $nic =~ /ge/ ? 'adv_1000autoneg_cap' : 'adv_autoneg_cap';
-    my $auto = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic $arg",
-        pattern => qr/^(\d+)/
-    );
-
-    return _get_link_info($speed, $duplex, $auto);
 }
 
 # Function to test a Gigabit-Ethernet (i.e. ce_).
@@ -131,22 +118,10 @@ sub _check_nic {
 sub _check_ce_nic {
     my ($nic, $num) = @_;
 
-    my $speed = getFirstMatch(
+    return getFirstMatch(
         command => "/usr/bin/kstat -m $nic -i $num -s link_speed",
         pattern => qr/^\s*link_speed+\s*(\d+)/
     );
-
-    my $duplex = getFirstMatch(
-        command => "/usr/bin/kstat -m $nic -i $num -s link_duplex",
-        pattern => qr/^\s*link_duplex+\s*(\d+)/
-    );
-
-    my $auto = getFirstMatch(
-        command => "/usr/bin/kstat -m $nic -i $num -s cap_autoneg",
-        pattern => qr/^\s*cap_autoneg+\s*(\d+)/
-    );
-
-    return _get_link_info($speed, $duplex, $auto);
 
 }
 
@@ -156,22 +131,10 @@ sub _check_ce_nic {
 sub _check_bge_nic {
     my ($nic, $num) = @_;
 
-    my $speed = getFirstMatch(
+    return getFirstMatch(
         command => "/usr/sbin/ndd -get /dev/$nic$num link_speed",
         pattern => qr/^(\d+)/
     );
-
-    my $duplex = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic$num link_duplex",
-        pattern => qr/^(\d+)/
-    );
-
-    my $auto = getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic$num adv_autoneg_cap",
-        pattern => qr/^(\d+)/
-    );
-
-    return _get_link_info($speed, $duplex, $auto);
 }
 
 
@@ -183,48 +146,15 @@ sub _check_nxge_nic {
     return unless getZone() eq 'global';
 
     #nxge0           link: up        speed: 1000  Mbps       duplex: full
-    my ($speed, $unit, $duplex) = getFirstMatch(
+    my ($speed) = getFirstMatch(
         command => "/usr/sbin/dladm show-dev $nic$num",
         pattern => qr/
             $nic$num \s+
             link:   \s \S+   \s+
-            speed:  \s (\d+) \s+ (\S+) \s+
-            duplex: \s (\S+)
+            speed:  \s (\d+ \s+ \S+) \s+
         /x
     );
-    return $speed . ' ' . $unit . ' ' . $duplex;
-}
-
-sub _get_link_info {
-    my ($speed, $duplex, $auto) = @_;
-
-    my $info;
-
-    if ($speed) {
-        $info =
-            $speed == 0    ? "10 Mb/s"  :
-            $speed == 10   ? "10 Mb/s"  :
-            $speed == 100  ? "100 Mb/s" :
-            $speed == 1000 ? "1 Gb/s"   :
-                             "ERROR"    ;
-    }
-
-    if ($duplex) {
-        $info .=
-            $duplex == 2 ? " FDX"     :
-            $duplex == 1 ? " HDX"     :
-            $duplex == 0 ? " UNKNOWN" :
-                           " ERROR"   ;
-    }
-
-    if ($auto) {
-        $info .=
-            $auto == 0 ? " AUTOSPEED ON"    :
-            $auto == 1 ? " AUTOSPEED OFF"   :
-                         " ERROR"           ;
-    }
-
-    return $info;
+    return getCanonicalSpeed($speed);
 }
 
 sub _parseIfconfig {
