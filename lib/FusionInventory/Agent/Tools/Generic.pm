@@ -132,15 +132,7 @@ sub getCpusFromDmidecode {
                 $cpu->{SPEED} = $1 * 1000;
             }
         }
-        if (!$cpu->{SPEED} && $info->{'Max Speed'}) {
-            # We only look for 3 digit Mhz frequency to avoid abvious bad
-            # value like 30000 (#633)
-            if ($info->{'Max Speed'} =~ /^\s*(\d{3,4})\s*Mhz/i) {
-                $cpu->{SPEED} = $1;
-            } elsif ($info->{'Max Speed'} =~ /^\s*(\d+)\s*Ghz/i) {
-                $cpu->{SPEED} = $1 * 1000;
-            }
-        }
+
         if (!$cpu->{SPEED} && $info->{'Current Speed'}) {
             if ($info->{'Current Speed'} =~ /^\s*(\d{3,4})\s*Mhz/i) {
                 $cpu->{SPEED} = $1;

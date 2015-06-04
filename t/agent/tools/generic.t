@@ -5635,6 +5635,604 @@ my %dmidecode_tests = (
                 'Ending Address' => '0x000FFFFFFFF'
             }
         ]
+    },
+    'windows-7.2' => {
+        '20' => [
+            {
+                'Physical Device Handle' => '0x003D',
+                'Partition Row Position' => '1',
+                'Memory Array Mapped Address Handle' => '0x003C',
+                'Ending Address' => '0x0007FFFFFFF',
+                'Range Size' => '2 GB',
+                'Starting Address' => '0x00000000000'
+            },
+            {
+                'Physical Device Handle' => '0x003F',
+                'Memory Array Mapped Address Handle' => '0x003C',
+                'Partition Row Position' => '1',
+                'Range Size' => '2 GB',
+                'Starting Address' => '0x00080000000',
+                'Ending Address' => '0x000FFFFFFFF'
+            },
+            {
+                'Ending Address' => '0x0013FFFFFFF',
+                'Range Size' => '1 GB',
+                'Starting Address' => '0x00100000000',
+                'Partition Row Position' => '1',
+                'Memory Array Mapped Address Handle' => '0x003C',
+                'Physical Device Handle' => '0x0041'
+            },
+            {
+                'Starting Address' => '0x00140000000',
+                'Range Size' => '1 GB',
+                'Ending Address' => '0x0017FFFFFFF',
+                'Memory Array Mapped Address Handle' => '0x003C',
+                'Partition Row Position' => '1',
+                'Physical Device Handle' => '0x0043'
+            }
+        ],
+        '16' => [
+            {
+                'Error Correction Type' => 'None',
+                'Maximum Capacity' => '8 GB',
+                'Error Information Handle' => 'Not Provided',
+                'Use' => 'System Memory',
+                'Number Of Devices' => '4',
+                'Location' => 'System Board Or Motherboard'
+            }
+        ],
+        '19' => [
+            {
+                'Ending Address' => '0x0019FFFFFFF',
+                'Range Size' => '6656 MB',
+                'Physical Array Handle' => '0x003B',
+                'Starting Address' => '0x00000000000',
+                'Partition Width' => '1'
+            }
+        ],
+        '32' => [
+            {
+                'Status' => 'No errors detected'
+            }
+        ],
+        '1' => [
+            {
+                'Family' => 'To Be Filled By O.E.M.',
+                'SKU Number' => 'To Be Filled By O.E.M.',
+                'Version' => 'System Version',
+                'Wake-up Type' => 'Power Switch',
+                'Manufacturer' => 'System manufacturer',
+                'Product Name' => 'System Product Name',
+                'Serial Number' => 'System Serial Number',
+                'UUID' => '0002869A-8EFE-D511-868C-002618C9DFD4'
+            }
+        ],
+        '7' => [
+            {
+                'Error Correction Type' => 'Single-bit ECC',
+                'Associativity' => '4-way Set-associative',
+                'Maximum Size' => '256 kB',
+                'Operational Mode' => 'Varies With Memory Address',
+                'Socket Designation' => 'L1-Cache',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Installed Size' => '256 kB',
+                'System Type' => 'Data',
+                'Installed SRAM Type' => 'Pipeline Burst',
+                'Location' => 'Internal'
+            },
+            {
+                'Operational Mode' => 'Varies With Memory Address',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Associativity' => '4-way Set-associative',
+                'Maximum Size' => '2048 kB',
+                'Installed Size' => '2048 kB',
+                'System Type' => 'Unified',
+                'Location' => 'Internal',
+                'Installed SRAM Type' => 'Pipeline Burst',
+                'Socket Designation' => 'L2-Cache',
+                'Configuration' => 'Enabled, Not Socketed, Level 2'
+            },
+            {
+                'Socket Designation' => 'L3-Cache',
+                'Maximum Size' => '0 kB',
+                'Configuration' => 'Disabled, Not Socketed, Level 3',
+                'Installed Size' => '0 kB',
+                'Location' => 'Internal'
+            }
+        ],
+        '4' => [
+            {
+                'Status' => 'Populated, Enabled',
+                'Max Speed' => '3200 MHz',
+                'Socket Designation' => 'AM2',
+                'ID' => '62 0F 10 00 FF FB 8B 17',
+                'Type' => 'Central Processor',
+                'External Clock' => '200 MHz',
+                'L2 Cache Handle' => '0x0006',
+                'Asset Tag' => 'To Be Filled By O.E.M.',
+                'Current Speed' => '2900 MHz',
+                'L3 Cache Handle' => '0x0007',
+                'L1 Cache Handle' => '0x0005',
+                'Serial Number' => 'To Be Filled By O.E.M.',
+                'Signature' => 'Family 16, Model 6, Stepping 2',
+                'Part Number' => 'To Be Filled By O.E.M.',
+                'Core Enabled' => '2',
+                'Voltage' => '1.5 V',
+                'Version' => 'AMD Athlon(tm) II X2 245 Processor',
+                'Family' => 'Athlon II',
+                'Core Count' => '2',
+                'Manufacturer' => 'AMD',
+                'Upgrade' => 'Other'
+            }
+        ],
+        '9' => [
+            {
+                'Length' => 'Short',
+                'Current Usage' => 'In Use',
+                'Designation' => 'PCIE1X',
+                'ID' => '4',
+                'Type' => '32-bit PCI Express'
+            },
+            {
+                'Current Usage' => 'Available',
+                'Length' => 'Short',
+                'Designation' => 'PCIE16X',
+                'Type' => '32-bit PCI Express',
+                'ID' => '2'
+            },
+            {
+                'Current Usage' => 'Available',
+                'Length' => 'Short',
+                'Type' => '32-bit PCI',
+                'ID' => '3',
+                'Designation' => 'PCI1'
+            },
+            {
+                'Current Usage' => 'Available',
+                'Length' => 'Short',
+                'ID' => '1',
+                'Type' => '32-bit PCI',
+                'Designation' => 'PCI2'
+            }
+        ],
+        '17' => [
+            {
+                'Speed' => '667 MHz',
+                'Serial Number' => 'SerNum0',
+                'Set' => 'None',
+                'Total Width' => '64 bits',
+                'Part Number' => 'PartNum0',
+                'Bank Locator' => 'BANK0',
+                'Type Detail' => 'Synchronous',
+                'Size' => '2048 MB',
+                'Form Factor' => 'DIMM',
+                'Manufacturer' => 'Manufacturer0',
+                'Error Information Handle' => 'Not Provided',
+                'Type' => 'DDR2',
+                'Asset Tag' => 'AssetTagNum0',
+                'Array Handle' => '0x003B',
+                'Locator' => 'DIMM0',
+                'Data Width' => '64 bits'
+            },
+            {
+                'Data Width' => '64 bits',
+                'Locator' => 'DIMM1',
+                'Asset Tag' => 'AssetTagNum1',
+                'Array Handle' => '0x003B',
+                'Error Information Handle' => 'Not Provided',
+                'Type' => 'DDR2',
+                'Manufacturer' => 'Manufacturer1',
+                'Size' => '2048 MB',
+                'Form Factor' => 'DIMM',
+                'Type Detail' => 'Synchronous',
+                'Bank Locator' => 'BANK1',
+                'Part Number' => 'PartNum1',
+                'Set' => 'None',
+                'Total Width' => '64 bits',
+                'Speed' => '667 MHz',
+                'Serial Number' => 'SerNum1'
+            },
+            {
+                'Locator' => 'DIMM2',
+                'Data Width' => '64 bits',
+                'Error Information Handle' => 'Not Provided',
+                'Type' => 'DDR2',
+                'Asset Tag' => 'AssetTagNum2',
+                'Array Handle' => '0x003B',
+                'Bank Locator' => 'BANK2',
+                'Type Detail' => 'Synchronous',
+                'Size' => '1024 MB',
+                'Form Factor' => 'DIMM',
+                'Manufacturer' => 'Manufacturer2',
+                'Speed' => '667 MHz',
+                'Serial Number' => 'SerNum2',
+                'Set' => 'None',
+                'Total Width' => '64 bits',
+                'Part Number' => 'PartNum2'
+            },
+            {
+                'Type Detail' => 'Synchronous',
+                'Bank Locator' => 'BANK3',
+                'Form Factor' => 'DIMM',
+                'Size' => '1024 MB',
+                'Manufacturer' => 'Manufacturer3',
+                'Speed' => '667 MHz',
+                'Serial Number' => 'SerNum3',
+                'Set' => 'None',
+                'Total Width' => '64 bits',
+                'Part Number' => 'PartNum3',
+                'Locator' => 'DIMM3',
+                'Data Width' => '64 bits',
+                'Type' => 'DDR2',
+                'Error Information Handle' => 'Not Provided',
+                'Array Handle' => '0x003B',
+                'Asset Tag' => 'AssetTagNum3'
+            }
+        ],
+        '2' => [
+            {
+                'Product Name' => 'M3A78-CM',
+                'Serial Number' => 'MF7097G05100710',
+                'Type' => 'Motherboard',
+                'Asset Tag' => 'To Be Filled By O.E.M.',
+                'Version' => 'Rev X.0x',
+                'Location In Chassis' => 'To Be Filled By O.E.M.',
+                'Manufacturer' => 'ASUSTeK Computer INC.',
+                'Chassis Handle' => '0x0003',
+                'Contained Object Handles' => '0'
+            }
+        ],
+        '8' => [
+            {
+                'Internal Reference Designator' => 'PS/2 KeyBoard',
+                'Internal Connector Type' => 'None',
+                'External Reference Designator' => 'Keyboard',
+                'External Connector Type' => 'PS/2',
+                'Port Type' => 'Keyboard Port'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'USB1',
+                'Port Type' => 'USB',
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB1'
+            },
+            {
+                'Internal Reference Designator' => 'USB2',
+                'Internal Connector Type' => 'None',
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2',
+                'Port Type' => 'USB'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'USB3',
+                'Port Type' => 'USB',
+                'External Reference Designator' => 'USB3',
+                'External Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'USB4',
+                'Port Type' => 'USB',
+                'External Reference Designator' => 'USB4',
+                'External Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'USB5',
+                'Port Type' => 'USB',
+                'External Reference Designator' => 'USB5',
+                'External Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Port Type' => 'USB',
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB6',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'USB6'
+            },
+            {
+                'External Reference Designator' => 'LPT 1',
+                'External Connector Type' => 'DB-25 male',
+                'Port Type' => 'Parallel Port ECP/EPP',
+                'Internal Reference Designator' => 'LPT 1',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Serial Port 16550A Compatible',
+                'External Reference Designator' => 'COM 1',
+                'External Connector Type' => 'DB-9 male',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'COM 1'
+            },
+            {
+                'Port Type' => 'Network Port',
+                'External Reference Designator' => 'LAN',
+                'External Connector Type' => 'RJ-45',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'LAN'
+            },
+            {
+                'Internal Reference Designator' => 'Audio_Line_In',
+                'Internal Connector Type' => 'None',
+                'External Connector Type' => 'Mini Jack (headphones)',
+                'External Reference Designator' => 'Audio_Line_In',
+                'Port Type' => 'Audio Port'
+            },
+            {
+                'Internal Reference Designator' => 'Audio_Line_Out',
+                'Internal Connector Type' => 'None',
+                'External Connector Type' => 'Mini Jack (headphones)',
+                'External Reference Designator' => 'Audio_Line_Out',
+                'Port Type' => 'Audio Port'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'Audio_Mic_In',
+                'Port Type' => 'Audio Port',
+                'External Connector Type' => 'Mini Jack (headphones)',
+                'External Reference Designator' => 'Audio_Mic_In'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'Audio_Center/Sub',
+                'Port Type' => 'Audio Port',
+                'External Connector Type' => 'Mini Jack (headphones)',
+                'External Reference Designator' => 'Audio_Center/Sub'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'Audio_Rear',
+                'Port Type' => 'Audio Port',
+                'External Reference Designator' => 'Audio_Rear',
+                'External Connector Type' => 'Mini Jack (headphones)'
+            },
+            {
+                'Internal Reference Designator' => 'Audio_Side',
+                'Internal Connector Type' => 'None',
+                'External Connector Type' => 'Mini Jack (headphones)',
+                'External Reference Designator' => 'Audio_Side',
+                'Port Type' => 'Audio Port'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'Display_Port',
+                'Port Type' => 'Other',
+                'External Connector Type' => 'Other',
+                'External Reference Designator' => 'Display_Port port'
+            },
+            {
+                'Internal Reference Designator' => 'DVI',
+                'Internal Connector Type' => 'None',
+                'External Connector Type' => 'Other',
+                'External Reference Designator' => 'DVI port',
+                'Port Type' => 'Other'
+            },
+            {
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Internal Connector Type' => 'On Board IDE',
+                'Internal Reference Designator' => 'PRI IDE'
+            },
+            {
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'SB_SATA1'
+            },
+            {
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'SB_SATA2'
+            },
+            {
+                'External Connector Type' => 'None',
+                'Port Type' => 'Other',
+                'Internal Reference Designator' => 'SB_SATA3',
+                'Internal Connector Type' => 'Other'
+            },
+            {
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'SB_SATA4',
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None'
+            },
+            {
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'SB_SATA5'
+            },
+            {
+                'Internal Reference Designator' => 'SB_SATA6',
+                'Internal Connector Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Port Type' => 'Other'
+            },
+            {
+                'Internal Reference Designator' => 'CPU FAN',
+                'Internal Connector Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Port Type' => 'Other'
+            },
+            {
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'PWR FAN',
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None'
+            },
+            {
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'CHA FAN',
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None'
+            },
+            {
+                'External Connector Type' => 'None',
+                'Port Type' => 'USB',
+                'Internal Reference Designator' => 'USB7',
+                'Internal Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Internal Connector Type' => 'Access Bus (USB)',
+                'Internal Reference Designator' => 'USB8',
+                'Port Type' => 'USB',
+                'External Connector Type' => 'None'
+            },
+            {
+                'Internal Connector Type' => 'Access Bus (USB)',
+                'Internal Reference Designator' => 'USB9',
+                'Port Type' => 'USB',
+                'External Connector Type' => 'None'
+            },
+            {
+                'Internal Reference Designator' => 'USB10',
+                'Internal Connector Type' => 'Access Bus (USB)',
+                'External Connector Type' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'None',
+                'Port Type' => 'USB',
+                'Internal Reference Designator' => 'USB11',
+                'Internal Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'External Connector Type' => 'None',
+                'Port Type' => 'USB',
+                'Internal Reference Designator' => 'USB12',
+                'Internal Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Internal Reference Designator' => 'PANEL',
+                'Internal Connector Type' => '9 Pin Dual Inline (pin 10 cut)',
+                'External Connector Type' => 'None',
+                'Port Type' => 'Other'
+            },
+            {
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'SPDIF OUT'
+            },
+            {
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'AAFP',
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None'
+            },
+            {
+                'Internal Reference Designator' => 'CD',
+                'Internal Connector Type' => 'On Board Sound Input From CD-ROM',
+                'External Connector Type' => 'None',
+                'Port Type' => 'Audio Port'
+            },
+            {
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None',
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'TPM'
+            },
+            {
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'Speaker',
+                'Port Type' => 'Other',
+                'External Connector Type' => 'None'
+            }
+        ],
+        '0' => [
+            {
+                'BIOS Revision' => '8.14',
+                'Runtime Size' => '64 kB',
+                'Version' => '2003',
+                'Release Date' => '06/26/2009',
+                'ROM Size' => '1024 kB',
+                'Address' => '0xF0000',
+                'Vendor' => 'American Megatrends Inc.'
+            }
+        ],
+        '10' => [
+            {
+                'Type' => 'Other',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Status' => 'Enabled'
+            },
+            {
+                'Status' => 'Enabled',
+                'Type' => 'Ethernet',
+                'Description' => 'To Be Filled By O.E.M.'
+            },
+            {
+                'Status' => 'Enabled',
+                'Type' => 'Sound',
+                'Description' => 'To Be Filled By O.E.M.'
+            },
+            {
+                'Type' => 'Other',
+                'Description' => 'To Be Filled By O.E.M.',
+                'Status' => 'Enabled'
+            }
+        ],
+        '15' => [
+            {
+                'Header Start Offset' => '0x0000',
+                'Data Format 4' => 'OEM-specific',
+                'Data Format 6' => 'OEM-specific',
+                'Access Address' => 'Index 0x046A, Data 0x046C',
+                'Descriptor 6' => 'End of log',
+                'Change Token' => '0x00000000',
+                'Descriptor 5' => 'End of log',
+                'Descriptor 1' => 'End of log',
+                'Descriptor 2' => 'End of log',
+                'Data Format 3' => 'OEM-specific',
+                'Supported Log Type Descriptors' => '6',
+                'Header Format' => 'No Header',
+                'Descriptor 3' => 'End of log',
+                'Data Format 1' => 'OEM-specific',
+                'Status' => 'Invalid, Not Full',
+                'Descriptor 4' => 'End of log',
+                'Data Format 2' => 'OEM-specific',
+                'Area Length' => '4 bytes',
+                'Data Format 5' => 'OEM-specific',
+                'Data Start Offset' => '0x0002',
+                'Header Length' => '2 bytes',
+                'Access Method' => 'Indexed I/O, one 16-bit index port, one 8-bit data port'
+            }
+        ],
+        '13' => [
+            {
+                'Currently Installed Language' => 'en|US|iso8859-1',
+                'Language Description Format' => 'Abbreviated',
+                'Installable Languages' => '1'
+            }
+        ],
+        '11' => [
+            {
+                'String 3' => 'To Be Filled By O.E.M.',
+                'String 1' => 'To Be Filled By O.E.M.',
+                'String 4' => 'To Be Filled By O.E.M.',
+                'String 2' => 'To Be Filled By O.E.M.'
+            }
+        ],
+        '3' => [
+            {
+                'Type' => 'Desktop',
+                'Serial Number' => 'Chassis Serial Number',
+                'Thermal State' => 'Safe',
+                'Asset Tag' => 'Asset-1234567890',
+                'Number Of Power Cords' => '1',
+                'Security Status' => 'None',
+                'Version' => 'Chassis Version',
+                'OEM Information' => '0x00000001',
+                'Contained Elements' => '0',
+                'Power Supply State' => 'Safe',
+                'Manufacturer' => 'Chassis Manufacture',
+                'Boot-up State' => 'Safe',
+                'Height' => 'Unspecified'
+            }
+        ]
     }
 );
 
@@ -5735,7 +6333,7 @@ my %cpu_tests = (
             ID             => '29 0F 00 00 FF FB EB BF',
             NAME           => 'Xeon',
             EXTERNAL_CLOCK => '133',
-            SPEED          => '3200',
+            SPEED          => '2666',
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
@@ -5749,7 +6347,7 @@ my %cpu_tests = (
             ID             => '29 0F 00 00 FF FB EB BF',
             NAME           => 'Xeon',
             EXTERNAL_CLOCK => '133',
-            SPEED          => '3200',
+            SPEED          => '2666',
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
@@ -5765,7 +6363,7 @@ my %cpu_tests = (
             ID             => '76 06 01 00 FF FB EB BF',
             NAME           => 'Xeon',
             EXTERNAL_CLOCK => '1333',
-            SPEED          => '4800',
+            SPEED          => '2333',
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
@@ -5826,7 +6424,7 @@ my %cpu_tests = (
             ID             => '52 06 00 00 FF F9 83 01',
             NAME           => 'Pentium II',
             EXTERNAL_CLOCK => '100',
-            SPEED          => '500',
+            SPEED          => '400',
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
@@ -5842,7 +6440,7 @@ my %cpu_tests = (
             ID             => '43 0F 00 00 FF FB EB BF',
             NAME           => 'Xeon',
             EXTERNAL_CLOCK => '800',
-            SPEED          => '3600',
+            SPEED          => '3000',
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
@@ -5858,7 +6456,7 @@ my %cpu_tests = (
             ID             => '29 0F 00 00 FF FB EB BF',
             NAME           => 'Pentium 4',
             EXTERNAL_CLOCK => '533',
-            SPEED          => '3200',
+            SPEED          => '2400',
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
@@ -5936,7 +6534,7 @@ my %cpu_tests = (
             ID             => 'D8 06 00 00 FF FB E9 AF',
             NAME           => 'Pentium M',
             EXTERNAL_CLOCK => '133',
-            SPEED          => '1800',
+            SPEED          => '1733',
             THREAD         => undef,
             SERIAL         => undef,
             MANUFACTURER   => 'Intel',
@@ -6023,7 +6621,7 @@ my %cpu_tests = (
             ID             => '7A 06 01 00 FF FB 8B 1F',
             NAME           => 'Xeon',
             EXTERNAL_CLOCK => '266',
-            SPEED          => '3733',
+            SPEED          => '2500',
             THREAD         => undef,
             SERIAL         => 'None',
             MANUFACTURER   => 'GenuineIntel',
@@ -6064,6 +6662,22 @@ my %cpu_tests = (
             MANUFACTURER   => 'Intel',
             FAMILYNAME     => 'Core 2 Duo',
             CORE           => '4'
+        }
+    ],
+    'windows-7.2' => [
+        {
+            ID             => '62 0F 10 00 FF FB 8B 17',
+            NAME           => 'AMD Athlon(tm) II X2 245 Processor',
+            EXTERNAL_CLOCK => '200',
+            SPEED          => '2900',
+            THREAD         => undef,
+            SERIAL         => 'To Be Filled By O.E.M.',
+            STEPPING       => '2',
+            FAMILYNUMBER   => '15',
+            MODEL          => '6',
+            MANUFACTURER   => 'AMD',
+            FAMILYNAME     => 'Athlon II',
+            CORE           => '2'
         }
     ]
 );
