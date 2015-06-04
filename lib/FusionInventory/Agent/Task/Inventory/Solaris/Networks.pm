@@ -67,20 +67,9 @@ sub _getInterfaces {
             $interface->{IPMASK}
         );
 
-        if ($interface->{DESCRIPTION} =~ /^(\S+)(\d+)/) {
-            my $nic = $1;
-            my $num = $2;
-
-            $interface->{SPEED} =
-                $nic =~ /aggr/   ? undef                       :
-                $nic =~ /dmfe/   ? undef                       :
-                $nic =~ /bge/    ? _check_bge_nic($nic, $num)  :
-                $nic =~ /nxge/   ? _check_nxge_nic($nic, $num) :
-                $nic =~ /ce/     ? _check_ce_nic($nic, $num)   :
-                $nic =~ /ipge/   ? _check_ce_nic($nic, $num)   :
-                $nic =~ /e1000g/ ? _check_ce_nic($nic, $num)   :
-                                   _check_nic($nic, $num);
-        }
+        $interface->{SPEED} = _getInterfaceSpeed(
+            name => $interface->{DESCRIPTION}
+        );
     }
 
     my $zone = getZone();
@@ -101,60 +90,29 @@ sub _getInterfaces {
     return @interfaces;
 }
 
+sub  _getInterfaceSpeed {
+    my (%params) = @_;
 
-# Function to test Quad Fast-Ethernet, Fast-Ethernet, and
-# Gigabit-Ethernet (i.e. qfe_, hme_, ge_, fjgi_)
-sub _check_nic {
-    my ($nic, $num) = @_;
+    my $command;
 
-    return getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic link_speed",
-        pattern => qr/^(\d+)/
+    if ($params{name}) {
+        return unless $params{name} =~ /^(\S+)(\d+)/;
+        my $type     = $1;
+        my $instance = $2;
+
+        return if $type eq 'aggr';
+        return if $type eq 'dmfe';
+
+        $command = "/usr/bin/kstat -m $type -i $instance -s link_speed";
+    }
+
+    my $speed = getFirstMatch(
+        %params,
+        command => $command,
+        pattern => qr/^\s*link_speed+\s*(\d+)/,
     );
-}
 
-# Function to test a Gigabit-Ethernet (i.e. ce_).
-# Function to test a Intel 82571-based ethernet controller port (i.e. ipge_).
-sub _check_ce_nic {
-    my ($nic, $num) = @_;
-
-    return getFirstMatch(
-        command => "/usr/bin/kstat -m $nic -i $num -s link_speed",
-        pattern => qr/^\s*link_speed+\s*(\d+)/
-    );
-
-}
-
-# Function to test Sun BGE interface on Sun Fire V210 and V240.
-# The BGE is a Broadcom BCM5704 chipset. There are four interfaces
-# on the V210 and V240. (i.e. bge_)
-sub _check_bge_nic {
-    my ($nic, $num) = @_;
-
-    return getFirstMatch(
-        command => "/usr/sbin/ndd -get /dev/$nic$num link_speed",
-        pattern => qr/^(\d+)/
-    );
-}
-
-
-# Function to test Sun NXGE interface on Sun Fire Tx000.
-sub _check_nxge_nic {
-    my ($nic, $num) = @_;
-
-    # dladm show-dev can only be used in global zone (#2939)
-    return unless getZone() eq 'global';
-
-    #nxge0           link: up        speed: 1000  Mbps       duplex: full
-    my ($speed) = getFirstMatch(
-        command => "/usr/sbin/dladm show-dev $nic$num",
-        pattern => qr/
-            $nic$num \s+
-            link:   \s \S+   \s+
-            speed:  \s (\d+ \s+ \S+) \s+
-        /x
-    );
-    return getCanonicalSpeed($speed);
+    return $speed;
 }
 
 sub _parseIfconfig {
