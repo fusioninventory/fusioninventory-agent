@@ -1,0 +1,13 @@
+module: ce                              instance: 0
+name:   ce0                             class:    net
+        link_speed                      1000
+
+
+module: bge                             instance: 0
+name:   parameters                      class:    net
+        link_speed                      1000
+
+		
+module: bge                             instance: 1
+name:   parameters                      class:    net
+        link_speed                      0

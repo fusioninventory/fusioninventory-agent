@@ -1,0 +1,3 @@
+module: nxge                            instance: 0
+name:   Port Stats                      class:    net
+        link_speed                      1000

@@ -106,7 +106,17 @@ my %ifconfig_tests = (
 
 );
 
-plan tests => (2 * keys %ifconfig_tests) + 3;
+my %kstat_tests = (
+    sample1 => 1000,
+    sample2 => 1000,
+    sample3 => 1000,
+    sample4 => 0,
+);
+
+plan tests =>
+    2 * (scalar keys %ifconfig_tests) +
+    (scalar keys %kstat_tests)        +
+    3;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
@@ -118,6 +128,15 @@ foreach my $test (keys %ifconfig_tests) {
         $inventory->addEntry(section => 'NETWORKS', entry => $_)
             foreach @interfaces;
     } "$test: registering";
+}
+
+foreach my $test (sort keys %kstat_tests) {
+    my $file = "resources/solaris/kstat/$test";
+    is(
+        FusionInventory::Agent::Task::Inventory::Solaris::Networks::_getInterfaceSpeed(file => $file),
+        $kstat_tests{$test},
+        "$test: parsing"
+    );
 }
 
 my @parsefcinfo = (

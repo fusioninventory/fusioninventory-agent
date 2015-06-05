@@ -1,0 +1,4 @@
+module: bge                             instance: 0
+name:   parameters                      class:    net
+        link_speed                      1000
+
