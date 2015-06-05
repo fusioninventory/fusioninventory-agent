@@ -20,13 +20,14 @@ my %tests = (
     sample5 => [ _gen(2,  'NUMSLOTS', { TYPE     => 'DRAM' }) ],
     sample6 => [ _gen(8,  'NUMSLOTS', { CAPACITY => '512'  }) ],
     sample7 => [ _gen(1,  'NUMSLOTS', { CAPACITY => '2000' }) ],
+    sample8 => [ _gen(2,  'NUMSLOTS', { CAPACITY => '32768' }) ],
 );
 
 plan tests => (2 * scalar keys %tests) + 1;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
-foreach my $test (keys %tests) {
+foreach my $test (sort keys %tests) {
     my $file = "resources/solaris/prtdiag/$test";
     my @memories =
       FusionInventory::Agent::Task::Inventory::Solaris::Memory::_getMemoriesPrtdiag(file => $file);

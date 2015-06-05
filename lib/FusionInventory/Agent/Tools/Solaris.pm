@@ -181,7 +181,7 @@ sub _parseMemorySection {
             } else {
                 # single-table format: start using callback directly
                 my $i = 0;
-                $offset = 4;
+                $offset = 3;
                 $callback = sub {
                     my ($line) = @_;
                     return unless $line =~ qr/
@@ -189,8 +189,7 @@ sub _parseMemorySection {
                         \S+         \s+
                         (\d+ [MG]B) \s+
                         \S+         \s+
-                        \d
-                    $/x;
+                    /x;
                     return {
                         NUMSLOTS => $i++,
                         CAPACITY => getCanonicalSize($1)

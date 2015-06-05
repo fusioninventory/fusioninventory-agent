@@ -1021,7 +1021,16 @@ my %prtdiag_tests = (
         slots => []
     },
     sample8 => {
-        memories => [],
+        memories => [
+            {
+                NUMSLOTS => 0,
+                CAPACITY => '32768'
+            },
+            {
+                NUMSLOTS => 1,
+                CAPACITY => '32768'
+            }
+        ],
         slots => []
     }
 );
