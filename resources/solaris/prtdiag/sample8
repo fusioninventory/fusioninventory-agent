@@ -1,0 +1,51 @@
+System Configuration:  Sun Microsystems  sun4u Sun SPARC Enterprise M4000 Server
+System clock frequency: 1012 MHz
+Memory size: 65536 Megabytes
+
+==================================== CPUs ====================================
+
+      CPU                 CPU                         Run    L2$    CPU   CPU 
+LSB   Chip                 ID                         MHz     MB    Impl. Mask
+---   ----  ----------------------------------------  ----   ---    ----- ----
+ 00     0      0,   1,   2,   3,   4,   5,   6,   7   2530   5.5        7  160
+ 00     1      8,   9,  10,  11,  12,  13,  14,  15   2530   5.5        7  160
+
+============================ Memory Configuration ============================
+
+       Memory  Available           Memory     DIMM    # of  Mirror  Interleave
+LSB    Group   Size                Status     Size    DIMMs Mode    Factor    
+---    ------  ------------------  -------    ------  ----- ------- ----------
+ 00    A        32768MB            okay       2048MB     16 no       8-way
+ 00    B        32768MB            okay       2048MB     16 no       8-way
+
+========================= IO Cards =========================
+
+LSB    Name           Model       
+---    -------------- ------------
+ 00    scsi           LSI,1064    
+ 00    network        N/A         
+ 00    network        N/A         
+ 00    network        SUNW,pcie-qg
+ 00    network        SUNW,pcie-qg
+ 00    network        SUNW,pcie-qg
+ 00    network        SUNW,pcie-qg
+ 00    SUNW,qlc       QLE2460     
+ 00    SUNW,qlc       QLE2460     
+
+
+==================== Hardware Revisions ====================
+
+System PROM revisions:
+----------------------
+
+OBP 4.24.12 2009/10/30 06:59
+
+
+=================== Environmental Status ===================
+
+Mode switch is in LOCK mode 
+
+=================== System Processor Mode ===================
+
+SPARC64-VII mode
+
