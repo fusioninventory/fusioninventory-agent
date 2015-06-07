@@ -185,7 +185,7 @@ sub _parseMemorySection {
                 $callback = sub {
                     my ($line) = @_;
                     return unless $line =~ qr/
-                        (\d+ [MG]B) \s+
+                        \d+ [MG]B   \s+
                         \S+         \s+
                         (\d+ [MG]B) \s+
                         \S+         \s+
