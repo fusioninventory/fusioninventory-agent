@@ -1453,6 +1453,7 @@ sub _getTrunkPorts {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
+	my $config = $params{config};
 
     my $results;
 
@@ -1496,7 +1497,7 @@ sub _getTrunkPorts {
             my $interface_id =
                 ! exists $port2interface->{$id} ? $id                   :
                                                   $port2interface->{$id};
-            $results->{$interface_id} = $value == 0 ? 1 : 0;
+            $results->{$interface_id} = $value == $config->{netinventory}->{trunk_pvid} ? 1 : 0;
         }
         return $results;
     }
