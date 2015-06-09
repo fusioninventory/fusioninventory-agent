@@ -51,6 +51,7 @@ my $valid = {
         },
         netinventory => {
             'disable'            => 'boolean',
+            'trunk_pvid'         => 'integer',
         },
         netdiscovery => {
             'disable'            => 'boolean',
@@ -260,6 +261,7 @@ sub new {
         },
         netinventory => {
             'disable'            => 0,
+            'trunk_pvid'         => 0,
         },
         netdiscovery => {
             'disable'            => 0,
