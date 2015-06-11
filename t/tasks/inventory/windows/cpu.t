@@ -34,7 +34,7 @@ my %tests = (
             FAMILYNUMBER => '6',
             MODEL        => '42',
             SPEED        => '2800',
-            THREAD       => undef,
+            THREAD       => '1',
             CORE         => '4'
         }
     ],
@@ -108,6 +108,34 @@ my %tests = (
             THREAD       => '2',
             CORE         => '2'
         }
+    ],
+    '2003R2-Hotfix' => [
+        {
+            ID           => '1F8BFBFF00010673',
+            NAME         => 'Intel Core 2 Duo P9xxx (Penryn Class Core 2)',
+            SERIAL       => undef,
+            MANUFACTURER => 'Intel',
+            DESCRIPTION  => 'EM64T Family 6 Model 23 Stepping 3',
+            STEPPING     => '3',
+            FAMILYNUMBER => '6',
+            MODEL        => '23',
+            SPEED        => '3000',
+            THREAD       => '2',
+            CORE         => '2'
+        },
+        {
+            ID           => '1F8BFBFF00010673',
+            NAME         => 'Intel Core 2 Duo P9xxx (Penryn Class Core 2)',
+            SERIAL       => undef,
+            MANUFACTURER => 'Intel',
+            DESCRIPTION  => 'EM64T Family 6 Model 23 Stepping 3',
+            STEPPING     => '3',
+            FAMILYNUMBER => '6',
+            MODEL        => '23',
+            SPEED        => '12076',
+            THREAD       => '2',
+            CORE         => '2'
+        }
     ]
 );
 
@@ -120,6 +148,7 @@ my $module = Test::MockModule->new(
 );
 
 foreach my $test (keys %tests) {
+    Win32::fakewin2003($test =~ /^2003/);
     $module->mock(
         'getWMIObjects',
         mockGetWMIObjects($test)
