@@ -817,7 +817,8 @@ sub _setNetworkingProperties {
     _setAggregatePorts(
         snmp   => $snmp,
         ports  => $ports,
-        logger => $logger
+        logger => $logger,
+        config => $config
     );
 }
 
@@ -1515,6 +1516,7 @@ sub _setAggregatePorts {
 
     my $ports  = $params{ports};
     my $logger = $params{logger};
+    my $config = $params{config};
 
     my $lacp_info = _getLACPInfo(%params);
     if ($lacp_info) {
@@ -1527,6 +1529,11 @@ sub _setAggregatePorts {
                 next;
             }
             $ports->{$interface_id}->{AGGREGATE}->{PORT} = $lacp_info->{$interface_id};
+			
+            # Consider aggregation ports as trunk ports, to prevent assocations problems in GLPI with non-cisco switches.
+            if($config->{netinventory}->{'aggregation_as_trunk'} == 1){
+                $ports->{$interface_id}->{TRUNK} = "1";
+            }
         }
     }
 

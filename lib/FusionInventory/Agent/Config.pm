@@ -50,8 +50,9 @@ my $valid = {
             'disable'            => 'boolean',
         },
         netinventory => {
-            'disable'            => 'boolean',
-            'trunk_pvid'         => 'integer',
+            'disable'              => 'boolean',
+            'trunk_pvid'           => 'integer',
+            'aggregation_as_trunk' => 'boolean',
         },
         netdiscovery => {
             'disable'            => 'boolean',
@@ -260,8 +261,9 @@ sub new {
             'disable'            => 0,
         },
         netinventory => {
-            'disable'            => 0,
-            'trunk_pvid'         => 0,
+            'disable'              => 0,
+            'trunk_pvid'           => 0,
+            'aggregation_as_trunk' => 0,
         },
         netdiscovery => {
             'disable'            => 0,
