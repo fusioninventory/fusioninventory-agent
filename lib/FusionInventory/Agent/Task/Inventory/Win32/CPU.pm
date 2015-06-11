@@ -55,18 +55,21 @@ sub _getCPUs {
 
     foreach my $object (getWMIObjects(
         class      => 'Win32_Processor',
-        properties => [ qw/NumberOfCores ProcessorId MaxClockSpeed/ ]
+        properties => [ qw/NumberOfCores NumberOfLogicalProcessors ProcessorId MaxClockSpeed/ ]
     )) {
 
         my $dmidecodeInfo = $dmidecodeInfos[$cpuId];
         my $registryInfo  = $registryInfos->{"$cpuId/"};
+
+        # Compute WMI threads for this CPU if not available in dmidecode, this is the case on win2003r2 with 932370 hotfix applied (see #2894)
+        my $wmi_threads   = !$dmidecodeInfo->{THREAD} && $object->{NumberOfCores} ? $object->{NumberOfLogicalProcessors}/$object->{NumberOfCores} : undef;
 
         # Split CPUID from its value inside registry
         my @splitted_identifier = split(/ |\n/ ,$registryInfo->{'/Identifier'});
 
         my $cpu = {
             CORE         => $dmidecodeInfo->{CORE} || $object->{NumberOfCores},
-            THREAD       => $dmidecodeInfo->{THREAD},
+            THREAD       => $dmidecodeInfo->{THREAD} || $wmi_threads,
             DESCRIPTION  => $registryInfo->{'/Identifier'},
             NAME         => $registryInfo->{'/ProcessorNameString'},
             MANUFACTURER => $registryInfo->{'/VendorIdentifier'},
