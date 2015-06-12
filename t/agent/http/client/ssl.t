@@ -42,6 +42,11 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 
+unless (-e "resources/ssl/crt/ca.pm") {
+    print STDERR "Generating SSL certificates...\n";
+    qx(cd resources/ssl ; ./generate.sh );
+}
+
 my $proxy = FusionInventory::Test::Proxy->new();
 $proxy->background();
 

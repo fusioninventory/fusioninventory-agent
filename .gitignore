@@ -15,4 +15,7 @@ lib/FusionInventory/VMware
 MYMETA.json
 MYMETA.yml
 var/
+resources/ssl/crt
+resources/ssl/key
+resources/ssl/*.log
 SIGNATURE
