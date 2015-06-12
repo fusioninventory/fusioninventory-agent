@@ -37,7 +37,7 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 
-unless (-e "resources/ssl/crt/ca.pm") {
+unless (-e "resources/ssl/crt/ca.pem") {
     print STDERR "Generating SSL certificates...\n";
     qx(cd resources/ssl ; ./generate.sh );
 }
