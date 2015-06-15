@@ -61,12 +61,18 @@ sub  _getVirtualMachines {
     my @machines;
     while (my $line = <$handle>) {
         chomp $line;
-        my ($name, $vmid, $memory, $vcpu, $status) = split(' ', $line);
+        my ($name, $vmid, $memory, $vcpu, $status);
+        my @fields = split(' ', $line);
+        if (@fields == 4) {
+                ($name, $memory, $vcpu) = @fields;
+                $status = 'off';
+        } else {
+                ($name, $vmid, $memory, $vcpu, $status) = @fields;
+                $status =~ s/-//g;
+                $status = $status_list{$status} // 'off';
+               next if $vmid == 0;
+        }
         next if $name eq 'Domain-0';
-        next if $vmid == 0;
-
-        $status =~ s/-//g;
-        $status = $status ? $status_list{$status} : 'off';
 
         my $machine = {
             MEMORY    => $memory,
