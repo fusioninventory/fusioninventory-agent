@@ -34,7 +34,7 @@ if ($options->{stdin}) {
 } elsif ($options->{file}) {
     loadfile($options->{file});
 } elsif ($options->{directory}) {
-   loaddirectory($options->{directory});
+    loaddirectory($options->{directory});
 } else {
     pod2usage();
 }
@@ -119,7 +119,7 @@ fusioninventory-injector - A tool to push inventory in an OCS Inventory or compa
 
 =head1 SYNOPSIS
 
-fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdin]
+fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdin|--useragent <user-agent>]
 
   Options:
     -h --help      this menu
@@ -129,6 +129,7 @@ fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdi
     -r --remove    remove succesfuly injected files
     -v --verbose   verbose mode
     --stdin        read data from STDIN
+    --useragent    set used HTTP User-Agent for POST
 
   Examples:
     fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/ocsinventory
