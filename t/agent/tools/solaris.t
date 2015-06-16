@@ -561,38 +561,478 @@ my %prtconf_tests = (
 
 my %prtdiag_tests = (
     sample1 => {
-        'System Configuration' => 'Sun Microsystems  sun4v SPARC Enterprise T5120',
-        'Memory size' => '3968 Megabytes'
+        memories => [
+            {
+                NUMSLOTS => 0,
+                CAPACITY => 1000
+            },
+            {
+                NUMSLOTS => 1,
+                CAPACITY => 1000
+            },
+            {
+                NUMSLOTS => 2,
+                CAPACITY => 1000
+            },
+            {
+                NUMSLOTS => 3,
+                CAPACITY => 1000
+            }
+        ],
+        slots => [
+            {
+                DESCRIPTION => 'PCIE',
+                DESIGNATION => 'network-pciex8086,105e',
+                NAME => 'MB/NET0'
+            },
+            {
+                DESIGNATION => 'network-pciex8086,105e',
+                DESCRIPTION => 'PCIE',
+                NAME => 'MB/NET1'
+            },
+            {
+                NAME => 'MB/NET2',
+                DESIGNATION => 'network-pciex8086,105e',
+                DESCRIPTION => 'PCIE'
+            },
+            {
+                DESIGNATION => 'network-pciex8086,105e',
+                DESCRIPTION => 'PCIE',
+                NAME => 'MB/NET3'
+            },
+            {
+                DESCRIPTION => 'PCIE',
+                DESIGNATION => 'scsi-pciex1000,58',
+                NAME => 'MB/SASHBA'
+            },
+            {
+                DESIGNATION => 'SUNW,qlc-pciex1077,2432',
+                DESCRIPTION => 'PCIE',
+                NAME => 'MB/RISER0/PCIE0'
+            },
+            {
+                NAME => 'MB',
+                DESCRIPTION => 'PCIX',
+                DESIGNATION => 'usb-pciclass,0c0310'
+            },
+            {
+                NAME => 'MB',
+                DESIGNATION => 'usb-pciclass,0c0310',
+                DESCRIPTION => 'PCIX'
+            },
+            {
+                DESCRIPTION => 'PCIX',
+                DESIGNATION => 'usb-pciclass,0c0320',
+                NAME => 'MB'
+            }
+        ]
     },
     sample2 => {
-        'System Configuration' => 'Sun Microsystems  sun4u Sun Fire V890',
-        'Memory size' => '32768 Megabytes',
-        'System clock frequency' => '150 MHz'
+        memories => [
+            {
+                NUMSLOTS => 0,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 1,
+                CAPACITY => '1024'
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 2
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 3
+            },
+            {
+                NUMSLOTS => 4,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 5,
+                CAPACITY => '1024'
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 6
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 7
+            },
+            {
+                NUMSLOTS => 8,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 9,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 10,
+                CAPACITY => '1024'
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 11
+            },
+            {
+                NUMSLOTS => 12,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 13,
+                CAPACITY => '1024'
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 14
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 15
+            },
+            {
+                NUMSLOTS => 16,
+                CAPACITY => '1024'
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 17
+            },
+            {
+                NUMSLOTS => 18,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 19,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 20,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 21,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 22,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 23,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 24,
+                CAPACITY => '1024'
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 25
+            },
+            {
+                NUMSLOTS => 26,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 27,
+                CAPACITY => '1024'
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 28
+            },
+            {
+                NUMSLOTS => 29,
+                CAPACITY => '1024'
+            },
+            {
+                NUMSLOTS => 30,
+                CAPACITY => '1024'
+            },
+            {
+                CAPACITY => '1024',
+                NUMSLOTS => 31
+            }
+        ],
+        slots => [
+            {
+                DESCRIPTION => 'PCI',
+                NAME => '1',
+                DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+'
+            },
+            {
+                NAME => '1',
+                DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+',
+                DESCRIPTION => 'PCI'
+            },
+            {
+                NAME => '0',
+                DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+',
+                DESCRIPTION => 'PCI'
+            },
+            {
+                DESCRIPTION => 'PCI',
+                NAME => '0',
+                DESIGNATION => 'scsi-pci1000,30.1000.10c0.8/disk+'
+            },
+            {
+                NAME => '5',
+                DESIGNATION => 'SUNW,XVR-100',
+                DESCRIPTION => 'PCI'
+            }
+        ]
     },
     sample3 => {
-        'BMC Configuration' => 'IPMI 2.0 (KCS: Keyboard Controller Style)',
-        'System Configuration' => 'Sun Microsystems     Sun Fire X4540',
-        'BIOS Configuration' => 'American Megatrends Inc. 0ABNF032 05/19/2009'
+        slots => [
+            {
+                DESCRIPTION => 'PCI Express',
+                NAME => '1',
+                DESIGNATION => 'PCIExp SLOT0',
+                STATUS => 'free'
+            },
+            {
+                DESCRIPTION => 'PCI Express',
+                NAME => '2',
+                DESIGNATION => 'PCIExp SLOT1',
+                STATUS => 'free'
+            },
+            {
+                STATUS => 'free',
+                DESIGNATION => 'PCIExp SLOT2',
+                NAME => '3',
+                DESCRIPTION => 'PCI Express'
+            }
+        ],
+        memories => [
+            {
+                TYPE => 'DDR2',
+                NUMSLOTS => 0
+            },
+            {
+                NUMSLOTS => 1,
+                TYPE => 'DDR2'
+            },
+            {
+                TYPE => 'DDR2',
+                NUMSLOTS => 2
+            },
+            {
+                NUMSLOTS => 3,
+                TYPE => 'DDR2'
+            },
+            {
+                TYPE => 'DDR2',
+                NUMSLOTS => 4
+            },
+            {
+                NUMSLOTS => 5,
+                TYPE => 'DDR2'
+            },
+            {
+                NUMSLOTS => 6,
+                TYPE => 'DDR2'
+            },
+            {
+                NUMSLOTS => 7,
+                TYPE => 'DDR2'
+            },
+            {
+                TYPE => 'DDR2',
+                NUMSLOTS => 8
+            },
+            {
+                TYPE => 'DDR2',
+                NUMSLOTS => 9
+            },
+            {
+                NUMSLOTS => 10,
+                TYPE => 'DDR2'
+            },
+            {
+                TYPE => 'DDR2',
+                NUMSLOTS => 11
+            },
+            {
+                NUMSLOTS => 12,
+                TYPE => 'DDR2'
+            },
+            {
+                TYPE => 'DDR2',
+                NUMSLOTS => 13
+            },
+            {
+                NUMSLOTS => 14,
+                TYPE => 'DDR2'
+            },
+            {
+                NUMSLOTS => 15,
+                TYPE => 'DDR2'
+            }
+        ]
     },
     sample4 => {
-        'System Configuration' => 'SUN MICROSYSTEMS       SUN FIRE X2250    ',
-        'BIOS Configuration' => 'American Megatrends Inc. S86_3A16 12/03/2008',
-        'BMC Configuration' => 'IPMI 2.0 (KCS: Keyboard Controller Style)'
+        slots => [
+            {
+                DESIGNATION => 'PCIE1',
+                NAME => '1',
+                STATUS => 'free',
+                DESCRIPTION => 'PCI Express'
+            }
+        ],
+        memories => [
+            {
+                NUMSLOTS => 0,
+                TYPE => 'DDR'
+            },
+            {
+                NUMSLOTS => 1,
+                TYPE => 'DDR'
+            },
+            {
+                NUMSLOTS => 2,
+                TYPE => 'DDR'
+            },
+            {
+                NUMSLOTS => 3,
+                TYPE => 'DDR'
+            },
+            {
+                TYPE => 'DDR',
+                NUMSLOTS => 4
+            },
+            {
+                TYPE => 'DDR',
+                NUMSLOTS => 5
+            },
+            {
+                TYPE => 'DDR',
+                NUMSLOTS => 6
+            },
+            {
+                TYPE => 'DDR',
+                NUMSLOTS => 7
+            }
+        ]
     },
     sample5 => {
-        'System Configuration' => 'VMware, Inc. VMware Virtual Platform',
-        'BIOS Configuration' => 'Phoenix Technologies LTD 6.00 06/22/2012'
+        memories => [
+            {
+                NUMSLOTS => 0,
+                TYPE => 'DRAM'
+            },
+            {
+                NUMSLOTS => 1,
+                TYPE => 'DRAM'
+            }
+        ],
+        slots => [
+            {
+                DESCRIPTION => 'ISA',
+                STATUS => undef,
+                NAME => '0',
+                DESIGNATION => 'ISA Slot J8'
+            },
+            {
+                DESCRIPTION => 'ISA',
+                STATUS => undef,
+                NAME => '0',
+                DESIGNATION => 'ISA Slot J9'
+            },
+            {
+                DESCRIPTION => 'ISA',
+                DESIGNATION => 'ISA Slot J10',
+                NAME => '0',
+                STATUS => undef
+            },
+            {
+                DESIGNATION => 'PCI Slot J11',
+                NAME => '1',
+                STATUS => 'used',
+                DESCRIPTION => 'PCI'
+            },
+            {
+                DESIGNATION => 'PCI Slot J12',
+                NAME => '2',
+                STATUS => 'used',
+                DESCRIPTION => 'PCI'
+            },
+            {
+                DESIGNATION => 'PCI Slot J13',
+                STATUS => 'used',
+                NAME => '3',
+                DESCRIPTION => 'PCI'
+            },
+            {
+                STATUS => 'free',
+                NAME => '4',
+                DESIGNATION => 'PCI Slot J14',
+                DESCRIPTION => 'PCI'
+            }
+        ]
     },
     sample6 => {
-        'System clock frequency' => '167 MHZ',
-        'System Configuration' => 'Sun Microsystems  sun4u Sun Fire V210',
-        'Memory size' => '4GB        ',
+        memories => [
+            {
+                NUMSLOTS => 0,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 1
+            },
+            {
+                NUMSLOTS => 2,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 3,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 4
+            },
+            {
+                NUMSLOTS => 5,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 6
+            },
+            {
+                NUMSLOTS => 7,
+                CAPACITY => '512'
+            }
+        ],
+        slots => []
     },
     sample7 => {
-        'System clock frequency' => '188 MHZ',
-        'System Configuration' => 'Sun Microsystems  sun4u Sun Fire V215',
-        'Memory size' => '2GB        '
+        memories => [
+            {
+                CAPACITY => 2000,
+                NUMSLOTS => 0
+            }
+        ],
+        slots => []
     },
+    sample8 => {
+        memories => [
+            {
+                NUMSLOTS => 0,
+                CAPACITY => '32768'
+            },
+            {
+                NUMSLOTS => 1,
+                CAPACITY => '32768'
+            }
+        ],
+        slots => []
+    }
 );
 
 my %release_tests = (
@@ -667,7 +1107,7 @@ foreach my $test (keys %prtconf_tests) {
 
 foreach my $test (keys %prtdiag_tests) {
     my $file = "resources/solaris/prtdiag/$test";
-    my $info = getPrtconfInfos(file => $file);
+    my $info = getPrtdiagInfos(file => $file);
     cmp_deeply($info, $prtdiag_tests{$test}, "$test prtdiag parsing");
 }
 
