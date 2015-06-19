@@ -7,11 +7,7 @@ perl:
   - "5.10"
   - "5.8"
 notifications:
-  recipients:
-    - fusioninventory-commit@lists.alioth.debian.org
-  email:
-    on_success: change
-    on_failure: always
+  email: false
 # whitelist
 branches:
   only:
