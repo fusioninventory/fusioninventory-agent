@@ -1,5 +1,5 @@
 language: perl
-script: travis-ci-build.sh
+script: ./travis-ci-build.sh
 perl:
   - "5.18"
   - "5.16"
