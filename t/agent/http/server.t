@@ -20,9 +20,7 @@ use FusionInventory::Test::Utils;
 
 plan tests => 12;
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ]
-);
+my $logger = FusionInventory::Agent::Logger->create(backend => 'stderr');
 
 my $server;
 
@@ -30,7 +28,7 @@ lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
         agent     => FusionInventory::Test::Agent->new(),
         logger    => $logger,
-        htmldir   => 'share/html'
+        htmldir   => 'html'
     );
 } 'instanciation with default values: ok';
 $server->init();
@@ -56,7 +54,7 @@ lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
         agent     => FusionInventory::Test::Agent->new(),
         logger    => $logger,
-        htmldir   => 'share/html',
+        htmldir   => 'html',
         trust     => [ '127.0.0.1', '192.168.0.0/24' ]
     );
 } 'instanciation with a list of trusted address: ok';
@@ -75,7 +73,7 @@ lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
         agent     => FusionInventory::Test::Agent->new(),
         logger    => $logger,
-        htmldir   => 'share/html',
+        htmldir   => 'html',
         trust     => [ '127.0.0.1', 'localhost', 'th1sIsNowh3re' ]
     );
 } 'instanciation with a list of trusted address: ok';
@@ -98,7 +96,7 @@ lives_ok {
         agent     => FusionInventory::Test::Agent->new(),
         logger    => $logger,
         port      => $port,
-        htmldir   => 'share/html',
+        htmldir   => 'html',
     );
 } 'instanciation with specific port: ok';
 $server->init();
