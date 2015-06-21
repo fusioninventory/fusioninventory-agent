@@ -368,12 +368,12 @@ my %prolog_parsing_tests = (
 plan tests => 4 + scalar keys %prolog_parsing_tests;
 
 my $libdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
-push @INC, $libdir;
-my $agent = FusionInventory::Agent->new(setup => {libdir => $libdir});
+push @INC, $libdir.'/lib';
+my $agent = FusionInventory::Agent->new(setup => {datadir => $libdir});
 
 my $modules;
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task1.pm", <<'EOF');
+create_file("$libdir/lib/FusionInventory/Agent/Task", "Task1.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task1;
 use base qw(FusionInventory::Agent::Task);
 our $VERSION = 42;
@@ -385,7 +385,7 @@ cmp_deeply (
     "loading modules, single task"
 );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task2.pm", <<'EOF');
+create_file("$libdir/lib/FusionInventory/Agent/Task", "Task2.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task2;
 use base qw(FusionInventory::Agent::Task);
 our $VERSION = 42;
@@ -400,7 +400,7 @@ cmp_deeply (
     "loading modules, multiple tasks"
 );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task3.pm", <<'EOF');
+create_file("$libdir/lib/FusionInventory/Agent/Task", "Task3.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task3;
 use base qw(FusionInventory::Agent::Task;
 use Does::Not::Exists;
@@ -416,7 +416,7 @@ cmp_deeply(
     "loading modules, wrong syntax"
 );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Test4.pm", <<'EOF');
+create_file("$libdir/lib/FusionInventory/Agent/Task", "Test4.pm", <<'EOF');
 package FusionInventory::Agent::Task::Test4;
 our $VERSION = 42;
 EOF
