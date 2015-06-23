@@ -308,7 +308,7 @@ my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/generic/lspci/$test";
-    my @controllers = FusionInventory::Agent::Task::Inventory::Generic::PCI::Controllers::_getControllers(file => $file, datadir => 'share');
+    my @controllers = FusionInventory::Agent::Task::Inventory::Generic::PCI::Controllers::_getControllers(file => $file, dbdir => 'db');
     cmp_deeply(\@controllers, $tests{$test}, $test);
     lives_ok {
         $inventory->addEntry(section => 'CONTROLLERS', entry => $_)
