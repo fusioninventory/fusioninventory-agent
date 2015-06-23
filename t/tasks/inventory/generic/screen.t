@@ -390,6 +390,6 @@ plan tests => (scalar keys %edid_tests) + 1;
 foreach my $test (sort keys %edid_tests) {
     my $file = "resources/generic/edid/$test";
     my $edid = getAllLines(file => $file);
-    my $info = FusionInventory::Agent::Task::Inventory::Generic::Screen::_getEdidInfo(edid => $edid, datadir => './share');
+    my $info = FusionInventory::Agent::Task::Inventory::Generic::Screen::_getEdidInfo(edid => $edid, dbdir => './db');
     cmp_deeply($info, $edid_tests{$test}, $test);
 }
