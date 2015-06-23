@@ -7122,7 +7122,7 @@ foreach my $test (keys %hdparm_tests) {
 
 foreach my $test (keys %edid_vendor_tests) {
     is(
-        getEDIDVendor(id => $test, datadir => './share'),
+        getEDIDVendor(id => $test, dbdir => './db'),
         $edid_vendor_tests{$test},
         "edid vendor identification: $test"
     );
