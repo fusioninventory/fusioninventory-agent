@@ -185,7 +185,7 @@ foreach my $test (keys %lsusb_tests) {
 
 foreach my $test (keys %usb_tests) {
     my $file = "resources/generic/lsusb/$test";
-    my @devices = FusionInventory::Agent::Task::Inventory::Generic::USB::_getDevices(file => $file, datadir => './share');
+    my @devices = FusionInventory::Agent::Task::Inventory::Generic::USB::_getDevices(file => $file, dbdir => './db');
     cmp_deeply(\@devices, $usb_tests{$test}, "$test: usb devices retrieval");
     lives_ok {
         $inventory->addEntry(section => 'USBDEVICES', entry => $_)
