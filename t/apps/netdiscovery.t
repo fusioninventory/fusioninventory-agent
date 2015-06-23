@@ -7,8 +7,12 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use File::Temp qw(tempdir);
 use Test::More;
+use UNIVERSAL::require;
 
 use FusionInventory::Test::Utils;
+
+plan(skip_all => 'Net::NBName required')
+    unless Net::NBName->require();
 
 plan tests => 14;
 
