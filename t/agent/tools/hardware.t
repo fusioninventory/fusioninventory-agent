@@ -236,7 +236,7 @@ cmp_deeply(
 my $snmp2 = FusionInventory::Agent::SNMP::Client::Virtual->new(
     hash => {
         '.1.3.6.1.2.1.1.1.0'        => [ 'STRING', 'foo' ],
-        '.1.3.6.1.2.1.1.2.0'        => [ 'STRING', '.1.3.6.1.4.1.45' ],
+        '.1.3.6.1.2.1.1.2.0'        => [ 'STRING', '.1.3.6.1.4.1.45.1.8.3' ],
     }
 );
 
@@ -249,7 +249,7 @@ cmp_deeply(
     'getDeviceInfo() with sysobjectid'
 );
 
-my $device3 = getDeviceInfo(snmp => $snmp2, datadir => './share');
+my $device3 = getDeviceInfo(snmp => $snmp2, dbdir => './db');
 cmp_deeply(
     $device3,
     {
