@@ -136,7 +136,7 @@ foreach my $test (keys %tests) {
         mockGetWMIObjects($test)
     );
 
-    my @devices = FusionInventory::Agent::Task::Inventory::Win32::USB::_getDevices(datadir => './share');
+    my @devices = FusionInventory::Agent::Task::Inventory::Win32::USB::_getDevices(dbdir => './db');
     cmp_deeply(
         \@devices,
         $tests{$test},
