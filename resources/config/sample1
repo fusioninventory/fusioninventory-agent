@@ -1,1 +1,5 @@
-no-task=netinventory,wakeonlan
+[netinventory]
+disable = 1
+
+[wakeonlan]
+disable = 1
