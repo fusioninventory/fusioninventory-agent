@@ -34,6 +34,7 @@
 '             Christophe Pujol <chpujol@gmail.com>
 '             Marc Caissial <marc.caissial@zenitique.fr>
 '             Tomas Abad <tabadgp@gmail.com>
+'  @maintainer Tomas Abad <tabadgp@gmail.com>
 '  @copyright Copyright (c) 2010-2013 FusionInventory Team
 '  @license   GNU GPL version 2 or (at your option) any later version
 '             http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html
