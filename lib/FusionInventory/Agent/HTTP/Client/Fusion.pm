@@ -6,6 +6,8 @@ use base 'FusionInventory::Agent::HTTP::Client';
 
 use JSON;
 use HTTP::Request;
+use HTTP::Headers;
+use HTTP::Cookies;
 use URI::Escape;
 
 sub new {
@@ -19,6 +21,8 @@ sub new {
         $self->{debug} = 1;
         $self->{msgStack} = []
     }
+
+    $self->{_cookies} = HTTP::Cookies->new ;
 
     return $self;
 }
@@ -44,28 +48,58 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
     my $url = ref $params{url} eq 'URI' ?
         $params{url} : URI->new($params{url});
 
-    my $finalUrl = $url.'?action='.uri_escape($params{args}->{action});
+    my $method = (exists($params{method}) && $params{method} =~ /^GET|POST$/) ?
+        $params{method} : 'GET' ;
+
+    my $urlparams = 'action='.uri_escape($params{args}->{action});
+    my $referer = '';
+    if ($method eq 'POST') {
+        $referer = $url;
+        $url .= '?'.$urlparams ;
+        $url .= '&uuid='.uri_escape($params{args}->{uuid}) if (exists($params{args}->{uuid}));
+        $url .= '&method=POST' ;
+    }
+
     foreach my $k (keys %{$params{args}}) {
         if (ref($params{args}->{$k}) eq 'ARRAY') {
             foreach (@{$params{args}->{$k}}) {
-                $finalUrl .= '&'.$k.'[]='.$self->_prepareVal($_ || '');
+                $urlparams .= '&'.$k.'[]='.$self->_prepareVal($_ || '');
             }
         } elsif (ref($params{args}->{$k}) eq 'HASH') {
             foreach (keys %{$params{args}->{$k}}) {
-                $finalUrl .= '&'.$k.'['.$_.']='.$self->_prepareVal($params{args}->{$k}{$_});
+                $urlparams .= '&'.$k.'['.$_.']='.$self->_prepareVal($params{args}->{$k}{$_});
             }
         } elsif ($k ne 'action' && length($params{args}->{$k})) {
-            $finalUrl .= '&'.$k.'='.$self->_prepareVal($params{args}->{$k});
+            $urlparams .= '&'.$k.'='.$self->_prepareVal($params{args}->{$k});
         }
-   }
+    }
 
-    $self->{logger}->debug2($finalUrl) if $self->{logger};
+    $url .= '?'.$urlparams if ($method eq 'GET');
 
-    my $request = HTTP::Request->new(GET => $finalUrl);
+    $self->{logger}->debug2($url) if $self->{logger};
+
+    my $request ;
+    if ($method eq 'GET') {
+        $request = HTTP::Request->new($method => $url);
+    } else {
+        $self->{logger}->debug2("POST: ".$urlparams) if $self->{logger};
+        my $headers = HTTP::Headers->new(
+            'Content-Type' => 'application/x-www-form-urlencoded',
+            'Referer'      => $referer
+        );
+        $request = HTTP::Request->new(
+            $method => $url,
+            $headers,
+            $urlparams
+        );
+        $self->{_cookies}->add_cookie_header( $request );
+    }
 
     my $response = $self->request($request);
 
     return unless $response;
+
+    $self->{_cookies}->extract_cookies($response);
 
     return eval { from_json( $response->content(), { utf8  => 1 } ) };
 }

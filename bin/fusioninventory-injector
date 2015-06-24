@@ -9,6 +9,7 @@ use Fcntl qw(:flock);
 use Getopt::Long;
 use LWP::UserAgent;
 use Pod::Usage;
+use XML::TreePP;
 
 my $options = {
     useragent => 'FusionInventory-Injector'
@@ -24,6 +25,7 @@ GetOptions(
     'remove|r',
     'verbose|v',
     'stdin',
+    'xml-ua|x',
 );
 
 $OUTPUT_AUTOFLUSH = 1;
@@ -34,7 +36,7 @@ if ($options->{stdin}) {
 } elsif ($options->{file}) {
     loadfile($options->{file});
 } elsif ($options->{directory}) {
-   loaddirectory($options->{directory});
+    loaddirectory($options->{directory});
 } else {
     pod2usage();
 }
@@ -85,9 +87,21 @@ sub loadstdin {
 
 sub sendContent {
     my $content = shift;
+    my $useragent = $options->{useragent};
+
+    if (uncompress($content)) {
+        $content = uncompress($content);
+    }
+
+    if ($options->{"xml-ua"}) {
+        my $tpp = XML::TreePP->new();
+        my $tree = $tpp->parse( $content );
+        $useragent = $tree->{REQUEST}->{CONTENT}->{VERSIONCLIENT}
+            if (exists($tree->{REQUEST}->{CONTENT}->{VERSIONCLIENT}));
+    }
 
     my $ua = LWP::UserAgent->new(
-        agent => $options->{useragent},
+        agent => $useragent,
         parse_head => 0, # No need to parse HTML
         keep_alive => 1,
         requests_redirectable => ['POST', 'GET', 'HEAD']
@@ -97,9 +111,6 @@ sub sendContent {
         'Pragma' => 'no-cache',
         'Content-type', 'Application/x-compress'
     );
-    if (uncompress($content)) {
-        $content = uncompress($content);
-    }
     $request->content(compress($content));
     my $res = $ua->request($request);
 
@@ -119,7 +130,7 @@ fusioninventory-injector - A tool to push inventory in an OCS Inventory or compa
 
 =head1 SYNOPSIS
 
-fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdin]
+fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdin|--useragent <user-agent>]
 
   Options:
     -h --help      this menu
@@ -129,6 +140,8 @@ fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdi
     -r --remove    remove succesfuly injected files
     -v --verbose   verbose mode
     --stdin        read data from STDIN
+    --useragent    set used HTTP User-Agent for POST
+    -x --xml-ua    use Client version found in XML as User-Agent for POST
 
   Examples:
     fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/ocsinventory
