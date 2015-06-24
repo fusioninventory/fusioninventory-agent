@@ -14,6 +14,7 @@ sub new {
 
     my $self = {
         logger => $params{logger} || FusionInventory::Agent::Logger->new(),
+        config => $params{config},
     };
     bless $self, $class;
 
