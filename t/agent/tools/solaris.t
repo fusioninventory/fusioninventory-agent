@@ -631,131 +631,259 @@ my %prtdiag_tests = (
         memories => [
             {
                 NUMSLOTS => 0,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 1,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 2
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 3
             },
             {
                 NUMSLOTS => 4,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 5,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 6
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 7
             },
             {
                 NUMSLOTS => 8,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 9,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 10,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 11
             },
             {
                 NUMSLOTS => 12,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 13,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 14
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 15
             },
             {
                 NUMSLOTS => 16,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 17
             },
             {
                 NUMSLOTS => 18,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 19,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 20,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 21,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 22,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 23,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 24,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 25
             },
             {
                 NUMSLOTS => 26,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 27,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 28
             },
             {
                 NUMSLOTS => 29,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
                 NUMSLOTS => 30,
-                CAPACITY => '1024'
+                CAPACITY => '512'
             },
             {
-                CAPACITY => '1024',
+                CAPACITY => '512',
                 NUMSLOTS => 31
+            },
+            {
+                NUMSLOTS => 32,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 33,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 34
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 35
+            },
+            {
+                NUMSLOTS => 36,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 37,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 38
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 39
+            },
+            {
+                NUMSLOTS => 40,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 41,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 42,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 43
+            },
+            {
+                NUMSLOTS => 44,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 45,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 46
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 47
+            },
+            {
+                NUMSLOTS => 48,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 49
+            },
+            {
+                NUMSLOTS => 50,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 51,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 52,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 53,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 54,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 55,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 56,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 57
+            },
+            {
+                NUMSLOTS => 58,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 59,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 60
+            },
+            {
+                NUMSLOTS => 61,
+                CAPACITY => '512'
+            },
+            {
+                NUMSLOTS => 62,
+                CAPACITY => '512'
+            },
+            {
+                CAPACITY => '512',
+                NUMSLOTS => 63
             }
         ],
         slots => [
@@ -1024,11 +1152,131 @@ my %prtdiag_tests = (
         memories => [
             {
                 NUMSLOTS => 0,
-                CAPACITY => '32768'
+                CAPACITY => '2048'
             },
             {
                 NUMSLOTS => 1,
-                CAPACITY => '32768'
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 2,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 3,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 4,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 5,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 6,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 7,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 8,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 9,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 10,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 11,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 12,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 13,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 14,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 15,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 16,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 17,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 18,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 19,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 20,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 21,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 22,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 23,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 24,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 25,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 26,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 27,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 28,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 29,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 30,
+                CAPACITY => '2048'
+            },
+            {
+                NUMSLOTS => 31,
+                CAPACITY => '2048'
             }
         ],
         slots => []
