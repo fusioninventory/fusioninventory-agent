@@ -156,6 +156,9 @@ sub _parseMemorySection {
             # use next line to determine actual format
             my $next_line = <$handle>;
 
+            # Skip next line if empty
+            $next_line = <$handle> if ($next_line =~ /^\s*$/);
+
             if ($next_line =~ /^Segment Table/) {
                 # multi-table format: reach bank table
                 while ($next_line = <$handle>) {
@@ -178,6 +181,23 @@ sub _parseMemorySection {
                         CAPACITY => getCanonicalSize($1)
                     };
                 };
+            } elsif ($next_line =~ /Memory\s+Available\s+Memory\s+DIMM\s+# of/)  {
+                # single-table format: start using callback directly
+                my $i = 0;
+                $offset = 2;
+                $callback = sub {
+                    my ($line) = @_;
+                    return unless $line =~ qr/
+                        \d+ [MG]B \s+
+                        \S+         \s+
+                        (\d+ [MG]B)   \s+
+                        (\d+)         \s+
+                    /x;
+                    return map { {
+                        NUMSLOTS => $i++,
+                        CAPACITY => getCanonicalSize($1)
+                    } } 1..$2;
+                };
             } else {
                 # single-table format: start using callback directly
                 my $i = 0;
@@ -185,15 +205,20 @@ sub _parseMemorySection {
                 $callback = sub {
                     my ($line) = @_;
                     return unless $line =~ qr/
-                        \d+ [MG]B   \s+
+                        (\d+ [MG]B) \s+
                         \S+         \s+
                         (\d+ [MG]B) \s+
                         \S+         \s+
                     /x;
-                    return {
+                    my $dimmsize    = getCanonicalSize($2);
+                    my $logicalsize = getCanonicalSize($1);
+                    # Compute DIMM count from "Logical Bank Size" and "DIMM Size"
+                    my $dimmcount = ( $dimmsize && $dimmsize != $logicalsize ) ?
+                        int($logicalsize/$dimmsize) : 1 ;
+                    return map { {
                         NUMSLOTS => $i++,
-                        CAPACITY => getCanonicalSize($1)
-                    };
+                        CAPACITY => $dimmsize
+                    } } 1..$dimmcount;
                 };
             }
 
@@ -323,8 +348,8 @@ sub _parseAnySection {
     while (my $line = <$handle>) {
         last if $line =~ /^$/;
         chomp $line;
-        my $item = $callback->($line);
-        push @items, $item if $item;
+        my @item = $callback->($line);
+        push @items, @item if @item;
     }
 
     return \@items;
