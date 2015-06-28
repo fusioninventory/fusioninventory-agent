@@ -52,10 +52,13 @@ test_requires 'Test::Exception'              => '0';
 test_requires 'Test::MockModule'             => '0';
 test_requires 'Test::More'                   => '0.93'; # subtest
 test_requires 'Test::NoWarnings'             => '0';
+test_requires 'LWP::UserAgent'               => '6';
 test_requires 'LWP::Protocol::https'         => '0';
 test_requires 'Test::MockObject'             => '0';
 test_requires 'JSON'                         => '0';
 test_requires 'Net::SNMP'                    => '0';
+test_requires 'Net::NBName'                  => '0';
+test_requires 'Parse::EDID'                  => '0';
 
 # Inventory
 recommends 'Parse::EDID' => '0';
