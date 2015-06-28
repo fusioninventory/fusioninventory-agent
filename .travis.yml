@@ -1,4 +1,6 @@
 language: perl
+before_install:
+  - sudo apt-get install -qq nmap
 perl:
   - "5.18"
   - "5.16"
