@@ -31,7 +31,7 @@ if (!$port) {
 } elsif ($LWP::VERSION < 6) {
     plan skip_all => "LWP version too old, skipping";
 } else {
-    plan tests => 16;
+    plan tests => 18;
 }
 
 diag("LWP\@$LWP::VERSION / LWP::Protocol\@$LWP::Protocol::VERSION / ",
@@ -59,6 +59,7 @@ my $proxy = FusionInventory::Test::Proxy->new();
 $proxy->background();
 
 my $server;
+my $request;
 my $url = "https://127.0.0.1:$port/public";
 my $unsafe_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
@@ -92,8 +93,9 @@ $server->set_dispatch({
 
 ok($server->background(), "Good server launched in background");
 
+$request = $secure_client->request(HTTP::Request->new(GET => $url));
 ok(
-    $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    $request->is_success(),
     'trusted certificate, correct hostname: connection success'
 );
 
@@ -104,8 +106,9 @@ is(
 
 SKIP: {
 skip "Known to fail, see: http://forge.fusioninventory.org/issues/1940", 1 unless $ENV{TEST_AUTHOR};
+$request = $secure_proxy_client->request(HTTP::Request->new(GET => $url));
 ok(
-    $secure_proxy_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    $request->is_success(),
     'trusted certificate, correct hostname, through proxy: connection success'
 );
 }
@@ -133,9 +136,9 @@ $server->set_dispatch({
 });
 ok($server->background(), "Server using alternate certs launched in background");
 
-
+$request = $secure_client->request(HTTP::Request->new(GET => $url));
 ok(
-    $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    $request->is_success(),
     'trusted certificate, alternate hostname: connection success'
 );
 
@@ -158,8 +161,9 @@ $server->set_dispatch({
 });
 ok($server->background(), "Server using wrong certs launched in background");
 
+$request = $unsafe_client->request(HTTP::Request->new(GET => $url));
 ok(
-    $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    $request->is_success(),
     'trusted certificate, wrong hostname, no check: connection success'
 );
 
@@ -168,9 +172,16 @@ is(
     'No SSL failure using unsafe client toward wrong server'
 );
 
+$request = $secure_client->request(HTTP::Request->new(GET => $url));
 ok(
-    !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    !$request->is_success(),
     'trusted certificate, wrong hostname: connection failure'
+);
+
+like(
+    $request->status_line,
+    qr/certificate verify failed/,
+    'SSL failure using trusted certificate toward wrong server'
 );
 
 $server->stop();
@@ -187,8 +198,9 @@ $server->set_dispatch({
 });
 ok($server->background(), "Server using bad certs launched in background");
 
+$request = $unsafe_client->request(HTTP::Request->new(GET => $url));
 ok(
-    $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    $request->is_success(),
     'untrusted certificate, correct hostname, no check: connection success'
 );
 
@@ -197,9 +209,16 @@ is(
     'No SSL failure using unsafe client toward bad server'
 );
 
+$request = $secure_client->request(HTTP::Request->new(GET => $url));
 ok(
-    !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    !$request->is_success(),
     'untrusted certificate, correct hostname: connection failure'
+);
+
+like(
+    $request->status_line,
+    qr/certificate verify failed/,
+    'SSL failure using trusted certificate toward bad server'
 );
 
 $server->stop();
