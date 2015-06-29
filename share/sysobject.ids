@@ -945,9 +945,10 @@
 11.2.3.7.11.122	Hewlett-Packard	NETWORKING	E3800-48G-4SFP (J9576A)
 11.2.3.7.11.134	Hewlett-Packard	NETWORKING	Procurve 1810-48G
 11.2.3.7.11.148	Hewlett-Packard	NETWORKING	Procurve 1810-8 V2 J9800A
-# HP printers use 11.2.3.9.1 or 11.2.3.9.2 as SysobjectID, but this
-# doesn't allow to identify exact model. Adding any value here prevent
-# fallback to hrDeviceDescr for this purpose
+11.2.3.9	Hewlett-Packard	PRINTER
+# specifying a model value prevent fallback on hrDeviceDescr value for better identification
+11.2.3.9.1	Hewlett-Packard	PRINTER
+11.2.3.9.2	Hewlett-Packard	PRINTER
 
 23	Novell	COMPUTER
 
@@ -1592,7 +1593,8 @@
 1248.1.1.2.1.3.9.69.80.76.45.78.51.48.48.48	Epson	PRINTER	EPL-N3000
 
 1347	Kyocera	PRINTER
-1347.41	Kyocera	PRINTER	Kyocera Printing System
+# specifying a model value prevent fallback on hrDeviceDescr value for better identification
+1347.41	Kyocera	PRINTER
 
 1602	Canon	PRINTER
 
@@ -3582,4 +3584,5 @@
 25506.11.4.24	Hewlett-Packard	NETWORKING	F5000S
 
 29999	Hewlett-Packard	PRINTER
-29999.1	Hewlett-Packard	PRINTER	OfficeJetPro8600-N911a
+# specifying a model value prevent fallback on hrDeviceDescr value for better identification
+29999.1	Hewlett-Packard	PRINTER
