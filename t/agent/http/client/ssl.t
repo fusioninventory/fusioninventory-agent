@@ -15,6 +15,8 @@ use FusionInventory::Test::Proxy;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
+use Net::HTTPS;
+
 unsetProxyEnvVar();
 
 # find an available port
@@ -29,6 +31,12 @@ if (!$port) {
 } else {
     plan tests => 7;
 }
+
+diag("LWP\@$LWP::VERSION / LWP::Protocol\@$LWP::Protocol::VERSION / ",
+    "IO::Socket\@$IO::Socket::VERSION / IO::Socket::SSL\@$IO::Socket::SSL::VERSION / ",
+    "IO::Socket::INET\@$IO::Socket::INET::VERSION / ",
+    "Net::SSLeay\@$Net::SSLeay::VERSION / Net::HTTPS\@$Net::HTTPS::VERSION / ",
+    "HTTP::Status\@$HTTP::Status::VERSION / HTTP::Response\@$HTTP::Response::VERSION");
 
 my $ok = sub {
     my ($server, $cgi) = @_;
