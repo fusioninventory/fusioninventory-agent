@@ -106,21 +106,21 @@ sub print_banner {
 }
 
 sub accept_hook {
-   my $self = shift;
+    my $self = shift;
 
-   return unless $self->{ssl};
-   my $fh   = $self->stdio_handle;
+    return unless $self->{ssl};
+    my $fh   = $self->stdio_handle;
 
-   $self->SUPER::accept_hook(@_);
+    $self->SUPER::accept_hook(@_);
 
-   my $newfh = IO::Socket::SSL->start_SSL($fh,
-       SSL_server    => 1,
-       SSL_use_cert  => 1,
-       SSL_cert_file => $self->{crt},
-       SSL_key_file  => $self->{key},
-   );
+    my $newfh = IO::Socket::SSL->start_SSL($fh,
+        SSL_server    => 1,
+        SSL_use_cert  => 1,
+        SSL_cert_file => $self->{crt},
+        SSL_key_file  => $self->{key},
+    );
 
-   $self->stdio_handle($newfh) if $newfh;
+    $self->stdio_handle($newfh) if $newfh;
 }
 
 =head1 METHODS UNIQUE TO TestServer
