@@ -28,6 +28,8 @@ if (!$port) {
     plan skip_all => 'non working test on Windows';
 } elsif ($OSNAME eq 'darwin') {
     plan skip_all => 'non working test on MacOS';
+} elsif ($LWP::VERSION < 6) {
+    plan skip_all => "LWP version too old, skipping";
 } else {
     plan tests => 7;
 }
@@ -124,13 +126,10 @@ eval {
 BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
 
-SKIP: {
-skip "LWP version too old, skipping", 1 unless $LWP::VERSION >= 6;
 ok(
     $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'trusted certificate, alternate hostname: connection success'
 );
-}
 
 $server->stop();
 
@@ -176,13 +175,10 @@ eval {
 };
 BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
-SKIP: {
-skip "LWP version too old, skipping", 1 unless $LWP::VERSION >= 6;
 ok(
     $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
     'untrusted certificate, correct hostname, no check: connection success'
 );
-}
 
 ok(
     !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
