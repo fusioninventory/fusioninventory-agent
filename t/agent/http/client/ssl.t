@@ -31,7 +31,7 @@ if (!$port) {
 } elsif ($LWP::VERSION < 6) {
     plan skip_all => "LWP version too old, skipping";
 } else {
-    plan tests => 7;
+    plan tests => 11;
 }
 
 diag("LWP\@$LWP::VERSION / LWP::Protocol\@$LWP::Protocol::VERSION / ",
@@ -89,10 +89,8 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
+
+ok($server->background(), "Good server launched in background");
 
 ok(
     $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
@@ -120,10 +118,7 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
+ok($server->background(), "Server using alternate certs launched in background");
 
 
 ok(
@@ -143,10 +138,7 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
+ok($server->background(), "Server using wrong certs launched in background");
 
 ok(
     $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
@@ -170,10 +162,7 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
+ok($server->background(), "Server using bad certs launched in background");
 
 ok(
     $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
