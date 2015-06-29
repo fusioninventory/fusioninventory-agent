@@ -37,6 +37,8 @@ sub new {
     $self->{crt}      = $params{crt};
     $self->{key}      = $params{key};
 
+    $self->host('127.0.0.1');
+
     return $self;
 }
 
@@ -145,17 +147,10 @@ sub background {
     return $pid;
 }
 
-
-sub hostname {
-    my $self = shift;
-
-    return '127.0.0.1';
-}
-
 sub root {
     my $self = shift;
     my $port = $self->port;
-    my $hostname = $self->hostname;
+    my $hostname = $self->host;
 
     return "http://$hostname:$port";
 }
