@@ -1399,15 +1399,29 @@ sub _getVlans {
     # each result matches either of the following schemes:
     # $prefix.$i.$j = $value, with $j as port id, and $value as vlan id
     # $prefix.$i    = $value, with $i as port id, and $value as vlan id
-    foreach my $suffix (sort keys %{$vmPortStatus}) {
-        my $port_id = _getElement($suffix, -1);
-        my $vlan_id = $vmPortStatus->{$suffix};
-        my $name    = $vtpVlanName->{$vlan_id};
+    # work with Cisco and Juniper switches
+    if($vtpVlanName and $vmPortStatus){
+        foreach my $suffix (sort keys %{$vmPortStatus}) {
+            my $port_id = _getElement($suffix, -1);
+            my $vlan_id = $vmPortStatus->{$suffix};
+            my $name    = $vtpVlanName->{$vlan_id};
 
-        push @{$results->{$port_id}}, {
-            NUMBER => $vlan_id,
-            NAME   => $name
-        };
+            push @{$results->{$port_id}}, {
+                NUMBER => $vlan_id,
+                NAME   => $name
+            };
+        }
+    }
+
+    # For other switches, we use another method
+    my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
+    if($vlanId){
+        while (my ($port, $vlan) = each %{$vlanId}) {
+            push @{$results->{$port}}, {
+                NUMBER => $vlan,
+                NAME   => "VLAN " . $vlan
+            };
+        }
     }
 
     return $results;
