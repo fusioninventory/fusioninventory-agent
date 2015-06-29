@@ -11,8 +11,13 @@ use UNIVERSAL::require;
 
 use FusionInventory::Test::Utils;
 
+use FusionInventory::Agent::Tools;
+
 plan(skip_all => 'Net::NBName required')
     unless Net::NBName->require();
+
+plan(skip_all => 'nmap command unavailable')
+    unless canRun("nmap");
 
 plan tests => 14;
 
