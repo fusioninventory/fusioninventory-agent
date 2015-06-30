@@ -40,7 +40,7 @@ policy          = ca_default_policy
 copy_extensions = copy
 
 [ ca_default_policy ]
-organizationName        = match
+organizationName        = supplied
 organizationalUnitName  = supplied
 commonName              = supplied
 emailAddress            = supplied
