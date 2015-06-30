@@ -64,6 +64,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:ff</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -94,6 +100,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:fe</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -124,6 +136,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:fd</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -154,6 +172,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:fc</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -184,6 +208,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:fb</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -214,6 +244,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:fa</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -244,6 +280,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:f9</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -274,6 +316,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:f8</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -304,6 +352,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:f7</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -334,6 +388,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:f6</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -351,6 +411,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:f5</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -368,6 +434,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:f4</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -398,6 +470,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:f3</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -415,6 +493,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:f2</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -445,6 +529,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:f1</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -462,6 +552,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:f0</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -492,6 +588,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:ef</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -509,6 +611,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:ee</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -539,6 +647,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:ed</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -556,6 +670,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:ec</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -586,6 +706,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:eb</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -616,6 +742,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:ea</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -646,6 +778,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:e9</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -676,6 +814,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:e8</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -706,6 +850,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:e7</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -736,6 +886,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:e6</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -766,6 +922,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:e5</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -796,6 +958,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:e4</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -826,6 +994,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:e3</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFDESCR>B6</IFDESCR>
@@ -844,6 +1018,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:e2</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -874,6 +1054,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:e1</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -904,6 +1090,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:e0</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -934,6 +1126,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:df</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -964,6 +1162,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:de</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -981,6 +1185,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:dd</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -998,6 +1208,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:dc</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -1028,6 +1244,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:db</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -1045,6 +1267,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:da</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -1075,6 +1303,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:d9</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -1092,6 +1326,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:d8</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -1122,6 +1362,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:d7</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -1139,6 +1385,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:d6</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -1169,6 +1421,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:d5</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <IFINERRORS>0</IFINERRORS>
@@ -1186,6 +1444,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:d4</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -1216,6 +1480,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:d3</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -1246,6 +1516,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:d2</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -1276,6 +1552,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:d1</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <CONNECTIONS>
@@ -1306,6 +1588,12 @@
           <IFTYPE>6</IFTYPE>
           <MAC>00:18:71:c1:f0:d0</MAC>
           <TRUNK>0</TRUNK>
+          <VLANS>
+            <VLAN>
+              <NAME>VLAN 1</NAME>
+              <NUMBER>1</NUMBER>
+            </VLAN>
+          </VLANS>
         </PORT>
         <PORT>
           <AGGREGATE>
@@ -2948,9 +3236,9 @@
         </PORT>
       </PORTS>
     </DEVICE>
-    <MODULEVERSION>2.2.0</MODULEVERSION>
+    <MODULEVERSION>2.3.99</MODULEVERSION>
     <PROCESSNUMBER>1</PROCESSNUMBER>
   </CONTENT>
-  <DEVICEID>foo</DEVICEID>
+  <DEVICEID>beria-2012-08-02-20-50-16</DEVICEID>
   <QUERY>SNMPQUERY</QUERY>
 </REQUEST>
