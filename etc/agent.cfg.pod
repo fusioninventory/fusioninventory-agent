@@ -251,6 +251,20 @@ Disable module (default: 0).
 
 Disable module (default: 0).
 
+=item B<trunk_pvid>
+
+Allow to change the PVID (VLAN IDentifier) used to define which ports should be considered as trunk (default: 0).
+This option does nothing on Cisco and Juniper switches.
+Possible values can be found by doing an SNMP walk through the C<.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1> OID : 
+
+ snmpwalk -c COMMUNITY -v2c IP_ADDRESS_OF_YOUR_SWITCH .1.0.8802.1.1.2.1.5.32962.1.2.1.1.1
+
+=item B<aggregation_as_trunk>
+
+Consider aggregation ports as trunk ports.
+Set it to 1 if you encounter association problems with aggregation bridges
+This option does nothing on Cisco switches.
+
 =back
 
 =head1 COLLECT MODULE OPTIONS

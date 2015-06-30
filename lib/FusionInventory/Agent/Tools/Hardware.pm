@@ -524,6 +524,7 @@ sub getDeviceFullInfo {
 
     my $snmp   = $params{snmp};
     my $logger = $params{logger};
+    my $config = $params{config};
 
     # first, let's retrieve basic device informations
     my $info = getDeviceInfo(%params);
@@ -571,7 +572,8 @@ sub getDeviceFullInfo {
         device  => $device,
         snmp    => $snmp,
         logger  => $logger,
-        dbdir   => $params{dbdir}
+        dbdir   => $params{dbdir},
+        config  => $config
     ) if $info->{TYPE} && $info->{TYPE} eq 'NETWORKING';
 
     # convert ports hashref to an arrayref, sorted by interface number
@@ -782,6 +784,7 @@ sub _setNetworkingProperties {
     my $device = $params{device};
     my $snmp   = $params{snmp};
     my $logger = $params{logger};
+    my $config = $params{config};
 
     my $ports    = $device->{PORTS}->{PORT};
 
@@ -794,7 +797,8 @@ sub _setNetworkingProperties {
     _setTrunkPorts(
         snmp   => $snmp,
         ports  => $ports,
-        logger => $logger
+        logger => $logger,
+        config => $config
     );
 
     _setConnectedDevices(
@@ -813,7 +817,8 @@ sub _setNetworkingProperties {
     _setAggregatePorts(
         snmp   => $snmp,
         ports  => $ports,
-        logger => $logger
+        logger => $logger,
+        config => $config
     );
 }
 
@@ -1411,15 +1416,29 @@ sub _getVlans {
     # each result matches either of the following schemes:
     # $prefix.$i.$j = $value, with $j as port id, and $value as vlan id
     # $prefix.$i    = $value, with $i as port id, and $value as vlan id
-    foreach my $suffix (sort keys %{$vmPortStatus}) {
-        my $port_id = _getElement($suffix, -1);
-        my $vlan_id = $vmPortStatus->{$suffix};
-        my $name    = $vtpVlanName->{$vlan_id};
+    # work with Cisco and Juniper switches
+    if($vtpVlanName and $vmPortStatus){
+        foreach my $suffix (sort keys %{$vmPortStatus}) {
+            my $port_id = _getElement($suffix, -1);
+            my $vlan_id = $vmPortStatus->{$suffix};
+            my $name    = $vtpVlanName->{$vlan_id};
 
-        push @{$results->{$port_id}}, {
-            NUMBER => $vlan_id,
-            NAME   => $name
-        };
+            push @{$results->{$port_id}}, {
+                NUMBER => $vlan_id,
+                NAME   => $name
+            };
+        }
+    }
+
+    # For other switches, we use another method
+    my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
+    if($vlanId){
+        while (my ($port, $vlan) = each %{$vlanId}) {
+            push @{$results->{$port}}, {
+                NUMBER => $vlan,
+                NAME   => "VLAN " . $vlan
+            };
+        }
     }
 
     return $results;
@@ -1429,7 +1448,8 @@ sub _setTrunkPorts {
     my (%params) = @_;
 
     my $trunk_ports = _getTrunkPorts(
-        snmp  => $params{snmp},
+        snmp   => $params{snmp},
+        config => $params{config},
     );
     return unless $trunk_ports;
 
@@ -1453,6 +1473,7 @@ sub _getTrunkPorts {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
+    my $config = $params{config};
 
     my $results;
 
@@ -1496,7 +1517,7 @@ sub _getTrunkPorts {
             my $interface_id =
                 ! exists $port2interface->{$id} ? $id                   :
                                                   $port2interface->{$id};
-            $results->{$interface_id} = $value == 0 ? 1 : 0;
+            $results->{$interface_id} = $value == $config->{netinventory}->{'trunk_pvid'} ? 1 : 0;
         }
         return $results;
     }
@@ -1509,6 +1530,7 @@ sub _setAggregatePorts {
 
     my $ports  = $params{ports};
     my $logger = $params{logger};
+    my $config = $params{config};
 
     my $lacp_info = _getLACPInfo(%params);
     if ($lacp_info) {
@@ -1521,6 +1543,11 @@ sub _setAggregatePorts {
                 next;
             }
             $ports->{$interface_id}->{AGGREGATE}->{PORT} = $lacp_info->{$interface_id};
+			
+            # Consider aggregation ports as trunk ports, to prevent assocations problems in GLPI with non-cisco switches.
+            if($config->{netinventory}->{'aggregation_as_trunk'} == 1){
+                $ports->{$interface_id}->{TRUNK} = "1";
+            }
         }
     }
 

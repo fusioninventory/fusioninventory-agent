@@ -55,7 +55,9 @@ my %config = (
             'disable' => 0,
         },
         'netinventory' => {
-            'disable' => 1,
+            'disable'              => 1,
+            'aggregation_as_trunk' => 0,
+            'trunk_pvid'           => 0
         },
         'collect' => {
             'disable' => 0,
@@ -107,7 +109,9 @@ my %config = (
             'disable' => 0,
         },
         'netinventory' => {
-            'disable' => 0,
+            'disable'              => 0,
+            'aggregation_as_trunk' => 0,
+            'trunk_pvid'           => 0
         },
         'collect' => {
             'disable' => 0,
@@ -159,7 +163,9 @@ my %config = (
             'disable' => 0,
         },
         'netinventory' => {
-            'disable' => 0,
+            'disable'              => 0,
+            'aggregation_as_trunk' => 0,
+            'trunk_pvid'           => 0
         },
         'collect' => {
             'disable' => 0,
@@ -211,7 +217,9 @@ my %config = (
             'disable' => 0,
         },
         'netinventory' => {
-            'disable' => 0,
+            'disable'              => 0,
+            'aggregation_as_trunk' => 0,
+            'trunk_pvid'           => 0
         },
         'collect' => {
             'disable' => 0,
@@ -263,7 +271,9 @@ my %config = (
             'disable' => 0,
         },
         'netinventory' => {
-            'disable' => 0,
+            'disable'              => 0,
+            'aggregation_as_trunk' => 0,
+            'trunk_pvid'           => 0
         },
         'collect' => {
             'disable' => 0,

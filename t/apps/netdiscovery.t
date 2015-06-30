@@ -9,6 +9,7 @@ use File::Temp qw(tempdir);
 use Test::More;
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Test::Utils;
 
 use FusionInventory::Agent::Tools;
@@ -41,21 +42,31 @@ like(
 );
 is($out, '', 'no target stdout');
 
-($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '127.0.0.1/32');
-ok($rc == 0, 'localhost discovery exit status');
-is($err, '', 'localhost discovery stderr');
-ok(is_xml_string($out), 'localhost discovery stdout');
+SKIP: {
+    skip "nmap required", 8 unless canRun("nmap");
 
-my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
+    my $expected_stderr = '';
+    $expected_stderr .= "[info] Can't load Net::NBName, no netbios probing\n"
+        unless Net::NBName->require();
+    $expected_stderr .= "[info] Can't load FusionInventory::Agent::SNMP::Client, no SNMP probing\n"
+        unless Net::SNMP->require();
 
-($out, $err, $rc) = run_executable(
-    'fusioninventory-netdiscovery',
-    "--target $tmpdir 127.0.0.1/32"
-);
-ok($rc == 0, 'localhost discovery with file target exit status');
-is($err, '', 'localhost discovery with file target stderr');
-is($out, '', 'localhost discovery with file target stdout');
+    ($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '127.0.0.1/32');
+    ok($rc == 0, 'localhost discovery exit status');
+    is($err, $expected_stderr, 'localhost discovery stderr');
+    ok(is_xml_string($out), 'localhost discovery stdout');
 
-my $result_file = "$tmpdir/netdiscovery_127.0.0.1.xml";
-ok(-f $result_file, 'result file presence');
-ok(is_xml_file($result_file), 'result file syntax');
+    my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
+
+    ($out, $err, $rc) = run_executable(
+        'fusioninventory-netdiscovery',
+        "--target $tmpdir 127.0.0.1/32"
+    );
+    ok($rc == 0, 'localhost discovery with file target exit status');
+    is($err, $expected_stderr, 'localhost discovery with file target stderr');
+    is($out, '', 'localhost discovery with file target stdout');
+
+    my $result_file = "$tmpdir/netdiscovery_127.0.0.1.xml";
+    ok(-f $result_file, 'result file presence');
+    ok(is_xml_file($result_file), 'result file syntax');
+}
