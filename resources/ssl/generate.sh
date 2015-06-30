@@ -24,7 +24,7 @@ openssl req -config cnf/ca.cnf -new -sha256 -x509 -days 3650 \
 	-key key/ca.pem -out crt/ca.pem                           2>&1 | log
 echo
 
-for cert in alternate good joker wrong bad
+for cert in alternate good wrong bad
 do
 	if [ -e "cnf/$cert.cnf" ]; then
 		echo "Generating $cert key & certs..."                  | addlog
