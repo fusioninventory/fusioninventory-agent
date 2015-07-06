@@ -224,8 +224,14 @@ like(
 );
 
 ok(
-    !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    !$request->is_success(),
     'untrusted certificate, correct hostname: connection failure'
+);
+
+like(
+    $request->status_line,
+    qr/certificate verify failed/,
+    'SSL failure using trusted certificate toward bad server'
 );
 
 $server->stop();
