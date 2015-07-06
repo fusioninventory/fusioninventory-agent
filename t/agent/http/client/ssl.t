@@ -234,4 +234,9 @@ like(
     'SSL failure using trusted certificate toward bad server'
 );
 
+ok(
+    !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    'untrusted certificate, correct hostname: connection failure'
+);
+
 $server->stop();
