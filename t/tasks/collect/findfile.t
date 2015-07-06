@@ -154,33 +154,6 @@ my %tests = (
             ]
         },
         expected => qr/UUID key missing/
-    },
-    FF8 => {
-        OK   => 'yes',
-        description => "n/a",
-        getJobs => {
-            jobs => [
-                {
-                    uuid      => 'collecting-agent',
-                    function  => 'findFile',
-                    recursive => '',
-                    dir       => '.',
-                    limit     => 0,
-                    filter    => {
-                        is_file => 0,
-                        is_dir  => 0
-                    }
-                }
-            ]
-        },
-        count   => 1,
-        results => [
-            {
-                '_cpt' => 1,
-                'path' => '.',
-                'size' => '4096'
-            }
-        ]
     }
 );
 
