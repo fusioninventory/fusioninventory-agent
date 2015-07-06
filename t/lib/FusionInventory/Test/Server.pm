@@ -37,17 +37,36 @@ sub new {
     $self->{crt}      = $params{crt};
     $self->{key}      = $params{key};
 
+    $self->host('127.0.0.1');
+
     return $self;
 }
 
+# Fixed and very simplified run method refactored from HTTP::Server::Simple run & _default_run methods
 sub run {
     my $self = shift;
 
-    $pid = $self->SUPER::run(@_);
+    local $SIG{CHLD} = 'IGNORE';    # reap child processes
 
-    $SIG{__DIE__} = \&stop;
+    $self->setup_listener;
+    $self->after_setup_listener();
 
-    return $pid;
+    local $SIG{PIPE} = 'IGNORE'; # If we don't ignore SIGPIPE, a
+                                 # client closing the connection before we
+                                 # finish sending will cause the server to exit
+
+    while ( accept( my $remote = new FileHandle, HTTP::Server::Simple::HTTPDaemon ) ) {
+        $self->stdio_handle($remote);
+
+        # This is the point, we must not continue processing the request if SSL failed !!!
+        if ($self->accept_hook || !$self->{ssl}) {
+            *STDIN  = $self->stdin_handle();
+            *STDOUT = $self->stdout_handle();
+            select STDOUT;
+            &{$self->_process_request};
+        }
+        close $self->stdio_handle;
+    }
 }
 
 sub authen_handler {
@@ -106,21 +125,21 @@ sub print_banner {
 }
 
 sub accept_hook {
-   my $self = shift;
+    my $self = shift;
 
-   return unless $self->{ssl};
-   my $fh   = $self->stdio_handle;
+    return unless $self->{ssl};
+    my $fh   = $self->stdio_handle;
 
-   $self->SUPER::accept_hook(@_);
+    $self->SUPER::accept_hook(@_);
 
-   my $newfh = IO::Socket::SSL->start_SSL($fh,
-       SSL_server    => 1,
-       SSL_use_cert  => 1,
-       SSL_cert_file => $self->{crt},
-       SSL_key_file  => $self->{key},
-   );
+    my $newfh = IO::Socket::SSL->start_SSL($fh,
+        SSL_server    => 1,
+        SSL_use_cert  => 1,
+        SSL_cert_file => $self->{crt},
+        SSL_key_file  => $self->{key},
+    );
 
-   $self->stdio_handle($newfh) if $newfh;
+    $self->stdio_handle($newfh) if $newfh;
 }
 
 =head1 METHODS UNIQUE TO TestServer
@@ -145,17 +164,10 @@ sub background {
     return $pid;
 }
 
-
-sub hostname {
-    my $self = shift;
-
-    return '127.0.0.1';
-}
-
 sub root {
     my $self = shift;
     my $port = $self->port;
-    my $hostname = $self->hostname;
+    my $hostname = $self->host;
 
     return "http://$hostname:$port";
 }
