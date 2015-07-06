@@ -181,6 +181,7 @@ is(
 );
 
 $request = $secure_client->request(HTTP::Request->new(GET => $url));
+
 ok(
     !$request->is_success(),
     'trusted certificate, wrong hostname: connection failure'
@@ -221,6 +222,7 @@ is(
 );
 
 $request = $secure_client->request(HTTP::Request->new(GET => $url));
+
 ok(
     !$request->is_success(),
     'untrusted certificate, correct hostname: connection failure'
