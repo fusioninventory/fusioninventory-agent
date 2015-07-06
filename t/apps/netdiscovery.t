@@ -7,9 +7,18 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use File::Temp qw(tempdir);
 use Test::More;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Test::Utils;
+
+use FusionInventory::Agent::Tools;
+
+plan(skip_all => 'Net::NBName required')
+    unless Net::NBName->require();
+
+plan(skip_all => 'nmap command unavailable')
+    unless canRun("nmap");
 
 plan tests => 14;
 
