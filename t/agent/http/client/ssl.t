@@ -31,7 +31,7 @@ if (!$port) {
 } elsif ($LWP::VERSION < 6) {
     plan skip_all => "LWP version too old, skipping";
 } else {
-    plan tests => 14;
+    plan tests => 18;
 }
 
 diag("LWP\@$LWP::VERSION / LWP::Protocol\@$LWP::Protocol::VERSION / ",
@@ -173,7 +173,6 @@ is(
 );
 
 $request = $secure_client->request(HTTP::Request->new(GET => $url));
-
 ok(
     !$request->is_success(),
     'trusted certificate, wrong hostname: connection failure'
@@ -211,18 +210,6 @@ is(
 );
 
 $request = $secure_client->request(HTTP::Request->new(GET => $url));
-
-ok(
-    !$request->is_success(),
-    'untrusted certificate, correct hostname: connection failure'
-);
-
-like(
-    $request->status_line,
-    qr/certificate verify failed/,
-    'SSL failure using trusted certificate toward bad server'
-);
-
 ok(
     !$request->is_success(),
     'untrusted certificate, correct hostname: connection failure'
