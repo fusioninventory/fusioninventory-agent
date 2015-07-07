@@ -202,7 +202,7 @@ sub run {
             push @all_started_threads, @started_threads ;
 
             # Check really started threads number
-            $self->{logger}->warning(scalar(@started_threads)." really started: [@started_threads]")
+            $self->{logger}->debug(scalar(@started_threads)." really started: [@started_threads]")
                 unless (@started_threads == $threads_count && @threads == $threads_count);
 
             # as long as some threads are still running...
