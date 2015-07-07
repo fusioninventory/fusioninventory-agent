@@ -101,6 +101,8 @@ sub run {
         # send initial message to the server
         $self->_sendStartMessage();
 
+        my $debug_sent_count = 0 ;
+
         # initialize FIFOs
         my $devices = Thread::Queue->new();
         my $results = Thread::Queue->new();
@@ -147,32 +149,51 @@ sub run {
         };
 
         $self->{logger}->debug("creating $threads_count worker threads");
-        for (my $i = 0; $i < $threads_count; $i++) {
-            threads->create($sub);
-        }
+        my @threads = map { threads->create($sub) } 1..$threads_count ;
+        my @started_threads = map { $_->tid() } threads->list(threads::running);
+
+        # Check really started threads number
+        $self->{logger}->warning(scalar(@started_threads)." really started: [@started_threads]")
+            unless (@started_threads == $threads_count && @threads == $threads_count);
 
         # as long as some threads are still running...
-        while (threads->list(threads::running)) {
+        while (@threads) {
 
             # send available results on the fly
             while (my $result = $results->dequeue_nb()) {
+                $debug_sent_count ++ ;
+                $self->{logger}->debug("Send result #$debug_sent_count");
                 $self->_sendResultMessage($result);
+                $self->{logger}->debug("Sent result #$debug_sent_count");
             }
 
             # wait for a second
             delay(1);
+
+            # Re-check running threads so it must have been in started list
+            @threads = grep {
+                my $running = $_ ; grep { $running == $_ } @threads
+            } threads->list(threads::running);
         }
 
         # purge remaining results
         while (my $result = $results->dequeue_nb()) {
+            $debug_sent_count ++ ;
+            $self->{logger}->debug("Send result #$debug_sent_count");
             $self->_sendResultMessage($result);
+            $self->{logger}->debug("Sent result #$debug_sent_count");
         }
 
-        $self->{logger}->debug("cleaning $threads_count worker threads");
-        $_->join() foreach threads->list(threads::joinable);
-
-        # send final message to the server
+        # send final message to the server before cleaning threads
         $self->_sendStopMessage();
+
+        if (@started_threads) {
+            $self->{logger}->debug("cleaning $threads_count worker threads");
+            $_->join() foreach threads->list(threads::joinable);
+        }
+
+        $self->{logger}->debug( $debug_sent_count ?
+            "$debug_sent_count results sent" : "No result sent" );
     }
 }
 
