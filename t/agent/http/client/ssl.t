@@ -15,6 +15,11 @@ use FusionInventory::Test::Proxy;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
+use Net::HTTPS;
+
+# Can help to debug SSL negociation in case of failure
+#$Net::SSLeay::trace = 1;
+
 unsetProxyEnvVar();
 
 # find an available port
@@ -26,9 +31,17 @@ if (!$port) {
     plan skip_all => 'non working test on Windows';
 } elsif ($OSNAME eq 'darwin') {
     plan skip_all => 'non working test on MacOS';
+} elsif ($LWP::VERSION < 6) {
+    plan skip_all => "LWP version too old, skipping";
 } else {
-    plan tests => 7;
+    plan tests => 18;
 }
+
+diag("LWP\@$LWP::VERSION / LWP::Protocol\@$LWP::Protocol::VERSION / ",
+    "IO::Socket\@$IO::Socket::VERSION / IO::Socket::SSL\@$IO::Socket::SSL::VERSION / ",
+    "IO::Socket::INET\@$IO::Socket::INET::VERSION / ",
+    "Net::SSLeay\@$Net::SSLeay::VERSION / Net::HTTPS\@$Net::HTTPS::VERSION / ",
+    "HTTP::Status\@$HTTP::Status::VERSION / HTTP::Response\@$HTTP::Response::VERSION");
 
 my $ok = sub {
     my ($server, $cgi) = @_;
@@ -42,10 +55,16 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Test' ]
 );
 
+unless (-e "resources/ssl/crt/ca.pem") {
+    print STDERR "Generating SSL certificates...\n";
+    qx(cd resources/ssl ; ./generate.sh );
+}
+
 my $proxy = FusionInventory::Test::Proxy->new();
 $proxy->background();
 
 my $server;
+my $request;
 my $url = "https://127.0.0.1:$port/public";
 my $unsafe_client = FusionInventory::Agent::HTTP::Client->new(
     logger       => $logger,
@@ -76,21 +95,34 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
 
+ok($server->background(), "Good server launched in background");
+
+$request = $secure_client->request(HTTP::Request->new(GET => $url));
 ok(
-    $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    $request->is_success(),
     'trusted certificate, correct hostname: connection success'
+);
+
+is(
+    IO::Socket::SSL::errstr(), '',
+    'No SSL failure using trusted certificate toward good server'
 );
 
 SKIP: {
 skip "Known to fail, see: http://forge.fusioninventory.org/issues/1940", 1 unless $ENV{TEST_AUTHOR};
+$request = $secure_proxy_client->request(HTTP::Request->new(GET => $url));
 ok(
-    $secure_proxy_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    $request->is_success(),
     'trusted certificate, correct hostname, through proxy: connection success'
+);
+}
+
+SKIP: {
+skip "Known to fail, see: http://forge.fusioninventory.org/issues/1940", 1 unless $ENV{TEST_AUTHOR};
+is(
+    IO::Socket::SSL::errstr(), '',
+    'No SSL failure using trusted certificate toward good server through proxy'
 );
 }
 
@@ -107,19 +139,18 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
+ok($server->background(), "Server using alternate certs launched in background");
 
-
-SKIP: {
-skip "LWP version too old, skipping", 1 unless $LWP::VERSION >= 6;
+$request = $secure_client->request(HTTP::Request->new(GET => $url));
 ok(
-    $secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    $request->is_success(),
     'trusted certificate, alternate hostname: connection success'
 );
-}
+
+is(
+    IO::Socket::SSL::errstr(), '',
+    'No SSL failure using secure client toward alternate server'
+);
 
 $server->stop();
 
@@ -133,25 +164,29 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
+ok($server->background(), "Server using wrong certs launched in background");
 
+$request = $unsafe_client->request(HTTP::Request->new(GET => $url));
 ok(
-    !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    $request->is_success(),
+    'trusted certificate, wrong hostname, no check: connection success'
+);
+
+is(
+    IO::Socket::SSL::errstr(), '',
+    'No SSL failure using unsafe client toward wrong server'
+);
+
+$request = $secure_client->request(HTTP::Request->new(GET => $url));
+ok(
+    !$request->is_success(),
     'trusted certificate, wrong hostname: connection failure'
 );
 
-$server->stop();
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
-
-ok(
-    $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
-    'trusted certificate, wrong hostname, no check: connection success'
+like(
+    $request->status_line,
+    qr/certificate verify failed/,
+    'SSL failure using trusted certificate toward wrong server'
 );
 
 $server->stop();
@@ -166,27 +201,29 @@ $server = FusionInventory::Test::Server->new(
 $server->set_dispatch({
     '/public'  => $ok,
 });
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
+ok($server->background(), "Server using bad certs launched in background");
 
+$request = $unsafe_client->request(HTTP::Request->new(GET => $url));
 ok(
-    !$secure_client->request(HTTP::Request->new(GET => $url))->is_success(),
+    $request->is_success(),
+    'untrusted certificate, correct hostname, no check: connection success'
+);
+
+is(
+    IO::Socket::SSL::errstr(), '',
+    'No SSL failure using unsafe client toward bad server'
+);
+
+$request = $secure_client->request(HTTP::Request->new(GET => $url));
+ok(
+    !$request->is_success(),
     'untrusted certificate, correct hostname: connection failure'
 );
 
-SKIP: {
-$server->stop();
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch the server: $EVAL_ERROR") if $EVAL_ERROR;
-skip "LWP version too old, skipping", 1 unless $LWP::VERSION >= 6;
-ok(
-    $unsafe_client->request(HTTP::Request->new(GET => $url))->is_success(),
-    'untrusted certificate, correct hostname, no check: connection success'
+like(
+    $request->status_line,
+    qr/certificate verify failed/,
+    'SSL failure using trusted certificate toward bad server'
 );
-}
 
 $server->stop();
