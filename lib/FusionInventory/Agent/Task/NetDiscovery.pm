@@ -19,7 +19,7 @@ use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::XML::Query;
 
-our $VERSION = '2.2.0';
+our $VERSION = '2.2.1';
 
 sub isEnabled {
     my ($self, $response) = @_;
@@ -141,8 +141,8 @@ sub run {
         # send initial message to the server
         $self->_sendStartMessage();
 
-        my ($debug_sent_count, $threads_count) = ( 0, 0 );
-        my @all_started_threads = ();
+        my ($debug_sent_count, $threads_count, $started_count) = ( 0, 0, 0 );
+        my %running_threads = ();
 
         # process each address block
         foreach my $range (@{$job->{ranges}}) {
@@ -197,16 +197,24 @@ sub run {
             };
 
             $self->{logger}->debug("creating $threads_count worker threads");
-            my @threads = map { threads->create($sub) } 1..$threads_count ;
-            my @started_threads = map { $_->tid() } threads->list(threads::running);
-            push @all_started_threads, @started_threads ;
+            for (my $i = 0; $i < $threads_count; $i++) {
+                my $newthread = threads->create($sub);
+                # Keep known created threads in a hash
+                $running_threads{$newthread->tid()} = $newthread ;
+                delay(0.1) until ($newthread->is_running() || $newthread->is_joinable());
+            }
 
-            # Check really started threads number
-            $self->{logger}->debug(scalar(@started_threads)." really started: [@started_threads]")
-                unless (@started_threads == $threads_count && @threads == $threads_count);
+            # Check really started threads number vs really running ones
+            my @really_running  = map { $_->tid() } threads->list(threads::running);
+            my @started_threads = keys(%running_threads);
+            unless (@really_running == $threads_count && keys(%running_threads) == $threads_count) {
+                $self->{logger}->debug(scalar(@really_running)." really running: [@really_running]");
+                $self->{logger}->debug(scalar(@started_threads)." started: [@started_threads]");
+            }
+            $started_count += @started_threads ;
 
             # as long as some threads are still running...
-            while (@threads) {
+            while (keys(%running_threads)) {
 
                 # send available results on the fly
                 while (my $result = $results->dequeue_nb()) {
@@ -221,10 +229,23 @@ sub run {
                 # wait for a second
                 delay(1);
 
-                # Re-check running threads so it must have been in started list
-                @threads = grep {
-                    my $running = $_ ; grep { $running == $_ } @threads
-                } threads->list(threads::running);
+                # List our created and possibly running threads in a list to check
+                my %our_running_threads_checklist = map { $_ => 0 } keys(%running_threads);
+
+                foreach my $running (threads->list(threads::running)) {
+                    my $tid = $running->tid();
+                    # Skip if this running thread tid is not is our started list
+                    next unless exists($running_threads{$tid});
+
+                    # Check a thread is still running
+                    $our_running_threads_checklist{$tid} = 1 ;
+                }
+
+                # Clean our started list from thread tid that don't run anymore
+                foreach my $tid (keys(%our_running_threads_checklist)) {
+                    delete $running_threads{$tid}
+                        unless $our_running_threads_checklist{$tid};
+                }
             }
 
             # purge remaning results
@@ -242,8 +263,8 @@ sub run {
         # send final message to the server before cleaning threads
         $self->_sendStopMessage();
 
-        if (@all_started_threads) {
-            $self->{logger}->debug("cleaning ".scalar(@all_started_threads)." worker threads");
+        if ($started_count) {
+            $self->{logger}->debug("cleaning $started_count worker threads");
             $_->join() foreach threads->list(threads::joinable);
         }
 
