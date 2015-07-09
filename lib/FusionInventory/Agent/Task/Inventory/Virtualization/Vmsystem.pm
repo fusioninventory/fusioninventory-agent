@@ -76,9 +76,6 @@ sub doInventory {
         });
     }
 
-    my $vmid = $type eq 'Virtuozzo' ?
-        _getOpenVZVmID(logger => $logger) : undef;
-
     my $uuid = $type eq 'Xen' ? _getXenUUID(logger => $logger) :
                $type eq 'LXC' ? _getLibvirtLXC_UUID(logger => $logger) :
                undef;
@@ -86,7 +83,6 @@ sub doInventory {
     $inventory->setHardware({
         VMSYSTEM => $type,
         UUID     => $uuid,
-        VMID     => $vmid
     });
 }
 

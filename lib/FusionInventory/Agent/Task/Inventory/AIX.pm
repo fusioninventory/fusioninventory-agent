@@ -65,7 +65,6 @@ sub doInventory {
     # VMHOSTSERIAL key.
     if ($unameL && $unameL =~ /^(\d+)\s+(\S+)/) {
         $vmsystem = "AIX_LPAR";
-        $vmid = $1;
         $vmname = $2;
         $vmhostserial = $vpd->{SE};
         $ssn = "aixlpar-$vmhostserial-$vmid";
@@ -77,7 +76,6 @@ sub doInventory {
         OSNAME     => "$kernelName $version",
         OSVERSION  => $OSLevel,
         OSCOMMENTS => "Maintenance Level: $OSLevelParts[1]",
-        VMID       => $vmid,
         VMNAME     => $vmname,
         VMSYSTEM   => $vmsystem,
         VMHOSTSERIAL => $vmhostserial

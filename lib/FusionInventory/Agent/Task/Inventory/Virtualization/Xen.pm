@@ -75,7 +75,6 @@ sub  _getVirtualMachines {
             SUBSYSTEM => 'xm',
             VMTYPE    => 'xen',
             VCPU      => $vcpu,
-            VMID      => $vmid,
         };
 
         push @machines, $machine;

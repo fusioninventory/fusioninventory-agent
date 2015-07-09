@@ -18,61 +18,51 @@ my %list_tests = (
             VMTYPE    => 'libvirt',
             NAME      => 'vm1',
             STATUS    => 'running',
-            VMID      => '151',
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm2',
             STATUS    => 'running',
-            VMID      => '152',
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm-ad',
             STATUS    => 'running',
-            VMID      => '170',
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm-ts',
             STATUS    => 'running',
-            VMID      => '178',
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm3',
             STATUS    => 'running',
-            VMID      => '185',
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm4',
             STATUS    => 'running',
-            VMID      => '190',
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm5',
             STATUS    => 'running',
-            VMID      => '208',
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm6-ws1',
             STATUS    => 'running',
-            VMID      => '209',
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vml3',
             STATUS    => 'running',
-            VMID      => '210',
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm-srv-net1',
             STATUS    => 'off',
-            VMID      => '',
         }
     ],
     list2 => [
@@ -80,7 +70,6 @@ my %list_tests = (
             VMTYPE    => 'libvirt',
             NAME      => 'Debian_Squeeze_64_bits',
             STATUS    => 'running',
-            VMID      => '6',
         }
     ],
 );

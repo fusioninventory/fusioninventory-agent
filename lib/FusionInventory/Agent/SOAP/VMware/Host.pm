@@ -332,7 +332,6 @@ sub getVirtualMachines {
 
         push @virtualMachines,
           {
-            VMID    => $machine->{summary}{vm},
             NAME    => $machine->{name},
             STATUS  => $status,
             UUID    => $machine->{summary}{config}{uuid},

@@ -58,7 +58,6 @@ sub _getMachines {
             SUBSYSTEM => "HPVM",
             VMTYPE    => "HPVM",
             VCPU      => $info->{vcpu_number},
-            VMID      => $info->{local_id}
         };
 
         push @machines, $machine;

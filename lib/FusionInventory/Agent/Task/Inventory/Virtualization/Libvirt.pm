@@ -70,7 +70,6 @@ sub _parseList {
         next if $line =~ /^-{5}/;
         next unless $line =~ /^\s*(\d+|)(\-|)\s+(\S+)\s+(\S.+)/;
 
-        my $vmid = $1;
         my $name = $3;
 
         # ignore Xen Dom0
@@ -83,7 +82,6 @@ sub _parseList {
             NAME      => $name,
             STATUS    => $status,
             VMTYPE    => "libvirt",
-            VMID      => $vmid,
         };
 
         push @machines, $machine;

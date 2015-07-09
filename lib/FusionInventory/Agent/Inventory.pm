@@ -18,10 +18,10 @@ my %fields = (
                              TYPE SKUNUMBER/ ],
     HARDWARE         => [ qw/USERID OSVERSION PROCESSORN OSCOMMENTS CHECKSUM
                              PROCESSORT NAME PROCESSORS SWAP ETIME TYPE OSNAME
-                             IPADDR WORKGROUP DESCRIPTION MEMORY UUID VMID DNS
+                             IPADDR WORKGROUP DESCRIPTION MEMORY UUID DNS
                              LASTLOGGEDUSER USERDOMAIN DATELASTLOGGEDUSER
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
-                             WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE VMID
+                             WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE
                              VMNAME VMHOSTSERIAL/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME
                              SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN
@@ -84,7 +84,7 @@ my %fields = (
                             CLASS SUBCLASS NAME/ ],
     USERS            => [ qw/LOGIN DOMAIN/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
-                             VMID MAC COMMENT OWNER SERIAL/ ],
+                             MAC COMMENT OWNER SERIAL/ ],
     VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID
                              VG_EXTENT_SIZE/ ],
 );

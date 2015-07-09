@@ -55,7 +55,6 @@ sub doInventory {
                 STATUS    => $zonestatus,
                 SUBSYSTEM => "Solaris Zones",
                 VMTYPE    => "Solaris Zones",
-                VMID      => $zoneid,
                 VCPU      => $vcpu,
             }
         );

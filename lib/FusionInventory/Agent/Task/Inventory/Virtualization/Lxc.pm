@@ -44,15 +44,11 @@ sub  _getVirtualMachineState {
     }
     close $handle;
 
-    my $state;
-    $state->{VMID} = $info{pid};
-    $state->{STATUS} =
+    return
         $info{state} eq 'RUNNING' ? 'running' :
         $info{state} eq 'FROZEN'  ? 'paused'  :
         $info{state} eq 'STOPPED' ? 'off'     :
         $info{state};
-
-    return $state;
 }
 
 sub  _getVirtualMachineConfig {
@@ -111,7 +107,7 @@ sub  _getVirtualMachines {
 
         my $name = $1;
 
-        my $state = _getVirtualMachineState(
+        my $status = _getVirtualMachineState(
             command => "/usr/bin/lxc-info -n $name",
             logger => $params{logger}
         );
@@ -124,8 +120,7 @@ sub  _getVirtualMachines {
         push @machines, {
             NAME   => $name,
             VMTYPE => 'LXC',
-            VMID   => $state->{VMID},
-            STATUS => $state->{STATUS},
+            STATUS => $status,
             VCPU   => $config->{VCPU},
             MEMORY => $config->{MEMORY},
         };
