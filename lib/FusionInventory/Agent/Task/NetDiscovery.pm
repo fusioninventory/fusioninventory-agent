@@ -10,6 +10,7 @@ use constant DEVICE_PER_MESSAGE => 4;
 use English qw(-no_match_vars);
 use Net::IP;
 use Time::localtime;
+use Time::HiRes qw(usleep);
 use Thread::Queue v2.01;
 use UNIVERSAL::require;
 use XML::TreePP;
@@ -201,7 +202,7 @@ sub run {
                 my $newthread = threads->create($sub);
                 # Keep known created threads in a hash
                 $running_threads{$newthread->tid()} = $newthread ;
-                delay(0.1) until ($newthread->is_running() || $newthread->is_joinable());
+                usleep(50000) until ($newthread->is_running() || $newthread->is_joinable());
             }
 
             # Check really started threads number vs really running ones
@@ -226,8 +227,8 @@ sub run {
                     $self->{logger}->debug("Sent result #$debug_sent_count");
                 }
 
-                # wait for a second
-                delay(1);
+                # wait for a little
+                usleep(50000);
 
                 # List our created and possibly running threads in a list to check
                 my %our_running_threads_checklist = map { $_ => 0 } keys(%running_threads);
