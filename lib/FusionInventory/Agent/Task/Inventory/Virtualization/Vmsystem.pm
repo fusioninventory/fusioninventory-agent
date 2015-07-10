@@ -76,13 +76,8 @@ sub doInventory {
         });
     }
 
-    my $uuid = $type eq 'Xen' ? _getXenUUID(logger => $logger) :
-               $type eq 'LXC' ? _getLibvirtLXC_UUID(logger => $logger) :
-               undef;
-
     $inventory->setHardware({
         VMSYSTEM => $type,
-        UUID     => $uuid,
     });
 }
 
@@ -220,31 +215,6 @@ sub _matchPatterns {
         return 'VirtualBox'      if $line =~ $virtualbox_pattern;
         return 'Xen'             if $line =~ $xen_pattern;
     }
-}
-
-sub _getXenUUID {
-    return getFirstLine(
-        file => '/sys/hypervisor/uuid',
-        @_
-    );
-}
-
-sub _getLibvirtLXC_UUID {
-    my (%params) = (
-        file => '/proc/1/environ',
-        @_
-    );
-
-    my @environ = split( '\0', getAllLines( %params ) );
-
-    foreach my $variable (@environ) {
-        next unless $variable =~ /^LIBVIRT_LXC_UUID/;
-        my (undef, $value) = split('=', $variable);
-        return $value;
-    }
-
-    ## no critic (ExplicitReturnUndef)
-    return undef;
 }
 
 1;
