@@ -222,14 +222,6 @@ sub _matchPatterns {
     }
 }
 
-sub _getOpenVZVmID {
-    return getFirstMatch(
-        file    => '/proc/self/status',
-        pattern => qr/^envID:\s*(\d+)/,
-        @_
-    );
-}
-
 sub _getXenUUID {
     return getFirstLine(
         file => '/sys/hypervisor/uuid',
