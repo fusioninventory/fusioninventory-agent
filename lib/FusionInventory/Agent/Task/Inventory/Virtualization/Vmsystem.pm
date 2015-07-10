@@ -76,6 +76,17 @@ sub doInventory {
         });
     }
 
+    # compute a compound identifier, as Virtuozzo uses the same identifier
+    # for the host and for the guests
+    if ($type eq 'Virtuozzo') {
+        my $hostID  = $inventory->{h}{CONTENT}{HARDWARE}{UUID} || '';
+        my $guestID = getFirstMatch(
+            file => '/proc/self/status',
+            pattern => qr/^envID:\s*(\d+)/
+        ) || '';
+        $inventory->setHardware({ UUID => $hostID . '-' . $guestID });
+    }
+
     $inventory->setHardware({
         VMSYSTEM => $type,
     });

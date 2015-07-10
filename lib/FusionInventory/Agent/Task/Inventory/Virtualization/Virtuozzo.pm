@@ -29,6 +29,8 @@ sub doInventory {
     # no service containers in glpi
     my $line = <$handle>;
 
+    my $hostID = $inventory->{h}{CONTENT}{HARDWARE}{UUID} || '';
+
     while (my $line = <$handle>) {
 
         chomp $line;
@@ -70,12 +72,16 @@ sub doInventory {
             }
         }
 
+        # compute specific identifier for the guest, as CTID is
+        # unique only for the local hosts
+        my $uuid = $hostID . '-' . $ctid;
+
         $inventory->addEntry(
             section => 'VIRTUALMACHINES',
             entry => {
                 NAME      => $name,
                 VCPU      => $cpus,
-                UUID      => $ctid,
+                UUID      => $uuid,
                 MEMORY    => $memory,
                 STATUS    => $status,
                 SUBSYSTEM => $subsys,
