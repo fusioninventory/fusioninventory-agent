@@ -13,23 +13,6 @@ sub isEnabled {
     return canRun('vzlist');
 }
 
-sub getMACs {
-    my ($ctid, $logger) = @_;
-
-    my @ipLines = getAllLines(
-        command => "vzctl exec '$ctid' 'ip -0 a'",
-        logger  => $logger
-    );
-
-    my @macs;
-    foreach my $line (@ipLines) {
-        next unless $line =~ /^\s+link\/ether ($mac_address_pattern)\s/;
-        push @macs, $1;
-    }
-
-    return join('/', @macs);
-}
-
 sub doInventory {
     my (%params) = @_;
 
@@ -97,7 +80,7 @@ sub doInventory {
                 STATUS    => $status,
                 SUBSYSTEM => $subsys,
                 VMTYPE    => "Virtuozzo",
-                MAC       => getMACs($ctid, $logger)
+                MAC       => _getMACs($ctid, $logger)
             }
         );
 
@@ -105,5 +88,23 @@ sub doInventory {
 
     close $handle;
 }
+
+sub _getMACs {
+    my ($ctid, $logger) = @_;
+
+    my @ipLines = getAllLines(
+        command => "vzctl exec '$ctid' 'ip -0 a'",
+        logger  => $logger
+    );
+
+    my @macs;
+    foreach my $line (@ipLines) {
+        next unless $line =~ /^\s+link\/ether ($mac_address_pattern)\s/;
+        push @macs, $1;
+    }
+
+    return join('/', @macs);
+}
+
 
 1;
