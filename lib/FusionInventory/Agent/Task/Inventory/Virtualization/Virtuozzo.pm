@@ -17,9 +17,9 @@ sub getMACs {
     my ($ctid, $logger) = @_;
 
     my @ipLines = getAllLines(
-            command => "vzctl exec '$ctid' 'ip -0 a'",
-            logger  => $logger
-            );
+        command => "vzctl exec '$ctid' 'ip -0 a'",
+        logger  => $logger
+    );
 
     my @macs;
     foreach my $line (@ipLines) {
@@ -55,7 +55,7 @@ sub doInventory {
             file    => "/etc/vz/conf/$ctid.conf",
             pattern => qr/^SLMMEMORYLIMIT="\d+:(\d+)"$/,
             logger  => $logger,
-            );
+        );
         if ($memory) {
             $memory = $memory / 1024 / 1024;
         } else {
@@ -63,7 +63,7 @@ sub doInventory {
                 file    => "/etc/vz/conf/$ctid.conf",
                 pattern => qr/^PRIVVMPAGES="\d+:(\d+)"$/,
                 logger  => $logger,
-                );
+            );
             if ($memory) {
                 $memory = $memory * 4 / 1024;
             } else {
@@ -71,7 +71,7 @@ sub doInventory {
                     file    => "/etc/vz/conf/$ctid.conf",
                     pattern => qr/^PHYSPAGES="\d+:(\d+\w{0,1})"$/,
                     logger  => $logger,
-                    );
+                );
                 if ($memory) {
                     $memory =~ /:(\d+)(\w{0,1})/;
                     if ($2 eq "M") {
