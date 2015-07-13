@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Linux::Rudder;
+package FusionInventory::Agent::Task::Inventory::Generic::Rudder;
 
 use strict;
 use warnings;
@@ -24,8 +24,9 @@ sub doInventory {
         logger => $logger, command => 'ls /var/rudder'
     );
     # get machine hostname
+    my $command = $OSNAME eq 'linux' ? 'hostname --fqd' : 'hostname';
     my $hostname = getFirstLine(
-        logger => $logger, command => 'hostname --fqd'
+        logger => $logger, command => $command
     );
     my $rudder = {
         HOSTNAME => $hostname,
