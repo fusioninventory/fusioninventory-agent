@@ -69,7 +69,7 @@ sub  _getVirtualMachines {
         } else {
                 ($name, $vmid, $memory, $vcpu, $status) = @fields;
                 $status =~ s/-//g;
-                $status = $status_list{$status} // 'off';
+                $status = $status ? $status_list{$status} : 'off';
                next if $vmid == 0;
         }
         next if $name eq 'Domain-0';
