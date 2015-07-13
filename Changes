@@ -2,15 +2,31 @@ Revision history for FusionInventory agent
 
 2.3.17 not yet released
 inventory:
+* fix CPU frequency retrieval issue on Windows (#2876)
 * small fixes for DragonFlyBSD (#2899)
+* fix interface speed retrieval in Solaris zones (#2939)
+* fix memory information retrieval on Solaris (#2907)
 * fix recurrent timeout for system_profile usage on MacOS (#2913)
+* fix hangup when enumerating ovirt virtual machines (#2917)
+* fix virtuozzo virtual machines identification (reported on mailing-list)
+* retrieve Rudder agent information for all kind of Unix systems (#2999)
 
 netinventory:
 * better serial retrieval (#2912)
-* fix vendor-specific OID usage for firmware retrieval (#2908)
-* additional Cisco devices in sysobject.ids (#2912)
+* fix firmware retrieval issues leading to malformed XML (#2908, #2956, #2994)
+* additional devices in sysobject.ids (#2912, #2932, #2965, #2966, #2994)
 * minor fixes in sysobject.ids
 * relax constraints on sysobjectid syntax
+* better VLAN retrieval for non-Cisco devices
+
+wake-on-lan:
+* fix communication issue with latest FusionInventory for GLPI (#2937)
+
+fusioninventory-injector:
+* allow to mimic agent in user-agent HTTP header
+
+test suite:
+* more robust SSL connection tests
 
 2.3.16 Sun, 1 Mar 2015
 inventory:
