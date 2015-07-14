@@ -116,6 +116,7 @@ sub loadRegistryDump {
     my $root_offset;
     my $root_key = {};
     my $current_key = $root_key;
+    my $current_variable;
 
     open (my $handle, '<', $file) or die "can't open $file: $ERRNO";
 
@@ -155,6 +156,13 @@ sub loadRegistryDump {
             next;
         }
 
+        if ($line =~ /^ " ([^"]+) " = hex:([a-f0-9,]+)/x) {
+            my ($key, $value) = ($1, $2);
+            $current_key->{'/' . $key} = _binary($2);
+            $current_variable = '/' . $key if $line =~ /\\$/;
+            next;
+        }
+
         if ($line =~ /^ " ([^"]+) " = " ([^"]+) "/x) {
             my ($key, $value) = ($1, $2);
             $value =~ s{\\\\}{\\}g;
@@ -162,10 +170,23 @@ sub loadRegistryDump {
             next;
         }
 
+        if ($line =~ /^ \s \s ([a-f0-9,]+)/x) {
+            # continuation line
+            next unless $current_variable;
+            $current_key->{$current_variable} .= _binary($1);
+            $current_variable = undef if $line !~ /\\$/;
+        }
+
+
     }
     close $handle;
 
     return $root_key;
+}
+
+sub _binary {
+    my ($string) = @_;
+    return pack("C*", map { hex($_) } split (/,/, $string));
 }
 
 sub unsetProxyEnvVar {
