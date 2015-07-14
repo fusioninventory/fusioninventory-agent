@@ -17,6 +17,8 @@ our @EXPORT = qw(
     mockGetWMIObjects
     mockGetRegistryKey
     unsetProxyEnvVar
+    loadRegistryDump
+    loadWMIDump
 );
 
 sub test_port {
