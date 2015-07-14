@@ -2,13 +2,15 @@ Revision history for FusionInventory agent
 
 2.3.17 not yet released
 inventory:
-* fix CPU frequency retrieval issue on Windows (#2876)
+* fix CPU frequency retrieval on Windows (#2876)
+* fix CPU core and thread retrieval on Windows (#2894)
 * small fixes for DragonFlyBSD (#2899)
 * fix interface speed retrieval in Solaris zones (#2939)
 * fix memory information retrieval on Solaris (#2907)
 * fix recurrent timeout for system_profile usage on MacOS (#2913)
 * fix hangup when enumerating ovirt virtual machines (#2917)
 * fix virtuozzo virtual machines identification (reported on mailing-list)
+* fix offline xen virtual machines properties retrieval (#2988)
 * retrieve Rudder agent information for all kind of Unix systems (#2999)
 
 netinventory:
