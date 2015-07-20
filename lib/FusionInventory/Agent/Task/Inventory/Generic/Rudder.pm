@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Generic::Rudder;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
