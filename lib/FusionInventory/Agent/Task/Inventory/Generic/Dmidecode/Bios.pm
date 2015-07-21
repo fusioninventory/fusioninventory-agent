@@ -56,29 +56,6 @@ sub _getBiosHardware {
         CHASSIS_TYPE  => $chassis_info->{'Type'}
     };
 
-    my $vmsystem;
-    if ($bios->{SMANUFACTURER}) {
-        $vmsystem =
-            $bios->{SMANUFACTURER} =~ /Microsoft/ ? 'Hyper-V' :
-            $bios->{SMANUFACTURER} =~ /VMware/    ? 'VMWare'  :
-                                                    undef     ;
-    } elsif ($bios->{BMANUFACTURER}) {
-        $vmsystem =
-            $bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/         ? 'QEMU'       :
-            $bios->{BMANUFACTURER} =~ /(VirtualBox|innotek)/ ? 'VirtualBox' :
-            $bios->{BMANUFACTURER} =~ /^Xen/                 ? 'Xen'        :
-                                                               undef        ;
-    } elsif ($bios->{SMODEL}) {
-        $vmsystem =
-            $bios->{SMODEL} =~ /VMware/          ? 'VMWare'          :
-            $bios->{SMODEL} =~ /Virtual Machine/ ? 'Virtual Machine' :
-                                                    undef            ;
-    } elsif ($bios->{BVERSION}) {
-        $vmsystem =
-            $bios->{BVERSION} =~ /VirtualBox/ ? 'VirtualBox' : undef;
-    }
-    $hardware->{VMSYSTEM} = $vmsystem if $vmsystem;
-
     return $bios, $hardware;
 }
 

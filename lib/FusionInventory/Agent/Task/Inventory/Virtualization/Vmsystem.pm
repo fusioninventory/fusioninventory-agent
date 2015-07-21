@@ -60,10 +60,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    # return immediatly if vm type has already been found
-    return if $inventory->{content}{HARDWARE}{VMSYSTEM} ne "Physical";
-
-    my $type = _getType($logger);
+    my $type = _getType($inventory->{content}->{BIOS}, $logger);
 
     # for consistency with HVM domU
     if (
@@ -93,7 +90,24 @@ sub doInventory {
 }
 
 sub _getType {
-    my ($logger) = @_;
+    my ($bios, $logger) = @_;
+
+    if ($bios->{SMANUFACTURER}) {
+        return 'Hyper-V' if $bios->{SMANUFACTURER} =~ /Microsoft/;
+        return 'VMware'  if $bios->{SMANUFACTURER} =~ /VMware/;
+    }
+    if ($bios->{BMANUFACTURER}) {
+        return 'QEMU'       if $bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/;
+        return 'VirtualBox' if $bios->{BMANUFACTURER} =~ /(VirtualBox|innotek)/;
+        return 'Xen'        if $bios->{BMANUFACTURER} =~ /^Xen/;
+    }
+    if ($bios->{SMODEL}) {
+        return 'VMware'          if $bios->{SMODEL} =~ /VMware/;
+        return 'Virtual Machine' if $bios->{SMODEL} =~ /Virtual Machine/;
+    }
+    if ($bios->{BVERSION}) {
+        return 'VirtualBox'  if $bios->{BVERSION} =~ /VirtualBox/;
+    }
 
     if (-f '/.dockerinit') {
         return 'Docker';
