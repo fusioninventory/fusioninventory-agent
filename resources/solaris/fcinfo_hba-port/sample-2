@@ -1,0 +1,42 @@
+HBA Port WWN: 230000144f3eb274
+        OS Device Name: /dev/cfg/c1
+        Manufacturer: QLogic Corp.
+        Model: 2200
+        Firmware Version: 02.01.145
+        FCode/BIOS Version: ISP2200 FC-AL Host Adapter Driver: 1.15 04/03/22
+        Serial Number: not available
+        Driver Name: qlc
+        Driver Version: 20110321-3.05
+        Type: L-port
+        State: online
+        Supported Speeds: 1Gb
+        Current Speed: 1Gb
+        Node WWN: 220000144f3eb274
+HBA Port WWN: 210000e08b90682c
+        OS Device Name: /dev/cfg/c2
+        Manufacturer: QLogic Corp.
+        Model: QLA2340
+        Firmware Version: 03.03.28
+        FCode/BIOS Version:  fcode: 1.13;
+        Serial Number: not available
+        Driver Name: qlc
+        Driver Version: 20110321-3.05
+        Type: N-port
+        State: online
+        Supported Speeds: 1Gb 2Gb
+        Current Speed: 2Gb
+        Node WWN: 200000e08b90682c
+HBA Port WWN: 210000e08b90b82b
+        OS Device Name: /dev/cfg/c3
+        Manufacturer: QLogic Corp.
+        Model: QLA2340
+        Firmware Version: 03.03.28
+        FCode/BIOS Version:  fcode: 1.13;
+        Serial Number: not available
+        Driver Name: qlc
+        Driver Version: 20110321-3.05
+        Type: unknown
+        State: offline
+        Supported Speeds: 1Gb 2Gb
+        Current Speed: not established
+        Node WWN: 200000e08b90b82b

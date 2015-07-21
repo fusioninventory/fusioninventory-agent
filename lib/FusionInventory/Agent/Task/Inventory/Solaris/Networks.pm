@@ -112,6 +112,7 @@ sub  _getInterfaceSpeed {
         pattern => qr/^\s*link_speed+\s*(\d+)/,
     );
 
+    # By default, kstat reports speed as Mb/s, no need to normalize
     return $speed;
 }
 
@@ -182,7 +183,7 @@ sub _parseDladm {
             $line =~ /(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)/;
         $interface->{DESCRIPTION} = $1;
         $interface->{MACADDR}     = $2;
-        $interface->{SPEED}       = $3 . " " . $4 . " " . $5;
+        $interface->{SPEED}       = getCanonicalInterfaceSpeed($3 . $4);
         $interface->{STATUS}      = 'Up' if $line =~ /UP/;
         push @interfaces, $interface;
     }
@@ -203,7 +204,7 @@ sub _parsefcinfo {
             if $line =~ /HBA Port WWN:\s+(\S+)/;
         $interface->{DESCRIPTION} .= " " . $1
             if $line =~ /OS Device Name:\s+(\S+)/;
-        $interface->{SPEED} = $1
+        $interface->{SPEED} = getCanonicalInterfaceSpeed($1)
             if $line =~ /Current Speed:\s+(\S+)/;
         $interface->{WWN} = $1
             if $line =~ /Node WWN:\s+(\S+)/;
