@@ -21,6 +21,7 @@ our @EXPORT = qw(
     getFormatedDate
     getCanonicalManufacturer
     getCanonicalSpeed
+    getCanonicalInterfaceSpeed
     getCanonicalSize
     getSanitizedString
     trimWhitespace
@@ -147,6 +148,25 @@ sub getCanonicalSpeed {
         $unit eq 'ghz' ? $value * 1000 :
         $unit eq 'mhz' ? $value        :
                          undef         ;
+}
+
+sub getCanonicalInterfaceSpeed {
+    # Expected unit is Mb/s as specified in inventory protocol
+    my ($speed) = @_;
+
+    ## no critic (ExplicitReturnUndef)
+
+    return undef unless $speed;
+
+    return undef unless $speed =~ /^([,.\d]+) \s? (\S\S)\S*$/x;
+    my $value = $1;
+    my $unit = lc($2);
+
+    return
+        $unit eq 'gb' ? $value * 1000         :
+        $unit eq 'mb' ? $value                :
+        $unit eq 'kb' ? int($value / 1000)    :
+                        undef                 ;
 }
 
 sub getCanonicalSize {
@@ -539,6 +559,10 @@ Returns a normalized manufacturer value for given one.
 =head2 getCanonicalSpeed($speed)
 
 Returns a normalized speed value (in Mhz) for given one.
+
+=head2 getCanonicalInterfaceSpeed($speed)
+
+Returns a normalized network interface speed value (in Mb/s) for given one.
 
 =head2 getCanonicalSize($size, $base)
 
