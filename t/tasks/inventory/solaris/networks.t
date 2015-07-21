@@ -113,10 +113,68 @@ my %kstat_tests = (
     sample4 => 0,
 );
 
+my %parsefcinfo_tests = (
+    'sample-1' => [
+        {
+            FIRMWARE     => '05.03.02',
+            STATUS       => 'Up',
+            SPEED        => '4000',
+            DRIVER       => 'qlc',
+            DESCRIPTION  => 'HBA_Port_WWN_1 /dev/cfg/c0',
+            MANUFACTURER => 'QLogic Corp.',
+            MODEL        => 'QLE2462',
+            WWN          => '200000e08b94b4a3'
+        },
+        {
+            FIRMWARE     => '05.03.02',
+            STATUS       => 'Up',
+            SPEED        => '4000',
+            DRIVER       => 'qlc',
+            DESCRIPTION  => 'HBA_Port_WWN_2 /dev/cfg/c1',
+            MANUFACTURER => 'QLogic Corp.',
+            MODEL        => 'QLE2462',
+            WWN          => '200100e08bb4b4a3'
+        }
+    ],
+    'sample-2' => [
+        {
+            FIRMWARE     => '02.01.145',
+            STATUS       => 'Up',
+            SPEED        => '1000',
+            DRIVER       => 'qlc',
+            DESCRIPTION  => 'HBA_Port_WWN_1 /dev/cfg/c1',
+            MANUFACTURER => 'QLogic Corp.',
+            MODEL        => '2200',
+            WWN          => '220000144f3eb274'
+        },
+        {
+            FIRMWARE     => '03.03.28',
+            STATUS       => 'Up',
+            SPEED        => '2000',
+            DRIVER       => 'qlc',
+            DESCRIPTION  => 'HBA_Port_WWN_2 /dev/cfg/c2',
+            MANUFACTURER => 'QLogic Corp.',
+            MODEL        => 'QLA2340',
+            WWN          => '200000e08b90682c'
+        },
+        {
+            FIRMWARE     => '03.03.28',
+            STATUS       => 'Down',
+            SPEED        => undef,
+            DRIVER       => 'qlc',
+            DESCRIPTION  => 'HBA_Port_WWN_3 /dev/cfg/c3',
+            MANUFACTURER => 'QLogic Corp.',
+            MODEL        => 'QLA2340',
+            WWN          => '200000e08b90b82b'
+        }
+    ]
+);
+
 plan tests =>
-    2 * (scalar keys %ifconfig_tests) +
-    (scalar keys %kstat_tests)        +
-    3;
+    2 * (scalar keys %ifconfig_tests)    +
+        (scalar keys %kstat_tests)       +
+    2 * (scalar keys %parsefcinfo_tests) +
+    1;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
@@ -139,32 +197,12 @@ foreach my $test (sort keys %kstat_tests) {
     );
 }
 
-my @parsefcinfo = (
-      {
-            FIRMWARE     => '05.03.02',
-            STATUS       => 'Up',
-            SPEED        => '4Gb',
-            DRIVER       => 'qlc',
-            DESCRIPTION  => 'HBA_Port_WWN_1 /dev/cfg/c0',
-            MANUFACTURER => 'QLogic Corp.',
-            MODEL        => 'QLE2462',
-            WWN          => '200000e08b94b4a3'
-      },
-      {
-            FIRMWARE     => '05.03.02',
-            STATUS       => 'Up',
-            SPEED        => '4Gb',
-            DRIVER       => 'qlc',
-            DESCRIPTION  => 'HBA_Port_WWN_2 /dev/cfg/c1',
-            MANUFACTURER => 'QLogic Corp.',
-            MODEL        => 'QLE2462',
-            WWN          => '200100e08bb4b4a3'
-      }
-);
-my $file = "resources/solaris/fcinfo_hba-port/sample-1";
-my @interfaces = FusionInventory::Agent::Task::Inventory::Solaris::Networks::_parsefcinfo(file => $file);
-cmp_deeply(\@interfaces, \@parsefcinfo, "fcinfo: parsing");
-lives_ok {
-    $inventory->addEntry(section => 'NETWORKS', entry => $_)
-        foreach @interfaces;
-} "fcinfo: registering;"
+foreach my $test (keys %parsefcinfo_tests) {
+    my $file = "resources/solaris/fcinfo_hba-port/$test";
+    my @interfaces = FusionInventory::Agent::Task::Inventory::Solaris::Networks::_parsefcinfo(file => $file);
+    cmp_deeply(\@interfaces, $parsefcinfo_tests{$test}, "$test fcinfo: parsing");
+    lives_ok {
+        $inventory->addEntry(section => 'NETWORKS', entry => $_)
+            foreach @interfaces;
+    } "$test fcinfo: registering";
+}

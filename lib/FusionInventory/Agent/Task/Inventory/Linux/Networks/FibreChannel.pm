@@ -51,7 +51,8 @@ sub _getInterfacesFromFcHost {
                 $interface->{'STATUS'} = 'Down';
             }
         } elsif ($line =~ /speed\s+= "(.+)"/) {
-            $interface->{'SPEED'} = $1 if ($1 ne 'unknown');
+            $interface->{'SPEED'} = getCanonicalInterfaceSpeed($1)
+                if ($1 ne 'unknown');
 
             push @interfaces, $interface;
         }
