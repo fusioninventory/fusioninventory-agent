@@ -57,13 +57,11 @@ sub _getBiosHardware {
     };
 
     my $vmsystem;
-    if ($bios->{SMANUFACTURER} &&
-        $bios->{SMANUFACTURER} =~ /^Microsoft Corporation$/ &&
-        $bios->{SMODEL} &&
-        $bios->{SMODEL} =~ /Virtual Machine/) {
-        $vmsystem = 'Hyper-V';
-         $bios->{SMODEL} = 'Hyper-V';
-         $bios->{MMODEL} = 'Hyper-V';
+    if ($bios->{SMANUFACTURER}) {
+        $vmsystem =
+            $bios->{SMANUFACTURER} =~ /Microsoft/ ? 'Hyper-V' :
+            $bios->{SMANUFACTURER} =~ /VMware/    ? 'VMWare'  :
+                                                    undef     ;
     } elsif ($bios->{BMANUFACTURER}) {
         $vmsystem =
             $bios->{BMANUFACTURER} =~ /(QEMU|Bochs)/         ? 'QEMU'       :
