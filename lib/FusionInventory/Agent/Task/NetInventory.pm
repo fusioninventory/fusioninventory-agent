@@ -167,7 +167,7 @@ sub run {
         }
         $started_count += @started_threads ;
 
-        # as long as some threads are still running...
+        # as long as some of our threads are still running...
         while (keys(%running_threads)) {
 
             # send available results on the fly
@@ -179,7 +179,8 @@ sub run {
             usleep(50000);
 
             # List our created and possibly running threads in a list to check
-            my %our_running_threads_checklist = map { $_ => 0 } keys(%running_threads);
+            my %running_threads_checklist = map { $_ => 0 }
+                keys(%running_threads);
 
             foreach my $running (threads->list(threads::running)) {
                 my $tid = $running->tid();
@@ -187,13 +188,13 @@ sub run {
                 next unless exists($running_threads{$tid});
 
                 # Check a thread is still running
-                $our_running_threads_checklist{$tid} = 1 ;
+                $running_threads_checklist{$tid} = 1 ;
             }
 
             # Clean our started list from thread tid that don't run anymore
-            foreach my $tid (keys(%our_running_threads_checklist)) {
+            foreach my $tid (keys(%running_threads_checklist)) {
                 delete $running_threads{$tid}
-                    unless $our_running_threads_checklist{$tid};
+                    unless $running_threads_checklist{$tid};
             }
         }
 
