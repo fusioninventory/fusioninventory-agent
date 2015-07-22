@@ -10,6 +10,7 @@ use constant DEVICE_PER_MESSAGE => 4;
 use English qw(-no_match_vars);
 use Net::IP;
 use Time::localtime;
+use Time::HiRes qw(usleep);
 use Thread::Queue v2.01;
 use UNIVERSAL::require;
 use XML::TreePP;
@@ -19,7 +20,7 @@ use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::XML::Query;
 
-our $VERSION = '2.2.0';
+our $VERSION = '2.2.1';
 
 sub isEnabled {
     my ($self, $response) = @_;
@@ -141,6 +142,9 @@ sub run {
         # send initial message to the server
         $self->_sendStartMessage();
 
+        my ($debug_sent_count, $threads_count, $started_count) = ( 0, 0, 0 );
+        my %running_threads = ();
+
         # process each address block
         foreach my $range (@{$job->{ranges}}) {
             my $block = Net::IP->new(
@@ -171,7 +175,7 @@ sub run {
             $self->_sendBlockMessage($size);
 
             # no need for more threads than addresses to scan in this range
-            my $threads_count = $max_threads > $size ? $size : $max_threads;
+            $threads_count = $max_threads > $size ? $size : $max_threads;
 
             my $sub = sub {
                 my $id = threads->tid();
@@ -195,36 +199,78 @@ sub run {
 
             $self->{logger}->debug("creating $threads_count worker threads");
             for (my $i = 0; $i < $threads_count; $i++) {
-                threads->create($sub);
+                my $newthread = threads->create($sub);
+                # Keep known created threads in a hash
+                $running_threads{$newthread->tid()} = $newthread ;
+                usleep(50000) until ($newthread->is_running() || $newthread->is_joinable());
             }
 
+            # Check really started threads number vs really running ones
+            my @really_running  = map { $_->tid() } threads->list(threads::running);
+            my @started_threads = keys(%running_threads);
+            unless (@really_running == $threads_count && keys(%running_threads) == $threads_count) {
+                $self->{logger}->debug(scalar(@really_running)." really running: [@really_running]");
+                $self->{logger}->debug(scalar(@started_threads)." started: [@started_threads]");
+            }
+            $started_count += @started_threads ;
+
             # as long as some threads are still running...
-            while (threads->list(threads::running)) {
+            while (keys(%running_threads)) {
 
                 # send available results on the fly
                 while (my $result = $results->dequeue_nb()) {
                     $result->{ENTITY} = $range->{ENTITY}
                         if defined($range->{ENTITY});
+                    $debug_sent_count ++ ;
+                    $self->{logger}->debug("Send result #$debug_sent_count");
                     $self->_sendResultMessage($result);
+                    $self->{logger}->debug("Sent result #$debug_sent_count");
                 }
 
-                # wait for a second
-                delay(1);
+                # wait for a little
+                usleep(50000);
+
+                # List our created and possibly running threads in a list to check
+                my %our_running_threads_checklist = map { $_ => 0 } keys(%running_threads);
+
+                foreach my $running (threads->list(threads::running)) {
+                    my $tid = $running->tid();
+                    # Skip if this running thread tid is not is our started list
+                    next unless exists($running_threads{$tid});
+
+                    # Check a thread is still running
+                    $our_running_threads_checklist{$tid} = 1 ;
+                }
+
+                # Clean our started list from thread tid that don't run anymore
+                foreach my $tid (keys(%our_running_threads_checklist)) {
+                    delete $running_threads{$tid}
+                        unless $our_running_threads_checklist{$tid};
+                }
             }
 
             # purge remaning results
             while (my $result = $results->dequeue_nb()) {
                 $result->{ENTITY} = $range->{ENTITY}
                     if defined($range->{ENTITY});
+                $debug_sent_count ++ ;
+                $self->{logger}->debug("Send result #$debug_sent_count");
                 $self->_sendResultMessage($result);
+                $self->{logger}->debug("Sent result #$debug_sent_count");
             }
 
-            $self->{logger}->debug("cleaning $threads_count worker threads");
+        }
+
+        # send final message to the server before cleaning threads
+        $self->_sendStopMessage();
+
+        if ($started_count) {
+            $self->{logger}->debug("cleaning $started_count worker threads");
             $_->join() foreach threads->list(threads::joinable);
         }
 
-        # send final message to the server
-        $self->_sendStopMessage();
+        $self->{logger}->debug( $debug_sent_count ?
+            "$debug_sent_count results sent" : "No result sent" );
     }
 }
 
