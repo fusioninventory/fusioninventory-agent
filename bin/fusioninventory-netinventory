@@ -42,7 +42,6 @@ GetOptions(
     'file=s',
     'community=s',
     'credentials=s',
-    'entity=s',
     'timeout=i',
     'control',
     'debug+',
@@ -93,10 +92,6 @@ if ($options->{community}) {
     }
 } else {
     $credentials->{COMMUNITY} = 'public';
-}
-
-if ($options->{entity}) {
-    $device = $options->{entity};
 }
 
 my $verbosity =
@@ -183,7 +178,6 @@ fusioninventory-netinventory [options] [--host <host>--file <file>]
     --community    community string (default: public)
     --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)
-    --entity       GLPI entity
     --control      output control messages
     --debug        debug output (execution traces)
     -h --help      print this message and exit
