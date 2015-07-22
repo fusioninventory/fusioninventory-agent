@@ -13,6 +13,9 @@ inventory:
 * fix offline xen virtual machines properties retrieval (#2988)
 * retrieve Rudder agent information for all kind of Unix systems (#2999)
 
+netdiscovery:
+* fix multi-threading issues
+
 netinventory:
 * better serial retrieval (#2912)
 * fix firmware retrieval issues leading to malformed XML (#2908, #2956, #2994)
@@ -20,12 +23,18 @@ netinventory:
 * minor fixes in sysobject.ids
 * relax constraints on sysobjectid syntax
 * better VLAN retrieval for non-Cisco devices
+* fix multi-threading issues
 
 wake-on-lan:
 * fix communication issue with latest FusionInventory for GLPI (#2937)
 
 fusioninventory-injector:
 * allow to mimic agent in user-agent HTTP header
+
+fusioninventory-netinventory:
+* support multi-threading via --threads option
+* support inventory toward multiple hosts
+* dropped unused --entity option
 
 test suite:
 * more robust SSL connection tests

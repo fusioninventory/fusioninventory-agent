@@ -24,7 +24,8 @@ my %types = (
 );
 
 my $options = {
-    debug => 0
+    debug => 0,
+    threads => 1
 };
 
 my %setup = (
@@ -38,11 +39,11 @@ GetOptions(
     $options,
     'model=s',
     'type=s',
-    'host=s',
+    'host=s@',
     'file=s',
     'community=s',
     'credentials=s',
-    'entity=s',
+    'threads=i',
     'timeout=i',
     'control',
     'debug+',
@@ -62,13 +63,15 @@ pod2usage(
 
 warn "deprecated option model, ignoring\n" if $options->{model};
 
-my $device = {
-    ID           => 0,
-    IP           => $options->{host},
-    FILE         => $options->{file},
-    AUTHSNMP_ID  => 1,
-    MODELSNMP_ID => 1
-};
+my @devices = map {
+        {
+            ID           => 0,
+            IP           => $_,
+            FILE         => $options->{file},
+            AUTHSNMP_ID  => 1,
+            MODELSNMP_ID => 1
+        }
+    } @{$options->{host}};
 
 my $credentials = { ID => 1 };
 
@@ -77,7 +80,7 @@ if ($options->{type}) {
         -message => "invalid type '$options->{type}', aborting\n",
         -verbose => 0
     ) unless any { $options->{type} eq $_ } values %types;
-    $device->{TYPE} = $options->{type};
+    map { $_->{TYPE} = $options->{type} } @devices;
 }
 
 if ($options->{community}) {
@@ -93,10 +96,6 @@ if ($options->{community}) {
     }
 } else {
     $credentials->{COMMUNITY} = 'public';
-}
-
-if ($options->{entity}) {
-    $device = $options->{entity};
 }
 
 my $verbosity =
@@ -115,10 +114,10 @@ $inventory->{jobs} = [
     {
         params => {
             PID           => 1,
-            THREADS_QUERY => 1,
+            THREADS_QUERY => $options->{threads},
             TIMEOUT       => $options->{timeout},
         },
-        devices     => [ $device ],
+        devices     => \@devices,
         credentials => [ $credentials ]
     }
 ];
@@ -175,15 +174,15 @@ fusioninventory-netinventory - Standalone network inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-netinventory [options] [--host <host>--file <file>]
+fusioninventory-netinventory [options] [--host <host>|--file <file>]
 
   Options:
-    --host host    host to inventorize
+    --host host    host to inventorize (use multiple time to inventorize more hosts)
     --file         snmpwalk output file
     --community    community string (default: public)
     --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)
-    --entity       GLPI entity
+    --threads nb   number of invenroty threads (default: 1)
     --control      output control messages
     --debug        debug output (execution traces)
     -h --help      print this message and exit
