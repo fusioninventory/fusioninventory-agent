@@ -197,7 +197,6 @@ my %tests = (
         },
         hardware => {
             UUID     => 'AE698CFC-492A-4C7B-848F-8C17D24BC76E',
-            VMSYSTEM => 'VirtualBox',
             CHASSIS_TYPE => undef
         }
     },
@@ -399,16 +398,15 @@ my %tests = (
             ASSETTAG      => '4568-2345-6432-9324-3433-2346-47',
             BMANUFACTURER => 'American Megatrends Inc.',
             MSN           => '2349-2347-2234-2340-2341-3240-48',
-            SMODEL        => 'Hyper-V',
+            SMODEL        => 'Virtual Machine',
             SMANUFACTURER => 'Microsoft Corporation',
             BDATE         => '03/19/2009',
-            MMODEL        => 'Hyper-V',
+            MMODEL        => 'Virtual Machine',
             BVERSION      => '090004'
         },
         hardware => {
             CHASSIS_TYPE  => 'Desktop',
             UUID          => '3445DEE7-45D0-1244-95DD-34FAA067C1BE33E',
-            VMSYSTEM      => 'Hyper-V'
         }
     }
 );
