@@ -56,6 +56,9 @@ test_requires 'LWP::Protocol::https'         => '0';
 test_requires 'Test::MockObject'             => '0';
 test_requires 'JSON'                         => '0';
 test_requires 'Net::SNMP'                    => '0';
+test_requires 'File::Copy::Recursive'        => '0';
+test_requires 'Net::NBName'                  => '0';
+test_requires 'Parse::EDID'                  => '0';
 
 # Inventory
 recommends 'Parse::EDID' => '0';
