@@ -88,9 +88,15 @@ sub decodeMicrosoftKey {
 
     my @key_bytes = unpack 'C*', $raw;
 
+    # select correct bytes range:
+    # - 808 to 822 for new style keys (Office 2010 and later)
+    # - 52 to 66 for old style keys
+    my $first_byte = defined $key_bytes[808] ? 808 : 52;
+    my $last_byte  = $first_byte + 14;
+
     # check for Windows 8/Office 2013 style key (can contains the letter "N")
-    my $containsN  = ($key_bytes[66] >> 3) & 1;
-    $key_bytes[66] = ($key_bytes[66] & 0xF7);
+    my $containsN  = ($key_bytes[$last_byte] >> 3) & 1;
+    $key_bytes[$last_byte] = $key_bytes[$last_byte] & 0xF7;
 
     # length of product key, in chars
     my $chars_length = 25;
@@ -101,8 +107,8 @@ sub decodeMicrosoftKey {
     # product key available characters
     my @letters = qw(B C D F G H J K M P Q R T V W X Y 2 3 4 6 7 8 9);
 
-    # extract bytes 52 to 66
-    my @bytes = @key_bytes[52 .. 66];
+    # extract relevant bytes
+    my @bytes = @key_bytes[$first_byte .. $last_byte];
 
     # return immediatly for null keys
     return if all { $_ == 00 } @bytes;
