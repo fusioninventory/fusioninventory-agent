@@ -58,7 +58,7 @@ sub doInventory {
                     logger  => $logger,
                 );
                 if ($memory) {
-                    $memory =~ /:(\d+)(\w{0,1})/;
+                    $memory =~ /(\d+)(\w{0,1})/;
                     if ($2 eq "M") {
                         $memory=$1;
                     } elsif ($2 eq "G") {
