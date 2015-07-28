@@ -65,7 +65,7 @@ sub doInventory {
     # for consistency with HVM domU
     if (
         $type eq 'Xen' &&
-        !$inventory->{h}{CONTENT}{BIOS}{SMANUFACTURER}
+        !$inventory->{content}{BIOS}{SMANUFACTURER}
     ) {
         $inventory->setBios({
             SMANUFACTURER => 'Xen',
