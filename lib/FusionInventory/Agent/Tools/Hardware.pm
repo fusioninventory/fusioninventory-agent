@@ -27,6 +27,7 @@ my %types = (
 );
 
 my %sysobjectid;
+my %sysobjextmod;
 
 my %sysdescr_first_word = (
     '3com'           => { vendor => '3Com',            type => 'NETWORKING' },
@@ -257,6 +258,13 @@ sub getDeviceInfo {
         $device->{MODEL}        = $match->{model} if $match->{model};
         $device->{MANUFACTURER} = $match->{manufacturer}
             if $match->{manufacturer};
+
+        $match = _getSysObjectExtMod(
+            id      => $sysobjectid,
+            dbdir   => $dbdir,
+            logger  => $logger
+        );
+        $device->{EXTMOD}       = $match->{module} if $match->{module};
     }
 
     # vendor and type identification attempt, using sysDescr
@@ -433,6 +441,82 @@ sub _loadSysObjectIDDatabase {
     close $handle;
 }
 
+sub _getSysObjectExtMod {
+    my (%params) = @_;
+
+    return unless $params{id};
+
+    _loadSysObjectIDExtMod(%params) if !%sysobjextmod;
+
+    my $logger = $params{logger};
+    my $prefix = qr/(?:
+        SNMPv2-SMI::enterprises |
+        iso\.3\.6\.1\.4\.1      |
+        \.1\.3\.6\.1\.4\.1
+    )/x;
+    my ($manufacturer_id, $device_id) =
+        $params{id} =~ /^ $prefix \. (\d+) \. ([\d.]+) $/x;
+
+    if (!$manufacturer_id) {
+        $logger->debug("invalid sysobjectID $params{id}: no manufacturer ID")
+            if $logger;
+        return;
+    }
+
+    if (!$device_id) {
+        $logger->debug("invalid sysobjectID $params{id}: no device ID")
+            if $logger;
+        return;
+    }
+
+    my $match;
+
+    # attempt full match first
+    $match = $sysobjextmod{$manufacturer_id . '.' . $device_id};
+    if ($match) {
+        $logger->debug(
+            "full match for sysobjectID $params{id} in ExtMod database"
+        ) if $logger;
+        return $match;
+    }
+
+    # fallback to partial match
+    $match = $sysobjextmod{$manufacturer_id};
+    if ($match) {
+        $logger->debug(
+            "partial match for sysobjectID $params{id} in ExtMod database: ".
+            "unknown device ID"
+        ) if $logger;
+        return $match;
+    }
+
+    # no match
+    $logger->debug(
+        "no match for sysobjectID $params{id} in ExtMod database: " .
+        "unknown manufacturer ID"
+    ) if $logger;
+    return;
+}
+
+sub _loadSysObjectIDExtMod {
+    my (%params) = @_;
+
+    return unless $params{dbdir};
+
+    my $handle = getFileHandle(file => "$params{dbdir}/sysobjextmod.ids");
+    return unless $handle;
+
+    while (my $line = <$handle>) {
+        next if $line =~ /^#/;
+        next if $line =~ /^$/;
+        chomp $line;
+        my ($id, $module) = split(/\t/, $line);
+        $sysobjextmod{$id}->{module} = $module;
+    }
+
+    close $handle;
+}
+
 sub _getSerial {
     my ($snmp, $type) = @_;
 
@@ -575,6 +659,25 @@ sub getDeviceFullInfo {
         dbdir   => $params{dbdir},
         config  => $config
     ) if $info->{TYPE} && $info->{TYPE} eq 'NETWORKING';
+
+    # run an external function for the device
+    if ($device->{EXTMOD}) {
+        my ($module, $function) = $device->{EXTMOD} =~ /^(\S+)::(\S+)$/;
+        runFunction(
+            module   => $module,
+            function => $function,
+            params   => {
+                snmp   => $snmp,
+                device => $device,
+                logger => $logger,
+                config => $config,
+            },
+            load     => 1
+        );
+
+        delete $device->{EXTMOD};
+    }
+
 
     # convert ports hashref to an arrayref, sorted by interface number
     my $ports = $device->{PORTS}->{PORT};

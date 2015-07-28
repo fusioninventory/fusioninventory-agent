@@ -1,0 +1,6 @@
+# list of optional Perl modules to execute for specific Object IDs
+#
+# Syntax:
+# id  module_name::function notes (optional)
+# E.g.:
+# 9.1.1  FusionInventory::Agent::Tools::Hardware::FooBar::run   A sample module
