@@ -29,7 +29,7 @@ sub doInventory {
     # no service containers in glpi
     my $line = <$handle>;
 
-    my $hostID = $inventory->{h}{CONTENT}{HARDWARE}{UUID} || '';
+    my $hostID = $inventory->{CONTENT}{HARDWARE}{UUID} || '';
 
     while (my $line = <$handle>) {
 
