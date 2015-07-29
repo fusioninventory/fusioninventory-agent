@@ -141,6 +141,18 @@ sub getContent {
     return $self->{content};
 }
 
+sub getSection {
+    my ($self, $section) = @_;
+    my $content = $self->getContent() or return undef;
+    return exists($content->{$section}) ? $content->{$section} : undef ;
+}
+
+sub getField {
+    my ($self, $section, $field) = @_;
+    $section = $self->getSection($section) or return undef;
+    return exists($section->{$field}) ? $section->{$field} : undef ;
+}
+
 sub mergeContent {
     my ($self, $content) = @_;
 
@@ -274,6 +286,11 @@ sub computeLegacyValues {
     }
 }
 
+sub getHardware {
+    my ($self, $field) = @_;
+    return $self->getField('HARDWARE', $field);
+}
+
 sub setHardware {
     my ($self, $args) = @_;
 
@@ -304,6 +321,11 @@ sub setOperatingSystem {
         $self->{content}->{OPERATINGSYSTEM}->{$field} =
             getSanitizedString($args->{$field});
     }
+}
+
+sub getBios {
+    my ($self, $field) = @_;
+    return $self->getField('BIOS', $field);
 }
 
 sub setBios {
@@ -476,6 +498,14 @@ an arbitrary label, used for server-side filtering
 
 Get content attribute.
 
+=head2 getSection($section)
+
+Get full machine inventory section.
+
+=head2 getField($section,$field)
+
+Get a field from a full machine inventory section.
+
 =head2 mergeContent($content)
 
 Merge content to the inventory.
@@ -505,6 +535,10 @@ ignore entry if already present
 
 Set inventory tag, an arbitrary label used for filtering on server side.
 
+=head2 getHardware($field)
+
+Get machine global information from known machine inventory.
+
 =head2 setHardware()
 
 Save global information regarding the machine.
@@ -512,6 +546,10 @@ Save global information regarding the machine.
 =head2 setOperatingSystem()
 
 Operating System information.
+
+=head2 getBios($field)
+
+Get BIOS information from known inventory.
 
 =head2 setBios()
 
