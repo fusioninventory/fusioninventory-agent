@@ -863,25 +863,27 @@ sub _getCanonicalMacAddress {
     return unless $value;
 
     my $result;
-    if ($value =~ /$mac_address_pattern/) {
-        # this was stored as a string, it just has to be normalized
-        $result = sprintf
-            "%02x:%02x:%02x:%02x:%02x:%02x",
-            map { hex($_) } split(':', $value);
-    } elsif ($value =~ /^\d{2}:\d{2}:\d{2}:\d{2}:\d{2}$/) {
-        # WWN format
-        $result = '10:00:00:' . $value;
-    } else {
-        # this was stored as an hex-string
-        # 0xD205A86C26D5 or 0x6001D205A86C26D5
-        if ($value =~ /^0x[0-9A-F]{0,4}([0-9A-F]{12})$/i) {
-            # value translated by Net::SNMP
-            $result = alt2canonical('0x'.$1);
-        } else {
-            # packed value, onvert from binary to hexadecimal
-            $result = unpack 'H*', $value;
-        }
+    my @bytes;
+
+    # packed value, convert from binary to hexadecimal
+    if ($value =~ m/\A [[:ascii:]] \Z/xms) {
+        $value = unpack 'H*', $value;
     }
+
+    # Check if it's a hex value
+    if ($value =~ /^0x([0-9A-F]+)$/i) {
+        @bytes = unpack("(A2)*", $1);
+    } else {
+        @bytes = split(':', $value);
+    }
+
+    if (scalar(@bytes) != 6 and scalar(@bytes) < 8) { # MAC is 6 bytes, WWN is 8 bytes
+        # prepend "10" and zeroes as necessary to make a WWN
+        while (scalar(@bytes) < 7) { unshift @bytes, '00' }
+        unshift @bytes, '10';
+    }
+
+    $result = join ":", map { sprintf("%02x", hex($_)) } @bytes;
 
     return if $result eq '00:00:00:00:00:00';
     return lc($result);
