@@ -212,7 +212,7 @@ plan tests =>
     scalar @mac_addresses_extraction_tests +
     scalar @mac_addresses_addition_tests   +
     scalar @trunk_ports_extraction_tests   +
-    8;
+    9;
 
 foreach my $test (@mac_tests) {
     is(
@@ -261,6 +261,24 @@ cmp_deeply(
         VENDOR       => 'Nortel'
     },
     'getDeviceInfo() with sysobjectid'
+);
+
+my $snmp3 = FusionInventory::Agent::SNMP::Client::Virtual->new(
+    hash => {
+        '.1.3.6.1.2.1.1.2.0'        => [ 'STRING', '.1.3.6.1.4.1.1663.1.1.1.1.24' ],
+    }
+);
+my $device4 = getDeviceInfo(snmp => $snmp3, dbdir => './db');
+cmp_deeply(
+    $device4,
+    {
+        TYPE         => 'NETWORKING',
+        MANUFACTURER => 'Qlogic',
+        VENDOR       => 'Qlogic',
+        MODEL        => 'SANbox 5602 FC Switch',
+        EXTMOD       => 'Qlogic'
+    },
+    'getDeviceInfo() with sysobjectid and extmod'
 );
 
 foreach my $test (@cdp_info_extraction_tests) {
