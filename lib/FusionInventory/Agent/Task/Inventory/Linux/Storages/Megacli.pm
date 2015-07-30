@@ -36,7 +36,7 @@ sub doInventory {
             my ($firmware, $size, $model, $vendor);
 
             # Raw Size: 232.885 GB [0x1d1c5970 Sectors]
-            ($size) = ($pd->{'Raw Size'} =~ /^(.+) \[/);
+            ($size) = ($pd->{'Raw Size'} =~ /^(.+)\s\[/);
             $size = getCanonicalSize($size);
             $firmware = $pd->{'Device Firmware Level'};
 
@@ -66,13 +66,13 @@ sub doInventory {
                     $serial =~ s/$vendor//;      # remove vendor part
                 }
 
-                $serial =~ s/$model[^ ]*//;      # remove model part
+                $serial =~ s/$model\S*//;      # remove model part
                 $serial =~ s/\s//g;              # remove remaining spaces
                 $storage->{SERIALNUMBER} = $serial;
 
                 # Restore complete model name:
                 # HUC101212CSS --> HUC101212CSS600
-                if ($pd->{'Inquiry Data'} =~ /($sum->{'Product Id'}(?:[^ ]*))/) {
+                if ($pd->{'Inquiry Data'} =~ /($sum->{'Product Id'}(?:\S*))/) {
                     $model = $1;
                     $model =~ s/^\s+//;
                     $model =~ s/\s+$//;
@@ -162,7 +162,7 @@ sub _getSummary {
                 slot     => $3,
             };
             $drive{$n}->{'encl_id'} += 0;  # drop leading zeroes
-        } elsif ($line =~ /^\s*(.+[^ ])\s*:\s*(.+[^ ])/) {
+        } elsif ($line =~ /^\s*(.+\S)\s*:\s*(.+\S)/) {
             $drive{$n}->{$1} = $2;
         }
     }
@@ -191,7 +191,7 @@ sub _getPDlist {
     my $n = 0;
     while (my $line = <$handle>) {
         chomp $line;
-        next unless $line =~ /^([^:]+)\s*:\s*(.+[^ ])/;
+        next unless $line =~ /^([^:]+)\s*:\s*(.+\S)/;
         my $key = $1;
         my $val = $2;
         $n++ if $key =~ /Enclosure Device ID/;
