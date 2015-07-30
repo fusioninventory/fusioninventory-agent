@@ -51,7 +51,7 @@ sub doInventory {
             while (my ($sum_id, $sum) = each %{$summary{$adp_id}}) {
                 next unless
                     $adp->{$sum->{encl_id}} == $pd->{'Enclosure Device ID'} &&
-                    $sum->{encl_pos}        == $pd->{'Enclosure position'} &&
+                    $sum->{encl_pos}        eq $pd->{'Enclosure position'} &&
                     $sum->{slot}            == $pd->{'Slot Number'};
 
                 # 'HUC101212CSS'  <-- note it is incomplete
