@@ -49,16 +49,9 @@ sub doInventory {
 
             # Lookup the disk info in 'ShowSummary'
             while (my ($sum_id, $sum) = each %{$summary{$adp_id}}) {
-                
-                # remove unexpected leading space
-                $pd->{'Slot Number'} =~ s/\s//g;
-
-                # assume "N/A" means '0'
-                $pd->{'Enclosure position'} =~ s/N\/A/0/;
-
                 next unless
                     $adp->{$sum->{encl_id}} == $pd->{'Enclosure Device ID'} &&
-                    $sum->{encl_pos}        eq $pd->{'Enclosure position'} &&
+                    $sum->{encl_pos}        == $pd->{'Enclosure position'} &&
                     $sum->{slot}            == $pd->{'Slot Number'};
 
                 # 'HUC101212CSS'  <-- note it is incomplete
@@ -111,9 +104,10 @@ sub doInventory {
 sub _getAdpEnclosure {
     my (%params) = @_;
 
-    $params{command} = exists $params{adp} ? "megacli -EncInfo -a$params{adp}" : undef;
+    my $command = $params{adp} ? "megacli -EncInfo -a$params{adp}" : undef;
 
     my $handle = getFileHandle(
+        command => $command,
         %params
     );
     return unless $handle;
@@ -139,9 +133,10 @@ sub _getAdpEnclosure {
 sub _getSummary {
     my (%params) = @_;
 
-    $params{command} = exists $params{adp} ? "megacli -ShowSummary -a$params{adp}" : undef;
+    my $command = $params{adp} ? "megacli -ShowSummary -a$params{adp}" : undef;
 
     my $handle = getFileHandle(
+        command => $command,
         %params
     );
     return unless $handle;
@@ -184,9 +179,10 @@ sub _getSummary {
 sub _getPDlist {
     my (%params) = @_;
 
-    $params{command} = exists $params{adp} ? "megacli -PDlist -a$params{adp}" : undef;
+    my $command = $params{adp} ? "megacli -PDlist -a$params{adp}" : undef;
 
     my $handle = getFileHandle(
+        command => $command,
         %params
     );
     return unless $handle;
