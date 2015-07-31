@@ -579,10 +579,11 @@ sub getDeviceFullInfo {
     ) if $info->{TYPE} && $info->{TYPE} eq 'NETWORKING';
 
     # run an external function for the device
-    if ($device->{EXTMOD}) {
+    if ($device->{INFO}->{EXTMOD}) {
         runFunction(
-            module   => "FusionInventory::Agent::Tools::Hardware::" . $device->{EXTMOD},
+            module   => "FusionInventory::Agent::Tools::Hardware::" . $device->{INFO}->{EXTMOD},
             function => "run",
+            logger   => $logger,
             params   => {
                 snmp   => $snmp,
                 device => $device,
@@ -592,7 +593,7 @@ sub getDeviceFullInfo {
             load     => 1
         );
 
-        delete $device->{EXTMOD};
+        delete $device->{INFO}->{EXTMOD};
     }
 
     # convert ports hashref to an arrayref, sorted by interface number
