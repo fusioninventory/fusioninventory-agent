@@ -245,9 +245,13 @@ sub processRemote {
         my @results = &{ $functions{ $job->{function} } }(%$job);
 
         my $count = int(@results);
+
+        # Add an empty hash ref so send an answer with _cpt=0
+        push @results, {} unless $count ;
+
         foreach my $result (@results) {
             next unless ref($result) eq 'HASH';
-            next unless keys %$result;
+            next unless ( !$count || keys %$result );
             $result->{uuid}   = $job->{uuid};
             $result->{action} = "setAnswer";
             $result->{_cpt}   = $count;
