@@ -11,10 +11,14 @@ use FusionInventory::Agent::Tools::Hardware;
 
 my @mac_tests = (
     [ 'd2:05:a8:6c:26:d5' , 'd2:05:a8:6c:26:d5' ],
-    [ '0xD205A86C26D5'    , 'd2:05:a8:6c:26:d5' ],
-    [ '0x6001D205A86C26D5', '60:01:d2:05:a8:6c:26:d5' ],
     [ 'd2:5:a8:6c:26:d5'  , 'd2:05:a8:6c:26:d5' ],
+    [ '0xD205A86C26D5'    , 'd2:05:a8:6c:26:d5' ],
+    [ 'D205A86C26D5'      , 'd2:05:a8:6c:26:d5' ],
+    [ '0x6001D205A86C26D5', 'd2:05:a8:6c:26:d5' ],
+    [ '0x2001D205A86C26D5', '20:01:d2:05:a8:6c:26:d5' ],
+    [ '0x1000D205A86C26D5', '10:00:d2:05:a8:6c:26:d5' ],
     [ '05:a8:6c:26:d5'    , '10:00:00:05:a8:6c:26:d5' ],
+    [ 'giBbEr:ish'        , undef ],
 );
 
 # each item is an arrayref of 3 elements:

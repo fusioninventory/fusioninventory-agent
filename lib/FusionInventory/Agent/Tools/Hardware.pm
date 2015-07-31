@@ -872,16 +872,29 @@ sub _getCanonicalMacAddress {
     }
 
     # Check if it's a hex value
-    if ($value =~ /^0x([0-9A-F]+)$/i) {
+    if ($value =~ /^(?:0x)?([0-9A-F]+)$/i) {
         @bytes = unpack("(A2)*", $1);
     } else {
         @bytes = split(':', $value);
     }
 
-    if (scalar(@bytes) != 6 and scalar(@bytes) < 8) { # MAC is 6 bytes, WWN is 8 bytes
-        # prepend "10" and zeroes as necessary to make a WWN
+    # return if bytes are not hex
+    return if grep(!/^[0-9A-F]{1,2}$/i, @bytes);
+
+    if (scalar(@bytes) == 6) {
+        # it's a MAC
+    } elsif (scalar(@bytes) == 8 && 
+        (($bytes[0] eq '10' && $bytes[1] =~ /^0+/) # WWN 10:00:...
+            || $bytes[0] =~ /^2/)) {               # WWN 2X:XX:...
+    } elsif (scalar(@bytes) < 6) {
+        # make a WWN. prepend "10" and zeroes as necessary
         while (scalar(@bytes) < 7) { unshift @bytes, '00' }
         unshift @bytes, '10';
+    } elsif (scalar(@bytes) > 6) {
+        # make a MAC. take 6 bytes from the right
+        @bytes = @bytes[-6 .. -1];
+    } else {
+        return;
     }
 
     $result = join ":", map { sprintf("%02x", hex($_)) } @bytes;
