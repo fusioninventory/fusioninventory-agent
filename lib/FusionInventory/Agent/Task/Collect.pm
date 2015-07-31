@@ -271,21 +271,45 @@ sub processRemote {
     return $self;
 }
 
+sub _encodeRegistryValueForCollect {
+    my ($value, $type) = @_ ;
+
+    # Dump REG_BINARY/REG_RESOURCE_LIST/REG_FULL_RESOURCE_DESCRIPTOR as hex strings
+    if ($type == 3 || $type >= 8) {
+        $value = join(" ", map { sprintf "%02x", ord } split(//, $value));
+    } else {
+        $value = FusionInventory::Agent::Tools::Win32::encodeFromRegistry($value);
+    }
+
+    return $value;
+}
+
 sub _getFromRegistry {
     my %params = @_;
 
     return unless FusionInventory::Agent::Tools::Win32->require();
 
-    my $values = FusionInventory::Agent::Tools::Win32::getRegistryValue(path => $params{path});
+    # Here we need to retrieve values with their type, getRegistryValue API
+    # has been modify to support withtype flag as param
+    my $values = FusionInventory::Agent::Tools::Win32::getRegistryValue(
+        path     => $params{path},
+        withtype => 1
+    );
 
     return unless $values;
 
-    my $result;
-    if (ref($values) eq 'HASH') { # I don't like that. We should always get href
+    my $result = {};
+    if (ref($values) eq 'HASH') {
         foreach my $k (keys %$values) {
-            my $v = FusionInventory::Agent::Tools::Win32::encodeFromRegistry($values->{$k});
-            $result->{$k}=$v;
+            # Skip sub keys
+            next if ($k =~ m|/$|);
+            my ($value,$type) = @{$values->{$k}};
+            $result->{$k} = _encodeRegistryValueForCollect($value,$type) ;
         }
+    } else {
+        my ($k) = $params{path} =~ m|([^/]+)$| ;
+        my ($value,$type) = @{$values};
+        $result->{$k} = _encodeRegistryValueForCollect($value,$type);
     }
 
     return ($result);
