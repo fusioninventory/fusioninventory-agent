@@ -1,4 +1,3 @@
-
 package FusionInventory::Agent::Tools::Hardware::Qlogic;
 
 use strict;
