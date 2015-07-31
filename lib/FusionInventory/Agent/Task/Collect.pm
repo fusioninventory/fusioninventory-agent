@@ -88,12 +88,12 @@ sub _validateSpec {
             $self->{logger}->debug("$key mandatory value is missing in job");
             return 0;
         }
-        $self->{logger}->debug2("$key mandatory value is present in job with value '".$base->{$key}."'");
+        $self->{logger}->debug2("$key mandatory value is present in job");
         return 1;
     }
 
     if ($spec == _OPTIONAL && exists($base->{$key})) {
-        $self->{logger}->debug2("$key optional value is present in job with value '".$base->{$key}."'");
+        $self->{logger}->debug2("$key optional value is present in job");
     }
 
     1;
@@ -222,10 +222,15 @@ sub processRemote {
     my $token = exists($answer->{token}) ? $answer->{token} : '';
 
     foreach my $job (@jobs) {
+
+        $self->{logger}->debug2("Starting a collect job...");
+
         if ( !$job->{uuid} ) {
             $self->{logger}->error("UUID key missing");
             next;
         }
+
+        $self->{logger}->debug2("Collect job has uuid: ".$job->{uuid});
 
         if ( !$job->{function} ) {
             $self->{logger}->error("function key missing");
