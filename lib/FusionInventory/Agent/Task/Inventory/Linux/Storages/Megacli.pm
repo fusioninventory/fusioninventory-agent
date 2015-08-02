@@ -191,7 +191,7 @@ sub _getPDlist {
     my $n = 0;
     while (my $line = <$handle>) {
         chomp $line;
-        next unless $line =~ /^([^:]+)\s*:\s*(.+\S)/;
+        next unless $line =~ /^([^:]+)\s*:\s*(.*\S)/;
         my $key = $1;
         my $val = $2;
         $n++ if $key =~ /Enclosure Device ID/;
