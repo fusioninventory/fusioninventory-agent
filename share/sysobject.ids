@@ -4,7 +4,7 @@
 # http://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
 #
 # Syntax:
-# id	vendor	type	model
+# id	vendor	type	model	module
 
 2	IBM	COMPUTER
 
@@ -1597,7 +1597,11 @@
 # specifying a model value prevent fallback on hrDeviceDescr value for better identification
 1347.41	Kyocera	PRINTER
 
+1588.2.1.1.1	Brocade	NETWORKING	Brocade300	Brocade
+
 1602	Canon	PRINTER
+
+1663.1.1.1.1.24	Qlogic	NETWORKING	SANbox 5602 FC Switch	Qlogic
 
 1723	Lantronix
 
