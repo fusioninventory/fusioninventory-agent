@@ -57,8 +57,8 @@ sub getConnectedWWNs {
     my $results;
     my $fcFxPortNxPortName = $snmp->walk(".1.3.6.1.2.1.75.1.2.3.1.10");
 
-    # .1.3.6.1.2.1.75.1.2.3.1.10.1.1.1 = Hex-STRING: 21 00 00 24 FF 57 5D 9C 
-    # .1.3.6.1.2.1.75.1.2.3.1.10.1.2.1 = Hex-STRING: 21 00 00 24 FF 57 5F 18 
+    # .1.3.6.1.2.1.75.1.2.3.1.10.1.1.1 = Hex-STRING: 21 00 00 24 FF 57 5D 9C
+    # .1.3.6.1.2.1.75.1.2.3.1.10.1.2.1 = Hex-STRING: 21 00 00 24 FF 57 5F 18
     #                              ^--- $idx
     while (my ($suffix, $wwn) = each %$fcFxPortNxPortName) {
         $wwn = FusionInventory::Agent::Tools::Hardware::_getCanonicalMacAddress($wwn);
