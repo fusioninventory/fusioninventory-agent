@@ -876,10 +876,9 @@ sub _getCanonicalMacAddress {
         @bytes = unpack("(A2)*", $1);
     } else {
         @bytes = split(':', $value);
+        # return if bytes are not hex
+        return if grep(!/^[0-9A-F]{1,2}$/i, @bytes);
     }
-
-    # return if bytes are not hex
-    return if grep(!/^[0-9A-F]{1,2}$/i, @bytes);
 
     if (scalar(@bytes) == 6) {
         # it's a MAC
@@ -893,8 +892,6 @@ sub _getCanonicalMacAddress {
     } elsif (scalar(@bytes) > 6) {
         # make a MAC. take 6 bytes from the right
         @bytes = @bytes[-6 .. -1];
-    } else {
-        return;
     }
 
     $result = join ":", map { sprintf("%02x", hex($_)) } @bytes;
