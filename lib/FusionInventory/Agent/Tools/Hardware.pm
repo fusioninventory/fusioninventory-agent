@@ -455,6 +455,7 @@ sub _getSerial {
         '.1.3.6.1.4.1.641.2.1.2.1.6.1',          # Lexmark-MIB
         '.1.3.6.1.4.1.1602.1.2.1.4.0',           # Canon-MIB
         '.1.3.6.1.4.1.2435.2.3.9.4.2.1.5.5.1.0', # Brother-MIB
+        '.1.3.6.1.4.1.318.1.1.4.1.5.0',          # MasterSwitch-MIB
     );
     foreach my $oid (@oids) {
         my $value = $snmp->get($oid);
