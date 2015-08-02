@@ -88,12 +88,12 @@ sub _validateSpec {
             $self->{logger}->debug("$key mandatory value is missing in job");
             return 0;
         }
-        $self->{logger}->debug2("$key mandatory value is present in job with value '".$base->{$key}."'");
+        $self->{logger}->debug2("$key mandatory value is present in job");
         return 1;
     }
 
     if ($spec == _OPTIONAL && exists($base->{$key})) {
-        $self->{logger}->debug2("$key optional value is present in job with value '".$base->{$key}."'");
+        $self->{logger}->debug2("$key optional value is present in job");
     }
 
     1;
@@ -222,10 +222,15 @@ sub processRemote {
     my $token = exists($answer->{token}) ? $answer->{token} : '';
 
     foreach my $job (@jobs) {
+
+        $self->{logger}->debug2("Starting a collect job...");
+
         if ( !$job->{uuid} ) {
             $self->{logger}->error("UUID key missing");
             next;
         }
+
+        $self->{logger}->debug2("Collect job has uuid: ".$job->{uuid});
 
         if ( !$job->{function} ) {
             $self->{logger}->error("function key missing");
@@ -240,9 +245,13 @@ sub processRemote {
         my @results = &{ $functions{ $job->{function} } }(%$job);
 
         my $count = int(@results);
+
+        # Add an empty hash ref so send an answer with _cpt=0
+        push @results, {} unless $count ;
+
         foreach my $result (@results) {
             next unless ref($result) eq 'HASH';
-            next unless keys %$result;
+            next unless ( !$count || keys %$result );
             $result->{uuid}   = $job->{uuid};
             $result->{action} = "setAnswer";
             $result->{_cpt}   = $count;
@@ -262,21 +271,45 @@ sub processRemote {
     return $self;
 }
 
+sub _encodeRegistryValueForCollect {
+    my ($value, $type) = @_ ;
+
+    # Dump REG_BINARY/REG_RESOURCE_LIST/REG_FULL_RESOURCE_DESCRIPTOR as hex strings
+    if ($type == 3 || $type >= 8) {
+        $value = join(" ", map { sprintf "%02x", ord } split(//, $value));
+    } else {
+        $value = FusionInventory::Agent::Tools::Win32::encodeFromRegistry($value);
+    }
+
+    return $value;
+}
+
 sub _getFromRegistry {
     my %params = @_;
 
     return unless FusionInventory::Agent::Tools::Win32->require();
 
-    my $values = FusionInventory::Agent::Tools::Win32::getRegistryValue(path => $params{path});
+    # Here we need to retrieve values with their type, getRegistryValue API
+    # has been modify to support withtype flag as param
+    my $values = FusionInventory::Agent::Tools::Win32::getRegistryValue(
+        path     => $params{path},
+        withtype => 1
+    );
 
     return unless $values;
 
-    my $result;
-    if (ref($values) eq 'HASH') { # I don't like that. We should always get href
+    my $result = {};
+    if (ref($values) eq 'HASH') {
         foreach my $k (keys %$values) {
-            my $v = FusionInventory::Agent::Tools::Win32::encodeFromRegistry($values->{$k});
-            $result->{$k}=$v;
+            # Skip sub keys
+            next if ($k =~ m|/$|);
+            my ($value,$type) = @{$values->{$k}};
+            $result->{$k} = _encodeRegistryValueForCollect($value,$type) ;
         }
+    } else {
+        my ($k) = $params{path} =~ m|([^/]+)$| ;
+        my ($value,$type) = @{$values};
+        $result->{$k} = _encodeRegistryValueForCollect($value,$type);
     }
 
     return ($result);

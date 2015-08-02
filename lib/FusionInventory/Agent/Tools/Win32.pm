@@ -132,11 +132,11 @@ sub getRegistryValue {
         my %ret;
         foreach (keys %$key) {
             s{^/}{};
-            $ret{$_}=$key->{"/$_"};
+            $ret{$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
         }
         return \%ret;
     } else {
-        return $key->{"/$valueName"};
+        return $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
     }
 }
 
