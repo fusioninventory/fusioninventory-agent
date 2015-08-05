@@ -36,7 +36,7 @@ sub doInventory {
             my ($firmware, $size, $model, $vendor);
 
             # Raw Size: 232.885 GB [0x1d1c5970 Sectors]
-            ($size) = ($pd->{'Raw Size'} =~ /^(.+) \[/);
+            ($size) = ($pd->{'Raw Size'} =~ /^(.+)\s\[/);
             $size = getCanonicalSize($size);
             $firmware = $pd->{'Device Firmware Level'};
 
@@ -51,7 +51,7 @@ sub doInventory {
             while (my ($sum_id, $sum) = each %{$summary{$adp_id}}) {
                 next unless
                     $adp->{$sum->{encl_id}} == $pd->{'Enclosure Device ID'} &&
-                    $sum->{encl_pos}        == $pd->{'Enclosure position'} &&
+                    $sum->{encl_pos}        eq $pd->{'Enclosure position'} &&
                     $sum->{slot}            == $pd->{'Slot Number'};
 
                 # 'HUC101212CSS'  <-- note it is incomplete
@@ -66,13 +66,13 @@ sub doInventory {
                     $serial =~ s/$vendor//;      # remove vendor part
                 }
 
-                $serial =~ s/$model[^ ]*//;      # remove model part
+                $serial =~ s/$model\S*//;      # remove model part
                 $serial =~ s/\s//g;              # remove remaining spaces
                 $storage->{SERIALNUMBER} = $serial;
 
                 # Restore complete model name:
                 # HUC101212CSS --> HUC101212CSS600
-                if ($pd->{'Inquiry Data'} =~ /($sum->{'Product Id'}(?:[^ ]*))/) {
+                if ($pd->{'Inquiry Data'} =~ /($sum->{'Product Id'}(?:\S*))/) {
                     $model = $1;
                     $model =~ s/^\s+//;
                     $model =~ s/\s+$//;
@@ -104,7 +104,7 @@ sub doInventory {
 sub _getAdpEnclosure {
     my (%params) = @_;
 
-    my $command = $params{adp} ? "megacli -EncInfo -a$params{adp}" : undef;
+    my $command = exists $params{adp} ? "megacli -EncInfo -a$params{adp}" : undef;
 
     my $handle = getFileHandle(
         command => $command,
@@ -133,7 +133,7 @@ sub _getAdpEnclosure {
 sub _getSummary {
     my (%params) = @_;
 
-    my $command = $params{adp} ? "megacli -ShowSummary -a$params{adp}" : undef;
+    my $command = exists $params{adp} ? "megacli -ShowSummary -a$params{adp}" : undef;
 
     my $handle = getFileHandle(
         command => $command,
@@ -162,7 +162,7 @@ sub _getSummary {
                 slot     => $3,
             };
             $drive{$n}->{'encl_id'} += 0;  # drop leading zeroes
-        } elsif ($line =~ /^\s*(.+[^ ])\s*:\s*(.+[^ ])/) {
+        } elsif ($line =~ /^\s*(.+\S)\s*:\s*(.+\S)/) {
             $drive{$n}->{$1} = $2;
         }
     }
@@ -179,7 +179,7 @@ sub _getSummary {
 sub _getPDlist {
     my (%params) = @_;
 
-    my $command = $params{adp} ? "megacli -PDlist -a$params{adp}" : undef;
+    my $command = exists $params{adp} ? "megacli -PDlist -a$params{adp}" : undef;
 
     my $handle = getFileHandle(
         command => $command,
@@ -191,7 +191,7 @@ sub _getPDlist {
     my $n = 0;
     while (my $line = <$handle>) {
         chomp $line;
-        next unless $line =~ /^([^:]+)\s*:\s*(.+[^ ])/;
+        next unless $line =~ /^([^:]+)\s*:\s*(.*\S)/;
         my $key = $1;
         my $val = $2;
         $n++ if $key =~ /Enclosure Device ID/;
