@@ -9,6 +9,7 @@ use Test::More;
 use UNIVERSAL::require;
 use Config;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Test::Utils;
 
 # check thread support availability
@@ -58,16 +59,20 @@ like(
 );
 is($out, '', 'no target stdout');
 
-# Check multi-threading support
-($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '--first 127.0.0.1 --last 127.0.0.10 --debug --threads 10');
-ok($rc == 0, '10 threads started to scan loopback');
-like(
-    $out,
-    qr/QUERY.*NETDISCOVERY/,
-    'query output'
-);
-like(
-    $err,
-    qr/cleaning 10 worker threads/,
-    'cleaning threads reached'
-);
+SKIP: {
+    skip "nmap required", 3 unless canRun("nmap");
+
+    # Check multi-threading support
+    ($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '--first 127.0.0.1 --last 127.0.0.10 --debug --threads 10');
+    ok($rc == 0, '10 threads started to scan loopback');
+    like(
+        $out,
+        qr/QUERY.*NETDISCOVERY/,
+        'query output'
+    );
+    like(
+        $err,
+        qr/cleaning 10 worker threads/,
+        'cleaning threads reached'
+    );
+}
