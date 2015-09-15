@@ -2,6 +2,7 @@ Revision history for FusionInventory agent
 
 2.3.17 not yet released
 inventory:
+* add collect task support
 * fix CPU frequency retrieval on Windows (#2876)
 * fix CPU core and thread retrieval on Windows (#2894)
 * small fixes for DragonFlyBSD (#2899)
@@ -11,6 +12,7 @@ inventory:
 * fix hangup when enumerating ovirt virtual machines (#2917)
 * fix virtuozzo virtual machines identification (reported on mailing-list)
 * fix offline xen virtual machines properties retrieval (#2988)
+* fix warning and parsing issues with LSI RAID adapter
 * retrieve Rudder agent information for all kind of Unix systems (#2999)
 
 netdiscovery:
