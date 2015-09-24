@@ -220,6 +220,7 @@ sub _parsefcinfo {
             if $line =~ /online/;
 
         if ($interface->{DESCRIPTION} && $interface->{WWN}) {
+            $interface->{TYPE}   = 'fibrechannel';
             $interface->{STATUS} = 'Down' if !$interface->{STATUS};
 
             push @interfaces, $interface;
