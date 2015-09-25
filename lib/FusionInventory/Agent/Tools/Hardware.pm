@@ -220,19 +220,42 @@ my %consumable_types = (
 # printer-specific page counter variables
 my %printer_pagecounters_variables = (
     TOTAL      => {
-        oid   => '.1.3.6.1.2.1.43.10.2.1.4.1.1'
+        oid   => [
+            '.1.3.6.1.4.1.1347.42.2.1.1.1.6.1.1', #Kyocera specific counter
+            '.1.3.6.1.2.1.43.10.2.1.4.1.1'        #Default Value
+            ]
     },
-    BLACK      => { },
-    COLOR      => { },
+    BLACK      => {
+        oid   => '.1.3.6.1.4.1.1347.42.2.1.1.1.7.1.1' #Kyocera specific counter
+    },
+    COLOR      => {
+        oid   => '.1.3.6.1.4.1.1347.42.2.1.1.1.8.1.1' #Kyocera specific counter
+    },
     RECTOVERSO => { },
-    SCANNED    => { },
-    PRINTTOTAL => { },
-    PRINTBLACK => { },
-    PRINTCOLOR => { },
-    COPYTOTAL  => { },
-    COPYBLACK  => { },
-    COPYCOLOR  => { },
-    FAXTOTAL   => { },
+    SCANNED    => {
+        oid   => '.1.3.6.1.4.1.1347.46.10.1.1.5.3' #Kyocera specific counter ( total scan counter)
+    },
+    PRINTTOTAL => {
+        oid   => '.1.3.6.1.4.1.1347.42.3.1.1.1.1.2' #Kyocera specific counter
+    },
+    PRINTBLACK => {
+        oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.1.1' #Kyocera specific counter
+    },
+    PRINTCOLOR => {
+        oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.1.2' #Kyocera specific counter
+    },
+    COPYTOTAL  => {
+        oid   => '.1.3.6.1.4.1.1347.42.3.1.1.1.1.2' #Kyocera specific counter
+    },
+    COPYBLACK  => {
+        oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.2.1' #Kyocera specific counter
+    },
+    COPYCOLOR  => {
+        oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.2.2' #Kyocera specific counter
+    },
+    FAXTOTAL   => {
+        oid   => '.1.3.6.1.4.1.1347.42.3.1.1.1.1.4'  #Kyocera specific counter
+    }
 );
 
 sub getDeviceInfo {
@@ -756,8 +779,16 @@ sub _setPrinterProperties {
     # page counters
     foreach my $key (keys %printer_pagecounters_variables) {
         my $variable = $printer_pagecounters_variables{$key};
-        my $oid = $variable->{oid};
-        my $value = $snmp->get($oid);
+        my $value;
+        if (ref $variable->{oid} eq 'ARRAY') {
+            foreach my $oid (@{$variable->{oid}}) {
+                $value = $snmp->get($oid);
+                last if $value;
+            }
+        } else {
+            my $oid = $variable->{oid};
+            $value = $snmp->get($oid);
+        }
         next unless defined $value;
         if (!_isInteger($value)) {
             $logger->error("incorrect counter value $value, check $variable->{mapping} mapping") if $logger;
