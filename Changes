@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.3.17 not yet released
+2.3.17 Sun, 27 Sep 2015
 inventory:
 * add collect task support
 * fix CPU frequency retrieval on Windows (#2876)
