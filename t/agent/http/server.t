@@ -46,7 +46,7 @@ if (my $pid = fork()) {
     ok($CHILD_ERROR >> 8, 'server listening on default port');
 } else {
     my $client = LWP::UserAgent->new(timeout => 2);
-    exit $client->get('http://localhost:62354')->is_success();
+    exit $client->get('http://127.0.0.1:62354')->is_success();
 }
 
 # find an available port
@@ -109,7 +109,7 @@ if (my $pid = fork()) {
     ok($CHILD_ERROR >> 8, 'server listening on specific port');
 } else {
     my $client = LWP::UserAgent->new(timeout => 2);
-    exit $client->get("http://localhost:$port")->is_success();
+    exit $client->get("http://127.0.0.1:$port")->is_success();
 }
 
 if (my $pid = fork()) {
@@ -121,5 +121,5 @@ if (my $pid = fork()) {
 } else {
     alarm 3;
     my $client = LWP::UserAgent->new(timeout => 2);
-    exit $client->get("http://localhost:$port")->is_success();
+    exit $client->get("http://127.0.0.1:$port")->is_success();
 }
