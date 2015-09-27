@@ -20,12 +20,13 @@ netdiscovery:
 
 netinventory:
 * better serial retrieval (#2912)
+* better VLAN retrieval for non-Cisco devices
 * fix firmware retrieval issues leading to malformed XML (#2908, #2956, #2994)
+* fix multi-threading issues
+* add support for Kyocera printers page counters
 * additional devices in sysobject.ids (#2912, #2932, #2965, #2966, #2994)
 * minor fixes in sysobject.ids
 * relax constraints on sysobjectid syntax
-* better VLAN retrieval for non-Cisco devices
-* fix multi-threading issues
 
 wake-on-lan:
 * fix communication issue with latest FusionInventory for GLPI (#2937)
