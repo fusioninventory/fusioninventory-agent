@@ -6,6 +6,7 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use Memoize;
+use Socket qw(PF_INET SOCK_DGRAM);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
@@ -19,6 +20,7 @@ our @EXPORT = qw(
     getInfoFromSmartctl
     getInterfacesFromIfconfig
     getInterfacesFromIp
+    getInterfacesInfosFromIoctl
 );
 
 memoize('getDevicesFromUdev');
@@ -385,6 +387,52 @@ sub getInterfacesFromIfconfig {
 
     return @interfaces;
 }
+
+# Constant for ethtool system call
+sub SIOCETHTOOL   () {     0x8946 ; } # See linux/sockios.h
+sub ETHTOOL_GSET  () { 0x00000001 ; } # See linux/ethtool.h
+sub SPEED_UNKNOWN () {      65535 ; } # See linux/ethtool.h, to be read as -1
+
+sub getInterfacesInfosFromIoctl {
+    my (%params) = (
+        interface => 'eth0',
+        @_
+    );
+
+    return unless $params{interface};
+
+    my $logger = $params{logger};
+
+    socket(my $socket, PF_INET, SOCK_DGRAM, 0)
+        or return ;
+
+    # Pack command in ethtool_cmd struct
+    my $cmd = pack("L3SC6L2SC2L3", ETHTOOL_GSET);
+
+    # Pack request for ioctl
+    my $request = pack("a16p", $params{interface}, $cmd);
+
+    my $retval = ioctl($socket, SIOCETHTOOL, $request) || -1;
+    return if ($retval < 0);
+
+    # Unpack returned datas
+    my @datas = unpack("L3SC6L2SC2L3", $cmd);
+
+    # Actually only speed value is requested and extracted
+    my $datas = {
+        SPEED => $datas[3]|$datas[12]<<16
+    };
+
+    # Forget speed value if got unknown speed special value
+    if ($datas->{SPEED} == SPEED_UNKNOWN) {
+        delete $datas->{SPEED};
+        $params{logger}->debug2("Unknown speed found on $params{interface}")
+            if $params{logger};
+    }
+
+    return $datas;
+}
+
 sub getInterfacesFromIp {
     my (%params) = (
         command => '/sbin/ip addr show',
@@ -560,6 +608,20 @@ Availables parameters:
 =item command the command to use (default: /sbin/ifconfig -a)
 
 =item file the file to use
+
+=back
+
+=head2 getInterfacesInfosFromIoctl(%params)
+
+Returns interface datas, by parsing results from ethtool system call request.
+
+Availables parameters:
+
+=over
+
+=item logger a logger object
+
+=item interface the interface name to use (default: eth0)
 
 =back
 
