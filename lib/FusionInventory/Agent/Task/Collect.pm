@@ -148,16 +148,6 @@ sub _validateAnswer {
     return 1;
 }
 
-sub getConfiguration {
-    my ($self, %params) = @_;
-
-    my $config = $params{spec}->{config};
-
-    return (
-        jobs => $config->{jobs}
-    );
-}
-
 sub run {
     my ($self, %params) = @_;
 
@@ -187,13 +177,13 @@ sub run {
     foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
         next unless (ref($job) eq 'HASH' && exists($job->{task})
             && $job->{task} eq "Collect");
-        $self->processRemote($job->{remote});
+        $self->_processRemote($job->{remote});
     }
 
     return 1;
 }
 
-sub processRemote {
+sub _processRemote {
     my ($self, $remoteUrl) = @_;
 
     if ( !$remoteUrl ) {

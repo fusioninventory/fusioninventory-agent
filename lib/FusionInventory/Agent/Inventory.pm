@@ -100,7 +100,7 @@ my %checks = (
         STATUS => qr/^(free|used)$/
     },
     NETWORKS => {
-        TYPE => qr/^(ethernet|wifi|aggregate|alias|dialup|loopback|bridge|fibrechannel)$/
+        TYPE => qr/^(ethernet|wifi|infiniband|aggregate|alias|dialup|loopback|bridge|fibrechannel)$/
     },
     CPUS => {
         ARCH => qr/^(MIPS|MIPS64|Alpha|SPARC|SPARC64|m68k|i386|x86_64|PowerPC|PowerPC64|ARM|AArch64)$/
@@ -143,12 +143,14 @@ sub getContent {
 
 sub getSection {
     my ($self, $section) = @_;
+    ## no critic (ExplicitReturnUndef)
     my $content = $self->getContent() or return undef;
     return exists($content->{$section}) ? $content->{$section} : undef ;
 }
 
 sub getField {
     my ($self, $section, $field) = @_;
+    ## no critic (ExplicitReturnUndef)
     $section = $self->getSection($section) or return undef;
     return exists($section->{$field}) ? $section->{$field} : undef ;
 }

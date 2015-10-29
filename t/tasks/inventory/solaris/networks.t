@@ -123,6 +123,7 @@ my %parsefcinfo_tests = (
             DESCRIPTION  => 'HBA_Port_WWN_1 /dev/cfg/c0',
             MANUFACTURER => 'QLogic Corp.',
             MODEL        => 'QLE2462',
+            TYPE         => 'fibrechannel',
             WWN          => '200000e08b94b4a3'
         },
         {
@@ -133,6 +134,7 @@ my %parsefcinfo_tests = (
             DESCRIPTION  => 'HBA_Port_WWN_2 /dev/cfg/c1',
             MANUFACTURER => 'QLogic Corp.',
             MODEL        => 'QLE2462',
+            TYPE         => 'fibrechannel',
             WWN          => '200100e08bb4b4a3'
         }
     ],
@@ -145,6 +147,7 @@ my %parsefcinfo_tests = (
             DESCRIPTION  => 'HBA_Port_WWN_1 /dev/cfg/c1',
             MANUFACTURER => 'QLogic Corp.',
             MODEL        => '2200',
+            TYPE         => 'fibrechannel',
             WWN          => '220000144f3eb274'
         },
         {
@@ -155,6 +158,7 @@ my %parsefcinfo_tests = (
             DESCRIPTION  => 'HBA_Port_WWN_2 /dev/cfg/c2',
             MANUFACTURER => 'QLogic Corp.',
             MODEL        => 'QLA2340',
+            TYPE         => 'fibrechannel',
             WWN          => '200000e08b90682c'
         },
         {
@@ -165,6 +169,7 @@ my %parsefcinfo_tests = (
             DESCRIPTION  => 'HBA_Port_WWN_3 /dev/cfg/c3',
             MANUFACTURER => 'QLogic Corp.',
             MODEL        => 'QLA2340',
+            TYPE         => 'fibrechannel',
             WWN          => '200000e08b90b82b'
         }
     ]
