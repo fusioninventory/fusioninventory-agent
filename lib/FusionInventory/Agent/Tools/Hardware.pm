@@ -590,7 +590,7 @@ sub getDeviceFullInfo {
         datadir => $params{datadir}
     ) if $info->{TYPE} && $info->{TYPE} eq 'NETWORKING';
 
-    # run an external function for the device
+    # external processing for the $device
     if ($device->{INFO}->{EXTMOD}) {
         runFunction(
             module   => "FusionInventory::Agent::Tools::Hardware::" . $device->{INFO}->{EXTMOD},
@@ -604,6 +604,7 @@ sub getDeviceFullInfo {
             load     => 1
         );
 
+        # no need to send this to the server
         delete $device->{INFO}->{EXTMOD};
     }
 

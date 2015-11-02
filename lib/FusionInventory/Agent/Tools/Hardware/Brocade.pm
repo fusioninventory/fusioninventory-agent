@@ -74,3 +74,12 @@ sub getConnectedWWNs {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+Inventory module for Brocade fibre channel switches
+
+=head1 DESCRIPTION
+
+Inventories fibre-channel ports.

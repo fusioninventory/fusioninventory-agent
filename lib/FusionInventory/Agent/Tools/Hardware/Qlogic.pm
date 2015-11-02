@@ -26,7 +26,8 @@ sub run {
    );
 
    foreach my $idx (keys %$fc_ports) {
-      # Generate ifNumber for FC port
+      # Generate ifNumber for FC ports to avoid confusion with
+      # ethernet ports numbers
       my $port_id = sprintf("10%02d00", $idx);
 
       $ports->{$port_id} = {
@@ -106,6 +107,8 @@ __END__
 Inventory module for Qlogic fibre channel switches
 
 =head1 DESCRIPTION
+
+Inventories fibre-channel ports.
 
 Qlogic switches are stackable but whichever switch you get SNMP data from
 it is always stack member #1. So just get the data for the 1st member and

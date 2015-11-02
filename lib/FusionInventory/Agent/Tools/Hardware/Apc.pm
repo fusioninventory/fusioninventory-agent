@@ -15,3 +15,12 @@ sub run {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+Inventory module for APC PDUs
+
+=head1 DESCRIPTION
+
+The module returns the correct PDU model.

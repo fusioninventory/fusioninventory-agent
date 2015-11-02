@@ -4,6 +4,7 @@
 # http://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
 #
 # Syntax:
+# (where module is Foo in FusionInventory::Agent::Tools::Hardware::Foo)
 # id	vendor	type	model	module
 
 2	IBM	COMPUTER
