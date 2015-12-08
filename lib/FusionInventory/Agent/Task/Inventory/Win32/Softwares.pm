@@ -245,6 +245,15 @@ sub _getSoftwaresList {
         # Workaround for #415
         $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
+        # Set install date to last registry key update time
+        if (!defined($software->{INSTALLDATE})) {
+            my %infos = $data->Information();
+            my @lastWrite = FileTimeToSystemTime($infos{LastWrite});
+            $software->{INSTALLDATE} = _dateFormat(
+                sprintf("%04s%02s%02s",$lastWrite[0],$lastWrite[1],$lastWrite[3])
+            );
+        }
+
         push @list, $software;
     }
 

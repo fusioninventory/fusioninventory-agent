@@ -12,6 +12,7 @@ use Cwd;
 use Encode;
 use English qw(-no_match_vars);
 use File::Temp qw(:seekable tempfile);
+use Win32::API;
 use Win32::Job;
 use Win32::OLE qw(in);
 use Win32::OLE::Const;
@@ -23,6 +24,18 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+
+BEGIN {
+    # As in FusionInventory::Agent::Tools::Hostname
+    if ($OSNAME eq 'MSWin32') {
+        no warnings 'redefine'; ## no critic (ProhibitNoWarnings)
+        Win32::API->require();
+        # Kernel32.dll is used more or less everywhere.
+        # Without this, Win32::API will release the DLL even
+        # if it's a very bad idea
+        *Win32::API::DESTROY = sub {};
+    }
+}
 
 Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
 
@@ -39,6 +52,7 @@ our @EXPORT = qw(
     getWMIObjects
     getLocalCodepage
     runCommand
+    FileTimeToSystemTime
 );
 
 sub is64bit {
@@ -363,6 +377,24 @@ sub _isVirtual {
     return $object->{PNPDeviceID} =~ /^ROOT/ ? 1 : 0;
 }
 
+sub FileTimeToSystemTime {
+    # Inspired by Win32::FileTime module
+    my $time = shift;
+
+    my $SystemTime = pack( 'SSSSSSSS', 0, 0, 0, 0, 0, 0, 0, 0 );
+
+    my $FileTimeToSystemTime = Win32::API->new(
+        'kernel32',
+        'FileTimeToSystemTime',
+        [ 'P', 'P' ],
+        'I'
+    );
+
+    $FileTimeToSystemTime->Call( $time, $SystemTime );
+    my @times = unpack( 'SSSSSSSS', $SystemTime );
+
+    return @times;
+}
 
 1;
 __END__
@@ -456,3 +488,8 @@ Return an array
 =head2 getInterfaces()
 
 Returns the list of network interfaces.
+
+=head2 FileTimeToSystemTime()
+
+Returns an array of a converted FILETIME datetime value with following order:
+    ( year, month, wday, day, hour, minute, second, msecond )
