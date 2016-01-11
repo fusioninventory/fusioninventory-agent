@@ -60,13 +60,10 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $type = _getType($inventory->{content}->{BIOS}, $logger);
+    my $type = _getType($inventory->getSection('BIOS'), $logger);
 
     # for consistency with HVM domU
-    if (
-        $type eq 'Xen' &&
-        !$inventory->{h}{CONTENT}{BIOS}{SMANUFACTURER}
-    ) {
+    if ($type eq 'Xen' && !$inventory->getBios('SMANUFACTURER')) {
         $inventory->setBios({
             SMANUFACTURER => 'Xen',
             SMODEL => 'PVM domU'
