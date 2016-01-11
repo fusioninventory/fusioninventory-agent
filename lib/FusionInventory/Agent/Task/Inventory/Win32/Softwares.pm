@@ -207,6 +207,8 @@ sub _dateFormat {
 sub _keyLastWriteDateString {
     my ($key) = @_;
 
+    return undef unless ($OSNAME eq 'MSWin32');
+
     my @lastWrite = FileTimeToSystemTime($key->Information("LastWrite"));
 
     return sprintf("%04s%02s%02s",$lastWrite[0],$lastWrite[1],$lastWrite[3]);

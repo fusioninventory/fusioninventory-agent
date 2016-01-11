@@ -8111,6 +8111,7 @@ my %hotfixes_tests = (
             NAME         => 'KB980195',
             COMMENTS     => 'Security Update for Windows XP (KB980195)',
             ARCH         => 'i586',
+            INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update'
         },
         {
@@ -8118,6 +8119,7 @@ my %hotfixes_tests = (
             NAME         => 'KB980232',
             COMMENTS     => 'Security Update for Windows XP (KB980232)',
             ARCH         => 'i586',
+            INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update'
         },
         {
@@ -8125,6 +8127,7 @@ my %hotfixes_tests = (
             NAME         => 'KB980436',
             COMMENTS     => 'Security Update for Windows XP (KB980436)',
             ARCH         => 'i586',
+            INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update'
         },
         {
@@ -8132,6 +8135,7 @@ my %hotfixes_tests = (
             NAME         => 'KB981322',
             COMMENTS     => 'Security Update for Windows XP (KB981322)',
             ARCH         => 'i586',
+            INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update'
         },
         {
@@ -8139,6 +8143,7 @@ my %hotfixes_tests = (
             NAME         => 'KB981349',
             COMMENTS     => 'Security Update for Windows XP (KB981349)',
             ARCH         => 'i586',
+            INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update'
         },
         {
@@ -8146,6 +8151,7 @@ my %hotfixes_tests = (
             NAME         => 'KB981852',
             COMMENTS     => 'Security Update for Windows XP (KB981852)',
             ARCH         => 'i586',
+            INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update'
         },
         {
@@ -8153,6 +8159,7 @@ my %hotfixes_tests = (
             NAME         => 'KB981997',
             COMMENTS     => 'Security Update for Windows XP (KB981997)',
             ARCH         => 'i586',
+            INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update'
         },
         {
@@ -8160,6 +8167,7 @@ my %hotfixes_tests = (
             NAME         => 'KB982132',
             COMMENTS     => 'Security Update for Windows XP (KB982132)',
             ARCH         => 'i586',
+            INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update'
         },
         {
@@ -8167,6 +8175,7 @@ my %hotfixes_tests = (
             NAME         => 'KB982214',
             COMMENTS     => 'Security Update for Windows XP (KB982214)',
             ARCH         => 'i586',
+            INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update'
         },
         {
@@ -8174,6 +8183,7 @@ my %hotfixes_tests = (
             NAME         => 'KB982665',
             COMMENTS     => 'Security Update for Windows XP (KB982665)',
             ARCH         => 'i586',
+            INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update'
         }
     ]
