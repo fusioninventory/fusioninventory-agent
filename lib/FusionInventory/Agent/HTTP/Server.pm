@@ -171,7 +171,15 @@ sub _handle_deploy {
     return unless $sha512 =~ /^(.)(.)(.{6})/;
     my $subFilePath = $1.'/'.$2.'/'.$3;
 
+    my $logger = $self->{logger};
+
     Digest::SHA->require();
+    if ($EVAL_ERROR) {
+        $logger->error("Failed to load Digest::SHA: $EVAL_ERROR");
+        # Return 501 (Not Implemented) to client with reason
+        $client->send_error(501, 'Digest::SHA perl library is missing');
+        return 501;
+    }
 
     my $path;
     LOOP: foreach my $target ($self->{agent}->getTargets()) {
