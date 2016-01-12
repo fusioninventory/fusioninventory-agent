@@ -1,6 +1,13 @@
 Revision history for FusionInventory agent
 
 2.3.18 not yet released
+deploy:
+* Backport some master branch work done by guillomovitch on P2P support
+* Net::Ping & Parallel::ForkManager library are now mandatory for P2P support
+* POE & POE::Component::Client::Ping requirements are now obsolete
+* Also add few fixes and enhancement to P2P support
+* Added unittest for P2P support
+
 * add g-bougard as maintainer
 
 2.3.17 Sun, 27 Sep 2015
