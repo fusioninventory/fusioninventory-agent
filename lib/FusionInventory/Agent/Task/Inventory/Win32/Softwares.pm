@@ -182,8 +182,6 @@ sub _loadUserSoftware {
 
 }
 
-
-
 sub _dateFormat {
     my ($date) = @_;
 
@@ -198,7 +196,22 @@ sub _dateFormat {
         return "$3/$2/$1";
     }
 
+    # Re-order "M/D/YYYY" as "DD/MM/YYYY"
+    if ($date =~ /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/) {
+        return sprintf("%02d/%02d/%04d", $2, $1, $3);
+    }
+
     return undef;
+}
+
+sub _keyLastWriteDateString {
+    my ($key) = @_;
+
+    return undef unless ($OSNAME eq 'MSWin32');
+
+    my @lastWrite = FileTimeToSystemTime($key->Information("LastWrite"));
+
+    return sprintf("%04s%02s%02s",$lastWrite[0],$lastWrite[1],$lastWrite[3]);
 }
 
 sub _getSoftwaresList {
@@ -245,6 +258,11 @@ sub _getSoftwaresList {
         # Workaround for #415
         $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
 
+        # Set install date to last registry key update time
+        if (!defined($software->{INSTALLDATE})) {
+            $software->{INSTALLDATE} = _dateFormat(_keyLastWriteDateString($data));
+        }
+
         push @list, $software;
     }
 
@@ -258,7 +276,7 @@ sub _getHotfixesList {
 
     foreach my $object (getWMIObjects(
         class      => 'Win32_QuickFixEngineering',
-        properties => [ qw/HotFixID Description/  ]
+        properties => [ qw/HotFixID Description InstalledOn/  ]
     )) {
 
         my $releaseType;
@@ -270,6 +288,7 @@ sub _getHotfixesList {
         push @$list, {
             NAME         => $object->{HotFixID},
             COMMENTS     => $object->{Description},
+            INSTALLDATE  => _dateFormat($object->{InstalledOn}),
             FROM         => "WMI",
             RELEASE_TYPE => $releaseType,
             ARCH         => $params{is64bit} ? 'x86_64' : 'i586'
@@ -296,20 +315,23 @@ sub _processMSIE {
 
     my $name = $params{is64bit} ?
         "Internet Explorer (64bit)" : "Internet Explorer";
-    my $version =
-        $params{machKey}->{"SOFTWARE/Microsoft/Internet Explorer/svcVersion"} ||
-        $params{machKey}->{"SOFTWARE/Microsoft/Internet Explorer/Version"};
+
+    # Will use key last write date as INSTALLDATE
+    my $installedkey = $params{machKey}->{"SOFTWARE/Microsoft/Internet Explorer"};
+
+    my $version = $installedkey->{"/svcVersion"} || $installedkey->{"/Version"};
 
     return unless $version; # Not installed
 
     _addSoftware(
         inventory => $params{inventory},
         entry     => {
-            FROM      => "registry",
-            ARCH      => $params{is64bit} ? 'x86_64' : 'i586',
-            NAME      => $name,
-            VERSION   => $version,
-            PUBLISHER => "Microsoft Corporation"
+            FROM        => "registry",
+            ARCH        => $params{is64bit} ? 'x86_64' : 'i586',
+            NAME        => $name,
+            VERSION     => $version,
+            PUBLISHER   => "Microsoft Corporation",
+            INSTALLDATE => _dateFormat(_keyLastWriteDateString($installedkey))
         }
     );
 
