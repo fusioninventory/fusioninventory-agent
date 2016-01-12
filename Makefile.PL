@@ -66,9 +66,8 @@ recommends 'Digest::SHA'                  => '0';
 recommends 'File::Copy::Recursive'        => '0';
 recommends 'JSON'                         => '0';
 recommends 'URI::Escape'                  => '0';
-recommends 'POE::Component::Client::Ping' => '0';
-
-test_requires 'POE::Component::Client::Ping' => '0';
+recommends 'Net::Ping'                    => '0';
+recommends 'Parallel::ForkManager'        => '0';
 
 # Network
 recommends 'Net::SNMP'   => '0';

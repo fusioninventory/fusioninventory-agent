@@ -89,8 +89,11 @@ Mandatory Perl modules:
 * Digest::SHA
 * File::Copy::Recursive
 * JSON
-* POE::Component::Client::Ping
 * URI::Escape
+
+Mandatory Perl modules for P2P Support:
+* Net::Ping
+* Parallel::ForkManager
 
 ## Contacts
 
