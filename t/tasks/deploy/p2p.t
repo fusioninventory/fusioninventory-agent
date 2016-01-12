@@ -9,9 +9,11 @@ use List::Util qw(first);
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Task::Deploy::P2P;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
+
+plan(skip_all => "Can't load FusionInventory::Agent::Task::Deploy::P2P")
+    unless FusionInventory::Agent::Task::Deploy::P2P->require();
 
 my @tests = (
     {
