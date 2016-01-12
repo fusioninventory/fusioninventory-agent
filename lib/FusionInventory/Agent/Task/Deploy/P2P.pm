@@ -4,97 +4,43 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use HTTP::Request::Common qw(GET);
 use Net::IP;
-use POE qw(Component::Client::TCP Component::Client::Ping);
+use Net::Ping;
+use Parallel::ForkManager;
 
 use UNIVERSAL::require;
 
-# POE Debug
-#sub POE::Kernel::TRACE_REFCNT () { 1 }
+use FusionInventory::Agent::Logger;
 
-my %cache = (
-    date => 0,
-    data => undef
-);
+sub new {
+    my ($class, %params) = @_;
 
-sub _computeIPToTest {
-    my ($logger, $addresses, $ipLimit) = @_;
+    my $self = {
+        logger        => $params{logger} ||
+                         FusionInventory::Agent::Logger->new(),
+        max_workers   => $params{max_workers}   || 10,
+        cache_timeout => $params{cache_timeout} || 600,
+        scan_timeout  => $params{scan_timeout}  || 5,
+        max_peers     => $params{max_peers}     || 512,
+        max_size      => $params{max_size}      || 5000,
+        cache_time    => 0,
+        cache         => []
+    };
 
-    # Max number of IP to pick from a network range
-    $ipLimit = 255 unless $ipLimit;
+    bless $self, $class;
 
-    my @ipToTest;
-    foreach my $address (@$addresses) {
-        my @ip_bytes   = split(/\./, $address->{ip});
-        my @mask_bytes = split(/\./, $address->{mask});
-        next if $ip_bytes[0] == 127; # Ignore 127.x.x.x addresses
-        next if $ip_bytes[0] == 169; # Ignore 169.x.x.x range too
-
-        # compute range
-        my @start;
-        my @end;
-
-        foreach my $idx (0..3) {
-            ## no critic (ProhibitBitwise)
-            push @start, $ip_bytes[$idx] & (255 & $mask_bytes[$idx]);
-            push @end,   $ip_bytes[$idx] | (255 - $mask_bytes[$idx]);
-        }
-
-        my $ipStart = join('.', @start);
-        my $ipEnd   = join('.', @end);
-
-        my $ipInterval = Net::IP->new($ipStart.' - '.$ipEnd) || die Net::IP::Error();
-
-        next if $ipStart eq $ipEnd;
-
-        if ($ipInterval->size() > 5000) {
-            $logger->debug("Range to large: ".$ipInterval->size()." (max 5000)");
-            next;
-        }
-
-        my $after = 0;
-        my @newIPs;
-        do {
-            push @newIPs, $ipInterval->ip();
-            if ($after || $address->{ip} eq $ipInterval->ip()) {
-                $after++;
-            } elsif (@newIPs > ($ipLimit / 2)) {
-                shift @newIPs;
-            }
-        } while (++$ipInterval && ($after < ($ipLimit / 2)));
-
-
-        $logger->debug("Scanning from ".$newIPs[0]." to ".$newIPs[@newIPs-1]) if $logger;
-
-        push @ipToTest, @newIPs;
-
-    }
-    return @ipToTest;
-
+    return $self;
 }
 
-sub fisher_yates_shuffle {
-    my $deck = shift;  # $deck is a reference to an array
+sub findPeers {
+    my ($self, $port) = @_;
 
-    return unless @$deck; # must not be empty!
-
-    my $i = @$deck;
-    while (--$i) {
-        my $j = int rand ($i+1);
-        @$deck[$i,$j] = @$deck[$j,$i];
-    }
-}
-
-sub findPeer {
-    my ( $port, $logger ) = @_;
-
-#    $logger->debug("cachedate: ".$cache{date});
-    $logger->info("looking for a peer in the network");
-    return $cache{data} if $cache{date} + 600 > time;
+#    $self->{logger}->debug("cachedate: ".$cache{date});
+    $self->{logger}->info("looking for a peer in the network");
+    return @{$self->{cache}}
+        if time - $self->{cache_time} < $self->{cache_timeout};
 
     my @interfaces;
-
 
     if ($OSNAME eq 'linux') {
         FusionInventory::Agent::Tools::Linux->require();
@@ -105,6 +51,10 @@ sub findPeer {
         @interfaces = FusionInventory::Agent::Tools::Win32::getInterfaces();
     }
 
+    if (!@interfaces) {
+        $self->{logger}->info("No network interfaces found");
+        return;
+    }
 
     my @addresses;
 
@@ -113,8 +63,6 @@ sub findPeer {
         next unless $interface->{IPADDRESS};
         next unless $interface->{IPMASK};
         next unless lc($interface->{STATUS}) eq 'up';
-        next if $interface->{IPADDRESS} =~ /^127\./;
-
 
         push @addresses, {
             ip   => $interface->{IPADDRESS},
@@ -122,89 +70,150 @@ sub findPeer {
         };
     }
 
-
     if (!@addresses) {
-        $logger->info("No network to scan...");
+        $self->{logger}->info("No local address found");
         return;
     }
 
-    $cache{date}=time;
-    $cache{data}=scan({logger => $logger, port => $port}, _computeIPToTest($logger, \@addresses));
-    return $cache{data};
+    my @potential_peers;
+
+    foreach my $address (@addresses) {
+        push @potential_peers, $self->_getPotentialPeers($address);
+    }
+
+    if (!@potential_peers) {
+        $self->{logger}->info("No neighbour address found");
+        return;
+    }
+
+    $self->{cache_time} = time;
+    $self->{cache}      = [ $self->_scanPeers($port, @potential_peers) ];
+
+    return @{$self->{cache}};
 }
 
+sub _getPotentialPeers {
+    my ($self, $address, $limit) = @_;
 
-sub scan {
-    my ($params, @ipToTestList) = @_;
-    my $port = $params->{port};
-    my $logger = $params->{logger};
+    $limit = $self->{max_peers} unless defined $limit;
 
+    my @ip_bytes   = split(/\./, $address->{ip});
+    my @mask_bytes = split(/\./, $address->{mask});
+    return if $ip_bytes[0] == 127; # Ignore 127.x.x.x addresses
+    return if $ip_bytes[0] == 169; # Ignore 169.x.x.x range too
 
-    fisher_yates_shuffle(\@ipToTestList);
+    # compute range
+    my @start;
+    my @end;
 
-    POE::Component::Client::Ping->spawn(
-        Timeout => 5,           # defaults to 1 second
+    foreach my $idx (0..3) {
+        ## no critic (ProhibitBitwise)
+        push @start, $ip_bytes[$idx] & (255 & $mask_bytes[$idx]);
+        push @end,   $ip_bytes[$idx] | (255 - $mask_bytes[$idx]);
+    }
+
+    my $ipStart = join('.', @start);
+    my $ipEnd   = join('.', @end);
+    return if $ipStart eq $ipEnd;
+
+    # Get ip interval before this interface ip
+    my $ipIntervalBefore = Net::IP->new($ipStart.' - '.$address->{ip})
+        or die Net::IP::Error();
+    # Get ip interval after this interface ip
+    my $ipIntervalAfter = Net::IP->new($address->{ip}.' - '.$ipEnd)
+        or die Net::IP::Error();
+
+    my $beforeCount = int($limit/2);
+    my $afterCount = $beforeCount ;
+
+    my $size = $ipIntervalBefore->size() + $ipIntervalAfter->size() - 1 ;
+    if ($size > $self->{max_size}) {
+        $self->{logger}->debug(
+            "Range too large: $size (max $self->{max_size})"
+        );
+        return;
+    }
+
+    # Handle the case ip range is bigger than expected
+    if ($ipIntervalBefore->size() + $ipIntervalAfter->size() > $limit) {
+        $self->{logger}->debug(
+            "Have to limit ip range between ".$ipStart." and ".$ipEnd
+        );
+        # Update counts in the case we are too close from a range limit
+        if ( $ipIntervalBefore->size() - 1 < $beforeCount ) {
+            $beforeCount = $ipIntervalBefore->size() ;
+            $afterCount = $limit - $beforeCount + 1;
+        } elsif ( $ipIntervalAfter->size() < $afterCount ) {
+            $afterCount = $ipIntervalAfter->size();
+            $beforeCount  = $limit - $afterCount + 1 ;
+        }
+        # Forget too far before ips
+        if (defined($ipIntervalBefore) && $ipIntervalBefore->size() > $beforeCount+1) {
+            $ipIntervalBefore += $ipIntervalBefore->size() - $beforeCount - 1 ;
+        }
+    }
+    $ipStart = $ipIntervalBefore->ip();
+    $beforeCount = $ipIntervalBefore->size() - 1;
+
+    # Now add ips before
+    my @peers;
+    while (defined($ipIntervalBefore) && $beforeCount-->0) {
+        push @peers, $ipIntervalBefore->ip() ;
+        ++$ipIntervalBefore ;
+    }
+
+    # Then add ips after
+    while (defined(++$ipIntervalAfter) and $afterCount-->0) {
+        $ipEnd = $ipIntervalAfter->ip() ;
+        push @peers, $ipEnd ;
+    }
+
+    $self->{logger}->debug("Scanning from ".$ipStart." to ".$ipEnd);
+
+    return @peers;
+}
+
+sub _scanPeers {
+    my ($self, $port, @addresses) = @_;
+
+    $self->{logger}->debug(
+        "Scanning from $addresses[0] to $addresses[-1]"
     );
 
-    my $ipCpt = int(@ipToTestList);
-    my @ipFound;
-    POE::Session->create(
-        inline_states => {
-            _start => sub {
-                $_[HEAP]->{shutdown_on_error}=1;
-                $_[KERNEL]->yield( "add", 0 );
-            },
-            add => sub {
-            my $ipToTest = shift @ipToTestList;
+    _fisher_yates_shuffle(\@addresses);
 
-            return unless $ipToTest;
+    my $ping = Net::Ping->new('tcp', $self->{scan_timeout});
+    $ping->{port_num} = $port;
+    $ping->service_check(1);
 
-            print ".";
+    my @found;
 
-            $_[KERNEL]->post(
-                "pinger", # Post the request to the "pingthing" component.
-                "ping",      # Ask it to "ping" an address.
-                "pong",      # Have it post an answer as a "pong" event.
-                $ipToTest,    # This is the address we want to ping.
-                );
+    my $manager = Parallel::ForkManager->new($self->{max_workers});
+    $manager->run_on_finish(sub {
+        my ($pid, $exit_code, $address) = @_;
+        push @found, $address if $exit_code;
+     });
 
-            if (@ipToTestList && @ipFound < 30) {
-                $_[KERNEL]->delay(add => 0.1)
-            } else {
-                $_[KERNEL]->yield("shutdown");
-            }
+    foreach my $address (@addresses) {
+        $manager->start($address) and next;
+        $manager->finish($ping->ping($address) ? 1 : 0);
+    }
 
+    $manager->wait_all_children();
 
-            },
-            pong => sub {
-                my ($response) = $_[ARG1];
+    return @found;
+}
 
-                my ($addr) = @$response;
+sub _fisher_yates_shuffle {
+    my $deck = shift;  # $deck is a reference to an array
 
-                if (!$addr) {
-                    $ipCpt--;
-                    $logger->debug("cpt:".$ipCpt);
+    return unless @$deck; # must not be empty!
 
-                    return;
-                }
-                $logger->debug($addr." is up");
-
-                POE::Component::Client::TCP->new(
-                    RemoteAddress  => $addr,
-                    RemotePort     => $port,
-                    ConnectTimeout => 10,
-                    Connected      => sub {
-                        push @ipFound, "http://$addr:$port/deploy/getFile/";
-                    },
-                    ServerInput   => sub { }
-                );
-            },
-        },
-    );
-# Run everything, and exit when it's all done.
-    $poe_kernel->run();
-    $logger->debug("end of POE loop");
-    return \@ipFound;
+    my $i = @$deck;
+    while (--$i) {
+        my $j = int rand ($i+1);
+        @$deck[$i,$j] = @$deck[$j,$i];
+    }
 }
 
 1;
