@@ -119,23 +119,28 @@ foreach my $test (@tests) {
     cmp_deeply(\@peers, $test->{result}, $test->{name});
 }
 
-# find an available port on loopback
-my $port = first { test_port($_) } 62354 .. 62400;
+SKIP: {
+    skip 'Parallel::ForkManager required', scalar(keys(%find_tests))
+        unless Parallel::ForkManager->require();
 
-my $server = FusionInventory::Test::Server->new(
-    port     => $port,
-);
-eval {
-    $server->background();
-};
-BAIL_OUT("can't launch a default server: $EVAL_ERROR") if $EVAL_ERROR;
+    # find an available port on loopback
+    my $port = first { test_port($_) } 62354 .. 62400;
 
-foreach my $test (keys(%find_tests)) {
-    my @found = $p2p->_scanPeers(
-        $find_tests{$test}->{port} || $port,
-        @{$find_tests{$test}->{addresses}}
+    my $server = FusionInventory::Test::Server->new(
+        port     => $port,
     );
-    ok( scalar(@found) == $find_tests{$test}->{expected_peers}, $test )
-}
+    eval {
+        $server->background();
+    };
+    BAIL_OUT("can't launch a default server: $EVAL_ERROR") if $EVAL_ERROR;
 
-$server->stop();
+    foreach my $test (keys(%find_tests)) {
+        my @found = $p2p->_scanPeers(
+            $find_tests{$test}->{port} || $port,
+            @{$find_tests{$test}->{addresses}}
+        );
+        ok( scalar(@found) == $find_tests{$test}->{expected_peers}, $test )
+    }
+
+    $server->stop();
+}
