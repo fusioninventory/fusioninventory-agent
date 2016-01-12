@@ -210,6 +210,7 @@ sub _processRemote {
 
     my $method  = exists($answer->{postmethod}) && $answer->{postmethod} eq 'POST' ? 'POST' : 'GET' ;
     my $token = exists($answer->{token}) ? $answer->{token} : '';
+    my %jobsdone = ();
 
     foreach my $job (@jobs) {
 
@@ -247,6 +248,8 @@ sub _processRemote {
             $result->{_cpt}   = $count;
             $result->{_glpi_csrf_token} = $token
                 if $token ;
+            $result->{_sid}   = $job->{_sid}
+                if (exists($job->{_sid}));
             $answer = $self->{client}->send(
                url      => $remoteUrl,
                method   => $method,
@@ -256,6 +259,23 @@ sub _processRemote {
             $token = exists($answer->{token}) ? $answer->{token} : '';
             $count--;
         }
+
+        # Set this job is done by uuid
+        $jobsdone{$job->{uuid}} = 1;
+    }
+
+    # Finally send jobsDone for each seen jobs uuid
+    foreach my $uuid (keys(%jobsdone)) {
+        my $answer = $self->{client}->send(
+            url  => $remoteUrl,
+            args => {
+                action => "jobsDone",
+                uuid   => $uuid
+            }
+        );
+
+        $self->{logger}->debug2("Got no response on $uuid jobsDone action")
+            unless $answer;
     }
 
     return $self;
@@ -265,7 +285,7 @@ sub _encodeRegistryValueForCollect {
     my ($value, $type) = @_ ;
 
     # Dump REG_BINARY/REG_RESOURCE_LIST/REG_FULL_RESOURCE_DESCRIPTOR as hex strings
-    if ($type == 3 || $type >= 8) {
+    if (defined($type) && ($type == 3 || $type >= 8)) {
         $value = join(" ", map { sprintf "%02x", ord } split(//, $value));
     } else {
         $value = FusionInventory::Agent::Tools::Win32::encodeFromRegistry($value);
