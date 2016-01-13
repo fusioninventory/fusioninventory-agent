@@ -163,6 +163,7 @@ sub resolve {
     my ($name, $logger) = @_;
 
     my @addresses;
+    my @errors;
 
     if ($Socket::VERSION >= 1.94) {
         # IPv6 compatible version
@@ -173,10 +174,8 @@ sub resolve {
             }
         );
         if ($error) {
-            $logger->error(
-                "unable to get address for '$name': $error"
-            ) if $logger;
-            return;
+            push @errors, "unable to get address for '$name': $error";
+            @results = ();
         }
 
         # and push all of their addresses in the list
@@ -185,9 +184,8 @@ sub resolve {
                 $result->{addr}, Socket::NI_NUMERICHOST()
             );
             if ($error) {
-                $logger->error(
-                    "unable to translate binary address for '$name': $error"
-                ) if $logger;
+                push @errors,
+                    "unable to translate binary address for '$name': $error";
                 next;
             }
 
@@ -196,13 +194,17 @@ sub resolve {
 
             push @addresses, $address;
         }
-    } else {
+    }
+
+    # If needed, try also legacy resolving and only report previous errors from here
+    unless (@addresses) {
         # IPv4-only version
         my $result = gethostbyname($name);
         if (!$result) {
-            $logger->error(
-                "unable to get address for '$name': $ERRNO"
-            ) if $logger;
+            push @errors,
+                "unable to get address for '$name': $ERRNO";
+            map { $logger->error($_) } @errors
+                if $logger;
             return;
         }
         foreach my $packed_address (@{$result->addr_list()}) {
