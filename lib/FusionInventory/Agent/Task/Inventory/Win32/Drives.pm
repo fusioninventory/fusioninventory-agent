@@ -48,6 +48,8 @@ sub _getDrives {
     }
 
     my @drives;
+    my @volumes;
+    my %seen;
 
     foreach my $object (getWMIObjects(
         class      => 'Win32_LogicalDisk',
@@ -87,9 +89,47 @@ sub _getDrives {
             TYPE        => $type[$object->{DriveType}],
             VOLUMN      => $object->{VolumeName},
         };
+
+        $seen{$object->{DeviceID} || $object->{Caption}} = 1;
     }
 
-    return @drives;
+    # Scan Win32_Volume to check for mounted point drives
+    foreach my $object (getWMIObjects(
+        class      => 'Win32_Volume',
+        properties => [ qw/
+            InstallDate Description FreeSpace FileSystem Name Caption DriveLetter
+            SerialNumber DeviceID Capacity DriveType VolumeName Label
+        / ]
+    )) {
+        # Skip volume still seen as Win32_LogicalDisk class
+        if (@drives && exists($object->{DriveLetter}) && $object->{DriveLetter}) {
+            $seen{$object->{DriveLetter}}
+                and next;
+        }
+
+        $object->{FreeSpace} = int($object->{FreeSpace} / (1024 * 1024))
+            if $object->{FreeSpace};
+
+        $object->{Capacity} = int($object->{Capacity} / (1024 * 1024))
+            if $object->{Capacity};
+
+        push @volumes, {
+            CREATEDATE  => $object->{InstallDate},
+            DESCRIPTION => $object->{Description},
+            FREE        => $object->{FreeSpace},
+            FILESYSTEM  => $object->{FileSystem},
+            LABEL       => $object->{Label},
+            LETTER      => $object->{DriveLetter},
+            SERIAL      => $object->{SerialNumber},
+            SYSTEMDRIVE => $object->{DriveLetter} ?
+                (lc($object->{DriveLetter}) eq $systemDrive) : '',
+            TOTAL       => $object->{Capacity},
+            TYPE        => $type[$object->{DriveType}],
+            VOLUMN      => $object->{Name},
+        };
+    }
+
+    return @drives, @volumes;
 }
 
 1;

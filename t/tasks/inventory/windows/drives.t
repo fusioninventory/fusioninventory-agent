@@ -180,6 +180,32 @@ my %tests = (
             SYSTEMDRIVE => '',
             TOTAL       => 953541,
             SERIAL      => '00000064'
+        },
+        {
+            CREATEDATE  => undef,
+            FREE        => 71,
+            LETTER      => undef,
+            DESCRIPTION => undef,
+            VOLUMN      => '\\\\?\\Volume{0a3e595a-00d7-11e3-86ca-806e6f6e6963}\\',
+            TYPE        => 'Local Disk',
+            FILESYSTEM  => 'NTFS',
+            LABEL       => 'System reserved',
+            SYSTEMDRIVE => '',
+            TOTAL       => 99,
+            SERIAL      => '740976057'
+        },
+        {
+            CREATEDATE  => undef,
+            FREE        => 83,
+            LETTER      => undef,
+            DESCRIPTION => undef,
+            VOLUMN      => 'C:\\MountedPoint\Here\\',
+            TYPE        => 'Local Disk',
+            FILESYSTEM  => 'NTFS',
+            LABEL       => 'MountTest',
+            SYSTEMDRIVE => '',
+            TOTAL       => 96,
+            SERIAL      => '-1032061577'
         }
     ],
 );
