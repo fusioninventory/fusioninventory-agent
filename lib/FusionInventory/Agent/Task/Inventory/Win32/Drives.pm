@@ -98,7 +98,7 @@ sub _getDrives {
         class      => 'Win32_Volume',
         properties => [ qw/
             InstallDate Description FreeSpace FileSystem Name Caption DriveLetter
-            SerialNumber DeviceID Capacity DriveType VolumeName Label
+            SerialNumber Capacity DriveType Label
         / ]
     )) {
         # Skip volume still seen as Win32_LogicalDisk class
@@ -119,13 +119,14 @@ sub _getDrives {
             FREE        => $object->{FreeSpace},
             FILESYSTEM  => $object->{FileSystem},
             LABEL       => $object->{Label},
-            LETTER      => $object->{DriveLetter},
+            LETTER      => $object->{Name} =~ m/^\\\\\?\\Volume/ ?
+                $object->{Label} : $object->{Name} || $object->{Caption},
             SERIAL      => $object->{SerialNumber},
             SYSTEMDRIVE => $object->{DriveLetter} ?
                 (lc($object->{DriveLetter}) eq $systemDrive) : '',
             TOTAL       => $object->{Capacity},
             TYPE        => $type[$object->{DriveType}],
-            VOLUMN      => $object->{Name},
+            VOLUMN      => $object->{Label},
         };
     }
 

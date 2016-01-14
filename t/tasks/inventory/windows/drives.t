@@ -184,9 +184,9 @@ my %tests = (
         {
             CREATEDATE  => undef,
             FREE        => 71,
-            LETTER      => undef,
+            LETTER      => 'System reserved',
             DESCRIPTION => undef,
-            VOLUMN      => '\\\\?\\Volume{0a3e595a-00d7-11e3-86ca-806e6f6e6963}\\',
+            VOLUMN      => 'System reserved',
             TYPE        => 'Local Disk',
             FILESYSTEM  => 'NTFS',
             LABEL       => 'System reserved',
@@ -197,9 +197,9 @@ my %tests = (
         {
             CREATEDATE  => undef,
             FREE        => 83,
-            LETTER      => undef,
+            LETTER      => 'C:\\MountedPoint\Here\\',
             DESCRIPTION => undef,
-            VOLUMN      => 'C:\\MountedPoint\Here\\',
+            VOLUMN      => 'MountTest',
             TYPE        => 'Local Disk',
             FILESYSTEM  => 'NTFS',
             LABEL       => 'MountTest',
