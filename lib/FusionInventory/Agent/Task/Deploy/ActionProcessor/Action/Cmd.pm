@@ -53,7 +53,7 @@ sub _runOnUnix {
 
     my $buf = `$params->{exec} 2>&1` || '';
     my $errMsg = "$!";
-    $logger->debug("Run: ".$buf);
+    $logger->debug2("Run: ".$buf);
     my $exitStatus = $CHILD_ERROR >> 8;
 
     return ($buf, $errMsg, $exitStatus);
@@ -74,6 +74,7 @@ sub _runOnWindows {
     while(my $line = readline($fd)) {
         $buf .= $line;
     }
+    $logger->debug2("Run: ".$buf);
 
     my $errMsg = '';
     if ($exitcode eq '293') {
