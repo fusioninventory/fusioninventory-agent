@@ -217,6 +217,7 @@ sub runCommand {
 
     my $args = {
         stdout    => $buff,
+        stderr    => $buff,
         no_window => 1
     };
 
