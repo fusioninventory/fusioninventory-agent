@@ -52,10 +52,9 @@ sub _runOnUnix {
     my ($params, $logger) = @_;
 
     my $buf = `$params->{exec} 2>&1` || '';
-    my $errMsg = $ERRNO;
+    my $errMsg = "$!";
     $logger->debug("Run: ".$buf);
     my $exitStatus = $CHILD_ERROR >> 8;
-    $logger->debug("exitStatus: ".$exitStatus);
 
     return ($buf, $errMsg, $exitStatus);
 }
@@ -134,7 +133,7 @@ sub do {
     foreach (@msg) {
         $logger->debug($_);
     }
-    $logger->debug("exitStatus: ".$exitStatus);;
+    $logger->debug("final status: ".$status);
 
     if ($params->{envs}) {
         foreach my $key (keys %envsSaved) {
