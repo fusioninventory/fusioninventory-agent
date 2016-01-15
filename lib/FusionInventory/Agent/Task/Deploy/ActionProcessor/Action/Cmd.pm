@@ -69,19 +69,17 @@ sub runOnWindows {
         command => $params->{exec}
     );
 
-
-    $fd->seek(-2000, SEEK_END);
+    $fd->seek(0, SEEK_SET);
 
     my $buf;
     while(my $line = readline($fd)) {
         $buf .= $line;
     }
 
-    my $errMsg;
+    my $errMsg = '';
     if ($exitcode eq '293') {
         $errMsg = "timeout";
     }
-
 
     return ($buf, $errMsg, $exitcode);
 }
@@ -92,7 +90,6 @@ sub do {
     return { 0, ["Internal agent error"]} unless $params->{exec};
 
     my %envsSaved;
-
 
     if ($params->{envs}) {
         foreach my $key (keys %{$params->{envs}}) {
