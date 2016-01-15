@@ -48,7 +48,7 @@ sub _evaluateRet {
     return [ 0, '' ];
 }
 
-sub runOnUnix {
+sub _runOnUnix {
     my ($params, $logger) = @_;
 
     my $buf = `$params->{exec} 2>&1` || '';
@@ -60,7 +60,7 @@ sub runOnUnix {
     return ($buf, $errMsg, $exitStatus);
 }
 
-sub runOnWindows {
+sub _runOnWindows {
     my ($params) = @_;
 
     FusionInventory::Agent::Tools::Win32->require;
@@ -104,9 +104,9 @@ sub do {
 
 
     if ($OSNAME eq 'MSWin32') {
-        ($buf, $errMsg, $exitStatus) = runOnWindows(@_);
+        ($buf, $errMsg, $exitStatus) = _runOnWindows(@_);
     } else {
-        ($buf, $errMsg, $exitStatus) = runOnUnix(@_);
+        ($buf, $errMsg, $exitStatus) = _runOnUnix(@_);
     }
 
     my $logLineLimit =  $params->{logLineLimit} || 10;
