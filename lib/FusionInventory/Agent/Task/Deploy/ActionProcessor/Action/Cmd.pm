@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Deploy::ActionProcessor::Action::Cmd;
 use strict;
 use warnings;
 
-use Fcntl qw(SEEK_END);
+use Fcntl qw(SEEK_SET);
 use UNIVERSAL::require;
 
 use English qw(-no_match_vars);
@@ -60,7 +60,7 @@ sub _runOnUnix {
 }
 
 sub _runOnWindows {
-    my ($params) = @_;
+    my ($params, $logger) = @_;
 
     FusionInventory::Agent::Tools::Win32->require;
 
