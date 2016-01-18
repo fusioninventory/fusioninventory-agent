@@ -120,7 +120,7 @@ sub _getDrives {
             LABEL       => $object->{Label},
             LETTER      => $object->{Name} =~ m/^\\\\\?\\Volume/ ?
                 $object->{Label} : $object->{Name} || $object->{Caption},
-            SERIAL      => $object->{SerialNumber},
+            SERIAL      => _encodeSerialNumber($object->{SerialNumber}),
             SYSTEMDRIVE => $object->{DriveLetter} ?
                 (lc($object->{DriveLetter}) eq $systemDrive) : '',
             TOTAL       => $object->{Capacity},
@@ -130,6 +130,18 @@ sub _getDrives {
     }
 
     return @drives, @volumes;
+}
+
+sub _encodeSerialNumber {
+    my $serial = shift || '';
+
+    # Win32_Volume serial is a uint32 but returned as signed int32 by API
+    return $serial unless $serial =~ /^-?\d+$/;
+
+    # Re-encode serial as uint32 and return hexadecimal string
+    $serial = unpack('L', pack('L', $serial));
+
+    return sprintf("%08X", $serial);
 }
 
 1;

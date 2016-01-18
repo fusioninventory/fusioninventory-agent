@@ -192,7 +192,7 @@ my %tests = (
             LABEL       => 'System reserved',
             SYSTEMDRIVE => '',
             TOTAL       => 99,
-            SERIAL      => '740976057'
+            SERIAL      => '2C2A65B9'
         },
         {
             CREATEDATE  => undef,
@@ -205,7 +205,7 @@ my %tests = (
             LABEL       => 'MountTest',
             SYSTEMDRIVE => '',
             TOTAL       => 96,
-            SERIAL      => '-1032061577'
+            SERIAL      => 'C27BFD77'
         }
     ],
 );
