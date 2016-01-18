@@ -101,10 +101,9 @@ sub _getDrives {
             SerialNumber Capacity DriveType Label
         / ]
     )) {
-        # Skip volume still seen as Win32_LogicalDisk class
+        # Skip volume already seen as instance of Win32_LogicalDisk class
         if (@drives && exists($object->{DriveLetter}) && $object->{DriveLetter}) {
-            $seen{$object->{DriveLetter}}
-                and next;
+            next if $seen{$object->{DriveLetter}};
         }
 
         $object->{FreeSpace} = int($object->{FreeSpace} / (1024 * 1024))
