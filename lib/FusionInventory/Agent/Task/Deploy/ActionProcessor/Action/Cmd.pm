@@ -52,7 +52,7 @@ sub _runOnUnix {
     my ($params, $logger) = @_;
 
     my $buf = `$params->{exec} 2>&1` || '';
-    my $errMsg = "$!";
+    my $errMsg = "$ERRNO";
     $logger->debug2("Run: ".$buf);
     my $exitStatus = $CHILD_ERROR >> 8;
 
