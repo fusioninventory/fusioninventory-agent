@@ -95,13 +95,38 @@ sub _getDrives {
         $drive->{DISKSIZE} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
-        $drive->{SERIAL} = $object->{SerialNumber}
+        $drive->{SERIAL} = _decodeSerialNumber($object->{SerialNumber})
             if $object->{SerialNumber} && $object->{SerialNumber} !~ /^ +$/;
 
         push @drives, $drive;
     }
 
     return @drives;
+}
+
+sub _decodeSerialNumber {
+    my $serial = shift ;
+
+    return $serial unless ($serial =~ /^[0-9a-f]+$/);
+
+    # serial is a space padded string encoded in hex words (4 hex-digits by word)
+    return $serial if length($serial) % 4 ;
+
+    # Map hex-encoded string to list of chars
+    my @chars = map { chr hex } unpack("(a[2])*", $serial);
+
+    $serial = '';
+
+    # Re-order chars
+    while (@chars) {
+        my $next = shift(@chars);
+        $serial .= shift(@chars) . $next ;
+    }
+
+    # Strip trailing spaces
+    $serial =~ s/ *$//;
+
+    return $serial;
 }
 
 1;
