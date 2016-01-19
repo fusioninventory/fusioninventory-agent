@@ -133,7 +133,9 @@ sub _getDrives {
 }
 
 sub _encodeSerialNumber {
-    my $serial = shift || '';
+    my ($serial) = @_;
+
+    return '' unless $serial;
 
     # Win32_Volume serial is a uint32 but returned as signed int32 by API
     return $serial unless $serial =~ /^-?\d+$/;

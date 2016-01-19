@@ -105,7 +105,7 @@ sub _getDrives {
 }
 
 sub _decodeSerialNumber {
-    my $serial = shift ;
+    my ($serial) = @_ ;
 
     return $serial unless ($serial =~ /^[0-9a-f]+$/);
 
