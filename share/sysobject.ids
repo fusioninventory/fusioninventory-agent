@@ -3593,3 +3593,7 @@
 29999	Hewlett-Packard	PRINTER
 # specifying a model value prevent fallback on hrDeviceDescr value for better identification
 29999.1	Hewlett-Packard	PRINTER
+
+16378	Digi	NETWORKING
+16378.69	Digi	NETWORKING	WR21
+16378.73	Digi	NETWORKING	WR44
