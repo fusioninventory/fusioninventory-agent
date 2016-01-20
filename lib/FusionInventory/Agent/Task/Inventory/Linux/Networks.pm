@@ -126,9 +126,30 @@ sub _getInterfaces {
         }
 
         if (-r "/sys/class/net/$interface->{DESCRIPTION}/speed") {
-            $interface->{SPEED} = getFirstLine(
+            my $speed = getFirstLine(
                 file => "/sys/class/net/$interface->{DESCRIPTION}/speed"
             );
+            $interface->{SPEED} = $speed if $speed;
+        }
+        # On older kernels, we should try ethtool system call for speed
+        if (!$interface->{SPEED}) {
+            $logger->debug("looking for interface speed from syscall:");
+            my $infos = getInterfacesInfosFromIoctl(
+                interface => $interface->{DESCRIPTION},
+                logger    => $logger
+            );
+            if ($infos->{SPEED}) {
+                $logger->debug_result(
+                    action => 'retrieving interface speed from syscall',
+                    data   => $infos->{SPEED}
+                );
+                $interface->{SPEED} = $infos->{SPEED};
+            } else {
+                $logger->debug_result(
+                    action => 'retrieving interface speed from syscall',
+                    status => 'syscall failed'
+                );
+            }
         }
     }
 
