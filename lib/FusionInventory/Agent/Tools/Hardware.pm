@@ -1030,9 +1030,8 @@ sub _setKnownMacAddresses {
                 address2mac       => '.1.3.6.1.2.1.4.22.1.2', # ipNetToMediaPhysAddress
                 address2interface => '.1.3.6.1.2.1.4.22.1.1' # ipNetToMediaIfIndex
             );
-            next unless $addresses;
-
-            push @mac_addresses, $addresses;
+            push @mac_addresses, $addresses
+                if ($addresses);
         }
 
         # Finally add found mac addresse
