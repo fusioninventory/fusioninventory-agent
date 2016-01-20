@@ -1008,7 +1008,7 @@ sub _setKnownMacAddresses {
         }
 
         # get additional associated mac addresses from those vlans
-        my $notfoundaddress = 1;
+        my @mac_addresses = ();
         foreach my $vlan (@vlans) {
             $logger->debug("switching SNMP context to vlan $vlan") if $logger;
             $snmp->switch_vlan_context($vlan);
@@ -1019,28 +1019,29 @@ sub _setKnownMacAddresses {
             );
             next unless $mac_addresses;
 
-            _addKnownMacAddresses(
-                ports     => $ports,
-                logger    => $logger,
-                addresses => $mac_addresses,
-            );
-            $notfoundaddress = 0;
+            push @mac_addresses, $mac_addresses;
         }
         $snmp->reset_original_context() if @vlans;
-        if ($notfoundaddress) {
+
+        # Try deprecated OIDs if no additional mac addresse was found on vlans
+        unless (@mac_addresses) {
             my $addresses = _getKnownMacAddressesDeprecatedOids(
                 snmp              => $snmp,
                 address2mac       => '.1.3.6.1.2.1.4.22.1.2', # ipNetToMediaPhysAddress
                 address2interface => '.1.3.6.1.2.1.4.22.1.1' # ipNetToMediaIfIndex
             );
+            next unless $addresses;
 
-            if ($addresses) {
-                _addKnownMacAddresses(
-                    ports     => $ports,
-                    logger    => $logger,
-                    addresses => $addresses,
-                );
-            }           
+            push @mac_addresses, $addresses;
+        }
+
+        # Finally add found mac addresse
+        foreach my $mac_addresses (@mac_addresses) {
+            _addKnownMacAddresses(
+                ports     => $ports,
+                logger    => $logger,
+                addresses => $mac_addresses,
+            );
         }
     }
 }
