@@ -7,6 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
 
 my @vmware_patterns = (
+    'Hypervisor detected: VMware',
     'VMware vmxnet virtual NIC driver',
     'Vendor: VMware\s+Model: Virtual disk',
     'Vendor: VMware,\s+Model: VMware Virtual ',
