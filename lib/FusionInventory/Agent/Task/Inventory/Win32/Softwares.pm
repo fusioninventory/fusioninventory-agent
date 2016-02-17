@@ -209,6 +209,8 @@ sub _keyLastWriteDateString {
 
     return undef unless ($OSNAME eq 'MSWin32');
 
+    return undef unless (ref($key) eq "Win32::TieRegistry");
+
     my @lastWrite = FileTimeToSystemTime($key->Information("LastWrite"));
 
     return sprintf("%04s%02s%02s",$lastWrite[0],$lastWrite[1],$lastWrite[3]);
