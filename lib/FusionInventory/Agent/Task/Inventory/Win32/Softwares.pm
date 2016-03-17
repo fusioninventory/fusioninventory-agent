@@ -207,9 +207,9 @@ sub _dateFormat {
 sub _keyLastWriteDateString {
     my ($key) = @_;
 
-    return undef unless ($OSNAME eq 'MSWin32');
+    return unless ($OSNAME eq 'MSWin32');
 
-    return undef unless (ref($key) eq "Win32::TieRegistry");
+    return unless (ref($key) eq "Win32::TieRegistry");
 
     my @lastWrite = FileTimeToSystemTime($key->Information("LastWrite"));
 
