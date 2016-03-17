@@ -4,6 +4,11 @@ use strict;
 use warnings;
 use base 'Exporter';
 
+# Constant for ethtool system call
+use constant SIOCETHTOOL   =>     0x8946 ; # See linux/sockios.h
+use constant ETHTOOL_GSET  => 0x00000001 ; # See linux/ethtool.h
+use constant SPEED_UNKNOWN =>      65535 ; # See linux/ethtool.h, to be read as -1
+
 use English qw(-no_match_vars);
 use Memoize;
 use Socket qw(PF_INET SOCK_DGRAM);
@@ -387,11 +392,6 @@ sub getInterfacesFromIfconfig {
 
     return @interfaces;
 }
-
-# Constant for ethtool system call
-sub SIOCETHTOOL   () {     0x8946 ; } # See linux/sockios.h
-sub ETHTOOL_GSET  () { 0x00000001 ; } # See linux/ethtool.h
-sub SPEED_UNKNOWN () {      65535 ; } # See linux/ethtool.h, to be read as -1
 
 sub getInterfacesInfosFromIoctl {
     my (%params) = (
