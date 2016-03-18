@@ -9,6 +9,8 @@ use List::Util qw(first);
 use Test::Deep;
 use Test::More;
 
+use FusionInventory::Agent::Logger;
+
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
@@ -114,7 +116,13 @@ my %find_tests = (
 
 plan tests => scalar @tests + keys(%find_tests);
 
-my $p2p = FusionInventory::Agent::Task::Deploy::P2P->new();
+my $logger = FusionInventory::Agent::Logger->new(
+    backends  => [ 'Test' ]
+);
+
+my $p2p = FusionInventory::Agent::Task::Deploy::P2P->new(
+    logger => $logger
+);
 
 foreach my $test (@tests) {
     my @peers = $p2p->_getPotentialPeers($test->{address}, 6);
@@ -135,6 +143,12 @@ SKIP: {
         $server->background();
     };
     BAIL_OUT("can't launch a default server: $EVAL_ERROR") if $EVAL_ERROR;
+
+    # Calling findPeers API requires Win32::OLE to be loaded to find interfaces
+    # Later forked scanners must not crash the service while terminating
+    if ($OSNAME eq 'MSWin32') {
+        $p2p->findPeers();
+    }
 
     foreach my $test (keys(%find_tests)) {
         my @found = $p2p->_scanPeers(
