@@ -142,7 +142,7 @@ sub getRegistryValue {
         keyName => $keyName
     );
 
-	return unless (defined($key));
+    return unless (defined($key));
 
     if ($valueName eq '*') {
         my %ret;
