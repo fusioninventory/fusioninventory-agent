@@ -92,11 +92,20 @@ sub _getDrives {
             SCSI_UNID    => $object->{SCSITargetId},
         };
 
+        # Cleanup field which may contain spaces
+        $drive->{FIRMWARE} =~ s/\s+$//;
+
         $drive->{DISKSIZE} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
 
-        $drive->{SERIAL} = _decodeSerialNumber($object->{SerialNumber})
-            if $object->{SerialNumber} && $object->{SerialNumber} !~ /^ +$/;
+        if ($object->{SerialNumber} && $object->{SerialNumber} !~ /^ +$/) {
+            # Try to decode serial only for known case
+            if ($drive->{MODEL} =~ /VBOX HARDDISK ATA/) {
+                $drive->{SERIAL} = _decodeSerialNumber($object->{SerialNumber});
+            } else {
+                $drive->{SERIAL} = $object->{SerialNumber};
+            }
+        }
 
         push @drives, $drive;
     }
