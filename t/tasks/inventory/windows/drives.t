@@ -208,6 +208,99 @@ my %tests = (
             SERIAL      => 'C27BFD77'
         }
     ],
+    '2008-Enterprise' => [
+        {
+            VOLUMN      => undef,
+            TYPE        => 'Removable Disk',
+            DESCRIPTION => "Lecteur de disquettes 3 \x{bd} pouces",
+            LETTER      => 'A:',
+            FREE        => undef,
+            CREATEDATE  => undef,
+            TOTAL       => undef,
+            SERIAL      => undef,
+            SYSTEMDRIVE => '',
+            LABEL       => undef,
+            FILESYSTEM  => undef
+        },
+        {
+            LETTER      => 'C:',
+            DESCRIPTION => 'Disque fixe local',
+            VOLUMN      => 'System',
+            TYPE        => 'Local Disk',
+            CREATEDATE  => undef,
+            FREE        => 20447,
+            SYSTEMDRIVE => '1',
+            TOTAL       => 40959,
+            SERIAL      => '110DE6FB',
+            FILESYSTEM  => 'NTFS',
+            LABEL       => 'System',
+        },
+        {
+            LETTER      => 'D:',
+            DESCRIPTION => 'Disque fixe local',
+            VOLUMN      => 'GLPI',
+            TYPE        => 'Local Disk',
+            CREATEDATE  => undef,
+            FREE        => 10020,
+            SYSTEMDRIVE => '',
+            TOTAL       => 10237,
+            SERIAL      => '5685AC7C',
+            FILESYSTEM  => 'NTFS',
+            LABEL       => 'GLPI'
+        },
+        {
+            TOTAL       => undef,
+            SERIAL      => undef,
+            SYSTEMDRIVE => '',
+            LABEL       => undef,
+            FILESYSTEM  => undef,
+            TYPE        => 'Compact Disc',
+            VOLUMN      => undef,
+            LETTER      => 'E:',
+            DESCRIPTION => 'Disque CD-ROM',
+            FREE        => undef,
+            CREATEDATE  => undef
+        },
+        {
+            CREATEDATE  => undef,
+            FREE        => 49538,
+            LETTER      => 'J:',
+            DESCRIPTION => "Connexion r\x{e9}seau",
+            VOLUMN      => 'jumping',
+            TYPE        => 'Network Drive',
+            FILESYSTEM  => 'CIFS',
+            LABEL       => 'jumping',
+            SYSTEMDRIVE => '',
+            TOTAL       => 200577,
+            SERIAL      => '514F3C75'
+        },
+        {
+            CREATEDATE  => undef,
+            FREE        => 206185,
+            LETTER      => 'L:',
+            DESCRIPTION => "Connexion r\x{e9}seau",
+            VOLUMN      => 'srv',
+            TYPE        => 'Network Drive',
+            FILESYSTEM  => 'CIFS',
+            LABEL       => 'srv',
+            SYSTEMDRIVE => '',
+            TOTAL       => 1283086,
+            SERIAL      => 'C11CDE1B'
+        },
+        {
+            CREATEDATE  => undef,
+            FREE        => 49538,
+            LETTER      => 'Z:',
+            DESCRIPTION => "Connexion r\x{e9}seau",
+            VOLUMN      => 'jumping',
+            TYPE        => 'Network Drive',
+            FILESYSTEM  => 'CIFS',
+            LABEL       => 'jumping',
+            SYSTEMDRIVE => '',
+            TOTAL       => 200577,
+            SERIAL      => '514F3C75'
+        }
+    ],
 );
 
 plan tests => (2 * scalar keys %tests) + 1;
