@@ -105,7 +105,7 @@ sub download {
 
         # try to download from peers
         foreach my $peer (@peers) {
-            my $success = $self->_download($peer, $sha512, $path);
+            my $success = $self->_downloadPeer($peer, $sha512, $path);
             if ($success) {
                 $lastPeer = $peer;
                 next PART;
@@ -118,6 +118,14 @@ sub download {
             next PART if $success;
         }
     }
+}
+
+sub _downloadPeer {
+    my ($self, $peer, $sha512, $path) = @_;
+
+    my $source = 'http://'.$peer.':62354/deploy/getFile/';
+
+    return $self->_download($source, $sha512, $path);
 }
 
 sub _download {
