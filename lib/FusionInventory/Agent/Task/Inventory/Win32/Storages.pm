@@ -93,7 +93,8 @@ sub _getDrives {
         };
 
         # Cleanup field which may contain spaces
-        $drive->{FIRMWARE} =~ s/\s+$//;
+        $drive->{FIRMWARE} =~ s/\s+$//
+            if $drive->{FIRMWARE};
 
         $drive->{DISKSIZE} = int($object->{Size} / (1024 * 1024))
             if $object->{Size};
