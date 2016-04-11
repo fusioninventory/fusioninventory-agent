@@ -146,8 +146,8 @@ ok(
 );
 
 # PATH through WMI appears with %SystemRoot% templates, preventing direct
-# comparaison with %ENV content
-my $name = $OSNAME eq 'MSWin32' ? 'PATHEXT' : 'PATH';
+# comparaison with %ENV content, OS seems to be a more reliable test then
+my $name = $OSNAME eq 'MSWin32' ? 'OS' : 'PATH';
 my $value = $ENV{$name};
 
 ($out, $err, $rc) = run_executable(
