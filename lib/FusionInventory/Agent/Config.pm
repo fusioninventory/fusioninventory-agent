@@ -255,7 +255,9 @@ sub _checkContent {
             no-category
             /) {
 
-        if ($self->{$option}) {
+        # Check if defined AND SCALAR
+        # to avoid split a ARRAY ref or HASH ref...
+        if ($self->{$option} && ref($self->{$option}) eq '') {
             $self->{$option} = [split(/,/, $self->{$option})];
         } else {
             $self->{$option} = [];
