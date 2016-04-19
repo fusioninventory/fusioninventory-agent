@@ -42,10 +42,6 @@ my $default = {
     'user'                    => undef,
     # deprecated options
     'stdout'                  => undef,
-    # multi-values options that will be converted to array ref
-    'httpd-trust'             => "",
-    'no-task'                 => "",
-    'no-category'             => ""
 };
 
 my $deprecated = {
