@@ -42,10 +42,6 @@ my $default = {
     'user'                    => undef,
     # deprecated options
     'stdout'                  => undef,
-    # multi-values options that will be converted to array ref
-    'httpd-trust'             => "",
-    'no-task'                 => "",
-    'no-category'             => ""
 };
 
 my $deprecated = {
@@ -255,7 +251,9 @@ sub _checkContent {
             no-category
             /) {
 
-        if ($self->{$option}) {
+        # Check if defined AND SCALAR
+        # to avoid split a ARRAY ref or HASH ref...
+        if ($self->{$option} && ref($self->{$option}) eq '') {
             $self->{$option} = [split(/,/, $self->{$option})];
         } else {
             $self->{$option} = [];
