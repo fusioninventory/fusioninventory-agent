@@ -24,7 +24,7 @@ sub doInventory {
     );
 
     # Transmit
-    my @transmitFiles = glob('/System/Library/User Template/*.lproj/Library/Preferences/com.panic.Transmit.plist');
+    my @transmitFiles = glob('"/System/Library/User Template/*.lproj/Library/Preferences/com.panic.Transmit.plist"');
 
     if ($params{scan_homedirs}) {
         push @transmitFiles, glob('/Users/*/Library/Preferences/com.panic.Transmit.plist');
@@ -45,7 +45,7 @@ sub doInventory {
     }
 
     # VMware
-    my @vmwareFiles = glob('/Library/Application Support/VMware Fusion/license-*');
+    my @vmwareFiles = glob('"/Library/Application Support/VMware Fusion/license-*"');
     foreach my $vmwareFile (@vmwareFiles) {
         my %info;
         # e.g:
