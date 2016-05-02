@@ -97,7 +97,7 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
 
     my $response = $self->request($request);
 
-    return unless $response;
+    return unless $response->is_success();
 
     $self->{_cookies}->extract_cookies($response);
 
