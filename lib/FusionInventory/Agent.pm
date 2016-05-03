@@ -180,7 +180,8 @@ sub init {
                 port            => $config->{'httpd-port'},
                 trust           => $config->{'httpd-trust'}
             );
-            $self->{server}->init();
+            $self->{server}->init()
+                or delete $self->{server};
         }
     }
 
@@ -212,9 +213,12 @@ sub run {
                 $target->resetNextRunDate();
             }
 
-            # check for http interface messages
-            $self->{server}->handleRequests() if $self->{server};
-            delay(1);
+            if ($self->{server}) {
+                # check for http interface messages
+                $self->{server}->handleRequests() ;
+            } else {
+                delay(1);
+            }
         }
     } else {
         # foreground mode: check each targets once

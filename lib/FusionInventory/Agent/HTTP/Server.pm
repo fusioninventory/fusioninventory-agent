@@ -296,7 +296,7 @@ sub init {
         LocalAddr => $self->{ip},
         LocalPort => $self->{port},
         Reuse     => 1,
-        Timeout   => 5
+        Timeout   => 1
     );
 
     if (!$self->{listener}) {
@@ -307,6 +307,8 @@ sub init {
     $logger->debug(
         $log_prefix . "HTTPD service started on port $self->{port}"
     );
+
+    return 1;
 }
 
 sub handleRequests {
