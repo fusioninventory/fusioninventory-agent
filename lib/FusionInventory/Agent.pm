@@ -303,8 +303,11 @@ sub _runTask {
         if (my $pid = fork()) {
             # parent
             while (waitpid($pid, WNOHANG) == 0) {
-                $self->{server}->handleRequests() if $self->{server};
-                delay(1);
+                if ($self->{server}) {
+                    $self->{server}->handleRequests() ;
+                } else {
+                    delay(1);
+                }
             }
         } else {
             # child
