@@ -448,12 +448,31 @@ my %tests_xm_list = (
             MEMORY    => '8192',
             VCPU      => '4'
         }
+    ],
+    xl_list => [
+        {
+            NAME      => 'vm1',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '20480',
+            VCPU      => '4'
+        },
+        {
+            NAME      => 'vm2',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '4096',
+            VCPU      => '2'
+        }
     ]
 );
 
 
 my %tests_getUUID = (
-    'xm_list_-l_vmname' => '0004fb00-0006-0000-4acc-3678187fb85c'
+    'xm_list_-l_vmname' => '0004fb00-0006-0000-4acc-3678187fb85c',
+    'xl_list_-v_vmname' => '482e6c75-090e-4cf2-9c06-de39c824cbe4'
 );
 
 plan tests =>
