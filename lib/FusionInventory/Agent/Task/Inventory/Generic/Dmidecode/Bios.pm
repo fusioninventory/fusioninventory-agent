@@ -51,6 +51,11 @@ sub _getBiosHardware {
     $bios->{SSN} = $system_info->{'Serial Number'};
     $bios->{MSN} = $base_info->{'Serial Number'};
 
+    if ($bios->{MMODEL} eq "VirtualBox" &&
+        $bios->{SSN} eq "0" &&
+        $bios->{MSN} eq "0") {
+        $bios->{SSN} = $system_info->{'UUID'}
+    }
     my $hardware = {
         UUID => $system_info->{'UUID'},
         CHASSIS_TYPE  => $chassis_info->{'Type'}
