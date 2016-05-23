@@ -87,7 +87,6 @@ sub _formatDate {
         if (defined $logger) {
             $logger->error("FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_formatDate() : can't parse string '$dateStr', returns empty string.\n");
         }
-        return '';
     };
     eval {
         my $extracted = Time::Piece->strptime(
