@@ -18,5 +18,4 @@ notifications:
 # whitelist
 branches:
   only:
-    - master
-    - 2.3.x
+    - 2.3.x-macos_installdate_PR_corrected
