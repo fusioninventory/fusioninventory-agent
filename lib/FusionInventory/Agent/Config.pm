@@ -8,6 +8,8 @@ use File::Spec;
 use Getopt::Long;
 use UNIVERSAL::require;
 
+require FusionInventory::Agent::Tools;
+
 my $default = {
     'additional-content'      => undef,
     'backend-collect-timeout' => 180,
@@ -38,6 +40,7 @@ my $default = {
     'scan-profiles'           => undef,
     'server'                  => undef,
     'tag'                     => undef,
+    'tasks'                   => undef,
     'timeout'                 => 180,
     'user'                    => undef,
     # deprecated options
@@ -253,6 +256,7 @@ sub _checkContent {
             httpd-trust
             no-task
             no-category
+            tasks
             /) {
 
         if ($self->{$option}) {
@@ -269,6 +273,12 @@ sub _checkContent {
         File::Spec->rel2abs($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
     $self->{'logfile'} =
         File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
+}
+
+sub isParamArrayAndFilled {
+    my ($self, $paramName) = @_;
+
+    return FusionInventory::Agent::Tools::isParamArrayAndFilled($self, $paramName);
 }
 
 1;

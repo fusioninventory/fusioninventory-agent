@@ -44,6 +44,7 @@ our @EXPORT = qw(
     runFunction
     delay
     slurp
+    isParamArrayAndFilled
 );
 
 my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
@@ -527,6 +528,14 @@ sub slurp {
     return $content;
 }
 
+sub isParamArrayAndFilled {
+    my ($hash, $paramName) = @_;
+    
+    return (defined ($hash->{$paramName}))
+            && UNIVERSAL::isa($hash->{$paramName}, 'ARRAY')
+            && (scalar(@{$hash->{$paramName}}) > 0);
+}
+
 1;
 __END__
 
@@ -767,3 +776,7 @@ on the Operating System.
 =head2 slurp($file)
 
 Return the content of a given file.
+
+=head2 isParamArrayAndFilled($hash, $paramName)
+
+Return if $hash has a key $paramName which value is a ARRAY ref not empty.

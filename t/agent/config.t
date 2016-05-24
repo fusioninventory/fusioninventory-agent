@@ -12,7 +12,8 @@ my %config = (
     sample1 => {
         'no-task'     => ['snmpquery', 'wakeonlan'],
         'no-category' => [],
-        'httpd-trust' => []
+        'httpd-trust' => [],
+        'tasks'       => ['inventory', 'deploy', 'inventory']
     },
     sample2 => {
         'no-task'     => [],
@@ -23,11 +24,16 @@ my %config = (
         'no-task'     => [],
         'no-category' => [],
         'httpd-trust' => []
+    },
+    sample4 => {
+        'no-task'     => ['snmpquery','wakeonlan','inventory'],
+        'no-category' => [],
+        'httpd-trust' => [],
+        'tasks'       => ['inventory', 'deploy', 'inventory']
     }
-
 );
 
-plan tests => (scalar keys %config) * 3;
+plan tests => (scalar keys %config) * 3 + 16;
 
 foreach my $test (keys %config) {
     my $c = FusionInventory::Agent::Config->new(options => {
@@ -36,5 +42,27 @@ foreach my $test (keys %config) {
 
     foreach my $k (qw/ no-task no-category httpd-trust /) {
         cmp_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
+    }
+
+    if ($test eq 'sample1') {
+        ok ($c->isParamArrayAndFilled('no-task'));
+        ok (! $c->isParamArrayAndFilled('no-category'));
+        ok (! $c->isParamArrayAndFilled('httpd-trust'));
+        ok ($c->isParamArrayAndFilled('tasks'));
+    } elsif ($test eq 'sample2') {
+        ok (! $c->isParamArrayAndFilled('no-task'));
+        ok ($c->isParamArrayAndFilled('no-category'));
+        ok ($c->isParamArrayAndFilled('httpd-trust'));
+        ok (! $c->isParamArrayAndFilled('tasks'));
+    } elsif ($test eq 'sample3') {
+        ok (! $c->isParamArrayAndFilled('no-task'));
+        ok (! $c->isParamArrayAndFilled('no-category'));
+        ok (! $c->isParamArrayAndFilled('httpd-trust'));
+        ok (! $c->isParamArrayAndFilled('tasks'));
+    } elsif ($test eq 'sample4') {
+        ok ($c->isParamArrayAndFilled('no-task'));
+        ok (! $c->isParamArrayAndFilled('no-category'));
+        ok (! $c->isParamArrayAndFilled('httpd-trust'));
+        ok ($c->isParamArrayAndFilled('tasks'));
     }
 }

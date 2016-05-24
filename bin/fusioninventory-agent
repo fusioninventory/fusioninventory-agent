@@ -52,6 +52,7 @@ GetOptions(
     'scan-profiles',
     'server|s=s',
     'tag|t=s',
+    'tasks=s',
     'timeout=i',
     'user|u=s',
     'version',
@@ -97,9 +98,20 @@ my $agent = FusionInventory::Agent->new(%setup);
 
 if ($options->{'list-tasks'}) {
     my %tasks = $agent->getAvailableTasks();
+    print "Available tasks : \n";
     foreach my $task (keys %tasks) {
         print "$task (v$tasks{$task})\n";
     }
+
+    if ($options->{'tasks'}) {
+        $agent->init(options => $options);
+        my $tasksExecutionPlan = $agent->getTasksExecutionPlan();
+        print "\nTasks planned for execution : \n";
+        foreach my $task (@$tasksExecutionPlan) {
+            print "$task (v$tasks{$task})\n";
+        }
+    }
+
     exit 0;
 }
 
@@ -288,7 +300,7 @@ This option is only available when the agent is not run as a server.
 
 =item B<--list-tasks>
 
-List available tasks and exit
+List all available tasks, tasks planned for execution and exit
 
 =item B<--no-task>=I<TASK>
 
