@@ -103,7 +103,8 @@ my $logger = FusionInventory::Agent::Logger->new(
     backends  => ['File'],
 );
 $agent->{logger} = $logger;
-my @plan = $agent->computeTaskExecutionPlan(keys %availableTasks);
+my @availableTasks = keys %availableTasks;
+my @plan = $agent->computeTaskExecutionPlan(\@availableTasks);
 my $expectedPlan = [
     'Task1',
     'Task1',
@@ -172,7 +173,7 @@ my @tasksInConf = (
     'task3',
     'task3'
 );
-my @tasksExecutionPlan = FusionInventory::Agent::_makeExecutionPlan(\@tasksInConf, @tasks);
+my @tasksExecutionPlan = FusionInventory::Agent::_makeExecutionPlan(\@tasksInConf, \@tasks);
 my @expectedExecutionPlan = (
     'task1',
     'task2',
@@ -205,7 +206,7 @@ ok ($ok);
     'task2',
     'task2'
 );
-@tasksExecutionPlan = FusionInventory::Agent::_makeExecutionPlan(\@tasksInConf, @tasks);
+@tasksExecutionPlan = FusionInventory::Agent::_makeExecutionPlan(\@tasksInConf, \@tasks);
 @expectedExecutionPlan = (
     'task1',
     'task2',
@@ -232,7 +233,7 @@ cmp_deeply(
     'task2',
     '...'
 );
-@tasksExecutionPlan = FusionInventory::Agent::_makeExecutionPlan(\@tasksInConf, @tasks);
+@tasksExecutionPlan = FusionInventory::Agent::_makeExecutionPlan(\@tasksInConf, \@tasks);
 # the first part of execution plan, the ordered part
 my @expectedExecutionPlanOrderedPart = (
     'task1',

@@ -127,7 +127,7 @@ sub init {
     # compute list of allowed tasks
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
     my @tasks = keys %available;
-    my @plannedTasks = $self->computeTaskExecutionPlan(@tasks, $logger);
+    my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
     $self->{tasksExecutionPlan} = \@plannedTasks;
 
     if (!@tasks) {
@@ -506,13 +506,13 @@ sub _appendElementsNotAlreadyInList {
     my ($list, $elements, $logger) = @_;
 
     if (! UNIVERSAL::isa($list, 'ARRAY')) {
-        $logger->error('_appendElementsNotAlreadyInList(): first argument is not an ARRAY ref');
+        $logger->error('_appendElementsNotAlreadyInList(): first argument is not an ARRAY ref') if defined $logger;
         return $list;
     }
     if (UNIVERSAL::isa($elements, 'HASH')) {
         @$elements = keys %$elements;
     } elsif (! UNIVERSAL::isa($elements, 'ARRAY')) {
-        $logger->error('_appendElementsNotAlreadyInList(): second argument is neither an ARRAY ref nor a HASH ref');
+        $logger->error('_appendElementsNotAlreadyInList(): second argument is neither an ARRAY ref nor a HASH ref') if defined $logger;
         return $list;
     }
 
@@ -528,32 +528,32 @@ sub _appendElementsNotAlreadyInList {
 }
 
 sub computeTaskExecutionPlan {
-    my ($self, @availableTasksNames, $logger) = @_;
+    my ($self, $availableTasksNames) = @_;
 
     if (! defined($self->{config}) || !(UNIVERSAL::isa($self->{config}, 'FusionInventory::Agent::Config'))) {
-        $logger->error("no config found in agent. Can't compute tasks execution plan");
+        $self->{logger}->error( "no config found in agent. Can't compute tasks execution plan" ) if (defined $self->{logger});
         return;
     }
 
     my @executionPlan = ();
     if ($self->{config}->isParamArrayAndFilled('tasks')) {
-        $self->{logger}->debug('isParamArrayAndFilled(\'tasks\') : true');
-        @executionPlan = _makeExecutionPlan($self->{config}->{'tasks'}, @availableTasksNames, $logger);
+        $self->{logger}->debug('isParamArrayAndFilled(\'tasks\') : true') if (defined $self->{logger});
+        @executionPlan = _makeExecutionPlan($self->{config}->{'tasks'}, $availableTasksNames, $self->{logger});
     } else {
-        $self->{logger}->debug('isParamArrayAndFilled(\'tasks\') : false');
-        @executionPlan = @availableTasksNames;
+        $self->{logger}->debug('isParamArrayAndFilled(\'tasks\') : false') if (defined $self->{logger});
+        @executionPlan = @$availableTasksNames;
     }
 
     return @executionPlan;
 }
 
 sub _makeExecutionPlan {
-    my ($sortedTasks, @availableTasksNames, $logger) = @_;
+    my ($sortedTasks, $availableTasksNames, $logger) = @_;
 
     my $sortedTasksCloned = dclone $sortedTasks;
     my $task = shift @$sortedTasksCloned;
     my @executionPlan = ();
-    my %available = map { $_ => 1 } @availableTasksNames;
+    my %available = map { $_ => 1 } @$availableTasksNames;
 
     while (defined $task) {
         if ($task eq $CONTINUE_WORD) {
@@ -566,7 +566,7 @@ sub _makeExecutionPlan {
     }
     if ( defined($task) && $task eq $CONTINUE_WORD) {
         # we append all other available tasks
-        @executionPlan = _appendElementsNotAlreadyInList(\@executionPlan, \@availableTasksNames, $logger);
+        @executionPlan = _appendElementsNotAlreadyInList(\@executionPlan, $availableTasksNames, $logger);
     }
 
     return @executionPlan;
