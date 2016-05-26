@@ -90,34 +90,7 @@ sub init {
 
     $self->_saveState();
 
-    # create target list
-    if ($config->{local}) {
-        foreach my $path (@{$config->{local}}) {
-            push @{$self->{targets}},
-                FusionInventory::Agent::Target::Local->new(
-                    logger     => $logger,
-                    deviceid   => $self->{deviceid},
-                    delaytime  => $config->{delaytime},
-                    basevardir => $self->{vardir},
-                    path       => $path,
-                    html       => $config->{html},
-                );
-        }
-    }
-
-    if ($config->{server}) {
-        foreach my $url (@{$config->{server}}) {
-            push @{$self->{targets}},
-                FusionInventory::Agent::Target::Server->new(
-                    logger     => $logger,
-                    deviceid   => $self->{deviceid},
-                    delaytime  => $config->{delaytime},
-                    basevardir => $self->{vardir},
-                    url        => $url,
-                    tag        => $config->{tag},
-                );
-        }
-    }
+    $self->_createTargets();
 
     if (!$self->{targets}) {
         $logger->error("No target defined, aborting");
@@ -147,61 +120,93 @@ sub init {
     $self->{tasks} = \@tasks;
 
     if ($config->{daemon}) {
-        my $pidfile  = $config->{pidfile} ||
-                       $self->{vardir} . '/fusioninventory.pid';
-
-        if ($self->_isAlreadyRunning($pidfile)) {
-            $logger->error("An agent is already running, exiting...");
-            exit 1;
-        }
-        if (!$config->{'no-fork'}) {
-
-            Proc::Daemon->require();
-            if ($EVAL_ERROR) {
-                $logger->error("Failed to load Proc::Daemon: $EVAL_ERROR");
-                exit 1;
-            }
-
-            # If we use relative path, we must stay in the current directory
-            my $workdir = substr($self->{libdir}, 0, 1) eq '/' ? '/' : getcwd();
-
-            Proc::Daemon::Init({
-                work_dir => $workdir,
-                pid_file => $pidfile
-            });
-
-            $self->{logger}->debug("Agent daemonized");
-        }
+        $self->_createDaemon();
     }
 
     # create HTTP interface
     if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
-        FusionInventory::Agent::HTTP::Server->require();
-        if ($EVAL_ERROR) {
-            $logger->error("Failed to load HTTP server: $EVAL_ERROR");
-        } else {
-            $self->{server} = FusionInventory::Agent::HTTP::Server->new(
-                logger          => $logger,
-                agent           => $self,
-                htmldir         => $self->{datadir} . '/html',
-                ip              => $config->{'httpd-ip'},
-                port            => $config->{'httpd-port'},
-                trust           => $config->{'httpd-trust'}
-            );
-            $self->{server}->init()
-                or delete $self->{server};
-        }
+        $self->_createHttpInterface();
     }
 
     # install signal handler to handle graceful exit
-    $SIG{INT}     = sub { $self->terminate(); exit 0; };
-    $SIG{TERM}    = sub { $self->terminate(); exit 0; };
+    $self->_installSignalHandlers();
 
     $self->{logger}->info("FusionInventory Agent starting")
         if $self->{config}->{daemon} || $self->{config}->{service};
 
     $self->{logger}->info("Options 'no-task' and 'tasks' are both used. Be careful that 'no-task' always excludes tasks.")
         if ($self->{config}->isParamArrayAndFilled('no-task') && $self->{config}->isParamArrayAndFilled('tasks'));
+
+    $self->resetLastConfigLoad();
+}
+
+sub reinit {
+    my ($self) = @_;
+
+    $self->{logger}->debug('agent reinit');
+
+    $self->{config}->reloadFromInputAndBackend($self->{confdir});
+
+    my $config = $self->{config};
+
+    my $verbosity = $config->{debug} && $config->{debug} == 1 ? LOG_DEBUG  :
+                    $config->{debug} && $config->{debug} == 2 ? LOG_DEBUG2 :
+                                                                LOG_INFO   ;
+
+    my $logger = undef;
+    if (! defined($self->{logger})) {
+        $logger = FusionInventory::Agent::Logger->new(
+            config    => $config,
+            backends  => $config->{logger},
+            verbosity => $verbosity
+        );
+        $self->{logger} = $logger;
+    } else {
+        $logger = $self->{logger};
+    }
+
+    $logger->debug("Configuration directory: $self->{confdir}");
+    $logger->debug("Data directory: $self->{datadir}");
+    $logger->debug("Storage directory: $self->{vardir}");
+    $logger->debug("Lib directory: $self->{libdir}");
+
+    # handle persistent state
+    $self->_loadState();
+
+    $self->{deviceid} = _computeDeviceId() if !$self->{deviceid};
+
+    $self->_saveState();
+
+    if (!$self->{targets}) {
+        $logger->error("No target defined, aborting");
+        exit 1;
+    }
+
+    # compute list of allowed tasks
+    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
+    my @tasks = keys %available;
+
+    if (!@tasks) {
+        $logger->error("No tasks available, aborting");
+        exit 1;
+    }
+
+    $logger->debug("Available tasks:");
+    foreach my $task (keys %available) {
+        $logger->debug("- $task: $available{$task}");
+    }
+
+    $self->{tasks} = \@tasks;
+
+    $self->resetLastConfigLoad();
+
+    $self->{logger}->debug('agent reinit done.');
+}
+
+sub resetLastConfigLoad {
+    my ($self) = @_;
+
+    $self->{lastConfigLoad} = time;
 }
 
 sub run {
@@ -214,7 +219,9 @@ sub run {
         # background mode:
         while (1) {
             my $time = time();
+            $self->_reloadConfIfNeeded();
             foreach my $target (@{$self->{targets}}) {
+                $self->{logger}->debug('target ' . $target->{id} . ' will run at ' . $target->getNextRunDate()) if defined $self->{logger};
                 next if $time < $target->getNextRunDate();
 
                 eval {
@@ -262,6 +269,7 @@ sub terminate {
 sub _runTarget {
     my ($self, $target) = @_;
 
+    $self->{logger}->debug('_runTarget') if defined $self->{logger};
     # the prolog dialog must be done once for all tasks,
     # but only for server targets
     my $response;
@@ -427,6 +435,9 @@ sub getAvailableTasks {
         next unless $version;
 
         $tasks{$name} = $version;
+        if (defined $self->{logger}) {
+            $self->{logger}->debug( "getAvailableTasks() : add of task ".$name.' version '.$version );
+        }
     }
 
     return %tasks;
@@ -576,6 +587,116 @@ sub getTasksExecutionPlan {
     my ($self) = @_;
 
     return $self->{tasksExecutionPlan};
+}
+
+sub _createTargets {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+    # create target list
+    if ($config->{local}) {
+        foreach my $path (@{$config->{local}}) {
+            push @{$self->{targets}},
+                FusionInventory::Agent::Target::Local->new(
+                    logger     => $self->{logger},
+                    deviceid   => $self->{deviceid},
+                    delaytime  => $config->{delaytime},
+                    basevardir => $self->{vardir},
+                    path       => $path,
+                    html       => $config->{html},
+                );
+        }
+    }
+
+    if ($config->{server}) {
+        foreach my $url (@{$config->{server}}) {
+            push @{$self->{targets}},
+                FusionInventory::Agent::Target::Server->new(
+                    logger     => $self->{logger},
+                    deviceid   => $self->{deviceid},
+                    delaytime  => $config->{delaytime},
+                    basevardir => $self->{vardir},
+                    url        => $url,
+                    tag        => $config->{tag},
+                );
+        }
+    }
+}
+
+sub _createDaemon {
+    my ($self) = @_;
+
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+    my $pidfile  = $config->{pidfile} ||
+        $self->{vardir} . '/fusioninventory.pid';
+    if ($self->_isAlreadyRunning($pidfile)) {
+        $logger->error("An agent is already running, exiting...");
+        exit 1;
+    }
+    if (!$config->{'no-fork'}) {
+
+        Proc::Daemon->require();
+        if ($EVAL_ERROR) {
+            $logger->error("Failed to load Proc::Daemon: $EVAL_ERROR");
+            exit 1;
+        }
+
+        # If we use relative path, we must stay in the current directory
+        my $workdir = substr($self->{libdir}, 0, 1) eq '/' ? '/' : getcwd();
+
+        Proc::Daemon::Init({
+                work_dir => $workdir,
+                    pid_file => $pidfile
+            });
+
+        $self->{logger}->debug("Agent daemonized");
+    }
+}
+
+sub _createHttpInterface {
+    my ($self) = @_;
+
+    my $logger = $self->{logger};
+    my $config = $self->{config};
+    FusionInventory::Agent::HTTP::Server->require();
+    if ($EVAL_ERROR) {
+        $logger->error("Failed to load HTTP server: $EVAL_ERROR");
+    } else {
+        $self->{server} = FusionInventory::Agent::HTTP::Server->new(
+            logger          => $logger,
+            agent           => $self,
+            htmldir         => $self->{datadir} . '/html',
+            ip              => $config->{'httpd-ip'},
+            port            => $config->{'httpd-port'},
+            trust           => $config->{'httpd-trust'}
+        );
+        $self->{server}->init();
+    }
+}
+
+sub _installSignalHandlers {
+    my ($self) = @_;
+
+    $SIG{INT}     = sub { $self->terminate(); exit 0; };
+    $SIG{TERM}    = sub { $self->terminate(); exit 0; };
+}
+
+sub _reloadConfIfNeeded {
+    my ($self) = @_;
+
+    if ($self->_isReloadConfNeeded()) {
+        $self->{logger}->debug('_reloadConfIfNeeded() is true, init agent now...');
+        $self->reinit();
+    }
+}
+
+sub _isReloadConfNeeded() {
+    my ($self) = @_;
+
+    my $time = time;
+    $self->{logger}->debug('_isReloadConfNeeded : ' . $self->{lastConfigLoad} . ' - ' . $time . ' > ' . $self->{config}->{'conf-reload-interval'} . ' ?');
+    return ($self->{config}->{'conf-reload-interval'} > 0) && (($time - $self->{lastConfigLoad}) > $self->{config}->{'conf-reload-interval'});
 }
 
 1;
