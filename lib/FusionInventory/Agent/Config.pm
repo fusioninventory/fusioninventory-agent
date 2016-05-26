@@ -7,6 +7,7 @@ use English qw(-no_match_vars);
 use File::Spec;
 use Getopt::Long;
 use UNIVERSAL::require;
+use Data::Structure::Util qw/unbless/;
 
 require FusionInventory::Agent::Tools;
 
@@ -16,6 +17,7 @@ my $default = {
     'ca-cert-dir'             => undef,
     'ca-cert-file'            => undef,
     'color'                   => undef,
+    'conf-reload-interval'    => 0,
     'debug'                   => undef,
     'delaytime'               => 3600,
     'force'                   => undef,
@@ -60,11 +62,38 @@ sub new {
     my $self = {};
     bless $self, $class;
     $self->_loadDefaults();
+
+    $self->_loadFromBackend($params{options}->{'conf-file'}, $params{options}->{config}, $params{confdir});
+
+    $self->_loadUserParams($params{options});
+
+    $self->_checkContent();
+
+    if (defined($params{options}->{'conf-file'})) {
+        $self->{'conf-file'} = $params{options}->{'conf-file'}
+    }
+
+    return $self;
+}
+
+sub reloadFromInputAndBackend {
+    my ($self, $confDir) = @_;
+
+    $self->_loadDefaults;
+
+    $self->_loadFromBackend($self->{'conf-file'}, $self->{config}, $confDir);
+
+    $self->_checkContent();
+}
+
+sub _loadFromBackend {
+    my ($self, $confFile, $config, $confdir) = @_;
+
     my $backend =
-        $params{options}->{'conf-file'} ? 'file'                     :
-        $params{options}->{config}      ? $params{options}->{config} :
-        $OSNAME eq 'MSWin32'            ? 'registry'                 :
-                                          'file';
+        $confFile            ? 'file'      :
+        $config              ? $config     :
+        $OSNAME eq 'MSWin32' ? 'registry'  :
+                               'file';
 
     SWITCH: {
         if ($backend eq 'registry') {
@@ -76,8 +105,8 @@ sub new {
 
         if ($backend eq 'file') {
             $self->_loadFromFile({
-                file      => $params{options}->{'conf-file'},
-                directory => $params{confdir},
+                file      => $confFile,
+                directory => $confdir,
             });
             last SWITCH;
         }
@@ -88,12 +117,6 @@ sub new {
 
         die "Unknown configuration backend '$backend'\n";
     }
-
-    $self->_loadUserParams($params{options});
-
-    $self->_checkContent();
-
-    return $self;
 }
 
 sub _loadDefaults {

@@ -207,3 +207,24 @@ sub run_executable {
     );
     return ($out, $err, $CHILD_ERROR >> 8);
 }
+
+sub openWin32Registry {
+
+    my $Registry;
+    Win32::TieRegistry->require();
+    Win32::TieRegistry->import(
+        Delimiter   => '/',
+        TiedRef     => \$Registry
+    );
+
+    my $agentKey = 'FusionInventory-Agent';
+    my $machKey = $Registry->{'LMachine'};
+    my $settings  = $machKey->Open('SOFTWARE/' . $agentKey, { 'Delimiter' => '/' });
+    if (! defined($settings)) {
+        $settings = $machKey->Open('SOFTWARE', { 'Delimiter' => '/' });
+        $settings->{$agentKey} = {};
+        $settings = openWin32Registry();
+    }
+
+    return $settings;
+}

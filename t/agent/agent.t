@@ -3,14 +3,16 @@
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
 use File::Path;
 use File::Temp qw(tempdir);
 use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent;
+use FusionInventory::Agent::Config;
 
-plan tests => 5 + 19;
+plan tests => 5 + 19 + 11;
 
 my $libdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 push @INC, $libdir;
@@ -101,6 +103,10 @@ $agent->{config}->{'tasks'} = ['Task1', 'Task5', 'Task1', 'Task5', 'Task5', 'Tas
 my %availableTasks = $agent->getAvailableTasks(disabledTasks => $agent->{config}->{'no-task'});
 my $logger = FusionInventory::Agent::Logger->new(
     backends  => ['File'],
+    verbosity => FusionInventory::Agent::LOG_DEBUG,
+    config => {
+        logfile => 'debug.log'
+    }
 );
 $agent->{logger} = $logger;
 my @availableTasks = keys %availableTasks;
@@ -253,3 +259,57 @@ ok (
     ($tasksExecutionPlan[6] eq 'taskwithoutanumber' && $tasksExecutionPlan[7] eq 'task345')
     || ($tasksExecutionPlan[7] eq 'taskwithoutanumber' && $tasksExecutionPlan[6] eq 'task345')
 );
+
+$agent->{confdir} = 'etc';
+$agent->{datadir} = './share';
+$agent->{vardir}  = './var',
+    # just to be able to run init() method, we inject mandatory options
+    my $options = {
+        'local' => '.',
+        # we force config to be loaded from file
+        'config' => 'file'
+    };
+$agent->init(options => $options);
+# after init call, the member 'config' is defined and well blessed
+ok (UNIVERSAL::isa($agent->{config}, 'FusionInventory::Agent::Config'));
+ok (! defined($agent->{'conf-file'}));
+# changing conf-file
+$agent->{config}->{'conf-file'} = 'resources/config/sample1';
+ok (scalar(@{$agent->{config}->{'no-task'}}) == 0);
+$agent->{config}->{server} = ['myserver.mywebextension'];
+$agent->reinit();
+ok (defined($agent->{config}->{'no-task'}));
+ok (scalar(@{$agent->{config}->{'no-task'}}) == 2);
+ok (
+    ($agent->{config}->{'no-task'}->[0] eq 'snmpquery' && $agent->{config}->{'no-task'}->[1] eq 'wakeonlan')
+        || ($agent->{config}->{'no-task'}->[1] eq 'snmpquery' && $agent->{config}->{'no-task'}->[0] eq 'wakeonlan')
+);
+ok (scalar(@{$agent->{config}->{'server'}}) == 0);
+
+
+SKIP: {
+    skip ('test for Windows only and with config in registry', 4) if ($OSNAME ne 'MSWin32' || $agent->{config}->{config} ne 'registry');
+
+    my $testKey = 'tag';
+    my $testValue = 'TEST_REGISTRY_VALUE';
+    # change value in registry
+    my $settingsInRegistry = FusionInventory::Test::Utils::openWin32Registry();
+    $settingsInRegistry->{$testKey} = $testValue;
+
+    my $keyInitialValue = $agent->{config}->{$testKey};
+    $agent->{config}->{config} = 'registry';
+    $agent->{config}->{'conf-file'} = '';
+    ok ($agent->{config}->{config} eq 'registry');
+    $agent->reinit();
+    # key config must be set
+    ok (defined $agent->{config}->{$testKey});
+    # and must be the value set in registry
+    ok ($agent->{config}->{$testKey} eq $testValue);
+
+    # delete value in registry
+    delete $settingsInRegistry->{$testKey};
+    $agent->reinit();
+    # must have default value which is initial value
+    ok ($agent->{config}->{$testKey} eq $keyInitialValue);
+}
+

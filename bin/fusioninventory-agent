@@ -21,6 +21,7 @@ GetOptions(
     'ca-cert-dir=s',
     'ca-cert-file=s',
     'conf-file=s',
+    'conf-reload-interval=i',
     'config=s',
     'color',
     'daemon|d',
