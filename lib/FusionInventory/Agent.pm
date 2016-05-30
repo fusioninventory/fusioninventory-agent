@@ -47,7 +47,7 @@ sub new {
         libdir  => $params{libdir},
         vardir  => $params{vardir},
         sigterm => $params{sigterm},
-        tasks   => [],
+        tasks   => []
     };
     bless $self, $class;
 
@@ -300,7 +300,7 @@ sub terminate {
     $self->{current_task}->abort() if $self->{current_task};
 
     # Handle killed callback
-    &$self->{sigterm} if $self->{sigterm};
+    &{$self->{sigterm}}() if $self->{sigterm};
 }
 
 sub _runTarget {
