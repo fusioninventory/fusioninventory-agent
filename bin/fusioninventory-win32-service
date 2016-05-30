@@ -3,14 +3,22 @@
 use strict;
 use warnings;
 use lib './lib';
-use threads;
-use threads::shared;
-use constant SERVICE_SLEEP_TIME => 2000; # 20 milliseconds
 
+use threads;
+use threads 'exit' => 'threads_only';
+
+use constant SERVICE_SLEEP_TIME  => 200; # in milliseconds
+use constant SERVICE_NAME        => "fusioninventory-agent";
+use constant SERVICE_DISPLAYNAME => "Fusioninventory Agent";
+
+use POSIX ":sys_wait_h";
 use File::Spec;
 use File::Basename;
 
 use English qw(-no_match_vars);
+use Getopt::Long;
+use Pod::Usage;
+
 use Win32;
 use Win32::Daemon;
 
@@ -24,100 +32,189 @@ my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
 # we need to do it by ourself
 chdir($directory);
 
-Win32::Daemon::StartService();
+Getopt::Long::Configure( "no_ignorecase" );
 
-my $thread;
-my $state;
-my $previousState = SERVICE_START_PENDING;
+my $options = {};
 
-while (($state = Win32::Daemon::State()) != SERVICE_STOPPED) {
-    if ($state == SERVICE_START_PENDING) {
-        # Initialization code
-        startAgent();
-        Win32::Daemon::State(SERVICE_RUNNING);
-        $previousState = SERVICE_RUNNING;
-    } elsif ($state == SERVICE_STOP_PENDING) {
-        killAgent();
-        Win32::Daemon::State(SERVICE_STOPPED);
-    } elsif ($state == SERVICE_PAUSE_PENDING) {
-        # "Pausing...";
-        killAgent();
-        Win32::Daemon::State(SERVICE_PAUSED);
-        $previousState = SERVICE_PAUSED;
-        killAgent();
-        next;
-    } elsif ($state == SERVICE_CONTINUE_PENDING) {
-        # "Resuming...";
-        startAgent();
-        Win32::Daemon::State(SERVICE_RUNNING);
-        $previousState = SERVICE_RUNNING;
-        next;
-    } elsif ($state == SERVICE_STOP_PENDING) {
-        # "Stopping...";
-        killAgent();
-        Win32::Daemon::State(SERVICE_STOPPED);
-        $previousState = SERVICE_STOPPED;
-        next;
-    } elsif ($state == SERVICE_RUNNING) {
-        # The service is running as normal...
-        # ...add the main code here...
-        startAgent();
-    } else {
-        # Got an unhandled control message. Set the state to
-        # whatever the previous state was.
-        Win32::Daemon::State($previousState);
-    }
+GetOptions(
+    $options,
+    'register',
+    'delete',
+    'name|n=s',
+    'displayname|d=s',
+    'libdir=s',
+    'help'
+) or pod2usage(-verbose => 0);
 
-    # Check for any outstanding commands. Pass in a non zero value
-    # and it resets the Last Message to SERVICE_CONTROL_NONE.
-    if (SERVICE_CONTROL_NONE != (my $message = getMessage())) {
-        if (SERVICE_CONTROL_INTERROGATE == $message) {
-            # Got here if the Service Control Manager is requesting
-            # the current state of the service. This can happen for
-            # a variety of reasons. Report the last state we set.
-            Win32::Daemon::State($previousState);
-        } elsif (SERVICE_CONTROL_SHUTDOWN == $message) {
-            # Yikes! The system is shutting down. We had better clean up
-            # and stop.
-            # Tell the SCM that we are preparing to shutdown and that we expect
-            # it to take 25 seconds, so don't terminate us for at least
-            # 25 seconds...
-            Win32::Daemon::State(SERVICE_STOP_PENDING, 25000);
+pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
+
+if ($options->{register}) {
+    my $ret = 0;
+
+    my $libdir = $options->{libdir} || File::Spec->rel2abs($directory.'/../lib');
+
+    my $service = {
+        name    => $options->{name}        || SERVICE_NAME,
+        display => $options->{displayname} || SERVICE_DISPLAYNAME,
+        path    => "$^X",
+        parameters => "-I$libdir ".File::Spec->rel2abs( __FILE__ )
+    };
+
+    if (!Win32::Daemon::CreateService($service)) {
+        my $lasterr = Win32::Daemon::GetLastError();
+        if ($lasterr == 1073) {
+            print "Service still registered\n";
+        } elsif ($lasterr == 1072) {
+            $ret = 1;
+            print "Service marked for deletion. Computer must be rebooted before new service registration\n";
+        } else {
+            $ret = 2;
+            print "Service not registered: $lasterr: ".Win32::FormatMessage($lasterr), "\n";
         }
     }
-    # Snoose for awhile so we don't suck up cpu time...
-    Win32::Sleep(SERVICE_SLEEP_TIME);
+
+    exit($ret);
+
+} elsif ($options->{delete}) {
+    my $ret = 0;
+
+    if (!Win32::Daemon::DeleteService("",$options->{name}||SERVICE_NAME)) {
+        my $lasterr = Win32::Daemon::GetLastError();
+        if ($lasterr == 1060) {
+            print "Service not present\n";
+        } elsif ($lasterr == 1072) {
+            $ret = 1;
+            print "Service still marked for deletion. Computer must be rebooted\n";
+        } else {
+            $ret = 2;
+            print "Service not removed $lasterr: ".Win32::FormatMessage($lasterr), "\n";
+        }
+    }
+
+    exit($ret);
 }
 
-sub getMessage {
-    if ($Win32::Daemon::VERSION < 20101014) {
-        return Win32::Daemon::LastControlMessage(1);
+my $agent_as_context = FusionInventory::Agent->new(
+    confdir => $directory . '/../etc',
+    datadir => $directory . '/../share',
+    vardir  => $directory . '/../var',
+    libdir  => $directory . '/../lib',
+    killed  => sub { threads->exit(); }
+);
+
+$agent_as_context->{last_state} = SERVICE_START_PENDING;
+
+my $callbacks = {
+    start       => \&cb_start,
+    timer       => \&cb_running,
+    stop        => \&cb_stop,
+    shutdown    => \&cb_shutdown,
+    interrogate => \&cb_interrogate
+};
+
+Win32::Daemon::RegisterCallbacks($callbacks);
+
+# Under newer win32 releases, setting accepted controls may be required
+my $controls = SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN ;
+Win32::Daemon::AcceptedControls($controls);
+
+Win32::Daemon::StartService($agent_as_context, SERVICE_SLEEP_TIME);
+
+sub cb_start {
+    my( $event, $agent ) = @_;
+
+    if (!exists($agent->{agent_thread})) {
+        $agent->{agent_thread} = threads->create(sub {
+            $agent->init(options => { service => 1 });
+            $agent->run();
+        });
+    }
+
+    Win32::Daemon::CallbackTimer(SERVICE_SLEEP_TIME);
+
+    $agent->{last_state} = SERVICE_RUNNING;
+    Win32::Daemon::State(SERVICE_RUNNING);
+}
+
+sub cb_running {
+    my( $event, $agent ) = @_;
+
+    if (!$agent->{agent_thread}) {
+        if ($agent->{last_state} == SERVICE_STOP_PENDING) {
+            $agent->{last_state} = SERVICE_STOPPED;
+            Win32::Daemon::State(SERVICE_STOPPED);
+            Win32::Daemon::StopService();
+        } else {
+            Win32::Daemon::State($agent->{last_state});
+        }
+
+    } elsif (!$agent->{agent_thread}->is_running()) {
+        if ($agent->{agent_thread}->is_joinable()) {
+            $agent->{agent_thread}->join();
+
+            delete $agent->{agent_thread};
+
+            $agent->{last_state} = SERVICE_STOPPED;
+            Win32::Daemon::State(SERVICE_STOPPED);
+            Win32::Daemon::StopService();
+        } else {
+            $agent->{last_state} = SERVICE_STOP_PENDING;
+            Win32::Daemon::State(SERVICE_STOP_PENDING);
+        }
+
     } else {
-        return Win32::Daemon::QueryLastMessage();
+        Win32::Daemon::State($agent->{last_state});
     }
 }
 
-sub startAgent {
-    return if $thread;
-    $thread = threads->create(sub {
-        my $agent = FusionInventory::Agent->new(
-            confdir => $directory . '/../../etc/fusioninventory',
-            datadir => $directory . '/../../share',
-            vardir  => $directory . '/../../var',
-            libdir  => $directory . '/../../lib',
-        );
-        $agent->init(options => { service => 1 });
-        $agent->run();
-    });
+sub cb_stop {
+    my( $event, $agent ) = @_;
+
+    if ($agent->{agent_thread} && $agent->{agent_thread}->is_running()) {
+        $agent->{agent_thread}->kill('SIGINT');
+    }
+
+    $agent->{last_state} = SERVICE_STOP_PENDING;
+    Win32::Daemon::State(SERVICE_STOP_PENDING, 10000);
 }
 
-sub killAgent {
-    $thread->kill('KILL');
-    $thread = undef;
+sub cb_shutdown {
+    my( $event, $agent ) = @_;
+
+    if ($agent->{agent_thread} && $agent->{agent_thread}->is_running()) {
+        $agent->{agent_thread}->kill('SIGTERM');
+    }
+
+    $agent->{last_state} = SERVICE_STOP_PENDING;
+    Win32::Daemon::State(SERVICE_STOP_PENDING, 25000);
 }
+
+sub cb_interrogate {
+    my( $event, $agent ) = @_;
+
+    Win32::Daemon::State($agent->{last_state});
+}
+
 
 __END__
 
 =head1 NAME
 
 fusioninventory-win32-service - FusionInventory Agent service for Windows
+
+=head1 SYNOPSIS
+
+B<fusioninventory-win32-service> [--register|--delete] [options]
+
+  Options are only useful when registring or deleting the service. This
+  is handy while using Fusioninventory agent from sources.
+
+  Register options:
+    -n --name=NAME                  unique system name for the service
+    -d --displayname="Nice Name"    display name of the service
+    --libdir=PATH                   full path to agent perl libraries
+                                    use it if not found by the script
+
+  Delete options:
+    -n --name=NAME                  unique system name of the service
+                                    to delete

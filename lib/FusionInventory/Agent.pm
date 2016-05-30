@@ -46,7 +46,8 @@ sub new {
         datadir => $params{datadir},
         libdir  => $params{libdir},
         vardir  => $params{vardir},
-        tasks   => []
+        sigterm => $params{sigterm},
+        tasks   => [],
     };
     bless $self, $class;
 
@@ -226,31 +227,46 @@ sub run {
 
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
 
-        # background mode:
-        while (1) {
+        $self->{logger}->debug2("Running in background mode");
+
+        # background mode: work on a targets list copy, but loop while
+        # the list really exists so we can stop quickly when asked for
+        my @targets = @{$self->{targets}};
+        while (@{$self->{targets}}) {
             my $time = time();
+
+            @targets = @{$self->{targets}} unless @targets;
+            my $target = shift @targets;
+
             $self->_reloadConfIfNeeded();
-            foreach my $target (@{$self->{targets}}) {
-                next if $time < $target->getNextRunDate();
+
+            if ($time >= $target->getNextRunDate()) {
 
                 eval {
                     $self->_runTarget($target);
                 };
                 $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
                 $target->resetNextRunDate();
+
+                # Leave immediately if we passed in terminate method
+                last unless @{$self->{targets}};
             }
 
             if ($self->{server}) {
-                # check for http interface messages
+                # check for http interface messages, default timeout is 1 second
                 $self->{server}->handleRequests() ;
             } else {
                 delay(1);
             }
         }
     } else {
+
+        $self->{logger}->debug2("Running in foreground mode");
+
         # foreground mode: check each targets once
         my $time = time();
-        foreach my $target (@{$self->{targets}}) {
+        while (@{$self->{targets}}) {
+            my $target = shift @{$self->{targets}};
             if ($self->{config}->{lazy} && $time < $target->getNextRunDate()) {
                 $self->{logger}->info(
                     "$target->{id} is not ready yet, next server contact " .
@@ -270,9 +286,21 @@ sub run {
 sub terminate {
     my ($self) = @_;
 
+    # Forget our targets
+    $self->{targets} = [];
+
+    # Kill current running task
+    if ($self->{current_runtask}) {
+        kill 'TERM', $self->{current_runtask};
+        delete $self->{current_runtask};
+    }
+
     $self->{logger}->info("FusionInventory Agent exiting")
         if $self->{config}->{daemon} || $self->{config}->{service};
     $self->{current_task}->abort() if $self->{current_task};
+
+    # Handle killed callback
+    &$self->{sigterm} if $self->{sigterm};
 }
 
 sub _runTarget {
@@ -318,6 +346,9 @@ sub _runTarget {
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
+
+        # Leave earlier while requested
+        last unless @{$self->{targets}};
     }
 }
 
@@ -330,13 +361,18 @@ sub _runTask {
         # server mode: run each task in a child process
         if (my $pid = fork()) {
             # parent
+            $self->{current_runtask} = $pid;
             while (waitpid($pid, WNOHANG) == 0) {
                 if ($self->{server}) {
                     $self->{server}->handleRequests() ;
                 } else {
                     delay(1);
                 }
+
+                # Leave earlier while requested
+                last unless @{$self->{targets}};
             }
+            delete $self->{current_runtask};
         } else {
             # child
             die "fork failed: $ERRNO" unless defined $pid;
