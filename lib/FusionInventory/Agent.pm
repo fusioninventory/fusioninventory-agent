@@ -221,7 +221,6 @@ sub run {
             my $time = time();
             $self->_reloadConfIfNeeded();
             foreach my $target (@{$self->{targets}}) {
-                $self->{logger}->debug('target ' . $target->{id} . ' will run at ' . $target->getNextRunDate()) if defined $self->{logger};
                 next if $time < $target->getNextRunDate();
 
                 eval {
@@ -436,7 +435,7 @@ sub getAvailableTasks {
 
         $tasks{$name} = $version;
         if (defined $self->{logger}) {
-            $self->{logger}->debug( "getAvailableTasks() : add of task ".$name.' version '.$version );
+            $self->{logger}->debug2( "getAvailableTasks() : add of task ".$name.' version '.$version );
         }
     }
 
@@ -548,10 +547,10 @@ sub computeTaskExecutionPlan {
 
     my @executionPlan = ();
     if ($self->{config}->isParamArrayAndFilled('tasks')) {
-        $self->{logger}->debug('isParamArrayAndFilled(\'tasks\') : true') if (defined $self->{logger});
+        $self->{logger}->debug2('isParamArrayAndFilled(\'tasks\') : true') if (defined $self->{logger});
         @executionPlan = _makeExecutionPlan($self->{config}->{'tasks'}, $availableTasksNames, $self->{logger});
     } else {
-        $self->{logger}->debug('isParamArrayAndFilled(\'tasks\') : false') if (defined $self->{logger});
+        $self->{logger}->debug2('isParamArrayAndFilled(\'tasks\') : false') if (defined $self->{logger});
         @executionPlan = @$availableTasksNames;
     }
 
@@ -686,7 +685,7 @@ sub _reloadConfIfNeeded {
     my ($self) = @_;
 
     if ($self->_isReloadConfNeeded()) {
-        $self->{logger}->debug('_reloadConfIfNeeded() is true, init agent now...');
+        $self->{logger}->debug2('_reloadConfIfNeeded() is true, init agent now...');
         $self->reinit();
     }
 }
@@ -695,7 +694,7 @@ sub _isReloadConfNeeded() {
     my ($self) = @_;
 
     my $time = time;
-    $self->{logger}->debug('_isReloadConfNeeded : ' . $self->{lastConfigLoad} . ' - ' . $time . ' > ' . $self->{config}->{'conf-reload-interval'} . ' ?');
+    #$self->{logger}->debug2('_isReloadConfNeeded : ' . $self->{lastConfigLoad} . ' - ' . $time . ' > ' . $self->{config}->{'conf-reload-interval'} . ' ?');
     return ($self->{config}->{'conf-reload-interval'} > 0) && (($time - $self->{lastConfigLoad}) > $self->{config}->{'conf-reload-interval'});
 }
 
