@@ -225,13 +225,14 @@ sub run {
 
     $self->{status} = 'waiting';
 
+    my @targets = @{$self->{targets}};
+
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
 
         $self->{logger}->debug2("Running in background mode");
 
         # background mode: work on a targets list copy, but loop while
         # the list really exists so we can stop quickly when asked for
-        my @targets = @{$self->{targets}};
         while (@{$self->{targets}}) {
             my $time = time();
 
@@ -265,8 +266,8 @@ sub run {
 
         # foreground mode: check each targets once
         my $time = time();
-        while (@{$self->{targets}}) {
-            my $target = shift @{$self->{targets}};
+        while (@targets) {
+            my $target = shift @targets;
             if ($self->{config}->{lazy} && $time < $target->getNextRunDate()) {
                 $self->{logger}->info(
                     "$target->{id} is not ready yet, next server contact " .
