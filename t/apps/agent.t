@@ -34,6 +34,9 @@ like(
     '--version stdout'
 );
 
+my $regconf = $OSNAME eq 'MSWin32' ? keys(%{FusionInventory::Test::Utils::openWin32Registry()}) : 0;
+SKIP: {
+skip 'failing while config exists in registry', 3 if $regconf;
 ($out, $err, $rc) = run_executable('fusioninventory-agent', );
 ok($rc == 1, 'no target exit status');
 like(
@@ -42,6 +45,7 @@ like(
     'no target stderr'
 );
 is($out, '', 'no target stdout');
+};
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-agent',
