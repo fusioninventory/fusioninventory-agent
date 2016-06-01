@@ -103,6 +103,7 @@ sub init {
     my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
     $self->{tasksExecutionPlan} = \@plannedTasks;
 
+    my %available_lc = map { (lc $_) => $_ } keys %available;
     if (!@tasks) {
         $logger->error("No tasks available, aborting");
         exit 1;
@@ -114,7 +115,8 @@ sub init {
     }
     $logger->debug("Planned tasks:");
     foreach my $task (@{$self->{tasksExecutionPlan}}) {
-        $logger->debug("- $task: $available{$task}");
+        $task = lc $task;
+        $logger->debug("- $task: " . $available{$available_lc{$task}});
     }
 
     $self->{tasks} = \@tasks;
@@ -188,6 +190,7 @@ sub reinit {
     my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
     $self->{tasksExecutionPlan} = \@plannedTasks;
 
+    my %available_lc = map { (lc $_) => $_ } keys %available;
     if (!@tasks) {
         $logger->error("No tasks available, aborting");
         exit 1;
@@ -199,7 +202,8 @@ sub reinit {
     }
     $logger->debug("Planned tasks:");
     foreach my $task (@{$self->{tasksExecutionPlan}}) {
-        $logger->debug("- $task: $available{$task}");
+        $task = lc $task;
+        $logger->debug("- $task: " . $available{$available_lc{$task}});
     }
 
     $self->{tasks} = \@tasks;
