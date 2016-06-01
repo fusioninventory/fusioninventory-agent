@@ -115,8 +115,8 @@ sub init {
     }
     $logger->debug("Planned tasks:");
     foreach my $task (@{$self->{tasksExecutionPlan}}) {
-        $task = lc $task;
-        $logger->debug("- $task: " . $available{$available_lc{$task}});
+        my $task_lc = lc $task;
+        $logger->debug("- $task: " . $available{$available_lc{$task_lc}});
     }
 
     $self->{tasks} = \@tasks;
@@ -572,16 +572,16 @@ sub _makeExecutionPlan {
 
     my $sortedTasksCloned = dclone $sortedTasks;
     my @executionPlan = ();
-    my %available = map { (lc $_) => 1 } @$availableTasksNames;
+    my %available = map { (lc $_) => $_ } @$availableTasksNames;
 
     my $task = shift @$sortedTasksCloned;
     while (defined $task) {
-        $task = lc $task;
         if ($task eq $CONTINUE_WORD) {
             last;
         }
+        $task = lc $task;
         if ( defined($available{$task})) {
-            push @executionPlan, $task;
+            push @executionPlan, $available{$task};
         }
         $task = shift @$sortedTasksCloned;
     }
