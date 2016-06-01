@@ -185,6 +185,8 @@ sub reinit {
     # compute list of allowed tasks
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
     my @tasks = keys %available;
+    my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
+    $self->{tasksExecutionPlan} = \@plannedTasks;
 
     if (!@tasks) {
         $logger->error("No tasks available, aborting");
@@ -193,6 +195,10 @@ sub reinit {
 
     $logger->debug("Available tasks:");
     foreach my $task (keys %available) {
+        $logger->debug("- $task: $available{$task}");
+    }
+    $logger->debug("Planned tasks:");
+    foreach my $task (@{$self->{tasksExecutionPlan}}) {
         $logger->debug("- $task: $available{$task}");
     }
 
@@ -561,11 +567,12 @@ sub _makeExecutionPlan {
     my ($sortedTasks, $availableTasksNames, $logger) = @_;
 
     my $sortedTasksCloned = dclone $sortedTasks;
-    my $task = shift @$sortedTasksCloned;
     my @executionPlan = ();
-    my %available = map { $_ => 1 } @$availableTasksNames;
+    my %available = map { (lc $_) => 1 } @$availableTasksNames;
 
+    my $task = shift @$sortedTasksCloned;
     while (defined $task) {
+        $task = lc $task;
         if ($task eq $CONTINUE_WORD) {
             last;
         }
