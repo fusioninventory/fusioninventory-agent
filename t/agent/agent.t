@@ -12,7 +12,7 @@ use Test::More;
 use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
 
-plan tests => 5 + 19 + 11;
+plan tests => 5 + 19 + 11 + 1;
 
 my $libdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 push @INC, $libdir;
@@ -313,3 +313,35 @@ SKIP: {
     ok ($agent->{config}->{$testKey} eq $keyInitialValue);
 }
 
+
+@tasks = (
+    'Task1',
+    'Task2',
+    'Taskwithoutanumber',
+    'Task345'
+);
+@tasksInConf = (
+    'task1',
+    'task2',
+    'task1',
+    'task3',
+    'task3',
+    'task3',
+    'task5',
+    'task1',
+    'task2',
+    'task2'
+);
+@tasksExecutionPlan = FusionInventory::Agent::_makeExecutionPlan(\@tasksInConf, \@tasks);
+@expectedExecutionPlan = (
+    'Task1',
+    'Task2',
+    'Task1',
+    'Task1',
+    'Task2',
+    'Task2'
+);
+cmp_deeply(
+    \@tasksExecutionPlan,
+    \@expectedExecutionPlan
+);
