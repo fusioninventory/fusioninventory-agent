@@ -103,6 +103,7 @@ sub init {
     my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
     $self->{tasksExecutionPlan} = \@plannedTasks;
 
+    my %available_lc = map { (lc $_) => $_ } keys %available;
     if (!@tasks) {
         $logger->error("No tasks available, aborting");
         exit 1;
@@ -114,7 +115,8 @@ sub init {
     }
     $logger->debug("Planned tasks:");
     foreach my $task (@{$self->{tasksExecutionPlan}}) {
-        $logger->debug("- $task: $available{$task}");
+        my $task_lc = lc $task;
+        $logger->debug("- $task: " . $available{$available_lc{$task_lc}});
     }
 
     $self->{tasks} = \@tasks;
@@ -185,7 +187,10 @@ sub reinit {
     # compute list of allowed tasks
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
     my @tasks = keys %available;
+    my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
+    $self->{tasksExecutionPlan} = \@plannedTasks;
 
+    my %available_lc = map { (lc $_) => $_ } keys %available;
     if (!@tasks) {
         $logger->error("No tasks available, aborting");
         exit 1;
@@ -194,6 +199,11 @@ sub reinit {
     $logger->debug("Available tasks:");
     foreach my $task (keys %available) {
         $logger->debug("- $task: $available{$task}");
+    }
+    $logger->debug("Planned tasks:");
+    foreach my $task (@{$self->{tasksExecutionPlan}}) {
+        $task = lc $task;
+        $logger->debug("- $task: " . $available{$available_lc{$task}});
     }
 
     $self->{tasks} = \@tasks;
@@ -561,16 +571,17 @@ sub _makeExecutionPlan {
     my ($sortedTasks, $availableTasksNames, $logger) = @_;
 
     my $sortedTasksCloned = dclone $sortedTasks;
-    my $task = shift @$sortedTasksCloned;
     my @executionPlan = ();
-    my %available = map { $_ => 1 } @$availableTasksNames;
+    my %available = map { (lc $_) => $_ } @$availableTasksNames;
 
+    my $task = shift @$sortedTasksCloned;
     while (defined $task) {
         if ($task eq $CONTINUE_WORD) {
             last;
         }
+        $task = lc $task;
         if ( defined($available{$task})) {
-            push @executionPlan, $task;
+            push @executionPlan, $available{$task};
         }
         $task = shift @$sortedTasksCloned;
     }
