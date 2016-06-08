@@ -19,6 +19,7 @@ GetOptions(
     $options,
     'help|h',
     'directory|d=s',
+    'recursive|R',
     'file|f=s',
     'url|u=s',
     'useragent=s',
@@ -73,7 +74,12 @@ sub loaddirectory {
     opendir (my $handle, $directory)
         or die "can't open directory $directory: $ERRNO\n";
     foreach my $file (readdir($handle)) {
-        loadfile("$directory/$file") if $file =~ /\.ocs$/;
+        next if $file =~ /^..?$/ ;
+        if (-d "$directory/$file") {
+            loaddirectory("$directory/$file") if ($options->{recursive});
+        } else {
+            loadfile("$directory/$file") if $file =~ /\.ocs$/;
+        }
     }
     closedir $handle;
 }
@@ -135,6 +141,7 @@ fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdi
   Options:
     -h --help      this menu
     -d --directory load every .ocs files from a directory
+    -R --recursive recursively load .ocs files from <directory>
     -f --file      load a speficic file
     -u --url       server URL
     -r --remove    remove succesfuly injected files
@@ -145,6 +152,7 @@ fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdi
 
   Examples:
     fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/ocsinventory
+    fusioninventory-injector -v -R -d /srv/ftp/fusion --url https://login:pw@glpi-server/plugins/fusioninventory/
 
 =head1 DESCRIPTION
 
