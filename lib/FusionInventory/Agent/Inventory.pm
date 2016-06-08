@@ -174,6 +174,10 @@ sub mergeContent {
                     $self->setHardware($content->{$section});
                     last SWITCH;
                 }
+                if ($section eq 'OPERATINGSYSTEM') {
+                    $self->setOperatingSystem($content->{$section});
+                    last SWITCH;
+                }
                 if ($section eq 'BIOS') {
                     $self->setBios($content->{$section});
                     last SWITCH;
