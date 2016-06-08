@@ -27,11 +27,6 @@ use FusionInventory::Agent;
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});
 
-my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
-# on Win2k, Windows do not chdir to the bin directory
-# we need to do it by ourself
-chdir($directory);
-
 Getopt::Long::Configure( "no_ignorecase" );
 
 my $options = {};
@@ -47,6 +42,11 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
+
+my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
+# on Win2k, Windows do not chdir to the bin directory
+# we need to do it by ourself
+chdir($directory);
 
 if ($options->{register}) {
     my $ret = 0;
@@ -204,7 +204,7 @@ fusioninventory-win32-service - FusionInventory Agent service for Windows
 
 =head1 SYNOPSIS
 
-B<fusioninventory-win32-service> [--register|--delete] [options]
+B<fusioninventory-win32-service> [--register|--delete|--help] [options]
 
   Options are only useful when registring or deleting the service. This
   is handy while using Fusioninventory agent from sources.
@@ -218,3 +218,8 @@ B<fusioninventory-win32-service> [--register|--delete] [options]
   Delete options:
     -n --name=NAME                  unique system name of the service
                                     to delete
+
+  Samples to use from sources:
+    perl bin/fusioninventory-win32-service --help
+    perl bin/fusioninventory-win32-service --register -n fia-test -d "[TEST] FIA 2.3.18"
+    perl bin/fusioninventory-win32-service --delete -n fia-test
