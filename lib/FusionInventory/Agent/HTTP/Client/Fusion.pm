@@ -4,11 +4,15 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::HTTP::Client';
 
-use JSON;
+use English qw(-no_match_vars);
+
+use JSON::PP;
 use HTTP::Request;
 use HTTP::Headers;
 use HTTP::Cookies;
 use URI::Escape;
+
+my $log_prefix = "[http client] ";
 
 sub new {
     my ($class, %params) = @_;
@@ -82,7 +86,7 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
     if ($method eq 'GET') {
         $request = HTTP::Request->new($method => $url);
     } else {
-        $self->{logger}->debug2("POST: ".$urlparams) if $self->{logger};
+        $self->{logger}->debug2($log_prefix."POST: ".$urlparams) if $self->{logger};
         my $headers = HTTP::Headers->new(
             'Content-Type' => 'application/x-www-form-urlencoded',
             'Referer'      => $referer
@@ -101,7 +105,30 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
 
     $self->{_cookies}->extract_cookies($response);
 
-    return eval { from_json( $response->content(), { utf8  => 1 } ) };
+    my $content = $response->content();
+    unless ($content) {
+        $self->{logger}->error( $log_prefix . "Got empty response" )
+            if $self->{logger};
+        return;
+    }
+
+    my $answer;
+    eval {
+        my $decoder = JSON::PP->new
+            or die "Can't use JSON::PP decoder: $!";
+
+        $answer = $decoder->decode($content);
+    };
+
+    if ($EVAL_ERROR) {
+        my @lines = split(/\n/, $content);
+        $self->{logger}->error(
+            $log_prefix . "Can't decode JSON content, starting with $lines[0]"
+        ) if $self->{logger};
+        return;
+    }
+
+    return $answer;
 }
 
 1;
