@@ -296,7 +296,8 @@ sub init {
         LocalAddr => $self->{ip},
         LocalPort => $self->{port},
         Reuse     => 1,
-        Timeout   => 1
+        Timeout   => 5,
+        Blocking  => 0
     );
 
     if (!$self->{listener}) {
@@ -323,6 +324,8 @@ sub handleRequests {
     my $clientIp = inet_ntoa($iaddr);
     my $request = $client->get_request();
     $self->_handle($client, $request, $clientIp);
+
+    return 1;
 }
 
 1;

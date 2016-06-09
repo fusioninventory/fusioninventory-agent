@@ -1,6 +1,14 @@
 Revision history for FusionInventory agent
 
 2.3.18 not yet released
+core:
+* enhance daemon/service mode:
+ - running tasks are killed while service is stopping
+ - httpd daemon is now made not blocking so daemon/service handles
+   external events quickly
+* full win32 service refactoring introducing Windows 10 support
+* win32 service can be registered/deleted from sources
+
 deploy:
 * trigger error on servers missing Digest::SHA library to help diagnostic
 * Backport some master branch work done by guillomovitch on P2P support
