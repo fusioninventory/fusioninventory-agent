@@ -41,7 +41,7 @@ sub doInventory {
 
     my @memories = $zone eq 'global' ?
         _getMemoriesPrtdiag() :
-        _getMemoriesPrctl()   ;
+        _getZoneAllocatedMemories($memorySize) ;
 
     foreach my $memory (@memories) {
         $inventory->addEntry(
@@ -57,29 +57,18 @@ sub _getMemoriesPrtdiag {
     return $info->{memories} ? @{$info->{memories}} : ();
 }
 
-sub _getMemoriesPrctl {
-    my $handle = getFileHandle(
-        command => "prctl -n project.max-shm-memory $PID",
-        @_
-    );
+sub _getZoneAllocatedMemories {
+    my ($size) = @_;
 
     my @memories;
-    my $memory;
 
-    while (my $line = <$handle>) {
-        $memory->{DESCRIPTION} = $1 if $line =~ /^project.(\S+)$/;
-        $memory->{CAPACITY} = $1 if $line =~ /^\s*system+\s*(\d+)/;
-
-        if ($memory->{DESCRIPTION} && $memory->{CAPACITY}){
-            $memory->{CAPACITY} = $memory->{CAPACITY} * 1024;
-            $memory->{NUMSLOTS} = 1 ;
-            $memory->{DESCRIPTION} = "Memory Allocated";
-            $memory->{CAPTION} = "Memory Share";
-            push @memories, $memory;
-            undef $memory;
-        }
-    }
-    close $handle;
+    # Just format one virtual memory slot with the detected memory size
+    push @memories, {
+            DESCRIPTION => "Allocated memory",
+            CAPTION     => "Shared memory",
+            NUMSLOTS    => 1,
+            CAPACITY    => $size
+    };
 
     return @memories;
 }
