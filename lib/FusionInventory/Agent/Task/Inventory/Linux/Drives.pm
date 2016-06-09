@@ -34,7 +34,7 @@ sub _getFilesystems {
     # get filesystems list
     my @filesystems =
         # exclude virtual file systems
-        grep { $_->{FILESYSTEM} !~ /^(tmpfs|usbfs|proc|devpts|devshm|udev)$/ }
+        grep { $_->{FILESYSTEM} !~ /^(tmpfs|devtmpfs|usbfs|proc|devpts|devshm|udev)$/ }
         # get all file systems
         getFilesystemsFromDf(logger => $logger, command => 'df -P -T -k');
 
