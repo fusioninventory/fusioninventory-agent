@@ -94,7 +94,7 @@ sub request {
                 # replay request
                 eval {
                     if ($OSNAME eq 'MSWin32' && $scheme eq 'https') {
-                        alarm $self->{timeout};
+                        alarm $self->{ua}->{timeout};
                     }
                     $result = $self->{ua}->request($request, $file);
                     alarm 0;
