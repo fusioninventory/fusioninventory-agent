@@ -147,8 +147,9 @@ my $module = Test::MockModule->new(
     'FusionInventory::Agent::Task::Inventory::Win32::CPU'
 );
 
+my $win32 = Test::MockModule->new('Win32');
+
 foreach my $test (keys %tests) {
-    Win32::fakewin2003($test =~ /^2003/);
     $module->mock(
         'getWMIObjects',
         mockGetWMIObjects($test)
@@ -170,6 +171,14 @@ foreach my $test (keys %tests) {
         'getRegistryKey',
         mockGetRegistryKey($test)
     );
+
+    $win32->mock(
+        'GetOSName',
+        sub {
+            return $test =~ /^2003/ ? 'Win2003' : 'Win7'
+        }
+    );
+
 
     my @cpus = FusionInventory::Agent::Task::Inventory::Win32::CPU::_getCPUs();
     cmp_deeply(
