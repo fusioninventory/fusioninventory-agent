@@ -60,9 +60,9 @@ sub doInventory {
 
             # McAfee data
             if ($antivirus->{NAME} =~ /McAfee/i) {
-                $logger->debug("Antivirus.pm : just before addMcAfeeData(), antivirus found is McAfee");
-                addMcAfeeData($antivirus, $logger);
-                $logger->debug("Antivirus.pm : just after addMcAfeeData()");
+                $logger->debug("Antivirus.pm : just before _addMcAfeeData(), antivirus found is McAfee");
+                _addMcAfeeData($antivirus, $logger);
+                $logger->debug("Antivirus.pm : just after _addMcAfeeData()");
             }
 
             $inventory->addEntry(
@@ -73,7 +73,7 @@ sub doInventory {
     }
 }
 
-sub addMcAfeeData {
+sub _addMcAfeeData {
     my ($hashref, $logger) = @_;
 
     my $path;
@@ -114,13 +114,13 @@ sub addMcAfeeData {
     );
 
 
-    $logger->debug2('$avDatDate : ' . $avDatDate);
-    $logger->debug2('$avDatVersion : ' . $avDatVersion);
-    $logger->debug2('$avDatVersionMinor : ' . $avDatVersionMinor);
-    $logger->debug2('$engineVersion32Major : ' . $engineVersion32Major);
-    $logger->debug2('$engineVersion32Minor : ' . $engineVersion32Minor);
-    $logger->debug2('$engineVersion64Major : ' . $engineVersion64Major);
-    $logger->debug2('$engineVersion64Minor : ' . $engineVersion64Minor);
+    $logger->debug2('$avDatDate : ' . ($avDatDate || 'undef'));
+    $logger->debug2('$avDatVersion : ' . ($avDatVersion || 'undef'));
+    $logger->debug2('$avDatVersionMinor : ' . ($avDatVersionMinor || 'undef'));
+    $logger->debug2('$engineVersion32Major : ' . ($engineVersion32Major || 'undef'));
+    $logger->debug2('$engineVersion32Minor : ' . ($engineVersion32Minor || 'undef'));
+    $logger->debug2('$engineVersion64Major : ' . ($engineVersion64Major || 'undef'));
+    $logger->debug2('$engineVersion64Minor : ' . ($engineVersion64Minor || 'undef'));
 
     # fill the inventory
     if (defined $avDatDate) {
@@ -130,32 +130,22 @@ sub addMcAfeeData {
             $datFileCreation = join( '/', ($3, $2, $1) );
         }
         $hashref->{DATFILECREATION} = $datFileCreation;
-        $logger->debug2($hashref->{DATFILECREATION});
     }
     if (defined $avDatVersion && defined $avDatVersionMinor) {
-        $hashref->{DATFILEVERSION} = formatMcAfeeVersion( hex( $avDatVersion ) )
-            .'.'
-            .formatMcAfeeVersion( hex( $avDatVersionMinor ) );
-        $logger->debug2($hashref->{DATFILEVERSION});
+        $hashref->{DATFILEVERSION} = _formatMcAfeeVersion($avDatVersion, $avDatVersionMinor);
     }
     if (defined $engineVersion32Major && defined $engineVersion32Minor) {
-        $hashref->{ENGINEVERSION32} = formatMcAfeeVersion( hex( $engineVersion32Major ) )
-            .'.'
-            .formatMcAfeeVersion( hex( $engineVersion32Minor ) );
-        $logger->debug2($hashref->{ENGINEVERSION32});
+        $hashref->{ENGINEVERSION32} = _formatMcAfeeVersion($engineVersion32Major, $engineVersion32Minor);
     }
     if (defined $engineVersion64Major && defined $engineVersion64Minor) {
-        $hashref->{ENGINEVERSION64} = formatMcAfeeVersion( hex( $engineVersion64Major ) )
-            .'.'
-            .formatMcAfeeVersion( hex( $engineVersion64Minor ) );
-        $logger->debug2($hashref->{ENGINEVERSION64});
+        $hashref->{ENGINEVERSION64} = _formatMcAfeeVersion($engineVersion64Major, $engineVersion64Minor);
     }
 }
 
-sub formatMcAfeeVersion {
-    my $str = shift;
+sub _formatMcAfeeVersion {
+    my ($str1, $str2) = shift;
 
-    $str = sprintf("%04d", $str);
+    $str = sprintf("%04h.%04h", $str1, $str2);
 
     return $str;
 }
