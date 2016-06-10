@@ -16,6 +16,10 @@ sub isEnabled {
 sub doInventory {
     my (%params) = @_;
 
+    my $logger;
+    $logger = $params{logger};
+
+    $logger->debug("Antivirus.pm : doInventory()") if defined $logger;
     my $inventory = $params{inventory};
 
     # Doesn't works on Win2003 Server
@@ -54,12 +58,106 @@ sub doInventory {
             # avoid duplicates
             next if $seen->{$antivirus->{NAME}}->{$antivirus->{VERSION}||'_undef_'}++;
 
+            # McAfee data
+            if ($antivirus->{NAME} =~ /McAfee/i) {
+                $logger->debug("Antivirus.pm : just before addMcAfeeData(), antivirus found is McAfee");
+                addMcAfeeData($antivirus, $logger);
+                $logger->debug("Antivirus.pm : just after addMcAfeeData()");
+            }
+
             $inventory->addEntry(
                 section => 'ANTIVIRUS',
                 entry   => $antivirus
             );
         }
     }
+}
+
+sub addMcAfeeData {
+    my ($hashref, $logger) = @_;
+
+    my $path;
+    if (is64bit() && defined getRegistryKey(path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/McAfee/AVEngine')) {
+        $path = 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/McAfee/AVEngine';
+    } else {
+        $path = 'HKEY_LOCAL_MACHINE/SOFTWARE/McAfee/AVEngine';
+    }
+
+    # get the values in registry
+    my $avDatDate = getRegistryValue(
+        path     => $path . '/AVDatDate' ,
+        withtype => 0
+    );
+    my $avDatVersion = getRegistryValue(
+        path     => $path . '/AVDatVersion' ,
+        withtype => 0
+    );
+    my $avDatVersionMinor = getRegistryValue(
+        path     => $path . '/AVDatVersionMinor' ,
+        withtype => 0
+    );
+    my $engineVersion32Major = getRegistryValue(
+        path     => $path . '/EngineVersion32Major' ,
+        withtype => 0
+    );
+    my $engineVersion32Minor = getRegistryValue(
+        path     => $path . '/EngineVersion32Minor' ,
+        withtype => 0
+    );
+    my $engineVersion64Major = getRegistryValue(
+        path     => $path . '/EngineVersionMajor' ,
+        withtype => 0
+    );
+    my $engineVersion64Minor = getRegistryValue(
+        path     => $path . '/EngineVersionMinor' ,
+        withtype => 0
+    );
+
+
+    $logger->debug2('$avDatDate : ' . $avDatDate);
+    $logger->debug2('$avDatVersion : ' . $avDatVersion);
+    $logger->debug2('$avDatVersionMinor : ' . $avDatVersionMinor);
+    $logger->debug2('$engineVersion32Major : ' . $engineVersion32Major);
+    $logger->debug2('$engineVersion32Minor : ' . $engineVersion32Minor);
+    $logger->debug2('$engineVersion64Major : ' . $engineVersion64Major);
+    $logger->debug2('$engineVersion64Minor : ' . $engineVersion64Minor);
+
+    # fill the inventory
+    if (defined $avDatDate) {
+        my $datFileCreation = encodeFromRegistry( $avDatDate );
+        # from YYYY/MM/DD to DD/MM/YYYY
+        if ($datFileCreation =~ /(\d\d\d\d)\/(\d\d)\/(\d\d)/) {
+            $datFileCreation = join( '/', ($3, $2, $1) );
+        }
+        $hashref->{DATFILECREATION} = $datFileCreation;
+        $logger->debug2($hashref->{DATFILECREATION});
+    }
+    if (defined $avDatVersion && defined $avDatVersionMinor) {
+        $hashref->{DATFILEVERSION} = formatMcAfeeVersion( hex( $avDatVersion ) )
+            .'.'
+            .formatMcAfeeVersion( hex( $avDatVersionMinor ) );
+        $logger->debug2($hashref->{DATFILEVERSION});
+    }
+    if (defined $engineVersion32Major && defined $engineVersion32Minor) {
+        $hashref->{ENGINEVERSION32} = formatMcAfeeVersion( hex( $engineVersion32Major ) )
+            .'.'
+            .formatMcAfeeVersion( hex( $engineVersion32Minor ) );
+        $logger->debug2($hashref->{ENGINEVERSION32});
+    }
+    if (defined $engineVersion64Major && defined $engineVersion64Minor) {
+        $hashref->{ENGINEVERSION64} = formatMcAfeeVersion( hex( $engineVersion64Major ) )
+            .'.'
+            .formatMcAfeeVersion( hex( $engineVersion64Minor ) );
+        $logger->debug2($hashref->{ENGINEVERSION64});
+    }
+}
+
+sub formatMcAfeeVersion {
+    my $str = shift;
+
+    $str = sprintf("%04d", $str);
+
+    return $str;
 }
 
 1;
