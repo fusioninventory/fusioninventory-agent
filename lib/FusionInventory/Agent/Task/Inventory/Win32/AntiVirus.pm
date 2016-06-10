@@ -116,7 +116,7 @@ sub _addMcAfeeData {
 
     $logger->debug2('$avDatDate : ' . ($avDatDate || 'undef'));
     $logger->debug2('$avDatVersion : ' . ($avDatVersion || 'undef'));
-    $logger->debug2('$avDatVersionMinor : ' . ($avDatVersionMinor || 'undef'));
+    $logger->debug2('$avDatVersionMinor : ' . ($avDatVersionMinor || 'undef'));
     $logger->debug2('$engineVersion32Major : ' . ($engineVersion32Major || 'undef'));
     $logger->debug2('$engineVersion32Minor : ' . ($engineVersion32Minor || 'undef'));
     $logger->debug2('$engineVersion64Major : ' . ($engineVersion64Major || 'undef'));
