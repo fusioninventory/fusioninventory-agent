@@ -147,6 +147,11 @@ SKIP: {
     # Calling findPeers API requires Win32::OLE to be loaded to find interfaces
     # Later forked scanners must not crash the service while terminating
     if ($OSNAME eq 'MSWin32') {
+        # So from here we need to avoid crashes due to not thread-safe Win32::OLE
+        # Enabling a dedicated worker thread
+        FusionInventory::Agent::Tools::Win32->require();
+        FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+
         $p2p->findPeers();
     }
 
