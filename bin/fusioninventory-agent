@@ -60,6 +60,8 @@ GetOptions(
     'wait|w=s',
     # deprecated options
     'stdout',
+    # Platform specific option
+    'no-win32-ole-workaround'
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -93,6 +95,12 @@ if ($options->{'conf-file'}) {
     } else {
         $options->{config} = 'file';
     }
+}
+
+if ($OSNAME eq 'MSWin32' && ! $options->{'no_worker_thread'}) {
+    # From here we may need to avoid crashes due to not thread-safe Win32::OLE
+    FusionInventory::Agent::Tools::Win32->require();
+    FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
 }
 
 my $agent = FusionInventory::Agent->new(%setup);
@@ -213,6 +221,10 @@ B<fusioninventory-agent> [options] [--server server|--local path]
     --setup                        print the agent setup directories
                                      and exit
     --version                      print the version and exit
+    --no-win32-ole-workaround      [win32 only] disable win32 work-around
+                                     used to better handle Win32::OLE apis.
+                                     !!! Use it at your own risk as you may
+                                     experiment perl crash under win32 !!!
 
 =head1 DESCRIPTION
 

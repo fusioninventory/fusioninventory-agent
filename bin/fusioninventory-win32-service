@@ -124,6 +124,11 @@ sub cb_start {
     my( $event, $agent ) = @_;
 
     if (!exists($agent->{agent_thread})) {
+
+        # First start a thread dedicated to Win32::OLE calls
+        FusionInventory::Agent::Tools::Win32->require();
+        FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+
         $agent->{agent_thread} = threads->create(sub {
             $agent->init(options => { service => 1 });
             $agent->run();
