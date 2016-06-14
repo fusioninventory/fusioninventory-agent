@@ -156,7 +156,8 @@ B<fusioninventory-agent> [options] [--server server|--local path]
 
   Task selection options:
     --list-tasks                   list available tasks and exit
-    --no-task=TASK                 do not run given task
+    --no-task=TASK[,TASK]...       do not run given task
+    --tasks=TASK1[,TASK]...[,...]  run given tasks in given order
 
   Inventory task specific options:
     --no-category=CATEGORY         do not list given category items
@@ -197,8 +198,10 @@ B<fusioninventory-agent> [options] [--server server|--local path]
     --color                        use color in the console (false)
 
   Configuration options:
-    --config=BACKEND               configuration backend
-    --conf-file=FILE               configuration file
+    --config=BACKEND                   configuration backend
+    --conf-file=FILE                   configuration file
+    --conf-reload-interval=<SECONDS>   number of seconds between two
+                                         configuration reloadings
 
   Execution mode options:
     -w --wait=LIMIT                maximum delay before execution,
@@ -309,6 +312,27 @@ Do not run given task.
 
 Multiple values can be specified, using comma as a separator. See option
 I<--list-tasks> for the list of available tasks.
+
+=back
+
+=item B<--tasks>=I<TASK>
+
+Run given tasks in given order.
+
+Multiple tasks can be specified, using comma as a separator.
+A task can be specified several times. if '...' is given as last element,
+all other available tasks are executed.
+
+See option I<--list-tasks> for the list of available tasks.
+
+Examples :
+* --tasks=inventory,deploy,inventory
+  First task executed is 'inventory', second task is 'deploy', third and last
+  task is 'inventory'.
+
+* --tasks=inventory,deploy,...
+  First executed task is 'inventory', second task is 'deploy' and then all
+  other available tasks are executed.
 
 =back
 
@@ -561,6 +585,13 @@ none: don't read any configuration.
 =item B<--conf-file>=I<FILE>
 
 Use I<FILE> as configuration file (implies file configuration backend).
+
+=back
+
+=item B<--conf-reload-interval>=I<SECONDS>
+
+SECONDS is the number of seconds between two configuration reloadings.
+Default value is 0, which means that configuration is never reloaded.
 
 =back
 
