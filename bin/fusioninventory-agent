@@ -327,11 +327,12 @@ See option I<--list-tasks> for the list of available tasks.
 
 Examples :
 * --tasks=inventory,deploy,inventory
-  First task executed is 'inventory', second task is 'deploy', third and last task is 'inventory'.
+  First task executed is 'inventory', second task is 'deploy', third and last
+  task is 'inventory'.
 
 * --tasks=inventory,deploy,...
-  First executed task is 'inventory', second task is 'deploy' and then all other available tasks
-  are executed.
+  First executed task is 'inventory', second task is 'deploy' and then all
+  other available tasks are executed.
 
 =back
 
