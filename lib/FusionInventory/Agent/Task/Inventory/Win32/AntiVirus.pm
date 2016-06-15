@@ -143,9 +143,9 @@ sub _addMcAfeeData {
 }
 
 sub _formatMcAfeeVersion {
-    my ($str1, $str2) = shift;
+    my ($str1, $str2) = @_;
 
-    my $str = sprintf("%04h.%04h", $str1, $str2);
+    my $str = sprintf("%04d.%04d", hex($str1), hex($str2));
 
     return $str;
 }
