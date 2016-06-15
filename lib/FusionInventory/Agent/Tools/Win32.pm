@@ -17,7 +17,6 @@ use constant KEY_WOW64_32 => 0x200;
 use Cwd;
 use Encode;
 use English qw(-no_match_vars);
-use Memoize;
 use File::Temp qw(:seekable tempfile);
 use Win32::Job;
 use Win32::TieRegistry (
@@ -29,7 +28,7 @@ use Win32::TieRegistry (
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
-memoize('getLocalCodepage');
+my $localCodepage;
 
 our @EXPORT = qw(
     is64bit
@@ -54,10 +53,15 @@ sub is64bit {
 }
 
 sub getLocalCodepage {
-    return "cp" .
+    if (!$localCodepage) {
+        $localCodepage =
+            "cp" .
             getRegistryValue(
                 path => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Nls/CodePage/ACP'
             );
+    }
+
+    return $localCodepage;
 }
 
 sub encodeFromRegistry {
