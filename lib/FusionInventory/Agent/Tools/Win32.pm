@@ -503,6 +503,10 @@ sub _call_win32_ole_dependent_api {
         return (exists($call->{'array'}) && $call->{'array'}) ?
             @{$result || []} : $result ;
     } else {
+        # Load Win32::OLE as late as possible
+        Win32::OLE->require() or return;
+        Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
+
         # We come here from worker or if we failed to start worker
         my $funct;
         eval {
