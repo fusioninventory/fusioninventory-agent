@@ -97,7 +97,7 @@ if ($options->{'conf-file'}) {
     }
 }
 
-if ($OSNAME eq 'MSWin32' && ! $options->{'no_worker_thread'}) {
+if ($OSNAME eq 'MSWin32' && ! $options->{'no-win32-ole-workaround'}) {
     # From here we may need to avoid crashes due to not thread-safe Win32::OLE
     FusionInventory::Agent::Tools::Win32->require();
     FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
