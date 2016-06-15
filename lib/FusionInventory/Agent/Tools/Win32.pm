@@ -46,16 +46,6 @@ our @EXPORT = qw(
 );
 
 sub is64bit {
-    my $win32_ole_dependent_api = {
-        use   => [qw(any)],
-        funct => '_is64bit',
-        args  => \@_
-    };
-
-    return _call_win32_ole_dependent_api($win32_ole_dependent_api);
-}
-
-sub _is64bit {
     return
         any { $_->{AddressWidth} eq 64 }
         getWMIObjects(
@@ -83,7 +73,6 @@ sub encodeFromRegistry {
 
 sub getWMIObjects {
     my $win32_ole_dependent_api = {
-        use   => [qw(in GetObject)],
         array => 1,
         funct => '_getWMIObjects',
         args  => \@_
@@ -100,6 +89,8 @@ sub _getWMIObjects {
 
     my $WMIService = Win32::OLE->GetObject($params{moniker})
         or return;
+
+    Win32::OLE->use('in');
 
     my @objects;
     foreach my $instance (in(
@@ -447,11 +438,6 @@ sub _win32_ole_worker {
         if (defined($call)) {
             lock($call);
 
-            # Use all requested API
-            while (my $api = shift @{$call->{'use'}}) {
-                Win32::OLE->use($api);
-            }
-
             # Found requested private function and call it as expected
             my $funct;
             eval {
@@ -518,9 +504,6 @@ sub _call_win32_ole_dependent_api {
             @{$result || []} : $result ;
     } else {
         # We come here from worker or if we failed to start worker
-        foreach my $api (@{$call->{'use'}}) {
-            Win32::OLE->use($api);
-        }
         my $funct;
         eval {
             no strict 'refs'; ## no critic (ProhibitNoStrict)
