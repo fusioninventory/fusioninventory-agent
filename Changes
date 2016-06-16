@@ -1,21 +1,41 @@
 Revision history for FusionInventory agent
 
-2.3.18 not yet released
+2.3.18 Thu, 16 Jun 2016
 core:
+* Many bug fixes
 * enhance daemon/service mode:
  - running tasks are killed while service is stopping
  - httpd daemon is now made not blocking so daemon/service handles
    external events quickly
 * full win32 service refactoring introducing Windows 10 support
 * win32 service can be registered/deleted from sources
+* support new option --tasks to specify tasks to execute and their order
+* support new option --conf-reload-interval to ask to reload conf at
+  regular time interval while running in daemon or service mode.
+
+inventory:
+* Many bug fixes
+* enhanced McAfee antivirus reporting
+* added REMOTE_MGMT section to report infos related to installed remote
+  management tools. Actually reports Teamviewer ID
+* Eventually try ethtool syscall on linux to find network cards
+* Fixed memory reporting on Solaris
+* Enhanced installdate for softwares on many platforms
+* Enhanced drive a storage reporting on win32
 
 deploy:
+* Bump Deploy task version to 2.1.0
 * trigger error on servers missing Digest::SHA library to help diagnostic
 * Backport some master branch work done by guillomovitch on P2P support
 * Net::Ping & Parallel::ForkManager library are now mandatory for P2P support
 * POE & POE::Component::Client::Ping requirements are now obsolete
 * Also add few fixes and enhancement to P2P support
 * Added unittest for P2P support
+* fixed issues related to JSON support
+* Enhanced run command output to help debugging failures
+
+injector:
+* add --recursive|-R option to scan sub-folder for OCS files
 
 * add g-bougard as maintainer
 
