@@ -21,7 +21,7 @@ sub doInventory {
     return unless $handle;
 
     while (my $file = readdir($handle)) {
-        next unless $file =~ /^(.+)([^-]+-[^-]+-[^-]+)$/;
+        next unless $file =~ /^(.+)-(.+)-(i[0-9]86|noarch|x86_64|x86|fw|npmjs)-(.*)$/;
         my $name = $1;
         my $version = $2;
 
