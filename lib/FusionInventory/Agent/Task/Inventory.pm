@@ -284,7 +284,7 @@ sub _feedInventory {
     if (-d $self->{confdir} . '/softwares') {
         $self->{logger}->info(
             "using custom scripts for adding softwares to inventory is " .
-            "deprecated, use --additional-content option insted"
+            "deprecated, use --additional-content option instead"
         );
     }
 
