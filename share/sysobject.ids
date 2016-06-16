@@ -4,7 +4,8 @@
 # http://www.iana.org/assignments/enterprise-numbers/enterprise-numbers
 #
 # Syntax:
-# id	vendor	type	model
+# (where module is Foo in FusionInventory::Agent::Tools::Hardware::Foo)
+# id	vendor	type	model	module
 
 2	IBM	COMPUTER
 
@@ -1469,8 +1470,8 @@
 
 311	Microsoft	COMPUTER
 
-318	APC	POWER
-318.1.3.4.5	APC	POWER	Master Switch PDU
+318	APC	POWER		Apc
+318.1.3.4.5	APC	POWER	Master Switch PDU	Apc
 
 367	Ricoh	PRINTER
 
@@ -1597,7 +1598,11 @@
 # specifying a model value prevent fallback on hrDeviceDescr value for better identification
 1347.41	Kyocera	PRINTER
 
+1588.2.1.1.1	Brocade	NETWORKING	Brocade300	Brocade
+
 1602	Canon	PRINTER
+
+1663.1.1.1.1.24	Qlogic	NETWORKING	SANbox 5602 FC Switch	Qlogic
 
 1723	Lantronix
 

@@ -279,6 +279,7 @@ sub getDeviceInfo {
         $device->{MODEL}        = $match->{model} if $match->{model};
         $device->{MANUFACTURER} = $match->{manufacturer}
             if $match->{manufacturer};
+        $device->{EXTMOD}       = $match->{module} if $match->{module};
     }
 
     # vendor and type identification attempt, using sysDescr
@@ -445,12 +446,13 @@ sub _loadSysObjectIDDatabase {
         next if $line =~ /^#/;
         next if $line =~ /^$/;
         chomp $line;
-        my ($id, $manufacturer, $type, $model) = split(/\t/, $line);
+        my ($id, $manufacturer, $type, $model, $module) = split(/\t/, $line);
         $sysobjectid{$id} = {
             manufacturer => $manufacturer,
             type         => $type,
             model        => $model
         };
+        $sysobjectid{$id}->{module} = $module if $module;
     }
 
     close $handle;
@@ -587,6 +589,24 @@ sub getDeviceFullInfo {
         logger  => $logger,
         datadir => $params{datadir}
     ) if $info->{TYPE} && $info->{TYPE} eq 'NETWORKING';
+
+    # external processing for the $device
+    if ($device->{INFO}->{EXTMOD}) {
+        runFunction(
+            module   => "FusionInventory::Agent::Tools::Hardware::" . $device->{INFO}->{EXTMOD},
+            function => "run",
+            logger   => $logger,
+            params   => {
+                snmp   => $snmp,
+                device => $device,
+                logger => $logger,
+            },
+            load     => 1
+        );
+
+        # no need to send this to the server
+        delete $device->{INFO}->{EXTMOD};
+    }
 
     # convert ports hashref to an arrayref, sorted by interface number
     my $ports = $device->{PORTS}->{PORT};
@@ -861,25 +881,37 @@ sub _getCanonicalMacAddress {
     return unless $value;
 
     my $result;
-    if ($value =~ /$mac_address_pattern/) {
-        # this was stored as a string, it just has to be normalized
-        $result = sprintf
-            "%02x:%02x:%02x:%02x:%02x:%02x",
-            map { hex($_) } split(':', $value);
-    } elsif ($value =~ /^\d{2}:\d{2}:\d{2}:\d{2}:\d{2}$/) {
-        # WWN format
-        $result = '10:00:00:' . $value;
-    } else {
-        # this was stored as an hex-string
-        # 0xD205A86C26D5 or 0x6001D205A86C26D5
-        if ($value =~ /^0x[0-9A-F]{0,4}([0-9A-F]{12})$/i) {
-            # value translated by Net::SNMP
-            $result = alt2canonical('0x'.$1);
-        } else {
-            # packed value, onvert from binary to hexadecimal
-            $result = unpack 'H*', $value;
-        }
+    my @bytes;
+
+    # packed value, convert from binary to hexadecimal
+    if ($value =~ m/\A [[:ascii:]] \Z/xms) {
+        $value = unpack 'H*', $value;
     }
+
+    # Check if it's a hex value
+    if ($value =~ /^(?:0x)?([0-9A-F]+)$/i) {
+        @bytes = unpack("(A2)*", $1);
+    } else {
+        @bytes = split(':', $value);
+        # return if bytes are not hex
+        return if grep(!/^[0-9A-F]{1,2}$/i, @bytes);
+    }
+
+    if (scalar(@bytes) == 6) {
+        # it's a MAC
+    } elsif (scalar(@bytes) == 8 &&
+        (($bytes[0] eq '10' && $bytes[1] =~ /^0+/) # WWN 10:00:...
+            || $bytes[0] =~ /^2/)) {               # WWN 2X:XX:...
+    } elsif (scalar(@bytes) < 6) {
+        # make a WWN. prepend "10" and zeroes as necessary
+        while (scalar(@bytes) < 7) { unshift @bytes, '00' }
+        unshift @bytes, '10';
+    } elsif (scalar(@bytes) > 6) {
+        # make a MAC. take 6 bytes from the right
+        @bytes = @bytes[-6 .. -1];
+    }
+
+    $result = join ":", map { sprintf("%02x", hex($_)) } @bytes;
 
     return if $result eq '00:00:00:00:00:00';
     return lc($result);
