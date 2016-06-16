@@ -2,3 +2,4 @@
 #no-software=1
 no-category=printer
 httpd-trust=example,127.0.0.1,foobar,123.0.0.0/10
+conf-reload-interval=-5

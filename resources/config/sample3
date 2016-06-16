@@ -1,1 +1,2 @@
 # no-inventory=1
+conf-reload-interval=3600
