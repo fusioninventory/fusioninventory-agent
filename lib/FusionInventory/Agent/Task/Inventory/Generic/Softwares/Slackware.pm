@@ -24,12 +24,14 @@ sub doInventory {
         next unless $file =~ /^(.+)-(.+)-(i[0-9]86|noarch|x86_64|x86|fw|npmjs)-(.*)$/;
         my $name = $1;
         my $version = $2;
+        my $arch = $3;
 
         $inventory->addEntry(
             section => 'SOFTWARES',
             entry   => {
                 NAME    => $name,
-                VERSION => $version
+                VERSION => $version,
+                ARCH    => $arch
             }
         );
     }
