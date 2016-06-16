@@ -94,7 +94,7 @@ sub _getMcAfeeInfo {
         my $keys = $properties{$property};
         my $major = getRegistryValue(path => $path . '/' . $keys->[0]);
         my $minor = getRegistryValue(path => $path . '/' . $keys->[1]);
-        $info->{$property} = sprintf("%04h.%04h", $major, $minor)
+        $info->{$property} = sprintf("%04d.%04d", hex($major), hex($minor))
             if defined $major && defined $major;
     }
 
