@@ -19,7 +19,6 @@ sub doInventory {
     my $logger;
     $logger = $params{logger};
 
-    $logger->debug("Antivirus.pm : doInventory()") if defined $logger;
     my $inventory = $params{inventory};
 
     # Doesn't works on Win2003 Server
@@ -60,9 +59,7 @@ sub doInventory {
 
             # McAfee data
             if ($antivirus->{NAME} =~ /McAfee/i) {
-                $logger->debug("Antivirus.pm : just before _addMcAfeeData(), antivirus found is McAfee");
                 _addMcAfeeData($antivirus, $logger);
-                $logger->debug("Antivirus.pm : just after _addMcAfeeData()");
             }
 
             $inventory->addEntry(
@@ -112,15 +109,6 @@ sub _addMcAfeeData {
         path     => $path . '/EngineVersionMinor' ,
         withtype => 0
     );
-
-
-    $logger->debug2('$avDatDate : ' . ($avDatDate || 'undef'));
-    $logger->debug2('$avDatVersion : ' . ($avDatVersion || 'undef'));
-    $logger->debug2('$avDatVersionMinor : ' . ($avDatVersionMinor || 'undef'));
-    $logger->debug2('$engineVersion32Major : ' . ($engineVersion32Major || 'undef'));
-    $logger->debug2('$engineVersion32Minor : ' . ($engineVersion32Minor || 'undef'));
-    $logger->debug2('$engineVersion64Major : ' . ($engineVersion64Major || 'undef'));
-    $logger->debug2('$engineVersion64Minor : ' . ($engineVersion64Minor || 'undef'));
 
     # fill the inventory
     if (defined $avDatDate) {
