@@ -80,23 +80,25 @@ sub _addMcAfeeData {
         $path = 'HKEY_LOCAL_MACHINE/SOFTWARE/McAfee/AVEngine';
     }
 
-    # get the values in registry
+    my %properties = (
+        DATFILEVERSION  => [ 'AVDatVersion',         'AVDatVersionMinor' ],
+        ENGINEVERSION32 => [ 'EngineVersion32Major', 'EngineVersion32Minor' ],
+        ENGINEVERSION64 => [ 'EngineVersionMajor',   'EngineVersionMinor' ],
+    );
+
+    # major.minor versions properties
+    foreach my $property (keys %properties) {
+        my $keys = $properties{$property};
+        my $major = getRegistryValue(path => $path . '/' . $keys->[0]);
+        my $minor = getRegistryValue(path => $path . '/' . $keys->[1]);
+        $hashref->{$property} = sprintf("%04h.%04h", $major, $minor)
+            if defined $major && defined $major;
+    }
+
+    # file creation date property
     my $avDatDate            = 
         getRegistryValue(path => $path . '/AVDatDate');
-    my $avDatVersion         =
-        getRegistryValue(path => $path . '/AVDatVersion');
-    my $avDatVersionMinor    =
-        getRegistryValue(path => $path . '/AVDatVersionMinor');
-    my $engineVersion32Major =
-        getRegistryValue(path => $path . '/EngineVersion32Major');
-    my $engineVersion32Minor =
-        getRegistryValue(path => $path . '/EngineVersion32Minor');
-    my $engineVersion64Major =
-        getRegistryValue(path => $path . '/EngineVersionMajor');
-    my $engineVersion64Minor =
-        getRegistryValue(path => $path . '/EngineVersionMinor');
 
-    # fill the inventory
     if (defined $avDatDate) {
         my $datFileCreation = encodeFromRegistry( $avDatDate );
         # from YYYY/MM/DD to DD/MM/YYYY
@@ -105,23 +107,6 @@ sub _addMcAfeeData {
         }
         $hashref->{DATFILECREATION} = $datFileCreation;
     }
-    if (defined $avDatVersion && defined $avDatVersionMinor) {
-        $hashref->{DATFILEVERSION} = _formatMcAfeeVersion($avDatVersion, $avDatVersionMinor);
-    }
-    if (defined $engineVersion32Major && defined $engineVersion32Minor) {
-        $hashref->{ENGINEVERSION32} = _formatMcAfeeVersion($engineVersion32Major, $engineVersion32Minor);
-    }
-    if (defined $engineVersion64Major && defined $engineVersion64Minor) {
-        $hashref->{ENGINEVERSION64} = _formatMcAfeeVersion($engineVersion64Major, $engineVersion64Minor);
-    }
-}
-
-sub _formatMcAfeeVersion {
-    my ($str1, $str2) = shift;
-
-    my $str = sprintf("%04h.%04h", $str1, $str2);
-
-    return $str;
 }
 
 1;
