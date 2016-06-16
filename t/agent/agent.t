@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use English qw(-no_match_vars);
 use File::Path;
@@ -102,11 +103,8 @@ $agent->{config}->{'no-task'} = ['Task5'];
 $agent->{config}->{'tasks'} = ['Task1', 'Task5', 'Task1', 'Task5', 'Task5', 'Task2', 'Task1'];
 my %availableTasks = $agent->getAvailableTasks(disabledTasks => $agent->{config}->{'no-task'});
 my $logger = FusionInventory::Agent::Logger->new(
-    backends  => ['File'],
+    backends  => [ 'Test' ],
     verbosity => FusionInventory::Agent::LOG_DEBUG,
-    config => {
-        logfile => 'debug.log'
-    }
 );
 $agent->{logger} = $logger;
 my @availableTasks = keys %availableTasks;
