@@ -1,0 +1,4 @@
+Name                                        ID   Mem VCPUs      State   Time(s)
+Domain-0                                     0   512    48     r-----  1655498.2
+vm1                                          4 20480     4     -b----  1415311.0
+vm2                                         11  4096     2     -b----  175634.0
