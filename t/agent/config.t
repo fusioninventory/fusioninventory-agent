@@ -18,34 +18,38 @@ my %config = (
         'no-task'     => ['snmpquery', 'wakeonlan'],
         'no-category' => [],
         'httpd-trust' => [],
-        'tasks'       => ['inventory', 'deploy', 'inventory']
+        'tasks'       => ['inventory', 'deploy', 'inventory'],
+        'conf-reload-interval' => 0
     },
     sample2 => {
         'no-task'     => [],
         'no-category' => ['printer'],
-        'httpd-trust' => ['example', '127.0.0.1', 'foobar', '123.0.0.0/10']
+        'httpd-trust' => ['example', '127.0.0.1', 'foobar', '123.0.0.0/10'],
+        'conf-reload-interval' => 0
     },
     sample3 => {
         'no-task'     => [],
         'no-category' => [],
-        'httpd-trust' => []
+        'httpd-trust' => [],
+        'conf-reload-interval' => 3600
     },
     sample4 => {
         'no-task'     => ['snmpquery','wakeonlan','inventory'],
         'no-category' => [],
         'httpd-trust' => [],
-        'tasks'       => ['inventory', 'deploy', 'inventory']
+        'tasks'       => ['inventory', 'deploy', 'inventory'],
+        'conf-reload-interval' => 60
     }
 );
 
-plan tests => (scalar keys %config) * 3 + 16 + 18;
+plan tests => (scalar keys %config) * 4 + 16 + 18;
 
 foreach my $test (keys %config) {
     my $c = FusionInventory::Agent::Config->new(options => {
         'conf-file' => "resources/config/$test"
     });
 
-    foreach my $k (qw/ no-task no-category httpd-trust /) {
+    foreach my $k (qw/ no-task no-category httpd-trust conf-reload-interval /) {
         cmp_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
     }
 

@@ -2,3 +2,4 @@
 no-task=snmpquery,wakeonlan,inventory
 #no-software=1
 tasks=inventory, deploy , inventory
+conf-reload-interval=15
