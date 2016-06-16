@@ -18,7 +18,11 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Tools::Win32;
+use Config;
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
 
 my %tests = (
     7 => [
@@ -142,9 +146,13 @@ my %tests = (
     ]
 );
 
+my $win32_only_test_count = 7;
+
 plan tests =>
-    (scalar keys %tests) +
-    4;
+    (scalar keys %tests) + $win32_only_test_count;
+
+FusionInventory::Agent::Tools::Win32->require();
+FusionInventory::Agent::Tools::Win32->use('getInterfaces');
 
 my $module = Test::MockModule->new(
     'FusionInventory::Agent::Tools::Win32'
@@ -165,7 +173,10 @@ foreach my $test (keys %tests) {
 }
 
 SKIP: {
-    skip 'Windows-specific test', 4 unless $OSNAME eq 'MSWin32';
+    skip 'Windows-specific test', $win32_only_test_count
+        unless $OSNAME eq 'MSWin32';
+
+    FusionInventory::Agent::Tools::Win32->use('runCommand');
 
     my ($code, $fd) = runCommand(command => "perl -V");
     ok($code eq 0, "perl -V returns 0");
@@ -183,4 +194,23 @@ SKIP: {
         no_stderr => 1
     );
     ok(defined(<$fd>), "no_stderr=0: catch STDERR output");
+
+    # From here we need to avoid crashes dur to not thread-safe Win32::OLE
+    FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+
+    FusionInventory::Agent::Tools::Win32->use('is64bit');
+    ok(defined(is64bit()), "is64bit api call");
+
+    FusionInventory::Agent::Tools::Win32->use('getLocalCodepage');
+    ok(defined(getLocalCodepage()), "getLocalCodepage api call");
+    ok(getLocalCodepage() =~ /^cp.+/, "local codepage check");
+
+    # If we crash after that, this means Win32::OLE is not used in a
+    # dedicated thread
+    my $pid = fork;
+    if (defined($pid)) {
+        waitpid $pid, 0;
+    } else {
+        exit(0);
+    }
 }

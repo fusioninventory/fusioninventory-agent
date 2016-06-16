@@ -8,7 +8,7 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use Test::More;
 use Test::MockModule;
-use Test::NoWarnings;
+use UNIVERSAL::require;
 
 use FusionInventory::Test::Utils;
 
@@ -17,7 +17,15 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Task::Inventory::Win32::Bios;
+use Config;
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
+
+Test::NoWarnings->use();
+
+FusionInventory::Agent::Task::Inventory::Win32::Bios->require();
 
 my %tests = (
     "20050927******.******+***" => "09/27/2005",

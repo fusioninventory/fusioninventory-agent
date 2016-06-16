@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use lib 't/lib';
 
+use Config;
+
 use English qw(-no_match_vars);
 use Test::More;
 use Test::MockModule;
@@ -31,10 +33,11 @@ my %interfaceid_tests = (
 );
 
 my $plan = scalar @payload_tests * 2;
+my $plan_with_threads = 0;
 foreach my $test (keys %interfaceid_tests) {
-    $plan += scalar (keys %{$interfaceid_tests{$test}});
+    $plan_with_threads += scalar (keys %{$interfaceid_tests{$test}});
 }
-plan tests => $plan;
+plan tests => $plan + $plan_with_threads;
 
 foreach my $test (@payload_tests) {
     my $payload = FusionInventory::Agent::Task::WakeOnLan->_getPayload($test);
@@ -43,23 +46,28 @@ foreach my $test (@payload_tests) {
     is($values, lc($test) x 16, "payload values for $test");
 }
 
-my $module = Test::MockModule->new(
-    'FusionInventory::Agent::Tools::Win32'
-);
+SKIP: {
+    skip 'thread support required', $plan_with_threads
+        if (!$Config{usethreads} || $Config{usethreads} ne 'define');
 
-foreach my $sample (keys %interfaceid_tests) {
-    $module->mock(
-        'getRegistryKey',
-        mockGetRegistryKey($sample)
+    my $module = Test::MockModule->new(
+        'FusionInventory::Agent::Tools::Win32'
     );
 
-    foreach my $pnpid (keys %{$interfaceid_tests{$sample}}) {
-        is(
-            FusionInventory::Agent::Task::WakeOnLan->_getWin32InterfaceId(
-                $pnpid
-            ),
-            $interfaceid_tests{$sample}->{$pnpid},
-            "sample $sample, device $pnpid"
+    foreach my $sample (keys %interfaceid_tests) {
+        $module->mock(
+            'getRegistryKey',
+            mockGetRegistryKey($sample)
         );
+
+        foreach my $pnpid (keys %{$interfaceid_tests{$sample}}) {
+            is(
+                FusionInventory::Agent::Task::WakeOnLan->_getWin32InterfaceId(
+                    $pnpid
+                ),
+                $interfaceid_tests{$sample}->{$pnpid},
+                "sample $sample, device $pnpid"
+            );
+        }
     }
 }

@@ -5,6 +5,12 @@ use warnings;
 use base 'Exporter';
 use utf8;
 
+use threads;
+use threads 'exit' => 'threads_only';
+use threads::shared;
+
+use UNIVERSAL::require();
+
 use constant KEY_WOW64_64 => 0x100;
 use constant KEY_WOW64_32 => 0x200;
 
@@ -12,10 +18,7 @@ use Cwd;
 use Encode;
 use English qw(-no_match_vars);
 use File::Temp qw(:seekable tempfile);
-use Win32::API;
 use Win32::Job;
-use Win32::OLE qw(in);
-use Win32::OLE::Const;
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
@@ -24,20 +27,6 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
-
-BEGIN {
-    # As in FusionInventory::Agent::Tools::Hostname
-    if ($OSNAME eq 'MSWin32') {
-        no warnings 'redefine'; ## no critic (ProhibitNoWarnings)
-        Win32::API->require();
-        # Kernel32.dll is used more or less everywhere.
-        # Without this, Win32::API will release the DLL even
-        # if it's a very bad idea
-        *Win32::API::DESTROY = sub {};
-    }
-}
-
-Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
 
 my $localCodepage;
 
@@ -87,13 +76,25 @@ sub encodeFromRegistry {
 }
 
 sub getWMIObjects {
+    my $win32_ole_dependent_api = {
+        array => 1,
+        funct => '_getWMIObjects',
+        args  => \@_
+    };
+
+    return _call_win32_ole_dependent_api($win32_ole_dependent_api);
+}
+
+sub _getWMIObjects {
     my (%params) = (
         moniker => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
         @_
     );
 
     my $WMIService = Win32::OLE->GetObject($params{moniker})
-        or return; #die "WMI connection failed: " . Win32::OLE->LastError();
+        or return;
+
+    Win32::OLE->use('in');
 
     my @objects;
     foreach my $instance (in(
@@ -386,17 +387,143 @@ sub FileTimeToSystemTime {
 
     my $SystemTime = pack( 'SSSSSSSS', 0, 0, 0, 0, 0, 0, 0, 0 );
 
-    my $FileTimeToSystemTime = Win32::API->new(
-        'kernel32',
-        'FileTimeToSystemTime',
-        [ 'P', 'P' ],
-        'I'
-    );
+    # Load Win32::API as late as possible
+    Win32::API->require() or return;
 
-    $FileTimeToSystemTime->Call( $time, $SystemTime );
-    my @times = unpack( 'SSSSSSSS', $SystemTime );
+    my @times;
+    eval {
+        my $FileTimeToSystemTime = Win32::API->new(
+            'kernel32',
+            'FileTimeToSystemTime',
+            [ 'P', 'P' ],
+            'I'
+        );
+
+        $FileTimeToSystemTime->Call( $time, $SystemTime );
+        @times = unpack( 'SSSSSSSS', $SystemTime );
+    };
 
     return @times;
+}
+
+my $worker ;
+my $worker_semaphore;
+
+my @win32_ole_calls : shared;
+
+sub start_Win32_OLE_Worker {
+
+    unless (defined($worker)) {
+        # Request a semaphore on which worker blocks immediatly
+        Thread::Semaphore->require();
+        $worker_semaphore = Thread::Semaphore->new(0);
+
+        # Start a worker thread
+        $worker = threads->create( \&_win32_ole_worker );
+    }
+}
+
+sub _win32_ole_worker {
+    # Load Win32::OLE as late as possible in a dedicated worker
+    Win32::OLE->require() or return;
+    Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
+
+    while (1) {
+        # Always block until semaphore is made available by main thread
+        $worker_semaphore->down();
+
+        my ($call, $result);
+        {
+            lock(@win32_ole_calls);
+            $call = shift @win32_ole_calls
+                if (@win32_ole_calls);
+        }
+
+        if (defined($call)) {
+            lock($call);
+
+            # Found requested private function and call it as expected
+            my $funct;
+            eval {
+                no strict 'refs'; ## no critic (ProhibitNoStrict)
+                $funct = \&{$call->{'funct'}};
+            };
+            if (exists($call->{'array'}) && $call->{'array'}) {
+                my @results = &{$funct}(@{$call->{'args'}});
+                $result = \@results;
+            } else {
+                $result = &{$funct}(@{$call->{'args'}});
+            }
+
+            # Share back the result
+            $call->{'result'} = shared_clone($result);
+
+            # Signal main thread result is available
+            cond_signal($call);
+        }
+    }
+}
+
+sub _call_win32_ole_dependent_api {
+    my ($call) = @_
+        or return;
+
+    if (defined($worker)) {
+        # Share the expect call
+        my $call = shared_clone($call);
+        my $result;
+
+        if (defined($call)) {
+            # Be sure the worker block
+            $worker_semaphore->down_nb();
+
+            # Lock list calls before releasing semaphore so worker waits
+            # on it until we start cond_timedwait for signal on $call
+            lock(@win32_ole_calls);
+            push @win32_ole_calls, $call;
+
+            # Release semaphore so the worker can continue its job
+            $worker_semaphore->up();
+
+            # Now, wait for worker result with one minute timeout
+            my $timeout = time + 60;
+            while (!exists($call->{'result'})) {
+                last if (!cond_timedwait($call, $timeout, @win32_ole_calls));
+            }
+
+            # Be sure to always block worker on semaphore from now
+            $worker_semaphore->down_nb();
+
+            if (exists($call->{'result'})) {
+                $result = $call->{'result'};
+            } else {
+                # Worker is failing: get back to mono-thread and pray
+                $worker->detach();
+                $worker = undef;
+                return _call_win32_ole_dependent_api(@_);
+            }
+        }
+
+        return (exists($call->{'array'}) && $call->{'array'}) ?
+            @{$result || []} : $result ;
+    } else {
+        # Load Win32::OLE as late as possible
+        Win32::OLE->require() or return;
+        Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
+
+        # We come here from worker or if we failed to start worker
+        my $funct;
+        eval {
+            no strict 'refs'; ## no critic (ProhibitNoStrict)
+            $funct = \&{$call->{'funct'}};
+        };
+        return &{$funct}(@{$call->{'args'}});
+    }
+}
+
+END {
+    # Just detach worker
+    $worker->detach() if (defined($worker) && !$worker->is_detached());
 }
 
 1;
@@ -496,3 +623,9 @@ Returns the list of network interfaces.
 
 Returns an array of a converted FILETIME datetime value with following order:
     ( year, month, wday, day, hour, minute, second, msecond )
+
+=head2 start_Win32_OLE_Worker()
+
+Under win32, just start a worker thread handling Win32::OLE dependent
+APIs like is64bit() & getWMIObjects(). This is sometime needed to avoid
+perl crashes.

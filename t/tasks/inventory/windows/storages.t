@@ -9,7 +9,7 @@ use Test::Deep;
 use Test::Exception;
 use Test::MockModule;
 use Test::More;
-use Test::NoWarnings;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Test::Utils;
@@ -19,7 +19,15 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Task::Inventory::Win32::Storages;
+use Config;
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
+
+Test::NoWarnings->use();
+
+FusionInventory::Agent::Task::Inventory::Win32::Storages->require();
 
 my %tests = (
     'win7-sp1-x64' => [

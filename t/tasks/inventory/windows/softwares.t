@@ -11,7 +11,7 @@ use Test::Deep;
 use Test::Exception;
 use Test::MockModule;
 use Test::More;
-use Test::NoWarnings;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Test::Utils;
@@ -21,8 +21,15 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
+use Config;
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
 
-use FusionInventory::Agent::Task::Inventory::Win32::Softwares;
+Test::NoWarnings->use();
+
+FusionInventory::Agent::Task::Inventory::Win32::Softwares->require();
 
 my %softwares_tests = (
         xp => [
