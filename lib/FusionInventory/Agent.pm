@@ -204,8 +204,8 @@ sub reinit {
     }
     $logger->debug("Planned tasks:");
     foreach my $task (@{$self->{tasksExecutionPlan}}) {
-        $task = lc $task;
-        $logger->debug("- $task: " . $available{$available_lc{$task}});
+        my $task_lc = lc $task;
+        $logger->debug("- $task: " . $available{$available_lc{$task_lc}});
     }
 
     $self->{tasks} = \@tasks;
