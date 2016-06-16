@@ -33,8 +33,20 @@ sub filter {
         return 0 if $_ =~ m{FusionInventory/Agent/Threads.pm};
     }
 
+    return 0 if ($_ =~ m{FusionInventory/Agent/Task/Deploy.pm} &&
+        !(File::Copy::Recursive->require()));
+
     return 0 if ($_ =~ m{FusionInventory/Agent/Task/Deploy/P2P.pm} &&
         !(Net::Ping->require() && Parallel::ForkManager->require()));
+
+    return 0 if ($_ =~ m{FusionInventory/Agent/Task/Deploy/ActionProcessor.pm} &&
+        !(File::Copy::Recursive->require()));
+
+    return 0 if ($_ =~ m{FusionInventory/Agent/Task/Deploy/ActionProcessor/Action/Move.pm} &&
+        !(File::Copy::Recursive->require()));
+
+    return 0 if ($_ =~ m{FusionInventory/Agent/Task/Deploy/ActionProcessor/Action/Copy.pm} &&
+        !(File::Copy::Recursive->require()));
 
     return 1;
 }
