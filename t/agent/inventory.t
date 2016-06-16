@@ -13,7 +13,7 @@ use FusionInventory::Agent;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
 
-plan tests => 24;
+plan tests => 26;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends  => [ 'Test' ],
@@ -298,6 +298,10 @@ $inventory->mergeContent(
         HARDWARE => {
             PROCESSORT => 'fake'
         },
+        OPERATINGSYSTEM => {
+            FULL_NAME => 'fake fullname',
+            NOT_SUPPORTED_FIELD => 0
+        },
     }
 );
 
@@ -338,4 +342,16 @@ is(
     $inventory->{content}->{HARDWARE}->{PROCESSORT},
     'fake',
     'hash section merge'
+);
+
+is(
+    $inventory->{content}->{OPERATINGSYSTEM}->{FULL_NAME},
+    'fake fullname',
+    'operatingsystem section merge'
+);
+
+is(
+    $inventory->{content}->{OPERATINGSYSTEM}->{NOT_SUPPORTED_FIELD},
+    undef,
+    'operatingsystem section merge not supported field'
 );
