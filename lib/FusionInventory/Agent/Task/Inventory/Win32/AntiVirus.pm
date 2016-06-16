@@ -81,34 +81,20 @@ sub _addMcAfeeData {
     }
 
     # get the values in registry
-    my $avDatDate = getRegistryValue(
-        path     => $path . '/AVDatDate' ,
-        withtype => 0
-    );
-    my $avDatVersion = getRegistryValue(
-        path     => $path . '/AVDatVersion' ,
-        withtype => 0
-    );
-    my $avDatVersionMinor = getRegistryValue(
-        path     => $path . '/AVDatVersionMinor' ,
-        withtype => 0
-    );
-    my $engineVersion32Major = getRegistryValue(
-        path     => $path . '/EngineVersion32Major' ,
-        withtype => 0
-    );
-    my $engineVersion32Minor = getRegistryValue(
-        path     => $path . '/EngineVersion32Minor' ,
-        withtype => 0
-    );
-    my $engineVersion64Major = getRegistryValue(
-        path     => $path . '/EngineVersionMajor' ,
-        withtype => 0
-    );
-    my $engineVersion64Minor = getRegistryValue(
-        path     => $path . '/EngineVersionMinor' ,
-        withtype => 0
-    );
+    my $avDatDate            = 
+        getRegistryValue(path => $path . '/AVDatDate');
+    my $avDatVersion         =
+        getRegistryValue(path => $path . '/AVDatVersion');
+    my $avDatVersionMinor    =
+        getRegistryValue(path => $path . '/AVDatVersionMinor');
+    my $engineVersion32Major =
+        getRegistryValue(path => $path . '/EngineVersion32Major');
+    my $engineVersion32Minor =
+        getRegistryValue(path => $path . '/EngineVersion32Minor');
+    my $engineVersion64Major =
+        getRegistryValue(path => $path . '/EngineVersionMajor');
+    my $engineVersion64Minor =
+        getRegistryValue(path => $path . '/EngineVersionMinor');
 
     # fill the inventory
     if (defined $avDatDate) {
