@@ -17,8 +17,13 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-use FusionInventory::Agent::Task::Inventory::Win32::Registry;
+use Config;
+# check thread support availability
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
 
+FusionInventory::Agent::Task::Inventory::Win32::Registry->require();
 
 if ($OSNAME ne 'MSWin32') {
     plan skip_all => 'Windows-specific test';
