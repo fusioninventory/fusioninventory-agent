@@ -59,7 +59,8 @@ sub doInventory {
 
             # McAfee data
             if ($antivirus->{NAME} =~ /McAfee/i) {
-                _addMcAfeeData($antivirus, $logger);
+                my $info = _getMcAfeeInfo($logger);
+                $antivirus->{$_} = $info->{$_} foreach keys %$info;
             }
 
             $inventory->addEntry(
@@ -70,8 +71,8 @@ sub doInventory {
     }
 }
 
-sub _addMcAfeeData {
-    my ($hashref, $logger) = @_;
+sub _getMcAfeeInfo {
+    my ($logger) = @_;
 
     my $path;
     if (is64bit() && defined getRegistryKey(path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/McAfee/AVEngine')) {
@@ -86,12 +87,14 @@ sub _addMcAfeeData {
         ENGINEVERSION64 => [ 'EngineVersionMajor',   'EngineVersionMinor' ],
     );
 
+    my $info;
+
     # major.minor versions properties
     foreach my $property (keys %properties) {
         my $keys = $properties{$property};
         my $major = getRegistryValue(path => $path . '/' . $keys->[0]);
         my $minor = getRegistryValue(path => $path . '/' . $keys->[1]);
-        $hashref->{$property} = sprintf("%04h.%04h", $major, $minor)
+        $info->{$property} = sprintf("%04h.%04h", $major, $minor)
             if defined $major && defined $major;
     }
 
@@ -105,8 +108,10 @@ sub _addMcAfeeData {
         if ($datFileCreation =~ /(\d\d\d\d)\/(\d\d)\/(\d\d)/) {
             $datFileCreation = join( '/', ($3, $2, $1) );
         }
-        $hashref->{DATFILECREATION} = $datFileCreation;
+        $info->{DATFILECREATION} = $datFileCreation;
     }
+
+    return $info;
 }
 
 1;
