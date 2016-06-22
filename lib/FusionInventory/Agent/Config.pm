@@ -7,7 +7,6 @@ use English qw(-no_match_vars);
 use File::Spec;
 use Getopt::Long;
 use UNIVERSAL::require;
-use Data::Structure::Util qw/unbless/;
 
 require FusionInventory::Agent::Tools;
 
