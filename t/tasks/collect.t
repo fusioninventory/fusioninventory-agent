@@ -7,6 +7,7 @@ use File::Temp qw(tempdir);
 
 use Test::Exception;
 use Test::More;
+use Test::MockModule;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Collect;
@@ -32,7 +33,7 @@ plan tests => $plan;
 
 # Redefine send API for testing to simulate server answer without really sending
 # user & password params can be used to define the current test and simulate the expected answer
-sub FusionInventory::Agent::HTTP::Client::Fusion::send {
+sub _send {
     my ($self, %params) = @_;
     my $test = $self->{user} || '' ;
     my $remtest = $self->{password} || '' ;
@@ -104,6 +105,9 @@ sub FusionInventory::Agent::HTTP::Client::Fusion::send {
         }
     }
 }
+
+my $module = Test::MockModule->new('FusionInventory::Agent::HTTP::Client::Fusion');
+$module->mock('send',\&_send);
 
 # Set greater verbosity to trigger tests on expected debug message
 $logger->{verbosity} = LOG_DEBUG2;
