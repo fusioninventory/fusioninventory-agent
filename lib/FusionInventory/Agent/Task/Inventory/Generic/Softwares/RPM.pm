@@ -20,7 +20,7 @@ sub doInventory {
         '%{NAME}\t' .
         '%{ARCH}\t' .
         '%{VERSION}-%{RELEASE}\t' .
-        '%{INSTALLTIME:date}\t' .
+        '%{INSTALLTIME}\t' .
         '%{SIZE}\t' .
         '%{VENDOR}\t' .
         '%{SUMMARY}\n' .
@@ -51,14 +51,16 @@ sub _getPackagesList {
             NAME        => $infos[0],
             ARCH        => $infos[1],
             VERSION     => $infos[2],
-            INSTALLDATE => $infos[3],
             FILESIZE    => $infos[4],
             COMMENTS    => $infos[6],
             FROM        => 'rpm'
         };
 
+        my ($year, $month, $day) = (localtime($infos[3]))[5, 4, 3];
+        $package->{INSTALLDATE}  = sprintf(
+            "%02d/%02d/%04d", $day, $month + 1, $year + 1900
+        );
         $package->{PUBLISHER} = $infos[5] if $infos[5] ne '(none)';
-
         push @packages, $package;
     }
 
