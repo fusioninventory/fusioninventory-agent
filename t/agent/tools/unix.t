@@ -92,7 +92,7 @@ my %df_tests = (
             TOTAL      => '251',
             FREE       => '239',
             TYPE       => undef,
-            FILESYSTEM => '/var'
+            FILESYSTEM => '/home'
         },
         {
             VOLUMN     => '/dev/wd0d',
