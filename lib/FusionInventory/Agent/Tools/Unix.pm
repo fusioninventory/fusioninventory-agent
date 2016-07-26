@@ -167,15 +167,15 @@ sub getFilesystemsFromDf {
         # in the second case, it has to be given by caller
         my ($filesystem, $total, $free, $type);
         if ($headers[1] eq 'Type') {
-            $filesystem = $infos[1];
+            $type       = $infos[1];
             $total      = $infos[2];
             $free       = $infos[4];
-            $type       = $infos[6];
+            $filesystem = $infos[6];
         } else {
-            $filesystem = $params{type};
+            $type       = $params{type};
             $total      = $infos[1];
             $free       = $infos[3];
-            $type       = $infos[5];
+            $filesystem = $infos[5];
         }
 
         # skip some virtual filesystems
