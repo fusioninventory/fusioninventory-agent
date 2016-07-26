@@ -15,36 +15,36 @@ my %df_tests = (
             VOLUMN     => '/dev/ad4s1a',
             TOTAL      => '1447',
             FREE       => '965',
-            TYPE       => '/',
-            FILESYSTEM => 'ufs'
+            TYPE       => 'ufs',
+            FILESYSTEM => '/'
         },
         {
             VOLUMN     => '/dev/ad4s1g',
             TOTAL      => '138968',
             FREE       => '12851',
-            TYPE       => '/Donnees',
-            FILESYSTEM => 'ufs'
+            TYPE       => 'ufs',
+            FILESYSTEM => '/Donnees'
         },
         {
             VOLUMN     => '/dev/ad4s1e',
             TOTAL      => '495',
             FREE       => '397',
-            TYPE       => '/tmp',
-            FILESYSTEM => 'ufs'
+            TYPE       => 'ufs',
+            FILESYSTEM => '/tmp'
         },
         {
             VOLUMN     => '/dev/ad4s1f',
             TOTAL      => '19832',
             FREE       => '5118',
-            TYPE       => '/usr',
-            FILESYSTEM => 'ufs'
+            TYPE       => 'ufs',
+            FILESYSTEM => '/usr'
         },
         {
             VOLUMN     => '/dev/ad4s1d',
             TOTAL      => '3880',
             FREE       => '2571',
-            TYPE       => '/var',
-            FILESYSTEM => 'ufs'
+            TYPE       => 'ufs',
+            FILESYSTEM => '/var'
         }
     ],
     'linux' => [
@@ -52,22 +52,22 @@ my %df_tests = (
             VOLUMN     => '/dev/sda5',
             TOTAL      => '12106',
             FREE       => '6528',
-            TYPE       => '/',
-            FILESYSTEM => 'ext4'
+            TYPE       => 'ext4',
+            FILESYSTEM => '/'
         },
         {
             VOLUMN     => '/dev/sda3',
             TOTAL      => '60002',
             FREE       => '40540',
-            TYPE       => '/media/windows',
-            FILESYSTEM => 'fuseblk'
+            TYPE       => 'fuseblk',
+            FILESYSTEM => '/media/windows'
         },
         {
             VOLUMN     => '/dev/sda7',
             TOTAL      => '44110',
             FREE       => '21930',
-            TYPE       => '/home',
-            FILESYSTEM => 'crypt'
+            TYPE       => 'crypt',
+            FILESYSTEM => '/home'
         }
     ],
     'netbsd' => [
@@ -75,8 +75,8 @@ my %df_tests = (
             VOLUMN     => '/dev/wd0a',
             TOTAL      => '15112',
             FREE       => '3581',
-            TYPE       => '/',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/'
           }
     ],
     'openbsd' => [
@@ -84,22 +84,22 @@ my %df_tests = (
             VOLUMN     => '/dev/wd0a',
             TOTAL      => '784',
             FREE       => '174',
-            TYPE       => '/',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/'
         },
         {
             VOLUMN     => '/dev/wd0e',
             TOTAL      => '251',
             FREE       => '239',
-            TYPE       => '/home',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/var'
         },
         {
             VOLUMN     => '/dev/wd0d',
             TOTAL      => '892',
             FREE       => '224',
-            TYPE       => '/usr',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/usr'
         }
     ],
     'aix' => [
@@ -107,57 +107,57 @@ my %df_tests = (
             VOLUMN     => '/dev/hd4',
             TOTAL      => '2048',
             FREE       => '1065',
-            TYPE       => '/',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/'
         },
         {
             VOLUMN     => '/dev/hd2',
             TOTAL      => '4864',
             FREE       => '2704',
-            TYPE       => '/usr',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/usr'
         },
         {
             VOLUMN     => '/dev/hd9var',
             TOTAL      => '256',
             FREE       => '177',
-            TYPE       => '/var',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/var'
         },
         {
             VOLUMN     => '/dev/hd3',
             TOTAL      => '4096',
             FREE       => '837',
-            TYPE       => '/tmp',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/tmp'
         },
         {
             VOLUMN     => '/dev/fwdump',
             TOTAL      => '128',
             FREE       => '127',
-            TYPE       => '/var/adm/ras/platform',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/var/adm/ras/platform'
         },
         {
             VOLUMN     => '/dev/hd1',
             TOTAL      => '2048',
             FREE       => '1027',
-            TYPE       => '/home',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/home'
         },
         {
             VOLUMN     => '/dev/hd11admin',
             TOTAL      => '128',
             FREE       => '127',
-            TYPE       => '/admin',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/admin'
         },
         {
             VOLUMN     => '/dev/hd10opt',
             TOTAL      => '128',
             FREE       => '13',
-            TYPE       => '/opt',
-            FILESYSTEM => undef
+            TYPE       => undef,
+            FILESYSTEM => '/opt'
         }
     ]
 );
