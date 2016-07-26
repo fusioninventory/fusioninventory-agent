@@ -29,7 +29,7 @@ sub doInventory {
         # exclude cdrom mount
         grep { $_->{TYPE} !~ /cdrom/ }
         # get all file systems
-        getFilesystemsFromDf(logger => $logger, command => $command);
+        getFilesystemsFromDf(logger => $logger, command => $command, type => 'unset');
 
     # get indexed list of filesystems types
     my %filesystems_types =
