@@ -43,7 +43,7 @@ sub doInventory {
             next;
         }
 
-        $filesystem->{FILESYSTEM} = $filesystems_types{$filesystem->{VOLUMN}};
+        $filesystem->{TYPE} = $filesystems_types{$filesystem->{VOLUMN}};
     }
 
     # add filesystems to the inventory
