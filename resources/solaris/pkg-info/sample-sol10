@@ -1,0 +1,54 @@
+   PKGINST:  SUNWgtar
+      NAME:  gtar - GNU tar
+  CATEGORY:  system
+      ARCH:  i386
+   VERSION:  11.10.0,REV=2005.01.08.01.09
+   BASEDIR:  /
+    VENDOR:  Oracle Corporation
+      DESC:  GNU tar - A utility used to store, backup, and transport files (gtar) 1.25
+    PSTAMP:  sfw10-patch-x20110415095946
+  INSTDATE:  Jul 31 2013 22:23
+   HOTLINE:  Please contact your local service provider
+    STATUS:  completely installed
+     FILES:        6 installed pathnames
+                   4 shared pathnames
+                   4 directories
+                   2 executables
+                 711 blocks used (approx)
+
+   PKGINST:  SUNWauda
+      NAME:  Audio Applications
+  CATEGORY:  system
+      ARCH:  i386
+   VERSION:  11.10.0,REV=2005.01.21.16.34
+   BASEDIR:  /
+    VENDOR:  Oracle Corporation
+      DESC:  SunOS audio applications
+    PSTAMP:  on10ptchfeatx20110619221650
+  INSTDATE:  Jul 31 2013 22:26
+   HOTLINE:  Please contact your local service provider
+    STATUS:  completely installed
+     FILES:        7 installed pathnames
+                   3 shared pathnames
+                   3 directories
+                   4 executables
+                 669 blocks used (approx)
+
+   PKGINST:  SUNWbip
+      NAME:  Basic IP commands (Usr)
+  CATEGORY:  system
+      ARCH:  i386
+   VERSION:  11.10.0,REV=2005.01.21.16.34
+   BASEDIR:  /
+    VENDOR:  Oracle Corporation
+      DESC:  Basic IP commands (/usr/sbin/ping, /bin/ftp)
+    PSTAMP:  on10ptchfeatx20110619221738
+  INSTDATE:  Jul 31 2013 22:17
+   HOTLINE:  Please contact your local service provider
+    STATUS:  completely installed
+     FILES:        5 installed pathnames
+                   3 shared pathnames
+                   3 directories
+                   2 executables
+                   1 setuid/setgid executables
+                 259 blocks used (approx)
