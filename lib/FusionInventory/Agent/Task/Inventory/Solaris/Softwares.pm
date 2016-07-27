@@ -4,21 +4,13 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled {
     my (%params) = @_;
 
-    my $info = getReleaseInfo();
-    if ($info->{version} > 10) {
-    	return
-    	    !$params{no_category}->{software} &&
-    	    canRun('pkg');
-    } else {
-    	return
-    	    !$params{no_category}->{software} &&
-    	    canRun('pkginfo');
-    }
+    return
+        !$params{no_category}->{software} &&
+        (canRun('pkg') || canRun('pkginfo'));
 }
 
 sub doInventory {
@@ -28,8 +20,11 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my $handle;
-    my $info = getReleaseInfo();
-    if ($info->{version} > 10) {
+    
+    my $usepkg = 0;
+    $usepkg = 1 if (canRun('pkg'));
+    
+    if ($usepkg) {
     	$handle = getFileHandle(
     	    command => 'pkg info',
     	    logger  => $logger,
@@ -44,7 +39,7 @@ sub doInventory {
     return unless $handle;
 
     my $software;
-    if ($info->{version} > 10) {
+    if ($usepkg) {
     	while (my $line = <$handle>) {
     	    if ($line =~ /^\s*$/) {
         		$inventory->addEntry(
