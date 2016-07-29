@@ -3405,7 +3405,7 @@ my $type = 'SPApplicationsDataType';
 my $flatFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType.example.txt';
 my $softwaresFromFlatFile = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfos(file => $flatFile, type => $type);
 my $xmlFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml';
-my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfosXML(file => $xmlFile, type => $type);
+my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfosXML(file => $xmlFile, type => $type, timezone => 'Europe/Paris');
 ok (ref($softwaresFromFlatFile) eq 'HASH');
 ok (ref($softwaresFromXmlFile) eq 'HASH');
 
@@ -3548,7 +3548,7 @@ cmp_deeply(
 
 my $dateStr = '2009-04-07T00:42:37Z';
 my $dateExpectedStr = '4/7/09 2:42 AM';
-my $tz = FusionInventory::Agent::Tools::MacOS::_getTimeZone();
+my $tz = 'Europe/Paris';
 my $convertedDate = FusionInventory::Agent::Tools::MacOS::_convertDateFromApplicationDataXml($dateStr, $tz);
 ok ((defined $convertedDate) && UNIVERSAL::isa($convertedDate, 'DateTime'));
 
