@@ -31,7 +31,7 @@ sub getSystemProfilerInfosXML {
     # that will extract the data we want
     my $info = {};
     if ($params{type} eq 'SPApplicationsDataType') {
-        $info = _extractDataTypeData(\@xml, $params{logger});
+        $info = _extractDataTypeData(\@xml, $params{logger}, $params{timezone});
     } else {
         # not implemented for every data types
     }
@@ -55,7 +55,7 @@ sub _getTimeZone {
 }
 
 sub _extractDataTypeData {
-    my ($xmlLines, $logger) = @_;
+    my ($xmlLines, $logger, $timezone) = @_;
 
     my $xmlElementsXmlString = _extractApplicationsDataFromXmlLines($xmlLines);
 
@@ -64,7 +64,12 @@ sub _extractDataTypeData {
         my $hash = _extractApplicationDataFromXmlStringElement($xmlString);
         next unless $hash->{'_name'};
         $hash = _applySpecialRulesOnApplicationData($hash);
-        my $tz = _getTimeZone();
+        my $tz;
+        if (defined $timezone) {
+            $tz = $timezone;
+        } else {
+            $tz = _getTimeZone();
+        }
         my $convertedDate = _convertDateFromApplicationDataXml($hash->{lastModified}, $tz);
         $convertedDate = $convertedDate->strftime("%d/%m/%Y");
         if (defined $convertedDate) {

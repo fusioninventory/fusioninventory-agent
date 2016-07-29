@@ -2892,7 +2892,7 @@ my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/macos/system_profiler/$test.SPApplicationsDataType";
-    my $softwares = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_getSoftwaresList(file => $file);
+    my $softwares = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_getSoftwaresList(file => $file, timezone => 'Europe/Paris');
     cmp_deeply(
         [ sort { compare() } @{$softwares} ],
         [ sort { compare() } @{$tests{$test}} ],
