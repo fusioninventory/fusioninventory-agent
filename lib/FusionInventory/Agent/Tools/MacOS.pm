@@ -6,6 +6,8 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use Memoize;
+use POSIX 'strftime';
+use DateTime;
 
 use FusionInventory::Agent::Tools;
 
@@ -15,6 +17,278 @@ our @EXPORT = qw(
 );
 
 memoize('getSystemProfilerInfos');
+
+sub getSystemProfilerInfosXML {
+    my (%params) = @_;
+
+    my $command = $params{type} ?
+        "/usr/sbin/system_profiler -xml $params{type}" : "/usr/sbin/system_profiler -xml";
+    my @xml = getAllLines(command => $command, %params);
+    return unless @xml;
+
+    # As we don't want to use a module platform dependent and
+    # because XML is not very complex, we introduce our own parser
+    # that will extract the data we want
+    my $info = {};
+    if ($params{type} eq 'SPApplicationsDataType') {
+        $info = _extractDataTypeData(\@xml, $params{logger});
+    } else {
+        # not implemented for every data types
+    }
+
+    return $info;
+}
+
+sub _getTimeZone {
+    my $tz;
+    my $line = getFirstLine(command => 'ls -l /etc/localtime');
+    if ($line) {
+        # trim
+        $line =~ s/^\s+//g;
+        $line =~ s/\s+$//g;
+        if ($line =~ /zoneinfo\/([^\/]+\/[^\/]+)$/) {
+            $tz = $1;
+        }
+    }
+
+    return $tz;
+}
+
+sub _extractDataTypeData {
+    my ($xmlLines, $logger) = @_;
+
+    my $xmlElementsXmlString = _extractApplicationsDataFromXmlLines($xmlLines);
+
+    my $softwareHash = {};
+    for my $xmlString (@$xmlElementsXmlString) {
+        my $hash = _extractApplicationDataFromXmlStringElement($xmlString);
+        next unless $hash->{'_name'};
+        $hash = _applySpecialRulesOnApplicationData($hash);
+        my $tz = _getTimeZone();
+        my $convertedDate = _convertDateFromApplicationDataXml($hash->{lastModified}, $tz);
+        $convertedDate = $convertedDate->strftime("%d/%m/%Y");
+        if (defined $convertedDate) {
+            $hash->{lastModified} = $convertedDate;
+        } else {
+            if (defined $logger) {
+                $logger->error("can't parse retrieved dates in 'lastModified' field in XML file");
+            }
+        }
+        my $mappedHash = _mapApplicationDataKeys($hash);
+        $softwareHash = _mergeHashes($softwareHash, $mappedHash);
+    }
+
+    return {
+        'Applications' => $softwareHash
+    };
+}
+
+sub cmpVersionNumbers {
+    my ($str1, $str2) = @_;
+
+    my @list1 = reverse split(/\./, $str1);
+    my @list2 = reverse split(/\./, $str2);
+
+    my $cmp = 0;
+    my $int1;
+    while (
+        $cmp == 0 && ($int1 = pop @list1)
+    ) {
+        $int1 = int($int1);
+        my $int2 = pop @list2;
+        if (defined $int2) {
+            $int2 = int($int2);
+            $cmp = $int1 <=> $int2;
+        } else {
+            $cmp = 1;
+        }
+    }
+    # if $cmp is still 0 and list2 still contains values,
+    # so $str2 is greater
+    if ($cmp == 0 && (@list2) > 0) {
+        $cmp = -1;
+    }
+
+    return $cmp;
+}
+
+sub _convertDateFromApplicationDataXml {
+    my ($dateStrFromDataXml, $tz) = @_;
+
+    my $date;
+    if ($dateStrFromDataXml =~ /^(\d{4})[^0-9](\d{2})[^0-9](\d{2})[^0-9](\d{2}):(\d{2}):(\d{2})[^0-9]$/) {
+        $date = DateTime->new(
+            year       => int($1),
+            month      => int($2),
+            day        => int($3),
+            hour       => int($4),
+            minute     => int($5),
+            second     => int($6),
+            time_zone  => 'UTC'
+        );
+        $date->set_time_zone($tz) if defined $tz;
+    }
+
+    return $date;
+}
+
+sub _applySpecialRulesOnApplicationData {
+    my ($hash) = @_;
+
+    if (defined($hash->{has64BitIntelCode})) {
+        $hash->{has64BitIntelCode} = ucfirst $hash->{has64BitIntelCode};
+    }
+    if (defined($hash->{runtime_environment})) {
+        if ($hash->{runtime_environment} eq 'arch_x86') {
+            $hash->{runtime_environment} = 'Intel';
+        }
+        $hash->{runtime_environment} = ucfirst $hash->{runtime_environment};
+    }
+
+    return $hash;
+}
+
+sub _mergeHashes {
+    my ($hash1, $hash2) = @_;
+
+    for my $key (keys %$hash2) {
+        my $newKey = $key;
+        if (defined($hash1->{$key})) {
+            my $i = 0;
+            $newKey = $key . '_' . $i;
+            while (defined($hash1->{$newKey})) {
+                $newKey = $key . '_' . $i++;
+            }
+        }
+        $hash1->{$newKey} = $hash2->{$key};
+    }
+
+    return $hash1;
+}
+
+sub _extractApplicationsDataFromXmlLines {
+    my ($allLines) = @_;
+
+    my $elementsXmlString = [];
+    my @allLinesReversed = reverse @$allLines;
+    my $discoveringElement = undef;
+    my $elementNameTmp = '';
+    my $currentElement = '';
+    my $elementNameToExtract = 'dict';
+    my $extractNothingUntilNextOpeningElement = 0;
+    my $elementTmp = '';
+    my $closingTag = 0;
+    while (my $line = pop @allLinesReversed) {
+        chomp $line;
+        for my $c (split (//, $line)) {
+            if ($c eq '<') {
+                $discoveringElement = 1;
+                $extractNothingUntilNextOpeningElement = 0;
+                $elementNameTmp = '';
+                if ($elementTmp ne '') {
+                    $elementTmp .= $c;
+                }
+            } elsif (
+                    $discoveringElement
+                        && ($c eq '?' || $c eq '!')
+                ) {
+                    $extractNothingUntilNextOpeningElement = 1;
+            } elsif ($extractNothingUntilNextOpeningElement) {
+                next;
+            } elsif (
+                $discoveringElement
+                    && $elementNameTmp eq ''
+                    && $c eq '/'
+            ) {
+                $closingTag = 1;
+                if ($elementTmp ne '') {
+                    $elementTmp .= $c;
+                }
+            } elsif (
+                $c eq '>'
+                    && $discoveringElement
+            ) {
+                $discoveringElement = 0;
+                $currentElement = $elementNameTmp;
+                if ($closingTag) {
+                    if ($elementTmp ne '') {
+                        $elementTmp .= $c;
+                        # did we close an element to extract ?
+                        if (
+                            $currentElement eq $elementNameToExtract
+                            && $currentElement eq $elementNameTmp
+                        ) {
+                            # delete spaces between '>' and '<' chars
+                            # and also at beginning and at end
+                            $elementTmp =~ s/^\s*//g;
+                            $elementTmp =~ s/\s*$//g;
+                            $elementTmp =~ s/(<\/[^<]+>)\s+(<)/$1$2/g;
+                            $elementTmp =~ s/(<[^<\/]+>)\s+(<[^<\/]+>)/$1$2/g;
+                            push @$elementsXmlString, $elementTmp;
+                            $elementTmp = '';
+                            $currentElement = '';
+                            $elementNameTmp = '';
+                        }
+                    }
+                    $closingTag = 0;
+                } else {
+                    if (
+                        $currentElement eq $elementNameToExtract
+                            && !$closingTag
+                    ) {
+                        # starting element extraction
+                        $elementTmp = '<' . $currentElement . '>';
+                    } elsif ($elementTmp ne '') {
+                        $elementTmp .= $c;
+                    } else {
+                        $elementNameTmp = '';
+                    }
+                }
+                next;
+            } elsif ($discoveringElement) {
+                $elementNameTmp .= $c;
+                if ($elementTmp ne '') {
+                    $elementTmp .= $c;
+                }
+            } elsif ($elementTmp ne '') {
+                $elementTmp .= $c;
+            }
+        }
+    }
+
+    return $elementsXmlString;
+}
+
+sub _extractApplicationDataFromXmlStringElement {
+    my ($xmlString) = @_;
+
+    my $hash = {};
+    while ($xmlString =~ /<key>([^<]+)<\/key><(?:string|date)>([^<]+)<\/(?:string|date)>/g) {
+        $hash->{$1} = $2;
+    }
+
+    return $hash;
+}
+
+sub _mapApplicationDataKeys {
+    my ($hash) = @_;
+
+    my $mapping = {
+        'version' => 'Version',
+        'has64BitIntelCode' => '64-Bit (Intel)',
+        'lastModified' => 'Last Modified',
+        'path' => 'Location',
+        'runtime_environment' => 'Kind',
+        'info' => 'Get Info String'
+    };
+    my %hashMapped = map { ($mapping->{$_} || 'unMapped') => $hash->{$_} } keys %$hash;
+    delete $hashMapped{unMapped};
+
+    # to merge two hashes
+    # @hash1{keys %hash2} = values %hash2
+
+    return { $hash->{'_name'} => \%hashMapped };
+}
 
 sub getSystemProfilerInfos {
     my (%params) = @_;
