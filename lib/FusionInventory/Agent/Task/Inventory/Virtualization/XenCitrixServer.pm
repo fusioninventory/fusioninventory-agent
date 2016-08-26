@@ -42,7 +42,7 @@ sub _getUUID {
     my @machines;
     while (my $line = <$handle>) {
         chomp $line;
-        next unless $line =~ /uuid ( RO)/;
+        next unless $line =~ /uuid \( RO\)/;
         my (undef, $uuid) = split(':', $line);
         chomp $uuid;
 
