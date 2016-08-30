@@ -20,7 +20,10 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $softwares = _getSoftwaresList(logger => $params{logger});
+    my $softwares = _getSoftwaresList(
+        logger => $params{logger},
+        osVersion => $inventory->{content}->{OPERATINGSYSTEM}->{VERSION}
+    );
     return unless $softwares;
 
     foreach my $software (@$softwares) {
@@ -35,10 +38,27 @@ sub _getSoftwaresList {
     my (%params) = @_;
     my $logger = $params{logger};
 
-    my $infos = getSystemProfilerInfos(
-        type => 'SPApplicationsDataType',
-        @_
-    );
+    if (defined $logger) {
+        $logger->debug2( 'getting software list in Mac OS version '.$params{osVersion} );
+    }
+
+    my $infos;
+    my $datesAlreadyFormatted = 0;
+    if (defined $params{osVersion} && FusionInventory::Agent::Tools::MacOS::cmpVersionNumbers($params{osVersion}, '10.8.0') >= 0) {
+        if (defined $logger) {
+            $logger->debug2( 'OS version at least 10.8.0, so extracting softwares from system_profiler using XML' );
+        }
+        $infos = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfosXML(
+            type => 'SPApplicationsDataType',
+            @_
+        );
+        $datesAlreadyFormatted = 1;
+    } else {
+        $infos = getSystemProfilerInfos(
+            type => 'SPApplicationsDataType',
+            @_
+        );
+    }
     my $info = $infos->{Applications};
 
     my @softwares;
@@ -50,13 +70,18 @@ sub _getSoftwaresList {
             $app->{'Get Info String'} &&
             $app->{'Get Info String'} =~ /^\S+, [A-Z]:\\/;
 
+        my $formattedDate = $app->{'Last Modified'};
+        if (!$datesAlreadyFormatted) {
+            $formattedDate = _formatDate($formattedDate, $logger)
+        }
+
         push @softwares, {
             NAME      => $name,
             VERSION   => $app->{'Version'},
             COMMENTS  => $app->{'Kind'} ? '[' . $app->{'Kind'} . ']' : undef,
             PUBLISHER => $app->{'Get Info String'},
             # extract date's data and format these data
-            INSTALLDATE => _formatDate($app->{'Last Modified'}, $logger)
+            INSTALLDATE => $formattedDate
         };
     }
 
@@ -72,7 +97,7 @@ sub _formatDate {
     my $extractionPattern = "%m/%d/%y %H:%M";
     my $extractionPatternUsed = '';
 
-    my $outputFormat = "%Y-%m-%d %H:%M";
+    my $outputFormat = "%d/%m/%Y";
 
     # trim
     $dateStr =~ s/^\s+|\s+$//g;
