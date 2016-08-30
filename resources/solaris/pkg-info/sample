@@ -1,0 +1,57 @@
+          Name: archiver/gnu-tar
+       Summary: GNU version of the tar archiving utility
+   Description: Tar is a program for packaging a set of files as a single
+                archive in tar format.
+      Category: Development/GNU
+         State: Installed
+     Publisher: solaris
+       Version: 1.26
+ Build Release: 5.11
+        Branch: 0.175.1.0.0.24.0
+Packaging Date: September  4, 2012 05:05:45 PM 
+          Size: 1.63 MB
+          FMRI: pkg://solaris/archiver/gnu-tar@1.26,5.11-0.175.1.0.0.24.0:20120904T170545Z
+
+          Name: audio/audio-utilities
+       Summary: Audio Applications
+   Description: Audio applications including audioconvert(1), audioplay(1),
+                audiorecord(1) and audiotest(1)
+      Category: System/Media
+         State: Installed
+     Publisher: solaris
+       Version: 0.5.11
+ Build Release: 5.11
+        Branch: 0.175.1.0.0.24.2
+Packaging Date: September 19, 2012 06:41:17 PM 
+          Size: 830.83 kB
+          FMRI: pkg://solaris/audio/audio-utilities@0.5.11,5.11-0.175.1.0.0.24.2:20120919T184117Z
+
+          Name: benchmark/iperf
+       Summary: iperf - tool for measuring maximum TCP and UDP bandwidth performance
+      Category: Applications/System Utilities
+         State: Installed
+     Publisher: solaris
+       Version: 2.0.4
+ Build Release: 5.11
+        Branch: 0.175.1.0.0.24.0
+Packaging Date: September  4, 2012 05:06:01 PM 
+          Size: 131.81 kB
+          FMRI: pkg://solaris/benchmark/iperf@2.0.4,5.11-0.175.1.0.0.24.0:20120904T170601Z
+
+          Name: entire
+       Summary: entire incorporation including Support Repository Update (Oracle Solaris 11.1 SRU 4.5).
+   Description: This package constrains system package versions to the same
+                build.  WARNING: Proper system update and correct package
+                selection depend on the presence of this incorporation.
+                Removing this package will result in an unsupported system.  For
+                more information see https://support.oracle.com/CSP/main/article
+                ?cmd=show&type=NOT&doctype=REFERENCE&id=1501435.1.
+      Category: Meta Packages/Incorporations
+         State: Installed
+     Publisher: solaris
+       Version: 0.5.11 (Oracle Solaris 11.1 SRU 4.5)
+ Build Release: 5.11
+        Branch: 0.175.1.4.0.5.0
+Packaging Date: February 12, 2013 04:17:54 PM 
+          Size: 5.46 kB
+          FMRI: pkg://solaris/entire@0.5.11,5.11-0.175.1.4.0.5.0:20130212T161754Z
