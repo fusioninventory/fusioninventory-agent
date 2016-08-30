@@ -68,7 +68,7 @@ sub _getEdidInfo {
     # http://forge.fusioninventory.org/issues/1614
     if (
         $edid->{EISA_ID} &&
-        $edid->{EISA_ID} =~ /^ACR(0018|0020|0024|00A8|7883|ad49|adaf)$/
+        $edid->{EISA_ID} =~ /^ACR(0018|0020|0024|00A8|0330|7883|ad49|adaf)$/
     ) {
         $info->{SERIAL} =
             substr($edid->{serial_number2}->[0], 0, 8) .

@@ -191,6 +191,12 @@ my %edid_tests = (
         SERIAL       => 'LBZ081610080b6974233',
         DESCRIPTION  => '8/2010'
     },
+    'lcd.acer-b226hql' => {
+        MANUFACTURER => 'Acer Technologies',
+        CAPTION      => 'Acer B226HQL',
+        SERIAL       => 'LXPEE01452707f0c4202',
+        DESCRIPTION  => '27/2015'
+    },
     'lcd.acer-v193.2' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer V193',
