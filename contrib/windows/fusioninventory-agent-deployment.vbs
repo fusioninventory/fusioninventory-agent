@@ -34,7 +34,6 @@
 '             Christophe Pujol <chpujol@gmail.com>
 '             Marc Caissial <marc.caissial@zenitique.fr>
 '             Tomas Abad <tabadgp@gmail.com>
-'  @maintainer Tomas Abad <tabadgp@gmail.com>
 '  @copyright Copyright (c) 2010-2013 FusionInventory Team
 '  @license   GNU GPL version 2 or (at your option) any later version
 '             http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html
@@ -62,6 +61,11 @@ Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
 '
 '
 
+' SetupVersion
+'    Setup version with the pattern <major>.<minor>.<release>[-<package>]
+'
+SetupVersion = "2.3.18"
+
 ' SetupLocation
 '    Depending on your needs or your environment, you can use either a HTTP or
 '    CIFS/SMB.
@@ -78,12 +82,8 @@ Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
 '       You also must be sure that you have removed the "Open File Security Warning"
 '       from programs accessed from that UNC.
 '
-SetupLocation = "http://freefr.dl.sourceforge.net/project/fiawi/2.3.x/2.3.0"
+SetupLocation = "https://github.com/tabad/fusioninventory-agent-windows-installer/releases/download/" & SetupVersion
 
-' SetupVersion
-'    Setup version with the pattern <major>.<minor>.<release>[-<package>]
-'
-SetupVersion = "2.3.0-1"
 
 ' SetupArchitecture
 '    The setup architecture can be 'x86', 'x64' or 'Auto'
