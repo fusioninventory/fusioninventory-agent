@@ -64,7 +64,7 @@ Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
 ' SetupVersion
 '    Setup version with the pattern <major>.<minor>.<release>[-<package>]
 '
-SetupVersion = "2.3.16"
+SetupVersion = "2.3.18"
 
 ' SetupLocation
 '    Depending on your needs or your environment, you can use either a HTTP or
@@ -82,8 +82,8 @@ SetupVersion = "2.3.16"
 '       You also must be sure that you have removed the "Open File Security Warning"
 '       from programs accessed from that UNC.
 '
-'SetupLocation = "http://freefr.dl.sourceforge.net/project/fiawi/2.3.x/2.3.0"
-SetupLocation = "http://netcologne.dl.sourceforge.net/project/fiawi/2.3.x/" & SetupVersion
+SetupLocation = "https://github.com/tabad/fusioninventory-agent-windows-installer/releases/download/" & SetupVersion
+
 
 ' SetupArchitecture
 '    The setup architecture can be 'x86', 'x64' or 'Auto'
