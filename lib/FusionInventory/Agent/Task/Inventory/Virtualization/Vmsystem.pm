@@ -101,6 +101,7 @@ sub _getType {
     if ($bios->{SMODEL}) {
         return 'VMware'          if $bios->{SMODEL} =~ /VMware/;
         return 'Virtual Machine' if $bios->{SMODEL} =~ /Virtual Machine/;
+        return 'QEMU'            if $bios->{SMODEL} =~ /KVM/;
     }
     if ($bios->{BVERSION}) {
         return 'VirtualBox'  if $bios->{BVERSION} =~ /VirtualBox/;
