@@ -57,7 +57,7 @@ if ($options->{register}) {
         name    => $options->{name}        || SERVICE_NAME,
         display => $options->{displayname} || SERVICE_DISPLAYNAME,
         path    => "$^X",
-        parameters => "-I$libdir ".File::Spec->rel2abs( __FILE__ )
+        parameters => '-I"' . $libdir . '" "' . File::Spec->rel2abs( __FILE__ ) . '"'
     };
 
     if (!Win32::Daemon::CreateService($service)) {
