@@ -99,7 +99,7 @@ my $agent_as_context = FusionInventory::Agent->new(
     datadir => $directory . '/../share',
     vardir  => $directory . '/../var',
     libdir  => $directory . '/../lib',
-    killed  => sub { threads->exit(); }
+    sigterm  => sub { threads->exit(); }
 );
 
 $agent_as_context->{last_state} = SERVICE_START_PENDING;

@@ -301,7 +301,7 @@ sub terminate {
         if $self->{config}->{daemon} || $self->{config}->{service};
     $self->{current_task}->abort() if $self->{current_task};
 
-    # Handle killed callback
+    # Handle sigterm callback
     &{$self->{sigterm}}() if $self->{sigterm};
 }
 
