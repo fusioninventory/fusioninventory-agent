@@ -72,7 +72,7 @@ sub _formatDate {
     my $extractionPattern = "%m/%d/%y %H:%M";
     my $extractionPatternUsed = '';
 
-    my $outputFormat = "%Y-%m-%d %H:%M";
+    my $outputFormat = "%d/%m/%Y";
 
     # trim
     $dateStr =~ s/^\s+|\s+$//g;
