@@ -10,7 +10,7 @@ use Test::More;
 use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
-use FusionInventory::Agent::Task::Inventory::Linux::Networks::iLO;
+use FusionInventory::Agent::Task::Inventory::Generic::Networks::iLO;
 
 my %tests = (
     'sample1' => {
@@ -39,7 +39,7 @@ my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %tests) {
     my $file = "resources/linux/hponcfg/$test";
-    my $interface = FusionInventory::Agent::Task::Inventory::Linux::Networks::iLO::_parseHponcfg(file => $file);
+    my $interface = FusionInventory::Agent::Task::Inventory::Generic::Networks::iLO::_parseHponcfg(file => $file);
     cmp_deeply($interface, $tests{$test}, $test);
     lives_ok {
         $inventory->addEntry(section => 'NETWORKS', entry => $interface);
