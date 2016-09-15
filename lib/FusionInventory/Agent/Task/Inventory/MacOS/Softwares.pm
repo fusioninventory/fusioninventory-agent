@@ -35,10 +35,23 @@ sub _getSoftwaresList {
     my (%params) = @_;
     my $logger = $params{logger};
 
-    my $infos = getSystemProfilerInfos(
-        type => 'SPApplicationsDataType',
-        @_
-    );
+    my $infos;
+    my $datesAlreadyFormatted = 0;
+    if ($params{file} && $params{flatFile}) {
+        $infos = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfos(
+            type => 'SPApplicationsDataType',
+            @_
+        );
+        $datesAlreadyFormatted = 0;
+    } else {
+        $infos = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfosXML(
+            type            => 'SPApplicationsDataType',
+            localTimeOffset => FusionInventory::Agent::Tools::MacOS::detectLocalTimeOffset(),
+            @_
+        );
+        $datesAlreadyFormatted = 1;
+    }
+
     my $info = $infos->{Applications};
 
     my @softwares;
@@ -50,13 +63,18 @@ sub _getSoftwaresList {
             $app->{'Get Info String'} &&
             $app->{'Get Info String'} =~ /^\S+, [A-Z]:\\/;
 
+        my $formattedDate = $app->{'Last Modified'};
+        if (!$datesAlreadyFormatted) {
+            $formattedDate = _formatDate($formattedDate, $logger)
+        }
+
         push @softwares, {
             NAME      => $name,
             VERSION   => $app->{'Version'},
             COMMENTS  => $app->{'Kind'} ? '[' . $app->{'Kind'} . ']' : undef,
             PUBLISHER => $app->{'Get Info String'},
             # extract date's data and format these data
-            INSTALLDATE => _formatDate($app->{'Last Modified'}, $logger)
+            INSTALLDATE => $formattedDate
         };
     }
 

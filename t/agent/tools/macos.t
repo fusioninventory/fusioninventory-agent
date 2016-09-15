@@ -7,6 +7,7 @@ use Test::Deep;
 use Test::More;
 
 use FusionInventory::Agent::Tools::MacOS;
+use FusionInventory::Agent::Task::Inventory::MacOS::Softwares;
 
 my %system_profiler_tests = (
     '10.4-powerpc' => {
@@ -3373,9 +3374,18 @@ my @ioreg_tests = (
     }
 );
 
+my $versionNumbersComparisons = [
+    ['10.8.0', '10.11'],
+    ['5.22', '5.22.1'],
+    ['5.8.9.2', '5.10.3'],
+    ['5.4.2', '10.2']
+];
+
 plan tests =>
     scalar (keys %system_profiler_tests) +
-    scalar @ioreg_tests;
+    scalar @ioreg_tests
+    + 14
+    + scalar (@$versionNumbersComparisons);
 
 foreach my $test (keys %system_profiler_tests) {
     my $file = "resources/macos/system_profiler/$test";
@@ -3388,3 +3398,170 @@ foreach my $test (@ioreg_tests) {
     my @devices = getIODevices(file => $file, class => $test->{class});
     cmp_deeply(\@devices, $test->{results}, "$test->{file} ioreg parsing");
 }
+
+my $type = 'SPApplicationsDataType';
+my $flatFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType.example.txt';
+my $softwaresFromFlatFile = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfos(file => $flatFile, type => $type);
+my $xmlFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml';
+my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfosXML(file => $xmlFile, type => $type, localTimeOffset => 7200);
+ok (ref($softwaresFromFlatFile) eq 'HASH');
+ok (ref($softwaresFromXmlFile) eq 'HASH');
+
+# because existing function returns only first line of data
+# and the new being tested here returns all lines
+# just a few deletions that don't remove the sense of these tests
+delete $softwaresFromFlatFile->{"Applications"}{"Wish"}{"Get\ Info\ String"};
+delete $softwaresFromXmlFile->{"Applications"}{"Wish"}{"Get\ Info\ String"};
+delete $softwaresFromFlatFile->{"Applications"}{"Wish_0"}{"Get\ Info\ String"};
+delete $softwaresFromXmlFile->{"Applications"}{"Wish_0"}{"Get\ Info\ String"};
+
+# before comparing, because with more recent method dates are already formatted,
+# we format dates in the other hash as it's currently done
+for my $soft (keys %{$softwaresFromFlatFile->{"Applications"}}) {
+    if (defined($softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'})) {
+        my $formattedDate = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_formatDate($softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'});
+        $softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'} = $formattedDate;
+    }
+}
+
+cmp_deeply(
+    $softwaresFromFlatFile,
+    $softwaresFromXmlFile
+);
+my $softwaresFromFlatFileSize = scalar(keys %{$softwaresFromFlatFile->{'Applications'}});
+my $softwaresFromXmlFileSize = scalar(keys %{$softwaresFromXmlFile->{'Applications'}});
+ok ($softwaresFromFlatFileSize == $softwaresFromXmlFileSize, $softwaresFromFlatFileSize . ' from flat file and ' . $softwaresFromXmlFileSize . ' from XML file');
+
+my $xmlString = <<XML_STRING;
+<?blahblabalfdsb>
+<!gsdfhsdbsd>
+<plist>
+<array>
+  <dict>
+      <key>key value 1</key>
+      <string>string value 1</string>
+      <key>key value 1</key>
+      <date>string value 1</date>
+      <key>key value 1</key>
+      <string>string value 1</string>
+      <array>
+        <dict>
+          <key>key value 1</key>
+          <string>string value 1</string>
+          <key>key value 1</key>
+          <date>string value 1</date>
+          <key>key value 1</key>
+          <string>string value 1</string>
+          <key>key value 1</key>
+          <string>string value 1</string>
+        </dict>
+        <dict>
+          <key>key value 2</key>
+          <string>string value 2</string>
+        </dict>
+        <dict>
+          <key>key value 1</key>
+          <string>string value 1</string>
+        </dict>
+      </array>
+  </dict>
+</array>
+</plist>
+XML_STRING
+my @xmlLines = split(/\n/, $xmlString);
+my $elementsXmlString = FusionInventory::Agent::Tools::MacOS::_extractApplicationsDataFromXmlLines(\@xmlLines);
+ok (defined($elementsXmlString->[0]));
+my $expectedValue = '<dict><key>key value 1</key><string>string value 1</string><key>key value 1</key><date>string value 1</date><key>key value 1</key><string>string value 1</string><key>key value 1</key><string>string value 1</string></dict>';
+ok ($elementsXmlString->[0] eq $expectedValue, $elementsXmlString->[0] . ' eq ? ' . "\n" . $expectedValue);
+$expectedValue = '<dict><key>key value 2</key><string>string value 2</string></dict>';
+ok ($elementsXmlString->[1] eq $expectedValue);
+$expectedValue = '<dict><key>key value 1</key><string>string value 1</string></dict>';
+ok ($elementsXmlString->[2] eq $expectedValue);
+
+
+my $hashExpected = {
+     'key value 1'=> 'string value 1' ,
+     'key value 1'=> 'string value 1' ,
+     'key value 1'=> 'string value 1' ,
+     'key value 1'=> 'string value 1'
+};
+my $hashExtracted = FusionInventory::Agent::Tools::MacOS::_extractApplicationDataFromXmlStringElement($elementsXmlString->[0]);
+cmp_deeply(
+    $hashExpected,
+    $hashExtracted
+);
+
+
+$xmlString = <<XML_STRING;
+<dict>
+    <key>_name</key>
+    <string>Programme d’installation</string>
+    <key>has64BitIntelCode</key>
+    <string>yes</string>
+    <key>info</key>
+    <string>3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved</string>
+    <key>lastModified</key>
+    <date>2009-06-27T06:18:49Z</date>
+    <key>path</key>
+    <string>/System/Library/CoreServices/Installer.app</string>
+    <key>runtime_environment</key>
+    <string>universal</string>
+    <key>version</key>
+    <string>4.0</string>
+</dict>
+XML_STRING
+$xmlString =~ s/\n//g;
+$xmlString =~ s/(<\/[^<]+>)\s+(<)/$1$2/g;
+my $extractedHash = FusionInventory::Agent::Tools::MacOS::_extractApplicationDataFromXmlStringElement($xmlString);
+my $expectedHash = {
+    '_name' => 'Programme d’installation',
+    'has64BitIntelCode' => 'yes',
+    'info' => '3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved',
+    'lastModified' => '2009-06-27T06:18:49Z',
+    'path' => '/System/Library/CoreServices/Installer.app',
+    'runtime_environment' => 'universal',
+    'version' => '4.0'
+};
+cmp_deeply(
+    $expectedHash,
+    $extractedHash
+);
+
+$expectedHash = {
+    'Programme d’installation' => {
+        '64-Bit (Intel)' => 'yes',
+        'Get Info String'           => '3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved',
+        'Last Modified'  => '2009-06-27T06:18:49Z',
+        'Location'       => '/System/Library/CoreServices/Installer.app',
+        'Kind'           => 'universal',
+        'Version'        => '4.0'
+    }
+};
+my $hashMapped = FusionInventory::Agent::Tools::MacOS::_mapApplicationDataKeys($extractedHash);
+cmp_deeply(
+    $expectedHash,
+    $hashMapped
+);
+
+
+my $dateStr = '2009-04-07T00:42:37Z';
+my $dateExpectedStr = '07/04/2009';
+my $offset = 7200;
+my $convertedDate = FusionInventory::Agent::Tools::MacOS::_convertDateFromApplicationDataXml($dateStr, $offset);
+ok ($dateExpectedStr eq $convertedDate, $dateExpectedStr . ' eq ' . $convertedDate . ' ?');
+
+$dateStr = '2009-04-06T23:42:37Z';
+$dateExpectedStr = '07/04/2009';
+$offset = 3600 * 3;
+$convertedDate = FusionInventory::Agent::Tools::MacOS::_convertDateFromApplicationDataXml($dateStr, $offset);
+ok ($dateExpectedStr eq $convertedDate, $dateExpectedStr . ' eq ' . $convertedDate . ' ?');
+
+for my $listVersionNumbers (@$versionNumbersComparisons) {
+    my $cmp0vs1 = FusionInventory::Agent::Tools::MacOS::cmpVersionNumbers($listVersionNumbers->[0], $listVersionNumbers->[1]);
+    my $cmp1vs0 = FusionInventory::Agent::Tools::MacOS::cmpVersionNumbers($listVersionNumbers->[1], $listVersionNumbers->[0]);
+    ok (
+        $cmp0vs1 == -1
+        && $cmp1vs0 == 1
+    );
+}
+ok (FusionInventory::Agent::Tools::MacOS::cmpVersionNumbers('5.34.54', '5.34.54') == 0);
