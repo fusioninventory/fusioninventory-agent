@@ -37,6 +37,12 @@ sub doInventory {
         command => "sysctl -n kern.boottime",
         pattern => qr/sec = (\d+)/
     );
+    if (!$boottime) {
+        $boottime = getFirstMatch(
+            command => "sysctl -n kern.boottime",
+            pattern => qr/sec = (\d+)/
+        );
+    }
 
     $inventory->setHardware({
         OSNAME     => $name,
