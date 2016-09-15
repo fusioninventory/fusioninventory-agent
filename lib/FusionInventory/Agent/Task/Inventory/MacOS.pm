@@ -38,9 +38,8 @@ sub doInventory {
         pattern => qr/sec = (\d+)/
     );
     if (!$boottime) {
-        $boottime = getFirstMatch(
-            command => "sysctl -n kern.boottime",
-            pattern => qr/sec = (\d+)/
+        $boottime = getFirstLine(
+            command => "sysctl -n kern.boottime"
         );
     }
 
