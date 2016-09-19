@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use lib 't/lib';
 
+use English qw(-no_match_vars);
+
 $ENV{TZ} = 'CET';
 
 use Test::Deep;
@@ -249,7 +251,11 @@ my $packages;
 $packages = FusionInventory::Agent::Task::Inventory::Generic::Softwares::RPM::_getPackagesList(
     file => "resources/linux/packaging/rpm"
 );
-cmp_deeply($packages, $rpm_packages, 'rpm: parsing');
+SKIP: {
+    skip ('test can fail because of timezone setting on Win32', 1)
+        if ($OSNAME eq 'MSWin32');
+    cmp_deeply($packages, $rpm_packages, 'rpm: parsing');
+}
 lives_ok {
     $inventory->addEntry(section => 'SOFTWARES', entry => $_)
         foreach @$packages;
