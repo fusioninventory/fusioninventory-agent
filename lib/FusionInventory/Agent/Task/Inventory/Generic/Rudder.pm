@@ -8,25 +8,31 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return -r '/opt/rudder/etc/uuid.hive';
+    return -r getUuidFile();
+}
+
+sub getUuidFile {
+    return (($OSNAME eq 'MSWin32') ? 'C:\Program Files\Rudder\etc\uuid.hive' : '/opt/rudder/etc/uuid.hive');
 }
 
 sub doInventory {
     my (%params) = @_;
 
-    my $inventory = $params{inventory};
-    my $logger    = $params{logger};
+    my $inventory    = $params{inventory};
+    my $logger       = $params{logger};
 
-    # get Rudder UUID
+    my $uuid_hive = getUuidFile();
+
+    # Get Rudder UUID
     my $Uuid = getFirstLine(
-        logger => $logger, file => '/opt/rudder/etc/uuid.hive'
+        logger => $logger, file => $uuid_hive
     );
-    # get all agents running on that machine
+    # Get all agents running on that machine
     my @agents = _manageAgent(
-        logger => $logger, command => 'ls /var/rudder'
+        logger => $logger
     );
-    # get machine hostname
-    my $command = $OSNAME eq 'linux' ? 'hostname --fqd' : 'hostname';
+    # Get machine hostname
+    my $command = $OSNAME eq 'linux' ? 'hostname --fqdn' : 'hostname';
     my $hostname = getFirstLine(
         logger => $logger, command => $command
     );
@@ -42,36 +48,40 @@ sub doInventory {
 }
 
 sub _manageAgent {
-    my $handle = getFileHandle(@_);
     my %params = @_;
     my $logger = $params{logger};
-
     my @agents;
 
-    # each line could be a new agent
-    while(my $name = <$handle>){
+    # Potential agent directory candidates
+    my %agent_candidates = ( '/var/rudder/cfengine-community' => 'cfengine-community',
+                             '/var/cfengine'                  => 'cfengine-nova',
+                             'C:/Program Files/Cfengine'      => 'cfengine-nova',
+                           );
 
-        chomp $name;
-        # verify agent name
-        next unless $name =~ /cfengine/;
+    foreach my $candidate (keys(%agent_candidates)){
 
-        my $server_hostname_file = "/var/rudder/$name/policy_server.dat";
-        my $uuid_file            = "/var/rudder/$name/rudder-server-uuid.txt";
-        my $cfengine_key_file    = "/var/rudder/$name/ppkeys/localhost.pub";
+        # Verify if the candidate is installed and configured
+        next unless ( -e "${candidate}/policy_server.dat" );
+
+        # Get a list of useful file paths to key Rudder components
+        my $agent_name           = "$agent_candidates{${candidate}}";
+        my $server_hostname_file = "${candidate}/policy_server.dat";
+        my $uuid_file            = "${candidate}/rudder-server-uuid.txt";
+        my $cfengine_key_file    = "${candidate}/ppkeys/localhost.pub";
 
         # get policy server hostname
         my $serverHostname = getFirstLine (
             logger => $logger,
-            file => $server_hostname_file
+            file   => $server_hostname_file
         );
         chomp $serverHostname;
 
-        # get policy server uuid
+        # Get the policy server UUID
         #
-        # the default file is no longer /var/rudder/tmp/uuid.txt since the
+        # The default file is no longer /var/rudder/tmp/uuid.txt since the
         # change in http://www.rudder-project.org/redmine/issues/2443.
-        # we gracefully fallback to the old default if we can not find the
-        # new file.
+        # We gracefully fallback to the old default if the new file cannot
+        # be found.
         my $serverUuid = getFirstLine (
             logger => $logger,
             file => ( -e "$uuid_file" ) ? $uuid_file : "/var/rudder/tmp/uuid.txt"
@@ -91,7 +101,7 @@ sub _manageAgent {
 
         # build agent from datas
         my $agent = {
-            AGENT_NAME             => $name,
+            AGENT_NAME             => $agent_name,
             POLICY_SERVER_HOSTNAME => $serverHostname,
             CFENGINE_KEY           => $cfengineKey,
             OWNER                  => $owner,
@@ -102,7 +112,6 @@ sub _manageAgent {
 
     }
 
-    close $handle;
     return @agents;
 }
 
