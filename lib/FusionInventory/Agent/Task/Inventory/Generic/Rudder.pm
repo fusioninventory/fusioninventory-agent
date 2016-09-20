@@ -36,15 +36,36 @@ sub doInventory {
     my $hostname = getFirstLine(
         logger => $logger, command => $command
     );
+    # Get server roles
+    my @serverRoles = _listServerRoles();
+
     my $rudder = {
         HOSTNAME => $hostname,
         UUID => $Uuid,
         AGENT => \@agents,
+        SERVER_ROLES => { SERVER_ROLE => \@serverRoles },
     };
 
     $inventory->addEntry(
         section => 'RUDDER', entry => $rudder
     );
+}
+
+sub _listServerRoles {
+    my $server_roles_dir = ($OSNAME eq 'MSWin32') ? 'C:\Program Files\Rudder\etc\server-roles.d' : '/opt/rudder/etc/server-roles.d';
+    my @server_roles;
+
+    if (-d "$server_roles_dir") {
+        opendir(DIR, $server_roles_dir); # or die $!;
+
+        while (my $file = readdir(DIR)) {
+            # Use a regular expression to ignore files beginning with a period
+            next if ($file =~ m/^\./);
+            push @server_roles, $file;
+        }
+        closedir(DIR);
+    }
+    return @server_roles;
 }
 
 sub _manageAgent {
