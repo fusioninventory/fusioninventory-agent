@@ -91,8 +91,15 @@ sub _getWMIObjects {
         @_
     );
 
-    my $WMIService = Win32::OLE->GetObject($params{moniker})
-        or return;
+    my $WMIService = Win32::OLE->GetObject($params{moniker});
+
+    # Support alternate moniker if provided and main failed to open
+    unless (defined($WMIService)) {
+        if ($params{altmoniker}) {
+            $WMIService = Win32::OLE->GetObject($params{altmoniker});
+        }
+        return unless (defined($WMIService));
+    }
 
     Win32::OLE->use('in');
 
@@ -554,6 +561,8 @@ Returns the list of objects from given WMI class, with given properties, properl
 =over
 
 =item moniker a WMI moniker (default: winmgmts:{impersonationLevel=impersonate,(security)}!//./)
+
+=item altmoniker another WMI moniker to use if first failed (none by default)
 
 =item class a WMI class
 
