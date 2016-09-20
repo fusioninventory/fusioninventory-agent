@@ -19,7 +19,10 @@ my @qemu_patterns = (
     ' QEMUAPIC ',
     'QEMU Virtual CPU',
     ': QEMU HARDDISK,',
-    ': QEMU CD-ROM,'
+    ': QEMU CD-ROM,',
+    ': QEMU Standard PC',
+    'Hypervisor detected: KVM',
+    'Booting paravirtualized kernel on KVM'
 );
 my $qemu_pattern = _assemblePatterns(@qemu_patterns);
 
@@ -91,6 +94,7 @@ sub _getType {
     my ($bios, $logger) = @_;
 
     if ($bios->{SMANUFACTURER}) {
+        return 'QEMU'    if $bios->{SMANUFACTURER} =~ /QEMU/;
         return 'Hyper-V' if $bios->{SMANUFACTURER} =~ /Microsoft/;
         return 'VMware'  if $bios->{SMANUFACTURER} =~ /VMware/;
     }
