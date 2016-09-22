@@ -8,7 +8,10 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Virtualization;
 
-our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt"];
+our $runMeIfTheseChecksFailed = [
+    "FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt",
+    "FusionInventory::Agent::Task::Inventory::Virtualization::XenCitrixServer"
+];
 
 sub isEnabled {
     return canRun('xm') ||
