@@ -1,0 +1,79 @@
+uuid ( RO)                          : a444ab5d-d1fc-f1a5-5ab4-3f0c3c07352e
+                    name-label ( RW): core-02
+              name-description ( RW): 
+                  user-version ( RW): 1
+                 is-a-template ( RW): false
+                 is-a-snapshot ( RO): false
+                   snapshot-of ( RO): <not in database>
+                     snapshots ( RO): 
+                 snapshot-time ( RO): 19700101T00:00:00Z
+                 snapshot-info ( RO): 
+                        parent ( RO): <not in database>
+                      children ( RO): 
+             is-control-domain ( RO): false
+                   power-state ( RO): running
+                 memory-actual ( RO): 21474836480
+                 memory-target ( RO): 21474836480
+               memory-overhead ( RO): 185597952
+             memory-static-max ( RW): 21474836480
+            memory-dynamic-max ( RW): 21474836480
+            memory-dynamic-min ( RW): 21474836480
+             memory-static-min ( RW): 134217728
+              suspend-VDI-uuid ( RW): <not in database>
+               suspend-SR-uuid ( RW): 6cfa2c52-ef69-340f-c8fd-09535c6ec3e5
+                  VCPUs-params (MRW): 
+                     VCPUs-max ( RW): 16
+              VCPUs-at-startup ( RW): 16
+        actions-after-shutdown ( RW): Destroy
+          actions-after-reboot ( RW): Restart
+           actions-after-crash ( RW): Restart
+                 console-uuids (SRO): 3be572ee-2fa4-d474-6a1d-8c5000794170; f42b081e-0e0a-f9d5-0a9c-057d9459e68b
+                      platform (MRW): nx: true; acpi: 1; apic: true; pae: true; viridian: true
+            allowed-operations (SRO): changing_dynamic_range; migrate_send; pool_migrate; changing_VCPUs_live; suspend; hard_reboot; hard_shutdown; clean_reboot; clean_shutdown; pause; checkpoint; snapshot
+            current-operations (SRO): 
+            blocked-operations (MRW): 
+           allowed-VBD-devices (SRO): 1; 2; 4; 5; 6; 7; 8; 9; 10; 11; 12; 13; 14; 15
+           allowed-VIF-devices (SRO): 1; 2; 3; 4; 5; 6
+                possible-hosts ( RO): 8b235bcd-2b7f-4273-a414-c345674358b8; 37cfd108-8eb0-4af1-a207-37bcb44f701e; 4a5b3bb6-88a5-408d-bc51-d3db847a5f55
+               HVM-boot-policy ( RW): 
+               HVM-boot-params (MRW): 
+         HVM-shadow-multiplier ( RW): 1.000
+                     PV-kernel ( RW): 
+                    PV-ramdisk ( RW): 
+                       PV-args ( RW): netcfg/get_hostname=docs console=hvc0 debian-installer/locale=en_US.UTF-8 console-setup/layoutcode=us console-setup/ask_detect=false interface=eth0 netcfg/disable_autoconfig=true netcfg/get_ipaddress=192.168.1.52 netcfg/get_netmask=255.255.255.0 netcfg/get_gateway=192.168.1.2 netcfg/get_nameservers=192.168.1.21 netcfg/get_domain=sitrack.com preseed/url=http://172.16.0.2/preseed-ubuntu-12.04.cfg
+                PV-legacy-args ( RW): 
+                 PV-bootloader ( RW): pygrub
+            PV-bootloader-args ( RW): 
+           last-boot-CPU-flags ( RO): vendor: GenuineIntel; features: 029ee3ff-bfebfbff-00000001-2c100800
+              last-boot-record ( RO): '('struct' ('uuid' 'a444ab5d-d1fc-f1a5-5ab4-3f0c3c07352e') ('allowed_operations' ('array')) ('current_operations' ('struct' ('OpaqueRef:80daabc2-7ed6-5340-3708-fd020f89fb1c' 'start'))) ('power_state' 'Halted') ('name_label' 'core-02') ('name_description' '') ('user_version' '1') ('is_a_template' ('boolean' '0')) ('suspend_VDI' 'OpaqueRef:NULL') ('resident_on' 'OpaqueRef:NULL') ('affinity' 'OpaqueRef:1c9f52bb-5d21-5775-327a-bc5a024ee60a') ('memory_overhead' '185597952') ('memory_target' '0') ('memory_static_max' '21474836480') ('memory_dynamic_max' '21474836480') ('memory_dynamic_min' '21474836480') ('memory_static_min' '134217728') ('VCPUs_params' ('struct')) ('VCPUs_max' '16') ('VCPUs_at_startup' '16') ('actions_after_shutdown' 'destroy') ('actions_after_reboot' 'restart') ('actions_after_crash' 'restart') ('consoles' ('array')) ('VIFs' ('array' 'OpaqueRef:8aa42d69-c3fb-a46c-d7fd-5dc6503f6e5c')) ('VBDs' ('array' 'OpaqueRef:d961c956-b7cb-4301-8a5b-04daf3d012b6' 'OpaqueRef:b28ba8e4-8cc5-531a-9eac-9cc14e292a94')) ('crash_dumps' ('array')) ('VTPMs' ('array')) ('PV_bootloader' 'pygrub') ('PV_kernel' '') ('PV_ramdisk' '') ('PV_args' 'netcfg/get_hostname=docs console=hvc0 debian-installer/locale=en_US.UTF-8 console-setup/layoutcode=us console-setup/ask_detect=false interface=eth0 netcfg/disable_autoconfig=true netcfg/get_ipaddress=192.168.1.52 netcfg/get_netmask=255.255.255.0 netcfg/get_gateway=192.168.1.2 netcfg/get_nameservers=192.168.1.21 netcfg/get_domain=sitrack.com preseed/url=http://172.16.0.2/preseed-ubuntu-12.04.cfg') ('PV_bootloader_args' '') ('PV_legacy_args' '') ('HVM_boot_policy' '') ('HVM_boot_params' ('struct')) ('HVM_shadow_multiplier' ('double' '1')) ('platform' ('struct' ('nx' 'true') ('acpi' '1') ('apic' 'true') ('pae' 'true') ('viridian' 'true'))) ('PCI_bus' '') ('other_config' ('struct' ('vgpu_pci' '') ('install-methods' 'cdrom,http,ftp') ('mac_seed' '541c522e-b23e-0bb4-d4d8-76fa4ef24333') ('install-arch' 'amd64') ('base_template_name' 'Ubuntu Precise Pangolin 12.04 (64-bit)') ('linux_template' 'true') ('debian-release' 'precise') ('install-repository' 'http://192.168.1.110:3142/ar.archive.ubuntu.com/ubuntu'))) ('domid' '-1') ('domarch' '') ('last_boot_CPU_flags' ('struct' ('vendor' 'GenuineIntel') ('features' '029ee3ff-bfebfbff-00000001-2c100800'))) ('is_control_domain' ('boolean' '0')) ('metrics' 'OpaqueRef:3a24be99-f400-33aa-3767-13a47c2a2e48') ('guest_metrics' 'OpaqueRef:cfa1844e-ee8c-6aca-6e50-26dfad5444bd') ('last_booted_record' '') ('recommendations' '<restrictions><restriction field=\"memory-static-max\" max=\"137438953472\" /><restriction field=\"vcpus-max\" max=\"128\" /><restriction property=\"number-of-vbds\" max=\"7\" /><restriction property=\"number-of-vifs\" max=\"7\" /></restrictions>') ('xenstore_data' ('struct' ('vm-data' ''))) ('ha_always_run' ('boolean' '0')) ('ha_restart_priority' '') ('is_a_snapshot' ('boolean' '0')) ('snapshot_of' 'OpaqueRef:NULL') ('snapshots' ('array')) ('snapshot_time' ('dateTime.iso8601' '19700101T00:00:00Z')) ('transportable_snapshot_id' '') ('blobs' ('struct')) ('tags' ('array')) ('blocked_operations' ('struct')) ('snapshot_info' ('struct')) ('snapshot_metadata' '') ('parent' 'OpaqueRef:NULL') ('children' ('array')) ('bios_strings' ('struct')) ('protection_policy' 'OpaqueRef:NULL') ('is_snapshot_from_vmpp' ('boolean' '0')) ('appliance' 'OpaqueRef:NULL') ('start_delay' '0') ('shutdown_delay' '0') ('order' '0') ('VGPUs' ('array')) ('attached_PCIs' ('array')) ('suspend_SR' 'OpaqueRef:314728ab-7071-a05b-ed8f-b8da0cb28c49') ('version' '0') ('generation_id' '2183112261106835120:4515649923546662986'))'
+                   resident-on ( RO): 4a5b3bb6-88a5-408d-bc51-d3db847a5f55
+                      affinity ( RW): 4a5b3bb6-88a5-408d-bc51-d3db847a5f55
+                  other-config (MRW): vgpu_pci: ; install-methods: cdrom,http,ftp; mac_seed: 541c522e-b23e-0bb4-d4d8-76fa4ef24333; install-arch: amd64; base_template_name: Ubuntu Precise Pangolin 12.04 (64-bit); linux_template: true; debian-release: precise; install-repository: http://192.168.1.110:3142/ar.archive.ubuntu.com/ubuntu
+                        dom-id ( RO): 12
+               recommendations ( RO): <restrictions><restriction field="memory-static-max" max="137438953472" /><restriction field="vcpus-max" max="128" /><restriction property="number-of-vbds" max="7" /><restriction property="number-of-vifs" max="7" /></restrictions>
+                 xenstore-data (MRW): vm-data: 
+    ha-always-run ( RW) [DEPRECATED]: false
+           ha-restart-priority ( RW): 
+                         blobs ( RO): 
+                    start-time ( RO): 20140922T15:04:49Z
+                  install-time ( RO): 20130906T13:13:05Z
+                  VCPUs-number ( RO): 16
+             VCPUs-utilisation (MRO): 0: 0.000; 1: 0.002; 2: 0.001; 3: 0.000; 4: 0.002; 5: 0.002; 6: 0.002; 7: 0.001; 8: 0.000; 9: 0.000; 10: 0.002; 11: 0.000; 12: 0.000; 13: 0.000; 14: 0.000; 15: 0.000
+                    os-version (MRO): name: Ubuntu 12.04.3 LTS; uname: 3.2.0-68-generic; distro: ubuntu; major: 12; minor: 04
+            PV-drivers-version (MRO): major: 6; minor: 1; micro: 0; build: 61809
+         PV-drivers-up-to-date ( RO): true
+                        memory (MRO): 
+                         disks (MRO): 
+                      networks (MRO): 0/ip: 192.168.1.52; 0/ipv6/0: fe80::80f3:c8ff:fe77:4d6f
+                         other (MRO): platform-feature-multiprocessor-suspend: 1; feature-balloon: 1
+                          live ( RO): true
+    guest-metrics-last-updated ( RO): 20150713T22:05:34Z
+      cooperative ( RO) [DEPRECATED]: true
+                          tags (SRW): 
+                     appliance ( RW): <not in database>
+                   start-delay ( RW): 0
+                shutdown-delay ( RW): 0
+                         order ( RW): 0
+                       version ( RO): 0
+                 generation-id ( RO): 2183112261106835120:4515649923546662986
+

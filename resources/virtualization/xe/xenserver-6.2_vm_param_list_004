@@ -1,0 +1,79 @@
+uuid ( RO)                          : ecfeaa60-07cf-b710-30c2-d2f6a4cdb152
+                    name-label ( RW): OCS Inventory
+              name-description ( RW): 
+                  user-version ( RW): 1
+                 is-a-template ( RW): false
+                 is-a-snapshot ( RO): false
+                   snapshot-of ( RO): <not in database>
+                     snapshots ( RO): 
+                 snapshot-time ( RO): 19700101T00:00:00Z
+                 snapshot-info ( RO): 
+                        parent ( RO): <not in database>
+                      children ( RO): 
+             is-control-domain ( RO): false
+                   power-state ( RO): halted
+                 memory-actual ( RO): 0
+                 memory-target ( RO): 0
+               memory-overhead ( RO): 7340032
+             memory-static-max ( RW): 536870912
+            memory-dynamic-max ( RW): 536870912
+            memory-dynamic-min ( RW): 536870912
+             memory-static-min ( RW): 134217728
+              suspend-VDI-uuid ( RW): <not in database>
+               suspend-SR-uuid ( RW): 6b47cebb-b56e-68b1-9397-ff6c1492d741
+                  VCPUs-params (MRW): 
+                     VCPUs-max ( RW): 1
+              VCPUs-at-startup ( RW): 1
+        actions-after-shutdown ( RW): Destroy
+          actions-after-reboot ( RW): Restart
+           actions-after-crash ( RW): Restart
+                 console-uuids (SRO): 
+                      platform (MRW): timeoffset: 0; nx: true; acpi: 1; apic: true; pae: true; viridian: true
+            allowed-operations (SRO): changing_dynamic_range; changing_shadow_memory; changing_static_range; make_into_template; destroy; export; start_on; start; clone; copy; snapshot
+            current-operations (SRO): 
+            blocked-operations (MRW): 
+           allowed-VBD-devices (SRO): 1; 2
+           allowed-VIF-devices (SRO): 1; 2; 3
+                possible-hosts ( RO): 8b235bcd-2b7f-4273-a414-c345674358b8; 37cfd108-8eb0-4af1-a207-37bcb44f701e; 4a5b3bb6-88a5-408d-bc51-d3db847a5f55
+               HVM-boot-policy ( RW): BIOS order
+               HVM-boot-params (MRW): order: ncd
+         HVM-shadow-multiplier ( RW): 1.000
+                     PV-kernel ( RW): 
+                    PV-ramdisk ( RW): 
+                       PV-args ( RW): 
+                PV-legacy-args ( RW): 
+                 PV-bootloader ( RW): 
+            PV-bootloader-args ( RW): 
+           last-boot-CPU-flags ( RO): vendor: GenuineIntel; features: 029ee3ff-bfebfbff-00000001-2c100800
+              last-boot-record ( RO): '('struct' ('uuid' 'ecfeaa60-07cf-b710-30c2-d2f6a4cdb152') ('allowed_operations' ('array')) ('current_operations' ('struct' ('OpaqueRef:ddc7eb8e-ad2a-7684-42e6-22c950fedd2a' 'start'))) ('power_state' 'Halted') ('name_label' 'OCS Inventory') ('name_description' '') ('user_version' '1') ('is_a_template' ('boolean' '0')) ('suspend_VDI' 'OpaqueRef:NULL') ('resident_on' 'OpaqueRef:NULL') ('affinity' 'OpaqueRef:1c9f52bb-5d21-5775-327a-bc5a024ee60a') ('memory_overhead' '7340032') ('memory_target' '0') ('memory_static_max' '536870912') ('memory_dynamic_max' '536870912') ('memory_dynamic_min' '536870912') ('memory_static_min' '134217728') ('VCPUs_params' ('struct')) ('VCPUs_max' '1') ('VCPUs_at_startup' '1') ('actions_after_shutdown' 'destroy') ('actions_after_reboot' 'restart') ('actions_after_crash' 'restart') ('consoles' ('array')) ('VIFs' ('array' 'OpaqueRef:a81c407a-130e-24ee-4f05-a833ecff1caf')) ('VBDs' ('array' 'OpaqueRef:d7876e1c-14bf-0d1e-728e-e7140b45c062' 'OpaqueRef:b2ecb7ad-fb7f-d828-5b5f-8087fa341406')) ('crash_dumps' ('array')) ('VTPMs' ('array')) ('PV_bootloader' '') ('PV_kernel' '') ('PV_ramdisk' '') ('PV_args' '') ('PV_bootloader_args' '') ('PV_legacy_args' '') ('HVM_boot_policy' 'BIOS order') ('HVM_boot_params' ('struct' ('order' 'ncd'))) ('HVM_shadow_multiplier' ('double' '1')) ('platform' ('struct' ('timeoffset' '0') ('nx' 'true') ('acpi' '1') ('apic' 'true') ('pae' 'true') ('viridian' 'true'))) ('PCI_bus' '') ('other_config' ('struct' ('vgpu_pci' '') ('base_template_name' 'Other install media') ('mac_seed' 'c840721b-3015-fdd2-325e-8ca574d586d5') ('install-methods' 'cdrom'))) ('domid' '-1') ('domarch' '') ('last_boot_CPU_flags' ('struct' ('vendor' 'GenuineIntel') ('features' '029ee3ff-bfebfbff-00000001-2c100800'))) ('is_control_domain' ('boolean' '0')) ('metrics' 'OpaqueRef:668760f5-612e-43ae-6853-8ba39a5e25e6') ('guest_metrics' 'OpaqueRef:NULL') ('last_booted_record' '') ('recommendations' '<restrictions><restriction field=\"memory-static-max\" max=\"137438953472\" /><restriction field=\"vcpus-max\" max=\"16\" /><restriction property=\"number-of-vbds\" max=\"7\" /><restriction property=\"number-of-vifs\" max=\"7\" /></restrictions>') ('xenstore_data' ('struct' ('vm-data' ''))) ('ha_always_run' ('boolean' '0')) ('ha_restart_priority' '') ('is_a_snapshot' ('boolean' '0')) ('snapshot_of' 'OpaqueRef:NULL') ('snapshots' ('array')) ('snapshot_time' ('dateTime.iso8601' '19700101T00:00:00Z')) ('transportable_snapshot_id' '') ('blobs' ('struct')) ('tags' ('array')) ('blocked_operations' ('struct')) ('snapshot_info' ('struct')) ('snapshot_metadata' '') ('parent' 'OpaqueRef:NULL') ('children' ('array')) ('bios_strings' ('struct')) ('protection_policy' 'OpaqueRef:NULL') ('is_snapshot_from_vmpp' ('boolean' '0')) ('appliance' 'OpaqueRef:NULL') ('start_delay' '0') ('shutdown_delay' '0') ('order' '0') ('VGPUs' ('array')) ('attached_PCIs' ('array')) ('suspend_SR' 'OpaqueRef:293391b6-de7f-744a-74d0-dff8bb12c288') ('version' '0'))'
+                   resident-on ( RO): <not in database>
+                      affinity ( RW): 4a5b3bb6-88a5-408d-bc51-d3db847a5f55
+                  other-config (MRW): vgpu_pci: ; base_template_name: Other install media; mac_seed: c840721b-3015-fdd2-325e-8ca574d586d5; install-methods: cdrom
+                        dom-id ( RO): -1
+               recommendations ( RO): <restrictions><restriction field="memory-static-max" max="137438953472" /><restriction field="vcpus-max" max="16" /><restriction property="number-of-vbds" max="7" /><restriction property="number-of-vifs" max="7" /></restrictions>
+                 xenstore-data (MRW): vm-data: 
+    ha-always-run ( RW) [DEPRECATED]: false
+           ha-restart-priority ( RW): 
+                         blobs ( RO): 
+                    start-time ( RO): 19700101T00:00:00Z
+                  install-time ( RO): 20130613T21:15:16Z
+                  VCPUs-number ( RO): 0
+             VCPUs-utilisation (MRO): 
+                    os-version (MRO): <not in database>
+            PV-drivers-version (MRO): <not in database>
+         PV-drivers-up-to-date ( RO): <not in database>
+                        memory (MRO): <not in database>
+                         disks (MRO): <not in database>
+                      networks (MRO): <not in database>
+                         other (MRO): <not in database>
+                          live ( RO): <not in database>
+    guest-metrics-last-updated ( RO): <not in database>
+      cooperative ( RO) [DEPRECATED]: true
+                          tags (SRW): 
+                     appliance ( RW): <not in database>
+                   start-delay ( RW): 0
+                shutdown-delay ( RW): 0
+                         order ( RW): 0
+                       version ( RO): 0
+                 generation-id ( RO): 0:0
+

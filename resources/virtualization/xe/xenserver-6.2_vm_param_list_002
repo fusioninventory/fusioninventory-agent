@@ -1,0 +1,79 @@
+uuid ( RO)                          : 7aa76a40-5e05-35eb-f275-e0f6c2c13d8f
+                    name-label ( RW): GLPI
+              name-description ( RW): Resource Manager
+                  user-version ( RW): 1
+                 is-a-template ( RW): false
+                 is-a-snapshot ( RO): false
+                   snapshot-of ( RO): <not in database>
+                     snapshots ( RO): 
+                 snapshot-time ( RO): 19700101T00:00:00Z
+                 snapshot-info ( RO): 
+                        parent ( RO): <not in database>
+                      children ( RO): 
+             is-control-domain ( RO): false
+                   power-state ( RO): running
+                 memory-actual ( RO): 2147483648
+                 memory-target ( RO): 2147483648
+               memory-overhead ( RO): 19922944
+             memory-static-max ( RW): 2147483648
+            memory-dynamic-max ( RW): 2147483648
+            memory-dynamic-min ( RW): 2147483648
+             memory-static-min ( RW): 134217728
+              suspend-VDI-uuid ( RW): <not in database>
+               suspend-SR-uuid ( RW): 6b47cebb-b56e-68b1-9397-ff6c1492d741
+                  VCPUs-params (MRW): 
+                     VCPUs-max ( RW): 2
+              VCPUs-at-startup ( RW): 2
+        actions-after-shutdown ( RW): Destroy
+          actions-after-reboot ( RW): Restart
+           actions-after-crash ( RW): Restart
+                 console-uuids (SRO): 1182ab36-75f4-322c-9167-f7dde97b5366; 0977d12c-7bca-5184-12b1-48878be27b58
+                      platform (MRW): nx: true; pae: true; apic: true; acpi: 1; cores-per-socket: 1; viridian: true
+            allowed-operations (SRO): changing_dynamic_range; migrate_send; pool_migrate; changing_VCPUs_live; suspend; hard_reboot; hard_shutdown; clean_reboot; clean_shutdown; pause; checkpoint; snapshot
+            current-operations (SRO): 
+            blocked-operations (MRW): 
+           allowed-VBD-devices (SRO): 1; 2; 4; 5; 6; 7; 8; 9; 10; 11; 12; 13; 14; 15
+           allowed-VIF-devices (SRO): 1; 2; 3; 4; 5; 6
+                possible-hosts ( RO): 8b235bcd-2b7f-4273-a414-c345674358b8; 37cfd108-8eb0-4af1-a207-37bcb44f701e; 4a5b3bb6-88a5-408d-bc51-d3db847a5f55
+               HVM-boot-policy ( RW): 
+               HVM-boot-params (MRW): 
+         HVM-shadow-multiplier ( RW): 1.000
+                     PV-kernel ( RW): 
+                    PV-ramdisk ( RW): 
+                       PV-args ( RW): -- quiet console=hvc0
+                PV-legacy-args ( RW): 
+                 PV-bootloader ( RW): pygrub
+            PV-bootloader-args ( RW): 
+           last-boot-CPU-flags ( RO): vendor: GenuineIntel; features: 029ee3ff-bfebfbff-00000001-2c100800
+              last-boot-record ( RO): '('struct' ('uuid' '7aa76a40-5e05-35eb-f275-e0f6c2c13d8f') ('allowed_operations' ('array')) ('current_operations' ('struct' ('OpaqueRef:b95ec109-f7f1-8cfd-f3b7-4ed6760e528b' 'start'))) ('power_state' 'Halted') ('name_label' 'GLPI') ('name_description' 'Resource Manager') ('user_version' '1') ('is_a_template' ('boolean' '0')) ('suspend_VDI' 'OpaqueRef:NULL') ('resident_on' 'OpaqueRef:NULL') ('affinity' 'OpaqueRef:7a007f02-4956-ace5-6cd1-b42032342a4b') ('memory_overhead' '19922944') ('memory_target' '0') ('memory_static_max' '2147483648') ('memory_dynamic_max' '2147483648') ('memory_dynamic_min' '2147483648') ('memory_static_min' '134217728') ('VCPUs_params' ('struct')) ('VCPUs_max' '2') ('VCPUs_at_startup' '2') ('actions_after_shutdown' 'destroy') ('actions_after_reboot' 'restart') ('actions_after_crash' 'restart') ('consoles' ('array')) ('VIFs' ('array' 'OpaqueRef:65cd2b4c-e7f7-a044-83c3-2279c0d4474a')) ('VBDs' ('array' 'OpaqueRef:5c31220d-28f2-d95e-2852-d6a450c8bb6d' 'OpaqueRef:b3b4bfb7-a1ef-350c-9d60-e713618d5b74')) ('crash_dumps' ('array')) ('VTPMs' ('array')) ('PV_bootloader' 'eliloader') ('PV_kernel' '') ('PV_ramdisk' '') ('PV_args' '-- quiet console=hvc0') ('PV_bootloader_args' '') ('PV_legacy_args' '') ('HVM_boot_policy' '') ('HVM_boot_params' ('struct')) ('HVM_shadow_multiplier' ('double' '1')) ('platform' ('struct' ('nx' 'true') ('pae' 'true') ('apic' 'true') ('acpi' '1') ('cores-per-socket' '1') ('viridian' 'true'))) ('PCI_bus' '') ('other_config' ('struct' ('install-distro' 'debianlike') ('base_template_name' 'Ubuntu Lucid Lynx 10.04 (64-bit)') ('install-repository' 'http://us.archive.ubuntu.com/ubuntu') ('install-methods' 'http,ftp') ('linux_template' 'true') ('debian-release' 'trusty') ('mac_seed' '2e32a1fc-f96e-5dd7-74b2-11d6171482d5') ('install-arch' 'amd64'))) ('domid' '-1') ('domarch' '') ('last_boot_CPU_flags' ('struct')) ('is_control_domain' ('boolean' '0')) ('metrics' 'OpaqueRef:0092ca2b-bd99-9c6a-104b-d7f87c04cdd5') ('guest_metrics' 'OpaqueRef:NULL') ('last_booted_record' '') ('recommendations' '<restrictions><restriction field=\"memory-static-max\" max=\"34359738368\" /><restriction field=\"vcpus-max\" max=\"16\" /><restriction property=\"number-of-vbds\" max=\"7\" /><restriction property=\"number-of-vifs\" max=\"7\" /></restrictions>') ('xenstore_data' ('struct')) ('ha_always_run' ('boolean' '0')) ('ha_restart_priority' '') ('is_a_snapshot' ('boolean' '0')) ('snapshot_of' 'OpaqueRef:NULL') ('snapshots' ('array')) ('snapshot_time' ('dateTime.iso8601' '19700101T00:00:00Z')) ('transportable_snapshot_id' '') ('blobs' ('struct')) ('tags' ('array')) ('blocked_operations' ('struct')) ('snapshot_info' ('struct')) ('snapshot_metadata' '') ('parent' 'OpaqueRef:NULL') ('children' ('array')) ('bios_strings' ('struct')) ('protection_policy' 'OpaqueRef:NULL') ('is_snapshot_from_vmpp' ('boolean' '0')) ('appliance' 'OpaqueRef:NULL') ('start_delay' '0') ('shutdown_delay' '0') ('order' '0') ('VGPUs' ('array')) ('attached_PCIs' ('array')) ('suspend_SR' 'OpaqueRef:293391b6-de7f-744a-74d0-dff8bb12c288') ('version' '0') ('generation_id' '3269046566799478133:3627580506591873331'))'
+                   resident-on ( RO): 37cfd108-8eb0-4af1-a207-37bcb44f701e
+                      affinity ( RW): 37cfd108-8eb0-4af1-a207-37bcb44f701e
+                  other-config (MRW): vgpu_pci: ; base_template_name: Ubuntu Lucid Lynx 10.04 (64-bit); install-repository: http://us.archive.ubuntu.com/ubuntu; install-methods: http,ftp; linux_template: true; debian-release: trusty; mac_seed: 2e32a1fc-f96e-5dd7-74b2-11d6171482d5; install-arch: amd64
+                        dom-id ( RO): 5
+               recommendations ( RO): <restrictions><restriction field="memory-static-max" max="34359738368" /><restriction field="vcpus-max" max="16" /><restriction property="number-of-vbds" max="7" /><restriction property="number-of-vifs" max="7" /></restrictions>
+                 xenstore-data (MRW): vm-data: 
+    ha-always-run ( RW) [DEPRECATED]: false
+           ha-restart-priority ( RW): 
+                         blobs ( RO): 
+                    start-time ( RO): 20151123T19:53:07Z
+                  install-time ( RO): 20151123T14:51:28Z
+                  VCPUs-number ( RO): 2
+             VCPUs-utilisation (MRO): 0: 0.002; 1: 0.001
+                    os-version (MRO): name: Ubuntu 14.04.3 LTS; uname: 3.13.0-68-generic; distro: ubuntu; major: 14; minor: 04
+            PV-drivers-version (MRO): major: 6; minor: 2; micro: 0; build: 70442
+         PV-drivers-up-to-date ( RO): true
+                        memory (MRO): 
+                         disks (MRO): 
+                      networks (MRO): 0/ip: 192.168.1.47; 0/ipv6/0: fe80::e8ba:53ff:fe73:482b
+                         other (MRO): platform-feature-multiprocessor-suspend: 1; feature-balloon: 1
+                          live ( RO): true
+    guest-metrics-last-updated ( RO): 20151221T21:55:21Z
+      cooperative ( RO) [DEPRECATED]: true
+                          tags (SRW): 
+                     appliance ( RW): <not in database>
+                   start-delay ( RW): 0
+                shutdown-delay ( RW): 0
+                         order ( RW): 0
+                       version ( RO): 0
+                 generation-id ( RO): 3269046566799478133:3627580506591873331
+

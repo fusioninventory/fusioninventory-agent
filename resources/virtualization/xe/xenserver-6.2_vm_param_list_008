@@ -1,0 +1,79 @@
+uuid ( RO)                          : 7b89788c-8282-431b-b864-a8e2d16d21ef
+                    name-label ( RW): Control domain on host: xcp-01
+              name-description ( RW): The domain which manages physical devices and manages other domains
+                  user-version ( RW): 1
+                 is-a-template ( RW): false
+                 is-a-snapshot ( RO): false
+                   snapshot-of ( RO): <not in database>
+                     snapshots ( RO): 
+                 snapshot-time ( RO): 19700101T00:00:00Z
+                 snapshot-info ( RO): 
+                        parent ( RO): <not in database>
+                      children ( RO): 
+             is-control-domain ( RO): true
+                   power-state ( RO): running
+                 memory-actual ( RO): 763101184
+                 memory-target ( RO): 771751936
+               memory-overhead ( RO): 32505856
+             memory-static-max ( RW): 763101184
+            memory-dynamic-max ( RW): 763101184
+            memory-dynamic-min ( RW): 763101184
+             memory-static-min ( RW): 763101184
+              suspend-VDI-uuid ( RW): <not in database>
+               suspend-SR-uuid ( RW): <not in database>
+                  VCPUs-params (MRW): 
+                     VCPUs-max ( RW): 24
+              VCPUs-at-startup ( RW): 24
+        actions-after-shutdown ( RW): Destroy
+          actions-after-reboot ( RW): Destroy
+           actions-after-crash ( RW): Destroy
+                 console-uuids (SRO): 927f32a6-20da-cb8b-bd9c-653db7237341; e502c7eb-c235-34c8-97d3-a040280938cd
+                      platform (MRW): 
+            allowed-operations (SRO): changing_dynamic_range
+            current-operations (SRO): 
+            blocked-operations (MRW): 
+           allowed-VBD-devices (SRO): 0; 1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12; 13; 14; 15; 16; 17; 18; 19; 20; 21; 22; 23; 24; 25; 26; 27; 28; 29; 30; 31; 32; 33; 34; 35; 36; 37; 38; 39; 40; 41; 42; 43; 44; 45; 46; 47; 48; 49; 50; 51; 52; 53; 54; 55; 56; 57; 58; 59; 60; 61; 62; 63; 64; 65; 66; 67; 68; 69; 70; 71; 72; 73; 74; 75; 76; 77; 78; 79; 80; 81; 82; 83; 84; 85; 86; 87; 88; 89; 90; 91; 92; 93; 94; 95; 96; 97; 98; 99; 100; 101; 102; 103; 104; 105; 106; 107; 108; 109; 110; 111; 112; 113; 114; 115; 116; 117; 118; 119; 120; 121; 122; 123; 124; 125; 126; 127; 128; 129; 130; 131; 132; 133; 134; 135; 136; 137; 138; 139; 140; 141; 142; 143; 144; 145; 146; 147; 148; 149; 150; 151; 152; 153; 154; 155; 156; 157; 158; 159; 160; 161; 162; 163; 164; 165; 166; 167; 168; 169; 170; 171; 172; 173; 174; 175; 176; 177; 178; 179; 180; 181; 182; 183; 184; 185; 186; 187; 188; 189; 190; 191; 192; 193; 194; 195; 196; 197; 198; 199; 200; 201; 202; 203; 204; 205; 206; 207; 208; 209; 210; 211; 212; 213; 214; 215; 216; 217; 218; 219; 220; 221; 222; 223; 224; 225; 226; 227; 228; 229; 230; 231; 232; 233; 234; 235; 236; 237; 238; 239; 240; 241; 242; 243; 244; 245; 246; 247; 248; 249; 250; 251; 252; 253; 254; 255
+           allowed-VIF-devices (SRO): 0; 1; 2; 3; 4; 5; 6
+                possible-hosts ( RO): 8b235bcd-2b7f-4273-a414-c345674358b8; 37cfd108-8eb0-4af1-a207-37bcb44f701e; 4a5b3bb6-88a5-408d-bc51-d3db847a5f55
+               HVM-boot-policy ( RW): 
+               HVM-boot-params (MRW): 
+         HVM-shadow-multiplier ( RW): 1.000
+                     PV-kernel ( RW): 
+                    PV-ramdisk ( RW): 
+                       PV-args ( RW): 
+                PV-legacy-args ( RW): 
+                 PV-bootloader ( RW): 
+            PV-bootloader-args ( RW): 
+           last-boot-CPU-flags ( RO): 
+              last-boot-record ( RO): '('struct' ('uuid' '7b89788c-8282-431b-b864-a8e2d16d21ef') ('allowed_operations' ('array' 'changing_dynamic_range')) ('current_operations' ('struct')) ('power_state' 'Running') ('name_label' 'Control domain on host: xcp-01') ('name_description' 'The domain which manages physical devices and manages other domains') ('user_version' '1') ('is_a_template' ('boolean' '0')) ('suspend_VDI' 'OpaqueRef:NULL') ('resident_on' 'OpaqueRef:1c9f52bb-5d21-5775-327a-bc5a024ee60a') ('affinity' 'OpaqueRef:1c9f52bb-5d21-5775-327a-bc5a024ee60a') ('memory_overhead' '32505856') ('memory_target' '763101184') ('memory_static_max' '763101184') ('memory_dynamic_max' '763101184') ('memory_dynamic_min' '763101184') ('memory_static_min' '763101184') ('VCPUs_params' ('struct')) ('VCPUs_max' '24') ('VCPUs_at_startup' '24') ('actions_after_shutdown' 'destroy') ('actions_after_reboot' 'destroy') ('actions_after_crash' 'destroy') ('consoles' ('array' 'OpaqueRef:ba157e58-c18e-a822-afff-feb4d1a1972d' 'OpaqueRef:1f7533d7-dba0-f913-edd1-32354b055630')) ('VIFs' ('array')) ('VBDs' ('array')) ('crash_dumps' ('array')) ('VTPMs' ('array')) ('PV_bootloader' '') ('PV_kernel' '') ('PV_ramdisk' '') ('PV_args' '') ('PV_bootloader_args' '') ('PV_legacy_args' '') ('HVM_boot_policy' '') ('HVM_boot_params' ('struct')) ('HVM_shadow_multiplier' ('double' '1')) ('platform' ('struct')) ('PCI_bus' '') ('other_config' ('struct' ('storage_driver_domain' 'OpaqueRef:0aafd019-ac71-b034-6514-9c0cce445e7e') ('is_system_domain' 'true') ('perfmon' '<config><variable><name value=\"fs_usage\"/></variable></config>'))) ('domid' '0') ('domarch' 'x32') ('last_boot_CPU_flags' ('struct')) ('is_control_domain' ('boolean' '1')) ('metrics' 'OpaqueRef:abc87a90-35bd-9f5c-7acc-c59d17264169') ('guest_metrics' 'OpaqueRef:NULL') ('last_booted_record' '') ('recommendations' '') ('xenstore_data' ('struct')) ('ha_always_run' ('boolean' '0')) ('ha_restart_priority' '') ('is_a_snapshot' ('boolean' '0')) ('snapshot_of' 'OpaqueRef:NULL') ('snapshots' ('array')) ('snapshot_time' ('dateTime.iso8601' '19700101T00:00:00Z')) ('transportable_snapshot_id' '') ('blobs' ('struct')) ('tags' ('array')) ('blocked_operations' ('struct')) ('snapshot_info' ('struct')) ('snapshot_metadata' '') ('parent' 'OpaqueRef:NULL') ('children' ('array')) ('bios_strings' ('struct')) ('protection_policy' 'OpaqueRef:NULL') ('is_snapshot_from_vmpp' ('boolean' '0')) ('appliance' 'OpaqueRef:NULL') ('start_delay' '0') ('shutdown_delay' '0') ('order' '0') ('VGPUs' ('array')) ('attached_PCIs' ('array')) ('suspend_SR' 'OpaqueRef:NULL') ('version' '0') ('generation_id' '3217807722142911634:7107435038065317741'))'
+                   resident-on ( RO): 4a5b3bb6-88a5-408d-bc51-d3db847a5f55
+                      affinity ( RW): 4a5b3bb6-88a5-408d-bc51-d3db847a5f55
+                  other-config (MRW): storage_driver_domain: OpaqueRef:4faeab2e-5ef3-3dee-f5fb-e80edc5efdf6; is_system_domain: true; perfmon: <config><variable><name value="fs_usage"/></variable></config>
+                        dom-id ( RO): 0
+               recommendations ( RO): 
+                 xenstore-data (MRW): 
+    ha-always-run ( RW) [DEPRECATED]: false
+           ha-restart-priority ( RW): 
+                         blobs ( RO): 
+                    start-time ( RO): 19700101T00:00:00Z
+                  install-time ( RO): 19700101T00:00:00Z
+                  VCPUs-number ( RO): 0
+             VCPUs-utilisation (MRO): 
+                    os-version (MRO): <not in database>
+            PV-drivers-version (MRO): <not in database>
+         PV-drivers-up-to-date ( RO): <not in database>
+                        memory (MRO): <not in database>
+                         disks (MRO): <not in database>
+                      networks (MRO): <not in database>
+                         other (MRO): <not in database>
+                          live ( RO): <not in database>
+    guest-metrics-last-updated ( RO): <not in database>
+      cooperative ( RO) [DEPRECATED]: true
+                          tags (SRW): 
+                     appliance ( RW): <not in database>
+                   start-delay ( RW): 0
+                shutdown-delay ( RW): 0
+                         order ( RW): 0
+                       version ( RO): 0
+                 generation-id ( RO): 3217807722142911634:7107435038065317741
+

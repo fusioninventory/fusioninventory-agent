@@ -1,0 +1,49 @@
+uuid ( RO)           : a444ab5d-d1fc-f1a5-5ab4-3f0c3c07352e
+     name-label ( RW): core-02
+    power-state ( RO): running
+
+
+uuid ( RO)           : 7aa76a40-5e05-35eb-f275-e0f6c2c13d8f
+     name-label ( RW): GLPI
+    power-state ( RO): running
+
+
+uuid ( RO)           : a45a98b0-7e85-45d9-8a40-5b1dd0a91646
+     name-label ( RW): Control domain on host: xenserver-02
+    power-state ( RO): running
+
+
+uuid ( RO)           : ecfeaa60-07cf-b710-30c2-d2f6a4cdb152
+     name-label ( RW): OCS Inventory
+    power-state ( RO): halted
+
+
+uuid ( RO)           : 1f9e34f8-285b-4fa4-b81c-fea9877adf08
+     name-label ( RW): Control domain on host: xenserver-03
+    power-state ( RO): running
+
+
+uuid ( RO)           : aa73f25f-7bb9-0bcd-9d8a-3790d8196d2c
+     name-label ( RW): JController-01
+    power-state ( RO): running
+
+
+uuid ( RO)           : 1b3907d8-7987-9e5f-7e0c-0d0e3885b87b
+     name-label ( RW): Gitlab
+    power-state ( RO): running
+
+
+uuid ( RO)           : 7b89788c-8282-431b-b864-a8e2d16d21ef
+     name-label ( RW): Control domain on host: xcp-01
+    power-state ( RO): running
+
+
+uuid ( RO)           : d00720df-0dcb-5259-9d8d-4bf2fc3a272c
+     name-label ( RW): ns2
+    power-state ( RO): running
+
+
+uuid ( RO)           : aad6e924-f255-f5f0-710c-be6b8aefd1dd
+     name-label ( RW): site-test
+    power-state ( RO): running
+
