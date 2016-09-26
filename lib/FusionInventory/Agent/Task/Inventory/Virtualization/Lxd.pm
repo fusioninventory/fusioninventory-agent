@@ -14,7 +14,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return canRun('lxd-images');
+    return canRun('lxd');
 }
 
 sub doInventory {
@@ -116,9 +116,9 @@ sub  _getVirtualMachines {
         chomp $line;
 
         # Filter header
-        next if ($line =~ /NAME/);
+        next if ($line =~ /NAME.*STATE/);
 
-        my ($name) = $line =~ /^[^|]+|([^| ]+)/;
+        my ($name) = $line =~ /^\|+\s*([^| ]+)/;
         next unless $name;
 
         my $state = _getVirtualMachineState(
