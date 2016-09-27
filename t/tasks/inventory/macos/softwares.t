@@ -2917,13 +2917,10 @@ SKIP: {
     ok (@xmlStr);
     ok (scalar(@xmlStr) > 0);
 
-    my $fh;
-    open $fh, ">harddebug.log";
     my $softs = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosXML(
         type            => 'SPApplicationsDataType',
         localTimeOffset => FusionInventory::Agent::Tools::MacOS::detectLocalTimeOffset(),
-        format => 'xml',
-        fh => $fh
+        format => 'xml'
     );
     ok ($softs);
     ok (scalar(keys %$softs) > 0);
