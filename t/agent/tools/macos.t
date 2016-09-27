@@ -3384,12 +3384,12 @@ my $versionNumbersComparisons = [
 plan tests =>
     scalar (keys %system_profiler_tests) +
     scalar @ioreg_tests
-    + 14
+    + 15
     + scalar (@$versionNumbersComparisons);
 
 foreach my $test (keys %system_profiler_tests) {
     my $file = "resources/macos/system_profiler/$test";
-    my $infos = getSystemProfilerInfos(file => $file);
+    my $infos = getSystemProfilerInfos(file => $file, format => 'text');
     cmp_deeply($infos, $system_profiler_tests{$test}, "$test system profiler parsing");
 }
 
@@ -3401,9 +3401,9 @@ foreach my $test (@ioreg_tests) {
 
 my $type = 'SPApplicationsDataType';
 my $flatFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType.example.txt';
-my $softwaresFromFlatFile = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfos(file => $flatFile, type => $type);
+my $softwaresFromFlatFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosText(file => $flatFile, type => $type);
 my $xmlFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml';
-my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfosXML(file => $xmlFile, type => $type, localTimeOffset => 7200);
+my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosXML(file => $xmlFile, type => $type, localTimeOffset => 7200);
 ok (ref($softwaresFromFlatFile) eq 'HASH');
 ok (ref($softwaresFromXmlFile) eq 'HASH');
 
@@ -3432,102 +3432,18 @@ my $softwaresFromFlatFileSize = scalar(keys %{$softwaresFromFlatFile->{'Applicat
 my $softwaresFromXmlFileSize = scalar(keys %{$softwaresFromXmlFile->{'Applications'}});
 ok ($softwaresFromFlatFileSize == $softwaresFromXmlFileSize, $softwaresFromFlatFileSize . ' from flat file and ' . $softwaresFromXmlFileSize . ' from XML file');
 
-my $xmlString = <<XML_STRING;
-<?blahblabalfdsb>
-<!gsdfhsdbsd>
-<plist>
-<array>
-  <dict>
-      <key>key value 1</key>
-      <string>string value 1</string>
-      <key>key value 1</key>
-      <date>string value 1</date>
-      <key>key value 1</key>
-      <string>string value 1</string>
-      <array>
-        <dict>
-          <key>key value 1</key>
-          <string>string value 1</string>
-          <key>key value 1</key>
-          <date>string value 1</date>
-          <key>key value 1</key>
-          <string>string value 1</string>
-          <key>key value 1</key>
-          <string>string value 1</string>
-        </dict>
-        <dict>
-          <key>key value 2</key>
-          <string>string value 2</string>
-        </dict>
-        <dict>
-          <key>key value 1</key>
-          <string>string value 1</string>
-        </dict>
-      </array>
-  </dict>
-</array>
-</plist>
-XML_STRING
-my @xmlLines = split(/\n/, $xmlString);
-my $elementsXmlString = FusionInventory::Agent::Tools::MacOS::_extractApplicationsDataFromXmlLines(\@xmlLines);
-ok (defined($elementsXmlString->[0]));
-my $expectedValue = '<dict><key>key value 1</key><string>string value 1</string><key>key value 1</key><date>string value 1</date><key>key value 1</key><string>string value 1</string><key>key value 1</key><string>string value 1</string></dict>';
-ok ($elementsXmlString->[0] eq $expectedValue, $elementsXmlString->[0] . ' eq ? ' . "\n" . $expectedValue);
-$expectedValue = '<dict><key>key value 2</key><string>string value 2</string></dict>';
-ok ($elementsXmlString->[1] eq $expectedValue);
-$expectedValue = '<dict><key>key value 1</key><string>string value 1</string></dict>';
-ok ($elementsXmlString->[2] eq $expectedValue);
 
-
-my $hashExpected = {
-     'key value 1'=> 'string value 1' ,
-     'key value 1'=> 'string value 1' ,
-     'key value 1'=> 'string value 1' ,
-     'key value 1'=> 'string value 1'
+my $extractedHash = {
+    '_name' => "Programme d’installation",
+    "has64BitIntelCode" => "yes",
+    "info" => "3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved",
+    "lastModified" => "2009-06-27T06:18:49Z",
+    "path" => "/System/Library/CoreServices/Installer.app",
+    "runtime_environment" => "universal",
+    "version" => "4.0"
 };
-my $hashExtracted = FusionInventory::Agent::Tools::MacOS::_extractApplicationDataFromXmlStringElement($elementsXmlString->[0]);
-cmp_deeply(
-    $hashExpected,
-    $hashExtracted
-);
 
-
-$xmlString = <<XML_STRING;
-<dict>
-    <key>_name</key>
-    <string>Programme d’installation</string>
-    <key>has64BitIntelCode</key>
-    <string>yes</string>
-    <key>info</key>
-    <string>3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved</string>
-    <key>lastModified</key>
-    <date>2009-06-27T06:18:49Z</date>
-    <key>path</key>
-    <string>/System/Library/CoreServices/Installer.app</string>
-    <key>runtime_environment</key>
-    <string>universal</string>
-    <key>version</key>
-    <string>4.0</string>
-</dict>
-XML_STRING
-$xmlString =~ s/\n//g;
-$xmlString =~ s/(<\/[^<]+>)\s+(<)/$1$2/g;
-my $extractedHash = FusionInventory::Agent::Tools::MacOS::_extractApplicationDataFromXmlStringElement($xmlString);
 my $expectedHash = {
-    '_name' => 'Programme d’installation',
-    'has64BitIntelCode' => 'yes',
-    'info' => '3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved',
-    'lastModified' => '2009-06-27T06:18:49Z',
-    'path' => '/System/Library/CoreServices/Installer.app',
-    'runtime_environment' => 'universal',
-    'version' => '4.0'
-};
-cmp_deeply(
-    $expectedHash,
-    $extractedHash
-);
-
-$expectedHash = {
     'Programme d’installation' => {
         '64-Bit (Intel)' => 'yes',
         'Get Info String'           => '3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved',
@@ -3565,3 +3481,92 @@ for my $listVersionNumbers (@$versionNumbersComparisons) {
     );
 }
 ok (FusionInventory::Agent::Tools::MacOS::cmpVersionNumbers('5.34.54', '5.34.54') == 0);
+
+my $xmlString = <<XMLSTRING;
+<root>
+    <elem>
+        <name>name1.1</name>
+        <value>value1.1</value>
+        <name>name1.2</name>
+        <value>value1.2</value>
+        <name>name1.3</name>
+        <value>value1.3</value>
+    </elem>
+    <elem>
+        <elem>
+            <name>name2-1.1</name>
+            <value>value2-1.1</value>
+            <name>name2-1.2</name>
+            <value>value2-1.2</value>
+            <name>name2-1.3</name>
+            <value>value2-1.3</value>
+        </elem>
+    </elem>
+    <elem>
+        <elem>
+            <elem>
+                <name>name3-1-1.1</name>
+                <value>value3-1-1.1</value>
+                <name>name3-1-1.2</name>
+                <value>value3-1-1.2</value>
+                <name>name3-1-1.3</name>
+                <value>value3-1-1.3</value>
+            </elem>
+        </elem>
+        <elem>
+            <name>name3-2.1</name>
+            <value>value3-2.1</value>
+            <name>name3-2.2</name>
+            <value>value3-2.2</value>
+            <name>name3-2.3</name>
+            <value>value3-2.3</value>
+        </elem>
+    </elem>
+    <elem>
+        <name>name4.1</name>
+        <value>value4.1</value>
+        <name>name4.2</name>
+        <value>value4.2</value>
+        <name>name4.3</name>
+        <value>value4.3</value>
+        <name>name4.4</name>
+        <value></value>
+        <name>name4.5</name>
+        <value>value4.5</value>
+    </elem>
+</root>
+XMLSTRING
+
+my $hash = FusionInventory::Agent::Tools::MacOS::_parseXmlStringKeepingOrder($xmlString);
+ok (defined($$hash{root}));
+ok (defined($$hash{root}{elem}[2]{elem}[0]{elem}));
+
+$xmlString = FusionInventory::Agent::Tools::getAllLines(
+    file => 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml'
+);
+
+$type = 'SPApplicationsDataType';
+my $softwaresHash = FusionInventory::Agent::Tools::MacOS::_extractDataFromXmlString($xmlString, $type, 7200);
+ok (defined($softwaresHash));
+
+$expectedHash = {
+    'Programme d’installation' => {
+        '64-Bit (Intel)'  => 'Yes',
+        'Get Info String' => '3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved',
+        'Last Modified'   => '27/06/2009',
+        'Location'        => '/System/Library/CoreServices/Installer.app',
+        'Kind'            => 'Universal',
+        'Version'         => '4.0'
+    }
+};
+cmp_deeply(
+    $expectedHash->{"Programme d’installation"},
+    $softwaresHash->{Applications}->{"Programme d’installation"}
+);
+ok (scalar(keys %{$softwaresHash->{Applications}}) == 291, "we expect 291 elements and got " . (scalar (keys %{$softwaresHash->{Applications}})));
+
+$hash = FusionInventory::Agent::Tools::MacOS::_parseXmlStringKeepingOrder($xmlString);
+my $subArray = FusionInventory::Agent::Tools::MacOS::_findElementAndReturnParentArray(undef, $hash, 'key', '_name');
+ok ($subArray);
+my $size = scalar(@$subArray);
+ok ($size == 291, 'must be 291 and is ' . $size);
