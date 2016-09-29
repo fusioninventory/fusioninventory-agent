@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use English;
 
 use FusionInventory::Agent::Tools::MacOS;
 use FusionInventory::Agent::Task::Inventory::MacOS::Softwares;
@@ -3384,7 +3385,7 @@ my $versionNumbersComparisons = [
 plan tests =>
     scalar (keys %system_profiler_tests) +
     scalar @ioreg_tests
-    + 14
+    + 15
     + scalar (@$versionNumbersComparisons);
 
 foreach my $test (keys %system_profiler_tests) {
@@ -3565,3 +3566,10 @@ for my $listVersionNumbers (@$versionNumbersComparisons) {
     );
 }
 ok (FusionInventory::Agent::Tools::MacOS::cmpVersionNumbers('5.34.54', '5.34.54') == 0);
+
+SKIP : {
+    skip 'MacOS specific test', 1 unless $OSNAME eq 'darwin';
+
+    my $boottime = getBootTime();
+    ok ($boottime);
+}
