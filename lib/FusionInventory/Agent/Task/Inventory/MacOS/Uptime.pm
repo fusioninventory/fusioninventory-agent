@@ -22,12 +22,8 @@ sub doInventory {
     });
 }
 
-sub _getBootTime {
-    return FusionInventory::Agent::Tools::MacOS::getBootTime(@_);
-}
-
 sub _getUptime {
-    my $boottime = _getBootTime(@_);
+    my $boottime = return FusionInventory::Agent::Tools::MacOS::getBootTime(@_);
     return unless $boottime;
 
     my $uptime = time() - $boottime;
