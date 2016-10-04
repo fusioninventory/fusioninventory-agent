@@ -20,7 +20,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $softwares = _getSoftwaresList(logger => $params{logger});
+    my $softwares = _getSoftwaresList(logger => $params{logger}, format => 'xml');
     return unless $softwares;
 
     foreach my $software (@$softwares) {
@@ -36,26 +36,23 @@ sub _getSoftwaresList {
     my $logger = $params{logger};
 
     my $infos;
-    my $datesAlreadyFormatted = 0;
-    if ($params{file} && $params{flatFile}) {
-        $infos = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfos(
-            type => 'SPApplicationsDataType',
-            @_
-        );
+    my $datesAlreadyFormatted = 1;
+    # when format used is 'text', dates are not formatted
+    # they have to be formatted so we use this variable to format dates if needed
+    if (!$params{format} || $params{format} eq 'text') {
         $datesAlreadyFormatted = 0;
-    } else {
-        $infos = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfosXML(
-            type            => 'SPApplicationsDataType',
-            localTimeOffset => FusionInventory::Agent::Tools::MacOS::detectLocalTimeOffset(),
-            @_
-        );
-        $datesAlreadyFormatted = 1;
     }
+    my $localTimeOffset = FusionInventory::Agent::Tools::MacOS::detectLocalTimeOffset();
+    $infos = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfos(
+        type            => 'SPApplicationsDataType',
+        localTimeOffset => $localTimeOffset,
+        @_
+    );
 
     my $info = $infos->{Applications};
 
     my @softwares;
-    foreach my $name (keys %$info) {
+    for my $name (keys %$info) {
         my $app = $info->{$name};
 
         # Windows application found by Parallels (issue #716)
