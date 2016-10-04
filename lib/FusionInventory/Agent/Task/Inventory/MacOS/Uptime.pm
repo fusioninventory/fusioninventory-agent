@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
     return getFirstLine(command => 'sysctl -n kern.boottime');
@@ -21,17 +22,8 @@ sub doInventory {
     });
 }
 
-sub _getBootTime {
-    my $boottime = getFirstMatch(
-        pattern => qr/(\d+)$/,
-        @_,
-    );
-
-    return $boottime;
-}
-
 sub _getUptime {
-    my $boottime = _getBootTime(@_);
+    my $boottime = return FusionInventory::Agent::Tools::MacOS::getBootTime(@_);
     return unless $boottime;
 
     my $uptime = time() - $boottime;

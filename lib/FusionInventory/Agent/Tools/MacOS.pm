@@ -16,6 +16,7 @@ use FusionInventory::Agent::Tools;
 our @EXPORT = qw(
     getSystemProfilerInfos
     getIODevices
+    getBootTime
 );
 
 memoize('getSystemProfilerInfos');
@@ -400,6 +401,20 @@ sub getIODevices {
     close $handle;
 
     return @devices;
+}
+
+sub getBootTime {
+    my (%params) = @_;
+    if (!$params{string} && !$params{command}) {
+        $params{command} = 'sysctl -n kern.boottime';
+    }
+
+    my $boottime = getFirstMatch(
+        pattern => qr/(\d+)$/,
+        %params
+    );
+
+    return $boottime;
 }
 
 1;
