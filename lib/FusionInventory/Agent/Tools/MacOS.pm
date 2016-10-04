@@ -8,6 +8,8 @@ use English qw(-no_match_vars);
 use Memoize;
 use POSIX 'strftime';
 use Time::Local;
+use XML::TreePP;
+use Tie::IxHash;
 
 use FusionInventory::Agent::Tools;
 
@@ -19,20 +21,26 @@ our @EXPORT = qw(
 
 memoize('getSystemProfilerInfos');
 
-sub getSystemProfilerInfosXML {
+use constant {
+    KEY_ELEMENT_NAME   => 'key',
+    VALUE_ELEMENT_NAME => 'string',
+    DATE_ELEMENT_NAME  => 'date'
+};
+
+sub _getSystemProfilerInfosXML {
     my (%params) = @_;
 
     my $command = $params{type} ?
         "/usr/sbin/system_profiler -xml $params{type}" : "/usr/sbin/system_profiler -xml";
-    my @xml = getAllLines(command => $command, %params);
-    return unless @xml;
+    my $xmlStr = getAllLines(command => $command, %params);
+    return unless $xmlStr;
 
-    # As we don't want to use a module platform dependent and
-    # because XML is not very complex, we introduce our own parser
-    # that will extract the data we want
+    # As we don't want to use a module platform dependent, we use the XML::TreePP module
+    # with an option to keep XML's elements order
+    #    my $xmlStr = join '', @xml;
     my $info = {};
     if ($params{type} eq 'SPApplicationsDataType') {
-        $info = _extractDataTypeData(\@xml, $params{logger}, $params{localTimeOffset});
+        $info = _extractDataFromXmlString($xmlStr, $params{logger}, $params{localTimeOffset});
     } else {
         # not implemented for every data types
     }
@@ -40,46 +48,107 @@ sub getSystemProfilerInfosXML {
     return $info;
 }
 
-sub _getTimeZone {
-    my $tz;
-    my $line = getFirstLine(command => 'ls -l /etc/localtime');
-    if ($line) {
-        # trim
-        $line =~ s/^\s+//g;
-        $line =~ s/\s+$//g;
-        if ($line =~ /zoneinfo\/([^\/]+\/[^\/]+)$/) {
-            $tz = $1;
-        }
-    }
+sub _extractDataFromXmlString {
+    my ($xmlStr, $logger, $localTimeOffset) = @_;
 
-    return $tz;
-}
+    my $xmlHash = _parseXmlStringKeepingOrder($xmlStr);
 
-sub _extractDataTypeData {
-    my ($xmlLines, $logger, $localTimeOffset) = @_;
+    my $softwaresXmlHash = _extractInterestingPartOfHash($xmlHash);
 
-    my $xmlElementsXmlString = _extractApplicationsDataFromXmlLines($xmlLines);
-
-    my $softwareHash = {};
-    for my $xmlString (@$xmlElementsXmlString) {
-        my $hash = _extractApplicationDataFromXmlStringElement($xmlString);
-        next unless $hash->{'_name'};
-        $hash = _applySpecialRulesOnApplicationData($hash);
-        my $convertedDate = _convertDateFromApplicationDataXml($hash->{lastModified}, $localTimeOffset);
+    my $softwareHash;
+    for my $hash (@$softwaresXmlHash) {
+        my $soft = _pairKeyValueFromXml($hash);
+        next unless $soft->{'_name'};
+        $soft = _applySpecialRulesOnApplicationData($soft);
+        my $convertedDate = _convertDateFromApplicationDataXml($soft->{lastModified}, $localTimeOffset);
         if (defined $convertedDate) {
-            $hash->{lastModified} = $convertedDate;
+            $soft->{lastModified} = $convertedDate;
         } else {
             if (defined $logger) {
                 $logger->error("can't parse retrieved dates in 'lastModified' field in XML file");
             }
         }
-        my $mappedHash = _mapApplicationDataKeys($hash);
+        my $mappedHash = _mapApplicationDataKeys($soft);
         $softwareHash = _mergeHashes($softwareHash, $mappedHash);
     }
 
     return {
         'Applications' => $softwareHash
     };
+}
+
+sub _extractInterestingPartOfHash {
+    my ($xmlHash) = @_;
+
+    return _findElementAndReturnParentArray(undef, $xmlHash, 'key', '_name');
+}
+
+sub _findElementAndReturnParentArray {
+    my ($parentArray, $struct, $elementName, $elementValue) = @_;
+
+    my $foundArray;
+    if ((ref $struct) eq 'HASH') {
+        if ($parentArray && $struct->{$elementName}) {
+            if (ref($struct->{$elementName}) eq ''
+                && $struct->{$elementName} eq $elementValue) {
+                $foundArray = $parentArray;
+            } else {
+                my %hash = map { $_ => 1 } @{$struct->{$elementName}};
+                if ($hash{$elementValue}) {
+                    $foundArray = $parentArray;
+                }
+            }
+        } else {
+            for my $key (keys %$struct) {
+                my $ref = ref $struct->{$key};
+                if ($ref ne '') {
+                    $foundArray = _findElementAndReturnParentArray(undef, $struct->{$key}, $elementName, $elementValue);
+                }
+                last if $foundArray;
+            }
+        }
+    } elsif ((ref $struct) eq 'ARRAY') {
+        for my $subStruct (@$struct) {
+            my $ref = ref $subStruct;
+            if ($ref ne '') {
+                $foundArray = _findElementAndReturnParentArray($struct, $subStruct, $elementName, $elementValue);
+                last if $foundArray;
+            }
+        }
+    }
+    return $foundArray;
+}
+
+sub _pairKeyValueFromXml {
+    my ($hashFromXml) = @_;
+
+    my $names = $$hashFromXml{KEY_ELEMENT_NAME()};
+    my $values = $$hashFromXml{VALUE_ELEMENT_NAME()};
+    my $date = $$hashFromXml{DATE_ELEMENT_NAME()};
+
+    my $soft = {};
+    my $index = 0;
+    for my $key (@$names) {
+        my $value;
+        if ($key eq 'lastModified') {
+            $value = $date;
+        } else {
+            $value = $values->[$index];
+            $index++;
+        }
+        $soft->{$key} = $value;
+    }
+
+    return $soft;
+}
+
+sub _parseXmlStringKeepingOrder {
+    my $xmlStr = shift;
+
+    my $tpp = XML::TreePP->new( use_ixhash => 1 );
+    my $tree = $tpp->parse( $xmlStr );
+
+    return $tree;
 }
 
 sub cmpVersionNumbers {
@@ -171,99 +240,6 @@ sub _mergeHashes {
     return $hash1;
 }
 
-sub _extractApplicationsDataFromXmlLines {
-    my ($allLines) = @_;
-
-    my $elementsXmlString = [];
-    my @allLinesReversed = reverse @$allLines;
-    my $discoveringElement = undef;
-    my $elementNameTmp = '';
-    my $currentElement = '';
-    my $elementNameToExtract = 'dict';
-    my $extractNothingUntilNextOpeningElement = 0;
-    my $elementTmp = '';
-    my $closingTag = 0;
-    while (my $line = pop @allLinesReversed) {
-        chomp $line;
-        for my $c (split (//, $line)) {
-            if ($c eq '<') {
-                $discoveringElement = 1;
-                $extractNothingUntilNextOpeningElement = 0;
-                $elementNameTmp = '';
-                if ($elementTmp ne '') {
-                    $elementTmp .= $c;
-                }
-            } elsif (
-                    $discoveringElement
-                        && ($c eq '?' || $c eq '!')
-                ) {
-                    $extractNothingUntilNextOpeningElement = 1;
-            } elsif ($extractNothingUntilNextOpeningElement) {
-                next;
-            } elsif (
-                $discoveringElement
-                    && $elementNameTmp eq ''
-                    && $c eq '/'
-            ) {
-                $closingTag = 1;
-                if ($elementTmp ne '') {
-                    $elementTmp .= $c;
-                }
-            } elsif (
-                $c eq '>'
-                    && $discoveringElement
-            ) {
-                $discoveringElement = 0;
-                $currentElement = $elementNameTmp;
-                if ($closingTag) {
-                    if ($elementTmp ne '') {
-                        $elementTmp .= $c;
-                        # did we close an element to extract ?
-                        if (
-                            $currentElement eq $elementNameToExtract
-                            && $currentElement eq $elementNameTmp
-                        ) {
-                            # delete spaces between '>' and '<' chars
-                            # and also at beginning and at end
-                            $elementTmp =~ s/^\s*//g;
-                            $elementTmp =~ s/\s*$//g;
-                            $elementTmp =~ s/(<\/[^<]+>)\s+(<)/$1$2/g;
-                            $elementTmp =~ s/(<[^<\/]+>)\s+(<[^<\/]+>)/$1$2/g;
-                            push @$elementsXmlString, $elementTmp;
-                            $elementTmp = '';
-                            $currentElement = '';
-                            $elementNameTmp = '';
-                        }
-                    }
-                    $closingTag = 0;
-                } else {
-                    if (
-                        $currentElement eq $elementNameToExtract
-                            && !$closingTag
-                    ) {
-                        # starting element extraction
-                        $elementTmp = '<' . $currentElement . '>';
-                    } elsif ($elementTmp ne '') {
-                        $elementTmp .= $c;
-                    } else {
-                        $elementNameTmp = '';
-                    }
-                }
-                next;
-            } elsif ($discoveringElement) {
-                $elementNameTmp .= $c;
-                if ($elementTmp ne '') {
-                    $elementTmp .= $c;
-                }
-            } elsif ($elementTmp ne '') {
-                $elementTmp .= $c;
-            }
-        }
-    }
-
-    return $elementsXmlString;
-}
-
 sub _extractApplicationDataFromXmlStringElement {
     my ($xmlString) = @_;
 
@@ -296,6 +272,19 @@ sub _mapApplicationDataKeys {
 }
 
 sub getSystemProfilerInfos {
+    my (%params) = @_;
+
+    my $info;
+    if ($params{format} && $params{format} eq 'xml') {
+        $info = _getSystemProfilerInfosXML(%params);
+    } else {
+        $info = _getSystemProfilerInfosText(%params);
+    }
+
+    return $info;
+}
+
+sub _getSystemProfilerInfosText {
     my (%params) = @_;
 
     my $command = $params{type} ?

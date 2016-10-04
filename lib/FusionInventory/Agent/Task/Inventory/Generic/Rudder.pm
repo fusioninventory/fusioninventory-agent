@@ -39,11 +39,15 @@ sub doInventory {
     # Get server roles
     my @serverRoles = _listServerRoles();
 
+    # Get agent capabilities
+    my @agentCapabilities = _listAgentCapabilities();
+
     my $rudder = {
         HOSTNAME => $hostname,
         UUID => $Uuid,
         AGENT => \@agents,
         SERVER_ROLES => { SERVER_ROLE => \@serverRoles },
+        AGENT_CAPABILITIES => { AGENT_CAPABILITY => \@agentCapabilities },
     };
 
     $inventory->addEntry(
@@ -58,14 +62,33 @@ sub _listServerRoles {
     if (-d "$server_roles_dir") {
         opendir(DIR, $server_roles_dir); # or die $!;
 
+        # List each file in the server-roles directory, each file name is a role
         while (my $file = readdir(DIR)) {
             # Use a regular expression to ignore files beginning with a period
             next if ($file =~ m/^\./);
             push @server_roles, $file;
         }
         closedir(DIR);
+
     }
     return @server_roles;
+}
+
+sub _listAgentCapabilities {
+   my $capabilities_file = ($OSNAME eq 'MSWin32') ? 'C:\Program Files\Rudder\etc\agent-capabilities' : '/opt/rudder/etc/agent-capabilities';
+   my @capabilities;
+
+    # List agent capabilities, one per line in the file
+    if (-f "$capabilities_file") {
+        if (open(my $fh, '<:encoding(UTF-8)', $capabilities_file)) {
+            while (my $row = <$fh>) {
+                chomp $row;
+                push @capabilities, $row;
+            }
+            close $fh;
+        }
+    }
+    return @capabilities;
 }
 
 sub _manageAgent {
