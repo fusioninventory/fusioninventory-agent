@@ -5,6 +5,7 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use English;
 
 use FusionInventory::Agent::Tools::MacOS;
 use FusionInventory::Agent::Task::Inventory::MacOS::Softwares;
@@ -3384,7 +3385,7 @@ my $versionNumbersComparisons = [
 plan tests =>
     scalar (keys %system_profiler_tests) +
     scalar @ioreg_tests
-    + 15
+    + 16
     + scalar (@$versionNumbersComparisons);
 
 foreach my $test (keys %system_profiler_tests) {
