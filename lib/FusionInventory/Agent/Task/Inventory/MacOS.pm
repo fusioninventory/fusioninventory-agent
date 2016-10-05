@@ -33,15 +33,7 @@ sub doInventory {
         $name = "Mac OS X";
     }
 
-    my $boottime = getFirstMatch(
-        command => "sysctl -n kern.boottime",
-        pattern => qr/sec = (\d+)/
-    );
-    if (!$boottime) {
-        $boottime = getFirstLine(
-            command => "sysctl -n kern.boottime"
-        );
-    }
+    my $boottime = getBootTime();
 
     $inventory->setHardware({
         OSNAME     => $name,
