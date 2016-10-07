@@ -32,10 +32,10 @@ recommends 'IO::Socket::SSL'      => '1.14';
 recommends 'LWP::Protocol::https' => '0';
 
 if ($OSNAME ne 'MSWin32') {
-    recommends 'Proc::Daemon'     => '0';
-    recommends 'Proc::PID::File'  => '0';
+    recommends 'Proc::Daemon'         => '0';
+    recommends 'Proc::PID::File'      => '0';
 } else {
-    recommends 'Win32::Daemon'    => '0';
+    recommends 'Win32::Daemon'        => '0';
     recommends 'Win32::Unicode::File' => '0';
 }
 
@@ -59,8 +59,9 @@ test_requires 'Net::SNMP'                    => '0';
 test_requires 'Parallel::ForkManager'        => '0';
 
 # Inventory
-recommends 'Parse::EDID' => '0';
-recommends 'Net::CUPS'   => 0.60 if $OSNAME ne 'MSWin32';
+recommends 'Parse::EDID'                     => '0';
+recommends 'Net::CUPS'                       => 0.60 if $OSNAME ne 'MSWin32';
+recommends 'DateTime'                        => '0';
 
 # Deploy
 recommends 'Archive::Extract'             => '0';
