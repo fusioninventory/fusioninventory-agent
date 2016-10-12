@@ -99,6 +99,7 @@ my %edid_tests = (
         MANUFACTURER => 'Goldstar Company Ltd',
         CAPTION      => 'Studioworks N 2200P',
         SERIAL       => '0000ce6e',
+        ALTSERIAL    => '1J846',
         DESCRIPTION  => '10/2004'
     },
     'crt.med2914' => {
@@ -117,12 +118,14 @@ my %edid_tests = (
         MANUFACTURER => 'Samsung Electric Company',
         CAPTION      => undef,
         SERIAL       => 'HXAKB13419',
+        ALTSERIAL    => 'DP15HXAKB13419',
         DESCRIPTION  => '48/1999'
     },
     'crt.SM550V' => {
         MANUFACTURER => 'Samsung Electric Company',
         CAPTION      => 'S/M 550v',
         SERIAL       => 'HXBN407938',
+        ALTSERIAL    => 'DP15HXBN407938',
         DESCRIPTION  => '16/2000'
     },
     'crt.sony-gdm400ps' => {
@@ -153,30 +156,35 @@ my %edid_tests = (
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer AL1921',
         SERIAL       => 'ETL2508043',
+        ALTSERIAL    => 'ETL25080445001d943',
         DESCRIPTION  => '45/2004'
     },
     'lcd.acer-al19161.1' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer AL1916',
         SERIAL       => 'L4908669719030c64237',
+        ALTSERIAL    => 'L49086694237',
         DESCRIPTION  => '19/2007'
     },
     'lcd.acer-al19161.2' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer AL1916',
         SERIAL       => 'L49086697190328f4237',
+        ALTSERIAL    => 'L49086694237',
         DESCRIPTION  => '19/2007'
     },
     'lcd.acer-al19161.3' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer AL1916',
         SERIAL       => 'L4908669719032914237',
+        ALTSERIAL    => 'L49086694237',
         DESCRIPTION  => '19/2007'
     },
     'lcd.acer-al19161.4' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer AL1916',
         SERIAL       => 'L4908669719032904237',
+        ALTSERIAL    => 'L49086694237',
         DESCRIPTION  => '19/2007'
     },
     'lcd.acer-asp1680' => {
@@ -189,24 +197,35 @@ my %edid_tests = (
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer V193',
         SERIAL       => 'LBZ081610080b6974233',
+        ALTSERIAL    => 'LBZ081614233',
         DESCRIPTION  => '8/2010'
     },
     'lcd.acer-b226hql' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer B226HQL',
         SERIAL       => 'LXPEE01452707f0c4202',
+        ALTSERIAL    => 'LXPEE0144202',
         DESCRIPTION  => '27/2015'
+    },
+    'lcd.acer-b226hql.28.2016' => {
+        MANUFACTURER => 'Acer Technologies',
+        CAPTION      => 'B226HQL',
+        SERIAL       => 'LXYEE011628087078507',
+        ALTSERIAL    => 'LXYEE0118507',
+        DESCRIPTION  => '28/2016'
     },
     'lcd.acer-v193.2' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer V193',
         SERIAL       => 'LBZ081610050c5b24233',
+        ALTSERIAL    => 'LBZ081614233',
         DESCRIPTION  => '5/2010'
     },
     'lcd.acer-x193hq' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'X193HQ',
         SERIAL       => 'LEK0D0998545',
+        ALTSERIAL    => 'LEK0D09994003c0c8545',
         DESCRIPTION  => '40/2009'
     },
     'lcd.b-101750' => {
@@ -309,12 +328,14 @@ my %edid_tests = (
         MANUFACTURER => 'Goldstar Company Ltd',
         CAPTION      => 'L1960TR ',
         SERIAL       => '9Y670',
+        ALTSERIAL    => '00052aee',
         DESCRIPTION  => '11/2007'
     },
     'lcd.lg-l1960.2' => {
         MANUFACTURER => 'Goldstar Company Ltd',
         CAPTION      => 'L1960TR ',
         SERIAL       => '9Y676',
+        ALTSERIAL    => '00052af4',
         DESCRIPTION  => '11/2007'
     },
     'lcd.lenovo-3000-v100' => {
@@ -341,6 +362,12 @@ my %edid_tests = (
         SERIAL       => ' HD  021838',
         DESCRIPTION  => '42/2002'
     },
+    'lcd.philips-288p6' => {
+        MANUFACTURER => 'Philips Consumer Electronics Company',
+        CAPTION      => 'Philips 288P6',
+        SERIAL       => '00001938',
+        DESCRIPTION  => '30/2014'
+    },
     'lcd.presario-R4000' => {
         MANUFACTURER => 'LG Philips',
         CAPTION      => undef,
@@ -363,13 +390,22 @@ my %edid_tests = (
         MANUFACTURER => 'Samsung Electric Company',
         CAPTION      => 'SyncMaster',
         SERIAL       => 'HCHW600639',
+        ALTSERIAL    => 'GH19HCHW600639',
         DESCRIPTION  => '23/2003'
     },
     'lcd.samsung-2494hm' => {
         MANUFACTURER => 'Samsung Electric Company',
         CAPTION      => 'SyncMaster',
         SERIAL       => 'H9XS933672',
+        ALTSERIAL    => 'KI24H9XS933672',
         DESCRIPTION  => '39/2009'
+    },
+    'lcd.samsung-s22c450' => {
+        MANUFACTURER => 'Samsung Electric Company',
+        CAPTION      => 'S22C450',
+        SERIAL       => '0276H4MF200047',
+        ALTSERIAL    => 'H4MF200047',
+        DESCRIPTION  => '6/2014'
     },
     'lcd.tv.VQ32-1T' => {
         MANUFACTURER => 'Fujitsu Siemens Computers GmbH',
