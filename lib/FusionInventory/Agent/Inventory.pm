@@ -54,7 +54,7 @@ my %fields = (
                              MEMORYCORRECTION MANUFACTURER/ ],
     MODEMS           => [ qw/DESCRIPTION NAME TYPE MODEL/ ],
     MONITORS         => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
-                             UUENCODE NAME TYPE/ ],
+                             UUENCODE NAME TYPE ALTSERIAL/ ],
     NETWORKS         => [ qw/DESCRIPTION MANUFACTURER MODEL MANAGEMENT TYPE
                              VIRTUALDEV MACADDR WWN DRIVER FIRMWARE PCIID
                              PCISLOT PNPDEVICEID MTU SPEED STATUS SLAVES BASE

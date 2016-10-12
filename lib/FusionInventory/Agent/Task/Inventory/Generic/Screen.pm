@@ -66,33 +66,80 @@ sub _getEdidInfo {
     # References:
     # http://forge.fusioninventory.org/issues/1607
     # http://forge.fusioninventory.org/issues/1614
-    if (
-        $edid->{EISA_ID} &&
-        $edid->{EISA_ID} =~ /^ACR(0018|0020|0024|00A8|0330|7883|ad49|adaf)$/
-    ) {
-        $info->{SERIAL} =
-            substr($edid->{serial_number2}->[0], 0, 8) .
-            sprintf("%08x", $edid->{serial_number})    .
-            substr($edid->{serial_number2}->[0], 8, 4) ;
-    } elsif (
-        $edid->{EISA_ID} &&
-        $edid->{EISA_ID} eq 'GSM4b21'
-    ) {
-        # split serial in two parts
-        my ($high, $low) = $edid->{serial_number} =~ /(\d+) (\d\d\d)$/x;
+    my $EDID_SERIAL = $edid->{serial_number2} ?
+        $edid->{serial_number2}->[0]           :
+        sprintf("%08x", $edid->{serial_number});
+    my $SERIAL ;
+    my $ALTSERIAL ;
 
-        # translate the first part using a custom alphabet
-        my @alphabet = split(//, "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ");
-        my $base     = scalar @alphabet;
+    # Here a list a well-know cases
+    my %USE_ALTSERIAL = (
+        'Acer' => {
+            match     => qr/^ACR....$/,
+            usealt    => qr/(0018|0020|0024|00A8|0330|0337|7883|ad49|adaf)$/,
+            altserial => sub {
+                my ($serial1, $serial2) = @_;
+                substr($serial2, 0, 8)    .
+                sprintf("%08x", $serial1) .
+                substr($serial2, 8, 4)
+            }
+        },
+        'Goldstar or LG' => {
+            match     => qr/^GSM....$/,
+            usealt    => qr/4b21$/,
+            altserial => sub {
+                my ($serial1, $serial2) = @_;
+                # split serial in two parts
+                my ($high, $low) = $serial1 =~ /(\d+) (\d\d\d)$/x;
 
-        $info->{SERIAL} =
-            $alphabet[$high / $base] . $alphabet[$high % $base] .
-            $low;
-    } else {
-        $info->{SERIAL} = $edid->{serial_number2} ?
-            $edid->{serial_number2}->[0]           :
-            sprintf("%08x", $edid->{serial_number});
+                # translate the first part using a custom alphabet
+                my @alphabet = split(//, "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ");
+                my $base     = scalar @alphabet;
+
+                $alphabet[$high / $base] . $alphabet[$high % $base] . $low;
+            }
+        },
+        'Samsung' => {
+            match     => qr/^SAM....$/,
+            usealt    => qr/09c6$/,
+            altserial => sub {
+                my ($serial1, $serial2) = @_;
+                chr(($serial1 >> 24)% 256) .
+                chr(($serial1 >> 16)% 256) .
+                chr(($serial1 >> 8 )% 256) .
+                chr( $serial1       % 256) .
+                $serial2 ;
+            }
+        }
+    );
+
+    # Check if monitor matches a well-known case needing using alternate serial
+    # number format
+    if ($edid->{EISA_ID}) {
+        while ( my ($manufacturer, $eisa_test) = each %USE_ALTSERIAL ) {
+            if ($edid->{EISA_ID} =~ $eisa_test->{match}) {
+                $params{logger}->debug2(
+                    "checking alt serial for $manufacturer $edid->{EISA_ID} model"
+                ) if $params{logger};
+                # Set alternate serial number against matching manufacturer
+                $ALTSERIAL = &{$eisa_test->{altserial}}(
+                    $edid->{serial_number},
+                    $edid->{serial_number2}->[0]
+                );
+                # Check if model is known to require alternate serial number
+                if ($edid->{EISA_ID} =~ $eisa_test->{usealt}) {
+                    # Then set serial and keep standard serial as ALTSERIAL
+                    $SERIAL    = $ALTSERIAL ;
+                    $ALTSERIAL = $EDID_SERIAL ;
+                }
+                last;
+            }
+        }
     }
+
+    # Use standard serial by default if no replacement found
+    $info->{SERIAL}    = $SERIAL || $EDID_SERIAL;
+    $info->{ALTSERIAL} = $ALTSERIAL if ($ALTSERIAL);
 
     return $info;
 }
