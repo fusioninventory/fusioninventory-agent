@@ -1,13 +1,5 @@
 package FusionInventory::Agent::Task::Inventory::Virtualization::Lxd;
 
-#
-# Authors: Egor Shornikov <se@wbr.su>, Egor Morozov <akrus@flygroup.st>,
-#          Marcin Kowalski
-# zaadaptowany plugin Lxc na potrzeby LXD
-#
-# License: GPLv2+
-#
-
 use strict;
 use warnings;
 
