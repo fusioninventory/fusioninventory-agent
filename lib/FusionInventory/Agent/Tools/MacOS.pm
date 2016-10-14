@@ -410,7 +410,7 @@ sub getBootTime {
     }
 
     my $boottime = getFirstMatch(
-        pattern => qr/(\d+)$/,
+        pattern => qr/(?|sec = (\d+)|(\d+)$)/,
         %params
     );
 
