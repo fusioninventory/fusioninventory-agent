@@ -18,8 +18,8 @@ sub doInventory {
     my $inventory = $params{inventory};
 
     my $antivirus = {
-    #    COMPANY  => $object->{companyName},
-    #    NAME     => $object->{displayName},
+         COMPANY  => "Teclib",
+         NAME     => "Armadito",
     #    GUID     => $object->{instanceGuid},
     #    VERSION  => $object->{versionNumber},
     #    ENABLED  => $object->{onAccessScanningEnabled},
