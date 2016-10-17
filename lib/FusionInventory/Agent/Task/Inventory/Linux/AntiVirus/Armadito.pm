@@ -21,9 +21,9 @@ sub doInventory {
          COMPANY  => "Teclib",
          NAME     => "Armadito",
     #    GUID     => $object->{instanceGuid},
-    #    VERSION  => $object->{versionNumber},
+         VERSION  => "0.11",
     #    ENABLED  => $object->{onAccessScanningEnabled},
-    #    UPTODATE => $object->{productUptoDate}
+         UPTODATE => "0"
     };
 
     $inventory->addEntry(
