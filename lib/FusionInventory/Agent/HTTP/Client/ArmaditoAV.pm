@@ -6,7 +6,7 @@ use base 'FusionInventory::Agent::HTTP::Client';
 
 use English qw(-no_match_vars);
 use HTTP::Request;
-use HTTP::Request::Common qw( POST );
+use HTTP::Request::Common qw(POST);
 use UNIVERSAL::require;
 use URI;
 use Encode;
@@ -81,7 +81,7 @@ sub register {
 	my ($self) = @_;
 
 	my $response = $self->sendRequest(
-		"url"  => $self->{server_url} . "/api/register",
+		url  => $self->{server_url} . "/api/register",
 		method => "GET"
 	);
 
@@ -94,7 +94,7 @@ sub unregister {
 	my ($self) = @_;
 
 	my $response = $self->sendRequest(
-		"url"  => $self->{server_url} . "/api/unregister",
+		url  => $self->{server_url} . "/api/unregister",
 		method => "GET"
 	);
 
@@ -113,10 +113,10 @@ sub _handleJsonResponse() {
 sub pollEvents {
 	my ($self) = @_;
 	my $event = {};
-	
+
 	while (1) {
 		my $jobj = $self->_getEvent();
-		if ( defined( $jobj->{"event_type"} ) ) {
+		if ( defined( $jobj->{event_type} ) ) {
 			$event = $self->_handleEvent($jobj);
 			last if($event->{end_polling});
 		}
@@ -142,7 +142,7 @@ sub getAntivirusVersion {
 	my ($self) = @_;
 
 	my $response = $self->sendRequest(
-		"url"  => $self->{server_url} . "/api/version",
+		url  => $self->{server_url} . "/api/version",
 		method => "GET"
 	);
 
@@ -164,12 +164,12 @@ sub _isEventSupported {
 sub _handleEvent {
 	my ( $self, $event_jobj) = @_;
 
-	if ( !$self->_isEventSupported( $event_jobj->{"event_type"} ) ) {
+	if ( !$self->_isEventSupported( $event_jobj->{event_type} ) ) {
 		$self->{logger}->error("Unknown ArmaditoAV api event.");
 		return 0;
 	}
 
-	my $class = "FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event::$event_jobj->{'event_type'}";
+	my $class = "FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event::$event_jobj->{event_type}";
 	$class->require();
 	my $event = $class->new( jobj => $event_jobj );
 	return $event->run();
