@@ -21,23 +21,23 @@ sub doInventory {
     my $status = "0";
 
     if(_isArmaditoAvUp()) {
-	$version = _getAntivirusVersion();
-	$status = _getAntivirusStatus();
+	    $version = _getAntivirusVersion();
+	    $status = _getAntivirusStatus();
+
+        my $antivirus = {
+             COMPANY  => "Teclib",
+             NAME     => "Armadito",
+        #    GUID     => $object->{instanceGuid},
+             VERSION  => $version,
+        #    ENABLED  => $object->{onAccessScanningEnabled},
+             UPTODATE => _isUpToDate($status)
+        };
+
+        $inventory->addEntry(
+            section => 'ANTIVIRUS',
+            entry   => $antivirus
+        );
     }
-
-    my $antivirus = {
-         COMPANY  => "Teclib",
-         NAME     => "Armadito",
-    #    GUID     => $object->{instanceGuid},
-         VERSION  => $version,
-    #    ENABLED  => $object->{onAccessScanningEnabled},
-         UPTODATE => _isUpToDate($status)
-    };
-
-    $inventory->addEntry(
-        section => 'ANTIVIRUS',
-        entry   => $antivirus
-    );
 }
 
 sub _isArmaditoAvUp {
