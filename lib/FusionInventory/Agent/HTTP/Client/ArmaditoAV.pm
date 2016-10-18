@@ -6,7 +6,7 @@ use base 'FusionInventory::Agent::HTTP::Client';
 
 use English qw(-no_match_vars);
 use HTTP::Request;
-use HTTP::Request::Common qw{ POST };
+use HTTP::Request::Common qw( POST );
 use UNIVERSAL::require;
 use URI;
 use Encode;
