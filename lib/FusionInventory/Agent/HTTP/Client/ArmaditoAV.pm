@@ -10,7 +10,6 @@ use HTTP::Request::Common qw(POST);
 use UNIVERSAL::require;
 use URI;
 use Encode;
-use Data::Dumper;
 use URI::Escape;
 use JSON;
 
