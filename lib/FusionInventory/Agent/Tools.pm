@@ -348,7 +348,7 @@ sub getFirstMatch {
     }
     close $handle;
 
-    return wantarray ? @results : first {defined} @results;
+    return wantarray ? @results : first { defined $_ } @results;
 }
 
 sub getAllLines {
