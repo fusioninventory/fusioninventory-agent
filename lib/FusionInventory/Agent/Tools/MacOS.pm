@@ -408,9 +408,8 @@ sub getBootTime {
     if (!$params{string} && !$params{command}) {
         $params{command} = 'sysctl -n kern.boottime';
     }
-
     my $boottime = getFirstMatch(
-        pattern => qr/(\d+)$/,
+        pattern => qr/(?: sec = (\d+)|(\d+)$)/,
         %params
     );
 
