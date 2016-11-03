@@ -302,6 +302,7 @@ sub _getScreens {
         $screen->{DESCRIPTION}  = $info->{DESCRIPTION};
         $screen->{MANUFACTURER} = $info->{MANUFACTURER};
         $screen->{SERIAL}       = $info->{SERIAL};
+        $screen->{ALTSERIAL}    = $info->{ALTSERIAL} if $info->{ALTSERIAL};
 
         $screen->{BASE64} = encode_base64($screen->{edid});
 
