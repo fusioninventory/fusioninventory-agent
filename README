@@ -40,6 +40,7 @@ Optional Perl modules:
 
 * Net::CUPS, for printers detection
 * Parse::EDID, for EDID data parsing
+* DateTime, for reliable timezone name extraction
 
 Optional programs:
 
