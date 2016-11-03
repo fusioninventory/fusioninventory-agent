@@ -70,13 +70,18 @@ sub _getEdidInfo {
         $edid->{serial_number2}->[0]           :
         sprintf("%08x", $edid->{serial_number});
     my $SERIAL ;
+    # To facilitate specific cases handling, we introduced ALTSERIAL value
+    # reporting an alternative serial number we for a given manufacturer but
+    # still not recognized as mandatory for a given model.
     my $ALTSERIAL ;
 
     # Here a list a well-know cases
+    # 'usealtif' is a regex to select EISA_ID as read in EDID and specific to
+    # a given model for a given manufacturer.
     my %USE_ALTSERIAL = (
         'Acer' => {
             match     => qr/^ACR....$/,
-            usealt    => qr/(0018|0020|0024|00A8|0330|0337|7883|ad49|adaf)$/,
+            usealtif  => qr/(0018|0020|0024|00A8|0330|0337|7883|ad49|adaf)$/,
             altserial => sub {
                 my ($serial1, $serial2) = @_;
                 substr($serial2, 0, 8)    .
@@ -86,7 +91,7 @@ sub _getEdidInfo {
         },
         'Goldstar or LG' => {
             match     => qr/^GSM....$/,
-            usealt    => qr/4b21$/,
+            usealtif  => qr/4b21$/,
             altserial => sub {
                 my ($serial1, $serial2) = @_;
                 # split serial in two parts
@@ -101,7 +106,7 @@ sub _getEdidInfo {
         },
         'Samsung' => {
             match     => qr/^SAM....$/,
-            usealt    => qr/09c6$/,
+            usealtif  => qr/09c6$/,
             altserial => sub {
                 my ($serial1, $serial2) = @_;
                 chr(($serial1 >> 24)% 256) .
@@ -127,7 +132,7 @@ sub _getEdidInfo {
                     $edid->{serial_number2}->[0]
                 );
                 # Check if model is known to require alternate serial number
-                if ($edid->{EISA_ID} =~ $eisa_test->{usealt}) {
+                if ($edid->{EISA_ID} =~ $eisa_test->{usealtif}) {
                     # Then set serial and keep standard serial as ALTSERIAL
                     $SERIAL    = $ALTSERIAL ;
                     $ALTSERIAL = $EDID_SERIAL ;

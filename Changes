@@ -1,5 +1,12 @@
 Revision history for FusionInventory agent
 
+2.3.19 not yet released
+inventory:
+* Screen inventory refactoring introducing ALTSERIAL inventory value which may
+  show a better serial number for some manufacturer. This will ease future
+  screen serial number fix integration: comparing expected S/N toward ALTSERIAL
+  will tell us we just need to update %USE_ALTSERIAL for a given monitor.
+
 2.3.18 Thu, 16 Jun 2016
 core:
 * Many bug fixes
