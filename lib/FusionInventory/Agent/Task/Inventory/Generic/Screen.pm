@@ -195,9 +195,10 @@ sub _getScreensFromWindows {
         $screen->{edid} = getRegistryValue(
             path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID",
             logger => $params{logger}
-        ) || '';
-        $screen->{edid} =~ s/^\s+$//;
+        );
+        $screen->{edid} =~ s/^\s+$// if $screen->{edid};
         delete $screen->{id};
+        $screen->{edid} or delete $screen->{edid};
     }
 
     return @screens;
@@ -286,6 +287,8 @@ sub _getScreensFromUnix {
 sub _getScreens {
     my (%params) = @_;
 
+    my %screens = ();
+
     my @screens = $OSNAME eq 'MSWin32' ?
         _getScreensFromWindows(%params) :
         _getScreensFromUnix(%params);
@@ -307,9 +310,27 @@ sub _getScreens {
         $screen->{BASE64} = encode_base64($screen->{edid});
 
         delete $screen->{edid};
+
+        # Add or merge found values
+        my $serial = $info->{SERIAL};
+        if (!exists($screens{$serial})) {
+            $screens{$serial} = $screen ;
+        } else {
+            foreach my $key (keys(%$screen)) {
+                if (exists($screens{$serial}->{$key})) {
+                    if ($screens{$serial}->{$key} ne $screen->{$key} && $params{logger}) {
+                        $params{logger}->warning(
+                            "Not merging not coherent $key value for screen associated to $serial serial number"
+                        );
+                    }
+                    next;
+                }
+                $screens{$serial}->{$key} = $screen->{$key};
+            }
+        }
     }
 
-    return @screens;
+    return values(%screens);
 }
 
 1;
