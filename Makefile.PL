@@ -18,7 +18,9 @@ requires 'Net::IP'            => '0';
 requires 'Text::Template'     => '0';
 requires 'UNIVERSAL::require' => '0';
 requires 'XML::TreePP'        => '0.26';
-requires 'Tie::IxHash'        => '0';
+if ($OSNAME =~ /darwin/i) {
+    requires 'Tie::IxHash'        => '0';
+}
 
 if ($OSNAME eq 'MSWin32') {
     requires 'Win32::OLE'         => '0';

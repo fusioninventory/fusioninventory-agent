@@ -3382,6 +3382,12 @@ my $versionNumbersComparisons = [
     ['5.4.2', '10.2']
 ];
 
+my $checkTieIxHash = eval {
+    require Tie::IxHash;
+    Tie::IxHash->import();
+    1;
+};
+
 plan tests =>
     scalar (keys %system_profiler_tests) +
     scalar @ioreg_tests
@@ -3405,34 +3411,38 @@ my $flatFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicati
 my $softwaresFromFlatFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosText(file => $flatFile, type => $type);
 my $xmlFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml';
 my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosXML(file => $xmlFile, type => $type, localTimeOffset => 7200);
-ok (ref($softwaresFromFlatFile) eq 'HASH');
-ok (ref($softwaresFromXmlFile) eq 'HASH');
+SKIP : {
+    skip 'test only if module Tie::IxHash available', 2 unless $checkTieIxHash;
 
-# because existing function returns only first line of data
-# and the new being tested here returns all lines
-# just a few deletions that don't remove the sense of these tests
-delete $softwaresFromFlatFile->{"Applications"}{"Wish"}{"Get\ Info\ String"};
-delete $softwaresFromXmlFile->{"Applications"}{"Wish"}{"Get\ Info\ String"};
-delete $softwaresFromFlatFile->{"Applications"}{"Wish_0"}{"Get\ Info\ String"};
-delete $softwaresFromXmlFile->{"Applications"}{"Wish_0"}{"Get\ Info\ String"};
+    ok (ref($softwaresFromFlatFile) eq 'HASH');
+    ok (ref($softwaresFromXmlFile) eq 'HASH');
 
-# before comparing, because with more recent method dates are already formatted,
-# we format dates in the other hash as it's currently done
-for my $soft (keys %{$softwaresFromFlatFile->{"Applications"}}) {
-    if (defined($softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'})) {
-        my $formattedDate = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_formatDate($softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'});
-        $softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'} = $formattedDate;
+    # because existing function returns only first line of data
+    # and the new being tested here returns all lines
+    # just a few deletions that don't remove the sense of these tests
+    delete $softwaresFromFlatFile->{"Applications"}{"Wish"}{"Get\ Info\ String"};
+    delete $softwaresFromXmlFile->{"Applications"}{"Wish"}{"Get\ Info\ String"};
+    delete $softwaresFromFlatFile->{"Applications"}{"Wish_0"}{"Get\ Info\ String"};
+    delete $softwaresFromXmlFile->{"Applications"}{"Wish_0"}{"Get\ Info\ String"};
+
+    # before comparing, because with more recent method dates are already formatted,
+    # we format dates in the other hash as it's currently done
+    for my $soft (keys %{$softwaresFromFlatFile->{"Applications"}}) {
+        if (defined($softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'})) {
+            my $formattedDate = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_formatDate($softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'});
+            $softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'} = $formattedDate;
+        }
     }
+
+    cmp_deeply(
+        $softwaresFromFlatFile,
+        $softwaresFromXmlFile
+    );
+    my $softwaresFromFlatFileSize = scalar(keys %{$softwaresFromFlatFile->{'Applications'}});
+    my $softwaresFromXmlFileSize = scalar(keys %{$softwaresFromXmlFile->{'Applications'}});
+    ok ($softwaresFromFlatFileSize == $softwaresFromXmlFileSize,
+        $softwaresFromFlatFileSize.' from flat file and '.$softwaresFromXmlFileSize.' from XML file');
 }
-
-cmp_deeply(
-    $softwaresFromFlatFile,
-    $softwaresFromXmlFile
-);
-my $softwaresFromFlatFileSize = scalar(keys %{$softwaresFromFlatFile->{'Applications'}});
-my $softwaresFromXmlFileSize = scalar(keys %{$softwaresFromXmlFile->{'Applications'}});
-ok ($softwaresFromFlatFileSize == $softwaresFromXmlFileSize, $softwaresFromFlatFileSize . ' from flat file and ' . $softwaresFromXmlFileSize . ' from XML file');
-
 
 my $extractedHash = {
     '_name' => "Programme d’installation",
@@ -3538,39 +3548,44 @@ my $xmlString = <<XMLSTRING;
 </root>
 XMLSTRING
 
-my $hash = FusionInventory::Agent::Tools::MacOS::_parseXmlStringKeepingOrder($xmlString);
-ok (defined($$hash{root}));
-ok (defined($$hash{root}{elem}[2]{elem}[0]{elem}));
+my $hash;
+SKIP : {
+    skip 'test only if module Tie::IxHash available', 7 unless $checkTieIxHash;
 
-$xmlString = FusionInventory::Agent::Tools::getAllLines(
-    file => 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml'
-);
+    $hash = FusionInventory::Agent::Tools::MacOS::_parseXmlStringKeepingOrder($xmlString);
+    ok (defined($$hash{root}));
+    ok (defined($$hash{root}{elem}[2]{elem}[0]{elem}));
 
-$type = 'SPApplicationsDataType';
-my $softwaresHash = FusionInventory::Agent::Tools::MacOS::_extractDataFromXmlString($xmlString, $type, 7200);
-ok (defined($softwaresHash));
+    $xmlString = FusionInventory::Agent::Tools::getAllLines(
+        file => 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml'
+    );
 
-$expectedHash = {
-    'Programme d’installation' => {
-        '64-Bit (Intel)'  => 'Yes',
-        'Get Info String' => '3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved',
-        'Last Modified'   => '27/06/2009',
-        'Location'        => '/System/Library/CoreServices/Installer.app',
-        'Kind'            => 'Universal',
-        'Version'         => '4.0'
-    }
-};
-cmp_deeply(
-    $expectedHash->{"Programme d’installation"},
-    $softwaresHash->{Applications}->{"Programme d’installation"}
-);
-ok (scalar(keys %{$softwaresHash->{Applications}}) == 291, "we expect 291 elements and got " . (scalar (keys %{$softwaresHash->{Applications}})));
+    $type = 'SPApplicationsDataType';
+    my $softwaresHash = FusionInventory::Agent::Tools::MacOS::_extractDataFromXmlString($xmlString, $type, 7200);
+    ok (defined($softwaresHash));
 
-$hash = FusionInventory::Agent::Tools::MacOS::_parseXmlStringKeepingOrder($xmlString);
-my $subArray = FusionInventory::Agent::Tools::MacOS::_findElementAndReturnParentArray(undef, $hash, 'key', '_name');
-ok ($subArray);
-my $size = scalar(@$subArray);
-ok ($size == 291, 'must be 291 and is ' . $size);
+    $expectedHash = {
+        'Programme d’installation' => {
+            '64-Bit (Intel)'  => 'Yes',
+            'Get Info String' => '3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved',
+            'Last Modified'   => '27/06/2009',
+            'Location'        => '/System/Library/CoreServices/Installer.app',
+            'Kind'            => 'Universal',
+            'Version'         => '4.0'
+        }
+    };
+    cmp_deeply(
+        $expectedHash->{"Programme d’installation"},
+        $softwaresHash->{Applications}->{"Programme d’installation"}
+    );
+    ok (scalar(keys %{$softwaresHash->{Applications}}) == 291, "we expect 291 elements and got " . (scalar (keys %{$softwaresHash->{Applications}})));
+
+    $hash = FusionInventory::Agent::Tools::MacOS::_parseXmlStringKeepingOrder($xmlString);
+    my $subArray = FusionInventory::Agent::Tools::MacOS::_findElementAndReturnParentArray(undef, $hash, 'key', '_name');
+    ok ($subArray);
+    my $size = scalar(@$subArray);
+    ok ($size == 291, 'must be 291 and is '.$size);
+}
 
 SKIP : {
     skip 'MacOS specific test', 1 unless $OSNAME eq 'darwin';

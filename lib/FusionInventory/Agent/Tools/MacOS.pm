@@ -9,7 +9,6 @@ use Memoize;
 use POSIX 'strftime';
 use Time::Local;
 use XML::TreePP;
-use Tie::IxHash;
 
 use FusionInventory::Agent::Tools;
 
@@ -144,6 +143,15 @@ sub _pairKeyValueFromXml {
 
 sub _parseXmlStringKeepingOrder {
     my $xmlStr = shift;
+
+    # this module is required and cannot be imported by default
+    # because it's for Mac OS X only
+    my $check = eval {
+        require Tie::IxHash;
+        Tie::IxHash->import();
+        1;
+    };
+    return unless $check;
 
     my $tpp = XML::TreePP->new( use_ixhash => 1 );
     my $tree = $tpp->parse( $xmlStr );
