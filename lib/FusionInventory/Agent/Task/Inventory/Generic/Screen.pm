@@ -156,18 +156,49 @@ sub _getScreensFromWindows {
 
     my @screens;
 
+    # VideoOutputTechnology table, see ref:
+    # - https://msdn.microsoft.com/en-us/library/bb980612(v=vs.85).aspx
+    # - https://msdn.microsoft.com/en-us/library/ff546605.aspx
+    my %ports = qw(
+        -1      Other
+         0      VGA
+         1      S-Video
+         2      Composite
+         3      YUV
+         4      DVI
+         5      HDMI
+         6      LVDS
+         8      D-Jpn
+         9      SDI
+        10      DisplayPort
+        11      eDisplayPort
+        12      UDI
+        13      eUDI
+        14      SDTV
+        15      Miracast
+    );
+
     # Vista and upper, able to get the second screen
     foreach my $object (getWMIObjects(
         moniker    => 'winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi',
-        class      => 'WMIMonitorID',
-        properties => [ qw/InstanceName/ ]
+        class      => 'WMIMonitorConnectionParams',
+        properties => [ qw/Active InstanceName VideoOutputTechnology/ ]
     )) {
         next unless $object->{InstanceName};
+        next unless $object->{Active};
 
         $object->{InstanceName} =~ s/_\d+//;
-        push @screens, {
+        my $screen = {
             id => $object->{InstanceName}
         };
+
+        if (exists($object->{VideoOutputTechnology})) {
+            my $port = $object->{VideoOutputTechnology};
+            $screen->{PORT} = $ports{$object->{VideoOutputTechnology}}
+                if (exists($ports{$object->{VideoOutputTechnology}}));
+        }
+
+        push @screens, $screen;
     }
 
     # The generic Win32_DesktopMonitor class, the second screen will be missing
