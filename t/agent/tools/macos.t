@@ -6,6 +6,7 @@ use warnings;
 use Test::Deep;
 use Test::More;
 use English;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools::MacOS;
 use FusionInventory::Agent::Task::Inventory::MacOS::Softwares;
@@ -3382,12 +3383,6 @@ my $versionNumbersComparisons = [
     ['5.4.2', '10.2']
 ];
 
-my $checkTieIxHash = eval {
-    require Tie::IxHash;
-    Tie::IxHash->import();
-    1;
-};
-
 plan tests =>
     scalar (keys %system_profiler_tests) +
     scalar @ioreg_tests
@@ -3411,6 +3406,9 @@ my $flatFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicati
 my $softwaresFromFlatFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosText(file => $flatFile, type => $type);
 my $xmlFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml';
 my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosXML(file => $xmlFile, type => $type, localTimeOffset => 7200);
+
+Tie::IxHash->require();
+my $checkTieIxHash = $EVAL_ERROR ? 0 : 1;
 SKIP : {
     skip 'test only if module Tie::IxHash available', 2 unless $checkTieIxHash;
 
