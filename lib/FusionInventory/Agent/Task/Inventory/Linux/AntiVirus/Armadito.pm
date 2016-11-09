@@ -44,7 +44,7 @@ sub _isArmaditoAvUp {
 
     my $av_client = FusionInventory::Agent::HTTP::Client::ArmaditoAV->new();
     my $response = $av_client->sendRequest(
-        "url"  => $av_client->{server_url} . "/api/version",
+        url    => "/api/version",
         method => "GET"
     );
 
@@ -63,7 +63,7 @@ sub _getAntivirusStatus {
     $av_client->register();
 
     my $response = $av_client->sendRequest(
-        "url"  => $av_client->{server_url} . "/api/status",
+        url    => "/api/status",
         method => "GET"
     );
 

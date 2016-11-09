@@ -44,14 +44,14 @@ sub sendRequest {
 
     my $headers = HTTP::Headers->new(
         'User-Agent' => 'fusioninventory-agent',
-        'Referer'    => $url
+        'Referer'    => $self->{server_url} . $url
     );
 
     $headers->header( 'Content-Type'     => 'application/json' ) if ( $params{method} eq 'POST' );
     $headers->header( 'X-Armadito-Token' => $self->{token} )     if ( defined( $self->{token} ) );
 
     my $request = HTTP::Request->new(
-        $params{method} => $url,
+        $params{method} => $self->{server_url} . $url,
         $headers
     );
 
@@ -80,7 +80,7 @@ sub register {
     my ($self) = @_;
 
     my $response = $self->sendRequest(
-        url  => $self->{server_url} . "/api/register",
+        url  => "/api/register",
         method => "GET"
     );
 
@@ -93,7 +93,7 @@ sub unregister {
     my ($self) = @_;
 
     my $response = $self->sendRequest(
-        url  => $self->{server_url} . "/api/unregister",
+        url  => "/api/unregister",
         method => "GET"
     );
 
@@ -144,7 +144,7 @@ sub _getEvent {
     my ($self) = @_;
 
     my $response = $self->sendRequest(
-        "url"  => $self->{server_url} . "/api/event",
+        "url"  => "/api/event",
         method => "GET"
     );
 
@@ -157,7 +157,7 @@ sub getAntivirusVersion {
     my ($self) = @_;
 
     my $response = $self->sendRequest(
-        url  => $self->{server_url} . "/api/version",
+        url  => "/api/version",
         method => "GET"
     );
 
