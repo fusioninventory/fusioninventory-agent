@@ -9,7 +9,7 @@ use Memoize;
 use POSIX 'strftime';
 use Time::Local;
 use XML::TreePP;
-use Tie::IxHash;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 
@@ -51,7 +51,7 @@ sub _getSystemProfilerInfosXML {
 sub _extractDataFromXmlString {
     my ($xmlStr, $logger, $localTimeOffset) = @_;
 
-    my $xmlHash = _parseXmlStringKeepingOrder($xmlStr);
+    my $xmlHash = _parseXmlStringKeepingOrder($xmlStr, $logger);
 
     my $softwaresXmlHash = _extractInterestingPartOfHash($xmlHash);
 
@@ -143,7 +143,17 @@ sub _pairKeyValueFromXml {
 }
 
 sub _parseXmlStringKeepingOrder {
-    my $xmlStr = shift;
+    my ($xmlStr, $logger) = @_;
+
+    # this module is required and cannot be imported by default
+    # because it's for Mac OS X only
+    Tie::IxHash->require();
+    if ($EVAL_ERROR) {
+        $logger->debug(
+            'Tie::IxHash unavailable, unable launching _parseXmlStringKeepingOrder to retrieve softwares'
+        ) if $logger;
+        return 0;
+    }
 
     my $tpp = XML::TreePP->new( use_ixhash => 1 );
     my $tree = $tpp->parse( $xmlStr );
