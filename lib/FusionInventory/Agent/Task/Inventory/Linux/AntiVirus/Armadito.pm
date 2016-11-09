@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Linux::AntiVirus::Armadito;
 use strict;
 use warnings;
 use FusionInventory::Agent::HTTP::Client::ArmaditoAV;
-use Data::Dumper;
 
 sub isEnabled {
     my (%params) = @_;
