@@ -30,7 +30,7 @@ sub new {
 sub _prepareURL {
     my ( $self, %params ) = @_;
 
-    my $url = ref $params{url} eq 'URI' ? $params{url} : URI->new( $params{url} );
+    my $url = ref $params{url} eq 'URI' ? $params{url} : URI->new( $self->{server_url} . $params{url} );
 
     return $url;
 }
@@ -44,14 +44,14 @@ sub sendRequest {
 
     my $headers = HTTP::Headers->new(
         'User-Agent' => 'fusioninventory-agent',
-        'Referer'    => $self->{server_url} . $url
+        'Referer'    => $url
     );
 
     $headers->header( 'Content-Type'     => 'application/json' ) if ( $params{method} eq 'POST' );
     $headers->header( 'X-Armadito-Token' => $self->{token} )     if ( defined( $self->{token} ) );
 
     my $request = HTTP::Request->new(
-        $params{method} => $self->{server_url} . $url,
+        $params{method} => $url,
         $headers
     );
 
