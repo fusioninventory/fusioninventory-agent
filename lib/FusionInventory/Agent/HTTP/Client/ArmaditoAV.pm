@@ -30,7 +30,8 @@ sub new {
 sub _prepareURL {
     my ( $self, %params ) = @_;
 
-    my $url = ref $params{url} eq 'URI' ? $params{url} : URI->new( $self->{server_url} . $params{url} );
+    my $url = ref $params{url} eq 'URI' ?
+        $params{url} : URI->new( $self->{server_url} . $params{url} );
 
     return $url;
 }
@@ -47,8 +48,13 @@ sub sendRequest {
         'Referer'    => $url
     );
 
-    $headers->header( 'Content-Type'     => 'application/json' ) if ( $params{method} eq 'POST' );
-    $headers->header( 'X-Armadito-Token' => $self->{token} )     if ( defined( $self->{token} ) );
+    if ( $params{method} eq 'POST' ) {
+        $headers->header( 'Content-Type'     => 'application/json' );
+    }
+
+    if ( defined( $self->{token} ) ) {
+        $headers->header( 'X-Armadito-Token' => $self->{token} );
+    }
 
     my $request = HTTP::Request->new(
         $params{method} => $url,
@@ -69,7 +75,7 @@ sub _handleRegisterResponse() {
 
     if ( defined( $obj->{token} ) ) {
         $self->{token} = $obj->{token};
-        $self->{logger}->debug( "ArmaditoAV Registration successful, session token : " . $obj->{token} );
+        $self->{logger}->debug("ArmaditoAV Registration OK, with token: " . $obj->{token});
     }
     else {
         $self->{logger}->error("Invalid token from ArmaditoAV registration.");
@@ -84,7 +90,10 @@ sub register {
         method => "GET"
     );
 
-    die "Unable to register to ArmaditoAV api." if ( !$response->is_success() || !$response->content() =~ /^\s*\{/ms );
+    if ( !$response->is_success() || !$response->content() =~ /^\s*\{/ms ) {
+        die "Unable to register to ArmaditoAV api.";
+    }
+
     $self->_handleRegisterResponse($response);
     return $self;
 }
