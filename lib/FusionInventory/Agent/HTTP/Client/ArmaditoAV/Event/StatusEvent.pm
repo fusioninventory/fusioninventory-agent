@@ -3,7 +3,6 @@ package FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event::StatusEvent;
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event';
-use JSON;
 
 sub new {
     my ( $class, %params ) = @_;
