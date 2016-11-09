@@ -11,7 +11,7 @@ use UNIVERSAL::require;
 use URI;
 use Encode;
 use URI::Escape;
-use JSON;
+use JSON::PP;
 
 use FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event;
 use FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event::StatusEvent;
@@ -106,7 +106,23 @@ sub _handleJsonResponse() {
 
     $self->{logger}->debug( $response->content() );
 
-    return from_json( $response->content(), { utf8 => 1 } );
+    my $parsed_json;
+    eval {
+        my $decoder = JSON::PP->new
+            or die "Can't use JSON::PP decoder: $!";
+
+        $parsed_json = $decoder->decode($response->content());
+    };
+
+    if ($EVAL_ERROR) {
+        my @lines = split(/\n/, $content);
+        $self->{logger}->error(
+            $log_prefix . "Can't decode JSON content, starting with $lines[0]"
+        ) if $self->{logger};
+        return;
+    }
+
+    return $parsed_json;
 }
 
 sub pollEvents {
