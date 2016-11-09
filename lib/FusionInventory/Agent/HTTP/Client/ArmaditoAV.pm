@@ -107,7 +107,11 @@ sub unregister {
         method => "GET"
     );
 
-    die "Unable to unregister to ArmaditoAV api." if ( !$response->is_success() );
+    if ( !$response->is_success() )
+    {
+        die "Unable to unregister to ArmaditoAV api.";
+    }
+
     return $self;
 }
 
@@ -183,9 +187,9 @@ sub _handleEvent {
 }
 
 sub _parseJson {
-	my ( $self, $json_content ) = @_;
+    my ( $self, $json_content ) = @_;
 
-	my $parsed_json;
+    my $parsed_json;
     eval {
         my $decoder = JSON::PP->new
             or die "Can't use JSON::PP decoder: $!";
@@ -201,7 +205,7 @@ sub _parseJson {
         return "";
     }
 
-	return $parsed_json;
+    return $parsed_json;
 }
 
 1;
