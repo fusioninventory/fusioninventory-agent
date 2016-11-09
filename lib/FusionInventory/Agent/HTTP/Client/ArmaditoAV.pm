@@ -19,159 +19,159 @@ use FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event::StatusEvent;
 my @supported_events = ( "StatusEvent" );
 
 sub new {
-	my ( $class, %params ) = @_;
-	my $self = $class->SUPER::new(%params);
+    my ( $class, %params ) = @_;
+    my $self = $class->SUPER::new(%params);
 
-	$self->{server_url} = "http://localhost:8888";
+    $self->{server_url} = "http://localhost:8888";
 
-	return $self;
+    return $self;
 }
 
 sub _prepareURL {
-	my ( $self, %params ) = @_;
+    my ( $self, %params ) = @_;
 
-	my $url = ref $params{url} eq 'URI' ? $params{url} : URI->new( $params{url} );
+    my $url = ref $params{url} eq 'URI' ? $params{url} : URI->new( $params{url} );
 
-	return $url;
+    return $url;
 }
 
 sub sendRequest {
-	my ( $self, %params ) = @_;
+    my ( $self, %params ) = @_;
 
-	my $url = $self->_prepareURL(%params);
+    my $url = $self->_prepareURL(%params);
 
-	$self->{logger}->debug2($url) if $self->{logger};
+    $self->{logger}->debug2($url) if $self->{logger};
 
-	my $headers = HTTP::Headers->new(
-		'User-Agent' => 'fusioninventory-agent',
-		'Referer'    => $url
-	);
+    my $headers = HTTP::Headers->new(
+        'User-Agent' => 'fusioninventory-agent',
+        'Referer'    => $url
+    );
 
-	$headers->header( 'Content-Type'     => 'application/json' ) if ( $params{method} eq 'POST' );
-	$headers->header( 'X-Armadito-Token' => $self->{token} )     if ( defined( $self->{token} ) );
+    $headers->header( 'Content-Type'     => 'application/json' ) if ( $params{method} eq 'POST' );
+    $headers->header( 'X-Armadito-Token' => $self->{token} )     if ( defined( $self->{token} ) );
 
-	my $request = HTTP::Request->new(
-		$params{method} => $url,
-		$headers
-	);
+    my $request = HTTP::Request->new(
+        $params{method} => $url,
+        $headers
+    );
 
-	if ( $params{message} && $params{method} eq 'POST' ) {
-		$request->content( encode( 'UTF-8', $params{message} ) );
-	}
+    if ( $params{message} && $params{method} eq 'POST' ) {
+        $request->content( encode( 'UTF-8', $params{message} ) );
+    }
 
-	return $self->request($request);
+    return $self->request($request);
 }
 
 sub _handleRegisterResponse() {
-	my ( $self, $response ) = @_;
+    my ( $self, $response ) = @_;
 
-	my $obj = from_json( $response->content(), { utf8 => 1 } );
+    my $obj = from_json( $response->content(), { utf8 => 1 } );
 
-	if ( defined( $obj->{token} ) ) {
-		$self->{token} = $obj->{token};
-		$self->{logger}->debug( "ArmaditoAV Registration successful, session token : " . $obj->{token} );
-	}
-	else {
-		$self->{logger}->error("Invalid token from ArmaditoAV registration.");
-	}
+    if ( defined( $obj->{token} ) ) {
+        $self->{token} = $obj->{token};
+        $self->{logger}->debug( "ArmaditoAV Registration successful, session token : " . $obj->{token} );
+    }
+    else {
+        $self->{logger}->error("Invalid token from ArmaditoAV registration.");
+    }
 }
 
 sub register {
-	my ($self) = @_;
+    my ($self) = @_;
 
-	my $response = $self->sendRequest(
-		url  => $self->{server_url} . "/api/register",
-		method => "GET"
-	);
+    my $response = $self->sendRequest(
+        url  => $self->{server_url} . "/api/register",
+        method => "GET"
+    );
 
-	die "Unable to register to ArmaditoAV api." if ( !$response->is_success() || !$response->content() =~ /^\s*\{/ms );
-	$self->_handleRegisterResponse($response);
-	return $self;
+    die "Unable to register to ArmaditoAV api." if ( !$response->is_success() || !$response->content() =~ /^\s*\{/ms );
+    $self->_handleRegisterResponse($response);
+    return $self;
 }
 
 sub unregister {
-	my ($self) = @_;
+    my ($self) = @_;
 
-	my $response = $self->sendRequest(
-		url  => $self->{server_url} . "/api/unregister",
-		method => "GET"
-	);
+    my $response = $self->sendRequest(
+        url  => $self->{server_url} . "/api/unregister",
+        method => "GET"
+    );
 
-	die "Unable to unregister to ArmaditoAV api." if ( !$response->is_success() );
-	return $self;
+    die "Unable to unregister to ArmaditoAV api." if ( !$response->is_success() );
+    return $self;
 }
 
 sub _handleJsonResponse() {
-	my ( $self, $response ) = @_;
+    my ( $self, $response ) = @_;
 
-	$self->{logger}->debug( $response->content() );
+    $self->{logger}->debug( $response->content() );
 
-	return from_json( $response->content(), { utf8 => 1 } );
+    return from_json( $response->content(), { utf8 => 1 } );
 }
 
 sub pollEvents {
-	my ($self) = @_;
-	my $event = {};
+    my ($self) = @_;
+    my $event = {};
 
-	while (1) {
-		my $jobj = $self->_getEvent();
-		if ( defined( $jobj->{event_type} ) ) {
-			$event = $self->_handleEvent($jobj);
-			last if($event->{end_polling});
-		}
-	}
+    while (1) {
+        my $jobj = $self->_getEvent();
+        if ( defined( $jobj->{event_type} ) ) {
+            $event = $self->_handleEvent($jobj);
+            last if($event->{end_polling});
+        }
+    }
 
-	return $event;
+    return $event;
 }
 
 sub _getEvent {
-	my ($self) = @_;
+    my ($self) = @_;
 
-	my $response = $self->sendRequest(
-		"url"  => $self->{server_url} . "/api/event",
-		method => "GET"
-	);
+    my $response = $self->sendRequest(
+        "url"  => $self->{server_url} . "/api/event",
+        method => "GET"
+    );
 
-	die "Unable to get event with ArmaditoAV api."
-		if ( !$response->is_success() || !$response->content() =~ /^\s*\{/ms );
-	return $self->_handleJsonResponse($response);
+    die "Unable to get event with ArmaditoAV api."
+        if ( !$response->is_success() || !$response->content() =~ /^\s*\{/ms );
+    return $self->_handleJsonResponse($response);
 }
 
 sub getAntivirusVersion {
-	my ($self) = @_;
+    my ($self) = @_;
 
-	my $response = $self->sendRequest(
-		url  => $self->{server_url} . "/api/version",
-		method => "GET"
-	);
+    my $response = $self->sendRequest(
+        url  => $self->{server_url} . "/api/version",
+        method => "GET"
+    );
 
-	die "Unable to get Armadito version with ArmaditoAV api."
-		if ( !$response->is_success() || !$response->content() =~ /^\s*\{/ms );
-	return $self->_handleJsonResponse($response);
+    die "Unable to get Armadito version with ArmaditoAV api."
+        if ( !$response->is_success() || !$response->content() =~ /^\s*\{/ms );
+    return $self->_handleJsonResponse($response);
 }
 
 sub _isEventSupported {
-	my ( $self, $event ) = @_;
-	foreach (@supported_events) {
-		if ( $event eq $_ ) {
-			return 1;
-		}
-	}
-	return 0;
+    my ( $self, $event ) = @_;
+    foreach (@supported_events) {
+        if ( $event eq $_ ) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 sub _handleEvent {
-	my ( $self, $event_jobj) = @_;
+    my ( $self, $event_jobj) = @_;
 
-	if ( !$self->_isEventSupported( $event_jobj->{event_type} ) ) {
-		$self->{logger}->error("Unknown ArmaditoAV api event.");
-		return 0;
-	}
+    if ( !$self->_isEventSupported( $event_jobj->{event_type} ) ) {
+        $self->{logger}->error("Unknown ArmaditoAV api event.");
+        return 0;
+    }
 
-	my $class = "FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event::$event_jobj->{event_type}";
-	$class->require();
-	my $event = $class->new( jobj => $event_jobj );
-	return $event->run();
+    my $class = "FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event::$event_jobj->{event_type}";
+    $class->require();
+    my $event = $class->new( jobj => $event_jobj );
+    return $event->run();
 }
 
 1;

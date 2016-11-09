@@ -6,19 +6,19 @@ use base 'FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event';
 use JSON;
 
 sub new {
-	my ( $class, %params ) = @_;
+    my ( $class, %params ) = @_;
 
-	my $self = $class->SUPER::new(%params);
+    my $self = $class->SUPER::new(%params);
 
-	return $self;
+    return $self;
 }
 
 sub run {
-	my ( $self, %params ) = @_;
+    my ( $self, %params ) = @_;
 
-	$self->{end_polling} = 1;
+    $self->{end_polling} = 1;
 
-	return $self;
+    return $self;
 }
 1;
 

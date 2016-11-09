@@ -21,8 +21,8 @@ sub doInventory {
     my $status = "0";
 
     if(_isArmaditoAvUp()) {
-	    $version = _getAntivirusVersion();
-	    $status = _getAntivirusStatus();
+        $version = _getAntivirusVersion();
+        $status = _getAntivirusStatus();
 
         my $antivirus = {
              COMPANY  => "Teclib",
@@ -45,8 +45,8 @@ sub _isArmaditoAvUp {
 
     my $av_client = FusionInventory::Agent::HTTP::Client::ArmaditoAV->new();
     my $response = $av_client->sendRequest(
-	    "url"  => $av_client->{server_url} . "/api/version",
-	    method => "GET"
+        "url"  => $av_client->{server_url} . "/api/version",
+        method => "GET"
     );
 
     return $response->is_success();
@@ -64,12 +64,12 @@ sub _getAntivirusStatus {
     $av_client->register();
 
     my $response = $av_client->sendRequest(
-	    "url"  => $av_client->{server_url} . "/api/status",
-	    method => "GET"
+        "url"  => $av_client->{server_url} . "/api/status",
+        method => "GET"
     );
 
     return "unknown"
-	if ( !$response->is_success() );
+    if ( !$response->is_success() );
 
     my $status_event = $av_client->pollEvents();
     $av_client->unregister();
