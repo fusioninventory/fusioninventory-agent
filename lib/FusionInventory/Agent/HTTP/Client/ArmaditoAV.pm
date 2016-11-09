@@ -69,7 +69,7 @@ sub sendRequest {
     return $self->request($request);
 }
 
-sub _handleRegisterResponse() {
+sub _handleRegisterResponse {
     my ( $self, $response ) = @_;
 
     my $obj = $self->_parseJson( $response->content() );
@@ -115,7 +115,7 @@ sub unregister {
     return $self;
 }
 
-sub _handleJsonResponse() {
+sub _handleJsonResponse {
     my ( $self, $response ) = @_;
 
     return $self->_parseJson( $response->content() );
