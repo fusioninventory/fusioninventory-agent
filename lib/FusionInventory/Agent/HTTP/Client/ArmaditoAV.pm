@@ -16,6 +16,7 @@ use JSON::PP;
 use FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event;
 use FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event::StatusEvent;
 
+my $log_prefix = "[http client] ";
 my @supported_events = ( "StatusEvent" );
 
 sub new {
@@ -71,14 +72,14 @@ sub sendRequest {
 sub _handleRegisterResponse() {
     my ( $self, $response ) = @_;
 
-    my $obj = from_json( $response->content(), { utf8 => 1 } );
+    my $obj = $self->_parseJson( $response->content() );
 
     if ( defined( $obj->{token} ) ) {
         $self->{token} = $obj->{token};
         $self->{logger}->debug("ArmaditoAV Registration OK, with token: " . $obj->{token});
     }
     else {
-        $self->{logger}->error("Invalid token from ArmaditoAV registration.");
+        $self->{logger}->error("Invalid Json from ArmaditoAV registration.");
     }
 }
 
@@ -113,25 +114,7 @@ sub unregister {
 sub _handleJsonResponse() {
     my ( $self, $response ) = @_;
 
-    $self->{logger}->debug( $response->content() );
-
-    my $parsed_json;
-    eval {
-        my $decoder = JSON::PP->new
-            or die "Can't use JSON::PP decoder: $!";
-
-        $parsed_json = $decoder->decode($response->content());
-    };
-
-    if ($EVAL_ERROR) {
-        my @lines = split(/\n/, $content);
-        $self->{logger}->error(
-            $log_prefix . "Can't decode JSON content, starting with $lines[0]"
-        ) if $self->{logger};
-        return;
-    }
-
-    return $parsed_json;
+    return $self->_parseJson( $response->content() );
 }
 
 sub pollEvents {
@@ -197,6 +180,28 @@ sub _handleEvent {
     $class->require();
     my $event = $class->new( jobj => $event_jobj );
     return $event->run();
+}
+
+sub _parseJson {
+	my ( $self, $json_content ) = @_;
+
+	my $parsed_json;
+    eval {
+        my $decoder = JSON::PP->new
+            or die "Can't use JSON::PP decoder: $!";
+
+        $parsed_json = $decoder->decode($json_content);
+    };
+
+    if ($EVAL_ERROR) {
+        my @lines = split(/\n/, $json_content);
+        $self->{logger}->error(
+            $log_prefix . "Can't decode JSON content, starting with $lines[0]"
+        ) if $self->{logger};
+        return "";
+    }
+
+	return $parsed_json;
 }
 
 1;
