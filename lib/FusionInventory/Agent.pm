@@ -739,7 +739,7 @@ sub _reloadConfIfNeeded {
     }
 }
 
-sub _isReloadConfNeeded() {
+sub _isReloadConfNeeded {
     my ($self) = @_;
 
     my $time = time;
