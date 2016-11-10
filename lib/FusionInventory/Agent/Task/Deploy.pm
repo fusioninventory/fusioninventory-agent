@@ -1,7 +1,7 @@
 package FusionInventory::Agent::Task::Deploy;
 
 # Full protocol documentation available here:
-#  http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/API-REST-deploy
+#  http://fusioninventory.org/documentation/dev/spec/protocol/deploy.html
 
 use strict;
 use warnings;
