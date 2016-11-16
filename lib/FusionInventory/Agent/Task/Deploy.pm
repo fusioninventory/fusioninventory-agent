@@ -7,10 +7,6 @@ use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use JSON;
-use LWP;
-use URI::Escape;
-
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
@@ -19,7 +15,7 @@ use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
 
-our $VERSION = '2.1.0';
+our $VERSION = '2.1.1';
 
 sub isEnabled {
     my ($self) = @_;
