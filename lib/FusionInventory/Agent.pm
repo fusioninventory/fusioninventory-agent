@@ -32,7 +32,7 @@ sub _versionString {
     my ($VERSION) = @_;
 
     my $string = "$PROVIDER Agent ($VERSION)";
-    if ($VERSION =~ /^\d+\.\d+(\.99\d\d|\d+-dev)$/) {
+    if ($VERSION =~ /^\d+\.\d+\.(99\d\d|\d+-dev)$/) {
         $string .= " **THIS IS A DEVELOPMENT RELEASE **";
     }
 
