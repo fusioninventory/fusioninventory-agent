@@ -456,6 +456,7 @@ sub start_Win32_OLE_Worker {
 sub _win32_ole_worker {
     # Load Win32::OLE as late as possible in a dedicated worker
     Win32::OLE->require() or return;
+    Win32::OLE::Variant->require() or return;
     Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
     while (1) {
