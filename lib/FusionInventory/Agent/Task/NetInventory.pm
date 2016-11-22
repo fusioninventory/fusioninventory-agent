@@ -12,6 +12,7 @@ use Thread::Queue v2.01;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Network;
@@ -240,7 +241,7 @@ sub _sendStartMessage {
     $self->_sendMessage({
         AGENT => {
             START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
+            AGENTVERSION => $FusionInventory::Agent::Version::VERSION,
         },
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $self->{pid}
