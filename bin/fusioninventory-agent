@@ -2,7 +2,9 @@
 
 use strict;
 use warnings;
-use lib './lib';
+
+use lib './bin';
+use setup;
 
 use English qw(-no_match_vars);
 use Getopt::Long;
@@ -70,13 +72,6 @@ if ($options->{version}) {
     print $FusionInventory::Agent::VERSION_STRING . "\n";
     exit 0;
 }
-
-my %setup = (
-    confdir => './etc',
-    datadir => './share',
-    libdir  => './lib',
-    vardir  => './var',
-);
 
 if ($options->{setup}) {
     foreach my $key (keys %setup) {
