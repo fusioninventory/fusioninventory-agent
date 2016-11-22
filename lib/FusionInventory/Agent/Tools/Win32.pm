@@ -107,9 +107,30 @@ sub _getWMIObjects {
 
     my @objects;
     foreach my $instance (in(
+        $params{query} ?
+        $WMIService->ExecQuery(@{$params{query}})
+        :
         $WMIService->InstancesOf($params{class})
     )) {
         my $object;
+        if ($params{getowner}) {
+            # Logged users specific case
+            next unless
+                $instance->{ExecutablePath} &&
+                $instance->{ExecutablePath} =~ /\\Explorer\.exe$/i;
+
+            ## no critic (ProhibitBitwise)
+            my $type = Win32::OLE::Variant::VT_BYREF() | Win32::OLE::Variant::VT_BSTR();
+            my $name = Win32::OLE::Variant::Variant($type, '');
+            my $domain = Win32::OLE::Variant::Variant($type, '');
+
+            $instance->GetOwner($name, $domain);
+
+            $instance = {
+                LOGIN  => $name->Get(),
+                DOMAIN => $domain->Get()
+            };
+        }
         foreach my $property (@{$params{properties}}) {
             if (defined $instance->{$property} && !ref($instance->{$property})) {
                 # string value
@@ -518,6 +539,7 @@ sub _call_win32_ole_dependent_api {
     } else {
         # Load Win32::OLE as late as possible
         Win32::OLE->require() or return;
+        Win32::OLE::Variant->require() or return;
         Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
         # We come here from worker or if we failed to start worker
