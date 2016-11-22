@@ -1,5 +1,15 @@
 Revision history for FusionInventory agent
 
+2.3.19 not yet released
+core:
+* Version & provider refactoring to simplify release process
+* Tasks version is now read more efficiently and should reduce agent memory
+  footing while running under daemon or service mode
+* Bump tasks versions to reflect new way of reading task version
+
+inventory:
+* Fix VERSIONCLIENT not set
+
 2.3.18 Thu, 16 Jun 2016
 core:
 * Many bug fixes
