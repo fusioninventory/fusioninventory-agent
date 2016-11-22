@@ -444,9 +444,9 @@ sub getAvailableTasks {
     my $directory = $self->{libdir};
     $directory =~ s,\\,/,g;
     my $subdirectory = "FusionInventory/Agent/Task";
-    # look for all perl modules here
-    foreach my $file (File::Glob::glob("$directory/$subdirectory/*.pm")) {
-        next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
+    # look for all Version perl modules around here
+    foreach my $file (File::Glob::glob("$directory/$subdirectory/*/Version.pm")) {
+        next unless $file =~ m{($subdirectory/(\S+)/Version\.pm)$};
         my $module = file2module($1);
         my $name = file2module($2);
 
@@ -502,15 +502,10 @@ sub _getTaskVersion {
         return;
     }
 
-    if (!$module->isa('FusionInventory::Agent::Task')) {
-        $logger->debug2("module $module is not a task") if $logger;
-        return;
-    }
-
     my $version;
     {
         no strict 'refs';  ## no critic
-        $version = ${$module . '::VERSION'};
+        $version = &{$module . '::VERSION'};
     }
 
     return $version;
