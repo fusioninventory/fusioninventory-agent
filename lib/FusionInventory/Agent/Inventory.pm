@@ -10,6 +10,7 @@ use English qw(-no_match_vars);
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Version;
 
 my %fields = (
     BIOS             => [ qw/SMODEL SMANUFACTURER SSN BDATE BVERSION
@@ -126,7 +127,8 @@ sub new {
                 ARCHNAME => $Config{archname},
                 VMSYSTEM => "Physical" # Default value
             },
-            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING
+            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING ||
+                $FusionInventory::Agent::Version::PROVIDER."-Inventory_v".$FusionInventory::Agent::Version::VERSION
         }
     };
     bless $self, $class;
