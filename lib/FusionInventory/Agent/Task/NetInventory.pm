@@ -16,7 +16,9 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Network;
 
-our $VERSION = '2.2.1';
+use FusionInventory::Agent::Task::NetInventory::Version;
+
+our $VERSION = FusionInventory::Agent::Task::NetInventory::Version::VERSION;
 
 # list of devices properties, indexed by XML element name
 # the link to a specific OID is made by the model

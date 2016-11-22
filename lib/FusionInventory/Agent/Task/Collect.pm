@@ -15,7 +15,9 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 
-our $VERSION = $FusionInventory::Agent::VERSION;
+use FusionInventory::Agent::Task::Collect::Version;
+
+our $VERSION = FusionInventory::Agent::Task::Collect::Version::VERSION;
 
 my %functions = (
     getFromRegistry => \&_getFromRegistry,

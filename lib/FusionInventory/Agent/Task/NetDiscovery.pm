@@ -20,7 +20,9 @@ use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::XML::Query;
 
-our $VERSION = '2.2.1';
+use FusionInventory::Agent::Task::NetDiscovery::Version;
+
+our $VERSION = FusionInventory::Agent::Task::NetDiscovery::Version::VERSION;
 
 sub isEnabled {
     my ($self, $response) = @_;
