@@ -81,7 +81,7 @@ sub _getEdidInfo {
     my %USE_ALTSERIAL = (
         'Acer' => {
             match     => qr/^ACR....$/,
-            usealtif  => qr/(0018|0020|0024|00A8|0330|0337|7883|ad49|adaf)$/,
+            usealtif  => qr/(0018|0020|0024|00A8|0330|0337|0783|7883|ad49|adaf)$/,
             altserial => sub {
                 my ($serial1, $serial2) = @_;
                 substr($serial2, 0, 8)    .
