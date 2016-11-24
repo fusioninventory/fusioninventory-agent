@@ -362,10 +362,17 @@ my %edid_tests = (
         SERIAL       => ' HD  021838',
         DESCRIPTION  => '42/2002'
     },
-    'lcd.philips-288p6' => {
+    'lcd.philips-288p6-vga' => {
+        MANUFACTURER => 'Philips Consumer Electronics Company',
+        CAPTION      => 'Philips 288P6',
+        SERIAL       => 'AU51430006456',
+        DESCRIPTION  => '30/2014'
+    },
+    'lcd.philips-288p6-hdmi' => {
         MANUFACTURER => 'Philips Consumer Electronics Company',
         CAPTION      => 'Philips 288P6',
         SERIAL       => '00001938',
+        ALTSERIAL    => '006456',
         DESCRIPTION  => '30/2014'
     },
     'lcd.presario-R4000' => {
@@ -418,6 +425,12 @@ my %edid_tests = (
         CAPTION      => 'VX715',
         SERIAL       => 'P21044404507',
         DESCRIPTION  => '44/2004'
+    },
+    'lcd.internal' => {
+        MANUFACTURER => 'Toshiba Corporation',
+        CAPTION      => 'Internal LCD',
+        SERIAL       => '00000004',
+        DESCRIPTION  => '14/2006'
     },
     'IMP2262' => {
         MANUFACTURER => 'Impression Products Incorporated',

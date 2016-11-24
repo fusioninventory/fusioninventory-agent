@@ -9,7 +9,7 @@ use UNIVERSAL::require;
 
 use File::Find;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Generic;
+use FusionInventory::Agent::Tools::Screen;
 
 sub isEnabled {
     my (%params) = @_;
@@ -46,105 +46,22 @@ sub _getEdidInfo {
     my $edid = Parse::EDID::parse_edid($params{edid});
     if (my $error = Parse::EDID::check_parsed_edid($edid)) {
         $params{logger}->debug("bad edid: $error") if $params{logger};
-        return;
+        # Don't return if edid is finally partially parsed
+        return unless ($edid->{monitor_name} && $edid->{week} &&
+            $edid->{year} && $edid->{serial_number});
     }
+
+    my $screen = FusionInventory::Agent::Tools::Screen->new( %params, edid =>$edid );
 
     my $info = {
         CAPTION      => $edid->{monitor_name},
         DESCRIPTION  => $edid->{week} . "/" . $edid->{year},
-        MANUFACTURER => getEDIDVendor(
-                            id      => $edid->{manufacturer_name},
-                            datadir => $params{datadir}
-                        ) || $edid->{manufacturer_name}
+        MANUFACTURER => $screen->manufacturer,
+        SERIAL       => $screen->serial()
     };
 
-    # they are two different serial numbers in EDID
-    # - a mandatory 4 bytes numeric value
-    # - an optional 13 bytes ASCII value
-    # we use the ASCII value if present, the numeric value as an hex string
-    # unless for a few list of known exceptions deserving specific handling
-    # References:
-    # http://forge.fusioninventory.org/issues/1607
-    # http://forge.fusioninventory.org/issues/1614
-    my $EDID_SERIAL = $edid->{serial_number2} ?
-        $edid->{serial_number2}->[0]           :
-        sprintf("%08x", $edid->{serial_number});
-    my $SERIAL ;
-    # To facilitate specific cases handling, we introduced ALTSERIAL value
-    # reporting an alternative serial number we for a given manufacturer but
-    # still not recognized as mandatory for a given model.
-    my $ALTSERIAL ;
-
-    # Here a list a well-know cases
-    # 'usealtif' is a regex to select EISA_ID as read in EDID and specific to
-    # a given model for a given manufacturer.
-    my %USE_ALTSERIAL = (
-        'Acer' => {
-            match     => qr/^ACR....$/,
-            usealtif  => qr/(0018|0020|0024|00A8|0330|0337|0783|7883|ad49|adaf)$/,
-            altserial => sub {
-                my ($serial1, $serial2) = @_;
-                substr($serial2, 0, 8)    .
-                sprintf("%08x", $serial1) .
-                substr($serial2, 8, 4)
-            }
-        },
-        'Goldstar or LG' => {
-            match     => qr/^GSM....$/,
-            usealtif  => qr/4b21$/,
-            altserial => sub {
-                my ($serial1, $serial2) = @_;
-                # split serial in two parts
-                my ($high, $low) = $serial1 =~ /(\d+) (\d\d\d)$/x;
-
-                # translate the first part using a custom alphabet
-                my @alphabet = split(//, "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ");
-                my $base     = scalar @alphabet;
-
-                $alphabet[$high / $base] . $alphabet[$high % $base] . $low;
-            }
-        },
-        'Samsung' => {
-            match     => qr/^SAM....$/,
-            usealtif  => qr/09c6$/,
-            altserial => sub {
-                my ($serial1, $serial2) = @_;
-                chr(($serial1 >> 24)% 256) .
-                chr(($serial1 >> 16)% 256) .
-                chr(($serial1 >> 8 )% 256) .
-                chr( $serial1       % 256) .
-                $serial2 ;
-            }
-        }
-    );
-
-    # Check if monitor matches a well-known case needing using alternate serial
-    # number format
-    if ($edid->{EISA_ID}) {
-        while ( my ($manufacturer, $eisa_test) = each %USE_ALTSERIAL ) {
-            if ($edid->{EISA_ID} =~ $eisa_test->{match}) {
-                $params{logger}->debug2(
-                    "checking alt serial for $manufacturer $edid->{EISA_ID} model"
-                ) if $params{logger};
-                # Set alternate serial number against matching manufacturer
-                $ALTSERIAL = &{$eisa_test->{altserial}}(
-                    $edid->{serial_number},
-                    $edid->{serial_number2}->[0]
-                );
-                # Check if model is known to require alternate serial number
-                if ($edid->{EISA_ID} =~ $eisa_test->{usealtif}) {
-                    # Then set serial and keep standard serial as ALTSERIAL
-                    $SERIAL    = $ALTSERIAL ;
-                    $ALTSERIAL = $EDID_SERIAL ;
-                }
-                last;
-            }
-        }
-    }
-
-    # Use standard serial by default if no replacement found
-    $info->{SERIAL}    = $SERIAL || $EDID_SERIAL;
-    $info->{ALTSERIAL} = $ALTSERIAL if ($ALTSERIAL);
+    # Add ALTSERIAL if defined by Screen object
+    $info->{ALTSERIAL} = $screen->altserial if $screen->altserial;
 
     return $info;
 }
