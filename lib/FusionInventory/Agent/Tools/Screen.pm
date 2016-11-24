@@ -77,6 +77,22 @@ sub altserial {
     undef;
 }
 
+sub caption {
+    my ($self) = @_;
+    $self->{_caption} = $self->{edid}->{monitor_name};
+    unless ($self->{_caption}) {
+        my $monitor_text = $self->{edid}->{monitor_text};
+        if ($monitor_text && @{$monitor_text}) {
+            $self->{_caption} = join(' ', @{$monitor_text});
+        }
+    }
+    return unless $self->{_caption};
+    return if ($self->{_caption} =~ /^\s*$/);
+    # Clean-up
+    $self->{_caption} =~ s/[^ -~].*$// ;
+    return $self->{_caption};
+}
+
 sub manufacturer {
     my ($self, $manufacturer) = @_;
     $self->{_manufacturer} = $manufacturer if $manufacturer;

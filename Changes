@@ -5,7 +5,12 @@ inventory:
 * Screen inventory refactoring introducing ALTSERIAL inventory value which may
   show a better serial number for some manufacturer. This will ease future
   screen serial number fix integration: comparing expected S/N toward ALTSERIAL
-  will tell us we just need to update %USE_ALTSERIAL for a given monitor.
+  will tell us we just need to update dedicated subclass for a given monitor.
+* Some portable computer screens are now recognized
+* Previously undefined screen caption may now contains additionnal informations,
+  mostly for lcd internal panel, like panel model. These are taken from EDID
+  "monitor_text" when found.
+* Few more Acer serial number are fixed
 
 2.3.18 Thu, 16 Jun 2016
 core:

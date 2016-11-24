@@ -61,7 +61,7 @@ my %edid_tests = (
     },
     'crt.emc0313' => {
         MANUFACTURER => 'eMicro Corporation',
-        CAPTION      => undef,
+        CAPTION      => '0000000000011',
         SERIAL       => '0000198a',
         DESCRIPTION  => '21/2001'
     },
@@ -189,7 +189,7 @@ my %edid_tests = (
     },
     'lcd.acer-asp1680' => {
         MANUFACTURER => 'Quanta Display Inc.',
-        CAPTION      => undef,
+        CAPTION      => 'JPN4A1P049605 QD15TL021',
         SERIAL       => '00000000',
         DESCRIPTION  => '51/2004'
     },
@@ -242,7 +242,7 @@ my %edid_tests = (
     },
     'lcd.blino' => {
         MANUFACTURER => 'AU Optronics',
-        CAPTION      => undef,
+        CAPTION      => 'AUO B150PG01',
         SERIAL       => '00000291',
         DESCRIPTION  => '35/2004'
     },
@@ -266,7 +266,7 @@ my %edid_tests = (
     },
     'lcd.dell-inspiron-6400' => {
         MANUFACTURER => 'LG Philips',
-        CAPTION      => undef,
+        CAPTION      => 'XD570',
         SERIAL       => '00000000',
         DESCRIPTION  => '0/2005',
     },
@@ -278,7 +278,7 @@ my %edid_tests = (
     },
     'lcd.Elonex-PR600' => {
         MANUFACTURER => 'Chi Mei Optoelectronics corp.',
-        CAPTION      => undef,
+        CAPTION      => 'N154I2-L02 CMO N154I2-L02',
         SERIAL       => '00000000',
         DESCRIPTION  => '9/2006',
     },
@@ -308,7 +308,7 @@ my %edid_tests = (
     },
     'lcd.HP-Pavilion-ZV6000' => {
         MANUFACTURER => 'Quanta Display Inc.',
-        CAPTION      => undef,
+        CAPTION      => 'JMN4A1P047325 QD15TL022',
         SERIAL       => '00000000',
         DESCRIPTION  => '51/2004',
     },
@@ -340,13 +340,13 @@ my %edid_tests = (
     },
     'lcd.lenovo-3000-v100' => {
         MANUFACTURER => 'AU Optronics',
-        CAPTION      => undef,
+        CAPTION      => 'AUO B121EW03 V2',
         SERIAL       => '00000000',
         DESCRIPTION  => '1/2006',
     },
     'lcd.lenovo-w500' => {
         MANUFACTURER => 'Lenovo Group Limited',
-        CAPTION      => undef,
+        CAPTION      => 'LTN154U2-L05',
         SERIAL       => '00000000',
         DESCRIPTION  => '0/2007',
     },
@@ -377,7 +377,7 @@ my %edid_tests = (
     },
     'lcd.presario-R4000' => {
         MANUFACTURER => 'LG Philips',
-        CAPTION      => undef,
+        CAPTION      => 'LGPhilipsLCD LP154W01-A5',
         SERIAL       => '00000000',
         DESCRIPTION  => '0/2004',
     },

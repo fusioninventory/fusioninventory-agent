@@ -51,13 +51,13 @@ sub _getEdidInfo {
             $edid->{year} && $edid->{serial_number});
     }
 
-    my $screen = FusionInventory::Agent::Tools::Screen->new( %params, edid =>$edid );
+    my $screen = FusionInventory::Agent::Tools::Screen->new( %params, edid => $edid );
 
     my $info = {
-        CAPTION      => $edid->{monitor_name},
+        CAPTION      => $screen->caption || undef,
         DESCRIPTION  => $edid->{week} . "/" . $edid->{year},
         MANUFACTURER => $screen->manufacturer,
-        SERIAL       => $screen->serial()
+        SERIAL       => $screen->serial
     };
 
     # Add ALTSERIAL if defined by Screen object
