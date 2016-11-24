@@ -55,7 +55,7 @@ sub _getEdidInfo {
 
     my $info = {
         CAPTION      => $screen->caption || undef,
-        DESCRIPTION  => $edid->{week} . "/" . $edid->{year},
+        DESCRIPTION  => $screen->week_year_manufacture,
         MANUFACTURER => $screen->manufacturer,
         SERIAL       => $screen->serial
     };

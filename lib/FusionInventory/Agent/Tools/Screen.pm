@@ -77,6 +77,11 @@ sub altserial {
     undef;
 }
 
+sub week_year_manufacture {
+    my ($self) = @_;
+    return $self->{edid}->{week} . "/" . $self->{edid}->{year};
+}
+
 sub caption {
     my ($self) = @_;
     $self->{_caption} = $self->{edid}->{monitor_name};
@@ -137,6 +142,14 @@ serial while not overloaded.
 =head2 altserial()
 
 This is a method to be implemented by each subclass.
+
+=head2 week_year_manufacture()
+
+The week of screen manufacture
+
+=head2 caption()
+
+Monitor name or computed monitor text as caption
 
 =head2 manufacturer()
 
