@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use JSON;
+use JSON::PP;
 use Test::More;
 
 use FusionInventory::Agent::Task::Deploy;
