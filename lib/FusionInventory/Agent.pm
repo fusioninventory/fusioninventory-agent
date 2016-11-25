@@ -24,6 +24,7 @@ use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = $FusionInventory::Agent::Version::VERSION;
 my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
+our $COMMENTS = $FusionInventory::Agent::Version::COMMENTS || [];
 our $VERSION_STRING = _versionString($VERSION);
 our $AGENT_STRING = "$PROVIDER-Agent_v$VERSION";
 our $CONTINUE_WORD = "...";
@@ -33,7 +34,7 @@ sub _versionString {
 
     my $string = "$PROVIDER Agent ($VERSION)";
     if ($VERSION =~ /^\d+\.\d+\.(99\d\d|\d+-dev)$/) {
-        $string .= " **THIS IS A DEVELOPMENT RELEASE **";
+        unshift @{$COMMENTS}, "** THIS IS A DEVELOPMENT RELEASE **";
     }
 
     return $string;
@@ -137,11 +138,15 @@ sub init {
     # install signal handler to handle graceful exit
     $self->_installSignalHandlers();
 
-    $self->{logger}->info("FusionInventory Agent starting")
+    $self->{logger}->info("$PROVIDER Agent starting")
         if $self->{config}->{daemon} || $self->{config}->{service};
 
     $self->{logger}->info("Options 'no-task' and 'tasks' are both used. Be careful that 'no-task' always excludes tasks.")
         if ($self->{config}->isParamArrayAndFilled('no-task') && $self->{config}->isParamArrayAndFilled('tasks'));
+
+    foreach my $comment (@{$COMMENTS}) {
+        $self->{logger}->info($comment);
+    }
 
     $self->resetLastConfigLoad();
 }

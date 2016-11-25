@@ -5,6 +5,7 @@ use warnings;
 
 our $VERSION = "2.3.19-dev";
 our $PROVIDER = "FusionInventory";
+our $COMMENTS = ["TEST"];
 
 1;
 
@@ -23,3 +24,14 @@ packaging.
 It permits to re-define agent VERSION and agent PROVIDER during packaging so
 any distributor can simplify his distribution process and permit to identify
 clearly the origin of the agent.
+
+It also permits to put build comments in $COMMENTS. Each array ref element will
+be reported in putput while using on --version for commands. This will be seen
+in logs.
+The idea is to authorize the provider to put useful informations needed while
+agent issue is reported.
+One very useful information should be first defined like in that example:
+
+our $COMMENTS = [
+    "Based on FusionInventory Agent v2.3.19"
+];
