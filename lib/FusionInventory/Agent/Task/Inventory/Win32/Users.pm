@@ -7,15 +7,11 @@ use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
 use English qw(-no_match_vars);
-use Win32::OLE qw(in);
-use Win32::OLE::Variant;
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
     qw/KEY_READ/
 );
-
-Win32::OLE->Option(CP => Win32::OLE::CP_UTF8);
 
 use FusionInventory::Agent::Tools::Win32;
 
@@ -63,21 +59,21 @@ sub doInventory {
 
 sub _getLocalUsers {
 
-    my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-        or die "WMI connection failed: " . Win32::OLE->LastError();
-
     my $query =
         "SELECT * FROM Win32_UserAccount " .
         "WHERE LocalAccount='True' AND Disabled='False' and Lockout='False'";
 
     my @users;
 
-    foreach my $object (in $WMIService->ExecQuery($query)) {
+    foreach my $object (getWMIObjects(
+        moniker    => 'winmgmts:\\\\.\\root\\CIMV2',
+        query      => [ $query ],
+        properties => [ qw/Name SID/ ])
+    ) {
         my $user = {
             NAME => $object->{Name},
             ID   => $object->{SID},
         };
-        utf8::upgrade($user->{NAME});
         push @users, $user;
     }
 
@@ -86,21 +82,21 @@ sub _getLocalUsers {
 
 sub _getLocalGroups {
 
-    my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-        or die "WMI connection failed: " . Win32::OLE->LastError();
-
     my $query =
         "SELECT * FROM Win32_Group " .
         "WHERE LocalAccount='True'";
 
     my @groups;
 
-    foreach my $object (in $WMIService->ExecQuery($query)) {
+    foreach my $object (getWMIObjects(
+        moniker    => 'winmgmts:\\\\.\\root\\CIMV2',
+        query      => [ $query ],
+        properties => [ qw/Name SID/ ])
+    ) {
         my $group = {
             NAME => $object->{Name},
             ID   => $object->{SID},
         };
-        utf8::upgrade($group->{NAME});
         push @groups, $group;
     }
 
@@ -109,10 +105,7 @@ sub _getLocalGroups {
 
 sub _getLoggedUsers {
 
-    my $WMIService = Win32::OLE->GetObject("winmgmts:\\\\.\\root\\CIMV2")
-        or die "WMI connection failed: " . Win32::OLE->LastError();
-
-    my $processes = $WMIService->ExecQuery(
+    my @query = (
         "SELECT * FROM Win32_Process", "WQL",
         wbemFlagReturnImmediately | wbemFlagForwardOnly ## no critic (ProhibitBitwise)
     );
@@ -120,25 +113,12 @@ sub _getLoggedUsers {
     my @users;
     my $seen;
 
-    foreach my $process (in $processes) {
-        next unless
-            $process->{ExecutablePath} &&
-            $process->{ExecutablePath} =~ /\\Explorer\.exe$/i;
-
-        ## no critic (ProhibitBitwise)
-        my $name = Variant(VT_BYREF | VT_BSTR, '');
-        my $domain = Variant(VT_BYREF | VT_BSTR, '');
-
-        $process->GetOwner($name, $domain);
-
-        my $user = {
-            LOGIN  => $name->Get(),
-            DOMAIN => $domain->Get()
-        };
-
-        utf8::upgrade($user->{LOGIN});
-        utf8::upgrade($user->{DOMAIN});
-
+    foreach my $user (getWMIObjects(
+        moniker    => 'winmgmts:\\\\.\\root\\CIMV2',
+        query      => \@query,
+        getowner   => 1,
+        properties => [ qw/LOGIN DOMAIN/ ])
+    ) {
         next if $seen->{$user->{LOGIN}}++;
 
         push @users, $user;
