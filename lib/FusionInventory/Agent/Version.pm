@@ -5,7 +5,7 @@ use warnings;
 
 our $VERSION = "2.3.19-dev";
 our $PROVIDER = "FusionInventory";
-our $COMMENTS = ["TEST"];
+our $COMMENTS = [];
 
 1;
 
