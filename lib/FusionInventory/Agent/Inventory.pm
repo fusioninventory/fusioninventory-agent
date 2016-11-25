@@ -91,6 +91,8 @@ my %fields = (
                              MAC COMMENT OWNER SERIAL/ ],
     VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID
                              VG_EXTENT_SIZE/ ],
+    VERSIONPROVIDER  => [ qw/NAME VERSION COMMENTS PERL_EXE PERL_VERSION PERL_ARGS
+                             PROGRAM PERL_CONFIG PERL_INC PERL_MODULE/ ]
 );
 
 my %checks = (
