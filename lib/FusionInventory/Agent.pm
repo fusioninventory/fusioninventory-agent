@@ -499,6 +499,10 @@ sub _getTaskVersion {
 
     if (!$module->require()) {
         $logger->debug2("module $module does not compile: $@") if $logger;
+
+        # Don't keep trace of module, only really needed to fix perl 5.8 issue
+        delete $INC{module2file($module)};
+
         return;
     }
 
