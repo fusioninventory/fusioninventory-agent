@@ -98,7 +98,7 @@ sub _manageAgent {
 
     # Potential agent directory candidates
     my %agent_candidates = ( '/var/rudder/cfengine-community' => 'cfengine-community',
-                             '/var/cfengine'                  => 'cfengine-nova',
+                             '/var/rudder/cfengine-nova'      => 'cfengine-nova',
                              'C:/Program Files/Cfengine'      => 'cfengine-nova',
                            );
 

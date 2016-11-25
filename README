@@ -40,6 +40,7 @@ Optional Perl modules:
 
 * Net::CUPS, for printers detection
 * Parse::EDID, for EDID data parsing
+* DateTime, for reliable timezone name extraction
 
 Optional programs:
 
@@ -113,15 +114,15 @@ Project IRC channel:
 
 Please report any issues on project forge bugtracker.
 
-## Authors 
+## Active authors
 
-* Gonéri Le Bouder <goneri@rulezlan.org>
 * Guillaume Rousse <guillomovitch@gmail.com>
 * Guillaume Bougard <gbougard@teclib.com>
+* Thomas Lornet <tlornet@teclib.com>
 
 Copyright 2006-2010 OCS Inventory contributors
-Copyright 2010-2012 FusionInventory Team
-Copyright 2011-2015 Teclib' ( http://www.teclib.com )
+Copyright 2010-2016 FusionInventory Team
+Copyright 2011-2016 Teclib Editions ( http://www.teclib-edition.com/ )
 
 ## License
 

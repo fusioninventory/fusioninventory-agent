@@ -109,21 +109,23 @@ FusionInventory::Agent::Storage - A data serializer/deserializer
       directory => '/tmp'
   );
   my $data = $storage->restore(
-      module => "FusionInventory::Agent"
+      name => "foobar"
   );
 
   $data->{foo} = 'bar';
 
-  $storage->save(data => $data);
+  $storage->save(
+      name => "foobar",
+      data => $data
+  );
 
 =head1 DESCRIPTION
 
 This is the object used by the agent to ensure data persistancy between
 invocations.
 
-Each data structure is saved in a file, whose name is automatically determined
-according to object class name. An optional index number can be used to
-differentiate between consecutives usages.
+The data structure is saved in a dedicated file. The file directory is a
+configuration parameter for each object.
 
 =head1 METHODS
 
@@ -172,6 +174,10 @@ Save given data structure. The following parameters are allowed, as keys of the
 
 The file name to use for saving the data structure (mandatory).
 
+=item I<data>
+
+The data to be saved (mandatory).
+
 =back
 
 =head2 restore(%params)
@@ -189,13 +195,13 @@ The file name to use for saving the data structure (mandatory).
 
 =head2 remove(%params)
 
-Delete the file containing a seralized data structure for a given module. The
+Delete the file containing a seralized data structure for a given file name. The
 following parameters are allowed, as keys of the %params hash:
 
 =over
 
 =item I<name>
 
-The file name to use for saving the data structure (mandatory).
+The file name used to save the data structure (mandatory).
 
 =back

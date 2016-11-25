@@ -130,6 +130,14 @@ sub doInventory {
 sub _loadUserSoftware {
     my (%params) = @_;
 
+    _loadUserSoftwareFromNtuserDatFiles(%params);
+    my $userList = getUsersFromRegistry(%params);
+    _loadUserSoftwareFromHKey_Users($userList, %params);
+}
+
+sub _loadUserSoftwareFromNtuserDatFiles {
+    my (%params) = @_;
+
     my $inventory = $params{inventory};
     my $is64bit   = $params{is64bit};
     my $logger    = $params{logger};
@@ -160,9 +168,9 @@ sub _loadUserSoftware {
 
         my $user = basename($profilePath);
         ## no critic (ProhibitBitwise)
-        my $userKey = $is64bit ?
-            $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ | KEY_WOW64_64 } ) :
-            $Registry->Load($profilePath.'\ntuser.dat', { Access=> KEY_READ } )                ;
+        my $userKey = $is64bit                                                                   ?
+            $Registry->Load( $profilePath.'\ntuser.dat', { Access => KEY_READ | KEY_WOW64_64 } ) :
+            $Registry->Load( $profilePath.'\ntuser.dat', { Access => KEY_READ } );
 
         my $softwaresKey =
             $userKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
@@ -173,10 +181,62 @@ sub _loadUserSoftware {
             userid    => $sid,
             username  => $user
         );
+        my $nbUsers = 0;
+        if ($softwares) {
+            $nbUsers = scalar(@$softwares);
+        }
+        $logger->debug2('_loadUserSoftwareFromNtuserDatFiles() : add of ' . $nbUsers . ' softwares in inventory');
         foreach my $software (@$softwares) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
 
+    }
+    $Registry->AllowLoad(0);
+}
+
+sub _loadUserSoftwareFromHKey_Users {
+    my ($userList, %params) = @_;
+
+    return unless $userList;
+
+    my $inventory = $params{inventory};
+    my $is64bit   = $params{is64bit};
+    my $logger    = $params{logger};
+
+    my $profileList = $Registry->Open('Users', {
+            Access => KEY_READ
+        }) or $logger->error("Can't open HKEY_USERS key: $EXTENDED_OS_ERROR");
+    return unless $profileList;
+
+    $Registry->AllowLoad(1);
+    
+    foreach my $profileName (keys %$profileList) {
+        # we're only interested in subkeys
+        next unless $profileName =~ m{/$};
+        next unless length($profileName) > 10;
+
+        my $userName = '';
+        if ($userList->{$profileName}) {
+            $userName = $userList->{$profileName};
+        } else {
+            next;
+        }
+        my $softwaresKey = $profileList->{$profileName}{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+
+        my $softwares = _getSoftwaresList(
+            softwares => $softwaresKey,
+            is64bit   => $is64bit,
+            userid    => $profileName,
+            username  => $userName
+        );
+        my $nbUsers = 0;
+        if ($softwares) {
+            $nbUsers = scalar(@$softwares);
+        }
+        $logger->debug2('_loadUserSoftwareFromHKey_Users() : add of ' . $nbUsers . ' softwares in inventory');
+        foreach my $software (@$softwares) {
+            _addSoftware(inventory => $inventory, entry => $software);
+        }
     }
     $Registry->AllowLoad(0);
 

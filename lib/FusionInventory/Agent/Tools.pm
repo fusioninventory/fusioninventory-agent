@@ -12,6 +12,7 @@ use File::stat;
 use File::Which;
 use Memoize;
 use UNIVERSAL::require;
+use List::Util qw(first);
 
 our @EXPORT = qw(
     getDirectoryHandle
@@ -347,7 +348,7 @@ sub getFirstMatch {
     }
     close $handle;
 
-    return wantarray ? @results : $results[0];
+    return wantarray ? @results : first { defined $_ } @results;
 }
 
 sub getAllLines {

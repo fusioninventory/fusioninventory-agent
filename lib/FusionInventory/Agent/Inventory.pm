@@ -25,7 +25,7 @@ my %fields = (
                              VMNAME VMHOSTSERIAL/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME
                              SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN
-                             SSH_KEY ARCH BOOT_TIME/ ],
+                             SSH_KEY ARCH BOOT_TIME TIMEZONE/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
 
     ANTIVIRUS        => [ qw/COMPANY ENABLED GUID NAME UPTODATE VERSION
