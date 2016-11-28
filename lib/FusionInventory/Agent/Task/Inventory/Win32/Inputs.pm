@@ -45,7 +45,7 @@ sub doInventory {
         };
 
         # avoid duplicates
-        next if $seen->{$input->{NAME}}++;
+        next if $seen{$input->{NAME}}++;
 
         $inventory->addEntry(
             section => 'INPUTS',
