@@ -106,7 +106,9 @@ sub _getLocalGroups {
 sub _getLoggedUsers {
 
     my @query = (
-        "SELECT * FROM Win32_Process", "WQL",
+        "SELECT * FROM Win32_Process".
+        " WHERE ExecutablePath IS NOT NULL" .
+        " AND ExecutablePath LIKE '%\\\\Explorer\.exe'", "WQL",
         wbemFlagReturnImmediately | wbemFlagForwardOnly ## no critic (ProhibitBitwise)
     );
 
@@ -116,8 +118,14 @@ sub _getLoggedUsers {
     foreach my $user (getWMIObjects(
         moniker    => 'winmgmts:\\\\.\\root\\CIMV2',
         query      => \@query,
-        getowner   => 1,
-        properties => [ qw/LOGIN DOMAIN/ ])
+        method     => 'GetOwner',
+        params     => [ 'name', 'domain' ],
+        name       => [ 'string', '' ],
+        domain     => [ 'string', '' ],
+        binds      => {
+            name    => 'LOGIN',
+            domain  => 'DOMAIN'
+        })
     ) {
         next if $seen->{$user->{LOGIN}}++;
 
