@@ -3410,7 +3410,7 @@ my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfi
 Tie::IxHash->require();
 my $checkTieIxHash = $EVAL_ERROR ? 0 : 1;
 SKIP : {
-    skip 'test only if module Tie::IxHash available', 2 unless $checkTieIxHash;
+    skip 'test only if module Tie::IxHash available', 4 unless $checkTieIxHash;
 
     ok (ref($softwaresFromFlatFile) eq 'HASH');
     ok (ref($softwaresFromXmlFile) eq 'HASH');
