@@ -113,23 +113,46 @@ sub _getWMIObjects {
         $WMIService->InstancesOf($params{class})
     )) {
         my $object;
-        if ($params{getowner}) {
-            # Logged users specific case
-            next unless
-                $instance->{ExecutablePath} &&
-                $instance->{ExecutablePath} =~ /\\Explorer\.exe$/i;
+        # Handle Win32::OLE object method, see _getLoggedUsers() method in
+        # FusionInventory::Agent::Task::Inventory::Win32::Users as example to
+        # use or enhance this feature
+        if ($params{method}) {
+            my @invokes = ( $params{method} );
+            my %results = ();
 
-            ## no critic (ProhibitBitwise)
-            my $type = Win32::OLE::Variant::VT_BYREF() | Win32::OLE::Variant::VT_BSTR();
-            my $name = Win32::OLE::Variant::Variant($type, '');
-            my $domain = Win32::OLE::Variant::Variant($type, '');
+            # Prepare Invoke params for known requested types
+            foreach my $name (@{$params{params}}) {
+                my ($type, $default) = @{$params{$name}}
+                    or next;
+                my $variant;
+                if ($type eq 'string') {
+                    Win32::OLE::Variant->use(qw/VT_BYREF VT_BSTR/);
+                    eval {
+                        $variant = VT_BYREF()|VT_BSTR();
+                    };
+                }
+                eval {
+                    $results{$name} = Win32::OLE::Variant::Variant($variant, $default);
+                };
+                push @invokes, $results{$name};
+            }
 
-            $instance->GetOwner($name, $domain);
-
-            $instance = {
-                LOGIN  => $name->Get(),
-                DOMAIN => $domain->Get()
+            # Invoke the method saving the result so we can also bind it
+            eval {
+                $results{$params{method}} = $instance->Invoke(@invokes);
             };
+
+            # Bind results to object to return
+            foreach my $name (keys(%{$params{binds}})) {
+                next unless (defined($results{$name}));
+                my $bind = $params{binds}->{$name};
+                eval {
+                    $object->{$bind} = $results{$name}->Get();
+                };
+                if (defined $object->{$bind} && !ref($object->{$bind})) {
+                    utf8::upgrade($object->{$bind});
+                }
+            }
         }
         foreach my $property (@{$params{properties}}) {
             if (defined $instance->{$property} && !ref($instance->{$property})) {
@@ -618,7 +641,8 @@ Returns the local codepage.
 
 =head2 getWMIObjects(%params)
 
-Returns the list of objects from given WMI class, with given properties, properly encoded.
+Returns the list of objects from given WMI class or from a query, with given
+properties, properly encoded.
 
 =over
 
@@ -626,9 +650,21 @@ Returns the list of objects from given WMI class, with given properties, properl
 
 =item altmoniker another WMI moniker to use if first failed (none by default)
 
-=item class a WMI class
+=item class a WMI class, not used if query parameter is also given
 
 =item properties a list of WMI properties
+
+=item query a WMI request to execute, if specified, class parameter is not used
+
+=item method an object method to call, in that case, you will also need the
+following parameters:
+
+=item params a list ref to the parameters to use fro the method. This list contains
+string as key to other parameters defining the call. The key names should not
+match any exiting parameter definition. Each parameter definition must be a list
+of the type and default value.
+
+=item binds a hash ref to the properties to bind to the returned object
 
 =back
 
