@@ -18,6 +18,7 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
@@ -138,6 +139,8 @@ sub init {
     $self->{logger}->info("FusionInventory Agent starting")
         if $self->{config}->{daemon} || $self->{config}->{service};
 
+    $self->ApplyServiceOptimizations();
+
     $self->{logger}->info("Options 'no-task' and 'tasks' are both used. Be careful that 'no-task' always excludes tasks.")
         if ($self->{config}->isParamArrayAndFilled('no-task') && $self->{config}->isParamArrayAndFilled('tasks'));
 
@@ -210,6 +213,8 @@ sub reinit {
 
     $self->{tasks} = \@tasks;
 
+    $self->ApplyServiceOptimizations();
+
     $self->resetLastConfigLoad();
 
     $self->{logger}->debug('agent reinit done.');
@@ -219,6 +224,19 @@ sub resetLastConfigLoad {
     my ($self) = @_;
 
     $self->{lastConfigLoad} = time;
+}
+
+sub ApplyServiceOptimizations {
+    my ($self) = @_;
+
+    return unless ($self->{config}->{daemon} || $self->{config}->{service});
+
+    # Preload all IDS databases to avoid reload them all the time during inventory
+    if (grep { /^inventory$/i } @{$self->{tasksExecutionPlan}}) {
+        getPCIDeviceVendor(datadir => $self->{datadir});
+        getUSBDeviceVendor(datadir => $self->{datadir});
+        getEDIDVendor(datadir => $self->{datadir});
+    }
 }
 
 sub run {
