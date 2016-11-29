@@ -2,7 +2,9 @@
 
 use strict;
 use warnings;
-use lib './lib';
+
+use lib './bin';
+use setup;
 
 use threads;
 use threads 'exit' => 'threads_only';
@@ -18,11 +20,10 @@ use File::Basename;
 use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
+use UNIVERSAL::require;
 
 use Win32;
 use Win32::Daemon;
-
-use FusionInventory::Agent;
 
 delete($ENV{PERL5LIB});
 delete($ENV{PERLLIB});
@@ -43,21 +44,26 @@ GetOptions(
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
-my $directory = dirname(File::Spec->rel2abs( __FILE__ ));
+my $progfile = File::Spec->rel2abs( __FILE__ );
+my $directory = dirname($progfile);
+
 # on Win2k, Windows do not chdir to the bin directory
 # we need to do it by ourself
 chdir($directory);
 
+our %setup;
+
 if ($options->{register}) {
     my $ret = 0;
 
-    my $libdir = $options->{libdir} || File::Spec->rel2abs($directory.'/../lib');
+    my $libdir = $options->{libdir} || $setup{libdir} ;
+    my $params = -d $libdir ? '-I"' . $libdir . '" ' : '';
 
     my $service = {
         name    => $options->{name}        || SERVICE_NAME,
         display => $options->{displayname} || SERVICE_DISPLAYNAME,
         path    => "$^X",
-        parameters => '-I"' . $libdir . '" "' . File::Spec->rel2abs( __FILE__ ) . '"'
+        parameters => $params . '"' . $progfile . '"'
     };
 
     if (!Win32::Daemon::CreateService($service)) {
@@ -94,13 +100,13 @@ if ($options->{register}) {
     exit($ret);
 }
 
-my $agent_as_context = FusionInventory::Agent->new(
-    confdir => $directory . '/../etc',
-    datadir => $directory . '/../share',
-    vardir  => $directory . '/../var',
-    libdir  => $directory . '/../lib',
-    sigterm  => sub { threads->exit(); }
-);
+FusionInventory::Agent->require()
+    or die "Can't load FusionInventory::Agent";
+
+# Setup sigterm callback to exit thread
+$setup{sigterm} = sub { threads->exit(); };
+
+my $agent_as_context = FusionInventory::Agent->new( %setup );
 
 $agent_as_context->{last_state} = SERVICE_START_PENDING;
 
