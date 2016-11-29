@@ -371,8 +371,8 @@ my %edid_tests = (
     'lcd.philips-288p6-hdmi' => {
         MANUFACTURER => 'Philips Consumer Electronics Company',
         CAPTION      => 'Philips 288P6',
-        SERIAL       => '00001938',
-        ALTSERIAL    => '006456',
+        SERIAL       => '006456',
+        ALTSERIAL    => '00001938',
         DESCRIPTION  => '30/2014'
     },
     'lcd.presario-R4000' => {
