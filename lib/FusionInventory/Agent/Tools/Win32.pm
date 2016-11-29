@@ -465,8 +465,7 @@ sub FileTimeToSystemTime {
 
 sub getAgentMemorySize {
 
-    # Load needed Win32 APIs as late as possible
-    Win32->require() or return;
+    # Load Win32::API as late as possible
     Win32::API->require() or return;
 
     # Get current thread handle
@@ -535,7 +534,7 @@ sub getAgentMemorySize {
         my $cb = $mem_counters->sizeof();
 
         # Request GetProcessMemoryInfo API and call it to find current process memory
-        my $apiGetProcessMemoryInfo = Win32::API->use(
+        my $apiGetProcessMemoryInfo = Win32::API->new(
             'psapi',
             'BOOL GetProcessMemoryInfo(
                 HANDLE hProc,
@@ -549,6 +548,30 @@ sub getAgentMemorySize {
     };
 
     return $size;
+}
+
+sub FreeAgentMem {
+
+    # Load Win32::API as late as possible
+    Win32::API->require() or return;
+
+    eval {
+        # Get current process handle
+        my $apiGetCurrentProcess = Win32::API->new(
+            'kernel32',
+            'HANDLE GetCurrentProcess()'
+        );
+        my $proc = $apiGetCurrentProcess->Call();
+
+        # Call SetProcessWorkingSetSize with magic parameters for freeing our memory
+        my $apiSetProcessWorkingSetSize = Win32::API->new(
+            'kernel32',
+            'SetProcessWorkingSetSize',
+            [ 'I', 'I', 'I' ],
+            'I'
+        );
+        $apiSetProcessWorkingSetSize->Call( $proc, -1, -1 );
+    };
 }
 
 my $worker ;

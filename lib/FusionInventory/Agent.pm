@@ -251,6 +251,13 @@ sub RunningServiceOptimization {
 
     # win32 platform needs optimization
     if ($OSNAME ne 'MSWin32') {
+        if ($self->{logger}->{verbosity} >= LOG_DEBUG) {
+            my $runmem = FusionInventory::Agent::Tools::Win32::getAgentMemorySize();
+            $self->{logger}->debug("Agent memory usage before freeing memory: $runmem");
+        }
+
+        FusionInventory::Agent::Tools::Win32::FreeAgentMem();
+
         my $current_mem = FusionInventory::Agent::Tools::Win32::getAgentMemorySize();
         $self->{logger}->log("Agent memory usage: $current_mem");
     }
