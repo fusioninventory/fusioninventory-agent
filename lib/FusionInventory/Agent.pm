@@ -259,7 +259,7 @@ sub RunningServiceOptimization {
         FusionInventory::Agent::Tools::Win32::FreeAgentMem();
 
         my $current_mem = FusionInventory::Agent::Tools::Win32::getAgentMemorySize();
-        $self->{logger}->log("Agent memory usage: $current_mem");
+        $self->{logger}->info("Agent memory usage: $current_mem");
     }
 }
 
