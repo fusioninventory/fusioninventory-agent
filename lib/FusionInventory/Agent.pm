@@ -246,6 +246,16 @@ sub ApplyServiceOptimizations {
     }
 }
 
+sub RunningServiceOptimization {
+    my ($self) = @_;
+
+    # win32 platform needs optimization
+    if ($OSNAME ne 'MSWin32') {
+        my $current_mem = FusionInventory::Agent::Tools::Win32::getAgentMemorySize();
+        $self->{logger}->log("Agent memory usage: $current_mem");
+    }
+}
+
 sub run {
     my ($self) = @_;
 
@@ -277,6 +287,9 @@ sub run {
 
                 # Leave immediately if we passed in terminate method
                 last unless $self->getTargets();
+
+                # Call service optimization after each target run
+                $self->RunningServiceOptimization();
             }
 
             if ($self->{server}) {
