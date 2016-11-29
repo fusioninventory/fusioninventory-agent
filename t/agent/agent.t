@@ -13,7 +13,7 @@ use Test::More;
 use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
 
-plan tests => 5 + 19 + 11 + 1;
+plan tests => 4 + 19 + 11 + 1;
 
 my $libdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 push @INC, $libdir;
@@ -21,10 +21,10 @@ my $agent = FusionInventory::Agent->new(libdir => $libdir);
 
 my %tasks;
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task1.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task1;
-use base qw(FusionInventory::Agent::Task);
-our $VERSION = 42;
+create_file("$libdir/FusionInventory/Agent/Task/Task1", "Version.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task1::Version;
+use constant VERSION => 42;
+1;
 EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply (
@@ -33,10 +33,10 @@ cmp_deeply (
     "single task"
 );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task2.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task2;
-use base qw(FusionInventory::Agent::Task);
-our $VERSION = 42;
+create_file("$libdir/FusionInventory/Agent/Task/Task2", "Version.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task2::Version;
+use constant VERSION => 42;
+1;
 EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply (
@@ -48,11 +48,11 @@ cmp_deeply (
     "multiple tasks"
 );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task3.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task3;
-use base qw(FusionInventory::Agent::Task;
+create_file("$libdir/FusionInventory/Agent/Task/Task3", "Version.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task3::Version;
 use Does::Not::Exists;
-our $VERSION = 42;
+use constant VERSION => 42;
+1;
 EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply(
@@ -64,24 +64,10 @@ cmp_deeply(
     "wrong syntax"
 );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Test4.pm", <<'EOF');
-package FusionInventory::Agent::Task::Test4;
-our $VERSION = 42;
-EOF
-%tasks = $agent->getAvailableTasks();
-cmp_deeply(
-    \%tasks,
-    {
-        'Task1' => 42,
-        'Task2' => 42
-    },
-    "wrong class"
-);
-
-create_file("$libdir/FusionInventory/Agent/Task", "Task5.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task5;
-use base qw(FusionInventory::Agent::Task);
-our $VERSION = 42;
+create_file("$libdir/FusionInventory/Agent/Task/Task5", "Version.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task5::Version;
+use constant VERSION => 42;
+1;
 EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply (

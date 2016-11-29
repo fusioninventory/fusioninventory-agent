@@ -12,7 +12,9 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
-our $VERSION = '2.0';
+use FusionInventory::Agent::Task::WakeOnLan::Version;
+
+our $VERSION = FusionInventory::Agent::Task::WakeOnLan::Version::VERSION;
 
 sub isEnabled {
     my ($self, $response) = @_;
