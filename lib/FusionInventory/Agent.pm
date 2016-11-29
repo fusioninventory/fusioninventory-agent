@@ -237,6 +237,13 @@ sub ApplyServiceOptimizations {
         getUSBDeviceVendor(datadir => $self->{datadir});
         getEDIDVendor(datadir => $self->{datadir});
     }
+
+    # win32 platform optimization
+    if ($OSNAME ne 'MSWin32') {
+        # Preload is64bit result to avoid a lot of WMI calls
+        FusionInventory::Agent::Tools::Win32->require();
+        FusionInventory::Agent::Tools::Win32::is64bit();
+    }
 }
 
 sub run {
