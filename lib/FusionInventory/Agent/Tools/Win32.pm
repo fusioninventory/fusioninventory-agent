@@ -46,8 +46,12 @@ our @EXPORT = qw(
     getUsersFromRegistry
 );
 
+my $_is64bits = undef;
 sub is64bit {
-    return
+    # Cache is64bit() result in a private module variable to avoid a lot of wmi
+    # calls and as this value won't change during the service/task lifetime
+    return $_is64bits if $_is64bits;
+    return $_is64bits =
         any { $_->{AddressWidth} eq 64 }
         getWMIObjects(
             class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
@@ -457,6 +461,117 @@ sub FileTimeToSystemTime {
     };
 
     return @times;
+}
+
+sub getAgentMemorySize {
+
+    # Load Win32::API as late as possible
+    Win32::API->require() or return;
+
+    # Get current thread handle
+    my $thread;
+    eval {
+        my $apiGetCurrentThread = Win32::API->new(
+            'kernel32',
+            'GetCurrentThread',
+            [],
+            'I'
+        );
+        $thread = $apiGetCurrentThread->Call();
+    };
+    return -1 unless (defined($thread));
+
+    # Get system ProcessId for current thread
+    my $thread_pid;
+    eval {
+        my $apiGetProcessIdOfThread = Win32::API->new(
+            'kernel32',
+            'GetProcessIdOfThread',
+            [ 'I' ],
+            'I'
+        );
+        $thread_pid = $apiGetProcessIdOfThread->Call($thread);
+    };
+    return -1 unless (defined($thread_pid));
+
+    # Get Process Handle
+    my $ph;
+    eval {
+        my $apiOpenProcess = Win32::API->new(
+            'kernel32',
+            'OpenProcess',
+            [ 'I', 'I', 'I' ],
+            'I'
+        );
+        $ph = $apiOpenProcess->Call(0x400, 0, $thread_pid);
+    };
+    return -1 unless (defined($ph));
+
+    my $size = -1;
+    eval {
+        # memory usage is bundled up in ProcessMemoryCounters structure
+        # populated by GetProcessMemoryInfo() win32 call
+        Win32::API::Struct->typedef('PROCESS_MEMORY_COUNTERS', qw(
+            DWORD  cb;
+            DWORD  PageFaultCount;
+            SIZE_T PeakWorkingSetSize;
+            SIZE_T WorkingSetSize;
+            SIZE_T QuotaPeakPagedPoolUsage;
+            SIZE_T QuotaPagedPoolUsage;
+            SIZE_T QuotaPeakNonPagedPoolUsage;
+            SIZE_T QuotaNonPagedPoolUsage;
+            SIZE_T PagefileUsage;
+            SIZE_T PeakPagefileUsage;
+        ));
+
+        # initialize PROCESS_MEMORY_COUNTERS structure
+        my $mem_counters = Win32::API::Struct->new( 'PROCESS_MEMORY_COUNTERS' );
+        foreach my $key (qw/cb PageFaultCount PeakWorkingSetSize WorkingSetSize
+            QuotaPeakPagedPoolUsage QuotaPagedPoolUsage QuotaPeakNonPagedPoolUsage
+            QuotaNonPagedPoolUsage PagefileUsage PeakPagefileUsage/) {
+                 $mem_counters->{$key} = 0;
+        }
+        my $cb = $mem_counters->sizeof();
+
+        # Request GetProcessMemoryInfo API and call it to find current process memory
+        my $apiGetProcessMemoryInfo = Win32::API->new(
+            'psapi',
+            'BOOL GetProcessMemoryInfo(
+                HANDLE hProc,
+                LPPROCESS_MEMORY_COUNTERS ppsmemCounters, DWORD cb
+            )'
+        );
+        if ($apiGetProcessMemoryInfo->Call($ph, $mem_counters, $cb)) {
+            # Uses WorkingSetSize as process memory size
+            $size = $mem_counters->{WorkingSetSize};
+        }
+    };
+
+    return $size;
+}
+
+sub FreeAgentMem {
+
+    # Load Win32::API as late as possible
+    Win32::API->require() or return;
+
+    eval {
+        # Get current process handle
+        my $apiGetCurrentProcess = Win32::API->new(
+            'kernel32',
+            'HANDLE GetCurrentProcess()'
+        );
+        my $proc = $apiGetCurrentProcess->Call();
+
+        # Call SetProcessWorkingSetSize with magic parameters for freeing our memory
+        my $apiSetProcessWorkingSetSize = Win32::API->new(
+            'kernel32',
+            'SetProcessWorkingSetSize',
+            [ 'I', 'I', 'I' ],
+            'I'
+        );
+        $apiSetProcessWorkingSetSize->Call( $proc, -1, -1 );
+    };
 }
 
 my $worker ;
