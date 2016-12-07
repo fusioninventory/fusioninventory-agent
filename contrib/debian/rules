@@ -1,0 +1,27 @@
+#!/usr/bin/make	-f
+
+%:
+	dh $@ --with quilt --with systemd
+
+override_dh_auto_configure:
+	perl Makefile.PL PREFIX=/usr SYSCONFDIR=/etc/fusioninventory LOCALSTATEDIR=/var/lib/fusioninventory-agent
+
+override_dh_auto_build:
+	dh_auto_build
+	perl debian/refresh-install-files
+
+override_dh_auto_clean:
+	[ ! -d var ] || rm -r var
+	[ ! -d blib ] || rm -r blib
+	[ ! -f Makefile ] || rm Makefile
+	[ ! -f MYMETA.yml ] || rm MYMETA.yml
+	[ ! -f MYMETA.json ] || rm MYMETA.json
+	for i in \
+		t/agent/http/client/ssl.t \
+		t/inventory/generic/lspci/controllers.t \
+		t/inventory/generic/lspci/controllers.t \
+		t/changelog.t \
+		t/agent/http/client/connection.t; do \
+			rm -f $$i; \
+	done
+	dh_clean

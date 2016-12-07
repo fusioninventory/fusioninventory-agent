@@ -1,0 +1,10 @@
+/var/log/fusioninventory.log {
+    weekly
+    rotate 52
+    compress
+    delaycompress
+    notifempty
+    missingok
+}
+
+# vim:set ai et sts=4 sw=4 tw=80:

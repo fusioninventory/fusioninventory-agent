@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use File::Find;
+
+open AGENT, ">debian/fusioninventory-agent.install";
+open AGENT_TASK_DEPLOY, ">debian/fusioninventory-agent-task-deploy.install";
+open AGENT_TASK_NETWORK, ">debian/fusioninventory-agent-task-network.install";
+open AGENT_TASK_ESX, ">debian/fusioninventory-agent-task-esx.install";
+
+find({ wanted => \&wanted, no_chdir=>1}, 'blib');
+sub wanted {
+    my $t = $File::Find::name;
+    return unless -f $t;
+    $t =~ s/blib\//usr\/share\/fusioninventory\//;
+    $t =~ s,usr/share/fusioninventory/script/,usr/bin/,;
+    if (/\/man1\//) {
+        # dh_installmans
+    } elsif ($t =~ /fusioninventory-net/ || $t =~ /FusionInventory\/Agent\/SNMP/) {
+        print AGENT_TASK_NETWORK "$t\n";
+    } elsif ($t =~ /fusioninventory-esx/) {
+        print AGENT_TASK_ESX "$t\n";
+    } elsif ($t =~ /FusionInventory\/Agent\/Task\/Net/) {
+        print AGENT_TASK_NETWORK "$t\n";
+    } elsif ($t =~ /FusionInventory\/Agent\/Task\/Deploy/) {
+        print AGENT_TASK_DEPLOY "$t\n";
+    } elsif ($t !~ /\/pci\.ids$/ && $t !~ /\/\.exists$/) { # We use Debian pci.ids file
+        print AGENT "$t\n";
+    }
+};
+
+print AGENT "etc/fusioninventory/agent.cfg /usr/share/fusioninventory/etc\n";
+print AGENT "usr/share/fusioninventory/sysobject.ids\n";
+print AGENT "usr/share/fusioninventory/usb.ids\n";
+print AGENT "usr/share/fusioninventory/html\n";
+print AGENT "debian/default/fusioninventory-agent etc/default\n";
+print AGENT "contrib/unix/fusioninventory-agent.service lib/systemd/system/fusioninventory-agent.service\n";

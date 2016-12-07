@@ -1,0 +1,13 @@
+#! /bin/sh
+set -e
+
+#DEBHELPER#
+
+case "$1" in
+  configure)
+    [ -d "/etc/fusioninventory" ] || mkdir "/etc/fusioninventory"
+    ucf /usr/share/fusioninventory/etc/agent.cfg /etc/fusioninventory/agent.cfg
+    ucfr fusioninventory-agent /etc/fusioninventory/agent.cfg
+esac
+
+exit 0

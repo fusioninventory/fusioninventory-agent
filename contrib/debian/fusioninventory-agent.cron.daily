@@ -1,0 +1,18 @@
+#!/bin/sh
+
+PROG=/usr/bin/fusioninventory-agent
+
+if [ -f /etc/default/fusioninventory-agent ] ; then
+	. /etc/default/fusioninventory-agent
+fi
+
+if [ ! -x "$PROG" ]; then
+    exit 0
+fi
+
+if [ ! "$MODE" = "cron"  ]; then
+   exit 0
+fi
+
+$PROG > /dev/null 2>&1
+

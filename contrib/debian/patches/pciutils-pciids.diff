@@ -1,0 +1,11 @@
+--- a/lib/FusionInventory/Agent/Tools/Generic.pm
++++ b/lib/FusionInventory/Agent/Tools/Generic.pm
+@@ -268,7 +268,7 @@
+     my (%params) = @_;
+ 
+     ($PCIVendors, $PCIClasses) = _loadDatabase(
+-        file => "$params{datadir}/pci.ids"
++        file => "/usr/share/misc/pci.ids"
+     );
+ }
+ 
