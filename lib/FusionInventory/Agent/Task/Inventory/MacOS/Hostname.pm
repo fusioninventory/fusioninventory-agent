@@ -1,29 +1,37 @@
 package FusionInventory::Agent::Task::Inventory::MacOS::Hostname;
 
+use English qw(-no_match_vars);
+
 use strict;
 use warnings;
+
+use Sys::Hostname;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
-    return canRun('/usr/sbin/system_profiler');
+    return 1 if $OSNAME eq 'darwin';
 }
 
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
-    my $infos = getSystemProfilerInfos(type => 'SPApplicationsDataType', logger => $logger);
+    $inventory->setHardware({NAME => _gethostname()});
+}
 
-    my $hostname =
-        $infos->{'Software'}->{'System Software Overview'}->{'Computer Name'};
+sub _gethostname {
 
-    $inventory->setHardware({
-        NAME => $hostname
-    }) if $hostname;
+    my $computername = getFirstLine(command => 'scutil --get ComputerName');
+
+    if ($computername eq ""){
+        $computername = hostname();
+        $computername =~ s/\..*//; # keep just the hostname
+    }
+    return $computername
+
 }
 
 1;

@@ -10,6 +10,9 @@ use Sys::Hostname;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
+    # We use scutil to get the ComputerName
+    return 0 if $OSNAME eq 'darwin';
+
     # We use WMI for Windows because of charset issue
     return $OSNAME ne 'MSWin32';
 }
