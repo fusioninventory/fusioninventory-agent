@@ -7,11 +7,13 @@ Files: *
 Copyright:
            Copyright 2006-2010 OCS Inventory contributors
            Copyright 2010-2012 FusionInventory Team
-           Copyright 2011 TECLIB' ( http://www.teclib.com )
+           Copyright 2011-2016 Teclib' ( http://www.teclib-edition.com )
 License: GPL-2+
 
 Files: debian/*
-Copyright: 2012-2015, Gonéri Le Bouder <goneri@debian.org>
+Copyright:
+           2012-2015, Gonéri Le Bouder <goneri@debian.org>
+           2016, Teclib' ( http://www.teclib-edition.com )
 License: GPL-2+
 
 License: GPL-2+

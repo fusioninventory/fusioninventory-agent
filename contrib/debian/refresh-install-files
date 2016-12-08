@@ -14,7 +14,7 @@ find({ wanted => \&wanted, no_chdir=>1}, 'blib');
 sub wanted {
     my $t = $File::Find::name;
     return unless -f $t;
-    $t =~ s/blib\//usr\/share\/fusioninventory\//;
+    $t =~ s,blib/,usr/share/fusioninventory/,;
     $t =~ s,usr/share/fusioninventory/script/,usr/bin/,;
     if (/\/man1\//) {
         # dh_installmans
@@ -26,14 +26,16 @@ sub wanted {
         print AGENT_TASK_NETWORK "$t\n";
     } elsif ($t =~ /FusionInventory\/Agent\/Task\/Deploy/) {
         print AGENT_TASK_DEPLOY "$t\n";
-    } elsif ($t !~ /\/pci\.ids$/ && $t !~ /\/\.exists$/) { # We use Debian pci.ids file
+    } elsif ($t !~ m,/(Win32|HPUX|BSD|Solaris|MacOS|AIX|.exists),) {
+        # Skip not Debian/Linux related files
         print AGENT "$t\n";
     }
 };
 
-print AGENT "etc/fusioninventory/agent.cfg /usr/share/fusioninventory/etc\n";
+print AGENT "etc/agent.cfg /usr/share/fusioninventory/etc\n";
+print AGENT "usr/share/fusioninventory/pci.ids\n";
 print AGENT "usr/share/fusioninventory/sysobject.ids\n";
 print AGENT "usr/share/fusioninventory/usb.ids\n";
 print AGENT "usr/share/fusioninventory/html\n";
 print AGENT "debian/default/fusioninventory-agent etc/default\n";
-print AGENT "contrib/unix/fusioninventory-agent.service lib/systemd/system/fusioninventory-agent.service\n";
+print AGENT "contrib/unix/fusioninventory-agent.service lib/systemd/system\n";

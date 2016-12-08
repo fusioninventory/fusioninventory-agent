@@ -1,3 +1,14 @@
+fusioninventory-agent (1:2.3.18-1) unstable; urgency=low
+
+  * New upstream release
+  * Add Guillaume Bougard to Uploaders
+  * Fix some build dependencies that are now useless
+  * Update some dependencies
+  * Update default mode to daemon handled by systemd
+  * Include pci.ids to use if more recent than system one
+
+ -- Guillaume Bougard <gbougard@teclib.com>  Thu, 08 Dec 2016 14:47:02 +0100
+
 fusioninventory-agent (1:2.3.16-2) unstable; urgency=low
 
   * Drop some build dependencies that are now useless

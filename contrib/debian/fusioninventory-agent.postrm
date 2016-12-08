@@ -6,7 +6,7 @@ set -e
 case "$1" in
   purge)
     for ext in '~' '%' .bak .ucf-new .ucf-old .ucf-dist;  do
-	rm -f /etc/fusioninventory/agent.cfg$ext
+      rm -f /etc/fusioninventory/agent.cfg$ext
     done
 
     # remove the configuration file itself
@@ -23,7 +23,8 @@ case "$1" in
 
     ;;
   *)
-     exit 0;;
+    exit 0
+    ;;
 esac
 
 exit 0

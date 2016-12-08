@@ -2,8 +2,9 @@ Source: fusioninventory-agent
 Section: net
 Priority: extra
 Maintainer: Gonéri Le Bouder <goneri@debian.org>
+Uploaders: Guillaume Bougard <gbougard@teclib.com>
 Build-Depends:
- debhelper (>= 8),
+ debhelper (>= 9),
  dh-systemd,
  dmidecode [any-i386 any-amd64 ia64],
  hdparm [linux-any],
@@ -14,6 +15,8 @@ Build-Depends:
  libhttp-cookies-perl,
  libhttp-daemon-perl,
  libhttp-proxy-perl,
+ libhttp-server-simple-perl,
+ libhttp-server-simple-authen-perl,
  libio-capture-perl,
  libipc-run-perl,
  libjson-perl,
@@ -22,9 +25,9 @@ Build-Depends:
  libnet-snmp-perl,
  libio-socket-ssl-perl,
  libparse-edid-perl,
- libpoe-component-client-ping-perl,
  libproc-daemon-perl,
  libproc-pid-file-perl,
+ libparallel-forkmanager-perl,
  libtest-compile-perl,
  libtest-deep-perl,
  libtest-nowarnings-perl,
@@ -40,12 +43,11 @@ Build-Depends:
  libyaml-perl,
  pciutils,
  perl,
- quilt,
  ucf
-Standards-Version: 3.9.6
+Standards-Version: 3.9.8
 Homepage: http://fusioninventory.org/
-Vcs-Svn: svn://anonscm.debian.org/collab-maint/deb-maint/fusioninventory-agent
-Vcs-Browser: http://anonscm.debian.org/viewvc/collab-maint/deb-maint/fusioninventory-agent
+Vcs-Git: https://github.com/fusioninventory/fusioninventory-agent.git
+Vcs-Browser: https://github.com/fusioninventory/fusioninventory-agent
 
 Package: fusioninventory-agent
 Architecture: any
@@ -70,6 +72,7 @@ Depends:
  libtext-template-perl,
  libjson-perl,
  pciutils,
+ usbutils,
  libhttp-daemon-perl,
  libsocket-getaddrinfo-perl
 Suggests: smartmontools, read-edid
@@ -87,7 +90,7 @@ Description: Hardware and software inventory tool (client)
  This agent can collect information about from:
   - the local machine (Inventory)
   - the network using SNMP
-  - an VMware ESX or vCEnter server
+  - an VMware ESX or vCenter server
  The agent can be driven from different asset management software
  including GLPI, Rudder, Uranos, OCSInventory.
  .
@@ -125,7 +128,7 @@ Depends:
  liburi-perl,
  libfile-copy-recursive-perl,
  libdigest-sha-perl,
- libpoe-component-client-ping-perl,
+ libparallel-forkmanager-perl,
  perl
 Conflicts:
  libfusioninventory-agent-task-deploy-perl (<< 1:2.3.0-1),
@@ -134,7 +137,7 @@ Replaces:
 Description: Software deployment support for FusionInventory
  With this module, FusionInventory can accept software deployment
  request from an GLPI server with the FusionInventory plugin.
- This module uses SSL certificat to authentificat the server.
+ This module uses SSL certificat to authentificate the server.
  .
  If the P2P option is turned on, the agent will looks for peer in its
  network to reduce the bandwidth usage with the primary server.
@@ -159,7 +162,7 @@ Replaces:
  libfusioninventory-agent-task-network-perl (<< 1:2.3.0-1),
 Suggests: nmap
 Description: Network device discovery for FusionInventory Agent
- This module scans your networks to quickly identifiy its hosts with SNMP,
+ This module scans your networks to quickly identify its hosts with SNMP,
  Nmap and NetBIOS request:
   - networking devices discovery within an IP range
   - identify unknown MAC addresses

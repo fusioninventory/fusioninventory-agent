@@ -1,6 +1,6 @@
 # FusionInventory Agent Options
 #
 # MODE can be either "daemon" or "cron"
-MODE=cron
+MODE=daemon
 # You need to set the server in
 # /etc/fusioninventory/agent.cfg
