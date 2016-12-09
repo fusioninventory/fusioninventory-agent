@@ -11,7 +11,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
-    return 1 if $OSNAME eq 'darwin';
+    return canRun('/usr/bin/scutil');
 }
 
 sub doInventory {
