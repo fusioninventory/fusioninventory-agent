@@ -30,23 +30,9 @@ do
 	shift
 done
 
-rm -f MANIFEST
 for dsc in *.dsc
 do
 	rm -f ${dsc%.dsc}.tar.gz $dsc
 done
-
-perl Makefile.PL
-
-read var equal VERSION <<<$( egrep '^VERSION =' Makefile | head -1 )
-
-DISTDIR="fusioninventory-agent-$VERSION"
-
-make manifest
-make distdir DISTVNAME="$DISTDIR"
-
-cp -a contrib/debian "$DISTDIR"
-
-cd "$DISTDIR"
 
 pdebuild --use-pdebuild-internal

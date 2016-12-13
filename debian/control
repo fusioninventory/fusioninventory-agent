@@ -43,6 +43,7 @@ Build-Depends:
  libyaml-perl,
  pciutils,
  perl,
+ git,
  ucf
 Standards-Version: 3.9.8
 Homepage: http://fusioninventory.org/
