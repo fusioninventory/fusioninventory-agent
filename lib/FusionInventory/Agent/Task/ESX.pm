@@ -11,7 +11,9 @@ use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::SOAP::VMware;
 
-our $VERSION = "2.2.1";
+use FusionInventory::Agent::Task::ESX::Version;
+
+our $VERSION = FusionInventory::Agent::Task::ESX::Version::VERSION;
 
 sub isEnabled {
     my ($self) = @_;
