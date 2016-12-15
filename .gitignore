@@ -20,3 +20,4 @@ var/
 resources/ssl/*.log
 SIGNATURE
 debian/*.log
+debian/debhelper-build-stamp
