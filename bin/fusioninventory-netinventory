@@ -207,7 +207,7 @@ fusioninventory-netinventory [options] [--host <host>|--file <file>]
 
 =head1 DESCRIPTION
 
-F<fusioninventory-netinventory> allows to run a network inventory task without
+F<fusioninventory-netinventory> can be used to run a network inventory task without
 a GLPI server.
 
 =head1 OPTIONS
