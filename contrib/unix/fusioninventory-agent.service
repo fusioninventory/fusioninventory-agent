@@ -11,6 +11,7 @@
 
 [Unit]
 Description=FusionInventory agent
+Documentation=man:fusioninventory-agent
 After=syslog.target network.target
 
 [Service]
