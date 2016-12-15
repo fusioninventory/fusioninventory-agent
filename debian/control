@@ -6,7 +6,6 @@ Uploaders: Guillaume Bougard <gbougard@teclib.com>
 Build-Depends:
  debhelper (>= 9),
  dh-systemd,
- hdparm [linux-any],
  libclone-perl,
  libdigest-sha-perl,
  libfile-copy-recursive-perl,
@@ -40,7 +39,6 @@ Build-Depends:
  libwww-perl,
  libxml-treepp-perl (>= 0.26),
  libyaml-perl,
- pciutils,
  perl,
  git,
  ucf
@@ -52,7 +50,6 @@ Vcs-Browser: https://github.com/fusioninventory/fusioninventory-agent
 Package: fusioninventory-agent
 Architecture: all
 Depends:
- ${shlibs:Depends},
  ${misc:Depends},
  ${perl:Depends},
  ucf,
@@ -64,7 +61,6 @@ Depends:
  libproc-daemon-perl,
  libuniversal-require-perl,
  libproc-pid-file-perl,
- hdparm [linux-any],
  libfile-which-perl,
  libxml-treepp-perl (>= 0.26),
  libyaml-perl,
@@ -75,7 +71,7 @@ Depends:
  libhttp-daemon-perl,
  libsocket-getaddrinfo-perl
 Suggests: smartmontools, read-edid
-Recommends: libio-socket-ssl-perl, dmidecode
+Recommends: libio-socket-ssl-perl, dmidecode, hdparm
 Breaks:
  libfusioninventory-agent-task-esx-perl (<< 1:2.3.0-1),
  libfusioninventory-agent-task-deploy-perl (<< 1:2.3.0-1),
