@@ -6,7 +6,6 @@ Uploaders: Guillaume Bougard <gbougard@teclib.com>
 Build-Depends:
  debhelper (>= 9),
  dh-systemd,
- dmidecode [any-i386 any-amd64 ia64],
  hdparm [linux-any],
  libclone-perl,
  libdigest-sha-perl,
@@ -51,14 +50,14 @@ Vcs-Git: https://github.com/fusioninventory/fusioninventory-agent.git
 Vcs-Browser: https://github.com/fusioninventory/fusioninventory-agent
 
 Package: fusioninventory-agent
-Architecture: any
+Architecture: all
 Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${perl:Depends},
  ucf,
  perl,
- dmidecode [i386-any amd64-any ia64],
+ dmidecode [i386-any amd64-any armhf],
  libnet-cups-perl,
  libnet-ip-perl,
  libwww-perl,
@@ -106,7 +105,7 @@ Depends:
  fusioninventory-agent (>= ${binary:Version}),
  libhttp-cookies-perl,
  libjson-perl,
-Conflicts:
+Breaks:
  libfusioninventory-agent-task-esx-perl (<< 1:2.3.0-1),
 Replaces:
  libfusioninventory-agent-task-esx-perl (<< 1:2.3.0-1),
@@ -131,7 +130,7 @@ Depends:
  libdigest-sha-perl,
  libparallel-forkmanager-perl,
  perl
-Conflicts:
+Breaks:
  libfusioninventory-agent-task-deploy-perl (<< 1:2.3.0-1),
 Replaces:
  libfusioninventory-agent-task-deploy-perl (<< 1:2.3.0-1),
@@ -153,7 +152,7 @@ Depends:
  libnet-ip-perl,
  libnet-snmp-perl,
  libnet-nbname-perl
-Conflicts:
+Breaks:
  libfusioninventory-agent-task-netdiscovery-perl (<< 1:2.3.0-1),
  libfusioninventory-agent-task-snmpquery-perl (<< 1:2.3.0-1),
  libfusioninventory-agent-task-network-perl (<< 1:2.3.0-1),
