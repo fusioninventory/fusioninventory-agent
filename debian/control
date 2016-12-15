@@ -75,7 +75,7 @@ Depends:
  libhttp-daemon-perl,
  libsocket-getaddrinfo-perl
 Suggests: smartmontools, read-edid
-Recommends: libio-socket-ssl-perl, dmidecode [i386-any amd64-any armhf]
+Recommends: libio-socket-ssl-perl, dmidecode
 Breaks:
  libfusioninventory-agent-task-esx-perl (<< 1:2.3.0-1),
  libfusioninventory-agent-task-deploy-perl (<< 1:2.3.0-1),
