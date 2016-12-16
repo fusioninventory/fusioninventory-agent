@@ -290,7 +290,7 @@ sub getEDIDVendor {
 
 my @datadirs = ($OSNAME ne 'linux') ? () : map { $_->[1] } (
     [   debian  =>  "/usr/share/misc"   ],
-    [   fedora  =>  "/usr/share/hwdata" ],
+    [   hwdata  =>  "/usr/share/hwdata" ],
 );
 
 sub _getIdsFile {
