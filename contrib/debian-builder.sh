@@ -36,3 +36,5 @@ do
 done
 
 pdebuild --use-pdebuild-internal
+
+dh_clean
