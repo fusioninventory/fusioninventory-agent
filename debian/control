@@ -66,8 +66,7 @@ Depends:
  libyaml-perl,
  libtext-template-perl,
  libjson-perl,
- pciutils,
- usbutils,
+ hwdata,
  libhttp-daemon-perl,
  libsocket-getaddrinfo-perl
 Suggests: smartmontools, read-edid
