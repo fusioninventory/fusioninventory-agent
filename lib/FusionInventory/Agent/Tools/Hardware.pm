@@ -1031,12 +1031,6 @@ sub _addKnownMacAddresses {
 
         my $port = $ports->{$port_id};
 
-        # connected device has already been identified through CDP/LLDP
-        #next if (comment because we need the mac's for PHONE-PC connection)
-        #    exists $port->{CONNECTIONS} &&
-        #    exists $port->{CONNECTIONS}->{CDP} &&
-        #    $port->{CONNECTIONS}->{CDP};
-
         # get at list of already associated addresses, if any
         # as well as the port own mac address, if known
         my @known;
