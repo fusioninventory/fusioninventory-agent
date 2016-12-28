@@ -30,10 +30,12 @@ do
 	shift
 done
 
-for dsc in *.dsc
-do
-	rm -f ${dsc%.dsc}.tar.gz $dsc
-done
+# Prepare source archive
+VERSION=$( head -1 debian/changelog | sed -re 's/^.*\((.*:)?//' -e 's/(-.*)?\).*//' )
+if [ ! -e "../fusioninventory-agent_$VERSION.orig.tar.gz" ]; then
+	git archive --format=tar.gz -9 --prefix=fusioninventory-agent.orig/ \
+		-o ../fusioninventory-agent_$VERSION.orig.tar.gz HEAD
+fi
 
 pdebuild --use-pdebuild-internal
 

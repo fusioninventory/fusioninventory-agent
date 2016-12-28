@@ -40,7 +40,8 @@ Build-Depends:
  libxml-treepp-perl (>= 0.26),
  libyaml-perl,
  perl,
- git,
+ pciutils,
+ usbutils,
  ucf
 Standards-Version: 3.9.8
 Homepage: http://fusioninventory.org/
