@@ -33,6 +33,7 @@ sub wanted {
 };
 
 print AGENT "etc/agent.cfg /usr/share/fusioninventory/etc\n";
+print AGENT "usr/share/fusioninventory/edid.ids\n";
 print AGENT "usr/share/fusioninventory/sysobject.ids\n";
 print AGENT "usr/share/fusioninventory/html\n";
 print AGENT "debian/default/fusioninventory-agent etc/default\n";
