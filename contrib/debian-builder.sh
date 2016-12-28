@@ -30,12 +30,11 @@ do
 	shift
 done
 
-# Prepare source archive
+# Prepare source archive removing debian forlder
 VERSION=$( head -1 debian/changelog | sed -re 's/^.*\((.*:)?//' -e 's/(-.*)?\).*//' )
-if [ ! -e "../fusioninventory-agent_$VERSION.orig.tar.gz" ]; then
-	git archive --format=tar.gz -9 --prefix=fusioninventory-agent.orig/ \
-		-o ../fusioninventory-agent_$VERSION.orig.tar.gz HEAD
-fi
+git archive --format=tar --prefix=fusioninventory-agent.orig/ HEAD | \
+	tar --delete 'fusioninventory-agent.orig/debian/' | \
+	gzip -9n >../fusioninventory-agent_$VERSION.orig.tar.gz
 
 pdebuild --use-pdebuild-internal
 
