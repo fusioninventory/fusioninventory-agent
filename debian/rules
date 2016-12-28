@@ -1,10 +1,9 @@
-#!/usr/bin/make	-f
+#!/usr/bin/make -f
 
 %:
 	dh $@ --with systemd
 
 override_dh_auto_configure:
-	rm -f MANIFEST
 	perl Makefile.PL -- PREFIX=/usr SYSCONFDIR=/etc/fusioninventory LOCALSTATEDIR=/var/lib/fusioninventory-agent
 	make manifest
 
@@ -20,4 +19,6 @@ override_dh_auto_clean:
 	[ ! -f Makefile ] || rm Makefile
 	[ ! -f MYMETA.yml ] || rm MYMETA.yml
 	[ ! -f MYMETA.json ] || rm MYMETA.json
+	[ ! -f META.yml ] || rm META.yml
+	[ ! -f MANIFEST ] || rm MANIFEST
 	dh_clean
