@@ -16,6 +16,7 @@ override_dh_auto_build:
 override_dh_auto_clean:
 	[ ! -d var ] || rm -r var
 	[ ! -d blib ] || rm -r blib
+	[ ! -d inc ] || rm -r inc
 	[ ! -f Makefile ] || rm Makefile
 	[ ! -f MYMETA.yml ] || rm MYMETA.yml
 	[ ! -f MYMETA.json ] || rm MYMETA.json
