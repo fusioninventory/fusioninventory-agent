@@ -1,13 +1,33 @@
 #!/usr/bin/make -f
 
+# Test not related to linux
+SKIP_TESTS = t/agent/tools/aix.t t/agent/tools/bsd.t t/agent/tools/hpux.t \
+	t/agent/tools/macos.t t/agent/tools/solaris.t t/agent/tools/win32.t \
+	t/tasks/inventory/virtualization/hyperv.t t/tasks/wakeonlan.t
+SKIP_TESTS += $(shell echo t/tasks/inventory/aix/*.t)
+SKIP_TESTS += $(shell echo t/tasks/inventory/bsd/*.t)
+SKIP_TESTS += $(shell echo t/tasks/inventory/hpux/*.t)
+SKIP_TESTS += $(shell echo t/tasks/inventory/macos/*.t)
+SKIP_TESTS += $(shell echo t/tasks/inventory/solaris/*.t)
+SKIP_TESTS += $(shell echo t/tasks/inventory/windows/*.t)
+
+# Also skip test failing due to Debian patch in libhttp-server-simple-perl
+SKIP_TESTS += t/agent/http/client/connection.t \
+	t/agent/http/client/fusion/response.t \
+	t/agent/http/client/ocs/response.t \
+	t/agent/http/client/ssl.t \
+	t/tasks/deploy/p2p.t
+
+TEST_FILES = $(filter-out $(SKIP_TESTS),$(shell echo t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t t/*/*/*/*/*.t))
+
 %:
 	dh $@ --with systemd
 
 override_dh_auto_configure:
 	perl Makefile.PL -- PREFIX=/usr SYSCONFDIR=/etc/fusioninventory LOCALSTATEDIR=/var/lib/fusioninventory-agent
-	make manifest
 
 override_dh_auto_test:
+	dh_auto_test -- TEST_FILES="$(TEST_FILES)"
 
 override_dh_auto_build:
 	dh_auto_build
@@ -16,10 +36,8 @@ override_dh_auto_build:
 override_dh_auto_clean:
 	[ ! -d var ] || rm -r var
 	[ ! -d blib ] || rm -r blib
-	[ ! -d inc ] || rm -r inc
 	[ ! -f Makefile ] || rm Makefile
 	[ ! -f MYMETA.yml ] || rm MYMETA.yml
 	[ ! -f MYMETA.json ] || rm MYMETA.json
-	[ ! -f META.yml ] || rm META.yml
-	[ ! -f MANIFEST ] || rm MANIFEST
+	[ ! -f pm_to_blib ] || rm pm_to_blib
 	dh_clean

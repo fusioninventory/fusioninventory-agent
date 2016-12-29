@@ -1,16 +1,17 @@
 fusioninventory-agent (1:2.3.18-1) unstable; urgency=low
 
-  * New upstream release
+  * New upstream release (closes: #816754)
   * Add Guillaume Bougard to Uploaders
   * Fix some build dependencies that are now useless
   * Update some dependencies
+  * Fix some lintian erros and warnings
   * Update default mode to daemon handled by fixed systemd script (closes: 
   * Include weekly crontab entry to update pci.ids & usb.ids files
   * Still fixed in 2.3.15-1:
     - fusioninventory-agent runs spuriously update /etc/blkid.tab
-      (closes: #760641)
+      (closes: #756622)
 
- -- Guillaume Bougard <gbougard@teclib.com>  Thu, 16 Dec 2016 11:51:14 +0100
+ -- Guillaume Bougard <gbougard@teclib.com>  Wed, 28 Dec 2016 18:54:17 +0100
 
 fusioninventory-agent (1:2.3.16-2) unstable; urgency=low
 
