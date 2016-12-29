@@ -54,6 +54,8 @@ sub doInventory {
             LWP LWP::Protocol IO::Socket IO::Socket::SSL IO::Socket::INET
             Net::SSLeay Net::HTTPS HTTP::Status HTTP::Response
         )) {
+            # Skip not reliable module loading under win32
+            next if ($OSNAME eq 'MSWin32' && $module =~ /^IO::Socket::SSL|Net::HTTPS$/);
             $module->require();
             if ($EVAL_ERROR) {
                 push @modules, "$module unavailable";
