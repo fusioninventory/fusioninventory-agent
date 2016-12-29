@@ -55,7 +55,7 @@ sub doInventory {
             Net::SSLeay Net::HTTPS HTTP::Status HTTP::Response
         )) {
             # Skip not reliable module loading under win32
-            next if ($OSNAME eq 'MSWin32' && $module =~ /^IO::Socket::SSL|Net::HTTPS$/);
+            next if ($OSNAME eq 'MSWin32' && ($module eq 'IO::Socket::SSL' || $module eq 'Net::HTTPS'));
             $module->require();
             if ($EVAL_ERROR) {
                 push @modules, "$module unavailable";
