@@ -333,7 +333,10 @@ sub _runTarget {
             url     => $target->getUrl(),
             message => $prolog
         );
-        die "No answer from the server" unless $response;
+        unless ($response) {
+            $self->{logger}->error("No answer from server at ".$target->getUrl());
+            return;
+        }
 
         # update target
         my $content = $response->getContent();
