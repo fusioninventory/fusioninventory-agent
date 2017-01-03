@@ -27,8 +27,12 @@ my $USBVendors;
 my $USBClasses;
 my $EDIDVendors;
 
-memoize('getDmidecodeInfos');
-memoize('getPCIDevices');
+# this trigger some errors under Win32:
+# Anonymous function called in forbidden scalar context
+if ($OSNAME ne 'MSWin32') {
+    memoize('getDmidecodeInfos');
+    memoize('getPCIDevices');
+}
 
 sub getDmidecodeInfos {
     my (%params) = (
