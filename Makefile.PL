@@ -56,7 +56,7 @@ test_requires 'Test::More'                   => '0.93'; # subtest
 test_requires 'Test::NoWarnings'             => '0';
 test_requires 'LWP::Protocol::https'         => '0';
 test_requires 'Test::MockObject'             => '0';
-test_requires 'JSON'                         => '0';
+test_requires 'JSON::PP'                     => '0';
 test_requires 'Net::SNMP'                    => '0';
 test_requires 'Parallel::ForkManager'        => '0';
 
@@ -69,7 +69,7 @@ recommends 'DateTime'                        => '0';
 recommends 'Archive::Extract'             => '0';
 recommends 'Digest::SHA'                  => '0';
 recommends 'File::Copy::Recursive'        => '0';
-recommends 'JSON'                         => '0';
+recommends 'JSON::PP'                     => '0';
 recommends 'URI::Escape'                  => '0';
 recommends 'Net::Ping'                    => '0';
 recommends 'Parallel::ForkManager'        => '0';

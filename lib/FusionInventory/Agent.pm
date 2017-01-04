@@ -19,6 +19,7 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
@@ -141,6 +142,8 @@ sub init {
     $self->{logger}->info("$PROVIDER Agent starting")
         if $self->{config}->{daemon} || $self->{config}->{service};
 
+    $self->ApplyServiceOptimizations();
+
     $self->{logger}->info("Options 'no-task' and 'tasks' are both used. Be careful that 'no-task' always excludes tasks.")
         if ($self->{config}->isParamArrayAndFilled('no-task') && $self->{config}->isParamArrayAndFilled('tasks'));
 
@@ -217,6 +220,8 @@ sub reinit {
 
     $self->{tasks} = \@tasks;
 
+    $self->ApplyServiceOptimizations();
+
     $self->resetLastConfigLoad();
 
     $self->{logger}->debug('agent reinit done.');
@@ -226,6 +231,43 @@ sub resetLastConfigLoad {
     my ($self) = @_;
 
     $self->{lastConfigLoad} = time;
+}
+
+sub ApplyServiceOptimizations {
+    my ($self) = @_;
+
+    return unless ($self->{config}->{daemon} || $self->{config}->{service});
+
+    # Preload all IDS databases to avoid reload them all the time during inventory
+    if (grep { /^inventory$/i } @{$self->{tasksExecutionPlan}}) {
+        getPCIDeviceVendor(datadir => $self->{datadir});
+        getUSBDeviceVendor(datadir => $self->{datadir});
+        getEDIDVendor(datadir => $self->{datadir});
+    }
+
+    # win32 platform optimization
+    if ($OSNAME eq 'MSWin32') {
+        # Preload is64bit result to avoid a lot of WMI calls
+        FusionInventory::Agent::Tools::Win32->require();
+        FusionInventory::Agent::Tools::Win32::is64bit();
+    }
+}
+
+sub RunningServiceOptimization {
+    my ($self) = @_;
+
+    # win32 platform needs optimization
+    if ($OSNAME eq 'MSWin32') {
+        if ($self->{logger}->{verbosity} >= LOG_DEBUG) {
+            my $runmem = FusionInventory::Agent::Tools::Win32::getAgentMemorySize();
+            $self->{logger}->debug("Agent memory usage before freeing memory: $runmem");
+        }
+
+        FusionInventory::Agent::Tools::Win32::FreeAgentMem();
+
+        my $current_mem = FusionInventory::Agent::Tools::Win32::getAgentMemorySize();
+        $self->{logger}->info("Agent memory usage: $current_mem");
+    }
 }
 
 sub run {
@@ -259,6 +301,9 @@ sub run {
 
                 # Leave immediately if we passed in terminate method
                 last unless $self->getTargets();
+
+                # Call service optimization after each target run
+                $self->RunningServiceOptimization();
             }
 
             if ($self->{server}) {

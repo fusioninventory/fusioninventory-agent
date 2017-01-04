@@ -46,8 +46,12 @@ our @EXPORT = qw(
     getUsersFromRegistry
 );
 
+my $_is64bits = undef;
 sub is64bit {
-    return
+    # Cache is64bit() result in a private module variable to avoid a lot of wmi
+    # calls and as this value won't change during the service/task lifetime
+    return $_is64bits if $_is64bits;
+    return $_is64bits =
         any { $_->{AddressWidth} eq 64 }
         getWMIObjects(
             class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
@@ -107,9 +111,53 @@ sub _getWMIObjects {
 
     my @objects;
     foreach my $instance (in(
+        $params{query} ?
+        $WMIService->ExecQuery(@{$params{query}})
+        :
         $WMIService->InstancesOf($params{class})
     )) {
         my $object;
+        # Handle Win32::OLE object method, see _getLoggedUsers() method in
+        # FusionInventory::Agent::Task::Inventory::Win32::Users as example to
+        # use or enhance this feature
+        if ($params{method}) {
+            my @invokes = ( $params{method} );
+            my %results = ();
+
+            # Prepare Invoke params for known requested types
+            foreach my $name (@{$params{params}}) {
+                my ($type, $default) = @{$params{$name}}
+                    or next;
+                my $variant;
+                if ($type eq 'string') {
+                    Win32::OLE::Variant->use(qw/VT_BYREF VT_BSTR/);
+                    eval {
+                        $variant = VT_BYREF()|VT_BSTR();
+                    };
+                }
+                eval {
+                    $results{$name} = Win32::OLE::Variant::Variant($variant, $default);
+                };
+                push @invokes, $results{$name};
+            }
+
+            # Invoke the method saving the result so we can also bind it
+            eval {
+                $results{$params{method}} = $instance->Invoke(@invokes);
+            };
+
+            # Bind results to object to return
+            foreach my $name (keys(%{$params{binds}})) {
+                next unless (defined($results{$name}));
+                my $bind = $params{binds}->{$name};
+                eval {
+                    $object->{$bind} = $results{$name}->Get();
+                };
+                if (defined $object->{$bind} && !ref($object->{$bind})) {
+                    utf8::upgrade($object->{$bind});
+                }
+            }
+        }
         foreach my $property (@{$params{properties}}) {
             if (defined $instance->{$property} && !ref($instance->{$property})) {
                 # string value
@@ -415,6 +463,117 @@ sub FileTimeToSystemTime {
     return @times;
 }
 
+sub getAgentMemorySize {
+
+    # Load Win32::API as late as possible
+    Win32::API->require() or return;
+
+    # Get current thread handle
+    my $thread;
+    eval {
+        my $apiGetCurrentThread = Win32::API->new(
+            'kernel32',
+            'GetCurrentThread',
+            [],
+            'I'
+        );
+        $thread = $apiGetCurrentThread->Call();
+    };
+    return -1 unless (defined($thread));
+
+    # Get system ProcessId for current thread
+    my $thread_pid;
+    eval {
+        my $apiGetProcessIdOfThread = Win32::API->new(
+            'kernel32',
+            'GetProcessIdOfThread',
+            [ 'I' ],
+            'I'
+        );
+        $thread_pid = $apiGetProcessIdOfThread->Call($thread);
+    };
+    return -1 unless (defined($thread_pid));
+
+    # Get Process Handle
+    my $ph;
+    eval {
+        my $apiOpenProcess = Win32::API->new(
+            'kernel32',
+            'OpenProcess',
+            [ 'I', 'I', 'I' ],
+            'I'
+        );
+        $ph = $apiOpenProcess->Call(0x400, 0, $thread_pid);
+    };
+    return -1 unless (defined($ph));
+
+    my $size = -1;
+    eval {
+        # memory usage is bundled up in ProcessMemoryCounters structure
+        # populated by GetProcessMemoryInfo() win32 call
+        Win32::API::Struct->typedef('PROCESS_MEMORY_COUNTERS', qw(
+            DWORD  cb;
+            DWORD  PageFaultCount;
+            SIZE_T PeakWorkingSetSize;
+            SIZE_T WorkingSetSize;
+            SIZE_T QuotaPeakPagedPoolUsage;
+            SIZE_T QuotaPagedPoolUsage;
+            SIZE_T QuotaPeakNonPagedPoolUsage;
+            SIZE_T QuotaNonPagedPoolUsage;
+            SIZE_T PagefileUsage;
+            SIZE_T PeakPagefileUsage;
+        ));
+
+        # initialize PROCESS_MEMORY_COUNTERS structure
+        my $mem_counters = Win32::API::Struct->new( 'PROCESS_MEMORY_COUNTERS' );
+        foreach my $key (qw/cb PageFaultCount PeakWorkingSetSize WorkingSetSize
+            QuotaPeakPagedPoolUsage QuotaPagedPoolUsage QuotaPeakNonPagedPoolUsage
+            QuotaNonPagedPoolUsage PagefileUsage PeakPagefileUsage/) {
+                 $mem_counters->{$key} = 0;
+        }
+        my $cb = $mem_counters->sizeof();
+
+        # Request GetProcessMemoryInfo API and call it to find current process memory
+        my $apiGetProcessMemoryInfo = Win32::API->new(
+            'psapi',
+            'BOOL GetProcessMemoryInfo(
+                HANDLE hProc,
+                LPPROCESS_MEMORY_COUNTERS ppsmemCounters, DWORD cb
+            )'
+        );
+        if ($apiGetProcessMemoryInfo->Call($ph, $mem_counters, $cb)) {
+            # Uses WorkingSetSize as process memory size
+            $size = $mem_counters->{WorkingSetSize};
+        }
+    };
+
+    return $size;
+}
+
+sub FreeAgentMem {
+
+    # Load Win32::API as late as possible
+    Win32::API->require() or return;
+
+    eval {
+        # Get current process handle
+        my $apiGetCurrentProcess = Win32::API->new(
+            'kernel32',
+            'HANDLE GetCurrentProcess()'
+        );
+        my $proc = $apiGetCurrentProcess->Call();
+
+        # Call SetProcessWorkingSetSize with magic parameters for freeing our memory
+        my $apiSetProcessWorkingSetSize = Win32::API->new(
+            'kernel32',
+            'SetProcessWorkingSetSize',
+            [ 'I', 'I', 'I' ],
+            'I'
+        );
+        $apiSetProcessWorkingSetSize->Call( $proc, -1, -1 );
+    };
+}
+
 my $worker ;
 my $worker_semaphore;
 
@@ -435,6 +594,7 @@ sub start_Win32_OLE_Worker {
 sub _win32_ole_worker {
     # Load Win32::OLE as late as possible in a dedicated worker
     Win32::OLE->require() or return;
+    Win32::OLE::Variant->require() or return;
     Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
     while (1) {
@@ -518,6 +678,7 @@ sub _call_win32_ole_dependent_api {
     } else {
         # Load Win32::OLE as late as possible
         Win32::OLE->require() or return;
+        Win32::OLE::Variant->require() or return;
         Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
         # We come here from worker or if we failed to start worker
@@ -595,7 +756,8 @@ Returns the local codepage.
 
 =head2 getWMIObjects(%params)
 
-Returns the list of objects from given WMI class, with given properties, properly encoded.
+Returns the list of objects from given WMI class or from a query, with given
+properties, properly encoded.
 
 =over
 
@@ -603,9 +765,21 @@ Returns the list of objects from given WMI class, with given properties, properl
 
 =item altmoniker another WMI moniker to use if first failed (none by default)
 
-=item class a WMI class
+=item class a WMI class, not used if query parameter is also given
 
 =item properties a list of WMI properties
+
+=item query a WMI request to execute, if specified, class parameter is not used
+
+=item method an object method to call, in that case, you will also need the
+following parameters:
+
+=item params a list ref to the parameters to use fro the method. This list contains
+string as key to other parameters defining the call. The key names should not
+match any exiting parameter definition. Each parameter definition must be a list
+of the type and default value.
+
+=item binds a hash ref to the properties to bind to the returned object
 
 =back
 
