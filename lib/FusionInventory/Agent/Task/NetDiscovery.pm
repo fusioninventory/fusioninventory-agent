@@ -15,12 +15,15 @@ use Thread::Queue v2.01;
 use UNIVERSAL::require;
 use XML::TreePP;
 
+use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::XML::Query;
 
-our $VERSION = '2.2.1';
+use FusionInventory::Agent::Task::NetDiscovery::Version;
+
+our $VERSION = FusionInventory::Agent::Task::NetDiscovery::Version::VERSION;
 
 sub isEnabled {
     my ($self, $response) = @_;
@@ -490,7 +493,7 @@ sub _sendStartMessage {
     $self->_sendMessage({
         AGENT => {
             START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
+            AGENTVERSION => $FusionInventory::Agent::Version::VERSION,
         },
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $self->{pid}

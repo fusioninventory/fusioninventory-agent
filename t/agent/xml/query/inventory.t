@@ -9,6 +9,7 @@ use Test::Exception;
 use Test::More;
 use XML::TreePP;
 
+use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 
@@ -30,6 +31,7 @@ lives_ok {
 isa_ok($query, 'FusionInventory::Agent::XML::Query::Inventory');
 
 my $tpp = XML::TreePP->new();
+my $AgentString = $FusionInventory::Agent::Version::PROVIDER."-Inventory_v".$FusionInventory::Agent::Version::VERSION;
 
 cmp_deeply(
     scalar $tpp->parse($query->getContent()),
@@ -42,7 +44,7 @@ cmp_deeply(
                     ARCHNAME => $Config{archname},
                     VMSYSTEM => 'Physical'
                 },
-                VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
+                VERSIONCLIENT => $AgentString,
             },
         }
     },
@@ -72,7 +74,7 @@ cmp_deeply(
                     ARCHNAME => $Config{archname},
                     VMSYSTEM => 'Physical'
                 },
-                VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING,
+                VERSIONCLIENT => $AgentString,
                 SOFTWARES => {
                     NAME => '<&>'
                 }

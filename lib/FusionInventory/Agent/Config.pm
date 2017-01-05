@@ -8,6 +8,8 @@ use File::Spec;
 use Getopt::Long;
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::Version;
+
 require FusionInventory::Agent::Tools;
 
 my $default = {
@@ -143,7 +145,8 @@ sub _loadFromRegistry {
         Access => Win32::TieRegistry::KEY_READ()
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
-    my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
+    my $provider = $FusionInventory::Agent::Version::PROVIDER;
+    my $settings = $machKey->{"SOFTWARE/$provider-Agent"};
 
     foreach my $rawKey (keys %$settings) {
         next unless $rawKey =~ /^\/(\S+)/;

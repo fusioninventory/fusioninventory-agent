@@ -11,6 +11,7 @@ use IO::Handle;
 use POSIX ":sys_wait_h"; # WNOHANG
 use Storable 'dclone';
 
+use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
@@ -22,17 +23,19 @@ use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
-our $VERSION = '2.3.18';
+our $VERSION = $FusionInventory::Agent::Version::VERSION;
+my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
+our $COMMENTS = $FusionInventory::Agent::Version::COMMENTS || [];
 our $VERSION_STRING = _versionString($VERSION);
-our $AGENT_STRING = "FusionInventory-Agent_v$VERSION";
+our $AGENT_STRING = "$PROVIDER-Agent_v$VERSION";
 our $CONTINUE_WORD = "...";
 
 sub _versionString {
     my ($VERSION) = @_;
 
-    my $string = "FusionInventory Agent ($VERSION)";
-    if ($VERSION =~ /^\d\.\d\.99(\d\d)/) {
-        $string .= " **THIS IS A DEVELOPMENT RELEASE **";
+    my $string = "$PROVIDER Agent ($VERSION)";
+    if ($VERSION =~ /^\d+\.\d+\.(99\d\d|\d+-dev)$/) {
+        unshift @{$COMMENTS}, "** THIS IS A DEVELOPMENT RELEASE **";
     }
 
     return $string;
@@ -136,13 +139,17 @@ sub init {
     # install signal handler to handle graceful exit
     $self->_installSignalHandlers();
 
-    $self->{logger}->info("FusionInventory Agent starting")
+    $self->{logger}->info("$PROVIDER Agent starting")
         if $self->{config}->{daemon} || $self->{config}->{service};
 
     $self->ApplyServiceOptimizations();
 
     $self->{logger}->info("Options 'no-task' and 'tasks' are both used. Be careful that 'no-task' always excludes tasks.")
         if ($self->{config}->isParamArrayAndFilled('no-task') && $self->{config}->isParamArrayAndFilled('tasks'));
+
+    foreach my $comment (@{$COMMENTS}) {
+        $self->{logger}->info($comment);
+    }
 
     $self->resetLastConfigLoad();
 }
@@ -342,7 +349,7 @@ sub terminate {
         delete $self->{current_runtask};
     }
 
-    $self->{logger}->info("FusionInventory Agent exiting")
+    $self->{logger}->info("$PROVIDER Agent exiting")
         if $self->{config}->{daemon} || $self->{config}->{service};
     $self->{current_task}->abort() if $self->{current_task};
 
@@ -487,9 +494,9 @@ sub getAvailableTasks {
     my $directory = $self->{libdir};
     $directory =~ s,\\,/,g;
     my $subdirectory = "FusionInventory/Agent/Task";
-    # look for all perl modules here
-    foreach my $file (File::Glob::glob("$directory/$subdirectory/*.pm")) {
-        next unless $file =~ m{($subdirectory/(\S+)\.pm)$};
+    # look for all Version perl modules around here
+    foreach my $file (File::Glob::glob("$directory/$subdirectory/*/Version.pm")) {
+        next unless $file =~ m{($subdirectory/(\S+)/Version\.pm)$};
         my $module = file2module($1);
         my $name = file2module($2);
 
@@ -542,18 +549,17 @@ sub _getTaskVersion {
 
     if (!$module->require()) {
         $logger->debug2("module $module does not compile: $@") if $logger;
-        return;
-    }
 
-    if (!$module->isa('FusionInventory::Agent::Task')) {
-        $logger->debug2("module $module is not a task") if $logger;
+        # Don't keep trace of module, only really needed to fix perl 5.8 issue
+        delete $INC{module2file($module)};
+
         return;
     }
 
     my $version;
     {
         no strict 'refs';  ## no critic
-        $version = ${$module . '::VERSION'};
+        $version = &{$module . '::VERSION'};
     }
 
     return $version;
@@ -578,7 +584,7 @@ sub _isAlreadyRunning {
 sub _loadState {
     my ($self) = @_;
 
-    my $data = $self->{storage}->restore(name => 'FusionInventory-Agent');
+    my $data = $self->{storage}->restore(name => "$PROVIDER-Agent");
 
     $self->{deviceid} = $data->{deviceid} if $data->{deviceid};
 }
@@ -587,7 +593,7 @@ sub _saveState {
     my ($self) = @_;
 
     $self->{storage}->save(
-        name => 'FusionInventory-Agent',
+        name => "$PROVIDER-Agent",
         data => {
             deviceid => $self->{deviceid},
         }
@@ -722,7 +728,7 @@ sub _createDaemon {
     my $config = $self->{config};
     my $logger = $self->{logger};
     my $pidfile  = $config->{pidfile} ||
-        $self->{vardir} . '/fusioninventory.pid';
+        $self->{vardir} . '/'.lc($PROVIDER).'.pid';
     if ($self->_isAlreadyRunning($pidfile)) {
         $logger->error("An agent is already running, exiting...");
         exit 1;
@@ -797,7 +803,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent - Fusion Inventory agent
+FusionInventory::Agent - FusionInventory agent
 
 =head1 DESCRIPTION
 

@@ -10,6 +10,7 @@ use English qw(-no_match_vars);
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Version;
 
 my %fields = (
     BIOS             => [ qw/SMODEL SMANUFACTURER SSN BDATE BVERSION
@@ -90,6 +91,8 @@ my %fields = (
                              MAC COMMENT OWNER SERIAL/ ],
     VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID
                              VG_EXTENT_SIZE/ ],
+    VERSIONPROVIDER  => [ qw/NAME VERSION COMMENTS PERL_EXE PERL_VERSION PERL_ARGS
+                             PROGRAM PERL_CONFIG PERL_INC PERL_MODULE/ ]
 );
 
 my %checks = (
@@ -126,7 +129,8 @@ sub new {
                 ARCHNAME => $Config{archname},
                 VMSYSTEM => "Physical" # Default value
             },
-            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING
+            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING ||
+                $FusionInventory::Agent::Version::PROVIDER."-Inventory_v".$FusionInventory::Agent::Version::VERSION
         }
     };
     bless $self, $class;

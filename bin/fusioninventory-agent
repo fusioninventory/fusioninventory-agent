@@ -2,7 +2,9 @@
 
 use strict;
 use warnings;
-use lib './lib';
+
+use lib './bin';
+use setup;
 
 use English qw(-no_match_vars);
 use Getopt::Long;
@@ -67,16 +69,10 @@ GetOptions(
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
 if ($options->{version}) {
-    print $FusionInventory::Agent::VERSION_STRING . "\n";
+    map { print $_."\n" } $FusionInventory::Agent::VERSION_STRING,
+        @{$FusionInventory::Agent::COMMENTS};
     exit 0;
 }
-
-my %setup = (
-    confdir => './etc',
-    datadir => './share',
-    libdir  => './lib',
-    vardir  => './var',
-);
 
 if ($options->{setup}) {
     foreach my $key (keys %setup) {

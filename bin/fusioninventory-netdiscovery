@@ -2,7 +2,9 @@
 
 use strict;
 use warnings;
-use lib './lib';
+
+use lib './bin';
+use setup;
 
 use English qw(-no_match_vars);
 use Getopt::Long;
@@ -10,18 +12,12 @@ use Pod::Usage;
 
 use FusionInventory::Agent::Task::NetDiscovery;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Version;
 
 my $options = {
     debug   => 0,
     threads => 1
 };
-
-my %setup = (
-    confdir => './etc',
-    datadir => './share',
-    libdir  => './lib',
-    vardir  => './var',
-);
 
 GetOptions(
     $options,
@@ -39,8 +35,13 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 if ($options->{version}) {
-  print "NetDiscovery task $FusionInventory::Agent::Task::NetDiscovery::VERSION\n";
-  exit 0;
+    my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
+    map { print $_."\n" }
+        "NetDiscovery task $FusionInventory::Agent::Task::NetDiscovery::VERSION",
+        "based on $PROVIDER Agent v$FusionInventory::Agent::Version::VERSION",
+        @{$FusionInventory::Agent::Version::COMMENTS}
+        ;
+    exit 0;
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 

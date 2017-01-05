@@ -12,6 +12,7 @@ use Text::Template;
 use File::Glob;
 use URI;
 
+use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools::Network;
 
@@ -147,7 +148,7 @@ sub _handle_root {
         $self->{agent}->getTargets();
 
     my $hash = {
-        version        => $FusionInventory::Agent::VERSION,
+        version        => $FusionInventory::Agent::Version::VERSION,
         trust          => $self->_isTrusted($clientIp),
         status         => $self->{agent}->getStatus(),
         server_targets => \@server_targets,

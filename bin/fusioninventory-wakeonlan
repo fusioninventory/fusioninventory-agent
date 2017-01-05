@@ -2,7 +2,9 @@
 
 use strict;
 use warnings;
-use lib './lib';
+
+use lib './bin';
+use setup;
 
 use English qw(-no_match_vars);
 use Getopt::Long;
@@ -11,6 +13,7 @@ use Pod::Usage;
 use FusionInventory::Agent::Task::WakeOnLan;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Version;
 
 my $options = {
     debug => 0,
@@ -26,8 +29,13 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 if ($options->{version}) {
-  print "WakeOnLan task $FusionInventory::Agent::Task::WakeOnLan::VERSION\n";
-  exit 0;
+    my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
+    map { print $_."\n" }
+        "WakeOnLan task $FusionInventory::Agent::Task::WakeOnLan::VERSION",
+        "based on $PROVIDER Agent v$FusionInventory::Agent::Version::VERSION",
+        @{$FusionInventory::Agent::Version::COMMENTS}
+        ;
+    exit 0;
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 pod2usage(

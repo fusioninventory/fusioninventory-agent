@@ -1,7 +1,16 @@
 Revision history for FusionInventory agent
 
 2.3.19 not yet released
+core:
+* Version & provider refactoring to simplify release process
+* Provided agent versions can now been commented by providers and  programs will
+  expose comments for --version argument
+* Tasks version is now read more efficiently and should reduce agent memory
+  footing while running under daemon or service mode
+* Bump tasks versions to reflect new way of reading task version
+
 inventory:
+* Fix VERSIONCLIENT not set
 * Screen inventory refactoring introducing ALTSERIAL inventory value which may
   show a better serial number for some manufacturer. This will ease future
   screen serial number fix integration: comparing expected S/N toward ALTSERIAL

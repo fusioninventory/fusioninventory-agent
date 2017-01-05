@@ -14,6 +14,12 @@ use Memoize;
 use UNIVERSAL::require;
 use List::Util qw(first);
 
+# Keep a copy of @ARGV, only for Provider inventory
+BEGIN {
+    our $ARGV = [ @ARGV ];
+}
+our $ARGV;
+
 our @EXPORT = qw(
     getDirectoryHandle
     getFileHandle
