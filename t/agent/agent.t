@@ -250,6 +250,8 @@ $agent->{vardir}  = './var',
     # just to be able to run init() method, we inject mandatory options
     my $options = {
         'local' => '.',
+        # Keep Test backend on logger as call to init() will reset logger
+        'logger' => 'Test',
         # we force config to be loaded from file
         'config' => 'file'
     };
