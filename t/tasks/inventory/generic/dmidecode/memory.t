@@ -270,6 +270,264 @@ my %tests = (
 
         }
     ],
+    'oracle-server-x5-2' => [
+        {
+            NUMSLOTS         => 1,
+            SERIALNUMBER     => '330DC586',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D11',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 2,
+            SERIALNUMBER     => '32A3A4FD',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D10',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 3,
+            SERIALNUMBER     => 'NO DIMM',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => undef,
+            TYPE             => 'DDR4',
+            CAPTION          => 'D9',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 4,
+            SERIALNUMBER     => '330DC585',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D8',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 5,
+            SERIALNUMBER     => '32A3A500',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D7',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 6,
+            SERIALNUMBER     => 'NO DIMM',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => undef,
+            TYPE             => 'DDR4',
+            CAPTION          => 'D6',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 7,
+            SERIALNUMBER     => '330DC584',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D0',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 8,
+            SERIALNUMBER     => '32A3A4BD',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D1',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 9,
+            SERIALNUMBER     => 'NO DIMM',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => undef,
+            TYPE             => 'DDR4',
+            CAPTION          => 'D2',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 10,
+            SERIALNUMBER     => '330DC588',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D3',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 11,
+            SERIALNUMBER     => '32A3A50E',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D4',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 12,
+            SERIALNUMBER     => 'NO DIMM',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => undef,
+            TYPE             => 'DDR4',
+            CAPTION          => 'D5',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 13,
+            SERIALNUMBER     => '330DC582',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D11',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 14,
+            SERIALNUMBER     => '32A3A4CE',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D10',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 15,
+            SERIALNUMBER     => 'NO DIMM',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => undef,
+            TYPE             => 'DDR4',
+            CAPTION          => 'D9',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 16,
+            SERIALNUMBER     => '330DCB4F',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D8',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 17,
+            SERIALNUMBER     => '32A3A4FC',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D7',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 18,
+            SERIALNUMBER     => 'NO DIMM',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => undef,
+            TYPE             => 'DDR4',
+            CAPTION          => 'D6',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 19,
+            SERIALNUMBER     => '330DC543',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D0',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 20,
+            SERIALNUMBER     => '32A3A4CC',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D1',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 21,
+            SERIALNUMBER     => 'NO DIMM',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => undef,
+            TYPE             => 'DDR4',
+            CAPTION          => 'D2',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 22,
+            SERIALNUMBER     => '330DC52C',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D3',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 23,
+            SERIALNUMBER     => '32A3A50D',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '2133 MHz',
+            TYPE             => 'DDR4',
+            CAPTION          => 'D4',
+            CAPACITY         => '32768',
+            MANUFACTURER     => 'Samsung',
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        },
+        {
+            NUMSLOTS         => 24,
+            SERIALNUMBER     => 'NO DIMM',
+            DESCRIPTION      => 'DIMM',
+            SPEED            => undef,
+            TYPE             => 'DDR4',
+            CAPTION          => 'D5',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'Multi-bit ECC'
+        }
+    ],
     'rhel-2.1' => [
         {
             NUMSLOTS         => 1,
