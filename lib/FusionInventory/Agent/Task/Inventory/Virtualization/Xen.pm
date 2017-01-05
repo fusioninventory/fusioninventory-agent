@@ -7,8 +7,23 @@ use FusionInventory::Agent::Tools;
 
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt"];
 
+my $toolstack;
+my $listParam;
+
+sub canRunOK {
+    my ($cmd) = @_;
+
+    return !system("$cmd >/dev/null 2>&1");
+}
+
 sub isEnabled {
-    return canRun('xm');
+    my $isXM = canRun('xm') && canRunOK('xm list');
+    my $isXL = canRun('xl') && canRunOK('xl list');
+
+    $toolstack = $isXM ? 'xm' : $isXL ? 'xl' : undef;
+    $listParam = $isXM ? '-l' : $isXL ? '-v' : undef;
+
+    return defined($toolstack);
 }
 
 sub doInventory {
@@ -17,16 +32,21 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $command = 'xm list';
+    $logger->info("Xen $toolstack toolstack detected");
+
+    my $command = "$toolstack list";
     foreach my $machine (_getVirtualMachines(command => $command, logger => $logger)) {
+        $machine->{SUBSYSTEM} = $toolstack;
         my $uuid = _getUUID(
-            command => "xm list -l $machine->{NAME}",
+            command => "$command $listParam $machine->{NAME}",
             logger  => $logger
         );
         $machine->{UUID} = $uuid;
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $machine
         );
+
+        $logger->debug("$machine->{NAME}: [$uuid]");
     }
 }
 
@@ -34,7 +54,7 @@ sub _getUUID {
     my (%params) = @_;
 
     return getFirstMatch(
-        pattern => qr/\( uuid \s ([^)]+) \)/x,
+        pattern => qr/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/xi,
         %params
     );
 }
