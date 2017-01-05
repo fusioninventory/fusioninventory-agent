@@ -52,23 +52,32 @@ sub _manageAgent {
         # verify agent name
         next unless $name =~ /cfengine/;
 
+        my $server_hostname_file = "/var/rudder/$name/policy_server.dat";
+        my $uuid_file            = "/var/rudder/$name/rudder-server-uuid.txt";
+        my $cfengine_key_file    = "/var/rudder/$name/ppkeys/localhost.pub";
+
         # get policy server hostname
         my $serverHostname = getFirstLine (
             logger => $logger,
-            file => "/var/rudder/$name/policy_server.dat"
+            file => $server_hostname_file
         );
         chomp $serverHostname;
 
         # get policy server uuid
+        #
+        # the default file is no longer /var/rudder/tmp/uuid.txt since the
+        # change in http://www.rudder-project.org/redmine/issues/2443.
+        # we gracefully fallback to the old default if we can not find the
+        # new file.
         my $serverUuid = getFirstLine (
             logger => $logger,
-            file => '/var/rudder/tmp/uuid.txt'
+            file => ( -e "$uuid_file" ) ? $uuid_file : "/var/rudder/tmp/uuid.txt"
         );
         chomp $serverUuid;
 
         # get CFengine public key
         my $cfengineKey = getAllLines(
-            file => "/var/rudder/$name/ppkeys/localhost.pub"
+            file => $cfengine_key_file
         );
 
         # get owner name
