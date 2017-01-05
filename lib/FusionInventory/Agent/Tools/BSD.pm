@@ -31,7 +31,7 @@ sub getInterfacesFromIfconfig {
     );
 
     while (my $line = <$handle>) {
-        if ($line =~ /^(\S+): flags=\d+<([^>]+)> metric \d+ mtu (\d+)/) {
+        if ($line =~ /^(\S+): flags=\d+<([^>]+)> (?:metric \d+ )?mtu (\d+)/) {
 
             if (@addresses) {
                 push @interfaces, @addresses;

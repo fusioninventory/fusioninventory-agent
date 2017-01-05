@@ -60,7 +60,7 @@ sub _getInterfaces {
             $interface->{DESCRIPTION}
         );
 
-        if ($interface->{DESCRIPTION} =~ m/^(lo|vboxnet|vmnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)/) {
+        if ($interface->{DESCRIPTION} =~ m/^(lo|vboxnet|vmnet|vtnet|sit|tun|pflog|pfsync|enc|strip|plip|sl|ppp|faith)/) {
             $interface->{VIRTUALDEV} = 1;
 
             if ($interface->{DESCRIPTION} =~ m/^lo/) {
