@@ -18,7 +18,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     foreach my $cpu (_getCPUs(
-        command => 'lsdev -Cc processor -F name',
+        command => 'lsdev -Cc processor |grep Available |cut -d " " -f1', # Catch only available processors
         logger  => $logger
     )) {
         $inventory->addEntry(
