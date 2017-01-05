@@ -92,7 +92,7 @@ sub _getMemories {
                 TYPE     => $info->{'Type'},
             };
 
-            if ($info->{'Installed Size'} and $info->{'Installed Size'} =~ /^(\d+\s*.B)/i) {
+            if ($info->{'Installed Size'} && $info->{'Installed Size'} =~ /^(\d+\s*.B)/i) {
                 $memory->{CAPACITY} = getCanonicalSize($1, 1024);
             }
 
