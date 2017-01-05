@@ -439,6 +439,7 @@ sub _getSerial {
     my @network_oids = (
         '.1.3.6.1.2.1.47.1.1.1.1.11.1',    # Entity-MIB::entPhysicalSerialNum
         '.1.3.6.1.2.1.47.1.1.1.1.11.2',    # Entity-MIB::entPhysicalSerialNum
+        '.1.3.6.1.2.1.47.1.1.1.1.11.10',   # Entity-MIB::entPhysicalSerialNum    
         '.1.3.6.1.2.1.47.1.1.1.1.11.1001', # Entity-MIB::entPhysicalSerialNum
         '.1.3.6.1.4.1.2636.3.1.3.0',       # Juniper-MIB
     );
