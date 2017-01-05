@@ -70,7 +70,7 @@ sub _getMemories {
             TYPE         => $info->{'Type'},
             SERIALNUMBER => $info->{'Serial Number'},
             SPEED        => getCanonicalSpeed($info->{'Speed'}),
-            CAPACITY     => getCanonicalSize($info->{'Size'})
+            CAPACITY     => getCanonicalSize($info->{'Size'}, 1024)
         };
 
         push @memories, $memory;
