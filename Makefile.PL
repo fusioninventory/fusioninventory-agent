@@ -224,8 +224,8 @@ data_install :
 	install -m 644 share/html/* $(DESTDIR)$(DATADIR)/html
 
 setup_install :
-    install -d -m 755 $(DESTDIR)$(DATADIR)/lib
-    install -m 644 bin/setup.pm $(DESTDIR)$(DATADIR)/lib/
+	install -d -m 755 $(DESTDIR)$(DATADIR)/lib
+	install -m 644 bin/setup.pm $(DESTDIR)$(DATADIR)/lib/
 EOF
     return $install;
 }
