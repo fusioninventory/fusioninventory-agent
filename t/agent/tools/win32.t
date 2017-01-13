@@ -161,6 +161,12 @@ my %register = (
                 '/value' => ''
             }
         }
+    },
+    'HKEY_LOCAL_MACHINE/CurrentControlSet/Control/Session Manager' => {
+        'Environment' => {
+            '/TEMP' => '%SystemRoot%\\TEMP',
+            '/OS'   => 'Windows_NT',
+        }
     }
 );
 
@@ -188,6 +194,13 @@ my %regkey_tests = (
             'subkey/'    => bless({
                 '/value' => ''
             }, 'Win32::TieRegistry')
+        }, 'Win32::TieRegistry')
+    },
+    'environment' => {
+        path      => 'HKEY_LOCAL_MACHINE/CurrentControlSet/Control/Session Manager/Environment',
+        _expected => bless({
+            '/TEMP' => '%SystemRoot%\\TEMP',
+            '/OS'   => 'Windows_NT'
         }, 'Win32::TieRegistry')
     }
 );
@@ -233,6 +246,10 @@ my %regval_tests = (
             'Version'  => [ '12.0.72365', REG_SZ ],
             'subkey/'   => []
         }
+    },
+    'temp-env' => {
+        path      => 'HKEY_LOCAL_MACHINE/CurrentControlSet/Control/Session Manager/Environment/TEMP',
+        _expected => '%SystemRoot%\\TEMP'
     }
 );
 
