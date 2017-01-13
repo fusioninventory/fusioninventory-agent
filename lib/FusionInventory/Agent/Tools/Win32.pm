@@ -182,6 +182,13 @@ sub _getWMIObjects {
 sub getRegistryValue {
     my (%params) = @_;
 
+    if (!$params{path}) {
+        $params{logger}->error(
+            "No registry value path provided"
+        ) if $params{logger};
+        return;
+    }
+
     my ($root, $keyName, $valueName);
     if ($params{path} =~ m{^(HKEY_\S+)/(.+)/([^/]+)} ) {
         $root      = $1;
@@ -216,6 +223,13 @@ sub getRegistryValue {
 
 sub getRegistryKey {
     my (%params) = @_;
+
+    if (!$params{path}) {
+        $params{logger}->error(
+            "No registry key path provided"
+        ) if $params{logger};
+        return;
+    }
 
     my ($root, $keyName);
     if ($params{path} =~ m{^(HKEY_\S+)/(.+)} ) {
