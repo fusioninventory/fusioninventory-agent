@@ -113,145 +113,145 @@ my %cprop_tests = (
             SERIALNUMBER => 'f9d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'cad94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '2fd94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '6cd94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '72d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'aed94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'cbd94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '27d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'fed94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'fdd94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'd0d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '71d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'a7d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '26d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'e8d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '46da4044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'e3d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '2ed94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '2dd94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'a6d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '67d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'cfd94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => 'e7d94044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         },
         {
             SERIALNUMBER => '4cda4044271001',
             DESCRIPTION  => 'M393B5270CH0-CH9',
             TYPE         => 'DIMM',
-            CAPACITY     => 4000
+            CAPACITY     => '4096'
         }
     ]
 );

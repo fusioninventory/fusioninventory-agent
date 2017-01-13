@@ -457,6 +457,32 @@ my %tests = (
             DESCRIPTION => '32-bit PCI'
         }
     ],
+    'oracle-server-x5-2' => [
+        {
+            'DESCRIPTION' => 'x16 PCI Express 3',
+            'STATUS' => 'used',
+            'NAME' => '/SYS/MB/RISER1/PCIE1',
+            'DESIGNATION' => undef
+        },
+        {
+            'NAME' => '/SYS/MB/RISER2/PCIE2',
+            'DESIGNATION' => undef,
+            'DESCRIPTION' => 'x16 PCI Express 3',
+            'STATUS' => 'used'
+        },
+        {
+            'STATUS' => 'used',
+            'DESCRIPTION' => 'x8 PCI Express 3',
+            'NAME' => '/SYS/MB/RISER3/PCIE3',
+            'DESIGNATION' => undef
+        },
+        {
+            'STATUS' => 'used',
+            'DESCRIPTION' => 'x8 PCI Express 3',
+            'NAME' => '/SYS/MB/RISER3/PCIE4',
+            'DESIGNATION' => undef
+        }
+    ],
     'S3000AHLX' => [
         {
             NAME        => 'SLOT 6 PCI-E X8/PCI RISER EXPANSION SLOT 64/100',

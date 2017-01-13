@@ -13,13 +13,13 @@ use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Solaris::Memory;
 
 my %tests = (
-    sample1 => [ _gen(4,  'NUMSLOTS', { CAPACITY => '1000' }) ],
+    sample1 => [ _gen(4,  'NUMSLOTS', { CAPACITY => '1024' }) ],
     sample2 => [ _gen(64, 'NUMSLOTS', { CAPACITY => '512'  }) ],
     sample3 => [ _gen(16, 'NUMSLOTS', { TYPE     => 'DDR2' }) ],
     sample4 => [ _gen(8,  'NUMSLOTS', { TYPE     => 'DDR'  }) ],
     sample5 => [ _gen(2,  'NUMSLOTS', { TYPE     => 'DRAM' }) ],
     sample6 => [ _gen(8,  'NUMSLOTS', { CAPACITY => '512'  }) ],
-    sample7 => [ _gen(1,  'NUMSLOTS', { CAPACITY => '2000' }) ],
+    sample7 => [ _gen(1,  'NUMSLOTS', { CAPACITY => '2048' }) ],
     sample8 => [ _gen(32, 'NUMSLOTS', { CAPACITY => '2048' }) ],
 );
 
