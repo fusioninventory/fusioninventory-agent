@@ -89,7 +89,7 @@ sub _parseCprop {
             next unless keys %$instance;
             next unless $instance->{Size};
             push @memories, {
-                CAPACITY     => getCanonicalSize($instance->{Size}),
+                CAPACITY     => getCanonicalSize($instance->{Size}, 1024),
                 DESCRIPTION  => $instance->{'Part Number'},
                 SERIALNUMBER => $instance->{'Serial Number'},
                 TYPE         => $instance->{'Module Type'},

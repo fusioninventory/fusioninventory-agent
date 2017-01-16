@@ -20,7 +20,7 @@ my %memories_tests = (
             DESCRIPTION  => undef,
             SPEED        => undef,
             TYPE         => 'DDR2 SDRAM',
-            CAPACITY     => 1000,
+            CAPACITY     => 1024,
             CAPTION      => 'Status: OK'
         },
         {
@@ -29,7 +29,7 @@ my %memories_tests = (
             DESCRIPTION  => undef,
             SPEED        => undef,
             TYPE         => 'DDR2 SDRAM',
-            CAPACITY     => 1000,
+            CAPACITY     => 1024,
             CAPTION      => 'Status: OK'
         },
         {
@@ -95,7 +95,7 @@ my %memories_tests = (
             SPEED        => undef,
             CAPACITY     => undef,
             TYPE         => 'DDR2 SDRAM',
-            CAPACITY     => '1000',
+            CAPACITY     => '1024',
             CAPTION      => 'Status: OK'
         },
         {
@@ -105,7 +105,7 @@ my %memories_tests = (
             SPEED        => undef,
             CAPACITY     => undef,
             TYPE         => 'DDR2 SDRAM',
-            CAPACITY     => '1000',
+            CAPACITY     => '1024',
             CAPTION      => 'Status: OK'
         },
         {
@@ -170,7 +170,7 @@ my %memories_tests = (
             DESCRIPTION  => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
             SPEED        => '1067',
             TYPE         => 'DDR3',
-            CAPACITY     => '2000',
+            CAPACITY     => '2048',
             CAPTION      => 'Status: OK'
         },
        {
@@ -179,7 +179,7 @@ my %memories_tests = (
             DESCRIPTION  => "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
             SPEED        => '1067',
             TYPE         => 'DDR3',
-            CAPACITY     => '2000',
+            CAPACITY     => '2048',
             CAPTION      => 'Status: OK'
         },
     ],
@@ -190,7 +190,7 @@ my %memories_tests = (
             DESCRIPTION  => 'X38HTF12864HDY-667E1',
             SPEED        => '667',
             TYPE         => 'DDR2 SDRAM',
-            CAPACITY     => '1000',
+            CAPACITY     => '1024',
             CAPTION      => 'Status: OK'
         },
         {
@@ -199,7 +199,7 @@ my %memories_tests = (
             DESCRIPTION  => '1024636750S',
             SPEED        => '667',
             TYPE         => 'DDR2 SDRAM',
-            CAPACITY     => '1000',
+            CAPACITY     => '1024',
             CAPTION      => 'Status: OK'
         }
     ],
@@ -210,7 +210,7 @@ my %memories_tests = (
             DESCRIPTION  => '8HTF12864HDY-667E1',
             SPEED        => '667',
             TYPE         => 'DDR2 SDRAM',
-            CAPACITY     => 1000,
+            CAPACITY     => 1024,
             CAPTION      => 'Status: OK'
         },
         {
@@ -219,7 +219,7 @@ my %memories_tests = (
             DESCRIPTION  => '1024636750S',
             SPEED        => '667',
             TYPE         => 'DDR2 SDRAM',
-            CAPACITY     => 1000,
+            CAPACITY     => 1024,
             CAPTION      => 'Status: OK'
         }
     ]

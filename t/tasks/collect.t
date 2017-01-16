@@ -27,7 +27,7 @@ my $task = undef ;
 
 my %params = ();
 
-my $plan = 15;
+my $plan = 16;
 
 plan tests => $plan;
 
@@ -39,71 +39,70 @@ sub _send {
     my $remtest = $self->{password} || '' ;
     die 'communication error' if ($test eq 'nocomm');
     die 'no arg to send' unless exists($params{args});
-    if ($params{args}->{action} eq 'getConfig') {
-        if ($test eq 'noschedule') {
-            return {};
-        } elsif ( $test eq 'emptyschedule' ) {
-            return {
-                schedule => []
-            };
-        } elsif ( $test eq 'badschedule' ) {
-            return {
-                schedule => [{}]
-            };
-        } elsif ( $test eq 'normalschedule' ) {
-            return {
-                schedule => [
-                    {
-                        task => 'Collect'
-                    }
-                ]
-            };
-        } elsif ( $test eq 'normalschedulewithremoteurl' ) {
-            return {
-                schedule => [
-                    {
-                        task   => 'Collect',
-                        remote => 'xxx'
-                    }
-                ]
-            };
+
+    my %response = (
+        getConfig   => {
+            emptyresponse       =>  {},
+            malformedschedule   =>  {
+                                        schedule => {}
+                                    },
+            emptyschedule       =>  {
+                                        schedule => []
+                                    },
+            badschedule         =>  {
+                                        schedule => [{}]
+                                    },
+            normalschedule      =>  {
+                                        schedule => [
+                                            {
+                                                task => 'Collect'
+                                            }
+                                        ]
+                                    },
+            normalschedulewithremoteurl =>  {
+                                        schedule => [
+                                            {
+                                                task => 'Collect',
+                                                remote => 'xxx'
+                                            }
+                                        ]
+                                    },
+        },
+        getJobs     => {
+            nojob               =>  {},
+            'badjson-1'         =>  'bad',
+            'badjson-2'         =>  {
+                                        bad => ''
+                                    },
+            'badjson-3'         =>  {
+                                        jobs => ''
+                                    },
+            'badjson-4'         =>  {
+                                        jobs => [ {} ]
+                                    },
+            'badjson-5'         =>  {
+                                        jobs => [
+                                            {
+                                                uuid => ''
+                                            }
+                                        ]
+                                    },
+            'badjson-6'         =>  {
+                                        jobs => [
+                                            {
+                                                uuid     => '',
+                                                function => ''
+                                            }
+                                        ]
+                                    },
+            'unexpected-nojob'  =>  {
+                                        jobs => []
+                                    }
         }
-    } elsif ($params{args}->{action} eq 'getJobs') {
-        if ( $remtest eq 'nojob' ) {
-            return {};
-        } elsif ( $remtest eq 'badjson-1' ) {
-            return 'bad';
-        } elsif ( $remtest eq 'badjson-2' ) {
-            return {
-                bad => ''
-            };
-        } elsif ( $remtest eq 'badjson-3' ) {
-            return {
-                jobs => ''
-            };
-        } elsif ( $remtest eq 'badjson-4' ) {
-            return {
-                jobs => [ {} ]
-            };
-        } elsif ( $remtest eq 'badjson-5' ) {
-            return {
-                jobs => [ {
-                        uuid => ''
-                    } ]
-            };
-        } elsif ( $remtest eq 'badjson-6' ) {
-            return {
-                jobs => [ {
-                        uuid     => '',
-                        function => ''
-                    } ]
-            };
-        } elsif ( $remtest eq 'unexpected-nojob' ) {
-            return {
-                jobs => []
-            };
-        }
-    }
+    );
+    return $response{$params{args}->{action}}->{
+        $params{args}->{action} eq 'getJobs' ? $remtest : $test
+    };
 }
 
 my $module = Test::MockModule->new('FusionInventory::Agent::HTTP::Client::Fusion');
@@ -128,17 +127,21 @@ throws_ok {
     $task->run( user => 'nocomm' );
 } qr/communication error/, "Normal error if target is unavailable" ;
 
-lives_ok {
-    $task->run( user => 'noschedule' );
-} "Normal return on no scheduled task found" ;
+throws_ok {
+    $task->run( user => 'emptyresponse' );
+} qr/No job schedule returned/, "Info returned on empty response" ;
 
-lives_ok {
+throws_ok {
+    $task->run( user => 'malformedschedule' );
+} qr/Malformed schedule/, "Info returned on malformed schedule" ;
+
+throws_ok {
     $task->run( user => 'emptyschedule' );
-} "Normal return on empty schedule" ;
+} qr/No Collect job enabled/, "Info returned on empty schedule" ;
 
-lives_ok {
+throws_ok {
     $task->run( user => 'badschedule' );
-} "No nothing with bad job schedule" ;
+} qr/No Collect job found/, "Info returned with bad job schedule" ;
 
 lives_ok {
     $task->run( user => 'normalschedule' );
@@ -175,5 +178,3 @@ throws_ok {
 throws_ok {
     $task->run( user => 'normalschedulewithremoteurl', password => 'unexpected-nojob' );
 } qr/no jobs provided/, "No job included in jobs key" ;
-
-1

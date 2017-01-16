@@ -173,13 +173,30 @@ sub run {
         }
     );
 
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
+    if (!$globalRemoteConfig->{schedule}) {
+        $self->{logger}->info("No job schedule returned from server at ".$self->{target}->{url});
+        return;
+    }
+    if (ref( $globalRemoteConfig->{schedule} ) ne 'ARRAY') {
+        $self->{logger}->info("Malformed schedule from server at ".$self->{target}->{url});
+        return;
+    }
+    if ( !@{$globalRemoteConfig->{schedule}} ) {
+        $self->{logger}->info("No Collect job enabled or Collect support disabled server side.");
+        return;
+    }
 
+    my $run_jobs = 0;
     foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
         next unless (ref($job) eq 'HASH' && exists($job->{task})
             && $job->{task} eq "Collect");
         $self->_processRemote($job->{remote});
+        $run_jobs ++;
+    }
+
+    if ( !$run_jobs ) {
+        $self->{logger}->info("No Collect job found in server jobs list.");
+        return;
     }
 
     return 1;

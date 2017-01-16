@@ -257,6 +257,25 @@ my %tests = (
             CHASSIS_TYPE  => 'Rack Mount Chassis'
         },
     },
+    'oracle-server-x5-2' => {
+        bios => {
+            MMANUFACTURER => 'Oracle Corporation',
+            SSN           => '1634NM1107',
+            SKUNUMBER     => '7092459',
+            ASSETTAG      => '7092459',
+            BMANUFACTURER => 'American Megatrends Inc.',
+            MSN           => '489089M+16324B2191',
+            SMODEL        => 'ORACLE SERVER X5-2',
+            SMANUFACTURER => 'Oracle Corporation',
+            BDATE         => '05/26/2016',
+            MMODEL        => 'ASM,MOTHERBOARD,1U',
+            BVERSION      => '30080300'
+        },
+        hardware => {
+            UUID          => '080020FF-FFFF-FFFF-FFFF-0010E0BCCBBC',
+            CHASSIS_TYPE  => 'Main Server Chassis'
+        },
+    },
     'S3000AHLX' => {
         bios => {
             MMANUFACTURER => 'Intel Corporation',

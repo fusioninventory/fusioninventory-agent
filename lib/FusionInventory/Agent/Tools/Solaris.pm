@@ -146,7 +146,7 @@ sub _parseMemorySection {
                 $/x;
                 return {
                     NUMSLOTS => $i++,
-                    CAPACITY => getCanonicalSize($1)
+                    CAPACITY => getCanonicalSize($1, 1024)
                 };
             };
             last SWITCH;
@@ -178,7 +178,7 @@ sub _parseMemorySection {
                     /x;
                     return {
                         NUMSLOTS => $i++,
-                        CAPACITY => getCanonicalSize($1)
+                        CAPACITY => getCanonicalSize($1, 1024)
                     };
                 };
             } elsif ($next_line =~ /Memory\s+Available\s+Memory\s+DIMM\s+# of/)  {
@@ -195,7 +195,7 @@ sub _parseMemorySection {
                     /x;
                     return map { {
                         NUMSLOTS => $i++,
-                        CAPACITY => getCanonicalSize($1)
+                        CAPACITY => getCanonicalSize($1, 1024)
                     } } 1..$2;
                 };
             } else {
@@ -210,8 +210,8 @@ sub _parseMemorySection {
                         (\d+ [MG]B) \s+
                         \S+         \s+
                     /x;
-                    my $dimmsize    = getCanonicalSize($2);
-                    my $logicalsize = getCanonicalSize($1);
+                    my $dimmsize    = getCanonicalSize($2, 1024);
+                    my $logicalsize = getCanonicalSize($1, 1024);
                     # Compute DIMM count from "Logical Bank Size" and "DIMM Size"
                     my $dimmcount = ( $dimmsize && $dimmsize != $logicalsize ) ?
                         int($logicalsize/$dimmsize) : 1 ;

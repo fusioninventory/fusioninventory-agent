@@ -198,8 +198,8 @@ sub install {
     # add dependency on data and configuration installation targets, and remove
     # dependency on perlocal installation target
     # depending on MakeMaker version, the line to match changes
-    $install =~ s/install :: pure_install doc_install/install :: pure_install config_install data_install/;
-    $install =~ s/install :: all pure_install doc_install/install :: all pure_install config_install data_install/;
+    $install =~ s/install :: pure_install doc_install/install :: pure_install config_install data_install setup_install/;
+    $install =~ s/install :: all pure_install doc_install/install :: all pure_install config_install data_install setup_install/;
 
     # suppress all lines related to packlist file installation
     $install =~ s/.*\.packlist \\\n//g;
@@ -222,6 +222,10 @@ data_install :
 	install -m 644 share/sysobject.ids $(DESTDIR)$(DATADIR)/
 	install -d -m 755 $(DESTDIR)$(DATADIR)/html
 	install -m 644 share/html/* $(DESTDIR)$(DATADIR)/html
+
+setup_install :
+	install -d -m 755 $(DESTDIR)$(DATADIR)/lib
+	install -m 644 bin/setup.pm $(DESTDIR)$(DATADIR)/lib/
 EOF
     return $install;
 }

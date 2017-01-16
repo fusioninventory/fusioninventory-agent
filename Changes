@@ -20,6 +20,7 @@ inventory:
   mostly for lcd internal panel, like panel model. These are taken from EDID
   "monitor_text" when found.
 * Few more Acer serial number are fixed
+* Fix some memory size read using canonical API
 
 2.3.18 Thu, 16 Jun 2016
 core:
