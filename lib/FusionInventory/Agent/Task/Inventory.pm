@@ -121,6 +121,7 @@ sub run {
             ca_cert_file => $params{ca_cert_file},
             ca_cert_dir  => $params{ca_cert_dir},
             no_ssl_check => $params{no_ssl_check},
+            no_compress  => $params{no_compress},
         );
 
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
