@@ -8,6 +8,8 @@ core:
 * Tasks version is now read more efficiently and should reduce agent memory
   footing while running under daemon or service mode
 * Bump tasks versions to reflect new way of reading task version
+* Support no-compression option: useful for debugging or while server do not
+  support compression
 
 inventory:
 * Fix VERSIONCLIENT not set
@@ -21,6 +23,10 @@ inventory:
   "monitor_text" when found.
 * Few more Acer serial number are fixed
 * Fix some memory size read using canonical API
+* add --no-compression|-C option to disable compression of communication with server
+
+injector:
+* add --no-compression|-C option to disable compression of uploaded files
 
 2.3.18 Thu, 16 Jun 2016
 core:
