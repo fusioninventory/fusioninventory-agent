@@ -249,18 +249,20 @@ sub _getScreens {
             logger  => $params{logger},
             datadir => $params{datadir},
         );
-        $screen->{CAPTION}      = $info->{CAPTION};
-        $screen->{DESCRIPTION}  = $info->{DESCRIPTION};
-        $screen->{MANUFACTURER} = $info->{MANUFACTURER};
-        $screen->{SERIAL}       = $info->{SERIAL};
-        $screen->{ALTSERIAL}    = $info->{ALTSERIAL} if $info->{ALTSERIAL};
+        if ($info) {
+            $screen->{CAPTION}      = $info->{CAPTION};
+            $screen->{DESCRIPTION}  = $info->{DESCRIPTION};
+            $screen->{MANUFACTURER} = $info->{MANUFACTURER};
+            $screen->{SERIAL}       = $info->{SERIAL};
+            $screen->{ALTSERIAL}    = $info->{ALTSERIAL} if $info->{ALTSERIAL};
+        }
 
         $screen->{BASE64} = encode_base64($screen->{edid});
 
         delete $screen->{edid};
 
         # Add or merge found values
-        my $serial = $info->{SERIAL};
+        my $serial = $info->{SERIAL} || $screen->{BASE64};
         if (!exists($screens{$serial})) {
             $screens{$serial} = $screen ;
         } else {
