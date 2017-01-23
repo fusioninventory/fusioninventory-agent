@@ -12,6 +12,7 @@ use URI;
 use Encode;
 use URI::Escape;
 use JSON::PP;
+use IO::Socket::INET;
 
 use FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event;
 use FusionInventory::Agent::HTTP::Client::ArmaditoAV::Event::StatusEvent;
@@ -26,6 +27,22 @@ sub new {
     $self->{server_url} = "http://localhost:8888";
 
     return $self;
+}
+
+sub ping_socket {
+    my ( $self, %params ) = @_;
+
+    my $url = $self->_prepareURL(url => '/');
+
+    my $socket = IO::Socket::INET->new($url->host_port);
+    if (!$socket) {
+        $self->{logger}->debug("Can't connect to ArmiditoAV socket") if $self->{logger};
+        return 0;
+    }
+
+    close($socket);
+    $self->{logger}->debug2("Found ArmiditoAV socket") if $self->{logger};
+    return 1;
 }
 
 sub _prepareURL {

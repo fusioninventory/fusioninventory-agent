@@ -7,7 +7,9 @@ use FusionInventory::Agent::HTTP::Client::ArmaditoAV;
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{antivirus};
-    return 1;
+
+    my $av_client = FusionInventory::Agent::HTTP::Client::ArmaditoAV->new(%params);
+    return $av_client->ping_socket();
 }
 
 sub doInventory {
