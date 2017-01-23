@@ -29,6 +29,7 @@ sub new {
         password     => $params{password},
         ssl_set      => 0,
         no_ssl_check => $params{no_ssl_check},
+        no_compress  => $params{no_compress},
         ca_cert_dir  => $params{ca_cert_dir},
         ca_cert_file => $params{ca_cert_file}
     };
