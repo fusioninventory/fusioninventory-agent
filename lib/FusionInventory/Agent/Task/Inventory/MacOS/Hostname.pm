@@ -16,7 +16,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $infos = getSystemProfilerInfos(type => 'SPApplicationsDataType', logger => $logger);
+    my $infos = getSystemProfilerInfos(type => 'SPSoftwareDataType', logger => $logger);
 
     my $hostname =
         $infos->{'Software'}->{'System Software Overview'}->{'Computer Name'};
