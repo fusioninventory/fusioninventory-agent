@@ -32,6 +32,7 @@ my $default = {
     'no-category'             => [],
     'no-httpd'                => undef,
     'no-ssl-check'            => undef,
+    'no-compression'          => undef,
     'no-task'                 => [],
     'no-p2p'                  => undef,
     'password'                => undef,

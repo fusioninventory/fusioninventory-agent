@@ -23,7 +23,7 @@ sub new {
     $self->{ua}->default_header('Pragma' => 'no-cache');
 
     # check compression mode
-    if (Compress::Zlib->require()) {
+    if (!$self->{no_compress} && Compress::Zlib->require()) {
         # RFC 1950
         $self->{compression} = 'zlib';
         $self->{ua}->default_header('Content-type' => 'application/x-compress-zlib');
@@ -31,7 +31,7 @@ sub new {
             $log_prefix .
             'Using Compress::Zlib for compression'
         );
-    } elsif (canRun('gzip')) {
+    } elsif (!$self->{no_compress} && canRun('gzip')) {
         # RFC 1952
         $self->{compression} = 'gzip';
         $self->{ua}->default_header('Content-type' => 'application/x-compress-gzip');

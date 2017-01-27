@@ -27,6 +27,7 @@ GetOptions(
     'verbose|v',
     'stdin',
     'xml-ua|x',
+    'no-compression|C',
 );
 
 $OUTPUT_AUTOFLUSH = 1;
@@ -115,9 +116,9 @@ sub sendContent {
     my $request = HTTP::Request->new( POST => $options->{url} );
     $request->header(
         'Pragma' => 'no-cache',
-        'Content-type', 'Application/x-compress'
+        'Content-type', $options->{"no-compression"} ? 'Application/xml' : 'Application/x-compress'
     );
-    $request->content(compress($content));
+    $request->content($options->{"no-compression"} ? $content : compress($content));
     my $res = $ua->request($request);
 
     if ($options->{verbose}) {
@@ -149,6 +150,7 @@ fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdi
     --stdin        read data from STDIN
     --useragent    set used HTTP User-Agent for POST
     -x --xml-ua    use Client version found in XML as User-Agent for POST
+    -C --no-compression don't compress sent XML inventories
 
   Examples:
     fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/ocsinventory
