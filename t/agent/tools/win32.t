@@ -303,7 +303,7 @@ SKIP: {
     );
     ok(defined(<$fd>), "no_stderr=0: catch STDERR output");
 
-    # From here we need to avoid crashes dur to not thread-safe Win32::OLE
+    # From here we need to avoid crashes due to not thread-safe Win32::OLE
     FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
 
     FusionInventory::Agent::Tools::Win32->use('is64bit');
