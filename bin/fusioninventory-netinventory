@@ -195,6 +195,77 @@ fusioninventory-netinventory [options] [--host <host>|--file <file>]
 F<fusioninventory-netinventory> allows to run a network inventory task without
 a GLPI server.
 
+=head1 OPTIONS
+
+=over
+
+=item B<--host> I<HOST>
+
+Run an online inventory against given host. Multiple usage allowed, for
+multiple hosts.
+
+=item B<--file> I<FILE>
+
+Run an offline inventory against snmpwalk output, stored in given file.
+
+=item B<--communty> I<STRING>
+
+Use given string as SNMP community (assume SNMPv1)
+
+=item B<--credentials> I<STRING>
+
+Use given string as SNMP credentials specification. This specification is a
+comma-separated list of key:value authentication parameters, such as:
+
+=over
+
+=item * version:2c,community:public
+
+=item * version:3,username:admin,authprotocol:sha,authpassword:s3cr3t
+
+=item * etc.
+
+=back
+
+=item B<--timeout> I<TIME>
+
+Set SNMP timeout, in seconds.
+
+=item B<--type> I<TYPE>
+
+Force device type, instead of relying on automatic identification. Currently
+allowed types:
+
+=over
+
+=item * COMPUTER
+
+=item * NETWORKING
+
+=item * PRINTER
+
+=item * STORAGE
+
+=item * POWER
+
+=item * PHONE
+
+=back
+
+=item B<--threads> I<count>
+
+Use given number of inventory threads.
+
+=item B<--control>
+
+Output server-agent control messages, in addition to inventory result itself.
+
+=item B<--debug>
+
+Turn the debug mode on. Multiple usage allowed, for additional verbosity.
+
+=back
+
 =head1 EXAMPLES
 
 Run an inventory against a network device, using SNMP version 2c authentication:
