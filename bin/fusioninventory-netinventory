@@ -178,17 +178,17 @@ fusioninventory-netinventory - Standalone network inventory
 fusioninventory-netinventory [options] [--host <host>|--file <file>]
 
   Options:
-    --host host    host to inventorize (use multiple time to inventorize more hosts)
-    --file         snmpwalk output file
-    --community    community string (default: public)
-    --credentials  SNMP credentials (default: version:1,community:public)
-    --timeout val  SNMP timeout (default: 15s)
-    --type type    force device type
-    --threads nb   number of inventory threads (default: 1)
-    --control      output control messages
-    --debug        debug output (execution traces)
-    -h --help      print this message and exit
-    --version      print the task version and exit
+    --host <HOST>          target host
+    --file <FILE>          snmpwalk output file
+    --community <STRING>   community string (public)
+    --credentials <STRING> SNMP credentials (version:1,community:public)
+    --timeout <TIME>       SNMP timeout, in seconds (15)
+    --type <TYPE>          force device type
+    --threads <COUNT>      number of inventory threads (1)
+    --control              output control messages
+    --debug                debug output
+    -h --help              print this message and exit
+    --version              print the task version and exit
 
 =head1 DESCRIPTION
 
