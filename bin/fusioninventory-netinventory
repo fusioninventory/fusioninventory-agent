@@ -181,7 +181,7 @@ fusioninventory-netinventory [options] [--host <host>|--file <file>]
     --host host    host to inventorize (use multiple time to inventorize more hosts)
     --file         snmpwalk output file
     --community    community string (default: public)
-    --credentials  SNMP credentials
+    --credentials  SNMP credentials (default: version:1,community:public)
     --timeout val  SNMP timeout (default: 15s)
     --type type    force device type
     --threads nb   number of inventory threads (default: 1)
