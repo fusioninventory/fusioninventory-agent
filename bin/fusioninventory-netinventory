@@ -183,7 +183,7 @@ fusioninventory-netinventory [options] [--host <host>|--file <file>]
     --community    community string (default: public)
     --credentials  SNMP credentials
     --timeout val  SNMP timeout (default: 15s)
-    --threads nb   number of invenroty threads (default: 1)
+    --threads nb   number of inventory threads (default: 1)
     --control      output control messages
     --debug        debug output (execution traces)
     -h --help      print this message and exit
