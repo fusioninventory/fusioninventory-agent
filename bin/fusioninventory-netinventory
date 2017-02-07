@@ -193,3 +193,16 @@ fusioninventory-netinventory [options] [--host <host>|--file <file>]
 
 F<fusioninventory-netinventory> allows to run a network inventory task without
 a GLPI server.
+
+=head1 EXAMPLES
+
+Run an inventory against a network device, using SNMP version 2c authentication:
+
+    $> fusioninventory-netinventory --host 192.168.0.1
+    --credentials version:2c,community:public
+
+Run an inventory against a network device, using SNMP version 3 authentication
+and forcing its type:
+
+    $> fusioninventory-netinventory --host my.device --type NETWORKING
+    --credentials version:3,username:admin,authprotocol:sha,authpassword:s3cr3t
