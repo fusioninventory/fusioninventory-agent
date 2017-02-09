@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::Inventory::MacOS::Hostname;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
