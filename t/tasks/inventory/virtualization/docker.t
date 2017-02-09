@@ -8,6 +8,8 @@ use Test::Deep;
 use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
+use JSON::PP;
+use Data::Dumper;
 
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Docker;
@@ -169,8 +171,25 @@ my $test = [
         }
 ];
 
-
 my @containers = FusionInventory::Agent::Task::Inventory::Virtualization::Docker::_getContainers(
-    file => 'resources/containers/docker/docker.sample'
+    file => 'resources/containers/docker/docker_ps-a.sample'
 );
-cmp_deeply(\@containers, $test, 'test _getContainers()');
+my $jsonData = FusionInventory::Agent::Tools::getAllLines(
+    file => 'resources/containers/docker/docker_inspect.json'
+);
+my $coder = JSON::PP->new;
+my $containersFromJson = $coder->decode($jsonData);
+my $containers = {};
+for my $cont (@$containersFromJson) {
+        my $name = $cont->{Name};
+        $name =~ s/^\///;
+        $containers->{$name} = $cont;
+}
+my @containersNew = ();
+for my $h (@containers) {
+        $h->{STATUS} = FusionInventory::Agent::Task::Inventory::Virtualization::Docker::_getStatus(
+            string => $coder->encode($containers->{$h->{NAME}})
+        );
+        push @containersNew, $h;
+}
+cmp_deeply(\@containersNew, $test, 'test _getContainers()');

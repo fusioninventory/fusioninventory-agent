@@ -17,7 +17,10 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $container (_getContainers(logger => $logger)) {
+    foreach my $container (_getContainers(
+        logger => $logger,
+        command => 'docker ps -a'
+    )) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $container
         );
@@ -25,10 +28,7 @@ sub doInventory {
 }
 
 sub  _getContainers {
-    my (%params) = (
-        command => 'docker ps -a',
-        @_
-    );
+    my (%params) = @_;
 
     my $handle = getFileHandle(%params);
 
@@ -58,14 +58,13 @@ sub  _getContainers {
             @info = _rightTranslation(\@info, $portsIndex);
         }
 
-        my $command = 'docker inspect ' . $info[$entete{'CONTAINER ID'}];
-        my $lines = getAllLines(command => $command);
-        my $coder = JSON::PP->new;
-        my $containerData = $coder->decode($lines);
-        my $status = $containerData->[0]->{State}->{Running} ?
-            $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_RUNNING :
-            $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF;
+        my $status = '';
 
+        if ($params{command}) {
+            $status = _getStatus(
+                command => 'docker inspect '.$info[$entete{'CONTAINER ID'}],
+            );
+        }
         my $container = {
             VMTYPE     => 'docker',
             UUID       => $info[$entete{'CONTAINER ID'}],
@@ -83,6 +82,25 @@ sub  _getContainers {
     close $handle;
 
     return @containers;
+}
+
+sub _getStatus {
+    my (%params) = @_;
+
+
+    my $lines = getAllLines(%params);
+    my $status = '';
+    eval {
+        my $coder = JSON::PP->new;
+        my $containerData = $coder->decode($lines);
+        $status =
+            ((ref $containerData eq 'ARRAY' && $containerData->[0]->{State}->{Running})
+                    || (ref $containerData eq 'HASH' && $containerData->{State}->{Running})) ?
+            $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_RUNNING :
+            $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF;
+    };
+
+    return $status;
 }
 
 sub _rightTranslation {

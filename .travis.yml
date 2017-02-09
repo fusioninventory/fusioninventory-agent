@@ -20,3 +20,4 @@ branches:
   only:
     - master
     - 2.3.x
+    - 2.3.x-dockerContainersInventory
