@@ -134,6 +134,7 @@ sub processRemote {
         args => {
             action    => "getJobs",
             machineid => $self->{deviceid},
+            version   => $VERSION
         }
     );
     if (ref($answer) eq 'HASH' && !keys %$answer) {
