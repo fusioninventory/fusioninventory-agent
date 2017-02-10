@@ -14,7 +14,7 @@ use Data::Dumper;
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Docker;
 
-plan tests => 3;
+plan tests => 2;
 
 my @expectedList = (
     'str1',
@@ -34,17 +34,13 @@ my @inputList = (
     ''
 );
 
-my @resultList = FusionInventory::Agent::Task::Inventory::Virtualization::Docker::_rightTranslation(\@inputList, 3);
-cmp_deeply(\@expectedList, \@resultList, 'test _rightTranslation');
-
-
 my $test = [
         {
             UUID => '7938ef110db9',
             IMAGE=> 'driket54/glpi',
 #            COMMAND=> "/bin/sh -c /opt/star",
 #            CREATED=> '3 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
 #            PORTS => '',
             NAME=> 'suspicious_dubinsky',
             VMTYPE     => 'docker',
@@ -54,7 +50,7 @@ my $test = [
             IMAGE=> 'driket54/glpi',
 #            COMMAND=> "/bin/sh -c /opt/star",
 #            CREATED=> '3 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
             NAME=> 'jolly_jepsen',
 #            PORTS => '',
             VMTYPE     => 'docker',
@@ -64,7 +60,7 @@ my $test = [
             IMAGE=> 'driket54/glpi',
 #            COMMAND=> "/bin/sh -c /opt/star",
 #            CREATED=> '3 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
             NAME=> 'lonely_archimedes',
 #            PORTS => '',
             VMTYPE     => 'docker',
@@ -74,7 +70,7 @@ my $test = [
             IMAGE=> 'driket54/glpi',
 #            COMMAND=> "/bin/sh -c /opt/star",
 #            CREATED=> '3 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
             NAME=> 'loving_noyce',
 #            PORTS => '',
             VMTYPE     => 'docker',
@@ -84,7 +80,7 @@ my $test = [
             IMAGE=> 'mariadb:5.5',
 #            COMMAND=> "docker-entrypoint.sh",
 #            CREATED=> '3 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
             NAME=> 'maraidb-5.5-glpi',
 #            PORTS => '',
             VMTYPE     => 'docker',
@@ -94,7 +90,7 @@ my $test = [
             IMAGE=> 'driket54/glpi',
 #            COMMAND=> "/bin/sh -c /opt/star",
 #            CREATED=> '3 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
             NAME=> 'glpiall_glpi_1',
 #            PORTS => '',
             VMTYPE     => 'docker',
@@ -104,7 +100,7 @@ my $test = [
             IMAGE=> 'mariadb',
 #            COMMAND=> "docker-entrypoint.sh",
 #            CREATED=> '3 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
             NAME=> 'glpiall_mysql_1',
 #            PORTS => '',
             VMTYPE     => 'docker',
@@ -114,7 +110,7 @@ my $test = [
             IMAGE=> 'ef32c3db3aed',
 #            COMMAND=> "/opt/karaf/bin/karaf",
 #            CREATED=> '6 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
             NAME=> 'karaf',
 #            PORTS => '',
             VMTYPE     => 'docker',
@@ -124,7 +120,7 @@ my $test = [
             IMAGE=> 'postgres:9.4',
 #            COMMAND=> "/docker-entrypoint.s",
 #            CREATED=> '6 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
             NAME=> 'postgresql_karaf',
 #            PORTS => '',
             VMTYPE     => 'docker',
@@ -134,7 +130,7 @@ my $test = [
             IMAGE=> 'jenkins',
 #            COMMAND=> "/bin/tini -- /usr/lo",
 #            CREATED=> '7 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
             NAME=> 'happy_ritchie',
 #            PORTS => '',
             VMTYPE     => 'docker',
@@ -144,7 +140,7 @@ my $test = [
             IMAGE=> 'postgres',
 #            COMMAND=> "/docker-entrypoint.s",
 #            CREATED=> '7 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
             NAME=> 'kimios-postgres',
 #            PORTS => '',
             VMTYPE     => 'docker',
@@ -154,7 +150,7 @@ my $test = [
             IMAGE=> 'driket54/glpi',
 #            COMMAND=> "/bin/sh -c /opt/star",
 #            CREATED=> '8 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_RUNNING,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_RUNNING,
 #            PORTS=> '0.0.0.0:8090->80/tcp',
             NAME=> 'glpi_http',
             VMTYPE     => 'docker',
@@ -164,7 +160,7 @@ my $test = [
             IMAGE=> 'mariadb:5.5',
 #            COMMAND=> "docker-entrypoint.sh",
 #            CREATED=> '8 months ago',
-            STATUS=> $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
+            STATUS=> FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF,
 #            PORTS=> '0.0.0.0:3306->3306/tcp',
             NAME=> 'mariadb-glpi',
             VMTYPE     => 'docker',

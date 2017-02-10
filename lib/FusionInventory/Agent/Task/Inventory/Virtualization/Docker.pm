@@ -5,6 +5,7 @@ use warnings;
 
 use JSON::PP;
 
+use FusionInventory::Agent::Task::Inventory::Virtualization;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
@@ -34,45 +35,50 @@ sub  _getContainers {
 
     return unless $handle;
 
-    my $entete = <$handle>;
-    chomp $entete;
-    my @entete = split /  +/, $entete;
+    my $header = <$handle>;
+    chomp $header;
+    my @header = split /  +/, $header;
     # find PORTS index in header
     # it's the only one value that can be empty
     my $portsIndex;
     my $j = 0;
-    my %entete = map { $_ => $j++ } @entete;
-    if (defined $entete{PORTS}) {
-        $portsIndex = $entete{PORTS};
+    my %header = map { $_ => $j++ } @header;
+    if (defined $header{PORTS}) {
+        $portsIndex = $header{PORTS};
     }
 
     my @containers;
     while (my $line = <$handle>) {
         chomp $line;
-        my @info = split(/  +/, $line);
-        @info = map { s/^"//; $_ } @info;
-        @info = map { s/"$//; $_ } @info;
+#        my @info = $line =~ /^(\w+)\s+(\w+)\s+"([^"]+)"   (\w+.+)   +(\w+.+)   +(\w+.+)$/;
+        my @info = $line =~ /^(\S+)\s+(\S+)\s+"([^"]+)"   +(\w+.+)   +(\w+.+)   +(\w+.+)$/;
+        # remove ending spaces
+        @info = map { s/ +$//g; $_ } @info;
 
-        if ( (scalar @info) < (scalar @entete) ) {
-            $info[scalar @info] = '';
-            @info = _rightTranslation(\@info, $portsIndex);
+        my @split = split '   ', $info[5];
+        if (scalar(@split) == 2) {
+            $info[6] = $split[1];
+            $info[5] = $split[0];
+        } else {
+            $info[6] = $info[5];
+            $info[5] = '';
         }
 
         my $status = '';
 
         if ($params{command}) {
             $status = _getStatus(
-                command => 'docker inspect '.$info[$entete{'CONTAINER ID'}],
+                command => 'docker inspect '.$info[$header{'CONTAINER ID'}],
             );
         }
         my $container = {
             VMTYPE     => 'docker',
-            UUID       => $info[$entete{'CONTAINER ID'}],
-            IMAGE    => $info[$entete{IMAGE}],
-#            COMMAND  => $info[$entete{COMMAND}],
-#            CREATED  => $info[$entete{CREATED}],
-#            PORTS    => $info[$entete{PORTS}],
-            NAME     => $info[$entete{NAMES}],
+            UUID       => $info[$header{'CONTAINER ID'}],
+            IMAGE    => $info[$header{IMAGE}],
+#            COMMAND  => $info[$header{COMMAND}],
+#            CREATED  => $info[$header{CREATED}],
+#            PORTS    => $info[$header{PORTS}],
+            NAME     => $info[$header{NAMES}],
             STATUS   => $status
         };
 
@@ -96,28 +102,11 @@ sub _getStatus {
         $status =
             ((ref $containerData eq 'ARRAY' && $containerData->[0]->{State}->{Running})
                     || (ref $containerData eq 'HASH' && $containerData->{State}->{Running})) ?
-            $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_RUNNING :
-            $FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF;
+            FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_RUNNING :
+            FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF;
     };
 
     return $status;
-}
-
-sub _rightTranslation {
-    my ($list, $index) = @_;
-
-    # what is last index ?
-    my $i = scalar @$list - 1;
-    # decrement indexes until we reach the index $index given in argument
-    # it's the index that can be empty, so when reached, we set it as empty string
-    while ($i > 0 && $i > $index) {
-        $list->[$i] = $list->[$i - 1];
-
-        $i--;
-    }
-    $list->[$index] = '';
-
-    return @$list;
 }
 
 1;

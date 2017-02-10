@@ -9,14 +9,14 @@ sub isEnabled {
     return 1;
 }
 
-our $STATUS_RUNNING = 'running';
-our $STATUS_BLOCKED = 'blocked';
-our $STATUS_IDLE = 'idle';
-our $STATUS_PAUSED = 'paused';
-our $STATUS_SHUTDOWN = 'shutdown';
-our $STATUS_CRASHED = 'crashed';
-our $STATUS_DYING = 'dying';
-our $STATUS_OFF = 'off';
+use constant STATUS_RUNNING => 'running';
+use constant STATUS_BLOCKED => 'blocked';
+use constant STATUS_IDLE => 'idle';
+use constant STATUS_PAUSED => 'paused';
+use constant STATUS_SHUTDOWN => 'shutdown';
+use constant STATUS_CRASHED => 'crashed';
+use constant STATUS_DYING => 'dying';
+use constant STATUS_OFF => 'off';
 
 sub doInventory {
 }
