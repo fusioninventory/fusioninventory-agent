@@ -79,12 +79,46 @@ sub _validateAnswer {
     return 1;
 }
 
+sub _setStatus {
+    my ($self, %params) = @_;
+
+    return unless $self->{_remoreUrl};
+
+    my $job = $params{job}
+        or return;
+
+    # Base action hash we wan't to send back to server as job status
+    my $action ={
+        action      => "setStatus",
+        machineid   => $self->{deviceid},
+        part        => 'job',
+        uuid        => $job->{uuid},
+    };
+
+    # Specific case where we want to send a file status
+    if (exists($params{file}) && $params{file}) {
+        $action->{part}   = 'file';
+        $action->{sha512} = $params{file}->{sha512};
+    }
+
+    # Map other optional and set params to action
+    map { $action->{$_} = $params{$_} }
+        grep { exists($params{$_}) && $params{$_} } qw(
+            currentStep status actionnum cheknum msg
+    );
+
+    # Send back the job status
+    $self->{client}->send(
+        url  => $self->{_remoreUrl},
+        args => $action
+    );
+}
+
 sub processRemote {
     my ($self, $remoteUrl) = @_;
 
-    if ( !$remoteUrl ) {
-        return;
-    }
+    $self->{_remoreUrl} = $remoteUrl
+        or return;
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
         path => $self->{target}{storage}{directory}.'/deploy',
@@ -144,16 +178,10 @@ sub processRemote {
   JOB: foreach my $job (@$jobList) {
 
         # RECEIVED
-        $self->{client}->send(
-            url  => $remoteUrl,
-            args => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'checking',
-                msg         => 'starting'
-            }
+        $self->_setStatus(
+            job         => $job,
+            currentStep => 'checking',
+            msg         => 'starting'
         );
 
         # CHECKING
@@ -167,50 +195,32 @@ sub processRemote {
                 next if $checkStatus eq "ok";
                 next if $checkStatus eq "ignore";
 
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action      => "setStatus",
-                        machineid   => $self->{deviceid},
-                        part        => 'job',
-                        uuid        => $job->{uuid},
-                        currentStep => 'checking',
-                        status      => 'ko',
-                        msg         => "failure of check #".($checknum+1)." ($checkStatus)",
-                        cheknum     => $checknum
-                    }
+                $self->_setStatus(
+                    job         => $job,
+                    currentStep => 'checking',
+                    status      => 'ko',
+                    msg         => "failure of check #".($checknum+1)." ($checkStatus)",
+                    cheknum     => $checknum
                 );
 
                 next JOB;
             }
         }
 
-        $self->{client}->send(
-            url  => $remoteUrl,
-            args => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'checking',
-                status      => 'ok',
-                msg         => 'all checks are ok'
-            }
+        $self->_setStatus(
+            job         => $job,
+            currentStep => 'checking',
+            status      => 'ok',
+            msg         => 'all checks are ok'
         );
 
 
         # DOWNLOADING
 
-        $self->{client}->send(
-            url  => $remoteUrl,
-            args => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'downloading',
-                msg         => 'downloading files'
-            }
+        $self->_setStatus(
+            job         => $job,
+            currentStep => 'downloading',
+            msg         => 'downloading files'
         );
 
         my $retry = 5;
@@ -219,18 +229,12 @@ sub processRemote {
 
             # File exists, no need to download
             if ( $file->filePartsExists() ) {
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action     => "setStatus",
-                        machineid  => $self->{deviceid},
-                        part       => 'file',
-                        uuid       => $job->{uuid},
-                        sha512     => $file->{sha512},
-                        status     => 'ok',
-                        currentStep=> 'downloading',
-                        msg        => $file->{name}.' already downloaded'
-                    }
+                $self->_setStatus(
+                    job         => $job,
+                    file        => $file,
+                    status      => 'ok',
+                    currentStep => 'downloading',
+                    msg         => $file->{name}.' already downloaded'
                 );
 
                 $workdir->addFile($file);
@@ -238,17 +242,11 @@ sub processRemote {
             }
 
             # File doesn't exist, lets try or retry a download
-            $self->{client}->send(
-                url  => $remoteUrl,
-                args => {
-                    action      => "setStatus",
-                    machineid   => $self->{deviceid},
-                    part        => 'file',
-                    uuid        => $job->{uuid},
-                    sha512      => $file->{sha512},
-                    currentStep => 'downloading',
-                    msg         => 'fetching '.$file->{name}
-                }
+            $self->_setStatus(
+                job         => $job,
+                file        => $file,
+                currentStep => 'downloading',
+                msg         => 'fetching '.$file->{name}
             );
 
             $file->download();
@@ -258,18 +256,12 @@ sub processRemote {
 
             if ( $downloadIsOK ) {
 
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action      => "setStatus",
-                        machineid   => $self->{deviceid},
-                        part        => 'file',
-                        uuid        => $job->{uuid},
-                        sha512      => $file->{sha512},
-                        currentStep => 'downloading',
-                        status      => 'ok',
-                        msg         => $file->{name}.' downloaded'
-                    }
+                $self->_setStatus(
+                    job         => $job,
+                    file        => $file,
+                    currentStep => 'downloading',
+                    status      => 'ok',
+                    msg         => $file->{name}.' downloaded'
                 );
 
                 $workdir->addFile($file);
@@ -281,34 +273,22 @@ sub processRemote {
 
                 if ($retry--) { # Retry
 # OK, retry!
-                    $self->{client}->send(
-                        url  => $remoteUrl,
-                        args => {
-                            action      => "setStatus",
-                            machineid   => $self->{deviceid},
-                            part        => 'file',
-                            uuid        => $job->{uuid},
-                            sha512      => $file->{sha512},
-                            currentStep => 'downloading',
-                            msg         => 'retrying '.$file->{name}
-                        }
+                    $self->_setStatus(
+                        job         => $job,
+                        file        => $file,
+                        currentStep => 'downloading',
+                        msg         => 'retrying '.$file->{name}
                     );
 
                     redo FETCHFILE;
                 } else { # Give up...
 
-                    $self->{client}->send(
-                        url  => $remoteUrl,
-                        args => {
-                            action      => "setStatus",
-                            machineid   => $self->{deviceid},
-                            part        => 'file',
-                            uuid        => $job->{uuid},
-                            sha512      => $file->{sha512},
-                            currentStep => 'downloading',
-                            status      => 'ko',
-                            msg         => $file->{name}.' download failed'
-                        }
+                    $self->_setStatus(
+                        job         => $job,
+                        file        => $file,
+                        currentStep => 'downloading',
+                        status      => 'ko',
+                        msg         => $file->{name}.' download failed'
                     );
 
                     next JOB;
@@ -318,68 +298,31 @@ sub processRemote {
         }
 
 
-        $self->{client}->send(
-            url  => $remoteUrl,
-            args => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'downloading',
-                status      => 'ok',
-                msg         => 'success'
-            }
+        $self->_setStatus(
+            job         => $job,
+            currentStep => 'downloading',
+            status      => 'ok',
+            msg         => 'success'
         );
 
-#        # CHECKING
-#         if (!$job->checkWinkey()) {
-#             $self->setStatus({ machineid => 'DEVICEID', part => 'job', uuid => $job->{uuid}, status => 'ko', msg => 'rejected because of a Windows registry check' });
-#             next JOB;
-#         } elsif (!$job->checkFreespace()) {
-#             $self->setStatus({ machineid => 'DEVICEID', part => 'job', uuid => $job->{uuid}, status => 'ko', msg => 'rejected because of harddrive free space' });
-#             next JOB;
-#         }
-
         if (!$workdir->prepare()) {
-            $self->{client}->send(
-                url  => $remoteUrl,
-                args => {
-                    action      => "setStatus",
-                    machineid   => $self->{deviceid},
-                    part        => 'job',
-                    uuid        => $job->{uuid},
-                    currentStep => 'prepare',
-                    status      => 'ko',
-                    msg         => 'failed to prepare work dir'
-                }
+            $self->_setStatus(
+                job         => $job,
+                currentStep => 'prepare',
+                status      => 'ko',
+                msg         => 'failed to prepare work dir'
             );
             next JOB;
         } else {
-            $self->{client}->send(
-                url  => $remoteUrl,
-                args => {
-                    action      => "setStatus",
-                    machineid   => $self->{deviceid},
-                    part        => 'job',
-                    uuid        => $job->{uuid},
-                    currentStep => 'prepare',
-                    status      => 'ok',
-                    msg         => 'success'
-                }
+            $self->_setStatus(
+                job         => $job,
+                currentStep => 'prepare',
+                status      => 'ok',
+                msg         => 'success'
             );
         }
 
         # PROCESSING
-#        $self->{client}->send(
-#            url  => $remoteUrl,
-#            args => {
-#                action      => "setStatus",
-#                machineid   => 'DEVICEID',
-#                part        => 'job',
-#                uuid        => $job->{uuid},
-#                currentStep => 'processing'
-#            }
-#        );
         my $actionProcessor =
           FusionInventory::Agent::Task::Deploy::ActionProcessor->new(
             workdir => $workdir
@@ -397,19 +340,13 @@ sub processRemote {
                     );
                     if ( $checkStatus ne 'ok') {
 
-                        $self->{client}->send(
-                            url  => $remoteUrl,
-                            args => {
-                                action      => "setStatus",
-                                machineid   => $self->{deviceid},
-                                part        => 'job',
-                                uuid        => $job->{uuid},
-                                currentStep => 'checking',
-                                status      => $checkStatus,
-                                msg         => "failure of check #".($checknum+1)." ($checkStatus)",
-                                actionnum   => $actionnum,
-                                cheknum     => $checknum
-                            }
+                        $self->_setStatus(
+                            job         => $job,
+                            currentStep => 'checking',
+                            status      => $checkStatus,
+                            msg         => "failure of check #".($checknum+1)." ($checkStatus)",
+                            actionnum   => $actionnum,
+                            cheknum     => $checknum
                         );
 
                         next ACTION;
@@ -423,60 +360,37 @@ sub processRemote {
             $ret->{msg} = [] unless $ret->{msg};
             push @{$ret->{msg}}, $@ if $@;
             if ( !$ret->{status} ) {
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action    => "setStatus",
-                        machineid => $self->{deviceid},
-                        uuid      => $job->{uuid},
-                        msg       => $ret->{msg},
-                        actionnum => $actionnum,
-                    }
+                $self->_setStatus(
+                    job       => $job,
+                    msg       => $ret->{msg},
+                    actionnum => $actionnum,
                 );
 
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action      => "setStatus",
-                        machineid   => $self->{deviceid},
-                        part        => 'job',
-                        uuid        => $job->{uuid},
-                        currentStep => 'processing',
-                        status      => 'ko',
-                        actionnum   => $actionnum,
-                        msg         => "action #".($actionnum+1)." processing failure"
-                    }
+                $self->_setStatus(
+                    job         => $job,
+                    currentStep => 'processing',
+                    status      => 'ko',
+                    actionnum   => $actionnum,
+                    msg         => "action #".($actionnum+1)." processing failure"
                 );
 
                 next JOB;
             }
-            $self->{client}->send(
-                url  => $remoteUrl,
-                args => {
-                    action      => "setStatus",
-                    machineid   => $self->{deviceid},
-                    part        => 'job',
-                    uuid        => $job->{uuid},
-                    currentStep => 'processing',
-                    status      => 'ok',
-                    actionnum   => $actionnum,
-                    msg         => "action #".($actionnum+1)." processing success"
-                }
+            $self->_setStatus(
+                job         => $job,
+                currentStep => 'processing',
+                status      => 'ok',
+                actionnum   => $actionnum,
+                msg         => "action #".($actionnum+1)." processing success"
             );
 
             $actionnum++;
         }
 
-        $self->{client}->send(
-            url  => $remoteUrl,
-            args => {
-                action    => "setStatus",
-                machineid => $self->{deviceid},
-                part      => 'job',
-                uuid      => $job->{uuid},
-                status    => 'ok',
-                msg       => "job successfully completed"
-            }
+        $self->_setStatus(
+            job    => $job,
+            status => 'ok',
+            msg    => "job successfully completed"
         );
     }
 
