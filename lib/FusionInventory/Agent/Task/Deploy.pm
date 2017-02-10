@@ -128,6 +128,7 @@ sub processRemote {
 
     my $jobList = [];
     my $files;
+    my $logger = $self->{logger};
 
     my $answer = $self->{client}->send(
         url  => $remoteUrl,
@@ -137,15 +138,16 @@ sub processRemote {
             version   => $VERSION
         }
     );
+
     if (ref($answer) eq 'HASH' && !keys %$answer) {
         $self->{logger}->debug("Nothing to do");
-        return;
+        return 0;
     }
 
     my $msg;
     if (!_validateAnswer(\$msg, $answer)) {
         $self->{logger}->debug("bad JSON: ".$msg);
-        return;
+        return 0;
     }
 
     foreach my $sha512 ( keys %{ $answer->{associatedFiles} } ) {
@@ -158,22 +160,26 @@ sub processRemote {
         );
     }
 
-    foreach ( @{ $answer->{jobs} } ) {
+    foreach my $job ( @{ $answer->{jobs} } ) {
         my $associatedFiles = [];
-        if ( $_->{associatedFiles} ) {
-            foreach my $uuid ( @{ $_->{associatedFiles} } ) {
+        if ( $job->{associatedFiles} ) {
+            foreach my $uuid ( @{ $job->{associatedFiles} } ) {
                 if ( !$files->{$uuid} ) {
-                    die "unknow file: `" . $uuid
-                      . "'. Not found in JSON answer!";
+                    $logger->error("unknown file: '$uuid'. Not found in JSON answer!");
+                    next;
                 }
                 push @$associatedFiles, $files->{$uuid};
             }
+            if (@$associatedFiles != @{$job->{associatedFiles}}) {
+                $logger->error("Bad job definition in JSON answer!");
+                next;
+            }
         }
-        push @$jobList,
-          FusionInventory::Agent::Task::Deploy::Job->new(
-            data            => $_,
-            associatedFiles => $associatedFiles
-          );
+
+        push @$jobList, FusionInventory::Agent::Task::Deploy::Job->new(
+            data            => $job,
+            associatedFiles => $associatedFiles,
+        );
     }
 
   JOB: foreach my $job (@$jobList) {
@@ -396,7 +402,8 @@ sub processRemote {
     }
 
     $datastore->cleanUp();
-    1;
+
+    return @$jobList ? 1 : 0 ;
 }
 
 
@@ -443,8 +450,7 @@ sub run {
     my $run_jobs = 0;
     foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
         next unless $job->{task} eq "Deploy";
-        $self->processRemote($job->{remote});
-        $run_jobs ++;
+        $run_jobs += $self->processRemote($job->{remote});
     }
 
     if ( !$run_jobs ) {
