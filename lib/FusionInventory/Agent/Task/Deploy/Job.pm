@@ -75,7 +75,7 @@ sub setStatus {
     # Map other optional and set params to action
     map { $action->{$_} = $params{$_} }
         grep { exists($params{$_}) && $params{$_} } qw(
-            status actionnum cheknum msg
+            status actionnum checknum msg
     );
 
     # Include currentStep if defined
