@@ -79,56 +79,23 @@ sub _validateAnswer {
     return 1;
 }
 
-sub _setStatus {
-    my ($self, %params) = @_;
-
-    return unless $self->{_remoreUrl};
-
-    my $job = $params{job}
-        or return;
-
-    # Base action hash we wan't to send back to server as job status
-    my $action ={
-        action      => "setStatus",
-        machineid   => $self->{deviceid},
-        part        => 'job',
-        uuid        => $job->{uuid},
-    };
-
-    # Specific case where we want to send a file status
-    if (exists($params{file}) && $params{file}) {
-        $action->{part}   = 'file';
-        $action->{sha512} = $params{file}->{sha512};
-    }
-
-    # Map other optional and set params to action
-    map { $action->{$_} = $params{$_} }
-        grep { exists($params{$_}) && $params{$_} } qw(
-            currentStep status actionnum cheknum msg
-    );
-
-    # Send back the job status
-    $self->{client}->send(
-        url  => $self->{_remoreUrl},
-        args => $action
-    );
-}
-
 sub processRemote {
     my ($self, $remoteUrl) = @_;
 
-    $self->{_remoreUrl} = $remoteUrl
-        or return;
+    my $logger = $self->{logger};
+    unless ($remoteUrl) {
+        $logger->debug("No remote URL provided for processing");
+        return 0;
+    }
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
         path => $self->{target}{storage}{directory}.'/deploy',
-        logger => $self->{logger}
+        logger => $logger
     );
     $datastore->cleanUp();
 
     my $jobList = [];
     my $files;
-    my $logger = $self->{logger};
 
     my $answer = $self->{client}->send(
         url  => $remoteUrl,
@@ -140,13 +107,13 @@ sub processRemote {
     );
 
     if (ref($answer) eq 'HASH' && !keys %$answer) {
-        $self->{logger}->debug("Nothing to do");
+        $logger->debug("Nothing to do");
         return 0;
     }
 
     my $msg;
     if (!_validateAnswer(\$msg, $answer)) {
-        $self->{logger}->debug("bad JSON: ".$msg);
+        $logger->debug("bad JSON: ".$msg);
         return 0;
     }
 
@@ -156,7 +123,7 @@ sub processRemote {
             sha512    => $sha512,
             data      => $answer->{associatedFiles}{$sha512},
             datastore => $datastore,
-            logger    => $self->{logger}
+            logger    => $logger
         );
     }
 
@@ -177,19 +144,27 @@ sub processRemote {
         }
 
         push @$jobList, FusionInventory::Agent::Task::Deploy::Job->new(
+            remoteUrl       => $remoteUrl,
+            client          => $self->{client},
+            machineid       => $self->{deviceid},
             data            => $job,
             associatedFiles => $associatedFiles,
         );
+
+        $logger->debug2("Deploy job $job->{uuid} in the list");
     }
 
   JOB: foreach my $job (@$jobList) {
 
+        $logger->debug2("Processing job $job->{uuid} from the list");
+
         # RECEIVED
-        $self->_setStatus(
-            job         => $job,
-            currentStep => 'checking',
-            msg         => 'starting'
+        $job->currentStep('checking');
+        $job->setStatus(
+            msg => 'starting'
         );
+
+        $logger->debug2("Checking job $job->{uuid}...");
 
         # CHECKING
         if ( ref( $job->{checks} ) eq 'ARRAY' ) {
@@ -197,37 +172,33 @@ sub processRemote {
                 next unless $job->{checks}[$checknum];
                 my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
                     check => $job->{checks}[$checknum],
-                    logger => $self->{logger}
+                    logger => $logger
                 );
                 next if $checkStatus eq "ok";
                 next if $checkStatus eq "ignore";
 
-                $self->_setStatus(
-                    job         => $job,
-                    currentStep => 'checking',
-                    status      => 'ko',
-                    msg         => "failure of check #".($checknum+1)." ($checkStatus)",
-                    cheknum     => $checknum
+                $job->setStatus(
+                    status  => 'ko',
+                    msg     => "failure of check #".($checknum+1)." ($checkStatus)",
+                    cheknum => $checknum
                 );
 
                 next JOB;
             }
         }
 
-        $self->_setStatus(
-            job         => $job,
-            currentStep => 'checking',
-            status      => 'ok',
-            msg         => 'all checks are ok'
+        $job->setStatus(
+            status => 'ok',
+            msg    => 'all checks are ok'
         );
 
+        $logger->debug2("Downloading for job $job->{uuid}...");
 
         # DOWNLOADING
 
-        $self->_setStatus(
-            job         => $job,
-            currentStep => 'downloading',
-            msg         => 'downloading files'
+        $job->currentStep('downloading');
+        $job->setStatus(
+            msg => 'downloading files'
         );
 
         my $retry = 5;
@@ -236,12 +207,10 @@ sub processRemote {
 
             # File exists, no need to download
             if ( $file->filePartsExists() ) {
-                $self->_setStatus(
-                    job         => $job,
-                    file        => $file,
-                    status      => 'ok',
-                    currentStep => 'downloading',
-                    msg         => $file->{name}.' already downloaded'
+                $job->setStatus(
+                    file   => $file,
+                    status => 'ok',
+                    msg    => $file->{name}.' already downloaded'
                 );
 
                 $workdir->addFile($file);
@@ -249,11 +218,9 @@ sub processRemote {
             }
 
             # File doesn't exist, lets try or retry a download
-            $self->_setStatus(
-                job         => $job,
-                file        => $file,
-                currentStep => 'downloading',
-                msg         => 'fetching '.$file->{name}
+            $job->setStatus(
+                file => $file,
+                msg  => 'fetching '.$file->{name}
             );
 
             $file->download();
@@ -263,12 +230,10 @@ sub processRemote {
 
             if ( $downloadIsOK ) {
 
-                $self->_setStatus(
-                    job         => $job,
-                    file        => $file,
-                    currentStep => 'downloading',
-                    status      => 'ok',
-                    msg         => $file->{name}.' downloaded'
+                $job->setStatus(
+                    file   => $file,
+                    status => 'ok',
+                    msg    => $file->{name}.' downloaded'
                 );
 
                 $workdir->addFile($file);
@@ -280,22 +245,18 @@ sub processRemote {
 
                 if ($retry--) { # Retry
 # OK, retry!
-                    $self->_setStatus(
-                        job         => $job,
-                        file        => $file,
-                        currentStep => 'downloading',
-                        msg         => 'retrying '.$file->{name}
+                    $job->setStatus(
+                        file => $file,
+                        msg  => 'retrying '.$file->{name}
                     );
 
                     redo FETCHFILE;
                 } else { # Give up...
 
-                    $self->_setStatus(
-                        job         => $job,
-                        file        => $file,
-                        currentStep => 'downloading',
-                        status      => 'ko',
-                        msg         => $file->{name}.' download failed'
+                    $job->setStatus(
+                        file   => $file,
+                        status => 'ko',
+                        msg    => $file->{name}.' download failed'
                     );
 
                     next JOB;
@@ -304,30 +265,28 @@ sub processRemote {
 
         }
 
-
-        $self->_setStatus(
-            job         => $job,
-            currentStep => 'downloading',
-            status      => 'ok',
-            msg         => 'success'
+        $job->setStatus(
+            status => 'ok',
+            msg    => 'success'
         );
 
+        $logger->debug2("Preparation for job $job->{uuid}...");
+
+        $job->currentStep('prepare');
         if (!$workdir->prepare()) {
-            $self->_setStatus(
-                job         => $job,
-                currentStep => 'prepare',
-                status      => 'ko',
-                msg         => 'failed to prepare work dir'
+            $job->setStatus(
+                status => 'ko',
+                msg    => 'failed to prepare work dir'
             );
             next JOB;
         } else {
-            $self->_setStatus(
-                job         => $job,
-                currentStep => 'prepare',
-                status      => 'ok',
-                msg         => 'success'
+            $job->setStatus(
+                status => 'ok',
+                msg    => 'success'
             );
         }
+
+        $logger->debug2("Processing for job $job->{uuid}...");
 
         # PROCESSING
         my $actionProcessor =
@@ -338,22 +297,22 @@ sub processRemote {
         ACTION: while ( my $action = $job->getNextToProcess() ) {
         my ($actionName, $params) = %$action;
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
+                $logger->debug2("Processing check for job $job->{uuid}...");
+                $job->currentStep('checking');
                 foreach my $checknum ( 0 .. @{ $params->{checks} } ) {
                     next unless $job->{checks}[$checknum];
                     my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
                         check => $params->{checks}[$checknum],
-                        logger => $self->{logger}
+                        logger => $logger
 
                     );
                     if ( $checkStatus ne 'ok') {
 
-                        $self->_setStatus(
-                            job         => $job,
-                            currentStep => 'checking',
-                            status      => $checkStatus,
-                            msg         => "failure of check #".($checknum+1)." ($checkStatus)",
-                            actionnum   => $actionnum,
-                            cheknum     => $checknum
+                        $job->setStatus(
+                            status    => $checkStatus,
+                            msg       => "failure of check #".($checknum+1)." ($checkStatus)",
+                            actionnum => $actionnum,
+                            cheknum   => $checknum
                         );
 
                         next ACTION;
@@ -361,45 +320,45 @@ sub processRemote {
                 }
             }
 
+            $job->currentStep('processing');
 
             my $ret;
-            eval { $ret = $actionProcessor->process($actionName, $params, $self->{logger}); };
+            eval { $ret = $actionProcessor->process($actionName, $params, $logger); };
             $ret->{msg} = [] unless $ret->{msg};
             push @{$ret->{msg}}, $@ if $@;
             if ( !$ret->{status} ) {
-                $self->_setStatus(
-                    job       => $job,
+                $job->setStatus(
                     msg       => $ret->{msg},
                     actionnum => $actionnum,
                 );
 
-                $self->_setStatus(
-                    job         => $job,
-                    currentStep => 'processing',
-                    status      => 'ko',
-                    actionnum   => $actionnum,
-                    msg         => "action #".($actionnum+1)." processing failure"
+                $job->setStatus(
+                    status    => 'ko',
+                    actionnum => $actionnum,
+                    msg       => "action #".($actionnum+1)." processing failure"
                 );
 
                 next JOB;
             }
-            $self->_setStatus(
-                job         => $job,
-                currentStep => 'processing',
-                status      => 'ok',
-                actionnum   => $actionnum,
-                msg         => "action #".($actionnum+1)." processing success"
+            $job->setStatus(
+                status    => 'ok',
+                actionnum => $actionnum,
+                msg       => "action #".($actionnum+1)." processing success"
             );
 
             $actionnum++;
         }
 
-        $self->_setStatus(
-            job    => $job,
+        $logger->debug2("Finished job $job->{uuid}...");
+
+        $job->currentStep('end');
+        $job->setStatus(
             status => 'ok',
             msg    => "job successfully completed"
         );
     }
+
+    $logger->debug2("All deploy jobs processed");
 
     $datastore->cleanUp();
 
