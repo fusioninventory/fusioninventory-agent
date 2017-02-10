@@ -168,22 +168,56 @@ sub processRemote {
 
         # CHECKING
         if ( ref( $job->{checks} ) eq 'ARRAY' ) {
-            foreach my $checknum ( 0 .. @{ $job->{checks} } ) {
-                next unless $job->{checks}[$checknum];
+            my $checknum = 0;
+            while ( @{$job->{checks}} ) {
+                $checknum ++;
+
+                my $check = shift @{$job->{checks}}
+                    or next;
+                my $type = $check->{type} || 'unsupported';
+                my $expect = $check->{return} || 'ok';
+
+                my $infos = [];
                 my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
-                    check => $job->{checks}[$checknum],
-                    logger => $logger
-                );
-                next if $checkStatus eq "ok";
-                next if $checkStatus eq "ignore";
-
-                $job->setStatus(
-                    status  => 'ko',
-                    msg     => "failure of check #".($checknum+1)." ($checkStatus)",
-                    cheknum => $checknum
+                    check  => $check,
+                    logger => $logger,
+                    info   => $infos
                 );
 
-                next JOB;
+                if ($check->{return} eq "skip") {
+                    if ($checkStatus eq 'ok') {
+                        $logger->info("Skipping job because $type check #$checknum passed");
+                        $job->setStatus(
+                            status   => 'ok',
+                            msg      => 'job skipped',
+                            checknum => $checknum
+                        );
+                        next JOB;
+                    }
+                    $logger->debug("$type check #$checknum: Skip condition not reached");
+                    next;
+
+                } elsif ($checkStatus eq 'ko') {
+                    $logger->info("Skipping job because $type check #$checknum failed");
+
+                    $job->setStatus(
+                        status   => 'ko',
+                        msg      => "failure of $type check #$checknum",
+                        checknum => $checknum
+                    );
+
+                    next JOB;
+                }
+
+                my $info = pop @{$infos};
+                $logger->debug("$expect test, $type check #$checknum, $checkStatus: $info");
+                if ($expect =~ /^info|warning$/) {
+                    $job->setStatus(
+                        status   => $checkStatus,
+                        msg      => "$type check #$checknum: $info",
+                        checknum => $checknum
+                    );
+                }
             }
         }
 
