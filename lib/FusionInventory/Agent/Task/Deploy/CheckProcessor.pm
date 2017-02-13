@@ -104,7 +104,7 @@ sub message {
 sub is {
     my ($self, $type) = @_;
 
-    return $type ? $self->{return} : ($self->{return} eq $type) ;
+    return $type ? ($self->{return} eq $type) : $self->{return} ;
 }
 
 sub process {
