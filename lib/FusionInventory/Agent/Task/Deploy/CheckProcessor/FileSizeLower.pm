@@ -6,9 +6,6 @@ use warnings;
 use base "FusionInventory::Agent::Task::Deploy::CheckProcessor";
 
 sub prepare {
-    my ($self) = @_;
-
-    $self->on_success("file size is lower");
 }
 
 sub success {
@@ -17,7 +14,7 @@ sub success {
     $self->on_failure("missing file");
     return 0 unless -f $self->{path};
 
-    $self->on_failure("No value provided to check file size again");
+    $self->on_failure("no value provided to check file size again");
     my $greater = $self->{value};
     return 0 unless (defined($greater));
 
@@ -25,11 +22,12 @@ sub success {
     my @fstat = stat($self->{path});
     return 0 unless (@fstat);
 
-    $self->on_failure("File size not found");
+    $self->on_failure("file size not found");
     my $size = $fstat[7];
     return 0 unless (defined($size));
 
-    $self->on_failure("File size not lower: $size >= $greater");
+    $self->on_failure("file size not lower: $size >= $greater");
+    $self->on_success("file size is lower: $size < $greater");
     return ( $size < $greater );
 }
 

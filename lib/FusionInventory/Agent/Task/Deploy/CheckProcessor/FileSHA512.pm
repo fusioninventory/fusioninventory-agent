@@ -19,7 +19,7 @@ sub success {
     $self->on_failure("missing file");
     return 0 unless -f $self->{path};
 
-    $self->on_failure("No value provided to check file size again");
+    $self->on_failure("no value provided to check file size again");
     my $expected = $self->{value};
     return 0 unless (defined($expected));
 

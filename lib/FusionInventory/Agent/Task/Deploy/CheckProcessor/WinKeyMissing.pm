@@ -13,22 +13,22 @@ sub prepare {
 
     $self->{path} =~ s{\\}{/}g;
 
-    $self->on_success("missing winkey");
+    $self->on_success("missing winkey: ".$self->{path});
 }
 
 sub success {
     my ($self) = @_;
 
-    $self->on_failure("Not on MSWin32");
+    $self->on_failure("not on MSWin32");
     return 0 unless $OSNAME eq 'MSWin32';
 
     FusionInventory::Agent::Tools::Win32->require();
     if ($EVAL_ERROR) {
-        $self->on_failure("Failed to load Win32 tools: $EVAL_ERROR");
+        $self->on_failure("failed to load Win32 tools: $EVAL_ERROR");
         return 0;
     }
 
-    $self->on_failure("winkey present");
+    $self->on_failure("winkey present: ".$self->{path});
     return ! defined(FusionInventory::Agent::Tools::Win32::getRegistryKey(
             path => $self->{path}
         )

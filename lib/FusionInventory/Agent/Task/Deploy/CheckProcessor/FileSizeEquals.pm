@@ -8,7 +8,7 @@ use base "FusionInventory::Agent::Task::Deploy::CheckProcessor";
 sub prepare {
     my ($self) = @_;
 
-    $self->on_success("expected file size");
+    $self->on_success("expected file size: ".($self->{value}||'n/a'));
 }
 
 sub success {
@@ -29,7 +29,7 @@ sub success {
     my $size = $fstat[7];
     return 0 unless (defined($size));
 
-    $self->on_failure("wrong file size: $size");
+    $self->on_failure("wrong file size: $size vs $expected");
     return ( $size == $expected );
 }
 

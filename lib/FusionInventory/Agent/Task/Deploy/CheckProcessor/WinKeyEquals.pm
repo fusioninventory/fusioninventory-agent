@@ -13,22 +13,22 @@ sub prepare {
 
     $self->{path} =~ s{\\}{/}g;
 
-    $self->on_success("Found expected winkey value");
+    $self->on_success("found expected winkey value: ".($self->{value}||'n/a')." in ".$self->{path});
 }
 
 sub success {
     my ($self) = @_;
 
-    $self->on_failure("Not on MSWin32");
+    $self->on_failure("not on MSWin32");
     return 0 unless $OSNAME eq 'MSWin32';
 
-    $self->on_failure("No value to check again provided");
+    $self->on_failure("no value to check again provided");
     my $expected = $self->{value};
     return 0 unless (defined($expected));
 
     FusionInventory::Agent::Tools::Win32->require();
     if ($EVAL_ERROR) {
-        $self->on_failure("Failed to load Win32 tools: $EVAL_ERROR");
+        $self->on_failure("failed to load Win32 tools: $EVAL_ERROR");
         return 0;
     }
 
@@ -36,10 +36,10 @@ sub success {
         path => $self->{path}
     );
 
-    $self->on_failure("missing winkey");
+    $self->on_failure("missing winkey: ".$self->{path});
     return 0 unless (defined($regValue));
 
-    $self->on_failure("bad winkey content: found $regValue vs $expected");
+    $self->on_failure("bad winkey content: found $regValue vs $expected in ".$self->{path});
     return ( $regValue eq $expected );
 }
 

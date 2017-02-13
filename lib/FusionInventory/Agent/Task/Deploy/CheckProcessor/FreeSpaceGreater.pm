@@ -8,14 +8,11 @@ use base "FusionInventory::Agent::Task::Deploy::CheckProcessor";
 use FusionInventory::Agent::Task::Deploy::DiskFree;
 
 sub prepare {
-    my ($self) = @_;
-
-    $self->on_success("free space is greater");
 }
 
 sub success {
     my ($self) = @_;
-    $self->on_failure("No value provided to check free space again");
+    $self->on_failure("no value provided to check free space again");
     my $lower = $self->{value};
     return 0 unless (defined($lower));
 
@@ -27,6 +24,7 @@ sub success {
     return 0 unless (defined($freespace));
 
     $self->on_failure("free space not greater: $freespace <= $lower");
+    $self->on_success("free space is greater: $freespace > $lower");
     return ( $freespace > $lower );
 }
 
