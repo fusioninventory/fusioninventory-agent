@@ -10,7 +10,6 @@ use base 'FusionInventory::Agent::Task';
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
-use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
@@ -149,6 +148,7 @@ sub processRemote {
             machineid       => $self->{deviceid},
             data            => $job,
             associatedFiles => $associatedFiles,
+            logger          => $logger
         );
 
         $logger->debug2("Deploy job $job->{uuid} in the list");
@@ -167,59 +167,7 @@ sub processRemote {
         $logger->debug2("Checking job $job->{uuid}...");
 
         # CHECKING
-        if ( ref( $job->{checks} ) eq 'ARRAY' ) {
-            my $checknum = 0;
-            while ( @{$job->{checks}} ) {
-                $checknum ++;
-
-                my $check = shift @{$job->{checks}}
-                    or next;
-                my $type = $check->{type} || 'unsupported';
-
-                # Bless check object as CheckProcessor
-                FusionInventory::Agent::Task::Deploy::CheckProcessor->new(
-                    check  => $check,
-                    logger => $logger,
-                );
-
-                my $checkStatus = $check->process();
-
-                if ($check->is("skip")) {
-                    if ($checkStatus eq 'ok') {
-                        $logger->info("Skipping job because $type check #$checknum passed");
-                        $job->setStatus(
-                            status   => 'ok',
-                            msg      => 'job skipped',
-                            checknum => $checknum
-                        );
-                        next JOB;
-                    }
-                    $logger->debug("$type check #$checknum: Skip job condition not reached");
-                    next;
-
-                } elsif ($checkStatus eq 'ko') {
-                    $logger->info("Skipping job because $type check #$checknum failed");
-
-                    $job->setStatus(
-                        status   => 'ko',
-                        msg      => "failure of $type check #$checknum",
-                        checknum => $checknum
-                    );
-
-                    next JOB;
-                }
-
-                my $info = $check->is() . ": " . $check->message();
-                $logger->debug("$type check #$checknum, $checkStatus, $info");
-                if ( $check->is("warning") || $check->is("info") ) {
-                    $job->setStatus(
-                        status   => $checkStatus,
-                        msg      => "$type check #$checknum $info",
-                        checknum => $checknum
-                    );
-                }
-            }
-        }
+        next if $job->skip_on_check_failure();
 
         $job->setStatus(
             status => 'ok',
@@ -328,64 +276,18 @@ sub processRemote {
             workdir => $workdir
         );
         my $actionnum = 0;
-        ACTION: while ( my $action = $job->getNextToProcess() ) {
+        while ( my $action = $job->getNextToProcess() ) {
             my ($actionName, $params) = %$action;
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
 
                 $logger->debug2("Processing action check for job $job->{uuid}...");
                 $job->currentStep('checking');
 
-                my $checknum = 0;
-                while ( @{$params->{checks}} ) {
-                    $checknum ++;
-
-                    my $check = shift @{$params->{checks}}
-                        or next;
-                    my $type = $check->{type} || 'unsupported';
-
-                    # Bless check object as CheckProcessor
-                    FusionInventory::Agent::Task::Deploy::CheckProcessor->new(
-                        check  => $check,
-                        logger => $logger,
-                    );
-
-                    my $checkStatus = $check->process();
-
-                    if ($check->is("skip")) {
-                        if ($checkStatus eq 'ok') {
-                            $logger->info("Skipping action because $type check #$checknum passed");
-                            $job->setStatus(
-                                status   => 'ok',
-                                msg      => 'action skipped',
-                                checknum => $checknum
-                            );
-                            next ACTION;
-                        }
-                        $logger->debug("$type check #$checknum: Skip action condition not reached");
-                        next;
-
-                    } elsif ($checkStatus eq 'ko') {
-                        $logger->info("Skipping action because $type check #$checknum failed");
-
-                        $job->setStatus(
-                            status   => 'ko',
-                            msg      => "failure of $type check #$checknum",
-                            checknum => $checknum
-                        );
-
-                        next ACTION;
-                    }
-
-                    my $info = $check->is() . ": " . $check->message();
-                    $logger->debug("$type check #$checknum, $checkStatus, $info");
-                    if ( $check->is("warning") || $check->is("info") ) {
-                        $job->setStatus(
-                            status   => $checkStatus,
-                            msg      => "$type check #$checknum $info",
-                            checknum => $checknum
-                        );
-                    }
-                }
+                # CHECKING
+                next if $job->skip_on_check_failure(
+                    checks => $params->{checks},
+                    level  => 'action'
+                );
             }
 
             $job->currentStep('processing');
@@ -432,7 +334,6 @@ sub processRemote {
 
     return @$jobList ? 1 : 0 ;
 }
-
 
 sub run {
     my ($self, %params) = @_;

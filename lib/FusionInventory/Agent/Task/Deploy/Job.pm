@@ -5,6 +5,8 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Task::Deploy::CheckProcessor;
+
 sub new {
     my ($class, %params) = @_;
 
@@ -13,6 +15,7 @@ sub new {
         _client         => $params{client},
         _machineid      => $params{machineid},
         _currentStep    => 'init',
+        logger          => $params{logger},
         uuid            => $params{data}->{uuid},
         requires        => $params{data}->{requires},
         checks          => $params{data}->{checks},
@@ -86,6 +89,70 @@ sub setStatus {
         url  => $self->{_remoteUrl},
         args => $action
     );
+}
+
+sub skip_on_check_failure {
+    my ($self, %params) = @_;
+
+    my $logger = $self->{logger};
+    my $checks = $params{checks} || $self->{checks};
+    my $level  = $params{level} || 'job';
+
+    if ( ref( $checks ) eq 'ARRAY' ) {
+        my $checknum = 0;
+        while ( @{$checks} ) {
+            $checknum ++;
+
+            my $check = shift @{$checks}
+                or next;
+            my $type = $check->{type} || 'unsupported';
+
+            # Bless check object as CheckProcessor
+            FusionInventory::Agent::Task::Deploy::CheckProcessor->new(
+                check  => $check,
+                logger => $logger,
+            );
+
+            my $checkStatus = $check->process();
+
+            if ($check->is("skip")) {
+                if ($checkStatus eq 'ok') {
+                    $logger->info("Skipping $level because $type check #$checknum passed") if $logger;
+                    $self->setStatus(
+                        status   => 'ok',
+                        msg      => "$level skipped",
+                        checknum => $checknum-1
+                    );
+                    return 1;
+                }
+                $logger->debug("$type check #$checknum: Skip $level condition not reached") if $logger;
+                next;
+
+            } elsif ($checkStatus eq 'ko') {
+                $logger->info("Skipping $level because $type check #$checknum failed") if $logger;
+
+                $self->setStatus(
+                    status   => 'ko',
+                    msg      => "failure of $type check #$checknum",
+                    checknum => $checknum-1
+                );
+
+                return 1;
+            }
+
+            my $info = $check->is() . ": " . $check->message();
+            $logger->debug("$type check #$checknum, $checkStatus, $info") if $logger;
+            if ( $check->is("warning") || $check->is("info") ) {
+                $self->setStatus(
+                    status   => $checkStatus,
+                    msg      => "$type check #$checknum $info",
+                    checknum => $checknum-1
+                );
+            }
+        }
+    }
+
+    return 0;
 }
 
 1;
