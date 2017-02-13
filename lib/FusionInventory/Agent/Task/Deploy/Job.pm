@@ -118,6 +118,13 @@ sub skip_on_check_failure {
             if ($check->is("skip")) {
                 if ($checkStatus eq 'ok') {
                     $logger->info("Skipping $level because $type check #$checknum passed") if $logger;
+
+                    $self->setStatus(
+                        status   => 'ok',
+                        msg      => "check #$checknum: $type, skipping",
+                        checknum => $checknum-1
+                    );
+
                     $self->setStatus(
                         status   => 'ok',
                         msg      => "$level skipped",
@@ -145,7 +152,7 @@ sub skip_on_check_failure {
             if ( $check->is("warning") || $check->is("info") ) {
                 $self->setStatus(
                     status   => $checkStatus,
-                    msg      => "$type check #$checknum $info",
+                    msg      => "check #$checknum: $type, $info",
                     checknum => $checknum-1
                 );
             }
