@@ -29,7 +29,6 @@ sub new {
 
     my $self = $params{check} || {};
     $self->{logger} = $params{logger};
-    $self->{infos}  = $params{infos} || [];
 
     $self->{message} = 'no message';
     $self->{status}  = OK;
