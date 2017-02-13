@@ -175,16 +175,16 @@ sub processRemote {
                 my $check = shift @{$job->{checks}}
                     or next;
                 my $type = $check->{type} || 'unsupported';
-                my $expect = $check->{return} || 'ok';
 
-                my $infos = [];
-                my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
+                # Bless check object as CheckProcessor
+                FusionInventory::Agent::Task::Deploy::CheckProcessor->new(
                     check  => $check,
                     logger => $logger,
-                    info   => $infos
                 );
 
-                if ($check->{return} eq "skip") {
+                my $checkStatus = $check->process();
+
+                if ($check->is("skip")) {
                     if ($checkStatus eq 'ok') {
                         $logger->info("Skipping job because $type check #$checknum passed");
                         $job->setStatus(
@@ -194,7 +194,7 @@ sub processRemote {
                         );
                         next JOB;
                     }
-                    $logger->debug("$type check #$checknum: Skip condition not reached");
+                    $logger->debug("$type check #$checknum: Skip job condition not reached");
                     next;
 
                 } elsif ($checkStatus eq 'ko') {
@@ -209,12 +209,12 @@ sub processRemote {
                     next JOB;
                 }
 
-                my $info = pop @{$infos};
-                $logger->debug("$expect test, $type check #$checknum, $checkStatus: $info");
-                if ($expect =~ /^info|warning$/) {
+                my $info = $check->is() . ": " . $check->message();
+                $logger->debug("$type check #$checknum, $checkStatus, $info");
+                if ( $check->is("warning") || $check->is("info") ) {
                     $job->setStatus(
                         status   => $checkStatus,
-                        msg      => "$type check #$checknum $expect: $info",
+                        msg      => "$type check #$checknum $info",
                         checknum => $checknum
                     );
                 }
@@ -329,27 +329,61 @@ sub processRemote {
         );
         my $actionnum = 0;
         ACTION: while ( my $action = $job->getNextToProcess() ) {
-        my ($actionName, $params) = %$action;
+            my ($actionName, $params) = %$action;
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
-                $logger->debug2("Processing check for job $job->{uuid}...");
-                $job->currentStep('checking');
-                foreach my $checknum ( 0 .. @{ $params->{checks} } ) {
-                    next unless $job->{checks}[$checknum];
-                    my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
-                        check => $params->{checks}[$checknum],
-                        logger => $logger
 
+                $logger->debug2("Processing action check for job $job->{uuid}...");
+                $job->currentStep('checking');
+
+                my $checknum = 0;
+                while ( @{$params->{checks}} ) {
+                    $checknum ++;
+
+                    my $check = shift @{$params->{checks}}
+                        or next;
+                    my $type = $check->{type} || 'unsupported';
+
+                    # Bless check object as CheckProcessor
+                    FusionInventory::Agent::Task::Deploy::CheckProcessor->new(
+                        check  => $check,
+                        logger => $logger,
                     );
-                    if ( $checkStatus ne 'ok') {
+
+                    my $checkStatus = $check->process();
+
+                    if ($check->is("skip")) {
+                        if ($checkStatus eq 'ok') {
+                            $logger->info("Skipping action because $type check #$checknum passed");
+                            $job->setStatus(
+                                status   => 'ok',
+                                msg      => 'action skipped',
+                                checknum => $checknum
+                            );
+                            next ACTION;
+                        }
+                        $logger->debug("$type check #$checknum: Skip action condition not reached");
+                        next;
+
+                    } elsif ($checkStatus eq 'ko') {
+                        $logger->info("Skipping action because $type check #$checknum failed");
 
                         $job->setStatus(
-                            status    => $checkStatus,
-                            msg       => "failure of check #".($checknum+1)." ($checkStatus)",
-                            actionnum => $actionnum,
-                            cheknum   => $checknum
+                            status   => 'ko',
+                            msg      => "failure of $type check #$checknum",
+                            checknum => $checknum
                         );
 
                         next ACTION;
+                    }
+
+                    my $info = $check->is() . ": " . $check->message();
+                    $logger->debug("$type check #$checknum, $checkStatus, $info");
+                    if ( $check->is("warning") || $check->is("info") ) {
+                        $job->setStatus(
+                            status   => $checkStatus,
+                            msg      => "$type check #$checknum $info",
+                            checknum => $checknum
+                        );
                     }
                 }
             }

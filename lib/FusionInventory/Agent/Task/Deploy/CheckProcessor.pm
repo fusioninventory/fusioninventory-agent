@@ -6,257 +6,142 @@ use warnings;
 use constant OK => "ok";
 
 use English qw(-no_match_vars);
-use Digest::SHA;
+use UNIVERSAL::require;
 
-use FusionInventory::Agent::Task::Deploy::DiskFree;
+# Supported sub-class must be declared here
+my %checkType_to_Module = (
+    directoryExists  => "DirectoryExists",
+    directoryMissing => "DirectoryMissing",
+    fileExists       => "FileExists",
+    fileMissing      => "FileMissing",
+    fileSizeEquals   => "FileSizeEquals",
+    fileSizeGreater  => "FileSizeGreater",
+    fileSizeLower    => "FileSizeLower",
+    fileSHA512       => "FileSHA512",
+    freespaceGreater => "FreeSpaceGreater",
+    winkeyExists     => "WinKeyExists",
+    winkeyMissing    => "WinKeyMissing",
+    winkeyEquals     => "WinKeyEquals",
+);
+
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = $params{check} || {};
+    $self->{logger} = $params{logger};
+    $self->{infos}  = $params{infos} || [];
+
+    $self->{message} = 'no message';
+    $self->{status}  = OK;
+    $self->{return}  = "ko"  unless $self->{return};
+    $self->{type}    = "n/a" unless $self->{type};
+
+    # Expend the env vars from the path
+    if ($self->{path}) {
+        $self->{path} =~ s#\$(\w+)#$ENV{$1}#ge;
+        $self->{path} =~ s#%(\w+)%#$ENV{$1}#ge;
+    } else {
+        $self->{path} = "~~ no path given ~~";
+    }
+
+    bless $self, $class;
+
+    if ($checkType_to_Module{$self->{type}}) {
+        my $module = $class . '::' . $checkType_to_Module{$self->{type}};
+        $module->require();
+        if ($EVAL_ERROR) {
+            $self->error("Can't use $module module: load failure ($EVAL_ERROR)");
+        } else {
+            bless $self, $module;
+        }
+    }
+
+    return $self;
+}
+
+sub debug2 {
+    my ($self, $message) = @_;
+
+    $self->{logger}->debug2($message) if $self->{logger};
+}
+
+sub debug {
+    my ($self, $message) = @_;
+
+    $self->{logger}->debug($message) if $self->{logger};
+}
+
+sub info {
+    my ($self, $message) = @_;
+
+    $self->{logger}->info($message) if $self->{logger};
+}
+
+sub error {
+    my ($self, $message) = @_;
+
+    $self->{logger}->error($message) if $self->{logger};
+}
+
+sub on_failure {
+    my ($self, $message) = @_;
+
+    $self->{on_failure} = $message;
+}
+
+sub on_success {
+    my ($self, $message) = @_;
+
+    $self->{on_success} = $message;
+}
+
+sub message {
+    my ($self) = @_;
+
+    return $self->{message};
+}
+
+sub is {
+    my ($self, $type) = @_;
+
+    return $type ? $self->{return} : ($self->{return} eq $type) ;
+}
 
 sub process {
     my ($self, %params) = @_;
 
-    # the code to return in case of failure of the check,
-    # the default is 'ko'
-    my $failureCode = $params{check}->{return} || "ko";
+    $self->prepare();
 
-    my $path = $params{check}->{path};
-    my $info = $params{info} || [];
-
-    # Expend the env vars from the path
-    $path =~ s#\$(\w+)#$ENV{$1}#ge;
-    $path =~ s#%(\w+)%#$ENV{$1}#ge;
-
-    if ($params{check}->{type} eq 'winkeyExists') {
-
-        push @{$info}, "Not on MSWin32";
-
-        return $failureCode unless $OSNAME eq 'MSWin32';
-        require FusionInventory::Agent::Tools::Win32;
-
-        $path =~ s{\\}{/}g;
-
-        my $regKey = FusionInventory::Agent::Tools::Win32::getRegistryKey(
-            path => $path
-        );
-
-        # Handle missing key condition
-        if (!defined($regKey)) {
-            push @{$info}, "missing winkey";
-            return $failureCode;
-        }
-
-        push @{$info}, "winkey present";
-        return OK;
+    my $message;
+    if ($self->success()) {
+        $message = $self->{on_success} || 'unknown reason';
+        $self->debug("check success: $message") if $self->{on_success};
+    } else {
+        $message = $self->{on_failure} || 'unknown reason';
+        $self->debug("check failure: $message") if $self->{on_failure};
+        $self->{status} = $self->{return};
     }
 
-    if ($params{check}->{type} eq 'winkeyEquals') {
+    $self->{message} = $message;
 
-        push @{$info}, "Not on MSWin32";
+    return $self->{status};
+}
 
-        return $failureCode unless $OSNAME eq 'MSWin32';
-        require FusionInventory::Agent::Tools::Win32;
+# Methods to overload
+sub prepare {
+    # This method should call on_failure & on_success parent method
+    my ($self) = @_;
 
-        $path =~ s{\\}{/}g;
+    $self->{message} = "Not implemented '$self->{type}' check processor";
+}
 
-        my $regKey = FusionInventory::Agent::Tools::Win32::getRegistryValue(
-            path => $path
-        );
+sub success {
+    # This method should just return true when the check is a success else false
+    my ($self) = @_;
 
-        # Handle missing key or unexpected value conditions
-        if (!defined($regKey) || $params{check}->{value} ne $regKey) {
-            push @{$info}, defined($regKey) ?
-                "bad winkey content: $regKey" : "missing winkey";
-            return $failureCode;
-        }
+    $self->info("Unsupported check: ".$self->{message});
 
-        push @{$info}, "Found expected winkey value";
-        return OK;
-    }
-
-    if ($params{check}->{type} eq 'winkeyMissing') {
-        push @{$info}, "Not on MSWin32";
-
-        return $failureCode unless $OSNAME eq 'MSWin32';
-        require FusionInventory::Agent::Tools::Win32;
-
-        $path =~ s{\\}{/}g;
-
-        my $regKey = FusionInventory::Agent::Tools::Win32::getRegistryKey(
-            path => $path
-        );
-
-        # Handle existing key condition
-        if (defined($regKey)) {
-            push @{$info}, "unexpected winkey";
-            return $failureCode;
-        }
-
-        push @{$info}, "Found expected winkey";
-        return OK;
-    }
-
-    if ($params{check}->{type} eq 'fileExists') {
-        # Handle missing file
-        unless (-f $path) {
-            push @{$info}, "missing file";
-            return $failureCode;
-        }
-
-        push @{$info}, "file exists";
-        return OK;
-    }
-
-    if ($params{check}->{type} eq 'fileSizeEquals') {
-        # Handle missing file
-        unless (-f $path) {
-            push @{$info}, "missing file";
-            return $failureCode;
-        }
-
-        my @s = stat($path);
-
-        unless (@s) {
-            push @{$info}, "file stat failure";
-            return $failureCode;
-        }
-
-        # Handle wrong size file
-        if ($params{check}->{value} != $s[7]) {
-            push @{$info}, "wrong file size";
-            return $failureCode;
-        }
-
-        push @{$info}, "expected file size";
-        return OK;
-    }
-
-    if ($params{check}->{type} eq 'fileSizeGreater') {
-        # Handle missing file
-        unless (-f $path) {
-            push @{$info}, "missing file";
-            return $failureCode;
-        }
-
-        my @s = stat($path);
-
-        unless (@s) {
-            push @{$info}, "file stat failure";
-            return $failureCode;
-        }
-
-        # Handle file size not greater
-        if ($params{check}->{value} > $s[7]) {
-            push @{$info}, "not greater file size";
-            return $failureCode;
-        }
-
-        push @{$info}, "greater file size";
-        return OK;
-    }
-
-    if ($params{check}->{type} eq 'fileSizeLower') {
-        # Handle missing file
-        unless (-f $path) {
-            push @{$info}, "missing file";
-            return $failureCode;
-        }
-
-        my @s = stat($path);
-
-        unless (@s) {
-            push @{$info}, "file stat failure";
-            return $failureCode;
-        }
-
-        # Handle file size not lower
-        if ($params{check}->{value} < $s[7]) {
-            push @{$info}, "not lower file size";
-            return $failureCode;
-        }
-
-        push @{$info}, "lower file size";
-        return OK;
-    }
-
-    if ($params{check}->{type} eq 'fileMissing') {
-        # Handle present file
-        if (-f $path) {
-            push @{$info}, "file exists";
-            return $failureCode;
-        }
-
-        push @{$info}, "missing file";
-        return OK;
-    }
-
-    if ($params{check}->{type} eq 'freespaceGreater') {
-        # Handle missing path
-        unless (-d $path) {
-            push @{$info}, "missing path";
-            return $failureCode;
-        }
-
-        my $freespace = getFreeSpace(logger => $params{logger}, path => $path);
-        # Handle free space size lower
-        unless ($freespace > $params{check}->{value}) {
-            push @{$info}, "free space not greater";
-            return $failureCode;
-        }
-
-        push @{$info}, "free space greater";
-        return OK;
-    }
-
-    if ($params{check}->{type} eq 'fileSHA512') {
-        # Handle missing path
-        unless (-f $path) {
-            push @{$info}, "missing path";
-            return $failureCode;
-        }
-
-        my $sha = Digest::SHA->new('512');
-
-        my $sha512 = "";
-        eval {
-            $sha->addfile($path, 'b');
-            $sha512 = $sha->hexdigest;
-        };
-
-        # Handle sha512 not equal
-        if ($sha512 ne $params{check}->{value}) {
-            push @{$info}, "wrong sha512 file checksum";
-            return $failureCode;
-        }
-
-        push @{$info}, "expected sha512 file checksum";
-        return OK;
-    }
-
-    if ($params{check}->{type} eq 'directoryExists') {
-        # Handle missing path
-        unless (-d $path) {
-            push @{$info}, "missing folder";
-            return $failureCode;
-        }
-
-        push @{$info}, "folder exists";
-        return OK;
-    }
-
-    if ($params{check}->{type} eq 'directoryMissing') {
-        # Handle existing path
-        if (-d $path) {
-            push @{$info}, "folder exists";
-            return $failureCode;
-        }
-
-        push @{$info}, "missing folder";
-        return OK;
-    }
-
-    push @{$info}, "Unsupported ".$params{check}->{type}." check request";
-    $params{logger}->info("Unsupported ".$params{check}->{type}." check request")
-        if $params{logger};
-
-    return OK;
+    return 1;
 }
 
 1;
