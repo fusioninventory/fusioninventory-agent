@@ -214,7 +214,7 @@ sub processRemote {
                 if ($expect =~ /^info|warning$/) {
                     $job->setStatus(
                         status   => $checkStatus,
-                        msg      => "$type check #$checknum: $info",
+                        msg      => "$type check #$checknum $expect: $info",
                         checknum => $checknum
                     );
                 }
