@@ -2,7 +2,6 @@ package FusionInventory::Agent::Task::Inventory::MacOS::Batteries;
 
 use strict;
 use warnings;
-use Time::Piece;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
