@@ -16,6 +16,12 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
+use Config;
+# check thread support availability, only really needed for winkey tests
+if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
+    plan skip_all => 'thread support required';
+}
+
 use FusionInventory::Agent::Logger;
 
 use FusionInventory::Agent::Task::Deploy::CheckProcessor;
