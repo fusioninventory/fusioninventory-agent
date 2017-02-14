@@ -25,6 +25,14 @@ inventory:
 * Fix some memory size read using canonical API
 * add --no-compression|-C option to disable compression of communication with server
 
+deploy:
+* Bump Deploy task version to 2.2
+* Deploy task audit refactoring
+* Add support for fileSHA512mismatch check processor in audit
+* Fix #205 - Improve software package's audits
+* Support optional audit check name in reported status (needs server update)
+* Add checkprocessor unit tests
+
 injector:
 * add --no-compression|-C option to disable compression of uploaded files
 
