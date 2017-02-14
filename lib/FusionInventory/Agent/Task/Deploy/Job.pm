@@ -113,46 +113,46 @@ sub skip_on_check_failure {
                 logger => $logger,
             );
 
+            my $name = $check->name();
             my $checkStatus = $check->process();
 
-            if ($check->is("skip")) {
-                if ($checkStatus eq 'ok') {
-                    $logger->info("Skipping $level because $type check #$checknum passed") if $logger;
+            if ($checkStatus =~ /^abort|error|ko|skip$/) {
+                $logger->info("Skipping $level because $name check #$checknum failed") if $logger;
 
+                if ($check->is("skip")) {
                     $self->setStatus(
                         status   => 'ok',
-                        msg      => "check #$checknum: $type, skipping",
+                        msg      => "check #$checknum, $name not successful then skip $level",
                         checknum => $checknum-1
                     );
 
                     $self->setStatus(
                         status   => 'ok',
                         msg      => "$level skipped",
+                    );
+                } else {
+                    $self->setStatus(
+                        status   => 'ko',
+                        msg      => "check #$checknum, failure on $name, " . $check->message(),
                         checknum => $checknum-1
                     );
-                    return 1;
                 }
-                $logger->debug("$type check #$checknum: Skip $level condition not reached") if $logger;
-                next;
-
-            } elsif ($checkStatus =~ /^abort|error|ko$/) {
-                $logger->info("Skipping $level because $type check #$checknum failed") if $logger;
-
-                $self->setStatus(
-                    status   => 'ko',
-                    msg      => "check #$checknum: failure on $type, " . $check->message(),
-                    checknum => $checknum-1
-                );
 
                 return 1;
             }
 
-            my $info = $check->is() . ": " . $check->message();
-            $logger->debug("$type check #$checknum, $checkStatus, $info") if $logger;
-            if ( $check->is("warning") || $check->is("info") ) {
+            my $info = $check->is() . ", " . $check->message();
+            $logger->debug("check #$checknum: $name, got $checkStatus, $info") if $logger;
+            if ( ($check->is("warning") || $check->is("info")) && $checkStatus ne 'ok' ) {
                 $self->setStatus(
                     status   => $checkStatus,
-                    msg      => "check #$checknum: $type, $info",
+                    msg      => "check #$checknum, $name $info",
+                    checknum => $checknum-1
+                );
+            } else {
+                $self->setStatus(
+                    status   => $checkStatus,
+                    msg      => "check #$checknum, $name passed",
                     checknum => $checknum-1
                 );
             }

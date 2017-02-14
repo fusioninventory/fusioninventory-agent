@@ -106,6 +106,12 @@ sub is {
     return $type ? ($self->{return} eq $type) : $self->{return} ;
 }
 
+sub name {
+    my ($self) = @_;
+
+    return $self->{name} || $self->{type} || 'unsupported' ;
+}
+
 sub process {
     my ($self, %params) = @_;
 
