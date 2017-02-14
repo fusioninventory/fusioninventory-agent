@@ -14,7 +14,7 @@ sub success {
     $self->on_failure($self->{path} . " is missing");
     return 0 unless -f $self->{path};
 
-    $self->on_failure("no value provided to check file size again");
+    $self->on_failure("no value provided to check file size against");
     my $greater = $self->{value};
     return 0 unless (defined($greater));
 

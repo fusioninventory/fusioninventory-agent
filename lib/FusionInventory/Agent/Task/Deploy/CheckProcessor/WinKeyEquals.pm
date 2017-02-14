@@ -22,7 +22,7 @@ sub success {
     $self->on_failure("not on MSWin32");
     return 0 unless $OSNAME eq 'MSWin32';
 
-    $self->on_failure("no value to check again provided");
+    $self->on_failure("no value provided to check winkey value against");
     my $expected = $self->{value};
     return 0 unless (defined($expected));
 

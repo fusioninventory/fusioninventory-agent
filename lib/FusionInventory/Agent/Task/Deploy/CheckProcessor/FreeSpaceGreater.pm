@@ -12,7 +12,7 @@ sub prepare {
 
 sub success {
     my ($self) = @_;
-    $self->on_failure("no value provided to check free space again");
+    $self->on_failure("no value provided to check free space against");
     my $lower = $self->{value};
     return 0 unless (defined($lower));
 
