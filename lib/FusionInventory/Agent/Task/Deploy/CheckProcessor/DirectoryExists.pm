@@ -8,8 +8,8 @@ use base "FusionInventory::Agent::Task::Deploy::CheckProcessor";
 sub prepare {
     my ($self) = @_;
 
-    $self->on_failure("missing directory");
-    $self->on_success("directory exists");
+    $self->on_failure($self->{path} . " directory is missing");
+    $self->on_success($self->{path} . " directory exists");
 }
 
 sub success {

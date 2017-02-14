@@ -8,8 +8,8 @@ use base "FusionInventory::Agent::Task::Deploy::CheckProcessor";
 sub prepare {
     my ($self) = @_;
 
-    $self->on_failure("file exists");
-    $self->on_success("missing file");
+    $self->on_failure($self->{path} . " file exists");
+    $self->on_success($self->{path} . " file is missing");
 }
 
 sub success {
