@@ -10,18 +10,19 @@ use UNIVERSAL::require;
 
 # Supported sub-class must be declared here
 my %checkType_to_Module = (
-    directoryExists  => "DirectoryExists",
-    directoryMissing => "DirectoryMissing",
-    fileExists       => "FileExists",
-    fileMissing      => "FileMissing",
-    fileSizeEquals   => "FileSizeEquals",
-    fileSizeGreater  => "FileSizeGreater",
-    fileSizeLower    => "FileSizeLower",
-    fileSHA512       => "FileSHA512",
-    freespaceGreater => "FreeSpaceGreater",
-    winkeyExists     => "WinKeyExists",
-    winkeyMissing    => "WinKeyMissing",
-    winkeyEquals     => "WinKeyEquals",
+    directoryExists    => "DirectoryExists",
+    directoryMissing   => "DirectoryMissing",
+    fileExists         => "FileExists",
+    fileMissing        => "FileMissing",
+    fileSizeEquals     => "FileSizeEquals",
+    fileSizeGreater    => "FileSizeGreater",
+    fileSizeLower      => "FileSizeLower",
+    fileSHA512         => "FileSHA512",
+    fileSHA512mismatch => "FileSHA512Mismatch",
+    freespaceGreater   => "FreeSpaceGreater",
+    winkeyExists       => "WinKeyExists",
+    winkeyMissing      => "WinKeyMissing",
+    winkeyEquals       => "WinKeyEquals",
 );
 
 sub new {

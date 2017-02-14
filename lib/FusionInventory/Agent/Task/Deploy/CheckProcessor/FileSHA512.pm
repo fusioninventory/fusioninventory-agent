@@ -12,7 +12,7 @@ use base "FusionInventory::Agent::Task::Deploy::CheckProcessor";
 sub prepare {
     my ($self) = @_;
 
-    $self->on_success("got expected sha512 checksum on " . $self->{path});
+    $self->on_success("got expected sha512 file hash for " . $self->{path});
 }
 
 sub success {
@@ -25,7 +25,7 @@ sub success {
     my $expected = $self->{value};
     return 0 unless (defined($expected));
 
-    $self->on_failure("sha512 checksuming not supported by agent");
+    $self->on_failure("sha512 hash computing not supported by agent");
     my $sha = Digest::SHA->new('512');
     return 0 unless (defined($sha));
 
@@ -34,10 +34,10 @@ sub success {
         $sha->addfile($self->{path}, 'b');
         $sha512 = $sha->hexdigest;
     };
-    $self->on_failure($self->{path} . " file sha512 computing failed, $EVAL_ERROR");
+    $self->on_failure($self->{path} . " file sha512 hash computing failed, $EVAL_ERROR");
     return 0 unless (defined($sha512) && $sha512);
 
-    $self->on_failure($self->{path} . " has wrong sha512 file checksum, found $sha512");
+    $self->on_failure($self->{path} . " has wrong sha512 file hash, found $sha512");
     return ( $sha512 eq $expected );
 }
 
