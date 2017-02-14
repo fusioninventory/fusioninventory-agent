@@ -135,12 +135,12 @@ sub skip_on_check_failure {
                 $logger->debug("$type check #$checknum: Skip $level condition not reached") if $logger;
                 next;
 
-            } elsif ($checkStatus eq 'ko') {
+            } elsif ($checkStatus =~ /^abort|error|ko$/) {
                 $logger->info("Skipping $level because $type check #$checknum failed") if $logger;
 
                 $self->setStatus(
                     status   => 'ko',
-                    msg      => "failure of $type check #$checknum",
+                    msg      => "check #$checknum: failure on $type, " . $check->message(),
                     checknum => $checknum-1
                 );
 
