@@ -13,7 +13,7 @@ sub prepare {
 
     $self->{path} =~ s{\\}{/}g;
 
-    $self->on_success("winkey present: ".$self->{path});
+    $self->on_success("winkey found: ".$self->{path});
 }
 
 sub success {

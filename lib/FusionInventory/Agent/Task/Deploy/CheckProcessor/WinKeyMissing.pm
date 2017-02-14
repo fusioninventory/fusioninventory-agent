@@ -28,7 +28,7 @@ sub success {
         return 0;
     }
 
-    $self->on_failure("winkey present: ".$self->{path});
+    $self->on_failure("winkey found: ".$self->{path});
     return ! defined(FusionInventory::Agent::Tools::Win32::getRegistryKey(
             path => $self->{path}
         )
