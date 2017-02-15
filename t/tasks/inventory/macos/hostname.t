@@ -14,12 +14,14 @@ my %tests = (
     '10.6-system_profiler_Software_SPSoftwareDataType' => 'mac-fusion01'
 );
 
-plan tests => 2;
+plan tests => (scalar keys %tests) + 1;
 
 my $pathToResourcesDir = 'resources/macos/system_profiler/';
-for my $fileName (keys %tests) {
+foreach my $fileName (keys %tests) {
     my $filePath = $pathToResourcesDir . $fileName;
-    my $hostname = FusionInventory::Agent::Task::Inventory::MacOS::Hostname::_getHostname(file => $filePath, format =>
-        'text');
-    ok ($hostname eq $tests{$fileName});
+    my $hostname = FusionInventory::Agent::Task::Inventory::MacOS::Hostname::_getHostname(
+        file => $filePath,
+        format => 'text'
+    );
+    ok ($hostname eq $tests{$fileName}, "$fileName text _getHostname() API");
 }
