@@ -293,11 +293,17 @@ sub run {
 
             if ($time >= $target->getNextRunDate()) {
 
+                my $net_error = 0;
                 eval {
-                    $self->_runTarget($target);
+                    $net_error = $self->_runTarget($target);
                 };
                 $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-                $target->resetNextRunDate();
+                if ($net_error) {
+                    # Prefer to retry early on net error
+                    $target->setNextRunDate($target->getNextRunDate()+60);
+                } else {
+                    $target->resetNextRunDate();
+                }
 
                 # Leave immediately if we passed in terminate method
                 last unless $self->getTargets();
@@ -388,7 +394,8 @@ sub _runTarget {
         );
         unless ($response) {
             $self->{logger}->error("No answer from server at ".$target->getUrl());
-            return;
+            # Return true on net error
+            return 1;
         }
 
         # update target
@@ -408,6 +415,8 @@ sub _runTarget {
         # Leave earlier while requested
         last unless $self->getTargets();
     }
+
+    return 0;
 }
 
 sub _runTask {
