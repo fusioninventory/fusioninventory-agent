@@ -37,7 +37,6 @@ sub _getBattery {
         format => 'text'
     );
 
-    $DB::single = 1;
     my $infoBattery = $infos->{Power}->{'Battery Information'};
 
     my $battery = {
