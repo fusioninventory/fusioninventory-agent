@@ -3,7 +3,6 @@ package FusionInventory::Agent::Task::Inventory::MacOS::Hostname;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
@@ -16,14 +15,21 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $infos = getSystemProfilerInfos(type => 'SPSoftwareDataType', logger => $logger);
-
-    my $hostname =
-        $infos->{'Software'}->{'System Software Overview'}->{'Computer Name'};
+    my $hostname = _getHostname(
+        logger => $logger
+    );
 
     $inventory->setHardware({
         NAME => $hostname
     }) if $hostname;
+}
+
+sub _getHostname {
+    my (%params) = @_;
+
+    my $infos = getSystemProfilerInfos(type => 'SPSoftwareDataType', %params);
+
+    return $infos->{'Software'}->{'System Software Overview'}->{'Computer Name'};
 }
 
 1;
