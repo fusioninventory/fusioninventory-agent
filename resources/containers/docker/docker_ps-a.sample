@@ -1,0 +1,14 @@
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS                    NAMES
+7938ef110db9        driket54/glpi       "/bin/sh -c /opt/star"   3 months ago        Exited (137) 3 months ago                            suspicious_dubinsky
+216ff5c60d3e        driket54/glpi       "/bin/sh -c /opt/star"   3 months ago        Created                                              jolly_jepsen
+22b330476769        driket54/glpi       "/bin/sh -c /opt/star"   3 months ago        Exited (137) 3 months ago                            lonely_archimedes
+2473dae7d24d        driket54/glpi       "/bin/sh -c /opt/star"   3 months ago        Created                                              loving_noyce
+982fe8008bbf        mariadb:5.5         "docker-entrypoint.sh"   3 months ago        Exited (0) 3 months ago                              maraidb-5.5-glpi
+5cc66341f6bc        driket54/glpi       "/bin/sh -c /opt/star"   3 months ago        Exited (137) 3 months ago                            glpiall_glpi_1
+cdd54d47e939        mariadb             "docker-entrypoint.sh"   3 months ago        Exited (0) 3 months ago                              glpiall_mysql_1
+7756c1009954        ef32c3db3aed        "/opt/karaf/bin/karaf"   6 months ago        Exited (137) 6 months ago                            karaf
+9a7afffcf153        postgres:9.4        "/docker-entrypoint.s"   6 months ago        Exited (137) 6 months ago                            postgresql_karaf
+58bef002b42c        jenkins             "/bin/tini -- /usr/lo"   7 months ago        Exited (143) 7 months ago                            happy_ritchie
+a0e36958b03c        postgres            "/docker-entrypoint.s"   7 months ago        Exited (0) 7 months ago                              kimios-postgres
+b98829235592        driket54/glpi       "/bin/sh -c /opt/star"   8 months ago        Up 6 minutes                0.0.0.0:8090->80/tcp     glpi_http
+f8700da0f53c        mariadb:5.5         "docker-entrypoint.sh"   8 months ago        Exited (137) 7 months ago   0.0.0.0:3306->3306/tcp   mariadb-glpi
