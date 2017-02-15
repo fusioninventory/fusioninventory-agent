@@ -9,7 +9,6 @@ use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 use JSON::PP;
-use Data::Dumper;
 
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Docker;
