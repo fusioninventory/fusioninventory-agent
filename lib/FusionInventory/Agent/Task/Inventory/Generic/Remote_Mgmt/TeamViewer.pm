@@ -73,7 +73,7 @@ sub _getID {
     }
 
     if ($OSNAME eq 'darwin') {
-        my $plist_file = grep { -e $_ } map {
+        my ( $plist_file ) = grep { -e $_ } map {
             "/Library/Preferences/com.teamviewer.teamviewer$_.plist"
         } qw( .preferences 10 9 8 7 );
 
