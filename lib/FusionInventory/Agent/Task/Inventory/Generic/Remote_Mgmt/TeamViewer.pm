@@ -20,6 +20,9 @@ sub isEnabled {
                 "HKEY_LOCAL_MACHINE/SOFTWARE/TeamViewer",
             logger => $params{logger}
         );
+    } elsif ($OSNAME eq 'darwin') {
+        return canRun('defaults') &&
+            -e "/Library/Preferences/com.teamviewer.teamviewer.preferences.plist ClientID";
     }
 
     return canRun('teamviewer');
@@ -63,6 +66,10 @@ sub _getID {
 
         return $clientid ? hex($clientid) || $clientid : undef ;
     }
+
+    return getFirstLine(
+        command => "defaults read /Library/Preferences/com.teamviewer.teamviewer.preferences.plist ClientID"
+    ) if ($OSNAME eq 'darwin');
 
     return getFirstMatch(
         command => "teamviewer --info",
