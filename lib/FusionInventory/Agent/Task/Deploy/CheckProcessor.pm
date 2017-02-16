@@ -3,113 +3,151 @@ package FusionInventory::Agent::Task::Deploy::CheckProcessor;
 use strict;
 use warnings;
 
-use English qw(-no_match_vars);
-use Digest::SHA;
+use constant OK => "ok";
 
-use FusionInventory::Agent::Task::Deploy::DiskFree;
+use English qw(-no_match_vars);
+use UNIVERSAL::require;
+
+# Supported sub-class must be declared here
+my %checkType_to_Module = (
+    directoryExists    => "DirectoryExists",
+    directoryMissing   => "DirectoryMissing",
+    fileExists         => "FileExists",
+    fileMissing        => "FileMissing",
+    fileSizeEquals     => "FileSizeEquals",
+    fileSizeGreater    => "FileSizeGreater",
+    fileSizeLower      => "FileSizeLower",
+    fileSHA512         => "FileSHA512",
+    fileSHA512mismatch => "FileSHA512Mismatch",
+    freespaceGreater   => "FreeSpaceGreater",
+    winkeyExists       => "WinKeyExists",
+    winkeyMissing      => "WinKeyMissing",
+    winkeyEquals       => "WinKeyEquals",
+);
+
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = $params{check} || {};
+    $self->{logger} = $params{logger};
+
+    $self->{message} = 'no message';
+    $self->{status}  = OK;
+    $self->{return}  = "ko"  unless $self->{return};
+    $self->{type}    = "n/a" unless $self->{type};
+
+    # Expend the env vars from the path
+    if ($self->{path}) {
+        $self->{path} =~ s#\$(\w+)#$ENV{$1}#ge;
+        $self->{path} =~ s#%(\w+)%#$ENV{$1}#ge;
+    } else {
+        $self->{path} = "~~ no path given ~~";
+    }
+
+    bless $self, $class;
+
+    if ($checkType_to_Module{$self->{type}}) {
+        my $module = $class . '::' . $checkType_to_Module{$self->{type}};
+        $module->require();
+        if ($EVAL_ERROR) {
+            $self->error("Can't use $module module: load failure ($EVAL_ERROR)");
+        } else {
+            bless $self, $module;
+        }
+    }
+
+    return $self;
+}
+
+sub debug2 {
+    my ($self, $message) = @_;
+
+    $self->{logger}->debug2($message) if $self->{logger};
+}
+
+sub debug {
+    my ($self, $message) = @_;
+
+    $self->{logger}->debug($message) if $self->{logger};
+}
+
+sub info {
+    my ($self, $message) = @_;
+
+    $self->{logger}->info($message) if $self->{logger};
+}
+
+sub error {
+    my ($self, $message) = @_;
+
+    $self->{logger}->error($message) if $self->{logger};
+}
+
+sub on_failure {
+    my ($self, $message) = @_;
+
+    $self->{on_failure} = $message;
+}
+
+sub on_success {
+    my ($self, $message) = @_;
+
+    $self->{on_success} = $message;
+}
+
+sub message {
+    my ($self) = @_;
+
+    return $self->{message};
+}
+
+sub is {
+    my ($self, $type) = @_;
+
+    return $type ? ($self->{return} eq $type) : $self->{return} ;
+}
+
+sub name {
+    my ($self) = @_;
+
+    return $self->{name} || $self->{type} || 'unsupported' ;
+}
 
 sub process {
     my ($self, %params) = @_;
 
-    # the code to return in case of failure of the check,
-    # the default is 'ko'
-    my $failureCode = $params{check}->{return} || "ko";
+    $self->prepare();
 
-    my $path = $params{check}->{path};
-
-    # Expend the env vars from the path
-    $path =~ s#\$(\w+)#$ENV{$1}#ge;
-    $path =~ s#%(\w+)%#$ENV{$1}#ge;
-
-    if ($params{check}->{type} eq 'winkeyExists') {
-        return unless $OSNAME eq 'MSWin32';
-        require FusionInventory::Agent::Tools::Win32;
-
-        my $path = $path;
-        $path =~ s{\\}{/}g;
-
-        my $r = FusionInventory::Agent::Tools::Win32::getRegistryKey(path => $path);
-
-        return defined $r ? 'ok' : $failureCode;
+    my $message;
+    if ($self->success()) {
+        $message = $self->{on_success} || 'unknown reason';
+        $self->debug("check success: $message") if $self->{on_success};
+    } else {
+        $message = $self->{on_failure} || 'unknown reason';
+        $self->debug("check failure: $message") if $self->{on_failure};
+        $self->{status} = $self->{return};
     }
 
-    if ($params{check}->{type} eq 'winkeyEquals') {
-        return unless $OSNAME eq 'MSWin32';
-        require FusionInventory::Agent::Tools::Win32;
+    $self->{message} = $message;
 
-        $path =~ s{\\}{/}g;
+    return $self->{status};
+}
 
-        my $r = FusionInventory::Agent::Tools::Win32::getRegistryValue(path => $path);
+# Methods to overload
+sub prepare {
+    # This method should call on_failure & on_success parent method
+    my ($self) = @_;
 
-        return defined $r && $params{check}->{value} eq $r ? 'ok' : $failureCode;
-    }
+    $self->{message} = "Not implemented '$self->{type}' check processor";
+}
 
-    if ($params{check}->{type} eq 'winkeyMissing') {
-        return unless $OSNAME eq 'MSWin32';
-        require FusionInventory::Agent::Tools::Win32;
+sub success {
+    # This method should just return true when the check is a success else false
+    my ($self) = @_;
 
-        my $path = $path;
-        $path =~ s{\\}{/}g;
+    $self->info("Unsupported check: ".$self->{message});
 
-        my $r = FusionInventory::Agent::Tools::Win32::getRegistryKey(path => $path);
-
-        return defined $r ? $failureCode : 'ok';
-    }
-
-    if ($params{check}->{type} eq 'fileExists') {
-        return -f $path ? 'ok' : $failureCode;
-    }
-
-    if ($params{check}->{type} eq 'fileSizeEquals') {
-        my @s = stat($path);
-        return @s ? 'ok' : $failureCode;
-    }
-
-    if ($params{check}->{type} eq 'fileSizeGreater') {
-        my @s = stat($path);
-        return $failureCode unless @s;
-
-        return $params{check}->{value} < $s[7] ? 'ok' : $failureCode;
-    }
-
-    if ($params{check}->{type} eq 'fileSizeLower') {
-        my @s = stat($path);
-        return $failureCode unless @s;
-        return $params{check}->{value} > $s[7] ? 'ok' : $failureCode;
-    }
-
-    if ($params{check}->{type} eq 'fileMissing') {
-        return -f $path ? $failureCode : 'ok';
-    }
-
-    if ($params{check}->{type} eq 'freespaceGreater') {
-        my $freespace = getFreeSpace(logger => $params{logger}, path => $path);
-        return $freespace>$params{check}->{value}? "ok" : $failureCode;
-    }
-
-    if ($params{check}->{type} eq 'fileSHA512') {
-        my $sha = Digest::SHA->new('512');
-
-        my $sha512 = "";
-        eval {
-            $sha->addfile($path, 'b');
-            $sha512 = $sha->hexdigest;
-        };
-
-        return $sha512 eq $params{check}->{value} ? "ok" : $failureCode;
-    }
-
-    if ($params{check}->{type} eq 'directoryExists') {
-        return -d $path ? 'ok' : $failureCode;
-    }
-
-    if ($params{check}->{type} eq 'directoryMissing') {
-        return -d $path ? $failureCode : 'ok';
-    }
-
-    print "Unknown check: `".$params{check}->{type}."'\n";
-
-    return "ok";
+    return 1;
 }
 
 1;
