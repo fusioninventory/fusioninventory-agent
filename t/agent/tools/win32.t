@@ -281,49 +281,6 @@ foreach my $test (keys %tests) {
 }
 
 SKIP: {
-    skip 'Windows-specific test', $win32_only_test_count
-        unless $OSNAME eq 'MSWin32';
-
-    FusionInventory::Agent::Tools::Win32->use('runCommand');
-
-    my ($code, $fd) = runCommand(command => "perl -V");
-    ok($code eq 0, "perl -V returns 0");
-
-    ok(any { /Summary of my perl5/ } <$fd>, "perl -V output looks good");
-
-    ($code, $fd) = runCommand(
-        timeout => 1,
-        command => "perl -e\"sleep 10\""
-    );
-    ok($code eq 293, "timeout=1: timeout catched");
-    my $command = "perl -BAD";
-    ($code, $fd) = runCommand(
-        command => $command,
-        no_stderr => 1
-    );
-    ok(defined(<$fd>), "no_stderr=0: catch STDERR output");
-
-    # From here we need to avoid crashes due to not thread-safe Win32::OLE
-    FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
-
-    FusionInventory::Agent::Tools::Win32->use('is64bit');
-    ok(defined(is64bit()), "is64bit api call");
-
-    FusionInventory::Agent::Tools::Win32->use('getLocalCodepage');
-    ok(defined(getLocalCodepage()), "getLocalCodepage api call");
-    ok(getLocalCodepage() =~ /^cp.+/, "local codepage check");
-
-    # If we crash after that, this means Win32::OLE is not used in a
-    # dedicated thread
-    my $pid = fork;
-    if (defined($pid)) {
-        waitpid $pid, 0;
-    } else {
-        exit(0);
-    }
-}
-
-SKIP: {
     skip 'Avoid windows-emulation based tests on win32',
         (scalar keys %regkey_tests) + (scalar keys %regval_tests)
             if $OSNAME eq 'MSWin32';
@@ -365,5 +322,48 @@ SKIP: {
             $regval_tests{$test}->{_expected},
             "$test regval"
         );
+    }
+}
+
+SKIP: {
+    skip 'Windows-specific test', $win32_only_test_count
+        unless $OSNAME eq 'MSWin32';
+
+    FusionInventory::Agent::Tools::Win32->use('runCommand');
+
+    my ($code, $fd) = runCommand(command => "perl -V");
+    ok($code eq 0, "perl -V returns 0");
+
+    ok(any { /Summary of my perl5/ } <$fd>, "perl -V output looks good");
+
+    ($code, $fd) = runCommand(
+        timeout => 1,
+        command => "perl -e\"sleep 10\""
+    );
+    ok($code eq 293, "timeout=1: timeout catched");
+    my $command = "perl -BAD";
+    ($code, $fd) = runCommand(
+        command => $command,
+        no_stderr => 1
+    );
+    ok(defined(<$fd>), "no_stderr=0: catch STDERR output");
+
+    # From here we need to avoid crashes due to not thread-safe Win32::OLE
+    FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+
+    FusionInventory::Agent::Tools::Win32->use('is64bit');
+    ok(defined(is64bit()), "is64bit api call");
+
+    FusionInventory::Agent::Tools::Win32->use('getLocalCodepage');
+    ok(defined(getLocalCodepage()), "getLocalCodepage api call");
+    ok(getLocalCodepage() =~ /^cp.+/, "local codepage check");
+
+    # If we crash after that, this means Win32::OLE is not used in a
+    # dedicated thread
+    my $pid = fork;
+    if (defined($pid)) {
+        waitpid $pid, 0;
+    } else {
+        exit(0);
     }
 }
