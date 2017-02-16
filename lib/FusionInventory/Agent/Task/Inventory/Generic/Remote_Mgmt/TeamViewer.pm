@@ -66,7 +66,19 @@ sub _getID {
         );
 
         unless ($clientid) {
+            my $teamviever_reg = getRegistryKey(
+                path => is64bit() ?
+                    "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer" :
+                    "HKEY_LOCAL_MACHINE/SOFTWARE/TeamViewer",
+                logger => $params{logger}
+            );
+
             # Look for subkey beginning with Version
+            foreach my $key (keys(%{$teamviever_reg})) {
+                next unless $key =~ /^Version\d+\//;
+                $clientid = $teamviever_reg->{$key}->{"/ClientID"};
+                last if (defined($clientid));
+            }
         }
 
         return $clientid ? hex($clientid) || $clientid : undef ;
