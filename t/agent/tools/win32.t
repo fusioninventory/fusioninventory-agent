@@ -323,41 +323,47 @@ SKIP: {
     }
 }
 
-$module->mock(
-    '_getRegistryKey',
-    sub {
-        my (%params) = @_;
-        return unless ($params{root} && $params{keyName});
-        return unless exists($register{$params{root}});
-        my $root = $register{$params{root}};
-        return unless exists($root->{$params{keyName}});
-        my $key = { %{$root->{$params{keyName}}} };
-        # Bless leaf as expected
-        map { bless $key->{$_}, 'Win32::TieRegistry' }
-            grep { ref($key->{$_}) eq 'HASH' } keys %{$key};
-        bless $key, 'Win32::TieRegistry';
-        return $key;
+SKIP: {
+    skip 'Avoid windows-emulation based tests on win32',
+        (scalar keys %regkey_tests) + (scalar keys %regval_tests)
+            if $OSNAME eq 'MSWin32';
+
+    $module->mock(
+        '_getRegistryKey',
+        sub {
+            my (%params) = @_;
+            return unless ($params{root} && $params{keyName});
+            return unless exists($register{$params{root}});
+            my $root = $register{$params{root}};
+            return unless exists($root->{$params{keyName}});
+            my $key = { %{$root->{$params{keyName}}} };
+            # Bless leaf as expected
+            map { bless $key->{$_}, 'Win32::TieRegistry' }
+                grep { ref($key->{$_}) eq 'HASH' } keys %{$key};
+            bless $key, 'Win32::TieRegistry';
+            return $key;
+        }
+    );
+
+    FusionInventory::Agent::Tools::Win32->use('getRegistryKey');
+    foreach my $test (keys %regkey_tests) {
+
+        my $regkey = getRegistryKey( %{$regkey_tests{$test}} );
+        cmp_deeply(
+            $regkey,
+            $regkey_tests{$test}->{_expected},
+            "$test regkey"
+        );
     }
-);
 
-FusionInventory::Agent::Tools::Win32->use('getRegistryKey');
-foreach my $test (keys %regkey_tests) {
+    FusionInventory::Agent::Tools::Win32->use('getRegistryValue');
+    foreach my $test (keys %regval_tests) {
 
-    my $regkey = getRegistryKey( %{$regkey_tests{$test}} );
-    cmp_deeply(
-        $regkey,
-        $regkey_tests{$test}->{_expected},
-        "$test regkey"
-    );
-}
-
-FusionInventory::Agent::Tools::Win32->use('getRegistryValue');
-foreach my $test (keys %regval_tests) {
-
-    my $regval = getRegistryValue( %{$regval_tests{$test}} );
-    cmp_deeply(
-        $regval,
-        $regval_tests{$test}->{_expected},
-        "$test regval"
-    );
+        my $regval = getRegistryValue( %{$regval_tests{$test}} );
+        cmp_deeply(
+            $regval,
+            $regval_tests{$test}->{_expected},
+            "$test regval"
+        );
+    }
 }
