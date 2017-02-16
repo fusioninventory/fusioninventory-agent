@@ -22,7 +22,7 @@ sub isEnabled {
         );
     } elsif ($OSNAME eq 'darwin') {
         return canRun('defaults') &&
-            -e "/Library/Preferences/com.teamviewer.teamviewer.preferences.plist ClientID";
+            -e "/Library/Preferences/com.teamviewer.teamviewer.preferences.plist";
     }
 
     return canRun('teamviewer');
