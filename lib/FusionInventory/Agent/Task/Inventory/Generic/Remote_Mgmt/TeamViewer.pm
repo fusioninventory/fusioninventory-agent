@@ -21,8 +21,9 @@ sub isEnabled {
             logger => $params{logger}
         );
     } elsif ($OSNAME eq 'darwin') {
-        return canRun('defaults') &&
-            -e "/Library/Preferences/com.teamviewer.teamviewer.preferences.plist";
+        return canRun('defaults') && grep { -e $_ } map {
+            "/Library/Preferences/com.teamviewer.teamviewer$_.plist"
+        } qw( .preferences 10 9 8 7 );
     }
 
     return canRun('teamviewer');
@@ -64,12 +65,20 @@ sub _getID {
             %params
         );
 
+        unless ($clientid) {
+            # Look for subkey beginning with Version
+        }
+
         return $clientid ? hex($clientid) || $clientid : undef ;
     }
 
-    return getFirstLine(
-        command => "defaults read /Library/Preferences/com.teamviewer.teamviewer.preferences.plist ClientID"
-    ) if ($OSNAME eq 'darwin');
+    if ($OSNAME eq 'darwin') {
+        my $plist_file = grep { -e $_ } map {
+            "/Library/Preferences/com.teamviewer.teamviewer$_.plist"
+        } qw( .preferences 10 9 8 7 );
+
+        return getFirstLine( command => "defaults read $plist_file ClientID" ) ;
+    }
 
     return getFirstMatch(
         command => "teamviewer --info",
