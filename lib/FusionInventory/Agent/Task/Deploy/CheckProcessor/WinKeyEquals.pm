@@ -19,7 +19,7 @@ sub prepare {
 sub success {
     my ($self) = @_;
 
-    $self->on_failure("not on MSWin32");
+    $self->on_failure("check only available on windows");
     return 0 unless $OSNAME eq 'MSWin32';
 
     $self->on_failure("no value provided to check winkey value against");
