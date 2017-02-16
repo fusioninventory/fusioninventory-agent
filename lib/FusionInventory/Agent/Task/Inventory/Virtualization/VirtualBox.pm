@@ -55,9 +55,6 @@ sub doInventory {
         push @users, $user->name();
     }
 
-    # abort if too many users
-    return if @users > 10;
-
     foreach my $user (@users) {
         my $command = "su '$user' -c 'VBoxManage -nologo list --long vms'";
         foreach my $machine (_parseVBoxManage(
