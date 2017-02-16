@@ -4,8 +4,7 @@ After=syslog.target network.target
  
 [Service]
 EnvironmentFile=-/etc/sysconfig/fusioninventory-agent
-Type=forking
-ExecStart=/usr/bin/fusioninventory-agent --daemon --pidfile /var/run/fusioninventory-agent.pid $OPTIONS
+ExecStart=/usr/bin/fusioninventory-agent --daemon --no-fork $OPTIONS
  
 [Install]
 WantedBy=multi-user.target

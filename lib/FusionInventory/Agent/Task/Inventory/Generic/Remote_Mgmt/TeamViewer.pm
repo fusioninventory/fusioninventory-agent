@@ -20,6 +20,10 @@ sub isEnabled {
                 "HKEY_LOCAL_MACHINE/SOFTWARE/TeamViewer",
             logger => $params{logger}
         );
+    } elsif ($OSNAME eq 'darwin') {
+        return canRun('defaults') && grep { -e $_ } map {
+            "/Library/Preferences/com.teamviewer.teamviewer$_.plist"
+        } qw( .preferences 10 9 8 7 );
     }
 
     return canRun('teamviewer');
@@ -61,7 +65,31 @@ sub _getID {
             %params
         );
 
+        unless ($clientid) {
+            my $teamviever_reg = getRegistryKey(
+                path => is64bit() ?
+                    "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer" :
+                    "HKEY_LOCAL_MACHINE/SOFTWARE/TeamViewer",
+                logger => $params{logger}
+            );
+
+            # Look for subkey beginning with Version
+            foreach my $key (keys(%{$teamviever_reg})) {
+                next unless $key =~ /^Version\d+\//;
+                $clientid = $teamviever_reg->{$key}->{"/ClientID"};
+                last if (defined($clientid));
+            }
+        }
+
         return $clientid ? hex($clientid) || $clientid : undef ;
+    }
+
+    if ($OSNAME eq 'darwin') {
+        my ( $plist_file ) = grep { -e $_ } map {
+            "/Library/Preferences/com.teamviewer.teamviewer$_.plist"
+        } qw( .preferences 10 9 8 7 );
+
+        return getFirstLine( command => "defaults read $plist_file ClientID" ) ;
     }
 
     return getFirstMatch(

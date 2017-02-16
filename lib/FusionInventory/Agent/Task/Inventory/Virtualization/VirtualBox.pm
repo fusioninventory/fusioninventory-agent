@@ -38,25 +38,22 @@ sub doInventory {
     }
 
     if (!$params{scan_homedirs}) {
-        $logger->warning(
+        $logger->info(
             "'scan-homedirs' configuration parameters disabled, " .
             "ignoring virtualbox virtual machines in user directories"
         );
         return;
     }
 
-    # assume all system users with a suitable homedir is an actual human user
-    my $pattern = $OSNAME eq 'darwin' ?
-        qr{^/Users} : qr{^/home};
+    my @users = ();
+    my $user_vbox_folder = $OSNAME eq 'darwin' ?
+        "Library/VirtualBox" : ".config/VirtualBox" ;
 
-    my @users;
+    # Prepare to lookup only for users using VirtualBox
     while (my $user = getpwent()) {
-        next unless $user->dir() =~ /$pattern/;
-        push @users, $user->name();
+        push @users, $user->name()
+            if -d $user->dir() . "/$user_vbox_folder" ;
     }
-
-    # abort if too many users
-    return if @users > 10;
 
     foreach my $user (@users) {
         my $command = "su '$user' -c 'VBoxManage -nologo list --long vms'";
