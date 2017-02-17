@@ -53,7 +53,7 @@ sub  _getContainers {
 #        my @info = $line =~ /^(\w+)\s+(\w+)\s+"([^"]+)"   (\w+.+)   +(\w+.+)   +(\w+.+)$/;
         my @info = $line =~ /^(\S+)\s+(\S+)\s+"([^"]+)"   +(\w+.+)   +(\w+.+)   +(\w+.+)$/;
         # remove ending spaces
-        @info = map { s/ +$//g; $_ } @info;
+        @info = map { my $temp = $_ ; $temp =~ s/ +$//g; $temp } @info;
 
         my @split = split '   ', $info[5];
         if (scalar(@split) == 2) {
