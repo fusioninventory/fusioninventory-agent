@@ -1,6 +1,7 @@
 
 use inc::Module::Install;
 use English qw(-no_match_vars);
+use lib::FusionInventory::Agent::Version;
 
 name 'FusionInventory-Agent';
 include 'Module::AutoInstall';
@@ -10,6 +11,9 @@ repository 'https://github.com/fusioninventory/fusioninventory-agent';
 version_from 'lib/FusionInventory/Agent/Version.pm';
 perl_version '5.008';
 authors 'FusionInventory Team';
+
+provides
+    'FusionInventory::Agent'     => $FusionInventory::Agent::Version::VERSION;
 
 # mandatory dependencies
 requires 'File::Which'        => '0';
@@ -96,6 +100,10 @@ resources
     bugtracker  => "https://github.com/fusioninventory/fusioninventory-agent/issues",
     repository  => "https://github.com/fusioninventory/fusioninventory-agent/",
     IRC         => "irc://irc.freenode.net/#fusioninventory";
+
+# Not indexing application setup
+no_index
+    file        => 'bin/setup.pm';
 
 makemaker_args(
     test => {
