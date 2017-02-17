@@ -37,6 +37,7 @@ sub doInventory {
 
     $inventory->setOperatingSystem({
         NAME           => "Solaris",
+        HOSTID         => $hostid,
         FULL_NAME      => $info->{fullname},
         VERSION        => $info->{version},
         SERVICE_PACK   => $info->{subversion},
