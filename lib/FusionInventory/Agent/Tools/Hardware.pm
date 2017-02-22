@@ -34,7 +34,7 @@ my %sysdescr_first_word = (
     'alteon'         => { vendor => 'Alteon',          type => 'NETWORKING' },
     'apc'            => { vendor => 'APC',             type => 'NETWORKING' },
     'apple'          => { vendor => 'Apple',                                },
-    'avaya'          => { vendor => 'Avaya',           type => 'NETWORKING' },
+    'avaya'          => { vendor => 'Avaya',                                },
     'axis'           => { vendor => 'Axis',            type => 'NETWORKING' },
     'baystack'       => { vendor => 'Nortel',          type => 'NETWORKING' },
     'broadband'      => { vendor => 'Broadband',       type => 'NETWORKING' },
