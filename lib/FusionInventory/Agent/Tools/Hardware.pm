@@ -282,24 +282,29 @@ sub getDeviceInfo {
         $device->{EXTMOD}       = $match->{module} if $match->{module};
     }
 
-    # vendor and type identification attempt, using sysDescr
+    # vendor and type identification attempt, using sysDescr,
+    # if one of them is missing
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
-    if ($sysdescr) {
+    if ($sysdescr && (!exists $device->{VENDOR} || !exists $device->{TYPE})) {
 
         # first word
         my ($first_word) = $sysdescr =~ /(\S+)/;
         my $result = $sysdescr_first_word{lc($first_word)};
 
         if ($result) {
-            $device->{VENDOR} = $result->{vendor} if $result->{vendor};
-            $device->{TYPE}   = $result->{type}   if $result->{type};
+            $device->{VENDOR} = $result->{vendor}
+                if $result->{vendor} && !exists $device->{VENDOR};
+            $device->{TYPE}   = $result->{type}
+                if $result->{type}   && !exists $device->{TYPE};
         }
 
         # whole sysdescr value
         foreach my $rule (@sysdescr_rules) {
             next unless $sysdescr =~ $rule->{match};
-            $device->{VENDOR} = $rule->{vendor} if $rule->{vendor};
-            $device->{TYPE}   = $rule->{type}   if $rule->{type};
+            $device->{VENDOR} = $rule->{vendor}
+                if $rule->{vendor} && !exists $device->{VENDOR};
+            $device->{TYPE}   = $rule->{type}
+                if $rule->{type}   && !exists $device->{TYPE};
             last;
         }
         $device->{DESCRIPTION} = $sysdescr;
