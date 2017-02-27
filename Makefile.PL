@@ -203,6 +203,8 @@ sub install {
     my ($self) = @_;
     my $install = $self->SUPER::install(@_);
 
+    return $install if $OSNAME eq 'MSWin32';
+
     # add dependency on data and configuration installation targets, and remove
     # dependency on perlocal installation target
     # depending on MakeMaker version, the line to match changes
