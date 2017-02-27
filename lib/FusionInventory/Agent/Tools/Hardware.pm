@@ -285,29 +285,31 @@ sub getDeviceInfo {
     # manufacturer and type identification attempt, using sysDescr,
     # if one of them is missing
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
-    if ($sysdescr && (!exists $device->{MANUFACTURER} || !exists $device->{TYPE})) {
-        # first word
-        my ($first_word) = $sysdescr =~ /(\S+)/;
-        my $result = $sysdescr_first_word{lc($first_word)};
-
-        if ($result) {
-            $device->{MANUFACTURER} = $result->{manufacturer}
-                if $result->{manufacturer} && !exists $device->{MANUFACTURER};
-            $device->{TYPE}   = $result->{type}
-                if $result->{type}         && !exists $device->{TYPE};
-        }
-
-        # whole sysdescr value
-        foreach my $rule (@sysdescr_rules) {
-            next unless $sysdescr =~ $rule->{match};
-            $device->{MANUFACTURER} = $rule->{manufacturer}
-                if $rule->{manufacturer} && !exists $device->{MANUFACTURER};
-            $device->{TYPE}   = $rule->{type}
-                if $rule->{type}         && !exists $device->{TYPE};
-            last;
-        }
-
+    if ($sysdescr) {
         $device->{DESCRIPTION} = $sysdescr;
+
+        if (!exists $device->{MANUFACTURER} || !exists $device->{TYPE}) {
+            # first word
+            my ($first_word) = $sysdescr =~ /(\S+)/;
+            my $result = $sysdescr_first_word{lc($first_word)};
+
+            if ($result) {
+                $device->{MANUFACTURER} = $result->{manufacturer} if
+                    $result->{manufacturer} && !exists $device->{MANUFACTURER};
+                $device->{TYPE}   = $result->{type} if
+                    $result->{type}         && !exists $device->{TYPE};
+            }
+
+            # whole sysdescr value
+            foreach my $rule (@sysdescr_rules) {
+                next unless $sysdescr =~ $rule->{match};
+                $device->{MANUFACTURER} = $rule->{manufacturer} if
+                    $rule->{manufacturer} && !exists $device->{MANUFACTURER};
+                $device->{TYPE}   = $rule->{type} if
+                    $rule->{type}         && !exists $device->{TYPE};
+                last;
+            }
+        }
     }
 
     # fallback type identification attempt, using type-specific OID presence
