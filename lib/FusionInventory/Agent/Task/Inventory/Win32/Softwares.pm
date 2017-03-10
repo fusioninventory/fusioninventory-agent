@@ -13,6 +13,7 @@ use File::Basename;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
+use FusionInventory::Agent::Task::Inventory::Win32::Constants;
 
 my $seen = {};
 
@@ -315,6 +316,9 @@ sub _getSoftwaresList {
             GUID             => $guid,
             USERNAME         => $params{username},
             USERID           => $params{userid},
+            SYSTEM_CATEGORY => $data->{'/SystemComponent'} && hex2dec($data->{'/SystemComponent'}) ?
+                FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_SYSTEM_COMPONENT :
+                FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_APPLICATION
         };
 
         # Workaround for #415
