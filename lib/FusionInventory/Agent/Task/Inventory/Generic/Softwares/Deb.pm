@@ -15,6 +15,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    $DB::single = 1;
     my $command =
         'dpkg-query --show --showformat=\'' .
         '${Package}\t' .
@@ -61,9 +62,9 @@ sub _getPackagesList {
             ARCH        => $infos[1],
             VERSION     => $infos[2],
             FILESIZE    => $infos[3],
-            COMMENTS    => $infos[4],
+#            COMMENTS    => $infos[4],
             FROM        => 'deb',
-            SYSTEM_CATEGORY => $infos[5]
+            SYSTEM_CATEGORY => $infos[4]
         };
     }
     close $handle;
