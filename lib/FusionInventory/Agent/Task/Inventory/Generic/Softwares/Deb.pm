@@ -15,7 +15,6 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    $DB::single = 1;
     my $command =
         'dpkg-query --show --showformat=\'' .
         '${Package}\t' .
