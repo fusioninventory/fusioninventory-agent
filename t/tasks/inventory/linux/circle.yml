@@ -2,7 +2,7 @@ general:
   branches:
     only:
       - 2.3.x
-      - master
+#      - master
 
 machine:
   environment:
@@ -21,7 +21,7 @@ dependencies:
     - $HOME/perl5/bin/cpanm -L ~/perl5 Test::More
     - $HOME/perl5/bin/cpanm -L ~/perl5 UNIVERSAL::require
     - $HOME/perl5/bin/cpanm -L ~/perl5 File::Copy::Recursive
-    - perl Makefile.PL INSTALL_BASE=~/perl5
+    - perl Makefile.PL
     - make
 
 test:
