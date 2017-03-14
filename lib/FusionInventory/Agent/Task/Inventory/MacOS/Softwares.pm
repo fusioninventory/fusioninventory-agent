@@ -92,7 +92,9 @@ sub _extractSoftwareSystemCategoryAndUserName {
         || $str =~ /^\/Users\/([^\/]+)\/([^\/]+)\//) {
         $userName = $1;
         $category = $2 if $2 !~ /^Downloads|^Desktop/;
-    } elsif ($str =~ /^\/([^\/]+\/[^\/]+)\//
+    } elsif ($str =~ /^\/Volumes\/[^\/]+\/([^\/]+\/[^\/]+)\//
+        || $str =~ /^\/Volumes\/[^\/]+\/([^\/]+)\//
+        || $str =~ /^\/([^\/]+\/[^\/]+)\//
         || $str =~ /^\/([^\/]+)\//) {
         $category = $1;
     }
