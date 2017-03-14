@@ -62,7 +62,6 @@ sub _getPackagesList {
             ARCH        => $infos[1],
             VERSION     => $infos[2],
             FILESIZE    => $infos[3],
-#            COMMENTS    => $infos[4],
             FROM        => 'deb',
             SYSTEM_CATEGORY => $infos[4]
         };
