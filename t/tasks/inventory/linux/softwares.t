@@ -134,7 +134,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'adduser',
-        COMMENTS => 'add and remove users and groups',
         ARCH     => 'all',
         VERSION  => '3.112+nmu2',
         FILESIZE => '1228',
@@ -143,7 +142,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'anthy-common',
-        COMMENTS => 'input method for Japanese - common files and dictionary',
         ARCH     => 'all',
         VERSION  => '9100h-6',
         FILESIZE => '13068',
@@ -152,7 +150,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'apache2',
-        COMMENTS => 'Apache HTTP Server metapackage',
         ARCH     => 'amd64',
         VERSION  => '2.2.16-6+squeeze6',
         FILESIZE => '36',
@@ -161,7 +158,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'apache2-mpm-prefork',
-        COMMENTS => 'Apache HTTP Server - traditional non-threaded model',
         ARCH     => 'amd64',
         VERSION  => '2.2.16-6+squeeze6',
         FILESIZE => '68',
@@ -170,7 +166,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'apache2-utils',
-        COMMENTS => 'utility programs for webservers',
         ARCH     => 'amd64',
         VERSION  => '2.2.16-6+squeeze6',
         FILESIZE => '384',
@@ -179,7 +174,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'apache2.2-bin',
-        COMMENTS => 'Apache HTTP Server common binary files',
         ARCH     => 'amd64',
         VERSION  => '2.2.16-6+squeeze6',
         FILESIZE => '3856',
@@ -188,7 +182,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'apache2.2-common',
-        COMMENTS => 'Apache HTTP Server common files',
         ARCH     => 'amd64',
         VERSION  => '2.2.16-6+squeeze6',
         FILESIZE => '2144',
@@ -197,7 +190,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'apt',
-        COMMENTS => 'Advanced front-end for dpkg',
         ARCH     => 'amd64',
         VERSION  => '0.8.10.3+squeeze1',
         FILESIZE => '5644',
@@ -206,7 +198,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'apt-utils',
-        COMMENTS => 'APT utility programs',
         ARCH     => 'amd64',
         VERSION  => '0.8.10.3+squeeze1',
         FILESIZE => '540',
@@ -215,7 +206,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'apt-xapian-index',
-        COMMENTS => 'maintenance and search tools for a Xapian index of Debian packages',
         ARCH     => 'all',
         VERSION  => '0.41',
         FILESIZE => '376',
@@ -224,7 +214,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'aptitude',
-        COMMENTS => 'terminal-based package manager (terminal interface only)',
         ARCH     => 'amd64',
         VERSION  => '0.6.3-3.2+squeeze1',
         FILESIZE => '11916',
@@ -233,7 +222,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'aspell',
-        COMMENTS => 'GNU Aspell spell-checker',
         ARCH     => 'amd64',
         VERSION  => '0.60.6-4',
         FILESIZE => '1184',
@@ -242,7 +230,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'aspell-en',
-        COMMENTS => 'English dictionary for GNU Aspell',
         ARCH     => 'all',
         VERSION  => '6.0-0-6',
         FILESIZE => '548',
@@ -251,7 +238,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'aspell-fr',
-        COMMENTS => 'French dictionary for aspell',
         ARCH     => 'all',
         VERSION  => '0.50-3-7',
         FILESIZE => '636',
@@ -260,7 +246,6 @@ my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'at',
-        COMMENTS => 'Delayed job execution and batch processing',
         ARCH     => 'amd64',
         VERSION  => '3.1.12-1',
         FILESIZE => '220',
