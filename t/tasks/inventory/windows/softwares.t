@@ -8545,7 +8545,8 @@ my %hotfixes_tests = (
             COMMENTS     => 'Security Update for Windows XP (KB980195)',
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
-            RELEASE_TYPE => 'Security Update'
+            RELEASE_TYPE => 'Security Update',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         },
         {
             FROM         => 'WMI',
@@ -8553,7 +8554,8 @@ my %hotfixes_tests = (
             COMMENTS     => 'Security Update for Windows XP (KB980232)',
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
-            RELEASE_TYPE => 'Security Update'
+            RELEASE_TYPE => 'Security Update',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         },
         {
             FROM         => 'WMI',
@@ -8561,7 +8563,8 @@ my %hotfixes_tests = (
             COMMENTS     => 'Security Update for Windows XP (KB980436)',
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
-            RELEASE_TYPE => 'Security Update'
+            RELEASE_TYPE => 'Security Update',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         },
         {
             FROM         => 'WMI',
@@ -8569,7 +8572,8 @@ my %hotfixes_tests = (
             COMMENTS     => 'Security Update for Windows XP (KB981322)',
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
-            RELEASE_TYPE => 'Security Update'
+            RELEASE_TYPE => 'Security Update',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         },
         {
             FROM         => 'WMI',
@@ -8577,7 +8581,8 @@ my %hotfixes_tests = (
             COMMENTS     => 'Security Update for Windows XP (KB981349)',
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
-            RELEASE_TYPE => 'Security Update'
+            RELEASE_TYPE => 'Security Update',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         },
         {
             FROM         => 'WMI',
@@ -8585,7 +8590,8 @@ my %hotfixes_tests = (
             COMMENTS     => 'Security Update for Windows XP (KB981852)',
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
-            RELEASE_TYPE => 'Security Update'
+            RELEASE_TYPE => 'Security Update',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         },
         {
             FROM         => 'WMI',
@@ -8593,7 +8599,8 @@ my %hotfixes_tests = (
             COMMENTS     => 'Security Update for Windows XP (KB981997)',
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
-            RELEASE_TYPE => 'Security Update'
+            RELEASE_TYPE => 'Security Update',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         },
         {
             FROM         => 'WMI',
@@ -8601,7 +8608,8 @@ my %hotfixes_tests = (
             COMMENTS     => 'Security Update for Windows XP (KB982132)',
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
-            RELEASE_TYPE => 'Security Update'
+            RELEASE_TYPE => 'Security Update',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         },
         {
             FROM         => 'WMI',
@@ -8609,7 +8617,8 @@ my %hotfixes_tests = (
             COMMENTS     => 'Security Update for Windows XP (KB982214)',
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
-            RELEASE_TYPE => 'Security Update'
+            RELEASE_TYPE => 'Security Update',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         },
         {
             FROM         => 'WMI',
@@ -8617,7 +8626,8 @@ my %hotfixes_tests = (
             COMMENTS     => 'Security Update for Windows XP (KB982665)',
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
-            RELEASE_TYPE => 'Security Update'
+            RELEASE_TYPE => 'Security Update',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         }
     ]
 );

@@ -357,7 +357,8 @@ sub _getHotfixesList {
             INSTALLDATE  => _dateFormat($object->{InstalledOn}),
             FROM         => "WMI",
             RELEASE_TYPE => $releaseType,
-            ARCH         => $params{is64bit} ? 'x86_64' : 'i586'
+            ARCH         => $params{is64bit} ? 'x86_64' : 'i586',
+            SYSTEM_CATEGORY => FusionInventory::Agent::Task::Inventory::Win32::Constants::CATEGORY_KB
         };
 
     }
