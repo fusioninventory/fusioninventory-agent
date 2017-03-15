@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Win32::Constants;
+package FusionInventory::Agent::Tools::Win32::Constants;
 
 use warnings;
 use strict;
