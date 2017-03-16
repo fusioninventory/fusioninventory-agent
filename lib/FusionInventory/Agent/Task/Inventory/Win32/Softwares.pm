@@ -349,6 +349,13 @@ sub _getHotfixesList {
         if ($object->{Description} && $object->{Description} =~ /^(Security Update|Hotfix|Update)/) {
             $releaseType = $1;
         }
+        my $systemCategory = !$releaseType ?
+        FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_UPDATE :
+                ($releaseType =~ /^Security Update/) ?
+                FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE :
+                    $releaseType =~ /^Hotfix/ ?
+                    FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_HOTFIX :
+                    FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_UPDATE;
 
         next unless $object->{HotFixID} =~ /KB(\d{4,10})/i;
         push @$list, {
@@ -358,7 +365,7 @@ sub _getHotfixesList {
             FROM         => "WMI",
             RELEASE_TYPE => $releaseType,
             ARCH         => $params{is64bit} ? 'x86_64' : 'i586',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => $systemCategory
         };
 
     }

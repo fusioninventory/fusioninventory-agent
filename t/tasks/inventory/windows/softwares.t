@@ -8546,7 +8546,7 @@ my %hotfixes_tests = (
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE
         },
         {
             FROM         => 'WMI',
@@ -8555,7 +8555,7 @@ my %hotfixes_tests = (
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE
         },
         {
             FROM         => 'WMI',
@@ -8564,7 +8564,7 @@ my %hotfixes_tests = (
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE
         },
         {
             FROM         => 'WMI',
@@ -8573,7 +8573,7 @@ my %hotfixes_tests = (
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE
         },
         {
             FROM         => 'WMI',
@@ -8582,7 +8582,7 @@ my %hotfixes_tests = (
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE
         },
         {
             FROM         => 'WMI',
@@ -8591,7 +8591,7 @@ my %hotfixes_tests = (
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE
         },
         {
             FROM         => 'WMI',
@@ -8600,7 +8600,7 @@ my %hotfixes_tests = (
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE
         },
         {
             FROM         => 'WMI',
@@ -8609,7 +8609,7 @@ my %hotfixes_tests = (
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE
         },
         {
             FROM         => 'WMI',
@@ -8618,7 +8618,7 @@ my %hotfixes_tests = (
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE
         },
         {
             FROM         => 'WMI',
@@ -8627,7 +8627,7 @@ my %hotfixes_tests = (
             ARCH         => 'i586',
             INSTALLDATE  => '15/01/2011',
             RELEASE_TYPE => 'Security Update',
-            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_KB
+            SYSTEM_CATEGORY => FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE
         }
     ]
 );
