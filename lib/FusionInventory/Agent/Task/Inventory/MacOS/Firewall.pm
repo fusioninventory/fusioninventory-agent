@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Task::Inventory::Generic::Firewall;
 
 
 sub isEnabled {
