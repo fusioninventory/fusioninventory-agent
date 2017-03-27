@@ -19,21 +19,21 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger = $params{logger};
 
-    my $firewallStatus = _getFirewallStatus(
+    my $profilesStatus = _getFirewallProfilesStatus(
         logger => $logger
     );
     $inventory->addEntry(
         section => 'FIREWALL',
         entry   => {
-            STANDARD_STATUS => $firewallStatus->{standard} || '',
-            PUBLIC_STATUS => $firewallStatus->{public} || '',
-            DOMAIN_STATUS => $firewallStatus->{domain} || ''
+            STANDARD_STATUS => $profilesStatus->{standard} || '',
+            PUBLIC_STATUS => $profilesStatus->{public} || '',
+            DOMAIN_STATUS => $profilesStatus->{domain} || ''
         }
     );
 
 }
 
-sub _getFirewallStatus {
+sub _getFirewallProfilesStatus {
     my (%params) = @_;
 
     my $key = getRegistryKey(
@@ -60,6 +60,28 @@ sub _getFirewallStatus {
     }
 
     return $statuses;
+}
+
+sub _getFirewallProfiles {
+    
+}
+
+sub _getCurrentConnectionsProfile {
+    my (%params) = @_;
+
+    $DB::single = 1;
+    my $networkListKey = getRegistryKey(
+	logger => $params{logger},
+	path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/NetworkList'
+    );
+    my $profilesKey = $networkListKey->{'Profiles'};
+    my $signaturesKey = $networkListKey->{'Signatures'};
+    
+    foreach my $interface (getInterfaces()) {
+	if ($interface->{STATUS} eq 'Up') {
+	    my $dnsDomain = $interface
+	}
+    }
 }
 
 1;
