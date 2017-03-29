@@ -20,7 +20,7 @@ sub isEnabled {
                 "HKEY_LOCAL_MACHINE/SOFTWARE/TeamViewer",
             logger => $params{logger}
         );
-		return $key && (keys %$key);
+        return $key && (keys %$key);
     } elsif ($OSNAME eq 'darwin') {
         return canRun('defaults') && grep { -e $_ } map {
             "/Library/Preferences/com.teamviewer.teamviewer$_.plist"
