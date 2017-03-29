@@ -316,9 +316,8 @@ sub _getSoftwaresList {
             GUID             => $guid,
             USERNAME         => $params{username},
             USERID           => $params{userid},
-            SYSTEM_CATEGORY => $data->{'/SystemComponent'} && hex2dec($data->{'/SystemComponent'}) ?
-                FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SYSTEM_COMPONENT :
-                FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_APPLICATION
+            SYSTEM_CATEGORY  => $data->{'/SystemComponent'} && hex2dec($data->{'/SystemComponent'}) ?
+                CATEGORY_SYSTEM_COMPONENT : CATEGORY_APPLICATION
         };
 
         # Workaround for #415
@@ -349,13 +348,10 @@ sub _getHotfixesList {
         if ($object->{Description} && $object->{Description} =~ /^(Security Update|Hotfix|Update)/) {
             $releaseType = $1;
         }
-        my $systemCategory = !$releaseType ?
-        FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_UPDATE :
-                ($releaseType =~ /^Security Update/) ?
-                FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_SECURITY_UPDATE :
-                    $releaseType =~ /^Hotfix/ ?
-                    FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_HOTFIX :
-                    FusionInventory::Agent::Tools::Win32::Constants::CATEGORY_UPDATE;
+        my $systemCategory = !$releaseType       ? CATEGORY_UPDATE :
+            ($releaseType =~ /^Security Update/) ? CATEGORY_SECURITY_UPDATE :
+            $releaseType =~ /^Hotfix/            ? CATEGORY_HOTFIX :
+                                                   CATEGORY_UPDATE ;
 
         next unless $object->{HotFixID} =~ /KB(\d{4,10})/i;
         push @$list, {
