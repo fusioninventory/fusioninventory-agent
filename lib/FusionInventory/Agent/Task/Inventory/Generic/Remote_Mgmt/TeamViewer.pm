@@ -14,7 +14,6 @@ sub isEnabled {
 
         FusionInventory::Agent::Tools::Win32->use();
 
-		$DB::single = 1;
         my $key = getRegistryKey(
             path => is64bit() ?
                 "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer" :
