@@ -1,15 +1,15 @@
-adduser	all	3.112+nmu2	1228	add and remove users and groups
-anthy-common	all	9100h-6	13068	input method for Japanese - common files and dictionary
-apache2	amd64	2.2.16-6+squeeze6	36	Apache HTTP Server metapackage
-apache2-mpm-prefork	amd64	2.2.16-6+squeeze6	68	Apache HTTP Server - traditional non-threaded model
-apache2-utils	amd64	2.2.16-6+squeeze6	384	utility programs for webservers
-apache2.2-bin	amd64	2.2.16-6+squeeze6	3856	Apache HTTP Server common binary files
-apache2.2-common	amd64	2.2.16-6+squeeze6	2144	Apache HTTP Server common files
-apt	amd64	0.8.10.3+squeeze1	5644	Advanced front-end for dpkg
-apt-utils	amd64	0.8.10.3+squeeze1	540	APT utility programs
-apt-xapian-index	all	0.41	376	maintenance and search tools for a Xapian index of Debian packages
-aptitude	amd64	0.6.3-3.2+squeeze1	11916	terminal-based package manager (terminal interface only)
-aspell	amd64	0.60.6-4	1184	GNU Aspell spell-checker
-aspell-en	all	6.0-0-6	548	English dictionary for GNU Aspell
-aspell-fr	all	0.50-3-7	636	French dictionary for aspell
-at	amd64	3.1.12-1	220	Delayed job execution and batch processing
+adduser	all	3.112+nmu2	1228	admin
+anthy-common	all	9100h-6	13068	unknown
+apache2	amd64	2.2.16-6+squeeze6	36	httpd
+apache2-mpm-prefork	amd64	2.2.16-6+squeeze6	68	httpd
+apache2-utils	amd64	2.2.16-6+squeeze6	384	httpd
+apache2.2-bin	amd64	2.2.16-6+squeeze6	3856	httpd
+apache2.2-common	amd64	2.2.16-6+squeeze6	2144	httpd
+apt	amd64	0.8.10.3+squeeze1	5644	admin
+apt-utils	amd64	0.8.10.3+squeeze1	540	admin
+apt-xapian-index	all	0.41	376	admin
+aptitude	amd64	0.6.3-3.2+squeeze1	11916	admin
+aspell	amd64	0.60.6-4	1184	text
+aspell-en	all	6.0-0-6	548	text
+aspell-fr	all	0.50-3-7	636	text
+at	amd64	3.1.12-1	220	admin

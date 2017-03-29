@@ -27,7 +27,8 @@ my $rpm_packages = [
         FILESIZE    => '38452',
         FROM        => 'rpm',
         ARCH        => 'i586',
-        VERSION     => '0.12.1-1.mga1'
+        VERSION     => '0.12.1-1.mga1',
+        SYSTEM_CATEGORY => 'System Environment/Libraries'
     },
     {
         PUBLISHER   => 'Mageia.Org',
@@ -37,7 +38,8 @@ my $rpm_packages = [
         FILESIZE    => '351554',
         FROM        => 'rpm',
         ARCH        => 'x86_64',
-        VERSION     => '2.5.1.26351.0-3.mga2'
+        VERSION     => '2.5.1.26351.0-3.mga2',
+        SYSTEM_CATEGORY => 'Documentation'
     },
     {
         PUBLISHER   => 'Mageia.Org',
@@ -47,7 +49,8 @@ my $rpm_packages = [
         FILESIZE    => '176167',
         FROM        => 'rpm',
         ARCH        => 'x86_64',
-        VERSION     => '1.32.0-1.mga2'
+        VERSION     => '1.32.0-1.mga2',
+        SYSTEM_CATEGORY => 'Unspecified'
     },
     {
         PUBLISHER   => 'Mageia.Org',
@@ -57,7 +60,8 @@ my $rpm_packages = [
         FILESIZE    => '3346040',
         FROM        => 'rpm',
         ARCH        => 'x86_64',
-        VERSION     => '3.13.4-1.mga2'
+        VERSION     => '3.13.4-1.mga2',
+        SYSTEM_CATEGORY => 'Unspecified'
     },
     {
         PUBLISHER   => 'Mageia.Org',
@@ -67,7 +71,8 @@ my $rpm_packages = [
         FILESIZE    => '7211',
         FROM        => 'rpm',
         ARCH        => 'noarch',
-        VERSION     => '1.0.5-3.mga1'
+        VERSION     => '1.0.5-3.mga1',
+        SYSTEM_CATEGORY => 'Libraries'
     },
     {
         PUBLISHER   => 'Mageia.Org',
@@ -77,7 +82,8 @@ my $rpm_packages = [
         FILESIZE    => '1930155',
         FROM        => 'rpm',
         ARCH        => 'x86_64',
-        VERSION     => '20090904-3.mga1'
+        VERSION     => '20090904-3.mga1',
+        SYSTEM_CATEGORY => 'Unspecified'
     },
     {
         PUBLISHER   => 'Mageia.Org',
@@ -87,7 +93,8 @@ my $rpm_packages = [
         FILESIZE    => '3628382',
         FROM        => 'rpm',
         ARCH        => 'x86_64',
-        VERSION     => '3.1.8-1.mga2'
+        VERSION     => '3.1.8-1.mga2',
+        SYSTEM_CATEGORY => 'System Environment/Base'
     },
     {
         PUBLISHER   => 'Mageia.Org',
@@ -97,7 +104,8 @@ my $rpm_packages = [
         FILESIZE    => '35016',
         FROM        => 'rpm',
         ARCH        => 'x86_64',
-        VERSION     => '0.10.2-2.mga2.tainted'
+        VERSION     => '0.10.2-2.mga2.tainted',
+        SYSTEM_CATEGORY => 'Unspecified'
     },
     {
         PUBLISHER   => 'Mageia.Org',
@@ -107,7 +115,8 @@ my $rpm_packages = [
         FILESIZE    => '18672',
         FROM        => 'rpm',
         ARCH        => 'x86_64',
-        VERSION     => '2.28.6-6.mga2'
+        VERSION     => '2.28.6-6.mga2',
+        SYSTEM_CATEGORY => 'Unspecified'
     },
     {
         PUBLISHER   => 'Mageia',
@@ -117,129 +126,130 @@ my $rpm_packages = [
         FILESIZE    => '153539',
         FROM        => 'rpm',
         ARCH        => 'x86_64',
-        VERSION     => '0.50.0-4.mga2'
+        VERSION     => '0.50.0-4.mga2',
+        SYSTEM_CATEGORY => 'Development/Libraries'
     }
 ];
 my $deb_packages = [
     {
         FROM     => 'deb',
         NAME     => 'adduser',
-        COMMENTS => 'add and remove users and groups',
         ARCH     => 'all',
         VERSION  => '3.112+nmu2',
-        FILESIZE => '1228'
+        FILESIZE => '1228',
+        SYSTEM_CATEGORY => 'admin'
     },
     {
         FROM     => 'deb',
         NAME     => 'anthy-common',
-        COMMENTS => 'input method for Japanese - common files and dictionary',
         ARCH     => 'all',
         VERSION  => '9100h-6',
-        FILESIZE => '13068'
+        FILESIZE => '13068',
+        SYSTEM_CATEGORY => 'unknown'
     },
     {
         FROM     => 'deb',
         NAME     => 'apache2',
-        COMMENTS => 'Apache HTTP Server metapackage',
         ARCH     => 'amd64',
         VERSION  => '2.2.16-6+squeeze6',
-        FILESIZE => '36'
+        FILESIZE => '36',
+        SYSTEM_CATEGORY => 'httpd'
     },
     {
         FROM     => 'deb',
         NAME     => 'apache2-mpm-prefork',
-        COMMENTS => 'Apache HTTP Server - traditional non-threaded model',
         ARCH     => 'amd64',
         VERSION  => '2.2.16-6+squeeze6',
-        FILESIZE => '68'
+        FILESIZE => '68',
+        SYSTEM_CATEGORY => 'httpd'
     },
     {
         FROM     => 'deb',
         NAME     => 'apache2-utils',
-        COMMENTS => 'utility programs for webservers',
         ARCH     => 'amd64',
         VERSION  => '2.2.16-6+squeeze6',
-        FILESIZE => '384'
+        FILESIZE => '384',
+        SYSTEM_CATEGORY => 'httpd'
     },
     {
         FROM     => 'deb',
         NAME     => 'apache2.2-bin',
-        COMMENTS => 'Apache HTTP Server common binary files',
         ARCH     => 'amd64',
         VERSION  => '2.2.16-6+squeeze6',
-        FILESIZE => '3856'
+        FILESIZE => '3856',
+        SYSTEM_CATEGORY => 'httpd'
     },
     {
         FROM     => 'deb',
         NAME     => 'apache2.2-common',
-        COMMENTS => 'Apache HTTP Server common files',
         ARCH     => 'amd64',
         VERSION  => '2.2.16-6+squeeze6',
-        FILESIZE => '2144'
+        FILESIZE => '2144',
+        SYSTEM_CATEGORY => 'httpd'
     },
     {
         FROM     => 'deb',
         NAME     => 'apt',
-        COMMENTS => 'Advanced front-end for dpkg',
         ARCH     => 'amd64',
         VERSION  => '0.8.10.3+squeeze1',
-        FILESIZE => '5644'
+        FILESIZE => '5644',
+        SYSTEM_CATEGORY => 'admin'
     },
     {
         FROM     => 'deb',
         NAME     => 'apt-utils',
-        COMMENTS => 'APT utility programs',
         ARCH     => 'amd64',
         VERSION  => '0.8.10.3+squeeze1',
-        FILESIZE => '540'
+        FILESIZE => '540',
+        SYSTEM_CATEGORY => 'admin'
     },
     {
         FROM     => 'deb',
         NAME     => 'apt-xapian-index',
-        COMMENTS => 'maintenance and search tools for a Xapian index of Debian packages',
         ARCH     => 'all',
         VERSION  => '0.41',
-        FILESIZE => '376'
+        FILESIZE => '376',
+        SYSTEM_CATEGORY => 'admin'
     },
     {
         FROM     => 'deb',
         NAME     => 'aptitude',
-        COMMENTS => 'terminal-based package manager (terminal interface only)',
         ARCH     => 'amd64',
         VERSION  => '0.6.3-3.2+squeeze1',
-        FILESIZE => '11916'
+        FILESIZE => '11916',
+        SYSTEM_CATEGORY => 'admin'
     },
     {
         FROM     => 'deb',
         NAME     => 'aspell',
-        COMMENTS => 'GNU Aspell spell-checker',
         ARCH     => 'amd64',
         VERSION  => '0.60.6-4',
-        FILESIZE => '1184'
+        FILESIZE => '1184',
+        SYSTEM_CATEGORY => 'text'
     },
     {
         FROM     => 'deb',
         NAME     => 'aspell-en',
-        COMMENTS => 'English dictionary for GNU Aspell',
         ARCH     => 'all',
         VERSION  => '6.0-0-6',
-        FILESIZE => '548'
+        FILESIZE => '548',
+        SYSTEM_CATEGORY => 'text'
     },
     {
         FROM     => 'deb',
         NAME     => 'aspell-fr',
-        COMMENTS => 'French dictionary for aspell',
         ARCH     => 'all',
         VERSION  => '0.50-3-7',
-        FILESIZE => '636'
+        FILESIZE => '636',
+        SYSTEM_CATEGORY => 'text'
     },
     {
         FROM     => 'deb',
         NAME     => 'at',
-        COMMENTS => 'Delayed job execution and batch processing',
         ARCH     => 'amd64',
         VERSION  => '3.1.12-1',
-        FILESIZE => '220'
+        FILESIZE => '220',
+        SYSTEM_CATEGORY => 'admin'
     }
 ];
 

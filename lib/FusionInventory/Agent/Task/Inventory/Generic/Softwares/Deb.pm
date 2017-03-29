@@ -20,7 +20,8 @@ sub doInventory {
         '${Package}\t' .
         '${Architecture}\t' .
         '${Version}\t'.
-        '${Installed-Size}\n' .
+        '${Installed-Size}\t'.
+        '${Section}\n' .
         '\'';
 
     my $packages = _getPackagesList(
@@ -60,8 +61,8 @@ sub _getPackagesList {
             ARCH        => $infos[1],
             VERSION     => $infos[2],
             FILESIZE    => $infos[3],
-            COMMENTS    => $infos[4],
-            FROM        => 'deb'
+            FROM        => 'deb',
+            SYSTEM_CATEGORY => $infos[4]
         };
     }
     close $handle;
