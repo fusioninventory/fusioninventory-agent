@@ -418,7 +418,7 @@ sub computeChecksum {
                 );
             };
             if (ref($self->{last_state_content}) ne 'HASH') {
-                $self->{last_state_file} = {};
+                $self->{last_state_content} = {};
             }
         } else {
             $logger->debug(
