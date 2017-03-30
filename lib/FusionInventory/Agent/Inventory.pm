@@ -9,6 +9,7 @@ use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
 use XML::TreePP;
 
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Version;
 
@@ -122,7 +123,7 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logger         => $params{logger},
+        logger         => $params{logger} || FusionInventory::Agent::Logger->new(),
         fields         => \%fields,
         content        => {
             HARDWARE => {
