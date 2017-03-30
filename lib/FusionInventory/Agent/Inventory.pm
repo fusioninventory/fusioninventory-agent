@@ -456,7 +456,7 @@ sub saveLastState {
     my $logger = $self->{logger};
 
     if (!defined($self->{last_state_content})) {
-        $self->processChecksum();
+        $self->computeChecksum();
     }
     if ($self->{last_state_file}) {
         eval {
