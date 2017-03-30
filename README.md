@@ -1,5 +1,9 @@
 # FusionInventory Agent
 
+[![Travis Build Status](https://travis-ci.org/fusioninventory/fusioninventory-agent.svg?branch=master)](https://travis-ci.org/fusioninventory/fusioninventory-agent)
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/f2oh6p3qnr2bck1b?svg=true)](https://ci.appveyor.com/project/fusioninventory/fusioninventory-agent)
+[![CircleCI Build status](https://circleci.com/gh/fusioninventory/fusioninventory-agent.svg?style=svg)](https://circleci.com/gh/fusioninventory/fusioninventory-agent)
+
 ## Summary
 
 The FusionInventory agent is a generic management agent. It can perform a
@@ -8,7 +12,7 @@ GLPI server with fusioninventory plugin, acting as a control point.
 
 ## Description
 
-TODO.
+See [FusionInventory solution overview](http://fusioninventory.org/overview/)
 
 ## Dependencies
 
@@ -89,7 +93,7 @@ Mandatory Perl modules:
 * Archive::Extract
 * Digest::SHA
 * File::Copy::Recursive
-* JSON
+* JSON::PP
 * URI::Escape
 
 Mandatory Perl modules for P2P Support:
@@ -120,9 +124,11 @@ Please report any issues on project forge bugtracker.
 * Guillaume Bougard <gbougard@teclib.com>
 * Thomas Lornet <tlornet@teclib.com>
 
-Copyright 2006-2010 OCS Inventory contributors
-Copyright 2010-2016 FusionInventory Team
-Copyright 2011-2016 Teclib Editions ( http://www.teclib-edition.com/ )
+Copyright 2006-2010 [OCS Inventory contributors](https://www.ocsinventory-ng.org/)
+
+Copyright 2010-2017 [FusionInventory Team](http://fusioninventory.org)
+
+Copyright 2011-2017 [Teclib Editions](http://www.teclib-edition.com/)
 
 ## License
 

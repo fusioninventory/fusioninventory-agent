@@ -67,18 +67,22 @@ sub _parseDate {
     my ($string) = @_;
 
     my ($day, $month, $year);
-    if ($string =~ /(\d{1,2}) [\/-] (\d{1,2}) [\/-] (\d{2})/x) {
-        $day   = $1;
-        $month = $2;
-        $year  = ($3 > 90 ? "19" : "20" ) . $3;
+    if ($string =~ /(\d{1,2}) [\/-] (\d{1,2}) [\/-] (\d{4})/x) {
+        $month = $1;
+        $day   = $2;
+        $year  = $3;
         return "$day/$month/$year";
     } elsif ($string =~ /(\d{4}) [\/-] (\d{1,2}) [\/-] (\d{1,2})/x) {
         $year  = $1;
-        $day   = $2;
-        $month = $3;
+        $month = $2;
+        $day   = $3;
+        return "$day/$month/$year";
+    } elsif ($string =~ /(\d{1,2}) [\/-] (\d{1,2}) [\/-] (\d{2})/x) {
+        $month = $1;
+        $day = $2;
+        $year = ($3 > 90 ? "19" : "20" ).$3;
         return "$day/$month/$year";
     }
-
     return;
 }
 

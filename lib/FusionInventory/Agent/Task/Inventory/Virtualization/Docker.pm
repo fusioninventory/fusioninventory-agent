@@ -8,6 +8,13 @@ use JSON::PP;
 use FusionInventory::Agent::Task::Inventory::Virtualization;
 use FusionInventory::Agent::Tools;
 
+
+# wanted info fields for each container
+my @wantedInfos = qw/ID Image Ports Names/;
+
+# formatting separator
+my $separator = '#=#=#';
+
 sub isEnabled {
     return canRun('docker');
 }
@@ -18,9 +25,13 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    # formatting with a Go template (required by docker ps command)
+    my @wanted = map { '{{.' . $_ . '}}' } @wantedInfos;
+    my $template = join $separator, @wanted;
+
     foreach my $container (_getContainers(
         logger => $logger,
-        command => 'docker ps -a'
+        command => 'docker ps -a --format "' . $template . '"'
     )) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $container
@@ -31,54 +42,29 @@ sub doInventory {
 sub  _getContainers {
     my (%params) = @_;
 
+
     my $handle = getFileHandle(%params);
 
     return unless $handle;
 
-    my $header = <$handle>;
-    chomp $header;
-    my @header = split /  +/, $header;
-    # find PORTS index in header
-    # it's the only one value that can be empty
-    my $portsIndex;
-    my $j = 0;
-    my %header = map { $_ => $j++ } @header;
-    if (defined $header{PORTS}) {
-        $portsIndex = $header{PORTS};
-    }
-
     my @containers;
     while (my $line = <$handle>) {
         chomp $line;
-#        my @info = $line =~ /^(\w+)\s+(\w+)\s+"([^"]+)"   (\w+.+)   +(\w+.+)   +(\w+.+)$/;
-        my @info = $line =~ /^(\S+)\s+(\S+)\s+"([^"]+)"   +(\w+.+)   +(\w+.+)   +(\w+.+)$/;
-        # remove ending spaces
-        @info = map { s/ +$//g; $_ } @info;
-
-        my @split = split '   ', $info[5];
-        if (scalar(@split) == 2) {
-            $info[6] = $split[1];
-            $info[5] = $split[0];
-        } else {
-            $info[6] = $info[5];
-            $info[5] = '';
-        }
+        my @info = split $separator, $line;
+        next unless $#info == $#wantedInfos;
 
         my $status = '';
 
         if ($params{command}) {
             $status = _getStatus(
-                command => 'docker inspect '.$info[$header{'CONTAINER ID'}],
+                command => 'docker inspect '.$info[0],
             );
         }
         my $container = {
             VMTYPE     => 'docker',
-            UUID       => $info[$header{'CONTAINER ID'}],
-            IMAGE    => $info[$header{IMAGE}],
-#            COMMAND  => $info[$header{COMMAND}],
-#            CREATED  => $info[$header{CREATED}],
-#            PORTS    => $info[$header{PORTS}],
-            NAME     => $info[$header{NAMES}],
+            UUID       => $info[0],
+            IMAGE    => $info[1],
+            NAME     => $info[3],
             STATUS   => $status
         };
 

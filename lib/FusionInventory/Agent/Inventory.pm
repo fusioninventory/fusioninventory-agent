@@ -25,7 +25,7 @@ my %fields = (
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE
                              VMNAME VMHOSTSERIAL/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME
-                             SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN
+                             SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN HOSTID
                              SSH_KEY ARCH BOOT_TIME TIMEZONE/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
 
@@ -78,7 +78,7 @@ my %fields = (
                             NAME NO_REMOVE RELEASE_TYPE PUBLISHER
                             UNINSTALL_STRING URL_INFO_ABOUT VERSION
                             VERSION_MINOR VERSION_MAJOR GUID ARCH USERNAME
-                            USERID/ ],
+                            USERID SYSTEM_CATEGORY/ ],
     SOUNDS           => [ qw/CAPTION DESCRIPTION MANUFACTURER NAME/ ],
     STORAGES         => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL
                             NAME TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID

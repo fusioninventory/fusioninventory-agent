@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.3.19 not yet released
+2.3.19 Fri, 17 Feb 2017
 core:
 * Version & provider refactoring to simplify release process
 * Provided agent versions can now been commented by providers and  programs will
@@ -10,6 +10,14 @@ core:
 * Bump tasks versions to reflect new way of reading task version
 * Support no-compression option: useful for debugging or while server do not
   support compression
+* Replace JSON dependency with JSON::PP pure perl version
+* Fixed configuration parsing
+* Fix sigterm support on win32
+* Reduced agent memory footprint on win32
+* Service optimizations limiting inventory run time on win32
+* Fix service registration on win32 while requested from sources
+* Try to reschedule target sooner on network error
+* add Thomas Lornet aka devtom30 as maintainer
 
 inventory:
 * Fix VERSIONCLIENT not set
@@ -24,6 +32,17 @@ inventory:
 * Few more Acer serial number are fixed
 * Fix some memory size read using canonical API
 * add --no-compression|-C option to disable compression of communication with server
+* Fix HOSTNAME for MacOS
+* Add docker container support for linux
+* Fix install date while using rpm packaging or for MacOS
+* solaris support update
+* macos support updates & fixes
+* rudder updates
+* virtualization/container detection updates (HyperV, VMWare, KVM, LXC/LXD, VirtualBox)
+* Added TeamviewerID support for win32 & MacOS
+* Fix win32 key registry reading while it contains white space
+* Add batteries support on MacOS
+* Add HOSTID support on linux & solaris
 
 deploy:
 * Bump Deploy task version to 2.2

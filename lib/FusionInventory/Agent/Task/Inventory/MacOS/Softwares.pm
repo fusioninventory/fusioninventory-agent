@@ -65,17 +65,41 @@ sub _getSoftwaresList {
             $formattedDate = _formatDate($formattedDate, $logger)
         }
 
+        my ($category, $userName) = _extractSoftwareSystemCategoryAndUserName($app->{'Location'});
         push @softwares, {
             NAME      => $name,
             VERSION   => $app->{'Version'},
             COMMENTS  => $app->{'Kind'} ? '[' . $app->{'Kind'} . ']' : undef,
             PUBLISHER => $app->{'Get Info String'},
             # extract date's data and format these data
-            INSTALLDATE => $formattedDate
+            INSTALLDATE => $formattedDate,
+            SYSTEM_CATEGORY => $category,
+            USERNAME => $userName
         };
     }
 
     return \@softwares;
+}
+
+sub _extractSoftwareSystemCategoryAndUserName {
+    my ($str) = @_;
+
+    my $category = '';
+    my $userName = '';
+    return ($category, $userName) unless $str;
+
+    if ($str =~ /^\/Users\/([^\/]+)\/([^\/]+\/[^\/]+)\//
+        || $str =~ /^\/Users\/([^\/]+)\/([^\/]+)\//) {
+        $userName = $1;
+        $category = $2 if $2 !~ /^Downloads|^Desktop/;
+    } elsif ($str =~ /^\/Volumes\/[^\/]+\/([^\/]+\/[^\/]+)\//
+        || $str =~ /^\/Volumes\/[^\/]+\/([^\/]+)\//
+        || $str =~ /^\/([^\/]+\/[^\/]+)\//
+        || $str =~ /^\/([^\/]+)\//) {
+        $category = $1;
+    }
+
+    return ($category, $userName);
 }
 
 sub _formatDate {

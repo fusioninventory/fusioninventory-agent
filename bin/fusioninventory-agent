@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use lib './bin';
+use lib './lib';
 use setup;
 
 use English qw(-no_match_vars);
@@ -414,7 +414,7 @@ Allow the agent to scan home directories for virtual machines.
 
 =item B<--scan-profiles>
 
-Allow the agent to scan user profiles for softwares.
+Allow the agent to scan user profiles for software.
 
 =item B<--html>
 

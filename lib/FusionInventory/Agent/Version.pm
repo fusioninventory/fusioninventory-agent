@@ -3,7 +3,7 @@ package FusionInventory::Agent::Version;
 use strict;
 use warnings;
 
-our $VERSION = "2.3.19-dev";
+our $VERSION = "2.3.19";
 our $PROVIDER = "FusionInventory";
 our $COMMENTS = [];
 
@@ -18,7 +18,7 @@ FusionInventory::Agent::Version - FusionInventory agent version
 =head1 DESCRIPTION
 
 This module has the only purpose to simplify the way the FusionInventory agent
-is released. This file could be automatically generated and overriden during
+is released. This file could be automatically generated and overridden during
 packaging.
 
 It permits to re-define agent VERSION and agent PROVIDER during packaging so
@@ -28,7 +28,7 @@ clearly the origin of the agent.
 It also permits to put build comments in $COMMENTS. Each array ref element will
 be reported in putput while using on --version for commands. This will be seen
 in logs.
-The idea is to authorize the provider to put useful informations needed while
+The idea is to authorize the provider to put useful information needed while
 agent issue is reported.
 One very useful information should be first defined like in that example:
 
