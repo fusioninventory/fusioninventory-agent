@@ -1,0 +1,24 @@
+branches:
+  only:
+    - 2.3.x
+
+skip_tags: true
+shallow_clone: true
+
+cache:
+  - C:\strawberry
+
+install:
+  - if not exist "C:\strawberry" cinst strawberryperl
+  - set PATH=C:\strawberry\perl\bin;C:\strawberry\perl\site\bin;C:\strawberry\c\bin;%PATH%
+  - cd C:\projects\%APPVEYOR_PROJECT_NAME%
+  - echo %cd%
+  - cpan Module::Install
+  - cpanm -f --verbose --notest .
+
+build_script:
+  - perl Makefile.PL
+  - dmake
+
+test_script:
+  - dmake test
