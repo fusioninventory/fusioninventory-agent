@@ -14,7 +14,12 @@ install:
   - cd C:\projects\%APPVEYOR_PROJECT_NAME%
   - echo %cd%
   - cpan Module::Install
-  - cpanm -f --verbose --notest .
+  - cpanm -f --verbose --notest --installdeps .
+  - cpanm -f --verbose --notest Compress::Zlib IO::Socket::SSL LWP::Protocol::https
+  - cpanm -f --verbose --notest Win32::Daemon Win32::Unicode::File
+  - cpanm -f --verbose --notest Parse::EDID DateTime
+  - cpanm -f --verbose --notest Archive::Extract Digest::SHA File::Copy::Recursive
+  - cpanm -f --verbose --notest JSON::PP URI::Escape Net::Ping Parallel::ForkManager
 
 build_script:
   - perl Makefile.PL
