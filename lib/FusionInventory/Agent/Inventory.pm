@@ -13,6 +13,9 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Version;
 
+# Always sort keys in Dumper while computing checksum on HASH
+$Data::Dumper::Sortkeys = 1;
+
 my %fields = (
     BIOS             => [ qw/SMODEL SMANUFACTURER SSN BDATE BVERSION
                              BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG
