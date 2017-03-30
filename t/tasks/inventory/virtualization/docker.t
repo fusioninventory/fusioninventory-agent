@@ -167,7 +167,7 @@ my $test = [
 ];
 
 my @containers = FusionInventory::Agent::Task::Inventory::Virtualization::Docker::_getContainers(
-    file => 'resources/containers/docker/docker_ps-a.sample'
+    file => 'resources/containers/docker/docker_ps-a-with-template.sample'
 );
 my $jsonData = FusionInventory::Agent::Tools::getAllLines(
     file => 'resources/containers/docker/docker_inspect.json'

@@ -23,7 +23,8 @@ sub doInventory {
         '%{INSTALLTIME}\t' .
         '%{SIZE}\t' .
         '%{VENDOR}\t' .
-        '%{SUMMARY}\n' .
+        '%{SUMMARY}\t' .
+        '%{GROUP}\n' .
         '\'';
 
     my $packages = _getPackagesList(
@@ -53,7 +54,8 @@ sub _getPackagesList {
             VERSION     => $infos[2],
             FILESIZE    => $infos[4],
             COMMENTS    => $infos[6],
-            FROM        => 'rpm'
+            FROM        => 'rpm',
+            SYSTEM_CATEGORY => $infos[7]
         };
 
         my ($year, $month, $day) = (localtime($infos[3]))[5, 4, 3];

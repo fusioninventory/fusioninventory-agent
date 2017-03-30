@@ -234,8 +234,12 @@ data_install :
 	install -m 644 share/html/* $(DESTDIR)$(DATADIR)/html
 
 setup_install :
-	install -d -m 755 $(DESTDIR)$(DATADIR)/lib
-	install -m 644 bin/setup.pm $(DESTDIR)$(DATADIR)/lib/
+	$(ABSPERLRUN) -pi \
+	-e 's|confdir => .*|confdir => "$(SYSCONFDIR)",|;' \
+	-e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
+	-e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
+	-e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
+	$(DESTDIR)$(DATADIR)/lib/setup.pm
 EOF
     return $install;
 }
@@ -252,10 +256,6 @@ sub installbin {
     $installbin .= <<'EOF';
 FINALIZE = $(ABSPERLRUN) -pi \
     -e 's|use lib .*|use lib "$(DATADIR)/lib";|;' \
-    -e 's|confdir => .*|confdir => "$(SYSCONFDIR)",|;' \
-    -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
-    -e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
-    -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
     --
 EOF
     return $installbin;

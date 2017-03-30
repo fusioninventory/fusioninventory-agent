@@ -1033,6 +1033,15 @@ $module->mock(
     }
 );
 
+my $diskFreeModule = Test::MockModule->new(
+    'FusionInventory::Agent::Task::Deploy::DiskFree'
+);
+$diskFreeModule->mock(
+    'getFreeSpace', sub {
+        return 200;
+    }
+);
+
 foreach my $proc (keys %processors) {
     my $check  = $processors{$proc};
     my $expect = $check->{__expect};

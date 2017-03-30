@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use lib './bin';
+use lib './lib';
 use setup;
 
 use English qw(-no_match_vars) ;
