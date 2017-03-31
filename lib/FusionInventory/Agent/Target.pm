@@ -66,7 +66,7 @@ sub setNextRunDate {
     $self->_saveState();
 }
 
-sub runFromNow {
+sub setNextRunDateFromNow {
     my ($self, $nextRunDelay) = @_;
 
     lock($self->{nextRunDate}) if $self->{shared};
@@ -195,7 +195,7 @@ Get nextRunDate attribute as a formated string.
 
 Set next execution date.
 
-=head2 runFromNow($nextRunDelay)
+=head2 setNextRunDateFromNow($nextRunDelay)
 
 Set next execution date from now and after $nextRunDelay seconds (0 by default).
 

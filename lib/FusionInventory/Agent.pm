@@ -300,7 +300,7 @@ sub run {
                 $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
                 if ($net_error) {
                     # Prefer to retry early on net error
-                    $target->runFromNow(60);
+                    $target->setNextRunDateFromNow(60);
                 } else {
                     $target->resetNextRunDate();
                 }
