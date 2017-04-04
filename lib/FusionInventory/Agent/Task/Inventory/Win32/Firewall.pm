@@ -6,6 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Task::Inventory::Generic::Firewall;
+use FusionInventory::Agent::Constants;
 
 use Data::Dumper;
 use Storable 'dclone';
@@ -62,8 +63,8 @@ sub _getFirewallProfiles {
         $params{logger}->debug2($enabled) if $params{logger};
         $profiles->{$profile} = {
             STATUS => $enabled
-                ? FusionInventory::Agent::Constants::FIREWALL_STATUS_ON
-                : FusionInventory::Agent::Constants::FIREWALL_STATUS_OFF,
+                ? FIREWALL_STATUS_ON
+                : FIREWALL_STATUS_OFF,
             PROFILE => $subKeys->{$profile}
         };
     }
