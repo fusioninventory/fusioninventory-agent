@@ -44,6 +44,7 @@ my %fields = (
     ENVS             => [ qw/KEY VAL/ ],
     INPUTS           => [ qw/NAME MANUFACTURER CAPTION DESCRIPTION INTERFACE
                              LAYOUT POINTINGTYPE TYPE/ ],
+    FIREWALL         => [ qw/PROFILE STATUS DESCRIPTION IPADDRESS IPADDRESS6/ ],
     LICENSEINFOS     => [ qw/NAME FULLNAME KEY COMPONENTS TRIAL UPDATE OEM
                              ACTIVATION_DATE PRODUCTID/ ],
     LOCAL_GROUPS     => [ qw/ID MEMBER NAME/ ],
