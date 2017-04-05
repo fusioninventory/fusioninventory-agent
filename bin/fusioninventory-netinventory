@@ -68,11 +68,16 @@ my @devices = map {
         {
             ID           => 0,
             IP           => $_,
-            FILE         => $options->{file},
             AUTHSNMP_ID  => 1,
             MODELSNMP_ID => 1
         }
     } @{$options->{host}};
+push @devices, {
+    ID           => 0,
+    FILE         => $options->{file},
+    AUTHSNMP_ID  => 1,
+    MODELSNMP_ID => 1
+};
 
 my $credentials = { ID => 1 };
 
