@@ -97,7 +97,7 @@ sub _makeProfileAndConnectionsAssociation {
         next unless $profile;
 	
         my $category = hex2dec($profile->{'/Category'});
-        if (not defined $params{firewallProfiles}->{$mappingFirewallProfiles[$category]}->{CONNECTIONS}) {
+        unless (defined $params{firewallProfiles}->{$mappingFirewallProfiles[$category]}->{CONNECTIONS}) {
             $params{firewallProfiles}->{$mappingFirewallProfiles[$category]}->{CONNECTIONS} = [];
         }
         my $connection = {DESCRIPTION => $interface->{DESCRIPTION}};
@@ -139,9 +139,8 @@ sub _getConnectionDomainSettings {
     );
     if ($registeredAdapter && $registeredAdapter->{'/PrimaryDomainName'}) {
         return $registeredAdapter;
-    } else {
-        return;
     }
+    return;
 }
 
 sub _retrieveFirewallProfileWithoutDomain {
@@ -176,9 +175,8 @@ sub _retrieveProfilesAndSignaturesKey {
 
     if ($networkListKey->{'Profiles/'} && $networkListKey->{'Signatures/'}) {
         return ($networkListKey->{'Profiles/'}, $networkListKey->{'Signatures/'});
-    } else {
-        return;
     }
+    return;
 }
 
 sub _retrieveFirewallProfileWithdomain {
