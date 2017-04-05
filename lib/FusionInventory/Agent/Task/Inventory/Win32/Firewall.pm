@@ -5,7 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
-use FusionInventory::Agent::Constants;
+use FusionInventory::Agent::Tools::Constants;
 
 use Storable 'dclone';
 
@@ -52,8 +52,8 @@ sub _getFirewallProfiles {
         my $enabled = hex2dec($key->{ $subKeys->{$profile} . '/'}->{'/EnableFirewall'});
         $profiles->{$profile} = {
             STATUS => $enabled
-                ? FIREWALL_STATUS_ON
-                : FIREWALL_STATUS_OFF,
+                ? STATUS_ON
+                : STATUS_OFF,
             PROFILE => $subKeys->{$profile}
         };
     }

@@ -28,7 +28,6 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
-use FusionInventory::Agent::Constants;
 
 my $localCodepage;
 
