@@ -5,10 +5,8 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
-use FusionInventory::Agent::Task::Inventory::Generic::Firewall;
 use FusionInventory::Agent::Constants;
 
-use Data::Dumper;
 use Storable 'dclone';
 
 my @mappingFirewallProfiles = qw/public standard domain/;
@@ -25,11 +23,8 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $profiles = _getFirewallProfiles(logger => $logger);
+    my $profiles = _getFirewallProfiles();
     my @profiles = _makeProfileAndConnectionsAssociation(firewallProfiles => $profiles, logger => $logger);
-    my $dd = Data::Dumper->new([\@profiles]);
-    $logger->debug2('@profiles : ');
-    $logger->debug2($dd->Dump);
     for my $profile (@profiles) {
         $inventory->addEntry(
             section => 'FIREWALL',
@@ -40,7 +35,6 @@ sub doInventory {
 }
 
 sub _getFirewallProfiles {
-    my (%params) = @_;
 
     my $key = getRegistryKey( path =>
         "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/SharedAccess/Parameters/FirewallPolicy"
@@ -52,15 +46,10 @@ sub _getFirewallProfiles {
         standard => 'StandardProfile'
     };
     my $profiles = {};
-    $params{logger}->debug2(join( ' - ', keys %$key)) if $params{logger};
     for my $profile (keys %$subKeys) {
         next unless $key->{$subKeys->{$profile} . '/'};
-        $params{logger}->debug2(join(' - ', keys %{$key->{ $subKeys->{$profile}}})) if $params{logger};
         next unless defined $key->{$subKeys->{$profile} . '/'}->{'/EnableFirewall'};
-        $params{logger}->debug2($key->{ $subKeys->{$profile} . '/'}->{'/EnableFirewall'})
-          if $params{logger};
         my $enabled = hex2dec($key->{ $subKeys->{$profile} . '/'}->{'/EnableFirewall'});
-        $params{logger}->debug2($enabled) if $params{logger};
         $profiles->{$profile} = {
             STATUS => $enabled
                 ? FIREWALL_STATUS_ON
@@ -164,10 +153,8 @@ sub _retrieveFirewallProfileWithoutDomain {
     my $signaturesKey = $params{signaturesKey};
 
     my $dnsDomain = $params{DNSDomain};
-    $params{logger}->debug2('dnsDomain : ' . $dnsDomain) if $params{logger};
     my $profileGuid;
     for my $sig (values %{$signaturesKey->{'Managed/'}}, values %{$signaturesKey->{'Unmanaged/'}}) {
-        $params{logger}->debug2('/firstNetwork : ' . $sig->{'/FirstNetwork'}) if $params{logger} && $sig->{'/FirstNetwork'};
         if ($sig->{'/FirstNetwork'} eq $dnsDomain) {
             $profileGuid = $sig->{'/ProfileGuid'};
             last;
