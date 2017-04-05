@@ -64,16 +64,17 @@ pod2usage(
 
 warn "deprecated option model, ignoring\n" if $options->{model};
 
+my $id = 0;
 my @devices = map {
         {
-            ID           => 0,
+            ID           => $id++,
             IP           => $_,
             AUTHSNMP_ID  => 1,
             MODELSNMP_ID => 1
         }
     } @{$options->{host}};
 push @devices, {
-    ID           => 0,
+    ID           => $id++,
     FILE         => $options->{file},
     AUTHSNMP_ID  => 1,
     MODELSNMP_ID => 1
