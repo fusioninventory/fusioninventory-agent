@@ -36,7 +36,7 @@ GetOptions(
     'model=s',
     'type=s',
     'host=s@',
-    'file=s',
+    'file=s@',
     'community=s',
     'credentials=s',
     'threads=i',
@@ -65,20 +65,19 @@ pod2usage(
 warn "deprecated option model, ignoring\n" if $options->{model};
 
 my $id = 0;
-my @devices = map {
-        {
-            ID           => $id++,
-            IP           => $_,
-            AUTHSNMP_ID  => 1,
-            MODELSNMP_ID => 1
-        }
-    } @{$options->{host}};
+my @devices;
 push @devices, {
     ID           => $id++,
-    FILE         => $options->{file},
+    IP           => $_,
     AUTHSNMP_ID  => 1,
     MODELSNMP_ID => 1
-};
+} foreach @{$options->{host}};
+push @devices, {
+    ID           => $id++,
+    FILE         => $_,
+    AUTHSNMP_ID  => 1,
+    MODELSNMP_ID => 1
+} foreach @{$options->{file}};
 
 my $credentials = { ID => 1 };
 
@@ -212,7 +211,8 @@ multiple hosts.
 
 =item B<--file> I<FILE>
 
-Run an offline inventory against snmpwalk output, stored in given file.
+Run an offline inventory against snmpwalk output, stored in given file. 
+Multiple usage allowed, for multiple files.
 
 =item B<--communty> I<STRING>
 
