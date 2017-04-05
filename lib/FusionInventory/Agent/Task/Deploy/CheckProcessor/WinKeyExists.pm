@@ -12,8 +12,9 @@ sub prepare {
     my ($self) = @_;
 
     $self->{path} =~ s{\\}{/}g;
+    $self->{path} =~ s{/+$}{}g;
 
-    $self->on_success("winkey found: ".$self->{path});
+    $self->on_success("registry key found: ".$self->{path}.'/');
 }
 
 sub success {
@@ -28,11 +29,22 @@ sub success {
         return 0;
     }
 
-    $self->on_failure("missing winkey: ".$self->{path});
-    return defined(FusionInventory::Agent::Tools::Win32::getRegistryKey(
-            path => $self->{path}
-        )
+    # First check parent winkey
+    my ( $parent, $key ) = $self->{path} =~ m|^(.*)/([^/]*)$|;
+    $self->on_failure("missing parent registry key: ".$parent.'/');
+    my $parent_key = FusionInventory::Agent::Tools::Win32::getRegistryKey(
+        path => $parent
     );
+    return 0 unless (defined($parent_key));
+
+    # Test if path could be seen as a value path
+    if (defined($parent_key->{'/'.$key})) {
+        $self->on_failure("missing registry key, but can be seen as a value: ".$self->{path});
+    } else {
+        $self->on_failure("missing registry key: ".$self->{path}.'/');
+    }
+
+    return defined($parent_key->{$key.'/'});
 }
 
 1;
