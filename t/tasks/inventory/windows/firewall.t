@@ -34,20 +34,20 @@ my $expectedFirewallProfiles = {
             PROFILE => 'StandardProfile'
         }
     },
-#    '10' => {
-#        domain   => {
-#            STATUS  => STATUS_ON,
-#            PROFILE => 'DomainProfile'
-#        },
-#        public   => {
-#            STATUS  => STATUS_ON,
-#            PROFILE => 'PublicProfile'
-#        },
-#        standard => {
-#            STATUS  => STATUS_ON,
-#            PROFILE => 'StandardProfile'
-#        }
-#    }
+    '10' => {
+        domain   => {
+            STATUS  => STATUS_ON,
+            PROFILE => 'DomainProfile'
+        },
+        public   => {
+            STATUS  => STATUS_ON,
+            PROFILE => 'PublicProfile'
+        },
+        standard => {
+            STATUS  => STATUS_ON,
+            PROFILE => 'StandardProfile'
+        }
+    }
 };
 
 plan tests => 1
