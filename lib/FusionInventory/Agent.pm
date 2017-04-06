@@ -339,6 +339,9 @@ sub run {
                 $self->_runTarget($target);
             };
             $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
+
+            # Reset next run date to support --lazy option with foreground mode
+            $target->resetNextRunDate();
         }
     }
 }
