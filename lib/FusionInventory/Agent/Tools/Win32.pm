@@ -327,10 +327,14 @@ sub getInterfaces {
     }
     
     my @configurations;
-    foreach my $object (getWMIObjects(
-        class      => 'Win32_NetworkAdapterConfiguration',
-        properties => \@properties
-    )) {
+    my @wmiResult =
+        $params{list} && $params{list}->{Win32_NetworkAdapterConfiguration} ?
+        @{$params{list}->{Win32_NetworkAdapterConfiguration}} :
+        getWMIObjects(
+            class      => 'Win32_NetworkAdapterConfiguration',
+            properties => \@properties
+        );
+    foreach my $object (@wmiResult) {
 
         my $configuration = {
             DESCRIPTION => $object->{Description},

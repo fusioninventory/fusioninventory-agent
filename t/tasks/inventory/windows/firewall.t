@@ -68,3 +68,24 @@ for my $testKey (keys %$expectedFirewallProfiles) {
     );
 }
 
+SKIP: {
+    skip "Windows interfaces", 0 if $OSNAME eq 'MSWin32';
+    FusionInventory::Agent::Tools::Win32->require();
+
+    my @resultCommand = getInterfaces();
+    my $file = 'resources/win32/wmi/7-Win32_NetworkAdapterConfiguration_2.wmi';
+    my @resultFromFile = getInterfaces(
+        list => {
+            Win32_NetworkAdapterConfiguration => loadWMIDump(
+                $file,
+                [ qw/Index Description IPEnabled DHCPServer MACAddress
+                    MTU DefaultIPGateway DNSServerSearchOrder IPAddress
+                    IPSubnet/ ]
+            )
+        }
+    );
+    my $dd = Data::Dumper->new([\@resultFromFile, \@resultCommand]);
+    open(O, ">" . 'interfaces_check.txt');
+    print O $dd->Dump();
+}
+
