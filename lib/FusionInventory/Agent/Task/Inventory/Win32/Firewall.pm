@@ -35,11 +35,22 @@ sub doInventory {
 }
 
 sub _getFirewallProfiles {
-
     my $key = getRegistryKey( path =>
         "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/SharedAccess/Parameters/FirewallPolicy"
     );
     return unless $key;
+
+    return _extractFirewallProfilesFromRegistryKey(
+        key => $key
+    );
+}
+
+sub _extractFirewallProfilesFromRegistryKey {
+    my (%params) = @_;
+
+    return unless $params{key};
+    my $key = $params{key};
+
     my $subKeys = {
         domain   => 'DomainProfile',
         public   => 'PublicProfile',
