@@ -376,10 +376,14 @@ sub getInterfaces {
     if ($params{additionalPropertiesNetWorkAdapter} && ref($params{additionalPropertiesNetWorkAdapter}) eq 'ARRAY') {
         push @properties, @{$params{additionalPropertiesNetWorkAdapter}};
     }
-    foreach my $object (getWMIObjects(
-        class      => 'Win32_NetworkAdapter',
-        properties => \@properties
-    )) {
+    @wmiResult =
+            $params{list} && $params{list}->{Win32_NetworkAdapter} ?
+        @{$params{list}->{Win32_NetworkAdapter}} :
+        getWMIObjects(
+            class      => 'Win32_NetworkAdapter',
+            properties => \@properties
+        );
+    foreach my $object (@wmiResult) {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $object->{PNPDeviceID};
 

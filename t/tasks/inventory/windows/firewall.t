@@ -81,9 +81,15 @@ SKIP: {
             MTU DefaultIPGateway DNSServerSearchOrder IPAddress
             IPSubnet/ ]
     );
+    $file = 'resources/win32/wmi/7-Win32_NetworkAdapter_2.wmi';
+    my @wmiObjects2 = loadWMIDump(
+        $file,
+        [ qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId/ ]
+    );
     my @resultFromFile = FusionInventory::Agent::Tools::Win32::getInterfaces(
         list => {
-            Win32_NetworkAdapterConfiguration => \@wmiObjects
+            Win32_NetworkAdapterConfiguration => \@wmiObjects,
+            Win32_NetworkAdapter => \@wmiObjects2
         }
     );
     my $dd = Data::Dumper->new([\@resultFromFile, \@resultCommand]);
