@@ -72,9 +72,9 @@ SKIP: {
     skip "Windows interfaces", 0 if $OSNAME ne 'MSWin32';
     FusionInventory::Agent::Tools::Win32->require();
 
-    my @resultCommand = getInterfaces();
+    my @resultCommand = FusionInventory::Agent::Tools::Win32::getInterfaces();
     my $file = 'resources/win32/wmi/7-Win32_NetworkAdapterConfiguration_2.wmi';
-    my @resultFromFile = getInterfaces(
+    my @resultFromFile = FusionInventory::Agent::Tools::Win32::getInterfaces(
         list => {
             Win32_NetworkAdapterConfiguration => loadWMIDump(
                 $file,
