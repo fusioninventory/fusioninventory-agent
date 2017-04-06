@@ -41,7 +41,7 @@ sub _init {
     $self->_loadState();
 
     $self->{nextRunDate} = $self->_computeNextRunDate()
-        if !$self->{nextRunDate};
+        if (!$self->{nextRunDate} || $self->{nextRunDate} < time-$self->getMaxDelay());
 
     $self->_saveState();
 
