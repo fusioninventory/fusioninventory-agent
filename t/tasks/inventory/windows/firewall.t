@@ -69,7 +69,7 @@ for my $testKey (keys %$expectedFirewallProfiles) {
 }
 
 SKIP: {
-    skip "Windows interfaces", 0 if $OSNAME eq 'MSWin32';
+    skip "Windows interfaces", 0 if $OSNAME ne 'MSWin32';
     FusionInventory::Agent::Tools::Win32->require();
 
     my @resultCommand = getInterfaces();
