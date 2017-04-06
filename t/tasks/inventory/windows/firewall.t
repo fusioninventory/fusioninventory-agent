@@ -10,6 +10,7 @@ use Test::Deep;
 use UNIVERSAL::require;
 use FusionInventory::Test::Utils;
 use FusionInventory::Agent::Tools::Constants;
+use Data::Dumper;
 
 BEGIN {
     # use mock modules for non-available ones
