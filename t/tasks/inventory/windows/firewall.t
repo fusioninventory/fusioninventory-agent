@@ -74,14 +74,15 @@ SKIP: {
 
     my @resultCommand = FusionInventory::Agent::Tools::Win32::getInterfaces();
     my $file = 'resources/win32/wmi/7-Win32_NetworkAdapterConfiguration_2.wmi';
+    my @wmiObjects = loadWMIDump(
+        $file,
+        [ qw/Index Description IPEnabled DHCPServer MACAddress
+            MTU DefaultIPGateway DNSServerSearchOrder IPAddress
+            IPSubnet/ ]
+    );
     my @resultFromFile = FusionInventory::Agent::Tools::Win32::getInterfaces(
         list => {
-            Win32_NetworkAdapterConfiguration => loadWMIDump(
-                $file,
-                [ qw/Index Description IPEnabled DHCPServer MACAddress
-                    MTU DefaultIPGateway DNSServerSearchOrder IPAddress
-                    IPSubnet/ ]
-            )
+            Win32_NetworkAdapterConfiguration => \@wmiObjects
         }
     );
     my $dd = Data::Dumper->new([\@resultFromFile, \@resultCommand]);
