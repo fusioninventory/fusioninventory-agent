@@ -26,7 +26,7 @@ GetOptions(
     'additional-content=s',
     'backend-collect-timeout=s',
     'html',
-    'no-category=s',
+    'no-category=s@',
     'scan-homedirs',
     'scan-profiles',
     'tag|t=s',
@@ -47,10 +47,6 @@ if ($options->{version}) {
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
-my $config = FusionInventory::Agent::Config->new(
-    options => $options,
-);
-
 my $verbosity =
     $options->{debug} == 0 ? LOG_INFO   :
     $options->{debug} == 1 ? LOG_DEBUG  :
@@ -61,9 +57,13 @@ my $inventory = FusionInventory::Agent::Task::Inventory->new(
     logger  => FusionInventory::Agent::Logger->new(verbosity => $verbosity),
     datadir => $setup{datadir},
     confdir => $setup{confdir},
-    config  => $config,
     path    => '-',
-    format  => $options->{html} ? 'html' : 'xml',
+    format                  => $options->{html} ? 'html' : 'xml',
+    no_category             => $options->{'no-category'},
+    additional_content      => $options->{'additional-content'},
+    backend_collect_timeout => $options->{'backend-collect-timeout'},
+    scan_profiles           => $options->{'scan-profiles'},
+    scan_homedirs           => $options->{'scan-homedirs'},
 );
 
 $inventory->run();

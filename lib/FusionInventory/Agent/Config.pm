@@ -13,8 +13,6 @@ use FusionInventory::Agent::Version;
 require FusionInventory::Agent::Tools;
 
 my $default = {
-    'additional-content'      => undef,
-    'backend-collect-timeout' => 180,
     'ca-cert-dir'             => undef,
     'ca-cert-file'            => undef,
     'color'                   => undef,
@@ -26,18 +24,14 @@ my $default = {
     'logfile'                 => undef,
     'logfacility'             => 'LOG_USER',
     'logfile-maxsize'         => undef,
-    'no-category'             => [],
     'no-httpd'                => undef,
     'no-ssl-check'            => undef,
     'no-task'                 => [],
-    'no-p2p'                  => undef,
     'password'                => undef,
     'proxy'                   => undef,
     'httpd-ip'                => undef,
     'httpd-port'              => 62354,
     'httpd-trust'             => [],
-    'scan-homedirs'           => undef,
-    'scan-profiles'           => undef,
     'server'                  => undef,
     'tag'                     => undef,
     'tasks'                   => undef,
@@ -48,6 +42,12 @@ my $default = {
     'local'                   => undef,
     'force'                   => undef,
     'no-compression'          => undef,
+    'additional-content'      => undef,
+    'backend-collect-timeout' => 180,
+    'scan-homedirs'           => undef,
+    'scan-profiles'           => undef,
+    'no-category'             => undef,
+    'no-p2p'                  => undef,
 };
 
 my $deprecated = {
@@ -66,6 +66,21 @@ my $deprecated = {
     'no-compression' => {
         message =>
             'communication are never compressed anymore'
+    },
+    'no-p2p' => {
+        message => 'use fusioninventory-deploy for local control',
+    },
+    'additional-content' => {
+        message => 'use fusioninventory-inventory for local control',
+    },
+    'no-category' => {
+        message => 'use fusioninventory-inventory for local control',
+    },
+    'scan-homedirs' => {
+        message => 'use fusioninventory-inventory for local control',
+    },
+    'scan-profiles' => {
+        message => 'use fusioninventory-inventory for local control',
     }
 };
 
@@ -296,7 +311,6 @@ sub _checkContent {
             logger
             httpd-trust
             no-task
-            no-category
             tasks
             /) {
 

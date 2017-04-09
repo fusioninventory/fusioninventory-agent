@@ -59,7 +59,7 @@ ok(
 # second inventory, without software
 ($out, $err, $rc) = run_executable(
     'fusioninventory-inventory',
-    "--debug --no-category printer,software"
+    "--debug --no-category printer --no-category software"
 );
 
 subtest "second inventory execution and content" => sub {
@@ -95,7 +95,7 @@ close($file);
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-inventory',
-    "--debug --no-category printer,software --additional-content $file"
+    "--debug --no-category printer --no-category software --additional-content $file"
 );
 subtest "third inventory execution and content" => sub {
     check_execution_ok($err, $rc);
@@ -130,7 +130,7 @@ my $value = $ENV{$name};
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-inventory',
-    "--debug --no-category printer,software"
+    "--debug --no-category printer --no-category software"
 );
 
 subtest "fourth inventory execution and content" => sub {
@@ -158,7 +158,7 @@ ok(
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-inventory',
-    "--debug --no-category printer,software,environment"
+    "--debug --no-category printer --no-category software --no-category environment"
 );
 
 subtest "fifth inventory execution and content" => sub {

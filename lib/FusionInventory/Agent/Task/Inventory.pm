@@ -20,7 +20,12 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = $class->SUPER::new(%params);
-    $self->{format} = $params{format};
+    $self->{format}                  = $params{format};
+    $self->{no_category}             = $params{no_category};
+    $self->{additional_content}      = $params{additional_content};
+    $self->{backend_collect_timeout} = $params{backend_collect_timeout};
+    $self->{scan_profiles}           = $params{scan_profiles};
+    $self->{scan_homedirs}           = $params{scan_homedirs};
 
     return $self;
 }
@@ -63,7 +68,7 @@ sub run {
         );
     }
 
-    my %disabled = map { $_ => 1 } @{$self->{config}->{'no-category'}};
+    my %disabled = map { $_ => 1 } @{$self->{no_category}};
 
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
@@ -180,14 +185,14 @@ sub _initModulesList {
             module   => $module,
             function => "isEnabled",
             logger => $logger,
-            timeout  => $config->{'backend-collect-timeout'},
+            timeout  => $self->{backend_timeout},
             params => {
                 no_category   => $disabled,
                 datadir       => $self->{datadir},
                 logger        => $self->{logger},
                 registry      => $self->{registry},
-                scan_homedirs => $self->{config}->{'scan-homedirs'},
-                scan_profiles => $self->{config}->{'scan-profiles'},
+                scan_homedirs => $self->{scan_homedirs},
+                scan_profiles => $self->{scan_profiles},
             }
         );
         if (!$enabled) {
@@ -262,15 +267,15 @@ sub _runModule {
         module   => $module,
         function => "doInventory",
         logger => $logger,
-        timeout  => $self->{config}->{'backend-collect-timeout'},
+        timeout  => $self->{backend_collect_timeout},
         params => {
             datadir       => $self->{datadir},
             inventory     => $inventory,
             no_category   => $disabled,
             logger        => $self->{logger},
             registry      => $self->{registry},
-            scan_homedirs => $self->{config}->{'scan-homedirs'},
-            scan_profiles => $self->{config}->{'scan-profiles'},
+            scan_homedirs => $self->{scan_homedirs},
+            scan_profiles => $self->{scan_profiles},
         }
     );
     $self->{modules}->{$module}->{done} = 1;
@@ -296,8 +301,8 @@ sub _feedInventory {
         );
     }
 
-    if ($self->{config}->{'additional-content'} && -f $self->{config}->{'additional-content'}) {
-        $self->_injectContent($self->{config}->{'additional-content'}, $inventory)
+    if ($self->{additional_content} && -f $self->{additional_content}) {
+        $self->_injectContent($self->{additional_content}, $inventory)
     }
 
     # Execution time
