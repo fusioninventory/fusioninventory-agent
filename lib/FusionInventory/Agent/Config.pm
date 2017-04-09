@@ -48,14 +48,9 @@ my $default = {
     'timeout'                 => 180,
     'user'                    => undef,
     # deprecated options
-    'stdout'                  => undef,
 };
 
 my $deprecated = {
-    'stdout' => {
-        message => 'use --local - option instead',
-        new     => { 'local' => '-' }
-    },
 };
 
 my $confReloadIntervalMinValue = 60;
