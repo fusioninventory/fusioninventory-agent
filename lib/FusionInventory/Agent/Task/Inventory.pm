@@ -30,12 +30,8 @@ sub isEnabled {
 
     my $content = $response->getContent();
     if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
-        if ($self->{config}->{force}) {
-            $self->{logger}->debug("Inventory task execution not requested, but execution forced");
-        } else {
-            $self->{logger}->debug("Inventory task execution not requested");
-            return;
-        }
+        $self->{logger}->debug("Inventory task execution not requested");
+        return;
     }
 
     $self->{registry} = [ $response->getOptionsInfoByName('REGISTRY') ];

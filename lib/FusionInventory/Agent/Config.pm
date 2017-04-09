@@ -21,7 +21,6 @@ my $default = {
     'conf-reload-interval'    => 0,
     'debug'                   => undef,
     'delaytime'               => 3600,
-    'force'                   => undef,
     'lazy'                    => undef,
     'logger'                  => 'Stderr',
     'logfile'                 => undef,
@@ -48,6 +47,7 @@ my $default = {
     # deprecated options
     'html'                    => undef,
     'local'                   => undef,
+    'force'                   => undef,
 };
 
 my $deprecated = {
@@ -59,6 +59,10 @@ my $deprecated = {
         message =>
             'use fusioninventory-inventory executable, with --format option',
     },
+    'force' => {
+        message =>
+            'use fusioninventory-inventory executable to control scheduling',
+    }
 };
 
 my $confReloadIntervalMinValue = 60;
