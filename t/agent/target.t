@@ -10,27 +10,28 @@ use Test::More;
 use Test::Exception;
 use URI;
 
-use FusionInventory::Agent::Target::Server;
+use FusionInventory::Agent::Target;
 
 plan tests => 10;
 
 my $target;
 throws_ok {
-    $target = FusionInventory::Agent::Target::Server->new();
-} qr/^no url parameter/,
-'instanciation: no url';
-
-throws_ok {
-    $target = FusionInventory::Agent::Target::Server->new(
-        url => 'http://foo/bar'
-    );
+    $target = FusionInventory::Agent::Target->new();
 } qr/^no basevardir parameter/,
 'instanciation: no base directory';
 
 my $basevardir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 
+throws_ok {
+    $target = FusionInventory::Agent::Target->new(
+        basevardir => $basevardir
+    );
+} qr/^no url parameter/,
+'instanciation: no base directory';
+
+
 lives_ok {
-    $target = FusionInventory::Agent::Target::Server->new(
+    $target = FusionInventory::Agent::Target->new(
         url        => 'http://my.domain.tld/ocsinventory',
         basevardir => $basevardir
     );
@@ -42,13 +43,13 @@ my $storage_dir = $OSNAME eq 'MSWin32' ?
 ok(-d $storage_dir, "storage directory creation");
 is($target->{id}, 'server0', "identifier");
 
-$target = FusionInventory::Agent::Target::Server->new(
+$target = FusionInventory::Agent::Target->new(
     url        => 'http://my.domain.tld',
     basevardir => $basevardir
 );
 is($target->getUrl(), 'http://my.domain.tld/ocsinventory', 'missing path');
 
-$target = FusionInventory::Agent::Target::Server->new(
+$target = FusionInventory::Agent::Target->new(
     url        => 'my.domain.tld',
     basevardir => $basevardir
 );
@@ -58,7 +59,7 @@ is($target->getMaxDelay(), 3600, 'default value');
 my $nextRunDate = $target->getNextRunDate();
 
 ok(-f "$storage_dir/target.dump", "state file existence");
-$target = FusionInventory::Agent::Target::Server->new(
+$target = FusionInventory::Agent::Target->new(
     url        => 'http://my.domain.tld/ocsinventory',
     basevardir => $basevardir
 );

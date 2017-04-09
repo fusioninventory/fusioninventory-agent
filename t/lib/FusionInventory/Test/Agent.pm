@@ -9,7 +9,7 @@ sub new {
 
     my $self = {
         status => 'ok',
-        target => FusionInventory::Agent::Target::Server->new(
+        target => FusionInventory::Agent::Target->new(
             basevardir => './var',
             url        => 'http://myserver.mydomain'
         ),

@@ -16,7 +16,7 @@ use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::Target::Server;
+use FusionInventory::Agent::Target;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Hostname;
@@ -98,7 +98,7 @@ sub init {
         $logger->error("No target defined, aborting");
         exit 1;
     } else {
-        $self->{target} = FusionInventory::Agent::Target::Server->new(
+        $self->{target} = FusionInventory::Agent::Target->new(
             logger     => $self->{logger},
             deviceid   => $self->{deviceid},
             delaytime  => $config->{delaytime},
