@@ -12,16 +12,15 @@ use FusionInventory::Agent::Logger;
 sub new {
     my ($class, %params) = @_;
 
-    die 'no target parameter' unless $params{target};
-
     my $self = {
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->new(),
         config       => $params{config},
         confdir      => $params{confdir},
         datadir      => $params{datadir},
-        target       => $params{target},
         deviceid     => $params{deviceid},
+        url          => $params{url},
+        path         => $params{path},
     };
     bless $self, $class;
 
@@ -85,8 +84,6 @@ hash:
 the logger object to use (default: a new stderr logger)
 
 =item I<config>
-
-=item I<target>
 
 =item I<storage>
 

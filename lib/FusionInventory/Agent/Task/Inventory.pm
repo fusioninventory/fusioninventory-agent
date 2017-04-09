@@ -16,12 +16,17 @@ use FusionInventory::Agent::Task::Inventory::Version;
 
 our $VERSION = FusionInventory::Agent::Task::Inventory::Version::VERSION;
 
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = $class->SUPER::new(%params);
+    $self->{format} = $params{format};
+
+    return $self;
+}
+
 sub isEnabled {
     my ($self, $response) = @_;
-
-    # always enabled for local target
-    return 1 unless
-        $self->{target}->isa('FusionInventory::Agent::Target::Server');
 
     my $content = $response->getContent();
     if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
@@ -49,7 +54,6 @@ sub run {
     $self->{modules} = {};
 
     my $inventory = FusionInventory::Agent::Inventory->new(
-        statedir => $self->{target}->getStorage()->getDirectory(),
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
@@ -68,9 +72,9 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
-        my $path   = $self->{target}->getPath();
-        my $format = $self->{target}->{format};
+    if ($self->{path}) {
+        my $path   = $self->{path};
+        my $format = $self->{format};
         my ($file, $handle);
 
         SWITCH: {
@@ -112,7 +116,7 @@ sub run {
             close $handle;
         }
 
-    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+    } elsif ($self->{url}) {
         my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             user         => $params{user},
@@ -130,7 +134,7 @@ sub run {
         );
 
         my $response = $client->send(
-            url     => $self->{target}->getUrl(),
+            url     => $self->{url},
             message => $message
         );
 

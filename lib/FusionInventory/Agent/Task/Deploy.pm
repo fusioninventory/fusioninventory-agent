@@ -21,11 +21,6 @@ our $VERSION = FusionInventory::Agent::Task::Deploy::Version::VERSION;
 sub isEnabled {
     my ($self) = @_;
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{logger}->debug("Deploy task not compatible with local target");
-        return;
-    }
-
     return 1;
 }
 

@@ -62,11 +62,6 @@ my %json_validation = (
 sub isEnabled {
     my ($self) = @_;
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{logger}->debug("Collect task not compatible with local target");
-        return;
-    }
-
     return 1;
 }
 
@@ -165,7 +160,7 @@ sub run {
     );
 
     my $globalRemoteConfig = $self->{client}->send(
-        url  => $self->{target}->getUrl(),
+        url  => $self->{url},
         args => {
             action    => "getConfig",
             machineid => $self->{deviceid},

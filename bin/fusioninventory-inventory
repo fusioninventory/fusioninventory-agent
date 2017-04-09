@@ -12,7 +12,6 @@ use File::Temp;
 use Pod::Usage;
 
 use FusionInventory::Agent::Task::Inventory;
-use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Version;
@@ -59,15 +58,12 @@ my $verbosity =
                              LOG_DEBUG2 ;
 
 my $inventory = FusionInventory::Agent::Task::Inventory->new(
-    target => FusionInventory::Agent::Target::Local->new(
-        path       => '-',
-        html       => $options->{html},
-        basevardir => File::Temp->newdir(CLEANUP => 1),
-    ),
     logger  => FusionInventory::Agent::Logger->new(verbosity => $verbosity),
     datadir => $setup{datadir},
     confdir => $setup{confdir},
-    config  => $config
+    config  => $config,
+    path    => '-',
+    format  => $options->{html} ? 'html' : 'xml',
 );
 
 $inventory->run();

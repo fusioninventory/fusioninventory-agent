@@ -22,9 +22,7 @@ my $default = {
     'debug'                   => undef,
     'delaytime'               => 3600,
     'force'                   => undef,
-    'html'                    => undef,
     'lazy'                    => undef,
-    'local'                   => undef,
     'logger'                  => 'Stderr',
     'logfile'                 => undef,
     'logfacility'             => 'LOG_USER',
@@ -48,9 +46,19 @@ my $default = {
     'timeout'                 => 180,
     'user'                    => undef,
     # deprecated options
+    'html'                    => undef,
+    'local'                   => undef,
 };
 
 my $deprecated = {
+    'local' => {
+        message =>
+            'use fusioninventory-inventory executable',
+    },
+    'html' => {
+        message =>
+            'use fusioninventory-inventory executable, with --format option',
+    },
 };
 
 my $confReloadIntervalMinValue = 60;
@@ -278,7 +286,6 @@ sub _checkContent {
     # multi-values options, the default separator is a ','
     foreach my $option (qw/
             logger
-            local
             server
             httpd-trust
             no-task

@@ -249,7 +249,7 @@ $agent->{datadir} = './share';
 $agent->{vardir}  = './var',
     # just to be able to run init() method, we inject mandatory options
     my $options = {
-        'local' => '.',
+        'server' => 'myserver.mywebextension',
         # Keep Test backend on logger as call to init() will reset logger
         'logger' => 'Test',
         # we force config to be loaded from file
@@ -262,7 +262,6 @@ ok (! defined($agent->{'conf-file'}));
 # changing conf-file
 $agent->{config}->{'conf-file'} = 'resources/config/sample1';
 ok (scalar(@{$agent->{config}->{'no-task'}}) == 0);
-$agent->{config}->{server} = ['myserver.mywebextension'];
 $agent->reinit();
 ok (defined($agent->{config}->{'no-task'}));
 ok (scalar(@{$agent->{config}->{'no-task'}}) == 2);

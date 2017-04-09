@@ -28,11 +28,6 @@ our $VERSION = FusionInventory::Agent::Task::NetDiscovery::Version::VERSION;
 sub isEnabled {
     my ($self, $response) = @_;
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
-        $self->{logger}->debug("NetDiscovery task not compatible with local target");
-        return;
-    }
-
     my @options = $response->getOptionsInfoByName('NETDISCOVERY');
     if (!@options) {
         $self->{logger}->debug("NetDiscovery task execution not requested");
@@ -310,7 +305,7 @@ sub _sendMessage {
     );
 
     $self->{client}->send(
-        url     => $self->{target}->getUrl(),
+        url     => $self->{url},
         message => $message
     );
 }

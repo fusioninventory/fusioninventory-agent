@@ -32,11 +32,9 @@ GetOptions(
     'delaytime=s',
     'force|f',
     'help|h',
-    'html',
     'lazy',
     'list-tasks',
     'setup',
-    'local|l=s',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
@@ -147,11 +145,10 @@ fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
 
 =head1 SYNOPSIS
 
-B<fusioninventory-agent> [options] [--server server|--local path]
+B<fusioninventory-agent> [options] [--server server]
 
   Target definition options:
     -s --server=URI                send tasks result to a server
-    -l --local=PATH                write tasks results locally
 
   Target scheduling options:
     --delaytime=LIMIT              maximum delay before first target,
@@ -168,7 +165,6 @@ B<fusioninventory-agent> [options] [--server server|--local path]
     --no-category=CATEGORY         do not list given category items
     --scan-homedirs                scan user home directories (false)
     --scan-profiles                scan user profiles (false)
-    --html                         save the inventory as HTML (false)
     -f --force                     always send data to server (false)
     --backend-collect-timeout=TIME timeout for inventory modules
                                      execution (30)
@@ -264,31 +260,6 @@ and FusionInventory for GLPI this one:
 
 Multiple values can be specified, using comma as a separator.
 
-=item B<-l>, B<--local>=I<PATH>
-
-Write the results of tasks execution locally.
-
-Exact behaviour according to given path:
-
-=over
-
-=item *
-
-if I<PATH> is a directory, a file will be created therein
-
-=item *
-
-if I<PATH> is a file, it will be used directly
-
-=item *
-
-if I<PATH> is '-', STDOUT will be used
-
-=back
-
-Multiple values can be specified, using comma as a separator.
-
-=back
 
 =head2 Target scheduling options
 
@@ -415,12 +386,6 @@ Allow the agent to scan home directories for virtual machines.
 =item B<--scan-profiles>
 
 Allow the agent to scan user profiles for software.
-
-=item B<--html>
-
-Save the inventory as HTML.
-
-This is only used for local inventories.
 
 =item B<-f>, B<--force>
 

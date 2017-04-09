@@ -16,7 +16,6 @@ use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
-use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
@@ -369,40 +368,38 @@ sub _runTarget {
     $self->{logger}->debug('_runTarget') if defined $self->{logger};
     # the prolog dialog must be done once for all tasks,
     # but only for server targets
-    my $response;
-    if ($target->isa('FusionInventory::Agent::Target::Server')) {
-        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            timeout      => $self->{timeout},
-            user         => $self->{config}->{user},
-            password     => $self->{config}->{password},
-            proxy        => $self->{config}->{proxy},
-            ca_cert_file => $self->{config}->{'ca-cert-file'},
-            ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
-            no_ssl_check => $self->{config}->{'no-ssl-check'},
-            no_compress  => $self->{config}->{'no-compression'},
-        );
 
-        my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
-            deviceid => $self->{deviceid},
-        );
+    my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
+        logger       => $self->{logger},
+        timeout      => $self->{timeout},
+        user         => $self->{config}->{user},
+        password     => $self->{config}->{password},
+        proxy        => $self->{config}->{proxy},
+        ca_cert_file => $self->{config}->{'ca-cert-file'},
+        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        no_compress  => $self->{config}->{'no-compression'},
+    );
 
-        $self->{logger}->info("sending prolog request to server $target->{id}");
-        $response = $client->send(
-            url     => $target->getUrl(),
-            message => $prolog
-        );
-        unless ($response) {
-            $self->{logger}->error("No answer from server at ".$target->getUrl());
-            # Return true on net error
-            return 1;
-        }
+    my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
+        deviceid => $self->{deviceid},
+    );
 
-        # update target
-        my $content = $response->getContent();
-        if (defined($content->{PROLOG_FREQ})) {
-            $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
-        }
+    $self->{logger}->info("sending prolog request to server $target->{id}");
+    my $response = $client->send(
+        url     => $target->getUrl(),
+        message => $prolog
+    );
+    unless ($response) {
+        $self->{logger}->error("No answer from server at ".$target->getUrl());
+        # Return true on net error
+        return 1;
+    }
+
+    # update target
+    my $content = $response->getContent();
+    if (defined($content->{PROLOG_FREQ})) {
+        $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
     }
 
     foreach my $name (@{$self->{tasksExecutionPlan}}) {
@@ -466,7 +463,7 @@ sub _runTaskReal {
         confdir      => $self->{confdir},
         datadir      => $self->{datadir},
         logger       => $self->{logger},
-        target       => $target,
+        url          => $target->getUrl(),
         deviceid     => $self->{deviceid},
     );
 
@@ -706,20 +703,6 @@ sub _createTargets {
     my ($self) = @_;
 
     my $config = $self->{config};
-    # create target list
-    if ($config->{local}) {
-        foreach my $path (@{$config->{local}}) {
-            push @{$self->{targets}},
-                FusionInventory::Agent::Target::Local->new(
-                    logger     => $self->{logger},
-                    deviceid   => $self->{deviceid},
-                    delaytime  => $config->{delaytime},
-                    basevardir => $self->{vardir},
-                    path       => $path,
-                    html       => $config->{html},
-                );
-        }
-    }
 
     if ($config->{server}) {
         foreach my $url (@{$config->{server}}) {
