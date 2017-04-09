@@ -11,24 +11,11 @@
 <br />
 This is FusionInventory Agent {$version}<br />
 The current status is {$status}<br />
+Next server contact planned for {$next_contact}<br />
 
 {
     if ($trust) {
         $OUT .= '<a href="/now">Force an Inventory</a>';
-    } else {
-        '';
-    }
-}
-
-<br />
-{
-    if (@server_targets) {
-        $OUT .=  "Next server target execution planned for:\n";
-        $OUT .=  "<ul>\n";
-        foreach my $target (@server_targets) {
-           $OUT .= "<li>$target->{name}: $target->{date}</li>\n";
-        }
-        $OUT .=  "</ul>\n";
     } else {
         '';
     }

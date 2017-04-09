@@ -32,12 +32,12 @@ sub new {
     bless $self, $class;
 
     # compute addresses allowed for push requests
-    foreach my $target ($self->{agent}->getTargets()) {
-        my $url  = $target->getUrl();
-        my $host = URI->new($url)->host();
-        my @addresses = compile($host, $self->{logger});
-        $self->{trust}->{$url} = \@addresses;
-    }
+    my $target = $self->{agent}->getTarget();
+    my $url  = $target->getUrl();
+    my $host = URI->new($url)->host();
+    my @addresses = compile($host, $self->{logger});
+    $self->{trust}->{$url} = \@addresses;
+
     if ($params{trust}) {
         foreach my $string (@{$params{trust}}) {
             my @addresses = compile($string);
@@ -136,15 +136,11 @@ sub _handle_root {
         return 500;
     }
 
-    my @server_targets =
-        map { { name => $_->getUrl(), date => $_->getFormatedNextRunDate() } }
-        $self->{agent}->getTargets();
-
     my $hash = {
-        version        => $FusionInventory::Agent::Version::VERSION,
-        trust          => $self->_isTrusted($clientIp),
-        status         => $self->{agent}->getStatus(),
-        server_targets => \@server_targets,
+        version      => $FusionInventory::Agent::Version::VERSION,
+        trust        => $self->_isTrusted($clientIp),
+        status       => $self->{agent}->getStatus(),
+        next_contact => $self->{agent}->getTarget()->getFormatedNextRunDate(),
     };
 
     my $response = HTTP::Response->new(
@@ -175,17 +171,15 @@ sub _handle_deploy {
     }
 
     my $path;
-    LOOP: foreach my $target ($self->{agent}->getTargets()) {
-        foreach (File::Glob::glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
-            next unless -f $_.'/'.$subFilePath;
+    my $target = $self->{agent}->getTarget;
+    foreach (File::Glob::glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
+        next unless -f $_.'/'.$subFilePath;
 
-            my $sha = Digest::SHA->new('512');
-            $sha->addfile($_.'/'.$subFilePath, 'b');
-            next unless $sha->hexdigest eq $sha512;
+        my $sha = Digest::SHA->new('512');
+        $sha->addfile($_.'/'.$subFilePath, 'b');
+        next unless $sha->hexdigest eq $sha512;
 
-            $path = $_.'/'.$subFilePath;
-            last LOOP;
-        }
+        $path = $_.'/'.$subFilePath;
     }
     if ($path) {
         $client->send_file_response($path);
@@ -203,28 +197,19 @@ sub _handle_now {
 
     my ($code, $message, $trace);
 
-    BLOCK: {
-        foreach my $target ($self->{agent}->getTargets()) {
-            my $url       = $target->getUrl();
-            my $addresses = $self->{trust}->{$url};
-            next unless isPartOf($clientIp, $addresses, $logger);
-            $target->setNextRunDate(1);
-            $code    = 200;
-            $message = "OK";
-            $trace   = "rescheduling next contact for target $url right now";
-            last BLOCK;
-        }
+    my $target    = $self->{agent}->getTarget();
+    my $url       = $target->getUrl();
+    my $addresses = $self->{trust}->{$url};
 
-        if ($self->_isTrusted($clientIp)) {
-            foreach my $target ($self->{agent}->getTargets()) {
-                $target->setNextRunDate(1);
-            }
-            $code    = 200;
-            $message = "OK";
-            $trace   = "rescheduling next contact for all targets right now";
-            last BLOCK;
-        }
-
+    if (
+        isPartOf($clientIp, $addresses, $logger) ||
+        $self->_isTrusted($clientIp)
+    ) {
+        $target->setNextRunDate(1);
+        $code    = 200;
+        $message = "OK";
+        $trace   = "rescheduling next contact for server right now";
+    } else {
         $code    = 403;
         $message = "Access denied";
         $trace   = "invalid request (untrusted address)";

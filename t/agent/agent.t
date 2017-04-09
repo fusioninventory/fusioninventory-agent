@@ -269,7 +269,7 @@ ok (
     ($agent->{config}->{'no-task'}->[0] eq 'snmpquery' && $agent->{config}->{'no-task'}->[1] eq 'wakeonlan')
         || ($agent->{config}->{'no-task'}->[1] eq 'snmpquery' && $agent->{config}->{'no-task'}->[0] eq 'wakeonlan')
 );
-ok (scalar(@{$agent->{config}->{'server'}}) == 0);
+ok (! defined $agent->{config}->{'server'});
 
 
 SKIP: {

@@ -258,9 +258,6 @@ and FusionInventory for GLPI this one:
 
     http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
 
-Multiple values can be specified, using comma as a separator.
-
-
 =head2 Target scheduling options
 
 =over

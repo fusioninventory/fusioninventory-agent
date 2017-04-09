@@ -8,8 +8,11 @@ sub new {
     my ($class) = @_;
 
     my $self = {
-        status  => 'ok',
-        targets => [],
+        status => 'ok',
+        target => FusionInventory::Agent::Target::Server->new(
+            basevardir => './var',
+            url        => 'http://myserver.mydomain'
+        ),
     };
     bless $self, $class;
 

@@ -50,7 +50,6 @@ sub new {
         libdir  => $params{libdir},
         vardir  => $params{vardir},
         sigterm => $params{sigterm},
-        targets => [],
         tasks   => []
     };
     bless $self, $class;
@@ -95,11 +94,18 @@ sub init {
 
     $self->_saveState();
 
-    $self->_createTargets();
-
-    if (!$self->getTargets()) {
+    if (! $config->{server}) {
         $logger->error("No target defined, aborting");
         exit 1;
+    } else {
+        $self->{target} = FusionInventory::Agent::Target::Server->new(
+            logger     => $self->{logger},
+            deviceid   => $self->{deviceid},
+            delaytime  => $config->{delaytime},
+            basevardir => $self->{vardir},
+            url        => $config->{server},
+            tag        => $config->{tag},
+        );
     }
 
     # compute list of allowed tasks
@@ -190,11 +196,6 @@ sub reinit {
 
     $self->_saveState();
 
-    if (!$self->getTargets()) {
-        $logger->error("No target defined, aborting");
-        exit 1;
-    }
-
     # compute list of allowed tasks
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
     my @tasks = keys %available;
@@ -274,49 +275,42 @@ sub run {
 
     $self->{status} = 'waiting';
 
-    my @targets = $self->getTargets();
-
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
 
         $self->{logger}->debug2("Running in background mode");
 
         # background mode: work on a targets list copy, but loop while
         # the list really exists so we can stop quickly when asked for
-        while ($self->getTargets()) {
-            my $time = time();
+        my $time = time();
 
-            @targets = $self->getTargets() unless @targets;
-            my $target = shift @targets;
+        $self->_reloadConfIfNeeded();
 
-            $self->_reloadConfIfNeeded();
+        if ($time >= $self->{target}->getNextRunDate()) {
 
-            if ($time >= $target->getNextRunDate()) {
-
-                my $net_error = 0;
-                eval {
-                    $net_error = $self->_runTarget($target);
-                };
-                $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-                if ($net_error) {
-                    # Prefer to retry early on net error
-                    $target->setNextRunDate($target->getNextRunDate()+60);
-                } else {
-                    $target->resetNextRunDate();
-                }
-
-                # Leave immediately if we passed in terminate method
-                last unless $self->getTargets();
-
-                # Call service optimization after each target run
-                $self->RunningServiceOptimization();
-            }
-
-            if ($self->{server}) {
-                # check for http interface messages, default timeout is 1 second
-                $self->{server}->handleRequests() or delay(1);
+            my $net_error = 0;
+            eval {
+                $net_error = $self->_runTarget($self->{target});
+            };
+            $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
+            if ($net_error) {
+                # Prefer to retry early on net error
+                $self->{target}->setNextRunDate($self->{target}->getNextRunDate()+60);
             } else {
-                delay(1);
+                $self->{target}->resetNextRunDate();
             }
+
+            # Leave immediately if we passed in terminate method
+            last unless $self->{target};
+
+            # Call service optimization after each target run
+            $self->RunningServiceOptimization();
+        }
+
+        if ($self->{server}) {
+            # check for http interface messages, default timeout is 1 second
+            $self->{server}->handleRequests() or delay(1);
+        } else {
+            delay(1);
         }
     } else {
 
@@ -324,21 +318,18 @@ sub run {
 
         # foreground mode: check each targets once
         my $time = time();
-        while ($self->getTargets() && @targets) {
-            my $target = shift @targets;
-            if ($self->{config}->{lazy} && $time < $target->getNextRunDate()) {
-                $self->{logger}->info(
-                    "$target->{id} is not ready yet, next server contact " .
-                    "planned for " . localtime($target->getNextRunDate())
-                );
-                next;
-            }
-
-            eval {
-                $self->_runTarget($target);
-            };
-            $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
+        if ($self->{config}->{lazy} && $time < $self->{target}->getNextRunDate()) {
+            $self->{logger}->info(
+                "$self->{target}->{id} is not ready yet, next server contact " .
+                "planned for " . localtime($self->{target}->getNextRunDate())
+            );
+            next;
         }
+
+        eval {
+            $self->_runTarget($self->{target});
+        };
+        $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
     }
 }
 
@@ -410,7 +401,7 @@ sub _runTarget {
         $self->{status} = 'waiting';
 
         # Leave earlier while requested
-        last unless $self->getTargets();
+        last unless $self->{target};
     }
 
     return 0;
@@ -434,7 +425,7 @@ sub _runTask {
                 }
 
                 # Leave earlier while requested
-                last unless $self->getTargets();
+                last unless $self->{target};
             }
             delete $self->{current_runtask};
         } else {
@@ -489,10 +480,9 @@ sub getStatus {
     return $self->{status};
 }
 
-sub getTargets {
+sub getTarget {
     my ($self) = @_;
-
-    return @{$self->{targets}};
+    return $self->{target};
 }
 
 sub getAvailableTasks {
@@ -699,26 +689,6 @@ sub getTasksExecutionPlan {
     return $self->{tasksExecutionPlan};
 }
 
-sub _createTargets {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-
-    if ($config->{server}) {
-        foreach my $url (@{$config->{server}}) {
-            push @{$self->{targets}},
-                FusionInventory::Agent::Target::Server->new(
-                    logger     => $self->{logger},
-                    deviceid   => $self->{deviceid},
-                    delaytime  => $config->{delaytime},
-                    basevardir => $self->{vardir},
-                    url        => $url,
-                    tag        => $config->{tag},
-                );
-        }
-    }
-}
-
 sub _createDaemon {
     my ($self) = @_;
 
@@ -849,9 +819,9 @@ Terminate the agent.
 
 Get the current agent status.
 
-=head2 getTargets()
+=head2 getTarget()
 
-Get all targets.
+Get the agent target.
 
 =head2 getAvailableTasks()
 
