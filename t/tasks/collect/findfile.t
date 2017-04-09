@@ -12,13 +12,13 @@ use Test::MockModule;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Collect;
-use FusionInventory::Agent::Target;
+use FusionInventory::Agent::Controller;
 
 my $logger = FusionInventory::Agent::Logger->new(
     backends => [ 'Fatal' ]
 );
 
-my $target = FusionInventory::Agent::Target->new(
+my $target = FusionInventory::Agent::Controller->new(
     url    => 'http://localhost/glpi-any',
     logger => $logger,
     basevardir => tempdir(CLEANUP => 1)

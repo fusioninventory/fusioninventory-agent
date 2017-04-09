@@ -60,7 +60,7 @@ my $verbosity =
 
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
     %setup,
-    target => FusionInventory::Agent::Task::NetInventory::Target->new(),
+    target => FusionInventory::Agent::Task::NetInventory::Controller->new(),
     logger => FusionInventory::Agent::Logger->new(verbosity => $verbosity)
 );
 
@@ -134,7 +134,7 @@ sub send {
     print $params{message}->getContent();
 }
 
-package FusionInventory::Agent::Task::NetInventory::Target;
+package FusionInventory::Agent::Task::NetInventory::Controller;
 
 sub new {
     my ($class, %params) = @_;

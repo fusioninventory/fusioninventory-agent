@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Target;
+package FusionInventory::Agent::Controller;
 
 use strict;
 use warnings;
@@ -173,11 +173,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Target - Abstract target
+FusionInventory::Agent::Controller - Control server
 
 =head1 DESCRIPTION
 
-This is an abstract class for execution targets.
+This is the control server for the agent.
 
 =head1 METHODS
 
