@@ -29,7 +29,6 @@ my $default = {
     'no-category'             => [],
     'no-httpd'                => undef,
     'no-ssl-check'            => undef,
-    'no-compression'          => undef,
     'no-task'                 => [],
     'no-p2p'                  => undef,
     'password'                => undef,
@@ -48,6 +47,7 @@ my $default = {
     'html'                    => undef,
     'local'                   => undef,
     'force'                   => undef,
+    'no-compression'          => undef,
 };
 
 my $deprecated = {
@@ -62,6 +62,10 @@ my $deprecated = {
     'force' => {
         message =>
             'use fusioninventory-inventory executable to control scheduling',
+    },
+    'no-compression' => {
+        message =>
+            'communication are never compressed anymore'
     }
 };
 

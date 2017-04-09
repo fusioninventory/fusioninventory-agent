@@ -40,7 +40,6 @@ GetOptions(
     'no-category=s',
     'no-httpd',
     'no-ssl-check',
-    'no-compression|C',
     'no-task=s',
     'no-p2p',
     'password|p=s',
@@ -179,8 +178,6 @@ B<fusioninventory-agent> [options] [--server server]
     --ca-cert-dir=DIRECTORY        CA certificates directory
     --ca-cert-file=FILE            CA certificates file
     --no-ssl-check                 do not check server SSL certificate
-                                     (false)
-    -C --no-compression            do not compress communication with server
                                      (false)
     --timeout=TIME                 connection timeout, in seconds (180)
 

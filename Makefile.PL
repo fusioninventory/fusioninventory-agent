@@ -32,7 +32,6 @@ if ($OSNAME eq 'MSWin32') {
     requires 'Win32::Job'         => '0';
 }
 
-recommends 'Compress::Zlib'       => '0';
 recommends 'HTTP::Daemon'         => '0';
 recommends 'IO::Socket::SSL'      => '1.14';
 recommends 'LWP::Protocol::https' => '0';
@@ -71,6 +70,7 @@ recommends 'DateTime'                        => '0';
 
 # Deploy
 recommends 'Archive::Extract'             => '0';
+recommends 'Compress::Zlib'               => '0';
 recommends 'Digest::SHA'                  => '0';
 recommends 'File::Copy::Recursive'        => '0';
 recommends 'JSON::PP'                     => '0';

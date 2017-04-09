@@ -368,7 +368,6 @@ sub _runController {
         ca_cert_file => $self->{config}->{'ca-cert-file'},
         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},
-        no_compress  => $self->{config}->{'no-compression'},
     );
 
     my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
@@ -469,7 +468,6 @@ sub _runTaskReal {
         ca_cert_file => $self->{config}->{'ca-cert-file'},
         ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},
-        no_compress  => $self->{config}->{'no-compression'},
     );
     delete $self->{current_task};
 }

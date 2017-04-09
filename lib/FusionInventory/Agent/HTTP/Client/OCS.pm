@@ -22,31 +22,7 @@ sub new {
 
     $self->{ua}->default_header('Pragma' => 'no-cache');
 
-    # check compression mode
-    if (!$self->{no_compress} && Compress::Zlib->require()) {
-        # RFC 1950
-        $self->{compression} = 'zlib';
-        $self->{ua}->default_header('Content-type' => 'application/x-compress-zlib');
-        $self->{logger}->debug(
-            $log_prefix .
-            'Using Compress::Zlib for compression'
-        );
-    } elsif (!$self->{no_compress} && canRun('gzip')) {
-        # RFC 1952
-        $self->{compression} = 'gzip';
-        $self->{ua}->default_header('Content-type' => 'application/x-compress-gzip');
-        $self->{logger}->debug(
-            $log_prefix .
-            'Using gzip for compression'
-        );
-    } else {
-        $self->{compression} = 'none';
-        $self->{ua}->default_header('Content-type' => 'application/xml');
-        $self->{logger}->debug(
-            $log_prefix .
-            'Not using compression'
-        );
-    }
+    $self->{ua}->default_header('Content-type' => 'application/xml');
 
     return $self;
 }
@@ -62,7 +38,7 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
     my $request_content = $message->getContent();
     $logger->debug2($log_prefix . "sending message:\n $request_content");
 
-    $request_content = $self->_compress(encode('UTF-8', $request_content));
+    $request_content = encode('UTF-8', $request_content);
     if (!$request_content) {
         $logger->error($log_prefix . 'inflating problem');
         return;
@@ -83,109 +59,21 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
         return;
     }
 
-    my $uncompressed_response_content = $self->_uncompress($response_content);
-    if (!$uncompressed_response_content) {
-        $logger->error(
-            $log_prefix . "uncompressed content, starting with: ".substr($response_content, 0, 500)
-        );
-        return;
-    }
-
-    $logger->debug2($log_prefix . "receiving message:\n $uncompressed_response_content");
+    $logger->debug2($log_prefix . "receiving message:\n $response_content");
 
     my $result;
     eval {
         $result = FusionInventory::Agent::XML::Response->new(
-            content => $uncompressed_response_content
+            content => $response_content
         );
     };
     if ($EVAL_ERROR) {
-        my @lines = split(/\n/, $uncompressed_response_content);
+        my @lines = split(/\n/, $response_content);
         $logger->error(
             $log_prefix . "unexpected content, starting with $lines[0]"
         );
         return;
     }
-
-    return $result;
-}
-
-sub _compress {
-    my ($self, $data) = @_;
-
-    return
-        $self->{compression} eq 'zlib' ? $self->_compressZlib($data) :
-        $self->{compression} eq 'gzip' ? $self->_compressGzip($data) :
-                                         $data;
-}
-
-sub _uncompress {
-    my ($self, $data) = @_;
-
-    if ($data =~ /(\x78\x9C.*)/s) {
-        $self->{logger}->debug2("format: Zlib");
-        return $self->_uncompressZlib($1);
-    } elsif ($data =~ /(\x1F\x8B\x08.*)/s) {
-        $self->{logger}->debug2("format: Gzip");
-        return $self->_uncompressGzip($1);
-    } elsif ($data =~ /(<html><\/html>|)[^<]*(<.*>)\s*$/s) {
-        $self->{logger}->debug2("format: Plaintext");
-        return $2;
-    } else {
-        $self->{logger}->debug2("format: Unknown");
-        return;
-    }
-}
-
-sub _compressZlib {
-    my ($self, $data) = @_;
-
-    return Compress::Zlib::compress($data);
-}
-
-sub _compressGzip {
-    my ($self, $data) = @_;
-
-    File::Temp->require();
-    my $in = File::Temp->new();
-    print $in $data;
-    close $in;
-
-    my $out = getFileHandle(
-        command => 'gzip -c ' . $in->filename(),
-        logger  => $self->{logger}
-    );
-    return unless $out;
-
-    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-    my $result = <$out>;
-    close $out;
-
-    return $result;
-}
-
-sub _uncompressZlib {
-    my ($self, $data) = @_;
-
-    return Compress::Zlib::uncompress($data);
-}
-
-sub _uncompressGzip {
-    my ($self, $data) = @_;
-
-    my $in = File::Temp->new();
-    print $in $data;
-    close $in;
-
-    my $out = getFileHandle(
-        command => 'gzip -dc ' . $in->filename(),
-        logger  => $self->{logger}
-    );
-    return unless $out;
-
-    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-    my $result = <$out>;
-    close $out;
 
     return $result;
 }
