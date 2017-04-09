@@ -32,10 +32,10 @@ sub new {
     bless $self, $class;
 
     # compute addresses allowed for push requests
-    my $target = $self->{agent}->getTarget();
-    my $url  = $target->getUrl();
-    my $host = URI->new($url)->host();
-    my @addresses = compile($host, $self->{logger});
+    my $controller = $self->{agent}->getController();
+    my $url        = $controller->getUrl();
+    my $host       = URI->new($url)->host();
+    my @addresses  = compile($host, $self->{logger});
     $self->{trust}->{$url} = \@addresses;
 
     if ($params{trust}) {
@@ -140,7 +140,7 @@ sub _handle_root {
         version      => $FusionInventory::Agent::Version::VERSION,
         trust        => $self->_isTrusted($clientIp),
         status       => $self->{agent}->getStatus(),
-        next_contact => $self->{agent}->getTarget()->getFormatedNextRunDate(),
+        next_contact => $self->{agent}->getController()->getFormatedNextRunDate(),
     };
 
     my $response = HTTP::Response->new(
@@ -171,8 +171,8 @@ sub _handle_deploy {
     }
 
     my $path;
-    my $target = $self->{agent}->getTarget;
-    foreach (File::Glob::glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
+    my $controller = $self->{agent}->getController;
+    foreach (File::Glob::glob($controller->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
         next unless -f $_.'/'.$subFilePath;
 
         my $sha = Digest::SHA->new('512');
@@ -197,15 +197,15 @@ sub _handle_now {
 
     my ($code, $message, $trace);
 
-    my $target    = $self->{agent}->getTarget();
-    my $url       = $target->getUrl();
-    my $addresses = $self->{trust}->{$url};
+    my $controller = $self->{agent}->getController();
+    my $url        = $controller->getUrl();
+    my $addresses  = $self->{trust}->{$url};
 
     if (
         isPartOf($clientIp, $addresses, $logger) ||
         $self->_isTrusted($clientIp)
     ) {
-        $target->setNextRunDate(1);
+        $controller->setNextRunDate(1);
         $code    = 200;
         $message = "OK";
         $trace   = "rescheduling next contact for server right now";

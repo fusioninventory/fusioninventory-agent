@@ -8,8 +8,8 @@ sub new {
     my ($class) = @_;
 
     my $self = {
-        status => 'ok',
-        target => FusionInventory::Agent::Controller->new(
+        status     => 'ok',
+        controller => FusionInventory::Agent::Controller->new(
             basevardir => './var',
             url        => 'http://myserver.mydomain'
         ),

@@ -36,11 +36,11 @@ like(
 my $regconf = $OSNAME eq 'MSWin32' ? keys(%{FusionInventory::Test::Utils::openWin32Registry()}) : 0;
 
 ($out, $err, $rc) = run_executable('fusioninventory-agent', $regconf ? '--config none' : undef);
-ok($rc == 1, 'no target exit status');
+ok($rc == 1, 'no control server exit status');
 like(
     $err,
-    qr/No target defined/,
-    'no target stderr'
+    qr/No control server defined/,
+    'no control server stderr'
 );
 is($out, '', 'no target stdout');
 
