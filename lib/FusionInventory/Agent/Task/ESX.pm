@@ -171,8 +171,7 @@ sub run {
         user         => $params{user},
         password     => $params{password},
         proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
+        ca_cert_path => $params{ca_cert_path},
         no_ssl_check => $params{no_ssl_check},
         debug        => $self->{debug}
     );
@@ -231,8 +230,7 @@ sub run {
         user         => $params{user},
         password     => $params{password},
         proxy        => $params{proxy},
-        ca_cert_file => $params{ca_cert_file},
-        ca_cert_dir  => $params{ca_cert_dir},
+        ca_cert_path => $params{ca_cert_path},
         no_ssl_check => $params{no_ssl_check},
     );
 

@@ -357,8 +357,7 @@ sub _runController {
         user         => $self->{config}->{user},
         password     => $self->{config}->{password},
         proxy        => $self->{config}->{proxy},
-        ca_cert_file => $self->{config}->{'ca-cert-file'},
-        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+        ca_cert_path => $self->{config}->{'ca-cert-path'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},
     );
 
@@ -457,8 +456,7 @@ sub _runTaskReal {
         user         => $self->{config}->{user},
         password     => $self->{config}->{password},
         proxy        => $self->{config}->{proxy},
-        ca_cert_file => $self->{config}->{'ca-cert-file'},
-        ca_cert_dir  => $self->{config}->{'ca-cert-dir'},
+        ca_cert_path => $self->{config}->{'ca-cert-path'},
         no_ssl_check => $self->{config}->{'no-ssl-check'},
     );
     delete $self->{current_task};

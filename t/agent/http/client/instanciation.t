@@ -8,7 +8,7 @@ use Test::Exception;
 
 use FusionInventory::Agent::HTTP::Client;
 
-plan tests => 3;
+plan tests => 2;
 
 my $client;
 
@@ -16,17 +16,10 @@ my $client;
 
 throws_ok {
     $client = FusionInventory::Agent::HTTP::Client->new(
-        ca_cert_file => '/no/such/file',
+        ca_cert_path => '/no/such/file',
     );
-} qr/^non-existing certificate file/,
-'instanciation: invalid ca cert file';
-
-throws_ok {
-    $client = FusionInventory::Agent::HTTP::Client->new(
-        ca_cert_dir => '/no/such/directory',
-    );
-} qr/^non-existing certificate directory/,
-'instanciation: invalid ca cert directory';
+} qr/^non-existing certificate path/,
+'instanciation: invalid ca cert path';
 
 lives_ok {
     $client = FusionInventory::Agent::HTTP::Client->new();

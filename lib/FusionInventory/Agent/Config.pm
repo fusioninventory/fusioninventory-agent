@@ -13,8 +13,7 @@ use FusionInventory::Agent::Version;
 require FusionInventory::Agent::Tools;
 
 my $default = {
-    'ca-cert-dir'             => undef,
-    'ca-cert-file'            => undef,
+    'ca-cert-path'            => undef,
     'color'                   => undef,
     'conf-reload-interval'    => 0,
     'debug'                   => undef,
@@ -37,6 +36,8 @@ my $default = {
     'timeout'                 => 180,
     'user'                    => undef,
     # deprecated options
+    'ca-cert-dir'             => undef,
+    'ca-cert-file'            => undef,
     'html'                    => undef,
     'local'                   => undef,
     'force'                   => undef,
@@ -53,6 +54,14 @@ my $default = {
 };
 
 my $deprecated = {
+    'ca-cert-dir' => {
+        message => 'use --ca-cert-path option instead',
+        new     => 'ca-cert-path',
+    },
+    'ca-cert-file' => {
+        message => 'use --ca-cert-path option instead',
+        new     => 'ca-cert-path',
+    },
     'lazy' => {
         message => 'scheduling is done on server side'
     },
@@ -309,11 +318,6 @@ sub _checkContent {
         $self->{logger} .= ',File';
     }
 
-    # ca-cert-file and ca-cert-dir are antagonists
-    if ($self->{'ca-cert-file'} && $self->{'ca-cert-dir'}) {
-        die "use either 'ca-cert-file' or 'ca-cert-dir' option, not both\n";
-    }
-
     # logger backend without a logfile isn't enoguh
     if ($self->{'logger'} =~ /file/i && ! $self->{'logfile'}) {
         die "usage of 'file' logger backend makes 'logfile' option mandatory\n";
@@ -337,10 +341,8 @@ sub _checkContent {
     }
 
     # files location
-    $self->{'ca-cert-file'} =
-        File::Spec->rel2abs($self->{'ca-cert-file'}) if $self->{'ca-cert-file'};
-    $self->{'ca-cert-dir'} =
-        File::Spec->rel2abs($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
+    $self->{'ca-cert-path'} =
+        File::Spec->rel2abs($self->{'ca-cert-path'}) if $self->{'ca-cert-path'};
     $self->{'logfile'} =
         File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
 

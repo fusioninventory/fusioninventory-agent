@@ -18,8 +18,7 @@ my $options = {};
 
 GetOptions(
     $options,
-    'ca-cert-dir=s',
-    'ca-cert-file=s',
+    'ca-cert-path=s',
     'conf-file=s',
     'conf-reload-interval=i',
     'config=s',
@@ -53,6 +52,8 @@ GetOptions(
     # deprecated options
     'additional-content=s',
     'backend-collect-timeout=s',
+    'ca-cert-dir=s',
+    'ca-cert-file=s',
     'force|f',
     'html',
     'lazy',
@@ -170,8 +171,7 @@ B<fusioninventory-agent> [options] [--server server]
     -P --proxy=PROXY               proxy address
     -u --user=USER                 user name for server authentication
     -p --password=PASSWORD         password for server authentication
-    --ca-cert-dir=DIRECTORY        CA certificates directory
-    --ca-cert-file=FILE            CA certificates file
+    --ca-cert-path=PATH            CA certificates path
     --no-ssl-check                 do not check server SSL certificate
                                      (false)
     --timeout=TIME                 connection timeout, in seconds (180)
@@ -315,13 +315,9 @@ Use I<USER> for server authentication.
 
 Use I<PASSWORD> for server authentication.
 
-=item B<--ca-cert-dir>=I<DIRECTORY>
+=item B<--ca-cert-path>=I<PATH>
 
-CA certificates directory.
-
-=item B<--ca-cert-file>=I<FILE>
-
-CA certificates file.
+CA certificates path, either a directory or a file.
 
 =item B<--no-ssl-check>
 

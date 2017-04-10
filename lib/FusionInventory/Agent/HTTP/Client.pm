@@ -16,11 +16,8 @@ my $log_prefix = "[http client] ";
 sub new {
     my ($class, %params) = @_;
 
-    die "non-existing certificate file $params{ca_cert_file}"
-        if $params{ca_cert_file} && ! -f $params{ca_cert_file};
-
-    die "non-existing certificate directory $params{ca_cert_dir}"
-        if $params{ca_cert_dir} && ! -d $params{ca_cert_dir};
+    die "non-existing certificate path $params{ca_cert_path}"
+        if $params{ca_cert_path} && ! -e $params{ca_cert_path};
 
     my $self = {
         logger       => $params{logger} ||
@@ -29,8 +26,7 @@ sub new {
         password     => $params{password},
         ssl_set      => 0,
         no_ssl_check => $params{no_ssl_check},
-        ca_cert_dir  => $params{ca_cert_dir},
-        ca_cert_file => $params{ca_cert_file}
+        ca_cert_path => $params{ca_cert_path},
     };
     bless $self, $class;
 
@@ -149,10 +145,13 @@ sub _setSSLOptions {
         }
 
         if ($LWP::VERSION >= 6) {
-            $self->{ua}->ssl_opts(SSL_ca_file => $self->{ca_cert_file})
-                if $self->{ca_cert_file};
-            $self->{ua}->ssl_opts(SSL_ca_path => $self->{ca_cert_dir})
-                if $self->{ca_cert_dir};
+            if ($self->{ca_cert_path}) {
+                if (-f $self->{ca_cert_path}) {
+                    $self->{ua}->ssl_opts(SSL_ca_file => $self->{ca_cert_path})
+                } else {
+                    $self->{ua}->ssl_opts(SSL_ca_path => $self->{ca_cert_path})
+                }
+            }
         } else {
             # SSL_verifycn_scheme and SSL_verifycn_name are required
             die
@@ -164,8 +163,7 @@ sub _setSSLOptions {
 
             # use a custom HTTPS handler to workaround default LWP5 behaviour
             FusionInventory::Agent::HTTP::Protocol::https->use(
-                ca_cert_file => $self->{ca_cert_file},
-                ca_cert_dir  => $self->{ca_cert_dir},
+                ca_cert_path => $self->{ca_cert_path},
             );
 
             LWP::Protocol::implementor(
@@ -222,13 +220,9 @@ the password for HTTP authentication
 
 a flag allowing to ignore untrusted server certificates (default: false)
 
-=item I<ca_cert_file>
+=item I<ca_cert_path>
 
-the file containing trusted certificates
-
-=item I<ca_cert_dir>
-
-the directory containing trusted certificates
+the path to the directory or file containing trusted certificates
 
 =back
 
