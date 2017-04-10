@@ -72,19 +72,21 @@ while ($options->{file} && @{$options->{file}} > @{$options->{host}}) {
 
 my $id = 0;
 my @devices;
-push @devices, {
-    ID           => $id++,
-    IP           => $_,
-    AUTHSNMP_ID  => 1,
-    MODELSNMP_ID => 1
-} foreach @{$options->{host}};
 
-# Add a snmp walk dump FILE mapping to each device when available
 if ($options->{file}) {
-    map {
-        my $device = $_;
-        $device->{FILE} = shift @{$options->{file}} if @{$options->{file}};
-    } @devices;
+    push @devices, {
+        ID           => $id++,
+        FILE         => $_,
+        AUTHSNMP_ID  => 1,
+        MODELSNMP_ID => 1
+    } foreach @{$options->{file}};
+} else {
+    push @devices, {
+        ID           => $id++,
+        IP           => $_,
+        AUTHSNMP_ID  => 1,
+        MODELSNMP_ID => 1
+    } foreach @{$options->{host}};
 }
 
 my $credentials = { ID => 1 };
