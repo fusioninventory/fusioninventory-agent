@@ -26,7 +26,7 @@ my $default = {
     'logfile-maxsize'         => undef,
     'no-httpd'                => undef,
     'no-ssl-check'            => undef,
-    'no-task'                 => [],
+    'no-module'               => [],
     'password'                => undef,
     'proxy'                   => undef,
     'httpd-ip'                => undef,
@@ -34,7 +34,7 @@ my $default = {
     'httpd-trust'             => [],
     'server'                  => undef,
     'tag'                     => undef,
-    'tasks'                   => undef,
+    'modules'                 => undef,
     'timeout'                 => 180,
     'user'                    => undef,
     # deprecated options
@@ -48,6 +48,8 @@ my $default = {
     'scan-profiles'           => undef,
     'no-category'             => undef,
     'no-p2p'                  => undef,
+    'no-task'                 => undef,
+    'tasks'                   => undef,
 };
 
 my $deprecated = {
@@ -81,7 +83,15 @@ my $deprecated = {
     },
     'scan-profiles' => {
         message => 'use fusioninventory-inventory for local control',
-    }
+    },
+    'no-task' => {
+        message => 'use --no-module option instead',
+        new     => 'no-module',
+    },
+    'tasks' => {
+        message => 'use --modules option instead',
+        new     => 'modules',
+    },
 };
 
 my $confReloadIntervalMinValue = 60;
@@ -310,8 +320,8 @@ sub _checkContent {
     foreach my $option (qw/
             logger
             httpd-trust
-            no-task
-            tasks
+            no-module
+            modules
             /) {
 
         # Check if defined AND SCALAR

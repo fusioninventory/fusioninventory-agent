@@ -1,4 +1,4 @@
 #no-inventory=1
-no-task=snmpquery,wakeonlan
+no-module=snmpquery,wakeonlan
 #no-software=1
-tasks=inventory, deploy , inventory
+modules=inventory, deploy , inventory

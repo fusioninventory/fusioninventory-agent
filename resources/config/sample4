@@ -1,4 +1,4 @@
 #no-inventory=1
-no-task=snmpquery,wakeonlan,inventory
-tasks=inventory, deploy , inventory
+no-module=snmpquery,wakeonlan,inventory
+modules=inventory, deploy , inventory
 conf-reload-interval=15

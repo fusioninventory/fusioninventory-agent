@@ -108,23 +108,23 @@ sub init {
         );
     }
 
-    # compute list of allowed tasks
-    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
+    # compute list of allowed modules
+    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-module'});
     my @tasks = keys %available;
     my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
     $self->{tasksExecutionPlan} = \@plannedTasks;
 
     my %available_lc = map { (lc $_) => $_ } keys %available;
     if (!@tasks) {
-        $logger->error("No tasks available, aborting");
+        $logger->error("No modules available, aborting");
         exit 1;
     }
 
-    $logger->debug("Available tasks:");
+    $logger->debug("Available modules");
     foreach my $task (keys %available) {
         $logger->debug("- $task: $available{$task}");
     }
-    $logger->debug("Planned tasks:");
+    $logger->debug("Planned modules");
     foreach my $task (@{$self->{tasksExecutionPlan}}) {
         my $task_lc = lc $task;
         $logger->debug("- $task: " . $available{$available_lc{$task_lc}});
@@ -149,8 +149,8 @@ sub init {
 
     $self->ApplyServiceOptimizations();
 
-    $self->{logger}->info("Options 'no-task' and 'tasks' are both used. Be careful that 'no-task' always excludes tasks.")
-        if ($self->{config}->isParamArrayAndFilled('no-task') && $self->{config}->isParamArrayAndFilled('tasks'));
+    $self->{logger}->info("Options 'no-module' and 'modules' are both used. Be careful that 'no-module' always excludes modules.")
+        if ($self->{config}->isParamArrayAndFilled('no-module') && $self->{config}->isParamArrayAndFilled('modules'));
 
     foreach my $comment (@{$COMMENTS}) {
         $self->{logger}->info($comment);
@@ -196,23 +196,23 @@ sub reinit {
 
     $self->_saveState();
 
-    # compute list of allowed tasks
-    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
+    # compute list of allowed modules
+    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-module'});
     my @tasks = keys %available;
     my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
     $self->{tasksExecutionPlan} = \@plannedTasks;
 
     my %available_lc = map { (lc $_) => $_ } keys %available;
     if (!@tasks) {
-        $logger->error("No tasks available, aborting");
+        $logger->error("No modules available, aborting");
         exit 1;
     }
 
-    $logger->debug("Available tasks:");
+    $logger->debug("Available modules");
     foreach my $task (keys %available) {
         $logger->debug("- $task: $available{$task}");
     }
-    $logger->debug("Planned tasks:");
+    $logger->debug("Planned modules");
     foreach my $task (@{$self->{tasksExecutionPlan}}) {
         my $task_lc = lc $task;
         $logger->debug("- $task: " . $available{$available_lc{$task_lc}});
@@ -339,7 +339,7 @@ sub terminate {
     # Forget our control server
     $self->{controller} = undef;
 
-    # Kill current running task
+    # Kill current running module
     if ($self->{current_runtask}) {
         kill 'TERM', $self->{current_runtask};
         delete $self->{current_runtask};
@@ -408,7 +408,7 @@ sub _runController {
 sub _runTask {
     my ($self, $controller, $name, $response) = @_;
 
-    $self->{status} = "running task $name";
+    $self->{status} = "running module $name";
 
     if ($self->{config}->{daemon} || $self->{config}->{service}) {
         # server mode: run each task in a child process
@@ -430,12 +430,12 @@ sub _runTask {
             # child
             die "fork failed: $ERRNO" unless defined $pid;
 
-            $self->{logger}->debug("forking process $PID to handle task $name");
+            $self->{logger}->debug("forking process $PID to handle module $name");
             $self->_runTaskReal($controller, $name, $response);
             exit(0);
         }
     } else {
-        # standalone mode: run each task directly
+        # standalone mode: run each module directly
         $self->_runTaskReal($controller, $name, $response);
     }
 }
@@ -458,7 +458,7 @@ sub _runTaskReal {
 
     return if !$task->isEnabled($response);
 
-    $self->{logger}->info("running task $name");
+    $self->{logger}->info("running module $name");
     $self->{current_task} = $task;
 
     $task->run(
@@ -502,7 +502,7 @@ sub getAvailableTasks {
 
         my $version;
         if ($self->{config}->{daemon} || $self->{config}->{service}) {
-            # server mode: check each task version in a child process
+            # server mode: check each module version in a child process
             my ($reader, $writer);
             pipe($reader, $writer);
             $writer->autoflush(1);
@@ -528,12 +528,12 @@ sub getAvailableTasks {
             $version = $self->_getTaskVersion($module);
         }
 
-        # no version means non-functionning task
+        # no version means non-functionning module
         next unless $version;
 
         $tasks{$name} = $version;
         if (defined $self->{logger}) {
-            $self->{logger}->debug2( "getAvailableTasks() : add of task ".$name.' version '.$version );
+            $self->{logger}->debug2( "getAvailableTasks() : add of module ".$name.' version '.$version );
         }
     }
 
@@ -638,7 +638,7 @@ sub computeTaskExecutionPlan {
     my ($self, $availableTasksNames) = @_;
 
     if (! defined($self->{config}) || !(UNIVERSAL::isa($self->{config}, 'FusionInventory::Agent::Config'))) {
-        $self->{logger}->error( "no config found in agent. Can't compute tasks execution plan" ) if (defined $self->{logger});
+        $self->{logger}->error( "no config found in agent. Can't compute modules execution plan" ) if (defined $self->{logger});
         return;
     }
 

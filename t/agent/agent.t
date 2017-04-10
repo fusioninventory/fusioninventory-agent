@@ -85,9 +85,9 @@ $agent->{config} = FusionInventory::Agent::Config->new(
         confdir => 'etc'
     )
 );
-$agent->{config}->{'no-task'} = ['Task5'];
+$agent->{config}->{'no-module'} = ['Task5'];
 $agent->{config}->{'tasks'} = ['Task1', 'Task5', 'Task1', 'Task5', 'Task5', 'Task2', 'Task1'];
-my %availableTasks = $agent->getAvailableTasks(disabledTasks => $agent->{config}->{'no-task'});
+my %availableTasks = $agent->getAvailableTasks(disabledTasks => $agent->{config}->{'no-module'});
 my $logger = FusionInventory::Agent::Logger->new(
     backends  => [ 'Test' ],
     verbosity => FusionInventory::Agent::LOG_DEBUG,
@@ -261,13 +261,13 @@ ok (UNIVERSAL::isa($agent->{config}, 'FusionInventory::Agent::Config'));
 ok (! defined($agent->{'conf-file'}));
 # changing conf-file
 $agent->{config}->{'conf-file'} = 'resources/config/sample1';
-ok (scalar(@{$agent->{config}->{'no-task'}}) == 0);
+ok (scalar(@{$agent->{config}->{'no-module'}}) == 0);
 $agent->reinit();
-ok (defined($agent->{config}->{'no-task'}));
-ok (scalar(@{$agent->{config}->{'no-task'}}) == 2);
+ok (defined($agent->{config}->{'no-module'}));
+ok (scalar(@{$agent->{config}->{'no-module'}}) == 2);
 ok (
-    ($agent->{config}->{'no-task'}->[0] eq 'snmpquery' && $agent->{config}->{'no-task'}->[1] eq 'wakeonlan')
-        || ($agent->{config}->{'no-task'}->[1] eq 'snmpquery' && $agent->{config}->{'no-task'}->[0] eq 'wakeonlan')
+    ($agent->{config}->{'no-module'}->[0] eq 'snmpquery' && $agent->{config}->{'no-module'}->[1] eq 'wakeonlan')
+        || ($agent->{config}->{'no-module'}->[1] eq 'snmpquery' && $agent->{config}->{'no-module'}->[0] eq 'wakeonlan')
 );
 ok (! defined $agent->{config}->{'server'});
 

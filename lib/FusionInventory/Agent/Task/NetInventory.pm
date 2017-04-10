@@ -30,7 +30,7 @@ sub isEnabled {
 
     my @options = $response->getOptionsInfoByName('SNMPQUERY');
     if (!@options) {
-        $self->{logger}->debug("NetInventory task execution not requested");
+        $self->{logger}->debug("NetInventory module execution not requested");
         return;
     }
 
@@ -326,11 +326,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetInventory - Remote inventory support for FusionInventory Agent
+FusionInventory::Agent::Task::NetInventory - Remote inventory module for FusionInventory Agent
 
 =head1 DESCRIPTION
 
-This task extracts various information from remote hosts through SNMP
+This module extracts various information from remote hosts through SNMP
 protocol:
 
 =over

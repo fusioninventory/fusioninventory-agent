@@ -31,14 +31,14 @@ GetOptions(
     'delaytime=s',
     'help|h',
     'lazy',
-    'list-tasks',
+    'list-modules',
     'setup',
     'logger=s',
     'logfile=s',
     'logfile-maxsize=i',
     'no-httpd',
     'no-ssl-check',
-    'no-task=s',
+    'no-module=s',
     'password|p=s',
     'pidfile=s',
     'proxy|P=s',
@@ -47,7 +47,7 @@ GetOptions(
     'httpd-trust=s',
     'server|s=s',
     'tag|t=s',
-    'tasks=s',
+    'modules=s',
     'timeout=i',
     'user|u=s',
     'version',
@@ -93,14 +93,14 @@ if ($OSNAME eq 'MSWin32' && ! $options->{'no-win32-ole-workaround'}) {
 
 my $agent = FusionInventory::Agent->new(%setup);
 
-if ($options->{'list-tasks'}) {
+if ($options->{'list-modules'}) {
     my %tasks = $agent->getAvailableTasks();
-    print "Available tasks : \n";
+    print "Available modules: \n";
     foreach my $task (keys %tasks) {
         print "$task (v$tasks{$task})\n";
     }
 
-    if ($options->{'tasks'}) {
+    if ($options->{'modules'}) {
         $agent->init(options => $options);
         my $tasksExecutionPlan = $agent->getTasksExecutionPlan();
         print "\nTasks planned for execution : \n";
@@ -141,7 +141,7 @@ fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
 B<fusioninventory-agent> [options] [--server server]
 
   Target definition options:
-    -s --server=URI                send tasks result to a server
+    -s --server=URI                send modules result to a server
 
   Target scheduling options:
     --delaytime=LIMIT              maximum delay before first target,
@@ -149,12 +149,12 @@ B<fusioninventory-agent> [options] [--server server]
     --lazy                         do not contact the target before
                                    next scheduled time
 
-  Task selection options:
-    --list-tasks                   list available tasks and exit
-    --no-task=TASK[,TASK]...       do not run given task
-    --tasks=TASK1[,TASK]...[,...]  run given tasks in given order
+  Module selection options:
+    --list-modules                     list available modules and exit
+    --no-module=MODULE[,MODULE]...     do not run given module
+    --modules=MODULE[,MODULE]...[,...] run given module in given order
 
-  Inventory task specific options:
+  Inventory module specific options:
     --no-category=CATEGORY         do not list given category items
     --scan-homedirs                scan user home directories (false)
     --scan-profiles                scan user profiles (false)
@@ -162,7 +162,7 @@ B<fusioninventory-agent> [options] [--server server]
                                      execution (30)
     --additional-content=FILE      additional inventory content file
 
-  Package deployment task specific options:
+  Package deployment module specific options:
     --no-p2p                       do not use peer to peer to download
                                      files (false)
 
@@ -233,7 +233,7 @@ example, the two lines below are all equivalent:
 
 =item B<-s>, B<--server>=I<URI>
 
-Send the results of tasks execution to given server.
+Send the results of modules execution to given server.
 
 If I<URI> doesn't start with http:// or https://, the agent assume the
 parameter is a hostname and rewrite it as:
@@ -267,39 +267,39 @@ This option is only available when the agent is not run as a server.
 
 =back
 
-=head2 Task selection options
+=head2 Module selection options
 
 =over
 
-=item B<--list-tasks>
+=item B<--list-modules>
 
-List all available tasks, tasks planned for execution and exit
+List all available modules, modules planned for execution and exit
 
-=item B<--no-task>=I<TASK>
+=item B<--no-module>=I<MODULE>
 
-Do not run given task.
+Do not run given module.
 
 Multiple values can be specified, using comma as a separator. See option
-I<--list-tasks> for the list of available tasks.
+I<--list-modules> for the list of available modules.
 
-=item B<--tasks>=I<TASK>
+=item B<--modules>=I<MODULE>
 
-Run given tasks in given order.
+Run given modules in given order.
 
-Multiple tasks can be specified, using comma as a separator.
-A task can be specified several times. if '...' is given as last element,
-all other available tasks are executed.
+Multiple modules can be specified, using comma as a separator.
+A module can be specified several times. if '...' is given as last element,
+all other available modules are executed.
 
-See option I<--list-tasks> for the list of available tasks.
+See option I<--list-modules> for the list of available modules.
 
 Examples :
-* --tasks=inventory,deploy,inventory
-  First task executed is 'inventory', second task is 'deploy', third and last
-  task is 'inventory'.
+* --modules=inventory,deploy,inventory
+  First module executed is 'inventory', second module is 'deploy', third and
+  last module is 'inventory'.
 
-* --tasks=inventory,deploy,...
-  First executed task is 'inventory', second task is 'deploy' and then all
-  other available tasks are executed.
+* --modules=inventory,deploy,...
+  First executed module is 'inventory', second module is 'deploy' and then all
+  other available modules are executed.
 
 =back
 

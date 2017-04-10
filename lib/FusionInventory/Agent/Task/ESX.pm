@@ -305,7 +305,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::SOAP::VMware - Access to VMware hypervisor
+FusionInventory::Agent::SOAP::VMware - ESX inventory module for for FusionInventory Agent
 
 =head1 DESCRIPTION
 
@@ -316,7 +316,7 @@ and _WITHOUT_ their Perl library.
 
 =head2 connect ( $self, %params )
 
-Connect the task to the VMware ESX, ESXi or vCenter.
+Connect to the VMware ESX, ESXi or vCenter.
 
 =head2 createFakeDeviceid ( $self, $host )
 

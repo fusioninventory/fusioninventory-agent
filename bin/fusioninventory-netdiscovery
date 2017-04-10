@@ -37,7 +37,7 @@ GetOptions(
 if ($options->{version}) {
     my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
     map { print $_."\n" }
-        "NetDiscovery task $FusionInventory::Agent::Task::NetDiscovery::VERSION",
+        "NetDiscovery module $FusionInventory::Agent::Task::NetDiscovery::VERSION",
         "based on $PROVIDER Agent v$FusionInventory::Agent::Version::VERSION",
         @{$FusionInventory::Agent::Version::COMMENTS}
         ;
@@ -170,7 +170,7 @@ fusioninventory-netdiscovery [options] --first <address> --last <address>
     --control              output control messages
     --debug                debug output
     -h --help              print this message and exit
-    --version              print the task version and exit
+    --version              print the module version and exit
 
 =head1 DESCRIPTION
 

@@ -35,7 +35,7 @@ sub isEnabled {
 
     my $content = $response->getContent();
     if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
-        $self->{logger}->debug("Inventory task execution not requested");
+        $self->{logger}->debug("Inventory module execution not requested");
         return;
     }
 
@@ -48,7 +48,7 @@ sub run {
 
     if ( $REAL_USER_ID != 0 ) {
         $self->{logger}->warning(
-            "You should execute this task as super-user"
+            "You should execute this module as super-user"
         );
     }
 
@@ -390,8 +390,8 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Inventory - Inventory task for FusionInventory
+FusionInventory::Agent::Task::Inventory - Inventory module for FusionInventory
 
 =head1 DESCRIPTION
 
-This task extract various hardware and software information on the agent host.
+This module extract various hardware and software information on the agent host.

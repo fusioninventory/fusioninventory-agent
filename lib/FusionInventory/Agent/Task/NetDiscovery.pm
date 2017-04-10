@@ -30,7 +30,7 @@ sub isEnabled {
 
     my @options = $response->getOptionsInfoByName('NETDISCOVERY');
     if (!@options) {
-        $self->{logger}->debug("NetDiscovery task execution not requested");
+        $self->{logger}->debug("NetDiscovery module execution not requested");
         return;
     }
 
@@ -534,11 +534,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::NetDiscovery - Net discovery support for FusionInventory Agent
+FusionInventory::Agent::Task::NetDiscovery - Net discovery module for FusionInventory Agent
 
 =head1 DESCRIPTION
 
-This tasks scans the network to find connected devices, allowing:
+This module scans the network to find connected devices, allowing:
 
 =over
 

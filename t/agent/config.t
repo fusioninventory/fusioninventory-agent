@@ -15,25 +15,25 @@ use FusionInventory::Test::Utils;
 
 my %config = (
     sample1 => {
-        'no-task'     => ['snmpquery', 'wakeonlan'],
+        'no-module'     => ['snmpquery', 'wakeonlan'],
         'httpd-trust' => [],
-        'tasks'       => ['inventory', 'deploy', 'inventory'],
+        'modules'       => ['inventory', 'deploy', 'inventory'],
         'conf-reload-interval' => 0
     },
     sample2 => {
-        'no-task'     => [],
+        'no-module'     => [],
         'httpd-trust' => ['example', '127.0.0.1', 'foobar', '123.0.0.0/10'],
         'conf-reload-interval' => 0
     },
     sample3 => {
-        'no-task'     => [],
+        'no-module'     => [],
         'httpd-trust' => [],
         'conf-reload-interval' => 3600
     },
     sample4 => {
-        'no-task'     => ['snmpquery','wakeonlan','inventory'],
+        'no-module'     => ['snmpquery','wakeonlan','inventory'],
         'httpd-trust' => [],
-        'tasks'       => ['inventory', 'deploy', 'inventory'],
+        'modules'       => ['inventory', 'deploy', 'inventory'],
         'conf-reload-interval' => 60
     }
 );
@@ -45,38 +45,38 @@ foreach my $test (keys %config) {
         'conf-file' => "resources/config/$test"
     });
 
-    foreach my $k (qw/ no-task httpd-trust conf-reload-interval /) {
+    foreach my $k (qw/ no-module httpd-trust conf-reload-interval /) {
         cmp_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
     }
 
     if ($test eq 'sample1') {
-        ok ($c->isParamArrayAndFilled('no-task'));
+        ok ($c->isParamArrayAndFilled('no-module'));
         ok (! $c->isParamArrayAndFilled('httpd-trust'));
-        ok ($c->isParamArrayAndFilled('tasks'));
+        ok ($c->isParamArrayAndFilled('modules'));
     } elsif ($test eq 'sample2') {
-        ok (! $c->isParamArrayAndFilled('no-task'));
+        ok (! $c->isParamArrayAndFilled('no-module'));
         ok ($c->isParamArrayAndFilled('httpd-trust'));
-        ok (! $c->isParamArrayAndFilled('tasks'));
+        ok (! $c->isParamArrayAndFilled('modules'));
     } elsif ($test eq 'sample3') {
-        ok (! $c->isParamArrayAndFilled('no-task'));
+        ok (! $c->isParamArrayAndFilled('no-module'));
         ok (! $c->isParamArrayAndFilled('httpd-trust'));
-        ok (! $c->isParamArrayAndFilled('tasks'));
+        ok (! $c->isParamArrayAndFilled('modules'));
     } elsif ($test eq 'sample4') {
-        ok ($c->isParamArrayAndFilled('no-task'));
+        ok ($c->isParamArrayAndFilled('no-module'));
         ok (! $c->isParamArrayAndFilled('httpd-trust'));
-        ok ($c->isParamArrayAndFilled('tasks'));
+        ok ($c->isParamArrayAndFilled('modules'));
     }
 }
 
 my $c = FusionInventory::Agent::Config->new(options => {
         'conf-file' => "resources/config/sample1"
     });
-ok (ref($c->{'no-task'}) eq 'ARRAY');
-ok (scalar(@{$c->{'no-task'}}) == 2);
+ok (ref($c->{'no-module'}) eq 'ARRAY');
+ok (scalar(@{$c->{'no-module'}}) == 2);
 
 $c->reloadFromInputAndBackend();
-ok (ref($c->{'no-task'}) eq 'ARRAY');
-ok (scalar(@{$c->{'no-task'}}) == 2);
+ok (ref($c->{'no-module'}) eq 'ARRAY');
+ok (scalar(@{$c->{'no-module'}}) == 2);
 
 $c->{'conf-file'} = "resources/config/sample2";
 $c->reloadFromInputAndBackend();
