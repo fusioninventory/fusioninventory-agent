@@ -2,6 +2,7 @@ general:
   branches:
     only:
       - 2.3.x
+      - develop
 #      - master
 
 machine:
