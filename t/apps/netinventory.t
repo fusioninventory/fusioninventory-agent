@@ -71,8 +71,8 @@ $result->{'REQUEST'}{'DEVICEID'} = re('^\S+$');
 cmp_deeply($content, $result, "expected output");
 
 # Check multi-threading support
-my @hosts = map { "--host 127.0.0.$_" } 10..19 ;
-($out, $err, $rc) = run_executable('fusioninventory-netinventory', "@hosts --file resources/walks/sample1.walk --debug --threads 10");
+my $files = join(" ", map { "--file resources/walks/sample1.walk" } 1..10 ) ;
+($out, $err, $rc) = run_executable('fusioninventory-netinventory', "$files --debug --threads 10");
 ok($rc == 0, '10 threads started to scan on loopback');
 like(
     $out,
