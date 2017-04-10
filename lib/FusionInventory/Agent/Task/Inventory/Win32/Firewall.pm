@@ -77,19 +77,27 @@ sub _makeProfileAndConnectionsAssociation {
 
     return unless $params{firewallProfiles};
 
-    my ($profilesKey, $signaturesKey) = _retrieveProfilesAndSignaturesKey();
+    my ($profilesKey, $signaturesKey) = $params{profilesKey} && $params{signaturesKey} ?
+        ($params{profilesKey}, $params{signaturesKey}) :
+        _retrieveProfilesAndSignaturesKey();
     return unless $profilesKey && $signaturesKey;
 
-    foreach my $interface (getInterfaces(
+    my %funcParams = (
         additionalPropertiesNetWorkAdapterConfiguration => [qw/DNSDomain/],
-        additionalPropertiesNetWorkAdapter => [qw/GUID/]
+        additionalPropertiesNetWorkAdapter => [qw/GUID/],
+        list => $params{list} ? $params{list} : {}
+    );
+
+    $DB::single = 1;
+    foreach my $interface (getInterfaces(
+        %funcParams
     )) {
         next if ($interface->{STATUS} ne 'Up');
 
         my $profile;
-
         my $domainSettings = _getConnectionDomainSettings(
-            guid => $interface->{GUID}
+            guid => $interface->{GUID},
+            key => $params{dnsRegisteredAdaptersKey} || undef
         );
         # check if connection with domain
         if ($domainSettings) {
@@ -106,7 +114,7 @@ sub _makeProfileAndConnectionsAssociation {
         }
 
         next unless $profile;
-	
+
         my $category = hex2dec($profile->{'/Category'});
         unless (defined $params{firewallProfiles}->{$mappingFirewallProfiles[$category]}->{CONNECTIONS}) {
             $params{firewallProfiles}->{$mappingFirewallProfiles[$category]}->{CONNECTIONS} = [];
@@ -117,6 +125,7 @@ sub _makeProfileAndConnectionsAssociation {
         push @{$params{firewallProfiles}->{$mappingFirewallProfiles[$category]}->{CONNECTIONS}}, $connection;
     }
 
+$DB::single = 1;
     my @profiles = ();
     for my $p (values %{$params{firewallProfiles}}) {
         my @p;
@@ -144,10 +153,12 @@ sub _getConnectionDomainSettings {
 
     return unless $params{guid};
 
-    my $registeredAdapter = getRegistryKey(
-        logger => $params{logger},
-        path => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/Tcpip/Parameters/DNSRegisteredAdapters/' . $params{guid}
-    );
+    my $registeredAdapter = $params{key} ?
+        $params{key}->{$params{guid} . '/'} :
+        getRegistryKey(
+            logger => $params{logger},
+            path => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/Tcpip/Parameters/DNSRegisteredAdapters/' . $params{guid}
+        );
     if ($registeredAdapter && $registeredAdapter->{'/PrimaryDomainName'}) {
         return $registeredAdapter;
     }
