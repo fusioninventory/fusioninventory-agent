@@ -29,7 +29,6 @@ GetOptions(
     'debug+',
     'delaytime=s',
     'help|h',
-    'lazy',
     'list-modules',
     'setup',
     'logger=s',
@@ -56,6 +55,7 @@ GetOptions(
     'backend-collect-timeout=s',
     'force|f',
     'html',
+    'lazy',
     'list-tasks',
     'local',
     'no-category=s',
@@ -160,8 +160,6 @@ B<fusioninventory-agent> [options] [--server server]
   Target scheduling options:
     --delaytime=LIMIT              maximum delay before first target,
                                      in seconds (3600)
-    --lazy                         do not contact the target before
-                                   next scheduled time
 
   Module selection options:
     --list-modules                     list available modules and exit
@@ -260,12 +258,6 @@ Set an initial delay before the first target, whose value is computed randomly
 between LIMIT / 2 and LIMIT seconds. This setting is ignored for server targets
 after the initial contact, in favor of server-specified parameter
 (PROLOG_FREQ).
-
-=item B<--lazy>
-
-Do not contact the target before next scheduled time.
-
-This option is only available when the agent is not run as a server.
 
 =back
 

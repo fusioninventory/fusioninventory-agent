@@ -19,7 +19,6 @@ my $default = {
     'conf-reload-interval'    => 0,
     'debug'                   => undef,
     'delaytime'               => 3600,
-    'lazy'                    => undef,
     'logger'                  => 'Stderr',
     'logfile'                 => undef,
     'logfacility'             => 'LOG_USER',
@@ -44,6 +43,7 @@ my $default = {
     'no-compression'          => undef,
     'additional-content'      => undef,
     'backend-collect-timeout' => 180,
+    'lazy'                    => undef,
     'scan-homedirs'           => undef,
     'scan-profiles'           => undef,
     'no-category'             => undef,
@@ -53,6 +53,9 @@ my $default = {
 };
 
 my $deprecated = {
+    'lazy' => {
+        message => 'scheduling is done on server side'
+    },
     'local' => {
         message =>
             'use fusioninventory-inventory executable',

@@ -318,14 +318,6 @@ sub run {
 
         # foreground mode: check control server once
         my $time = time();
-        if ($self->{config}->{lazy} && $time < $self->{controller}->getNextRunDate()) {
-            $self->{logger}->info(
-                "$self->{controller}->{id} is not ready yet, next server contact " .
-                "planned for " . localtime($self->{controller}->getNextRunDate())
-            );
-            next;
-        }
-
         eval {
             $self->_runTarget($self->{controller});
         };
