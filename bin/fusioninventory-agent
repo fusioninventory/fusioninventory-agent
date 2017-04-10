@@ -156,18 +156,6 @@ B<fusioninventory-agent> [options] [--server server]
     --no-module=MODULE[,MODULE]...     do not run given module
     --modules=MODULE[,MODULE]...[,...] run given module in given order
 
-  Inventory module specific options:
-    --no-category=CATEGORY         do not list given category items
-    --scan-homedirs                scan user home directories (false)
-    --scan-profiles                scan user profiles (false)
-    --backend-collect-timeout=TIME timeout for inventory modules
-                                     execution (30)
-    --additional-content=FILE      additional inventory content file
-
-  Package deployment module specific options:
-    --no-p2p                       do not use peer to peer to download
-                                     files (false)
-
   Network options:
     -P --proxy=PROXY               proxy address
     -u --user=USER                 user name for server authentication
