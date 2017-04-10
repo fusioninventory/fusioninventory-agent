@@ -18,7 +18,6 @@ my $options = {};
 
 GetOptions(
     $options,
-    'backend-collect-timeout=s',
     'ca-cert-dir=s',
     'ca-cert-file=s',
     'conf-file=s',
@@ -53,6 +52,19 @@ GetOptions(
     'version',
     'wait|w=s',
     # deprecated options
+    'additional-content=s',
+    'backend-collect-timeout=s',
+    'force|f',
+    'html',
+    'list-tasks',
+    'local',
+    'no-category=s',
+    'no-compression|C',
+    'no-task',
+    'no-p2p',
+    'scan-homedirs',
+    'scan-profiles',
+    'tasks',
     # Platform specific option
     'no-win32-ole-workaround'
 ) or pod2usage(-verbose => 0);
