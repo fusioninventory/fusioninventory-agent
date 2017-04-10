@@ -30,10 +30,10 @@ GetOptions(
 
 if ($options->{version}) {
     my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
-    map { print $_."\n" }
+    print $_ . "\n" foreach (
         "$PROVIDER WakeOnLan module launcher $FusionInventory::Agent::Task::WakeOnLan::VERSION",
         @{$FusionInventory::Agent::Version::COMMENTS}
-        ;
+    );
     exit 0;
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};

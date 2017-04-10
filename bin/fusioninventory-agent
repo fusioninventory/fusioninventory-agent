@@ -62,9 +62,10 @@ pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
 if ($options->{version}) {
     my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
-    map { print $_."\n" }
-    "$PROVIDER Agent $FusionInventory::Agent::VERSION",
-        @{$FusionInventory::Agent::COMMENTS};
+    print $_ . "\n" foreach (
+        "$PROVIDER Agent $FusionInventory::Agent::VERSION",
+        @{$FusionInventory::Agent::COMMENTS}
+    );
     exit 0;
 }
 

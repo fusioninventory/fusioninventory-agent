@@ -38,10 +38,10 @@ GetOptions(
 
 if ($options->{version}) {
     my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
-    map { print $_."\n" }
+    print $_ . "\n" foreach (
         "$PROVIDER Inventory module launcher $FusionInventory::Agent::Task::Inventory::VERSION",
         @{$FusionInventory::Agent::Version::COMMENTS}
-        ;
+    );
     exit 0;
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};

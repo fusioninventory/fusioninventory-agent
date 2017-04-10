@@ -32,9 +32,10 @@ pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
 if ($options->{version}) {
     my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
-    map { print $_."\n" }
+    print $_ . "\n" foreach (
         "$PROVIDER ESX module launcher $FusionInventory::Agent::Task::ESX::VERSION",
-        @{$FusionInventory::Agent::Version::COMMENTS};
+        @{$FusionInventory::Agent::Version::COMMENTS}
+    );
     exit 0;
 }
 
