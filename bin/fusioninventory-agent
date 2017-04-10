@@ -61,7 +61,9 @@ GetOptions(
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
 if ($options->{version}) {
-    map { print $_."\n" } $FusionInventory::Agent::VERSION_STRING,
+    my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
+    map { print $_."\n" }
+    "$PROVIDER Agent $FusionInventory::Agent::VERSION",
         @{$FusionInventory::Agent::COMMENTS};
     exit 0;
 }

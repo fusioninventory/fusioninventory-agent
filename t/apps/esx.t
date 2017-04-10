@@ -34,6 +34,6 @@ ok($rc == 0, '--version exit status');
 is($err, '', '--version stderr');
 like(
     $out,
-    qr{fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION},
+    qr/$FusionInventory::Agent::Task::ESX::VERSION/,
     '--version stdout'
 );

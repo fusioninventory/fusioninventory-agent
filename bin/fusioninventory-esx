@@ -33,7 +33,7 @@ pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 if ($options->{version}) {
     my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
     map { print $_."\n" }
-        "fusioninventory-esx $FusionInventory::Agent::Task::ESX::VERSION",
+        "$PROVIDER ESX module launcher $FusionInventory::Agent::Task::ESX::VERSION",
         "based on $PROVIDER Agent v$FusionInventory::Agent::Version::VERSION",
         @{$FusionInventory::Agent::Version::COMMENTS};
     exit 0;
