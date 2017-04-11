@@ -28,6 +28,10 @@ use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 
 use FusionInventory::Test::Utils;
 
+# REG_SZ & REG_DWORD provided by even faked Win32::TieRegistry module
+Win32::TieRegistry->require();
+Win32::TieRegistry->import('REG_DWORD', 'REG_SZ');
+
 sub base_object {
     my $subclass = shift;
     my $hash = shift || {};
@@ -1434,6 +1438,25 @@ my %win32_regs = (
 );
 
 plan tests => (4 * scalar keys(%processors)) + (4 * scalar keys(%win32_regs));
+
+# Always mock Win32::TieRegistry, even on win32 platform, with same sub as in
+# t/lib/fake/windows/Win32/TieRegistry.pm
+my $win32_module = Test::MockModule->new('Win32::TieRegistry');
+$win32_module->mock(
+    GetValue =>  sub {
+        my ($self, $value ) = @_ ;
+        # Subkey case
+        if ($value && exists($self->{$value})) {
+            return wantarray ? () : undef ;
+        }
+        # Value case
+        $value = '/'.$value;
+        return unless ($value && exists($self->{$value}));
+        return wantarray ?
+            ( $self->{$value}, $self->{$value} =~ /^0x/ ? REG_DWORD() : REG_SZ() )
+            : $self->{$value} ;
+    }
+);
 
 my $module = Test::MockModule->new(
     'FusionInventory::Agent::Tools::Win32'

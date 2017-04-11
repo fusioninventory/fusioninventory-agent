@@ -26,7 +26,7 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
 
 # REG_SZ & REG_DWORD provided by even faked Win32::TieRegistry module
 Win32::TieRegistry->require();
-Win32::TieRegistry->import();
+Win32::TieRegistry->import('REG_DWORD', 'REG_SZ');
 
 my %tests = (
     7 => [
