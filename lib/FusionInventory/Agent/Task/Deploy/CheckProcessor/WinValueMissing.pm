@@ -32,7 +32,8 @@ sub success {
 
     # First check parent winkey, okay if still missing
     my ( $parent, $key ) = $self->{path} =~ m|^(.*)/([^/]*)$|;
-
+    $self->on_failure("registry path not supported: ".$self->{path});
+    return 0 unless (defined($parent));
     my $parent_key = FusionInventory::Agent::Tools::Win32::getRegistryKey(
         path => $parent
     );
