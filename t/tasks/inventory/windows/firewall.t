@@ -70,13 +70,13 @@ my $expectedProfilesForInventory = {
             STATUS  => STATUS_OFF,
             PROFILE => 'DomainProfile',
             DESCRIPTION => 'Carte Intel(R) PRO/1000 MT pour station de travail',
-            IPADDRESS => '172.28.211.84'
+            IPADDRESS => '0.0.0.1'
         },
         {
             STATUS  => STATUS_OFF,
             PROFILE => 'DomainProfile',
             DESCRIPTION => 'Carte Intel(R) PRO/1000 MT pour station de travail',
-            IPADDRESS6 => 'fe80::8c09:b4c6:8003:2fbf'
+            IPADDRESS6 => 'fe81::fe81:fe81:fe81:fe81'
         },
         {
             STATUS  => STATUS_OFF,
@@ -100,13 +100,13 @@ my $expectedProfilesForInventory = {
             STATUS  => STATUS_ON,
             PROFILE => 'StandardProfile',
             DESCRIPTION => 'Intel(R) PRO/1000 MT Desktop Adapter',
-            IPADDRESS => '10.0.2.15'
+            IPADDRESS => '0.0.0.9'
         },
         {
             STATUS  => STATUS_ON,
             PROFILE => 'StandardProfile',
             DESCRIPTION => 'Intel(R) PRO/1000 MT Desktop Adapter',
-            IPADDRESS6 => 'fe80::210b:e7a8:1f5e:c24e'
+            IPADDRESS6 => 'fe82::fe82:fe82:fe82:fe82'
         }
     ]
 };
@@ -145,18 +145,18 @@ for my $testKey (keys %$expectedProfilesForInventory) {
             MTU DefaultIPGateway DNSServerSearchOrder IPAddress
             IPSubnet DNSDomain/ ]
     );
-    fail("can't load WMI objects from file " . $networkAdapterConfigurationFile) unless @networkAdapterConfigurationObjects;
+    fail("can't load WMI objects from file " . $networkAdapterConfigurationFile . ' : ' . $!) unless @networkAdapterConfigurationObjects;
 
     my $networkAdapterFile = $testFilesPathWmi . $testFiles->{$testKey}->{NetworkAdapter};
     my @networkAdapterObjects = loadWMIDump(
         $networkAdapterFile,
         [ qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId GUID/ ]
     );
-    fail("can't load WMI objects from file " . $networkAdapterFile) unless @networkAdapterObjects;
+    fail("can't load WMI objects from file " . $networkAdapterFile . ' : ' . $!) unless @networkAdapterObjects;
 
     my $networkListFile = $testFilesPathRegistry . $testKey . '-' . $networkListDumpFilePattern;
     my $loadedKeyNetworkList = loadRegistryDump($networkListFile);
-    fail("can't load registry key from file " . $networkListFile)
+    fail("can't load registry key from file " . $networkListFile . ' : ' . $!)
         unless $loadedKeyNetworkList && $loadedKeyNetworkList->{'Profiles/'} && $loadedKeyNetworkList->{'Signatures/'};
 
     my $dnsRegisteredAdaptersFile = $testFilesPathRegistry . $testFiles->{$testKey}->{DNSRegisteredAdapters};
@@ -180,6 +180,7 @@ for my $testKey (keys %$expectedProfilesForInventory) {
     };
     @profiles = &$sortingSub(\@profiles);
     my @expectedProfiles = &$sortingSub($expectedProfilesForInventory->{$testKey});
+    sleep 1;
     cmp_deeply (
         \@profiles,
         \@expectedProfiles,
