@@ -274,6 +274,8 @@ sub _keyLastWriteDateString {
 
     my @lastWrite = FileTimeToSystemTime($key->Information("LastWrite"));
 
+    return unless (@lastWrite > 3);
+
     return sprintf("%04s%02s%02s",$lastWrite[0],$lastWrite[1],$lastWrite[3]);
 }
 
