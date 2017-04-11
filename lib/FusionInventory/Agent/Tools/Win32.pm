@@ -321,14 +321,20 @@ sub getInterfaces {
     my @properties = qw/Index Description IPEnabled DHCPServer MACAddress
                            MTU DefaultIPGateway DNSServerSearchOrder IPAddress
                            IPSubnet/;
-    if ($params{additionalPropertiesNetWorkAdapterConfiguration}
-        && ref($params{additionalPropertiesNetWorkAdapterConfiguration}) eq 'ARRAY') {
-        push @properties, @{$params{additionalPropertiesNetWorkAdapterConfiguration}};
+    if ($params{additionalProperties}
+        && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
+        if (ref($params{additionalProperties}->{NetWorkAdapterConfiguration}) eq 'ARRAY') {
+            push @properties, @{$params{additionalProperties}->{NetWorkAdapterConfiguration}};
+        } else {
+            delete $params{additionalProperties}->{NetWorkAdapterConfiguration};
+        }
     }
     
     my @configurations;
     my @wmiResult =
-        $params{list} && $params{list}->{Win32_NetworkAdapterConfiguration} ?
+            $params{list}
+                && $params{list}->{Win32_NetworkAdapterConfiguration}
+                && ref($params{list}->{Win32_NetworkAdapterConfiguration}) eq 'ARRAY' ?
         @{$params{list}->{Win32_NetworkAdapterConfiguration}} :
         getWMIObjects(
             class      => 'Win32_NetworkAdapterConfiguration',
@@ -344,8 +350,9 @@ sub getInterfaces {
             MTU         => $object->{MTU}
         };
 
-        if ($params{additionalPropertiesNetWorkAdapterConfiguration}) {
-            for my $prop (@{$params{additionalPropertiesNetWorkAdapterConfiguration}}) {
+        if ($params{additionalProperties}
+            && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
+            for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
                 if (defined $object->{$prop}) {
                     $configuration->{$prop} = $object->{$prop};
                 }
@@ -373,8 +380,13 @@ sub getInterfaces {
     my @interfaces;
 
     @properties = qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId/;
-    if ($params{additionalPropertiesNetWorkAdapter} && ref($params{additionalPropertiesNetWorkAdapter}) eq 'ARRAY') {
-        push @properties, @{$params{additionalPropertiesNetWorkAdapter}};
+    if ($params{additionalProperties}
+        && $params{additionalProperties}->{NetWorkAdapter}) {
+        if (ref($params{additionalProperties}->{NetWorkAdapter}) eq 'ARRAY') {
+            push @properties, @{$params{additionalProperties}->{NetWorkAdapter}};
+        } else {
+            delete $params{additionalProperties}->{NetWorkAdapter};
+        }
     }
     @wmiResult =
             $params{list} && $params{list}->{Win32_NetworkAdapter} ?
@@ -407,15 +419,17 @@ sub getInterfaces {
                     dns         => $configuration->{dns},
                 };
 
-                if ($params{additionalPropertiesNetWorkAdapterConfiguration}) {
-                    for my $prop (@{$params{additionalPropertiesNetWorkAdapterConfiguration}}) {
+                if ($params{additionalProperties}
+                    && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
+                    for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
                         if ($configuration->{$prop}) {
                             $interface->{$prop} = $configuration->{$prop};
                         }
                     }
                 }
-                if ($params{additionalPropertiesNetWorkAdapter}) {
-                    for my $prop (@{$params{additionalPropertiesNetWorkAdapter}}) {
+                if ($params{additionalProperties}
+                    && $params{additionalProperties}->{NetWorkAdapter}) {
+                    for my $prop (@{$params{additionalProperties}->{NetWorkAdapter}}) {
                         if ($object->{$prop}) {
                             $interface->{$prop} = $object->{$prop};
                         }
@@ -463,15 +477,17 @@ sub getInterfaces {
                 if $object->{Speed};
             $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
 
-            if ($params{additionalPropertiesNetWorkAdapterConfiguration}) {
-                for my $prop (@{$params{additionalPropertiesNetWorkAdapterConfiguration}}) {
+            if ($params{additionalProperties}
+                && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
+                for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
                     if ($configuration->{$prop}) {
                         $interface->{$prop} = $configuration->{$prop};
                     }
                 }
             }
-            if ($params{additionalPropertiesNetWorkAdapter}) {
-                for my $prop (@{$params{additionalPropertiesNetWorkAdapter}}) {
+            if ($params{additionalProperties}
+                && $params{additionalProperties}->{NetWorkAdapter}) {
+                for my $prop (@{$params{additionalProperties}->{NetWorkAdapter}}) {
                     if ($configuration->{$prop}) {
                         $interface->{$prop} = $configuration->{$prop};
                     }

@@ -83,8 +83,10 @@ sub _makeProfileAndConnectionsAssociation {
     return unless $profilesKey && $signaturesKey;
 
     my %funcParams = (
-        additionalPropertiesNetWorkAdapterConfiguration => [qw/DNSDomain/],
-        additionalPropertiesNetWorkAdapter => [qw/GUID/],
+        additionalProperties => {
+            NetWorkAdapterConfiguration        => [ qw/DNSDomain/ ],
+            NetWorkAdapter => [ qw/GUID/ ]
+        },
         list => $params{list} ? $params{list} : {}
     );
 
