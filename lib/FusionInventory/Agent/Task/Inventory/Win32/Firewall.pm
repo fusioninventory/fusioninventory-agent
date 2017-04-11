@@ -88,7 +88,6 @@ sub _makeProfileAndConnectionsAssociation {
         list => $params{list} ? $params{list} : {}
     );
 
-    $DB::single = 1;
     foreach my $interface (getInterfaces(
         %funcParams
     )) {
@@ -125,7 +124,6 @@ sub _makeProfileAndConnectionsAssociation {
         push @{$params{firewallProfiles}->{$mappingFirewallProfiles[$category]}->{CONNECTIONS}}, $connection;
     }
 
-$DB::single = 1;
     my @profiles = ();
     for my $p (values %{$params{firewallProfiles}}) {
         my @p;
