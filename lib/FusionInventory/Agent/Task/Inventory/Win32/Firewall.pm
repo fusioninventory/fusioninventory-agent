@@ -104,7 +104,7 @@ sub _makeProfileAndConnectionsAssociation {
             $profile = _retrieveFirewallProfileWithdomain(
                 profileName => $domainSettings->{'/PrimaryDomainName'},
                 profilesKey => $profilesKey
-            )
+            );
         } else {
             $profile = _retrieveFirewallProfileWithoutDomain(
                 DNSDomain => $interface->{DNSDomain},
@@ -181,9 +181,9 @@ sub _retrieveFirewallProfileWithoutDomain {
             last;
         }
     }
-    return unless $profileGuid && $profilesKey->{$profileGuid};
+    return unless $profileGuid && $profilesKey->{$profileGuid . '/'};
 
-    return $profilesKey->{$profileGuid};
+    return $profilesKey->{$profileGuid . '/'};
 }
 
 sub _retrieveProfilesAndSignaturesKey {

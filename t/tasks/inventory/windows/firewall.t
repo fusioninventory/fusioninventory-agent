@@ -57,10 +57,11 @@ my $testFiles = {
         NetworkAdapterConfiguration => '7-Win32_NetworkAdapterConfiguration_2.wmi',
         DNSRegisteredAdapters => '7-DNSRegisteredAdapters.reg'
     },
-#    '10' => {
-#        NetworkAdapter => '10-Win32_NetworkAdapter_2.wmi',
-#        NetworkAdapterConfiguration => '10-Win32_NetworkAdapterConfiguration_2.wmi',
-#    }
+    '10' => {
+        NetworkAdapter => '10-Win32_NetworkAdapter.wmi',
+        NetworkAdapterConfiguration => '10-Win32_NetworkAdapterConfiguration.wmi',
+        DNSRegisteredAdapters => '10-DNSRegisteredAdapters.reg'
+    }
 };
 
 my $expectedProfilesForInventory = {
@@ -86,20 +87,28 @@ my $expectedProfilesForInventory = {
             PROFILE => 'StandardProfile'
         }
     ],
-#    '10' => [
-#        {
-#            STATUS  => STATUS_ON,
-#            PROFILE => 'DomainProfile'
-#        },
-#        {
-#            STATUS  => STATUS_ON,
-#            PROFILE => 'PublicProfile'
-#        },
-#        {
-#            STATUS  => STATUS_ON,
-#            PROFILE => 'StandardProfile'
-#        }
-#    ]
+    '10' => [
+        {
+            STATUS  => STATUS_ON,
+            PROFILE => 'DomainProfile'
+        },
+        {
+            STATUS  => STATUS_ON,
+            PROFILE => 'PublicProfile'
+        },
+        {
+            STATUS  => STATUS_ON,
+            PROFILE => 'StandardProfile',
+            DESCRIPTION => 'Intel(R) PRO/1000 MT Desktop Adapter',
+            IPADDRESS => '10.0.2.15'
+        },
+        {
+            STATUS  => STATUS_ON,
+            PROFILE => 'StandardProfile',
+            DESCRIPTION => 'Intel(R) PRO/1000 MT Desktop Adapter',
+            IPADDRESS6 => 'fe80::210b:e7a8:1f5e:c24e'
+        }
+    ]
 };
 
 plan tests => 1
@@ -125,7 +134,6 @@ my $testFilesPathWmi = 'resources/win32/wmi/';
 my $networkListDumpFilePattern = 'NetworkList.reg';
 for my $testKey (keys %$expectedProfilesForInventory) {
     my $loadedKey = loadRegistryDump($testFilesPathRegistry . $testKey . '-' . $testFirewallProfilesFilePattern);
-    my %funcParams = ();
     my $firewallProfiles = FusionInventory::Agent::Task::Inventory::Win32::Firewall::_extractFirewallProfilesFromRegistryKey(
         key => $loadedKey
     );
@@ -170,7 +178,7 @@ for my $testKey (keys %$expectedProfilesForInventory) {
         my $list = shift;
         return sort { $a->{PROFILE} lt $b->{PROFILE} || (($a->{PROFILE} eq $b->{PROFILE}) && defined ($a->{IPADDRESS})) } @$list;
     };
-    my @profiles = &$sortingSub(\@profiles);
+    @profiles = &$sortingSub(\@profiles);
     my @expectedProfiles = &$sortingSub($expectedProfilesForInventory->{$testKey});
     cmp_deeply (
         \@profiles,
