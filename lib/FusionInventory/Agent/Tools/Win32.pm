@@ -456,6 +456,8 @@ sub FileTimeToSystemTime {
     # Inspired by Win32::FileTime module
     my $time = shift;
 
+    return unless defined($time);
+
     my $SystemTime = pack( 'SSSSSSSS', 0, 0, 0, 0, 0, 0, 0, 0 );
 
     # Load Win32::API as late as possible
