@@ -41,7 +41,7 @@ sub _init {
     $self->_loadState();
 
     $self->{nextRunDate} = $self->_computeNextRunDate()
-        if !$self->{nextRunDate};
+        if (!$self->{nextRunDate} || $self->{nextRunDate} < time-$self->getMaxDelay());
 
     $self->_saveState();
 
@@ -66,10 +66,26 @@ sub setNextRunDate {
     $self->_saveState();
 }
 
+sub setNextRunDateFromNow {
+    my ($self, $nextRunDelay) = @_;
+
+    lock($self->{nextRunDate}) if $self->{shared};
+    if ($nextRunDelay) {
+        # While using nextRunDelay, we double it on each consecutive call until
+        # delay reach target defined maxDelay. This is only used on network failure.
+        $nextRunDelay = 2 * $self->{_nextrundelay} if ($self->{_nextrundelay});
+        $nextRunDelay = $self->getMaxDelay() if ($nextRunDelay > $self->getMaxDelay());
+        $self->{_nextrundelay} = $nextRunDelay;
+    }
+    $self->{nextRunDate} = time + ($nextRunDelay || 0);
+    $self->_saveState();
+}
+
 sub resetNextRunDate {
     my ($self) = @_;
 
     lock($self->{nextRunDate}) if $self->{shared};
+    $self->{_nextrundelay} = 0;
     $self->{nextRunDate} = $self->_computeNextRunDate();
     $self->_saveState();
 }
@@ -186,6 +202,10 @@ Get nextRunDate attribute as a formated string.
 =head2 setNextRunDate($nextRunDate)
 
 Set next execution date.
+
+=head2 setNextRunDateFromNow($nextRunDelay)
+
+Set next execution date from now and after $nextRunDelay seconds (0 by default).
 
 =head2 resetNextRunDate()
 

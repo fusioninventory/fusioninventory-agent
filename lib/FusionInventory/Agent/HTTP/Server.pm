@@ -217,7 +217,7 @@ sub _handle_now {
             my $url       = $target->getUrl();
             my $addresses = $self->{trust}->{$url};
             next unless isPartOf($clientIp, $addresses, $logger);
-            $target->setNextRunDate(1);
+            $target->setNextRunDateFromNow();
             $code    = 200;
             $message = "OK";
             $trace   = "rescheduling next contact for target $url right now";
@@ -226,7 +226,7 @@ sub _handle_now {
 
         if ($self->_isTrusted($clientIp)) {
             foreach my $target ($self->{agent}->getTargets()) {
-                $target->setNextRunDate(1);
+                $target->setNextRunDateFromNow();
             }
             $code    = 200;
             $message = "OK";

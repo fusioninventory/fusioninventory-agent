@@ -300,7 +300,7 @@ sub run {
                 $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
                 if ($net_error) {
                     # Prefer to retry early on net error
-                    $target->setNextRunDate($target->getNextRunDate()+60);
+                    $target->setNextRunDateFromNow(60);
                 } else {
                     $target->resetNextRunDate();
                 }
@@ -339,6 +339,9 @@ sub run {
                 $self->_runTarget($target);
             };
             $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
+
+            # Reset next run date to support --lazy option with foreground mode
+            $target->resetNextRunDate();
         }
     }
 }
