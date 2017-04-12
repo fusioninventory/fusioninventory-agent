@@ -165,7 +165,10 @@ sub resolve {
     my @addresses;
     my @errors;
 
-    if ($Socket::VERSION >= 1.94) {
+    # Avoid an error as Socket::VERSION may contain underscore
+    my ($SocketVersion) = split('_',$Socket::VERSION);
+
+    if ($SocketVersion >= 1.94) {
         # IPv6 compatible version
         my ($error, @results) = Socket::getaddrinfo(
             $name, undef, {

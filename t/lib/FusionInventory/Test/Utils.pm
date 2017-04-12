@@ -211,19 +211,22 @@ sub run_executable {
 sub openWin32Registry {
 
     my $Registry;
+    my ($norecursion) = @_;
     Win32::TieRegistry->require();
     Win32::TieRegistry->import(
         Delimiter   => '/',
         TiedRef     => \$Registry
     );
 
-    my $agentKey = 'FusionInventory-Agent';
+    my $agentKey = 'FusionInventory-Agent-unittest';
     my $machKey = $Registry->{'LMachine'};
     my $settings  = $machKey->Open('SOFTWARE/' . $agentKey, { 'Delimiter' => '/' });
     if (! defined($settings)) {
+        die "\nFailed to create HKEY_LOCAL_MACHINE/SOFTWARE/$agentKey key, be sure to run this win32 test with Administrator privileges"
+            if $norecursion;
         $settings = $machKey->Open('SOFTWARE', { 'Delimiter' => '/' });
         $settings->{$agentKey} = {};
-        $settings = openWin32Registry();
+        $settings = openWin32Registry('no-recursion');
     }
 
     return $settings;

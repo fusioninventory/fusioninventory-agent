@@ -24,7 +24,7 @@ GetOptions(
     'first=s',
     'last=s',
     'community=s@',
-    'credential=s@',
+    'credentials=s@',
     'entity=s',
     'threads=i',
     'timeout=i',
@@ -72,7 +72,7 @@ if ($options->{community}) {
             { ID => $credentials_id++, VERSION => 1, COMMUNITY => $community };
     }
 } elsif ($options->{credential}) {
-    foreach my $specification (@{$options->{credential}}) {
+    foreach my $specification (@{$options->{credentials}}) {
         my $credential = { ID => $credentials_id++ };
         foreach my $parameter (split(',', $specification)) {
             my ($key, $value) = split(':', $parameter);
@@ -157,21 +157,88 @@ fusioninventory-netdiscovery - Standalone network discovery
 
 =head1 SYNOPSIS
 
-fusioninventory-netdiscovery [options] --first <start> --last <stop>
+fusioninventory-netdiscovery [options] --first <address> --last <address>
 
   Options:
-    --first address IP range first address
-    --last address  IP range last address
-    --credential    SNMP credential (default: version:1,community:public)
-    --entity        GLPI entity
-    --threads nb    number of discovery threads (default: 1)
-    --timeout val   SNMP timeout (default: 1s)
-    --control       output control messages
-    --debug         debug output (execution traces)
-    -h --help       print this message and exit
-    --version       print the task version and exit
+    --first <ADDRESS>      IP range first address
+    --last <ADDRESS>       IP range last address
+    --community <STRING>   SNMP community string (public)
+    --credentials <STRING> SNMP credentials (version:1,community:public)
+    --timeout <TIME        SNMP timeout, in seconds (1)
+    --entity <ENTITY>      GLPI entity
+    --threads <COUNT>      number of discovery threads (1)
+    --control              output control messages
+    --debug                debug output
+    -h --help              print this message and exit
+    --version              print the task version and exit
 
 =head1 DESCRIPTION
 
 F<fusioninventory-netdiscovery> allows to run a network discovery task without a
 GLPI server.
+
+=head1 OPTIONS
+
+=over
+
+=item B<--first> I<ADDRESS>
+
+Set the first IP address of the network range to scan.
+
+=item B<--last> I<ADDRESS>
+
+Set the last IP address of the network range to scan.
+
+=item B<--community> I<STRING>
+
+Use given string as SNMP community (assume SNMPv1).
+
+=item B<--credentials> I<STRING>
+
+Use given string as SNMP credentials specification. This specification is a
+comma-separated list of key:value authentication parameters, such as:
+
+=over
+
+=item * version:2c,community:public
+
+=item * version:3,username:admin,authprotocol:sha,authpassword:s3cr3t
+
+=item * etc.
+
+=back
+
+=item B<--timeout> I<TIME>
+
+Set SNMP timeout, in seconds.
+
+=item B<--entity> I<ENTITY>
+
+Set GLPI entity.
+
+=item B<--threads> I<COUNT>
+
+Use given number of inventory threads.
+
+=item B<--control>
+
+Output server-agent control messages, in addition to inventory result itself.
+
+=item B<--debug>
+
+Turn the debug mode on. Multiple usage allowed, for additional verbosity.
+
+=back
+
+=head1 EXAMPLES
+
+Run a discovery against a network range, using SNMP version 1:
+
+    $> fusioninventory-netdiscovery --first 192.168.0.1 --last 192.168.0.254
+    --community public
+
+Run a discovery against a network range, using multiple SNMP credentials:
+
+    $> fusioninventory-netdiscovery --first 192.168.0.1 --last 192.168.0.254
+    --credentials version:2c,community:public
+    --credentials version:3,username:admin,authprotocol:sha,authpassword:s3cr3t

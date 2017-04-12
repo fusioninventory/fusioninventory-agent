@@ -100,6 +100,10 @@ Mandatory Perl modules for P2P Support:
 * Net::Ping
 * Parallel::ForkManager
 
+## Related contribs
+
+See [CONTRIB](CONTRIB.md) to find references to FusionInventory Agent related scritps/files
+
 ## Contacts
 
 Project websites:

@@ -62,6 +62,7 @@ test_requires 'LWP::Protocol::https'         => '0';
 test_requires 'Test::MockObject'             => '0';
 test_requires 'JSON::PP'                     => '0';
 test_requires 'Net::SNMP'                    => '0';
+test_requires 'File::Copy::Recursive'        => '0';
 test_requires 'Parallel::ForkManager'        => '0';
 
 # Inventory

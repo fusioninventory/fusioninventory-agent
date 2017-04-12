@@ -36,7 +36,7 @@ GetOptions(
     'model=s',
     'type=s',
     'host=s@',
-    'file=s',
+    'file=s@',
     'community=s',
     'credentials=s',
     'threads=i',
@@ -64,15 +64,30 @@ pod2usage(
 
 warn "deprecated option model, ignoring\n" if $options->{model};
 
-my @devices = map {
-        {
-            ID           => 0,
-            IP           => $_,
-            FILE         => $options->{file},
-            AUTHSNMP_ID  => 1,
-            MODELSNMP_ID => 1
-        }
-    } @{$options->{host}};
+# Add hosts if --host option is not listing as much host as --file option is providing snmpwalk files
+$options->{host} = [] unless $options->{host};
+while ($options->{file} && @{$options->{file}} > @{$options->{host}}) {
+    push @{$options->{host}}, $options->{host}[0] || '127.0.0.1';
+}
+
+my $id = 0;
+my @devices;
+
+if ($options->{file}) {
+    push @devices, {
+        ID           => $id++,
+        FILE         => $_,
+        AUTHSNMP_ID  => 1,
+        MODELSNMP_ID => 1
+    } foreach @{$options->{file}};
+} else {
+    push @devices, {
+        ID           => $id++,
+        IP           => $_,
+        AUTHSNMP_ID  => 1,
+        MODELSNMP_ID => 1
+    } foreach @{$options->{host}};
+}
 
 my $credentials = { ID => 1 };
 
@@ -206,7 +221,8 @@ multiple hosts.
 
 =item B<--file> I<FILE>
 
-Run an offline inventory against snmpwalk output, stored in given file.
+Run an offline inventory against snmpwalk output, stored in given file. 
+Multiple usage allowed, for multiple files.
 
 =item B<--communty> I<STRING>
 
