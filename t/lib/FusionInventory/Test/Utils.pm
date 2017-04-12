@@ -140,7 +140,7 @@ sub loadRegistryDump {
                     my $key_path = $element . '/';
 
                     if (!defined $current_key->{$key_path}) {
-                        my $new_key = {};
+                        my $new_key = bless( {}, "Win32::TieRegistry" );
                         $current_key->{$key_path} = $new_key;
                     }
 
@@ -165,10 +165,18 @@ sub loadRegistryDump {
             next;
         }
 
-        if ($line =~ /^ " ([^"]+) " = " ([^"]+) "/x) {
+        if ($line =~ /^ " ([^"]+) " = " ([^"]*) "/x) {
             my ($key, $value) = ($1, $2);
             $value =~ s{\\\\}{\\}g;
             $current_key->{'/' . $key} = $value;
+            next;
+        }
+
+        # Default key value
+        if ($line =~ /^ \@ = " ([^"]*) "/x) {
+            my $value = $1;
+            $value =~ s{\\\\}{\\}g;
+            $current_key->{'/'} = $value;
             next;
         }
 
@@ -182,6 +190,8 @@ sub loadRegistryDump {
 
     }
     close $handle;
+
+    bless( $root_key, "Win32::TieRegistry" );
 
     return $root_key;
 }

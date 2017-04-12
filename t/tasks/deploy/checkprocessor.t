@@ -26,6 +26,12 @@ use FusionInventory::Agent::Logger;
 
 use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 
+use FusionInventory::Test::Utils;
+
+# REG_SZ & REG_DWORD provided by even faked Win32::TieRegistry module
+Win32::TieRegistry->require();
+Win32::TieRegistry->import('REG_DWORD', 'REG_SZ');
+
 sub base_object {
     my $subclass = shift;
     my $hash = shift || {};
@@ -112,18 +118,79 @@ my %checkcb = (
     },
     'winkey-exists' => sub {
         my ( $check ) = shift ;
-        $check->{on_success} =~ /winkey found/
-            && $check->{on_failure} =~ /not on MSWin32|failed to load Win32|missing winkey/;
+        $check->{on_success} =~ /registry key found/
+            && $check->{on_failure} =~ /
+                registry\ path\ not\ supported  |
+                only\ available\ on\ windows    |
+                failed\ to\ load\ Win32         |
+                registry\ path\ not\ supported  |
+                missing\ parent\ registry\ key  |
+                missing\ registry\ key
+            /x;
     },
     'winkey-missing' => sub {
         my ( $check ) = shift ;
-        $check->{on_success} =~ /missing winkey/
-            && $check->{on_failure} =~ /not on MSWin32|failed to load Win32|winkey found/;
+        $check->{on_success} =~ /missing registry key/
+            && $check->{on_failure} =~ /
+                registry\ path\ not\ supported  |
+                only\ available\ on\ windows    |
+                failed\ to\ load\ Win32         |
+                registry\ path\ not\ supported  |
+                registry\ key\ found
+            /x;
     },
     'winkey-value' => sub {
         my ( $check ) = shift ;
-        $check->{on_success} =~ /found expected winkey value/
-            && $check->{on_failure} =~ /not on MSWin32|no value provided|failed to load Win32|missing winkey|bad winkey content/;
+        (!$check->{on_success} || $check->{on_success} =~ /found expected registry value/)
+            && $check->{on_failure} =~ /
+                registry\ path\ not\ supported  |
+                no\ value\ provided             |
+                only\ available\ on\ windows    |
+                failed\ to\ load\ Win32         |
+                registry\ path\ not\ supported  |
+                missing\ parent\ registry\ key  |
+                seen\ as\ a\ registry\ key      |
+                missing\ registry\ value        |
+                bad\ registry\ value
+            /x;
+    },
+    'winvalue-exists' => sub {
+        my ( $check ) = shift ;
+        $check->{on_success} =~ /registry value found/
+            && $check->{on_failure} =~ /
+                registry\ path\ not\ supported  |
+                only\ available\ on\ windows    |
+                failed\ to\ load\ Win32         |
+                registry\ path\ not\ supported  |
+                seen\ as\ key,\ not\ as\ value  |
+                missing\ registry\ value
+            /x;
+    },
+    'winvalue-missing' => sub {
+        my ( $check ) = shift ;
+        $check->{on_success} =~ /missing registry value/
+            && $check->{on_failure} =~ /
+                registry\ path\ not\ supported  |
+                only\ available\ on\ windows    |
+                failed\ to\ load\ Win32         |
+                registry\ path\ not\ supported  |
+                registry\ value\ found
+            /x;
+    },
+    'winvalue-type' => sub {
+        my ( $check ) = shift ;
+        (!$check->{on_success} || $check->{on_success} =~ /found \S+ registry value/)
+            && $check->{on_failure} =~ /
+                registry\ path\ not\ supported  |
+                no\ value\ type\ provided       |
+                only\ available\ on\ windows    |
+                failed\ to\ load\ Win32         |
+                registry\ path\ not\ supported  |
+                missing\ parent\ registry\ key  |
+                seen\ as\ a\ registry\ key      |
+                missing\ registry\ (key|value)  |
+                registry\ value\ type
+            /x;
     },
 );
 
@@ -914,7 +981,7 @@ my %processors = (
             type   => "winkeyMissing",
         }),
         __ctrl_cb => $checkcb{'winkey-missing'},
-        __result  => 'ok'
+        __result  => 'ko'
     },
     'winkey-missing-1' => {
         type      => "winkeyMissing",
@@ -1002,14 +1069,392 @@ my %processors = (
     },
 );
 
-plan tests => 4 * scalar keys %processors ;
+my %win32_regs = (
+    'winkey-exists-3' => {
+        type      => "winkeyExists",
+        __expect   => base_object("WinKeyExists", {
+            type   => "winkeyExists",
+        }),
+        __ctrl_cb => $checkcb{'winkey-exists'},
+        __result  => 'ko'
+    },
+    'winkey-exists-4' => {
+        type      => "winkeyExists",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent',
+        __expect  => base_object("WinKeyExists", {
+            type   => "winkeyExists",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent'
+        }),
+        __ctrl_cb => $checkcb{'winkey-exists'},
+        __result  => 'ok'
+    },
+    'winkey-exists-5' => {
+        type      => "winkeyExists",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug3',
+        __expect  => base_object("WinKeyExists", {
+            type   => "winkeyExists",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug3'
+        }),
+        __ctrl_cb => $checkcb{'winkey-exists'},
+        __result  => 'ko'
+    },
+    'winkey-missing-3' => {
+        type      => "winkeyMissing",
+        __expect  => base_object("WinKeyMissing", {
+            type   => "winkeyMissing",
+        }),
+        __ctrl_cb => $checkcb{'winkey-missing'},
+        __result  => 'ko'
+    },
+    'winkey-missing-4' => {
+        type      => "winkeyMissing",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent',
+        __expect  => base_object("WinKeyMissing", {
+            type   => "winkeyMissing",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent'
+        }),
+        __ctrl_cb => $checkcb{'winkey-missing'},
+        __result  => 'ko'
+    },
+    'winkey-missing-5' => {
+        type      => "winkeyMissing",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug3',
+        __expect  => base_object("WinKeyMissing", {
+            type   => "winkeyMissing",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug3'
+        }),
+        __ctrl_cb => $checkcb{'winkey-missing'},
+        __result  => 'ok'
+    },
+    'winkey-value-6' => {
+        type      => "winkeyEquals",
+        __expect  => base_object("WinKeyEquals", {
+            type   => "winkeyEquals",
+        }),
+        __ctrl_cb => $checkcb{'winkey-value'},
+        __result  => 'ko'
+    },
+    'winkey-value-7' => {
+        type      => "winkeyEquals",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent',
+        __expect  => base_object("WinKeyEquals", {
+            type   => "winkeyEquals",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent'
+        }),
+        __ctrl_cb => $checkcb{'winkey-value'},
+        __result  => 'ko'
+    },
+    'winkey-value-8' => {
+        type      => "winkeyEquals",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug3',
+        __expect  => base_object("WinKeyEquals", {
+            type   => "winkeyEquals",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug3'
+        }),
+        __ctrl_cb => $checkcb{'winkey-value'},
+        __result  => 'ko'
+    },
+    'winkey-value-9' => {
+        type      => "winkeyEquals",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+        value     => undef,
+        __expect  => base_object("WinKeyEquals", {
+            type   => "winkeyEquals",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+            value  => undef,
+        }),
+        __ctrl_cb => $checkcb{'winkey-value'},
+        __result  => 'ko'
+    },
+    'winkey-value-10' => {
+        type      => "winkeyEquals",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+        value     => "Bad value",
+        __expect  => base_object("WinKeyEquals", {
+            type   => "winkeyEquals",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+            value  => "Bad value",
+        }),
+        __ctrl_cb => $checkcb{'winkey-value'},
+        __result  => 'ko'
+    },
+    'winkey-value-11' => {
+        type      => "winkeyEquals",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+        value     => "2",
+        __expect  => base_object("WinKeyEquals", {
+            type   => "winkeyEquals",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+            value  => "2",
+        }),
+        __ctrl_cb => $checkcb{'winkey-value'},
+        __result  => 'ok'
+    },
+    # If path is a key path finishing by / or \, the test check for the default value
+    'winkey-value-12' => {
+        type      => "winkeyEquals",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug/',
+        value     => "2",
+        __expect  => base_object("WinKeyEquals", {
+            type   => "winkeyEquals",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug/',
+            value  => "2",
+        }),
+        __ctrl_cb => $checkcb{'winkey-value'},
+        __result  => 'ko'
+    },
+    'winvalue-exists-0' => {
+        type      => "winvalueExists",
+        __expect  => base_object("WinValueExists", {
+            type   => "winvalueExists",
+        }),
+        __ctrl_cb => $checkcb{'winvalue-exists'},
+        __result  => 'ko'
+    },
+    'winvalue-exists-1' => {
+        type      => "winvalueExists",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\notvalue',
+        __expect  => base_object("WinValueExists", {
+            type   => "winvalueExists",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\notvalue',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-exists'},
+        __result  => 'ko'
+    },
+    'winvalue-exists-2' => {
+        type      => "winvalueExists",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent',
+        __expect  => base_object("WinValueExists", {
+            type   => "winvalueExists",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-exists'},
+        __result  => 'ko'
+    },
+    # If path is a key path finishing by / or \, the test check for the default value
+    'winvalue-exists-3' => {
+        type      => "winvalueExists",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/',
+        __expect  => base_object("WinValueExists", {
+            type   => "winvalueExists",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-exists'},
+        __result  => 'ok'
+    },
+    'winvalue-exists-4' => {
+        type      => "winvalueExists",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/debug/',
+        __expect  => base_object("WinValueExists", {
+            type   => "winvalueExists",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/debug/',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-exists'},
+        __result  => 'ko'
+    },
+    'winvalue-exists-5' => {
+        type      => "winvalueExists",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/debug',
+        __expect  => base_object("WinValueExists", {
+            type   => "winvalueExists",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/debug',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-exists'},
+        __result  => 'ok'
+    },
+    'winvalue-missing-0' => {
+        type      => "winvalueMissing",
+        __expect  => base_object("WinValueMissing", {
+            type   => "winvalueMissing",
+        }),
+        __ctrl_cb => $checkcb{'winvalue-missing'},
+        __result  => 'ko'
+    },
+    'winvalue-missing-1' => {
+        type      => "winvalueMissing",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\notvalue',
+        __expect  => base_object("WinValueMissing", {
+            type   => "winvalueMissing",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\notvalue',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-missing'},
+        __result  => 'ok'
+    },
+    'winvalue-missing-2' => {
+        type      => "winvalueMissing",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent',
+        __expect  => base_object("WinValueMissing", {
+            type   => "winvalueMissing",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-missing'},
+        __result  => 'ok'
+    },
+    # If path is a key path finishing by / or \, the test check for the default value
+    'winvalue-missing-3' => {
+        type      => "winvalueMissing",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/',
+        __expect  => base_object("WinValueMissing", {
+            type   => "winvalueMissing",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-missing'},
+        __result  => 'ko'
+    },
+    'winvalue-missing-4' => {
+        type      => "winvalueMissing",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/debug',
+        __expect  => base_object("WinValueMissing", {
+            type   => "winvalueMissing",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/debug',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-missing'},
+        __result  => 'ko'
+    },
+    # If path is a key path finishing by / or \, the test check for the default value
+    'winvalue-missing-5' => {
+        type      => "winvalueMissing",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/debug/',
+        __expect  => base_object("WinValueMissing", {
+            type   => "winvalueMissing",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent/debug/',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-missing'},
+        __result  => 'ok'
+    },
+    'winvalue-type-0' => {
+        type      => "winvalueType",
+        __expect  => base_object("WinValueType", {
+            type   => "winvalueType",
+        }),
+        __ctrl_cb => $checkcb{'winvalue-type'},
+        __result  => 'ko'
+    },
+    'winvalue-type-1' => {
+        type      => "winvalueType",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\notvalue',
+        __expect  => base_object("WinValueType", {
+            type   => "winvalueType",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\notvalue',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-type'},
+        __result  => 'ko'
+    },
+    'winvalue-type-2' => {
+        type      => "winvalueType",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+        __expect  => base_object("WinValueType", {
+            type   => "winvalueType",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+        }),
+        __ctrl_cb => $checkcb{'winvalue-type'},
+        __result  => 'ko'
+    },
+    'winvalue-type-3' => {
+        type      => "winvalueType",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+        value     => "not-a-type",
+        __expect  => base_object("WinValueType", {
+            type   => "winvalueType",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+            value  => "not-a-type",
+        }),
+        __ctrl_cb => $checkcb{'winvalue-type'},
+        __result  => 'ko'
+    },
+    'winvalue-type-4' => {
+        type      => "winvalueType",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+        value     => "string",
+        __expect  => base_object("WinValueType", {
+            type   => "winvalueType",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+            value  => "string",
+        }),
+        __ctrl_cb => $checkcb{'winvalue-type'},
+        __result  => 'ko'
+    },
+    'winvalue-type-5' => {
+        type      => "winvalueType",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+        value     => "",
+        __expect  => base_object("WinValueType", {
+            type   => "winvalueType",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+            value  => "",
+        }),
+        __ctrl_cb => $checkcb{'winvalue-type'},
+        __result  => 'ko'
+    },
+    'winvalue-type-6' => {
+        type      => "winvalueType",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+        value     => "REG_SZ",
+        __expect  => base_object("WinValueType", {
+            type   => "winvalueType",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug',
+            value  => "REG_SZ",
+        }),
+        __ctrl_cb => $checkcb{'winvalue-type'},
+        __result  => 'ok'
+    },
+    # If path is a key path finishing by / or \, the test check for the default value
+    'winvalue-type-7' => {
+        type      => "winvalueType",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug/',
+        value     => "REG_SZ",
+        __expect  => base_object("WinValueType", {
+            type   => "winvalueType",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug/',
+            value  => "REG_SZ",
+        }),
+        __ctrl_cb => $checkcb{'winvalue-type'},
+        __result  => 'ko'
+    },
+    'winvalue-type-8' => {
+        type      => "winvalueType",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug4/',
+        value     => "REG_SZ",
+        __expect  => base_object("WinValueType", {
+            type   => "winvalueType",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug4/',
+            value  => "REG_SZ",
+        }),
+        __ctrl_cb => $checkcb{'winvalue-type'},
+        __result  => 'ok'
+    },
+    'winvalue-type-9' => {
+        type      => "winvalueType",
+        path      => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug2',
+        value     => "REG_DWORD",
+        __expect  => base_object("WinValueType", {
+            type   => "winvalueType",
+            path   => 'HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\debug2',
+            value  => "REG_DWORD",
+        }),
+        __ctrl_cb => $checkcb{'winvalue-type'},
+        __result  => 'ok'
+    },
+);
 
-# Emulated registry
-my %register = (
-    'HKEY_LOCAL_MACHINE/HARDWARE/DESCRIPTION/System/CentralProcessor' => {
-        '0' => {
-            '/VendorIdentifier'   => 'GenuineIntel'
+plan tests => (4 * scalar keys(%processors)) + (4 * scalar keys(%win32_regs));
+
+# Always mock Win32::TieRegistry, even on win32 platform, with same sub as in
+# t/lib/fake/windows/Win32/TieRegistry.pm
+my $win32_module = Test::MockModule->new('Win32::TieRegistry');
+$win32_module->mock(
+    GetValue =>  sub {
+        my ($self, $value ) = @_ ;
+        # Subkey case
+        if ($value && exists($self->{$value})) {
+            return wantarray ? () : undef ;
         }
+        # Value case
+        $value = '/'.$value;
+        return unless ($value && exists($self->{$value}));
+        return wantarray ?
+            ( $self->{$value}, $self->{$value} =~ /^0x/ ? REG_DWORD() : REG_SZ() )
+            : $self->{$value} ;
     }
 );
 
@@ -1017,19 +1462,13 @@ my $module = Test::MockModule->new(
     'FusionInventory::Agent::Tools::Win32'
 );
 
+my $regprocdump = loadRegistryDump("resources/win32/registry/xp-CentralProcessor.reg");
+
 $module->mock(
     '_getRegistryKey', sub {
-        my (%params) = @_;
-        return unless ($params{root} && defined($params{keyName}));
-        return unless exists($register{$params{root}});
-        my $root = $register{$params{root}};
-        return unless exists($root->{$params{keyName}});
-        my $key = { %{$root->{$params{keyName}}} };
-        # Bless leaf as expected
-        map { bless $key->{$_}, 'Win32::TieRegistry' }
-            grep { ref($key->{$_}) eq 'HASH' } keys %{$key};
-        bless $key, 'Win32::TieRegistry';
-        return $key;
+        my %params = @_;
+        return $regprocdump->{'0/'} if $params{keyName} eq '0';
+        return $regprocdump;
     }
 );
 
@@ -1061,6 +1500,51 @@ foreach my $proc (keys %processors) {
     delete $check->{__logger};
 
     ok( defined($check), "defined $proc" );
+    cmp_deeply($check, $expect, "$proc object");
+
+    my $status = $check->process();
+
+    ok( &{$ctrlcb}($check), "$proc object control callback after process() ok");
+
+    ok( $status eq $result, "$proc object status result ok");
+}
+
+my $regdump = loadRegistryDump("resources/win32/registry/fia-audit-test.reg");
+
+$module->mock(
+    '_getRegistryKey', sub {
+        my %params = @_;
+        if ( $params{root} && $params{root} =~ m|^HKEY_LOCAL_MACHINE| ) {
+            return $regdump if ($params{keyName} eq 'SOFTWARE');
+            return $regdump->{$params{keyName}.'/'}
+                if ($params{keyName} eq 'FusionInventory-Agent');
+            return $regdump->{'FusionInventory-Agent/'}->{$params{keyName}.'/'}
+                if ($params{keyName} ne '/' && $params{root} =~ 'FusionInventory-Agent$');
+        }
+        return {};
+    }
+);
+
+foreach my $proc (keys %win32_regs) {
+    my $check  = $win32_regs{$proc};
+    my $expect = $check->{__expect};
+    my $ctrlcb = $check->{__ctrl_cb} || sub {};
+    my $result = $check->{__result} || 0;
+    delete $check->{__expect};
+    delete $check->{__ctrl_cb};
+    delete $check->{__result};
+
+    # Fake OSNAME when necessary
+    $OSNAME = "MSWin32";
+
+    FusionInventory::Agent::Task::Deploy::CheckProcessor->new(
+        check  => $check,
+        logger => $check->{__logger}
+    );
+    delete $check->{__logger};
+
+    ok( defined($check), "defined $proc" );
+
     cmp_deeply($check, $expect, "$proc object");
 
     my $status = $check->process();

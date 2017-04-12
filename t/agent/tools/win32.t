@@ -5,9 +5,6 @@ use warnings;
 use utf8;
 use lib 't/lib';
 
-use constant REG_DWORD => 0x4;
-use constant REG_SZ    => 0x7;
-
 use English qw(-no_match_vars);
 use Test::Deep qw(cmp_deeply);
 use Test::MockModule;
@@ -26,6 +23,10 @@ use Config;
 if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
     plan skip_all => 'thread support required';
 }
+
+# REG_SZ & REG_DWORD provided by even faked Win32::TieRegistry module
+Win32::TieRegistry->require();
+Win32::TieRegistry->import('REG_DWORD', 'REG_SZ');
 
 my %tests = (
     7 => [
@@ -236,14 +237,14 @@ my %regval_tests = (
     'teamviewerid-withtype' => {
         path      => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer/ClientID',
         withtype  => 1,
-        _expected => [ '0x12345678', REG_DWORD ]
+        _expected => [ '0x12345678', REG_DWORD() ]
     },
     'teamviewer-all-withtype' => {
         path      => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer/*',
         withtype  => 1,
         _expected => {
-            'ClientID' => [ '0x12345678', REG_DWORD ],
-            'Version'  => [ '12.0.72365', REG_SZ ],
+            'ClientID' => [ '0x12345678', REG_DWORD() ],
+            'Version'  => [ '12.0.72365', REG_SZ() ],
             'subkey/'   => []
         }
     },

@@ -3,8 +3,8 @@ package Win32::TieRegistry;
 use strict;
 use warnings;
 
+use constant REG_SZ    => 0x1;
 use constant REG_DWORD => 0x4;
-use constant REG_SZ    => 0x7;
 
 our $Registry;
 
@@ -14,6 +14,8 @@ sub import {
 
     *{"$callpkg\::Registry"} = \$Registry;
     *{"$callpkg\::KEY_READ"} = sub {};
+    *{"$callpkg\::REG_SZ"}    = sub { REG_SZ };
+    *{"$callpkg\::REG_DWORD"} = sub { REG_DWORD };
 }
 
 sub GetValue {
