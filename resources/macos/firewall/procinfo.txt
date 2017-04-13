@@ -1,0 +1,174 @@
+com.apple.alf = {
+	active count = 1
+	path = /System/Library/LaunchDaemons/com.apple.alf.agent.plist
+	state = running
+
+	program = /usr/libexec/ApplicationFirewall/socketfilterfw
+	stdout path = /var/log/alf.log
+	stderr path = /var/log/alf.log
+	default environment = {
+		PATH => /usr/bin:/bin:/usr/sbin:/sbin
+	}
+
+	environment = {
+		XPC_SERVICE_NAME => com.apple.alf
+	}
+
+	domain = com.apple.xpc.launchd.domain.system
+	minimum runtime = 10
+	exit timeout = 5
+	runs = 1
+	successive crashes = 0
+	excessive crashing = 0
+	pid = 8116
+	immediate reason = xpc event
+	forks = 0
+	execs = 1
+	trampolined = 1
+	started suspended = 0
+	proxy started suspended = 0
+	last exit code = (never exited)
+
+	event triggers = {
+		com.apple.launchd.PathState => {
+			state = 1
+			service = com.apple.alf
+			stream = com.apple.fsevents.matching.system
+			monitor = com.apple.UserEventAgent-System
+			descriptor = {
+				"PathState" => {
+					"/var/run/socketfilterfw.launchd" => true
+				}
+			}
+		}
+	}
+
+	endpoints = {
+		"com.apple.alf" = {
+			port = 0x31ab
+			active = 0
+			managed = 1
+			reset = 0
+			hide = 1
+		}
+	}
+
+	dynamic endpoints = {
+	}
+
+	pid-local endpoints = {
+	}
+
+	instance-specific endpoints = {
+	}
+
+	event channels = {
+		"com.apple.fsevents.matching" = {
+			port = 0x328f
+			active = 0
+			managed = 1
+			reset = 0
+			hide = 0
+		}
+	}
+
+	sockets = {
+	}
+
+	spawn type = daemon
+	cpumon = default
+
+	properties = {
+		partial import = 0
+		launchd bundle = 0
+		xpc bundle = 0
+		keepalive = 0
+		runatload = 0
+		dirty at shutdown = 0
+		low priority i/o = 0
+		low priority background i/o = 0
+		legacy timer behavior = 0
+		exception handler = 0
+		multiple instances = 0
+		supports transactions = 1
+		supports pressured exit = 0
+		enter kdp before kill = 0
+		wait for debugger = 0
+		app = 0
+		system app = 0
+		creates session = 0
+		inetd-compatible = 0
+		inetd listener = 0
+		abandon process group = 0
+		one-shot = 0
+		requires reap = 0
+		event monitor = 0
+		penalty box = 0
+		pended non-demand spawn = 0
+		role account = 0
+		launch only once = 0
+		system support = 0
+		app-like = 0
+		inferred program = 0
+		joins gui session = 0
+		joins host session = 0
+		parameterized sandbox = 0
+		resolve program = 0
+		abandon coalition = 0
+		extension = 0
+		nano allocator = 0
+		no initgroups = 0
+		start on fs mount = 0
+		endpoints initialized = 1
+		disallow all lookups = 0
+		system service = 1
+	}
+}
+program path = /usr/libexec/ApplicationFirewall/socketfilterfw
+Could not print Mach info for pid 8116: 0x5
+bsd proc info = {
+	pid = 8116
+	unique pid = 8116
+	ppid = 1
+	pgid = 8116
+	status = stopped
+	flags = 64-bit|session leader
+	uid = 0
+	svuid = 0
+	ruid = 0
+	gid = 0
+	svgid = 0
+	ruid = 0
+	comm name = socketfilterfw
+	long name = socketfilterfw
+	controlling tty devnode = 0xffffffff
+	controlling tty pgid = 0
+}
+audit info
+	session id = 100000
+	uid = 4294967295
+	success mask = 0x0
+	failure mask = 0x0
+	flags = is_initial
+sandboxed = no
+container = (no container)
+
+responsible pid = 8116
+responsible unique pid = 8116
+responsible path = /usr/libexec/ApplicationFirewall/socketfilterfw
+
+pressured exit info = {
+	dirty state tracked = 1
+	dirty = 0
+	pressured-exit capable = 0
+}
+
+entitlements = (no entitlements)
+
+code signing info = valid
+	restrict
+	allowed mach-o
+	platform dyld
+	platform binary
+
+
