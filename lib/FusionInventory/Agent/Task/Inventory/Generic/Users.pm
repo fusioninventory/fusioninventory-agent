@@ -153,12 +153,20 @@ sub _getLastUser {
 
     my $last = getFirstLine(%params);
     return unless $last;
-    return unless
-        $last =~ /^(\S+) \s+ \S+ \s+ \S+ \s+ (\S+ \s+ \S+ \s+ \S+ \s+ \S+)/x;
+
+    my @last = split(/\s+/, $last);
+    return unless (@last);
+
+    my $lastuser = shift @last;
+    return unless $lastuser;
+
+    # Found time on column starting as week day
+    shift @last while ( @last > 3 && $last[0] !~ /^mon|tue|wed|thu|fri|sat|sun/i );
+    my $lastlogged = @last > 3 ? "@last[0..3]" : undef;
 
     return {
-        LASTLOGGEDUSER     => $1,
-        DATELASTLOGGEDUSER => $2
+        LASTLOGGEDUSER     => $lastuser,
+        DATELASTLOGGEDUSER => $lastlogged
     };
 }
 
