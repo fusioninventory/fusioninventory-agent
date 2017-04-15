@@ -268,7 +268,7 @@ sub run {
 
             my $net_error = 0;
             eval {
-                $net_error = $self->_runTarget($self->{controller});
+                $net_error = $self->_contactController($self->{controller});
             };
             $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
             if ($net_error) {
@@ -298,7 +298,7 @@ sub run {
         # foreground mode: check control server once
         my $time = time();
         eval {
-            $self->_runTarget($self->{controller});
+            $self->_contactController($self->{controller});
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
     }
@@ -324,10 +324,10 @@ sub terminate {
     &{$self->{sigterm}}() if $self->{sigterm};
 }
 
-sub _runController {
+sub _contactController {
     my ($self, $controller) = @_;
 
-    $self->{logger}->debug('_runController') if defined $self->{logger};
+    $self->{logger}->debug('_contactController') if defined $self->{logger};
     # the prolog dialog must be done once for all tasks
 
     my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
