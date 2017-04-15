@@ -110,24 +110,17 @@ sub init {
 
     # compute list of allowed modules
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-module'});
-    my @tasks = keys %available;
-    my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
-    $self->{tasksExecutionPlan} = \@plannedTasks;
 
-    my %available_lc = map { (lc $_) => $_ } keys %available;
+    my @tasks = keys %available;
+
     if (!@tasks) {
         $logger->error("No modules available, aborting");
         exit 1;
     }
 
     $logger->debug("Available modules");
-    foreach my $task (keys %available) {
+    foreach my $task (@tasks) {
         $logger->debug("- $task: $available{$task}");
-    }
-    $logger->debug("Planned modules");
-    foreach my $task (@{$self->{tasksExecutionPlan}}) {
-        my $task_lc = lc $task;
-        $logger->debug("- $task: " . $available{$available_lc{$task_lc}});
     }
 
     $self->{tasks} = \@tasks;
@@ -195,24 +188,17 @@ sub reinit {
 
     # compute list of allowed modules
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-module'});
-    my @tasks = keys %available;
-    my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
-    $self->{tasksExecutionPlan} = \@plannedTasks;
 
-    my %available_lc = map { (lc $_) => $_ } keys %available;
+    my @tasks = keys %available;
+
     if (!@tasks) {
         $logger->error("No modules available, aborting");
         exit 1;
     }
 
     $logger->debug("Available modules");
-    foreach my $task (keys %available) {
+    foreach my $task (@tasks) {
         $logger->debug("- $task: $available{$task}");
-    }
-    $logger->debug("Planned modules");
-    foreach my $task (@{$self->{tasksExecutionPlan}}) {
-        my $task_lc = lc $task;
-        $logger->debug("- $task: " . $available{$available_lc{$task_lc}});
     }
 
     $self->{tasks} = \@tasks;
@@ -236,7 +222,7 @@ sub ApplyServiceOptimizations {
     return unless ($self->{config}->{daemon} || $self->{config}->{service});
 
     # Preload all IDS databases to avoid reload them all the time during inventory
-    if (grep { /^inventory$/i } @{$self->{tasksExecutionPlan}}) {
+    if (grep { /^inventory$/i } @{$self->{tasks}}) {
         getPCIDeviceVendor(datadir => $self->{datadir});
         getUSBDeviceVendor(datadir => $self->{datadir});
         getEDIDVendor(datadir => $self->{datadir});
@@ -379,7 +365,7 @@ sub _runController {
         $controller->setMaxDelay($content->{PROLOG_FREQ} * 3600);
     }
 
-    foreach my $name (@{$self->{tasksExecutionPlan}}) {
+    foreach my $name (@{$self->{tasks}}) {
         eval {
             $self->_runTask($controller, $name, $response);
         };
@@ -619,25 +605,6 @@ sub _appendElementsNotAlreadyInList {
     my @newList = (@$list, grep( !defined($list{$_}), @$elements));
 
     return @newList;
-}
-
-sub computeTaskExecutionPlan {
-    my ($self, $availableTasksNames) = @_;
-
-    if (! defined($self->{config}) || !(UNIVERSAL::isa($self->{config}, 'FusionInventory::Agent::Config'))) {
-        $self->{logger}->error( "no config found in agent. Can't compute modules execution plan" ) if (defined $self->{logger});
-        return;
-    }
-
-    my @executionPlan = @$availableTasksNames;
-
-    return @executionPlan;
-}
-
-sub getTasksExecutionPlan {
-    my ($self) = @_;
-
-    return $self->{tasksExecutionPlan};
 }
 
 sub _createDaemon {
