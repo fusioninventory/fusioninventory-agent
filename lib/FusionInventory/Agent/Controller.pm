@@ -4,24 +4,38 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use URI;
 
 use FusionInventory::Agent::Logger;
-
-
-my $count = 0;
 
 sub new {
     my ($class, %params) = @_;
 
-    die 'no url parameter'        unless $params{url};
+    die 'no url parameter' unless $params{url};
+
+    my $url = URI->new($params{url});
+
+    my $scheme = $url->scheme();
+    if (!$scheme) {
+        # this is likely a bare hostname
+        # as parsing relies on scheme, host and path have to be set explicitely
+        $url->scheme('http');
+        $url->host($params{url});
+        $url->path('ocsinventory');
+    } else {
+        die "invalid protocol for URL parameter: $params{url}"
+            if $scheme ne 'http' && $scheme ne 'https';
+        # complete path if needed
+        $url->path('ocsinventory') if !$url->path();
+    }
 
     my $self = {
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->create(),
         maxDelay     => $params{maxDelay} || 3600,
         initialDelay => $params{delaytime},
-        url          => _getCanonicalURL($params{url}),
-        id           => 'server' . $count++,
+        url          => $url->as_string(),
+        id           => $url->host()
     };
     bless $self, $class;
 
@@ -36,26 +50,10 @@ sub new {
     return $self;
 }
 
-sub _getCanonicalURL {
-    my ($string) = @_;
+sub getId {
+    my ($self) = @_;
 
-    my $url = URI->new($string);
-
-    my $scheme = $url->scheme();
-    if (!$scheme) {
-        # this is likely a bare hostname
-        # as parsing relies on scheme, host and path have to be set explicitely
-        $url->scheme('http');
-        $url->host($string);
-        $url->path('ocsinventory');
-    } else {
-        die "invalid protocol for URL: $string"
-            if $scheme ne 'http' && $scheme ne 'https';
-        # complete path if needed
-        $url->path('ocsinventory') if !$url->path();
-    }
-
-    return $url;
+    return $self->{id};
 }
 
 sub getUrl {
