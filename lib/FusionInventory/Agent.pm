@@ -102,7 +102,6 @@ sub init {
             logger     => $self->{logger},
             deviceid   => $self->{deviceid},
             delaytime  => $config->{delaytime},
-            basevardir => $self->{vardir},
             url        => $config->{server},
             tag        => $config->{tag},
         );

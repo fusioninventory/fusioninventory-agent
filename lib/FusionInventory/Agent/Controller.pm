@@ -6,14 +6,13 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Storage;
+
 
 my $count = 0;
 
 sub new {
     my ($class, %params) = @_;
 
-    die 'no basevardir parameter' unless $params{basevardir};
     die 'no url parameter'        unless $params{url};
 
     my $self = {
@@ -26,23 +25,8 @@ sub new {
     };
     bless $self, $class;
 
-    # compute storage subdirectory from url
-    my $subdir = $self->{url};
-    $subdir =~ s/\//_/g;
-    $subdir =~ s/:/../g if $OSNAME eq 'MSWin32';
-
-    $self->{storage} = FusionInventory::Agent::Storage->new(
-        logger    => $self->{logger},
-        directory => $params{basevardir} . '/' . $subdir,
-    );
-
-    # handle persistent state
-    $self->_loadState();
-
     $self->{nextRunDate} = $self->_computeNextRunDate()
         if !$self->{nextRunDate};
-
-    $self->_saveState();
 
     $self->{logger}->debug(
         "[target $self->{id}] Next server contact planned for " .
@@ -80,18 +64,11 @@ sub getUrl {
     return $self->{url};
 }
 
-sub getStorage {
-    my ($self) = @_;
-
-    return $self->{storage};
-}
-
 sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
     lock($self->{nextRunDate}) if $self->{shared};
     $self->{nextRunDate} = $nextRunDate;
-    $self->_saveState();
 }
 
 sub resetNextRunDate {
@@ -99,7 +76,6 @@ sub resetNextRunDate {
 
     lock($self->{nextRunDate}) if $self->{shared};
     $self->{nextRunDate} = $self->_computeNextRunDate();
-    $self->_saveState();
 }
 
 sub getNextRunDate {
@@ -125,7 +101,6 @@ sub setMaxDelay {
     my ($self, $maxDelay) = @_;
 
     $self->{maxDelay} = $maxDelay;
-    $self->_saveState();
 }
 
 # compute a run date, as current date and a random delay
@@ -145,27 +120,6 @@ sub _computeNextRunDate {
     }
 
     return $ret;
-}
-
-sub _loadState {
-    my ($self) = @_;
-
-    my $data = $self->{storage}->restore(name => 'target');
-
-    $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
-    $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
-}
-
-sub _saveState {
-    my ($self) = @_;
-
-    $self->{storage}->save(
-        name => 'target',
-        data => {
-            maxDelay    => $self->{maxDelay},
-            nextRunDate => $self->{nextRunDate},
-        }
-    );
 }
 
 1;
@@ -196,10 +150,6 @@ the logger object to use
 
 the maximum delay before contacting the target, in seconds
 (default: 3600)
-
-=item I<basevardir>
-
-the base directory of the storage area (mandatory)
 
 =item I<url>
 
@@ -234,7 +184,3 @@ Get maxDelay attribute.
 =head2 setMaxDelay($maxDelay)
 
 Set maxDelay attribute.
-
-=head2 getStorage()
-
-Return the storage object for this target.
