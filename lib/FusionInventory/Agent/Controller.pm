@@ -60,14 +60,12 @@ sub getUrl {
 sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
-    lock($self->{nextRunDate}) if $self->{shared};
     $self->{nextRunDate} = $nextRunDate;
 }
 
 sub resetNextRunDate {
     my ($self) = @_;
 
-    lock($self->{nextRunDate}) if $self->{shared};
     $self->{nextRunDate} = $self->_computeNextRunDate();
 }
 
