@@ -18,15 +18,10 @@ sub new {
     my $scheme = $url->scheme();
     if (!$scheme) {
         # this is likely a bare hostname
-        # as parsing relies on scheme, host and path have to be set explicitely
-        $url->scheme('http');
-        $url->host($params{url});
-        $url->path('ocsinventory');
+        $url = URI->new('http://' . $params{url});
     } else {
         die "invalid protocol for URL parameter: $params{url}"
             if $scheme ne 'http' && $scheme ne 'https';
-        # complete path if needed
-        $url->path('ocsinventory') if !$url->path();
     }
 
     my $self = {

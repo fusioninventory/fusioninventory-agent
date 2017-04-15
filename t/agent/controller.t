@@ -40,13 +40,13 @@ $target = FusionInventory::Agent::Controller->new(
     url => 'http://my.domain.tld',
 );
 is($target->getId(), 'my.domain.tld', 'identifier with partial url');
-is($target->getUrl(), 'http://my.domain.tld/ocsinventory', 'final url with partial url');
+is($target->getUrl(), 'http://my.domain.tld', 'final url with partial url');
 
 $target = FusionInventory::Agent::Controller->new(
     url => 'my.domain.tld',
 );
 is($target->getId(), 'my.domain.tld', 'identifier wih bare hostname');
-is($target->getUrl(), 'http://my.domain.tld/ocsinventory', 'final url with bare hostname');
+is($target->getUrl(), 'http://my.domain.tld', 'final url with bare hostname');
 
 is($target->getMaxDelay(), 3600, 'default value');
 my $nextRunDate = $target->getNextRunDate();
