@@ -23,10 +23,10 @@ sub new {
     }
 
     my $self = {
-        maxDelay     => $params{maxDelay} || 3600,
-        nextRunDate  => time(),
-        url          => $url->as_string(),
-        id           => $url->host()
+        maxDelay        => $params{maxDelay} || 3600,
+        nextContactDate => time(),
+        url             => $url->as_string(),
+        id              => $url->host()
     };
     bless $self, $class;
 
@@ -45,30 +45,30 @@ sub getUrl {
     return $self->{url};
 }
 
-sub setNextRunDate {
-    my ($self, $nextRunDate) = @_;
+sub setNextContactDate {
+    my ($self, $nextContactDate) = @_;
 
-    $self->{nextRunDate} = $nextRunDate;
+    $self->{nextContactDate} = $nextContactDate;
 }
 
-sub resetNextRunDate {
+sub resetNextContactDate {
     my ($self) = @_;
 
-    $self->{nextRunDate} =
+    $self->{nextContactDate} =
         time + $self->{maxDelay} / 2  + int rand($self->{maxDelay} / 2);
 }
 
-sub getNextRunDate {
+sub getNextContactDate {
     my ($self) = @_;
 
-    return $self->{nextRunDate};
+    return $self->{nextContactDate};
 }
 
-sub getFormatedNextRunDate {
+sub getFormatedNextContactDate {
     my ($self) = @_;
 
-    return $self->{nextRunDate} > 1 ?
-        scalar localtime($self->{nextRunDate}) : "now";
+    return $self->{nextContactDate} > 1 ?
+        scalar localtime($self->{nextContactDate}) : "now";
 }
 
 sub getMaxDelay {
@@ -118,21 +118,21 @@ the server URL (mandatory)
 
 Return the server URL for this target.
 
-=head2 getNextRunDate()
+=head2 getNextContactDate()
 
-Get nextRunDate attribute.
+Get nextContactDate attribute.
 
-=head2 getFormatedNextRunDate()
+=head2 getFormatedNextContactDate()
 
-Get nextRunDate attribute as a formated string.
+Get nextContactDate attribute as a formated string.
 
-=head2 setNextRunDate($nextRunDate)
+=head2 setNextContactDate($nextContactDate)
 
-Set next execution date.
+Set next contact date.
 
-=head2 resetNextRunDate()
+=head2 resetNextContactDate()
 
-Set next execution date to a random value.
+Set next contact date to a random value.
 
 =head2 getMaxDelay($maxDelay)
 

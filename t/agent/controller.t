@@ -49,4 +49,3 @@ is($target->getId(), 'my.domain.tld', 'identifier wih bare hostname');
 is($target->getUrl(), 'http://my.domain.tld', 'final url with bare hostname');
 
 is($target->getMaxDelay(), 3600, 'default value');
-my $nextRunDate = $target->getNextRunDate();

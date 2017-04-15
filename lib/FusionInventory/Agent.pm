@@ -264,7 +264,7 @@ sub run {
 
         $self->_reloadConfIfNeeded();
 
-        if ($time >= $self->{controller}->getNextRunDate()) {
+        if ($time >= $self->{controller}->getNextContactDate()) {
 
             my $net_error = 0;
             eval {
@@ -273,9 +273,9 @@ sub run {
             $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
             if ($net_error) {
                 # Prefer to retry early on net error
-                $self->{controller}->setNextRunDate($self->{controller}->getNextRunDate()+60);
+                $self->{controller}->setNextContactDate($self->{controller}->getNextContactDate()+60);
             } else {
-                $self->{controller}->resetNextRunDate();
+                $self->{controller}->resetNextContactDate();
             }
 
             # Leave immediately if we passed in terminate method

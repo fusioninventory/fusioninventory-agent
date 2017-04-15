@@ -140,7 +140,7 @@ sub _handle_root {
         version      => $FusionInventory::Agent::Version::VERSION,
         trust        => $self->_isTrusted($clientIp),
         status       => $self->{agent}->getStatus(),
-        next_contact => $self->{agent}->getController()->getFormatedNextRunDate(),
+        next_contact => $self->{agent}->getController()->getFormatedNextContactDate(),
     };
 
     my $response = HTTP::Response->new(
