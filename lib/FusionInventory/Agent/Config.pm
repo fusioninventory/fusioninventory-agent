@@ -16,7 +16,6 @@ my $default = {
     'ca-cert-path'            => undef,
     'conf-reload-interval'    => 0,
     'debug'                   => undef,
-    'delaytime'               => 3600,
     'logger'                  => 'Stderr',
     'logfile'                 => undef,
     'logfacility'             => 'LOG_USER',
@@ -37,6 +36,7 @@ my $default = {
     'ca-cert-dir'             => undef,
     'ca-cert-file'            => undef,
     'color'                   => undef,
+    'delaytime'               => undef,
     'html'                    => undef,
     'local'                   => undef,
     'force'                   => undef,
@@ -63,6 +63,9 @@ my $deprecated = {
     },
     'color' => {
         message => 'color is used automatically if relevant',
+    },
+    'delaytime' => {
+        message => 'agent enrolls immediatly at startup',
     },
     'lazy' => {
         message => 'scheduling is done on server side'

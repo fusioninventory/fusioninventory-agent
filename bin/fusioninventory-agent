@@ -25,7 +25,6 @@ GetOptions(
     'daemon|d',
     'no-fork',
     'debug+',
-    'delaytime=s',
     'help|h',
     'list-modules',
     'setup',
@@ -53,6 +52,7 @@ GetOptions(
     'ca-cert-dir=s',
     'ca-cert-file=s',
     'color',
+    'delaytime=s',
     'force|f',
     'html',
     'lazy',
@@ -148,10 +148,6 @@ B<fusioninventory-agent> [options] [--server server]
   Target definition options:
     -s --server=URI                send modules result to a server
 
-  Target scheduling options:
-    --delaytime=LIMIT              maximum delay before first target,
-                                     in seconds (3600)
-
   Module selection options:
     --list-modules                     list available modules and exit
     --no-module=MODULE[,MODULE]...     do not run given module
@@ -235,19 +231,6 @@ In general, OCS Inventory server URL have this format:
 and FusionInventory for GLPI this one:
 
     http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
-
-=head2 Target scheduling options
-
-=over
-
-=item B<--delaytime>=I<LIMIT>
-
-Set an initial delay before the first target, whose value is computed randomly
-between LIMIT / 2 and LIMIT seconds. This setting is ignored for server targets
-after the initial contact, in favor of server-specified parameter
-(PROLOG_FREQ).
-
-=back
 
 =head2 Module selection options
 

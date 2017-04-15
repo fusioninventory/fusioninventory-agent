@@ -28,18 +28,11 @@ sub new {
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->create(),
         maxDelay     => $params{maxDelay} || 3600,
+        nextRunDate  => time(),
         url          => $url->as_string(),
         id           => $url->host()
     };
     bless $self, $class;
-
-    $self->{nextRunDate} =
-        time + ($params{delaytime} / 2) + int rand($params{delaytime} / 2);
-
-    $self->{logger}->debug(
-        "[target $self->{id}] Next server contact planned for " .
-        localtime($self->{nextRunDate})
-    );
 
     return $self;
 }

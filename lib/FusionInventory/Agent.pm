@@ -100,7 +100,6 @@ sub init {
     } else {
         $self->{controller} = FusionInventory::Agent::Controller->new(
             logger     => $self->{logger},
-            delaytime  => $config->{delaytime},
             url        => $config->{server},
         );
     }
