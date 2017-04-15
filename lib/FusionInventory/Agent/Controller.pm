@@ -65,7 +65,8 @@ sub setNextRunDate {
 sub resetNextRunDate {
     my ($self) = @_;
 
-    $self->{nextRunDate} = $self->_computeNextRunDate();
+    $self->{nextRunDate} =
+        time + $self->{maxDelay} / 2  + int rand($self->{maxDelay} / 2);
 }
 
 sub getNextRunDate {
@@ -91,17 +92,6 @@ sub setMaxDelay {
     my ($self, $maxDelay) = @_;
 
     $self->{maxDelay} = $maxDelay;
-}
-
-# compute a run date, as current date and a random delay
-# between maxDelay / 2 and maxDelay
-sub _computeNextRunDate {
-    my ($self) = @_;
-
-    return
-        time                   +
-        $self->{maxDelay} / 2  +
-        int rand($self->{maxDelay} / 2);
 }
 
 1;
