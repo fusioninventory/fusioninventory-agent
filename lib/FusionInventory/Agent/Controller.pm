@@ -6,8 +6,6 @@ use warnings;
 use English qw(-no_match_vars);
 use URI;
 
-use FusionInventory::Agent::Logger;
-
 sub new {
     my ($class, %params) = @_;
 
@@ -25,8 +23,6 @@ sub new {
     }
 
     my $self = {
-        logger       => $params{logger} ||
-                        FusionInventory::Agent::Logger->create(),
         maxDelay     => $params{maxDelay} || 3600,
         nextRunDate  => time(),
         url          => $url->as_string(),
@@ -106,10 +102,6 @@ The constructor. The following parameters are allowed, as keys of the %params
 hash:
 
 =over
-
-=item I<logger>
-
-the logger object to use
 
 =item I<maxDelay>
 
