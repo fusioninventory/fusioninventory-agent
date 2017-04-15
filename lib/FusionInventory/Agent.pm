@@ -149,9 +149,6 @@ sub init {
 
     $self->ApplyServiceOptimizations();
 
-    $self->{logger}->info("Options 'no-module' and 'modules' are both used. Be careful that 'no-module' always excludes modules.")
-        if ($self->{config}->isParamArrayAndFilled('no-module') && $self->{config}->isParamArrayAndFilled('modules'));
-
     foreach my $comment (@{$COMMENTS}) {
         $self->{logger}->info($comment);
     }
@@ -632,40 +629,7 @@ sub computeTaskExecutionPlan {
         return;
     }
 
-    my @executionPlan = ();
-    if ($self->{config}->isParamArrayAndFilled('tasks')) {
-        $self->{logger}->debug2('isParamArrayAndFilled(\'tasks\') : true') if (defined $self->{logger});
-        @executionPlan = _makeExecutionPlan($self->{config}->{'tasks'}, $availableTasksNames, $self->{logger});
-    } else {
-        $self->{logger}->debug2('isParamArrayAndFilled(\'tasks\') : false') if (defined $self->{logger});
-        @executionPlan = @$availableTasksNames;
-    }
-
-    return @executionPlan;
-}
-
-sub _makeExecutionPlan {
-    my ($sortedTasks, $availableTasksNames, $logger) = @_;
-
-    my $sortedTasksCloned = dclone $sortedTasks;
-    my @executionPlan = ();
-    my %available = map { (lc $_) => $_ } @$availableTasksNames;
-
-    my $task = shift @$sortedTasksCloned;
-    while (defined $task) {
-        if ($task eq $CONTINUE_WORD) {
-            last;
-        }
-        $task = lc $task;
-        if ( defined($available{$task})) {
-            push @executionPlan, $available{$task};
-        }
-        $task = shift @$sortedTasksCloned;
-    }
-    if ( defined($task) && $task eq $CONTINUE_WORD) {
-        # we append all other available tasks
-        @executionPlan = _appendElementsNotAlreadyInList(\@executionPlan, $availableTasksNames, $logger);
-    }
+    my @executionPlan = @$availableTasksNames;
 
     return @executionPlan;
 }

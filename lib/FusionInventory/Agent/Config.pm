@@ -31,7 +31,6 @@ my $default = {
     'httpd-trust'             => [],
     'server'                  => undef,
     'tag'                     => undef,
-    'modules'                 => undef,
     'timeout'                 => 180,
     'user'                    => undef,
     # deprecated options
@@ -104,8 +103,7 @@ my $deprecated = {
         new     => 'no-module',
     },
     'tasks' => {
-        message => 'use --modules option instead',
-        new     => 'modules',
+        message => 'scheduling is done on server side'
     },
 };
 
@@ -330,7 +328,6 @@ sub _checkContent {
     foreach my $option (qw/
             httpd-trust
             no-module
-            modules
             /) {
 
         # Check if defined AND SCALAR

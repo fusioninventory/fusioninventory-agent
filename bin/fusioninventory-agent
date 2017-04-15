@@ -43,7 +43,6 @@ GetOptions(
     'httpd-trust=s',
     'server|s=s',
     'tag|t=s',
-    'modules=s',
     'timeout=i',
     'user|u=s',
     'version',
@@ -115,15 +114,6 @@ if ($options->{'list-modules'}) {
         print "$task (v$tasks{$task})\n";
     }
 
-    if ($options->{'modules'}) {
-        $agent->init(options => $options);
-        my $tasksExecutionPlan = $agent->getTasksExecutionPlan();
-        print "\nTasks planned for execution : \n";
-        foreach my $task (@$tasksExecutionPlan) {
-            print "$task (v$tasks{$task})\n";
-        }
-    }
-
     exit 0;
 }
 
@@ -165,7 +155,6 @@ B<fusioninventory-agent> [options] [--server server]
   Module selection options:
     --list-modules                     list available modules and exit
     --no-module=MODULE[,MODULE]...     do not run given module
-    --modules=MODULE[,MODULE]...[,...] run given module in given order
 
   Network options:
     -P --proxy=PROXY               proxy address
@@ -274,25 +263,6 @@ Do not run given module.
 
 Multiple values can be specified, using comma as a separator. See option
 I<--list-modules> for the list of available modules.
-
-=item B<--modules>=I<MODULE>
-
-Run given modules in given order.
-
-Multiple modules can be specified, using comma as a separator.
-A module can be specified several times. if '...' is given as last element,
-all other available modules are executed.
-
-See option I<--list-modules> for the list of available modules.
-
-Examples :
-* --modules=inventory,deploy,inventory
-  First module executed is 'inventory', second module is 'deploy', third and
-  last module is 'inventory'.
-
-* --modules=inventory,deploy,...
-  First executed module is 'inventory', second module is 'deploy' and then all
-  other available modules are executed.
 
 =back
 

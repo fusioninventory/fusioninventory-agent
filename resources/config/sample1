@@ -1,4 +1,3 @@
 #no-inventory=1
 no-module=snmpquery,wakeonlan
 #no-software=1
-modules=inventory, deploy , inventory

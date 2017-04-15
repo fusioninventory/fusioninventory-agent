@@ -17,7 +17,6 @@ my %config = (
     sample1 => {
         'no-module'     => ['snmpquery', 'wakeonlan'],
         'httpd-trust' => [],
-        'modules'       => ['inventory', 'deploy', 'inventory'],
         'conf-reload-interval' => 0
     },
     sample2 => {
@@ -33,12 +32,11 @@ my %config = (
     sample4 => {
         'no-module'     => ['snmpquery','wakeonlan','inventory'],
         'httpd-trust' => [],
-        'modules'       => ['inventory', 'deploy', 'inventory'],
         'conf-reload-interval' => 60
     }
 );
 
-plan tests => (scalar keys %config) * 3 + 28;
+plan tests => (scalar keys %config) * 2 + 28;
 
 foreach my $test (keys %config) {
     my $c = FusionInventory::Agent::Config->new(options => {
@@ -52,19 +50,15 @@ foreach my $test (keys %config) {
     if ($test eq 'sample1') {
         ok ($c->isParamArrayAndFilled('no-module'));
         ok (! $c->isParamArrayAndFilled('httpd-trust'));
-        ok ($c->isParamArrayAndFilled('modules'));
     } elsif ($test eq 'sample2') {
         ok (! $c->isParamArrayAndFilled('no-module'));
         ok ($c->isParamArrayAndFilled('httpd-trust'));
-        ok (! $c->isParamArrayAndFilled('modules'));
     } elsif ($test eq 'sample3') {
         ok (! $c->isParamArrayAndFilled('no-module'));
         ok (! $c->isParamArrayAndFilled('httpd-trust'));
-        ok (! $c->isParamArrayAndFilled('modules'));
     } elsif ($test eq 'sample4') {
         ok ($c->isParamArrayAndFilled('no-module'));
         ok (! $c->isParamArrayAndFilled('httpd-trust'));
-        ok ($c->isParamArrayAndFilled('modules'));
     }
 }
 
