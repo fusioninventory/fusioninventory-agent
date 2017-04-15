@@ -11,8 +11,6 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
-    $self->{color} = $params{color};
-
     return $self;
 }
 
@@ -26,7 +24,7 @@ sub _log {
     chomp $message;
 
     my $format;
-    if ($self->{color}) {
+    if (-t STDERR) {
         if ($level eq 'warning') {
             $format = "\033[1;35m[%s] %s\033[0m\n";
         } elsif ($level eq 'error') {

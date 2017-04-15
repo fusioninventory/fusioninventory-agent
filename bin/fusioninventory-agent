@@ -22,7 +22,6 @@ GetOptions(
     'conf-file=s',
     'conf-reload-interval=i',
     'config=s',
-    'color',
     'daemon|d',
     'no-fork',
     'debug+',
@@ -54,6 +53,7 @@ GetOptions(
     'backend-collect-timeout=s',
     'ca-cert-dir=s',
     'ca-cert-file=s',
+    'color',
     'force|f',
     'html',
     'lazy',
@@ -188,7 +188,6 @@ B<fusioninventory-agent> [options] [--server server]
     --logfile=FILE                 log file
     --logfile-maxsize=SIZE         maximum size of the log file in MB (0)
     --logfacility=FACILITY         syslog facility (LOG_USER)
-    --color                        use color in the console (false)
 
   Configuration options:
     --config=BACKEND                   configuration backend
@@ -399,12 +398,6 @@ the system.
 =item B<--logfacility>=I<FACILITY>
 
 Syslog facility to use (default LOG_USER).
-
-=item B<--color>
-
-Display color on the terminal, when the Stderr backend is used.
-
-This options is ignored on Windows.
 
 =back
 

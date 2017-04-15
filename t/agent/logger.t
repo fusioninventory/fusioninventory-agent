@@ -12,7 +12,7 @@ use Test::More;
 
 use FusionInventory::Agent::Logger;
 
-plan tests => 23;
+plan tests => 19;
 
 my $logger;
 
@@ -53,26 +53,26 @@ ok(
 
 is(
     getStderrOutput(sub { $logger->debug('message'); }),
-    "[debug] message",
-    'debug message formating'
+    -t STDERR ? "\033[1;1m[debug]\033[0m message" : "[debug] message",
+    'debug message color formating'
 );
 
 is(
     getStderrOutput(sub { $logger->info('message'); }),
-    "[info] message",
-    'info message formating'
+    -t STDERR ? "\033[1;34m[info]\033[0m message" : "[info] message",
+    'info message color formating'
 );
 
 is(
     getStderrOutput(sub { $logger->warning('message'); }),
-    "[warning] message",
-    'warning message formating'
+    -t STDERR ? "\033[1;35m[warning] message\033[0m" : "[warning] message",
+    'warning message color formating'
 );
 
 is(
     getStderrOutput(sub { $logger->error('message'); }),
-    "[error] message",
-    'error message formating'
+    -t STDERR ? "\033[1;31m[error] message\033[0m" : "[error] message",
+    'error message color formating'
 );
 
 $logger = FusionInventory::Agent::Logger->create(
@@ -88,36 +88,6 @@ ok(
 ok(
     getStderrOutput(sub { $logger->debug('message'); }),
     'debug message presence'
-);
-
-$logger = FusionInventory::Agent::Logger->create(
-    backend   => 'Stderr',
-    config    => { color => 1 },
-    verbosity => LOG_DEBUG
-);
-
-is(
-    getStderrOutput(sub { $logger->debug('message'); }),
-    "\033[1;1m[debug]\033[0m message",
-    'debug message color formating'
-);
-
-is(
-    getStderrOutput(sub { $logger->info('message'); }),
-    "\033[1;34m[info]\033[0m message",
-    'info message color formating'
-);
-
-is(
-    getStderrOutput(sub { $logger->warning('message'); }),
-    "\033[1;35m[warning] message\033[0m",
-    'warning message color formating'
-);
-
-is(
-    getStderrOutput(sub { $logger->error('message'); }),
-    "\033[1;31m[error] message\033[0m",
-    'error message color formating'
 );
 
 # file backend tests

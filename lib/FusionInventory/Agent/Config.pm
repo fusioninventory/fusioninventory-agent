@@ -14,7 +14,6 @@ require FusionInventory::Agent::Tools;
 
 my $default = {
     'ca-cert-path'            => undef,
-    'color'                   => undef,
     'conf-reload-interval'    => 0,
     'debug'                   => undef,
     'delaytime'               => 3600,
@@ -38,6 +37,7 @@ my $default = {
     # deprecated options
     'ca-cert-dir'             => undef,
     'ca-cert-file'            => undef,
+    'color'                   => undef,
     'html'                    => undef,
     'local'                   => undef,
     'force'                   => undef,
@@ -61,6 +61,9 @@ my $deprecated = {
     'ca-cert-file' => {
         message => 'use --ca-cert-path option instead',
         new     => 'ca-cert-path',
+    },
+    'color' => {
+        message => 'color is used automatically if relevant',
     },
     'lazy' => {
         message => 'scheduling is done on server side'
