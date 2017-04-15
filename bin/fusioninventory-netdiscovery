@@ -60,7 +60,7 @@ my $verbosity =
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
     %setup,
     target => FusionInventory::Agent::Task::NetInventory::Controller->new(),
-    logger => FusionInventory::Agent::Logger->new(verbosity => $verbosity)
+    logger => FusionInventory::Agent::Logger->create(verbosity => $verbosity)
 );
 
 my $credentials_id = 1;

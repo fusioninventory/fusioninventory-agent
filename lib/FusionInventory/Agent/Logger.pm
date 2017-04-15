@@ -18,6 +18,39 @@ use UNIVERSAL::require;
 
 our @EXPORT = qw/LOG_DEBUG2 LOG_DEBUG LOG_INFO LOG_WARNING LOG_ERROR LOG_NONE/;
 
+sub create {
+    my ($class, %params) = @_;
+
+    my $backend = $params{backend} ? lc($params{backend}) : 'stderr';
+
+    if ($backend eq 'syslog') {
+        FusionInventory::Agent::Logger::Syslog->require();
+        return FusionInventory::Agent::Logger::Syslog->new(
+            verbosity => $params{verbosity},
+            facility  => $params{config}->{'facility'},
+        );
+    }
+
+    if ($backend eq 'file') {
+        FusionInventory::Agent::Logger::File->require();
+        return FusionInventory::Agent::Logger::File->new(
+            verbosity       => $params{verbosity},
+            logfile         => $params{config}->{'logfile'},
+            logfile_maxsize => $params{config}->{'logfile-maxsize'},
+        );
+    }
+
+    if ($backend eq 'stderr') {
+        FusionInventory::Agent::Logger::Stderr->require();
+        return FusionInventory::Agent::Logger::Stderr->new(
+            verbosity => $params{verbosity},
+            color     => $params{config}->{'color'}
+        );
+    }
+
+    die "Unknown logger backend '$backend'\n";
+}
+
 sub new {
     my ($class, %params) = @_;
 
@@ -26,49 +59,7 @@ sub new {
     };
     bless $self, $class;
 
-    my %backends;
-    foreach (
-        $params{backends} ? @{$params{backends}} : 'Stderr'
-    ) {
-        my $backend = ucfirst($_);
-        next if $backends{$backend};
-        my $package = "FusionInventory::Agent::Logger::$backend";
-        $package->require();
-        if ($EVAL_ERROR) {
-            print STDERR
-                "Failed to load Logger backend $backend: ($EVAL_ERROR)\n";
-            next;
-        }
-        $backends{$backend} = 1;
-
-        $self->debug("Logger backend $backend initialised");
-        push
-            @{$self->{backends}},
-            $package->new(%params);
-    }
-
-    $self->debug($FusionInventory::Agent::VERSION_STRING);
-
     return $self;
-}
-
-sub _log {
-    my ($self, %params) = @_;
-
-    # levels: debug2, debug, info, error, fault
-    my $level = $params{level} || 'info';
-    my $message = $params{message};
-
-    return unless $message;
-
-    chomp($message);
-
-    foreach my $backend (@{$self->{backends}}) {
-        $backend->addMessage (
-            level => $level,
-            message => $message
-        );
-    }
 }
 
 sub debug2 {
@@ -132,7 +123,7 @@ This is the logger object.
 
 =head1 METHODS
 
-=head2 new(%params)
+=head2 create(%params)
 
 The constructor. The following parameters are allowed, as keys of the %params
 hash:
@@ -141,11 +132,11 @@ hash:
 
 =item I<config>
 
-the agent configuration object, to be passed to backends
+the agent configuration object, to be passed to backend
 
-=item I<backends>
+=item I<backend>
 
-a list of backends to use (default: Stderr)
+the backend to use (default: Stderr)
 
 =item I<verbosity>
 

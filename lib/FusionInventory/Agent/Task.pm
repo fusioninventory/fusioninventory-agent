@@ -14,7 +14,7 @@ sub new {
 
     my $self = {
         logger       => $params{logger} ||
-                        FusionInventory::Agent::Logger->new(),
+                        FusionInventory::Agent::Logger->create(),
         config       => $params{config},
         confdir      => $params{confdir},
         datadir      => $params{datadir},

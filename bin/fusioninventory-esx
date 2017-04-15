@@ -57,7 +57,7 @@ if (!$esx->connect(
     exit 1;
 }
 
-my $logger = FusionInventory::Agent::Logger->new();
+my $logger = FusionInventory::Agent::Logger->create();
 
 my $hasError = 0;
 my $hostIds = $esx->getHostIds();

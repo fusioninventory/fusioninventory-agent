@@ -10,7 +10,7 @@ use List::Util qw(first);
 use Test::More;
 use Test::Exception;
 
-use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Logger::Test;
 use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Proxy;
 use FusionInventory::Test::Server;
@@ -33,9 +33,7 @@ my $ok = sub {
     print "OK";
 };
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ]
-);
+my $logger = FusionInventory::Agent::Logger::Test->new();
 
 unless (-e "resources/ssl/crt/ca.pem") {
     print STDERR "Generating SSL certificates...\n";
@@ -461,19 +459,19 @@ sub check_response_nok {
 
     ok(!$response->is_success(), "response is an error");
     is(
-        $logger->{backends}->[0]->{level},
+        $logger->{level},
         'error',
         "error message level"
     );
     if (ref $message eq 'Regexp') {
         like(
-            $logger->{backends}->[0]->{message},
+            $logger->{message},
             $message,
             "error message content"
         );
     } else {
         is(
-            $logger->{backends}->[0]->{message},
+            $logger->{message},
             $message,
             "error message content"
         );

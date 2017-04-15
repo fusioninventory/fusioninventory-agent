@@ -23,7 +23,7 @@ sub new {
 
     my $self = {
         logger    => $params{logger} ||
-                     FusionInventory::Agent::Logger->new(),
+                     FusionInventory::Agent::Logger->create(),
         agent     => $params{agent},
         htmldir   => $params{htmldir},
         ip        => $params{ip},

@@ -12,91 +12,18 @@ use Test::More;
 
 use FusionInventory::Agent::Logger;
 
-plan tests => 27;
+plan tests => 23;
 
-my $logger = FusionInventory::Agent::Logger->new();
+my $logger;
+
+# stderr backend class
+
+$logger = FusionInventory::Agent::Logger->create();
 
 isa_ok(
     $logger,
-    'FusionInventory::Agent::Logger',
-    'logger class'
-);
-
-is(
-    @{$logger->{backends}},
-    1,
-    'one default backend'
-);
-
-isa_ok(
-    $logger->{backends}->[0],
     'FusionInventory::Agent::Logger::Stderr',
-    'default backend class'
-);
-
-if ($OSNAME eq 'MSWin32') {
-
-    $logger = FusionInventory::Agent::Logger->new(
-        backends => [ qw/Stderr File/ ]
-    );
-
-    is(
-        @{$logger->{backends}},
-        2,
-        'three backends'
-    );
-
-    subtest 'backends classes' => sub {
-        plan tests => 2;
-        isa_ok(
-            $logger->{backends}->[0],
-            'FusionInventory::Agent::Logger::Stderr',
-            'first backend class'
-        );
-
-        isa_ok(
-            $logger->{backends}->[1],
-            'FusionInventory::Agent::Logger::File',
-            'third backend class'
-        );
-    };
-} else {
-    $logger = FusionInventory::Agent::Logger->new(
-        backends => [ qw/Stderr Syslog File/ ]
-    );
-
-    is(
-        @{$logger->{backends}},
-        3,
-        'three backends'
-    );
-
-    subtest 'backends classes' => sub {
-        plan tests => 3;
-        isa_ok(
-            $logger->{backends}->[0],
-            'FusionInventory::Agent::Logger::Stderr',
-            'first backend class'
-        );
-
-        isa_ok(
-            $logger->{backends}->[1],
-            'FusionInventory::Agent::Logger::Syslog',
-            'second backend class'
-        );
-
-        isa_ok(
-            $logger->{backends}->[2],
-            'FusionInventory::Agent::Logger::File',
-            'third backend class'
-        );
-    };
-}
-
-# stderr backend tests
-
-$logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/Stderr/ ]
+    'logger class'
 );
 
 ok(
@@ -109,8 +36,8 @@ ok(
     'debug message absence'
 );
 
-$logger = FusionInventory::Agent::Logger->new(
-    backends  => [ qw/Stderr/ ],
+$logger = FusionInventory::Agent::Logger->create(
+    backend   => 'Stderr',
     verbosity => LOG_DEBUG
 );
 
@@ -148,8 +75,8 @@ is(
     'error message formating'
 );
 
-$logger = FusionInventory::Agent::Logger->new(
-    backends  => [ qw/Stderr/ ],
+$logger = FusionInventory::Agent::Logger->create(
+    backend   => 'Stderr',
     verbosity => LOG_DEBUG2
 );
 
@@ -163,8 +90,8 @@ ok(
     'debug message presence'
 );
 
-$logger = FusionInventory::Agent::Logger->new(
-    backends  => [ qw/Stderr/ ],
+$logger = FusionInventory::Agent::Logger->create(
+    backend   => 'Stderr',
     config    => { color => 1 },
     verbosity => LOG_DEBUG
 );
@@ -198,9 +125,9 @@ my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 my $logfile;
 
 $logfile = "$tmpdir/test1";
-$logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/File/ ],
-    config   => { logfile => $logfile }
+$logger = FusionInventory::Agent::Logger->create(
+    backend => 'File',
+    config  => { logfile => $logfile }
 );
 
 $logger->debug('message');
@@ -211,8 +138,8 @@ ok(
 );
 
 $logfile = "$tmpdir/test2";
-$logger = FusionInventory::Agent::Logger->new(
-    backends  => [ qw/File/ ],
+$logger = FusionInventory::Agent::Logger->create(
+    backend   => 'File',
     config    => { logfile => $logfile },
     verbosity => LOG_DEBUG
 );
@@ -248,8 +175,8 @@ is(
 );
 
 $logfile = "$tmpdir/test3";
-$logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/File/ ],
+$logger = FusionInventory::Agent::Logger->create(
+    backend  => 'File',
     config   => { logfile => $logfile },
 );
 fillLogFile($logger);
@@ -259,8 +186,8 @@ ok(
 );
 
 $logfile = "$tmpdir/test4";
-$logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/File/ ],
+$logger = FusionInventory::Agent::Logger->create(
+    backend  => 'File',
     config   => {
         'logfile'         => $logfile,
         'logfile-maxsize' => 1

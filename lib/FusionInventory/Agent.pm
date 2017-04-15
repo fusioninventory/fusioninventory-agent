@@ -70,9 +70,9 @@ sub init {
                     $config->{debug} && $config->{debug} == 2 ? LOG_DEBUG2 :
                                                                 LOG_INFO   ;
 
-    my $logger = FusionInventory::Agent::Logger->new(
+    my $logger = FusionInventory::Agent::Logger->create(
         config    => $config,
-        backends  => $config->{logger},
+        backend   => $config->{logger},
         verbosity => $verbosity
     );
     $self->{logger} = $logger;
@@ -174,9 +174,9 @@ sub reinit {
 
     my $logger = undef;
     if (! defined($self->{logger})) {
-        $logger = FusionInventory::Agent::Logger->new(
+        $logger = FusionInventory::Agent::Logger->create(
             config    => $config,
-            backends  => $config->{logger},
+            backend   => $config->{logger},
             verbosity => $verbosity
         );
         $self->{logger} = $logger;

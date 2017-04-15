@@ -325,7 +325,6 @@ sub _checkContent {
 
     # multi-values options, the default separator is a ','
     foreach my $option (qw/
-            logger
             httpd-trust
             no-module
             modules

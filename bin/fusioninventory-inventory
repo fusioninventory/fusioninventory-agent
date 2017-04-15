@@ -53,7 +53,7 @@ my $verbosity =
                              LOG_DEBUG2 ;
 
 my $inventory = FusionInventory::Agent::Task::Inventory->new(
-    logger  => FusionInventory::Agent::Logger->new(verbosity => $verbosity),
+    logger  => FusionInventory::Agent::Logger->create(verbosity => $verbosity),
     datadir => $setup{datadir},
     confdir => $setup{confdir},
     path    => '-',

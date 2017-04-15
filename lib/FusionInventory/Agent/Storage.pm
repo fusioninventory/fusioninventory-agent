@@ -30,7 +30,7 @@ sub new {
 
     my $self = {
         logger    => $params{logger} ||
-                     FusionInventory::Agent::Logger->new(),
+                     FusionInventory::Agent::Logger->create(),
         directory => $params{directory}
     };
 

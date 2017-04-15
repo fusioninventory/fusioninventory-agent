@@ -15,14 +15,12 @@ use UNIVERSAL::require;
 
 use FusionInventory::Test::Agent;
 use FusionInventory::Agent::HTTP::Server;
-use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Logger::Test;
 use FusionInventory::Test::Utils;
 
 plan tests => 12;
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ]
-);
+my $logger = FusionInventory::Agent::Logger::Test->new();
 
 my $server;
 

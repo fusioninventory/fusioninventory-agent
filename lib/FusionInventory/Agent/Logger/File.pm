@@ -2,7 +2,7 @@ package FusionInventory::Agent::Logger::File;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Logger::Backend';
+use base 'FusionInventory::Agent::Logger';
 
 use English qw(-no_match_vars);
 use Fcntl qw(:flock);
@@ -11,21 +11,23 @@ use File::stat;
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {
-        logfile         => $params{config}->{logfile},
-        logfile_maxsize => $params{config}->{'logfile-maxsize'} ?
-            $params{config}->{'logfile-maxsize'} * 1024 * 1024 : 0
-    };
-    bless $self, $class;
+    my $self = $class->SUPER::new(%params);
+
+    $self->{logfile}         = $params{logfile},
+    $self->{logfile_maxsize} = $params{logfile_maxsize} ?
+        $params{logfile_maxsize} * 1024 * 1024 : 0;
 
     return $self;
 }
 
-sub addMessage {
+sub _log {
     my ($self, %params) = @_;
 
-    my $level = $params{level};
+    my $level = $params{level} || 'info';
     my $message = $params{message};
+    return unless $message;
+
+    chomp $message;
 
     my $handle;
     if ($self->{logfile_maxsize}) {

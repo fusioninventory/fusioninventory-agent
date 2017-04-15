@@ -52,7 +52,7 @@ my $verbosity =
 
 my $task = FusionInventory::Agent::Task::WakeOnLan->new(
     target => {},
-    logger => FusionInventory::Agent::Logger->new(verbosity => $verbosity)
+    logger => FusionInventory::Agent::Logger->create(verbosity => $verbosity)
 );
 
 $task->{options} = {

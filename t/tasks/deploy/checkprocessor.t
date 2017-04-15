@@ -11,6 +11,8 @@ use Test::Deep;
 
 use File::Temp qw(tempdir);
 
+use  FusionInventory::Agent::Logger::Test;
+
 BEGIN {
     # use mock modules for non-available ones
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
@@ -59,9 +61,7 @@ my $badreg = "HKEY_BAD_ROOT\\HARDWARE\\DESCRIPTION\\System\\Central___wrong_key_
 our $OSNAME;
 my $RealOSNAME = $OSNAME;
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ]
-);
+my $logger = FusionInventory::Agent::Logger::Test->new();
 
 my %checkcb = (
     'dir-exists' => sub {

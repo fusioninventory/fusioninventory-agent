@@ -17,7 +17,7 @@ sub new {
 
     my $self = {
         logger        => $params{logger} ||
-                         FusionInventory::Agent::Logger->new(),
+                         FusionInventory::Agent::Logger->create(),
         max_workers   => $params{max_workers}   || 10,
         cache_timeout => $params{cache_timeout} || 600,
         scan_timeout  => $params{scan_timeout}  || 5,

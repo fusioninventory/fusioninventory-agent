@@ -12,6 +12,7 @@ use Test::More;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Logger::Test;
 
 plan tests => 4 + 19 + 11 + 1;
 
@@ -88,8 +89,7 @@ $agent->{config} = FusionInventory::Agent::Config->new(
 $agent->{config}->{'no-module'} = ['Task5'];
 $agent->{config}->{'tasks'} = ['Task1', 'Task5', 'Task1', 'Task5', 'Task5', 'Task2', 'Task1'];
 my %availableTasks = $agent->getAvailableTasks(disabledTasks => $agent->{config}->{'no-module'});
-my $logger = FusionInventory::Agent::Logger->new(
-    backends  => [ 'Test' ],
+my $logger = FusionInventory::Agent::Logger::Test->new(
     verbosity => FusionInventory::Agent::LOG_DEBUG,
 );
 $agent->{logger} = $logger;
@@ -250,8 +250,6 @@ $agent->{vardir}  = './var',
     # just to be able to run init() method, we inject mandatory options
     my $options = {
         'server' => 'myserver.mywebextension',
-        # Keep Test backend on logger as call to init() will reset logger
-        'logger' => 'Test',
         # we force config to be loaded from file
         'config' => 'file'
     };

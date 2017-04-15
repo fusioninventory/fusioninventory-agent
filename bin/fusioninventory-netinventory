@@ -120,7 +120,7 @@ my $verbosity =
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     %setup,
     target => FusionInventory::Agent::Task::NetInventory::Controller->new(),
-    logger => FusionInventory::Agent::Logger->new(verbosity => $verbosity)
+    logger => FusionInventory::Agent::Logger->create(verbosity => $verbosity)
 );
 
 $inventory->{jobs} = [

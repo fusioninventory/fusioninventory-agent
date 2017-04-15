@@ -11,7 +11,7 @@ use Test::Deep;
 use Test::Exception;
 use Test::More;
 
-use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Logger::Test;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Test::Server;
@@ -28,9 +28,7 @@ if (!$port) {
     plan tests => 6;
 }
 
-my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ]
-);
+my $logger = FusionInventory::Agent::Logger::Test->new();
 
 my $message = FusionInventory::Agent::XML::Query->new(
     deviceid => 'foo',
@@ -200,19 +198,19 @@ sub check_response_nok {
     plan tests => 3;
     ok(!defined $response,  "no response");
     is(
-        $logger->{backends}->[0]->{level},
+        $logger->{level},
         'error',
         "error message level"
     );
     if (ref $message eq 'Regexp') {
         like(
-            $logger->{backends}->[0]->{message},
+            $logger->{message},
             $message,
             "error message content"
         );
     } else {
         is(
-            $logger->{backends}->[0]->{message},
+            $logger->{message},
             $message,
             "error message content"
         );

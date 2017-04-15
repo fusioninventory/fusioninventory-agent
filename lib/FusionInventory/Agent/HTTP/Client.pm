@@ -21,7 +21,7 @@ sub new {
 
     my $self = {
         logger       => $params{logger} ||
-                          FusionInventory::Agent::Logger->new(),
+                          FusionInventory::Agent::Logger->create(),
         user         => $params{user},
         password     => $params{password},
         ssl_set      => 0,

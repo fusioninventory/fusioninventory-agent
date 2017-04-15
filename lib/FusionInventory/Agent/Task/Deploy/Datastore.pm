@@ -22,7 +22,7 @@ sub new {
     my $self = {
         path   => File::Spec->rel2abs($params{path}),
         logger => $params{logger} ||
-                  FusionInventory::Agent::Logger->new(),
+                  FusionInventory::Agent::Logger->create(),
     };
 
     if (!$self->{path}) {
