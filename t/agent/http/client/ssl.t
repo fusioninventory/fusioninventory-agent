@@ -9,10 +9,10 @@ use List::Util qw(first);
 use Test::More;
 use Test::Exception;
 
-use FusionInventory::Agent::Logger::Test;
 use FusionInventory::Agent::HTTP::Client;
 use FusionInventory::Test::Proxy;
 use FusionInventory::Test::Server;
+use FusionInventory::Test::Logger::Test;
 use FusionInventory::Test::Utils;
 
 use Net::HTTPS;
@@ -51,7 +51,7 @@ my $ok = sub {
     print "OK";
 };
 
-my $logger = FusionInventory::Agent::Logger::Test->new();
+my $logger = FusionInventory::Test::Logger::Test->new();
 
 unless (-e "resources/ssl/crt/ca.pem") {
     print STDERR "Generating SSL certificates...\n";

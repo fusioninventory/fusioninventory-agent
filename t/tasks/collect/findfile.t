@@ -11,11 +11,11 @@ use Test::Deep qw(cmp_deeply);
 use Test::MockModule;
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Logger::Fatal;
 use FusionInventory::Agent::Task::Collect;
 use FusionInventory::Agent::Controller;
+use FusionInventory::Test::Logger::Fatal;
 
-my $logger = FusionInventory::Agent::Logger::Fatal->new();
+my $logger = FusionInventory::Test::Logger::Fatal->new();
 
 my $target = FusionInventory::Agent::Controller->new(
     url    => 'http://localhost/glpi-any',

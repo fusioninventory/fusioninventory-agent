@@ -12,7 +12,7 @@ use Test::More;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::Logger::Test;
+use FusionInventory::Test::Logger::Test;
 
 plan tests => 16;
 

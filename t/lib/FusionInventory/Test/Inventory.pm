@@ -4,12 +4,12 @@ use strict;
 use warnings;
 use base qw(FusionInventory::Agent::Inventory);
 
-use FusionInventory::Agent::Logger::Fatal;
+use FusionInventory::Test::Logger::Fatal;
 
 sub new {
     my ($class, %params) = @_;
 
-    my $logger = FusionInventory::Agent::Logger::Fatal->new(
+    my $logger = FusionInventory::Test::Logger::Fatal->new(
         verbosity => 5
     );
 

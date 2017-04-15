@@ -1,16 +1,16 @@
-package FusionInventory::Agent::Logger::Test;
+package FusionInventory::Test::Logger::Fatal;
 
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Logger';
 
 use English qw(-no_match_vars);
+use Carp;
 
 sub _log {
     my ($self, %params) = @_;
 
-    $self->{message} = $params{message};
-    $self->{level}   = $params{level};
+    croak $params{message};
 }
 
 1;

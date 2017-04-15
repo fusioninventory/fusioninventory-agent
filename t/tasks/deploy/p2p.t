@@ -9,8 +9,7 @@ use List::Util qw(first);
 use Test::Deep;
 use Test::More;
 
-use FusionInventory::Agent::Logger::Test;
-
+use FusionInventory::Test::Logger::Test;
 use FusionInventory::Test::Server;
 use FusionInventory::Test::Utils;
 
@@ -116,7 +115,7 @@ my %find_tests = (
 
 plan tests => scalar @tests + keys(%find_tests);
 
-my $logger = FusionInventory::Agent::Logger::Test->new();
+my $logger = FusionInventory::Test::Logger::Test->new();
 
 my $p2p = FusionInventory::Agent::Task::Deploy::P2P->new(
     logger => $logger

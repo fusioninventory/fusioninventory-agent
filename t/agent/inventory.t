@@ -11,12 +11,12 @@ use Test::More;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Logger::Test;
 use FusionInventory::Agent::Inventory;
+use FusionInventory::Test::Logger::Test;
 
 plan tests => 26;
 
-my $logger = FusionInventory::Agent::Logger::Test->new(
+my $logger = FusionInventory::Test::Logger::Test->new(
     verbosity => LOG_DEBUG
 );
 

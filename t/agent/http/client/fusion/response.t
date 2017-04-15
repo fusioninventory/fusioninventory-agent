@@ -11,10 +11,10 @@ use Test::Deep;
 use Test::Exception;
 use Test::More;
 
-use FusionInventory::Agent::Logger::Test;
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::XML::Query;
 use FusionInventory::Test::Server;
+use FusionInventory::Test::Logger::Test;
 use FusionInventory::Test::Utils;
 
 unsetProxyEnvVar();
@@ -28,7 +28,7 @@ if (!$port) {
     plan tests => 6;
 }
 
-my $logger = FusionInventory::Agent::Logger::Test->new();
+my $logger = FusionInventory::Test::Logger::Test->new();
 
 my $message = FusionInventory::Agent::XML::Query->new(
     deviceid => 'foo',

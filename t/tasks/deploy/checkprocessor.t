@@ -11,7 +11,7 @@ use Test::Deep;
 
 use File::Temp qw(tempdir);
 
-use  FusionInventory::Agent::Logger::Test;
+use FusionInventory::Test::Logger::Test;
 
 BEGIN {
     # use mock modules for non-available ones
@@ -61,7 +61,7 @@ my $badreg = "HKEY_BAD_ROOT\\HARDWARE\\DESCRIPTION\\System\\Central___wrong_key_
 our $OSNAME;
 my $RealOSNAME = $OSNAME;
 
-my $logger = FusionInventory::Agent::Logger::Test->new();
+my $logger = FusionInventory::Test::Logger::Test->new();
 
 my %checkcb = (
     'dir-exists' => sub {
