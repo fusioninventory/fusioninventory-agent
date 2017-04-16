@@ -112,58 +112,47 @@ my $deprecated = {
 
 my $confReloadIntervalMinValue = 60;
 
+sub create {
+    my ($class, %params) = @_;
+
+    my $backend = $params{backend} || 'file';
+
+    if ($backend eq 'registry') {
+        FusionInventory::Agent::Config::Registry->require();
+        return FusionInventory::Agent::Config::Registry->new();
+    }
+
+    if ($backend eq 'file') {
+        FusionInventory::Agent::Config::File->require();
+        return FusionInventory::Agent::Config::File->new(
+            file => $params{file},
+        );
+    }
+
+    if ($backend eq 'none') {
+        FusionInventory::Agent::Config::None->require();
+        return FusionInventory::Agent::Config::None->new();
+    }
+
+    die "Unknown configuration backend '$backend'\n";
+}
+
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {
-        backend => $params{backend},
-        file    => $params{file},
-    };
+    my $self = {};
     bless $self, $class;
-
-    $self->_loadDefaults();
-
-    $self->_loadFromBackend();
-
-    $self->_loadUserParams($params{options});
-
-    $self->_checkContent();
 
     return $self;
 }
 
-sub reloadFromInputAndBackend {
-    my ($self) = @_;
+sub init {
+    my ($self, %params) = @_;
 
-    $self->_loadDefaults;
-
-    $self->_loadFromBackend();
-
+    $self->_loadDefaults();
+    $self->_load();
+    $self->_loadUserParams($params{options});
     $self->_checkContent();
-}
-
-sub _loadFromBackend {
-    my ($self) = @_;
-
-    SWITCH: {
-        if ($self->{backend} eq 'registry') {
-            die "Unavailable configuration backend\n"
-                unless $OSNAME eq 'MSWin32';
-            $self->_loadFromRegistry();
-            last SWITCH;
-        }
-
-        if ($self->{backend} eq 'file') {
-            $self->_loadFromFile();
-            last SWITCH;
-        }
-
-        if ($self->{backend} eq 'none') {
-            last SWITCH;
-        }
-
-        die "Unknown configuration backend '$self->{backend}'\n";
-    }
 }
 
 sub _loadDefaults {
@@ -172,86 +161,6 @@ sub _loadDefaults {
     foreach my $key (keys %$default) {
         $self->{$key} = $default->{$key};
     }
-}
-
-sub _loadFromRegistry {
-    my ($self) = @_;
-
-    my $Registry;
-    Win32::TieRegistry->require();
-    Win32::TieRegistry->import(
-        Delimiter   => '/',
-        ArrayValues => 0,
-        TiedRef     => \$Registry
-    );
-
-    my $machKey = $Registry->Open('LMachine', {
-        Access => Win32::TieRegistry::KEY_READ()
-    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
-
-    my $provider = $FusionInventory::Agent::Version::PROVIDER;
-    my $settings = $machKey->{"SOFTWARE/$provider-Agent"};
-
-    foreach my $rawKey (keys %$settings) {
-        next unless $rawKey =~ /^\/(\S+)/;
-        my $key = lc($1);
-        my $val = $settings->{$rawKey};
-        # Remove the quotes
-        $val =~ s/\s+$//;
-        $val =~ s/^'(.*)'$/$1/;
-        $val =~ s/^"(.*)"$/$1/;
-
-        if (exists $default->{$key}) {
-            $self->{$key} = $val;
-        } else {
-            warn "unknown configuration directive $key";
-        }
-    }
-}
-
-sub _loadFromFile {
-    my ($self) = @_;
-
-    if ($self->{file}) {
-        die "non-existing file $self->{file}" unless -f $self->{file};
-        die "non-readable file $self->{file}" unless -r $self->{file};
-    } else {
-        die "no configuration file";
-    }
-
-    my $handle;
-    if (!open $handle, '<', $self->{file}) {
-        warn "Config: Failed to open $self->{file}: $ERRNO";
-        return;
-    }
-
-    while (my $line = <$handle>) {
-        if ($line =~ /^\s*([\w-]+)\s*=\s*(.+)$/) {
-            my $key = $1;
-            my $val = $2;
-
-            # Cleanup value from ending spaces
-            $val =~ s/\s+$//;
-
-            # Extract value from quotes or clean any comment including preceding spaces
-            if ($val =~ /^(['"])([^\1]*)\1/) {
-                my ($quote, $extract) = ( $1, $2 );
-                $val =~ s/\s*#.+$//;
-                warn "We may have been confused for $key quoted value, our extracted value: '$extract'"
-                    if ($val ne "$quote$extract$quote");
-                $val = $extract ;
-            } else {
-                $val =~ s/\s*#.+$//;
-            }
-
-            if (exists $default->{$key}) {
-                $self->{$key} = $val;
-            } else {
-                warn "unknown configuration directive $key";
-            }
-        }
-    }
-    close $handle;
 }
 
 sub _loadUserParams {

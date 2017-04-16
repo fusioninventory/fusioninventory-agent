@@ -81,7 +81,7 @@ cmp_deeply (
     "multiple tasks"
 );
 
-$agent->{config} = FusionInventory::Agent::Config->new(
+$agent->{config} = FusionInventory::Agent::Config->create(
     backend => 'file',
     file    =>  'etc/agent.cfg'
 );

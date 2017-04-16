@@ -68,11 +68,11 @@ sub init {
    my $file = $params{options}->{'conf-file'} ?
        $params{options}->{'conf-file'} : $self->{confdir} . '/agent.cfg';
 
-    my $config = FusionInventory::Agent::Config->new(
+    my $config = FusionInventory::Agent::Config->create(
         backend => $backend,
         file    => $file,
-        options => $params{options},
     );
+    $config->init(options => $params{options});
     $self->{config} = $config;
 
     my $verbosity = $config->{debug} && $config->{debug} == 1 ? LOG_DEBUG  :
@@ -159,7 +159,7 @@ sub reinit {
 
     $self->{logger}->debug('agent reinit');
 
-    $self->{config}->reloadFromInputAndBackend($self->{confdir});
+    $self->{config}->init();
 
     my $config = $self->{config};
 
