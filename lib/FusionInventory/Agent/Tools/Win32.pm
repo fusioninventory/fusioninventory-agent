@@ -323,7 +323,7 @@ sub getInterfaces {
         class      => 'Win32_NetworkAdapterConfiguration',
         properties => [ qw/Index Description IPEnabled DHCPServer MACAddress
                            MTU DefaultIPGateway DNSServerSearchOrder IPAddress
-                           IPSubnet/  ]
+                           IPSubnet DNSDomain/  ]
     )) {
 
         my $configuration = {
@@ -331,7 +331,8 @@ sub getInterfaces {
             STATUS      => $object->{IPEnabled} ? "Up" : "Down",
             IPDHCP      => $object->{DHCPServer},
             MACADDR     => $object->{MACAddress},
-            MTU         => $object->{MTU}
+            MTU         => $object->{MTU},
+	    DNSDomain   => $object->{DNSDomain}
         };
 
         if ($object->{DefaultIPGateway}) {
@@ -380,6 +381,7 @@ sub getInterfaces {
                     STATUS      => $configuration->{STATUS},
                     MTU         => $configuration->{MTU},
                     dns         => $configuration->{dns},
+		    DNSDomain   => $configuration->{DNSDomain}
                 };
 
                 if ($address->[0] =~ /$ip_address_pattern/) {
@@ -417,6 +419,7 @@ sub getInterfaces {
                 STATUS      => $configuration->{STATUS},
                 MTU         => $configuration->{MTU},
                 dns         => $configuration->{dns},
+		DNSDomain   => $configuration->{DNSDomain}
             };
 
             $interface->{SPEED}      = $object->{Speed} / 1_000_000
