@@ -15,23 +15,23 @@ use FusionInventory::Test::Utils;
 
 my %config = (
     sample1 => {
-        'no-module'     => ['snmpquery', 'wakeonlan'],
-        'httpd-trust' => [],
+        'no-module'            => ['netinventory', 'wakeonlan'],
+        'httpd-trust'          => [],
         'conf-reload-interval' => 0
     },
     sample2 => {
-        'no-module'     => [],
-        'httpd-trust' => ['example', '127.0.0.1', 'foobar', '123.0.0.0/10'],
+        'no-module'            => [],
+        'httpd-trust'          => ['example', '127.0.0.1', 'foobar', '123.0.0.0/10'],
         'conf-reload-interval' => 0
     },
     sample3 => {
-        'no-module'     => [],
-        'httpd-trust' => [],
+        'no-module'            => [],
+        'httpd-trust'          => [],
         'conf-reload-interval' => 3600
     },
     sample4 => {
-        'no-module'     => ['snmpquery','wakeonlan','inventory'],
-        'httpd-trust' => [],
+        'no-module'            => ['netinventory', 'wakeonlan', 'inventory'],
+        'httpd-trust'          => [],
         'conf-reload-interval' => 60
     }
 );

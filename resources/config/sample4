@@ -1,3 +1,2 @@
-#no-inventory=1
-no-module=snmpquery,wakeonlan,inventory
+no-module=netinventory,wakeonlan,inventory
 conf-reload-interval=15

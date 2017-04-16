@@ -128,8 +128,8 @@ $agent->reinit();
 ok (defined($agent->{config}->{'no-module'}));
 ok (scalar(@{$agent->{config}->{'no-module'}}) == 2);
 ok (
-    ($agent->{config}->{'no-module'}->[0] eq 'snmpquery' && $agent->{config}->{'no-module'}->[1] eq 'wakeonlan')
-        || ($agent->{config}->{'no-module'}->[1] eq 'snmpquery' && $agent->{config}->{'no-module'}->[0] eq 'wakeonlan')
+    ($agent->{config}->{'no-module'}->[0] eq 'netinventory' && $agent->{config}->{'no-module'}->[1] eq 'wakeonlan')
+        || ($agent->{config}->{'no-module'}->[1] eq 'netinventory' && $agent->{config}->{'no-module'}->[0] eq 'wakeonlan')
 );
 ok (! defined $agent->{config}->{'server'});
 
