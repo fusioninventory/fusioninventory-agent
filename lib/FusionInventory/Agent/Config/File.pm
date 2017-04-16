@@ -9,6 +9,10 @@ use English qw(-no_match_vars);
 sub new {
     my ($class, %params) = @_;
 
+    die 'no file parameter' unless $params{file};
+    die "non-existing file $params{file}" unless -f $params{file};
+    die "non-readable file $params{file}" unless -r $params{file};
+
     my $self = $class->SUPER::new(%params);
 
     $self->{file} = $params{file},
@@ -18,13 +22,6 @@ sub new {
 
 sub _load {
     my ($self, %params) = @_;
-
-    if ($self->{file}) {
-        die "non-existing file $self->{file}" unless -f $self->{file};
-        die "non-readable file $self->{file}" unless -r $self->{file};
-    } else {
-        die "no configuration file";
-    }
 
     my $handle;
     if (!open $handle, '<', $self->{file}) {
