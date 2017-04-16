@@ -60,8 +60,17 @@ sub new {
 sub init {
     my ($self, %params) = @_;
 
+    my $backend =
+        $params{options}->{config} ? $params{options}->{config} :
+        $OSNAME eq 'MSWin32'       ? 'registry'                 :
+                                     'file';
+
+   my $file = $params{options}->{'conf-file'} ?
+       $params{options}->{'conf-file'} : $self->{confdir} . '/agent.cfg';
+
     my $config = FusionInventory::Agent::Config->new(
-        confdir => $self->{confdir},
+        backend => $backend,
+        file    => $file,
         options => $params{options},
     );
     $self->{config} = $config;

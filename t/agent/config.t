@@ -39,9 +39,10 @@ my %config = (
 plan tests => (scalar keys %config) * 2 + 28;
 
 foreach my $test (keys %config) {
-    my $c = FusionInventory::Agent::Config->new(options => {
-        'conf-file' => "resources/config/$test"
-    });
+    my $c = FusionInventory::Agent::Config->new(
+        backend => 'file',
+        file    => "resources/config/$test",
+    );
 
     foreach my $k (qw/ no-module httpd-trust conf-reload-interval /) {
         cmp_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
@@ -62,9 +63,10 @@ foreach my $test (keys %config) {
     }
 }
 
-my $c = FusionInventory::Agent::Config->new(options => {
-        'conf-file' => "resources/config/sample1"
-    });
+my $c = FusionInventory::Agent::Config->new(
+    backend => 'file',
+    file    => "resources/config/sample1",
+);
 ok (ref($c->{'no-module'}) eq 'ARRAY');
 ok (scalar(@{$c->{'no-module'}}) == 2);
 
@@ -72,7 +74,7 @@ $c->reloadFromInputAndBackend();
 ok (ref($c->{'no-module'}) eq 'ARRAY');
 ok (scalar(@{$c->{'no-module'}}) == 2);
 
-$c->{'conf-file'} = "resources/config/sample2";
+$c->{file} = "resources/config/sample2";
 $c->reloadFromInputAndBackend();
 #httpd-trust=example,127.0.0.1,foobar,123.0.0.0/10
 my %cHttpdTrust = map {$_ => 1} @{$c->{'httpd-trust'}};

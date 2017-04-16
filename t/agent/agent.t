@@ -82,9 +82,8 @@ cmp_deeply (
 );
 
 $agent->{config} = FusionInventory::Agent::Config->new(
-    (
-        confdir => 'etc'
-    )
+    backend => 'file',
+    file    =>  'etc/agent.cfg'
 );
 $agent->{config}->{'no-module'} = ['Task5'];
 %tasks = $agent->getAvailableTasks(disabledTasks => ['Task5']);
@@ -123,7 +122,7 @@ $agent->init(options => $options);
 ok (UNIVERSAL::isa($agent->{config}, 'FusionInventory::Agent::Config'));
 ok (! defined($agent->{'conf-file'}));
 # changing conf-file
-$agent->{config}->{'conf-file'} = 'resources/config/sample1';
+$agent->{config}->{file} = 'resources/config/sample1';
 ok (scalar(@{$agent->{config}->{'no-module'}}) == 0);
 $agent->reinit();
 ok (defined($agent->{config}->{'no-module'}));

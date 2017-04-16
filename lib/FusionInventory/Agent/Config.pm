@@ -115,63 +115,54 @@ my $confReloadIntervalMinValue = 60;
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {};
+    my $self = {
+        backend => $params{backend},
+        file    => $params{file},
+    };
     bless $self, $class;
+
     $self->_loadDefaults();
 
-    $self->_loadFromBackend($params{options}->{'conf-file'}, $params{options}->{config}, $params{confdir});
+    $self->_loadFromBackend();
 
     $self->_loadUserParams($params{options});
 
     $self->_checkContent();
 
-    if (defined($params{options}->{'conf-file'})) {
-        $self->{'conf-file'} = $params{options}->{'conf-file'}
-    }
-
     return $self;
 }
 
 sub reloadFromInputAndBackend {
-    my ($self, $confDir) = @_;
+    my ($self) = @_;
 
     $self->_loadDefaults;
 
-    $self->_loadFromBackend($self->{'conf-file'}, $self->{config}, $confDir);
+    $self->_loadFromBackend();
 
     $self->_checkContent();
 }
 
 sub _loadFromBackend {
-    my ($self, $confFile, $config, $confdir) = @_;
-
-    my $backend =
-        $confFile            ? 'file'      :
-        $config              ? $config     :
-        $OSNAME eq 'MSWin32' ? 'registry'  :
-                               'file';
+    my ($self) = @_;
 
     SWITCH: {
-        if ($backend eq 'registry') {
+        if ($self->{backend} eq 'registry') {
             die "Unavailable configuration backend\n"
                 unless $OSNAME eq 'MSWin32';
             $self->_loadFromRegistry();
             last SWITCH;
         }
 
-        if ($backend eq 'file') {
-            $self->_loadFromFile({
-                file      => $confFile,
-                directory => $confdir,
-            });
+        if ($self->{backend} eq 'file') {
+            $self->_loadFromFile();
             last SWITCH;
         }
 
-        if ($backend eq 'none') {
+        if ($self->{backend} eq 'none') {
             last SWITCH;
         }
 
-        die "Unknown configuration backend '$backend'\n";
+        die "Unknown configuration backend '$self->{backend}'\n";
     }
 }
 
@@ -219,20 +210,18 @@ sub _loadFromRegistry {
 }
 
 sub _loadFromFile {
-    my ($self, $params) = @_;
-    my $file = $params->{file} ?
-        $params->{file} : $params->{directory} . '/agent.cfg';
+    my ($self) = @_;
 
-    if ($file) {
-        die "non-existing file $file" unless -f $file;
-        die "non-readable file $file" unless -r $file;
+    if ($self->{file}) {
+        die "non-existing file $self->{file}" unless -f $self->{file};
+        die "non-readable file $self->{file}" unless -r $self->{file};
     } else {
         die "no configuration file";
     }
 
     my $handle;
-    if (!open $handle, '<', $file) {
-        warn "Config: Failed to open $file: $ERRNO";
+    if (!open $handle, '<', $self->{file}) {
+        warn "Config: Failed to open $self->{file}: $ERRNO";
         return;
     }
 
