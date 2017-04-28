@@ -107,10 +107,10 @@ if ($OSNAME eq 'MSWin32' && ! $options->{'no-win32-ole-workaround'}) {
 my $agent = FusionInventory::Agent->new(%setup);
 
 if ($options->{'list-modules'}) {
-    my %tasks = $agent->getAvailableTasks();
+    my %modules = $agent->getAvailableModules();
     print "Available modules: \n";
-    foreach my $task (keys %tasks) {
-        print "$task (v$tasks{$task})\n";
+    foreach my $module (keys %modules) {
+        print "$module (v$modules{$module})\n";
     }
 
     exit 0;

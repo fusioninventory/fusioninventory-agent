@@ -116,21 +116,19 @@ sub init {
     }
 
     # compute list of allowed modules
-    my %available = $self->getAvailableTasks();
+    my %modules = $self->getAvailableModules();
 
-    my @tasks = keys %available;
-
-    if (!@tasks) {
+    if (!%modules) {
         $logger->error("No modules available, aborting");
         exit 1;
     }
 
     $logger->debug("Available modules");
-    foreach my $task (@tasks) {
-        $logger->debug("- $task: $available{$task}");
+    foreach my $module (keys %modules) {
+        $logger->debug("- $module: $modules{$module}");
     }
 
-    $self->{tasks} = \@tasks;
+    $self->{modules} = [ keys %modules ];
 
     if ($config->{daemon}) {
         $self->_createDaemon();
@@ -195,7 +193,7 @@ sub reinit {
     $self->_saveState();
 
     # compute list of allowed modules
-    my %available = $self->getAvailableTasks();
+    my %available = $self->getAvailableModules();
 
     my @tasks = keys %available;
 
@@ -465,10 +463,10 @@ sub getController {
     return $self->{controller};
 }
 
-sub getAvailableTasks {
-    my ($self, %params) = @_;
+sub getAvailableModules {
+    my ($self) = @_;
 
-    my %tasks;
+    my %modules;
 
     # tasks may be located only in agent libdir
     my $directory = $self->{libdir};
@@ -500,29 +498,29 @@ sub getAvailableTasks {
                 die "fork failed: $ERRNO" unless defined $pid;
 
                 close $reader;
-                $version = $self->_getTaskVersion($module);
+                $version = $self->_getModuleVersion($module);
                 print $writer $version if $version;
                 close $writer;
                 exit(0);
             }
         } else {
             # standalone mode: check each task version directly
-            $version = $self->_getTaskVersion($module);
+            $version = $self->_getModuleVersion($module);
         }
 
         # no version means non-functionning module
         next unless $version;
 
-        $tasks{$name} = $version;
+        $modules{$name} = $version;
         if (defined $self->{logger}) {
             $self->{logger}->debug2( "getAvailableTasks() : add of module ".$name.' version '.$version );
         }
     }
 
-    return %tasks;
+    return %modules;
 }
 
-sub _getTaskVersion {
+sub _getModuleVersion {
     my ($self, $module) = @_;
 
     my $logger = $self->{logger};
