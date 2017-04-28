@@ -28,10 +28,10 @@ my $default = {
         'user'                 => undef,
     },
     listener => {
-        'no-httpd'             => undef,
-        'httpd-ip'             => undef,
-        'httpd-port'           => 62354,
-        'httpd-trust'          => [],
+        'disable'              => undef,
+        'ip'                   => undef,
+        'port'                 => 62354,
+        'trust'                => [],
     },
     logger => {
         'backend'              => 'Stderr',
@@ -211,13 +211,11 @@ sub _checkContent {
 
     # multi-values options, the def{ault separator is a ','
     $self->{_}->{'no-module'} =
-        $self->{_}->{'no-module'} &&
-        ! ref $self->{_}->{'no-module'} ?
-            [ split(/,/, $self->{_}->{'no-module'}) ] : [] ;
-    $self->{listener}->{'httpd-trust'} =
-        $self->{listener}->{'httpd-trust'} &&
-        ! ref $self->{listener}->{'httpd-trust'} ?
-            [ split(/,/, $self->{listener}->{'httpd-trust'}) ] : [];
+        $self->{_}->{'no-module'} && ! ref $self->{_}->{'no-module'} ?
+    [ split(/,/, $self->{_}->{'no-module'}) ] : [] ;
+    $self->{listener}->{trust} =
+        $self->{listener}->{trust} && ! ref $self->{listener}->{trust} ?
+        [ split(/,/, $self->{listener}->{trust}) ] : [];
 
     # files location
     $self->{http}->{'ca-cert-path'} =

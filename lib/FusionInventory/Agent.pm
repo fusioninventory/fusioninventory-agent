@@ -137,7 +137,7 @@ sub init {
     }
 
     # create HTTP interface
-    if (($config->{daemon} || $config->{service}) && !$config->{listener}->{'no-httpd'}) {
+    if (($config->{daemon} || $config->{service}) && !$config->{listener}->{disable}) {
         $self->_createHttpInterface();
     }
 
@@ -660,9 +660,9 @@ sub _createHttpInterface {
             logger          => $logger,
             agent           => $self,
             htmldir         => $self->{datadir} . '/html',
-            ip              => $self->{config}->{listener}->{'httpd-ip'},
-            port            => $self->{config}->{listener}->{'httpd-port'},
-            trust           => $self->{config}->{listener}->{'httpd-trust'}
+            ip              => $self->{config}->{listener}->{ip},
+            port            => $self->{config}->{listener}->{port},
+            trust           => $self->{config}->{listener}->{trust}
         );
         $self->{server}->init();
     }

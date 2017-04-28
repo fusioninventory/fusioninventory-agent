@@ -139,10 +139,10 @@ eval {
                 user         => $options->{'user'},
             },
             listener => {
-                no_httpd    => $options->{'no-httpd'},
-                httpd_ip    => $options->{'httpd-ip'},
-                httpd_port  => $options->{'httpd-port'},
-                httpd_trust => $options->{'httpd-trust'},
+                disable      => $options->{'no-httpd'},
+                ip           => $options->{'httpd-ip'},
+                port         => $options->{'httpd-port'},
+                trust        => $options->{'httpd-trust'},
             },
             logger => {
                 debug        => $options->{'debug'},
