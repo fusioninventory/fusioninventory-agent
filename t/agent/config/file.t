@@ -15,72 +15,139 @@ use FusionInventory::Test::Utils;
 
 my %config = (
     sample1 => {
-        'no-module'            => ['netinventory', 'wakeonlan'],
-        'httpd-trust'          => [],
-        'conf-reload-interval' => 0
+        file => 'resources/config/sample1',
+        _ => {
+            'no-module'            => ['netinventory', 'wakeonlan'],
+            'conf-reload-interval' => 0,
+            'server'               => undef,
+            'tag'                  => undef
+        },
+        http => {
+            'no-ssl-check' => undef,
+            'ca-cert-path' => undef,
+            'password'     => undef,
+            'proxy'        => undef,
+            'timeout'      => 180,
+            'user'         => undef,
+        },
+        httpd => {
+            'httpd-trust' => [],
+            'httpd-port'  => 62354,
+            'httpd-ip'    => undef,
+            'no-httpd'    => undef,
+        },
+        logger => {
+            'debug'           => undef,
+            'logfile'         => undef,
+            'logfile-maxsize' => undef,
+            'logfacility'     => 'LOG_USER',
+            'logger'          => 'Stderr',
+        }
     },
     sample2 => {
-        'no-module'            => [],
-        'httpd-trust'          => ['example', '127.0.0.1', 'foobar', '123.0.0.0/10'],
-        'conf-reload-interval' => 0
+        file => 'resources/config/sample2',
+        _ => {
+            'no-module'            => [],
+            'conf-reload-interval' => 0,
+            'server'               => undef,
+            'tag'                  => undef
+        },
+        http => {
+            'no-ssl-check' => undef,
+            'ca-cert-path' => undef,
+            'password'     => undef,
+            'proxy'        => undef,
+            'timeout'      => 180,
+            'user'         => undef,
+        },
+        httpd => {
+            'httpd-trust' => ['example', '127.0.0.1', 'foobar', '123.0.0.0/10'],
+            'httpd-port'  => 62354,
+            'httpd-ip'    => undef,
+            'no-httpd'    => undef,
+        },
+        logger => {
+            'debug'           => undef,
+            'logfile'         => undef,
+            'logfile-maxsize' => undef,
+            'logfacility'     => 'LOG_USER',
+            'logger'          => 'Stderr',
+        }
     },
     sample3 => {
-        'no-module'            => [],
-        'httpd-trust'          => [],
-        'conf-reload-interval' => 3600
+        file => 'resources/config/sample3',
+        _ => {
+            'no-module'            => [],
+            'conf-reload-interval' => 3600,
+            'server'               => undef,
+            'tag'                  => undef
+        },
+        http => {
+            'no-ssl-check' => undef,
+            'ca-cert-path' => undef,
+            'password'     => undef,
+            'proxy'        => undef,
+            'timeout'      => 180,
+            'user'         => undef,
+        },
+        httpd => {
+            'httpd-trust' => [],
+            'httpd-port'  => 62354,
+            'httpd-ip'    => undef,
+            'no-httpd'    => undef,
+        },
+        logger => {
+            'debug'           => undef,
+            'logfile'         => undef,
+            'logfile-maxsize' => undef,
+            'logfacility'     => 'LOG_USER',
+            'logger'          => 'Stderr',
+        }
     },
     sample4 => {
-        'no-module'            => ['netinventory', 'wakeonlan', 'inventory'],
-        'httpd-trust'          => [],
-        'conf-reload-interval' => 60
+        file => 'resources/config/sample4',
+        _ => {
+            'no-module'            => ['netinventory', 'wakeonlan', 'inventory'],
+            'conf-reload-interval' => 60,
+            'server'               => undef,
+            'tag'                  => undef
+        },
+        http => {
+            'no-ssl-check' => undef,
+            'ca-cert-path' => undef,
+            'password'     => undef,
+            'proxy'        => undef,
+            'timeout'      => 180,
+            'user'         => undef,
+        },
+        httpd => {
+            'httpd-trust' => [],
+            'httpd-port'  => 62354,
+            'httpd-ip'    => undef,
+            'no-httpd'    => undef,
+        },
+        logger => {
+            'debug'           => undef,
+            'logfile'         => undef,
+            'logfile-maxsize' => undef,
+            'logfacility'     => 'LOG_USER',
+            'logger'          => 'Stderr',
+        }
     }
 );
 
-plan tests => (scalar keys %config) * 2 + 21;
+plan tests => scalar keys %config;
 
-foreach my $test (keys %config) {
+foreach my $test (sort keys %config) {
     my $c = FusionInventory::Agent::Config::File->new(
         file => "resources/config/$test"
     );
 
     $c->init();
 
-    foreach my $k (qw/ no-module httpd-trust conf-reload-interval /) {
-        cmp_deeply($c->{$k}, $config{$test}->{$k}, $test." ".$k);
-    }
-
-    if ($test eq 'sample1') {
-        ok ($c->isParamArrayAndFilled('no-module'));
-        ok (! $c->isParamArrayAndFilled('httpd-trust'));
-    } elsif ($test eq 'sample2') {
-        ok (! $c->isParamArrayAndFilled('no-module'));
-        ok ($c->isParamArrayAndFilled('httpd-trust'));
-    } elsif ($test eq 'sample3') {
-        ok (! $c->isParamArrayAndFilled('no-module'));
-        ok (! $c->isParamArrayAndFilled('httpd-trust'));
-    } elsif ($test eq 'sample4') {
-        ok ($c->isParamArrayAndFilled('no-module'));
-        ok (! $c->isParamArrayAndFilled('httpd-trust'));
-    }
+    cmp_deeply(
+        $c,
+        bless($config{$test}, 'FusionInventory::Agent::Config::File'),
+        $test
+    );
 }
-
-my $c = FusionInventory::Agent::Config::File->new(
-    file => "resources/config/sample1"
-);
-$c->init();
-ok (ref($c->{'no-module'}) eq 'ARRAY');
-ok (scalar(@{$c->{'no-module'}}) == 2);
-
-$c->init();
-ok (ref($c->{'no-module'}) eq 'ARRAY');
-ok (scalar(@{$c->{'no-module'}}) == 2);
-
-$c->{file} = "resources/config/sample2";
-$c->init();
-#httpd-trust=example,127.0.0.1,foobar,123.0.0.0/10
-my %cHttpdTrust = map {$_ => 1} @{$c->{'httpd-trust'}};
-ok (defined($cHttpdTrust{'example'}));
-ok (defined($cHttpdTrust{'127.0.0.1'}));
-ok (defined($cHttpdTrust{'foobar'}));
-ok (defined($cHttpdTrust{'123.0.0.0/10'}));
-ok (scalar(@{$c->{'httpd-trust'}}) == 4);

@@ -123,7 +123,36 @@ if ($options->{wait}) {
 }
 
 eval {
-    $agent->init(options => $options);
+    $agent->init(
+        options => {
+            _ => {
+                no_module => $options->{'no-module'},
+                server    => $options->{'server'},
+                tag       => $options->{'tag'},
+            },
+            http => {
+                ca_cert_path => $options->{'ca-cert-path'},
+                no_ssl_check => $options->{'no-ssl-check'},
+                password     => $options->{'password'},
+                proxy        => $options->{'proxy'},
+                timeout      => $options->{'timeout'},
+                user         => $options->{'user'},
+            },
+            httpd => {
+                no_httpd    => $options->{'no-httpd'},
+                httpd_ip    => $options->{'httpd-ip'},
+                httpd_port  => $options->{'httpd-port'},
+                httpd_trust => $options->{'httpd-trust'},
+            },
+            logger => {
+                debug           => $options->{'debug'},
+                logger          => $options->{'logger'},
+                logfile         => $options->{'logfile'},
+                logfile_maxsize => $options->{'logfile-maxsize'},
+                logfacility     => $options->{'logfacility'},
+            }
+        }
+    );
     $agent->run();
 };
 

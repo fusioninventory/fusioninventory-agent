@@ -14,7 +14,7 @@ use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
 use FusionInventory::Test::Logger::Test;
 
-plan tests => 16;
+plan tests => 9;
 
 my $libdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 push @INC, $libdir;
@@ -106,33 +106,6 @@ sub create_file {
     print $fh $content;
     close $fh;
 }
-
-
-$agent->{confdir} = 'etc';
-$agent->{datadir} = './share';
-$agent->{vardir}  = './var',
-    # just to be able to run init() method, we inject mandatory options
-    my $options = {
-        'server' => 'myserver.mywebextension',
-        # we force config to be loaded from file
-        'config' => 'file'
-    };
-$agent->init(options => $options);
-# after init call, the member 'config' is defined and well blessed
-ok (UNIVERSAL::isa($agent->{config}, 'FusionInventory::Agent::Config'));
-ok (! defined($agent->{'conf-file'}));
-# changing conf-file
-$agent->{config}->{file} = 'resources/config/sample1';
-ok (scalar(@{$agent->{config}->{'no-module'}}) == 0);
-$agent->reinit();
-ok (defined($agent->{config}->{'no-module'}));
-ok (scalar(@{$agent->{config}->{'no-module'}}) == 2);
-ok (
-    ($agent->{config}->{'no-module'}->[0] eq 'netinventory' && $agent->{config}->{'no-module'}->[1] eq 'wakeonlan')
-        || ($agent->{config}->{'no-module'}->[1] eq 'netinventory' && $agent->{config}->{'no-module'}->[0] eq 'wakeonlan')
-);
-ok (! defined $agent->{config}->{'server'});
-
 
 SKIP: {
     skip ('test for Windows only and with config in registry', 4) if ($OSNAME ne 'MSWin32' || $agent->{config}->{config} ne 'registry');

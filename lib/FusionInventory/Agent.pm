@@ -80,8 +80,8 @@ sub init {
                                                                 LOG_INFO   ;
 
     my $logger = FusionInventory::Agent::Logger->create(
-        config    => $config,
-        backend   => $config->{logger},
+        config    => $config->{logger},
+        backend   => $config->{logger}->{logger},
         verbosity => $verbosity
     );
     $self->{logger} = $logger;
@@ -135,7 +135,7 @@ sub init {
     }
 
     # create HTTP interface
-    if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
+    if (($config->{daemon} || $config->{service}) && !$config->{httpd}->{'no-httpd'}) {
         $self->_createHttpInterface();
     }
 
@@ -170,8 +170,8 @@ sub reinit {
     my $logger = undef;
     if (! defined($self->{logger})) {
         $logger = FusionInventory::Agent::Logger->create(
-            config    => $config,
-            backend   => $config->{logger},
+            config    => $config->{logger},
+            backend   => $config->{logger}->{logger},
             verbosity => $verbosity
         );
         $self->{logger} = $logger;
@@ -344,11 +344,11 @@ sub _contactController {
     my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
         timeout      => $self->{timeout},
-        user         => $self->{config}->{user},
-        password     => $self->{config}->{password},
-        proxy        => $self->{config}->{proxy},
-        ca_cert_path => $self->{config}->{'ca-cert-path'},
-        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        user         => $self->{config}->{http}->{user},
+        password     => $self->{config}->{http}->{password},
+        proxy        => $self->{config}->{http}->{proxy},
+        ca_cert_path => $self->{config}->{http}->{'ca-cert-path'},
+        no_ssl_check => $self->{config}->{http}->{'no-ssl-check'},
     );
 
     my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
@@ -443,11 +443,11 @@ sub _runTaskReal {
     $self->{current_task} = $task;
 
     $task->run(
-        user         => $self->{config}->{user},
-        password     => $self->{config}->{password},
-        proxy        => $self->{config}->{proxy},
-        ca_cert_path => $self->{config}->{'ca-cert-path'},
-        no_ssl_check => $self->{config}->{'no-ssl-check'},
+        user         => $self->{config}->{http}->{user},
+        password     => $self->{config}->{http}->{password},
+        proxy        => $self->{config}->{http}->{proxy},
+        ca_cert_path => $self->{config}->{http}->{'ca-cert-path'},
+        no_ssl_check => $self->{config}->{http}->{'no-ssl-check'},
     );
     delete $self->{current_task};
 }
@@ -649,7 +649,6 @@ sub _createHttpInterface {
     my ($self) = @_;
 
     my $logger = $self->{logger};
-    my $config = $self->{config};
     FusionInventory::Agent::HTTP::Server->require();
     if ($EVAL_ERROR) {
         $logger->error("Failed to load HTTP server: $EVAL_ERROR");
@@ -658,9 +657,9 @@ sub _createHttpInterface {
             logger          => $logger,
             agent           => $self,
             htmldir         => $self->{datadir} . '/html',
-            ip              => $config->{'httpd-ip'},
-            port            => $config->{'httpd-port'},
-            trust           => $config->{'httpd-trust'}
+            ip              => $self->{config}->{httpd}->{'httpd-ip'},
+            port            => $self->{config}->{httpd}->{'httpd-port'},
+            trust           => $self->{config}->{httpd}->{'httpd-trust'}
         );
         $self->{server}->init();
     }
@@ -687,7 +686,7 @@ sub _isReloadConfNeeded {
 
     my $time = time;
     #$self->{logger}->debug2('_isReloadConfNeeded : ' . $self->{lastConfigLoad} . ' - ' . $time . ' > ' . $self->{config}->{'conf-reload-interval'} . ' ?');
-    return ($self->{config}->{'conf-reload-interval'} > 0) && (($time - $self->{lastConfigLoad}) > $self->{config}->{'conf-reload-interval'});
+    return ($self->{config}->{_}->{'conf-reload-interval'} > 0) && (($time - $self->{lastConfigLoad}) > $self->{config}->{_}->{'conf-reload-interval'});
 }
 
 1;

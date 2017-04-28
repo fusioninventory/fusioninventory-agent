@@ -13,101 +13,102 @@ use FusionInventory::Agent::Version;
 require FusionInventory::Agent::Tools;
 
 my $default = {
-    'ca-cert-path'            => undef,
-    'conf-reload-interval'    => 0,
-    'debug'                   => undef,
-    'logger'                  => 'Stderr',
-    'logfile'                 => undef,
-    'logfacility'             => 'LOG_USER',
-    'logfile-maxsize'         => undef,
-    'no-httpd'                => undef,
-    'no-ssl-check'            => undef,
-    'no-module'               => [],
-    'password'                => undef,
-    'proxy'                   => undef,
-    'httpd-ip'                => undef,
-    'httpd-port'              => 62354,
-    'httpd-trust'             => [],
-    'server'                  => undef,
-    'tag'                     => undef,
-    'timeout'                 => 180,
-    'user'                    => undef,
-    # deprecated options
-    'ca-cert-dir'             => undef,
-    'ca-cert-file'            => undef,
-    'color'                   => undef,
-    'delaytime'               => undef,
-    'html'                    => undef,
-    'local'                   => undef,
-    'force'                   => undef,
-    'no-compression'          => undef,
-    'additional-content'      => undef,
-    'backend-collect-timeout' => 180,
-    'lazy'                    => undef,
-    'scan-homedirs'           => undef,
-    'scan-profiles'           => undef,
-    'no-category'             => undef,
-    'no-p2p'                  => undef,
-    'no-task'                 => undef,
-    'tasks'                   => undef,
+    _ => {
+        'no-module'            => [],
+        'server'               => undef,
+        'tag'                  => undef,
+        'conf-reload-interval' => 0,
+    },
+    http => {
+        'ca-cert-path'         => undef,
+        'no-ssl-check'         => undef,
+        'proxy'                => undef,
+        'password'             => undef,
+        'timeout'              => 180,
+        'user'                 => undef,
+    },
+    httpd => {
+        'no-httpd'             => undef,
+        'httpd-ip'             => undef,
+        'httpd-port'           => 62354,
+        'httpd-trust'          => [],
+    },
+    logger => {
+        'logger'               => 'Stderr',
+        'logfile'              => undef,
+        'logfacility'          => 'LOG_USER',
+        'logfile-maxsize'      => undef,
+        'debug'                => undef,
+    },
 };
 
 my $deprecated = {
-    'ca-cert-dir' => {
-        message => 'use --ca-cert-path option instead',
-        new     => 'ca-cert-path',
-    },
-    'ca-cert-file' => {
-        message => 'use --ca-cert-path option instead',
-        new     => 'ca-cert-path',
-    },
-    'color' => {
-        message => 'color is used automatically if relevant',
-    },
-    'delaytime' => {
-        message => 'agent enrolls immediatly at startup',
-    },
-    'lazy' => {
-        message => 'scheduling is done on server side'
-    },
-    'local' => {
-        message =>
-            'use fusioninventory-inventory executable',
-    },
-    'html' => {
-        message =>
-            'use fusioninventory-inventory executable, with --format option',
-    },
-    'force' => {
-        message =>
-            'use fusioninventory-inventory executable to control scheduling',
-    },
-    'no-compression' => {
-        message =>
-            'communication are never compressed anymore'
-    },
-    'no-p2p' => {
-        message => 'use fusioninventory-deploy for local control',
-    },
-    'additional-content' => {
-        message => 'use fusioninventory-inventory for local control',
-    },
-    'no-category' => {
-        message => 'use fusioninventory-inventory for local control',
-    },
-    'scan-homedirs' => {
-        message => 'use fusioninventory-inventory for local control',
-    },
-    'scan-profiles' => {
-        message => 'use fusioninventory-inventory for local control',
-    },
-    'no-task' => {
-        message => 'use --no-module option instead',
-        new     => 'no-module',
-    },
-    'tasks' => {
-        message => 'scheduling is done on server side'
-    },
+    _ => {
+        'ca-cert-dir' => {
+            message => 'use http/ca-cert-path option instead',
+            new     => sub {
+                my ($config, $value) = @_;
+                $config->{http}->{'ca-cert-path'} = $value;
+            },
+        },
+        'ca-cert-file' => {
+            message => 'use http/ca-cert-path option instead',
+            new     => sub {
+                my ($config, $value) = @_;
+                $config->{http}->{'ca-cert-path'} = $value;
+            },
+        },
+        'color' => {
+            message => 'color is used automatically if relevant',
+        },
+        'delaytime' => {
+            message => 'agent enrolls immediatly at startup',
+        },
+        'lazy' => {
+            message => 'scheduling is done on server side'
+        },
+        'local' => {
+            message =>
+                'use fusioninventory-inventory executable',
+        },
+        'html' => {
+            message =>
+                'use fusioninventory-inventory executable, with --format option',
+        },
+        'force' => {
+            message =>
+                'use fusioninventory-inventory executable to control scheduling',
+        },
+        'no-compression' => {
+            message =>
+                'communication are never compressed anymore'
+        },
+        'no-p2p' => {
+            message => 'use fusioninventory-deploy for local control',
+        },
+        'additional-content' => {
+            message => 'use fusioninventory-inventory for local control',
+        },
+        'no-category' => {
+            message => 'use fusioninventory-inventory for local control',
+        },
+        'scan-homedirs' => {
+            message => 'use fusioninventory-inventory for local control',
+        },
+        'scan-profiles' => {
+            message => 'use fusioninventory-inventory for local control',
+        },
+        'no-task' => {
+            message => 'use no-module option instead',
+            new     => sub {
+                my ($config, $value) = @_;
+                $config->{_}->{'no-module'} = $value;
+            },
+        },
+        'tasks' => {
+            message => 'scheduling is done on server side'
+        },
+    }
 };
 
 my $confReloadIntervalMinValue = 60;
@@ -158,16 +159,20 @@ sub init {
 sub _loadDefaults {
     my ($self) = @_;
 
-    foreach my $key (keys %$default) {
-        $self->{$key} = $default->{$key};
+    foreach my $section (keys %{$default}) {
+        foreach my $key (keys %{$default->{$section}}) {
+            $self->{$section}->{$key} = $default->{$section}->{$key};
+        }
     }
 }
 
 sub _loadUserParams {
     my ($self, $params) = @_;
 
-    foreach my $key (keys %$params) {
-        $self->{$key} = $params->{$key};
+    foreach my $section (keys %{$params}) {
+        foreach my $key (keys %{$params->{$section}}) {
+            $self->{$section}->{$key} = $params->{$section}->{$key};
+        }
     }
 }
 
@@ -175,86 +180,62 @@ sub _checkContent {
     my ($self) = @_;
 
     # check for deprecated options
-    foreach my $old (keys %$deprecated) {
-        next unless defined $self->{$old};
+    foreach my $section (keys %{$deprecated}) {
+    foreach my $old (keys %{$deprecated->{$section}}) {
+        next unless defined $self->{$section}->{$old};
 
         next if $old =~ /^no-/ and !$self->{$old};
 
-        my $handler = $deprecated->{$old};
+        my $handler = $deprecated->{$section}->{$old};
 
         # notify user of deprecation
         warn "the '$old' option is deprecated, $handler->{message}\n";
 
         # transfer the value to the new option, if possible
-        if ($handler->{new}) {
-            if (ref $handler->{new} eq 'HASH') {
-                # old boolean option replaced by new non-boolean options
-                foreach my $key (keys %{$handler->{new}}) {
-                    my $value = $handler->{new}->{$key};
-                    if ($value =~ /^\+(\S+)/) {
-                        # multiple values: add it to exiting one
-                        $self->{$key} = $self->{$key} ?
-                            $self->{$key} . ',' . $1 : $1;
-                    } else {
-                        # unique value: replace exiting value
-                        $self->{$key} = $value;
-                    }
-                }
-            } elsif (ref $handler->{new} eq 'ARRAY') {
-                # old boolean option replaced by new boolean options
-                foreach my $new (@{$handler->{new}}) {
-                    $self->{$new} = $self->{$old};
-                }
-            } else {
-                # old non-boolean option replaced by new option
-                $self->{$handler->{new}} = $self->{$old};
-            }
-        }
+        $handler->{new}->($self, $self->{$section}->{$old}) if $handler->{new};
 
         # avoid cluttering configuration
-        delete $self->{$old};
+        delete $self->{$section}->{$old};
+    }
     }
 
     # a logfile options implies a file logger backend
-    if ($self->{logfile}) {
-        $self->{logger} .= ',File';
+    if ($self->{logger}->{logfile}) {
+        $self->{logger}->{logger} .= ',File';
     }
 
     # logger backend without a logfile isn't enoguh
-    if ($self->{'logger'} =~ /file/i && ! $self->{'logfile'}) {
+    if ($self->{logger}->{logger} =~ /file/i && ! $self->{logger}->{logfile}) {
         die "usage of 'file' logger backend makes 'logfile' option mandatory\n";
     }
 
-    # multi-values options, the default separator is a ','
-    foreach my $option (qw/
-            httpd-trust
-            no-module
-            /) {
-
-        # Check if defined AND SCALAR
-        # to avoid split a ARRAY ref or HASH ref...
-        if ($self->{$option} && ref($self->{$option}) eq '') {
-            $self->{$option} = [split(/,/, $self->{$option})];
-        } else {
-            $self->{$option} = [];
-        }
-    }
+    # multi-values options, the def{ault separator is a ','
+    $self->{_}->{'no-module'} =
+        $self->{_}->{'no-module'} &&
+        ! ref $self->{_}->{'no-module'} ?
+            [ split(/,/, $self->{_}->{'no-module'}) ] : [] ;
+    $self->{httpd}->{'httpd-trust'} =
+        $self->{httpd}->{'httpd-trust'} &&
+        ! ref $self->{httpd}->{'httpd-trust'} ?
+            [ split(/,/, $self->{httpd}->{'httpd-trust'}) ] : [];
 
     # files location
-    $self->{'ca-cert-path'} =
-        File::Spec->rel2abs($self->{'ca-cert-path'}) if $self->{'ca-cert-path'};
-    $self->{'logfile'} =
-        File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
+    $self->{http}->{'ca-cert-path'} =
+        File::Spec->rel2abs($self->{http}->{'ca-cert-path'})
+        if $self->{http}->{'ca-cert-path'};
+    $self->{logger}->{'logfile'} =
+        File::Spec->rel2abs($self->{logger}->{'logfile'})
+        if $self->{logger}->{'logfile'};
 
     # conf-reload-interval option
     # If value is less than the required minimum, we force it to that
     # minimum because it's useless to reload the config so often and,
     # furthermore, it can cause a loss of performance
-    if ($self->{'conf-reload-interval'} != 0) {
-        if ($self->{'conf-reload-interval'} < 0) {
-            $self->{'conf-reload-interval'} = 0;
-        } elsif ($self->{'conf-reload-interval'} < $confReloadIntervalMinValue) {
-            $self->{'conf-reload-interval'} = $confReloadIntervalMinValue;
+    if ($self->{_}->{'conf-reload-interval'} != 0) {
+        if ($self->{_}->{'conf-reload-interval'} < 0) {
+            $self->{_}->{'conf-reload-interval'} = 0;
+        } elsif ($self->{_}->{'conf-reload-interval'} < $confReloadIntervalMinValue) {
+            $self->{_}->{'conf-reload-interval'} = $confReloadIntervalMinValue;
         }
     }
 }
