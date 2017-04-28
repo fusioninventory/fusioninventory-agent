@@ -1,1 +1,5 @@
-no-module=netinventory,wakeonlan
+[inventory]
+disable = 1
+
+[wakeonlan]
+disable = 1

@@ -116,7 +116,7 @@ sub init {
     }
 
     # compute list of allowed modules
-    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-module'});
+    my %available = $self->getAvailableTasks();
 
     my @tasks = keys %available;
 
@@ -195,7 +195,7 @@ sub reinit {
     $self->_saveState();
 
     # compute list of allowed modules
-    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-module'});
+    my %available = $self->getAvailableTasks();
 
     my @tasks = keys %available;
 
@@ -469,7 +469,6 @@ sub getAvailableTasks {
     my ($self, %params) = @_;
 
     my %tasks;
-    my %disabled  = map { lc($_) => 1 } @{$params{disabledTasks}};
 
     # tasks may be located only in agent libdir
     my $directory = $self->{libdir};
@@ -481,7 +480,7 @@ sub getAvailableTasks {
         my $module = file2module($1);
         my $name = file2module($2);
 
-        next if $disabled{lc($name)};
+        next if $self->{config}->{lc($name)}->{disabled};
 
         my $version;
         if ($self->{config}->{daemon} || $self->{config}->{service}) {

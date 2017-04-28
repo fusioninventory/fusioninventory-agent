@@ -17,7 +17,6 @@ my %config = (
     sample1 => {
         file => 'resources/config/sample1',
         _ => {
-            'no-module'            => ['netinventory', 'wakeonlan'],
             'tag'                  => undef
         },
         server => {
@@ -44,12 +43,17 @@ my %config = (
         },
         config => {
             'reload-interval' => 0,
-        }
+        },
+        inventory => {
+            disable => 1
+        },
+        wakeonlan => {
+            disable => 1
+        },
     },
     sample2 => {
         file => 'resources/config/sample2',
         _ => {
-            'no-module'            => [],
             'tag'                  => undef
         },
         server => {
@@ -81,7 +85,6 @@ my %config = (
     sample3 => {
         file => 'resources/config/sample3',
         _ => {
-            'no-module'            => [],
             'tag'                  => undef
         },
         server => {
@@ -113,7 +116,6 @@ my %config = (
     sample4 => {
         file => 'resources/config/sample4',
         _ => {
-            'no-module'            => ['netinventory', 'wakeonlan', 'inventory'],
             'tag'                  => undef
         },
         server => {
@@ -140,7 +142,16 @@ my %config = (
         },
         config => {
             'reload-interval' => 60,
-        }
+        },
+        netinventory => {
+            disable => 1
+        },
+        wakeonlan => {
+            disable => 1
+        },
+        inventory => {
+            disable => 1
+        },
     }
 );
 

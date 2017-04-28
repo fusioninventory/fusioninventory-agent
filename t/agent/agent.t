@@ -81,12 +81,8 @@ cmp_deeply (
     "multiple tasks"
 );
 
-$agent->{config} = FusionInventory::Agent::Config->create(
-    backend => 'file',
-    file    =>  'etc/agent.cfg'
-);
-$agent->{config}->{'no-module'} = ['Task5'];
-%tasks = $agent->getAvailableTasks(disabledTasks => ['Task5']);
+$agent->{config}->{task5}->{disabled} = 1;
+%tasks = $agent->getAvailableTasks();
 cmp_deeply (
     \%tasks,
     {

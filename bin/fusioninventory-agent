@@ -28,7 +28,6 @@ GetOptions(
     'logger-backend=s',
     'logger-file=s',
     'logger-maxsize=i',
-    'no-module=s',
     'no-fork',
     'pidfile=s',
     'listener-disable',
@@ -126,7 +125,6 @@ eval {
     $agent->init(
         options => {
             _ => {
-                no_module => $options->{'no-module'},
                 tag       => $options->{'tag'},
             },
             server => {
@@ -176,7 +174,6 @@ B<fusioninventory-agent> [options] [--server server]
 
   Module selection options:
     --list-modules                     list available modules and exit
-    --no-module=MODULE[,MODULE]...     do not run given module
 
   Server options:
     -s --server-url=URL            control server URL
@@ -242,13 +239,6 @@ example, the two lines below are all equivalent:
 =item B<--list-modules>
 
 List all available modules, modules planned for execution and exit
-
-=item B<--no-module>=I<MODULE>
-
-Do not run given module.
-
-Multiple values can be specified, using comma as a separator. See option
-I<--list-modules> for the list of available modules.
 
 =back
 

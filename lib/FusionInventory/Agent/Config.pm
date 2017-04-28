@@ -14,7 +14,6 @@ require FusionInventory::Agent::Tools;
 
 my $default = {
     _ => {
-        'no-module'            => [],
         'tag'                  => undef,
     },
     server => {
@@ -212,9 +211,6 @@ sub _checkContent {
     }
 
     # multi-values options, the def{ault separator is a ','
-    $self->{_}->{'no-module'} =
-        $self->{_}->{'no-module'} && ! ref $self->{_}->{'no-module'} ?
-    [ split(/,/, $self->{_}->{'no-module'}) ] : [] ;
     $self->{listener}->{trust} =
         $self->{listener}->{trust} && ! ref $self->{listener}->{trust} ?
         [ split(/,/, $self->{listener}->{trust}) ] : [];
