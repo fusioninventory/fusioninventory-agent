@@ -27,7 +27,7 @@ sub create {
         FusionInventory::Agent::Logger::Syslog->require();
         return FusionInventory::Agent::Logger::Syslog->new(
             verbosity => $params{verbosity},
-            facility  => $params{config}->{'facility'},
+            facility  => $params{facility},
         );
     }
 
@@ -35,8 +35,8 @@ sub create {
         FusionInventory::Agent::Logger::File->require();
         return FusionInventory::Agent::Logger::File->new(
             verbosity => $params{verbosity},
-            file      => $params{config}->{file},
-            maxsize   => $params{config}->{maxsize},
+            file      => $params{file},
+            maxsize   => $params{maxsize},
         );
     }
 

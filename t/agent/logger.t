@@ -97,7 +97,7 @@ my $logfile;
 $logfile = "$tmpdir/test1";
 $logger = FusionInventory::Agent::Logger->create(
     backend => 'File',
-    config  => { file => $logfile }
+    file => $logfile
 );
 
 $logger->debug('message');
@@ -110,7 +110,7 @@ ok(
 $logfile = "$tmpdir/test2";
 $logger = FusionInventory::Agent::Logger->create(
     backend   => 'File',
-    config    => { file => $logfile },
+    file      => $logfile,
     verbosity => LOG_DEBUG
 );
 $logger->debug('message');
@@ -146,8 +146,8 @@ is(
 
 $logfile = "$tmpdir/test3";
 $logger = FusionInventory::Agent::Logger->create(
-    backend  => 'File',
-    config   => { file => $logfile },
+    backend => 'File',
+    file    => $logfile,
 );
 fillLogFile($logger);
 ok(
@@ -158,10 +158,8 @@ ok(
 $logfile = "$tmpdir/test4";
 $logger = FusionInventory::Agent::Logger->create(
     backend  => 'File',
-    config   => {
-        file    => $logfile,
-        maxsize => 1
-    }
+    file    => $logfile,
+    maxsize => 1
 );
 fillLogFile($logger);
 ok(

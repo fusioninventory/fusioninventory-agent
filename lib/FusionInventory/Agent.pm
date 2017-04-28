@@ -80,8 +80,10 @@ sub init {
                                                                 LOG_INFO   ;
 
     my $logger = FusionInventory::Agent::Logger->create(
-        config    => $config->{logger},
         backend   => $config->{logger}->{backend},
+        file      => $config->{logger}->{file},
+        maxsize   => $config->{logger}->{maxsize},
+        facility  => $config->{logger}->{facility},
         verbosity => $verbosity
     );
     $self->{logger} = $logger;
@@ -170,8 +172,9 @@ sub reinit {
     my $logger = undef;
     if (! defined($self->{logger})) {
         $logger = FusionInventory::Agent::Logger->create(
-            config    => $config->{logger},
-            backend   => $config->{logger}->{backend},
+            file      => $config->{logger}->{file},
+            maxsize   => $config->{logger}->{maxsize},
+            facility  => $config->{logger}->{facility},
             verbosity => $verbosity
         );
         $self->{logger} = $logger;
