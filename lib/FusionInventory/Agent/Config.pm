@@ -27,7 +27,7 @@ my $default = {
         'timeout'              => 180,
         'user'                 => undef,
     },
-    httpd => {
+    listener => {
         'no-httpd'             => undef,
         'httpd-ip'             => undef,
         'httpd-port'           => 62354,
@@ -214,10 +214,10 @@ sub _checkContent {
         $self->{_}->{'no-module'} &&
         ! ref $self->{_}->{'no-module'} ?
             [ split(/,/, $self->{_}->{'no-module'}) ] : [] ;
-    $self->{httpd}->{'httpd-trust'} =
-        $self->{httpd}->{'httpd-trust'} &&
-        ! ref $self->{httpd}->{'httpd-trust'} ?
-            [ split(/,/, $self->{httpd}->{'httpd-trust'}) ] : [];
+    $self->{listener}->{'httpd-trust'} =
+        $self->{listener}->{'httpd-trust'} &&
+        ! ref $self->{listener}->{'httpd-trust'} ?
+            [ split(/,/, $self->{listener}->{'httpd-trust'}) ] : [];
 
     # files location
     $self->{http}->{'ca-cert-path'} =

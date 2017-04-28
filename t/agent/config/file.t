@@ -30,7 +30,7 @@ my %config = (
             'timeout'      => 180,
             'user'         => undef,
         },
-        httpd => {
+        listener => {
             'httpd-trust' => [],
             'httpd-port'  => 62354,
             'httpd-ip'    => undef,
@@ -60,7 +60,7 @@ my %config = (
             'timeout'      => 180,
             'user'         => undef,
         },
-        httpd => {
+        listener => {
             'httpd-trust' => ['example', '127.0.0.1', 'foobar', '123.0.0.0/10'],
             'httpd-port'  => 62354,
             'httpd-ip'    => undef,
@@ -90,7 +90,7 @@ my %config = (
             'timeout'      => 180,
             'user'         => undef,
         },
-        httpd => {
+        listener => {
             'httpd-trust' => [],
             'httpd-port'  => 62354,
             'httpd-ip'    => undef,
@@ -120,7 +120,7 @@ my %config = (
             'timeout'      => 180,
             'user'         => undef,
         },
-        httpd => {
+        listener => {
             'httpd-trust' => [],
             'httpd-port'  => 62354,
             'httpd-ip'    => undef,

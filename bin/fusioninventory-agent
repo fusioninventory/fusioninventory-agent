@@ -138,7 +138,7 @@ eval {
                 timeout      => $options->{'timeout'},
                 user         => $options->{'user'},
             },
-            httpd => {
+            listener => {
                 no_httpd    => $options->{'no-httpd'},
                 httpd_ip    => $options->{'httpd-ip'},
                 httpd_port  => $options->{'httpd-port'},
