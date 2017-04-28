@@ -44,7 +44,6 @@ sub create {
         FusionInventory::Agent::Logger::Stderr->require();
         return FusionInventory::Agent::Logger::Stderr->new(
             verbosity => $params{verbosity},
-            color     => $params{config}->{'color'}
         );
     }
 
