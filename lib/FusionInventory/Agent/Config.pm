@@ -201,11 +201,11 @@ sub _checkContent {
 
     # a logfile options implies a file logger backend
     if ($self->{logger}->{logfile}) {
-        $self->{logger}->{logger} .= ',File';
+        $self->{logger}->{logger} = 'file';
     }
 
     # logger backend without a logfile isn't enoguh
-    if ($self->{logger}->{logger} =~ /file/i && ! $self->{logger}->{logfile}) {
+    if ($self->{logger}->{logger} eq 'file' && ! $self->{logger}->{logfile}) {
         die "usage of 'file' logger backend makes 'logfile' option mandatory\n";
     }
 
