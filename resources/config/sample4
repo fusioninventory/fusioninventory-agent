@@ -1,2 +1,4 @@
 no-module=netinventory,wakeonlan,inventory
-conf-reload-interval=15
+
+[config]
+reload-interval=15

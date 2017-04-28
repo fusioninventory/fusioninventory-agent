@@ -35,7 +35,7 @@ like(
 
 my $regconf = $OSNAME eq 'MSWin32' ? keys(%{FusionInventory::Test::Utils::openWin32Registry()}) : 0;
 
-($out, $err, $rc) = run_executable('fusioninventory-agent', $regconf ? '--config none' : undef);
+($out, $err, $rc) = run_executable('fusioninventory-agent', $regconf ? '--config-backend none' : undef);
 ok($rc == 1, 'no control server exit status');
 like(
     $err,
@@ -46,12 +46,12 @@ is($out, '', 'no target stdout');
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-agent',
-    '--config none --conf-file /foo/bar'
+    '--config-backend none --config-file /foo/bar'
 );
 ok($rc == 1, 'incompatible options exit status');
 like(
     $err,
-    qr/don't use --conf-file/,
+    qr/don't use --config-file/,
     'incompatible options stderr'
 );
 is($out, '', 'incompatible options stdout');

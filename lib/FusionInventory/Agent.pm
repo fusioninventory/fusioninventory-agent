@@ -689,7 +689,7 @@ sub _isReloadConfNeeded {
 
     my $time = time;
     #$self->{logger}->debug2('_isReloadConfNeeded : ' . $self->{lastConfigLoad} . ' - ' . $time . ' > ' . $self->{config}->{'conf-reload-interval'} . ' ?');
-    return ($self->{config}->{_}->{'conf-reload-interval'} > 0) && (($time - $self->{lastConfigLoad}) > $self->{config}->{_}->{'conf-reload-interval'});
+    return ($self->{config}->{config}->{'reload-interval'} > 0) && (($time - $self->{lastConfigLoad}) > $self->{config}->{config}->{'reload-interval'});
 }
 
 1;

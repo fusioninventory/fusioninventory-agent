@@ -18,7 +18,6 @@ my %config = (
         file => 'resources/config/sample1',
         _ => {
             'no-module'            => ['netinventory', 'wakeonlan'],
-            'conf-reload-interval' => 0,
             'tag'                  => undef
         },
         server => {
@@ -42,13 +41,15 @@ my %config = (
             'file'     => undef,
             'maxsize'  => undef,
             'facility' => 'LOG_USER',
+        },
+        config => {
+            'reload-interval' => 0,
         }
     },
     sample2 => {
         file => 'resources/config/sample2',
         _ => {
             'no-module'            => [],
-            'conf-reload-interval' => 0,
             'tag'                  => undef
         },
         server => {
@@ -72,13 +73,15 @@ my %config = (
             'file'     => undef,
             'maxsize'  => undef,
             'facility' => 'LOG_USER',
+        },
+        config => {
+            'reload-interval' => 0,
         }
     },
     sample3 => {
         file => 'resources/config/sample3',
         _ => {
             'no-module'            => [],
-            'conf-reload-interval' => 3600,
             'tag'                  => undef
         },
         server => {
@@ -102,13 +105,15 @@ my %config = (
             'file'     => undef,
             'maxsize'  => undef,
             'facility' => 'LOG_USER',
+        },
+        config => {
+            'reload-interval' => 3600,
         }
     },
     sample4 => {
         file => 'resources/config/sample4',
         _ => {
             'no-module'            => ['netinventory', 'wakeonlan', 'inventory'],
-            'conf-reload-interval' => 60,
             'tag'                  => undef
         },
         server => {
@@ -132,6 +137,9 @@ my %config = (
             'file'     => undef,
             'maxsize'  => undef,
             'facility' => 'LOG_USER',
+        },
+        config => {
+            'reload-interval' => 60,
         }
     }
 );

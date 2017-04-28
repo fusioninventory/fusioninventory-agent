@@ -16,7 +16,6 @@ my $default = {
     _ => {
         'no-module'            => [],
         'tag'                  => undef,
-        'conf-reload-interval' => 0,
     },
     server => {
         'url'                  => undef,
@@ -40,6 +39,9 @@ my $default = {
         'maxsize'              => undef,
         'debug'                => undef,
     },
+    config => {
+        'reload-interval'      => 0,
+    }
 };
 
 my $deprecated = {
@@ -229,11 +231,11 @@ sub _checkContent {
     # If value is less than the required minimum, we force it to that
     # minimum because it's useless to reload the config so often and,
     # furthermore, it can cause a loss of performance
-    if ($self->{_}->{'conf-reload-interval'} != 0) {
-        if ($self->{_}->{'conf-reload-interval'} < 0) {
-            $self->{_}->{'conf-reload-interval'} = 0;
-        } elsif ($self->{_}->{'conf-reload-interval'} < $confReloadIntervalMinValue) {
-            $self->{_}->{'conf-reload-interval'} = $confReloadIntervalMinValue;
+    if ($self->{config}->{'reload-interval'} != 0) {
+        if ($self->{config}->{'reload-interval'} < 0) {
+            $self->{config}->{'reload-interval'} = 0;
+        } elsif ($self->{config}->{'reload-interval'} < $confReloadIntervalMinValue) {
+            $self->{config}->{'reload-interval'} = $confReloadIntervalMinValue;
         }
     }
 }

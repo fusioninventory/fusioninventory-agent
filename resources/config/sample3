@@ -1,1 +1,2 @@
-conf-reload-interval=3600
+[config]
+reload-interval=3600
