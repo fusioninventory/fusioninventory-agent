@@ -81,7 +81,7 @@ sub init {
 
     my $logger = FusionInventory::Agent::Logger->create(
         config    => $config->{logger},
-        backend   => $config->{logger}->{logger},
+        backend   => $config->{logger}->{backend},
         verbosity => $verbosity
     );
     $self->{logger} = $logger;
@@ -171,7 +171,7 @@ sub reinit {
     if (! defined($self->{logger})) {
         $logger = FusionInventory::Agent::Logger->create(
             config    => $config->{logger},
-            backend   => $config->{logger}->{logger},
+            backend   => $config->{logger}->{backend},
             verbosity => $verbosity
         );
         $self->{logger} = $logger;

@@ -13,9 +13,8 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
-    $self->{file}    = $params{logfile},
-    $self->{maxsize} =
-        $params{logfile_maxsize} ? $params{logfile_maxsize} * 1024 * 1024 : 0;
+    $self->{file}    = $params{file},
+    $self->{maxsize} = $params{maxsize} ? $params{maxsize} * 1024 * 1024 : 0;
 
     return $self;
 }

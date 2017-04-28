@@ -34,9 +34,9 @@ sub create {
     if ($backend eq 'file') {
         FusionInventory::Agent::Logger::File->require();
         return FusionInventory::Agent::Logger::File->new(
-            verbosity       => $params{verbosity},
-            logfile         => $params{config}->{'logfile'},
-            logfile_maxsize => $params{config}->{'logfile-maxsize'},
+            verbosity => $params{verbosity},
+            file      => $params{config}->{file},
+            maxsize   => $params{config}->{maxsize},
         );
     }
 

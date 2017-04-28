@@ -145,11 +145,11 @@ eval {
                 httpd_trust => $options->{'httpd-trust'},
             },
             logger => {
-                debug           => $options->{'debug'},
-                logger          => $options->{'logger'},
-                logfile         => $options->{'logfile'},
-                logfile_maxsize => $options->{'logfile-maxsize'},
-                logfacility     => $options->{'logfacility'},
+                debug        => $options->{'debug'},
+                logger       => $options->{'logger'},
+                file         => $options->{'logfile'},
+                maxsize      => $options->{'logfile-maxsize'},
+                facility     => $options->{'logfacility'},
             }
         }
     );

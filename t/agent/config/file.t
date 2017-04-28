@@ -37,11 +37,11 @@ my %config = (
             'no-httpd'    => undef,
         },
         logger => {
-            'debug'           => undef,
-            'logfile'         => undef,
-            'logfile-maxsize' => undef,
-            'logfacility'     => 'LOG_USER',
-            'logger'          => 'Stderr',
+            'backend'  => 'Stderr',
+            'debug'    => undef,
+            'file'     => undef,
+            'maxsize'  => undef,
+            'facility' => 'LOG_USER',
         }
     },
     sample2 => {
@@ -67,11 +67,11 @@ my %config = (
             'no-httpd'    => undef,
         },
         logger => {
-            'debug'           => undef,
-            'logfile'         => undef,
-            'logfile-maxsize' => undef,
-            'logfacility'     => 'LOG_USER',
-            'logger'          => 'Stderr',
+            'backend'  => 'Stderr',
+            'debug'    => undef,
+            'file'     => undef,
+            'maxsize'  => undef,
+            'facility' => 'LOG_USER',
         }
     },
     sample3 => {
@@ -97,11 +97,11 @@ my %config = (
             'no-httpd'    => undef,
         },
         logger => {
-            'debug'           => undef,
-            'logfile'         => undef,
-            'logfile-maxsize' => undef,
-            'logfacility'     => 'LOG_USER',
-            'logger'          => 'Stderr',
+            'backend'  => 'Stderr',
+            'debug'    => undef,
+            'file'     => undef,
+            'maxsize'  => undef,
+            'facility' => 'LOG_USER',
         }
     },
     sample4 => {
@@ -127,11 +127,11 @@ my %config = (
             'no-httpd'    => undef,
         },
         logger => {
-            'debug'           => undef,
-            'logfile'         => undef,
-            'logfile-maxsize' => undef,
-            'logfacility'     => 'LOG_USER',
-            'logger'          => 'Stderr',
+            'backend'  => 'Stderr',
+            'debug'    => undef,
+            'file'     => undef,
+            'maxsize'  => undef,
+            'facility' => 'LOG_USER',
         }
     }
 );

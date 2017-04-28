@@ -34,10 +34,10 @@ my $default = {
         'httpd-trust'          => [],
     },
     logger => {
-        'logger'               => 'Stderr',
-        'logfile'              => undef,
-        'logfacility'          => 'LOG_USER',
-        'logfile-maxsize'      => undef,
+        'backend'              => 'Stderr',
+        'file'                 => undef,
+        'facility'             => 'LOG_USER',
+        'maxsize'              => undef,
         'debug'                => undef,
     },
 };
@@ -201,11 +201,11 @@ sub _checkContent {
 
     # a logfile options implies a file logger backend
     if ($self->{logger}->{logfile}) {
-        $self->{logger}->{logger} = 'file';
+        $self->{logger}->{backend} = 'file';
     }
 
     # logger backend without a logfile isn't enoguh
-    if ($self->{logger}->{logger} eq 'file' && ! $self->{logger}->{logfile}) {
+    if ($self->{logger}->{backend} eq 'file' && ! $self->{logger}->{logfile}) {
         die "usage of 'file' logger backend makes 'logfile' option mandatory\n";
     }
 
