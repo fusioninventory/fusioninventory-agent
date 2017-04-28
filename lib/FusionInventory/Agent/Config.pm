@@ -15,11 +15,11 @@ require FusionInventory::Agent::Tools;
 my $default = {
     _ => {
         'no-module'            => [],
-        'server'               => undef,
         'tag'                  => undef,
         'conf-reload-interval' => 0,
     },
-    http => {
+    server => {
+        'url'                  => undef,
         'ca-cert-path'         => undef,
         'no-ssl-check'         => undef,
         'proxy'                => undef,
@@ -45,17 +45,17 @@ my $default = {
 my $deprecated = {
     _ => {
         'ca-cert-dir' => {
-            message => 'use http/ca-cert-path option instead',
+            message => 'use server/ca-cert-path option instead',
             new     => sub {
                 my ($config, $value) = @_;
-                $config->{http}->{'ca-cert-path'} = $value;
+                $config->{server}->{'ca-cert-path'} = $value;
             },
         },
         'ca-cert-file' => {
-            message => 'use http/ca-cert-path option instead',
+            message => 'use server/ca-cert-path option instead',
             new     => sub {
                 my ($config, $value) = @_;
-                $config->{http}->{'ca-cert-path'} = $value;
+                $config->{server}->{'ca-cert-path'} = $value;
             },
         },
         'color' => {
@@ -218,9 +218,9 @@ sub _checkContent {
         [ split(/,/, $self->{listener}->{trust}) ] : [];
 
     # files location
-    $self->{http}->{'ca-cert-path'} =
-        File::Spec->rel2abs($self->{http}->{'ca-cert-path'})
-        if $self->{http}->{'ca-cert-path'};
+    $self->{server}->{'ca-cert-path'} =
+        File::Spec->rel2abs($self->{server}->{'ca-cert-path'})
+        if $self->{server}->{'ca-cert-path'};
     $self->{logger}->{'logfile'} =
         File::Spec->rel2abs($self->{logger}->{'logfile'})
         if $self->{logger}->{'logfile'};

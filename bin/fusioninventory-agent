@@ -127,10 +127,10 @@ eval {
         options => {
             _ => {
                 no_module => $options->{'no-module'},
-                server    => $options->{'server'},
                 tag       => $options->{'tag'},
             },
-            http => {
+            server => {
+                url          => $options->{'server'},
                 ca_cert_path => $options->{'ca-cert-path'},
                 no_ssl_check => $options->{'no-ssl-check'},
                 password     => $options->{'password'},

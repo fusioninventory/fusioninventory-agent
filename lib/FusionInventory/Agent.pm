@@ -105,13 +105,13 @@ sub init {
 
     $self->_saveState();
 
-    if (! $config->{server}) {
+    if (! $config->{server}->{url}) {
         $logger->error("No control server defined, aborting");
         exit 1;
     } else {
         $self->{controller} = FusionInventory::Agent::Controller->new(
             logger     => $self->{logger},
-            url        => $config->{server},
+            url        => $config->{server}->{url},
         );
     }
 
