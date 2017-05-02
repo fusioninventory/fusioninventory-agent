@@ -515,6 +515,9 @@ sub _getFirmware {
     my $firmware = $snmp->get('.1.3.6.1.4.1.248.14.1.1.2.0');
     return $firmware if $firmware;
 
+    $firmware = $snmp->get('.1.3.6.1.4.1.2636.3.40.1.4.1.1.1.5.0');
+    return $firmware if $firmware;
+
     return;
 }
 
