@@ -222,7 +222,8 @@ sub getDevicesFromProc {
             NAME         => $name,
             MANUFACTURER => _getValueFromSysProc($logger, $name, 'vendor'),
             MODEL        => _getValueFromSysProc($logger, $name, 'model'),
-            FIRMWARE     => _getValueFromSysProc($logger, $name, 'rev'),
+            FIRMWARE     => _getValueFromSysProc($logger, $name, 'rev')
+                || _getValueFromSysProc($logger, $name, 'firmware_rev'),
             SERIALNUMBER => _getValueFromSysProc($logger, $name, 'serial'),
             TYPE         =>
                 _getValueFromSysProc($logger, $name, 'removable') ?
