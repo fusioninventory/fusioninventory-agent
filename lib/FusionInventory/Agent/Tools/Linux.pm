@@ -215,6 +215,8 @@ sub getDevicesFromProc {
     my %seen;
     @names = grep { !$seen{$_}++ } @names;
 
+    my $udisksctl = canRun('udisksctl');
+
     # extract information
     my @devices;
     foreach my $name (@names) {
@@ -236,6 +238,16 @@ sub getDevicesFromProc {
             next unless ($link && $link =~ m|^/sys/bus/(\w+)$|);
             $device->{DESCRIPTION} = uc($1);
             last;
+        }
+
+        # Check removable capacity as HintAuto via udiskctl while available
+        if ($udisksctl && $device->{TYPE} eq 'disk') {
+            my $hintauto = getFirstMatch(
+                    command => "udisksctl info -b /dev/$name",
+                    pattern => qr/^\s+HintAuto:\s+(true|false)$/
+            );
+            $device->{TYPE} = 'removable'
+                if ( $hintauto && $hintauto eq 'true' );
         }
 
         push @devices, $device;
