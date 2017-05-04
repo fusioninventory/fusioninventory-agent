@@ -250,6 +250,7 @@ sub _getValueFromSysProc {
     ## no critic (ExplicitReturnUndef)
 
     my $file =
+        -f "/sys/block/$device/$key"        ? "/sys/block/$device/$key" :
         -f "/sys/block/$device/device/$key" ? "/sys/block/$device/device/$key" :
         -f "/proc/ide/$device/$key"         ? "/proc/ide/$device/$key" :
                                               undef;
