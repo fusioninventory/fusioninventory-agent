@@ -252,10 +252,9 @@ sub _getValueFromSysProc {
     my $value = <$handle>;
     close $handle;
 
-    chomp $value;
     $value =~ s/^(\w+)\W*/$1/;
 
-    return $value;
+    return trimWhitespace($value);
 }
 
 sub getInfoFromSmartctl {
