@@ -77,9 +77,35 @@ my %tests_mfiutil = (
     ]
 );
 
+my $tests_sysctl = {
+    pfsense1 => {
+        'content'  => [
+            {
+                DESCRIPTION  => '<QEMU HARDDISK 1.0> ATA-7 device',
+                NAME         => 'ada0',
+                TYPE         => 'disk',
+                SERIALNUMBER => 'QM00001',
+                DISKSIZE => 4294967296,
+                MODEL => 'QEMU HARDDISK 1.0'
+            },
+            {
+                DESCRIPTION  => '<QEMU QEMU DVD-ROM 1.0> Removable CD-ROM SCSI device',
+                NAME         => 'cd0',
+                TYPE         => 'cdrom',
+                SERIALNUMBER => 'QM00003',
+                DISKSIZE => 0,
+                MODEL => 'QEMU QEMU DVD-ROM 1.0'
+            }
+        ],
+        dmesgFile  => 'dmesg',
+        sysctlFile => 'kern.geom.confxml'
+    }
+};
+
 plan tests =>
     (2 * scalar keys %tests_fstab)   +
     (2 * scalar keys %tests_mfiutil) +
+    scalar (keys %$tests_sysctl) +
     1;
 
 my $inventory = FusionInventory::Agent::Inventory->new();
@@ -102,4 +128,19 @@ foreach my $test (keys %tests_mfiutil) {
         $inventory->addEntry(section => 'STORAGES', entry => $_)
             foreach @results;
     } "$test: registering";
+}
+
+my $pathToBSDFiles = 'resources/bsd/storages/';
+for my $test (keys %$tests_sysctl) {
+    my @results = FusionInventory::Agent::Task::Inventory::BSD::Storages::_retrieveStoragesFromSysCtl(
+        dmesgFile => $pathToBSDFiles . $tests_sysctl->{$test}->{dmesgFile},
+        sysctlFile => $pathToBSDFiles . $tests_sysctl->{$test}->{sysctlFile}
+    );
+    @results = sort { $a->{NAME} cmp $b->{NAME} } @results;
+    my @expected = sort { $a->{NAME} cmp $b->{NAME} } @{$tests_sysctl->{$test}->{content}};
+    cmp_deeply(
+        \@results,
+        \@expected,
+        $test
+    );
 }
