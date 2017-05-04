@@ -187,6 +187,13 @@ sub getDevicesFromProc {
         push @names, $1;
     }
 
+    # add any block device identified as device by the kernel like SSD disks or
+    # removable disks (SD cards and others)
+    foreach my $file (glob ("/sys/block/*/device")) {
+        next unless $file =~ m|([^/]*)/device$|;
+        push @names, $1;
+    }
+
     my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
         "/sbin/fdisk -p -l" :
         "/sbin/fdisk -l"    ;
