@@ -74,14 +74,12 @@ sub _getDevices {
     }
 
     foreach my $device (@devices) {
-        if (!$device->{DESCRIPTION}) {
-            $device->{DESCRIPTION} = _getDescription(
-                $device->{NAME},
-                $device->{MANUFACTURER},
-                $device->{DESCRIPTION},
-                $device->{SERIALNUMBER}
-            );
-        }
+        $device->{DESCRIPTION} = _fixDescription(
+            $device->{NAME},
+            $device->{MANUFACTURER},
+            $device->{DESCRIPTION},
+            $device->{SERIALNUMBER}
+        );
 
         if (!$device->{MANUFACTURER} or $device->{MANUFACTURER} eq 'ATA') {
             $device->{MANUFACTURER} = getCanonicalManufacturer(
@@ -134,14 +132,14 @@ sub _getDevicesBase {
     return;
 }
 
-sub _getDescription {
+sub _fixDescription {
     my ($name, $manufacturer, $description, $serialnumber) = @_;
 
     # detected as USB by udev
     # TODO maybe we should trust udev detection by default?
     return "USB" if ($description && $description =~ /usb/i);
 
-    if ($name =~ /^s/) { # /dev/sd* are SCSI _OR_ SATA
+    if ($name =~ /^sd/) { # /dev/sd* are SCSI _OR_ SATA
         if (
             ($manufacturer && $manufacturer =~ /ATA/) ||
             ($serialnumber && $serialnumber =~ /ATA/) ||
@@ -151,10 +149,12 @@ sub _getDescription {
         } else {
             return "SCSI";
         }
-    } elsif ($name =~ /^vd/) {
+    } elsif ($name =~ /^vd/  ||
+            ($description && $description =~ /VIRTIO/)
+        ) {
             return "Virtual";
     } else {
-        return "IDE";
+        return $description || "IDE";
     }
 }
 
