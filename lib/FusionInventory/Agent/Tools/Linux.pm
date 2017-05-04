@@ -229,6 +229,15 @@ sub getDevicesFromProc {
                 _getValueFromSysProc($logger, $name, 'removable') ?
                     'removable' : 'disk'
         };
+
+        # Support PCI or other bus case as description
+        foreach my $subsystem ("device/subsystem","device/device/subsystem") {
+            my $link = _readLinkFromSysFs($logger,"/sys/block/$name/$subsystem");
+            next unless ($link && $link =~ m|^/sys/bus/(\w+)$|);
+            $device->{DESCRIPTION} = uc($1);
+            last;
+        }
+
         push @devices, $device;
     }
 
@@ -256,6 +265,34 @@ sub _getValueFromSysProc {
     $value =~ s/^(\w+)\W*/$1/;
 
     return trimWhitespace($value);
+}
+
+sub _readLinkFromSysFs {
+    my ($logger, $path) = @_;
+
+    ## no critic (ExplicitReturnUndef)
+
+    my @path = split('/', $path);
+
+    return undef unless (!shift(@path) && shift(@path) eq 'sys');
+
+    my @sys = ();
+
+    while (@path) {
+        push @sys, shift(@path);
+        my $link = readlink('/sys/'.join('/', @sys));
+        next unless $link;
+        pop @sys;
+        foreach my $sub (split('/',$link)) {
+            if ($sub eq '..') {
+                pop @sys;
+            } else {
+                push @sys, $sub;
+            }
+        }
+    }
+
+    return '/sys/'.join('/', @sys);
 }
 
 sub getInfoFromSmartctl {
