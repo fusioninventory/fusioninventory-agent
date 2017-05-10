@@ -174,6 +174,9 @@ sub processRemote {
             msg    => 'all checks are ok'
         );
 
+        # USER INTERACTION
+        next if $job->next_on_usercheck(type => 'before');
+
         $logger->debug2("Downloading for job $job->{uuid}...");
 
         # DOWNLOADING
@@ -336,6 +339,9 @@ sub processRemote {
 
             $actionnum++;
         }
+
+        # USER INTERACTION
+        next if $job->next_on_usercheck(type => 'after');
 
         $logger->debug2("Finished job $job->{uuid}...");
 

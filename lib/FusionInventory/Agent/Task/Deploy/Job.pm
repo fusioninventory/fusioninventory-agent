@@ -147,4 +147,48 @@ sub skip_on_check_failure {
     return 0;
 }
 
+sub next_on_usercheck {
+    my ($self, %params) = @_;
+
+    my $logger = $self->{logger};
+    my $checks = $params{userchecks} || $self->{userchecks};
+    my $type   = $params{type} || 'after';
+
+    return 0 unless $checks;
+    unless (ref($checks) eq 'ARRAY') {
+        $logger->debug("usercheck $type: unexpected usercheck request") if $logger;
+        return 0;
+    }
+
+    # Server is meant to only request one usercheck of supported type: before|after
+    my @checks = grep { $_->{type} && $_->{type} eq $type } @{$checks} ;
+    unless (@checks) {
+        $logger->debug2("usercheck $type: no user interaction requested") if $logger;
+        return 0;
+    }
+
+    while ( @checks ) {
+        my $check = FusionInventory::Agent::Task::Deploy::UserCheck->new(
+            check  => shift @checks,
+            logger => $logger
+        );
+
+        next unless $check;
+
+        # Warning: Agent may wait here for user response
+        $check->tell_user();
+
+        my $status = $check->status_for_server();
+        if (defined($status) && ref($status) eq 'HASH') {
+            $self->setStatus($status);
+        } else {
+            $logger->error("usercheck $type: unsupported status for server");
+        }
+
+        return 1 if ($check->stopped());
+    }
+
+    return 0;
+}
+
 1;
