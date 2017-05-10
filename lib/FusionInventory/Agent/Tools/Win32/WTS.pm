@@ -126,8 +126,8 @@ sub WTSSendMessage {
 
     my $timeout = defined($message->{timeout}) ?
         $message->{timeout} : 60 ;
-    my $wait    = defined($message->{wait}) ?
-        $message->{wait} : 1 ;
+
+    my $wait = (!defined($message->{wait}) || $message->{wait} =~ /^0|no|false$/i) ? 0 : 1 ;
 
     # Buttons/icons definitions, see:
     # https://msdn.microsoft.com/en-us/library/ms645505(v=vs.85).aspx
