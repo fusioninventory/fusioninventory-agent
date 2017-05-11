@@ -238,6 +238,9 @@ sub processRemote {
                     redo FETCHFILE;
                 } else { # Give up...
 
+                    # USER INTERACTION after download failure
+                    $job->next_on_usercheck(type => 'after_download_failure');
+
                     $job->setStatus(
                         file   => $file,
                         status => 'ko',
@@ -255,10 +258,16 @@ sub processRemote {
             msg    => 'success'
         );
 
+        # USER INTERACTION after download
+        next if $job->next_on_usercheck(type => 'after_download');
+
         $logger->debug2("Preparation for job $job->{uuid}...");
 
         $job->currentStep('prepare');
         if (!$workdir->prepare()) {
+            # USER INTERACTION on preparation failure
+            $job->next_on_usercheck(type => 'after_failure');
+
             $job->setStatus(
                 status => 'ko',
                 msg    => 'failed to prepare work dir'
@@ -323,6 +332,9 @@ sub processRemote {
 
             if ( !$ret->{status} ) {
 
+                # USER INTERACTION after action failure
+                $job->next_on_usercheck(type => 'after_failure');
+
                 $job->setStatus(
                     status    => 'ko',
                     actionnum => $actionnum,
@@ -341,7 +353,7 @@ sub processRemote {
         }
 
         # USER INTERACTION
-        next if $job->next_on_usercheck(type => 'after');
+        $job->next_on_usercheck(type => 'after');
 
         $logger->debug2("Finished job $job->{uuid}...");
 
