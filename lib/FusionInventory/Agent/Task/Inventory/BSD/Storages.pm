@@ -60,18 +60,17 @@ sub _getDevicesFromSysCtl {
     my @devices = ();
     for my $class (@{$tree->{mesh}->{class}}) {
         my $name = $class->{name} || $class->{'#name'} || '';
-        print 'name: ' . $name . "\n";
-        next unless $name && $name eq 'DISK';
+        next unless ($name && $name eq 'DISK');
         for my $geom (@{$class->{geom}}) {
             my $device = {};
             $device->{NAME} = $geom->{name} if $geom->{name};
             $device->{DESCRIPTION} = $geom->{provider}->{config}->{descr}
-                if $geom->{provider}
+                if ($geom->{provider}
                     && $geom->{provider}->{config}
-                    && $geom->{provider}->{config}->{descr};
+                    && $geom->{provider}->{config}->{descr});
             $device->{DISKSIZE} = $geom->{provider}->{mediasize}
-                if $geom->{provider}
-                    && defined $geom->{provider}->{mediasize};
+                if ($geom->{provider}
+                    && defined $geom->{provider}->{mediasize});
             $device->{TYPE} = _retrieveDeviceTypeFromName($device->{NAME});
             push @devices, $device;
         }
