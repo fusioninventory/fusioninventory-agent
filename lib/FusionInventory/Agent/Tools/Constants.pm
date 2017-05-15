@@ -11,6 +11,6 @@ use constant STATUS_OFF => 'off';
 our @EXPORT = qw(
     STATUS_OFF
     STATUS_ON
-    );
+);
 
 1;
