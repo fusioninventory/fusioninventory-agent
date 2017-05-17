@@ -41,7 +41,7 @@ sub _initXmlParser {
     }
     if ($params{xmlString}) {
         $xmlParser = XML::XPath->new(xml => $params{xmlString});
-    } else {
+    } elsif ($params{file}) {
         $xmlParser = XML::XPath->new(filename => $params{file});
     }
     return int($xmlParser);

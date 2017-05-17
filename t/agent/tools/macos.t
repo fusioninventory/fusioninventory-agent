@@ -3407,10 +3407,10 @@ my $softwaresFromFlatFile = FusionInventory::Agent::Tools::MacOS::_getSystemProf
 my $xmlFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml';
 my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosXML(file => $xmlFile, type => $type, localTimeOffset => 7200);
 
-Tie::IxHash->require();
-my $checkTieIxHash = $EVAL_ERROR ? 0 : 1;
+XML::XPath->require();
+my $checkXmlXPath = $EVAL_ERROR ? 0 : 1;
 SKIP : {
-    skip 'test only if module Tie::IxHash available', 4 unless $checkTieIxHash;
+    skip 'test only if module Tie::IxHash available', 6 unless $checkXmlXPath;
 
     ok (ref($softwaresFromFlatFile) eq 'HASH');
     ok (ref($softwaresFromXmlFile) eq 'HASH');
@@ -3440,6 +3440,15 @@ SKIP : {
     my $softwaresFromXmlFileSize = scalar(keys %{$softwaresFromXmlFile->{'Applications'}});
     ok ($softwaresFromFlatFileSize == $softwaresFromXmlFileSize,
         $softwaresFromFlatFileSize.' from flat file and '.$softwaresFromXmlFileSize.' from XML file');
+
+    FusionInventory::Agent::Tools::MacOS::_initXmlParser(
+        file => 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml'
+    );
+    my $softs = FusionInventory::Agent::Tools::MacOS::_extractSoftwaresFromXml(
+        localTimeOffset => 7200
+    );
+    ok ($softs);
+    ok (scalar(keys %$softs) == 291, 'must be 291 and is ' . scalar(keys %$softs));
 }
 
 my $extractedHash = {
@@ -3496,19 +3505,4 @@ SKIP : {
 
     my $boottime = getBootTime();
     ok ($boottime);
-}
-
-XML::XPath->require();
-my $checkXmlXPath = $EVAL_ERROR ? 0 : 1;
-SKIP : {
-    skip 'test only if module XML::XPath available', 2 unless $checkXmlXPath;
-
-    FusionInventory::Agent::Tools::MacOS::_initXmlParser(
-        file => 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml'
-    );
-    my $softs = FusionInventory::Agent::Tools::MacOS::_extractSoftwaresFromXml(
-        localTimeOffset => 7200
-    );
-    ok ($softs);
-    ok (scalar(keys %$softs) == 291, 'must be 291 and is ' . scalar(keys %$softs));
 }
