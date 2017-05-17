@@ -44,7 +44,7 @@ sub _initXmlParser {
     } elsif ($params{file}) {
         $xmlParser = XML::XPath->new(filename => $params{file});
     }
-    return int($xmlParser);
+    return $xmlParser;
 }
 
 sub _getSystemProfilerInfosXML {
