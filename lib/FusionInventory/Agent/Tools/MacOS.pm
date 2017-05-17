@@ -27,6 +27,26 @@ use constant {
     DATE_ELEMENT_NAME  => 'date'
 };
 
+my $xmlParser;
+
+sub _initXmlParser {
+    my (%params) = @_;
+
+    XML::XPath->require();
+    if ($EVAL_ERROR) {
+        $params{logger}->debug(
+            'XML::XPath unavailable, unable launching _initXmlParser()'
+        ) if $params{logger};
+        return 0;
+    }
+    if ($params{xmlString}) {
+        $xmlParser = XML::XPath->new(xml => $params{xmlString});
+    } else {
+        $xmlParser = XML::XPath->new(filename => $params{file});
+    }
+    return int($xmlParser);
+}
+
 sub _getSystemProfilerInfosXML {
     my (%params) = @_;
 
@@ -40,7 +60,7 @@ sub _getSystemProfilerInfosXML {
     #    my $xmlStr = join '', @xml;
     my $info = {};
     if ($params{type} eq 'SPApplicationsDataType') {
-        $info = _extractDataFromXmlString($xmlStr, $params{logger}, $params{localTimeOffset});
+        $info->{Applications} = _extractSoftwaresFromXml(%params);
     } else {
         # not implemented for every data types
     }
@@ -48,117 +68,62 @@ sub _getSystemProfilerInfosXML {
     return $info;
 }
 
-sub _extractDataFromXmlString {
-    my ($xmlStr, $logger, $localTimeOffset) = @_;
+sub _extractSoftwaresFromXml {
+    my (%params) = @_;
 
-    my $xmlHash = _parseXmlStringKeepingOrder($xmlStr, $logger);
+    unless ($xmlParser) {
+        _initXmlParser(%params);
+    }
+    return unless $xmlParser;
 
-    my $softwaresXmlHash = _extractInterestingPartOfHash($xmlHash);
-
-    my $softwareHash;
-    for my $hash (@$softwaresXmlHash) {
-        my $soft = _pairKeyValueFromXml($hash);
-        next unless $soft->{'_name'};
-        $soft = _applySpecialRulesOnApplicationData($soft);
-        my $convertedDate = _convertDateFromApplicationDataXml($soft->{lastModified}, $localTimeOffset);
-        if (defined $convertedDate) {
-            $soft->{lastModified} = $convertedDate;
-        } else {
-            if (defined $logger) {
-                $logger->error("can't parse retrieved dates in 'lastModified' field in XML file");
-            }
-        }
-        my $mappedHash = _mapApplicationDataKeys($soft);
-        $softwareHash = _mergeHashes($softwareHash, $mappedHash);
+    my $softwaresHash = {};
+    my $n = $xmlParser->findnodes('/plist/array[1]/dict[1]/array[1]/dict');
+    my @nl = $n->get_nodelist();
+    for my $elem (@nl) {
+        $softwaresHash = _mergeHashes($softwaresHash, _extractSoftwareDataFromXmlNode($elem, $params{logger}, $params{localTimeOffset}));
     }
 
-    return {
-        'Applications' => $softwareHash
-    };
+    return $softwaresHash;
 }
 
-sub _extractInterestingPartOfHash {
-    my ($xmlHash) = @_;
+sub _extractSoftwareDataFromXmlNode {
+    my ($xmlNode, $logger, $localTimeOffset) = @_;
 
-    return _findElementAndReturnParentArray(undef, $xmlHash, 'key', '_name');
-}
+    my $soft = _makeHashFromKeyValuesTextNodes($xmlNode);
+    next unless $soft->{'_name'};
 
-sub _findElementAndReturnParentArray {
-    my ($parentArray, $struct, $elementName, $elementValue) = @_;
-
-    my $foundArray;
-    if ((ref $struct) eq 'HASH') {
-        if ($parentArray && $struct->{$elementName}) {
-            if (ref($struct->{$elementName}) eq ''
-                && $struct->{$elementName} eq $elementValue) {
-                $foundArray = $parentArray;
-            } else {
-                my %hash = map { $_ => 1 } @{$struct->{$elementName}};
-                if ($hash{$elementValue}) {
-                    $foundArray = $parentArray;
-                }
-            }
-        } else {
-            for my $key (keys %$struct) {
-                my $ref = ref $struct->{$key};
-                if ($ref ne '') {
-                    $foundArray = _findElementAndReturnParentArray(undef, $struct->{$key}, $elementName, $elementValue);
-                }
-                last if $foundArray;
-            }
-        }
-    } elsif ((ref $struct) eq 'ARRAY') {
-        for my $subStruct (@$struct) {
-            my $ref = ref $subStruct;
-            if ($ref ne '') {
-                $foundArray = _findElementAndReturnParentArray($struct, $subStruct, $elementName, $elementValue);
-                last if $foundArray;
-            }
+    $soft = _applySpecialRulesOnApplicationData($soft);
+    my $convertedDate = _convertDateFromApplicationDataXml($soft->{lastModified}, $localTimeOffset);
+    if (defined $convertedDate) {
+        $soft->{lastModified} = $convertedDate;
+    } else {
+        if (defined $logger) {
+            $logger->error("can't parse retrieved dates in 'lastModified' field in XML file");
         }
     }
-    return $foundArray;
+    my $mappedHash = _mapApplicationDataKeys($soft);
+
+    return $mappedHash;
 }
 
-sub _pairKeyValueFromXml {
-    my ($hashFromXml) = @_;
+sub _makeHashFromKeyValuesTextNodes {
+    my ($node) = @_;
 
-    my $names = $$hashFromXml{KEY_ELEMENT_NAME()};
-    my $values = $$hashFromXml{VALUE_ELEMENT_NAME()};
-    my $date = $$hashFromXml{DATE_ELEMENT_NAME()};
+    next unless $xmlParser;
 
-    my $soft = {};
-    my $index = 0;
-    for my $key (@$names) {
-        my $value;
-        if ($key eq 'lastModified') {
-            $value = $date;
-        } else {
-            $value = $values->[$index];
-            $index++;
+    my $hash;
+    my $currentKey;
+    my $n = $xmlParser->findnodes('*', $node);
+    my @nl = $n->get_nodelist();
+    for my $elem (@nl) {
+        if ($elem->getName() eq KEY_ELEMENT_NAME) {
+            $currentKey = Encode::encode_utf8($elem->string_value());
+        } elsif ($currentKey) {
+            $hash->{$currentKey} = Encode::encode_utf8($elem->string_value());
+            $currentKey = undef;
         }
-        $soft->{$key} = $value;
     }
-
-    return $soft;
-}
-
-sub _parseXmlStringKeepingOrder {
-    my ($xmlStr, $logger) = @_;
-
-    # this module is required and cannot be imported by default
-    # because it's for Mac OS X only
-    Tie::IxHash->require();
-    if ($EVAL_ERROR) {
-        $logger->debug(
-            'Tie::IxHash unavailable, unable launching _parseXmlStringKeepingOrder to retrieve softwares'
-        ) if $logger;
-        return 0;
-    }
-
-    my $tpp = XML::TreePP->new( use_ixhash => 1 );
-    my $tree = $tpp->parse( $xmlStr );
-
-    return $tree;
+    return $hash;
 }
 
 sub cmpVersionNumbers {
@@ -248,17 +213,6 @@ sub _mergeHashes {
     }
 
     return $hash1;
-}
-
-sub _extractApplicationDataFromXmlStringElement {
-    my ($xmlString) = @_;
-
-    my $hash = {};
-    while ($xmlString =~ /<key>([^<]+)<\/key><(?:string|date)>([^<]+)<\/(?:string|date)>/g) {
-        $hash->{$1} = $2;
-    }
-
-    return $hash;
 }
 
 sub _mapApplicationDataKeys {
