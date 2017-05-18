@@ -296,16 +296,34 @@ sub processRemote {
             eval { $ret = $actionProcessor->process($actionName, $params, $logger); };
             $ret->{msg} = [] unless $ret->{msg};
             push @{$ret->{msg}}, $@ if $@;
-            if ( !$ret->{status} ) {
+
+            my $name = $params->{name} || "action #".($actionnum+1);
+
+            # Log msg lines: can be heavy while running a command with high logLineLimit parameter
+            my $logLineLimit = defined($params->{logLineLimit}) ?
+                $params->{logLineLimit} : 10 ;
+
+            # Really report nothing to server if logLineLimit=0 & status is ok
+            $ret->{msg} = [] if (!$logLineLimit && $ret->{status});
+
+            # Add 7 to always output header & retCode analysis lines for cmd command, unless in nolimit (-1)
+            $logLineLimit += 7 unless ($logLineLimit < 0);
+
+            foreach my $line (@{$ret->{msg}}) {
+                next unless ($line);
                 $job->setStatus(
-                    msg       => $ret->{msg},
+                    msg       => "$name: $line",
                     actionnum => $actionnum,
                 );
+                last unless --$logLineLimit;
+            }
+
+            if ( !$ret->{status} ) {
 
                 $job->setStatus(
                     status    => 'ko',
                     actionnum => $actionnum,
-                    msg       => "action #".($actionnum+1)." processing failure"
+                    msg       => "$name, processing failure"
                 );
 
                 next JOB;
@@ -313,7 +331,7 @@ sub processRemote {
             $job->setStatus(
                 status    => 'ok',
                 actionnum => $actionnum,
-                msg       => "action #".($actionnum+1)." processing success"
+                msg       => "$name, processing success"
             );
 
             $actionnum++;
