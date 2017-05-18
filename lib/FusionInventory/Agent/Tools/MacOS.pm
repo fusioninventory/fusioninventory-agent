@@ -60,7 +60,10 @@ sub _getSystemProfilerInfosXML {
     #    my $xmlStr = join '', @xml;
     my $info = {};
     if ($params{type} eq 'SPApplicationsDataType') {
-        $info->{Applications} = _extractSoftwaresFromXml(%params);
+        $info->{Applications} = _extractSoftwaresFromXml(
+            %params,
+            xmlString => $xmlStr
+        );
     } else {
         # not implemented for every data types
     }
