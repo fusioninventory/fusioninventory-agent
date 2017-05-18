@@ -79,7 +79,7 @@ sub _extractSoftwaresFromXml {
     return unless $xmlParser;
 
     my $softwaresHash = {};
-    my $n = $xmlParser->findnodes('/plist/array[1]/dict[1]/array[1]/dict');
+    my $n = $xmlParser->findnodes("/plist/array[1]/dict[1]/key[text()='_items']/following-sibling::array[1]/descendant::dict");
     my @nl = $n->get_nodelist();
     for my $elem (@nl) {
         $softwaresHash = _mergeHashes($softwaresHash, _extractSoftwareDataFromXmlNode($elem, $params{logger}, $params{localTimeOffset}));
