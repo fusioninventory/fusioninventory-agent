@@ -74,9 +74,8 @@ sub _getSystemProfilerInfosXML {
 sub _extractSoftwaresFromXml {
     my (%params) = @_;
 
-    unless ($xmlParser) {
-        _initXmlParser(%params);
-    }
+    _initXmlParser(%params);
+
     return unless $xmlParser;
 
     my $softwaresHash = {};
