@@ -53,8 +53,12 @@ sub _runOnUnix {
 
     my $buf = `$params->{exec} 2>&1` || '';
     my $errMsg = "$ERRNO";
+
+    # CHILD_ERROR could be negative if exec command is not found, in that case
+    # We shoudl report exitStatus as if it was started from shell
+    my $exitStatus = $CHILD_ERROR < 0 ? 127 : $CHILD_ERROR >> 8;
+
     $logger->debug2("Run: ".$buf);
-    my $exitStatus = $CHILD_ERROR >> 8;
 
     return ($buf, $errMsg, $exitStatus);
 }
