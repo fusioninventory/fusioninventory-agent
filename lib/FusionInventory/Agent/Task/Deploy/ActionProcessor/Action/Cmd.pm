@@ -102,27 +102,28 @@ sub do {
     my $errMsg;
     my $exitStatus;
 
-
     if ($OSNAME eq 'MSWin32') {
         ($buf, $errMsg, $exitStatus) = _runOnWindows(@_);
     } else {
         ($buf, $errMsg, $exitStatus) = _runOnUnix(@_);
     }
 
-    my $logLineLimit =  $params->{logLineLimit} || 10;
+    my $logLineLimit = defined($params->{logLineLimit}) ?
+        $params->{logLineLimit} : 10 ;
 
     my @msg;
     if($buf) {
         my @lines = split('\n', $buf);
         foreach my $line (reverse @lines) {
             chomp($line);
-            shift @msg if @msg > $logLineLimit;
             unshift @msg, $line;
+            # Empty lines are kept for local debugging but without updating logLineLimit
+            next unless $line;
+            last unless --$logLineLimit;
         }
     }
-    shift @msg if @msg > $logLineLimit;
 
-# Use the retChecks key to know if the command exec is successful
+    # Use the retChecks key to know if the command exec is successful
     my $t = _evaluateRet ($params->{retChecks}, \$buf, $exitStatus);
 
     my $status = $t->[0];
@@ -130,6 +131,11 @@ sub do {
     push @msg, "error msg: `$errMsg'" if $errMsg;
     push @msg, "exit status: `$exitStatus'";
     push @msg, $t->[1];
+
+    # Finally insert header showing started command
+    unshift @msg, "================================";
+    unshift @msg,  "Started cmd: ".$params->{exec};
+    unshift @msg, "================================";
 
     foreach (@msg) {
         $logger->debug($_);
