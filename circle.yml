@@ -21,7 +21,6 @@ dependencies:
     - $HOME/perl5/bin/cpanm -L ~/perl5 Test::More
     - $HOME/perl5/bin/cpanm -L ~/perl5 UNIVERSAL::require
     - $HOME/perl5/bin/cpanm -L ~/perl5 File::Copy::Recursive
-    - $HOME/perl5/bin/cpanm -L ~/perl5 XML::XPath
     - perl Makefile.PL
     - make
 
