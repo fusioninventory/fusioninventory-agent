@@ -3386,7 +3386,7 @@ my $versionNumbersComparisons = [
 plan tests =>
     scalar (keys %system_profiler_tests) +
     scalar @ioreg_tests
-    + 16
+    + 11
     + scalar (@$versionNumbersComparisons);
 
 foreach my $test (keys %system_profiler_tests) {
@@ -3407,10 +3407,10 @@ my $softwaresFromFlatFile = FusionInventory::Agent::Tools::MacOS::_getSystemProf
 my $xmlFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml';
 my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosXML(file => $xmlFile, type => $type, localTimeOffset => 7200);
 
-Tie::IxHash->require();
-my $checkTieIxHash = $EVAL_ERROR ? 0 : 1;
+XML::XPath->require();
+my $checkXmlXPath = $EVAL_ERROR ? 0 : 1;
 SKIP : {
-    skip 'test only if module Tie::IxHash available', 4 unless $checkTieIxHash;
+    skip 'test only if module Tie::IxHash available', 6 unless $checkXmlXPath;
 
     ok (ref($softwaresFromFlatFile) eq 'HASH');
     ok (ref($softwaresFromXmlFile) eq 'HASH');
@@ -3440,6 +3440,15 @@ SKIP : {
     my $softwaresFromXmlFileSize = scalar(keys %{$softwaresFromXmlFile->{'Applications'}});
     ok ($softwaresFromFlatFileSize == $softwaresFromXmlFileSize,
         $softwaresFromFlatFileSize.' from flat file and '.$softwaresFromXmlFileSize.' from XML file');
+
+    FusionInventory::Agent::Tools::MacOS::_initXmlParser(
+        file => 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml'
+    );
+    my $softs = FusionInventory::Agent::Tools::MacOS::_extractSoftwaresFromXml(
+        localTimeOffset => 7200
+    );
+    ok ($softs);
+    ok (scalar(keys %$softs) == 291, 'must be 291 and is ' . scalar(keys %$softs));
 }
 
 my $extractedHash = {
@@ -3490,100 +3499,6 @@ for my $listVersionNumbers (@$versionNumbersComparisons) {
     );
 }
 ok (FusionInventory::Agent::Tools::MacOS::cmpVersionNumbers('5.34.54', '5.34.54') == 0);
-
-my $xmlString = <<XMLSTRING;
-<root>
-    <elem>
-        <name>name1.1</name>
-        <value>value1.1</value>
-        <name>name1.2</name>
-        <value>value1.2</value>
-        <name>name1.3</name>
-        <value>value1.3</value>
-    </elem>
-    <elem>
-        <elem>
-            <name>name2-1.1</name>
-            <value>value2-1.1</value>
-            <name>name2-1.2</name>
-            <value>value2-1.2</value>
-            <name>name2-1.3</name>
-            <value>value2-1.3</value>
-        </elem>
-    </elem>
-    <elem>
-        <elem>
-            <elem>
-                <name>name3-1-1.1</name>
-                <value>value3-1-1.1</value>
-                <name>name3-1-1.2</name>
-                <value>value3-1-1.2</value>
-                <name>name3-1-1.3</name>
-                <value>value3-1-1.3</value>
-            </elem>
-        </elem>
-        <elem>
-            <name>name3-2.1</name>
-            <value>value3-2.1</value>
-            <name>name3-2.2</name>
-            <value>value3-2.2</value>
-            <name>name3-2.3</name>
-            <value>value3-2.3</value>
-        </elem>
-    </elem>
-    <elem>
-        <name>name4.1</name>
-        <value>value4.1</value>
-        <name>name4.2</name>
-        <value>value4.2</value>
-        <name>name4.3</name>
-        <value>value4.3</value>
-        <name>name4.4</name>
-        <value></value>
-        <name>name4.5</name>
-        <value>value4.5</value>
-    </elem>
-</root>
-XMLSTRING
-
-my $hash;
-SKIP : {
-    skip 'test only if module Tie::IxHash available', 7 unless $checkTieIxHash;
-
-    $hash = FusionInventory::Agent::Tools::MacOS::_parseXmlStringKeepingOrder($xmlString);
-    ok (defined($$hash{root}));
-    ok (defined($$hash{root}{elem}[2]{elem}[0]{elem}));
-
-    $xmlString = FusionInventory::Agent::Tools::getAllLines(
-        file => 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml'
-    );
-
-    $type = 'SPApplicationsDataType';
-    my $softwaresHash = FusionInventory::Agent::Tools::MacOS::_extractDataFromXmlString($xmlString, $type, 7200);
-    ok (defined($softwaresHash));
-
-    $expectedHash = {
-        'Programme d’installation' => {
-            '64-Bit (Intel)'  => 'Yes',
-            'Get Info String' => '3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved',
-            'Last Modified'   => '27/06/2009',
-            'Location'        => '/System/Library/CoreServices/Installer.app',
-            'Kind'            => 'Universal',
-            'Version'         => '4.0'
-        }
-    };
-    cmp_deeply(
-        $expectedHash->{"Programme d’installation"},
-        $softwaresHash->{Applications}->{"Programme d’installation"}
-    );
-    ok (scalar(keys %{$softwaresHash->{Applications}}) == 291, "we expect 291 elements and got " . (scalar (keys %{$softwaresHash->{Applications}})));
-
-    $hash = FusionInventory::Agent::Tools::MacOS::_parseXmlStringKeepingOrder($xmlString);
-    my $subArray = FusionInventory::Agent::Tools::MacOS::_findElementAndReturnParentArray(undef, $hash, 'key', '_name');
-    ok ($subArray);
-    my $size = scalar(@$subArray);
-    ok ($size == 291, 'must be 291 and is '.$size);
-}
 
 SKIP : {
     skip 'MacOS specific test', 1 unless $OSNAME eq 'darwin';
