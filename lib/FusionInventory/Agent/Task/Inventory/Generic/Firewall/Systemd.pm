@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Generic::Firewall::Fedora;
+package FusionInventory::Agent::Task::Inventory::Generic::Firewall::Systemd;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools::Constants;
 use FusionInventory::Agent::Tools;
 
-our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::Generic::Firewall::Ubuntu"];
+our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::Generic::Firewall::Ufw"];
 
 sub isEnabled {
     my (%params) = @_;

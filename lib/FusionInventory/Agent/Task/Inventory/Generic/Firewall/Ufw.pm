@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Generic::Firewall::Ubuntu;
+package FusionInventory::Agent::Task::Inventory::Generic::Firewall::Ufw;
 
 use strict;
 use warnings;
