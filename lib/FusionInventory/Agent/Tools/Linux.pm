@@ -275,6 +275,7 @@ sub _getValueFromSysProc {
     my $value = <$handle>;
     close $handle;
 
+    return undef unless defined $value;
     $value =~ s/^(\w+)\W*/$1/;
 
     return trimWhitespace($value);
