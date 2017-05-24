@@ -65,7 +65,7 @@ my %arm = (
         }
     ],
     # Case without information as not arm board
-    'linux-686-1' => [ undef, undef ]
+    'linux-686-1' => [ { 'not-a-board' => 1 } , { MMODEL => 'not-a-board' } ]
 );
 
 plan tests => (3 * scalar keys %arm) + 1;
@@ -74,9 +74,11 @@ my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %arm) {
     my $file = "resources/linux/proc/cpuinfo/$test";
-    my $board = FusionInventory::Agent::Task::Inventory::Linux::ARM::Board::_getBoardFromProc(file => $file);
+    my $board = FusionInventory::Agent::Task::Inventory::Linux::ARM::Board::_getBoardFromProc(file => $file)
+        || { 'not-a-board' => 1 };
     cmp_deeply($board, $arm{$test}[0], $test);
-    my $bios = FusionInventory::Agent::Task::Inventory::Linux::ARM::Board::_getBios(board => $board);
+    my $bios = FusionInventory::Agent::Task::Inventory::Linux::ARM::Board::_getBios(board => $board)
+        || { MMODEL => 'not-a-board' };
     cmp_deeply($bios, $arm{$test}[1], $test);
     lives_ok {
         $inventory->setBios($bios);
