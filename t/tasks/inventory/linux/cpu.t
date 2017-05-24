@@ -175,6 +175,24 @@ my %arm = (
             NAME  => 'ARMv6-compatible processor rev 7 (v6l)'
         }
     ],
+    'linux-raspberry-pi-3-model-b' => [
+        {
+            ARCH  => 'ARM',
+            NAME  => 'ARMv7 Processor rev 4 (v7l)'
+        },
+        {
+            ARCH  => 'ARM',
+            NAME  => 'ARMv7 Processor rev 4 (v7l)'
+        },
+        {
+            ARCH  => 'ARM',
+            NAME  => 'ARMv7 Processor rev 4 (v7l)'
+        },
+        {
+            ARCH  => 'ARM',
+            NAME  => 'ARMv7 Processor rev 4 (v7l)'
+        }
+    ],
 );
 
 my %mips = (
