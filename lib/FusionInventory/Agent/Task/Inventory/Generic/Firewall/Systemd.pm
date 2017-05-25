@@ -10,7 +10,6 @@ our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::Gener
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{firewall};
     return
         canRun('systemctl');
 }
