@@ -11,7 +11,7 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Version;
 
-my %fields = (
+our %fields = (
     BIOS             => [ qw/SMODEL SMANUFACTURER SSN BDATE BVERSION
                              BMANUFACTURER MMANUFACTURER MSN MMODEL ASSETTAG
                              ENCLOSURESERIAL BIOSSERIAL
@@ -122,7 +122,6 @@ sub new {
 
     my $self = {
         logger         => $params{logger},
-        fields         => \%fields,
         content        => {
             HARDWARE => {
                 ARCHNAME => $Config{archname},

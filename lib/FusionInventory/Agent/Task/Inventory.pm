@@ -369,7 +369,7 @@ sub _printInventory {
                 version  => $FusionInventory::Agent::Version::VERSION,
                 deviceid => $params{inventory}->{deviceid},
                 data     => $params{inventory}->{content},
-                fields   => $params{inventory}->{fields},
+                fields   => \%FusionInventory::Agent::Inventory::fields,
             };
 
             print {$params{handle}} $template->fill_in(HASH => $hash);
