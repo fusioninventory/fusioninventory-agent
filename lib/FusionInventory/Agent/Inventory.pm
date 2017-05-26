@@ -7,7 +7,6 @@ use Config;
 use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
-use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Version;
@@ -136,8 +135,6 @@ sub new {
     bless $self, $class;
 
     $self->setTag($params{tag});
-    $self->{last_state_file} = $params{statedir} . '/last_state'
-        if $params{statedir};
 
     return $self;
 }
@@ -332,96 +329,6 @@ sub setTag {
 
 }
 
-sub computeChecksum {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-
-    # to apply to $checksum with an OR
-    my %mask = (
-        HARDWARE      => 1,
-        BIOS          => 2,
-        MEMORIES      => 4,
-        SLOTS         => 8,
-        REGISTRY      => 16,
-        CONTROLLERS   => 32,
-        MONITORS      => 64,
-        PORTS         => 128,
-        STORAGES      => 256,
-        DRIVES        => 512,
-        INPUT         => 1024,
-        MODEMS        => 2048,
-        NETWORKS      => 4096,
-        PRINTERS      => 8192,
-        SOUNDS        => 16384,
-        VIDEOS        => 32768,
-        SOFTWARES     => 65536,
-    );
-    # TODO CPUS is not in the list
-
-    if ($self->{last_state_file}) {
-        if (-f $self->{last_state_file}) {
-            eval {
-                $self->{last_state_content} = XML::TreePP->new()->parsefile(
-                    $self->{last_state_file}
-                );
-            };
-            if (ref($self->{last_state_content}) ne 'HASH') {
-                $self->{last_state_file} = {};
-            }
-        } else {
-            $logger->debug(
-                "last state file '$self->{last_state_file}' doesn't exist"
-            );
-        }
-    }
-
-    my $checksum = 0;
-    foreach my $section (keys %mask) {
-        my $hash =
-            md5_base64(Dumper($self->{content}->{$section}));
-
-        # check if the section did change since the last run
-        next if
-            $self->{last_state_content}->{$section} &&
-            $self->{last_state_content}->{$section} eq $hash;
-
-        $logger->debug("Section $section has changed since last inventory");
-
-        # add the mask of the current section to the checksum
-        $checksum |= $mask{$section}; ## no critic (ProhibitBitwise)
-
-        # store the new value.
-        $self->{last_state_content}->{$section} = $hash;
-    }
-
-
-    $self->setHardware({CHECKSUM => $checksum});
-}
-
-sub saveLastState {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-
-    if (!defined($self->{last_state_content})) {
-        $self->processChecksum();
-    }
-    if ($self->{last_state_file}) {
-        eval {
-            XML::TreePP->new()->writefile(
-                $self->{last_state_file}, $self->{last_state_content}
-            );
-        }
-    } else {
-        $logger->debug(
-            "last state file is not defined, last state not saved"
-        );
-    }
-
-    my $tpp = XML::TreePP->new();
-}
-
 1;
 __END__
 
@@ -445,10 +352,6 @@ The constructor. The following parameters are allowed, as keys of the
 =item I<logger>
 
 a logger object
-
-=item I<statedir>
-
-a path to a writable directory containing the last serialized inventory
 
 =item I<tag>
 
@@ -520,13 +423,3 @@ Set BIOS information.
 =head2 setAccessLog()
 
 What is that for? :)
-
-=head2 computeChecksum()
-
-Compute the inventory checksum. This information is used by the server to
-know which parts of the inventory have changed since the last one.
-
-=head2 saveLastState()
-
-At the end of the process IF the inventory was saved
-correctly, the last_state is saved.

@@ -138,7 +138,6 @@ sub run {
         );
 
         return unless $response;
-        $inventory->saveLastState();
 
     }
 
@@ -307,7 +306,6 @@ sub _feedInventory {
     # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
 
-    $inventory->computeChecksum();
 }
 
 sub _injectContent {
