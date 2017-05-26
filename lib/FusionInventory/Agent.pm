@@ -406,6 +406,9 @@ sub _runTarget {
         if (defined($content->{PROLOG_FREQ})) {
             $target->setMaxDelay($content->{PROLOG_FREQ} * 3600);
         }
+        if (defined($content->{PROLOG_TAG}) && $content->{PROLOG_TAG} !~ /^\s*$/) {
+            $self->{config}->{tag} = $content->{PROLOG_TAG};
+        }
     }
 
     foreach my $name (@{$self->{tasksExecutionPlan}}) {
@@ -464,6 +467,7 @@ sub _runTaskReal {
 
     $class->require();
 
+    $self->{logger}->debug2('creating object of type ' . $class . ' with tag ' . $self->{config}->{tag});
     my $task = $class->new(
         config       => $self->{config},
         confdir      => $self->{confdir},
