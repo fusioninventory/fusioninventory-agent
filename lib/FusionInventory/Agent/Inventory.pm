@@ -248,57 +248,6 @@ sub addEntry {
     push @{$self->{content}{$section}}, $entry;
 }
 
-sub computeLegacyValues {
-    my ($self) = @_;
-
-    # CPU-related values
-    my $cpus = $self->{content}->{CPUS};
-    if ($cpus) {
-        my $cpu = $cpus->[0];
-
-        $self->setHardware({
-            PROCESSORN => scalar @$cpus,
-            PROCESSORS => $cpu->{SPEED},
-            PROCESSORT => $cpu->{NAME},
-        });
-    }
-
-    # network related values
-    my $interfaces = $self->{content}->{NETWORKS};
-    if ($interfaces) {
-        my @ip_addresses =
-            grep { ! /^127/ }
-            grep { $_ }
-            map { $_->{IPADDRESS} }
-            @$interfaces;
-
-        $self->setHardware({
-            IPADDR => join('/', @ip_addresses),
-        });
-    }
-
-    # user-related values
-    my $users = $self->{content}->{USERS};
-    if ($users) {
-        my $user = $users->[-1];
-
-        my ($domain, $id);
-        if ($user->{LOGIN} =~ /(\S+)\\(\S+)/) {
-            # Windows fully qualified username: domain\user
-            $domain = $1;
-            $id = $2;
-        } else {
-            # simple username: user
-            $id = $user->{LOGIN};
-        }
-
-        $self->setHardware({
-            USERID     => $id,
-            USERDOMAIN => $domain,
-        });
-    }
-}
-
 sub getHardware {
     my ($self, $field) = @_;
     return $self->getField('HARDWARE', $field);
@@ -576,12 +525,6 @@ What is that for? :)
 
 Compute the inventory checksum. This information is used by the server to
 know which parts of the inventory have changed since the last one.
-
-=head2 computeLegacyValues()
-
-Compute the inventory global values, meaning values in hardware section such as
-CPU number, speed and model, computed from other values, but needed for OCS
-compatibility.
 
 =head2 saveLastState()
 
