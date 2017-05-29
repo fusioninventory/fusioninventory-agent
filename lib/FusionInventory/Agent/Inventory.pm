@@ -42,7 +42,7 @@ my %fields = (
                              PRODUCTID PCISUBSYSTEMID PCISLOT TYPE REV/ ],
     CPUS             => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD
                              SERIAL STEPPING FAMILYNAME FAMILYNUMBER MODEL
-                             SPEED ID EXTERNAL_CLOCK ARCH/ ],
+                             SPEED ID EXTERNAL_CLOCK ARCH CORECOUNT/ ],
     DRIVES           => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL
                              LETTER SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
     ENVS             => [ qw/KEY VAL/ ],
