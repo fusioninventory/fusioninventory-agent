@@ -23,6 +23,9 @@ my %checkType_to_Module = (
     winkeyExists       => "WinKeyExists",
     winkeyMissing      => "WinKeyMissing",
     winkeyEquals       => "WinKeyEquals",
+    winvalueExists     => "WinValueExists",
+    winvalueMissing    => "WinValueMissing",
+    winvalueType       => "WinValueType",
 );
 
 sub new {
