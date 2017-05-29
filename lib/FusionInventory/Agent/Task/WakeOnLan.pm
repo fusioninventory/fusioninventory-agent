@@ -172,21 +172,6 @@ sub _getInterfaces {
    return @nonloopbackordumbinterfaces;
 }
 
-sub _getInterface {
-    my ($self) = @_;
-
-    my @interfaces = $self->_getInterfaces();
-    # let's take the first interface with an IP adress, a MAC address
-    # different from the loopback
-    my $interface =
-        first { $_->{DESCRIPTION} ne 'lo' } # XXX This is already filtered in _getInterfaces()
-        grep { $_->{IPADDRESS} }
-        grep { $_->{MACADDR} }
-        @interfaces;
-
-    return $interface;
-}
-
 sub _getPayload {
     my ($self, $target) = @_;
 
