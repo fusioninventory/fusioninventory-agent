@@ -24,7 +24,7 @@ inventory:
 * Fix #289: Add ARM Board support
 
 netinventory:
-* Fix #221
+* Fix #221, #275
 * Command documentation updated
 * additional devices in sysobject.ids
 * Fix Juniper new model and firmware detection

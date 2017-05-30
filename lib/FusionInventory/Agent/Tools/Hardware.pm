@@ -1589,7 +1589,9 @@ sub _getTrunkPorts {
         my $port2interface = $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');
         while (my ($suffix, $value) = each %{$accessMode}) {
             my $port_id = _getElement($suffix, -1);
+            next unless defined($port_id);
             my $interface_id = $port2interface->{$port_id};
+            next unless defined($interface_id);
             $results->{$interface_id} = $value == 2 ? 1 : 0;
         }
         return $results;
