@@ -43,7 +43,7 @@ sub _getFirewallStatus {
     #   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; enabled; vendor preset: enabled)
     #   Active: active (running) since Tue 2017-03-14 15:33:24 CET; 1h 16min ago
     # This permits to check if service is loaded, enabled and active
-    return ($lines =~ /^\s*Loaded: loaded [^;]+firewalld[^;]*; enabled;[^\n]*\n\s*Active: active \(running\)/m) ?
+    return ($lines =~ /^\s*Loaded: loaded [^;]+firewalld[^;]*; [^;]*;[^\n]*\n\s*Active: active \(running\)/m) ?
         STATUS_ON :
         STATUS_OFF;
 }

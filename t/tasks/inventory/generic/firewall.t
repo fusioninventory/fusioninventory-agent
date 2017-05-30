@@ -16,7 +16,7 @@ my $expectedUbuntu = {
 
 my $expectedFedora = {
     'fedora_systemctl_status_firewalld.service_ON.txt'  => STATUS_ON,
-    'fedora_systemctl_status_firewalld.service_OFF.txt' => STATUS_OFF
+    'fedora_systemctl_status_firewalld.service_ON_disabled.txt' => STATUS_ON
 };
 
 plan tests => scalar (keys %$expectedUbuntu)
@@ -33,5 +33,5 @@ for my $testfile (keys %$expectedFedora) {
     my $statusGot = FusionInventory::Agent::Task::Inventory::Generic::Firewall::Systemd::_getFirewallStatus(
         file => 'resources/linux/firewall/' . $testfile
     );
-    ok ($statusGot eq $expectedFedora->{$testfile});
+    ok ($statusGot eq $expectedFedora->{$testfile}, $testfile . ' : ' . $statusGot . ' eq ' . $expectedFedora->{$testfile} . ' ?');
 }
