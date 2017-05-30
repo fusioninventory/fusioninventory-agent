@@ -1,0 +1,383 @@
+kern.geom.confxml: <mesh>
+  <class id="0xffffffff81f1db00">
+    <name>FD</name>
+  </class>
+  <class id="0xffffffff81ec4a98">
+    <name>RAID</name>
+  </class>
+  <class id="0xffffffff81ec1600">
+    <name>ELI</name>
+  </class>
+  <class id="0xffffffff81f0fc08">
+    <name>SWAP</name>
+    <geom id="0xfffff80003ab8500">
+      <class ref="0xffffffff81f0fc08"/>
+      <name>swap</name>
+      <rank>5</rank>
+	<consumer id="0xfffff80003a81080">
+	  <geom ref="0xfffff80003ab8500"/>
+	  <provider ref="0xfffff80003ab8900"/>
+	  <mode>r1w1e0</mode>
+	</consumer>
+    </geom>
+  </class>
+  <class id="0xffffffff81ec0fb0">
+    <name>BDE</name>
+  </class>
+  <class id="0xffffffff81d4ddc0">
+    <name>MD</name>
+    <geom id="0xfffff80003ab9100">
+      <class ref="0xffffffff81d4ddc0"/>
+      <name>md0</name>
+      <rank>1</rank>
+      <config>
+      </config>
+	<provider id="0xfffff80003ac9c00">
+	  <geom ref="0xfffff80003ab9100"/>
+	  <mode>r1w1e1</mode>
+	  <name>md0</name>
+	  <mediasize>4194304</mediasize>
+	  <sectorsize>512</sectorsize>
+	  <stripesize>0</stripesize>
+	  <stripeoffset>0</stripeoffset>
+	  <config>
+	    <unit>0</unit>
+	    <sectorsize>512</sectorsize>
+	    <fwheads>0</fwheads>
+	    <fwsectors>0</fwsectors>
+	    <length>4194304</length>
+	    <compression>on</compression>
+	    <access>read-write</access>
+	    <type>malloc</type>
+	  </config>
+	</provider>
+    </geom>
+  </class>
+  <class id="0xffffffff81ec3a38">
+    <name>PART</name>
+    <geom id="0xfffff80003518300">
+      <class ref="0xffffffff81ec3a38"/>
+      <name>ada0s1</name>
+      <rank>3</rank>
+      <config>
+	<scheme>BSD</scheme>
+	<entries>8</entries>
+	<first>0</first>
+	<last>8388512</last>
+	<fwsectors>63</fwsectors>
+	<fwheads>16</fwheads>
+	<state>OK</state>
+	<modified>false</modified>
+      </config>
+	<consumer id="0xfffff80003a83400">
+	  <geom ref="0xfffff80003518300"/>
+	  <provider ref="0xfffff80003a46200"/>
+	  <mode>r2w2e5</mode>
+	  <config>
+	  </config>
+	</consumer>
+	<provider id="0xfffff80003ab9400">
+	  <geom ref="0xfffff80003518300"/>
+	  <mode>r1w1e1</mode>
+	  <name>ada0s1b</name>
+	  <mediasize>536870912</mediasize>
+	  <sectorsize>512</sectorsize>
+	  <stripesize>0</stripesize>
+	  <stripeoffset>3758080000</stripeoffset>
+	  <config>
+	    <start>7339937</start>
+	    <end>8388512</end>
+	    <index>2</index>
+	    <type>freebsd-swap</type>
+	    <offset>3758047744</offset>
+	    <length>536870912</length>
+	    <rawtype>1</rawtype>
+	  </config>
+	</provider>
+	<provider id="0xfffff800037eb400">
+	  <geom ref="0xfffff80003518300"/>
+	  <mode>r1w1e2</mode>
+	  <name>ada0s1a</name>
+	  <mediasize>3758039552</mediasize>
+	  <sectorsize>512</sectorsize>
+	  <stripesize>0</stripesize>
+	  <stripeoffset>40448</stripeoffset>
+	  <config>
+	    <start>16</start>
+	    <end>7339936</end>
+	    <index>1</index>
+	    <type>freebsd-ufs</type>
+	    <offset>8192</offset>
+	    <length>3758039552</length>
+	    <rawtype>7</rawtype>
+	  </config>
+	</provider>
+    </geom>
+    <geom id="0xfffff80003518000">
+      <class ref="0xffffffff81ec3a38"/>
+      <name>ada0</name>
+      <rank>2</rank>
+      <config>
+	<scheme>MBR</scheme>
+	<entries>4</entries>
+	<first>63</first>
+	<last>8388607</last>
+	<fwsectors>63</fwsectors>
+	<fwheads>16</fwheads>
+	<state>OK</state>
+	<modified>false</modified>
+      </config>
+	<consumer id="0xfffff80003800480">
+	  <geom ref="0xfffff80003518000"/>
+	  <provider ref="0xfffff80003518200"/>
+	  <mode>r2w2e7</mode>
+	  <config>
+	  </config>
+	</consumer>
+	<provider id="0xfffff80003a46200">
+	  <geom ref="0xfffff80003518000"/>
+	  <mode>r2w2e5</mode>
+	  <name>ada0s1</name>
+	  <mediasize>4294918656</mediasize>
+	  <sectorsize>512</sectorsize>
+	  <stripesize>0</stripesize>
+	  <stripeoffset>32256</stripeoffset>
+	  <config>
+	    <start>63</start>
+	    <end>8388575</end>
+	    <index>1</index>
+	    <type>freebsd</type>
+	    <offset>32256</offset>
+	    <length>4294918656</length>
+	    <rawtype>165</rawtype>
+	    <attrib>active</attrib>
+	  </config>
+	</provider>
+    </geom>
+  </class>
+  <class id="0xffffffff81ec3448">
+    <name>MIRROR</name>
+  </class>
+  <class id="0xffffffff81ec69c8">
+    <name>UZIP</name>
+  </class>
+  <class id="0xffffffff81ec2718">
+    <name>LABEL</name>
+    <geom id="0xfffff80003ab8a00">
+      <class ref="0xffffffff81ec2718"/>
+      <name>ada0s1b</name>
+      <rank>4</rank>
+      <config>
+      </config>
+	<consumer id="0xfffff80003a82c80">
+	  <geom ref="0xfffff80003ab8a00"/>
+	  <provider ref="0xfffff80003ab9400"/>
+	  <mode>r1w1e1</mode>
+	  <config>
+	  </config>
+	</consumer>
+	<provider id="0xfffff80003ab8900">
+	  <geom ref="0xfffff80003ab8a00"/>
+	  <mode>r1w1e0</mode>
+	  <name>label/swap0</name>
+	  <mediasize>536870400</mediasize>
+	  <sectorsize>512</sectorsize>
+	  <stripesize>0</stripesize>
+	  <stripeoffset>3758080000</stripeoffset>
+	  <config>
+	    <index>0</index>
+	    <length>536870400</length>
+	    <seclength>1048575</seclength>
+	    <offset>0</offset>
+	    <secoffset>0</secoffset>
+	  </config>
+	</provider>
+    </geom>
+    <geom id="0xfffff80003ab8d00">
+      <class ref="0xffffffff81ec2718"/>
+      <name>ada0s1a</name>
+      <rank>4</rank>
+      <config>
+      </config>
+	<consumer id="0xfffff80003a82d80">
+	  <geom ref="0xfffff80003ab8d00"/>
+	  <provider ref="0xfffff800037eb400"/>
+	  <mode>r1w1e2</mode>
+	  <config>
+	  </config>
+	</consumer>
+	<provider id="0xfffff80003ab8c00">
+	  <geom ref="0xfffff80003ab8d00"/>
+	  <mode>r1w1e1</mode>
+	  <name>ufsid/5745adc5aff0029d</name>
+	  <mediasize>3758039552</mediasize>
+	  <sectorsize>512</sectorsize>
+	  <stripesize>0</stripesize>
+	  <stripeoffset>40448</stripeoffset>
+	  <config>
+	    <index>0</index>
+	    <length>3758039552</length>
+	    <seclength>7339921</seclength>
+	    <offset>0</offset>
+	    <secoffset>0</secoffset>
+	  </config>
+	</provider>
+    </geom>
+  </class>
+  <class id="0xffffffff81ec2538">
+    <name>VFS</name>
+    <geom id="0xfffff800037eb900">
+      <class ref="0xffffffff81ec2538"/>
+      <name>ffs.md0</name>
+      <rank>2</rank>
+	<consumer id="0xfffff80003b4cb00">
+	  <geom ref="0xfffff800037eb900"/>
+	  <provider ref="0xfffff80003ac9c00"/>
+	  <mode>r1w1e1</mode>
+	</consumer>
+    </geom>
+    <geom id="0xfffff80003aca100">
+      <class ref="0xffffffff81ec2538"/>
+      <name>ffs.ufsid/5745adc5aff0029d</name>
+      <rank>5</rank>
+	<consumer id="0xfffff80003a82180">
+	  <geom ref="0xfffff80003aca100"/>
+	  <provider ref="0xfffff80003ab8c00"/>
+	  <mode>r1w1e1</mode>
+	</consumer>
+    </geom>
+  </class>
+  <class id="0xffffffff81ec1d08">
+    <name>DISK</name>
+    <geom id="0xfffff80003518100">
+      <class ref="0xffffffff81ec1d08"/>
+      <name>ada0</name>
+      <rank>1</rank>
+      <config>
+      </config>
+	<provider id="0xfffff80003518200">
+	  <geom ref="0xfffff80003518100"/>
+	  <mode>r2w2e7</mode>
+	  <name>ada0</name>
+	  <mediasize>4294967296</mediasize>
+	  <sectorsize>512</sectorsize>
+	  <stripesize>0</stripesize>
+	  <stripeoffset>0</stripeoffset>
+	  <config>
+	    <fwheads>16</fwheads>
+	    <fwsectors>63</fwsectors>
+	    <rotationrate>unknown</rotationrate>
+	    <ident>QM00001</ident>
+	    <descr>QEMU HARDDISK</descr>
+	  </config>
+	</provider>
+    </geom>
+    <geom id="0xfffff80003517600">
+      <class ref="0xffffffff81ec1d08"/>
+      <name>cd0</name>
+      <rank>1</rank>
+      <config>
+      </config>
+	<provider id="0xfffff80003517700">
+	  <geom ref="0xfffff80003517600"/>
+	  <mode>r0w0e0</mode>
+	  <name>cd0</name>
+	  <mediasize>0</mediasize>
+	  <sectorsize>2048</sectorsize>
+	  <stripesize>0</stripesize>
+	  <stripeoffset>0</stripeoffset>
+	  <config>
+	    <fwheads>0</fwheads>
+	    <fwsectors>0</fwsectors>
+	    <rotationrate>unknown</rotationrate>
+	    <ident></ident>
+	    <descr>QEMU QEMU DVD-ROM</descr>
+	  </config>
+	</provider>
+    </geom>
+  </class>
+  <class id="0xffffffff81ec1a40">
+    <name>DEV</name>
+    <geom id="0xfffff80003ab8800">
+      <class ref="0xffffffff81ec1a40"/>
+      <name>md0</name>
+      <rank>2</rank>
+	<consumer id="0xfffff80003a82600">
+	  <geom ref="0xfffff80003ab8800"/>
+	  <provider ref="0xfffff80003ac9c00"/>
+	  <mode>r0w0e0</mode>
+	</consumer>
+    </geom>
+    <geom id="0xfffff80003ab8b00">
+      <class ref="0xffffffff81ec1a40"/>
+      <name>label/swap0</name>
+      <rank>5</rank>
+	<consumer id="0xfffff80003a82680">
+	  <geom ref="0xfffff80003ab8b00"/>
+	  <provider ref="0xfffff80003ab8900"/>
+	  <mode>r0w0e0</mode>
+	</consumer>
+    </geom>
+    <geom id="0xfffff80003ab9000">
+      <class ref="0xffffffff81ec1a40"/>
+      <name>ufsid/5745adc5aff0029d</name>
+      <rank>5</rank>
+	<consumer id="0xfffff80003a82800">
+	  <geom ref="0xfffff80003ab9000"/>
+	  <provider ref="0xfffff80003ab8c00"/>
+	  <mode>r0w0e0</mode>
+	</consumer>
+    </geom>
+    <geom id="0xfffff80003ab9500">
+      <class ref="0xffffffff81ec1a40"/>
+      <name>ada0s1b</name>
+      <rank>4</rank>
+	<consumer id="0xfffff80003a82d00">
+	  <geom ref="0xfffff80003ab9500"/>
+	  <provider ref="0xfffff80003ab9400"/>
+	  <mode>r0w0e0</mode>
+	</consumer>
+    </geom>
+    <geom id="0xfffff800037eb500">
+      <class ref="0xffffffff81ec1a40"/>
+      <name>ada0s1a</name>
+      <rank>4</rank>
+	<consumer id="0xfffff80003a82e00">
+	  <geom ref="0xfffff800037eb500"/>
+	  <provider ref="0xfffff800037eb400"/>
+	  <mode>r0w0e0</mode>
+	</consumer>
+    </geom>
+    <geom id="0xfffff80003ab9200">
+      <class ref="0xffffffff81ec1a40"/>
+      <name>ada0s1</name>
+      <rank>3</rank>
+	<consumer id="0xfffff80003a83180">
+	  <geom ref="0xfffff80003ab9200"/>
+	  <provider ref="0xfffff80003a46200"/>
+	  <mode>r0w0e0</mode>
+	</consumer>
+    </geom>
+    <geom id="0xfffff800037eb800">
+      <class ref="0xffffffff81ec1a40"/>
+      <name>ada0</name>
+      <rank>2</rank>
+	<consumer id="0xfffff80003a83500">
+	  <geom ref="0xfffff800037eb800"/>
+	  <provider ref="0xfffff80003518200"/>
+	  <mode>r0w0e0</mode>
+	</consumer>
+    </geom>
+    <geom id="0xfffff80003517400">
+      <class ref="0xffffffff81ec1a40"/>
+      <name>cd0</name>
+      <rank>2</rank>
+	<consumer id="0xfffff80003800600">
+	  <geom ref="0xfffff80003517400"/>
+	  <provider ref="0xfffff80003517700"/>
+	  <mode>r0w0e0</mode>
+	</consumer>
+    </geom>
+  </class>
+</mesh>
+

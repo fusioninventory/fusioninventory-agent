@@ -100,6 +100,10 @@ sub _getCPUs {
             }->{lc($2)} * $1;
         }
 
+        # Support CORECOUNT total available cores
+        $cpu->{CORECOUNT} = $dmidecodeInfo->{CORECOUNT}
+            if ($dmidecodeInfo->{CORECOUNT});
+
         push @cpus, $cpu;
 
         $cpuId++;

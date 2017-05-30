@@ -7779,7 +7779,8 @@ my %cpu_tests = (
             MODEL          => '42',
             MANUFACTURER   => 'Intel',
             FAMILYNAME     => 'Core 2 Duo',
-            CORE           => '4'
+            CORE           => '1',
+            CORECOUNT      => '4'
         }
     ],
     'windows-7.2' => [

@@ -44,9 +44,9 @@ sub _getSoftwaresList {
     }
     my $localTimeOffset = FusionInventory::Agent::Tools::MacOS::detectLocalTimeOffset();
     $infos = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfos(
+        %params,
         type            => 'SPApplicationsDataType',
-        localTimeOffset => $localTimeOffset,
-        @_
+        localTimeOffset => $localTimeOffset
     );
 
     my $info = $infos->{Applications};

@@ -82,27 +82,29 @@ sub _send_magic_packet_ethernet {
     die "root privileges needed\n" unless $UID == 0;
     die "Net::Write module needed\n" unless Net::Write::Layer2->require();
 
-    my $interface = $self->_getInterface();
-    my $source = $interface->{MACADDR};
-    $source =~ s/://g;
+    for my $interface ( $self->_getInterfaces() ) {
+        my $source = $interface->{MACADDR};
+        $source =~ s/://g;
+        my $dev = $interface->{DESCRIPTION};
 
-    my $packet =
-        pack('H12', $target) .
-        pack('H12', $source) .
-        pack('H4', "0842")   .
-        $self->_getPayload($target);
+        my $packet =
+            pack('H12', $target) .
+            pack('H12', $source) .
+            pack('H4', "0842")   .
+            $self->_getPayload($target);
 
-    $self->{logger}->debug(
-        "Sending magic packet to $target as ethernet frame"
-    );
+        $self->{logger}->debug(
+            "Sending magic packet to $target as ethernet frame on $dev"
+        );
 
-    my $writer = Net::Write::Layer2->new(
-       dev => $interface->{DESCRIPTION}
-    );
+        my $writer = Net::Write::Layer2->new(
+           dev => $dev
+        );
 
-    $writer->open();
-    $writer->send($packet);
-    $writer->close();
+        $writer->open();
+        $writer->send($packet);
+        $writer->close();
+    }
 }
 
 sub _send_magic_packet_udp {
@@ -124,7 +126,7 @@ sub _send_magic_packet_udp {
     close($socket);
 }
 
-sub _getInterface {
+sub _getInterfaces {
     my ($self) = @_;
 
     my @interfaces;
@@ -151,24 +153,23 @@ sub _getInterface {
             @interfaces = FusionInventory::Agent::Tools::Win32::getInterfaces(
                 logger => $self->{logger}
             );
+            # on Windows, we have to use internal device name instead of litteral name
+            for my $interface ( @interfaces ) {
+                $interface->{DESCRIPTION} =
+                    $self->_getWin32InterfaceId($interface->{PNPDEVICEID})
+            }
+
             last;
         }
     }
 
-    # let's take the first interface with an IP adress, a MAC address
-    # different from the loopback
-    my $interface =
-        first { $_->{DESCRIPTION} ne 'lo' }
+    my @nonloopbackordumbinterfaces =
+        grep { $_->{DESCRIPTION} ne 'lo' }
         grep { $_->{IPADDRESS} }
         grep { $_->{MACADDR} }
         @interfaces;
 
-    # on Windows, we have to use internal device name instead of litteral name
-    $interface->{DESCRIPTION} =
-        $self->_getWin32InterfaceId($interface->{PNPDEVICEID})
-        if $OSNAME eq 'MSWin32';
-
-    return $interface;
+   return @nonloopbackordumbinterfaces;
 }
 
 sub _getPayload {
