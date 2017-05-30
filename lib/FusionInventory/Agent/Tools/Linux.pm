@@ -203,13 +203,13 @@ sub getDevicesFromProc {
         logger  => $logger
     );
 
-    return unless $handle;
-
-    while (my $line = <$handle>) {
-        next unless $line =~ m{^/dev/([shv]d[a-z])};
-        push @names, $1;
+    if ($handle) {
+        while (my $line = <$handle>) {
+            next unless $line =~ m{^/dev/([shv]d[a-z])};
+            push @names, $1;
+        }
+        close $handle;
     }
-    close $handle;
 
     # filter duplicates
     my %seen;
