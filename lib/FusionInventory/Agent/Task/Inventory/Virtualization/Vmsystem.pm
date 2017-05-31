@@ -93,7 +93,7 @@ sub doInventory {
         );
 
         $inventory->setHardware( {
-            UUID => $containerid || ''
+            UUID => $containerid || '',
             SSN  => ''
         } );
     }
