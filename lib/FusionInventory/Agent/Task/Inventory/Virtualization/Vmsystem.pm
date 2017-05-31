@@ -92,10 +92,8 @@ sub doInventory {
             logger  => $params{logger}
         );
 
-        $inventory->setHardware( {
-            UUID => $containerid || '',
-            SSN  => ''
-        } );
+        $inventory->setHardware({ UUID => $containerid || '' });
+        $inventory->setBios({ SSN  => '' });
     }
 
     $inventory->setHardware({
