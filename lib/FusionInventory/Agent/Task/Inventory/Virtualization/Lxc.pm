@@ -152,7 +152,8 @@ sub  _getVirtualMachineId {
     return unless $rootfs;
 
     if ($rootfs =~ /^overlayfs:/) {
-        $rootfs = split(/:/,$rootfs)->[2];
+        my @overlayfs = split(/:/,$rootfs);
+        $rootfs = $overlayfs[2];
     }
 
     return  getFirstLine(
