@@ -24,7 +24,8 @@ sub doInventory {
         _getSerialATAStorages(logger => $logger),
         _getDiscBurningStorages(logger => $logger),
         _getCardReaderStorages(logger => $logger),
-        _getUSBStorages(logger => $logger)
+        _getUSBStorages(logger => $logger),
+        _getFireWireStorages(logger => $logger)
     ];
     foreach my $storage (@$storages) {
         $inventory->addEntry(
