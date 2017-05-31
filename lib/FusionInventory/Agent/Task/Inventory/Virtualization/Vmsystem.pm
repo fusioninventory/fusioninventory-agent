@@ -83,6 +83,19 @@ sub doInventory {
             pattern => qr/^envID:\s*(\d+)/
         ) || '';
         $inventory->setHardware({ UUID => $hostID . '-' . $guestID });
+
+    } elsif ($type eq 'Docker') {
+        # In docker, dmidecode can be run and so UUID & SSN must be overided
+        my $containerid = getFirstMatch(
+            file    => '/proc/1/cgroup',
+            pattern => qr|/docker/([0-9a-f]{12})|,
+            logger  => $params{logger}
+        );
+
+        $inventory->setHardware( {
+            UUID => $containerid || ''
+            SSN  => ''
+        } );
     }
 
     $inventory->setHardware({
@@ -112,7 +125,9 @@ sub _getType {
         return 'VirtualBox'  if $bios->{BVERSION} =~ /VirtualBox/;
     }
 
-    if (-f '/.dockerinit') {
+    # Docker
+
+    if (-f '/.dockerinit' || -f '/.dockerenv') {
         return 'Docker';
     }
 

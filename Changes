@@ -12,7 +12,7 @@ core:
 
 inventory:
 * Bump Inventory task version to 1.2
-* Updated Docker support
+* Fixed Docker support
 * Added system software category support
 * Added firewall status innventory support
 * Fix last user computation on some unix systems
