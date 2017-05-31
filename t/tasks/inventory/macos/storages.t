@@ -8,6 +8,7 @@ use Test::Deep;
 use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
+use English;
 
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::MacOS::Storages;
@@ -273,55 +274,65 @@ foreach my $test (keys %tests) {
     } "$test: registering";
 }
 
+XML::XPath->require();
+my $checkXmlXPath = $EVAL_ERROR ? 0 : 1;
+my $nbTests = scalar (keys %testsSerialATA)
+    + scalar (keys %testsDiscBurning)
+    + scalar (keys %testsCardReader)
+    + scalar (keys %testsUSBStorage)
+    + scalar (keys %testsFireWireStorage);
+SKIP: {
+    skip "test only if module XML::XPath available", $nbTests unless $checkXmlXPath;
 
-foreach my $test (keys %testsSerialATA) {
-    my $file = "resources/macos/system_profiler/$test";
-    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getSerialATAStorages(file => $file);
-    cmp_deeply(
-        [ sort { compare() } @storages ],
-        [ sort { compare() } @{$testsSerialATA{$test}} ],
-        "testsSerialATA $test: parsing"
-    );
-}
+    foreach my $test (keys %testsSerialATA) {
+        my $file = "resources/macos/system_profiler/$test";
+        my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getSerialATAStorages(file => $file);
+        cmp_deeply(
+            [ sort { compare() } @storages ],
+            [ sort { compare() } @{$testsSerialATA{$test}} ],
+            "testsSerialATA $test: parsing"
+        );
+    }
 
-foreach my $test (keys %testsDiscBurning) {
-    my $file = "resources/macos/system_profiler/$test";
-    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getDiscBurningStorages(file => $file);
-    cmp_deeply(
-        [ sort { compare() } @storages ],
-        [ sort { compare() } @{$testsDiscBurning{$test}} ],
-        "testsDiscBurning $test: parsing"
-    );
-}
+    foreach my $test (keys %testsDiscBurning) {
+        my $file = "resources/macos/system_profiler/$test";
+        my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getDiscBurningStorages(file => $file);
+        cmp_deeply(
+            [ sort { compare() } @storages ],
+            [ sort { compare() } @{$testsDiscBurning{$test}} ],
+            "testsDiscBurning $test: parsing"
+        );
+    }
 
-foreach my $test (keys %testsCardReader) {
-    my $file = "resources/macos/system_profiler/$test";
-    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getCardReaderStorages(file => $file);
-    cmp_deeply(
-        [ sort { compare() } @storages ],
-        [ sort { compare() } @{$testsCardReader{$test}} ],
-        "testsDiscBurning $test: parsing"
-    );
-}
+    foreach my $test (keys %testsCardReader) {
+        my $file = "resources/macos/system_profiler/$test";
+        my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getCardReaderStorages(file => $file);
+        cmp_deeply(
+            [ sort { compare() } @storages ],
+            [ sort { compare() } @{$testsCardReader{$test}} ],
+            "testsDiscBurning $test: parsing"
+        );
+    }
 
-foreach my $test (keys %testsUSBStorage) {
-    my $file = "resources/macos/system_profiler/$test";
-    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getUSBStorages(file => $file);
-    cmp_deeply(
-        [ sort { compare() } @storages ],
-        [ sort { compare() } @{$testsUSBStorage{$test}} ],
-        "testsUSBStorage $test: parsing"
-    );
-}
+    foreach my $test (keys %testsUSBStorage) {
+        my $file = "resources/macos/system_profiler/$test";
+        my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getUSBStorages(file => $file);
+        cmp_deeply(
+            [ sort { compare() } @storages ],
+            [ sort { compare() } @{$testsUSBStorage{$test}} ],
+            "testsUSBStorage $test: parsing"
+        );
+    }
 
-foreach my $test (keys %testsFireWireStorage) {
-    my $file = "resources/macos/system_profiler/$test";
-    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getFireWireStorages(file => $file);
-    cmp_deeply(
-        [ sort { compare() } @storages ],
-        [ sort { compare() } @{$testsFireWireStorage{$test}} ],
-        "testsFireWireStorage $test: parsing"
-    );
+    foreach my $test (keys %testsFireWireStorage) {
+        my $file = "resources/macos/system_profiler/$test";
+        my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getFireWireStorages(file => $file);
+        cmp_deeply(
+            [ sort { compare() } @storages ],
+            [ sort { compare() } @{$testsFireWireStorage{$test}} ],
+            "testsFireWireStorage $test: parsing"
+        );
+    }
 }
 
 my $cleanedSizeStr = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_cleanSizeString('297,29 GB');
