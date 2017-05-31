@@ -6,6 +6,8 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Lxc;
 use strict;
 use warnings;
 
+use Digest::SHA qw(sha1_hex);
+
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
@@ -112,6 +114,18 @@ sub  _getVirtualMachines {
             logger => $params{logger}
         );
 
+        my $machineid = ( $status && $status eq 'running' ) ?
+            getFirstLine(
+                command => "/usr/bin/lxc-attach -n '$name' -- cat /etc/machine-id",
+                logger => $params{logger}
+            )
+            :
+            _getVirtualMachineId(
+                command => "/usr/bin/lxc-info -n '$name' -c lxc.rootfs",
+                pattern => qr/^lxc.rootfs\s*=\s*(.+)$/,
+                logger  => $params{logger}
+            );
+
         my $config = _getVirtualMachineConfig(
             file => "/var/lib/lxc/$name/config",
             logger => $params{logger}
@@ -119,15 +133,32 @@ sub  _getVirtualMachines {
 
         push @machines, {
             NAME   => $name,
-            VMTYPE => 'LXC',
+            VMTYPE => 'lxc',
             STATUS => $status,
             VCPU   => $config->{VCPU},
             MEMORY => $config->{MEMORY},
+            UUID   => $machineid ? sha1_hex( $machineid . $name ) : ''
         };
     }
     close $handle;
 
     return @machines;
+}
+
+sub  _getVirtualMachineId {
+    my (%params) = @_;
+
+    my $rootfs = getFirstMatch(%params);
+    return unless $rootfs;
+
+    if ($rootfs =~ /^overlayfs:/) {
+        $rootfs = split(/:/,$rootfs)->[2];
+    }
+
+    return  getFirstLine(
+        file   => "$rootfs/etc/machine-id",
+        logger => $params{logger}
+    );
 }
 
 1;
