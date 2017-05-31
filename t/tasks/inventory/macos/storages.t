@@ -115,7 +115,147 @@ my %tests = (
     ]
 );
 
-plan tests => (2 * scalar keys %tests) + 1;
+my %testsSerialATA = (
+    'SPSerialATADataType.xml' => [
+        {
+            NAME         => 'disk0',
+            MANUFACTURER => 'Western Digital',
+            INTERFACE    => 'SERIAL-ATA',
+            SERIAL       => 'WD-WCARY1264478',
+            MODEL        => 'WDC WD2500AAJS-40VWA1',
+            FIRMWARE     => '58.01D02',
+            DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromBytesToMegaBytes(250059350016),
+            TYPE         => 'Disk drive',
+            DESCRIPTION  => 'WDC WD2500AAJS-40VWA1'
+        }
+    ],
+    'SPSerialATADataType2.xml' => [
+        {
+            NAME         => 'disk0',
+            MANUFACTURER => 'Apple',
+            INTERFACE    => 'SERIAL-ATA',
+            SERIAL       => '1435NL400611',
+            MODEL        => 'SSD SD0128F',
+            FIRMWARE     => 'A222821',
+            DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromBytesToMegaBytes(121332826112),
+            TYPE         => 'Disk drive',
+            DESCRIPTION  => 'APPLE SSD SD0128F'
+        }
+    ]
+);
+
+my %testsDiscBurning = (
+    'SPDiscBurningDataType.xml' => [
+        {
+            NAME         => 'OPTIARC DVD RW AD-5630A',
+            MANUFACTURER => 'Sony',
+            INTERFACE    => 'ATAPI',
+            MODEL        => 'OPTIARC DVD RW AD-5630A',
+            FIRMWARE     => '1AHN',
+            TYPE         => 'Disk burning'
+        }
+    ],
+    'SPDiscBurningDataType2.xml' => []
+);
+
+my %testsCardReader = (
+    'SPCardReaderDataType.xml' => [
+        {
+            NAME         => 'spcardreader',
+            SERIAL       => '000000000820',
+            MODEL        => '0x8406',
+            FIRMWARE     => '3.00',
+            MANUFACTURER => '0x05ac',
+            TYPE         => 'Card reader',
+            DESCRIPTION  => 'spcardreader'
+        }
+    ],
+    'SPCardReaderDataType_with_inserted_card.xml' => [
+        {
+            NAME         => 'spcardreader',
+            DESCRIPTION  => 'spcardreader',
+            SERIAL       => '000000000820',
+            MODEL        => '0x8406',
+            FIRMWARE     => '3.00',
+            MANUFACTURER => '0x05ac',
+            TYPE         => 'Card reader'
+        },
+        {
+            NAME         => 'disk2',
+            DESCRIPTION  => 'SDHC Card',
+            DISKSIZE     => sprintf("%d", 15931539456 / 1024 / 1024),
+            TYPE         => 'SD Card'
+        }
+    ]
+);
+
+my %testsUSBStorage = (
+    'SPUSBDataType.xml' => [
+        {
+            NAME         => 'disk1',
+            SERIAL       => '20150123045944',
+            MODEL        => '0xa00c',
+            FIRMWARE     => '1.07',
+            MANUFACTURER => 'Toshiba',
+            DESCRIPTION  => 'External USB 3.0',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromBytesToMegaBytes(500107859968)
+        }
+    ],
+    'SPUSBDataType_without_inserted_dvd.xml' => [
+        {
+            NAME         => 'Optical USB 2.0',
+            SERIAL       => 'DEF109C77CF6',
+            MODEL        => '0x0252',
+            FIRMWARE     => '0.01',
+            MANUFACTURER => 'Iomega',
+            DESCRIPTION  => 'Optical USB 2.0',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => ''
+        }
+    ],
+    'SPUSBDataType_with_inserted_dvd.xml' => [
+        {
+            NAME         => 'disk3',
+            SERIAL       => 'DEF109C77CF6',
+            MODEL        => '0x0252',
+            FIRMWARE     => '0.01',
+            MANUFACTURER => 'Iomega',
+            DESCRIPTION  => 'Optical USB 2.0',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => sprintf("%d", 392647584 / 1024 / 1024)
+        }
+    ]
+);
+
+my %testsFireWireStorage = (
+    'SPFireWireDataType.xml' => [
+        {
+            NAME         => 'disk2',
+            DESCRIPTION  => 'Target Disk Mode SBP-LUN',
+            DISKSIZE     => sprintf("%d", 298.09 * 1024),
+            FIRMWARE     => '',
+            INTERFACE    => 'FireWire',
+            MANUFACTURER => '',
+            MODEL        => '',
+            SERIAL       => '',
+            TYPE         => 'Disk drive'
+        }
+    ]
+);
+
+plan tests => (2 * scalar (keys %tests))
+        + 1
+        + scalar (keys %testsSerialATA)
+        + scalar (keys %testsDiscBurning)
+        + scalar (keys %testsCardReader)
+        + scalar (keys %testsUSBStorage)
+        + scalar (keys %testsFireWireStorage)
+        + 2
+;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
@@ -132,6 +272,63 @@ foreach my $test (keys %tests) {
             foreach @storages;
     } "$test: registering";
 }
+
+
+foreach my $test (keys %testsSerialATA) {
+    my $file = "resources/macos/system_profiler/$test";
+    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getSerialATAStorages(file => $file);
+    cmp_deeply(
+        [ sort { compare() } @storages ],
+        [ sort { compare() } @{$testsSerialATA{$test}} ],
+        "testsSerialATA $test: parsing"
+    );
+}
+
+foreach my $test (keys %testsDiscBurning) {
+    my $file = "resources/macos/system_profiler/$test";
+    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getDiscBurningStorages(file => $file);
+    cmp_deeply(
+        [ sort { compare() } @storages ],
+        [ sort { compare() } @{$testsDiscBurning{$test}} ],
+        "testsDiscBurning $test: parsing"
+    );
+}
+
+foreach my $test (keys %testsCardReader) {
+    my $file = "resources/macos/system_profiler/$test";
+    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getCardReaderStorages(file => $file);
+    cmp_deeply(
+        [ sort { compare() } @storages ],
+        [ sort { compare() } @{$testsCardReader{$test}} ],
+        "testsDiscBurning $test: parsing"
+    );
+}
+
+foreach my $test (keys %testsUSBStorage) {
+    my $file = "resources/macos/system_profiler/$test";
+    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getUSBStorages(file => $file);
+    cmp_deeply(
+        [ sort { compare() } @storages ],
+        [ sort { compare() } @{$testsUSBStorage{$test}} ],
+        "testsUSBStorage $test: parsing"
+    );
+}
+
+foreach my $test (keys %testsFireWireStorage) {
+    my $file = "resources/macos/system_profiler/$test";
+    my @storages = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_getFireWireStorages(file => $file);
+    cmp_deeply(
+        [ sort { compare() } @storages ],
+        [ sort { compare() } @{$testsFireWireStorage{$test}} ],
+        "testsFireWireStorage $test: parsing"
+    );
+}
+
+my $cleanedSizeStr = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_cleanSizeString('297,29 GB');
+ok (defined $cleanedSizeStr && $cleanedSizeStr eq '297.29');
+$cleanedSizeStr = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_cleanSizeString('2456 MB');
+ok (defined $cleanedSizeStr && $cleanedSizeStr eq '2456');
+
 
 sub compare {
     return
