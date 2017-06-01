@@ -1288,8 +1288,10 @@ sub _getLLDPInfo {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
+    my $logger = $params{logger};
 
     my $results;
+    my $ChassisIdSubType = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.4');
     my $lldpRemChassisId = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.5');
     my $lldpRemPortId    = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.7');
     my $lldpRemPortDesc  = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.8');
@@ -1308,6 +1310,16 @@ sub _getLLDPInfo {
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
         my $sysdescr = _getCanonicalString($lldpRemSysDesc->{$suffix});
         next unless $sysdescr;
+
+        # We only support macAddress as LldpChassisIdSubtype at the moment
+        my $subtype = $ChassisIdSubType->{$suffix} || "n/a";
+        unless ($subtype eq '4') {
+            $logger->debug(
+                "ChassisId subtype $subtype not supported for <$sysdescr>, value was " .
+                ($mac||"n/a") . ", please report this issue"
+            ) if $logger;
+            next;
+        }
 
         my $connection = {
             SYSMAC   => lc(alt2canonical($mac)),
