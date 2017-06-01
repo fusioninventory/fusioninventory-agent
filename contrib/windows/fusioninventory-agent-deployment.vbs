@@ -1,7 +1,7 @@
 '
 '  ------------------------------------------------------------------------
 '  fusioninventory-agent-deployment.vbs
-'  Copyright (C) 2010-2013 by the FusionInventory Development Team.
+'  Copyright (C) 2010-2017 by the FusionInventory Development Team.
 '
 '  http://www.fusioninventory.org/ http://forge.fusioninventory.org/
 '  ------------------------------------------------------------------------
@@ -34,7 +34,8 @@
 '             Christophe Pujol <chpujol@gmail.com>
 '             Marc Caissial <marc.caissial@zenitique.fr>
 '             Tomas Abad <tabadgp@gmail.com>
-'  @copyright Copyright (c) 2010-2013 FusionInventory Team
+'             Wanderlei Hüttel <wanderlei.huttel@gmail.com>
+'  @copyright Copyright (c) 2010-2017 FusionInventory Team
 '  @license   GNU GPL version 2 or (at your option) any later version
 '             http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html
 '  @link      http://www.fusioninventory.org/
@@ -52,8 +53,8 @@
 '
 
 Option Explicit
-Dim Force, Verbose
-Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
+Dim Force, Verbose, Telegram
+Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion, SetupApiToken, SetupChatID
 
 '
 '
@@ -64,7 +65,7 @@ Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
 ' SetupVersion
 '    Setup version with the pattern <major>.<minor>.<release>[-<package>]
 '
-SetupVersion = "2.3.18"
+SetupVersion = "2.3.19"
 
 ' SetupLocation
 '    Depending on your needs or your environment, you can use either a HTTP or
@@ -82,7 +83,8 @@ SetupVersion = "2.3.18"
 '       You also must be sure that you have removed the "Open File Security Warning"
 '       from programs accessed from that UNC.
 '
-SetupLocation = "https://github.com/tabad/fusioninventory-agent-windows-installer/releases/download/" & SetupVersion
+'SetupLocation = "http://glpi.yourcompany.com/fusioninventory/fusioninventory-agent"
+SetupLocation = "https://github.com/fusioninventory/fusioninventory-agent/releases/download/" & SetupVersion
 
 
 ' SetupArchitecture
@@ -99,7 +101,7 @@ SetupArchitecture = "Auto"
 '    You should use simple quotes (') to set between quotation marks those values
 '    that require it; double quotes (") doesn't work with UNCs.
 '
-SetupOptions = "/acceptlicense /runnow /server='http://glpi.yourcompany.com/glpi/plugins/fusioninventory/' /S"
+SetupOptions = "/acceptlicense /runnow /server='http://glpi.yourcompany.com/glpi/plugins/fusioninventory/' /S /tag=MyTag /delaytime=60 /httpd-trust='127.0.0.1/32,192.168.1.0/24' /execmode=service"
 
 ' Setup
 '    The installer file name. You should not have to modify this variable ever.
@@ -118,6 +120,20 @@ Force = "No"
 '
 Verbose = "No"
 
+' Telegram
+'    Notified installation on Telegram
+'
+Telegram = "No"
+
+' SetupApiToken
+'    API Token Telegram
+'
+SetupApiToken = ""
+
+' SetupChatID
+'    Chat ID Telegram
+'
+SetupChatID   =""
 '
 '
 ' DO NOT EDIT BELOW
@@ -339,6 +355,49 @@ Function ShowMessage(strMessage)
    End If
 End Function
 
+
+Function SendTelegram(SetupApiToken, SetupChatID)
+   If LCase(Telegram) <> "no" Then
+      Dim web, strUrl, strComputerName, Message
+      Set wshShell = CreateObject( "WScript.Shell" )
+      Message = ">>>>> FusionInventory-Agent updated to " & SetupVersion & " <<<<</n/n" & GetComputerInformation
+      Message = Replace(Message,"/n","%0A")
+      
+      strUrl="https://api.telegram.org/bot" & SetupApiToken & "/sendMessage?chat_id=" & SetupChatID & "&text=" & Message
+      Err.Clear
+      Set web = Nothing
+      Set web = CreateObject("WinHttp.WinHttpRequest.5.1")
+      If web Is Nothing Then Set web = CreateObject("WinHttp.WinHttpRequest")
+      If web Is Nothing Then Set web = CreateObject("MSXML2.ServerXMLHTTP")
+      If web Is Nothing Then Set web = CreateObject("Microsoft.XMLHTTP")
+      web.Open "GET", strURL, False
+      web.Send
+   End If
+
+End Function
+
+
+Function GetComputerInformation()
+    Dim wshNetwork, wmiQuery, objWMIService, colItems, objItem, strIPAddres, strMacAddress, strAddress
+    Set wshNetwork = CreateObject("WScript.Network")
+
+    wmiQuery = "Select * from Win32_NetworkAdapterConfiguration " & "Where IPEnabled = 'True'"
+    Set objWMIService = GetObject("winmgmts:\\.\root\cimv2")
+    Set colItems = objWMIService.ExecQuery(wmiQuery)
+     
+     strAddress = "{"
+    For Each objItem In colItems
+      For Each strIPAddres In objItem.IPAddress
+        strAddress = strAddress & strIPAddres & " | " & objItem.MACAddress & "}, " & "{"
+      Next
+    Next
+    strAddress = strAddress & "}"
+    strAddress = replace(strAddress,", {}","")
+    GetComputerInformation = "Machine: " & wshNetwork.computername & "/n" & "Domain/User: " & wshNetwork.UserDomain  & "\" & wshNetwork.UserName & "/n" & "IP/MAC: " & strAddress & "/n/n" & "Date: " & FormatDateTime(now)
+
+End Function
+
+
 '
 '
 ' MAIN
@@ -401,6 +460,7 @@ If IsSelectedForce() Or IsInstallationNeeded(SetupVersion, SetupArchitecture, st
          WshShell.Run """" & strTempDir & "\" & Setup & """ " & SetupOptions, 0, True
          ShowMessage("Scheduling: DEL /Q /F """ & strTempDir & "\" & Setup & """")
          WshShell.Run "AT.EXE " & AdvanceTime(nMinutesToAdvance) & " " & strCmd & " /C ""DEL /Q /F """"" & strTempDir & "\" & Setup & """""", 0, True
+         SendTelegram SetupApiToken, SetupChatID
          ShowMessage("Deployment done!")
       Else
          ShowMessage("Error downloading '" & SetupLocation & "\" & Setup & "'!")
@@ -408,6 +468,7 @@ If IsSelectedForce() Or IsInstallationNeeded(SetupVersion, SetupArchitecture, st
    Else
       ShowMessage("Running: """ & SetupLocation & "\" & Setup & """ " & SetupOptions)
       WshShell.Run "CMD.EXE /C """ & SetupLocation & "\" & Setup & """ " & SetupOptions, 0, True
+      SendTelegram SetupApiToken, SetupChatID
       ShowMessage("Deployment done!")
    End If
 Else
