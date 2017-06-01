@@ -134,6 +134,10 @@ sub getCanonicalManufacturer {
         $manufacturer = "Seagate";
     } elsif ($manufacturer =~ /^(HD|IC|HU|HGST)/) {
         $manufacturer = "Hitachi";
+    } elsif ($manufacturer =~ /^APPLE/i) {
+        $manufacturer = "Apple";
+    } elsif ($manufacturer =~ /^OPTIARC/i) {
+        $manufacturer = "Sony";
     }
 
     return $manufacturer;
