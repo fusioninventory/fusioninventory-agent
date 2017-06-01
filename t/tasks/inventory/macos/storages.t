@@ -164,7 +164,7 @@ my %testsCardReader = (
         {
             NAME         => 'spcardreader',
             SERIAL       => '000000000820',
-            MODEL        => '0x8406',
+            MODEL        => 'spcardreader',
             FIRMWARE     => '3.00',
             MANUFACTURER => '0x05ac',
             TYPE         => 'Card reader',
@@ -176,7 +176,7 @@ my %testsCardReader = (
             NAME         => 'spcardreader',
             DESCRIPTION  => 'spcardreader',
             SERIAL       => '000000000820',
-            MODEL        => '0x8406',
+            MODEL        => 'spcardreader',
             FIRMWARE     => '3.00',
             MANUFACTURER => '0x05ac',
             TYPE         => 'Card reader'
@@ -195,7 +195,7 @@ my %testsUSBStorage = (
         {
             NAME         => 'disk1',
             SERIAL       => '20150123045944',
-            MODEL        => '0xa00c',
+            MODEL        => 'External USB 3.0',
             FIRMWARE     => '1.07',
             MANUFACTURER => 'Toshiba',
             DESCRIPTION  => 'External USB 3.0',
@@ -208,7 +208,7 @@ my %testsUSBStorage = (
         {
             NAME         => 'Optical USB 2.0',
             SERIAL       => 'DEF109C77CF6',
-            MODEL        => '0x0252',
+            MODEL        => 'Optical USB 2.0',
             FIRMWARE     => '0.01',
             MANUFACTURER => 'Iomega',
             DESCRIPTION  => 'Optical USB 2.0',
@@ -221,7 +221,7 @@ my %testsUSBStorage = (
         {
             NAME         => 'disk3',
             SERIAL       => 'DEF109C77CF6',
-            MODEL        => '0x0252',
+            MODEL        => 'Optical USB 2.0',
             FIRMWARE     => '0.01',
             MANUFACTURER => 'Iomega',
             DESCRIPTION  => 'Optical USB 2.0',
@@ -234,7 +234,7 @@ my %testsUSBStorage = (
         {
             NAME         => 'disk1',
             SERIAL       => 'AASOP1QMSZ0XG051',
-            MODEL        => '0xa202',
+            MODEL        => 'JumpDrive',
             FIRMWARE     => '11.00',
             MANUFACTURER => 'Lexar',
             DESCRIPTION  => 'JumpDrive',
@@ -245,7 +245,7 @@ my %testsUSBStorage = (
         {
             NAME         => 'disk3',
             SERIAL       => '20150123045944',
-            MODEL        => '0xa00c',
+            MODEL        => 'External USB 3.0',
             FIRMWARE     => '1.07',
             MANUFACTURER => 'Toshiba',
             DESCRIPTION  => 'External USB 3.0',

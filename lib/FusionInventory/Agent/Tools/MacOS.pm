@@ -149,6 +149,7 @@ sub _extractStoragesFromXml {
             . "/key[text()='units']/following-sibling::array[1]/child::dict"
             . "/key[text()='units']/following-sibling::array[1]/child::dict"
             . "[string[starts-with(.,'disk')]]";
+
     }
     my $n = $xmlParser->findnodes($xPathExpr);
     my @nl = $n->get_nodelist();

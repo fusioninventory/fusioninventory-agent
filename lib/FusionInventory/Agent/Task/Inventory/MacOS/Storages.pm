@@ -118,7 +118,7 @@ sub _extractStorage {
         MANUFACTURER => getCanonicalManufacturer($hash->{_name}),
 #        TYPE         => $bus_name eq 'FireWire' ? '1394' : $bus_name,
         SERIAL       => $hash->{device_serial},
-        MODEL        => $hash->{device_model},
+        MODEL        => $hash->{device_model} || $hash->{_name},
         FIRMWARE     => $hash->{device_revision},
         DISKSIZE     => _extractDiskSize($hash),
         DESCRIPTION  => $hash->{_name}
@@ -216,7 +216,7 @@ sub _extractCardReader {
         NAME         => $hash->{bsd_name} || $hash->{_name},
         DESCRIPTION  => $hash->{_name},
         SERIAL       => $hash->{spcardreader_serialnumber},
-        MODEL        => $hash->{'spcardreader_product-id'},
+        MODEL        => $hash->{_name},
         FIRMWARE     => $hash->{'spcardreader_revision-id'},
         MANUFACTURER => $hash->{'spcardreader_vendor-id'}
     };
@@ -319,7 +319,7 @@ sub _extractUSBStorage {
         NAME         => $hash->{bsd_name} || $hash->{_name},
         DESCRIPTION  => $hash->{_name},
         SERIAL       => _extractValueInHashWithKeyPattern(qr/^(?:\w_)?serial_num$/, $hash),
-        MODEL        => _extractValueInHashWithKeyPattern(qr/^(?:\w_)?product_id$/, $hash),
+        MODEL        => _extractValueInHashWithKeyPattern(qr/^(?:\w_)?device_model/, $hash) || $hash->{_name},
         FIRMWARE     => _extractValueInHashWithKeyPattern(qr/^(?:\w_)?bcd_device$/, $hash),
         MANUFACTURER => getCanonicalManufacturer(_extractValueInHashWithKeyPattern(qr/(?:\w_)?manufacturer/, $hash)) || '',
         DISKSIZE     => _extractDiskSize($hash)
