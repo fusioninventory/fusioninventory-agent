@@ -131,7 +131,6 @@ sub _extractStoragesFromXml {
 
     my $storagesHash = {};
     my $xPathExpr;
-    my $xPathExpr2;
     if ($params{type} eq 'SPSerialATADataType') {
         $xPathExpr =
             "/plist/array[1]/dict[1]/key[text()='_items']/following-sibling::array[1]/child::dict"
@@ -150,15 +149,6 @@ sub _extractStoragesFromXml {
         my $storage = _makeHashFromKeyValuesTextNodes($elem);
         next unless $storage->{_name};
         $storagesHash->{$storage->{_name}} = $storage;
-        if ($xPathExpr2) {
-            my $nodeSet = $xmlParser->findnodes($xPathExpr2, $elem);
-            my @nodeList = $nodeSet->get_nodelist();
-            for my $elem (@nodeList) {
-                next unless scalar (@{$elem->getChildNodes()});
-                $storage = _makeHashFromKeyValuesTextNodes($elem);
-                $storagesHash->{$storage->{_name}} = $storage;
-            }
-        }
     }
     return $storagesHash;
 }
