@@ -1312,13 +1312,12 @@ sub _getLLDPInfo {
         next unless $sysdescr;
 
         # We only support macAddress as LldpChassisIdSubtype at the moment
-        my $subtype = $ChassisIdSubType->{$suffix}
-            or next;
+        my $subtype = $ChassisIdSubType->{$suffix} || "n/a";
         unless ($subtype eq '4') {
-            $logger->warning(
+            $logger->debug(
                 "ChassisId subtype $subtype not supported for <$sysdescr>, value was " .
                 ($mac||"n/a") . ", please report this issue"
-            );
+            ) if $logger;
             next;
         }
 
