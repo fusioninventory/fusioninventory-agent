@@ -26,7 +26,7 @@ inventory:
 netinventory:
 * Fix #221, #275
 * Command documentation updated
-* additional devices in sysobject.ids
+* a lot more of additional devices in sysobject.ids
 * Fix Juniper new model and firmware detection
 
 deploy:
