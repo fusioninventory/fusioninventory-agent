@@ -1,0 +1,10 @@
+Status: active
+
+To                         Action      From
+--                         ------      ----
+32323                      DENY        Anywhere
+22                         DENY        Anywhere
+7765                       ALLOW       Anywhere
+32323 (v6)                 DENY        Anywhere (v6)
+22 (v6)                    DENY        Anywhere (v6)
+7765 (v6)                  ALLOW       Anywhere (v6)
