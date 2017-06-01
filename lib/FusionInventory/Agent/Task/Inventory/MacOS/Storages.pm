@@ -295,7 +295,7 @@ sub _getUSBStorages {
 
     my @storages = ();
     for my $hash (values %{$infos->{storages}}) {
-        next if $hash->{_name} =~ /keyboard/i;
+        next if $hash->{_name} =~ /keyboard|controller|IR Receiver|built-in/i;
         next if ($hash->{'Built-in_Device'} && $hash->{'Built-in_Device'} eq 'Yes');
         my $storage = _extractUSBStorage($hash);
         $storage->{TYPE} = 'Disk drive';

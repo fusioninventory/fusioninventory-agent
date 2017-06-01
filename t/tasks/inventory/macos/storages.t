@@ -229,6 +229,30 @@ my %testsUSBStorage = (
             INTERFACE    => 'USB',
             DISKSIZE     => sprintf("%d", 392647584 / 1024 / 1024)
         }
+    ],
+    'SPUSBDataType2.xml' => [
+        {
+            NAME         => 'disk1',
+            SERIAL       => 'AASOP1QMSZ0XG051',
+            MODEL        => '0xa202',
+            FIRMWARE     => '11.00',
+            MANUFACTURER => 'Lexar',
+            DESCRIPTION  => 'JumpDrive',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => sprintf("%d", 7.34 * 1024)
+        },
+        {
+            NAME         => 'disk3',
+            SERIAL       => '20150123045944',
+            MODEL        => '0xa00c',
+            FIRMWARE     => '1.07',
+            MANUFACTURER => 'Toshiba',
+            DESCRIPTION  => 'External USB 3.0',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromGigaBytesToMegaBytes(465.76)
+        }
     ]
 );
 
