@@ -53,7 +53,7 @@
 
 Option Explicit
 Dim Force, Verbose
-Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
+Dim Setup, SetupArchitecture, SetupLocation, ServerLocation, SetupOptions, SetupVersion
 
 '
 '
@@ -93,13 +93,14 @@ SetupLocation = "https://github.com/tabad/fusioninventory-agent-windows-installe
 '
 SetupArchitecture = "Auto"
 
+ServerLocation = "http://glpi.yourcompany.com/glpi/plugins/fusioninventory/"
 ' SetupOptions
 '    Consult the installer documentation to know its list of options.
 '
 '    You should use simple quotes (') to set between quotation marks those values
 '    that require it; double quotes (") doesn't work with UNCs.
 '
-SetupOptions = "/acceptlicense /runnow /server='http://glpi.yourcompany.com/glpi/plugins/fusioninventory/' /S"
+SetupOptions = "/acceptlicense /runnow /server='" & ServerLocation & "' /S"
 
 ' Setup
 '    The installer file name. You should not have to modify this variable ever.
@@ -413,3 +414,6 @@ If IsSelectedForce() Or IsInstallationNeeded(SetupVersion, SetupArchitecture, st
 Else
    ShowMessage("It isn't needed the installation of '" & Setup & "'.")
 End If
+
+' Update server location
+WshShell.RegWrite "HKEY_LOCAL_MACHINE\SOFTWARE\FusionInventory-Agent\server", ServerLocation,"REG_SZ"
