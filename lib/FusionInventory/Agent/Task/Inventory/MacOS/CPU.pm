@@ -90,7 +90,7 @@ sub _getCpus {
     my $cpu = {
         CORE         => $cores,
         MANUFACTURER => $manufacturer,
-        NAME         => $type,
+        NAME         => trimWhitespace($type),
         THREAD       => $threads,
         FAMILYNUMBER => $family,
         MODEL        => $model,
