@@ -6,7 +6,12 @@ use warnings;
 use JSON::PP;
 use Test::More;
 
-use FusionInventory::Agent::Task::Deploy;
+use UNIVERSAL::require;
+
+plan(skip_all => "Required File::Copy::Recursive module not installed")
+    unless File::Copy::Recursive->require();
+
+FusionInventory::Agent::Task::Deploy->require();
 
 my @tests = (
         {
