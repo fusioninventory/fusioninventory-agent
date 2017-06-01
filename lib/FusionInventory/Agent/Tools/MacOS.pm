@@ -137,24 +137,18 @@ sub _extractStoragesFromXml {
             "/plist/array[1]/dict[1]/key[text()='_items']/following-sibling::array[1]/child::dict"
                 . "/key[text()='_items']/following-sibling::array[1]/child::dict";
     } elsif ($params{type} eq 'SPDiscBurningDataType'
-        || $params{type} eq 'SPCardReaderDataType') {
-        $xPathExpr = "/plist/array[1]/dict[1]/key[text()='_items']/following-sibling::array[1]/child::dict";
-        $xPathExpr2 = "child::key[text()='_items']/following-sibling::array[1]/child::dict";
-    } elsif ($params{type} eq 'SPUSBDataType') {
-        $xPathExpr = "/plist/array[1]/dict[1]/key[text()='_items']/following-sibling::array[1]/child::dict"
-            . "/key[text()='_items']/following-sibling::array[1]/child::dict";
+        || $params{type} eq 'SPCardReaderDataType'
+        || $params{type} eq 'SPUSBDataType') {
+        $xPathExpr = "//key[text()='_items']/following-sibling::array[1]/child::dict";
     } elsif ($params{type} eq 'SPFireWireDataType') {
-        $xPathExpr = "/plist/array[1]/dict[1]/key[text()='_items']/following-sibling::array[1]/child::dict"
-            . "/key[text()='_items']/following-sibling::array[1]/child::dict"
-            . "/key[text()='units']/following-sibling::array[1]/child::dict"
-            . "/key[text()='units']/following-sibling::array[1]/child::dict"
+        $xPathExpr = "//key[text()='units']/following-sibling::array[1]/child::dict"
             . "[string[starts-with(.,'disk')]]";
-
     }
     my $n = $xmlParser->findnodes($xPathExpr);
     my @nl = $n->get_nodelist();
     for my $elem (@nl) {
         my $storage = _makeHashFromKeyValuesTextNodes($elem);
+        next unless $storage->{_name};
         $storagesHash->{$storage->{_name}} = $storage;
         if ($xPathExpr2) {
             my $nodeSet = $xmlParser->findnodes($xPathExpr2, $elem);

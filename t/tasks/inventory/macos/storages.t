@@ -252,6 +252,74 @@ my %testsUSBStorage = (
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
             DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromGigaBytesToMegaBytes(465.76)
+        },
+        {
+            NAME         => 'disk2',
+            SERIAL       => '1311141504461042257807',
+            MODEL        => 'UDisk 2.0',
+            FIRMWARE     => '1.00',
+            MANUFACTURER => 'General',
+            DESCRIPTION  => 'UDisk 2.0',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromGigaBytesToMegaBytes(1.88)
+        }
+    ],
+    'SPUSBDataType3.xml' => [
+        {
+            NAME         => 'disk3',
+            SERIAL       => '20150123045944',
+            MODEL        => 'External USB 3.0',
+            FIRMWARE     => '1.07',
+            MANUFACTURER => 'Toshiba',
+            DESCRIPTION  => 'External USB 3.0',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => sprintf("%d", 465.76 * 1024)
+        },
+        {
+            NAME         => 'disk1',
+            SERIAL       => '1311141504461042257807',
+            MODEL        => 'UDisk 2.0',
+            FIRMWARE     => '1.00',
+            MANUFACTURER => 'General',
+            DESCRIPTION  => 'UDisk 2.0',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => sprintf("%d", 1.88 * 1024)
+        },
+        {
+            NAME         => 'disk6',
+            SERIAL       => 'AASOP1QMSZ0XG051',
+            MODEL        => 'JumpDrive',
+            FIRMWARE     => '11.00',
+            MANUFACTURER => 'Lexar',
+            DESCRIPTION  => 'JumpDrive',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => sprintf("%d", 7.34 * 1024)
+        },
+        {
+            NAME         => 'disk5',
+            SERIAL       => '8CA13C74',
+            MODEL        => 'Mass Storage',
+            FIRMWARE     => '1.03',
+            MANUFACTURER => 'Generic',
+            DESCRIPTION  => 'Mass Storage',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => sprintf("%d", 3.84 * 1024)
+        },
+        {
+            NAME         => 'disk4',
+            SERIAL       => '024279000000034C',
+            MODEL        => 'USB Flash Disk',
+            FIRMWARE     => '1.00',
+            MANUFACTURER => 'General',
+            DESCRIPTION  => 'USB Flash Disk',
+            TYPE         => 'Disk drive',
+            INTERFACE    => 'USB',
+            DISKSIZE     => sprintf("%d", 3.73 * 1024)
         }
     ]
 );

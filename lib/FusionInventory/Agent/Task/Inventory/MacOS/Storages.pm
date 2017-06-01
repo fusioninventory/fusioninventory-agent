@@ -95,6 +95,7 @@ sub _getSerialATAStorages {
     return unless $infos->{storages};
     my @storages = ();
     for my $hash (values %{$infos->{storages}}) {
+        next if $hash->{_name} =~ /controller/i;
         my $storage = _extractStorage($hash);
         $storage->{TYPE} = 'Disk drive';
         $storage->{INTERFACE} = 'SERIAL-ATA';
@@ -295,8 +296,11 @@ sub _getUSBStorages {
 
     my @storages = ();
     for my $hash (values %{$infos->{storages}}) {
-        next if $hash->{_name} =~ /keyboard|controller|IR Receiver|built-in/i;
-        next if ($hash->{'Built-in_Device'} && $hash->{'Built-in_Device'} eq 'Yes');
+        unless ($hash->{bsn_name} && $hash->{bsd_name} =~ /^disk/) {
+            next if $hash->{_name} eq 'Mass Storage Device';
+            next if $hash->{_name} =~ /keyboard|controller|IR Receiver|built-in|hub|mouse|usb(?:\d+)?bus/i;
+            next if ($hash->{'Built-in_Device'} && $hash->{'Built-in_Device'} eq 'Yes');
+        }
         my $storage = _extractUSBStorage($hash);
         $storage->{TYPE} = 'Disk drive';
         $storage->{INTERFACE} = 'USB';
