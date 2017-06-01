@@ -101,14 +101,13 @@ sub  _getVirtualMachines {
 
     my @machines;
 
-    while(my $line = <$handle>) {
-        chomp $line;
-        next unless $line =~ m/^(\S+)$/;
-
-        my $name = $1;
+    while(my $name = <$handle>) {
+        # lxc-ls -1 shows one entry by line, just skip line if empty as name can contain space
+        chomp $name;
+        next unless length($name);
 
         my $status = _getVirtualMachineState(
-            command => "/usr/bin/lxc-info -n $name",
+            command => "/usr/bin/lxc-info -n '$name'",
             logger => $params{logger}
         );
 
