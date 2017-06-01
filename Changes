@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.3.20 not released
+2.3.20 Thu, 1 Jun 2017
 core:
 * Fix #224, #254, #268
 * Fix 2.3.19 regression while installing from sources
@@ -22,6 +22,7 @@ inventory:
   parse system profiler output
 * Fix: block device inventory still possible even if fdisk command is missing on linux
 * Fix #289: Add ARM Board support
+* Support UUID for lxc containers
 
 netinventory:
 * Fix #221, #275
