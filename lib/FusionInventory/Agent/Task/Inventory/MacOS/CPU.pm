@@ -53,7 +53,8 @@ sub _getCpus {
     }
     close $handle;
 
-    my $type  = $sysprofile_info->{'Processor Name'} ||
+    my $type  = $sysctl_info->{'machdep.cpu.brand_string'} || 
+                $sysprofile_info->{'Processor Name'} ||
                 $sysprofile_info->{'CPU Type'};
     my $procs = $sysprofile_info->{'Number Of Processors'} ||
                 $sysprofile_info->{'Number Of CPUs'}       ||
