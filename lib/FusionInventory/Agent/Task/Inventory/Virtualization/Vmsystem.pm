@@ -5,6 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
+use FusionInventory::Agent::Tools::Virtualization;
 
 my @vmware_patterns = (
     'Hypervisor detected: VMware',
@@ -94,6 +95,21 @@ sub doInventory {
 
         $inventory->setHardware({ UUID => $containerid || '' });
         $inventory->setBios({ SSN  => '' });
+
+    } elsif ($type ne 'Physical' && !$inventory->getHardware('UUID') && -e '/etc/machine-id') {
+        # Set UUID from /etc/machine-id & /etc/hostname for container like lxc
+        my $machineid = getFirstLine(
+            file   => '/etc/machine-id',
+            logger => $params{logger}
+        );
+        my $hostname = getFirstLine(
+            file   => '/etc/hostname',
+            logger => $params{logger}
+        );
+
+        if ($machineid && $hostname) {
+            $inventory->setHardware({ UUID => getVirtualUUID($machineid, $hostname) });
+        }
     }
 
     $inventory->setHardware({
@@ -216,12 +232,16 @@ sub _getType {
     }
     return $result if $result;
 
-    if (getFirstMatch(
-        file    => '/proc/1/environ',
-        pattern => qr/container=lxc/
-    )) {
-        return 'lxc';
-    }
+    # systemd based container like lxc
+
+    my $init_env = slurp('/proc/1/environ');
+    $init_env =~ s/\0/\n/g;
+    my $container_type = getFirstMatch(
+        string  => $init_env,
+        pattern => qr/^container=(\S+)/,
+        logger  => $logger
+    );
+    return $container_type if $container_type;
 
     # OpenVZ
     if (-f '/proc/self/status') {
