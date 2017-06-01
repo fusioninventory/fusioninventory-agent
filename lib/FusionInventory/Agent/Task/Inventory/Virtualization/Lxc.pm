@@ -6,9 +6,8 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Lxc;
 use strict;
 use warnings;
 
-use Digest::SHA qw(sha1_hex);
-
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
     return canRun('lxc-ls');
@@ -47,9 +46,9 @@ sub  _getVirtualMachineState {
     close $handle;
 
     return
-        $info{state} eq 'RUNNING' ? 'running' :
-        $info{state} eq 'FROZEN'  ? 'paused'  :
-        $info{state} eq 'STOPPED' ? 'off'     :
+        $info{state} eq 'RUNNING' ? STATUS_RUNNING :
+        $info{state} eq 'FROZEN'  ? STATUS_PAUSED  :
+        $info{state} eq 'STOPPED' ? STATUS_OFF     :
         $info{state};
 }
 
@@ -114,7 +113,7 @@ sub  _getVirtualMachines {
             logger => $params{logger}
         );
 
-        my $machineid = ( $status && $status eq 'running' ) ?
+        my $machineid = ( $status && $status eq STATUS_RUNNING ) ?
             getFirstLine(
                 command => "/usr/bin/lxc-attach -n '$name' -- cat /etc/machine-id",
                 logger => $params{logger}
@@ -137,7 +136,7 @@ sub  _getVirtualMachines {
             STATUS => $status,
             VCPU   => $config->{VCPU},
             MEMORY => $config->{MEMORY},
-            UUID   => $machineid ? sha1_hex( $machineid . $name ) : ''
+            UUID   => getVirtualUUID($machineid, $name)
         };
     }
     close $handle;
@@ -155,6 +154,8 @@ sub  _getVirtualMachineId {
         my @overlayfs = split(/:/,$rootfs);
         $rootfs = $overlayfs[2];
     }
+
+    return unless -e "$rootfs/etc/machine-id";
 
     return  getFirstLine(
         file   => "$rootfs/etc/machine-id",

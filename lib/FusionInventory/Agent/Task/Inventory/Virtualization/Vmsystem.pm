@@ -3,10 +3,9 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vmsystem;
 use strict;
 use warnings;
 
-use Digest::SHA qw(sha1_hex);
-
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
+use FusionInventory::Agent::Tools::Virtualization;
 
 my @vmware_patterns = (
     'Hypervisor detected: VMware',
@@ -107,9 +106,10 @@ sub doInventory {
             file   => '/etc/hostname',
             logger => $params{logger}
         );
-        $inventory->setHardware(
-            { UUID => sha1_hex( $machineid . $hostname ) }
-        ) if ($machineid && $hostname);
+
+        if ($machineid && $hostname) {
+            $inventory->setHardware({ UUID => getVirtualUUID($machineid, $hostname) });
+        }
     }
 
     $inventory->setHardware({
