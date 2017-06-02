@@ -235,14 +235,15 @@ sub _getType {
     # systemd based container like lxc
 
     my $init_env = slurp('/proc/1/environ');
-    $init_env =~ s/\0/\n/g;
-    my $container_type = getFirstMatch(
-        string  => $init_env,
-        pattern => qr/^container=(\S+)/,
-        logger  => $logger
-    );
-    return $container_type if $container_type;
-
+    if ($init_env) {
+	$init_env =~ s/\0/\n/g;
+	my $container_type = getFirstMatch(
+	    string  => $init_env,
+	    pattern => qr/^container=(\S+)/,
+	    logger  => $logger
+	);
+	return $container_type if $container_type;
+    }
     # OpenVZ
     if (-f '/proc/self/status') {
         my $handle = getFileHandle(
