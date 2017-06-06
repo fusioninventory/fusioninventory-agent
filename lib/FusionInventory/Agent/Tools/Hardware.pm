@@ -1288,8 +1288,10 @@ sub _getLLDPInfo {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
+    my $logger = $params{logger};
 
     my $results;
+    my $ChassisIdSubType = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.4');
     my $lldpRemChassisId = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.5');
     my $lldpRemPortId    = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.7');
     my $lldpRemPortDesc  = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.8');
@@ -1308,6 +1310,16 @@ sub _getLLDPInfo {
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
         my $sysdescr = _getCanonicalString($lldpRemSysDesc->{$suffix});
         next unless $sysdescr;
+
+        # We only support macAddress as LldpChassisIdSubtype at the moment
+        my $subtype = $ChassisIdSubType->{$suffix} || "n/a";
+        unless ($subtype eq '4') {
+            $logger->debug(
+                "ChassisId subtype $subtype not supported for <$sysdescr>, value was " .
+                ($mac||"n/a") . ", please report this issue"
+            ) if $logger;
+            next;
+        }
 
         my $connection = {
             SYSMAC   => lc(alt2canonical($mac)),
@@ -1589,7 +1601,9 @@ sub _getTrunkPorts {
         my $port2interface = $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');
         while (my ($suffix, $value) = each %{$accessMode}) {
             my $port_id = _getElement($suffix, -1);
+            next unless defined($port_id);
             my $interface_id = $port2interface->{$port_id};
+            next unless defined($interface_id);
             $results->{$interface_id} = $value == 2 ? 1 : 0;
         }
         return $results;

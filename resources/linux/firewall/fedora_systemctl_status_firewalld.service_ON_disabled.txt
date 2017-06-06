@@ -1,0 +1,11 @@
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+   Active: active (running) since Tue 2017-03-14 15:33:24 CET; 1h 34min ago
+     Docs: man:firewalld(1)
+ Main PID: 698 (firewalld)
+   CGroup: /system.slice/firewalld.service
+           └─698 /usr/bin/python3 -Es /usr/sbin/firewalld --nofork --nopid
+
+Mar 14 15:33:20 localhost.localdomain systemd[1]: Starting firewalld - dynamic firewall daemon...
+Mar 14 15:33:24 localhost.localdomain systemd[1]: Started firewalld - dynamic firewall daemon.
+Mar 14 15:33:29 localhost.localdomain /firewalld[698]: WARNING: FedoraServer: INVALID_SERVICE: cockpit

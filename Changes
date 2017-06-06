@@ -1,5 +1,48 @@
 Revision history for FusionInventory agent
 
+2.3.20 Thu, 1 Jun 2017
+core:
+* Fix #224, #254, #268
+* Fix 2.3.19 regression while installing from sources
+* Fix bad initialization while computing inventory checksum involving crash in rare case
+* Include new CONTRIB.md file to reference not mergeable contributions
+* Fix scheduling issue restarting tasks too early
+* Avoid a warning on Socket module version check, issue found on Debian and MacOS
+* Fix: Support SSL debugging at verbosity 2 on Stderr only
+
+inventory:
+* Bump Inventory task version to 1.2
+* Fixed Docker support
+* Added system software category support
+* Added firewall status innventory support
+* Fix last user computation on some unix systems
+* Add CPU CORECOUNT support based on dmidecode output
+* Fix STORAGES support on some platforms
+* MacOS: Refactoring to replace Tie::IxHash dependency with XML::XPath to better
+  parse system profiler output
+* Fix: block device inventory still possible even if fdisk command is missing on linux
+* Fix #289: Add ARM Board support
+* Support UUID for lxc containers
+
+netinventory:
+* Fix #221, #275
+* Command documentation updated
+* a lot more of additional devices in sysobject.ids
+* Fix Juniper new model and firmware detection
+
+deploy:
+* Bump Deploy task version to 2.3
+* Audit checks refactoring and fixes
+* Fix win32 registry key check
+* Added new audit checks like winkey values, needs a server plugin upgrade
+* Enhanced audit checks error reporting
+* Fix and enhanced command action to really report output, may require a server plugin upgrade
+* Fix command action exit code while target command is not found on unix
+
+wakeonlan:
+* Bump WakeOnLan task version to 2.2
+* Fix thanks to Ludovic Pouzenc: send magic packets to all non-loopback non-dumb interfaces
+
 2.3.19 Fri, 17 Feb 2017
 core:
 * Version & provider refactoring to simplify release process

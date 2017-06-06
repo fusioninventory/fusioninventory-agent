@@ -5,6 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
+use FusionInventory::Agent::Tools::Virtualization;
 
 my @vmware_patterns = (
     'Hypervisor detected: VMware',
@@ -83,6 +84,32 @@ sub doInventory {
             pattern => qr/^envID:\s*(\d+)/
         ) || '';
         $inventory->setHardware({ UUID => $hostID . '-' . $guestID });
+
+    } elsif ($type eq 'Docker') {
+        # In docker, dmidecode can be run and so UUID & SSN must be overided
+        my $containerid = getFirstMatch(
+            file    => '/proc/1/cgroup',
+            pattern => qr|/docker/([0-9a-f]{12})|,
+            logger  => $params{logger}
+        );
+
+        $inventory->setHardware({ UUID => $containerid || '' });
+        $inventory->setBios({ SSN  => '' });
+
+    } elsif ($type ne 'Physical' && !$inventory->getHardware('UUID') && -e '/etc/machine-id') {
+        # Set UUID from /etc/machine-id & /etc/hostname for container like lxc
+        my $machineid = getFirstLine(
+            file   => '/etc/machine-id',
+            logger => $params{logger}
+        );
+        my $hostname = getFirstLine(
+            file   => '/etc/hostname',
+            logger => $params{logger}
+        );
+
+        if ($machineid && $hostname) {
+            $inventory->setHardware({ UUID => getVirtualUUID($machineid, $hostname) });
+        }
     }
 
     $inventory->setHardware({
@@ -112,7 +139,9 @@ sub _getType {
         return 'VirtualBox'  if $bios->{BVERSION} =~ /VirtualBox/;
     }
 
-    if (-f '/.dockerinit') {
+    # Docker
+
+    if (-f '/.dockerinit' || -f '/.dockerenv') {
         return 'Docker';
     }
 
@@ -203,13 +232,18 @@ sub _getType {
     }
     return $result if $result;
 
-    if (getFirstMatch(
-        file    => '/proc/1/environ',
-        pattern => qr/container=lxc/
-    )) {
-        return 'lxc';
-    }
+    # systemd based container like lxc
 
+    my $init_env = slurp('/proc/1/environ');
+    if ($init_env) {
+	$init_env =~ s/\0/\n/g;
+	my $container_type = getFirstMatch(
+	    string  => $init_env,
+	    pattern => qr/^container=(\S+)/,
+	    logger  => $logger
+	);
+	return $container_type if $container_type;
+    }
     # OpenVZ
     if (-f '/proc/self/status') {
         my $handle = getFileHandle(

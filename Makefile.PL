@@ -1,4 +1,10 @@
 
+BEGIN {
+    # Avoid installation issue introduced by perl 5.24.1 removing '.' path from
+    # @INC to avoid possible module injection in normal running perl scripts
+    push @INC, '.' if ( $^V && $^V gt 'v5.24' );
+}
+
 use inc::Module::Install;
 use English qw(-no_match_vars);
 use lib::FusionInventory::Agent::Version;
@@ -28,8 +34,8 @@ if ($OSNAME =~ /darwin/i) {
 
 if ($OSNAME eq 'MSWin32') {
     requires 'Win32::OLE'         => '0';
-    requires 'Win32::TieRegistry' => '0';
     requires 'Win32::Job'         => '0';
+    requires 'Win32::TieRegistry' => '0';
 }
 
 recommends 'Compress::Zlib'       => '0';
@@ -46,42 +52,42 @@ if ($OSNAME ne 'MSWin32') {
 }
 
 # test dependencies
+test_requires 'File::Copy::Recursive'        => '0';
 test_requires 'HTTP::Proxy'                  => '0';
 test_requires 'HTTP::Server::Simple'         => '0';
 test_requires 'HTTP::Server::Simple::Authen' => '0';
 test_requires 'IO::Socket::SSL'              => '0';
 test_requires 'IO::Capture::Stderr'          => '0';
 test_requires 'IPC::Run'                     => '0';
+test_requires 'JSON::PP'                     => '0';
+test_requires 'Net::SNMP'                    => '0';
+test_requires 'LWP::Protocol::https'         => '0';
+test_requires 'Parallel::ForkManager'        => '0';
 test_requires 'Test::Compile'                => '0';
 test_requires 'Test::Deep'                   => '0';
 test_requires 'Test::Exception'              => '0';
 test_requires 'Test::MockModule'             => '0';
 test_requires 'Test::More'                   => '0.93'; # subtest
 test_requires 'Test::NoWarnings'             => '0';
-test_requires 'LWP::Protocol::https'         => '0';
 test_requires 'Test::MockObject'             => '0';
-test_requires 'JSON::PP'                     => '0';
-test_requires 'Net::SNMP'                    => '0';
-test_requires 'File::Copy::Recursive'        => '0';
-test_requires 'Parallel::ForkManager'        => '0';
 
 # Inventory
-recommends 'Parse::EDID'                     => '0';
-recommends 'Net::CUPS'                       => 0.60 if $OSNAME ne 'MSWin32';
 recommends 'DateTime'                        => '0';
+recommends 'Net::CUPS'                       => 0.60 if $OSNAME ne 'MSWin32';
+recommends 'Parse::EDID'                     => '0';
 
 # Deploy
 recommends 'Archive::Extract'             => '0';
 recommends 'Digest::SHA'                  => '0';
 recommends 'File::Copy::Recursive'        => '0';
 recommends 'JSON::PP'                     => '0';
-recommends 'URI::Escape'                  => '0';
 recommends 'Net::Ping'                    => '0';
 recommends 'Parallel::ForkManager'        => '0';
+recommends 'URI::Escape'                  => '0';
 
 # Network
-recommends 'Net::SNMP'   => '0';
 recommends 'Net::NBName' => '0';
+recommends 'Net::SNMP'   => '0';
 recommends 'Thread::Queue' => '2.01';
 
 # Wake-On-LAN

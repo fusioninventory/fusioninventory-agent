@@ -3410,7 +3410,7 @@ my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfi
 XML::XPath->require();
 my $checkXmlXPath = $EVAL_ERROR ? 0 : 1;
 SKIP : {
-    skip 'test only if module Tie::IxHash available', 6 unless $checkXmlXPath;
+    skip 'test only if module XML::XPath available', 6 unless $checkXmlXPath;
 
     ok (ref($softwaresFromFlatFile) eq 'HASH');
     ok (ref($softwaresFromXmlFile) eq 'HASH');

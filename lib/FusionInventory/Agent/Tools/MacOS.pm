@@ -64,6 +64,17 @@ sub _getSystemProfilerInfosXML {
             %params,
             xmlString => $xmlStr
         );
+    } elsif (
+        $params{type} eq 'SPSerialATADataType'
+        || $params{type} eq 'SPDiscBurningDataType'
+        || $params{type} eq 'SPCardReaderDataType'
+        || $params{type} eq 'SPUSBDataType'
+        || $params{type} eq 'SPFireWireDataType'
+    ) {
+        $info->{storages} = _extractStoragesFromXml(
+            %params,
+            xmlString => $xmlStr
+        );
     } else {
         # not implemented for every data types
     }
@@ -79,7 +90,8 @@ sub _extractSoftwaresFromXml {
     return unless $xmlParser;
 
     my $softwaresHash = {};
-    my $n = $xmlParser->findnodes("/plist/array[1]/dict[1]/key[text()='_items']/following-sibling::array[1]/descendant::dict");
+    my $xPathExpr =  "/plist/array[1]/dict[1]/key[text()='_items']/following-sibling::array[1]/child::dict";
+    my $n = $xmlParser->findnodes($xPathExpr);
     my @nl = $n->get_nodelist();
     for my $elem (@nl) {
         $softwaresHash = _mergeHashes($softwaresHash, _extractSoftwareDataFromXmlNode($elem, $params{logger}, $params{localTimeOffset}));
@@ -106,6 +118,39 @@ sub _extractSoftwareDataFromXmlNode {
     my $mappedHash = _mapApplicationDataKeys($soft);
 
     return $mappedHash;
+}
+
+sub _extractStoragesFromXml {
+    my (%params) = @_;
+
+    return unless $params{type};
+
+    _initXmlParser(%params);
+
+    return unless $xmlParser;
+
+    my $storagesHash = {};
+    my $xPathExpr;
+    if ($params{type} eq 'SPSerialATADataType') {
+        $xPathExpr =
+            "/plist/array[1]/dict[1]/key[text()='_items']/following-sibling::array[1]/child::dict"
+                . "/key[text()='_items']/following-sibling::array[1]/child::dict";
+    } elsif ($params{type} eq 'SPDiscBurningDataType'
+        || $params{type} eq 'SPCardReaderDataType'
+        || $params{type} eq 'SPUSBDataType') {
+        $xPathExpr = "//key[text()='_items']/following-sibling::array[1]/child::dict";
+    } elsif ($params{type} eq 'SPFireWireDataType') {
+        $xPathExpr = "//key[text()='units']/following-sibling::array[1]/child::dict"
+            . "[string[starts-with(.,'disk')]]";
+    }
+    my $n = $xmlParser->findnodes($xPathExpr);
+    my @nl = $n->get_nodelist();
+    for my $elem (@nl) {
+        my $storage = _makeHashFromKeyValuesTextNodes($elem);
+        next unless $storage->{_name};
+        $storagesHash->{$storage->{_name}} = $storage;
+    }
+    return $storagesHash;
 }
 
 sub _makeHashFromKeyValuesTextNodes {
