@@ -10,6 +10,7 @@ use POSIX 'strftime';
 use Time::Local;
 use XML::TreePP;
 use UNIVERSAL::require;
+use Storable 'dclone';
 
 use FusionInventory::Agent::Tools;
 
@@ -140,17 +141,52 @@ sub _extractStoragesFromXml {
         || $params{type} eq 'SPUSBDataType') {
         $xPathExpr = "//key[text()='_items']/following-sibling::array[1]/child::dict";
     } elsif ($params{type} eq 'SPFireWireDataType') {
-        $xPathExpr = "//key[text()='units']/following-sibling::array[1]/child::dict"
-            . "[string[starts-with(.,'disk')]]";
+        $xPathExpr = [
+            "//key[text()='_items']/following-sibling::array[1]"
+                . "/child::dict[key[text()='_name' and following-sibling::string[1][not(contains(.,'bus'))]]]",
+            "key[text()='units']/following-sibling::array[1]/child::dict",
+            "key[text()='units']/following-sibling::array[1]/child::dict"
+        ];
     }
-    my $n = $xmlParser->findnodes($xPathExpr);
-    my @nl = $n->get_nodelist();
-    for my $elem (@nl) {
-        my $storage = _makeHashFromKeyValuesTextNodes($elem);
-        next unless $storage->{_name};
-        $storagesHash->{$storage->{_name}} = $storage;
+
+    if (ref($xPathExpr) eq 'ARRAY') {
+        _recursiveParsing({}, $storagesHash, undef, $params{logger}, $xPathExpr);
+    } else {
+        my $n = $xmlParser->findnodes($xPathExpr);
+        my @nl = $n->get_nodelist();
+        for my $elem (@nl) {
+            my $storage = _makeHashFromKeyValuesTextNodes($elem);
+            next unless $storage->{_name};
+            $storagesHash->{$storage->{_name}} = $storage;
+        }
     }
     return $storagesHash;
+}
+
+sub _recursiveParsing {
+    my ($hashFields, $hashElems, $elemRoot, $logger, $xPathExpr) = @_;
+
+    my $hashFieldsClone = dclone $hashFields;
+    my $xPathExprClone = dclone $xPathExpr;
+    my $expr = shift @$xPathExprClone;
+    my $n = $xmlParser->findnodes($expr, $elemRoot);
+    my @nl = $n->get_nodelist();
+    if (scalar @nl > 0) {
+        for my $elem (@nl) {
+            my $newHash = _makeHashFromKeyValuesTextNodes($elem);
+            next unless $newHash->{_name};
+            @$hashFieldsClone{keys %$newHash} = values %$newHash;
+            if (scalar @$xPathExprClone) {
+                _recursiveParsing($hashFieldsClone, $hashElems, $elem, $logger, $xPathExprClone);
+            } else {
+                $hashElems->{$hashFieldsClone->{_name}} = {} unless $hashElems->{$hashFieldsClone->{_name}};
+                @{$hashElems->{$hashFieldsClone->{_name}}}{keys %$hashFieldsClone} = values %$hashFieldsClone;
+            }
+        }
+    } else {
+        $hashElems->{$hashFieldsClone->{_name}} = {} unless $hashElems->{$hashFieldsClone->{_name}};
+        @{$hashElems->{$hashFieldsClone->{_name}}}{keys %$hashFieldsClone} = values %$hashFieldsClone;
+    }
 }
 
 sub _makeHashFromKeyValuesTextNodes {
