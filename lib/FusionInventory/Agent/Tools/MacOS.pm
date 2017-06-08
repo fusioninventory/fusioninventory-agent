@@ -144,8 +144,8 @@ sub _extractStoragesFromXml {
         $xPathExpr = [
             "//key[text()='_items']/following-sibling::array[1]"
                 . "/child::dict[key[text()='_name' and following-sibling::string[1][not(contains(.,'bus'))]]]",
-            "key[text()='units']/following-sibling::array[1]/child::dict",
-            "key[text()='units']/following-sibling::array[1]/child::dict"
+            "./key[text()='units']/following-sibling::array[1]/child::dict",
+            "./key[text()='units']/following-sibling::array[1]/child::dict"
         ];
     }
 

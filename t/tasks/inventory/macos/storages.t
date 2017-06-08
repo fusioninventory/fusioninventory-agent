@@ -337,6 +337,19 @@ my %testsFireWireStorage = (
             SERIAL       => '',
             TYPE         => 'Disk drive'
         }
+    ],
+    'SPFireWireDataType2.xml' => [
+        {
+            NAME         => 'disk5',
+            DESCRIPTION  => 'fw_target_disk_mode_lun',
+            DISKSIZE     => sprintf("%d", 320072933376 / 1024 / 1024),
+            FIRMWARE     => '',
+            INTERFACE    => 'FireWire',
+            MANUFACTURER => 'AAPL',
+            MODEL        => '',
+            SERIAL       => '',
+            TYPE         => 'Disk drive'
+        }
     ]
 );
 
