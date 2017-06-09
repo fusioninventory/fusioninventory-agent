@@ -1307,10 +1307,10 @@ sub _getLLDPInfo {
     # each lldp variable matches the following scheme:
     # $prefix.x.y.z = $value
     # whereas y is either a port or an interface id
-
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
         my $sysdescr = _getCanonicalString($lldpRemSysDesc->{$suffix});
-        next unless $sysdescr;
+        my $sysname = _getCanonicalString($lldpRemSysName->{$suffix});
+        next unless ($sysdescr || $sysname);
 
         # We only support macAddress as LldpChassisIdSubtype at the moment
         my $subtype = $ChassisIdSubType->{$suffix} || "n/a";
@@ -1323,9 +1323,11 @@ sub _getLLDPInfo {
         }
 
         my $connection = {
-            SYSMAC   => lc(alt2canonical($mac)),
-            SYSDESCR => $sysdescr
+            SYSMAC => lc(alt2canonical($mac))
         };
+
+        $connection->{SYSDESCR} = $sysdescr if $sysdescr;
+        $connection->{SYSNAME} = $sysname if $sysname;
 
         # portId is either a port number or a port mac address,
         # duplicating chassiId
@@ -1336,9 +1338,6 @@ sub _getLLDPInfo {
 
         my $ifdescr = _getCanonicalString($lldpRemPortDesc->{$suffix});
         $connection->{IFDESCR} = $ifdescr if $ifdescr;
-
-        my $sysname = _getCanonicalString($lldpRemSysName->{$suffix});
-        $connection->{SYSNAME} = $sysname if $sysname;
 
         my $id           = _getElement($suffix, -2);
         my $interface_id =
@@ -1535,14 +1534,36 @@ sub _getVlans {
         }
     }
 
-    # For other switches, we use another method
-    my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
-    if($vlanId){
-        while (my ($port, $vlan) = each %{$vlanId}) {
-            push @{$results->{$port}}, {
-                NUMBER => $vlan,
-                NAME   => "VLAN " . $vlan
-            };
+    # For other switches, we use another methods
+    # used for Alcatel-Lucent and ExtremNetworks (and perhaps others)
+    my $vlanIdName = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.3.1.2');
+    my $portLink = $snmp->walk('.1.0.8802.1.1.2.1.3.7.1.3');
+    if($vlanIdName && $portLink){
+        while (my ($suffix, $vlanName) = each %{$vlanIdName}) {
+            my ($port, $vlan) = split(/\./, $suffix);
+            if ($portLink->{$port}) {
+                # case generic where $portLink = port number
+                my $portnumber = $portLink->{$port};
+                # case Cisco where $portLink = port name
+                unless ($portLink->{$port} =~ /^[0-9]+$/) {
+                    $portnumber = $port;
+                }
+                push @{$results->{$portnumber}}, {
+                    NUMBER => $vlan,
+                    NAME   => $vlanName
+                };
+            }
+        }
+    } else {
+        # A last method
+        my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
+        if($vlanId){
+            while (my ($port, $vlan) = each %{$vlanId}) {
+                push @{$results->{$port}}, {
+                    NUMBER => $vlan,
+                    NAME   => "VLAN " . $vlan
+                };
+            }
         }
     }
 
