@@ -184,7 +184,7 @@ sub _handle_deploy {
 
     my $path;
     LOOP: foreach my $target ($self->{agent}->getTargets()) {
-        foreach (File::Glob::glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
+        foreach (File::Glob::bsd_glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');

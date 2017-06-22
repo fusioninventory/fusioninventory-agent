@@ -512,7 +512,7 @@ sub getAvailableTasks {
     $directory =~ s,\\,/,g;
     my $subdirectory = "FusionInventory/Agent/Task";
     # look for all Version perl modules around here
-    foreach my $file (File::Glob::glob("$directory/$subdirectory/*/Version.pm")) {
+    foreach my $file (File::Glob::bsd_glob("$directory/$subdirectory/*/Version.pm")) {
         next unless $file =~ m{($subdirectory/(\S+)/Version\.pm)$};
         my $module = file2module($1);
         my $name = file2module($2);
