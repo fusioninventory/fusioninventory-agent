@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::Win32::Memory;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
 our $runMeIfTheseChecksFailed =
