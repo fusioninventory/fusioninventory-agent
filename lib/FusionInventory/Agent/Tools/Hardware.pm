@@ -1125,6 +1125,7 @@ sub _addKnownMacAddresses {
 
         # add remaining ones
         push @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}}, @adresses;
+        @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}} = uniq(@{$port->{CONNECTIONS}->{CONNECTION}->{MAC}});
     }
 }
 
