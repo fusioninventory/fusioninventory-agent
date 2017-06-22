@@ -150,6 +150,8 @@ sub getCanonicalSpeed {
 
     return undef unless $speed;
 
+    return $speed if $speed =~ /^([,.\d]+)$/;
+
     return 400 if $speed =~ /^PC3200U/;
 
     return undef unless $speed =~ /^([,.\d]+) \s? (\S+)/x;
