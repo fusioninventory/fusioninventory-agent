@@ -17,6 +17,7 @@ notifications:
   email:
     on_success: change
     on_failure: always
+  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
 # whitelist
 branches:
   only:
