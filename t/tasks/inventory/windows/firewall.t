@@ -181,11 +181,13 @@ for my $testKey (keys %$expectedProfilesForInventory) {
     # we must sort values before compare it
     my $sortingSub = sub {
         my $list = shift;
-        return sort { $a->{PROFILE} lt $b->{PROFILE} || (($a->{PROFILE} eq $b->{PROFILE}) && defined ($a->{IPADDRESS})) } @$list;
+        return sort {
+            $a->{PROFILE} cmp $b->{PROFILE} ||
+            ($a->{IPADDRESS} || $a->{IPADDRESS6} || "") cmp ($b->{IPADDRESS} || $b->{IPADDRESS6} || "")
+        } @$list;
     };
     @profiles = &$sortingSub(\@profiles);
     my @expectedProfiles = &$sortingSub($expectedProfilesForInventory->{$testKey});
-    sleep 1;
     cmp_deeply (
         \@profiles,
         \@expectedProfiles,
