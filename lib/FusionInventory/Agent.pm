@@ -3,12 +3,10 @@ package FusionInventory::Agent;
 use strict;
 use warnings;
 
-use Cwd;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use File::Glob;
 use IO::Handle;
-use POSIX ":sys_wait_h"; # WNOHANG
 use Storable 'dclone';
 
 use FusionInventory::Agent::Version;
@@ -19,7 +17,6 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
@@ -50,7 +47,6 @@ sub new {
         datadir => $params{datadir},
         libdir  => $params{libdir},
         vardir  => $params{vardir},
-        sigterm => $params{sigterm},
         targets => [],
         tasks   => []
     };
@@ -67,6 +63,10 @@ sub init {
         options => $params{options},
     );
     $self->{config} = $config;
+
+    # Rename process, mostly for unix platforms
+    $0 = lc($PROVIDER) . "-agent";
+    $0 .= " (tag $config->{tag})" if $config->{tag};
 
     my $verbosity = $config->{debug} && $config->{debug} == 1 ? LOG_DEBUG  :
                     $config->{debug} && $config->{debug} == 2 ? LOG_DEBUG2 :
@@ -127,28 +127,34 @@ sub init {
 
     $self->{tasks} = \@tasks;
 
-    if ($config->{daemon}) {
-        $self->_createDaemon();
-    }
+    if ($config->{daemon} || $config->{service}) {
+        FusionInventory::Agent::Daemon->require();
+        if ($EVAL_ERROR) {
+            $logger->error("Failed to create FusionInventory::Agent::Daemon: $EVAL_ERROR");
+            exit 1;
+        }
 
-    # create HTTP interface
-    if (($config->{daemon} || $config->{service}) && !$config->{'no-httpd'}) {
-        $self->_createHttpInterface();
+        # Inherit from dedicated run, runTask & terminate methods
+        bless $self, "FusionInventory::Agent::Daemon";
+
+        $logger->info("$PROVIDER Agent starting");
+
+        $self->createDaemon();
+
+        # create HTTP interface if required
+        $self->loadHttpInterface();
+
+        $self->ApplyServiceOptimizations();
     }
 
     # install signal handler to handle graceful exit
     $self->_installSignalHandlers();
 
-    $self->{logger}->info("$PROVIDER Agent starting")
-        if $self->{config}->{daemon} || $self->{config}->{service};
-
-    $self->ApplyServiceOptimizations();
-
-    $self->{logger}->info("Options 'no-task' and 'tasks' are both used. Be careful that 'no-task' always excludes tasks.")
+    $logger->info("Options 'no-task' and 'tasks' are both used. Be careful that 'no-task' always excludes tasks.")
         if ($self->{config}->isParamArrayAndFilled('no-task') && $self->{config}->isParamArrayAndFilled('tasks'));
 
     foreach my $comment (@{$COMMENTS}) {
-        $self->{logger}->info($comment);
+        $logger->info($comment);
     }
 
     $self->resetLastConfigLoad();
@@ -162,6 +168,10 @@ sub reinit {
     $self->{config}->reloadFromInputAndBackend($self->{confdir});
 
     my $config = $self->{config};
+
+    # Rename process, mostly for unix platforms
+    $0 = lc($PROVIDER) . "-agent";
+    $0 .= " (tag $config->{tag})" if $config->{tag};
 
     my $verbosity = $config->{debug} && $config->{debug} == 1 ? LOG_DEBUG  :
                     $config->{debug} && $config->{debug} == 2 ? LOG_DEBUG2 :
@@ -220,8 +230,6 @@ sub reinit {
 
     $self->{tasks} = \@tasks;
 
-    $self->ApplyServiceOptimizations();
-
     $self->resetLastConfigLoad();
 
     $self->{logger}->debug('agent reinit done.');
@@ -233,116 +241,36 @@ sub resetLastConfigLoad {
     $self->{lastConfigLoad} = time;
 }
 
-sub ApplyServiceOptimizations {
-    my ($self) = @_;
-
-    return unless ($self->{config}->{daemon} || $self->{config}->{service});
-
-    # Preload all IDS databases to avoid reload them all the time during inventory
-    if (grep { /^inventory$/i } @{$self->{tasksExecutionPlan}}) {
-        getPCIDeviceVendor(datadir => $self->{datadir});
-        getUSBDeviceVendor(datadir => $self->{datadir});
-        getEDIDVendor(datadir => $self->{datadir});
-    }
-
-    # win32 platform optimization
-    if ($OSNAME eq 'MSWin32') {
-        # Preload is64bit result to avoid a lot of WMI calls
-        FusionInventory::Agent::Tools::Win32->require();
-        FusionInventory::Agent::Tools::Win32::is64bit();
-    }
-}
-
-sub RunningServiceOptimization {
-    my ($self) = @_;
-
-    # win32 platform needs optimization
-    if ($OSNAME eq 'MSWin32') {
-        if ($self->{logger}->{verbosity} >= LOG_DEBUG) {
-            my $runmem = FusionInventory::Agent::Tools::Win32::getAgentMemorySize();
-            $self->{logger}->debug("Agent memory usage before freeing memory: $runmem");
-        }
-
-        FusionInventory::Agent::Tools::Win32::FreeAgentMem();
-
-        my $current_mem = FusionInventory::Agent::Tools::Win32::getAgentMemorySize();
-        $self->{logger}->info("Agent memory usage: $current_mem");
-    }
-}
-
 sub run {
     my ($self) = @_;
+
+    # API overrided in daemon or service mode
 
     $self->{status} = 'waiting';
 
     my @targets = $self->getTargets();
 
-    if ($self->{config}->{daemon} || $self->{config}->{service}) {
+    $self->{logger}->debug("Running in foreground mode");
 
-        $self->{logger}->debug2("Running in background mode");
-
-        # background mode: work on a targets list copy, but loop while
-        # the list really exists so we can stop quickly when asked for
-        while ($self->getTargets()) {
-            my $time = time();
-
-            @targets = $self->getTargets() unless @targets;
-            my $target = shift @targets;
-
-            $self->_reloadConfIfNeeded();
-
-            if ($time >= $target->getNextRunDate()) {
-
-                my $net_error = 0;
-                eval {
-                    $net_error = $self->_runTarget($target);
-                };
-                $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-                if ($net_error) {
-                    # Prefer to retry early on net error
-                    $target->setNextRunDateFromNow(60);
-                } else {
-                    $target->resetNextRunDate();
-                }
-
-                # Leave immediately if we passed in terminate method
-                last unless $self->getTargets();
-
-                # Call service optimization after each target run
-                $self->RunningServiceOptimization();
-            }
-
-            if ($self->{server}) {
-                # check for http interface messages, default timeout is 1 second
-                $self->{server}->handleRequests() or delay(1);
-            } else {
-                delay(1);
-            }
+    # foreground mode: check each targets once
+    my $time = time();
+    while ($self->getTargets() && @targets) {
+        my $target = shift @targets;
+        if ($self->{config}->{lazy} && $time < $target->getNextRunDate()) {
+            $self->{logger}->info(
+                "$target->{id} is not ready yet, next server contact " .
+                "planned for " . localtime($target->getNextRunDate())
+            );
+            next;
         }
-    } else {
 
-        $self->{logger}->debug2("Running in foreground mode");
+        eval {
+            $self->runTarget($target);
+        };
+        $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
 
-        # foreground mode: check each targets once
-        my $time = time();
-        while ($self->getTargets() && @targets) {
-            my $target = shift @targets;
-            if ($self->{config}->{lazy} && $time < $target->getNextRunDate()) {
-                $self->{logger}->info(
-                    "$target->{id} is not ready yet, next server contact " .
-                    "planned for " . localtime($target->getNextRunDate())
-                );
-                next;
-            }
-
-            eval {
-                $self->_runTarget($target);
-            };
-            $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-
-            # Reset next run date to support --lazy option with foreground mode
-            $target->resetNextRunDate();
-        }
+        # Reset next run date to support --lazy option with foreground mode
+        $target->resetNextRunDate();
     }
 }
 
@@ -354,22 +282,17 @@ sub terminate {
 
     # Kill current running task
     if ($self->{current_runtask}) {
+        # Don't forget to call abort method before killing task
+        $self->{current_task}->abort();
+
         kill 'TERM', $self->{current_runtask};
         delete $self->{current_runtask};
     }
-
-    $self->{logger}->info("$PROVIDER Agent exiting")
-        if $self->{config}->{daemon} || $self->{config}->{service};
-    $self->{current_task}->abort() if $self->{current_task};
-
-    # Handle sigterm callback
-    &{$self->{sigterm}}() if $self->{sigterm};
 }
 
-sub _runTarget {
+sub runTarget {
     my ($self, $target) = @_;
 
-    $self->{logger}->debug('_runTarget') if defined $self->{logger};
     # the prolog dialog must be done once for all tasks,
     # but only for server targets
     my $response;
@@ -410,7 +333,7 @@ sub _runTarget {
 
     foreach my $name (@{$self->{tasksExecutionPlan}}) {
         eval {
-            $self->_runTask($target, $name, $response);
+            $self->runTask($target, $name, $response);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
         $self->{status} = 'waiting';
@@ -422,42 +345,18 @@ sub _runTarget {
     return 0;
 }
 
-sub _runTask {
+sub runTask {
     my ($self, $target, $name, $response) = @_;
+
+    # API overrided in daemon or service mode
 
     $self->{status} = "running task $name";
 
-    if ($self->{config}->{daemon} || $self->{config}->{service}) {
-        # server mode: run each task in a child process
-        if (my $pid = fork()) {
-            # parent
-            $self->{current_runtask} = $pid;
-            while (waitpid($pid, WNOHANG) == 0) {
-                if ($self->{server}) {
-                    $self->{server}->handleRequests() or delay(1);
-                } else {
-                    delay(1);
-                }
-
-                # Leave earlier while requested
-                last unless $self->getTargets();
-            }
-            delete $self->{current_runtask};
-        } else {
-            # child
-            die "fork failed: $ERRNO" unless defined $pid;
-
-            $self->{logger}->debug("forking process $PID to handle task $name");
-            $self->_runTaskReal($target, $name, $response);
-            exit(0);
-        }
-    } else {
-        # standalone mode: run each task directly
-        $self->_runTaskReal($target, $name, $response);
-    }
+    # standalone mode: run each task directly
+    $self->runTaskReal($target, $name, $response);
 }
 
-sub _runTaskReal {
+sub runTaskReal {
     my ($self, $target, $name, $response) = @_;
 
     my $class = "FusionInventory::Agent::Task::$name";
@@ -504,6 +403,8 @@ sub getTargets {
 sub getAvailableTasks {
     my ($self, %params) = @_;
 
+    my $logger = $self->{logger};
+
     my %tasks;
     my %disabled  = map { lc($_) => 1 } @{$params{disabledTasks}};
 
@@ -520,40 +421,26 @@ sub getAvailableTasks {
         next if $disabled{lc($name)};
 
         my $version;
-        if ($self->{config}->{daemon} || $self->{config}->{service}) {
-            # server mode: check each task version in a child process
-            my ($reader, $writer);
-            pipe($reader, $writer);
-            $writer->autoflush(1);
+        if (!$module->require()) {
+            $logger->debug2("module $module does not compile: $@") if $logger;
 
-            if (my $pid = fork()) {
-                # parent
-                close $writer;
-                $version = <$reader>;
-                close $reader;
-                waitpid($pid, 0);
-            } else {
-                # child
-                die "fork failed: $ERRNO" unless defined $pid;
+            # Don't keep trace of module, only really needed to fix perl 5.8 issue
+            delete $INC{module2file($module)};
 
-                close $reader;
-                $version = $self->_getTaskVersion($module);
-                print $writer $version if $version;
-                close $writer;
-                exit(0);
-            }
-        } else {
-            # standalone mode: check each task version directly
-            $version = $self->_getTaskVersion($module);
+            next;
+        }
+
+        {
+            no strict 'refs';  ## no critic
+            $version = &{$module . '::VERSION'};
         }
 
         # no version means non-functionning task
         next unless $version;
 
         $tasks{$name} = $version;
-        if (defined $self->{logger}) {
-            $self->{logger}->debug2( "getAvailableTasks() : add of task ".$name.' version '.$version );
-        }
+        $logger->debug2("getAvailableTasks() : add of task $name version $version")
+            if $logger;
     }
 
     return %tasks;
@@ -580,22 +467,6 @@ sub _getTaskVersion {
     }
 
     return $version;
-}
-
-sub _isAlreadyRunning {
-    my ($self, $pidfile) = @_;
-
-    Proc::PID::File->require();
-    if ($EVAL_ERROR) {
-        $self->{logger}->debug(
-            'Proc::PID::File unavailable, unable to check for running agent'
-        );
-        return 0;
-    }
-
-    my $pid = Proc::PID::File->new();
-    $pid->{path} = $pidfile;
-    return $pid->alive();
 }
 
 sub _loadState {
@@ -736,58 +607,6 @@ sub _createTargets {
                     tag        => $config->{tag},
                 );
         }
-    }
-}
-
-sub _createDaemon {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-    my $logger = $self->{logger};
-    my $pidfile  = $config->{pidfile} ||
-        $self->{vardir} . '/'.lc($PROVIDER).'.pid';
-    if ($self->_isAlreadyRunning($pidfile)) {
-        $logger->error("An agent is already running, exiting...");
-        exit 1;
-    }
-    if (!$config->{'no-fork'}) {
-
-        Proc::Daemon->require();
-        if ($EVAL_ERROR) {
-            $logger->error("Failed to load Proc::Daemon: $EVAL_ERROR");
-            exit 1;
-        }
-
-        # If we use relative path, we must stay in the current directory
-        my $workdir = substr($self->{libdir}, 0, 1) eq '/' ? '/' : getcwd();
-
-        Proc::Daemon::Init({
-                work_dir => $workdir,
-                    pid_file => $pidfile
-            });
-
-        $self->{logger}->debug("Agent daemonized");
-    }
-}
-
-sub _createHttpInterface {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-    my $config = $self->{config};
-    FusionInventory::Agent::HTTP::Server->require();
-    if ($EVAL_ERROR) {
-        $logger->error("Failed to load HTTP server: $EVAL_ERROR");
-    } else {
-        $self->{server} = FusionInventory::Agent::HTTP::Server->new(
-            logger          => $logger,
-            agent           => $self,
-            htmldir         => $self->{datadir} . '/html',
-            ip              => $config->{'httpd-ip'},
-            port            => $config->{'httpd-port'},
-            trust           => $config->{'httpd-trust'}
-        );
-        $self->{server}->init();
     }
 }
 
