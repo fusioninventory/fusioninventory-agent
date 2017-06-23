@@ -150,7 +150,9 @@ sub _extractStoragesFromXml {
     }
 
     if (ref($xPathExpr) eq 'ARRAY') {
-        _recursiveParsing({}, $storagesHash, undef, $params{logger}, $xPathExpr);
+        # next function call does not return anything
+        # it directly appends data to the hashref $storagesHash
+        _recursiveParsing({}, $storagesHash, undef, $xPathExpr);
     } else {
         my $n = $xmlParser->findnodes($xPathExpr);
         my @nl = $n->get_nodelist();
@@ -163,29 +165,58 @@ sub _extractStoragesFromXml {
     return $storagesHash;
 }
 
-sub _recursiveParsing {
-    my ($hashFields, $hashElems, $elemRoot, $logger, $xPathExpr) = @_;
+# This function is used to parse ugly XML documents
+# It is used to aggregate data from a node and from its descendants
 
+sub _recursiveParsing {
+    my (
+        # data extracted from ancestors
+        $hashFields,
+        # hashref to merge data in
+        $hashElems,
+        # XML context node
+        $elemRoot,
+        # XPath expressions list to be processed
+        $xPathExpr
+    ) = @_;
+
+    # we use here dclone because each recursive call must have its own copy of these structures
     my $hashFieldsClone = dclone $hashFields;
     my $xPathExprClone = dclone $xPathExpr;
+
+    # next XPath expression is eaten up
     my $expr = shift @$xPathExprClone;
+
+    # XPath expression is processed at context $elemRoot
     my $n = $xmlParser->findnodes($expr, $elemRoot);
     my @nl = $n->get_nodelist();
+    my $extractedElementName = $hashFieldsClone->{_name};
     if (scalar @nl > 0) {
         for my $elem (@nl) {
+            # because of XML document specific format, we must do next call to create the hash
+            # in order to have a key-value structure
             my $newHash = _makeHashFromKeyValuesTextNodes($elem);
             next unless $newHash->{_name};
+
+            # hashes are merged, existing values are overwritten (that is expected behaviour)
             @$hashFieldsClone{keys %$newHash} = values %$newHash;
+
+            # if other XPath expressions have to be processed
             if (scalar @$xPathExprClone) {
-                _recursiveParsing($hashFieldsClone, $hashElems, $elem, $logger, $xPathExprClone);
+                # recursive call
+                _recursiveParsing($hashFieldsClone, $hashElems, $elem, $xPathExprClone);
             } else {
-                $hashElems->{$hashFieldsClone->{_name}} = {} unless $hashElems->{$hashFieldsClone->{_name}};
-                @{$hashElems->{$hashFieldsClone->{_name}}}{keys %$hashFieldsClone} = values %$hashFieldsClone;
+                # no more XPath expression to process
+                # it's time to merge data in main hashref
+                $hashElems->{$extractedElementName} = {} unless $hashElems->{$extractedElementName};
+                @{$hashElems->{$extractedElementName}}{keys %$hashFieldsClone} = values %$hashFieldsClone;
             }
         }
     } else {
-        $hashElems->{$hashFieldsClone->{_name}} = {} unless $hashElems->{$hashFieldsClone->{_name}};
-        @{$hashElems->{$hashFieldsClone->{_name}}}{keys %$hashFieldsClone} = values %$hashFieldsClone;
+        # no more XML nodes found
+        # it's time to merge data in main hashref
+        $hashElems->{$extractedElementName} = {} unless $hashElems->{$extractedElementName};
+        @{$hashElems->{$extractedElementName}}{keys %$hashFieldsClone} = values %$hashFieldsClone;
     }
 }
 
