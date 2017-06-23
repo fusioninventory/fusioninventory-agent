@@ -126,7 +126,7 @@ my %testsSerialATA = (
             SERIAL       => 'WD-WCARY1264478',
             MODEL        => 'WDC WD2500AAJS-40VWA1',
             FIRMWARE     => '58.01D02',
-            DISKSIZE     => getCanonicalSize(250059350016 . ' bytes', 1024),
+            DISKSIZE     => 238475,
             TYPE         => 'Disk drive',
             DESCRIPTION  => 'WDC WD2500AAJS-40VWA1'
         }
@@ -139,7 +139,7 @@ my %testsSerialATA = (
             SERIAL       => '1435NL400611',
             MODEL        => 'SSD SD0128F',
             FIRMWARE     => 'A222821',
-            DISKSIZE     => getCanonicalSize(121332826112 . ' bytes', 1024),
+            DISKSIZE     => 115712,
             TYPE         => 'Disk drive',
             DESCRIPTION  => 'APPLE SSD SD0128F'
         }
@@ -185,7 +185,7 @@ my %testsCardReader = (
         {
             NAME         => 'disk2',
             DESCRIPTION  => 'SDHC Card',
-            DISKSIZE     => getCanonicalSize(15931539456 . ' bytes', 1024),
+            DISKSIZE     => 15193,
             TYPE         => 'SD Card'
         }
     ]
@@ -202,7 +202,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'External USB 3.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => getCanonicalSize(500107859968 . ' bytes', 1024)
+            DISKSIZE     => 476940,
         }
     ],
     'SPUSBDataType_without_inserted_dvd.xml' => [
@@ -228,7 +228,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'Optical USB 2.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => getCanonicalSize(392647584 . ' bytes', 1024)
+            DISKSIZE     => 374,
         }
     ],
     'SPUSBDataType2.xml' => [
@@ -241,7 +241,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'JumpDrive',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => getCanonicalSize('7.34 GB', 1024)
+            DISKSIZE     => 7516.16,
         },
         {
             NAME         => 'disk3',
@@ -252,7 +252,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'External USB 3.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => getCanonicalSize(465.76 . ' GB', 1024)
+            DISKSIZE     => 476938.24,
         },
         {
             NAME         => 'disk2',
@@ -263,7 +263,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'UDisk 2.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => getCanonicalSize('1,88 GB', 1024)
+            DISKSIZE     => 1925.12,
         }
     ],
     'SPUSBDataType3.xml' => [
@@ -276,7 +276,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'External USB 3.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => getCanonicalSize('465,76 GB', 1024)
+            DISKSIZE     => 476938.24,
         },
         {
             NAME         => 'disk1',
@@ -287,7 +287,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'UDisk 2.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => getCanonicalSize('1,88 GB', 1024)
+            DISKSIZE     => 1925.12,
         },
         {
             NAME         => 'disk6',
@@ -298,7 +298,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'JumpDrive',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => getCanonicalSize('7,34 GB', 1024)
+            DISKSIZE     => 7516.16,
         },
         {
             NAME         => 'disk5',
@@ -309,7 +309,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'Mass Storage',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => getCanonicalSize('3,84 GB', 1024)
+            DISKSIZE     => 3932.16,
         },
         {
             NAME         => 'disk4',
@@ -320,7 +320,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'USB Flash Disk',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => getCanonicalSize('3,73 GB', 1024)
+            DISKSIZE     => 3819.52,
         }
     ]
 );
@@ -330,7 +330,7 @@ my %testsFireWireStorage = (
         {
             NAME         => 'disk2',
             DESCRIPTION  => 'Target Disk Mode SBP-LUN',
-            DISKSIZE     => getCanonicalSize('298,09 GB', 1024),
+            DISKSIZE     => 305244.16,
             FIRMWARE     => '',
             INTERFACE    => 'FireWire',
             MANUFACTURER => '',
