@@ -184,7 +184,7 @@ my %testsCardReader = (
         {
             NAME         => 'disk2',
             DESCRIPTION  => 'SDHC Card',
-            DISKSIZE     => sprintf("%d", 15931539456 / 1024 / 1024),
+            DISKSIZE     => 15193,
             TYPE         => 'SD Card'
         }
     ]
@@ -227,7 +227,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'Optical USB 2.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => sprintf("%d", 392647584 / 1024 / 1024)
+            DISKSIZE     => 374,
         }
     ],
     'SPUSBDataType2.xml' => [
@@ -240,7 +240,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'JumpDrive',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => sprintf("%d", 7.34 * 1024)
+            DISKSIZE     => 7516,
         },
         {
             NAME         => 'disk3',
@@ -275,7 +275,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'External USB 3.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => sprintf("%d", 465.76 * 1024)
+            DISKSIZE     => 476938,
         },
         {
             NAME         => 'disk1',
@@ -286,7 +286,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'UDisk 2.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => sprintf("%d", 1.88 * 1024)
+            DISKSIZE     => 1925,
         },
         {
             NAME         => 'disk6',
@@ -297,7 +297,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'JumpDrive',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => sprintf("%d", 7.34 * 1024)
+            DISKSIZE     => 7516,
         },
         {
             NAME         => 'disk5',
@@ -308,7 +308,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'Mass Storage',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => sprintf("%d", 3.84 * 1024)
+            DISKSIZE     => 3932,
         },
         {
             NAME         => 'disk4',
@@ -319,7 +319,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'USB Flash Disk',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => sprintf("%d", 3.73 * 1024)
+            DISKSIZE     => 3819,
         }
     ]
 );
@@ -329,7 +329,7 @@ my %testsFireWireStorage = (
         {
             NAME         => 'disk2',
             DESCRIPTION  => 'Target Disk Mode SBP-LUN',
-            DISKSIZE     => sprintf("%d", 298.09 * 1024),
+            DISKSIZE     => 305244,
             FIRMWARE     => '',
             INTERFACE    => 'FireWire',
             MANUFACTURER => 'AAPL',
@@ -342,7 +342,7 @@ my %testsFireWireStorage = (
         {
             NAME         => 'disk5',
             DESCRIPTION  => 'fw_target_disk_mode_lun',
-            DISKSIZE     => sprintf("%d", 320072933376 / 1024 / 1024),
+            DISKSIZE     => 305245,
             FIRMWARE     => '',
             INTERFACE    => 'FireWire',
             MANUFACTURER => 'AAPL',
