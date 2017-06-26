@@ -12,6 +12,7 @@ use English;
 
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::MacOS::Storages;
+use FusionInventory::Agent::Tools 'getCanonicalSize';
 
 my %tests = (
     '10.4-powerpc' => [
