@@ -251,7 +251,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'External USB 3.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => 476938.24,
+            DISKSIZE     => 476938,
         },
         {
             NAME         => 'disk2',
@@ -332,7 +332,7 @@ my %testsFireWireStorage = (
             DISKSIZE     => 305244,
             FIRMWARE     => '',
             INTERFACE    => 'FireWire',
-            MANUFACTURER => '',
+            MANUFACTURER => 'AAPL',
             MODEL        => '',
             SERIAL       => '',
             TYPE         => 'Disk drive'
