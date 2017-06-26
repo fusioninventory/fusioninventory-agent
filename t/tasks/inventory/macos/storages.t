@@ -125,7 +125,7 @@ my %testsSerialATA = (
             SERIAL       => 'WD-WCARY1264478',
             MODEL        => 'WDC WD2500AAJS-40VWA1',
             FIRMWARE     => '58.01D02',
-            DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromBytesToMegaBytes(250059350016),
+            DISKSIZE     => 238475,
             TYPE         => 'Disk drive',
             DESCRIPTION  => 'WDC WD2500AAJS-40VWA1'
         }
@@ -138,7 +138,7 @@ my %testsSerialATA = (
             SERIAL       => '1435NL400611',
             MODEL        => 'SSD SD0128F',
             FIRMWARE     => 'A222821',
-            DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromBytesToMegaBytes(121332826112),
+            DISKSIZE     => 115712,
             TYPE         => 'Disk drive',
             DESCRIPTION  => 'APPLE SSD SD0128F'
         }
@@ -201,7 +201,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'External USB 3.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromBytesToMegaBytes(500107859968)
+            DISKSIZE     => 476940,
         }
     ],
     'SPUSBDataType_without_inserted_dvd.xml' => [
@@ -251,7 +251,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'External USB 3.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromGigaBytesToMegaBytes(465.76)
+            DISKSIZE     => 476938.24,
         },
         {
             NAME         => 'disk2',
@@ -262,7 +262,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'UDisk 2.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => FusionInventory::Agent::Task::Inventory::MacOS::Storages::_fromGigaBytesToMegaBytes(1.88)
+            DISKSIZE     => 1925,
         }
     ],
     'SPUSBDataType3.xml' => [
@@ -332,20 +332,7 @@ my %testsFireWireStorage = (
             DISKSIZE     => 305244,
             FIRMWARE     => '',
             INTERFACE    => 'FireWire',
-            MANUFACTURER => 'AAPL',
-            MODEL        => '',
-            SERIAL       => '',
-            TYPE         => 'Disk drive'
-        }
-    ],
-    'SPFireWireDataType2.xml' => [
-        {
-            NAME         => 'disk5',
-            DESCRIPTION  => 'fw_target_disk_mode_lun',
-            DISKSIZE     => 305245,
-            FIRMWARE     => '',
-            INTERFACE    => 'FireWire',
-            MANUFACTURER => 'AAPL',
+            MANUFACTURER => '',
             MODEL        => '',
             SERIAL       => '',
             TYPE         => 'Disk drive'
