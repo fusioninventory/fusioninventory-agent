@@ -408,7 +408,8 @@ my $nbTests = scalar (keys %testsSerialATA)
     + scalar (keys %testsDiscBurning)
     + scalar (keys %testsCardReader)
     + scalar (keys %testsUSBStorage)
-    + scalar (keys %testsFireWireStorage);
+    + scalar (keys %testsFireWireStorage)
+    + scalar (keys %testsRecursiveParsing);
 SKIP: {
     skip "test only if module XML::XPath available", $nbTests unless $checkXmlXPath;
 
