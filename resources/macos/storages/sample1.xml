@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <elem>
+        <key>_name</key>
+        <string>ELEM_NAME1</string>
+        <key>key1</key>
+        <string>value1</string>
+        <key>key2</key>
+        <string>value2</string>
+        <key>key3</key>
+        <string>value3</string>
+        <key>units</key>
+        <array>
+            <elem>
+                <key>_name</key>
+                <string>ELEM_NAME1.1</string>
+                <key>key2</key>
+                <string>alternate value2</string>
+                <key>key4</key>
+                <string>value4</string>
+                <key>key5</key>
+                <string>value5</string>
+                <key>key6</key>
+                <string>value6</string>
+                <key>units</key>
+                <array>
+                    <elem>
+                        <key>_name</key>
+                        <string>ELEM_NAME1.1.1</string>
+                        <key>key7</key>
+                        <string>value7</string>
+                    </elem>
+                    <elem>
+                        <key>_name</key>
+                        <string>ELEM_NAME1.1.2</string>
+                        <key>key7</key>
+                        <string>other value7</string>
+                    </elem>
+                </array>
+            </elem>
+            <elem>
+                <key>_name</key>
+                <string>ELEM_NAME1.2</string>
+                <key>key4</key>
+                <string>value4</string>
+                <key>key5</key>
+                <string>other value5</string>
+                <key>key6</key>
+                <string>value6</string>
+            </elem>
+        </array>
+    </elem>
+    <elem>
+        <key>_name</key>
+        <string>ELEM_NAME2</string>
+        <key>key1</key>
+        <string>value1</string>
+        <key>key2</key>
+        <string>value2</string>
+        <key>key3</key>
+        <string>value3</string>
+        <key>units</key>
+        <array>
+            <elem>
+                <key>_name</key>
+                <string>ELEM_NAME2.1</string>
+                <key>key2</key>
+                <string>alternate value2</string>
+                <key>key4</key>
+                <string>value4</string>
+                <key>key5</key>
+                <string>value5</string>
+                <key>key6</key>
+                <string>value6</string>
+                <key>units</key>
+                <array>
+                    <elem>
+                        <key>key8</key>
+                        <string>value8</string>
+                    </elem>
+                </array>
+
+            </elem>
+        </array>
+    </elem>
+</root>

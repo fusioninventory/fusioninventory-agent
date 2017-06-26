@@ -340,6 +340,40 @@ my %testsFireWireStorage = (
     ]
 );
 
+my %testsRecursiveParsing = (
+    'sample1.xml' => {
+        'ELEM_NAME1.1.1' => {
+            _name => 'ELEM_NAME1.1.1',
+            key1  => 'value1',
+            key2  => 'alternate value2',
+            key3  => 'value3',
+            key4  => 'value4',
+            key5  => 'value5',
+            key6  => 'value6',
+            key7  => 'value7',
+        },
+        'ELEM_NAME1.1.2' => {
+            _name => 'ELEM_NAME1.1.2',
+            key1  => 'value1',
+            key2  => 'alternate value2',
+            key3  => 'value3',
+            key4  => 'value4',
+            key5  => 'value5',
+            key6  => 'value6',
+            key7  => 'other value7',
+        },
+        'ELEM_NAME1.2' => {
+            _name => 'ELEM_NAME1.2',
+            key1  => 'value1',
+            key2  => 'value2',
+            key3  => 'value3',
+            key4  => 'value4',
+            key5  => 'other value5',
+            key6  => 'value6',
+        }
+    }
+);
+
 plan tests => (2 * scalar (keys %tests))
         + 1
         + scalar (keys %testsSerialATA)
@@ -347,6 +381,7 @@ plan tests => (2 * scalar (keys %tests))
         + scalar (keys %testsCardReader)
         + scalar (keys %testsUSBStorage)
         + scalar (keys %testsFireWireStorage)
+        + scalar (keys %testsRecursiveParsing)
         + 2
 ;
 
@@ -423,6 +458,25 @@ SKIP: {
             [ sort { compare() } @storages ],
             [ sort { compare() } @{$testsFireWireStorage{$test}} ],
             "testsFireWireStorage $test: parsing"
+        );
+    }
+
+    foreach my $test (keys %testsRecursiveParsing) {
+        my $file = "resources/macos/storages/$test";
+        my $xPathExpressions = [
+            "/root/elem",
+            "./key[text()='units']/following-sibling::array[1]/child::elem",
+            "./key[text()='units']/following-sibling::array[1]/child::elem"
+        ];
+        my $hash = {};
+        FusionInventory::Agent::Tools::MacOS::_initXmlParser(
+            file => $file
+        );
+        FusionInventory::Agent::Tools::MacOS::_recursiveParsing({}, $hash, undef, $xPathExpressions);
+        cmp_deeply(
+            $hash,
+            $testsRecursiveParsing{$test},
+            "testsRecursiveParsing $test: parsing"
         );
     }
 }

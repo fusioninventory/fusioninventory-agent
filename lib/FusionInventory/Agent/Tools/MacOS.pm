@@ -25,7 +25,8 @@ memoize('getSystemProfilerInfos');
 use constant {
     KEY_ELEMENT_NAME   => 'key',
     VALUE_ELEMENT_NAME => 'string',
-    DATE_ELEMENT_NAME  => 'date'
+    DATE_ELEMENT_NAME  => 'date',
+    ARRAY_ELEMENT_NAME => 'array'
 };
 
 my $xmlParser;
@@ -180,8 +181,7 @@ sub _recursiveParsing {
         $xPathExpr
     ) = @_;
 
-    # we use here dclone because each recursive call must have its own copy of these structures
-    my $hashFieldsClone = dclone $hashFields;
+    # we use here dclone because each recursive call must have its own copy of these structure
     my $xPathExprClone = dclone $xPathExpr;
 
     # next XPath expression is eaten up
@@ -190,7 +190,6 @@ sub _recursiveParsing {
     # XPath expression is processed at context $elemRoot
     my $n = $xmlParser->findnodes($expr, $elemRoot);
     my @nl = $n->get_nodelist();
-    my $extractedElementName = $hashFieldsClone->{_name};
     if (scalar @nl > 0) {
         for my $elem (@nl) {
             # because of XML document specific format, we must do next call to create the hash
@@ -198,8 +197,11 @@ sub _recursiveParsing {
             my $newHash = _makeHashFromKeyValuesTextNodes($elem);
             next unless $newHash->{_name};
 
+            # we use here dclone because each recursive call must have its own copy of these structure
+            my $hashFieldsClone = dclone $hashFields;
             # hashes are merged, existing values are overwritten (that is expected behaviour)
             @$hashFieldsClone{keys %$newHash} = values %$newHash;
+            my $extractedElementName = $hashFieldsClone->{_name};
 
             # if other XPath expressions have to be processed
             if (scalar @$xPathExprClone) {
@@ -208,15 +210,18 @@ sub _recursiveParsing {
             } else {
                 # no more XPath expression to process
                 # it's time to merge data in main hashref
-                $hashElems->{$extractedElementName} = {} unless $hashElems->{$extractedElementName};
+                $hashElems->{$extractedElementName} = { } unless $hashElems->{$extractedElementName};
                 @{$hashElems->{$extractedElementName}}{keys %$hashFieldsClone} = values %$hashFieldsClone;
             }
         }
     } else {
         # no more XML nodes found
         # it's time to merge data in main hashref
-        $hashElems->{$extractedElementName} = {} unless $hashElems->{$extractedElementName};
-        @{$hashElems->{$extractedElementName}}{keys %$hashFieldsClone} = values %$hashFieldsClone;
+        if ($hashFields->{_name}) {
+            my $extractedElementName = $hashFields->{_name};
+            $hashElems->{$extractedElementName} = { } unless $hashElems->{$extractedElementName};
+            @{$hashElems->{$extractedElementName}}{keys %$hashFields} = values %$hashFields;
+        }
     }
 }
 
@@ -232,7 +237,7 @@ sub _makeHashFromKeyValuesTextNodes {
     for my $elem (@nl) {
         if ($elem->getName() eq KEY_ELEMENT_NAME) {
             $currentKey = Encode::encode_utf8($elem->string_value());
-        } elsif ($currentKey) {
+        } elsif ($currentKey && $elem->getName() ne ARRAY_ELEMENT_NAME) {
             $hash->{$currentKey} = Encode::encode_utf8($elem->string_value());
             $currentKey = undef;
         }
