@@ -100,13 +100,8 @@ if ($options->{register}) {
     exit($ret);
 }
 
-FusionInventory::Agent->require()
-    or die "Can't load FusionInventory::Agent";
-
-# Setup sigterm callback to exit thread
-$setup{sigterm} = sub { threads->exit(); };
-
-my $agent_as_context = FusionInventory::Agent->new( %setup );
+my $agent_as_context = FusionInventory::Agent::Service->new( %setup )
+    or die "Can't create FusionInventory::Agent::Service object: $!";
 
 $agent_as_context->{last_state} = SERVICE_START_PENDING;
 
@@ -129,17 +124,9 @@ Win32::Daemon::StartService($agent_as_context, SERVICE_SLEEP_TIME);
 sub cb_start {
     my( $event, $agent ) = @_;
 
-    if (!exists($agent->{agent_thread})) {
-
-        # First start a thread dedicated to Win32::OLE calls
-        FusionInventory::Agent::Tools::Win32->require();
-        FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
-
-        $agent->{agent_thread} = threads->create(sub {
-            $agent->init(options => { service => 1 });
-            $agent->run();
-        });
-    }
+    # Start service dedicated thread only if required
+    $agent->{agent_thread} = $agent->start_service()
+        unless (exists($agent->{agent_thread}));
 
     Win32::Daemon::CallbackTimer(SERVICE_SLEEP_TIME);
 
@@ -206,6 +193,64 @@ sub cb_interrogate {
     Win32::Daemon::State($agent->{last_state});
 }
 
+# We need to override default terminate method
+package FusionInventory::Agent::Service;
+
+use FusionInventory::Agent::Version;
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Tools::Win32;
+
+use base 'FusionInventory::Agent::Daemon';
+
+my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
+
+sub start_service {
+    my ($self) = @_;
+
+    # First start a thread dedicated to Win32::OLE calls
+    FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+
+    # Start run in a dedicated thread
+    return threads->create(sub {
+        $self->init(options => { service => 1 });
+        $self->run()
+    });
+}
+
+sub ApplyServiceOptimizations {
+    my ($self) = @_;
+
+    $self->SUPER::ApplyServiceOptimizations();
+
+    # Win32 only service optimization
+
+    # Preload is64bit result to avoid a lot of WMI calls
+    is64bit();
+}
+
+sub RunningServiceOptimization {
+    my ($self) = @_;
+
+    # win32 platform needs optimization
+    if ($self->{logger}->{verbosity} >= LOG_DEBUG) {
+        my $runmem = getAgentMemorySize();
+        $self->{logger}->debug("Agent memory usage before freeing memory: $runmem");
+    }
+
+    # Free some memory
+    FreeAgentMem();
+
+    my $current_mem = getAgentMemorySize();
+    $self->{logger}->info("$PROVIDER Agent memory usage: $current_mem");
+}
+
+sub terminate {
+    my ($self) = @_;
+
+    $self->SUPER::terminate();
+
+    threads->exit();
+}
 
 __END__
 
@@ -232,5 +277,5 @@ B<fusioninventory-win32-service> [--register|--delete|--help] [options]
 
   Samples to use from sources:
     perl bin/fusioninventory-win32-service --help
-    perl bin/fusioninventory-win32-service --register -n fia-test -d "[TEST] FIA 2.3.18"
+    perl bin/fusioninventory-win32-service --register -n fia-test -d "[TEST] FIA Service"
     perl bin/fusioninventory-win32-service --delete -n fia-test
