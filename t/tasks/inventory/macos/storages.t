@@ -241,7 +241,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'JumpDrive',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => 7516,
+            DISKSIZE     => 7516.16,
         },
         {
             NAME         => 'disk3',
@@ -252,7 +252,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'External USB 3.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => 476938,
+            DISKSIZE     => 476938.24,
         },
         {
             NAME         => 'disk2',
@@ -263,7 +263,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'UDisk 2.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => 1925,
+            DISKSIZE     => 1925.12,
         }
     ],
     'SPUSBDataType3.xml' => [
@@ -276,7 +276,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'External USB 3.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => 476938,
+            DISKSIZE     => 476938.24,
         },
         {
             NAME         => 'disk1',
@@ -287,7 +287,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'UDisk 2.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => 1925,
+            DISKSIZE     => 1925.12,
         },
         {
             NAME         => 'disk6',
@@ -298,7 +298,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'JumpDrive',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => 7516,
+            DISKSIZE     => 7516.16,
         },
         {
             NAME         => 'disk5',
@@ -309,7 +309,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'Mass Storage',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => 3932,
+            DISKSIZE     => 3932.16,
         },
         {
             NAME         => 'disk4',
@@ -320,7 +320,7 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'USB Flash Disk',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => 3819,
+            DISKSIZE     => 3819.52,
         }
     ]
 );
@@ -330,7 +330,7 @@ my %testsFireWireStorage = (
         {
             NAME         => 'disk2',
             DESCRIPTION  => 'Target Disk Mode SBP-LUN',
-            DISKSIZE     => 305244,
+            DISKSIZE     => 305244.16,
             FIRMWARE     => '',
             INTERFACE    => 'FireWire',
             MANUFACTURER => 'AAPL',
