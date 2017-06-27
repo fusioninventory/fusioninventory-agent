@@ -280,14 +280,16 @@ sub terminate {
     # Forget our targets
     $self->{targets} = [];
 
-    # Kill current running task
-    if ($self->{current_runtask}) {
-        # Don't forget to call abort method before killing task
-        $self->{current_task}->abort();
+    # Abort realtask running in that forked process or thread
+    $self->{current_task}->abort()
+        if ($self->{current_task});
 
+    # Kill current forked task
+    if ($self->{current_runtask}) {
         kill 'TERM', $self->{current_runtask};
         delete $self->{current_runtask};
     }
+
 }
 
 sub runTarget {
