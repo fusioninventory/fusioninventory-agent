@@ -7,6 +7,7 @@ use threads;
 use threads 'exit' => 'threads_only';
 
 use File::Spec;
+use Cwd qw(abs_path);
 
 use constant SERVICE_SLEEP_TIME  => 200; # in milliseconds
 
@@ -67,7 +68,7 @@ sub RegisterService {
     my $params = '"' . $options{program} . '"';
 
     # Try to compute libdir from this module file if still not absolute
-    $libdir = File::Spec->rel2abs('../../../../..', __FILE__)
+    $libdir = abs_path(File::Spec->rel2abs('../../../../..', __FILE__))
         unless ($libdir && File::Spec->file_name_is_absolute($libdir) && -d $libdir);
 
     # Add path to lib if setup
