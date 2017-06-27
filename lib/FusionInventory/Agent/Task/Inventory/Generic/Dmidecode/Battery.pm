@@ -154,6 +154,8 @@ sub _getBatteryDataFromUpower {
 sub _mergeData {
     my ($batt, $additionalData) = @_;
 
+    return $batt unless $additionalData;
+
     if ($additionalData->{NAME} && !$batt->{NAME}) {
         $batt->{NAME} = $additionalData->{NAME};
         if ($batt->{MANUFACTURER}) {
