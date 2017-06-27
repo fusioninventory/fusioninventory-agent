@@ -7,17 +7,27 @@ use threads;
 use threads 'exit' => 'threads_only';
 
 use File::Spec;
+use UNIVERSAL::require;
 
 use constant SERVICE_SLEEP_TIME  => 200; # in milliseconds
 
 use Win32;
-use Win32::Daemon;
 
 use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools::Win32;
 
 use parent qw(FusionInventory::Agent::Daemon);
+
+Win32::Daemon->require();
+{
+    for my $constant (qw(
+        SERVICE_START_PENDING SERVICE_ACCEPT_STOP SERVICE_ACCEPT_SHUTDOWN
+        SERVICE_STOP_PENDING  SERVICE_RUNNING     SERVICE_STOPPED
+    )) {
+        Win32::Daemon->use($constant);
+    }
+}
 
 my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
 
@@ -37,7 +47,7 @@ sub new {
 
     my $self = $class->SUPER::new(%params);
 
-    $self->{last_state} = SERVICE_START_PENDING;
+    $self->{last_state} = SERVICE_START_PENDING();
 
     bless $self, $class;
 
@@ -148,7 +158,7 @@ sub StartService {
 sub AcceptedControls {
     my ($self, $controls) = @_;
 
-    $controls = SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN
+    $controls = SERVICE_ACCEPT_STOP() | SERVICE_ACCEPT_SHUTDOWN()
         unless $controls;
 
     Win32::Daemon::AcceptedControls($controls);
@@ -171,18 +181,18 @@ sub cb_start {
 
     Win32::Daemon::CallbackTimer(SERVICE_SLEEP_TIME);
 
-    $service->{last_state} = SERVICE_RUNNING;
+    $service->{last_state} = SERVICE_RUNNING();
 
-    Win32::Daemon::State(SERVICE_RUNNING);
+    Win32::Daemon::State(SERVICE_RUNNING());
 }
 
 sub cb_running {
     my( $event, $service ) = @_;
 
     if (!$service->{agent_thread}) {
-        if ($service->{last_state} == SERVICE_STOP_PENDING) {
-            $service->{last_state} = SERVICE_STOPPED;
-            Win32::Daemon::State(SERVICE_STOPPED);
+        if ($service->{last_state} == SERVICE_STOP_PENDING()) {
+            $service->{last_state} = SERVICE_STOPPED();
+            Win32::Daemon::State(SERVICE_STOPPED());
             Win32::Daemon::StopService();
         } else {
             Win32::Daemon::State($service->{last_state});
@@ -194,12 +204,12 @@ sub cb_running {
 
             delete $service->{agent_thread};
 
-            $service->{last_state} = SERVICE_STOPPED;
-            Win32::Daemon::State(SERVICE_STOPPED);
+            $service->{last_state} = SERVICE_STOPPED();
+            Win32::Daemon::State(SERVICE_STOPPED());
             Win32::Daemon::StopService();
         } else {
-            $service->{last_state} = SERVICE_STOP_PENDING;
-            Win32::Daemon::State(SERVICE_STOP_PENDING);
+            $service->{last_state} = SERVICE_STOP_PENDING();
+            Win32::Daemon::State(SERVICE_STOP_PENDING());
         }
 
     } else {
@@ -214,8 +224,8 @@ sub cb_stop {
         $service->{agent_thread}->kill('SIGINT');
     }
 
-    $service->{last_state} = SERVICE_STOP_PENDING;
-    Win32::Daemon::State(SERVICE_STOP_PENDING, 10000);
+    $service->{last_state} = SERVICE_STOP_PENDING();
+    Win32::Daemon::State(SERVICE_STOP_PENDING(), 10000);
 }
 
 sub cb_shutdown {
@@ -225,8 +235,8 @@ sub cb_shutdown {
         $service->{agent_thread}->kill('SIGTERM');
     }
 
-    $service->{last_state} = SERVICE_STOP_PENDING;
-    Win32::Daemon::State(SERVICE_STOP_PENDING, 25000);
+    $service->{last_state} = SERVICE_STOP_PENDING();
+    Win32::Daemon::State(SERVICE_STOP_PENDING(), 25000);
 }
 
 sub cb_interrogate {
