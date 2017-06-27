@@ -137,7 +137,7 @@ sub _getBatteryDataFromUpower {
 
     my $data = {};
     for my $line (@lines) {
-        if ($line =~ /^\s*(\S+):\s*(\S+)$/) {
+        if ($line =~ /^\s*(\S+):\s*(\S+(?:\s+\S+)*)$/) {
             $data->{$1} = $2;
         }
     }

@@ -50,16 +50,29 @@ my %tests = (
     'windows-hyperV' => undef
 );
 
-my %testUpower = (
+my %testUpowerEnumerate = (
     'enumerate_1.txt' => {
-        extractedName => '/org/freedesktop/UPower/devices/battery_BAT1'
+        extractedName     => '/org/freedesktop/UPower/devices/battery_BAT1',
+    }
+);
+
+my %testUpowerInfos = (
+    'infos_1.txt' => {
+        extractedData => {
+            NAME      => 'G71C000G7210',
+            CAPACITY  => '39,264 Wh',
+            VOLTAGE   => '14,8 V',
+            CHEMISTRY => 'lithium-ion'
+        }
     }
 );
 
 plan tests =>
     (scalar keys %tests)               +
     (scalar grep { $_ } values %tests) +
-    2;
+    scalar (keys %testUpowerEnumerate) +
+    scalar (keys %testUpowerInfos) +
+    1;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
@@ -73,10 +86,24 @@ foreach my $test (keys %tests) {
     } "$test: registering";
 }
 
-foreach my $test (keys %testUpower) {
-    my $file = 'resources/generic/upower/' . $test;
-    my $battName =  FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_getBatteryNameFromUpower(
+foreach my $test (keys %testUpowerEnumerate) {
+    my $file = 'resources/generic/upower/'.$test;
+    my $battName = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_getBatteryNameFromUpower(
         file => $file
     );
-    ok ($battName eq $testUpower{$test}->{extractedName});
+    ok ($battName eq $testUpowerEnumerate{$test}->{extractedName}, "$test: _getBatteryNameFromUpower()");
 }
+
+foreach my $test (keys %testUpowerInfos) {
+    my $file = 'resources/generic/upower/' . $test;
+    my $battData = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_getBatteryDataFromUpower(
+        file => $file
+    );
+    cmp_deeply(
+        $battData,
+        $testUpowerInfos{$test}->{extractedData},
+        "$test: _getBatteryDataFromUpower()"
+    );
+}
+
+
