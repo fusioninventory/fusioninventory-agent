@@ -1150,6 +1150,12 @@ my %dmidecode_tests = (
                 'Current Interleave' => 'One-way Interleave',
                 'Memory Module Voltage' => '5.0 V 3.3 V'
             }
+        ],
+        13 => [
+            {
+                'Installable Languages' => '3',
+                'Currently Installed Language' => 'en|US|iso8859-1'
+            }
         ]
     },
     'openbsd-3.8' => {
@@ -1882,6 +1888,20 @@ my %dmidecode_tests = (
                  'Error Information Handle' => 'No Error',
                  'Locator' => 'DIMM 2',
                  'Form Factor' => 'DIMM'
+            },
+            {
+                'Array Handle' => '0x0022',
+                'Error Information Handle' => 'No Error',
+                'Total Width' => '72 bits',
+                'Data Width' => '64 bits',
+                'Size' => '512 MB',
+                'Form Factor' => 'DIMM',
+                'Set' => '2',
+                'Locator' => 'DIMM 3',
+                'Bank Locator' => 'BANK 2',
+                'Type' => 'DDR',
+                'Type Detail' => 'Synchronous',
+                'Speed' => '400 MHz (2.5 ns)',
             }
         ],
         12 => [
