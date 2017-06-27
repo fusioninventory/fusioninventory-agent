@@ -50,10 +50,16 @@ my %tests = (
     'windows-hyperV' => undef
 );
 
+my %testUpower = (
+    'enumerate_1.txt' => {
+        extractedName => '/org/freedesktop/UPower/devices/battery_BAT1'
+    }
+);
+
 plan tests =>
     (scalar keys %tests)               +
     (scalar grep { $_ } values %tests) +
-    1;
+    2;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
@@ -65,4 +71,12 @@ foreach my $test (keys %tests) {
     lives_ok {
         $inventory->addEntry(section => 'BATTERIES', entry => $battery);
     } "$test: registering";
+}
+
+foreach my $test (keys %testUpower) {
+    my $file = 'resources/generic/upower/' . $test;
+    my $battName =  FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_getBatteryNameFromUpower(
+        file => $file
+    );
+    ok ($battName eq $testUpower{$test}->{extractedName});
 }
