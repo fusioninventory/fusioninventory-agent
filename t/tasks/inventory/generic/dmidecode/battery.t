@@ -67,11 +67,30 @@ my %testUpowerInfos = (
     }
 );
 
+my %testUpowerMerged = (
+    'infos_1.txt' => {
+        files => {
+            dmidecode => 'dmi_decode.txt',
+            upowerInfos => 'infos_1.txt'
+        },
+        mergedData => {
+            MANUFACTURER => 'TOSHIBA',
+            NAME      => 'TOSHIBA G71C000G7210',
+            CAPACITY  => '39,264 Wh',
+            VOLTAGE   => '14,8 V',
+            CHEMISTRY => 'Li-ION',
+            SERIAL    => '0000000000',
+            DATE      => undef
+        }
+    }
+);
+
 plan tests =>
     (scalar keys %tests)               +
     (scalar grep { $_ } values %tests) +
     scalar (keys %testUpowerEnumerate) +
     scalar (keys %testUpowerInfos) +
+    scalar (keys %testUpowerMerged) +
     1;
 
 my $inventory = FusionInventory::Test::Inventory->new();
@@ -106,4 +125,18 @@ foreach my $test (keys %testUpowerInfos) {
     );
 }
 
+foreach my $test (keys %testUpowerMerged) {
+    my $battery = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_getBattery(
+        file => 'resources/generic/upower/' . $testUpowerMerged{$test}->{files}->{dmidecode}
+    );
+    my $batteryAdditionalData = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_getBatteryDataFromUpower(
+        file => 'resources/generic/upower/' . $testUpowerMerged{$test}->{files}->{upowerInfos}
+    );
+    $battery = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_mergeData($battery, $batteryAdditionalData);
+    cmp_deeply(
+        $battery,
+        $testUpowerMerged{$test}->{mergedData},
+        "$test: _mergeData()"
+    );
+}
 

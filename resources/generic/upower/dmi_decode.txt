@@ -1,6 +1,10 @@
 Getting SMBIOS data from sysfs.
 SMBIOS 2.6 present.
 
+# Next 2 lines have been added in order to permit function to return the data
+Handle 0x0014, DMI type 1, 26 bytes
+    key: value
+
 Handle 0x0014, DMI type 22, 26 bytes
 Portable Battery
 	Location: 1st Battery
