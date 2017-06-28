@@ -9,7 +9,7 @@ use threads 'exit' => 'threads_only';
 use File::Spec;
 use Cwd qw(abs_path);
 
-use constant SERVICE_SLEEP_TIME  => 200; # in milliseconds
+use constant SERVICE_SLEEP_TIME => 200; # in milliseconds
 
 use Win32;
 use Win32::Daemon;
@@ -22,7 +22,7 @@ use parent qw(FusionInventory::Agent::Daemon);
 
 my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
 
-sub SERVICE_NAME        { lc($PROVIDER)."-agent"; }
+sub SERVICE_NAME        { lc($PROVIDER) . "-agent"; }
 sub SERVICE_DISPLAYNAME { "$PROVIDER Agent"; }
 
 my %default_callbacks = (
@@ -88,11 +88,13 @@ sub RegisterService {
             warn "Service still registered\n";
 
         } elsif ($lasterr == 1072) {
-            warn "Service marked for deletion. Computer must be rebooted before new service registration\n";
+            warn "Service marked for deletion.\n" .
+                "Computer must be rebooted to register the same service name\n";
             return 1;
 
         } else {
-            warn "Service not registered: $lasterr: ".Win32::FormatMessage($lasterr), "\n";
+            my $error = Win32::FormatMessage($lasterr);
+            warn "Service not registered: $lasterr: $error\n";
             return 2;
         }
     }
@@ -113,7 +115,8 @@ sub DeleteService {
             return 1;
 
         } else {
-            warn "Service not removed $lasterr: ".Win32::FormatMessage($lasterr), "\n";
+            my $error = Win32::FormatMessage($lasterr);
+            warn "Service not removed $lasterr: $error\n";
             return 2;
         }
     }
