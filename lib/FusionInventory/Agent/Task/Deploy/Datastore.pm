@@ -40,8 +40,8 @@ sub cleanUp {
     return unless -d $self->{path};
 
     my @storageDirs;
-    push @storageDirs, File::Glob::glob($self->{path}.'/fileparts/private/*');
-    push @storageDirs, File::Glob::glob($self->{path}.'/fileparts/shared/*');
+    push @storageDirs, File::Glob::bsd_glob($self->{path}.'/fileparts/private/*');
+    push @storageDirs, File::Glob::bsd_glob($self->{path}.'/fileparts/shared/*');
 
     my $diskFull=$self->diskIsFull();
     if (-d $self->{path}.'/workdir/') {
