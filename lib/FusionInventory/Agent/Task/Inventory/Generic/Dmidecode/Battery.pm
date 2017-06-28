@@ -20,6 +20,9 @@ sub doInventory {
 
     my $battery = _getBattery(logger => $logger);
 
+    my $batteryAdditionalData = _getBatteryFromUpower(%params);
+    $battery = _mergeData($battery, $batteryAdditionalData);
+
     return unless $battery;
 
     $inventory->addEntry(
@@ -84,6 +87,86 @@ sub _parseDate {
         return "$day/$month/$year";
     }
     return;
+}
+
+sub _getBatteryFromUpower {
+    my (%params) = @_;
+
+    my $command = 'upower';
+    return unless canRun($command);
+
+    my $batteryName = _getBatteryNameFromUpower(
+        %params,
+        command => $command . ' --enumerate'
+    );
+
+    return unless $batteryName;
+
+    my $battData = _getBatteryDataFromUpower(
+        %params,
+        command => $command . ' -i ' . $batteryName
+    );
+
+    return $battData;
+}
+
+sub _getBatteryNameFromUpower {
+    my (%params) = @_;
+
+    my @lines = getAllLines(
+        %params
+    );
+
+    my $battName;
+    for my $line (@lines) {
+        if ($line =~ /^(.*\/battery_BAT1)$/) {
+            $battName = $1;
+            last;
+        }
+    }
+
+    return $battName;
+}
+
+sub _getBatteryDataFromUpower {
+    my (%params) = @_;
+
+    my @lines = getAllLines(
+        %params
+    );
+
+    my $data = {};
+    for my $line (@lines) {
+        if ($line =~ /^\s*(\S+):\s*(\S+(?:\s+\S+)*)$/) {
+            $data->{$1} = $2;
+        }
+    }
+    my $battData = {
+        NAME => $data->{model} || '',
+        CAPACITY => $data->{'energy-full'},
+        VOLTAGE => $data->{voltage},
+        CHEMISTRY => $data->{technology}
+    };
+
+    return $battData;
+}
+
+sub _mergeData {
+    my ($batt, $additionalData) = @_;
+
+    return $batt unless $additionalData;
+
+    if ($additionalData->{NAME} && !$batt->{NAME}) {
+        $batt->{NAME} = $additionalData->{NAME};
+        if ($batt->{MANUFACTURER}) {
+            $batt->{NAME} = $batt->{MANUFACTURER} . ' ' . $batt->{NAME};
+        }
+    }
+    $batt->{CHEMISTRY} = $additionalData->{CHEMISTRY} if ($additionalData->{CHEMISTRY} && !($batt->{CHEMISTRY}));
+    $batt->{CAPACITY} = $additionalData->{CAPACITY} if ($additionalData->{CAPACITY} && !($batt->{CAPACITY}));
+    $batt->{VOLTAGE} = $additionalData->{VOLTAGE} if ($additionalData->{VOLTAGE} && !($batt->{VOLTAGE}));
+
+    return $batt;
 }
 
 1;
