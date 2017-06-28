@@ -158,13 +158,13 @@ sub status_for_server {
     if (defined($policy)) {
         my @policies = split(':',$policy);
         $status = $policies[1] || 'error_no_policy' if (@policies > 1);
-        $self->{_status}->{mesg} = $policies[2] if (@policies > 2);
+        $self->{_status}->{msg} = $policies[2] if (@policies > 2);
     }
 
     $self->{_status}->{status} = $status;
-    unless ($self->{_status}->{mesg}) {
-        $self->{_status}->{mesg}= $default_policies_message{$status} ||
-        $default_policies_message{'error_no_message'};
+    unless ($self->{_status}->{msg}) {
+        $self->{_status}->{msg}= $default_policies_message{$status} ||
+            $default_policies_message{'error_no_message'};
     }
 
     return $self->{_status};
