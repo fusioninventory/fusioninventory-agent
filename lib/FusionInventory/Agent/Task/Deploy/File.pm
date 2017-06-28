@@ -41,8 +41,8 @@ sub getPartFilePath {
     my $subFilePath = $1.'/'.$2.'/'.$3;
 
     my @storageDirs =
-        File::Glob::glob($self->{datastore}->{path}.'/fileparts/shared/*'),
-        File::Glob::glob($self->{datastore}->{path}.'/fileparts/private/*');
+        File::Glob::bsd_glob($self->{datastore}->{path}.'/fileparts/shared/*'),
+        File::Glob::bsd_glob($self->{datastore}->{path}.'/fileparts/private/*');
 
     foreach my $dir (@storageDirs) {
         if (-f $dir.'/'.$subFilePath) {

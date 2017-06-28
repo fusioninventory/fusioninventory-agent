@@ -79,6 +79,11 @@ sub getDmidecodeInfos {
     }
     close $handle;
 
+    # push last block in list if still defined
+    if ($block) {
+        push(@{$info->{$type}}, $block);
+    }
+
     # do not return anything if dmidecode output is obviously truncated
     return if keys %$info < 2;
 

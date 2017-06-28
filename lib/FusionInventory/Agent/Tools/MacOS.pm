@@ -10,6 +10,7 @@ use POSIX 'strftime';
 use Time::Local;
 use XML::TreePP;
 use UNIVERSAL::require;
+use Storable 'dclone';
 
 use FusionInventory::Agent::Tools;
 
@@ -24,7 +25,8 @@ memoize('getSystemProfilerInfos');
 use constant {
     KEY_ELEMENT_NAME   => 'key',
     VALUE_ELEMENT_NAME => 'string',
-    DATE_ELEMENT_NAME  => 'date'
+    DATE_ELEMENT_NAME  => 'date',
+    ARRAY_ELEMENT_NAME => 'array'
 };
 
 my $xmlParser;
@@ -140,17 +142,87 @@ sub _extractStoragesFromXml {
         || $params{type} eq 'SPUSBDataType') {
         $xPathExpr = "//key[text()='_items']/following-sibling::array[1]/child::dict";
     } elsif ($params{type} eq 'SPFireWireDataType') {
-        $xPathExpr = "//key[text()='units']/following-sibling::array[1]/child::dict"
-            . "[string[starts-with(.,'disk')]]";
+        $xPathExpr = [
+            "//key[text()='_items']/following-sibling::array[1]"
+                . "/child::dict[key[text()='_name' and following-sibling::string[1][not(contains(.,'bus'))]]]",
+            "./key[text()='units']/following-sibling::array[1]/child::dict",
+            "./key[text()='units']/following-sibling::array[1]/child::dict"
+        ];
     }
-    my $n = $xmlParser->findnodes($xPathExpr);
-    my @nl = $n->get_nodelist();
-    for my $elem (@nl) {
-        my $storage = _makeHashFromKeyValuesTextNodes($elem);
-        next unless $storage->{_name};
-        $storagesHash->{$storage->{_name}} = $storage;
+
+    if (ref($xPathExpr) eq 'ARRAY') {
+        # next function call does not return anything
+        # it directly appends data to the hashref $storagesHash
+        _recursiveParsing({}, $storagesHash, undef, $xPathExpr);
+    } else {
+        my $n = $xmlParser->findnodes($xPathExpr);
+        my @nl = $n->get_nodelist();
+        for my $elem (@nl) {
+            my $storage = _makeHashFromKeyValuesTextNodes($elem);
+            next unless $storage->{_name};
+            $storagesHash->{$storage->{_name}} = $storage;
+        }
     }
     return $storagesHash;
+}
+
+# This function is used to parse ugly XML documents
+# It is used to aggregate data from a node and from its descendants
+
+sub _recursiveParsing {
+    my (
+        # data extracted from ancestors
+        $hashFields,
+        # hashref to merge data in
+        $hashElems,
+        # XML context node
+        $elemRoot,
+        # XPath expressions list to be processed
+        $xPathExpr
+    ) = @_;
+
+    # we use here dclone because each recursive call must have its own copy of these structure
+    my $xPathExprClone = dclone $xPathExpr;
+
+    # next XPath expression is eaten up
+    my $expr = shift @$xPathExprClone;
+
+    # XPath expression is processed at context $elemRoot
+    my $n = $xmlParser->findnodes($expr, $elemRoot);
+    my @nl = $n->get_nodelist();
+    if (scalar @nl > 0) {
+        for my $elem (@nl) {
+            # because of XML document specific format, we must do next call to create the hash
+            # in order to have a key-value structure
+            my $newHash = _makeHashFromKeyValuesTextNodes($elem);
+            next unless $newHash->{_name};
+
+            # we use here dclone because each recursive call must have its own copy of these structure
+            my $hashFieldsClone = dclone $hashFields;
+            # hashes are merged, existing values are overwritten (that is expected behaviour)
+            @$hashFieldsClone{keys %$newHash} = values %$newHash;
+            my $extractedElementName = $hashFieldsClone->{_name};
+
+            # if other XPath expressions have to be processed
+            if (scalar @$xPathExprClone) {
+                # recursive call
+                _recursiveParsing($hashFieldsClone, $hashElems, $elem, $xPathExprClone);
+            } else {
+                # no more XPath expression to process
+                # it's time to merge data in main hashref
+                $hashElems->{$extractedElementName} = { } unless $hashElems->{$extractedElementName};
+                @{$hashElems->{$extractedElementName}}{keys %$hashFieldsClone} = values %$hashFieldsClone;
+            }
+        }
+    } else {
+        # no more XML nodes found
+        # it's time to merge data in main hashref
+        if ($hashFields->{_name}) {
+            my $extractedElementName = $hashFields->{_name};
+            $hashElems->{$extractedElementName} = { } unless $hashElems->{$extractedElementName};
+            @{$hashElems->{$extractedElementName}}{keys %$hashFields} = values %$hashFields;
+        }
+    }
 }
 
 sub _makeHashFromKeyValuesTextNodes {
@@ -165,7 +237,7 @@ sub _makeHashFromKeyValuesTextNodes {
     for my $elem (@nl) {
         if ($elem->getName() eq KEY_ELEMENT_NAME) {
             $currentKey = Encode::encode_utf8($elem->string_value());
-        } elsif ($currentKey) {
+        } elsif ($currentKey && $elem->getName() ne ARRAY_ELEMENT_NAME) {
             $hash->{$currentKey} = Encode::encode_utf8($elem->string_value());
             $currentKey = undef;
         }

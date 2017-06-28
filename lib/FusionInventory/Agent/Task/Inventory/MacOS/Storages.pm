@@ -325,7 +325,7 @@ sub _extractUSBStorage {
         SERIAL       => _extractValueInHashWithKeyPattern(qr/^(?:\w_)?serial_num$/, $hash),
         MODEL        => _extractValueInHashWithKeyPattern(qr/^(?:\w_)?device_model/, $hash) || $hash->{_name},
         FIRMWARE     => _extractValueInHashWithKeyPattern(qr/^(?:\w_)?bcd_device$/, $hash),
-        MANUFACTURER => getCanonicalManufacturer(_extractValueInHashWithKeyPattern(qr/(?:\w_)?manufacturer/, $hash)) || '',
+        MANUFACTURER => getCanonicalManufacturer(_extractValueInHashWithKeyPattern(qr/(?:\w+_)?manufacturer/, $hash)) || '',
         DISKSIZE     => _extractDiskSize($hash)
     };
 
@@ -406,7 +406,7 @@ sub _extractFireWireStorage {
         SERIAL       => _extractValueInHashWithKeyPattern(qr/^(?:\w_)?serial_num$/, $hash) || '',
         MODEL        => _extractValueInHashWithKeyPattern(qr/^(?:\w_)?product_id$/, $hash) || '',
         FIRMWARE     => _extractValueInHashWithKeyPattern(qr/^(?:\w_)?bcd_device$/, $hash) || '',
-        MANUFACTURER => getCanonicalManufacturer(_extractValueInHashWithKeyPattern(qr/(?:\w_)?manufacturer/, $hash)) || '',
+        MANUFACTURER => getCanonicalManufacturer(_extractValueInHashWithKeyPattern(qr/(?:\w+_)?manufacturer/, $hash)) || '',
         DISKSIZE     => _extractDiskSize($hash) || ''
     };
 
