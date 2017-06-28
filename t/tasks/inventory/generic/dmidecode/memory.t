@@ -561,6 +561,17 @@ my %tests = (
             CAPACITY         => '512',
             MANUFACTURER     => undef,
             MEMORYCORRECTION => 'Single-bit ECC'
+        },
+        {
+            NUMSLOTS         => 3,
+            SERIALNUMBER     => undef,
+            DESCRIPTION      => 'DIMM',
+            SPEED            => '400 MHz (2.5 ns)',
+            TYPE             => 'DDR',
+            CAPTION          => 'DIMM 3',
+            CAPACITY         => '512',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'Single-bit ECC'
         }
     ],
     'rhel-4.3' => [
