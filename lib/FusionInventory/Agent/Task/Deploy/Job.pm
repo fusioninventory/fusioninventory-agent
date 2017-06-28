@@ -151,7 +151,7 @@ sub next_on_usercheck {
     my ($self, %params) = @_;
 
     my $logger = $self->{logger};
-    my $checks = $params{userchecks} || $self->{userchecks};
+    my $checks = $params{userinteractions} || $self->{userinteractions};
     my $type   = $params{type} || 'after';
 
     return 0 unless $checks;
