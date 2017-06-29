@@ -5,6 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Task::Deploy::UserCheck;
 use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 
 sub new {
@@ -19,6 +20,7 @@ sub new {
         uuid            => $params{data}->{uuid},
         requires        => $params{data}->{requires},
         checks          => $params{data}->{checks},
+        userchecks      => $params{data}->{userinteractions},
         actions         => $params{data}->{actions},
         associatedFiles => $params{associatedFiles}
     };
@@ -151,7 +153,7 @@ sub next_on_usercheck {
     my ($self, %params) = @_;
 
     my $logger = $self->{logger};
-    my $checks = $params{userinteractions} || $self->{userinteractions};
+    my $checks = $params{userchecks} || $self->{userchecks};
     my $type   = $params{type} || 'after';
 
     return 0 unless $checks;
@@ -176,7 +178,7 @@ sub next_on_usercheck {
         next unless $check;
 
         # Warning: Agent may wait here for user response
-        $check->tell_user();
+        $check->tell_users();
 
         my $status = $check->status_for_server();
         if (defined($status) && ref($status) eq 'HASH') {
