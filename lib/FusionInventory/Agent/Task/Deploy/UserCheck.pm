@@ -47,7 +47,7 @@ sub new {
 
         _on_multiusers => 'ask:continue:',
 
-        _status     => {}
+        _events     => []
     };
 
     bless $self, $class;
@@ -121,8 +121,9 @@ sub handle_event {
         $self->{"_$event"} = $policy;
     }
 
-    # Store event as this defines the expected server status
+    # Store event as this defines the server expected information
     $self->{_on_event} = $event;
+    push @{$self->{_events}}, $self->userevent();
 
     return $self->continue()
         if ($policy =~ /^continue:/);
@@ -131,6 +132,11 @@ sub handle_event {
         unless ($policy =~ /^stop:/);
 
     return $self->stop();
+}
+
+sub getEvents {
+    my ($self) = @_;
+    return @{$self->{_events}};
 }
 
 sub always_ask_users {
@@ -161,6 +167,12 @@ my %default_policies_message = (
     stop              => "job stopped for server"
 );
 
+sub setUser {
+    my ($self, $user) = @_;
+
+    $self->{_user} = $user || 'somebody';
+}
+
 sub userevent {
     my ($self) = @_;
 
@@ -185,6 +197,7 @@ sub userevent {
     $self->debug2($message) if $message;
 
     return {
+        user        => $self->{_user},
         type        => $self->{type},
         event       => $event,
         behavior    => $behavior,
@@ -200,7 +213,7 @@ sub info {
 sub error {
     my ($self, $message) = @_;
 
-    # Eventually store erro event as this defines returned server status
+    # Eventually store error event as this defines server returned information
     $self->{_on_event} = 'on_error'
         unless ($self->{_on_event});
 

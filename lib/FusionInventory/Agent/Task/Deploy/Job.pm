@@ -180,8 +180,10 @@ sub next_on_usercheck {
         # Warning: Agent may wait here for user response
         $check->tell_users();
 
-        # Report user event to server
-        $self->setUserEvent($check->userevent());
+        # Report collected user events to server
+        foreach my $event ($check->getEvents()) {
+            $self->setUserEvent($event);
+        }
 
         return 1 if ($check->stopped());
     }
@@ -205,7 +207,7 @@ sub setUserEvent {
     # Map interesting user event parameters
     map { $action->{$_} = $userevent->{$_} }
         grep { exists($userevent->{$_}) && $userevent->{$_} }
-            qw( type behavior event );
+            qw( type behavior event user );
 
     # Include currentStep if defined
     $action->{currentStep} = $self->{_currentStep} if $self->{_currentStep};

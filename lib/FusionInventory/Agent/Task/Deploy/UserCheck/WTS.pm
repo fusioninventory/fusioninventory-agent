@@ -73,6 +73,9 @@ sub tell_users {
             wait    => $self->{wait}
         );
 
+        # Keep user for reported event
+        $self->setUser( $users{$sid} );
+
         # Support %u replacement in text and title
         $message{title} =~ s/\%u/$users{$sid}/g;
         $message{text} =~ s/\%u/$users{$sid}/g;
