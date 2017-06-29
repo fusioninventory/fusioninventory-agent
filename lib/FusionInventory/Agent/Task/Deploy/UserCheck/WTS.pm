@@ -33,9 +33,6 @@ sub tell_users {
     return $self->handle_event("on_nouser", "No WTS session found")
         unless (@sessions);
 
-    return $self->handle_event("on_multiusers", "Multiple WTS session found")
-        unless (@sessions == 1 || $self->always_ask_users());
-
     # 2. Found active users in WTS sessions list
     my %users = ();
     while (@sessions) {
@@ -60,6 +57,9 @@ sub tell_users {
     @sessions = sort keys(%users);
     return $self->handle_event("on_nouser", "No active user session found")
         unless (@sessions);
+
+    return $self->handle_event("on_multiusers", "Multiple user sessions found")
+        unless (@sessions == 1 || $self->always_ask_users());
 
     # 3. Send message to each active user using WTS message
     while (@sessions) {
