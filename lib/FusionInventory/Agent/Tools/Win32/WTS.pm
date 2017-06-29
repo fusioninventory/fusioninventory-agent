@@ -158,8 +158,8 @@ sub WTSSendMessage {
     $style |= $icons{$icon} if ($icon && defined($icons{$icon}));
 
     # Finally text and title must be encoded in local codepage
-    Encode::from_to( $title, 'utf-8', getLocalCodepage() );
-    Encode::from_to( $text,  'utf-8', getLocalCodepage() );
+    Encode::from_to( $title, 'unicode', getLocalCodepage() );
+    Encode::from_to( $text,  'unicode', getLocalCodepage() );
 
     my $Response = IDOK;
     eval {
