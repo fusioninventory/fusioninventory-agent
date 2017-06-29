@@ -180,17 +180,41 @@ sub next_on_usercheck {
         # Warning: Agent may wait here for user response
         $check->tell_users();
 
-        my $status = $check->status_for_server();
-        if (defined($status) && ref($status) eq 'HASH') {
-            $self->setStatus($status);
-        } else {
-            $logger->error("usercheck $type: unsupported status for server");
-        }
+        # Report user event to server
+        $self->setUserEvent($check->userevent());
 
         return 1 if ($check->stopped());
     }
 
     return 0;
+}
+
+sub setUserEvent {
+    my ($self, $userevent) = @_;
+
+    return unless $self->{_remoteUrl};
+
+    # Base userevent hash we wan't to send back to server as job status
+    my $action = {
+        action      => "setUserEvent",
+        machineid   => $self->{_machineid},
+        part        => 'job',
+        uuid        => $self->{uuid},
+    };
+
+    # Map interesting user event parameters
+    map { $action->{$_} = $userevent->{$_} }
+        grep { exists($userevent->{$_}) && $userevent->{$_} }
+            qw( type behavior event );
+
+    # Include currentStep if defined
+    $action->{currentStep} = $self->{_currentStep} if $self->{_currentStep};
+
+    # Send back the job status
+    $self->{_client}->send(
+        url  => $self->{_remoteUrl},
+        args => $action
+    );
 }
 
 1;

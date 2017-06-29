@@ -132,40 +132,63 @@ sub handle_event {
     return $self->stop();
 }
 
+sub always_ask_users {
+    my ($self) = @_;
+
+    return 0 unless $self->{"_on_multiusers"};
+
+    return $self->{"_on_multiusers"} =~ /^ask:/ ;
+}
+
 my %default_policies_message = (
-    error_no_policy  =>
-        "agent error: unknown status as no user event policy was computed",
-    error_no_message =>
+    error_no_policy   =>
+        "agent error: unknown policy as no server policy provided",
+    error_no_behavior =>
+        "agent error: unknown behavior as no server-side behavior provided",
+    error_no_message  =>
         "agent error: no user event message set by server",
-    error_no_event   =>
+    error_no_event    =>
         "agent error: no user event message set by agent",
-    agent_failure    =>
+    agent_failure     =>
         "agent error: got unexpected error while processing job usercheck",
-    event_failure    =>
+    event_failure     =>
         "agent error: got unsupported event while processing user answer",
 
     # Default message if not set by server
-    nouser           => "no active user",
+    nouser            => "no active user",
+    postpone          => "job postponed on server",
+    continue          => "job continued for server",
+    stop              => "job stopped for server"
 );
 
-sub status_for_server {
+sub userevent {
     my ($self) = @_;
 
-    my $status = 'error_no_event';
-    my $event  = $self->{_on_event} || 'on_none';
-    my $policy = $self->{"_$event"};
+    my $event    = $self->{_on_event} || 'on_none';
+    my $policy   = $self->{"_$event"};
+    my $behavior = 'error_no_event';
+    my $message  = $default_policies_message{'error_no_policy'};
 
     if (defined($policy)) {
+        $behavior = 'error_no_behavior';
         my @policies = split(':',$policy);
-        $status = $policies[1] || 'error_no_policy' if (@policies > 1);
-        $self->{_status}->{msg} = $policies[2] if (@policies > 2);
+        $behavior = $policies[1] || 'error_no_behavior'
+            if (@policies > 1);
+
+        $message  = $default_policies_message{$behavior} ||
+            $default_policies_message{'error_no_message'};
+
+        $message  = $policies[2]
+            if (@policies > 2  && $policies[2]);
     }
 
-    $self->{_status}->{status} = $status;
-    $self->{_status}->{msg}    = $event
-        unless ($self->{_status}->{msg});
+    $self->debug2($message) if $message;
 
-    return $self->{_status};
+    return {
+        type        => $self->{type},
+        event       => $event,
+        behavior    => $behavior,
+    };
 }
 
 sub info {
