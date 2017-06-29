@@ -232,13 +232,23 @@ sub stopped {
         if ($self->{on_timeout}) {
             $self->info("stopping current job on user interaction time-out");
         } else {
-            $self->info("stopping current job by user choice");
+            $self->info(
+                $self->{_on_event} =~ /^on_error|on_none$/ ?
+                "stopping current job by on user interaction issue" :
+                $self->{_on_event} =~ /^on_.*user/ ?
+                "stopping current job on skipped user interaction" :
+                "stopping current job by user choice"
+            );
         }
 
     } elsif ($self->{on_timeout}) {
         $self->info("current job continued on user interaction time-out");
     } else {
-        $self->info("current job continued by user choice");
+        $self->info(
+            $self->{_on_event} =~ /^on_.*user/ ?
+            "current job continued on skipped user interaction" :
+            "current job continued by user choice"
+        );
     }
 
     return $self->{_stopped};
