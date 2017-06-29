@@ -8,6 +8,7 @@ use UNIVERSAL::require();
 use English qw(-no_match_vars);
 
 use Encode;
+use FusionInventory::Agent::Tools::Win32;
 
 use constant WTS_CURRENT_SERVER_HANDLE  => 0x00000000;
 
