@@ -27,7 +27,7 @@ my %supported_platform_keys = (
 my @supported_keys = qw(
     type text title icon buttons timeout wait platform
     on_ok on_cancel on_yes on_no on_retry on_try on_abort
-    on_timeout on_nouser
+    on_timeout on_nouser on_multiusers
 );
 
 sub new {
@@ -41,10 +41,11 @@ sub new {
 
         _on_event   => undef,
         # Default "on_<event>" definitions
-        _on_error   => 'stop:agent_failure:',
-        _on_none    => 'stop:error_no_event:',
-        _on_nouser  => 'continue:nouser:',
-        _on_unknown => 'stop:event_failure:',
+        _on_error   => 'stop:stop:agent_failure',
+        _on_none    => 'stop:stop:error_no_event',
+        _on_nouser  => 'continue:continue:',
+
+        _on_multiusers => 'ask:continue:',
 
         _status     => {}
     };
@@ -155,7 +156,6 @@ my %default_policies_message = (
         "agent error: got unsupported event while processing user answer",
 
     # Default message if not set by server
-    nouser            => "no active user",
     postpone          => "job postponed on server",
     continue          => "job continued for server",
     stop              => "job stopped for server"
