@@ -27,7 +27,7 @@ my %supported_platform_keys = (
 my @supported_keys = qw(
     type text title icon buttons timeout wait platform
     on_ok on_cancel on_yes on_no on_retry on_try on_abort
-    on_timeout on_nouser on_multiusers
+    on_timeout on_nouser on_multiusers on_ignore
 );
 
 sub new {
