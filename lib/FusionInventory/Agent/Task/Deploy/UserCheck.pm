@@ -162,10 +162,8 @@ sub status_for_server {
     }
 
     $self->{_status}->{status} = $status;
-    unless ($self->{_status}->{msg}) {
-        $self->{_status}->{msg}= $default_policies_message{$status} ||
-            $default_policies_message{'error_no_message'};
-    }
+    $self->{_status}->{msg}    = $event
+        unless ($self->{_status}->{msg});
 
     return $self->{_status};
 }
@@ -173,7 +171,6 @@ sub status_for_server {
 sub info {
     my ($self, $message) = @_;
 
-    my $header =
     $self->{logger}->info($self->tagged($message)) if $self->{logger};
 }
 
