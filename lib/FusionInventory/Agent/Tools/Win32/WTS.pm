@@ -7,6 +7,8 @@ use base 'Exporter';
 use UNIVERSAL::require();
 use English qw(-no_match_vars);
 
+use Encode;
+
 use constant WTS_CURRENT_SERVER_HANDLE  => 0x00000000;
 
 # Constant values, see: winuser.h & wtsapi32.h
@@ -153,6 +155,10 @@ sub WTSSendMessage {
     my $style = defined($buttons{$buttons}) ?
         $buttons{$buttons} : $buttons{"ok"};
     $style |= $icons{$icon} if ($icon && defined($icons{$icon}));
+
+    # Finally text and title must be encoded in local codepage
+    Encode::from_to( $title, 'utf-8', getLocalCodepage() );
+    Encode::from_to( $text,  'utf-8', getLocalCodepage() );
 
     my $Response = IDOK;
     eval {
