@@ -11,17 +11,17 @@ use FusionInventory::Agent::Tools::Win32::WTS;
 use base "FusionInventory::Agent::Task::Deploy::UserCheck";
 
 my %supported_events = (
-    IDOK        => 'ok',
-    IDCANCEL    => 'cancel',
-    IDABORT     => 'abort',
-    IDRETRY     => 'retry',
-    IDIGNORE    => 'ignore',
-    IDYES       => 'yes',
-    IDNO        => 'no',
-    IDTRYAGAIN  => 'tryagain',
-    IDCONTINUE  => 'continue',
-    IDTIMEOUT   => 'timeout',
-    IDASYNC     => 'async'
+    &IDOK       => 'ok',
+    &IDCANCEL   => 'cancel',
+    &IDABORT    => 'abort',
+    &IDRETRY    => 'retry',
+    &IDIGNORE   => 'ignore',
+    &IDYES      => 'yes',
+    &IDNO       => 'no',
+    &IDTRYAGAIN => 'tryagain',
+    &IDCONTINUE => 'continue',
+    &IDTIMEOUT  => 'timeout',
+    &IDASYNC    => 'async'
 );
 
 sub tell_users {
@@ -84,7 +84,7 @@ sub tell_users {
         my $asked = time;
         my $answer = WTSSendMessage($sid, \%message);
 
-        my $support = $supported_events{$answer} || 'unknown';
+        my $support = $supported_events{"$answer"} || 'unknown';
         $self->debug2("WTS session #$sid: Got $answer as $support answer code after ".(time-$asked)." seconds");
 
         last if $self->handle_event('on_'.$support);
