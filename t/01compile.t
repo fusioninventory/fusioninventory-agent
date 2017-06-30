@@ -34,6 +34,9 @@ sub filter {
         return 0 if $_ =~ m{FusionInventory/Agent/Task/Inventory/Win32};
     }
 
+    return 0 if ($_ =~ m{FusionInventory/Agent/Tools/Win32/Service.pm} &&
+        !(Win32::Daemon->require()));
+
     return 0 if ($_ =~ m{FusionInventory/Agent/Task/Deploy.pm} &&
         !(File::Copy::Recursive->require()));
 

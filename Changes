@@ -1,5 +1,14 @@
 Revision history for FusionInventory agent
 
+2.3.21 not released
+core:
+* Service/daemon refactoring:
+ * Move all daemon method to dedicated FusionInventory::Agent::Daemon package
+ * Win32 service now based on private FusionInventory::Agent::Service inheriting
+   from FusionInventory::Agent::Daemon
+* daemon process renamed to provider derivated name under unix-like systems with
+tag if defined. Example: "fusioniventory-agent (prod)"
+
 2.3.20 Thu, 1 Jun 2017
 core:
 * Fix #224, #254, #268

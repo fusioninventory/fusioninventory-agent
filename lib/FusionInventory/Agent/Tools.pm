@@ -150,16 +150,21 @@ sub getCanonicalSpeed {
 
     return undef unless $speed;
 
+    return $speed if $speed =~ /^([,.\d]+)$/;
+
     return 400 if $speed =~ /^PC3200U/;
 
-    return undef unless $speed =~ /^([,.\d]+) \s? (\S+)$/x;
+    return undef unless $speed =~ /^([,.\d]+) \s? (\S+)/x;
     my $value = $1;
     my $unit = lc($2);
 
+    # Remark: we need to return speed in MHz. Even if MT/s is not accurately
+    # equivalent to MHz, we nned to return the value so server can extract it
     return
-        $unit eq 'ghz' ? $value * 1000 :
-        $unit eq 'mhz' ? $value        :
-                         undef         ;
+        $unit eq 'ghz'  ? $value * 1000 :
+        $unit eq 'mhz'  ? $value        :
+        $unit eq 'mt/s' ? $value        :
+                          undef         ;
 }
 
 sub getCanonicalInterfaceSpeed {

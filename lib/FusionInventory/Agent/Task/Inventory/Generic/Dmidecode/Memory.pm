@@ -69,7 +69,7 @@ sub _getMemories {
                 NUMSLOTS         => $slot,
                 DESCRIPTION      => $info->{'Form Factor'},
                 CAPTION          => $info->{'Locator'},
-                SPEED            => $info->{'Speed'},
+                SPEED            => getCanonicalSpeed($info->{'Speed'}),
                 TYPE             => $info->{'Type'},
                 SERIALNUMBER     => $info->{'Serial Number'},
                 MEMORYCORRECTION => $infos->{16}[0]{'Error Correction Type'},

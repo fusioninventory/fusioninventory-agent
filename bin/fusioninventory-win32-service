@@ -6,206 +6,70 @@ use warnings;
 use lib './lib';
 use setup;
 
-use threads;
-use threads 'exit' => 'threads_only';
-
-use constant SERVICE_SLEEP_TIME  => 200; # in milliseconds
-use constant SERVICE_NAME        => "fusioninventory-agent";
-use constant SERVICE_DISPLAYNAME => "Fusioninventory Agent";
-
-use POSIX ":sys_wait_h";
 use File::Spec;
-use File::Basename;
 
-use English qw(-no_match_vars);
 use Getopt::Long;
 use Pod::Usage;
-use UNIVERSAL::require;
 
-use Win32;
-use Win32::Daemon;
-
-delete($ENV{PERL5LIB});
-delete($ENV{PERLLIB});
+use FusionInventory::Agent::Tools::Win32::Service;
 
 Getopt::Long::Configure( "no_ignorecase" );
 
-my $options = {};
+my %options = ();
 
 GetOptions(
-    $options,
+    \%options,
     'register',
     'delete',
     'name|n=s',
     'displayname|d=s',
-    'libdir=s',
+    'libdir|l=s',
+    'program|p=s',
     'help'
 ) or pod2usage(-verbose => 0);
 
-pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
+pod2usage(-verbose => 0, -exitstatus => 0) if $options{help};
 
-my $progfile = File::Spec->rel2abs( __FILE__ );
-my $directory = dirname($progfile);
-
-# on Win2k, Windows do not chdir to the bin directory
-# we need to do it by ourself
-chdir($directory);
+my $progfile  = File::Spec->rel2abs( __FILE__ );
+my $directory = File::Spec->rel2abs( '..', $progfile );
 
 our %setup;
 
-if ($options->{register}) {
-    my $ret = 0;
+my $ret = 0;
 
-    my $libdir = $options->{libdir} || $setup{libdir} ;
-    my $params = -d $libdir ? '-I"' . $libdir . '" ' : '';
+my $service = FusionInventory::Agent::Tools::Win32::Service->new( %setup )
+    or die "Can't create service object: $!";
 
-    my $service = {
-        name    => $options->{name}        || SERVICE_NAME,
-        display => $options->{displayname} || SERVICE_DISPLAYNAME,
-        path    => "$^X",
-        parameters => $params . '"' . $progfile . '"'
-    };
+if ($options{register}) {
 
-    if (!Win32::Daemon::CreateService($service)) {
-        my $lasterr = Win32::Daemon::GetLastError();
-        if ($lasterr == 1073) {
-            print "Service still registered\n";
-        } elsif ($lasterr == 1072) {
-            $ret = 1;
-            print "Service marked for deletion. Computer must be rebooted before new service registration\n";
-        } else {
-            $ret = 2;
-            print "Service not registered: $lasterr: ".Win32::FormatMessage($lasterr), "\n";
-        }
-    }
+    $ret = $service->RegisterService(
+        program     => $progfile,
+        %options
+    );
+    print "'", $service->displayname(), "' registred as ", $service->name()," service\n"
+        unless $ret;
 
-    exit($ret);
+} elsif ($options{delete}) {
+    $ret = $service->DeleteService(%options);
+    print $service->name(), " service deleted\n"
+        unless $ret;
 
-} elsif ($options->{delete}) {
-    my $ret = 0;
+} else {
+    # on Win2k, Windows do not chdir to the bin directory
+    # we need to do it by ourself
+    chdir($directory);
 
-    if (!Win32::Daemon::DeleteService("",$options->{name}||SERVICE_NAME)) {
-        my $lasterr = Win32::Daemon::GetLastError();
-        if ($lasterr == 1060) {
-            print "Service not present\n";
-        } elsif ($lasterr == 1072) {
-            $ret = 1;
-            print "Service still marked for deletion. Computer must be rebooted\n";
-        } else {
-            $ret = 2;
-            print "Service not removed $lasterr: ".Win32::FormatMessage($lasterr), "\n";
-        }
-    }
+    # Register default callbacks
+    $service->RegisterCallbacks();
 
-    exit($ret);
+    # Under newer win32 releases, setting accepted controls may be required
+    $service->AcceptedControls();
+
+    # Just start the service
+    $service->StartService();
 }
 
-FusionInventory::Agent->require()
-    or die "Can't load FusionInventory::Agent";
-
-# Setup sigterm callback to exit thread
-$setup{sigterm} = sub { threads->exit(); };
-
-my $agent_as_context = FusionInventory::Agent->new( %setup );
-
-$agent_as_context->{last_state} = SERVICE_START_PENDING;
-
-my $callbacks = {
-    start       => \&cb_start,
-    timer       => \&cb_running,
-    stop        => \&cb_stop,
-    shutdown    => \&cb_shutdown,
-    interrogate => \&cb_interrogate
-};
-
-Win32::Daemon::RegisterCallbacks($callbacks);
-
-# Under newer win32 releases, setting accepted controls may be required
-my $controls = SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN ;
-Win32::Daemon::AcceptedControls($controls);
-
-Win32::Daemon::StartService($agent_as_context, SERVICE_SLEEP_TIME);
-
-sub cb_start {
-    my( $event, $agent ) = @_;
-
-    if (!exists($agent->{agent_thread})) {
-
-        # First start a thread dedicated to Win32::OLE calls
-        FusionInventory::Agent::Tools::Win32->require();
-        FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
-
-        $agent->{agent_thread} = threads->create(sub {
-            $agent->init(options => { service => 1 });
-            $agent->run();
-        });
-    }
-
-    Win32::Daemon::CallbackTimer(SERVICE_SLEEP_TIME);
-
-    $agent->{last_state} = SERVICE_RUNNING;
-    Win32::Daemon::State(SERVICE_RUNNING);
-}
-
-sub cb_running {
-    my( $event, $agent ) = @_;
-
-    if (!$agent->{agent_thread}) {
-        if ($agent->{last_state} == SERVICE_STOP_PENDING) {
-            $agent->{last_state} = SERVICE_STOPPED;
-            Win32::Daemon::State(SERVICE_STOPPED);
-            Win32::Daemon::StopService();
-        } else {
-            Win32::Daemon::State($agent->{last_state});
-        }
-
-    } elsif (!$agent->{agent_thread}->is_running()) {
-        if ($agent->{agent_thread}->is_joinable()) {
-            $agent->{agent_thread}->join();
-
-            delete $agent->{agent_thread};
-
-            $agent->{last_state} = SERVICE_STOPPED;
-            Win32::Daemon::State(SERVICE_STOPPED);
-            Win32::Daemon::StopService();
-        } else {
-            $agent->{last_state} = SERVICE_STOP_PENDING;
-            Win32::Daemon::State(SERVICE_STOP_PENDING);
-        }
-
-    } else {
-        Win32::Daemon::State($agent->{last_state});
-    }
-}
-
-sub cb_stop {
-    my( $event, $agent ) = @_;
-
-    if ($agent->{agent_thread} && $agent->{agent_thread}->is_running()) {
-        $agent->{agent_thread}->kill('SIGINT');
-    }
-
-    $agent->{last_state} = SERVICE_STOP_PENDING;
-    Win32::Daemon::State(SERVICE_STOP_PENDING, 10000);
-}
-
-sub cb_shutdown {
-    my( $event, $agent ) = @_;
-
-    if ($agent->{agent_thread} && $agent->{agent_thread}->is_running()) {
-        $agent->{agent_thread}->kill('SIGTERM');
-    }
-
-    $agent->{last_state} = SERVICE_STOP_PENDING;
-    Win32::Daemon::State(SERVICE_STOP_PENDING, 25000);
-}
-
-sub cb_interrogate {
-    my( $event, $agent ) = @_;
-
-    Win32::Daemon::State($agent->{last_state});
-}
-
+exit($ret);
 
 __END__
 
@@ -217,20 +81,22 @@ fusioninventory-win32-service - FusionInventory Agent service for Windows
 
 B<fusioninventory-win32-service> [--register|--delete|--help] [options]
 
-  Options are only useful when registring or deleting the service. This
-  is handy while using Fusioninventory agent from sources.
+  Options are only needed to register or delete the service. They are handy
+  while using Fusioninventory agent from sources.
 
   Register options:
     -n --name=NAME                  unique system name for the service
     -d --displayname="Nice Name"    display name of the service
-    --libdir=PATH                   full path to agent perl libraries
-                                    use it if not found by the script
+    -l --libdir=PATH                full path to agent perl libraries use it if
+                                    not found by the script
+    -p --program="path to program"  perl script to start as service
 
   Delete options:
-    -n --name=NAME                  unique system name of the service
-                                    to delete
+    -n --name=NAME                  unique system name of the service to delete
 
-  Samples to use from sources:
+  Samples to use from sources base:
     perl bin/fusioninventory-win32-service --help
-    perl bin/fusioninventory-win32-service --register -n fia-test -d "[TEST] FIA 2.3.18"
+    perl bin/fusioninventory-win32-service --register
+    perl bin/fusioninventory-win32-service --delete
+    perl bin/fusioninventory-win32-service --register -n fia-test -d "[TEST] FIA Service"
     perl bin/fusioninventory-win32-service --delete -n fia-test
