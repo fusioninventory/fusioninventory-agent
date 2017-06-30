@@ -28,14 +28,11 @@ sub doInventory {
     my $version = getFirstLine(command => 'oslevel');
     $version =~ s/(.0)*$//;
 
-    my $OSLevel = getFirstLine(command => 'oslevel -r');
+    my $OSLevel = getFirstLine(command => 'oslevel -s');
     my @OSLevelParts = split(/-/, $OSLevel);
-    
-    $version = "$version TL$OSLevelParts[1]";
-    $version =~ s/TL00*$//;
 
-    my $Revision = getFirstLine(command => 'oslevel -s');
-    my @RevisionParts = split(/-/, $Revision);
+    $version = "$version TL$OSLevelParts[1]"
+        unless ($OSLevelParts[1] eq "00");
 
     my $ssn;
     my $vmsystem;
@@ -77,7 +74,7 @@ sub doInventory {
 
     $inventory->setHardware({
         OSNAME     => "$kernelName $version",
-        OSVERSION  => $OSLevel,
+        OSVERSION  => "$OSLevelParts[0]-$OSLevelParts[1]",
         OSCOMMENTS => "Maintenance Level: $OSLevelParts[1]",
         VMNAME     => $vmname,
         VMSYSTEM   => $vmsystem,
@@ -88,7 +85,7 @@ sub doInventory {
         NAME         => 'AIX',
         FULL_NAME    => "$kernelName $version",
         VERSION      => $version,
-        SERVICE_PACK => "$RevisionParts[2]-$RevisionParts[3]",
+        SERVICE_PACK => "$OSLevelParts[2]-$OSLevelParts[3]",
     });
 
     $inventory->setBios({
