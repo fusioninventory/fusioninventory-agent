@@ -18,33 +18,40 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $battery = _getBattery(logger => $logger);
+    my @batteries = _getBatteries(logger => $logger);
 
-    return unless $battery;
+    return unless @batteries;
 
-    $inventory->addEntry(
-        section => 'BATTERIES',
-        entry   => $battery
-    );
+    _mergeBatteries($inventory, @batteries);
 }
 
-sub _getBattery {
+sub _getBatteries {
     my $infos = getDmidecodeInfos(@_);
 
     return unless $infos->{22};
 
-    my $info    = $infos->{22}->[0];
+    my $batteries;
+    for my $info (@{$infos->{22}}) {
+        my $data = _extractBatteryData($info);
+        push @$batteries, $data if $data;
+    }
+
+    return (scalar @$batteries) > 0 ? $batteries : undef ;
+}
+
+sub _extractBatteryData {
+    my ($info) = @_;
 
     my $battery = {
         NAME         => $info->{'Name'},
-        MANUFACTURER => $info->{'Manufacturer'},
+        MANUFACTURER => getCanonicalManufacturer($info->{'Manufacturer'}),
         SERIAL       => $info->{'Serial Number'} ||
-                        $info->{'SBDS Serial Number'},
+            $info->{'SBDS Serial Number'},
         CHEMISTRY    => $info->{'Chemistry'} ||
-                        $info->{'SBDS Chemistry'},
+            $info->{'SBDS Chemistry'},
     };
 
-    if      ($info->{'Manufacture Date'}) {
+    if ($info->{'Manufacture Date'}) {
         $battery->{DATE} = _parseDate($info->{'Manufacture Date'});
     } elsif ($info->{'SBDS Manufacture Date'}) {
         $battery->{DATE} = _parseDate($info->{'SBDS Manufacture Date'});
@@ -84,6 +91,63 @@ sub _parseDate {
         return "$day/$month/$year";
     }
     return;
+}
+
+sub _mergeBatteries {
+    my ($inventory, $batteries) = @_;
+
+    for my $batt (@$batteries) {
+        # retrieve if the battery is already in inventory
+        my $fields = {};
+        if (defined $batt->{SERIAL}) {
+            my $serial = $batt->{SERIAL};
+            $serial = 0 if $serial =~ /^0+$/;
+            $fields->{SERIAL} = $serial;
+        }
+        $fields->{NAME} = $batt->{NAME} if $batt->{NAME};
+        my $battInInventory;
+        my $battindex;
+        # if we have some data to identify the battery already in inventory
+        if (scalar (keys %$fields) >  0) {
+            $battInInventory = $inventory->getBattery($fields);
+        } else {
+            # looking if we are in this special context :
+            # we have one battery in inventory
+            # and we have one battery to merge
+            my $section = $inventory->getSection('BATTERIES');
+            if (defined $section
+                && (scalar @$section) == 1
+                && (scalar @$batteries) == 1) {
+                # in that special context, we take this unique battery found
+                $battInInventory = $section->[0];
+                # we also note the index
+                $battindex = 0;
+            }
+        }
+        my $newBatt;
+        # if the battery is already in inventory
+        if ($battInInventory) {
+            # Getting the battery's index in inventory BATTERY section
+            $battindex = $inventory->retrieveElementIndexInSection(
+            'BATTERIES',
+            {
+                NAME => $battInInventory->{NAME},
+                SERIAL => $battInInventory->{SERIAL}
+            }
+            ) if not defined $battindex;
+            for my $field (keys %$batt) {
+                # complete inventory if field is empty
+                unless (defined $battInInventory->{$field}) {
+                    $battInInventory->{$field} = $batt->{$field};
+                }
+            }
+            $newBatt = $battInInventory;
+        } else {
+            $newBatt = $batt;
+        }
+        # insert battery at right index
+        $inventory->setBatteryUsingIndex($newBatt, $battindex);
+    }
 }
 
 1;

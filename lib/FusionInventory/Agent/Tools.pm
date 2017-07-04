@@ -111,18 +111,18 @@ sub getCanonicalManufacturer {
     if (exists $manufacturers{$manufacturer}) {
         $manufacturer = $manufacturers{$manufacturer};
     } elsif ($manufacturer =~ /(
-        maxtor    |
-        sony      |
-        compaq    |
-        ibm       |
-        toshiba   |
-        fujitsu   |
-        lg        |
-        samsung   |
-        nec       |
-        transcend |
-        matshita  |
-        hitachi   |
+        maxtor     |
+        sony       |
+        compaq     |
+        ibm        |
+        toshiba    |
+        fujitsu    |
+        lg(?:\s|$) |
+        samsung    |
+        nec        |
+        transcend  |
+        matshita   |
+        hitachi    |
         pioneer
     )/xi) {
         $manufacturer = ucfirst(lc($1));
