@@ -18,14 +18,13 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
     my @batteries = _getBatteriesFromUpower(%params);
 
     return unless @batteries;
 
     foreach my $batt (@batteries) {
-        $inventory->setBattery($batt);
+        $inventory->setBatteryUsingIndex($batt);
     }
 }
 

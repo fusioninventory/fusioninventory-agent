@@ -110,7 +110,13 @@ sub _mergeBatteries {
         # if we have some data to identify the battery already in inventory
         if (scalar (keys %$fields) >  0) {
             $battInInventory = $inventory->getBattery($fields);
-        } else {
+        }
+        # dmidecode sometimes returns hexadecimal values for Serial number
+        if (! $battInInventory && $fields->{SERIAL}) {
+            $fields->{SERIAL} = hex2dec($fields->{SERIAL});
+            $battInInventory = $inventory->getBattery($fields);
+        }
+        unless ($battInInventory) {
             # looking if we are in this special context :
             # we have one battery in inventory
             # and we have one battery to merge

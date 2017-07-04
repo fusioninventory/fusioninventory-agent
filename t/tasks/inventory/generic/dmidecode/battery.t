@@ -94,7 +94,7 @@ my %testUpowerMerged = (
                 CHEMISTRY    => 'lithium-polymer',
                 SERIAL       => 3682,
                 MANUFACTURER => 'SMP',
-                DATE         => '11/10/2015'
+                DATE         => '10/11/2015'
             }
         ]
     }
