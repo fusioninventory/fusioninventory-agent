@@ -77,6 +77,26 @@ my %testUpowerMerged = (
                 DATE         => undef
             }
         ]
+    },
+    'upower_info_2.txt' => {
+        files => {
+            dmidecode => 'dmidecode_2.txt',
+            upowerInfos => {
+                '/org/freedesktop/UPower/devices/battery_BAT0' => 'upower_info_2.txt',
+            },
+            upowerNames => 'upower_enumerate_2.txt'
+        },
+        mergedData => [
+            {
+                NAME         => 'DELL JHXPY53',
+                CAPACITY     => '53,4052 Wh',
+                VOLTAGE      => '8,541 V',
+                CHEMISTRY    => 'lithium-polymer',
+                SERIAL       => 3682,
+                MANUFACTURER => 'SMP',
+                DATE         => '11/10/2015'
+            }
+        ]
     }
 );
 

@@ -26,6 +26,16 @@ my %testUpowerInfos = (
             SERIAL       => 0,
             MANUFACTURER => undef
         }
+    },
+    'upower_info_2.txt' => {
+        extractedData => {
+            NAME         => 'DELL JHXPY53',
+            CAPACITY     => '53,4052 Wh',
+            VOLTAGE      => '8,541 V',
+            CHEMISTRY    => 'lithium-polymer',
+            SERIAL       => 3682,
+            MANUFACTURER => 'SMP'
+        }
     }
 );
 
