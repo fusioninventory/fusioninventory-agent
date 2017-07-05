@@ -127,25 +127,8 @@ sub init {
 
     $self->{tasks} = \@tasks;
 
-    if ($config->{daemon} || $config->{service}) {
-        FusionInventory::Agent::Daemon->require();
-        if ($EVAL_ERROR) {
-            $logger->error("Failed to create FusionInventory::Agent::Daemon: $EVAL_ERROR");
-            exit 1;
-        }
-
-        # Inherit from dedicated run, runTask & terminate methods
-        bless $self, "FusionInventory::Agent::Daemon";
-
-        $logger->info("$PROVIDER Agent starting");
-
-        $self->createDaemon();
-
-        # create HTTP interface if required
-        $self->loadHttpInterface();
-
-        $self->ApplyServiceOptimizations();
-    }
+    # Call daemon create API in the case we are started as a daemon/service
+    $self->createDaemon();
 
     # install signal handler to handle graceful exit
     $self->_installSignalHandlers();
@@ -158,6 +141,10 @@ sub init {
     }
 
     $self->resetLastConfigLoad();
+}
+
+sub createDaemon {
+    # API to be overrided in daemon or service mode
 }
 
 sub reinit {
