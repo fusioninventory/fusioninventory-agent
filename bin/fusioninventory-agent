@@ -94,13 +94,25 @@ if ($options->{'conf-file'}) {
     }
 }
 
+if ($options->{daemon}) {
+    FusionInventory::Agent::Daemon->require();
+    if ($EVAL_ERROR) {
+        print STDERR "Can't load FusionInventory::Agent::Daemon library:\n";
+        print STDERR $EVAL_ERROR;
+        exit 1;
+    }
+}
+
 if ($OSNAME eq 'MSWin32' && ! $options->{'no-win32-ole-workaround'}) {
     # From here we may need to avoid crashes due to not thread-safe Win32::OLE
     FusionInventory::Agent::Tools::Win32->require();
     FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
 }
 
-my $agent = FusionInventory::Agent->new(%setup);
+my $agent = $options->{daemon} ?
+    FusionInventory::Agent::Daemon->new(%setup)
+    :
+    FusionInventory::Agent->new(%setup);
 
 if ($options->{'list-tasks'}) {
     my %tasks = $agent->getAvailableTasks();
