@@ -100,6 +100,8 @@ sub createDaemon {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
+    $logger->info("$PROVIDER Agent starting");
+
     my $pidfile = $config->{pidfile} ||
         $self->{vardir} . '/'.lc($PROVIDER).'.pid';
 
@@ -131,6 +133,11 @@ sub createDaemon {
 
         $logger->debug("$PROVIDER Agent daemonized") if $logger;
     }
+
+    # create HTTP interface if required
+    $self->loadHttpInterface();
+
+    $self->ApplyServiceOptimizations();
 }
 
 sub isAlreadyRunning {

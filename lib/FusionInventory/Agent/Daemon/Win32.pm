@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Tools::Win32::Service;
+package FusionInventory::Agent::Daemon::Win32;
 
 use strict;
 use warnings;
