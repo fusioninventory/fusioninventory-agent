@@ -203,8 +203,6 @@ sub resetLastConfigLoad {
 sub ApplyServiceOptimizations {
     my ($self) = @_;
 
-    return unless ($self->{config}->{daemon} || $self->{config}->{service});
-
     # Preload all IDS databases to avoid reload them all the time during inventory
     if (grep { /^inventory$/i } @{$self->{tasksExecutionPlan}}) {
         my %datadir = ( datadir => $self->{datadir} );
