@@ -486,7 +486,7 @@ sub retrieveElementInSection {
     return unless $section;
 
     my @elements = grep { my $hash = $_; _isKeyValueListInHash($hash, $fields) ? $hash : () } @$section;
-    return first { 1 } @elements;
+    return shift @elements;
 }
 
 sub _isKeyValueListInHash {

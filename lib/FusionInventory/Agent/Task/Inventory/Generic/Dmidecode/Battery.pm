@@ -36,7 +36,7 @@ sub _getBatteries {
         push @$batteries, $data if $data;
     }
 
-    return (scalar @$batteries) > 0 ? $batteries : undef ;
+    return $batteries ? $batteries : undef;
 }
 
 sub _extractBatteryData {
@@ -99,10 +99,8 @@ sub _mergeBatteries {
     for my $batt (@$batteries) {
         # retrieve if the battery is already in inventory
         my $fields = {};
-        if (defined $batt->{SERIAL}) {
-            my $serial = $batt->{SERIAL};
-            $serial = 0 if $serial =~ /^0+$/;
-            $fields->{SERIAL} = $serial;
+        if (defined $batt->{SERIAL} && $batt->{SERIAL} =~ /^0+$/) {
+            $batt->{SERIAL} = 0;
         }
         $fields->{NAME} = $batt->{NAME} if $batt->{NAME};
         my $battInInventory;
