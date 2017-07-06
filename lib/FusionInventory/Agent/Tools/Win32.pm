@@ -44,6 +44,8 @@ our @EXPORT = qw(
     runCommand
     FileTimeToSystemTime
     getUsersFromRegistry
+    getAgentMemorySize
+    FreeAgentMem
 );
 
 my $_is64bits = undef;
