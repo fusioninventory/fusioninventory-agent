@@ -26,7 +26,7 @@ my %supported_platform_keys = (
 
 my @supported_keys = qw(
     type text title icon buttons timeout wait platform
-    on_ok on_cancel on_yes on_no on_retry on_try on_abort
+    on_ok on_cancel on_yes on_no on_retry on_tryagain on_abort
     on_timeout on_nouser on_multiusers on_ignore on_async
 );
 
@@ -330,17 +330,24 @@ Supported values for check hasf ref:
 
 =item timeout    The time-out in second to wait for a user response
 
-=item wait       Should we have to wait the user response
+=item wait       Should we have to wait the user response. If set to 0, "no" or
+                 "false", it will immediatly generate an "on_async" event.
 
 =item platform   Platform or  list of platforms on which we are expecting
                  user interaction. User interaction will be skipped if the
                  agent is not on any expected platform.
 
 =item type       Type of user check to select when it should happen:
-                   - "before": for checking user before downloading and
-                               processing the deploy job
-                   - "after" : for checking or notify the user after the
-                               deploy job has been processed.
+                   - "before":
+                     for checking user before downloading and processing the deploy job
+                   - "after" :
+                     for checking or notify the user after the deploy job has been processed.
+                   - "after_download_failure":
+                     for checking or notify the user after a download failed.
+                   - "after_download":
+                     for checking or notify the user after all downloads was done.
+                   - "after_failure":
+                     for checking or notify the user after the deploy task failed.
 
 =back
 
@@ -349,24 +356,30 @@ are clicked or related event occurs:
 
 =over
 
-=item on_ok      To be done after user has clicked "OK" button.
+=item on_ok         To be done after user has clicked "OK" button.
 
-=item on_cancel  To be done after user has clicked "Cancel" button.
+=item on_cancel     To be done after user has clicked "Cancel" button.
 
-=item on_yes     To be done after user has clicked "Yes" button.
+=item on_yes        To be done after user has clicked "Yes" button.
 
-=item on_no      To be done after user has clicked "No" button.
+=item on_no         To be done after user has clicked "No" button.
 
-=item on_retry   To be done after user has clicked "Retry" button.
+=item on_retry      To be done after user has clicked "Retry" button.
 
-=item on_try     To be done after user has clicked "Try" button.
+=item on_tryagain   To be done after user has clicked "Try again" button.
 
-=item on_abort   To be done after user has clicked "Abort" button.
+=item on_abort      To be done after user has clicked "Abort" button.
 
-=item on_timeout To be done if user hasn't clicked any button and after
-                 the defined time-out.
+=item on_ignore     To be done after user has clicked "Ignore" button.
 
-=item on_nouser  To be done if no user is logged
+=item on_async      To be done after user has clicked "Ignore" button.
+
+=item on_timeout    To be done if user hasn't clicked any button and after
+                    the defined time-out.
+
+=item on_nouser     To be done if no user is logged
+
+=item on_multiusers To be done if multiple users are logged
 
 =back
 
