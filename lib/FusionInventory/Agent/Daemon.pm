@@ -42,7 +42,7 @@ sub reinit {
     $self->{config}->reloadFromInputAndBackend($self->{confdir});
 
     # Reload init from parent class
-    $self->SUPER::init({});
+    $self->SUPER::init();
 
     # Reload HTTP interface if required
     $self->loadHttpInterface();
