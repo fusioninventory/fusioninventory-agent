@@ -323,6 +323,8 @@ sub stop {
     } else {
         $self->{logger}->debug($log_prefix . "HTTPD service stop error: $!");
     }
+
+    delete $self->{listener};
 }
 
 sub handleRequests {
