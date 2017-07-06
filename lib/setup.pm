@@ -21,4 +21,15 @@ our %setup = (
 $setup{libdir} = abs_path(File::Spec->rel2abs('..', __FILE__))
     unless ($setup{libdir} && File::Spec->file_name_is_absolute($setup{libdir}));
 
+# If run from sources, we can try to rebase setup keys to absolute folders related to libdir
+if (File::Spec->file_name_is_absolute($setup{libdir})) {
+    foreach my $key (qw(confdir datadir vardir)) {
+        # Anyway don't update if target folder exists
+        next if ($setup{$key} && -d $setup{$key});
+
+        my $folder = abs_path(File::Spec->rel2abs('../'.$setup{$key}, $setup{libdir}));
+        $setup{$key} = $folder if -d $folder;
+    }
+}
+
 1;
