@@ -30,6 +30,9 @@ sub init {
     $self->loadHttpInterface();
 
     $self->ApplyServiceOptimizations();
+
+    # install signal handler to handle reload signal
+    $SIG{HUP}  = sub { $self->reinit(); };
 }
 
 sub reinit {
