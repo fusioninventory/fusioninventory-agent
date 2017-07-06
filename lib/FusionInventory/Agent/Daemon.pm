@@ -30,6 +30,9 @@ sub init {
     $self->loadHttpInterface();
 
     $self->ApplyServiceOptimizations();
+
+    # install signal handler to handle reload signal
+    $SIG{HUP}  = sub { $self->reinit(); };
 }
 
 sub reinit {
@@ -214,7 +217,7 @@ sub loadHttpInterface {
     my ($self) = @_;
 
     # Handle re-init case
-    $self->{server}->close() if ($self->{server});
+    $self->{server}->stop() if ($self->{server});
 
     my $config = $self->{config};
 

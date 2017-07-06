@@ -125,8 +125,10 @@ sub init {
     $SIG{INT}  = sub { $self->terminate(); exit 0; };
     $SIG{TERM} = sub { $self->terminate(); exit 0; };
 
-    foreach my $comment (@{$COMMENTS}) {
-        $self->{logger}->info($comment);
+    if ($params{options}) {
+        foreach my $comment (@{$COMMENTS}) {
+            $self->{logger}->debug($comment);
+        }
     }
 }
 

@@ -313,6 +313,20 @@ sub init {
     return 1;
 }
 
+sub stop {
+    my ($self) = @_;
+
+    return unless $self->{listener};
+
+    if ($self->{listener}->shutdown(2)) {
+        $self->{logger}->debug($log_prefix . "HTTPD service stopped");
+    } else {
+        $self->{logger}->debug($log_prefix . "HTTPD service stop error: $!");
+    }
+
+    delete $self->{listener};
+}
+
 sub handleRequests {
     my ($self) = @_;
 
