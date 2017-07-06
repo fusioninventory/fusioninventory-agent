@@ -45,14 +45,6 @@ sub new {
     return $self;
 }
 
-sub init {
-    my ($self, %params) = @_;
-
-    $self->{logger}->info("$PROVIDER Agent service starting");
-
-    $self->SUPER::init(%params);
-}
-
 sub name  {
     my ($self, $name) = @_;
 

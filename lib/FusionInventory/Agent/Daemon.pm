@@ -148,7 +148,8 @@ sub createDaemon {
     my $logger = $self->{logger};
 
     # Don't try to create a daemon if configured as a service
-    return if $config->{service};
+    return $logger->info("$PROVIDER Agent service starting");
+        if $config->{service};
 
     $logger->info("$PROVIDER Agent starting");
 
