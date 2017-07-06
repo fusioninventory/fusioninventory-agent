@@ -58,7 +58,8 @@ sub new {
 sub init {
     my ($self, %params) = @_;
 
-    my $config = FusionInventory::Agent::Config->new(
+    # Skip create object if still defined (re-init case)
+    my $config = $self->{config} || FusionInventory::Agent::Config->new(
         confdir => $self->{confdir},
         options => $params{options},
     );
@@ -84,17 +85,7 @@ sub init {
     $logger->debug("Storage directory: $self->{vardir}");
     $logger->debug("Lib directory: $self->{libdir}");
 
-    $self->{storage} = FusionInventory::Agent::Storage->new(
-        logger    => $logger,
-        directory => $self->{vardir}
-    );
-
-    # handle persistent state
-    $self->_loadState();
-
-    $self->{deviceid} = _computeDeviceId() if !$self->{deviceid};
-
-    $self->_saveState();
+    $self->_handlePersistentState();
 
     $self->_createTargets();
 
@@ -127,105 +118,16 @@ sub init {
 
     $self->{tasks} = \@tasks;
 
-    # Call daemon create API in the case we are started as a daemon/service
-    $self->createDaemon();
-
-    # install signal handler to handle graceful exit
-    $self->_installSignalHandlers();
-
     $logger->info("Options 'no-task' and 'tasks' are both used. Be careful that 'no-task' always excludes tasks.")
         if ($self->{config}->isParamArrayAndFilled('no-task') && $self->{config}->isParamArrayAndFilled('tasks'));
 
+    # install signal handler to handle graceful exit
+    $SIG{INT}  = sub { $self->terminate(); exit 0; };
+    $SIG{TERM} = sub { $self->terminate(); exit 0; };
+
     foreach my $comment (@{$COMMENTS}) {
-        $logger->info($comment);
+        $self->{logger}->info($comment);
     }
-
-    $self->resetLastConfigLoad();
-}
-
-sub createDaemon {
-    # API to be overrided in daemon or service mode
-}
-
-sub reinit {
-    my ($self) = @_;
-
-    $self->{logger}->debug('agent reinit');
-
-    $self->{config}->reloadFromInputAndBackend($self->{confdir});
-
-    my $config = $self->{config};
-
-    # Rename process, mostly for unix platforms
-    $0 = lc($PROVIDER) . "-agent";
-    $0 .= " (tag $config->{tag})" if $config->{tag};
-
-    my $verbosity = $config->{debug} && $config->{debug} == 1 ? LOG_DEBUG  :
-                    $config->{debug} && $config->{debug} == 2 ? LOG_DEBUG2 :
-                                                                LOG_INFO   ;
-
-    my $logger = undef;
-    if (! defined($self->{logger})) {
-        $logger = FusionInventory::Agent::Logger->new(
-            config    => $config,
-            backends  => $config->{logger},
-            verbosity => $verbosity
-        );
-        $self->{logger} = $logger;
-    } else {
-        $logger = $self->{logger};
-    }
-
-    $logger->debug("Configuration directory: $self->{confdir}");
-    $logger->debug("Data directory: $self->{datadir}");
-    $logger->debug("Storage directory: $self->{vardir}");
-    $logger->debug("Lib directory: $self->{libdir}");
-
-    # handle persistent state
-    $self->_loadState();
-
-    $self->{deviceid} = _computeDeviceId() if !$self->{deviceid};
-
-    $self->_saveState();
-
-    if (!$self->getTargets()) {
-        $logger->error("No target defined, aborting");
-        exit 1;
-    }
-
-    # compute list of allowed tasks
-    my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
-    my @tasks = keys %available;
-    my @plannedTasks = $self->computeTaskExecutionPlan(\@tasks);
-    $self->{tasksExecutionPlan} = \@plannedTasks;
-
-    my %available_lc = map { (lc $_) => $_ } keys %available;
-    if (!@tasks) {
-        $logger->error("No tasks available, aborting");
-        exit 1;
-    }
-
-    $logger->debug("Available tasks:");
-    foreach my $task (keys %available) {
-        $logger->debug("- $task: $available{$task}");
-    }
-    $logger->debug("Planned tasks:");
-    foreach my $task (@{$self->{tasksExecutionPlan}}) {
-        my $task_lc = lc $task;
-        $logger->debug("- $task: " . $available{$available_lc{$task_lc}});
-    }
-
-    $self->{tasks} = \@tasks;
-
-    $self->resetLastConfigLoad();
-
-    $self->{logger}->debug('agent reinit done.');
-}
-
-sub resetLastConfigLoad {
-    my ($self) = @_;
-
-    $self->{lastConfigLoad} = time;
 }
 
 sub run {
@@ -458,34 +360,40 @@ sub _getTaskVersion {
     return $version;
 }
 
-sub _loadState {
+sub _handlePersistentState {
     my ($self) = @_;
 
+    # Only create storage at first call
+    unless ($self->{storage}) {
+        $self->{storage} = FusionInventory::Agent::Storage->new(
+            logger    => $self->{logger},
+            directory => $self->{vardir}
+        );
+    }
+
+    # Load current agent state
     my $data = $self->{storage}->restore(name => "$PROVIDER-Agent");
 
     $self->{deviceid} = $data->{deviceid} if $data->{deviceid};
-}
 
-sub _saveState {
-    my ($self) = @_;
+    if (!$self->{deviceid}) {
+        # compute an unique agent identifier, based on host name and current time
+        my $hostname = getHostname();
 
+        my ($year, $month , $day, $hour, $min, $sec) =
+            (localtime (time))[5, 4, 3, 2, 1, 0];
+
+        $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+            $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
+    }
+
+    # Always save agent state
     $self->{storage}->save(
         name => "$PROVIDER-Agent",
         data => {
             deviceid => $self->{deviceid},
         }
     );
-}
-
-# compute an unique agent identifier, based on host name and current time
-sub _computeDeviceId {
-    my $hostname = getHostname();
-
-    my ($year, $month , $day, $hour, $min, $sec) =
-        (localtime (time))[5, 4, 3, 2, 1, 0];
-
-    return sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-        $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
 }
 
 sub _appendElementsNotAlreadyInList {
@@ -569,6 +477,10 @@ sub _createTargets {
     my ($self) = @_;
 
     my $config = $self->{config};
+
+    # Always reset targets to handle re-init case
+    $self->{targets} = [];
+
     # create target list
     if ($config->{local}) {
         foreach my $path (@{$config->{local}}) {
@@ -597,30 +509,6 @@ sub _createTargets {
                 );
         }
     }
-}
-
-sub _installSignalHandlers {
-    my ($self) = @_;
-
-    $SIG{INT}     = sub { $self->terminate(); exit 0; };
-    $SIG{TERM}    = sub { $self->terminate(); exit 0; };
-}
-
-sub _reloadConfIfNeeded {
-    my ($self) = @_;
-
-    if ($self->_isReloadConfNeeded()) {
-        $self->{logger}->debug2('_reloadConfIfNeeded() is true, init agent now...');
-        $self->reinit();
-    }
-}
-
-sub _isReloadConfNeeded {
-    my ($self) = @_;
-
-    my $time = time;
-    #$self->{logger}->debug2('_isReloadConfNeeded : ' . $self->{lastConfigLoad} . ' - ' . $time . ' > ' . $self->{config}->{'conf-reload-interval'} . ' ?');
-    return ($self->{config}->{'conf-reload-interval'} > 0) && (($time - $self->{lastConfigLoad}) > $self->{config}->{'conf-reload-interval'});
 }
 
 1;
