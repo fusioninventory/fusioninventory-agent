@@ -1,0 +1,3 @@
+no-task=snmpquery,wakeonlan
+server=http://myserver.mywebextension/inventory/
+no-httpd=1
