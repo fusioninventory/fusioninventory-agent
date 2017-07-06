@@ -1,0 +1,768 @@
+# dmidecode 2.12
+SMBIOS 2.6 present.
+71 structures occupying 2642 bytes.
+Table at 0x000E0830.
+
+Handle 0x0000, DMI type 134, 16 bytes
+OEM-specific Type
+	Header and Data:
+		86 10 00 00 00 53 54 4D 20 01 01 00 00 00 01 02
+	Strings:
+		TPM INFO
+		System Reserved
+
+Handle 0x0001, DMI type 4, 42 bytes
+Processor Information
+	Socket Designation: CPU
+	Type: Central Processor
+	Family: Core i5
+	Manufacturer: Intel(R) Corporation
+	ID: A7 06 02 00 FF FB EB BF
+	Signature: Type 0, Family 6, Model 42, Stepping 7
+	Flags:
+		FPU (Floating-point unit on-chip)
+		VME (Virtual mode extension)
+		DE (Debugging extension)
+		PSE (Page size extension)
+		TSC (Time stamp counter)
+		MSR (Model specific registers)
+		PAE (Physical address extension)
+		MCE (Machine check exception)
+		CX8 (CMPXCHG8 instruction supported)
+		APIC (On-chip APIC hardware supported)
+		SEP (Fast system call)
+		MTRR (Memory type range registers)
+		PGE (Page global enable)
+		MCA (Machine check architecture)
+		CMOV (Conditional move instruction supported)
+		PAT (Page attribute table)
+		PSE-36 (36-bit page size extension)
+		CLFSH (CLFLUSH instruction supported)
+		DS (Debug store)
+		ACPI (ACPI supported)
+		MMX (MMX technology supported)
+		FXSR (FXSAVE and FXSTOR instructions supported)
+		SSE (Streaming SIMD extensions)
+		SSE2 (Streaming SIMD extensions 2)
+		SS (Self-snoop)
+		HTT (Multi-threading)
+		TM (Thermal monitor supported)
+		PBE (Pending break enabled)
+	Version: Intel(R) Core(TM) i5-2450M CPU @ 2.50GHz
+	Voltage: 1.2 V
+	External Clock: 100 MHz
+	Max Speed: 2500 MHz
+	Current Speed: 2500 MHz
+	Status: Populated, Enabled
+	Upgrade: ZIF Socket
+	L1 Cache Handle: 0x0002
+	L2 Cache Handle: 0x0003
+	L3 Cache Handle: 0x0004
+	Serial Number: Not Supported by CPU
+	Asset Tag: TBD By OEM
+	Part Number: TBD By OEM
+	Core Count: 2
+	Core Enabled: 2
+	Thread Count: 4
+	Characteristics:
+		64-bit capable
+
+Handle 0x0002, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L1-Cache
+	Configuration: Enabled, Not Socketed, Level 1
+	Operational Mode: Write Through
+	Location: Internal
+	Installed Size: 64 kB
+	Maximum Size: 64 kB
+	Supported SRAM Types:
+		Synchronous
+	Installed SRAM Type: Synchronous
+	Speed: Unknown
+	Error Correction Type: Single-bit ECC
+	System Type: Data
+	Associativity: 8-way Set-associative
+
+Handle 0x0003, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L2-Cache
+	Configuration: Enabled, Not Socketed, Level 2
+	Operational Mode: Write Through
+	Location: Internal
+	Installed Size: 256 kB
+	Maximum Size: 256 kB
+	Supported SRAM Types:
+		Synchronous
+	Installed SRAM Type: Synchronous
+	Speed: Unknown
+	Error Correction Type: Single-bit ECC
+	System Type: Data
+	Associativity: 8-way Set-associative
+
+Handle 0x0004, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: L3-Cache
+	Configuration: Enabled, Not Socketed, Level 3
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 3072 kB
+	Maximum Size: 3072 kB
+	Supported SRAM Types:
+		Synchronous
+	Installed SRAM Type: Synchronous
+	Speed: Unknown
+	Error Correction Type: Single-bit ECC
+	System Type: Unified
+	Associativity: 12-way Set-associative
+
+Handle 0x0005, DMI type 16, 15 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: None
+	Maximum Capacity: 16 GB
+	Error Information Handle: Not Provided
+	Number Of Devices: 4
+
+Handle 0x0006, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0005
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 4096 MB
+	Form Factor: SODIMM
+	Set: None
+	Locator: ChannelA-DIMM0
+	Bank Locator: BANK 0
+	Type: DDR3
+	Type Detail: Synchronous
+	Speed: 1333 MHz
+	Manufacturer: Samsung
+	Serial Number: B52A5D9F
+	Asset Tag: 9876543210
+	Part Number: M471B5273CH0-CH9  
+	Rank: Unknown
+
+Handle 0x0007, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x000FFFFFFFF
+	Range Size: 4 GB
+	Physical Device Handle: 0x0006
+	Memory Array Mapped Address Handle: 0x000C
+	Partition Row Position: Unknown
+	Interleave Position: 1
+	Interleaved Data Depth: 2
+
+Handle 0x0008, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0005
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: ChannelA-DIMM1
+	Bank Locator: BANK 1
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: 9876543210
+	Part Number: Not Specified
+	Rank: Unknown
+
+Handle 0x0009, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0005
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 4096 MB
+	Form Factor: SODIMM
+	Set: None
+	Locator: ChannelB-DIMM0
+	Bank Locator: BANK 2
+	Type: DDR3
+	Type Detail: Synchronous
+	Speed: 1333 MHz
+	Manufacturer: Samsung
+	Serial Number: 947C2F3B
+	Asset Tag: 9876543210
+	Part Number: M471B5273DH0-CH9  
+	Rank: Unknown
+
+Handle 0x000A, DMI type 20, 19 bytes
+Memory Device Mapped Address
+	Starting Address: 0x00100000000
+	Ending Address: 0x001FFFFFFFF
+	Range Size: 4 GB
+	Physical Device Handle: 0x0009
+	Memory Array Mapped Address Handle: 0x000C
+	Partition Row Position: Unknown
+	Interleave Position: 2
+	Interleaved Data Depth: 2
+
+Handle 0x000B, DMI type 17, 28 bytes
+Memory Device
+	Array Handle: 0x0005
+	Error Information Handle: Not Provided
+	Total Width: Unknown
+	Data Width: Unknown
+	Size: No Module Installed
+	Form Factor: DIMM
+	Set: None
+	Locator: ChannelB-DIMM1
+	Bank Locator: BANK 3
+	Type: Unknown
+	Type Detail: None
+	Speed: Unknown
+	Manufacturer: Not Specified
+	Serial Number: Not Specified
+	Asset Tag: 9876543210
+	Part Number: Not Specified
+	Rank: Unknown
+
+Handle 0x000C, DMI type 19, 15 bytes
+Memory Array Mapped Address
+	Starting Address: 0x00000000000
+	Ending Address: 0x001FFFFFFFF
+	Range Size: 8 GB
+	Physical Array Handle: 0x0005
+	Partition Width: 4
+
+Handle 0x000D, DMI type 129, 8 bytes
+OEM-specific Type
+	Header and Data:
+		81 08 0D 00 01 01 02 01
+	Strings:
+		Intel_ASF
+		Intel_ASF_001
+
+Handle 0x000E, DMI type 131, 64 bytes
+OEM-specific Type
+	Header and Data:
+		83 40 0E 00 31 00 00 00 00 00 00 00 00 00 00 00
+		F8 00 49 1C FF FF FF FF 09 E0 00 00 01 00 07 00
+		29 04 0A 00 00 00 00 00 C8 00 FF FF 00 00 00 00
+		00 00 00 00 F6 00 00 00 76 50 72 6F 00 00 00 00
+
+Handle 0x000F, DMI type 0, 24 bytes
+BIOS Information
+	Vendor: LENOVO
+	Version: 8NET32WW (1.16 )
+	Release Date: 12/01/2011
+	Address: 0xE0000
+	Runtime Size: 128 kB
+	ROM Size: 4096 kB
+	Characteristics:
+		PCI is supported
+		PNP is supported
+		BIOS is upgradeable
+		BIOS shadowing is allowed
+		Boot from CD is supported
+		Selectable boot is supported
+		EDD is supported
+		3.5"/720 kB floppy services are supported (int 13h)
+		Print screen service is supported (int 5h)
+		8042 keyboard services are supported (int 9h)
+		Serial services are supported (int 14h)
+		Printer services are supported (int 17h)
+		CGA/mono video services are supported (int 10h)
+		ACPI is supported
+		USB legacy is supported
+		BIOS boot specification is supported
+		Targeted content distribution is supported
+	BIOS Revision: 24.216
+	Firmware Revision: 1.16
+
+Handle 0x0010, DMI type 1, 27 bytes
+System Information
+	Manufacturer: LENOVO
+	Product Name: 1298A8G
+	Version: ThinkPad Edge E320
+	Serial Number: LR9NKZ7
+	UUID: 725BA801-507B-11CB-95E6-C66052AAC597
+	Wake-up Type: Power Switch
+	SKU Number: ThinkPad Edge E320
+	Family: <BAD INDEX>
+
+Handle 0x0011, DMI type 2, 15 bytes
+Base Board Information
+	Manufacturer: LENOVO
+	Product Name: 1298A8G
+	Version: Not Available
+	Serial Number: 1ZJJC21G0N6
+	Asset Tag: Not Available
+	Features:
+		Board is a hosting board
+		Board is replaceable
+	Location In Chassis: Not Available
+	Chassis Handle: 0x0000
+	Type: Unknown
+	Contained Object Handles: 0
+
+Handle 0x0012, DMI type 3, 21 bytes
+Chassis Information
+	Manufacturer: LENOVO
+	Type: Notebook
+	Lock: Not Present
+	Version: Not Available
+	Serial Number: LR9NKZ7
+	Asset Tag: No Asset Information
+	Boot-up State: Unknown
+	Power Supply State: Unknown
+	Thermal State: Unknown
+	Security Status: Unknown
+	OEM Information: 0x00000000
+	Height: Unspecified
+	Number Of Power Cords: Unspecified
+	Contained Elements: 0
+
+Handle 0x0013, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: Keyboard
+	External Connector Type: PS/2
+	Port Type: Keyboard Port
+
+Handle 0x0014, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: Mouse
+	External Connector Type: PS/2
+	Port Type: Mouse Port
+
+Handle 0x0015, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: Other
+	External Reference Designator: COM 1
+	External Connector Type: None
+	Port Type: Serial Port 16550A Compatible
+
+Handle 0x0016, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 1#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0017, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 2#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0018, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 3#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0019, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 4#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x001A, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 5#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x001B, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 6#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x001C, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 7#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x001D, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 8#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x001E, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 9#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x001F, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 10#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0020, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 11#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0021, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 12#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0022, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 13#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0023, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: USB2.0 - 14#
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x0024, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: Ethernet
+	External Connector Type: RJ-45
+	Port Type: Network Port
+
+Handle 0x0025, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATA Port 1 J8J1
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: None
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0026, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATA Port 2 J7G1
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: None
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0027, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: SATA Port 3(ODD) J9E7
+	Internal Connector Type: SAS/SATA Plug Receptacle
+	External Reference Designator: None
+	External Connector Type: None
+	Port Type: SATA
+
+Handle 0x0028, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: eSATA Port 1 J6J1
+	External Connector Type: SAS/SATA Plug Receptacle
+	Port Type: SATA
+
+Handle 0x0029, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: eSATA Port 2 J7J1
+	External Connector Type: SAS/SATA Plug Receptacle
+	Port Type: SATA
+
+Handle 0x002A, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: None
+	Internal Connector Type: None
+	External Reference Designator: SATA Port 6(Docking)
+	External Connector Type: SAS/SATA Plug Receptacle
+	Port Type: SATA
+
+Handle 0x002B, DMI type 9, 17 bytes
+System Slot Information
+	Designation: PEG Gen1/Gen2 X16
+	Type: x16 PCI Express x16
+	Current Usage: In Use
+	Length: Long
+	ID: 0
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:00:00.0
+
+Handle 0x002C, DMI type 9, 17 bytes
+System Slot Information
+	Designation: PCI-Express 1 X1
+	Type: x1 PCI Express
+	Current Usage: Available
+	Length: Short
+	ID: 1
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:00:00.0
+
+Handle 0x002D, DMI type 9, 17 bytes
+System Slot Information
+	Designation: PCI-Express 2 X1
+	Type: x1 PCI Express
+	Current Usage: In Use
+	Length: Short
+	ID: 2
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:00:00.0
+
+Handle 0x002E, DMI type 9, 17 bytes
+System Slot Information
+	Designation: PCI-Express 3 X1
+	Type: x1 PCI Express
+	Current Usage: In Use
+	Length: Short
+	ID: 3
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:00:00.0
+
+Handle 0x002F, DMI type 9, 17 bytes
+System Slot Information
+	Designation: PCI-Express 4 X1
+	Type: x1 PCI Express
+	Current Usage: Available
+	Length: Short
+	ID: 4
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:00:00.0
+
+Handle 0x0030, DMI type 9, 17 bytes
+System Slot Information
+	Designation: PCI-Express 5 X1
+	Type: x1 PCI Express
+	Current Usage: Available
+	Length: Short
+	ID: 5
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:00:00.0
+
+Handle 0x0031, DMI type 10, 6 bytes
+On Board Device Information
+	Type: Video
+	Status: Enabled
+	Description: Intel(R) Extreme Graphics 3 Controller
+
+Handle 0x0032, DMI type 10, 6 bytes
+On Board Device Information
+	Type: Sound
+	Status: Enabled
+	Description: Intel(R) Azalia Audio Device
+
+Handle 0x0033, DMI type 11, 5 bytes
+OEM Strings
+	String 1: This is the Intel HuronRiver CRB Platform
+
+Handle 0x0034, DMI type 12, 5 bytes
+System Configuration Options
+
+Handle 0x0035, DMI type 13, 22 bytes
+BIOS Language Information
+	Language Description Format: Abbreviated
+	Installable Languages: 4
+		en-US
+		fr-FR
+		ja-JP
+		ko-KR
+	Currently Installed Language: en-US
+
+Handle 0x0036, DMI type 22, 26 bytes
+Portable Battery
+	Location: Rear
+	Manufacturer: Intel Corp.
+	Manufacture Date: 2008
+	Serial Number: 1.0
+	Name: Smart Battery
+	Design Capacity: Unknown
+	Design Voltage: Unknown
+	SBDS Version: V1.0
+	Maximum Error: Unknown
+	SBDS Chemistry: Lithium-Ion
+	OEM-specific Information: 0x00000000
+
+Handle 0x0037, DMI type 32, 11 bytes
+System Boot Information
+	Status: No errors detected
+
+Handle 0x0038, DMI type 135, 10 bytes
+OEM-specific Type
+	Header and Data:
+		87 0A 38 00 54 50 07 03 01 07
+
+Handle 0x0039, DMI type 131, 22 bytes
+OEM-specific Type
+	Header and Data:
+		83 16 39 00 01 00 00 00 00 00 00 00 00 00 00 00
+		00 00 00 00 00 01
+	Strings:
+		TVT-Enablement
+
+Handle 0x003A, DMI type 135, 34 bytes
+OEM-specific Type
+	Header and Data:
+		87 22 3A 00 54 50 07 04 01 06 01 01 02 00 02 01
+		02 00 03 01 02 00 04 01 02 00 05 01 02 00 06 01
+		02 00
+
+Handle 0x003B, DMI type 200, 7 bytes
+OEM-specific Type
+	Header and Data:
+		C8 07 3B 00 01 02 03
+	Strings:
+		152D
+		PS3 
+		BQ3C81
+
+Handle 0x003C, DMI type 18, 23 bytes
+32-bit Memory Error Information
+	Type: OK
+	Granularity: Unknown
+	Operation: Unknown
+	Vendor Syndrome: Unknown
+	Memory Array Address: Unknown
+	Device Address: Unknown
+	Resolution: Unknown
+
+Handle 0x003D, DMI type 21, 7 bytes
+Built-in Pointing Device
+	Type: Mouse
+	Interface: PS/2
+	Buttons: 2
+
+Handle 0x003E, DMI type 23, 13 bytes
+System Reset
+	Status: Disabled
+	Watchdog Timer: Present
+	Boot Option: Do Not Reboot
+	Boot Option On Limit: Do Not Reboot
+	Reset Count: Unknown
+	Reset Limit: Unknown
+	Timer Interval: Unknown
+	Timeout: Unknown
+
+Handle 0x003F, DMI type 24, 5 bytes
+Hardware Security
+	Power-On Password Status: Unknown
+	Keyboard Password Status: Unknown
+	Administrator Password Status: Unknown
+	Front Panel Reset Status: Unknown
+
+Handle 0x0040, DMI type 27, 14 bytes
+Cooling Device
+	Type: Unknown
+	Status: Unknown
+	OEM-specific Information: 0x00000090
+	Nominal Speed: Unknown Or Non-rotating
+
+Handle 0x0041, DMI type 39, 22 bytes
+System Power Supply
+	Location: TBD by ODM
+	Name: TBD by ODM
+	Manufacturer: TBD by ODM
+	Serial Number: TBD by ODM
+	Asset Tag: TBD by ODM
+	Model Part Number: TBD by ODM
+	Revision: 1.0
+	Max Power Capacity: Unknown
+	Status: Present, OK
+	Type: Battery
+	Input Voltage Range Switching: Other
+	Plugged: Yes
+	Hot Replaceable: Yes
+
+Handle 0x0042, DMI type 135, 36 bytes
+OEM-specific Type
+	Header and Data:
+		87 24 42 00 54 50 07 02 42 41 59 20 49 2F 4F 20
+		02 00 02 00 00 00 00 88 50 96 50 FF 00 00 00 88
+		50 96 50 00
+
+Handle 0x0043, DMI type 133, 5 bytes
+OEM-specific Type
+	Header and Data:
+		85 05 43 00 01
+	Strings:
+		KHOIHGIUCCHHII
+
+Handle 0x0044, DMI type 15, 29 bytes
+System Event Log
+	Area Length: 18 bytes
+	Header Start Offset: 0x0000
+	Header Length: 16 bytes
+	Data Start Offset: 0x0010
+	Access Method: General-purpose non-volatile data functions
+	Access Address: 0x00F0
+	Status: Valid, Not Full
+	Change Token: 0x00000000
+	Header Format: Type 1
+	Supported Log Type Descriptors: 3
+	Descriptor 1: POST error
+	Data Format 1: POST results bitmap
+	Descriptor 2: Single-bit ECC memory error
+	Data Format 2: Multiple-event
+	Descriptor 3: Multi-bit ECC memory error
+	Data Format 3: Multiple-event
+
+Handle 0x0045, DMI type 135, 18 bytes
+OEM-specific Type
+	Header and Data:
+		87 12 45 00 54 50 07 01 01 00 00 00 00 00 00 00
+		00 00
+
+Handle 0xFEFF, DMI type 127, 4 bytes
+End Of Table

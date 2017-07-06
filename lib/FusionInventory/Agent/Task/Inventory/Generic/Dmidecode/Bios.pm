@@ -37,6 +37,14 @@ sub _getBiosHardware {
         ASSETTAG      => $chassis_info->{'Asset Tag'}
     };
 
+    # Fix issue #311: system_info 'Version' may be in fact 'Product Name'
+    if ($system_info->{'Version'} &&
+            $system_info->{'Version'} =~ /^(Think|Idea|Yoga|Net|Intelli)/) {
+        my $product_name = $system_info->{'Version'};
+        $system_info->{'Version'}      = $system_info->{'Product Name'};
+        $system_info->{'Product Name'} = $product_name;
+    }
+
     $bios->{SMODEL} =
         $system_info->{'Product'}      ||
         $system_info->{'Product Name'};
