@@ -12,12 +12,13 @@ use Test::More;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Daemon;
 
-plan tests => 30;
+plan tests => 34;
 
 my $libdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 push @INC, $libdir;
-my $agent = FusionInventory::Agent->new(libdir => $libdir);
+my $agent = FusionInventory::Agent::Daemon->new(libdir => $libdir);
 
 my %tasks;
 
@@ -244,61 +245,68 @@ ok (
     || ($tasksExecutionPlan[7] eq 'taskwithoutanumber' && $tasksExecutionPlan[6] eq 'task345')
 );
 
-$agent->{confdir} = 'etc';
+$agent->{confdir} = './etc';
 $agent->{datadir} = './share';
 $agent->{vardir}  = './var',
 
 # Reset config to be able to run init() method with mandatory options
 delete $agent->{config};
 my $options = {
-    'local' => '.',
+    'local'     => '.',
     # Keep Test backend on logger as call to init() will reset logger
-    'logger' => 'Test',
+    'logger'    => 'Test',
     # we force config to be loaded from file
     'conf-file' => 'resources/config/sample1',
-    'config' => 'file'
+    'config'    => 'file',
+    # avoid to daemonize and avoid httpd interface
+    'service'   => 1,
+    'no-httpd'  => 1,
 };
+
 $agent->init(options => $options);
+
 # after init call, the member 'config' is defined and well blessed
 ok (UNIVERSAL::isa($agent->{config}, 'FusionInventory::Agent::Config'));
 ok (defined($agent->{config}->{'conf-file'}));
+ok (scalar(@{$agent->{config}->{'no-task'}}) == 2);
+
+# changing conf-file
+$agent->{config}->{'conf-file'} = 'resources/config/daemon1';
+
+# Test agent daemon reinit
+$agent->reinit();
+
 ok (defined($agent->{config}->{'no-task'}));
 ok (scalar(@{$agent->{config}->{'no-task'}}) == 2);
 ok (
     ($agent->{config}->{'no-task'}->[0] eq 'snmpquery' && $agent->{config}->{'no-task'}->[1] eq 'wakeonlan')
         || ($agent->{config}->{'no-task'}->[1] eq 'snmpquery' && $agent->{config}->{'no-task'}->[0] eq 'wakeonlan')
 );
-ok (scalar(@{$agent->{config}->{'server'}}) == 0);
+ok (scalar($agent->getTargets()) == 1);
 
+SKIP: {
+    skip ('test for Windows only and with config in registry', 4)
+        if ($OSNAME ne 'MSWin32' || $agent->{config}->{config} ne 'registry');
 
-@tasks = (
-    'Task1',
-    'Task2',
-    'Taskwithoutanumber',
-    'Task345'
-);
-@tasksInConf = (
-    'task1',
-    'task2',
-    'task1',
-    'task3',
-    'task3',
-    'task3',
-    'task5',
-    'task1',
-    'task2',
-    'task2'
-);
-@tasksExecutionPlan = FusionInventory::Agent::_makeExecutionPlan(\@tasksInConf, \@tasks);
-@expectedExecutionPlan = (
-    'Task1',
-    'Task2',
-    'Task1',
-    'Task1',
-    'Task2',
-    'Task2'
-);
-cmp_deeply(
-    \@tasksExecutionPlan,
-    \@expectedExecutionPlan
-);
+    my $testKey = 'tag';
+    my $testValue = 'TEST_REGISTRY_VALUE';
+    # change value in registry
+    my $settingsInRegistry = FusionInventory::Test::Utils::openWin32Registry();
+    $settingsInRegistry->{$testKey} = $testValue;
+
+    my $keyInitialValue = $agent->{config}->{$testKey};
+    $agent->{config}->{config} = 'registry';
+    $agent->{config}->{'conf-file'} = '';
+    ok ($agent->{config}->{config} eq 'registry');
+    $agent->reinit();
+    # key config must be set
+    ok (defined $agent->{config}->{$testKey});
+    # and must be the value set in registry
+    ok ($agent->{config}->{$testKey} eq $testValue);
+
+    # delete value in registry
+    delete $settingsInRegistry->{$testKey};
+    $agent->reinit();
+    # must have default value which is initial value
+    ok ($agent->{config}->{$testKey} eq $keyInitialValue);
+}
