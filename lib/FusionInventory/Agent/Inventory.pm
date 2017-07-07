@@ -485,8 +485,7 @@ sub retrieveElementInSection {
     my $section = $self->getSection($sectionName);
     return unless $section;
 
-    my @elements = grep { my $hash = $_; _isKeyValueListInHash($hash, $fields) ? $hash : () } @$section;
-    return shift @elements;
+    return first { _isKeyValueListInHash($_, $fields) } @$section;
 }
 
 sub _isKeyValueListInHash {
@@ -513,7 +512,7 @@ sub retrieveElementIndexInSection {
             push @indexes, $i;
         }
     } @$section;
-    return first { 1 } @indexes;
+    return shift @indexes;
 }
 
 sub getBattery {
