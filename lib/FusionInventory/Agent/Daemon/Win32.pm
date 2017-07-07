@@ -248,6 +248,9 @@ sub ApplyServiceOptimizations {
 
     # Preload is64bit result to avoid a lot of WMI calls
     is64bit();
+
+    # Also call running service optimization to free memory
+    $self->RunningServiceOptimization();
 }
 
 sub RunningServiceOptimization {

@@ -216,27 +216,36 @@ sub sleep {
 sub loadHttpInterface {
     my ($self) = @_;
 
-    # Handle re-init case
-    $self->{server}->stop() if ($self->{server});
-
     my $config = $self->{config};
 
-    return if $config->{'no-httpd'};
+    if ($config->{'no-httpd'}) {
+        # Handle re-init case
+        $self->{server}->stop() if ($self->{server});
+        return;
+    }
 
     my $logger = $self->{logger};
+
+    my %server_config = (
+        logger  => $logger,
+        agent   => $self,
+        htmldir => $self->{datadir} . '/html',
+        ip      => $config->{'httpd-ip'},
+        port    => $config->{'httpd-port'},
+        trust   => $config->{'httpd-trust'}
+    );
+
+    # Handle re-init, don't restart httpd interface unless config changed
+    if ($self->{server}) {
+        return unless $self->{server}->needToRestart(%server_config);
+        $self->{server}->stop();
+    }
 
     FusionInventory::Agent::HTTP::Server->require();
     if ($EVAL_ERROR) {
         $logger->error("Failed to load HTTP server: $EVAL_ERROR");
     } else {
-        $self->{server} = FusionInventory::Agent::HTTP::Server->new(
-            logger          => $logger,
-            agent           => $self,
-            htmldir         => $self->{datadir} . '/html',
-            ip              => $config->{'httpd-ip'},
-            port            => $config->{'httpd-port'},
-            trust           => $config->{'httpd-trust'}
-        );
+        $self->{server} = FusionInventory::Agent::HTTP::Server->new(%server_config);
         $self->{server}->init();
     }
 }
@@ -259,6 +268,9 @@ sub RunningServiceOptimization {
 
 sub terminate {
     my ($self) = @_;
+
+    # Still stop HTTP interface
+    $self->{server}->stop() if ($self->{server});
 
     $self->{logger}->info("$PROVIDER Agent exiting");
 
