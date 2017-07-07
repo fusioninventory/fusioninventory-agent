@@ -117,7 +117,7 @@ sub getCanonicalManufacturer {
         ibm        |
         toshiba    |
         fujitsu    |
-        lg(?:\s|$) |
+        \blg\b     |
         samsung    |
         nec        |
         transcend  |
