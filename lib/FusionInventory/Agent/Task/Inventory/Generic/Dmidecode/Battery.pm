@@ -18,11 +18,11 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @batteries = _getBatteries(logger => $logger);
+    my $batteries = _getBatteries(logger => $logger);
 
-    return unless @batteries;
+    return unless $batteries;
 
-    _mergeBatteries($inventory, @batteries);
+    _mergeBatteries($inventory, $batteries);
 }
 
 sub _getBatteries {
