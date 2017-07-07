@@ -31,6 +31,14 @@ sub new {
     };
     bless $self, $class;
 
+    $self->setTrustedAddresses(%params);
+
+    return $self;
+}
+
+sub setTrustedAddresses {
+    my ($self, %params) = @_;
+
     # compute addresses allowed for push requests
     foreach my $target ($self->{agent}->getTargets()) {
         next unless $target->isa('FusionInventory::Agent::Target::Server');
@@ -45,8 +53,6 @@ sub new {
             $self->{trust}->{$string} = \@addresses if @addresses;
         }
     }
-
-    return $self;
 }
 
 sub _handle {
@@ -297,7 +303,7 @@ sub init {
         LocalAddr => $self->{ip},
         LocalPort => $self->{port},
         Reuse     => 1,
-        Timeout   => 5,
+        Timeout   => 1,
         Blocking  => 0
     );
 
@@ -313,16 +319,37 @@ sub init {
     return 1;
 }
 
+sub needToRestart {
+    my ($self, %params) = @_;
+
+    # If no httpd daemon was started, we need to really start it
+    return 1 unless $self->{listener};
+
+    # Restart httpd daemon if ip or port changed
+    return 1 if ($params{ip} && (!$self->{ip} || $params{ip} ne $self->{ip}));
+    return 1 if ($params{port} && (!$self->{port} || $params{port} ne $self->{port}));
+
+    # Logger may have changed, but then resetting logger ref is sufficient
+    $self->{logger} = $params{logger};
+    $self->{logger}->debug2(
+        $log_prefix . "HTTPD service still listening on port $self->{port}"
+    );
+
+    # Be sure to reset computed trusted addresses
+    delete $self->{trust};
+    $self->setTrustedAddresses(%params);
+
+    return 0;
+}
+
 sub stop {
     my ($self) = @_;
 
     return unless $self->{listener};
 
-    if ($self->{listener}->shutdown(2)) {
-        $self->{logger}->debug($log_prefix . "HTTPD service stopped");
-    } else {
-        $self->{logger}->debug($log_prefix . "HTTPD service stop error: $!");
-    }
+    $self->{listener}->shutdown(2);
+
+    $self->{logger}->debug($log_prefix . "HTTPD service stopped");
 
     delete $self->{listener};
 }
