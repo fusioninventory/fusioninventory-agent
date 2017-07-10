@@ -30,6 +30,8 @@ my %default_callbacks = (
     timer       => \&cb_running,
     stop        => \&cb_stop,
     shutdown    => \&cb_shutdown,
+    pause       => \&cb_pause,
+    continue    => \&cb_continue,
     interrogate => \&cb_interrogate
 );
 
@@ -152,7 +154,7 @@ sub StartService {
 sub AcceptedControls {
     my ($self, $controls) = @_;
 
-    $controls = SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN
+    $controls = SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN | SERVICE_ACCEPT_PAUSE_CONTINUE
         unless $controls;
 
     Win32::Daemon::AcceptedControls($controls);
@@ -169,6 +171,11 @@ sub cb_start {
         # Start agent in a dedicated thread
         $service->{agent_thread} = threads->create(sub {
             $service->init(options => { service => 1 });
+
+            # install signal handler to handle pause/continue signals
+            $SIG{STOP} = sub { $service->Pause(); };
+            $SIG{CONT} = sub { $service->Continue(); };
+
             $service->run()
         });
     }
@@ -206,9 +213,45 @@ sub cb_running {
             Win32::Daemon::State(SERVICE_STOP_PENDING);
         }
 
+    } elsif ($service->{last_state} == SERVICE_PAUSE_PENDING) {
+        my @targets = $service->getTargets();
+        if ( scalar(grep { $_->paused() } @targets) == @targets ) {
+            $service->{last_state} = SERVICE_PAUSED;
+            Win32::Daemon::State(SERVICE_PAUSED);
+        }
+
+    } elsif ($service->{last_state} == SERVICE_CONTINUE_PENDING) {
+        my @targets = $service->getTargets();
+        if ( scalar(grep { $_->paused() } @targets) == 0) {
+            $service->{last_state} = SERVICE_RUNNING;
+            Win32::Daemon::State(SERVICE_RUNNING);
+        }
+
     } else {
         Win32::Daemon::State($service->{last_state});
     }
+}
+
+sub cb_pause {
+    my( $event, $service ) = @_;
+
+    if ($service->{agent_thread} && $service->{agent_thread}->is_running()) {
+        $service->{agent_thread}->kill('SIGSTOP');
+    }
+
+    $service->{last_state} = SERVICE_PAUSE_PENDING;
+    Win32::Daemon::State(SERVICE_PAUSE_PENDING, 10000);
+}
+
+sub cb_continue {
+    my( $event, $service ) = @_;
+
+    if ($service->{agent_thread} && $service->{agent_thread}->is_running()) {
+        $service->{agent_thread}->kill('SIGCONT');
+    }
+
+    $service->{last_state} = SERVICE_CONTINUE_PENDING;
+    Win32::Daemon::State(SERVICE_CONTINUE_PENDING, 10000);
 }
 
 sub cb_stop {
@@ -237,6 +280,36 @@ sub cb_interrogate {
     my( $event, $service ) = @_;
 
     Win32::Daemon::State($service->{last_state});
+}
+
+sub Pause {
+    my ($self) = @_;
+
+    # Kill current forked task
+    if ($self->{current_runtask}) {
+        kill 'TERM', $self->{current_runtask};
+        delete $self->{current_runtask};
+    }
+
+    foreach my $target ($self->getTargets()) {
+        $target->pause();
+    }
+
+    $self->{status} = 'paused';
+
+    $self->{logger}->info("$PROVIDER Agent paused");
+}
+
+sub Continue {
+    my ($self) = @_;
+
+    $self->{status} = 'waiting';
+
+    foreach my $target ($self->getTargets()) {
+        $target->continue();
+    }
+
+    $self->{logger}->info("$PROVIDER Agent resumed");
 }
 
 sub ApplyServiceOptimizations {
