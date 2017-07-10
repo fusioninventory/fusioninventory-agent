@@ -37,9 +37,10 @@ sub _getBiosHardware {
         ASSETTAG      => $chassis_info->{'Asset Tag'}
     };
 
-    # Fix issue #311: system_info 'Version' is a better 'Product Name'
-    if ($system_info->{'Version'} &&
-            $system_info->{'Version'} =~ /^(Lenovo|IBM|Think|Idea|Yoga|Netfinity|Netvista|Intelli|Power|System)/i) {
+    # Fix issue #311: system_info 'Version' is a better 'Product Name' for Lenovo systems
+    if ($system_info->{'Version'} && $system_info->{'Manufacturer'} &&
+            $system_info->{'Manufacturer'} =~ /^LENOVO$/i &&
+            $system_info->{'Version'} =~ /^(Think|Idea|Yoga|Netfinity|Netvista|Intelli)/i) {
         my $product_name = $system_info->{'Version'};
         $system_info->{'Version'}      = $system_info->{'Product Name'};
         $system_info->{'Product Name'} = $product_name;
