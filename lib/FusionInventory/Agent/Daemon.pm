@@ -140,6 +140,9 @@ sub runTask {
         # child
         die "fork failed: $ERRNO" unless defined $pid;
 
+        # Don't handle HTTPD interface in forked child
+        delete $self->{server};
+
         $self->{logger}->debug("forking process $pid to handle task $name");
 
         $self->runTaskReal($target, $name, $response);
