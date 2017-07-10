@@ -32,7 +32,7 @@ sub init {
     $self->ApplyServiceOptimizations();
 
     # install signal handler to handle reload signal
-    $SIG{HUP}  = sub { $self->reinit(); };
+    $SIG{HUP} = sub { $self->reinit(); };
 }
 
 sub reinit {
