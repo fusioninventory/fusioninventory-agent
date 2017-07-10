@@ -275,6 +275,12 @@ sub terminate {
     $self->{logger}->info("$PROVIDER Agent exiting");
 
     $self->SUPER::terminate();
+
+    # Kill current forked task
+    if ($self->{current_runtask}) {
+        kill 'TERM', $self->{current_runtask};
+        delete $self->{current_runtask};
+    }
 }
 
 1;

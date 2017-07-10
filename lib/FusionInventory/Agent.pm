@@ -174,13 +174,6 @@ sub terminate {
     # Abort realtask running in that forked process or thread
     $self->{current_task}->abort()
         if ($self->{current_task});
-
-    # Kill current forked task
-    if ($self->{current_runtask}) {
-        kill 'TERM', $self->{current_runtask};
-        delete $self->{current_runtask};
-    }
-
 }
 
 sub runTarget {
