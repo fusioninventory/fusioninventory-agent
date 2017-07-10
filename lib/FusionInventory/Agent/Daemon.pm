@@ -276,7 +276,8 @@ sub terminate {
     # Still stop HTTP interface
     $self->{server}->stop() if ($self->{server});
 
-    $self->{logger}->info("$PROVIDER Agent exiting");
+    $self->{logger}->info("$PROVIDER Agent exiting")
+        unless ($self->{current_task});
 
     $self->SUPER::terminate();
 
