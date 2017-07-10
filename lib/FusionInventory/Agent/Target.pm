@@ -96,6 +96,24 @@ sub getNextRunDate {
     return $self->{nextRunDate};
 }
 
+sub paused {
+    my ($self) = @_;
+
+    return $self->{_paused} || 0;
+}
+
+sub pause {
+    my ($self) = @_;
+
+    $self->{_paused} = 1;
+}
+
+sub continue {
+    my ($self) = @_;
+
+    delete $self->{_paused};
+}
+
 sub getFormatedNextRunDate {
     my ($self) = @_;
 

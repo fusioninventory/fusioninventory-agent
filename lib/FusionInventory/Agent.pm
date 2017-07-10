@@ -222,10 +222,11 @@ sub runTarget {
             $self->runTask($target, $name, $response);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-        $self->{status} = 'waiting';
+        $self->{status} = $target->paused() ? 'paused' : 'waiting';
 
         # Leave earlier while requested
         last unless $self->getTargets();
+        last if $target->paused();
     }
 
     return 0;

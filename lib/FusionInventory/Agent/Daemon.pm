@@ -74,7 +74,11 @@ sub run {
 
         $self->_reloadConfIfNeeded();
 
-        if ($time >= $target->getNextRunDate()) {
+        if ($target->paused()) {
+            # Leave immediately if we passed in terminate method
+            last unless $self->getTargets();
+
+        } elsif ($time >= $target->getNextRunDate()) {
 
             my $net_error = 0;
             eval {
