@@ -33,6 +33,7 @@ sub init {
 
     # install signal handler to handle reload signal
     $SIG{HUP} = sub { $self->reinit(); };
+    $SIG{USR1} = sub { $self->runNow(); };
 }
 
 sub reinit {
@@ -102,6 +103,16 @@ sub run {
         # This eventually check for http messages, default timeout is 1 second
         $self->sleep(1);
     }
+}
+
+sub runNow {
+    my ($self) = @_;
+
+    foreach my $target ($self->getTargets()) {
+        $target->setNextRunDateFromNow();
+    }
+
+    $self->{logger}->info("$PROVIDER Agent requested to run all targets now");
 }
 
 sub _reloadConfIfNeeded {
