@@ -223,12 +223,15 @@ sub isAlreadyRunning {
 sub sleep {
     my ($self, $delay) = @_;
 
-    if ($self->{server}) {
-        # Check for http interface messages, default timeout is 1 second
-        $self->{server}->handleRequests() or delay(1);
-    } else {
-        delay(1);
-    }
+    eval {
+        local $SIG{CHLD} = sub { die ; };
+        if ($self->{server}) {
+            # Check for http interface messages, default timeout is 1 second
+            $self->{server}->handleRequests() or delay($delay || 1);
+        } else {
+            delay($delay || 1);
+        }
+    };
 }
 
 sub loadHttpInterface {
