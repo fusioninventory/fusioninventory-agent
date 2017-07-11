@@ -295,7 +295,7 @@ sub Pause {
         $target->pause();
     }
 
-    $self->{status} = 'paused';
+    $self->setStatus('paused');
 
     $self->{logger}->info("$PROVIDER Agent paused");
 }
@@ -303,7 +303,7 @@ sub Pause {
 sub Continue {
     my ($self) = @_;
 
-    $self->{status} = 'waiting';
+    $self->setStatus('waiting');
 
     foreach my $target ($self->getTargets()) {
         $target->continue();

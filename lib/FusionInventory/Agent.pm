@@ -65,10 +65,6 @@ sub init {
     );
     $self->{config} = $config;
 
-    # Rename process, mostly for unix platforms
-    $0 = lc($PROVIDER) . "-agent";
-    $0 .= " (tag $config->{tag})" if $config->{tag};
-
     my $verbosity = $config->{debug} && $config->{debug} == 1 ? LOG_DEBUG  :
                     $config->{debug} && $config->{debug} == 2 ? LOG_DEBUG2 :
                                                                 LOG_INFO   ;
@@ -137,7 +133,7 @@ sub run {
 
     # API overrided in daemon or service mode
 
-    $self->{status} = 'waiting';
+    $self->setStatus('waiting');
 
     my @targets = $self->getTargets();
 
@@ -222,7 +218,7 @@ sub runTarget {
             $self->runTask($target, $name, $response);
         };
         $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
-        $self->{status} = $target->paused() ? 'paused' : 'waiting';
+        $self->setStatus($target->paused() ? 'paused' : 'waiting');
 
         # Leave earlier while requested
         last unless $self->getTargets();
@@ -237,7 +233,7 @@ sub runTask {
 
     # API overrided in daemon or service mode
 
-    $self->{status} = "running task $name";
+    $self->setStatus("running task $name");
 
     # standalone mode: run each task directly
     $self->runTaskReal($target, $name, $response);
@@ -279,6 +275,23 @@ sub runTaskReal {
 sub getStatus {
     my ($self) = @_;
     return $self->{status};
+}
+
+sub setStatus {
+    my ($self, $status) = @_;
+
+    my $config = $self->{config};
+
+    # Rename process including status, for unix platforms
+    $0 = lc($PROVIDER) . "-agent";
+    $0 .= " (tag $config->{tag})" if $config->{tag};
+
+    if ($status) {
+        $self->{status} = $status;
+
+        # Show set status in process name on unix platforms
+        $0 .= ": $status";
+    }
 }
 
 sub getTargets {
@@ -560,6 +573,10 @@ Terminate the agent.
 =head2 getStatus()
 
 Get the current agent status.
+
+=head2 setStatus()
+
+Set new agent status, also updates process name on unix platforms.
 
 =head2 getTargets()
 

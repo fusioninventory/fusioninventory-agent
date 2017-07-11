@@ -59,7 +59,7 @@ sub reinit {
 sub run {
     my ($self) = @_;
 
-    $self->{status} = 'waiting';
+    $self->setStatus('waiting');
 
     my @targets = $self->getTargets();
 
@@ -130,7 +130,7 @@ sub _reloadConfIfNeeded {
 sub runTask {
     my ($self, $target, $name, $response) = @_;
 
-    $self->{status} = "running task $name";
+    $self->setStatus("running task $name");
 
     # server mode: run each task in a child process
     if (my $pid = fork()) {
@@ -153,6 +153,9 @@ sub runTask {
 
         # Don't handle HTTPD interface in forked child
         delete $self->{server};
+
+        # Mostly to update process name on unix platforms
+        $self->setStatus("task $name");
 
         $self->{logger}->debug("forking process $pid to handle task $name");
 
