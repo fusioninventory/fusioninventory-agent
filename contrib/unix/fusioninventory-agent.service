@@ -1,10 +1,21 @@
+# It is not recommended to modify this file in-place, because it will be
+# overwritten during package upgrades.  If you want to customize, the best
+# way is to use the "systemctl edit" command to create an override unit.
+
+# For example, to pass additional options (for instance,
+# --no-category=software) to the agent at startup, create an override unit
+# (as is done by systemctl edit) and enter the following:
+
+# [Service]
+# Environment="OPTIONS=--no-category=software"
+
 [Unit]
 Description=FusionInventory agent
 After=syslog.target network.target
- 
+
 [Service]
-EnvironmentFile=-/etc/sysconfig/fusioninventory-agent
 ExecStart=/usr/bin/fusioninventory-agent --daemon --no-fork $OPTIONS
- 
+ExecReload=/bin/kill -HUP $MAINPID
+
 [Install]
 WantedBy=multi-user.target

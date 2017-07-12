@@ -17,10 +17,49 @@ use FusionInventory::Agent::Tools::Generic;
 
 my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
 
+sub init {
+    my ($self, %params) = @_;
+
+    $self->{lastConfigLoad} = time;
+
+    $self->SUPER::init(%params);
+
+    $self->createDaemon();
+
+    # create HTTP interface if required
+    $self->loadHttpInterface();
+
+    $self->ApplyServiceOptimizations();
+
+    # install signal handler to handle reload signal
+    $SIG{HUP} = sub { $self->reinit(); };
+    $SIG{USR1} = sub { $self->runNow(); };
+}
+
+sub reinit {
+    my ($self) = @_;
+
+    $self->{logger}->debug('agent reinit');
+
+    $self->{lastConfigLoad} = time;
+
+    $self->{config}->reloadFromInputAndBackend($self->{confdir});
+
+    # Reload init from parent class
+    $self->SUPER::init();
+
+    # Reload HTTP interface if required
+    $self->loadHttpInterface();
+
+    $self->ApplyServiceOptimizations();
+
+    $self->{logger}->debug('agent reinit done.');
+}
+
 sub run {
     my ($self) = @_;
 
-    $self->{status} = 'waiting';
+    $self->setStatus('waiting');
 
     my @targets = $self->getTargets();
 
@@ -36,7 +75,11 @@ sub run {
 
         $self->_reloadConfIfNeeded();
 
-        if ($time >= $target->getNextRunDate()) {
+        if ($target->paused()) {
+            # Leave immediately if we passed in terminate method
+            last unless $self->getTargets();
+
+        } elsif ($time >= $target->getNextRunDate()) {
 
             my $net_error = 0;
             eval {
@@ -62,10 +105,32 @@ sub run {
     }
 }
 
+sub runNow {
+    my ($self) = @_;
+
+    foreach my $target ($self->getTargets()) {
+        $target->setNextRunDateFromNow();
+    }
+
+    $self->{logger}->info("$PROVIDER Agent requested to run all targets now");
+}
+
+sub _reloadConfIfNeeded {
+    my ($self) = @_;
+
+    my $reloadInterval = $self->{config}->{'conf-reload-interval'} || 0;
+
+    return unless ($reloadInterval > 0);
+
+    my $reload = time - $self->{lastConfigLoad} - $reloadInterval;
+
+    $self->reinit() if ($reload > 0);
+}
+
 sub runTask {
     my ($self, $target, $name, $response) = @_;
 
-    $self->{status} = "running task $name";
+    $self->setStatus("running task $name");
 
     # server mode: run each task in a child process
     if (my $pid = fork()) {
@@ -86,6 +151,12 @@ sub runTask {
         # child
         die "fork failed: $ERRNO" unless defined $pid;
 
+        # Don't handle HTTPD interface in forked child
+        delete $self->{server};
+
+        # Mostly to update process name on unix platforms
+        $self->setStatus("task $name");
+
         $self->{logger}->debug("forking process $pid to handle task $name");
 
         $self->runTaskReal($target, $name, $response);
@@ -100,11 +171,14 @@ sub createDaemon {
     my $config = $self->{config};
     my $logger = $self->{logger};
 
+    # Don't try to create a daemon if configured as a service
+    return $logger->info("$PROVIDER Agent service starting")
+        if $config->{service};
+
+    $logger->info("$PROVIDER Agent starting");
+
     my $pidfile = $config->{pidfile} ||
         $self->{vardir} . '/'.lc($PROVIDER).'.pid';
-
-    # Don't create a daemon if still started as a service
-    return if $config->{'service'};
 
     if ($self->isAlreadyRunning($pidfile)) {
         $logger->error("$PROVIDER Agent is already running, exiting...") if $logger;
@@ -152,12 +226,15 @@ sub isAlreadyRunning {
 sub sleep {
     my ($self, $delay) = @_;
 
-    if ($self->{server}) {
-        # Check for http interface messages, default timeout is 1 second
-        $self->{server}->handleRequests() or delay(1);
-    } else {
-        delay(1);
-    }
+    eval {
+        local $SIG{CHLD} = sub { die ; };
+        if ($self->{server}) {
+            # Check for http interface messages, default timeout is 1 second
+            $self->{server}->handleRequests() or delay($delay || 1);
+        } else {
+            delay($delay || 1);
+        }
+    };
 }
 
 sub loadHttpInterface {
@@ -165,38 +242,40 @@ sub loadHttpInterface {
 
     my $config = $self->{config};
 
-    return if $config->{'no-httpd'};
+    if ($config->{'no-httpd'}) {
+        # Handle re-init case
+        $self->{server}->stop() if ($self->{server});
+        return;
+    }
 
     my $logger = $self->{logger};
+
+    my %server_config = (
+        logger  => $logger,
+        agent   => $self,
+        htmldir => $self->{datadir} . '/html',
+        ip      => $config->{'httpd-ip'},
+        port    => $config->{'httpd-port'},
+        trust   => $config->{'httpd-trust'}
+    );
+
+    # Handle re-init, don't restart httpd interface unless config changed
+    if ($self->{server}) {
+        return unless $self->{server}->needToRestart(%server_config);
+        $self->{server}->stop();
+    }
 
     FusionInventory::Agent::HTTP::Server->require();
     if ($EVAL_ERROR) {
         $logger->error("Failed to load HTTP server: $EVAL_ERROR");
     } else {
-        $self->{server} = FusionInventory::Agent::HTTP::Server->new(
-            logger          => $logger,
-            agent           => $self,
-            htmldir         => $self->{datadir} . '/html',
-            ip              => $config->{'httpd-ip'},
-            port            => $config->{'httpd-port'},
-            trust           => $config->{'httpd-trust'}
-        );
+        $self->{server} = FusionInventory::Agent::HTTP::Server->new(%server_config);
         $self->{server}->init();
     }
 }
 
-sub resetLastConfigLoad {
-    my ($self) = @_;
-
-    $self->ApplyServiceOptimizations();
-
-    $self->SUPER::resetLastConfigLoad();
-}
-
 sub ApplyServiceOptimizations {
     my ($self) = @_;
-
-    return unless ($self->{config}->{daemon} || $self->{config}->{service});
 
     # Preload all IDS databases to avoid reload them all the time during inventory
     if (grep { /^inventory$/i } @{$self->{tasksExecutionPlan}}) {
@@ -214,9 +293,19 @@ sub RunningServiceOptimization {
 sub terminate {
     my ($self) = @_;
 
-    $self->{logger}->info("$PROVIDER Agent exiting");
+    # Still stop HTTP interface
+    $self->{server}->stop() if ($self->{server});
+
+    $self->{logger}->info("$PROVIDER Agent exiting")
+        unless ($self->{current_task});
 
     $self->SUPER::terminate();
+
+    # Kill current forked task
+    if ($self->{current_runtask}) {
+        kill 'TERM', $self->{current_runtask};
+        delete $self->{current_runtask};
+    }
 }
 
 1;

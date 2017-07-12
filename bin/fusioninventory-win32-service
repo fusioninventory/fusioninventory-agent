@@ -11,7 +11,7 @@ use File::Spec;
 use Getopt::Long;
 use Pod::Usage;
 
-use FusionInventory::Agent::Tools::Win32::Service;
+use FusionInventory::Agent::Daemon::Win32;
 
 Getopt::Long::Configure( "no_ignorecase" );
 
@@ -37,7 +37,7 @@ our %setup;
 
 my $ret = 0;
 
-my $service = FusionInventory::Agent::Tools::Win32::Service->new( %setup )
+my $service = FusionInventory::Agent::Daemon::Win32->new( %setup )
     or die "Can't create service object: $!";
 
 if ($options{register}) {
