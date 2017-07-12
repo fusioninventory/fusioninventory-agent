@@ -204,8 +204,13 @@ sub _initModulesList {
         no strict 'refs'; ## no critic (ProhibitNoStrict)
         $self->{modules}->{$module}->{runAfter} = [
             $parent ? $parent : (),
-            ${$module . '::runAfter'} ? @${$module . '::runAfter'} : ()
+            ${$module . '::runAfter'} ? @${$module . '::runAfter'} : (),
+            ${$module . '::runAfterIfEnabled'} ? @${$module . '::runAfterIfEnabled'} : ()
         ];
+        $self->{modules}->{$module}->{runAfterIfEnabled} = {
+            map { $_ => 1 }
+                ${$module . '::runAfterIfEnabled'} ? @${$module . '::runAfterIfEnabled'} : ()
+        };
     }
 
     # second pass: disable fallback modules
@@ -247,6 +252,9 @@ sub _runModule {
     foreach my $other_module (@{$self->{modules}->{$module}->{runAfter}}) {
         die "module $other_module, needed before $module, not found"
             if !$self->{modules}->{$other_module};
+
+        next if (!$self->{modules}->{$other_module}->{enabled} &&
+            $self->{modules}->{$module}->{runAfterIfEnabled}->{$other_module});
 
         die "module $other_module, needed before $module, not enabled"
             if !$self->{modules}->{$other_module}->{enabled};
