@@ -1310,7 +1310,8 @@ sub _getLLDPInfo {
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
         my $sysdescr = _getCanonicalString($lldpRemSysDesc->{$suffix});
-        next unless $sysdescr;
+        my $sysname = _getCanonicalString($lldpRemSysName->{$suffix});
+        next unless ($sysdescr || $sysname);
 
         # We only support macAddress as LldpChassisIdSubtype at the moment
         my $subtype = $ChassisIdSubType->{$suffix} || "n/a";
@@ -1323,9 +1324,10 @@ sub _getLLDPInfo {
         }
 
         my $connection = {
-            SYSMAC   => lc(alt2canonical($mac)),
-            SYSDESCR => $sysdescr
+            SYSMAC => lc(alt2canonical($mac))
         };
+        $connection->{SYSDESCR} = $sysdescr if $sysdescr;
+        $connection->{SYSNAME} = $sysname if $sysname;
 
         # portId is either a port number or a port mac address,
         # duplicating chassiId
@@ -1336,9 +1338,6 @@ sub _getLLDPInfo {
 
         my $ifdescr = _getCanonicalString($lldpRemPortDesc->{$suffix});
         $connection->{IFDESCR} = $ifdescr if $ifdescr;
-
-        my $sysname = _getCanonicalString($lldpRemSysName->{$suffix});
-        $connection->{SYSNAME} = $sysname if $sysname;
 
         my $id           = _getElement($suffix, -2);
         my $interface_id =
