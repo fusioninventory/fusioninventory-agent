@@ -1534,14 +1534,36 @@ sub _getVlans {
         }
     }
 
-    # For other switches, we use another method
-    my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
-    if($vlanId){
-        while (my ($port, $vlan) = each %{$vlanId}) {
-            push @{$results->{$port}}, {
-                NUMBER => $vlan,
-                NAME   => "VLAN " . $vlan
-            };
+    # For other switches, we use another methods
+    # used for Alcatel-Lucent and ExtremNetworks (and perhaps others)
+    my $vlanIdName = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.3.1.2');
+    my $portLink = $snmp->walk('.1.0.8802.1.1.2.1.3.7.1.3');
+    if($vlanIdName && $portLink){
+        while (my ($suffix, $vlanName) = each %{$vlanIdName}) {
+            my ($port, $vlan) = split(/\./, $suffix);
+            if ($portLink->{$port}) {
+                # case generic where $portLink = port number
+                my $portnumber = $portLink->{$port};
+                # case Cisco where $portLink = port name
+                unless ($portLink->{$port} =~ /^[0-9]+$/) {
+                    $portnumber = $port;
+                }
+                push @{$results->{$portnumber}}, {
+                    NUMBER => $vlan,
+                    NAME   => $vlanName
+                };
+            }
+        }
+    } else {
+        # A last method
+        my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
+        if($vlanId){
+            while (my ($port, $vlan) = each %{$vlanId}) {
+                push @{$results->{$port}}, {
+                    NUMBER => $vlan,
+                    NAME   => "VLAN " . $vlan
+                };
+            }
         }
     }
 
