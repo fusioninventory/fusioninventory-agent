@@ -126,6 +126,8 @@ sub doInventory {
         _addSoftware(inventory => $inventory, entry => $hotfix);
     }
 
+    # Reset seen hash so we can see softwares in later same run inventory
+    $seen = {};
 }
 
 sub _loadUserSoftware {
