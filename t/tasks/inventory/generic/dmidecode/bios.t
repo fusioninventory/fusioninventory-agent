@@ -427,6 +427,25 @@ my %tests = (
             CHASSIS_TYPE  => 'Desktop',
             UUID          => '3445DEE7-45D0-1244-95DD-34FAA067C1BE33E',
         }
+    },
+    'lenovo-thinkpad' => {
+        bios => {
+            BMANUFACTURER => 'LENOVO',
+            MSN           => '1ZJJC21G0N6',
+            BDATE         => '12/01/2011',
+            SMODEL        => 'ThinkPad Edge E320',
+            SMANUFACTURER => 'LENOVO',
+            SKUNUMBER     => 'ThinkPad Edge E320',
+            MMANUFACTURER => 'LENOVO',
+            BVERSION      => '8NET32WW (1.16 )',
+            MMODEL        => '1298A8G',
+            SSN           => 'LR9NKZ7',
+            ASSETTAG      => 'No Asset Information'
+        },
+        hardware => {
+            CHASSIS_TYPE  => 'Notebook',
+            UUID          => '725BA801-507B-11CB-95E6-C66052AAC597'
+        }
     }
 );
 

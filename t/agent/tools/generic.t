@@ -7341,6 +7341,542 @@ my %dmidecode_tests = (
                 'Height' => 'Unspecified'
             }
         ]
+    },
+    'lenovo-thinkpad' =>     {
+        '0' => [
+            {
+                'Address' => '0xE0000',
+                'BIOS Revision' => '24.216',
+                'Firmware Revision' => '1.16',
+                'ROM Size' => '4096 kB',
+                'Release Date' => '12/01/2011',
+                'Runtime Size' => '128 kB',
+                'Vendor' => 'LENOVO',
+                'Version' => '8NET32WW (1.16 )'
+            }
+        ],
+        '1' => [
+            {
+                'Manufacturer' => 'LENOVO',
+                'Product Name' => '1298A8G',
+                'SKU Number' => 'ThinkPad Edge E320',
+                'Serial Number' => 'LR9NKZ7',
+                'UUID' => '725BA801-507B-11CB-95E6-C66052AAC597',
+                'Version' => 'ThinkPad Edge E320',
+                'Wake-up Type' => 'Power Switch'
+            }
+        ],
+        '10' => [
+            {
+                'Description' => 'Intel(R) Extreme Graphics 3 Controller',
+                'Status' => 'Enabled',
+                'Type' => 'Video'
+            },
+            {
+                'Description' => 'Intel(R) Azalia Audio Device',
+                'Status' => 'Enabled',
+                'Type' => 'Sound'
+            }
+        ],
+        '11' => [
+            {
+                'String 1' => 'This is the Intel HuronRiver CRB Platform'
+            }
+        ],
+        '13' => [
+            {
+                'Currently Installed Language' => 'en-US',
+                'Installable Languages' => '4',
+                'Language Description Format' => 'Abbreviated'
+            }
+        ],
+        '15' => [
+            {
+                'Access Address' => '0x00F0',
+                'Access Method' => 'General-purpose non-volatile data functions',
+                'Area Length' => '18 bytes',
+                'Change Token' => '0x00000000',
+                'Data Format 1' => 'POST results bitmap',
+                'Data Format 2' => 'Multiple-event',
+                'Data Format 3' => 'Multiple-event',
+                'Data Start Offset' => '0x0010',
+                'Descriptor 1' => 'POST error',
+                'Descriptor 2' => 'Single-bit ECC memory error',
+                'Descriptor 3' => 'Multi-bit ECC memory error',
+                'Header Format' => 'Type 1',
+                'Header Length' => '16 bytes',
+                'Header Start Offset' => '0x0000',
+                'Status' => 'Valid, Not Full',
+                'Supported Log Type Descriptors' => '3'
+            }
+        ],
+        '16' => [
+            {
+                'Error Correction Type' => 'None',
+                'Error Information Handle' => 'Not Provided',
+                'Location' => 'System Board Or Motherboard',
+                'Maximum Capacity' => '16 GB',
+                'Number Of Devices' => '4',
+                'Use' => 'System Memory'
+            }
+        ],
+        '17' => [
+            {
+                'Array Handle' => '0x0005',
+                'Asset Tag' => '9876543210',
+                'Bank Locator' => 'BANK 0',
+                'Data Width' => '64 bits',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'SODIMM',
+                'Locator' => 'ChannelA-DIMM0',
+                'Manufacturer' => 'Samsung',
+                'Part Number' => 'M471B5273CH0-CH9',
+                'Serial Number' => 'B52A5D9F',
+                'Set' => 'None',
+                'Size' => '4096 MB',
+                'Speed' => '1333 MHz',
+                'Total Width' => '64 bits',
+                'Type' => 'DDR3',
+                'Type Detail' => 'Synchronous'
+            },
+            {
+                'Array Handle' => '0x0005',
+                'Asset Tag' => '9876543210',
+                'Bank Locator' => 'BANK 1',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'DIMM',
+                'Locator' => 'ChannelA-DIMM1',
+                'Set' => 'None',
+                'Size' => 'No Module Installed',
+                'Type Detail' => 'None'
+            },
+            {
+                'Array Handle' => '0x0005',
+                'Asset Tag' => '9876543210',
+                'Bank Locator' => 'BANK 2',
+                'Data Width' => '64 bits',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'SODIMM',
+                'Locator' => 'ChannelB-DIMM0',
+                'Manufacturer' => 'Samsung',
+                'Part Number' => 'M471B5273DH0-CH9',
+                'Serial Number' => '947C2F3B',
+                'Set' => 'None',
+                'Size' => '4096 MB',
+                'Speed' => '1333 MHz',
+                'Total Width' => '64 bits',
+                'Type' => 'DDR3',
+                'Type Detail' => 'Synchronous'
+            },
+            {
+                'Array Handle' => '0x0005',
+                'Asset Tag' => '9876543210',
+                'Bank Locator' => 'BANK 3',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'DIMM',
+                'Locator' => 'ChannelB-DIMM1',
+                'Set' => 'None',
+                'Size' => 'No Module Installed',
+                'Type Detail' => 'None'
+            }
+        ],
+        '18' => [
+            {
+                'Type' => 'OK'
+            }
+        ],
+        '19' => [
+            {
+                'Ending Address' => '0x001FFFFFFFF',
+                'Partition Width' => '4',
+                'Physical Array Handle' => '0x0005',
+                'Range Size' => '8 GB',
+                'Starting Address' => '0x00000000000'
+            }
+        ],
+        '2' => [
+            {
+                'Asset Tag' => 'Not Available',
+                'Chassis Handle' => '0x0000',
+                'Contained Object Handles' => '0',
+                'Location In Chassis' => 'Not Available',
+                'Manufacturer' => 'LENOVO',
+                'Product Name' => '1298A8G',
+                'Serial Number' => '1ZJJC21G0N6',
+                'Version' => 'Not Available'
+            }
+        ],
+        '20' => [
+            {
+                'Ending Address' => '0x000FFFFFFFF',
+                'Interleave Position' => '1',
+                'Interleaved Data Depth' => '2',
+                'Memory Array Mapped Address Handle' => '0x000C',
+                'Physical Device Handle' => '0x0006',
+                'Range Size' => '4 GB',
+                'Starting Address' => '0x00000000000'
+            },
+            {
+                'Ending Address' => '0x001FFFFFFFF',
+                'Interleave Position' => '2',
+                'Interleaved Data Depth' => '2',
+                'Memory Array Mapped Address Handle' => '0x000C',
+                'Physical Device Handle' => '0x0009',
+                'Range Size' => '4 GB',
+                'Starting Address' => '0x00100000000'
+            }
+        ],
+        '21' => [
+            {
+                'Buttons' => '2',
+                'Interface' => 'PS/2',
+                'Type' => 'Mouse'
+            }
+        ],
+        '22' => [
+            {
+                'Location' => 'Rear',
+                'Manufacture Date' => '2008',
+                'Manufacturer' => 'Intel Corp.',
+                'Name' => 'Smart Battery',
+                'OEM-specific Information' => '0x00000000',
+                'SBDS Chemistry' => 'Lithium-Ion',
+                'SBDS Version' => 'V1.0',
+                'Serial Number' => '1.0'
+            }
+        ],
+        '23' => [
+            {
+                'Boot Option' => 'Do Not Reboot',
+                'Boot Option On Limit' => 'Do Not Reboot',
+                'Status' => 'Disabled',
+                'Watchdog Timer' => 'Present'
+            }
+        ],
+        '27' => [
+            {
+                'Nominal Speed' => 'Unknown Or Non-rotating',
+                'OEM-specific Information' => '0x00000090'
+            }
+        ],
+        '3' => [
+            {
+                'Asset Tag' => 'No Asset Information',
+                'Contained Elements' => '0',
+                'Height' => 'Unspecified',
+                'Manufacturer' => 'LENOVO',
+                'Number Of Power Cords' => 'Unspecified',
+                'OEM Information' => '0x00000000',
+                'Serial Number' => 'LR9NKZ7',
+                'Type' => 'Notebook',
+                'Version' => 'Not Available'
+            }
+        ],
+        '32' => [
+            {
+                'Status' => 'No errors detected'
+            }
+        ],
+        '39' => [
+            {
+                'Asset Tag' => 'TBD by ODM',
+                'Hot Replaceable' => 'Yes',
+                'Input Voltage Range Switching' => 'Other',
+                'Location' => 'TBD by ODM',
+                'Manufacturer' => 'TBD by ODM',
+                'Model Part Number' => 'TBD by ODM',
+                'Name' => 'TBD by ODM',
+                'Plugged' => 'Yes',
+                'Revision' => '1.0',
+                'Serial Number' => 'TBD by ODM',
+                'Status' => 'Present, OK',
+                'Type' => 'Battery'
+            }
+        ],
+        '4' => [
+            {
+                'Asset Tag' => 'TBD By OEM',
+                'Core Count' => '2',
+                'Core Enabled' => '2',
+                'Current Speed' => '2500 MHz',
+                'External Clock' => '100 MHz',
+                'Family' => 'Core i5',
+                'ID' => 'A7 06 02 00 FF FB EB BF',
+                'L1 Cache Handle' => '0x0002',
+                'L2 Cache Handle' => '0x0003',
+                'L3 Cache Handle' => '0x0004',
+                'Manufacturer' => 'Intel(R) Corporation',
+                'Max Speed' => '2500 MHz',
+                'Part Number' => 'TBD By OEM',
+                'Serial Number' => 'Not Supported by CPU',
+                'Signature' => 'Type 0, Family 6, Model 42, Stepping 7',
+                'Socket Designation' => 'CPU',
+                'Status' => 'Populated, Enabled',
+                'Thread Count' => '4',
+                'Type' => 'Central Processor',
+                'Upgrade' => 'ZIF Socket',
+                'Version' => 'Intel(R) Core(TM) i5-2450M CPU @ 2.50GHz',
+                'Voltage' => '1.2 V'
+            }
+        ],
+        '7' => [
+            {
+                'Associativity' => '8-way Set-associative',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed SRAM Type' => 'Synchronous',
+                'Installed Size' => '64 kB',
+                'Location' => 'Internal',
+                'Maximum Size' => '64 kB',
+                'Operational Mode' => 'Write Through',
+                'Socket Designation' => 'L1-Cache',
+                'System Type' => 'Data'
+            },
+            {
+                'Associativity' => '8-way Set-associative',
+                'Configuration' => 'Enabled, Not Socketed, Level 2',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed SRAM Type' => 'Synchronous',
+                'Installed Size' => '256 kB',
+                'Location' => 'Internal',
+                'Maximum Size' => '256 kB',
+                'Operational Mode' => 'Write Through',
+                'Socket Designation' => 'L2-Cache',
+                'System Type' => 'Data'
+            },
+            {
+                'Associativity' => '12-way Set-associative',
+                'Configuration' => 'Enabled, Not Socketed, Level 3',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed SRAM Type' => 'Synchronous',
+                'Installed Size' => '3072 kB',
+                'Location' => 'Internal',
+                'Maximum Size' => '3072 kB',
+                'Operational Mode' => 'Write Back',
+                'Socket Designation' => 'L3-Cache',
+                'System Type' => 'Unified'
+            }
+        ],
+        '8' => [
+            {
+                'External Connector Type' => 'PS/2',
+                'External Reference Designator' => 'Keyboard',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'Keyboard Port'
+            },
+            {
+                'External Connector Type' => 'PS/2',
+                'External Reference Designator' => 'Mouse',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'Mouse Port'
+            },
+            {
+                'External Connector Type' => 'None',
+                'External Reference Designator' => 'COM 1',
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'Serial Port 16550A Compatible'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 1#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 2#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 3#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 4#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 5#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 6#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 7#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 8#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 9#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 10#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 11#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 12#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 13#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 14#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'RJ-45',
+                'External Reference Designator' => 'Ethernet',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'Network Port'
+            },
+            {
+                'External Connector Type' => 'None',
+                'External Reference Designator' => 'None',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle',
+                'Internal Reference Designator' => 'SATA Port 1 J8J1',
+                'Port Type' => 'SATA'
+            },
+            {
+                'External Connector Type' => 'None',
+                'External Reference Designator' => 'None',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle',
+                'Internal Reference Designator' => 'SATA Port 2 J7G1',
+                'Port Type' => 'SATA'
+            },
+            {
+                'External Connector Type' => 'None',
+                'External Reference Designator' => 'None',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle',
+                'Internal Reference Designator' => 'SATA Port 3(ODD) J9E7',
+                'Port Type' => 'SATA'
+            },
+            {
+                'External Connector Type' => 'SAS/SATA Plug Receptacle',
+                'External Reference Designator' => 'eSATA Port 1 J6J1',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'SATA'
+            },
+            {
+                'External Connector Type' => 'SAS/SATA Plug Receptacle',
+                'External Reference Designator' => 'eSATA Port 2 J7J1',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'SATA'
+            },
+            {
+                'External Connector Type' => 'SAS/SATA Plug Receptacle',
+                'External Reference Designator' => 'SATA Port 6(Docking)',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'SATA'
+            }
+        ],
+        '9' => [
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'In Use',
+                'Designation' => 'PEG Gen1/Gen2 X16',
+                'ID' => '0',
+                'Length' => 'Long',
+                'Type' => 'x16 PCI Express x16'
+            },
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'Available',
+                'Designation' => 'PCI-Express 1 X1',
+                'ID' => '1',
+                'Length' => 'Short',
+                'Type' => 'x1 PCI Express'
+            },
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'In Use',
+                'Designation' => 'PCI-Express 2 X1',
+                'ID' => '2',
+                'Length' => 'Short',
+                'Type' => 'x1 PCI Express'
+            },
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'In Use',
+                'Designation' => 'PCI-Express 3 X1',
+                'ID' => '3',
+                'Length' => 'Short',
+                'Type' => 'x1 PCI Express'
+            },
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'Available',
+                'Designation' => 'PCI-Express 4 X1',
+                'ID' => '4',
+                'Length' => 'Short',
+                'Type' => 'x1 PCI Express'
+            },
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'Available',
+                'Designation' => 'PCI-Express 5 X1',
+                'ID' => '5',
+                'Length' => 'Short',
+                'Type' => 'x1 PCI Express'
+            }
+        ]
     }
 );
 
@@ -7817,6 +8353,22 @@ my %cpu_tests = (
             MANUFACTURER   => 'AMD',
             FAMILYNAME     => 'Athlon II',
             CORE           => '2'
+        }
+    ],
+    'lenovo-thinkpad' => [
+        {
+            CORE            => '2',
+            EXTERNAL_CLOCK  => '100',
+            FAMILYNAME      => 'Core i5',
+            FAMILYNUMBER    => '6',
+            ID              => 'A7 06 02 00 FF FB EB BF',
+            MANUFACTURER    => 'Intel(R) Corporation',
+            MODEL           => '42',
+            NAME            => 'Core i5',
+            SERIAL          => 'Not Supported by CPU',
+            SPEED           => '2500',
+            STEPPING        => '7',
+            THREAD          => '4'
         }
     ]
 );
