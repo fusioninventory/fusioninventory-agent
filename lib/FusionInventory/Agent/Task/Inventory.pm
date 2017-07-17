@@ -253,11 +253,15 @@ sub _runModule {
         die "module $other_module, needed before $module, not found"
             if !$self->{modules}->{$other_module};
 
-        next if (!$self->{modules}->{$other_module}->{enabled} &&
-            $self->{modules}->{$module}->{runAfterIfEnabled}->{$other_module});
-
-        die "module $other_module, needed before $module, not enabled"
-            if !$self->{modules}->{$other_module}->{enabled};
+        if (!$self->{modules}->{$other_module}->{enabled}) {
+            if ($self->{modules}->{$module}->{runAfterIfEnabled}->{$other_module}) {
+                # soft dependency: run current module without required one
+                next;
+            } else {
+                # hard dependency: abort current module execution
+                die "module $other_module, needed before $module, not enabled";
+            }
+        }
 
         die "circular dependency between $module and $other_module"
             if $self->{modules}->{$other_module}->{used};
