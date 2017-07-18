@@ -5,6 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Task::Deploy::UserCheck;
 use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 
 sub new {
@@ -19,6 +20,7 @@ sub new {
         uuid            => $params{data}->{uuid},
         requires        => $params{data}->{requires},
         checks          => $params{data}->{checks},
+        userchecks      => $params{data}->{userinteractions},
         actions         => $params{data}->{actions},
         associatedFiles => $params{associatedFiles}
     };
@@ -145,6 +147,76 @@ sub skip_on_check_failure {
     }
 
     return 0;
+}
+
+sub next_on_usercheck {
+    my ($self, %params) = @_;
+
+    my $logger = $self->{logger};
+    my $checks = $params{userchecks} || $self->{userchecks};
+    my $type   = $params{type} || 'after';
+
+    return 0 unless $checks;
+    unless (ref($checks) eq 'ARRAY') {
+        $logger->debug("usercheck $type: unexpected usercheck request") if $logger;
+        return 0;
+    }
+
+    # Server is meant to only request one usercheck of supported type: before|after
+    my @checks = grep { $_->{type} && $_->{type} eq $type } @{$checks} ;
+    unless (@checks) {
+        $logger->debug2("usercheck $type: no user interaction requested") if $logger;
+        return 0;
+    }
+
+    while ( @checks ) {
+        my $check = FusionInventory::Agent::Task::Deploy::UserCheck->new(
+            check  => shift @checks,
+            logger => $logger
+        );
+
+        next unless $check;
+
+        # Warning: Agent may wait here for user response
+        $check->tell_users();
+
+        # Report collected user events to server
+        foreach my $event ($check->getEvents()) {
+            $self->setUserEvent($event);
+        }
+
+        return 1 if ($check->stopped());
+    }
+
+    return 0;
+}
+
+sub setUserEvent {
+    my ($self, $userevent) = @_;
+
+    return unless $self->{_remoteUrl};
+
+    # Base userevent hash we wan't to send back to server as job status
+    my $action = {
+        action      => "setUserEvent",
+        machineid   => $self->{_machineid},
+        part        => 'job',
+        uuid        => $self->{uuid},
+    };
+
+    # Map interesting user event parameters
+    map { $action->{$_} = $userevent->{$_} }
+        grep { exists($userevent->{$_}) && $userevent->{$_} }
+            qw( type behavior event user );
+
+    # Include currentStep if defined
+    $action->{currentStep} = $self->{_currentStep} if $self->{_currentStep};
+
+    # Send back the job status
+    $self->{_client}->send(
+        url  => $self->{_remoteUrl},
+        args => $action
+    );
 }
 
 1;
