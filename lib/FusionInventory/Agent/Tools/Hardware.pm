@@ -930,8 +930,8 @@ sub _getCanonicalString {
     $value = hex2char($value);
     return unless $value;
 
-    # truncate after first invalid character
-    $value =~ s/[[:^print:]].*$//;
+    # truncate after first invalid character but keep newline as valid
+    $value =~ s/[^[:print:]\n].*$//;
 
     # unquote string
     $value =~ s/^\\?["']//;
