@@ -71,7 +71,7 @@ if ($options->{community}) {
         push @credentials,
             { ID => $credentials_id++, VERSION => 1, COMMUNITY => $community };
     }
-} elsif ($options->{credential}) {
+} elsif ($options->{credentials}) {
     foreach my $specification (@{$options->{credentials}}) {
         my $credential = { ID => $credentials_id++ };
         foreach my $parameter (split(',', $specification)) {
