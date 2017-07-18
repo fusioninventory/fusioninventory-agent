@@ -47,14 +47,26 @@ sub doInventory {
 
     foreach my $user (_getLoggedUsers(logger => $logger)) {
         $inventory->addEntry(
+            noDuplicated => 1,
             section => 'USERS',
             entry   => $user
         );
     }
 
-    $inventory->setHardware({
-        LASTLOGGEDUSER => _getLastUser(logger => $logger)
-    });
+    my $lastLoggedUser = _getLastUser(logger => $logger);
+    if ($lastLoggedUser) {
+        # Include last logged user as usual computer user
+        $inventory->addEntry(
+            noDuplicated => 1,
+            section => 'USERS',
+            entry   => $lastLoggedUser
+        );
+
+        # Obsolete in specs
+        $inventory->setHardware({
+            LASTLOGGEDUSER => $lastLoggedUser->{LOGIN}
+        });
+    }
 }
 
 sub _getLocalUsers {
@@ -145,12 +157,18 @@ sub _getLastUser {
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
     my $user =
+        encodeFromRegistry($machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnSAMUser"}) ||
         encodeFromRegistry($machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser"}) ||
         encodeFromRegistry($machKey->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName"});
     return unless $user;
 
+    my ($domain) = $user =~ /^(.*)\\/;
     $user =~ s,.*\\,,;
-    return $user;
+
+    return {
+            LOGIN   => $user,
+            DOMAIN  => $domain
+    };
 }
 
 1;
