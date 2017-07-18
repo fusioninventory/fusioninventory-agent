@@ -27,6 +27,10 @@ my @hex2canonical_tests = (
 
 my @alt2canonical_tests = (
     [ 'AABBCCDDEEFF', 'AA:BB:CC:DD:EE:FF' ],
+    [ '0xAABBCCDDEEFF', 'AA:BB:CC:DD:EE:FF' ],
+    [ 'AA:BB:CC:DD:EE:FF', 'AA:BB:CC:DD:EE:FF' ],
+    [ 'AA BB CC DD EE FF', 'AA:BB:CC:DD:EE:FF' ],
+    [ 'AA-BB-CC-DD-EE-FF', 'AA:BB:CC:DD:EE:FF' ],
 );
 
 my @mask_tests = (
