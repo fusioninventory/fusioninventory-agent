@@ -99,6 +99,11 @@ my @sysdescr_rules = (
     },
 );
 
+# rules on model name to reset manufacturer to real vendor
+my %sysmodel_first_word = (
+    'dell'           => { manufacturer => 'Dell', },
+);
+
 # common base variables
 my %base_variables = (
     CPU          => {
@@ -336,9 +341,13 @@ sub getDeviceInfo {
         $device->{MANUFACTURER} = $manufacturer if $manufacturer;
     }
 
-    # fallback vendor, using manufacturer
-    if (!exists $device->{VENDOR} && exists $device->{MANUFACTURER}) {
-        $device->{VENDOR} = $device->{MANUFACTURER};
+    # reset manufacturer by rule as real vendor based on first model word
+    if (exists $device->{MODEL}) {
+        my ($first_word) = $device->{MODEL} =~ /(\S+)/;
+        my $result = $sysmodel_first_word{lc($first_word)};
+        if ($result && $result->{manufacturer}) {
+            $device->{MANUFACTURER} = $result->{manufacturer};
+        }
     }
 
     # remaining informations
