@@ -262,7 +262,6 @@ cmp_deeply(
         DESCRIPTION  => 'foo',
         TYPE         => 'NETWORKING',
         MANUFACTURER => 'Nortel',
-        VENDOR       => 'Nortel'
     },
     'getDeviceInfo() with sysobjectid'
 );
@@ -278,7 +277,6 @@ cmp_deeply(
     {
         TYPE         => 'NETWORKING',
         MANUFACTURER => 'Qlogic',
-        VENDOR       => 'Qlogic',
         MODEL        => 'SANbox 5602 FC Switch',
         EXTMOD       => 'Qlogic'
     },
