@@ -139,7 +139,7 @@ sub alt2canonical {
     my ($address) = @_;
     return unless $address;
 
-    my @bytes = $address =~ /^(?:0x)?(..)(..)(..)(..)(..)(..)$/;
+    my @bytes = $address =~ /^(?:0x)?(..)[ :-]?(..)[ :-]?(..)[ :-]?(..)[ :-]?(..)[ :-]?(..)$/;
     return join(':', @bytes);
 }
 
