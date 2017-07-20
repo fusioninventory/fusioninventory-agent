@@ -1554,7 +1554,7 @@ sub _getVlans {
     my $vlanIdName = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.3.1.2');
     my $portLink = $snmp->walk('.1.0.8802.1.1.2.1.3.7.1.3');
     if($vlanIdName && $portLink){
-        while (my ($suffix, $vlanName) = each %{$vlanIdName}) {
+        foreach my $suffix (sort keys %{$vlanIdName}) {
             my ($port, $vlan) = split(/\./, $suffix);
             if ($portLink->{$port}) {
                 # case generic where $portLink = port number
@@ -1565,7 +1565,7 @@ sub _getVlans {
                 }
                 push @{$results->{$portnumber}}, {
                     NUMBER => $vlan,
-                    NAME   => $vlanName
+                    NAME   => $vlanIdName->{$suffix}
                 };
             }
         }
@@ -1573,10 +1573,10 @@ sub _getVlans {
         # A last method
         my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
         if($vlanId){
-            while (my ($port, $vlan) = each %{$vlanId}) {
+            foreach my $port (sort keys %{$vlanId}) {
                 push @{$results->{$port}}, {
-                    NUMBER => $vlan,
-                    NAME   => "VLAN " . $vlan
+                    NUMBER => $vlanId->{$port},
+                    NAME   => "VLAN " . $vlanId->{$port}
                 };
             }
         }
