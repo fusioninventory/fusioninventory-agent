@@ -939,14 +939,20 @@ sub _getCanonicalString {
     $value = hex2char($value);
     return unless $value;
 
-    # truncate after first invalid character but keep newline as valid
-    $value =~ s/[^[:print:]\n].*$//;
-
     # unquote string
     $value =~ s/^\\?["']//;
     $value =~ s/\\?["']$//;
 
     return unless $value;
+
+    # Be sure to work on utf-8 string
+    $value = getUtf8String($value);
+
+    # reduce linefeeds which can be found in descriptions or comments
+    $value =~ s/\p{Control}+\n/\n/g;
+
+    # truncate after first invalid character but keep newline as valid
+    $value =~ s/[^\p{Print}\n].*$//;
 
     return $value;
 }
