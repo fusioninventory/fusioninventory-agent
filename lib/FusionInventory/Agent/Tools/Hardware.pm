@@ -291,7 +291,7 @@ sub getDeviceInfo {
     # if one of them is missing
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
     if ($sysdescr) {
-        $device->{DESCRIPTION} = $sysdescr;
+        $device->{DESCRIPTION} = _getCanonicalString($sysdescr);
 
         if (!exists $device->{MANUFACTURER} || !exists $device->{TYPE}) {
             # first word
