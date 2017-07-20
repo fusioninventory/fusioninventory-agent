@@ -31,6 +31,7 @@ our @EXPORT = qw(
     getCanonicalInterfaceSpeed
     getCanonicalSize
     getSanitizedString
+    getUtf8String
     trimWhitespace
     getFirstLine
     getFirstMatch
@@ -230,13 +231,10 @@ sub compareVersion {
         );
 }
 
-sub getSanitizedString {
+sub getUtf8String {
     my ($string) = @_;
 
     return unless defined $string;
-
-    # clean control caracters
-    $string =~ s/[[:cntrl:]]//g;
 
     # encode to utf-8 if needed
     if (!Encode::is_utf8($string) && $string !~ m/\A(
@@ -253,6 +251,17 @@ sub getSanitizedString {
     };
 
     return $string;
+}
+
+sub getSanitizedString {
+    my ($string) = @_;
+
+    return unless defined $string;
+
+    # clean control caracters
+    $string =~ s/[[:cntrl:]]//g;
+
+    return getUtf8String($string);
 }
 
 sub trimWhitespace {
@@ -598,6 +607,10 @@ Returns a normalized size value (in Mb) for given one.
 
 Returns the input stripped from any control character, properly encoded in
 UTF-8.
+
+=head2 getUtf8String($string)
+
+Returns the input properly encoded in UTF-8.
 
 =head2 trimWhitespace($string)
 
