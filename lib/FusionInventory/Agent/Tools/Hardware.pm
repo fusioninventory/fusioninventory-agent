@@ -291,7 +291,7 @@ sub getDeviceInfo {
     # if one of them is missing
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
     if ($sysdescr) {
-        $device->{DESCRIPTION} = $sysdescr;
+        $device->{DESCRIPTION} = _getCanonicalString($sysdescr);
 
         if (!exists $device->{MANUFACTURER} || !exists $device->{TYPE}) {
             # first word
@@ -939,14 +939,20 @@ sub _getCanonicalString {
     $value = hex2char($value);
     return unless $value;
 
-    # truncate after first invalid character but keep newline as valid
-    $value =~ s/[^[:print:]\n].*$//;
-
     # unquote string
     $value =~ s/^\\?["']//;
     $value =~ s/\\?["']$//;
 
     return unless $value;
+
+    # Be sure to work on utf-8 string
+    $value = getUtf8String($value);
+
+    # reduce linefeeds which can be found in descriptions or comments
+    $value =~ s/\p{Control}+\n/\n/g;
+
+    # truncate after first invalid character but keep newline as valid
+    $value =~ s/[^\p{Print}\n].*$//;
 
     return $value;
 }
@@ -1548,7 +1554,7 @@ sub _getVlans {
     my $vlanIdName = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.3.1.2');
     my $portLink = $snmp->walk('.1.0.8802.1.1.2.1.3.7.1.3');
     if($vlanIdName && $portLink){
-        while (my ($suffix, $vlanName) = each %{$vlanIdName}) {
+        foreach my $suffix (sort keys %{$vlanIdName}) {
             my ($port, $vlan) = split(/\./, $suffix);
             if ($portLink->{$port}) {
                 # case generic where $portLink = port number
@@ -1559,7 +1565,7 @@ sub _getVlans {
                 }
                 push @{$results->{$portnumber}}, {
                     NUMBER => $vlan,
-                    NAME   => $vlanName
+                    NAME   => $vlanIdName->{$suffix}
                 };
             }
         }
@@ -1567,10 +1573,10 @@ sub _getVlans {
         # A last method
         my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
         if($vlanId){
-            while (my ($port, $vlan) = each %{$vlanId}) {
+            foreach my $port (sort keys %{$vlanId}) {
                 push @{$results->{$port}}, {
-                    NUMBER => $vlan,
-                    NAME   => "VLAN " . $vlan
+                    NUMBER => $vlanId->{$port},
+                    NAME   => "VLAN " . $vlanId->{$port}
                 };
             }
         }
