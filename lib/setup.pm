@@ -1,4 +1,5 @@
-package setup;
+package
+        setup;
 
 use strict;
 use warnings;
