@@ -133,18 +133,16 @@ sub _mergeBatteries {
         if ($battInInventory) {
             # Getting the battery's index in inventory BATTERY section
             $battindex = $inventory->retrieveElementIndexInSection(
-            'BATTERIES',
-            {
-                NAME => $battInInventory->{NAME},
-                SERIAL => $battInInventory->{SERIAL}
-            }
-            ) if not defined $battindex;
-            for my $field (keys %$batt) {
-                # complete inventory if field is empty
-                unless (defined $battInInventory->{$field}) {
-                    $battInInventory->{$field} = $batt->{$field};
+                'BATTERIES',
+                {
+                    NAME => $battInInventory->{NAME},
+                    SERIAL => $battInInventory->{SERIAL}
                 }
-            }
+            ) if not defined $battindex;
+            # Selecting keys that are not already set in element from inventory
+            my @keysWithValueToInsert = grep { !$battInInventory->{$_} } keys %$batt;
+            # Merging values that are not already set in element from inventory
+            @$battInInventory{ @keysWithValueToInsert } = @$batt{ @keysWithValueToInsert };
             $newBatt = $battInInventory;
         } else {
             $newBatt = $batt;
