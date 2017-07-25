@@ -73,8 +73,7 @@ my %testUpowerMerged = (
                 VOLTAGE      => '14,8 V',
                 CHEMISTRY    => 'lithium-ion',
                 SERIAL       => 0,
-                MANUFACTURER => 'Toshiba',
-                DATE         => undef
+                MANUFACTURER => 'Toshiba'
             }
         ]
     },
@@ -143,12 +142,10 @@ foreach my  $test (keys %testUpowerMerged) {
     my $section = $inventory->getSection($batterySectionName);
     ok (defined $section && scalar @$section == 1);
 
-    my @batteriesFromDmiDecode = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_getBatteries(
+    my $batteriesFromDmiDecode = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_getBatteries(
         file => $filesPath . $testUpowerMerged{$test}->{files}->{dmidecode}
     );
-    $inventory->mergeContent({
-        'BATTERIES' => @batteriesFromDmiDecode
-    });
+    FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery::_mergeBatteries($inventory, $batteriesFromDmiDecode);
 
     $section = $inventory->getSection($batterySectionName);
     ok (

@@ -175,12 +175,8 @@ sub mergeContent {
     foreach my $section (keys %$content) {
         if (ref $content->{$section} eq 'ARRAY') {
             # a list of entry
-            if ($section eq 'BATTERIES') {
-                $self->_mergeBatteries($content->{$section});
-            } else {
-                foreach my $entry (@{$content->{$section}}) {
-                    $self->addEntry(section => $section, entry => $entry);
-                }
+            foreach my $entry (@{$content->{$section}}) {
+                $self->addEntry(section => $section, entry => $entry);
             }
         } else {
             # single entry
@@ -254,7 +250,28 @@ sub addEntry {
         $entry->{SERIALNUMBER} = $entry->{SERIAL} if !$entry->{SERIALNUMBER}
     }
 
-    push @{$self->{content}{$section}}, $entry;
+    if ($params{identity} && ref $params{identity} eq 'ARRAY') {
+        # check first if a similar entry already exists
+        my @retrievedEntries;
+        while (scalar @retrievedEntries != 1 && scalar $params{identity} > 0) {
+            my $func = shift @{$params{identity}};
+            @retrievedEntries = grep { &$func($entry, $_); } @{$self->{content}{$section}};
+        }
+        if (scalar @retrievedEntries == 1) {
+            # selecting keys that are not already set in entry in inventory
+            my @keysWithValueToInsert = grep { !$retrievedEntries[0]->{$_} } keys %$entry;
+            # merging
+            @{$retrievedEntries[0]}{ @keysWithValueToInsert } = @$entry{ @keysWithValueToInsert };
+            $DB::single = 1;
+            my $s = 3;
+        } else {
+            # add entry
+            push @{$self->{content}{$section}}, $entry;
+        }
+    } else {
+        # add entry unconditionnaly
+        push @{$self->{content}{$section}}, $entry;
+    }
 }
 
 sub computeLegacyValues {

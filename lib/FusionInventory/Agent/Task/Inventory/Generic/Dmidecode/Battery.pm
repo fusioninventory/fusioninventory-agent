@@ -22,9 +22,51 @@ sub doInventory {
 
     return unless $batteries;
 
-    $inventory->mergeContent({
-        BATTERIES => $batteries
-    });
+    _mergeBatteries($inventory, $batteries);
+}
+
+sub _mergeBatteries {
+    my ($inventory, $batteries) = @_;
+
+    # testing case: one battery in inventory and also one retrieved by dmidecode
+    my $section = $inventory->getSection('BATTERIES');
+    if (ref $section eq 'ARRAY'
+        && scalar @$section == 1
+        && scalar @$batteries == 1) {
+        my $func = sub {return 1;};
+        $inventory->addEntry(
+            section => 'BATTERIES',
+            entry => $batteries->[0],
+            identity => [$func]
+        );
+    } else {
+        for my $batt (@$batteries) {
+            my $f1 = sub {
+                my ($battFromDmiDecode, $battInInventory) = @_;
+                return $battFromDmiDecode->{NAME}
+                    && $battInInventory->{NAME}
+                    && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
+                    && defined $battFromDmiDecode->{SERIAL}
+                    && defined $battInInventory->{SERIAL}
+                    && ($battFromDmiDecode->{SERIAL} eq $battInInventory->{SERIAL}
+                    # dmidecode sometimes returns hexadecimal values for Serial number
+                    || hex2dec($battFromDmiDecode->{SERIAL}) eq $battInInventory->{SERIAL});
+            };
+            my $f2 = sub {
+                my ($battFromDmiDecode, $battInInventory) = @_;
+                return $battFromDmiDecode->{NAME}
+                    && $battInInventory->{NAME}
+                    && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
+                    && !defined $battFromDmiDecode->{SERIAL}
+                    && !defined $battInInventory->{SERIAL};
+            };
+            $inventory->addEntry(
+                section  => 'BATTERIES',
+                entry    => $batt,
+                identity => [ $f1, $f2 ]
+            );
+        }
+    }
 }
 
 sub _getBatteries {
@@ -32,7 +74,7 @@ sub _getBatteries {
 
     return unless $infos->{22};
 
-    my $batteries;
+    my $batteries = [];
     for my $info (@{$infos->{22}}) {
         my $data = _extractBatteryData($info);
         push @$batteries, $data if $data;
@@ -68,6 +110,8 @@ sub _extractBatteryData {
         $info->{'Design Voltage'} =~ /(\d+) \s mV$/x) {
         $battery->{VOLTAGE} = $1;
     }
+
+    $battery->{SERIAL} = 0 if $battery->{SERIAL} =~ /^0+$/;
 
     return $battery;
 }

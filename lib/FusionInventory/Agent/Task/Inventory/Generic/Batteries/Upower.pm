@@ -94,6 +94,8 @@ sub _getBatteryDataFromUpower {
         MANUFACTURER => getCanonicalManufacturer($data->{vendor}) || getCanonicalManufacturer($data->{manufacturer}) || undef,
     };
 
+    $battData->{SERIAL} = 0 if $battData->{SERIAL} =~ /^0+$/;
+
     return $battData;
 }
 
