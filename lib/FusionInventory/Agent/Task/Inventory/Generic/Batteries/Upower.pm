@@ -38,8 +38,7 @@ sub _getBatteriesFromUpower {
 
     my @batteriesName = _getBatteriesNameFromUpower(
         %params,
-        command => $command . ' --
-    }enumerate'
+        command => $command . ' --enumerate'
     );
 
     return unless @batteriesName;
