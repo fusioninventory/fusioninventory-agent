@@ -18,33 +18,42 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $battery = _getBattery(logger => $logger);
+    my $batteries = _getBatteries(logger => $logger);
 
-    return unless $battery;
+    return unless $batteries;
 
-    $inventory->addEntry(
-        section => 'BATTERIES',
-        entry   => $battery
-    );
+    $inventory->mergeContent({
+        BATTERIES => $batteries
+    });
 }
 
-sub _getBattery {
+sub _getBatteries {
     my $infos = getDmidecodeInfos(@_);
 
     return unless $infos->{22};
 
-    my $info    = $infos->{22}->[0];
+    my $batteries;
+    for my $info (@{$infos->{22}}) {
+        my $data = _extractBatteryData($info);
+        push @$batteries, $data if $data;
+    }
+
+    return $batteries ? $batteries : undef;
+}
+
+sub _extractBatteryData {
+    my ($info) = @_;
 
     my $battery = {
         NAME         => $info->{'Name'},
-        MANUFACTURER => $info->{'Manufacturer'},
+        MANUFACTURER => getCanonicalManufacturer($info->{'Manufacturer'}),
         SERIAL       => $info->{'Serial Number'} ||
-                        $info->{'SBDS Serial Number'},
+            $info->{'SBDS Serial Number'},
         CHEMISTRY    => $info->{'Chemistry'} ||
-                        $info->{'SBDS Chemistry'},
+            $info->{'SBDS Chemistry'},
     };
 
-    if      ($info->{'Manufacture Date'}) {
+    if ($info->{'Manufacture Date'}) {
         $battery->{DATE} = _parseDate($info->{'Manufacture Date'});
     } elsif ($info->{'SBDS Manufacture Date'}) {
         $battery->{DATE} = _parseDate($info->{'SBDS Manufacture Date'});
@@ -85,5 +94,6 @@ sub _parseDate {
     }
     return;
 }
+
 
 1;
