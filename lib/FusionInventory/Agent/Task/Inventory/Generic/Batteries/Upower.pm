@@ -90,7 +90,7 @@ sub _getBatteryDataFromUpower {
         CAPACITY => $data->{'energy-full'},
         VOLTAGE => $data->{voltage},
         CHEMISTRY => $data->{technology},
-        SERIAL => $data->{serial},
+        SERIAL => defined $data->{serial} ? $data->{serial} : '',
         MANUFACTURER => getCanonicalManufacturer($data->{vendor}) || getCanonicalManufacturer($data->{manufacturer}) || undef,
     };
 

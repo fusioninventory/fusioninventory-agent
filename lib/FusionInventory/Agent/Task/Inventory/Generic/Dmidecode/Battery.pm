@@ -89,8 +89,11 @@ sub _extractBatteryData {
     my $battery = {
         NAME         => $info->{'Name'},
         MANUFACTURER => getCanonicalManufacturer($info->{'Manufacturer'}),
-        SERIAL       => $info->{'Serial Number'} ||
-            $info->{'SBDS Serial Number'},
+        SERIAL       => defined $info->{'Serial Number'} ?
+            $info->{'Serial Number'} :
+                defined $info->{'SBDS Serial Number'} ?
+                $info->{'SBDS Serial Number'} :
+                '',
         CHEMISTRY    => $info->{'Chemistry'} ||
             $info->{'SBDS Chemistry'},
     };
