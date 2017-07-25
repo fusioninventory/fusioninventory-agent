@@ -499,62 +499,6 @@ sub saveLastState {
     my $tpp = XML::TreePP->new();
 }
 
-sub _mergeBatteries {
-    my ($self, $batteries) = @_;
-
-    my $sectionName = 'BATTERIES';
-    $self->{content}->{$sectionName} = [] unless (ref $self->{content}->{$sectionName} eq 'ARRAY');
-    my $section = $self->{content}->{$sectionName};
-    map { my $batt = $_; $batt->{SERIAL} = 0 if (defined $batt->{SERIAL} && $batt->{SERIAL} =~ /^0+$/) } @$batteries;
-    if (scalar @$section == 1
-            && scalar @$batteries == 1) {
-        _mergeHashesWithoutOverWrite($section->[0], $batteries->[0]);
-    } else {
-        if (scalar $section == 0) {
-            # without no battery in inventory, push everything from dmidecode
-            $section = $batteries;
-        } else {
-            for my $batt (@$batteries) {
-                # retrieve if the battery is already in inventory
-                my @retrievedBatteries = grep {
-                    $batt->{NAME}
-                        && $_->{NAME}
-                        && $batt->{NAME} eq $_->{NAME}
-                        && defined $batt->{SERIAL}
-                        && defined $_->{SERIAL}
-                        && ($batt->{SERIAL} eq $_->{SERIAL}
-                        # dmidecode sometimes returns hexadecimal values for Serial number
-                        || hex2dec($batt->{SERIAL}) eq $_->{SERIAL})
-                } @$section
-                    || grep {
-                    $batt->{NAME}
-                        && $_->{NAME}
-                        && $batt->{NAME} eq $_->{NAME}
-                        && !defined $batt->{SERIAL}
-                        && !defined $_->{SERIAL}
-                } @$section;
-
-                if (scalar @retrievedBatteries == 1) {
-                    _mergeHashesWithoutOverWrite($retrievedBatteries[0], $batt);
-                } else {
-                    push @$section, $batt;
-                }
-            }
-        }
-    }
-}
-
-sub _mergeHashesWithoutOverWrite {
-    my ($h1, $h2) = @_;
-
-    # selecting keys that are not already set in $h1
-    my @keysWithValueToInsert = grep { !$h1->{$_} } keys %$h2;
-    # merging
-    @$h1{ @keysWithValueToInsert } = @$h2{ @keysWithValueToInsert };
-
-    return $h1;
-}
-
 1;
 __END__
 
