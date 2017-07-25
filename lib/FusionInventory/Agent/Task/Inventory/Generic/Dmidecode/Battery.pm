@@ -33,11 +33,10 @@ sub _mergeBatteries {
     if (ref $section eq 'ARRAY'
         && scalar @$section == 1
         && scalar @$batteries == 1) {
-        my $func = sub {return 1;};
         $inventory->addEntry(
             section => 'BATTERIES',
             entry => $batteries->[0],
-            identity => [$func]
+            identity => [ sub {return 1;} ]
         );
     } else {
         for my $batt (@$batteries) {
@@ -63,7 +62,27 @@ sub _mergeBatteries {
             $inventory->addEntry(
                 section  => 'BATTERIES',
                 entry    => $batt,
-                identity => [ $f1, $f2 ]
+                identity => [
+                    sub {
+                        my ($battFromDmiDecode, $battInInventory) = @_;
+                        return $battFromDmiDecode->{NAME}
+                            && $battInInventory->{NAME}
+                            && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
+                            && defined $battFromDmiDecode->{SERIAL}
+                            && defined $battInInventory->{SERIAL}
+                            && ($battFromDmiDecode->{SERIAL} eq $battInInventory->{SERIAL}
+                            # dmidecode sometimes returns hexadecimal values for Serial number
+                            || hex2dec($battFromDmiDecode->{SERIAL}) eq $battInInventory->{SERIAL});
+                    },
+                    sub {
+                        my ($battFromDmiDecode, $battInInventory) = @_;
+                        return $battFromDmiDecode->{NAME}
+                            && $battInInventory->{NAME}
+                            && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
+                            && !defined $battFromDmiDecode->{SERIAL}
+                            && !defined $battInInventory->{SERIAL};
+                    }
+                ]
             );
         }
     }
