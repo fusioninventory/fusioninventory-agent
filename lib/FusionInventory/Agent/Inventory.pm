@@ -262,8 +262,6 @@ sub addEntry {
             my @keysWithValueToInsert = grep { !$retrievedEntries[0]->{$_} } keys %$entry;
             # merging
             @{$retrievedEntries[0]}{ @keysWithValueToInsert } = @$entry{ @keysWithValueToInsert };
-            $DB::single = 1;
-            my $s = 3;
         } else {
             # add entry
             push @{$self->{content}{$section}}, $entry;
