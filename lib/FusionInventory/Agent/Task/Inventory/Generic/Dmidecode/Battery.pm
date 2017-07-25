@@ -40,25 +40,6 @@ sub _mergeBatteries {
         );
     } else {
         for my $batt (@$batteries) {
-            my $f1 = sub {
-                my ($battFromDmiDecode, $battInInventory) = @_;
-                return $battFromDmiDecode->{NAME}
-                    && $battInInventory->{NAME}
-                    && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
-                    && defined $battFromDmiDecode->{SERIAL}
-                    && defined $battInInventory->{SERIAL}
-                    && ($battFromDmiDecode->{SERIAL} eq $battInInventory->{SERIAL}
-                    # dmidecode sometimes returns hexadecimal values for Serial number
-                    || hex2dec($battFromDmiDecode->{SERIAL}) eq $battInInventory->{SERIAL});
-            };
-            my $f2 = sub {
-                my ($battFromDmiDecode, $battInInventory) = @_;
-                return $battFromDmiDecode->{NAME}
-                    && $battInInventory->{NAME}
-                    && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
-                    && !defined $battFromDmiDecode->{SERIAL}
-                    && !defined $battInInventory->{SERIAL};
-            };
             $inventory->addEntry(
                 section  => 'BATTERIES',
                 entry    => $batt,
