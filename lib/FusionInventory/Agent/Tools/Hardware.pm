@@ -331,6 +331,8 @@ sub getDeviceInfo {
     if (!exists $device->{MODEL}) {
         my $model = exists $device->{TYPE} && $device->{TYPE} eq 'PRINTER' ?
             $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1')    :
+            exists $device->{TYPE} && $device->{TYPE} eq 'POWER' ?
+            $snmp->get('.1.3.6.1.2.1.33.1.1.5.0')      : # UPS-MIB
             $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') ;
         $device->{MODEL} = $model if $model;
     }
