@@ -33,14 +33,20 @@ GetOptions(
 $OUTPUT_AUTOFLUSH = 1;
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
-if ($options->{stdin}) {
-    loadstdin();
-} elsif ($options->{file}) {
-    loadfile($options->{file});
-} elsif ($options->{directory}) {
-    loaddirectory($options->{directory});
-} else {
-    pod2usage();
+eval {
+    if ($options->{stdin}) {
+        loadstdin();
+    } elsif ($options->{file}) {
+        loadfile($options->{file});
+    } elsif ($options->{directory}) {
+        loaddirectory($options->{directory});
+    } else {
+        pod2usage();
+    }
+};
+if ($@) {
+    print $@;
+    exit(1);
 }
 
 exit(0);
@@ -124,6 +130,9 @@ sub sendContent {
     if ($options->{verbose}) {
         print $res->is_success() ?
             "OK\n" : "ERROR: " . $res->status_line() . "\n";
+    }
+    unless ($res->is_success()) {
+        die "Content has not been sent. HTTP message is : " . $res->code . ' ' . $res->message;
     }
 
     return $res->is_success();
