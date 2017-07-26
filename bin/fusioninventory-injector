@@ -132,7 +132,7 @@ sub sendContent {
             "OK\n" : "ERROR: " . $res->status_line() . "\n";
     }
     unless ($res->is_success()) {
-        die "Content has not been sent. HTTP message is : " . $res->code . ' ' . $res->message;
+        die "Content has not been sent. HTTP status is : " . $res->status_line;
     }
 
     return $res->is_success();
