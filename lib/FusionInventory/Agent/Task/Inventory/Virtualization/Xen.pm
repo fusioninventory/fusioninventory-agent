@@ -77,20 +77,44 @@ sub  _getVirtualMachines {
 
     # drop headers
     my $line  = <$handle>;
+    my @rheaders = reverse split ' ', $line;
+    my $nbHeaders = scalar @rheaders;
 
     my @machines;
     while (my $line = <$handle>) {
         chomp $line;
+        next if $line =~ /^\s*$/;
         my ($name, $vmid, $memory, $vcpu, $status);
         my @fields = split(' ', $line);
         if (@fields == 4) {
-                ($name, $memory, $vcpu) = @fields;
-                $status = 'off';
+            ($name, $memory, $vcpu) = @fields;
+            $status = 'off';
         } else {
-                ($name, $vmid, $memory, $vcpu, $status) = @fields;
-                $status =~ s/-//g;
-                $status = $status ? $status_list{$status} : 'off';
-               next if $vmid == 0;
+            # name column can contain spaces
+            # to handle that case, we do the following
+            my $i = 0;
+            # we want the first five columns, so we reverse the array to drop the columns we don't want
+            # reverse the array
+            my @rfields = reverse @fields;
+            # while we have more than 5 columns in array, we drop
+            while (($nbHeaders - $i) > 5) {
+                # we must handle that special case
+                # the column name 'Security Label' contains a space
+                # so when we see it, we drop value only once
+                shift @rfields unless ($rheaders[$i]
+                    && $rheaders[$i] eq 'Label'
+                    && $rheaders[$i + 1] eq 'Security');
+                $i++;
+            }
+            # we collect name column parts in an array
+            my @name;
+            # name parts are at the last values
+            ($status, $vcpu, $memory, $vmid, @name) = @rfields;
+            # we reconstruct the name
+            $name = join ' ', reverse @name;
+            $status =~ s/-//g;
+            $status = $status ? $status_list{$status} : 'off';
+            next if $vmid == 0;
         }
         next if $name eq 'Domain-0';
 
