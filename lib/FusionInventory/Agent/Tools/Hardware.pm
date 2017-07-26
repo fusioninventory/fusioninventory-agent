@@ -542,6 +542,7 @@ sub _getMacAddress {
     my $addresses = $snmp->walk($addresses_oid);
     my @addresses =
         uniq
+        grep { /^$mac_address_pattern$/ }
         grep { $_ ne '00:00:00:00:00:00' }
         grep { $_ }
         map  { _getCanonicalMacAddress($_) }
