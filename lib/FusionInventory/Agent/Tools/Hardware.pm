@@ -334,7 +334,7 @@ sub getDeviceInfo {
             exists $device->{TYPE} && $device->{TYPE} eq 'POWER' ?
             $snmp->get('.1.3.6.1.2.1.33.1.1.5.0')      : # UPS-MIB
             $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') ;
-        $device->{MODEL} = $model if $model;
+        $device->{MODEL} = _getCanonicalString($model) if $model;
     }
 
     # fallback manufacturer identification attempt, using type-agnostic OID
@@ -375,6 +375,12 @@ sub getDeviceInfo {
                                 $raw_value;
 
         $device->{$key} = $value if defined $value;
+    }
+
+    # Cleanup some strings from whitespaces
+    foreach my $key (qw(MODEL SNMPHOSTNAME LOCATION CONTACT)) {
+        $device->{$key} = trimWhitespace($device->{$key})
+            if $device->{$key};
     }
 
     my $mac = _getMacAddress($snmp);
