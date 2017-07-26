@@ -60,8 +60,9 @@ sub _getUUID {
 }
 
 sub  _getVirtualMachines {
+    my (%params) = @_;
 
-    my $handle = getFileHandle(@_);
+    my $handle = getFileHandle(%params);
 
     return unless $handle;
 
@@ -77,11 +78,9 @@ sub  _getVirtualMachines {
 
     # drop headers
     my $line  = <$handle>;
-    my @rheaders = reverse split ' ', $line;
-    my $nbHeaders = scalar @rheaders;
 
     my @machines;
-    while (my $line = <$handle>) {
+    while ($line = <$handle>) {
         chomp $line;
         next if $line =~ /^\s*$/;
         my ($name, $vmid, $memory, $vcpu, $status);
@@ -90,28 +89,18 @@ sub  _getVirtualMachines {
             ($name, $memory, $vcpu) = @fields;
             $status = 'off';
         } else {
-            # name column can contain spaces
-            # to handle that case, we do the following
-            my $i = 0;
-            # we want the first five columns, so we reverse the array to drop the columns we don't want
-            # reverse the array
-            my @rfields = reverse @fields;
-            # while we have more than 5 columns in array, we drop
-            while (($nbHeaders - $i) > 5) {
-                # we must handle that special case
-                # the column name 'Security Label' contains a space
-                # so when we see it, we drop value only once
-                shift @rfields unless ($rheaders[$i]
-                    && $rheaders[$i] eq 'Label'
-                    && $rheaders[$i + 1] eq 'Security');
-                $i++;
+            if ($line =~ /^(.*\S) \s+ (\d+) \s+ (\d+) \s+ (\d+) \s+ ([a-z-]{5,6}) \s/x) {
+                ($name, $vmid, $memory, $vcpu, $status) = ($1, $2, $3, $4, $5);
+            } elsif ($params{logger}) {
+                # message in log to easily detect matching errors
+                my $message = '_getVirtualMachines(): unrecognized output';
+                if ($params{command}) {
+                    $message .= " for command '" . $params{command} . "'";
+                }
+                $message .= ': ' . $line;
+                $params{logger}->error($message);
+                next;
             }
-            # we collect name column parts in an array
-            my @name;
-            # name parts are at the last values
-            ($status, $vcpu, $memory, $vmid, @name) = @rfields;
-            # we reconstruct the name
-            $name = join ' ', reverse @name;
             $status =~ s/-//g;
             $status = $status ? $status_list{$status} : 'off';
             next if $vmid == 0;
