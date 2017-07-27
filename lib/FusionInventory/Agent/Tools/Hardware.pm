@@ -111,7 +111,10 @@ my %base_variables = (
         type => 'count',
     },
     SNMPHOSTNAME => {
-        oid  => '.1.3.6.1.2.1.1.5.0',
+        oid  => [
+            '.1.3.6.1.2.1.1.5.0',
+            '.1.3.6.1.4.1.2699.1.2.1.2.1.1.2.1', # PRINTER-PORT-MONITOR-MIB, ppmPrinterName
+        ],
         type => 'string',
     },
     LOCATION     => {
