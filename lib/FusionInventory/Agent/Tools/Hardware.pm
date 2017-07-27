@@ -527,11 +527,17 @@ sub _getFirmware {
     my $entPhysicalFirmwareRev = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.9');
     return $entPhysicalFirmwareRev if $entPhysicalFirmwareRev;
 
-    my $ios_version = $snmp->get('.1.3.6.1.4.1.9.9.25.1.1.1.2.5');
-    return $ios_version if $ios_version;
-
-    my $firmware = $snmp->get('.1.3.6.1.4.1.248.14.1.1.2.0');
-    return $firmware if $firmware;
+    # vendor specific OIDs
+    my @oids = (
+        '.1.3.6.1.4.1.9.9.25.1.1.1.2.5',         # Cisco / IOS
+        '.1.3.6.1.4.1.248.14.1.1.2.0',           # Hirschman MIB
+        '.1.3.6.1.4.1.2636.3.40.1.4.1.1.1.5.0',  # Juniper-MIB
+    );
+    foreach my $oid (@oids) {
+        my $value = $snmp->get($oid);
+        next unless $value;
+        return _getCanonicalString($value);
+    }
 
     return;
 }
