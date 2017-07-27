@@ -557,17 +557,54 @@ sub _getMacAddress {
     # fallback on ports addresses (IF-MIB::ifPhysAddress) if unique
     my $addresses_oid = ".1.3.6.1.2.1.2.2.1.6";
     my $addresses = $snmp->walk($addresses_oid);
+
+    # filter keeping mac with a defined and associated ip otherwise takes all macs
+    my $ips = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');
+    my @macs = ();
+    @macs = grep { defined } map { $addresses->{$_} } values %{$ips}
+        if (keys(%{$ips}));
+    @macs = grep { defined } values %{$addresses}
+        unless @macs;
+
     my @addresses =
         uniq
         grep { /^$mac_address_pattern$/ }
         grep { $_ ne '00:00:00:00:00:00' }
         grep { $_ }
         map  { _getCanonicalMacAddress($_) }
-        values %{$addresses};
+        @macs;
 
-    return $addresses[0] if @addresses && @addresses == 1;
+    if (@addresses) {
+        return $addresses[0] if @addresses == 1;
+
+        # Compute mac addresses as number and sort them
+        my %macs = map { $_ => _numericMac($_) } @addresses;
+        my @sortedMac = sort { $macs{$a} <=> $macs{$b} } @addresses;
+
+        # Then find first couple of consecutive mac and return first one as this
+        # seems to be the first manufacturer defined mac address
+        while (@sortedMac > 1) {
+            my $currentMac = shift @sortedMac;
+            return $currentMac if ($macs{$currentMac} == $macs{$sortedMac[0]} - 1);
+        }
+    }
 
     return;
+}
+
+sub _numericMac {
+    my ($mac) = @_;
+
+    my $number = 0;
+    my $multiplicator = 1;
+
+    my @parts = split(':', $mac);
+    while (@parts) {
+        $number += hex(pop(@parts))*$multiplicator;
+        $multiplicator <<= 8 ;
+    }
+
+    return $number;
 }
 
 sub getDeviceFullInfo {
