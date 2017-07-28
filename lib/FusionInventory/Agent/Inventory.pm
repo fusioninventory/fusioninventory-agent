@@ -250,7 +250,9 @@ sub addEntry {
         $entry->{SERIALNUMBER} = $entry->{SERIAL} if !$entry->{SERIALNUMBER}
     }
 
-    if ($params{identity} && ref $params{identity} eq 'ARRAY') {
+    if ($params{identity}
+        && ref $params{identity} eq 'ARRAY'
+        && scalar @{$self->{content}{$section}} > 0) {
         # check first if a similar entry already exists
         my @retrievedEntries;
         while (scalar @retrievedEntries != 1 && scalar $params{identity} > 0) {
