@@ -54,8 +54,8 @@ exit(0);
 sub loadfile {
     my ($file) = @_;
 
-    die "file $file does not exist" unless -f $file;
-    die "file $file is not readable" unless -r $file;
+    die "file $file does not exist\n" unless -f $file;
+    die "file $file is not readable\n" unless -r $file;
 
     print "Loading $file..." if $options->{verbose};
 
@@ -75,8 +75,8 @@ sub loadfile {
 sub loaddirectory {
     my ($directory) = @_;
 
-    die "directory $directory does not exist" unless -d $directory;
-    die "directory $directory is not readable" unless -r $directory;
+    die "directory $directory does not exist\n" unless -d $directory;
+    die "directory $directory is not readable\n" unless -r $directory;
 
     opendir (my $handle, $directory)
         or die "can't open directory $directory: $ERRNO\n";
@@ -132,7 +132,7 @@ sub sendContent {
             "OK\n" : "ERROR: " . $res->status_line() . "\n";
     }
     unless ($res->is_success()) {
-        die "Content has not been sent. HTTP status is : " . $res->status_line;
+        die "Content has not been sent. HTTP status is : " . $res->status_line . "\n";
     }
 
     return $res->is_success();
