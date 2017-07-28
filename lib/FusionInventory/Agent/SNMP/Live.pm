@@ -11,7 +11,7 @@ use Net::SNMP;
 sub new {
     my ($class, %params) = @_;
 
-    die "no hostname parameters" unless $params{hostname};
+    die "no hostname parameters\n" unless $params{hostname};
 
     my $version =
         ! $params{version}       ? 'snmpv1'  :
@@ -20,7 +20,7 @@ sub new {
         $params{version} eq '3'  ? 'snmpv3'  :
                                      undef   ;
 
-    die "invalid SNMP version $params{version}" unless $version;
+    die "invalid SNMP version $params{version} parameter\n" unless $version;
 
     my $self;
 
@@ -64,7 +64,7 @@ sub new {
             -varbindlist => [$oid]
         );
         die "no response from host $params{hostname}\n"
-            if !$response;
+            if !$response || !$response->{$oid};
         die "no response from host $params{hostname}\n"
             if $response->{$oid} =~ /No response from remote host/;
     }
@@ -100,7 +100,7 @@ sub switch_vlan_context {
         );
     }
 
-    die $error unless $self->{session};
+    die $error."\n" unless $self->{session};
 }
 
 sub reset_original_context {
