@@ -34,8 +34,6 @@ sub doInventory {
 sub _getBatteriesFromUpower {
     my (%params) = @_;
 
-    return unless canRun($command);
-
     my @batteriesName = _getBatteriesNameFromUpower(
         %params,
         command => $command . ' --enumerate'
