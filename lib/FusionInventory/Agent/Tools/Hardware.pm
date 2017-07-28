@@ -146,7 +146,7 @@ my %base_variables = (
 my %interface_variables = (
     IFNUMBER         => {
         oid  => '.1.3.6.1.2.1.2.2.1.1',
-        type => 'none'
+        type => 'constant'
     },
     IFDESCR          => {
         oid  => '.1.3.6.1.2.1.2.2.1.2',
@@ -177,7 +177,7 @@ my %interface_variables = (
     },
     IFLASTCHANGE     => {
         oid  => '.1.3.6.1.2.1.2.2.1.9',
-        type => 'none'
+        type => 'string'
     },
     IFINOCTETS       => {
         oid  => '.1.3.6.1.2.1.2.2.1.10',
@@ -382,8 +382,10 @@ sub getDeviceInfo {
 
     # Cleanup some strings from whitespaces
     foreach my $key (qw(MODEL SNMPHOSTNAME LOCATION CONTACT)) {
-        $device->{$key} = trimWhitespace($device->{$key})
-            if $device->{$key};
+        next unless defined $device->{$key};
+        $device->{$key} = trimWhitespace($device->{$key});
+        # Don't keep empty strings
+        delete $device->{$key} if $device->{$key} eq '';
     }
 
     my $mac = _getMacAddress($snmp);
@@ -731,7 +733,8 @@ sub _setGenericProperties {
                 $type eq 'string'   ? _getCanonicalString($raw_value)     :
                 $type eq 'count'    ? _getCanonicalCount($raw_value)      :
                                       $raw_value;
-            $ports->{$suffix}->{$key} = $value if defined $value;
+            $ports->{$suffix}->{$key} = $value
+                if defined $value && $value ne '';
         }
     }
 
@@ -993,13 +996,13 @@ sub _getCanonicalString {
     my ($value) = @_;
 
     $value = hex2char($value);
-    return unless $value;
+    return unless defined $value;
 
     # unquote string
     $value =~ s/^\\?["']//;
     $value =~ s/\\?["']$//;
 
-    return unless $value;
+    return unless defined $value;
 
     # Be sure to work on utf-8 string
     $value = getUtf8String($value);
