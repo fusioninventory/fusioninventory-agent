@@ -91,14 +91,16 @@ sub  _getVirtualMachines {
         } else {
             if ($line =~ /^(.*\S) \s+ (\d+) \s+ (\d+) \s+ (\d+) \s+ ([a-z-]{5,6}) \s/x) {
                 ($name, $vmid, $memory, $vcpu, $status) = ($1, $2, $3, $4, $5);
-            } elsif ($params{logger}) {
-                # message in log to easily detect matching errors
-                my $message = '_getVirtualMachines(): unrecognized output';
-                if ($params{command}) {
-                    $message .= " for command '" . $params{command} . "'";
+            } else {
+                if ($params{logger}) {
+                    # message in log to easily detect matching errors
+                    my $message = '_getVirtualMachines(): unrecognized output';
+                    if ($params{command}) {
+                        $message .= " for command '" . $params{command} . "'";
+                    }
+                    $message .= ': ' . $line;
+                    $params{logger}->error($message);
                 }
-                $message .= ': ' . $line;
-                $params{logger}->error($message);
                 next;
             }
             $status =~ s/-//g;
