@@ -403,7 +403,7 @@ sub _scanAddressBySNMP {
     my ($self, %params) = @_;
 
     foreach my $credential (@{$params{snmp_credentials}}) {
-        my %device = $self->_scanAddressBySNMPReal(
+        my $device = $self->_scanAddressBySNMPReal(
             ip         => $params{ip},
             timeout    => $params{timeout},
             credential => $credential
@@ -415,12 +415,13 @@ sub _scanAddressBySNMP {
             threads->tid(),
             $params{ip},
             $credential->{ID},
-            %device ? 'success' : 'no result'
+            ref $device eq 'HASH' ? 'success' :
+                $device ? "no result, $device" : 'no result'
         );
 
-        if (%device) {
-            $device{AUTHSNMP} = $credential->{ID};
-            return %device;
+        if (ref $device eq 'HASH') {
+            $device->{AUTHSNMP} = $credential->{ID};
+            return %{$device};
         }
     }
 
@@ -444,8 +445,9 @@ sub _scanAddressBySNMPReal {
             privprotocol => $params{credential}->{PRIVPROTOCOL},
         );
     };
-    # an exception here just means no device,  or wrong credentials
-    return if $EVAL_ERROR;
+
+    # an exception here just means no device or wrong credentials
+    return $EVAL_ERROR if $EVAL_ERROR;
 
     my $info = getDeviceInfo(
         snmp    => $snmp,
@@ -454,7 +456,7 @@ sub _scanAddressBySNMPReal {
     );
     return unless $info;
 
-    return %$info;
+    return $info;
 }
 
 sub _parseNmap {
