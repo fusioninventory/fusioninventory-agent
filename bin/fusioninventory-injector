@@ -15,6 +15,8 @@ my $options = {
     useragent => 'FusionInventory-Injector'
 };
 
+my @failedFiles;
+
 GetOptions(
     $options,
     'help|h',
@@ -44,9 +46,12 @@ eval {
         pod2usage();
     }
 };
-if ($@) {
-    print $@;
-    exit(1);
+if ($EVAL_ERROR) {
+    die "$EVAL_ERROR\n";
+} elsif (scalar @failedFiles > 0) {
+    my $message = 'These elements were not sent:' . "\n";
+    $message .= join "\n", @failedFiles;
+    die($message . "\n");
 }
 
 exit(0);
@@ -70,6 +75,8 @@ sub loadfile {
     if ($success && $options->{remove}) {
         unlink $file or warn "Can't remove $file: $ERRNO\n"
     }
+
+    push @failedFiles, $file unless $success;
 }
 
 sub loaddirectory {
@@ -95,7 +102,7 @@ sub loadstdin {
     my $content;
     undef $RS;
     $content = <STDIN>;
-    sendContent($content);
+    push @failedFiles, 'STDIN DATA' unless sendContent($content);
 }
 
 sub sendContent {
@@ -130,9 +137,6 @@ sub sendContent {
     if ($options->{verbose}) {
         print $res->is_success() ?
             "OK\n" : "ERROR: " . $res->status_line() . "\n";
-    }
-    unless ($res->is_success()) {
-        die "Content has not been sent. HTTP status is : " . $res->status_line . "\n";
     }
 
     return $res->is_success();
