@@ -421,7 +421,7 @@ sub hex2char {
     my ($value) = @_;
 
     ## no critic (ExplicitReturnUndef)
-    return undef unless $value;
+    return undef unless defined $value;
     return $value unless $value =~ /^0x/;
 
     $value =~ s/^0x//; # drop hex prefix
@@ -432,7 +432,7 @@ sub hex2dec {
     my ($value) = @_;
 
     ## no critic (ExplicitReturnUndef)
-    return undef unless $value;
+    return undef unless defined $value;
     return $value unless $value =~ /^0x/;
 
     return oct($value);
@@ -442,7 +442,7 @@ sub dec2hex {
     my ($value) = @_;
 
     ## no critic (ExplicitReturnUndef)
-    return undef unless $value;
+    return undef unless defined $value;
     return $value if $value =~ /^0x/;
 
     return sprintf("0x%x", $value);
