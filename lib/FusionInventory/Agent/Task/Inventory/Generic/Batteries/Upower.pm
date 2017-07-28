@@ -47,7 +47,7 @@ sub _getBatteriesFromUpower {
             %params,
             command => $command . ' -i ' . $battName
         );
-        push @batteriesData, $battData
+        push @batteriesData, $battData;
     }
 
     return @batteriesData;
