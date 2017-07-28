@@ -79,7 +79,7 @@ sub loaddirectory {
         if (-d "$directory/$file") {
             loaddirectory("$directory/$file") if ($options->{recursive});
         } else {
-            loadfile("$directory/$file") if $file =~ /\.ocs$/;
+            loadfile("$directory/$file") if $file =~ /\.(?:ocs|xml)$/;
         }
     }
     closedir $handle;
