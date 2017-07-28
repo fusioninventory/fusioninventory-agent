@@ -260,10 +260,15 @@ sub addEntry {
             @retrievedEntries = grep { &$func($entry, $_); } @{$self->{content}{$section}};
         }
         if (scalar @retrievedEntries == 1) {
-            # selecting keys that are not already set in entry in inventory
-            my @keysWithValueToInsert = grep { !$retrievedEntries[0]->{$_} } keys %$entry;
             # merging
-            @{$retrievedEntries[0]}{ @keysWithValueToInsert } = @$entry{ @keysWithValueToInsert };
+            if ($params{mergeCallback}) {
+                $retrievedEntries[0] = &{$params{mergeCallback}}($retrievedEntries[0], $entry);
+            } else {
+                # selecting keys that are not already set in entry in inventory
+                my @keysWithValueToInsert = grep { !$retrievedEntries[0]->{$_} } keys %$entry;
+                # merging
+                @{$retrievedEntries[0]}{ @keysWithValueToInsert } = @$entry{ @keysWithValueToInsert };
+            }
         } else {
             # add entry
             push @{$self->{content}{$section}}, $entry;
