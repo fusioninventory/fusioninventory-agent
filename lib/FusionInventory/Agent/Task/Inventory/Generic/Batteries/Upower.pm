@@ -89,7 +89,9 @@ sub _getBatteryDataFromUpower {
         VOLTAGE => $data->{voltage},
         CHEMISTRY => $data->{technology},
         SERIAL => defined $data->{serial} ? $data->{serial} : '',
-        MANUFACTURER => getCanonicalManufacturer($data->{vendor}) || getCanonicalManufacturer($data->{manufacturer}) || undef,
+        MANUFACTURER => getCanonicalManufacturer($data->{vendor})
+            || getCanonicalManufacturer($data->{manufacturer})
+            || undef
     };
 
     $battData->{SERIAL} = 0 if $battData->{SERIAL} =~ /^0+$/;
