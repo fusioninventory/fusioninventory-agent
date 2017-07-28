@@ -6,6 +6,8 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 
+our $runAfterIfEnabled = ["FusionInventory::Agent::Task::Inventory::Generic::Batteries::Upower"];
+
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{battery};
@@ -30,8 +32,16 @@ sub _mergeBatteries {
 
     # testing case: one battery in inventory and also one retrieved by dmidecode
     my $section = $inventory->getSection('BATTERIES');
-    if (ref $section eq 'ARRAY'
-        && scalar @$section == 1
+    if (!$section
+        || ref $section ne 'ARRAY'
+        || scalar @$section == 0) {
+        for my $batt (@$batteries) {
+            $inventory->addEntry(
+                section => 'BATTERIES',
+                entry   => $batt
+            );
+        }
+    } elsif (scalar @$section == 1
         && scalar @$batteries == 1) {
         $inventory->addEntry(
             section => 'BATTERIES',
