@@ -33,7 +33,8 @@ sub init {
 
     # install signal handler to handle reload signal
     $SIG{HUP} = sub { $self->reinit(); };
-    $SIG{USR1} = sub { $self->runNow(); };
+    $SIG{USR1} = sub { $self->runNow(); }
+        unless ($OSNAME eq 'MSWin32');
 }
 
 sub reinit {
