@@ -26,6 +26,10 @@ use constant IDCONTINUE => 11;
 use constant IDTIMEOUT  => 32000;
 use constant IDASYNC    => 32001;
 
+# Enum description, see:
+# https://msdn.microsoft.com/en-us/library/aa383861(v=vs.85).aspx
+use constant WTSUserName    => 5;
+
 our @EXPORT = qw(
     WTSEnumerateSessions
     WTSSendMessage
@@ -212,10 +216,6 @@ sub _WTSFreeMemory {
 
 sub _WTSSessionUser {
     my ($sid) = @_;
-
-    # Enum description, see:
-    # https://msdn.microsoft.com/en-us/library/aa383861(v=vs.85).aspx
-    sub WTSUserName { 5 }
 
     return _WTSQuerySessionInformation( $sid, WTSUserName );
 }

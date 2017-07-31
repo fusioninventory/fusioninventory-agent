@@ -54,7 +54,7 @@ sub new {
 
     unless ($Supported_UserCheck_Modules{$OSNAME}) {
         $self->debug("user interaction not supported on $OSNAME platform");
-        return undef;
+        return undef; ## no critic (ExplicitReturnUndef)
     }
 
     if ($params{check} && ref($params{check}) eq 'HASH') {
@@ -73,14 +73,14 @@ sub new {
     my %requested_on = map { $supported_platform_keys{lc($_ || 'none')} => 1 } split(',', $self->{platform});
     unless ($requested_on{ALL} || $requested_on{$OSNAME}) {
         $self->debug("user interaction requested on '$self->{platform}', not on this $OSNAME platform");
-        return undef;
+        return undef; ## no critic (ExplicitReturnUndef)
     }
 
     my $module = $class . '::' . $Supported_UserCheck_Modules{$OSNAME};
     $module->require();
     if ($EVAL_ERROR) {
         $self->error("Can't use $module module: load failure ($EVAL_ERROR)");
-        return undef;
+        return undef; ## no critic (ExplicitReturnUndef)
     } else {
         bless $self, $module;
     }
