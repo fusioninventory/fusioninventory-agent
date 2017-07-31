@@ -35,20 +35,16 @@ GetOptions(
 $OUTPUT_AUTOFLUSH = 1;
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
 
-eval {
-    if ($options->{stdin}) {
-        loadstdin();
-    } elsif ($options->{file}) {
-        loadfile($options->{file});
-    } elsif ($options->{directory}) {
-        loaddirectory($options->{directory});
-    } else {
-        pod2usage();
-    }
-};
-if ($EVAL_ERROR) {
-    die "$EVAL_ERROR\n";
-} elsif (scalar @failedFiles > 0) {
+if ($options->{stdin}) {
+    loadstdin();
+} elsif ($options->{file}) {
+    loadfile($options->{file});
+} elsif ($options->{directory}) {
+    loaddirectory($options->{directory});
+} else {
+    pod2usage();
+}
+if (scalar @failedFiles > 0) {
     my $message = 'These elements were not sent:' . "\n";
     $message .= join "\n", @failedFiles;
     die($message . "\n");
