@@ -1,0 +1,20 @@
+Getting SMBIOS data from sysfs.
+SMBIOS 2.6 present.
+
+# Next 2 lines have been added in order to permit function to return the data
+Handle 0x0014, DMI type 1, 26 bytes
+    key: value
+
+Handle 0x0014, DMI type 22, 26 bytes
+Portable Battery
+	Location: 1st Battery
+	Manufacturer: TOSHIBA
+	Manufacture Date: **/**/****
+	Serial Number: 0000000000
+	Name:
+	Design Capacity: Unknown
+	Design Voltage: Unknown
+	SBDS Version: Not Specified
+	Maximum Error: Unknown
+	SBDS Chemistry: Li-ION
+	OEM-specific Information: 0x00000000
