@@ -95,9 +95,7 @@ sub  _getVirtualMachines {
                 if ($params{logger}) {
                     # message in log to easily detect matching errors
                     my $message = '_getVirtualMachines(): unrecognized output';
-                    if ($params{command}) {
-                        $message .= " for command '" . $params{command} . "'";
-                    }
+                    $message .= " for command '" . $params{command} . "'";
                     $message .= ': ' . $line;
                     $params{logger}->error($message);
                 }
