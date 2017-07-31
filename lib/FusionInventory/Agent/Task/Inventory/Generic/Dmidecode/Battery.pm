@@ -46,34 +46,40 @@ sub _mergeBatteries {
         $inventory->addEntry(
             section => 'BATTERIES',
             entry => $batteries->[0],
-            identity => [ sub {return 1;} ]
+            identity => {
+                strategyName => 'grepLoop',
+                callbackList => [ sub {return 1;} ]
+            }
         );
     } else {
         for my $batt (@$batteries) {
             $inventory->addEntry(
                 section  => 'BATTERIES',
                 entry    => $batt,
-                identity => [
-                    sub {
-                        my ($battFromDmiDecode, $battInInventory) = @_;
-                        return $battFromDmiDecode->{NAME}
-                            && $battInInventory->{NAME}
-                            && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
-                            && defined $battFromDmiDecode->{SERIAL}
-                            && defined $battInInventory->{SERIAL}
-                            && ($battFromDmiDecode->{SERIAL} eq $battInInventory->{SERIAL}
-                            # dmidecode sometimes returns hexadecimal values for Serial number
-                            || hex2dec($battFromDmiDecode->{SERIAL}) eq $battInInventory->{SERIAL});
-                    },
-                    sub {
-                        my ($battFromDmiDecode, $battInInventory) = @_;
-                        return $battFromDmiDecode->{NAME}
-                            && $battInInventory->{NAME}
-                            && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
-                            && !defined $battFromDmiDecode->{SERIAL}
-                            && !defined $battInInventory->{SERIAL};
-                    }
-                ]
+                identity => {
+                    strategyName => 'grepLoop',
+                    callbackList => [
+                        sub {
+                            my ($battFromDmiDecode, $battInInventory) = @_;
+                            return $battFromDmiDecode->{NAME}
+                                && $battInInventory->{NAME}
+                                && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
+                                && defined $battFromDmiDecode->{SERIAL}
+                                && defined $battInInventory->{SERIAL}
+                                && ($battFromDmiDecode->{SERIAL} eq $battInInventory->{SERIAL}
+                                # dmidecode sometimes returns hexadecimal values for Serial number
+                                || hex2dec($battFromDmiDecode->{SERIAL}) eq $battInInventory->{SERIAL});
+                        },
+                        sub {
+                            my ($battFromDmiDecode, $battInInventory) = @_;
+                            return $battFromDmiDecode->{NAME}
+                                && $battInInventory->{NAME}
+                                && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
+                                && !defined $battFromDmiDecode->{SERIAL}
+                                && !defined $battInInventory->{SERIAL};
+                        }
+                    ]
+                }
             );
         }
     }

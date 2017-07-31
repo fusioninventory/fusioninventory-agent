@@ -11,6 +11,7 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Identity;
 use FusionInventory::Agent::Version;
 
 # Always sort keys in Dumper while computing checksum on HASH
@@ -251,23 +252,23 @@ sub addEntry {
     }
 
     if ($params{identity}
-        && ref $params{identity} eq 'ARRAY'
+        && ref $params{identity} eq 'HASH'
         && scalar @{$self->{content}{$section}} > 0) {
         # check first if a similar entry already exists
-        my @retrievedEntries;
-        while (scalar @retrievedEntries != 1 && scalar $params{identity} > 0) {
-            my $func = shift @{$params{identity}};
-            @retrievedEntries = grep { &$func($entry, $_); } @{$self->{content}{$section}};
-        }
-        if (scalar @retrievedEntries == 1) {
+        my $existingEntryToMergeWith = applyIdentityStrategy(
+            %{$params{identity}},
+            hash => $entry,
+            hashList => $self->{content}{$section}
+        );
+        if ($existingEntryToMergeWith) {
             # merging
             if ($params{mergeCallback}) {
-                $retrievedEntries[0] = &{$params{mergeCallback}}($retrievedEntries[0], $entry);
+                $existingEntryToMergeWith = &{$params{mergeCallback}}($existingEntryToMergeWith, $entry);
             } else {
                 # selecting keys that are not already set in entry in inventory
-                my @keysWithValueToInsert = grep { !$retrievedEntries[0]->{$_} } keys %$entry;
+                my @keysWithValueToInsert = grep { !$existingEntryToMergeWith->{$_} } keys %$entry;
                 # merging
-                @{$retrievedEntries[0]}{ @keysWithValueToInsert } = @$entry{ @keysWithValueToInsert };
+                @{$existingEntryToMergeWith}{ @keysWithValueToInsert } = @$entry{ @keysWithValueToInsert };
             }
         } else {
             # add entry
