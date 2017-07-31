@@ -12,6 +12,7 @@ use XML::TreePP;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Identity;
+use FusionInventory::Agent::Tools::Merge;
 use FusionInventory::Agent::Version;
 
 # Always sort keys in Dumper while computing checksum on HASH
@@ -262,14 +263,11 @@ sub addEntry {
         );
         if ($existingEntryToMergeWith) {
             # merging
-            if ($params{mergeCallback}) {
-                $existingEntryToMergeWith = &{$params{mergeCallback}}($existingEntryToMergeWith, $entry);
-            } else {
-                # selecting keys that are not already set in entry in inventory
-                my @keysWithValueToInsert = grep { !$existingEntryToMergeWith->{$_} } keys %$entry;
-                # merging
-                @{$existingEntryToMergeWith}{ @keysWithValueToInsert } = @$entry{ @keysWithValueToInsert };
-            }
+            $existingEntryToMergeWith = applyMergeStrategy(
+                strategyName => $params{mergeStrategy} || 'takeJustMissingKeysOrWithEmptyValue',
+                hash1 => $existingEntryToMergeWith,
+                hash2 => $entry,
+            );
         } else {
             # add entry
             push @{$self->{content}{$section}}, $entry;
