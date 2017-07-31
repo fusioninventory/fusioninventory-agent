@@ -560,28 +560,33 @@ sub _getMacAddress {
     my $addresses_oid = ".1.3.6.1.2.1.2.2.1.6";
     my $addresses = $snmp->walk($addresses_oid);
 
-    # filter keeping mac with a defined and associated ip otherwise takes all macs
+    # interfaces list with defined ip to use as filter to select shorter mac address list
     my $ips = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');
-    my @macs = ();
-    @macs = grep { defined } map { $addresses->{$_} } values %{$ips}
-        if (keys(%{$ips}));
-    @macs = grep { defined } values %{$addresses}
-        unless @macs;
 
-    my @addresses =
+    my @all_mac_addresses = ();
+
+    # Try first to obtain shorter mac address list using ip interface list filter
+    @all_mac_addresses = grep { defined } map { $addresses->{$_} } values %{$ips}
+        if (keys(%{$ips}));
+
+    # Finally get all defined mac adresses if ip filtered related list remains empty
+    @all_mac_addresses = grep { defined } values %{$addresses}
+        unless @all_mac_addresses;
+
+    my @valid_mac_addresses =
         uniq
         grep { /^$mac_address_pattern$/ }
         grep { $_ ne '00:00:00:00:00:00' }
         grep { $_ }
         map  { _getCanonicalMacAddress($_) }
-        @macs;
+        @all_mac_addresses;
 
-    if (@addresses) {
-        return $addresses[0] if @addresses == 1;
+    if (@valid_mac_addresses) {
+        return $valid_mac_addresses[0] if @valid_mac_addresses == 1;
 
         # Compute mac addresses as number and sort them
-        my %macs = map { $_ => _numericMac($_) } @addresses;
-        my @sortedMac = sort { $macs{$a} <=> $macs{$b} } @addresses;
+        my %macs = map { $_ => _numericMac($_) } @valid_mac_addresses;
+        my @sortedMac = sort { $macs{$a} <=> $macs{$b} } @valid_mac_addresses;
 
         # Then find first couple of consecutive mac and return first one as this
         # seems to be the first manufacturer defined mac address
