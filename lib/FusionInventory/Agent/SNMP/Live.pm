@@ -64,7 +64,9 @@ sub new {
             -varbindlist => [$oid]
         );
         die "no response from host $params{hostname}\n"
-            if !$response || !$response->{$oid};
+            if !$response;
+        die "empty response from host $params{hostname} on System variables request\n"
+            if !$response->{$oid};
         die "no response from host $params{hostname}\n"
             if $response->{$oid} =~ /No response from remote host/;
     }
