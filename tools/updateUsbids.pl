@@ -9,7 +9,7 @@ my $ua = LWP::UserAgent->new();
 
 my $response = $ua->mirror(
     "http://www.linux-usb.org/usb.ids",
-    "share/usb2.ids"
+    "share/usb.ids"
 );
 if ($response->status_line =~ /Not Modified/) {
     print "File is still up-to-date\n";
