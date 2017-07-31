@@ -1,13 +1,61 @@
 Revision history for FusionInventory agent
 
-2.3.21 not released
+2.3.21 Mon, 31 Jul 2017
 core:
 * Service/daemon refactoring:
  * Move all daemon method to dedicated FusionInventory::Agent::Daemon package
  * Win32 service now based on private FusionInventory::Agent::Service inheriting
    from FusionInventory::Agent::Daemon
-* daemon process renamed to provider derivated name under unix-like systems with
-tag if defined. Example: "fusioniventory-agent (prod)"
+ * support configuration reloading on SIGHUP signal (unix)
+ * support pausing service under win32
+ * support run now on SIGUSR1 signal (unix)
+ * and a lot of daemon/service optimizations and enhancements
+ * daemon process renamed to provider derivated name under unix-like systems with
+   tag if defined. Example: "fusioniventory-agent (prod)"
+* Report http proxy error to help debug communication problems: #324
+* Prevent setup.pm indexing in CPAN as requested by CPAN admins
+* Other fixed issues: #321
+
+inventory:
+* Bump Inventory task version to 1.3
+* Fixed win32 softwares finally missing when 2 'inventory' are set in tasks
+* Fixed bug: last dmidecode block wasn't parsed
+* Updated pci.ids to 2017.07.27 version
+* Updated usb.ids to 2017.07.29 version
+* Updated storage inventory on MacOS supporting Firewire storages: #309 #310
+* Fixes on dmidecode memory inventory: #320
+* Update memory component capacity on virtual systems: #339
+* Fix lenovo system information product name read from dmidecode: fix #311
+* Include TL in AIX OS version: #328
+* Fix Xen vm with space in name not colleted: #176
+
+netdiscovery/netinventory:
+* Bump NetDiscovery & NetInventory task version to 2.3
+* Fix credentials option support
+* Fixed duplicated mac addresses: #315
+* Also accept LLDP notifications on sysName
+* Force MANUFACTURER to match real vendor, VENDOR inventory key removed
+* Better cleanup of canonical strings with invalid characters
+* Support more alternate mac address formats
+* Fix some string field encoding
+* Support Digi devices serial
+* Support ups model oid
+* Fixed Juniper serial retrieval
+* Enhanced Konica printer discovery
+* Enhanced mac address discovery
+* Fixed wrong result on snmp read case: #139
+* Enhanced error messages in netdiscovery task
+* Updated sysobject.ids
+
+deploy:
+* Bump Deploy task version to 2.4
+* Added new audit checks winkey not equals support
+* Support User Interaction under win32 using WTS API (need server-side plugin upgrade)
+
+injector:
+* Support xml file extension: #360
+* Fixed returns exit code 0 even on error: #329
+* Enhanced displayed error messages
 
 2.3.20 Thu, 1 Jun 2017
 core:
