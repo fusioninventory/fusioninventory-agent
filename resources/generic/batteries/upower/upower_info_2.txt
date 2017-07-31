@@ -1,0 +1,24 @@
+  native-path:          BAT0
+  vendor:               SMP
+  model:                DELL JHXPY53
+  serial:               3682
+  power supply:         yes
+  updated:              mar. 04 juil. 2017 09:15:35 CEST (88 seconds ago)
+  has history:          yes
+  has statistics:       yes
+  battery
+    present:             yes
+    rechargeable:        yes
+    state:               charging
+    warning-level:       none
+    energy:              47,3708 Wh
+    energy-empty:        0 Wh
+    energy-full:         53,4052 Wh
+    energy-full-design:  57,532 Wh
+    energy-rate:         0,194979 W
+    voltage:             8,541 V
+    percentage:          88%
+    capacity:            92,8269%
+    technology:          lithium-polymer
+    icon-name:          'battery-full-charging-symbolic'
+

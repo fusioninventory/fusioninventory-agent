@@ -6,6 +6,8 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 
+our $runAfterIfEnabled = ["FusionInventory::Agent::Task::Inventory::Generic::Batteries::Upower"];
+
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{battery};
@@ -18,33 +20,101 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $battery = _getBattery(logger => $logger);
+    my $batteries = _getBatteries(logger => $logger);
 
-    return unless $battery;
+    return unless $batteries;
 
-    $inventory->addEntry(
-        section => 'BATTERIES',
-        entry   => $battery
-    );
+    _mergeBatteries($inventory, $batteries);
 }
 
-sub _getBattery {
+sub _mergeBatteries {
+    my ($inventory, $batteries) = @_;
+
+    # testing case: one battery in inventory and also one retrieved by dmidecode
+    my $section = $inventory->getSection('BATTERIES');
+    if (!$section
+        || ref $section ne 'ARRAY'
+        || scalar @$section == 0) {
+        for my $batt (@$batteries) {
+            $inventory->addEntry(
+                section => 'BATTERIES',
+                entry   => $batt
+            );
+        }
+    } elsif (scalar @$section == 1
+        && scalar @$batteries == 1) {
+        $inventory->addEntry(
+            section => 'BATTERIES',
+            entry => $batteries->[0],
+            identity => {
+                strategyName => 'grepLoop',
+                callbackList => [ sub {return 1;} ]
+            }
+        );
+    } else {
+        for my $batt (@$batteries) {
+            $inventory->addEntry(
+                section  => 'BATTERIES',
+                entry    => $batt,
+                identity => {
+                    strategyName => 'grepLoop',
+                    callbackList => [
+                        sub {
+                            my ($battFromDmiDecode, $battInInventory) = @_;
+                            return $battFromDmiDecode->{NAME}
+                                && $battInInventory->{NAME}
+                                && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
+                                && defined $battFromDmiDecode->{SERIAL}
+                                && defined $battInInventory->{SERIAL}
+                                && ($battFromDmiDecode->{SERIAL} eq $battInInventory->{SERIAL}
+                                # dmidecode sometimes returns hexadecimal values for Serial number
+                                || hex2dec($battFromDmiDecode->{SERIAL}) eq $battInInventory->{SERIAL});
+                        },
+                        sub {
+                            my ($battFromDmiDecode, $battInInventory) = @_;
+                            return $battFromDmiDecode->{NAME}
+                                && $battInInventory->{NAME}
+                                && $battFromDmiDecode->{NAME} eq $battInInventory->{NAME}
+                                && !defined $battFromDmiDecode->{SERIAL}
+                                && !defined $battInInventory->{SERIAL};
+                        }
+                    ]
+                }
+            );
+        }
+    }
+}
+
+sub _getBatteries {
     my $infos = getDmidecodeInfos(@_);
 
     return unless $infos->{22};
 
-    my $info    = $infos->{22}->[0];
+    my $batteries = [];
+    for my $info (@{$infos->{22}}) {
+        my $data = _extractBatteryData($info);
+        push @$batteries, $data if $data;
+    }
+
+    return $batteries ? $batteries : undef;
+}
+
+sub _extractBatteryData {
+    my ($info) = @_;
 
     my $battery = {
         NAME         => $info->{'Name'},
-        MANUFACTURER => $info->{'Manufacturer'},
-        SERIAL       => $info->{'Serial Number'} ||
-                        $info->{'SBDS Serial Number'},
+        MANUFACTURER => getCanonicalManufacturer($info->{'Manufacturer'}),
+        SERIAL       => defined $info->{'Serial Number'} ?
+            $info->{'Serial Number'} :
+                defined $info->{'SBDS Serial Number'} ?
+                $info->{'SBDS Serial Number'} :
+                '',
         CHEMISTRY    => $info->{'Chemistry'} ||
-                        $info->{'SBDS Chemistry'},
+            $info->{'SBDS Chemistry'},
     };
 
-    if      ($info->{'Manufacture Date'}) {
+    if ($info->{'Manufacture Date'}) {
         $battery->{DATE} = _parseDate($info->{'Manufacture Date'});
     } elsif ($info->{'SBDS Manufacture Date'}) {
         $battery->{DATE} = _parseDate($info->{'SBDS Manufacture Date'});
@@ -59,6 +129,8 @@ sub _getBattery {
         $info->{'Design Voltage'} =~ /(\d+) \s mV$/x) {
         $battery->{VOLTAGE} = $1;
     }
+
+    $battery->{SERIAL} = 0 if $battery->{SERIAL} =~ /^0+$/;
 
     return $battery;
 }
@@ -85,5 +157,6 @@ sub _parseDate {
     }
     return;
 }
+
 
 1;

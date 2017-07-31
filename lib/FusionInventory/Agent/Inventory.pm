@@ -11,6 +11,8 @@ use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Identity;
+use FusionInventory::Agent::Tools::Merge;
 use FusionInventory::Agent::Version;
 
 # Always sort keys in Dumper while computing checksum on HASH
@@ -250,7 +252,30 @@ sub addEntry {
         $entry->{SERIALNUMBER} = $entry->{SERIAL} if !$entry->{SERIALNUMBER}
     }
 
-    push @{$self->{content}{$section}}, $entry;
+    if ($params{identity}
+        && ref $params{identity} eq 'HASH'
+        && scalar @{$self->{content}{$section}} > 0) {
+        # check first if a similar entry already exists
+        my $existingEntryToMergeWith = applyIdentityStrategy(
+            %{$params{identity}},
+            hash => $entry,
+            hashList => $self->{content}{$section}
+        );
+        if ($existingEntryToMergeWith) {
+            # merging
+            $existingEntryToMergeWith = applyMergeStrategy(
+                strategyName => $params{mergeStrategy} || 'takeJustMissingKeysOrWithEmptyValue',
+                hash1 => $existingEntryToMergeWith,
+                hash2 => $entry,
+            );
+        } else {
+            # add entry
+            push @{$self->{content}{$section}}, $entry;
+        }
+    } else {
+        # add entry unconditionnaly
+        push @{$self->{content}{$section}}, $entry;
+    }
 }
 
 sub computeLegacyValues {
