@@ -111,7 +111,10 @@ my %base_variables = (
         type => 'count',
     },
     SNMPHOSTNAME => {
-        oid  => '.1.3.6.1.2.1.1.5.0',
+        oid  => [
+            '.1.3.6.1.2.1.1.5.0',
+            '.1.3.6.1.4.1.2699.1.2.1.2.1.1.2.1', # PRINTER-PORT-MONITOR-MIB, ppmPrinterName
+        ],
         type => 'string',
     },
     LOCATION     => {
@@ -143,7 +146,7 @@ my %base_variables = (
 my %interface_variables = (
     IFNUMBER         => {
         oid  => '.1.3.6.1.2.1.2.2.1.1',
-        type => 'none'
+        type => 'constant'
     },
     IFDESCR          => {
         oid  => '.1.3.6.1.2.1.2.2.1.2',
@@ -174,7 +177,7 @@ my %interface_variables = (
     },
     IFLASTCHANGE     => {
         oid  => '.1.3.6.1.2.1.2.2.1.9',
-        type => 'none'
+        type => 'string'
     },
     IFINOCTETS       => {
         oid  => '.1.3.6.1.2.1.2.2.1.10',
@@ -331,8 +334,10 @@ sub getDeviceInfo {
     if (!exists $device->{MODEL}) {
         my $model = exists $device->{TYPE} && $device->{TYPE} eq 'PRINTER' ?
             $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1')    :
+            exists $device->{TYPE} && $device->{TYPE} eq 'POWER' ?
+            $snmp->get('.1.3.6.1.2.1.33.1.1.5.0')      : # UPS-MIB
             $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') ;
-        $device->{MODEL} = $model if $model;
+        $device->{MODEL} = _getCanonicalString($model) if $model;
     }
 
     # fallback manufacturer identification attempt, using type-agnostic OID
@@ -373,6 +378,14 @@ sub getDeviceInfo {
                                 $raw_value;
 
         $device->{$key} = $value if defined $value;
+    }
+
+    # Cleanup some strings from whitespaces
+    foreach my $key (qw(MODEL SNMPHOSTNAME LOCATION CONTACT)) {
+        next unless defined $device->{$key};
+        $device->{$key} = trimWhitespace($device->{$key});
+        # Don't keep empty strings
+        delete $device->{$key} if $device->{$key} eq '';
     }
 
     my $mac = _getMacAddress($snmp);
@@ -519,11 +532,17 @@ sub _getFirmware {
     my $entPhysicalFirmwareRev = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.9');
     return $entPhysicalFirmwareRev if $entPhysicalFirmwareRev;
 
-    my $ios_version = $snmp->get('.1.3.6.1.4.1.9.9.25.1.1.1.2.5');
-    return $ios_version if $ios_version;
-
-    my $firmware = $snmp->get('.1.3.6.1.4.1.248.14.1.1.2.0');
-    return $firmware if $firmware;
+    # vendor specific OIDs
+    my @oids = (
+        '.1.3.6.1.4.1.9.9.25.1.1.1.2.5',         # Cisco / IOS
+        '.1.3.6.1.4.1.248.14.1.1.2.0',           # Hirschman MIB
+        '.1.3.6.1.4.1.2636.3.40.1.4.1.1.1.5.0',  # Juniper-MIB
+    );
+    foreach my $oid (@oids) {
+        my $value = $snmp->get($oid);
+        next unless $value;
+        return _getCanonicalString($value);
+    }
 
     return;
 }
@@ -540,16 +559,59 @@ sub _getMacAddress {
     # fallback on ports addresses (IF-MIB::ifPhysAddress) if unique
     my $addresses_oid = ".1.3.6.1.2.1.2.2.1.6";
     my $addresses = $snmp->walk($addresses_oid);
-    my @addresses =
+
+    # interfaces list with defined ip to use as filter to select shorter mac address list
+    my $ips = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');
+
+    my @all_mac_addresses = ();
+
+    # Try first to obtain shorter mac address list using ip interface list filter
+    @all_mac_addresses = grep { defined } map { $addresses->{$_} } values %{$ips}
+        if (keys(%{$ips}));
+
+    # Finally get all defined mac adresses if ip filtered related list remains empty
+    @all_mac_addresses = grep { defined } values %{$addresses}
+        unless @all_mac_addresses;
+
+    my @valid_mac_addresses =
         uniq
+        grep { /^$mac_address_pattern$/ }
         grep { $_ ne '00:00:00:00:00:00' }
         grep { $_ }
         map  { _getCanonicalMacAddress($_) }
-        values %{$addresses};
+        @all_mac_addresses;
 
-    return $addresses[0] if @addresses && @addresses == 1;
+    if (@valid_mac_addresses) {
+        return $valid_mac_addresses[0] if @valid_mac_addresses == 1;
+
+        # Compute mac addresses as number and sort them
+        my %macs = map { $_ => _numericMac($_) } @valid_mac_addresses;
+        my @sortedMac = sort { $macs{$a} <=> $macs{$b} } @valid_mac_addresses;
+
+        # Then find first couple of consecutive mac and return first one as this
+        # seems to be the first manufacturer defined mac address
+        while (@sortedMac > 1) {
+            my $currentMac = shift @sortedMac;
+            return $currentMac if ($macs{$currentMac} == $macs{$sortedMac[0]} - 1);
+        }
+    }
 
     return;
+}
+
+sub _numericMac {
+    my ($mac) = @_;
+
+    my $number = 0;
+    my $multiplicator = 1;
+
+    my @parts = split(':', $mac);
+    while (@parts) {
+        $number += hex(pop(@parts))*$multiplicator;
+        $multiplicator <<= 8 ;
+    }
+
+    return $number;
 }
 
 sub getDeviceFullInfo {
@@ -676,7 +738,8 @@ sub _setGenericProperties {
                 $type eq 'string'   ? _getCanonicalString($raw_value)     :
                 $type eq 'count'    ? _getCanonicalCount($raw_value)      :
                                       $raw_value;
-            $ports->{$suffix}->{$key} = $value if defined $value;
+            $ports->{$suffix}->{$key} = $value
+                if defined $value && $value ne '';
         }
     }
 
@@ -938,13 +1001,13 @@ sub _getCanonicalString {
     my ($value) = @_;
 
     $value = hex2char($value);
-    return unless $value;
+    return unless defined $value;
 
     # unquote string
     $value =~ s/^\\?["']//;
     $value =~ s/\\?["']$//;
 
-    return unless $value;
+    return unless defined $value;
 
     # Be sure to work on utf-8 string
     $value = getUtf8String($value);

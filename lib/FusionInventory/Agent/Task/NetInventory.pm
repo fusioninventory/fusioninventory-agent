@@ -145,7 +145,7 @@ sub run {
                             MESSAGE => $EVAL_ERROR
                         }
                     };
-                    $self->{logger}->error($EVAL_ERROR);
+                    $self->{logger}->error("[thread $id] $EVAL_ERROR");
                 }
 
                 $results->enqueue($result) if $result;
