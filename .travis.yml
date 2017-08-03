@@ -22,4 +22,4 @@ notifications:
 branches:
   only:
     - master
-    - 2.3.x
+    - 2.4.x
