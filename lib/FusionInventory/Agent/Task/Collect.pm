@@ -22,8 +22,7 @@ our $VERSION = FusionInventory::Agent::Task::Collect::Version::VERSION;
 my %functions = (
     getFromRegistry => \&_getFromRegistry,
     findFile        => \&_findFile,
-# As decided by the FusInv-Agent developers, the runCommand function
-# is disabled for the moment.
+# As decided by developers team, the runCommand function is disabled for the moment.
 #    runCommand      => \&_runCommand,
     getFromWMI      => \&_getFromWMI
 );
