@@ -1,9 +1,0 @@
-# FusionInventory Agent Options
-#
-# MODE can be either "daemon" or "cron"
-MODE=daemon
-# You need to set the server in
-# /etc/fusioninventory/agent.cfg
-
-# Weekly update system pci.ids and usb.ids files if possible
-UPDATE_IDS=yes
