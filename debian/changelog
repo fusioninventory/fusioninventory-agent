@@ -1,3 +1,9 @@
+fusioninventory-agent (1:2.3.21-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Guillaume Bougard <gbougard@teclib.com>  Thu, 03 Aug 2017 10:54:25 +0200
+
 fusioninventory-agent (1:2.3.18-1) unstable; urgency=low
 
   * New upstream release (closes: #816754)

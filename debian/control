@@ -17,7 +17,7 @@ Build-Depends:
  libhttp-server-simple-authen-perl,
  libio-capture-perl,
  libipc-run-perl,
- libjson-perl,
+ libjson-pp-perl,
  libmodule-install-perl,
  libnet-ip-perl,
  libnet-snmp-perl,
@@ -65,7 +65,7 @@ Depends:
  libxml-treepp-perl (>= 0.26),
  libyaml-perl,
  libtext-template-perl,
- libjson-perl,
+ libjson-pp-perl,
  hwdata,
  libhttp-daemon-perl,
  libsocket-getaddrinfo-perl
@@ -98,7 +98,7 @@ Depends:
  ${perl:Depends},
  fusioninventory-agent (>= ${binary:Version}),
  libhttp-cookies-perl,
- libjson-perl
+ libjson-pp-perl
 Breaks:
  libfusioninventory-agent-task-esx-perl (<< 1:2.3.0-1),
 Replaces:
@@ -117,7 +117,7 @@ Architecture: all
 Depends:
  ${misc:Depends},
  fusioninventory-agent (>= ${binary:Version}),
- libjson-perl,
+ libjson-pp-perl,
  liburi-perl,
  libfile-copy-recursive-perl,
  libdigest-sha-perl,

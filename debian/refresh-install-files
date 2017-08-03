@@ -22,6 +22,8 @@ sub wanted {
         print AGENT_TASK_NETWORK "$t\n";
     } elsif ($t =~ /fusioninventory-esx/) {
         print AGENT_TASK_ESX "$t\n";
+    } elsif ($t =~ /FusionInventory\/Agent\/Tools\/Hardware/) {
+        print AGENT_TASK_NETWORK "$t\n";
     } elsif ($t =~ /FusionInventory\/Agent\/Task\/Net/) {
         print AGENT_TASK_NETWORK "$t\n";
     } elsif ($t =~ /FusionInventory\/Agent\/Task\/Deploy/) {
@@ -36,5 +38,4 @@ print AGENT "etc/agent.cfg /usr/share/fusioninventory/etc\n";
 print AGENT "usr/share/fusioninventory/edid.ids\n";
 print AGENT "usr/share/fusioninventory/sysobject.ids\n";
 print AGENT "usr/share/fusioninventory/html\n";
-print AGENT "debian/default/fusioninventory-agent etc/default\n";
 print AGENT "contrib/unix/fusioninventory-agent.service lib/systemd/system\n";
