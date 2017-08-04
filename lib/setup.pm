@@ -5,9 +5,6 @@ use strict;
 use warnings;
 use parent qw(Exporter);
 
-use File::Spec;
-use Cwd qw(abs_path);
-
 our @EXPORT = ('%setup');
 
 our %setup = (
