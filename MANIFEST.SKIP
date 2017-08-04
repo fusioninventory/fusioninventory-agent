@@ -32,7 +32,6 @@ CVS/
 
 
 ^FusionInventory-Agent.*
-^(lib)?fusioninventory-agent*
 /tarballs/
 ^setup.sh
 
