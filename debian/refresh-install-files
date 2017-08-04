@@ -20,16 +20,18 @@ sub wanted {
         # dh_installmans
     } elsif ($t =~ /fusioninventory-net/ || $t =~ /FusionInventory\/Agent\/SNMP/) {
         print AGENT_TASK_NETWORK "$t\n";
-    } elsif ($t =~ /fusioninventory-esx/) {
-        print AGENT_TASK_ESX "$t\n";
     } elsif ($t =~ /FusionInventory\/Agent\/Tools\/Hardware/) {
         print AGENT_TASK_NETWORK "$t\n";
     } elsif ($t =~ /FusionInventory\/Agent\/Task\/Net/) {
         print AGENT_TASK_NETWORK "$t\n";
+    } elsif ($t =~ /fusioninventory-esx/) {
+        print AGENT_TASK_ESX "$t\n";
+    } elsif ($t =~ /FusionInventory\/Agent\/Task\/ESX/) {
+        print AGENT_TASK_ESX "$t\n";
     } elsif ($t =~ /FusionInventory\/Agent\/Task\/Deploy/) {
         print AGENT_TASK_DEPLOY "$t\n";
-    } elsif ($t !~ m,/(Win32|HPUX|BSD|Solaris|MacOS|AIX|.exists),) {
-        # Skip not Debian/Linux related files
+    } elsif ($t !~ m,/.exists,) {
+        # Skip .exists files
         print AGENT "$t\n";
     }
 };
