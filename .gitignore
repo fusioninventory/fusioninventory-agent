@@ -5,8 +5,6 @@ META.yml
 Makefile
 run-postinst
 FusionInventory-Agent*
-fusioninventory-agent*
-*.deb
 blib
 pm_to_blib
 *~
@@ -19,5 +17,4 @@ MYMETA.yml
 var/
 resources/ssl/*.log
 SIGNATURE
-debian/*.log
-debian/debhelper-build-stamp
+debian/*.install
