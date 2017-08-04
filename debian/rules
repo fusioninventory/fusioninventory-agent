@@ -1,24 +1,8 @@
 #!/usr/bin/make -f
 
-# Test not related to linux
-SKIP_TESTS = t/agent/tools/aix.t t/agent/tools/bsd.t t/agent/tools/hpux.t \
-	t/agent/tools/macos.t t/agent/tools/solaris.t t/agent/tools/win32.t \
-	t/tasks/inventory/virtualization/hyperv.t t/tasks/wakeonlan.t
-SKIP_TESTS += $(shell echo t/tasks/inventory/aix/*.t)
-SKIP_TESTS += $(shell echo t/tasks/inventory/bsd/*.t)
-SKIP_TESTS += $(shell echo t/tasks/inventory/hpux/*.t)
-SKIP_TESTS += $(shell echo t/tasks/inventory/macos/*.t)
-SKIP_TESTS += $(shell echo t/tasks/inventory/solaris/*.t)
-SKIP_TESTS += $(shell echo t/tasks/inventory/windows/*.t)
-
-# Also skip test failing due to Debian patch in libhttp-server-simple-perl
-SKIP_TESTS += t/agent/http/client/connection.t \
-	t/agent/http/client/fusion/response.t \
-	t/agent/http/client/ocs/response.t \
-	t/agent/http/client/ssl.t \
-	t/tasks/deploy/p2p.t
-
-TEST_FILES = $(filter-out $(SKIP_TESTS),$(shell echo t/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t t/*/*/*/*/*.t))
+# Skip all tests but the only really important for Debian & linux
+TEST_FILES = t/01compile.t t/agent/tools/linux.t \
+	$(shell echo t/tasks/inventory/linux/*.t t/tasks/inventory/linux/*/*.t)
 
 %:
 	dh $@ --with systemd
