@@ -39,7 +39,4 @@ CVS/
 var/
 
 ^tools*
-^FusionInventory-Agent.*
-/tarballs/
-^setup.sh
-debian
+^debian/
