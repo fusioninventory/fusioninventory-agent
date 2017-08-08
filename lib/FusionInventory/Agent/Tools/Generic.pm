@@ -121,7 +121,7 @@ sub getIpmiFru {
         }
 
         next unless defined $descr;
-        next unless $line =~ /^\s+([^:]+)\s+:\s(.+)$/;
+        next unless $line =~ /^\s+([^:]+\w)\s+:\s(.+)$/;
 
         $block->{$1} = trimWhitespace($2);
     }
