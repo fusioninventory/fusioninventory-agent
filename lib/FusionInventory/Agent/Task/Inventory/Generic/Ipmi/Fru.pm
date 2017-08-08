@@ -15,17 +15,41 @@
 # This module reports the MAC address and, if any, the IP
 # configuration of the BMC. This is reported as a standard NIC.
 #
-package FusionInventory::Agent::Task::Inventory::Generic::Ipmi;
+package FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru;
 
 use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
-    return unless canRun('ipmitool');
+    return 1;
 }
 
-sub doInventory {}
+sub doInventory {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
+    my $fru = getIpmiFru(logger => $logger);
+
+    foreach my $descr (keys %$fru) {
+        next unless $descr =~ /^PS(\d+)/;
+
+        my $psu = {
+            PARTNUM     => $fru->{$descr}->{data}->{'Board Part Number'},
+            SERIAL      => $fru->{$descr}->{data}->{'Board Serial'},
+            DESCRIPTION => $fru->{$descr}->{data}->{'Board Product'},
+            VENDOR      => $fru->{$descr}->{data}->{'Board Mfg'},
+        }
+
+        $inventory->addEntry(
+            section => 'PSU',
+            entry   => $psu
+        );
+    }
+}
 
 1;
