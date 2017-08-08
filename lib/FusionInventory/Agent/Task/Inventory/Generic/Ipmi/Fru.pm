@@ -9,12 +9,6 @@
 # system. The IPMI consists of a main controller called the Baseboard
 # Management Controller (BMC) and other satellite controllers.
 #
-# The BMC can be fetched through client like OpenIPMI drivers or
-# through the network. Though, the BMC hold a proper MAC address.
-#
-# This module reports the MAC address and, if any, the IP
-# configuration of the BMC. This is reported as a standard NIC.
-#
 package FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru;
 
 use strict;
@@ -34,11 +28,12 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my $fru = getIpmiFru(logger => $logger);
+    my $psu;
 
     foreach my $descr (keys %$fru) {
         next unless $descr =~ /^PS(\d+)/;
 
-        my $psu = {
+        $psu = {
             PARTNUM     => $fru->{$descr}->{data}->{'Board Part Number'},
             SERIAL      => $fru->{$descr}->{data}->{'Board Serial'},
             DESCRIPTION => $fru->{$descr}->{data}->{'Board Product'},
@@ -49,6 +44,8 @@ sub doInventory {
             section => 'PSU',
             entry   => $psu
         );
+
+        undef $psu;
     }
 }
 
