@@ -38,7 +38,7 @@ sub doInventory {
             SERIAL      => $fru->{$descr}->{data}->{'Board Serial'},
             DESCRIPTION => $fru->{$descr}->{data}->{'Board Product'},
             VENDOR      => $fru->{$descr}->{data}->{'Board Mfg'},
-        }
+        };
 
         $inventory->addEntry(
             section => 'PSU',
