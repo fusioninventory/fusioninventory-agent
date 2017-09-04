@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Inputs;
 use strict;
 use warnings;
 
+use Storable 'dclone';
+
 # Had never been tested.
 use FusionInventory::Agent::Tools::Win32;
 
@@ -31,8 +33,10 @@ sub doInventory {
 
     my %seen;
     my $inventory = $params{inventory};
-
+    my $wmiParams = {};
+    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
     foreach my $object (getWMIObjects(
+        %$wmiParams,
         class      => 'Win32_Keyboard',
         properties => [ qw/Name Caption Manufacturer Description Layout/ ]
     )) {
@@ -54,6 +58,7 @@ sub doInventory {
     }
 
     foreach my $object (getWMIObjects(
+        %$wmiParams,
         class      => 'Win32_PointingDevice',
         properties => [ qw/Name Caption Manufacturer Description PointingType DeviceInterface/ ]
     )) {

@@ -3,10 +3,12 @@ package FusionInventory::Agent;
 use strict;
 use warnings;
 
+use Cwd;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use File::Glob;
 use IO::Handle;
+use POSIX ":sys_wait_h"; # WNOHANG
 use Storable 'dclone';
 
 use FusionInventory::Agent::Version;
@@ -17,6 +19,7 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
@@ -46,7 +49,9 @@ sub new {
         confdir => $params{confdir},
         datadir => $params{datadir},
         libdir  => $params{libdir},
+        toolsdir => '',
         vardir  => $params{vardir},
+        sigterm => $params{sigterm},
         targets => [],
         tasks   => []
     };
@@ -250,6 +255,7 @@ sub runTaskReal {
         config       => $self->{config},
         confdir      => $self->{confdir},
         datadir      => $self->{datadir},
+        toolsdir     => $self->{toolsdir},
         logger       => $self->{logger},
         target       => $target,
         deviceid     => $self->{deviceid},
@@ -385,16 +391,7 @@ sub _handlePersistentState {
 
     $self->{deviceid} = $data->{deviceid} if $data->{deviceid};
 
-    if (!$self->{deviceid}) {
-        # compute an unique agent identifier, based on host name and current time
-        my $hostname = getHostname();
-
-        my ($year, $month , $day, $hour, $min, $sec) =
-            (localtime (time))[5, 4, 3, 2, 1, 0];
-
-        $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-            $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
-    }
+    $self->{deviceid} = computeDeviceId() if !$self->{deviceid};
 
     # Always save agent state
     $self->{storage}->save(
@@ -403,6 +400,19 @@ sub _handlePersistentState {
             deviceid => $self->{deviceid},
         }
     );
+}
+
+# compute an unique agent identifier, based on host name and current time
+sub computeDeviceId {
+    my (%params) = @_;
+
+    my $hostname = $params{hostname} ? $params{hostname} : getHostname();
+
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (localtime (time))[5, 4, 3, 2, 1, 0];
+
+    return sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
 }
 
 sub _appendElementsNotAlreadyInList {

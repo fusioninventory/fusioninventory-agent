@@ -53,6 +53,9 @@ sub run {
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
+    if ($params{WMIService}) {
+        $inventory->{WMIService} = $params{WMIService};
+    }
 
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
@@ -65,8 +68,15 @@ sub run {
 
     my %disabled = map { $_ => 1 } @{$self->{config}->{'no-category'}};
 
-    $self->_initModulesList(\%disabled);
+    $self->_initModulesList(\%disabled, $params{enabledModules});
     $self->_feedInventory($inventory, \%disabled);
+
+    # for remote WMI inventory, we have to overwrite the device id because it is computed locally
+    if ($params{WMIService}) {
+        $self->{deviceid} = FusionInventory::Agent::computeDeviceId(
+            hostname => $inventory->{content}->{HARDWARE}->{NAME}
+        );
+    }
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();
@@ -142,12 +152,17 @@ sub run {
 }
 
 sub _initModulesList {
-    my ($self, $disabled) = @_;
+    my ($self, $disabled, $enabledModules) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    my @modules = __PACKAGE__->getModules('');
+    my @modules;
+    if ($enabledModules && scalar (@$enabledModules) > 1) {
+        @modules = @$enabledModules;
+    } else {
+        @modules = __PACKAGE__->getModules('');
+    }
     die "no inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
@@ -292,6 +307,9 @@ sub _runModule {
 
 sub _feedInventory {
     my ($self, $inventory, $disabled) = @_;
+
+    my $hasWmi = $inventory->{WMIService} ? 'remote inventory' : 'local inventory';
+    $self->{logger}->debug2('Has inventory wmiParams ? ' . $hasWmi);
 
     my $begin = time();
     my @modules =

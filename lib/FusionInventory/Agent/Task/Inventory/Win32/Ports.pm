@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Ports;
 use strict;
 use warnings;
 
+use Storable 'dclone';
+
 # Had never been tested.
 use FusionInventory::Agent::Tools::Win32;
 
@@ -145,8 +147,10 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-
+    my $wmiParams = {};
+    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
     foreach my $object (getWMIObjects(
+        %$wmiParams,
         class      => 'Win32_SerialPort',
         properties => [ qw/Name Caption Description/ ]
     )) {
@@ -162,6 +166,7 @@ sub doInventory {
     }
 
     foreach my $object (getWMIObjects(
+        %$wmiParams,
         class      => 'Win32_ParallelPort',
         properties => [ qw/Name Caption Description/ ]
     )) {
@@ -178,6 +183,7 @@ sub doInventory {
     }
 
     foreach my $object (getWMIObjects(
+        %$wmiParams,
         class      => 'Win32_PortConnector',
         properties => [ qw/ConnectorType InternalReferenceDesignator/ ]
     )) {

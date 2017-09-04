@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Controllers;
 use strict;
 use warnings;
 
+use Storable 'dclone';
+
 use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Win32;
 
@@ -16,8 +18,10 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-
+    my $wmiParams = {};
+    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
     foreach my $controller (_getControllers(
+        %$wmiParams,
         logger  => $params{logger},
         datadir => $params{datadir}
     )) {
@@ -78,6 +82,8 @@ sub _getControllers {
 }
 
 sub _getControllersFromWMI {
+    my (%params) = @_;
+
     my @controllers;
 
     foreach my $class (qw/
@@ -87,6 +93,7 @@ sub _getControllersFromWMI {
     /) {
 
         foreach my $object (getWMIObjects(
+            %params,
             class      => $class,
             properties => [ qw/
                 Name Manufacturer Caption DeviceID

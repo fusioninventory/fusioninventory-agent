@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Memory;
 use strict;
 use warnings;
 
+use Storable 'dclone';
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
@@ -82,8 +84,9 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-
-    foreach my $memory (_getMemories()) {
+    my $wmiParams = {};
+    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
+    foreach my $memory (_getMemories(%$wmiParams)) {
         $inventory->addEntry(
             section => 'MEMORIES',
             entry   => $memory
@@ -97,6 +100,7 @@ sub _getMemories {
     my @memories;
 
     foreach my $object (getWMIObjects(
+        @_,
         class      => 'Win32_PhysicalMemory',
         properties => [ qw/
             Capacity Caption Description FormFactor Removable Speed MemoryType
@@ -126,6 +130,7 @@ sub _getMemories {
     }
 
     foreach my $object (getWMIObjects(
+        @_,
         class      => 'Win32_PhysicalMemoryArray',
         properties => [ qw/
             MemoryDevices SerialNumber PhysicalMemoryCorrection

@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
+use Storable 'dclone';
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
@@ -46,7 +47,8 @@ sub _getRegistryData {
         $regkey =~ s{\\}{/}g;
         my $value = getRegistryValue(
             path   => $hives[$regtree]."/".$regkey."/".$content,
-            logger => $params{logger}
+            logger => $params{logger},
+            WMIService => $params{WMIService}
         );
 
         if (ref($value) eq "HASH") {
@@ -76,11 +78,13 @@ sub doInventory {
     my (%params) = @_;
 
     return unless $params{registry}->{NAME} eq 'REGISTRY';
-
+    my $wmiParams = {};
+    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
     foreach my $data (_getRegistryData(
-                registry => $params{registry},
-                logger => $params{logger}))
-    {
+        %$wmiParams,
+        registry => $params{registry},
+        logger => $params{logger}
+    )) {
         $params{inventory}->addEntry(%$data);
     }
 

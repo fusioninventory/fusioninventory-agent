@@ -49,6 +49,9 @@ my $default = {
     'user'                    => undef,
     # deprecated options
     'stdout'                  => undef,
+    'wmi_hostname'            => undef,
+    'wmi_user'                => undef,
+    'wmi_pass'                => undef
 };
 
 my $deprecated = {

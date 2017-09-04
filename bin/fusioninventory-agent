@@ -64,7 +64,10 @@ GetOptions(
     # deprecated options
     'stdout',
     # Platform specific option
-    'no-win32-ole-workaround'
+    'no-win32-ole-workaround',
+    'wmi_hostname=s',
+    'wmi_user=s',
+    'wmi_pass=s'
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
