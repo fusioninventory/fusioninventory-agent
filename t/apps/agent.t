@@ -34,14 +34,15 @@ like(
     '--version stdout'
 );
 
-my $regconf = $OSNAME eq 'MSWin32' ? keys(%{FusionInventory::Test::Utils::openWin32Registry()}) : 0;
-
-($out, $err, $rc) = run_executable('fusioninventory-agent', $regconf ? '--config none' : undef);
+my $regconf = $OSNAME eq 'MSWin32' ? FusionInventory::Test::Utils::openWin32Registry() : 0;
+my $options = $regconf ? '--config none' : '';
+my $executable = 'fusioninventory-agent';
+($out, $err, $rc) = run_executable($executable, $options);
 ok($rc == 1, 'no target exit status');
 like(
     $err,
     qr/No target defined/,
-    'no target stderr'
+    'no target stderr with command : ' . $executable . ' ' . $options
 );
 is($out, '', 'no target stdout');
 
@@ -57,7 +58,7 @@ like(
 );
 is($out, '', 'incompatible options stdout');
 
-my $base_options = "--debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
+my $base_options = "--debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery,wmi";
 $base_options .= " --config none" if $regconf;
 
 # first inventory

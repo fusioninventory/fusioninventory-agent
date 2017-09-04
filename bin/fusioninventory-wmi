@@ -1,0 +1,126 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use lib './lib';
+use setup;
+
+use English qw(-no_match_vars) ;
+use Getopt::Long;
+use Pod::Usage;
+
+use FusionInventory::Agent;
+
+Getopt::Long::Configure( "no_ignorecase" );
+
+my $options = {};
+
+GetOptions(
+    $options,
+    'backend-collect-timeout=s',
+    'conf-file=s',
+    'config=s',
+    'debug+',
+    'help',
+    'host|h=s',
+    'local|l=s',
+    'logger=s',
+    'logfile=s',
+    'pass|p=s',
+    'scan-homedirs',
+    'scan_profiles',
+    'server|s=s',
+    'tag|t=s',
+    'user|u=s',
+    'version'
+) or pod2usage(-verbose => 0);
+
+pod2usage(-verbose => 0, -exitstatus => 0)
+    if $options->{help}
+        || (!$options->{host} || !$options->{user} || !$options->{pass});
+
+if ($options->{version}) {
+    my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
+    map { print $_."\n" }
+        "fusioninventory-wmi $FusionInventory::Agent::Task::Wmi::VERSION",
+        "based on $PROVIDER Agent v$FusionInventory::Agent::Version::VERSION",
+        @{$FusionInventory::Agent::Version::COMMENTS};
+    exit 0;
+}
+
+if ($options->{'conf-file'}) {
+    if ($options->{config}) {
+        if ($options->{config} ne 'file') {
+            print STDERR
+                "don't use --conf-file with $options->{config} backend";
+            exit 1;
+        }
+    } else {
+        $options->{config} = 'file';
+    }
+}
+
+if ($OSNAME eq 'MSWin32' && ! $options->{'no-win32-ole-workaround'}) {
+    # From here we may need to avoid crashes due to not thread-safe Win32::OLE
+    FusionInventory::Agent::Tools::Win32->require();
+    FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+}
+
+my $agent = FusionInventory::Agent->new(%setup);
+
+$options->{tasks} = 'wmi';
+
+$options->{wmi_hostname} = $options->{host};
+delete $options->{host};
+$options->{wmi_user} = $options->{user};
+delete $options->{user};
+$options->{wmi_pass} = $options->{pass};
+delete $options->{pass};
+
+eval {
+
+    $agent->init(options => $options);
+    $agent->run();
+};
+
+if ($EVAL_ERROR) {
+    print STDERR "Execution failure:.\n";
+    print STDERR $EVAL_ERROR;
+    exit 1;
+}
+
+exit(0);
+
+
+__END__
+
+=head1 NAME
+
+fusioninventory-wmi - Win32 remote inventory
+
+=head1 SYNOPSIS
+
+fusioninventory-wmi --host <host> --user <user> --pass <pass> [--server server|--local path]
+
+  General options:
+    --help                 this menu
+    --tag tag              tag for the inventoried machine
+
+  Remote machine options:
+    --host hostname        hostname
+    --user username        user name
+    --password xxxx        user password
+
+  Target definition options:
+    -s --server=URI                send tasks result to a server
+    -l --local=PATH                write tasks results locally
+
+=head1 EXAMPLES
+
+    % fusioninventory-wmi --host 172.xx.xxx.xxx --user foo --password bar --local=.
+
+=head1 DESCRIPTION
+
+F<fusioninventory-wmi> creates inventory of remote Win32 machine.
+It uses the WMI interface of the remote server.

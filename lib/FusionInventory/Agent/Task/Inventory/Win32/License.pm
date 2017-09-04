@@ -9,6 +9,7 @@ use Win32::TieRegistry (
     ArrayValues => 0,
     qw/KEY_READ/
 );
+use Storable 'dclone';
 
 use FusionInventory::Agent::Tools::License;
 use FusionInventory::Agent::Tools::Win32;
@@ -24,32 +25,47 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
+    my $wmiParams = {};
+    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
 
     my $is64bit = is64bit();
     my @licenses;
 
-    if ($is64bit) {
-        my $machKey64 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        my $officeKey64 = $machKey64->{"SOFTWARE/Microsoft/Office"};
-        push @licenses, _scanOfficeLicences($officeKey64 ) if $officeKey64;
-
-        my $machKey32 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-        my $officeKey32 = $machKey32->{"SOFTWARE/Microsoft/Office"};
-        push @licenses, _scanOfficeLicences($officeKey32) if $officeKey32;
+    if ($wmiParams) {
+        my $path = 'SOFTWARE/Microsoft/Office';
+        if (isDefinedRemoteRegistryKey(
+            %$wmiParams,
+            path => $path
+        )) {
+            push @licenses, _scanOfficeLicensesFromRemoteRegistry(
+                    %$wmiParams,
+                    path => $path
+                );
+        }
     } else {
-        my $machKey = $Registry->Open('LMachine', {
-            Access => KEY_READ ## no critic (ProhibitBitwise)
-        }) or $logger->error(
-            "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
-        );
+        if ($is64bit) {
+            my $machKey64 = $Registry->Open('LMachine', {
+                    Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
+                }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+            my $officeKey64 = $machKey64->{"SOFTWARE/Microsoft/Office"};
+            push @licenses, _scanOfficeLicences($officeKey64 ) if $officeKey64;
 
-        my $officeKey = $machKey->{"SOFTWARE/Microsoft/Office"};
-        push @licenses, _scanOfficeLicences($officeKey) if $officeKey;
+            my $machKey32 = $Registry->Open('LMachine', {
+                    Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
+                }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+
+            my $officeKey32 = $machKey32->{"SOFTWARE/Microsoft/Office"};
+            push @licenses, _scanOfficeLicences($officeKey32) if $officeKey32;
+        } else {
+            my $machKey = $Registry->Open('LMachine', {
+                    Access => KEY_READ ## no critic (ProhibitBitwise)
+                }) or $logger->error(
+                "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
+            );
+
+            my $officeKey = $machKey->{"SOFTWARE/Microsoft/Office"};
+            push @licenses, _scanOfficeLicences($officeKey) if $officeKey;
+        }
     }
 
     foreach my $license (@licenses) {
@@ -58,6 +74,59 @@ sub doInventory {
             entry   => $license
         );
     }
+}
+
+sub _scanOfficeLicensesFromRemoteRegistry {
+    my (%params) = @_;
+
+    my $key = getRegistryKeyFromWMI(
+        %params
+    );
+    return unless $key && ref($key) eq 'ARRAY';
+    my @licences;
+    for my $subKey (@$key) {
+        next unless 'Registration';
+        my $subKeyValues = getRegistryKeyFromWMI(
+            path                     => $params{path} . '/' . $subKey,
+            retrieveValuesForAllKeys => 1
+        );
+        foreach my $uuidKey (keys %$subKeyValues) {
+            next unless $subKeyValues->{$uuidKey}->{'DigitalProductID'};
+            push @licences, _getOfficeLicenseRemote($subKeyValues->{$uuidKey});
+        }
+    }
+
+    return @licences;
+}
+
+sub _getOfficeLicenseRemote {
+    my ($key) = @_;
+
+    my $license = {
+        KEY       => decodeMicrosoftKey($key->{'DigitalProductID'}),
+        PRODUCTID => $key->{'ProductID'},
+        UPDATE    => $key->{'SPLevel'},
+        OEM       => $key->{'OEM'},
+        FULLNAME  => encodeFromRegistry($key->{'ProductName'}) ||
+            encodeFromRegistry($key->{'ConvertToEdition'}),
+        NAME      => encodeFromRegistry($key->{'ProductNameNonQualified'}) ||
+            encodeFromRegistry($key->{'ProductNameVersion'})
+    };
+
+    if ($key->{'TrialType'} && $key->{'TrialType'} =~ /(\d+)$/) {
+        $license->{TRIAL} = int($1);
+    }
+
+    my @products;
+    foreach my $variable (keys %$key) {
+        next unless $variable =~ m/\/(\w+)NameVersion$/;
+        push @products, $1;
+    }
+    if (@products) {
+        $license->{COMPONENTS} = join('/', sort @products);
+    }
+
+    return $license;
 }
 
 sub _scanOfficeLicences {

@@ -10,6 +10,7 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 use File::Basename;
+use Storable 'dclone';
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
@@ -29,111 +30,260 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $is64bit = is64bit();
+    my $wmiParams = {};
+    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
 
+    my $is64bit = is64bit(%$wmiParams);
 
-    if ($is64bit) {
+    if ($wmiParams->{WMIService}) {
+        if ($is64bit) {
+            my @fields = qw/
+                DisplayName
+                Comments
+                HelpLink
+                ReleaseType
+                DisplayVersion
+                Publisher
+                URLInfoAbout
+                UninstallString
+                InstallDate
+                MinorVersion
+                MajorVersion
+                NoRemove
+            /;
+            my %fields = map { $_ => 1 } @fields;
 
-        # I don't know why but on Vista 32bit, KEY_WOW64_64 is able to read
-        # 32bit entries. This is not the case on Win2003 and if I correctly
-        # understand MSDN, this sounds very odd
+            # 64-bit software
+            my $softwaresFromRemote = _retrieveSoftwareFromRemoteRegistry(
+                %$wmiParams,
+                is64bit => 1,
+                fields  => \%fields
+            );
+            my $softwares = _extractSoftwareDataFromHash(
+                softwares => $softwaresFromRemote,
+                is64bit   => 1,
+            );
+            foreach my $software (@$softwares) {
+                _addSoftware(inventory => $inventory, entry => $software);
+            }
 
-        my $machKey64 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        my $softwaresKey64 =
-            $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-        my $softwares64 =_getSoftwaresList(
-            softwares => $softwaresKey64,
-            is64bit   => 1,
-        );
-        foreach my $software (@$softwares64) {
-            _addSoftware(inventory => $inventory, entry => $software);
+            # 32-bit software
+            $softwaresFromRemote = _retrieveSoftwareFromRemoteRegistry(
+                %$wmiParams,
+                is64bit => 0,
+                fields  => \%fields
+            );
+            $softwares = _extractSoftwareDataFromHash(
+                softwares => $softwaresFromRemote,
+                is64bit   => 0,
+            );
+            foreach my $software (@$softwares) {
+                _addSoftware(inventory => $inventory, entry => $software);
+            }
+
+            _processMSIE(
+                %$wmiParams,
+                inventory => $inventory,
+                is64bit   => 1
+            );
         }
-        _processMSIE(
-            machKey   => $machKey64,
-            inventory => $inventory,
-            is64bit   => 1
-        );
-
         if ($params{scan_profiles}) {
             _loadUserSoftware(
                 inventory => $inventory,
                 is64bit   => 1,
-                logger    => $logger
+                logger    => $logger,
+                %$wmiParams
             );
         } else {
             $logger->warning(
                 "'scan-profiles' configuration parameter disabled, " .
-                "ignoring software in user profiles"
+                    "ignoring software in user profiles"
             );
         }
-
-        my $machKey32 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        my $softwaresKey32 =
-            $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-        my $softwares32 = _getSoftwaresList(
-            softwares => $softwaresKey32,
-            is64bit   => 0,
-            logger    => $logger,
-        );
-        foreach my $software (@$softwares32) {
-            _addSoftware(inventory => $inventory, entry => $software);
-        }
-        _processMSIE(
-            machKey   => $machKey32,
-            inventory => $inventory,
-            is64bit   => 0
-        );
-        _loadUserSoftware(
-            inventory => $inventory,
-            is64bit   => 0,
-            logger    => $logger
-        ) if $params{scan_profiles};
     } else {
-        my $machKey = $Registry->Open('LMachine', {
-            Access => KEY_READ
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        my $softwaresKey =
-            $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
-        my $softwares = _getSoftwaresList(
-            softwares => $softwaresKey,
-            is64bit   => 0,
-        );
-        foreach my $software (@$softwares) {
-            _addSoftware(inventory => $inventory, entry => $software);
-        }
-        _processMSIE(
-            machKey   => $machKey,
-            inventory => $inventory,
-            is64bit   => 0
-        );
-        _loadUserSoftware(
-            inventory => $inventory,
-            is64bit   => 0,
-            logger    => $logger
-        ) if $params{scan_profiles};
 
+        if ($is64bit) {
+
+            # I don't know why but on Vista 32bit, KEY_WOW64_64 is able to read
+            # 32bit entries. This is not the case on Win2003 and if I correctly
+            # understand MSDN, this sounds very odd
+
+            my $machKey64 = $Registry->Open('LMachine', {
+                    Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
+                }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+            my $softwaresKey64 =
+                $machKey64->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+            my $softwares64 = _getSoftwaresList(
+                softwares => $softwaresKey64,
+                is64bit   => 1,
+            );
+            foreach my $software (@$softwares64) {
+                _addSoftware(inventory => $inventory, entry => $software);
+            }
+            _processMSIE(
+                machKey   => $machKey64,
+                inventory => $inventory,
+                is64bit   => 1
+            );
+
+            if ($params{scan_profiles}) {
+                _loadUserSoftware(
+                    inventory => $inventory,
+                    is64bit   => 1,
+                    logger    => $logger
+                );
+            } else {
+                $logger->warning(
+                    "'scan-profiles' configuration parameter disabled, " .
+                        "ignoring software in user profiles"
+                );
+            }
+
+            my $machKey32 = $Registry->Open('LMachine', {
+                    Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
+                }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+            my $softwaresKey32 =
+                $machKey32->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+            my $softwares32 = _getSoftwaresList(
+                softwares => $softwaresKey32,
+                is64bit   => 0,
+                logger    => $logger,
+            );
+            foreach my $software (@$softwares32) {
+                _addSoftware(inventory => $inventory, entry => $software);
+            }
+            _processMSIE(
+                machKey   => $machKey32,
+                inventory => $inventory,
+                is64bit   => 0
+            );
+            _loadUserSoftware(
+                inventory => $inventory,
+                is64bit   => 0,
+                logger    => $logger
+            ) if $params{scan_profiles};
+        } else {
+            my $machKey = $Registry->Open('LMachine', {
+                    Access => KEY_READ
+                }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+            my $softwaresKey =
+                $machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"};
+            my $softwares = _getSoftwaresList(
+                softwares => $softwaresKey,
+                is64bit   => 0,
+            );
+            foreach my $software (@$softwares) {
+                _addSoftware(inventory => $inventory, entry => $software);
+            }
+            _processMSIE(
+                machKey   => $machKey,
+                inventory => $inventory,
+                is64bit   => 0
+            );
+            _loadUserSoftware(
+                inventory => $inventory,
+                is64bit   => 0,
+                logger    => $logger
+            ) if $params{scan_profiles};
+
+        }
     }
 
-    my $hotfixes = _getHotfixesList(is64bit => $is64bit);
+    my $hotfixes = _getHotfixesList(
+        %$wmiParams,
+        is64bit => $is64bit
+    );
     foreach my $hotfix (@$hotfixes) {
         # skip fixes already found in generic software list,
         # without checking version information
         next if $seen->{$hotfix->{NAME}};
         _addSoftware(inventory => $inventory, entry => $hotfix);
     }
-
     # Reset seen hash so we can see softwares in later same run inventory
     $seen = {};
+}
+
+sub _retrieveSoftwareFromRemoteRegistry {
+    my (%params) = @_;
+
+    my $path;
+    if ($params{is64bit}) {
+        $path = "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall";
+    } else {
+        $path = "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall";
+    }
+    my $softwaresFromRemote = getRegistryKeyFromWMI(
+        %params,
+        path                     => $path,
+        retrieveValuesForAllKeys => 1
+    );
+
+
+    return $softwaresFromRemote;
+}
+
+sub _extractSoftwareDataFromHash {
+    my (%params) = @_;
+
+    my $softwares = $params{softwares};
+
+    my @list;
+
+    return unless $softwares;
+
+    foreach my $rawGuid (keys %$softwares) {
+        # skip variables
+        next if $rawGuid =~ m{^/};
+
+        # only keep subkeys with more than 1 value
+        my $data = $softwares->{$rawGuid};
+        next unless keys %$data > 1;
+
+        my $guid = $rawGuid;
+        $guid =~ s/\/$//; # drop the tailing /
+
+        my $software = {
+            FROM             => "registry",
+            NAME             => encodeFromRegistry($data->{'DisplayName'}) ||
+                encodeFromRegistry($guid), # folder name
+            COMMENTS         => encodeFromRegistry($data->{'Comments'}),
+            HELPLINK         => encodeFromRegistry($data->{'HelpLink'}),
+            RELEASE_TYPE     => encodeFromRegistry($data->{'ReleaseType'}),
+            VERSION          => encodeFromRegistry($data->{'DisplayVersion'}),
+            PUBLISHER        => encodeFromRegistry($data->{'Publisher'}),
+            URL_INFO_ABOUT   => encodeFromRegistry($data->{'URLInfoAbout'}),
+            UNINSTALL_STRING => encodeFromRegistry($data->{'UninstallString'}),
+            INSTALLDATE      => _dateFormat($data->{'InstallDate'}),
+            VERSION_MINOR    => hex2dec($data->{'MinorVersion'}),
+            VERSION_MAJOR    => hex2dec($data->{'MajorVersion'}),
+            NO_REMOVE        => hex2dec($data->{'NoRemove'}),
+            ARCH             => $params{is64bit} ? 'x86_64' : 'i586',
+            GUID             => $guid,
+            USERNAME         => $params{username},
+            USERID           => $params{userid},
+            SYSTEM_CATEGORY  => $data->{'SystemComponent'} && hex2dec($data->{'SystemComponent'}) ?
+                CATEGORY_SYSTEM_COMPONENT : CATEGORY_APPLICATION
+        };
+
+        # Workaround for #415
+        $software->{VERSION} =~ s/[\000-\037].*// if $software->{VERSION};
+
+        # TODO : see what we can do here, remotely thinking...
+        # Set install date to last registry key update time
+#        if (!defined($software->{INSTALLDATE})) {
+#            $software->{INSTALLDATE} = _dateFormat(_keyLastWriteDateString($data));
+#        }
+
+        push @list, $software;
+    }
+
+    return \@list;
 }
 
 sub _loadUserSoftware {
     my (%params) = @_;
 
-    _loadUserSoftwareFromNtuserDatFiles(%params);
+    _loadUserSoftwareFromNtuserDatFiles(%params) unless $params{WMIService};
     my $userList = getUsersFromRegistry(%params);
     _loadUserSoftwareFromHKey_Users($userList, %params);
 }
@@ -200,6 +350,60 @@ sub _loadUserSoftwareFromNtuserDatFiles {
 sub _loadUserSoftwareFromHKey_Users {
     my ($userList, %params) = @_;
 
+    if ($params{WMIService}) {
+        _loadUserSoftwareFromHKey_UsersRemote($userList, %params);
+    } else {
+        _loadUserSoftwareFromHKey_UsersLocal($userList, %params);
+    }
+}
+
+sub _loadUserSoftwareFromHKey_UsersRemote {
+    my ($userList, %params) = @_;
+
+    return unless $userList;
+
+    my $inventory = $params{inventory};
+    my $is64bit   = $params{is64bit};
+    my $logger    = $params{logger};
+
+    return unless $params{WMIService};
+
+    my $profileList = getRegistryKeyFromWMI(
+        path => 'HKEY_USERS',
+        WMIService => $params{WMIService}
+    );
+    return unless $profileList;
+
+    foreach my $profileName (@$profileList) {
+        # we're only interested in subkeys
+        next unless length($profileName) > 10;
+
+        my $userName = '';
+        next unless $userList->{$profileName};
+        $userName = $userList->{$profileName};
+
+        my $softwaresKey = getRegistryKeyFromWMI(
+            %params,
+            path => 'HKEY_USERS/' . $profileName . '/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall',
+            retrieveValuesForAllKeys => 1
+        );
+        my $softwares = _extractSoftwareDataFromHash(
+            softwares => $softwaresKey,
+            is64bit   => 1,
+        );
+        map {
+            $_->{USERID} = $profileName;
+            $_->{USERNAME} = $userName;
+        } @$softwares;
+        foreach my $software (@$softwares) {
+            _addSoftware(inventory => $inventory, entry => $software);
+        }
+    }
+}
+
+sub _loadUserSoftwareFromHKey_UsersLocal {
+    my ($userList, %params) = @_;
+
     return unless $userList;
 
     my $inventory = $params{inventory};
@@ -233,9 +437,7 @@ sub _loadUserSoftwareFromHKey_Users {
             username  => $userName
         );
         my $nbUsers = 0;
-        if ($softwares) {
-            $nbUsers = scalar(@$softwares);
-        }
+        $nbUsers = scalar(@$softwares) if ($softwares);
         $logger->debug2('_loadUserSoftwareFromHKey_Users() : add of ' . $nbUsers . ' softwares in inventory');
         foreach my $software (@$softwares) {
             _addSoftware(inventory => $inventory, entry => $software);
@@ -344,6 +546,7 @@ sub _getHotfixesList {
     my $list;
 
     foreach my $object (getWMIObjects(
+        %params,
         class      => 'Win32_QuickFixEngineering',
         properties => [ qw/HotFixID Description InstalledOn/  ]
     )) {
@@ -390,12 +593,20 @@ sub _processMSIE {
     my $name = $params{is64bit} ?
         "Internet Explorer (64bit)" : "Internet Explorer";
 
-    # Will use key last write date as INSTALLDATE
-    my $installedkey = $params{machKey}->{"SOFTWARE/Microsoft/Internet Explorer"};
+    my $pathToMSIE = "SOFTWARE/Microsoft/Internet Explorer";
+    my $data;
+    if ($params{WMIService}) {
+        $data = _retrieveMSIEDataFromRemoteRegistry(
+            %params,
+            pathToMSIE => $pathToMSIE
+        );
+    } else {
+        $data = _retrieveMSIEDataFromLocalRegistry(
+            %params,
+            pathToMSIE => $pathToMSIE
+        );
 
-    my $version = $installedkey->{"/svcVersion"} || $installedkey->{"/Version"};
-
-    return unless $version; # Not installed
+    }
 
     _addSoftware(
         inventory => $params{inventory},
@@ -403,12 +614,36 @@ sub _processMSIE {
             FROM        => "registry",
             ARCH        => $params{is64bit} ? 'x86_64' : 'i586',
             NAME        => $name,
-            VERSION     => $version,
+            VERSION     => $data->{version},
             PUBLISHER   => "Microsoft Corporation",
-            INSTALLDATE => _dateFormat(_keyLastWriteDateString($installedkey))
+            INSTALLDATE => $data->{installDate}
         }
     );
+}
 
+sub _retrieveMSIEDataFromLocalRegistry {
+    my (%params) = @_;
+
+    my $data = {};
+    my $installedkey = $params{machKey}->{$params{pathToMSIE}};
+    $data->{version} = $installedkey->{"/svcVersion"} || $installedkey->{"/Version"};
+    $data->{installDate} = _dateFormat(_keyLastWriteDateString($installedkey));
+
+    return $data;
+}
+
+sub _retrieveMSIEDataFromRemoteRegistry {
+    my (%params) = @_;
+
+    my $data = {};
+    my $values = retrieveValuesNameAndType(
+        %params,
+        path => 'HKEY_LOCAL_MACHINE/' . $params{pathToMSIE}
+    );
+    $data->{version} = $values->{svcVersion} || $values->{Version};
+    $data->{installDate} = _dateFormat(_keyLastWriteDateString($values));;
+
+    return $data;
 }
 
 1;

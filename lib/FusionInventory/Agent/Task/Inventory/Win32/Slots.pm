@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Slots;
 use strict;
 use warnings;
 
+use Storable 'dclone';
+
 use FusionInventory::Agent::Tools::Win32;
 
 my %status = (
@@ -20,8 +22,10 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-
+    my $wmiParams = {};
+    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
     foreach my $object (getWMIObjects(
+        %$wmiParams,
         class      => 'Win32_SystemSlot',
         properties => [ qw/Name Description SlotDesignation CurrentUsage/ ]
     )) {
