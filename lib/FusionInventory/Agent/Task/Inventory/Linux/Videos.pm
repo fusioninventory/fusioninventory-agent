@@ -19,6 +19,24 @@ sub doInventory {
     my $logger    = $params{logger};
 
     $logger->debug("retrieving display information:");
+  
+    my @nvidiasmiData;
+    if (canRun('nvidia-smi')) {
+	@nvidiasmiData = _getNvidiaSmiData(
+            command => 'nvidia-smi --format=csv,noheader --query-gpu=gpu_name,gpu_serial,memory.total,gpu_bus_id,vbios_version,driver_version',
+            logger  => $logger
+        );
+         $logger->debug_result(
+             action => 'running nvidia-smi command',
+             data   => @nvidiasmiData
+         );
+    } else {
+        $logger->debug_result(
+             action => 'running nvidia-smi command',
+             status => 'command not available'
+        );
+    }
+
 
     my $ddcprobeData;
     if (canRun('ddcprobe')) {
@@ -77,28 +95,70 @@ sub doInventory {
         );
     }
 
-    return unless $xorgData || $ddcprobeData;
-
-    my $video = {
-        CHIPSET    => $xorgData->{product}    || $ddcprobeData->{product},
-        MEMORY     => $xorgData->{memory}     || $ddcprobeData->{memory},
-        NAME       => $xorgData->{name}       || $ddcprobeData->{oem},
-        RESOLUTION => $xorgData->{resolution} || $ddcprobeData->{dtiming},
-        PCISLOT    => $xorgData->{pcislot},
-        PCIID      => $xorgData->{pciid},
-    };
-
-    if ($video->{MEMORY} && $video->{MEMORY} =~ s/kb$//i) {
-        $video->{MEMORY} = int($video->{MEMORY} / 1024);
+    return unless @nvidiasmiData || $xorgData || $ddcprobeData;
+    # TODO: other cards than NVIDIA will be ignored, when cards from multiple vendors are present in the system
+    if (@nvidiasmiData) {
+	for my $i (0 .. $#nvidiasmiData) {
+            my $video = {
+                MEMORY        => $nvidiasmiData[$i]->{memory},
+                NAME          => $nvidiasmiData[$i]->{name},
+                PCISLOT       => $nvidiasmiData[$i]->{pcislot},
+                SERIAL        => $nvidiasmiData[$i]->{serial},
+                BIOSVERSION   => $nvidiasmiData[$i]->{bios},
+                DRIVERVERSION => $nvidiasmiData[$i]->{driver},
+            };
+            $inventory->addEntry(
+                section => 'VIDEOS',
+                entry   => $video
+            );
+	    }
     }
-    if ($video->{RESOLUTION}) {
-        $video->{RESOLUTION} =~ s/@.*//;
+    # TODO: rewrite should be considered: in systems with multiple cards, only one is detected (and may have wrong infos from another card! [both in _parseXorgFd itself and mixing $xorgData/$ddcprobeData] )
+    else { 
+	    my $video = {
+	        CHIPSET       => $xorgData->{product}    || $ddcprobeData->{product},
+	        MEMORY        => $xorgData->{memory}     || $ddcprobeData->{memory},
+	        NAME          => $xorgData->{name}       || $ddcprobeData->{oem},
+	        RESOLUTION    => $xorgData->{resolution} || $ddcprobeData->{dtiming},
+	        PCISLOT       => $xorgData->{pcislot},
+	        PCIID         => $xorgData->{pciid},
+	    };
+	
+	    if ($video->{MEMORY} && $video->{MEMORY} =~ s/kb$//i) {
+	        $video->{MEMORY} = int($video->{MEMORY} / 1024);
+	    }
+	    if ($video->{RESOLUTION}) {
+	        $video->{RESOLUTION} =~ s/@.*//;
+	    }
+	
+	    $inventory->addEntry(
+	        section => 'VIDEOS',
+	        entry   => $video
+	    );
     }
 
-    $inventory->addEntry(
-        section => 'VIDEOS',
-        entry   => $video
-    );
+
+}
+
+sub _getNvidiaSmiData {
+    my $handle = getFileHandle(@_);
+    return unless $handle;
+
+    my @data;
+    while (my $line = <$handle>) {
+        my $data_entry;
+        my @lineValues = split ", ", $line;
+        $data_entry->{name} = $lineValues[0];
+        $data_entry->{serial} = $lineValues[1];
+        $data_entry->{memory} = $lineValues[2];
+        $data_entry->{pcislot} = $lineValues[3];
+        $data_entry->{bios} = $lineValues[4];
+        $data_entry->{driver} = $lineValues[5];
+        push @data, $data_entry;
+    }
+    close $handle;
+
+    return @data;
 }
 
 sub _getDdcprobeData {
