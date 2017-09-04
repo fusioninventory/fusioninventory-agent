@@ -5,6 +5,7 @@ use warnings;
 
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
+use Storable 'dclone';
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
