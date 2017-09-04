@@ -45,7 +45,7 @@ sub doInventory {
 
 sub _getFirewallProfiles {
     my (%params) = @_;
-$DB::single = 1;
+
     my $key = getRegistryKey(
         %params,
         retrieveValuesForAllKeys => 1,
@@ -238,7 +238,7 @@ sub _retrieveFirewallProfileWithoutDomain {
 
 sub _retrieveProfilesAndSignaturesKey {
     my (%params) = @_;
-$DB::single = 1;
+
     my $networkListKey = getRegistryKey(
         %params,
         retrieveValuesForAllKeys => 1,
@@ -252,7 +252,7 @@ $DB::single = 1;
         $key1 .= '/';
         $key2 .= '/';
     }
-$DB::single = 1;
+
     if ($networkListKey->{$key1} && $networkListKey->{$key2}) {
         return ($networkListKey->{$key1}, $networkListKey->{$key2});
     }
