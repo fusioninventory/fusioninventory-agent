@@ -28,7 +28,7 @@ sub doInventory {
         );
          $logger->debug_result(
              action => 'running nvidia-smi command',
-             data   => @nvidiasmiData
+             data   => join(",", @nvidiasmiData)
          );
     } else {
         $logger->debug_result(
@@ -141,6 +141,10 @@ sub doInventory {
 }
 
 sub _getNvidiaSmiData {
+    my (%params) = @_;
+
+    my $logger = $params{logger};
+
     my $handle = getFileHandle(@_);
     return unless $handle;
 
@@ -148,13 +152,18 @@ sub _getNvidiaSmiData {
     while (my $line = <$handle>) {
         my $data_entry;
         my @lineValues = split ", ", $line;
-        $data_entry->{name} = $lineValues[0];
-        $data_entry->{serial} = $lineValues[1];
-        $data_entry->{memory} = $lineValues[2];
-        $data_entry->{pcislot} = $lineValues[3];
-        $data_entry->{bios} = $lineValues[4];
-        $data_entry->{driver} = $lineValues[5];
-        push @data, $data_entry;
+	if ($#lineValues == 5) { 
+            $data_entry->{name} = $lineValues[0];
+            $data_entry->{serial} = $lineValues[1];
+            $data_entry->{memory} = $lineValues[2];
+            $data_entry->{pcislot} = $lineValues[3];
+            $data_entry->{bios} = $lineValues[4];
+	    $data_entry->{driver} = $lineValues[5];
+            push @data, $data_entry;
+        }
+	else {
+             $logger->debug("   Could not parse nvidia-smi data line: skipping '$line'");
+	}
     }
     close $handle;
 
