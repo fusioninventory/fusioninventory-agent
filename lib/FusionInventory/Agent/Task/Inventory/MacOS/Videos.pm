@@ -41,7 +41,7 @@ sub _getDisplays {
     my $infos = getSystemProfilerInfos(
         type   => 'SPDisplaysDataType',
         logger => $params{logger},
-        file   => $params{file}
+        file   => $params{file},
     );
 
     my @monitors;
@@ -49,21 +49,28 @@ sub _getDisplays {
 
     foreach my $videoName (keys %{$infos->{'Graphics/Displays'}}) {
         my $videoCardInfo = $infos->{'Graphics/Displays'}->{$videoName};
-        foreach my $displayName (keys %{$videoCardInfo->{Displays}}) {
+	my $memory = $videoCardInfo->{'VRAM (Total)'};
+	$memory =~ s/\ .*//g if $memory;
+
+	# on newer releases (10.11) display info seems not to be provided anymore
+	my $resolution;
+	foreach my $displayName (keys %{$videoCardInfo->{Displays}}) {
             next if $displayName eq 'Display Connector';
             next if $displayName eq 'Display';
             my $displayInfo = $videoCardInfo->{Displays}->{$displayName};
 
-            my $resolution = $displayInfo->{Resolution};
+            $resolution = $displayInfo->{Resolution};
             if ($resolution) {
                 $resolution =~ s/\ //g;
                 $resolution =~ s/\@.*//g;
             }
 
-            my $memory = $videoCardInfo->{'VRAM (Total)'};
-            $memory =~ s/\ .*//g if $memory;
-
-            push @videos, {
+            push @monitors, {
+                CAPTION     => $displayName,
+                DESCRIPTION => $displayName,
+            }
+        }
+        push @videos, {
                 CHIPSET    => $videoCardInfo->{'Chipset Model'},
                 MEMORY     => $memory,
                 NAME       => $videoName,
@@ -71,11 +78,6 @@ sub _getDisplays {
                 PCISLOT    => $videoCardInfo->{Slot}
             };
 
-            push @monitors, {
-                CAPTION     => $displayName,
-                DESCRIPTION => $displayName,
-            }
-        }
     }
 
     return (
