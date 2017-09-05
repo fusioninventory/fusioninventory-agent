@@ -73,7 +73,7 @@ sub _getDisplays {
         push @videos, {
                 CHIPSET    => $videoCardInfo->{'Chipset Model'},
                 MEMORY     => $memory,
-                NAME       => $videoName,
+                NAME       => $videoCardInfo->{'Chipset Model'},
                 RESOLUTION => $resolution,
                 PCISLOT    => $videoCardInfo->{Slot}
             };
