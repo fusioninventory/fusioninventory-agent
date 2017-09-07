@@ -28,13 +28,6 @@ my %tests = (
                 CHIPSET     => 'ATI Radeon HD 5770',
                 MEMORY      => '1024',
                 PCISLOT     => 'Slot-1'
-            },
-            {
-                NAME        => 'ATI Radeon HD 5770',
-                RESOLUTION  => '1920x1080',
-                CHIPSET     => 'ATI Radeon HD 5770',
-                MEMORY      => '1024',
-                PCISLOT     => 'Slot-1'
             }
         ]
     }
