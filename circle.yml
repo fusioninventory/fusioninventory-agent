@@ -1,7 +1,7 @@
 general:
   branches:
     only:
-      - 2.3.x
+      - 2.4.x
 #      - master
 
 machine:

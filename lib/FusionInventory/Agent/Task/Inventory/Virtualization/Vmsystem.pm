@@ -3,8 +3,9 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vmsystem;
 use strict;
 use warnings;
 
+use UNIVERSAL::require;
+
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Solaris;
 use FusionInventory::Agent::Tools::Virtualization;
 
 my @vmware_patterns = (
@@ -146,9 +147,11 @@ sub _getType {
     }
 
     # Solaris zones
-    if (canRun('/usr/sbin/zoneadm')) {
-        my $zone = getZone();
-        return 'SolarisZone' if $zone ne 'global';
+    if (FusionInventory::Agent::Tools::Solaris->require()) {
+        if (canRun('/usr/sbin/zoneadm')) {
+            my $zone = FusionInventory::Agent::Tools::Solaris::getZone();
+            return 'SolarisZone' if $zone ne 'global';
+        }
     }
 
     # Xen PV host
@@ -236,13 +239,13 @@ sub _getType {
 
     my $init_env = slurp('/proc/1/environ');
     if ($init_env) {
-	$init_env =~ s/\0/\n/g;
-	my $container_type = getFirstMatch(
-	    string  => $init_env,
-	    pattern => qr/^container=(\S+)/,
-	    logger  => $logger
-	);
-	return $container_type if $container_type;
+        $init_env =~ s/\0/\n/g;
+        my $container_type = getFirstMatch(
+            string  => $init_env,
+            pattern => qr/^container=(\S+)/,
+            logger  => $logger
+        );
+        return $container_type if $container_type;
     }
     # OpenVZ
     if (-f '/proc/self/status') {

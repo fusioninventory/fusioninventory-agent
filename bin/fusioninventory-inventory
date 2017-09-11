@@ -98,5 +98,5 @@ fusioninventory-inventory [options]
 
 =head1 DESCRIPTION
 
-F<fusioninventory-inventory> allows to run an inventory task without a GLPI
+F<fusioninventory-inventory> can be used to run an inventory task without a GLPI
 server.
