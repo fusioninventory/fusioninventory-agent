@@ -19,6 +19,8 @@ sub mibSupport {
     ];
 }
 
+my @gprsNetworkTechnology = qw(- unknown gprs edge umts hsdpa hsupa hspa lte);
+
 sub run {
     my (%params) = @_;
 
@@ -36,6 +38,27 @@ sub run {
             MANUFACTURER    => "Digi",
         };
 
+        # Handle SIM card looking for GRPS status
+        my $sarianGPRS = $snmp->walk(sarianGPRS);
+        if ($sarianGPRS) {
+            my $simcard = {
+                IMSI    => $sarianGPRS->{'21.0'}, # gprsIMSI
+                ICCID   => $sarianGPRS->{'20.0'}, # gprsICCID
+                STATE   => $sarianGPRS->{'26.0'}, # gprsSIMStatus
+            };
+
+            $device->addSimcard($simcard);
+
+            # use IMEI as modem serial
+            $modem->{SERIAL} = $sarianGPRS->{'19.0'}; # gprsIMEI
+
+            # set modem type
+            my $techno = $sarianGPRS->{'7.0'}; # gprsNetworkTechnology
+            if ($techno && $techno <= @gprsNetworkTechnology) {
+                $modem->{TYPE} = $gprsNetworkTechnology[$techno];
+            }
+        }
+
         $device->addModem($modem);
 
         # Add modem firmware
@@ -49,6 +72,7 @@ sub run {
 
         $device->addFirmware($modemFirmware);
     }
+
 }
 
 1;
