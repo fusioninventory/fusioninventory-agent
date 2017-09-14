@@ -8,6 +8,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::SNMP::Device;
 
 our @EXPORT = qw(
     getDeviceInfo
@@ -266,14 +267,17 @@ my %printer_pagecounters_variables = (
     }
 );
 
-sub getDeviceInfo {
+sub _getDevice {
     my (%params) = @_;
 
     my $snmp    = $params{snmp};
     my $datadir = $params{datadir};
     my $logger  = $params{logger};
 
-    my $device;
+    my $device = FusionInventory::Agent::SNMP::Device->new(
+        snmp   => $snmp,
+        logger => $logger
+    );
 
     # manufacturer, type and model identification attempt, using sysObjectID
     my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
@@ -319,6 +323,10 @@ sub getDeviceInfo {
             }
         }
     }
+
+    # load supported mibs regarding sysORID list as this list permits to
+    # identify device supported MIBs
+    $device->loadMibSupport();
 
     # fallback type identification attempt, using type-specific OID presence
     if (!exists $device->{TYPE}) {
@@ -403,6 +411,14 @@ sub getDeviceInfo {
     ] if $results;
 
     return $device;
+}
+
+sub getDeviceInfo {
+    my (%params) = @_;
+
+    my $device = _getDevice(%params);
+
+    return $device->getDiscoveryInfo();
 }
 
 sub _getSysObjectIDInfo {
@@ -621,8 +637,10 @@ sub getDeviceFullInfo {
     my $logger = $params{logger};
 
     # first, let's retrieve basic device informations
-    my $info = getDeviceInfo(%params);
-    return unless $info;
+    my $device = _getDevice(%params);
+    return unless $device;
+
+    my $info = $device->getDiscoveryInfo();
 
     # description is defined as DESCRIPTION for discovery
     # and COMMENTS for inventory
@@ -647,7 +665,7 @@ sub getDeviceFullInfo {
     $info->{TYPE} = $params{type} || $info->{TYPE};
 
     # second, use results to build the object
-    my $device = { INFO => $info };
+    $device->{INFO} = $info ;
 
     _setGenericProperties(
         device => $device,
@@ -670,9 +688,9 @@ sub getDeviceFullInfo {
     ) if $info->{TYPE} && $info->{TYPE} eq 'NETWORKING';
 
     # external processing for the $device
-    if ($device->{INFO}->{EXTMOD}) {
+    if ($device->{EXTMOD}) {
         runFunction(
-            module   => "FusionInventory::Agent::Tools::Hardware::" . $device->{INFO}->{EXTMOD},
+            module   => __PACKAGE__ . "::" . $device->{EXTMOD},
             function => "run",
             logger   => $logger,
             params   => {
@@ -682,10 +700,10 @@ sub getDeviceFullInfo {
             },
             load     => 1
         );
-
-        # no need to send this to the server
-        delete $device->{INFO}->{EXTMOD};
     }
+
+    # Run any detected mib support
+    $device->runMibSupport();
 
     # convert ports hashref to an arrayref, sorted by interface number
     my $ports = $device->{PORTS}->{PORT};
@@ -699,7 +717,7 @@ sub getDeviceFullInfo {
         delete $device->{PORTS};
     }
 
-    return $device;
+    return $device->getInventory();
 }
 
 sub _setGenericProperties {

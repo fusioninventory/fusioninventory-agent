@@ -278,7 +278,6 @@ cmp_deeply(
         TYPE         => 'NETWORKING',
         MANUFACTURER => 'Qlogic',
         MODEL        => 'SANbox 5602 FC Switch',
-        EXTMOD       => 'Qlogic'
     },
     'getDeviceInfo() with sysobjectid and extmod'
 );
