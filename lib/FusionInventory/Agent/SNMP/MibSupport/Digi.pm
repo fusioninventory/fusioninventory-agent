@@ -21,6 +21,15 @@ sub mibSupport {
 
 my @gprsNetworkTechnology = qw(- unknown gprs edge umts hsdpa hsupa hspa lte);
 
+sub getSerial {
+    my (%params) = @_;
+
+    my $device = $params{device};
+    my $snmp   = $params{snmp} || $device->{snmp};
+
+    return $snmp->get('.1.3.6.1.4.1.16378.10000.3.15.0');
+}
+
 sub run {
     my (%params) = @_;
 

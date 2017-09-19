@@ -63,6 +63,27 @@ sub runMibSupport {
     }
 }
 
+sub getSerialByMibSupport {
+    my ($self) = @_;
+
+    return unless $self->{MIBSUPPORT};
+
+    my $serial;
+    foreach my $mibsupport ($self->{MIBSUPPORT}->get()) {
+        $serial = runFunction(
+            module   => $mibsupport->{module},
+            function => "getSerial",
+            logger   => $self->{logger},
+            params   => {
+                device => $self
+            }
+        );
+        last if defined $serial;
+    }
+
+    return $serial;
+}
+
 sub getDiscoveryInfo {
     my ($self) = @_;
 
@@ -130,6 +151,11 @@ sub setSerial {
     return $self->{SERIAL} = _getCanonicalSerialNumber($prtGeneralSerialNumber)
         if $prtGeneralSerialNumber;
 
+    # Try MIB Support mechanism
+    my $otherSerial = $self->getSerialByMibSupport();
+    return $self->{SERIAL} = _getCanonicalSerialNumber($otherSerial)
+        if $otherSerial;
+
     # vendor specific OIDs
     my @oids = (
         '.1.3.6.1.4.1.2636.3.1.3.0',             # Juniper-MIB
@@ -142,7 +168,6 @@ sub setSerial {
         '.1.3.6.1.4.1.318.1.1.4.1.5.0',          # MasterSwitch-MIB
         '.1.3.6.1.4.1.6027.3.8.1.1.5.0',         # F10-C-SERIES-CHASSIS-MIB
         '.1.3.6.1.4.1.6027.3.10.1.2.2.1.12.1',   # FORCE10-SMI
-        '.1.3.6.1.4.1.16378.10000.3.15.0',       # DIGI-Sarian-Monitor
     );
     foreach my $oid (@oids) {
         my $value = $self->{snmp}->get($oid);
