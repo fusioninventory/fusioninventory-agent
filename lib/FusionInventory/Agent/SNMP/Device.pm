@@ -85,6 +85,27 @@ sub getSerialByMibSupport {
     return $serial;
 }
 
+sub getFirmwareByMibSupport {
+    my ($self) = @_;
+
+    return unless $self->{MIBSUPPORT};
+
+    my $firmware;
+    foreach my $mibsupport ($self->{MIBSUPPORT}->get()) {
+        $firmware = runFunction(
+            module   => $mibsupport->{module},
+            function => "getFirmware",
+            logger   => $self->{logger},
+            params   => {
+                device => $self
+            }
+        );
+        last if defined $firmware;
+    }
+
+    return $firmware;
+}
+
 sub getDiscoveryInfo {
     my ($self) = @_;
 
@@ -188,6 +209,11 @@ sub setFirmware {
     my $entPhysicalFirmwareRev = $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.9');
     return $self->{FIRMWARE} = $entPhysicalFirmwareRev
         if $entPhysicalFirmwareRev;
+
+    # Try MIB Support mechanism
+    my $mibFirmware = $self->getFirmwareByMibSupport();
+    return $self->{FIRMWARE} = getCanonicalString($mibFirmware)
+        if $mibFirmware;
 
     # vendor specific OIDs
     my @oids = (
