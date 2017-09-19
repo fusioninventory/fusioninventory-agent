@@ -399,8 +399,8 @@ sub _getDevice {
     my $mac = _getMacAddress($snmp);
     $device->{MAC} = $mac if $mac;
 
-    my $serial = _getSerial($snmp, $device->{TYPE});
-    $device->{SERIAL} = $serial if $serial;
+    # Find device serial number
+    $device->setSerial();
 
     my $firmware = _getFirmware($snmp, $device->{TYPE});
     $device->{FIRMWARE} = $firmware if $firmware;
@@ -501,42 +501,6 @@ sub _loadSysObjectIDDatabase {
     }
 
     close $handle;
-}
-
-sub _getSerial {
-    my ($snmp, $type) = @_;
-
-    # Entity-MIB::entPhysicalSerialNum
-    my $entPhysicalSerialNum = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.11');
-    return _getCanonicalSerialNumber($entPhysicalSerialNum)
-        if $entPhysicalSerialNum;
-
-    # Printer-MIB::prtGeneralSerialNumber
-    my $prtGeneralSerialNumber = $snmp->get_first('.1.3.6.1.2.1.43.5.1.1.17');
-    return _getCanonicalSerialNumber($prtGeneralSerialNumber)
-        if $prtGeneralSerialNumber;
-
-    # vendor specific OIDs
-    my @oids = (
-        '.1.3.6.1.4.1.2636.3.1.3.0',             # Juniper-MIB
-        '.1.3.6.1.4.1.248.14.1.1.9.1.10.1',      # Hirschman MIB
-        '.1.3.6.1.4.1.253.8.53.3.2.1.3.1',       # Xerox-MIB
-        '.1.3.6.1.4.1.367.3.2.1.2.1.4.0',        # Ricoh-MIB
-        '.1.3.6.1.4.1.641.2.1.2.1.6.1',          # Lexmark-MIB
-        '.1.3.6.1.4.1.1602.1.2.1.4.0',           # Canon-MIB
-        '.1.3.6.1.4.1.2435.2.3.9.4.2.1.5.5.1.0', # Brother-MIB
-        '.1.3.6.1.4.1.318.1.1.4.1.5.0',          # MasterSwitch-MIB
-        '.1.3.6.1.4.1.6027.3.8.1.1.5.0',         # F10-C-SERIES-CHASSIS-MIB
-        '.1.3.6.1.4.1.6027.3.10.1.2.2.1.12.1',   # FORCE10-SMI
-        '.1.3.6.1.4.1.16378.10000.3.15.0',       # DIGI-Sarian-Monitor
-    );
-    foreach my $oid (@oids) {
-        my $value = $snmp->get($oid);
-        next unless $value;
-        return _getCanonicalSerialNumber($value);
-    }
-
-    return;
 }
 
 sub _getFirmware {
@@ -1035,21 +999,6 @@ sub _getCanonicalString {
 
     # truncate after first invalid character but keep newline as valid
     $value =~ s/[^\p{Print}\n].*$//;
-
-    return $value;
-}
-
-sub _getCanonicalSerialNumber {
-    my ($value) = @_;
-
-    $value = hex2char($value);
-    return unless $value;
-
-    $value =~ s/[[:^print:]]//g;
-    $value =~ s/^\s+//;
-    $value =~ s/\s+$//;
-    $value =~ s/\.{2,}//g;
-    return unless $value;
 
     return $value;
 }
