@@ -202,31 +202,40 @@ sub setSerial {
 sub setFirmware {
     my ($self) = @_;
 
-    my $entPhysicalSoftwareRev = $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.10');
-    return $self->{FIRMWARE} = $entPhysicalSoftwareRev
-        if $entPhysicalSoftwareRev;
+    my $firmware =
+        # entPhysicalSoftwareRev
+        $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.10') ||
+        # entPhysicalFirmwareRev
+        $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.9')  ||
+        # firmware from supported mib
+        $self->getFirmwareByMibSupport();
 
-    my $entPhysicalFirmwareRev = $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.9');
-    return $self->{FIRMWARE} = $entPhysicalFirmwareRev
-        if $entPhysicalFirmwareRev;
-
-    # Try MIB Support mechanism
-    my $mibFirmware = $self->getFirmwareByMibSupport();
-    return $self->{FIRMWARE} = getCanonicalString($mibFirmware)
-        if $mibFirmware;
-
-    # vendor specific OIDs
-    my @oids = (
-        '.1.3.6.1.4.1.9.9.25.1.1.1.2.5',         # Cisco / IOS
-        '.1.3.6.1.4.1.248.14.1.1.2.0',           # Hirschman MIB
-        '.1.3.6.1.4.1.2636.3.40.1.4.1.1.1.5.0',  # Juniper-MIB
-    );
-    foreach my $oid (@oids) {
-        my $value = $self->{snmp}->get($oid);
-        next unless $value;
-        $self->{FIRMWARE} = getCanonicalString($value);
-        last;
+    if ( not defined $firmware ) {
+        # vendor specific OIDs
+        my @oids = (
+            '.1.3.6.1.4.1.9.9.25.1.1.1.2.5',         # Cisco / IOS
+            '.1.3.6.1.4.1.248.14.1.1.2.0',           # Hirschman MIB
+            '.1.3.6.1.4.1.2636.3.40.1.4.1.1.1.5.0',  # Juniper-MIB
+        );
+        foreach my $oid (@oids) {
+            $firmware = $self->{snmp}->get($oid);
+            last if defined $firmware;
+        }
     }
+
+    return unless defined $firmware;
+
+    # Set device firmware
+    $self->{FIRMWARE} = getCanonicalString($firmware);
+
+    # Also add firmware as device FIRMWARES
+    $self->addFirmware({
+        NAME            => $self->{MODEL} || 'device',
+        DESCRIPTION     => 'device firmware',
+        TYPE            => 'device',
+        VERSION         => $self->{FIRMWARE},
+        MANUFACTURER    => $self->{MANUFACTURER}
+    });
 }
 
 1;
