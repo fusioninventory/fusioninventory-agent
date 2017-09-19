@@ -53,7 +53,7 @@ sub run {
             my $simcard = {
                 IMSI    => $sarianGPRS->{'21.0'}, # gprsIMSI
                 ICCID   => $sarianGPRS->{'20.0'}, # gprsICCID
-                STATE   => $sarianGPRS->{'26.0'}, # gprsSIMStatus
+                #STATE   => $sarianGPRS->{'26.0'}, # gprsSIMStatus
             };
 
             $device->addSimcard($simcard);
