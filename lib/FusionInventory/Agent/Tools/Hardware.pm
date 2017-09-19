@@ -8,12 +8,12 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::SNMP;
 use FusionInventory::Agent::SNMP::Device;
 
 our @EXPORT = qw(
     getDeviceInfo
     getDeviceFullInfo
-    getCanonicalString
 );
 
 my %types = (
@@ -978,30 +978,6 @@ sub _getCanonicalMacAddress {
 
     return if $result eq '00:00:00:00:00:00';
     return lc($result);
-}
-
-sub getCanonicalString {
-    my ($value) = @_;
-
-    $value = hex2char($value);
-    return unless defined $value;
-
-    # unquote string
-    $value =~ s/^\\?["']//;
-    $value =~ s/\\?["']$//;
-
-    return unless defined $value;
-
-    # Be sure to work on utf-8 string
-    $value = getUtf8String($value);
-
-    # reduce linefeeds which can be found in descriptions or comments
-    $value =~ s/\p{Control}+\n/\n/g;
-
-    # truncate after first invalid character but keep newline as valid
-    $value =~ s/[^\p{Print}\n].*$//;
-
-    return $value;
 }
 
 sub _getCanonicalMemory {

@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::SNMP;
 use FusionInventory::Agent::SNMP::MibSupport;
 
 # Supported infos are specified here:
@@ -143,17 +144,17 @@ sub setSerial {
 
     # Entity-MIB::entPhysicalSerialNum
     my $entPhysicalSerialNum = $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.11');
-    return $self->{SERIAL} = _getCanonicalSerialNumber($entPhysicalSerialNum)
+    return $self->{SERIAL} = getCanonicalSerialNumber($entPhysicalSerialNum)
         if $entPhysicalSerialNum;
 
     # Printer-MIB::prtGeneralSerialNumber
     my $prtGeneralSerialNumber = $self->{snmp}->get_first('.1.3.6.1.2.1.43.5.1.1.17');
-    return $self->{SERIAL} = _getCanonicalSerialNumber($prtGeneralSerialNumber)
+    return $self->{SERIAL} = getCanonicalSerialNumber($prtGeneralSerialNumber)
         if $prtGeneralSerialNumber;
 
     # Try MIB Support mechanism
     my $otherSerial = $self->getSerialByMibSupport();
-    return $self->{SERIAL} = _getCanonicalSerialNumber($otherSerial)
+    return $self->{SERIAL} = getCanonicalSerialNumber($otherSerial)
         if $otherSerial;
 
     # vendor specific OIDs
@@ -172,24 +173,9 @@ sub setSerial {
     foreach my $oid (@oids) {
         my $value = $self->{snmp}->get($oid);
         next unless $value;
-        $self->{SERIAL} = _getCanonicalSerialNumber($value);
+        $self->{SERIAL} = getCanonicalSerialNumber($value);
         last;
     }
-}
-
-sub _getCanonicalSerialNumber {
-    my ($value) = @_;
-
-    $value = hex2char($value);
-    return unless $value;
-
-    $value =~ s/[[:^print:]]//g;
-    $value =~ s/^\s+//;
-    $value =~ s/\s+$//;
-    $value =~ s/\.{2,}//g;
-    return unless $value;
-
-    return $value;
 }
 
 1;
