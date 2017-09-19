@@ -403,8 +403,8 @@ sub _getDevice {
     # Find device serial number
     $device->setSerial();
 
-    my $firmware = _getFirmware($snmp, $device->{TYPE});
-    $device->{FIRMWARE} = $firmware if $firmware;
+    # Find device firmware
+    $device->setFirmware();
 
     my $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.1');
     $device->{IPS}->{IP} =  [
@@ -502,30 +502,6 @@ sub _loadSysObjectIDDatabase {
     }
 
     close $handle;
-}
-
-sub _getFirmware {
-    my ($snmp, $type) = @_;
-
-    my $entPhysicalSoftwareRev = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.10');
-    return $entPhysicalSoftwareRev if $entPhysicalSoftwareRev;
-
-    my $entPhysicalFirmwareRev = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.9');
-    return $entPhysicalFirmwareRev if $entPhysicalFirmwareRev;
-
-    # vendor specific OIDs
-    my @oids = (
-        '.1.3.6.1.4.1.9.9.25.1.1.1.2.5',         # Cisco / IOS
-        '.1.3.6.1.4.1.248.14.1.1.2.0',           # Hirschman MIB
-        '.1.3.6.1.4.1.2636.3.40.1.4.1.1.1.5.0',  # Juniper-MIB
-    );
-    foreach my $oid (@oids) {
-        my $value = $snmp->get($oid);
-        next unless $value;
-        return getCanonicalString($value);
-    }
-
-    return;
 }
 
 sub _getMacAddress {
