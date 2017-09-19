@@ -13,6 +13,7 @@ use FusionInventory::Agent::SNMP::Device;
 our @EXPORT = qw(
     getDeviceInfo
     getDeviceFullInfo
+    getCanonicalString
 );
 
 my %types = (
@@ -298,7 +299,7 @@ sub _getDevice {
     # if one of them is missing
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
     if ($sysdescr) {
-        $device->{DESCRIPTION} = _getCanonicalString($sysdescr);
+        $device->{DESCRIPTION} = getCanonicalString($sysdescr);
 
         if (!exists $device->{MANUFACTURER} || !exists $device->{TYPE}) {
             # first word
@@ -345,7 +346,7 @@ sub _getDevice {
             exists $device->{TYPE} && $device->{TYPE} eq 'POWER' ?
             $snmp->get('.1.3.6.1.2.1.33.1.1.5.0')      : # UPS-MIB
             $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') ;
-        $device->{MODEL} = _getCanonicalString($model) if $model;
+        $device->{MODEL} = getCanonicalString($model) if $model;
     }
 
     # fallback manufacturer identification attempt, using type-agnostic OID
@@ -381,7 +382,7 @@ sub _getDevice {
         my $type = $variable->{type};
         my $value =
             $type eq 'memory' ? _getCanonicalMemory($raw_value) :
-            $type eq 'string' ? _getCanonicalString($raw_value) :
+            $type eq 'string' ? getCanonicalString($raw_value) :
             $type eq 'count'  ? _getCanonicalCount($raw_value)  :
                                 $raw_value;
 
@@ -521,7 +522,7 @@ sub _getFirmware {
     foreach my $oid (@oids) {
         my $value = $snmp->get($oid);
         next unless $value;
-        return _getCanonicalString($value);
+        return getCanonicalString($value);
     }
 
     return;
@@ -717,7 +718,7 @@ sub _setGenericProperties {
             my $value =
                 $type eq 'mac'      ? _getCanonicalMacAddress($raw_value) :
                 $type eq 'constant' ? _getCanonicalConstant($raw_value)   :
-                $type eq 'string'   ? _getCanonicalString($raw_value)     :
+                $type eq 'string'   ? getCanonicalString($raw_value)     :
                 $type eq 'count'    ? _getCanonicalCount($raw_value)      :
                                       $raw_value;
             $ports->{$suffix}->{$key} = $value
@@ -808,7 +809,7 @@ sub _setPrinterProperties {
         if ($type eq 'TONER' || $type eq 'DRUM' || $type eq 'CARTRIDGE' || $type eq 'DEVELOPER') {
             my $color;
             if ($color_id) {
-                $color = _getCanonicalString($colors->{$color_id});
+                $color = getCanonicalString($colors->{$color_id});
                 if (!$color) {
                     $logger->debug("invalid color ID $color_id") if $logger;
                     next;
@@ -979,7 +980,7 @@ sub _getCanonicalMacAddress {
     return lc($result);
 }
 
-sub _getCanonicalString {
+sub getCanonicalString {
     my ($value) = @_;
 
     $value = hex2char($value);
@@ -1355,8 +1356,8 @@ sub _getLLDPInfo {
     # whereas y is either a port or an interface id
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
-        my $sysdescr = _getCanonicalString($lldpRemSysDesc->{$suffix});
-        my $sysname = _getCanonicalString($lldpRemSysName->{$suffix});
+        my $sysdescr = getCanonicalString($lldpRemSysDesc->{$suffix});
+        my $sysname = getCanonicalString($lldpRemSysName->{$suffix});
         next unless ($sysdescr || $sysname);
 
         # We only support macAddress as LldpChassisIdSubtype at the moment
@@ -1382,7 +1383,7 @@ sub _getLLDPInfo {
             $connection->{IFNUMBER} = $portId;
         }
 
-        my $ifdescr = _getCanonicalString($lldpRemPortDesc->{$suffix});
+        my $ifdescr = getCanonicalString($lldpRemPortDesc->{$suffix});
         $connection->{IFDESCR} = $ifdescr if $ifdescr;
 
         my $id           = _getElement($suffix, -2);
@@ -1419,8 +1420,8 @@ sub _getCDPInfo {
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
-        my $sysdescr = _getCanonicalString($cdpCacheVersion->{$suffix});
-        my $model    = _getCanonicalString($cdpCachePlatform->{$suffix});
+        my $sysdescr = getCanonicalString($cdpCacheVersion->{$suffix});
+        my $model    = getCanonicalString($cdpCachePlatform->{$suffix});
         next unless $sysdescr && $model;
 
         my $connection = {
@@ -1445,7 +1446,7 @@ sub _getCDPInfo {
                 $connection->{SYSMAC} = lc(alt2canonical($deviceId));
             } else {
                 # otherwise it's an hex-encode hostname
-                $connection->{SYSNAME} = _getCanonicalString($deviceId);
+                $connection->{SYSNAME} = getCanonicalString($deviceId);
             }
         } else {
             $connection->{SYSNAME} = $deviceId;
