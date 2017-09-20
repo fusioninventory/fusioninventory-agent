@@ -53,6 +53,8 @@ sub doInventory {
 
     # add filesystems to the inventory
     foreach my $filesystem (@filesystems) {
+        # Skip if filesystem is lofs
+        next if $filesystem->{FILESYSTEM} eq 'lofs';
         $inventory->addEntry(
             section => 'DRIVES',
             entry   => $filesystem
