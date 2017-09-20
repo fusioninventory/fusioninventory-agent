@@ -28,6 +28,7 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Version;
 
 my $localCodepage;
 
@@ -283,7 +284,9 @@ sub runCommand {
     my $winCwd = Cwd::getcwd();
     $winCwd =~ s{/}{\\}g;
 
-    my ($fh, $filename) = File::Temp::tempfile( "$ENV{TEMP}\\fusinvXXXXXXXXXXX", SUFFIX => '.bat');
+    my $provider = lc($FusionInventory::Agent::Version::PROVIDER);
+    my $template = $ENV{TEMP}."\\".$provider."XXXXXXXXXXX";
+    my ($fh, $filename) = File::Temp::tempfile( $template, SUFFIX => '.bat');
     print $fh "cd \"".$winCwd."\"\r\n";
     print $fh $params{command}."\r\n";
     print $fh "exit %ERRORLEVEL%\r\n";

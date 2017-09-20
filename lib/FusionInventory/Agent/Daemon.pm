@@ -33,7 +33,8 @@ sub init {
 
     # install signal handler to handle reload signal
     $SIG{HUP} = sub { $self->reinit(); };
-    $SIG{USR1} = sub { $self->runNow(); };
+    $SIG{USR1} = sub { $self->runNow(); }
+        unless ($OSNAME eq 'MSWin32');
 }
 
 sub reinit {
@@ -178,7 +179,7 @@ sub createDaemon {
     $logger->info("$PROVIDER Agent starting");
 
     my $pidfile = $config->{pidfile} ||
-        $self->{vardir} . '/'.lc($PROVIDER).'.pid';
+        $self->{vardir} . '/'.lc($PROVIDER).'-agent.pid';
 
     if ($self->isAlreadyRunning($pidfile)) {
         $logger->error("$PROVIDER Agent is already running, exiting...") if $logger;

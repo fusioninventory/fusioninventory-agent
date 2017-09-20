@@ -484,8 +484,8 @@ sub getInterfacesInfosFromIoctl {
     # Forget speed value if got unknown speed special value
     if ($datas->{SPEED} == SPEED_UNKNOWN) {
         delete $datas->{SPEED};
-        $params{logger}->debug2("Unknown speed found on $params{interface}")
-            if $params{logger};
+        $logger->debug2("Unknown speed found on $params{interface}")
+            if $logger;
     }
 
     return $datas;

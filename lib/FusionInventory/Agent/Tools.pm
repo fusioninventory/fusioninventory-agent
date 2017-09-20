@@ -31,6 +31,7 @@ our @EXPORT = qw(
     getCanonicalInterfaceSpeed
     getCanonicalSize
     getSanitizedString
+    getUtf8String
     trimWhitespace
     getFirstLine
     getFirstMatch
@@ -230,13 +231,10 @@ sub compareVersion {
         );
 }
 
-sub getSanitizedString {
+sub getUtf8String {
     my ($string) = @_;
 
     return unless defined $string;
-
-    # clean control caracters
-    $string =~ s/[[:cntrl:]]//g;
 
     # encode to utf-8 if needed
     if (!Encode::is_utf8($string) && $string !~ m/\A(
@@ -253,6 +251,17 @@ sub getSanitizedString {
     };
 
     return $string;
+}
+
+sub getSanitizedString {
+    my ($string) = @_;
+
+    return unless defined $string;
+
+    # clean control caracters
+    $string =~ s/[[:cntrl:]]//g;
+
+    return getUtf8String($string);
 }
 
 sub trimWhitespace {
@@ -412,7 +421,7 @@ sub hex2char {
     my ($value) = @_;
 
     ## no critic (ExplicitReturnUndef)
-    return undef unless $value;
+    return undef unless defined $value;
     return $value unless $value =~ /^0x/;
 
     $value =~ s/^0x//; # drop hex prefix
@@ -423,7 +432,7 @@ sub hex2dec {
     my ($value) = @_;
 
     ## no critic (ExplicitReturnUndef)
-    return undef unless $value;
+    return undef unless defined $value;
     return $value unless $value =~ /^0x/;
 
     return oct($value);
@@ -433,7 +442,7 @@ sub dec2hex {
     my ($value) = @_;
 
     ## no critic (ExplicitReturnUndef)
-    return undef unless $value;
+    return undef unless defined $value;
     return $value if $value =~ /^0x/;
 
     return sprintf("0x%x", $value);
@@ -598,6 +607,10 @@ Returns a normalized size value (in Mb) for given one.
 
 Returns the input stripped from any control character, properly encoded in
 UTF-8.
+
+=head2 getUtf8String($string)
+
+Returns the input properly encoded in UTF-8.
 
 =head2 trimWhitespace($string)
 

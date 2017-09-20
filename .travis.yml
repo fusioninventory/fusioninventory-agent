@@ -10,16 +10,16 @@ perl:
   - "5.14"
   - "5.12"
   - "5.10"
-  - "5.8"
+#  - "5.8"
 notifications:
   recipients:
     - fusioninventory-commit@lists.alioth.debian.org
   email:
     on_success: change
     on_failure: always
-  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
+  webhooks: https://hooks.aethonan.pro/travisci/-1001137546384/
 # whitelist
 branches:
   only:
     - master
-    - 2.3.x
+    - 2.4.x

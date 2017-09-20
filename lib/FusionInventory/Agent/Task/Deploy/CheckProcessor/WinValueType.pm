@@ -39,15 +39,14 @@ sub success {
 
     $self->on_success("found $expected registry value type: ".$self->{path});
 
-    Win32::TieRegistry->require();
+    Win32API::Registry->require();
     if ($EVAL_ERROR) {
-        $self->on_failure("failed to load Win32::TieRegistry: $EVAL_ERROR");
+        $self->on_failure("failed to load Win32API::Registry: $EVAL_ERROR");
         return 0;
     }
     eval {
-        Win32::TieRegistry->import($expected);
+        $expected = Win32API::Registry::constant($expected);
     };
-    $expected = eval "$expected()";
     return 0 unless (defined($expected));
 
     FusionInventory::Agent::Tools::Win32->require();

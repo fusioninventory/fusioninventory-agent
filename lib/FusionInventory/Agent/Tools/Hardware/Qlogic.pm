@@ -8,21 +8,20 @@ sub run {
 
    my $snmp   = $params{snmp};
    my $device = $params{device};
-   my $logger = $params{logger};
 
    my $ports = $device->{PORTS}->{PORT};
 
    my $fc_ports = getFcPorts(
-      snmp => $params{snmp},
+      snmp => $snmp,
    );
    return unless $fc_ports;
 
    my $connected_wwns = getConnectedWWNs(
-      snmp => $params{snmp},
+      snmp => $snmp,
    );
 
    my $port_status = getFcPortStatus(
-      snmp => $params{snmp},
+      snmp => $snmp,
    );
 
    foreach my $idx (keys %$fc_ports) {

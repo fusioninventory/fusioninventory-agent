@@ -111,8 +111,8 @@ sub _getScreensFromWindows {
 
         if (exists($object->{VideoOutputTechnology})) {
             my $port = $object->{VideoOutputTechnology};
-            $screen->{PORT} = $ports{$object->{VideoOutputTechnology}}
-                if (exists($ports{$object->{VideoOutputTechnology}}));
+            $screen->{PORT} = $ports{$port}
+                if (exists($ports{$port}));
         }
 
         push @screens, $screen;

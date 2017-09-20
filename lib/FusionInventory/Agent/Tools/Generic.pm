@@ -6,6 +6,7 @@ use base 'Exporter';
 
 use English qw(-no_match_vars);
 use Memoize;
+use File::stat;
 
 use FusionInventory::Agent::Tools;
 
@@ -287,20 +288,41 @@ sub getEDIDVendor {
     return $EDIDVendors->{$params{id}};
 }
 
+my @datadirs = ($OSNAME ne 'linux') ? () : (
+    "/usr/share/misc",      # debian system well-known path
+    "/usr/share/hwdata",    # hwdata system well-known path including fedora
+);
+
+sub _getIdsFile {
+    my (%params) = @_;
+
+    return "$params{datadir}/$params{idsfile}"
+        unless @datadirs;
+
+    # Try to use the most recent ids file from well-known places
+    my %files = map { $_ => stat($_)->ctime() } grep { -s $_ }
+        map { "$_/$params{idsfile}" } @datadirs, $params{datadir} ;
+
+    # Sort by creation time
+    my @sorted_files = sort { $files{$a} <=> $files{$b} } keys(%files);
+
+    return pop @sorted_files;
+}
+
 sub _loadPCIDatabase {
     my (%params) = @_;
 
-    ($PCIVendors, $PCIClasses) = _loadDatabase(
-        file => "$params{datadir}/pci.ids"
-    );
+    my $file = _getIdsFile( %params, idsfile => "pci.ids" );
+
+    ($PCIVendors, $PCIClasses) = _loadDatabase( file => $file );
 }
 
 sub _loadUSBDatabase {
     my (%params) = @_;
 
-    ($USBVendors, $USBClasses) = _loadDatabase(
-        file => "$params{datadir}/usb.ids"
-    );
+    my $file = _getIdsFile( %params, idsfile => "usb.ids" );
+
+    ($USBVendors, $USBClasses) = _loadDatabase( file => $file );
 }
 
 sub _loadDatabase {
@@ -342,7 +364,9 @@ sub _loadDatabase {
 sub _loadEDIDDatabase {
     my (%params) = @_;
 
-    my $handle = getFileHandle(file => "$params{datadir}/edid.ids");
+    my $file = _getIdsFile( %params, idsfile => "edid.ids" );
+
+    my $handle = getFileHandle( file => $file );
     return unless $handle;
 
     foreach my $line (<$handle>) {
