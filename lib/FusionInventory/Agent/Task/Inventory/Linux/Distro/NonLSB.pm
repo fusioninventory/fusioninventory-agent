@@ -6,7 +6,6 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
-use List::Util qw(first);
 
 # This array contains four items for each distribution:
 # - release file

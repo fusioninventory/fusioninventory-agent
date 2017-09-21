@@ -5,7 +5,6 @@ use warnings;
 use base 'FusionInventory::Agent::Task';
 
 use English qw(-no_match_vars);
-use List::Util qw(first);
 use Socket;
 use UNIVERSAL::require;
 

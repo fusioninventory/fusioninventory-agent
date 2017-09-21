@@ -5,7 +5,6 @@ use warnings;
 use lib 't/lib';
 
 use English qw(-no_match_vars);
-use List::Util qw(first);
 use Test::More;
 use Test::Exception;
 
@@ -23,7 +22,7 @@ use Net::HTTPS;
 unsetProxyEnvVar();
 
 # find an available port
-my $port = first { test_port($_) } 8080 .. 8090;
+my $port = FusionInventory::Agent::Tools::first { test_port($_) } 8080 .. 8090;
 
 if (!$port) {
     plan skip_all => 'no available port';

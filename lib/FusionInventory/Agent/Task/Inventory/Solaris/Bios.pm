@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use Config;
-use List::Util qw(first);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
