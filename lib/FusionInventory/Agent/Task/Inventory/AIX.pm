@@ -5,8 +5,6 @@ use warnings;
 
 use English qw(-no_match_vars);
 
-use List::Util qw(first);
-
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::AIX;
 
