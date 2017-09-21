@@ -5,8 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 
-my $seen;
-
 sub isEnabled {
     return canRun('arch');
 }
