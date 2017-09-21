@@ -13,6 +13,7 @@ use Win32::TieRegistry (
     qw/KEY_READ/
 );
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
@@ -56,16 +57,23 @@ sub doInventory {
     my $lastLoggedUser = _getLastUser(logger => $logger);
     if ($lastLoggedUser) {
         # Include last logged user as usual computer user
-        $inventory->addEntry(
-            noDuplicated => 1,
-            section => 'USERS',
-            entry   => $lastLoggedUser
-        );
+        if (ref($lastLoggedUser) eq 'HASH') {
+            $inventory->addEntry(
+                noDuplicated => 1,
+                section => 'USERS',
+                entry   => $lastLoggedUser
+            );
 
-        # Obsolete in specs
-        $inventory->setHardware({
-            LASTLOGGEDUSER => $lastLoggedUser->{LOGIN}
-        });
+            # Obsolete in specs, to be removed with 3.0
+            $inventory->setHardware({
+                LASTLOGGEDUSER => $lastLoggedUser->{LOGIN}
+            });
+        } else {
+            # Obsolete in specs, to be removed with 3.0
+            $inventory->setHardware({
+                LASTLOGGEDUSER => $lastLoggedUser
+            });
+        }
     }
 }
 
@@ -149,25 +157,50 @@ sub _getLoggedUsers {
 
 sub _getLastUser {
 
-    # ensure native registry access, not the 32 bit view
-    my $flags = is64bit() ? KEY_READ | KEY_WOW64_64 : KEY_READ;
+    my $user;
 
-    my $machKey = $Registry->Open('LMachine', {
-        Access => $flags
-    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+    return unless any {
+        $user = getRegistryValue(path => "HKEY_LOCAL_MACHINE/$_")
+    } (
+        'SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnSAMUser',
+        'SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser',
+        'SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName'
+    );
 
-    my $user =
-        encodeFromRegistry($machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnSAMUser"}) ||
-        encodeFromRegistry($machKey->{"SOFTWARE/Microsoft/Windows/CurrentVersion/Authentication/LogonUI/LastLoggedOnUser"}) ||
-        encodeFromRegistry($machKey->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/DefaultUserName"});
+    # LastLoggedOnSAMUser becomes the mandatory value to detect last logged on user
+    my @user = $user =~ /^([^\\]*)\\(.*)$/;
+    if ( @user == 2 ) {
+        # Try to get local user from user part if domain is just a dot
+        return $user[0] eq '.' ? _getLocalUser($user[1]) :
+            {
+                LOGIN   => $user[1],
+                DOMAIN  => $user[0]
+            };
+    }
+
+    # Backward compatibility, to be removed for 3.0
+    $user =~ s,.*\\,,;
+    return $user;
+}
+
+sub _getLocalUser {
+    my ($name) = @_;
+
+    my $query = "SELECT * FROM Win32_UserAccount WHERE LocalAccount = True";
+
+    my @local_users = getWMIObjects(
+        moniker    => 'winmgmts:\\\\.\\root\\CIMV2',
+        query      => [ $query ],
+        properties => [ qw/Name Domain/ ]
+    );
+
+    my $user = first { $_->{Name} eq $name } @local_users;
+
     return unless $user;
 
-    my ($domain) = $user =~ /^(.*)\\/;
-    $user =~ s,.*\\,,;
-
     return {
-            LOGIN   => $user,
-            DOMAIN  => $domain
+        LOGIN   => $user->{Name},
+        DOMAIN  => $user->{Domain}
     };
 }
 
