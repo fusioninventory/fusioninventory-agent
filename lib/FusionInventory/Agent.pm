@@ -3,12 +3,10 @@ package FusionInventory::Agent;
 use strict;
 use warnings;
 
-use Cwd;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use File::Glob;
 use IO::Handle;
-use POSIX ":sys_wait_h"; # WNOHANG
 use Storable 'dclone';
 
 use FusionInventory::Agent::Version;
@@ -19,7 +17,6 @@ use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::XML::Query::Prolog;
 
@@ -51,7 +48,6 @@ sub new {
         libdir  => $params{libdir},
         toolsdir => '',
         vardir  => $params{vardir},
-        sigterm => $params{sigterm},
         targets => [],
         tasks   => []
     };
