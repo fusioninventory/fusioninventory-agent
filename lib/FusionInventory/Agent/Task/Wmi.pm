@@ -69,7 +69,6 @@ sub run {
         user     => $self->{config}->{wmi_user},
         pass     => $self->{config}->{wmi_pass},
         locale   => $self->{config}->{wmi_locale} || '',
-        toolsdir => $self->{toolsdir}
     };
     my $service = getWMIService(%params);
     die "can't connect to host $params{WMIService}->{hostname} with credentials and locale '$params{WMIService}->{locale}'\n"

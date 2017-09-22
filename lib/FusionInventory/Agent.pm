@@ -46,7 +46,6 @@ sub new {
         confdir => $params{confdir},
         datadir => $params{datadir},
         libdir  => $params{libdir},
-        toolsdir => '',
         vardir  => $params{vardir},
         targets => [],
         tasks   => []
@@ -251,7 +250,6 @@ sub runTaskReal {
         config       => $self->{config},
         confdir      => $self->{confdir},
         datadir      => $self->{datadir},
-        toolsdir     => $self->{toolsdir},
         logger       => $self->{logger},
         target       => $target,
         deviceid     => $self->{deviceid},

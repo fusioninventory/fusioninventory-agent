@@ -738,30 +738,6 @@ sub _retrieveRemoteRegistryValueByType {
     return $value;
 }
 
-sub getValueFromRemoteRegistryViaVbScript {
-    my (%params) = @_;
-
-    my @values = (
-        'cscript',
-        $params{WMIService}->{toolsdir} . '/' . 'getValueRemote.vbs',
-        '"' . $params{WMIService}->{hostname} . '"',
-        '"' . $params{WMIService}->{user} . '"',
-        '"' . $params{WMIService}->{pass} . '"',
-        '"' . $params{keyName} . '"',
-        '"' . $params{valueName} . '"'
-    );
-    my $command .= join(' ', @values);
-    my @lines = getAllLines(
-        command => $command
-    );
-
-    my $value = '';
-    $value = $lines[3] if scalar @lines >= 3;
-    $value = '' if !(defined $value);
-
-    return $value;
-}
-
 sub runCommand {
     my (%params) = (
         timeout => 3600 * 2,
