@@ -54,9 +54,8 @@ sub run {
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
-    if ($params{WMIService}) {
-        $inventory->{WMIService} = $params{WMIService};
-    }
+
+    $inventory->isWmi($params{WMIService}) if ($params{WMIService});
 
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
@@ -396,7 +395,7 @@ sub _printInventory {
                 version  => $FusionInventory::Agent::Version::VERSION,
                 deviceid => $params{inventory}->getDeviceId(),
                 data     => $params{inventory}->getContent(),
-                fields   => $params{inventory}->{fields},
+                fields   => $params{inventory}->getFields()
             };
 
             print {$params{handle}} $template->fill_in(HASH => $hash);

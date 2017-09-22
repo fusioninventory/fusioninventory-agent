@@ -169,6 +169,19 @@ sub getDeviceId {
     return $self->{deviceid};
 }
 
+sub isWmi {
+    my ($self, $wmiservice) = @_;
+
+    return $wmiservice ? $self->{WMIService} = $wmiservice :
+        exists($self->{WMIService});
+}
+
+sub getFields {
+    my ($self) = @_;
+
+    return $self->{fields};
+}
+
 sub getContent {
     my ($self) = @_;
 
