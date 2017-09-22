@@ -73,7 +73,7 @@ sub run {
     $self->_feedInventory($inventory, \%disabled);
 
     # for remote WMI inventory, we should reset deviceid in inventory
-    $inventory->resetDeviceId() if ($params{WMIService});
+    $inventory->resetDeviceId() if ($params{WMIService} || !$inventory->getDeviceId());
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();
