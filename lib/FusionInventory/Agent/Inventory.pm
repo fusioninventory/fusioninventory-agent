@@ -127,6 +127,7 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
+        deviceid       => $params{deviceid},
         logger         => $params{logger} || FusionInventory::Agent::Logger->new(),
         fields         => \%fields,
         content        => {
@@ -147,6 +148,25 @@ sub new {
         if $params{WMIService};
 
     return $self;
+}
+
+# compute an unique agent identifier, based on inventory host name and current time
+sub resetDeviceId {
+    my ($self) = @_;
+
+    my $hostname = $self->getHardware('NAME') || getHostname();
+
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (localtime (time))[5, 4, 3, 2, 1, 0];
+
+    $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
+}
+
+sub getDeviceId {
+    my ($self) = @_;
+
+    return $self->{deviceid};
 }
 
 sub getContent {

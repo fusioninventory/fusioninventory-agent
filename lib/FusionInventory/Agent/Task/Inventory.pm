@@ -50,6 +50,7 @@ sub run {
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         statedir => $self->{target}->getStorage()->getDirectory(),
+        deviceid => $self->{deviceid},
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
@@ -71,12 +72,8 @@ sub run {
     $self->_initModulesList(\%disabled, $params{enabledModules});
     $self->_feedInventory($inventory, \%disabled);
 
-    # for remote WMI inventory, we have to overwrite the device id because it is computed locally
-    if ($params{WMIService}) {
-        $self->{deviceid} = FusionInventory::Agent::computeDeviceId(
-            hostname => $inventory->{content}->{HARDWARE}->{NAME}
-        );
-    }
+    # for remote WMI inventory, we should reset deviceid in inventory
+    $inventory->resetDeviceId() if ($params{WMIService});
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();
@@ -91,7 +88,7 @@ sub run {
 
             if (-d $path) {
                 $file =
-                    $path . "/" . $self->{deviceid} .
+                    $path . "/" . $inventory->getDeviceId() .
                     ($format eq 'xml' ? '.ocs' : '.html');
                 last SWITCH;
             }
@@ -135,7 +132,7 @@ sub run {
         );
 
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-            deviceid => $self->{deviceid},
+            deviceid => $inventory->getDeviceId(),
             content  => $inventory->getContent()
         );
 
@@ -380,9 +377,9 @@ sub _printInventory {
             );
             print {$params{handle}} $tpp->write({
                 REQUEST => {
-                    CONTENT => $params{inventory}->{content},
-                    DEVICEID => $self->{deviceid},
-                    QUERY => "INVENTORY",
+                    CONTENT  => $params{inventory}->getContent(),
+                    DEVICEID => $params{inventory}->getDeviceId(),
+                    QUERY    => "INVENTORY",
                 }
             });
 
@@ -397,8 +394,8 @@ sub _printInventory {
 
              my $hash = {
                 version  => $FusionInventory::Agent::Version::VERSION,
-                deviceid => $params{inventory}->{deviceid},
-                data     => $params{inventory}->{content},
+                deviceid => $params{inventory}->getDeviceId(),
+                data     => $params{inventory}->getContent(),
                 fields   => $params{inventory}->{fields},
             };
 

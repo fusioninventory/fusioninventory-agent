@@ -391,7 +391,16 @@ sub _handlePersistentState {
 
     $self->{deviceid} = $data->{deviceid} if $data->{deviceid};
 
-    $self->{deviceid} = computeDeviceId() if !$self->{deviceid};
+    if (!$self->{deviceid}) {
+        # compute an unique agent identifier, based on host name and current time
+        my $hostname = getHostname();
+
+        my ($year, $month , $day, $hour, $min, $sec) =
+            (localtime (time))[5, 4, 3, 2, 1, 0];
+
+        $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+            $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
+    }
 
     # Always save agent state
     $self->{storage}->save(
@@ -400,19 +409,6 @@ sub _handlePersistentState {
             deviceid => $self->{deviceid},
         }
     );
-}
-
-# compute an unique agent identifier, based on host name and current time
-sub computeDeviceId {
-    my (%params) = @_;
-
-    my $hostname = $params{hostname} ? $params{hostname} : getHostname();
-
-    my ($year, $month , $day, $hour, $min, $sec) =
-        (localtime (time))[5, 4, 3, 2, 1, 0];
-
-    return sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-        $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
 }
 
 sub _appendElementsNotAlreadyInList {
