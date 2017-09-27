@@ -27,7 +27,7 @@ sub getFirmware {
     my $device = $params{device};
     my $snmp   = $params{snmp} || $device->{snmp};
 
-    return $snmp->get('.1.3.6.1.4.1.16378.10000.3.16.0');
+    return $snmp->get(sarianSystem . '.16.0');
 }
 
 sub getSerial {
@@ -36,7 +36,7 @@ sub getSerial {
     my $device = $params{device};
     my $snmp   = $params{snmp} || $device->{snmp};
 
-    return $snmp->get('.1.3.6.1.4.1.16378.10000.3.15.0');
+    return $snmp->get(sarianSystem . '.15.0');
 }
 
 sub run {
