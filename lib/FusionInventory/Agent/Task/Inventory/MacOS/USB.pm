@@ -6,8 +6,6 @@ use warnings;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
-my $seen;
-
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{usb};
@@ -19,6 +17,8 @@ sub doInventory {
 
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
+
+    my $seen;
 
     foreach my $device (_getDevices(logger => $logger)) {
         # avoid duplicates

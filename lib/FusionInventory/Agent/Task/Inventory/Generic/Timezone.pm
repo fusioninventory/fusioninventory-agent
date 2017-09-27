@@ -11,8 +11,6 @@ use Time::Local;
 
 use FusionInventory::Agent::Tools;
 
-my $seen;
-
 sub isEnabled {
 
     # No specific dependencies necessary

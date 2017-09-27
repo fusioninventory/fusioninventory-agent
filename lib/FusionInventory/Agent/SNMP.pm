@@ -6,7 +6,7 @@ use warnings;
 use Encode qw(encode);
 use English qw(-no_match_vars);
 
-use List::Util qw(first);
+use FusionInventory::Agent::Tools;
 
 our $VERSION = '1.1';
 

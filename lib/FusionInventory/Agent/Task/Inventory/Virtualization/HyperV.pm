@@ -17,7 +17,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{inventory};
+    my $logger    = $params{logger};
 
     foreach my $machine (_getVirtualMachines(logger => $logger)) {
         $inventory->addEntry(

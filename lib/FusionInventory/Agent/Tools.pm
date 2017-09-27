@@ -12,7 +12,6 @@ use File::stat;
 use File::Which;
 use Memoize;
 use UNIVERSAL::require;
-use List::Util qw(first);
 
 # Keep a copy of @ARGV, only for Provider inventory
 BEGIN {
@@ -21,6 +20,7 @@ BEGIN {
 our $ARGV;
 
 our @EXPORT = qw(
+    first
     getDirectoryHandle
     getFileHandle
     getFormatedLocalTime
@@ -61,6 +61,15 @@ my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
 # Anonymous function called in forbidden scalar context
 if ($OSNAME ne 'MSWin32') {
     memoize('canRun');
+}
+
+# Avoid List::Util dependency re-using 'any' sub as template
+sub first (&@) { ## no critic (SubroutinePrototypes)
+    my $f = shift;
+    foreach ( @_ ) {
+        return $_ if $f->();
+    }
+    return undef;
 }
 
 sub getFormatedLocalTime {
@@ -758,6 +767,11 @@ hexadecimal prefix, the unconverted value otherwise. Eg. 65 -> 0x41, 0x41 ->
 
 Returns a true value if any item in LIST meets the criterion given through
 BLOCK.
+
+=head2 first BLOCK LIST
+
+Returns the first value from LIST meeting the criterion given through BLOCK or
+undef.
 
 =head2 all BLOCK LIST
 

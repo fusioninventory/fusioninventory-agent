@@ -5,8 +5,6 @@ use warnings;
 
 use FusionInventory::Agent::Tools::Win32;
 
-my $seen;
-
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{antivirus};
@@ -16,10 +14,9 @@ sub isEnabled {
 sub doInventory {
     my (%params) = @_;
 
-    my $logger;
-    $logger = $params{logger};
-
+    my $logger    = $params{logger};
     my $inventory = $params{inventory};
+    my $seen;
 
     # Doesn't works on Win2003 Server
     # On Win7, we need to use SecurityCenter2
