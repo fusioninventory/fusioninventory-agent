@@ -5,6 +5,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::SNMP;
+use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::SNMP::MibSupport;
 
 # Supported infos are specified here:
@@ -36,14 +37,30 @@ sub new {
     return $self;
 }
 
+sub get {
+    my ($self, $oid) = @_;
+
+    return unless $self->{snmp} && $oid;
+
+    return $self->{snmp}->get($oid);
+}
+
+sub walk {
+    my ($self, $oid) = @_;
+
+    return unless $self->{snmp} && $oid;
+
+    return $self->{snmp}->walk($oid);
+}
+
 sub loadMibSupport {
-    my ($self) = @_;
+    my ($self, $sysobjectid) = @_;
 
     # list supported mibs regarding sysORID list as this list permits to
     # identify device supported MIBs
     $self->{MIBSUPPORT} = FusionInventory::Agent::SNMP::MibSupport->new(
-        sysorid_list => $self->{snmp}->walk('.1.3.6.1.2.1.1.9.1.2'),
-        logger       => $self->{logger}
+        sysobjectid  => $sysobjectid,
+        device       => $self
     );
 }
 
@@ -52,16 +69,7 @@ sub runMibSupport {
 
     return unless $self->{MIBSUPPORT};
 
-    foreach my $mibsupport ($self->{MIBSUPPORT}->get()) {
-        runFunction(
-            module   => $mibsupport->{module},
-            function => "run",
-            logger   => $self->{logger},
-            params   => {
-                device => $self
-            }
-        );
-    }
+    $self->{MIBSUPPORT}->run();
 }
 
 sub getSerialByMibSupport {
@@ -69,20 +77,7 @@ sub getSerialByMibSupport {
 
     return unless $self->{MIBSUPPORT};
 
-    my $serial;
-    foreach my $mibsupport ($self->{MIBSUPPORT}->get()) {
-        $serial = runFunction(
-            module   => $mibsupport->{module},
-            function => "getSerial",
-            logger   => $self->{logger},
-            params   => {
-                device => $self
-            }
-        );
-        last if defined $serial;
-    }
-
-    return $serial;
+    return $self->{MIBSUPPORT}->getMethod('getSerial');
 }
 
 sub getFirmwareByMibSupport {
@@ -90,20 +85,31 @@ sub getFirmwareByMibSupport {
 
     return unless $self->{MIBSUPPORT};
 
-    my $firmware;
-    foreach my $mibsupport ($self->{MIBSUPPORT}->get()) {
-        $firmware = runFunction(
-            module   => $mibsupport->{module},
-            function => "getFirmware",
-            logger   => $self->{logger},
-            params   => {
-                device => $self
-            }
-        );
-        last if defined $firmware;
-    }
+    return $self->{MIBSUPPORT}->getMethod('getFirmware');
+}
 
-    return $firmware;
+sub getFirmwareDateByMibSupport {
+    my ($self) = @_;
+
+    return unless $self->{MIBSUPPORT};
+
+    return $self->{MIBSUPPORT}->getMethod('getFirmwareDate');
+}
+
+sub getMacAddressByMibSupport {
+    my ($self) = @_;
+
+    return unless $self->{MIBSUPPORT};
+
+    return $self->{MIBSUPPORT}->getMethod('getMacAddress');
+}
+
+sub getIpByMibSupport {
+    my ($self) = @_;
+
+    return unless $self->{MIBSUPPORT};
+
+    return $self->{MIBSUPPORT}->getMethod('getIp');
 }
 
 sub getDiscoveryInfo {
@@ -139,7 +145,7 @@ sub getInventory {
 sub addModem {
     my ($self, $modem) = @_;
 
-    return unless $modem;
+    return unless _cleanHash($modem);
 
     push @{$self->{MODEMS}}, $modem;
 }
@@ -147,7 +153,7 @@ sub addModem {
 sub addFirmware {
     my ($self, $firmware) = @_;
 
-    return unless $firmware;
+    return unless _cleanHash($firmware);
 
     push @{$self->{FIRMWARES}}, $firmware;
 }
@@ -155,48 +161,71 @@ sub addFirmware {
 sub addSimcard {
     my ($self, $simcard) = @_;
 
-    return unless $simcard;
+    return unless _cleanHash($simcard);
 
     push @{$self->{SIMCARDS}}, $simcard;
+}
+
+sub addPort {
+    my ($self, %ports) = @_;
+
+    foreach my $port (keys(%ports)) {
+        next unless _cleanHash($ports{$port});
+
+        $self->{PORTS}->{PORT}->{$port} = $ports{$port};
+    }
+}
+
+sub _cleanHash {
+    my ($hashref) = @_;
+
+    return unless ref($hashref) eq 'HASH';
+
+    my $keys = 0 ;
+    foreach my $key (keys(%{$hashref})) {
+        $keys++;
+        next if defined($hashref->{$key});
+        delete $hashref->{$key};
+        $keys--,
+    }
+
+    return $keys;
 }
 
 sub setSerial {
     my ($self) = @_;
 
-    # Entity-MIB::entPhysicalSerialNum
-    my $entPhysicalSerialNum = $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.11');
-    return $self->{SERIAL} = getCanonicalSerialNumber($entPhysicalSerialNum)
-        if $entPhysicalSerialNum;
+    my $serial =
+        # Entity-MIB::entPhysicalSerialNum
+        $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.11') ||
+        # Printer-MIB::prtGeneralSerialNumber
+        $self->{snmp}->get_first('.1.3.6.1.2.1.43.5.1.1.17') ||
+        # Try MIB Support mechanism
+        $self->getSerialByMibSupport();
 
-    # Printer-MIB::prtGeneralSerialNumber
-    my $prtGeneralSerialNumber = $self->{snmp}->get_first('.1.3.6.1.2.1.43.5.1.1.17');
-    return $self->{SERIAL} = getCanonicalSerialNumber($prtGeneralSerialNumber)
-        if $prtGeneralSerialNumber;
-
-    # Try MIB Support mechanism
-    my $otherSerial = $self->getSerialByMibSupport();
-    return $self->{SERIAL} = getCanonicalSerialNumber($otherSerial)
-        if $otherSerial;
-
-    # vendor specific OIDs
-    my @oids = (
-        '.1.3.6.1.4.1.2636.3.1.3.0',             # Juniper-MIB
-        '.1.3.6.1.4.1.248.14.1.1.9.1.10.1',      # Hirschman MIB
-        '.1.3.6.1.4.1.253.8.53.3.2.1.3.1',       # Xerox-MIB
-        '.1.3.6.1.4.1.367.3.2.1.2.1.4.0',        # Ricoh-MIB
-        '.1.3.6.1.4.1.641.2.1.2.1.6.1',          # Lexmark-MIB
-        '.1.3.6.1.4.1.1602.1.2.1.4.0',           # Canon-MIB
-        '.1.3.6.1.4.1.2435.2.3.9.4.2.1.5.5.1.0', # Brother-MIB
-        '.1.3.6.1.4.1.318.1.1.4.1.5.0',          # MasterSwitch-MIB
-        '.1.3.6.1.4.1.6027.3.8.1.1.5.0',         # F10-C-SERIES-CHASSIS-MIB
-        '.1.3.6.1.4.1.6027.3.10.1.2.2.1.12.1',   # FORCE10-SMI
-    );
-    foreach my $oid (@oids) {
-        my $value = $self->{snmp}->get($oid);
-        next unless $value;
-        $self->{SERIAL} = getCanonicalSerialNumber($value);
-        last;
+    if ( not defined $serial ) {
+        # vendor specific OIDs
+        my @oids = (
+            '.1.3.6.1.4.1.2636.3.1.3.0',             # Juniper-MIB
+            '.1.3.6.1.4.1.248.14.1.1.9.1.10.1',      # Hirschman MIB
+            '.1.3.6.1.4.1.253.8.53.3.2.1.3.1',       # Xerox-MIB
+            '.1.3.6.1.4.1.367.3.2.1.2.1.4.0',        # Ricoh-MIB
+            '.1.3.6.1.4.1.641.2.1.2.1.6.1',          # Lexmark-MIB
+            '.1.3.6.1.4.1.1602.1.2.1.4.0',           # Canon-MIB
+            '.1.3.6.1.4.1.2435.2.3.9.4.2.1.5.5.1.0', # Brother-MIB
+            '.1.3.6.1.4.1.318.1.1.4.1.5.0',          # MasterSwitch-MIB
+            '.1.3.6.1.4.1.6027.3.8.1.1.5.0',         # F10-C-SERIES-CHASSIS-MIB
+            '.1.3.6.1.4.1.6027.3.10.1.2.2.1.12.1',   # FORCE10-SMI
+        );
+        foreach my $oid (@oids) {
+            $serial = $self->get($oid);
+            last if $serial;
+        }
     }
+
+    return unless $serial;
+
+    $self->{SERIAL} = getCanonicalSerialNumber($serial);
 }
 
 sub setFirmware {
@@ -218,7 +247,7 @@ sub setFirmware {
             '.1.3.6.1.4.1.2636.3.40.1.4.1.1.1.5.0',  # Juniper-MIB
         );
         foreach my $oid (@oids) {
-            $firmware = $self->{snmp}->get($oid);
+            $firmware = $self->get($oid);
             last if defined $firmware;
         }
     }
@@ -233,9 +262,95 @@ sub setFirmware {
         NAME            => $self->{MODEL} || 'device',
         DESCRIPTION     => 'device firmware',
         TYPE            => 'device',
+        DATE            => $self->getFirmwareDateByMibSupport(),
         VERSION         => $self->{FIRMWARE},
         MANUFACTURER    => $self->{MANUFACTURER}
     });
+}
+
+sub setMacAddress {
+    my ($self) = @_;
+
+    my $address_oid = ".1.3.6.1.2.1.17.1.1.0";
+    my $address = getCanonicalMacAddress(
+        # use BRIDGE-MIB::dot1dBaseBridgeAddress if available
+        $self->get($address_oid) ||
+        # Try MIB Support mechanism
+        $self->getMacAddressByMibSupport()
+    );
+
+    return $self->{MAC} = $address
+        if $address && $address =~ /^$mac_address_pattern$/;
+
+    # fallback on ports addresses (IF-MIB::ifPhysAddress) if unique
+    my $addresses_oid = ".1.3.6.1.2.1.2.2.1.6";
+    my $addresses = $self->walk($addresses_oid);
+
+    # interfaces list with defined ip to use as filter to select shorter mac address list
+    my $ips = $self->walk('.1.3.6.1.2.1.4.20.1.2');
+
+    my @all_mac_addresses = ();
+
+    # Try first to obtain shorter mac address list using ip interface list filter
+    @all_mac_addresses = grep { defined } map { $addresses->{$_} } values %{$ips}
+        if (keys(%{$ips}));
+
+    # Finally get all defined mac adresses if ip filtered related list remains empty
+    @all_mac_addresses = grep { defined } values %{$addresses}
+        unless @all_mac_addresses;
+
+    my @valid_mac_addresses =
+        uniq
+        grep { /^$mac_address_pattern$/ }
+        grep { $_ ne '00:00:00:00:00:00' }
+        grep { $_ }
+        map  { getCanonicalMacAddress($_) }
+        @all_mac_addresses;
+
+    if (@valid_mac_addresses) {
+        return $self->{MAC} = $valid_mac_addresses[0]
+            if @valid_mac_addresses == 1;
+
+        # Compute mac addresses as number and sort them
+        my %macs = map { $_ => _numericMac($_) } @valid_mac_addresses;
+        my @sortedMac = sort { $macs{$a} <=> $macs{$b} } @valid_mac_addresses;
+
+        # Then find first couple of consecutive mac and return first one as this
+        # seems to be the first manufacturer defined mac address
+        while (@sortedMac > 1) {
+            my $currentMac = shift @sortedMac;
+            return $self->{MAC} = $currentMac
+                if ($macs{$currentMac} == $macs{$sortedMac[0]} - 1);
+        }
+    }
+}
+
+sub _numericMac {
+    my ($mac) = @_;
+
+    my $number = 0;
+    my $multiplicator = 1;
+
+    my @parts = split(':', $mac);
+    while (@parts) {
+        $number += hex(pop(@parts))*$multiplicator;
+        $multiplicator <<= 8 ;
+    }
+
+    return $number;
+}
+
+
+sub setIp {
+    my ($self) = @_;
+
+    my $results = $self->walk('.1.3.6.1.2.1.4.20.1.1');
+    return $self->{IPS}->{IP} = [
+        sort values %{$results}
+    ] if $results;
+
+    my $ip = $self->getIpByMibSupport();
+    $self->{IPS}->{IP} = [ $ip ] if $ip;
 }
 
 1;

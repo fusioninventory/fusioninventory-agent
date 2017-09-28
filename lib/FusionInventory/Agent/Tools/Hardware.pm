@@ -326,8 +326,9 @@ sub _getDevice {
     }
 
     # load supported mibs regarding sysORID list as this list permits to
-    # identify device supported MIBs
-    $device->loadMibSupport();
+    # identify device supported MIBs. But mib supported can also be tested
+    # regarding sysobjectid in some case, so we pass it as argument
+    $device->loadMibSupport($sysobjectid);
 
     # fallback type identification attempt, using type-specific OID presence
     if (!exists $device->{TYPE}) {
@@ -397,8 +398,8 @@ sub _getDevice {
         delete $device->{$key} if $device->{$key} eq '';
     }
 
-    my $mac = _getMacAddress($snmp);
-    $device->{MAC} = $mac if $mac;
+    # Find and set Mac address
+    $device->setMacAddress();
 
     # Find device serial number
     $device->setSerial();
@@ -406,10 +407,8 @@ sub _getDevice {
     # Find device firmware
     $device->setFirmware();
 
-    my $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.1');
-    $device->{IPS}->{IP} =  [
-        sort values %{$results}
-    ] if $results;
+    # Find ip
+    $device->setIp();
 
     return $device;
 }
@@ -502,73 +501,6 @@ sub _loadSysObjectIDDatabase {
     }
 
     close $handle;
-}
-
-sub _getMacAddress {
-    my ($snmp) = @_;
-
-    # use BRIDGE-MIB::dot1dBaseBridgeAddress if available
-    my $address_oid = ".1.3.6.1.2.1.17.1.1.0";
-    my $address = _getCanonicalMacAddress($snmp->get($address_oid));
-
-    return $address if $address && $address =~ /^$mac_address_pattern$/;
-
-    # fallback on ports addresses (IF-MIB::ifPhysAddress) if unique
-    my $addresses_oid = ".1.3.6.1.2.1.2.2.1.6";
-    my $addresses = $snmp->walk($addresses_oid);
-
-    # interfaces list with defined ip to use as filter to select shorter mac address list
-    my $ips = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');
-
-    my @all_mac_addresses = ();
-
-    # Try first to obtain shorter mac address list using ip interface list filter
-    @all_mac_addresses = grep { defined } map { $addresses->{$_} } values %{$ips}
-        if (keys(%{$ips}));
-
-    # Finally get all defined mac adresses if ip filtered related list remains empty
-    @all_mac_addresses = grep { defined } values %{$addresses}
-        unless @all_mac_addresses;
-
-    my @valid_mac_addresses =
-        uniq
-        grep { /^$mac_address_pattern$/ }
-        grep { $_ ne '00:00:00:00:00:00' }
-        grep { $_ }
-        map  { _getCanonicalMacAddress($_) }
-        @all_mac_addresses;
-
-    if (@valid_mac_addresses) {
-        return $valid_mac_addresses[0] if @valid_mac_addresses == 1;
-
-        # Compute mac addresses as number and sort them
-        my %macs = map { $_ => _numericMac($_) } @valid_mac_addresses;
-        my @sortedMac = sort { $macs{$a} <=> $macs{$b} } @valid_mac_addresses;
-
-        # Then find first couple of consecutive mac and return first one as this
-        # seems to be the first manufacturer defined mac address
-        while (@sortedMac > 1) {
-            my $currentMac = shift @sortedMac;
-            return $currentMac if ($macs{$currentMac} == $macs{$sortedMac[0]} - 1);
-        }
-    }
-
-    return;
-}
-
-sub _numericMac {
-    my ($mac) = @_;
-
-    my $number = 0;
-    my $multiplicator = 1;
-
-    my @parts = split(':', $mac);
-    while (@parts) {
-        $number += hex(pop(@parts))*$multiplicator;
-        $multiplicator <<= 8 ;
-    }
-
-    return $number;
 }
 
 sub getDeviceFullInfo {
@@ -692,8 +624,8 @@ sub _setGenericProperties {
         # $prefix.$i = $value, with $i as port id
         while (my ($suffix, $raw_value) = each %{$results}) {
             my $value =
-                $type eq 'mac'      ? _getCanonicalMacAddress($raw_value) :
-                $type eq 'constant' ? _getCanonicalConstant($raw_value)   :
+                $type eq 'mac'      ? getCanonicalMacAddress($raw_value) :
+                $type eq 'constant' ? getCanonicalConstant($raw_value)   :
                 $type eq 'string'   ? getCanonicalString($raw_value)     :
                 $type eq 'count'    ? _getCanonicalCount($raw_value)      :
                                       $raw_value;
@@ -849,7 +781,7 @@ sub _setPrinterProperties {
             $value = $snmp->get($oid);
         }
         next unless defined $value;
-        if (!_isInteger($value)) {
+        if (!isInteger($value)) {
             $logger->error("incorrect counter value $value, check $variable->{mapping} mapping") if $logger;
             next;
         }
@@ -901,59 +833,13 @@ sub _setNetworkingProperties {
 sub _getPercentValue {
     my ($value1, $value2) = @_;
 
-    return unless defined $value1 && _isInteger($value1);
-    return unless defined $value2 && _isInteger($value2);
+    return unless defined $value1 && isInteger($value1);
+    return unless defined $value2 && isInteger($value2);
     return if $value1 == 0;
 
     return int(
         ( 100 * $value2 ) / $value1
     );
-}
-
-sub _isInteger {
-    $_[0] =~ /^[+-]?\d+$/;
-}
-
-sub _getCanonicalMacAddress {
-    my ($value) = @_;
-
-    return unless $value;
-
-    my $result;
-    my @bytes;
-
-    # packed value, convert from binary to hexadecimal
-    if ($value =~ m/\A [[:ascii:]] \Z/xms) {
-        $value = unpack 'H*', $value;
-    }
-
-    # Check if it's a hex value
-    if ($value =~ /^(?:0x)?([0-9A-F]+)$/i) {
-        @bytes = unpack("(A2)*", $1);
-    } else {
-        @bytes = split(':', $value);
-        # return if bytes are not hex
-        return if grep(!/^[0-9A-F]{1,2}$/i, @bytes);
-    }
-
-    if (scalar(@bytes) == 6) {
-        # it's a MAC
-    } elsif (scalar(@bytes) == 8 &&
-        (($bytes[0] eq '10' && $bytes[1] =~ /^0+/) # WWN 10:00:...
-            || $bytes[0] =~ /^2/)) {               # WWN 2X:XX:...
-    } elsif (scalar(@bytes) < 6) {
-        # make a WWN. prepend "10" and zeroes as necessary
-        while (scalar(@bytes) < 7) { unshift @bytes, '00' }
-        unshift @bytes, '10';
-    } elsif (scalar(@bytes) > 6) {
-        # make a MAC. take 6 bytes from the right
-        @bytes = @bytes[-6 .. -1];
-    }
-
-    $result = join ":", map { sprintf("%02x", hex($_)) } @bytes;
-
-    return if $result eq '00:00:00:00:00:00';
-    return lc($result);
 }
 
 sub _getCanonicalMemory {
@@ -966,17 +852,10 @@ sub _getCanonicalMemory {
     }
 }
 
-sub _getCanonicalConstant {
-    my ($value) = @_;
-
-    return $value if _isInteger($value);
-    return $1 if $value =~ /\((\d+)\)$/;
-}
-
 sub _getCanonicalCount {
     my ($value) = @_;
 
-    return _isInteger($value) ? $value  : undef;
+    return isInteger($value) ? $value  : undef;
 }
 
 sub _getElement {
@@ -1174,9 +1053,9 @@ sub _getKnownMacAddressesDeprecatedOids {
         next unless defined $interface_id;
  
         push @{$results->{$interface_id}},
-            _getCanonicalMacAddress($address2mac->{$suffix});
+            getCanonicalMacAddress($address2mac->{$suffix});
     }
-   
+
     return $results;
 }
 

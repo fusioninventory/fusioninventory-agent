@@ -8,6 +8,7 @@ use Test::More;
 
 use FusionInventory::Agent::SNMP::Mock;
 use FusionInventory::Agent::Tools::Hardware;
+use FusionInventory::Agent::Tools::SNMP;
 
 my @mac_tests = (
     [ 'd2:05:a8:6c:26:d5' , 'd2:05:a8:6c:26:d5' ],
@@ -220,7 +221,7 @@ plan tests =>
 
 foreach my $test (@mac_tests) {
     is(
-        FusionInventory::Agent::Tools::Hardware::_getCanonicalMacAddress($test->[0]),
+        FusionInventory::Agent::Tools::SNMP::getCanonicalMacAddress($test->[0]),
         $test->[1],
         "$test->[0] normalisation"
     );

@@ -3,20 +3,29 @@ package FusionInventory::Agent::SNMP::MibSupport;
 use strict;
 use warnings;
 
+# Extracted from SNMPv2-MIB standard
+use constant    sysORID => '.1.3.6.1.2.1.1.9.1.2';
+
 use File::Glob;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 
 sub new {
     my ($class, %params) = @_;
 
-    my $logger  = $params{logger};
-    my $sysorid = $params{sysorid_list};
+    my $device = $params{device};
 
-    return unless $sysorid;
+    return unless $device;
+
+    my $logger      = $params{logger};
+    my $sysobjectid = $params{sysobjectid};
+    my $sysorid     = $device->walk(sysORID);
+
+    return unless $sysorid || $sysobjectid;
 
     my $self = {
-        _SUPPORT    => [],
+        _SUPPORT    => {},
         logger      => $logger
     };
 
@@ -27,16 +36,26 @@ sub new {
         next unless $file =~ m{$sub_modules_path/(\S+)\.pm$};
 
         my $module = __PACKAGE__ . "::" . $1;
-        my $supported_mibs = runFunction(
-            module   => $module,
-            function => "mibSupport",
-            logger   => $self->{logger},
-            params   => undef,
-            load     => 1
-        );
+        $module->require() or next;
+        my $supported_mibs;
+        {
+            no strict 'refs'; ## no critic (ProhibitNoStrict)
+            $supported_mibs = ${$module . "::mibSupport"};
+        }
 
         if ($supported_mibs && @{$supported_mibs}) {
             foreach my $mib_support (@{$supported_mibs}) {
+                # checking first if sysobjectid test is present, this is another
+                # advanced way to replace sysobject.ids file EXTMOD feature support
+                if ($mib_support->{sysobjectid} && $sysobjectid) {
+                    my $mibname = $mib_support->{name}
+                        or next;
+                    if ($sysobjectid =~ $mib_support->{sysobjectid}) {
+                        $logger->debug2("sysobjectid: $mibname mib support enabled") if $logger;
+                        $self->{_SUPPORT}->{$module} = $module->new( device => $device );
+                        next;
+                    }
+                }
                 my $miboid = $mib_support->{oid}
                     or next;
                 $mib_support->{module} = $module;
@@ -53,8 +72,9 @@ sub new {
             or next;
         my $mibname = $supported->{name}
             or next;
-        $logger->debug2("$mibname mib support enabled") if $logger;
-        push @{$self->{_SUPPORT}}, $supported;
+        my $module = $supported->{module};
+        $logger->debug2("sysorid: $mibname mib support enabled") if $logger;
+        $self->{_SUPPORT}->{$module} = $module->new( device => $device );
     }
 
     bless $self, $class;
@@ -62,10 +82,28 @@ sub new {
     return $self;
 }
 
-sub get {
-    my ($self) = @_;
+sub getMethod {
+    my ($self, $method) = @_;
 
-    return @{$self->{_SUPPORT}};
+    return unless $method;
+
+    my $value;
+    foreach my $mibsupport (values(%{$self->{_SUPPORT}})) {
+        next unless $mibsupport;
+        $value = $mibsupport->$method();
+        last if defined $value;
+    }
+
+    return $value;
+}
+
+sub run {
+    my ($self, %params) = @_;
+
+    foreach my $mibsupport (values(%{$self->{_SUPPORT}})) {
+        next unless $mibsupport;
+        $mibsupport->run();
+    }
 }
 
 1;

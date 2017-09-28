@@ -2,6 +2,13 @@
 <REQUEST>
   <CONTENT>
     <DEVICE>
+      <FIRMWARES>
+        <DESCRIPTION>device firmware</DESCRIPTION>
+        <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        <NAME>ProCurve 5406zl (J8697A)</NAME>
+        <TYPE>device</TYPE>
+        <VERSION>K.15.04.0015m</VERSION>
+      </FIRMWARES>
       <INFO>
         <COMMENTS>ProCurve J8697A Switch 5406zl, revision K.15.04.0015m, ROM K.15.28 (/ws/swbuildm/ec_rel_charleston_qaoff/code/build/btm(ec_rel_</COMMENTS>
         <CONTACT>systeme@example.com</CONTACT>
