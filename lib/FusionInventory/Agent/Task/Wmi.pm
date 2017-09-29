@@ -25,15 +25,7 @@ sub isEnabled {
 }
 
 sub getModules {
-    #TODO : overwrite...
-}
-
-sub run {
-    my ( $self, %params ) = @_;
-
-    $self->{logger}->debug2('running Wmi') if $self->{logger};
-
-    $params{enabledModules} = [
+    return (
         'FusionInventory::Agent::Task::Inventory::Generic',
         'FusionInventory::Agent::Task::Inventory::Generic::Screen',
         'FusionInventory::Agent::Task::Inventory::Virtualization',
@@ -63,7 +55,14 @@ sub run {
         'FusionInventory::Agent::Task::Inventory::Win32::USB',
         'FusionInventory::Agent::Task::Inventory::Win32::Users',
         'FusionInventory::Agent::Task::Inventory::Win32::Videos'
-    ];
+    );
+}
+
+sub run {
+    my ( $self, %params ) = @_;
+
+    $self->{logger}->debug2('running Wmi') if $self->{logger};
+
     $params{WMIService} = {
         hostname => $self->{config}->{wmi_hostname},
         user     => $self->{config}->{wmi_user},
