@@ -12,14 +12,10 @@ sub isEnabled {
 
     if ($OSNAME eq 'MSWin32') {
 
-        my $wmiParams = {};
-        $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
-
         FusionInventory::Agent::Tools::Win32->use();
 
         my $key = getRegistryKey(
-            %$wmiParams,
-            path => is64bit(%$wmiParams) ?
+            path => is64bit() ?
                 "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer" :
                 "HKEY_LOCAL_MACHINE/SOFTWARE/TeamViewer",
             logger => $params{logger}
@@ -72,7 +68,6 @@ sub _getID {
 
         unless ($clientid) {
             my $teamviever_reg = getRegistryKey(
-                %params,
                 path => is64bit() ?
                     "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer" :
                     "HKEY_LOCAL_MACHINE/SOFTWARE/TeamViewer",
