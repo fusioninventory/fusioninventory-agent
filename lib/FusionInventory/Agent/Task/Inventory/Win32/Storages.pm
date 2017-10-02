@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Win32::Storages;
 use strict;
 use warnings;
 
-use Storable 'dclone';
-
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Win32;
@@ -23,9 +21,7 @@ sub doInventory {
 
     my $hdparm = canRun('hdparm');
 
-    my $wmiParams = {};
-    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
-    foreach my $storage (_getDrives(class => 'Win32_DiskDrive', %$wmiParams)) {
+    foreach my $storage (_getDrives(class => 'Win32_DiskDrive')) {
         if ($hdparm && $storage->{NAME} =~ /(\d+)$/) {
             my $info = getHdparmInfo(
                 device => "/dev/hd" . chr(ord('a') + $1),
@@ -43,7 +39,7 @@ sub doInventory {
         );
     }
 
-    foreach my $storage (_getDrives(class => 'Win32_CDROMDrive', %$wmiParams)) {
+    foreach my $storage (_getDrives(class => 'Win32_CDROMDrive')) {
         if ($hdparm && $storage->{NAME} =~ /(\d+)$/) {
             my $info = getHdparmInfo(
                 device => "/dev/scd" . chr(ord('a') + $1),
@@ -61,7 +57,7 @@ sub doInventory {
         );
     }
 
-    foreach my $storage (_getDrives(class => 'Win32_TapeDrive', %$wmiParams)) {
+    foreach my $storage (_getDrives(class => 'Win32_TapeDrive')) {
         $inventory->addEntry(
             section => 'STORAGES',
             entry   => $storage
@@ -75,7 +71,6 @@ sub _getDrives {
     my @drives;
 
     foreach my $object (getWMIObjects(
-        %params,
         class      => $params{class},
         properties => [ qw/
             Manufacturer Model Caption Description Name MediaType InterfaceType

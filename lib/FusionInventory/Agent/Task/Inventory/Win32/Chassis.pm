@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Win32::Chassis;
 use strict;
 use warnings;
 
-use Storable 'dclone';
-
 use FusionInventory::Agent::Tools::Win32;
 
 my @chassisType = (
@@ -44,10 +42,8 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $wmiParams = {};
-    $wmiParams->{WMIService} = dclone($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
     $inventory->setHardware({
-        CHASSIS_TYPE => _getChassis(logger => $params{logger}, %$wmiParams)
+        CHASSIS_TYPE => _getChassis(logger => $params{logger})
     });
 }
 
@@ -57,7 +53,6 @@ sub _getChassis {
     my $chassis;
 
     foreach my $object (getWMIObjects(
-        %params,
         class      => 'Win32_SystemEnclosure',
         properties => [ qw/ChassisTypes/ ]
     )) {

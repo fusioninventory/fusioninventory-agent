@@ -73,8 +73,7 @@ sub is64bit {
     return $_is64bits =
         any { $_->{AddressWidth} eq 64 }
         getWMIObjects(
-            @_,
-            class => 'Win32_Processor', properties => [ qw/AddressWidth/ ],
+            class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
         );
 }
 
@@ -112,57 +111,36 @@ sub getWMIObjects {
 }
 
 sub _getWMIObjects {
-
     my (%params) = (
         moniker => 'winmgmts:{impersonationLevel=impersonate,(security)}!//./',
         @_
     );
 
-    Win32::OLE->use('in');
-    my $WMIService;
-    if ($params{WMIService}) {
-        if (
-            $params{WMIService}->{hostname}
-            && $params{WMIService}->{user}
-            && $params{WMIService}->{pass}
-        ) {
-            $params{WMIService}->{root} = "root\\cimv2";
-            $WMIService = getWMIService(%params);
-        } else {
-            return;
-        }
+    if (_remoteWmi()) {
+        getWMIService(
+            root => $params{root} || "root\\cimv2"
+        );
     } else {
-        $WMIService = Win32::OLE->GetObject( $params{moniker} );
+        $wmiService = Win32::OLE->GetObject($params{moniker});
         # Support alternate moniker if provided and main failed to open
-        unless (defined($WMIService)) {
+        unless (defined($wmiService)) {
             if ($params{altmoniker}) {
-                $WMIService = Win32::OLE->GetObject( $params{altmoniker} );
+                $wmiService = Win32::OLE->GetObject($params{altmoniker});
             }
         }
     }
 
-    return unless (defined($WMIService));
-
-    my $func = sub {
-        my ($msg) = @_;
-        print $msg . "\n";
-    };
+    return unless (defined($wmiService));
 
     Win32::OLE->use('in');
 
     my @objects;
-    my $instances;
-    eval {
-        $instances = $params{query}                                ?
-            $WMIService->ExecQuery(@{$params{query}}) :
-            $WMIService->InstancesOf($params{class});
-    };
-    &$func('_getWMIObjects(): crash on ExecQuery() or InstancesOf(): ' . $EVAL_ERROR) if $EVAL_ERROR;
-
-    foreach my $instance (
-        in(
-            $instances
-        )) {
+    foreach my $instance (in(
+        $params{query} ?
+        $wmiService->ExecQuery(@{$params{query}})
+        :
+        $wmiService->InstancesOf($params{class})
+    )) {
         my $object;
         # Handle Win32::OLE object method, see _getLoggedUsers() method in
         # FusionInventory::Agent::Task::Inventory::Win32::Users as example to
@@ -185,7 +163,6 @@ sub _getWMIObjects {
                 eval {
                     $results{$name} = Win32::OLE::Variant::Variant($variant, $default);
                 };
-                &$func('_getWMIObjects(): crash on Win32::OLE::Variant::Variant: ' . $EVAL_ERROR) if $EVAL_ERROR;
                 push @invokes, $results{$name};
             }
 
@@ -193,7 +170,6 @@ sub _getWMIObjects {
             eval {
                 $results{$params{method}} = $instance->Invoke(@invokes);
             };
-            &$func('_getWMIObjects(): crash on Invoke((' . join(', ', @invokes) . ')): ' . $EVAL_ERROR) if $EVAL_ERROR;
 
             # Bind results to object to return
             foreach my $name (keys(%{$params{binds}})) {
@@ -238,9 +214,8 @@ sub getRegistryValue {
         return;
     }
 
-    if ($params{WMIService}) {
-        return getRegistryValueFromWMI(%params);
-    }
+    return getRegistryValueFromWMI(%params)
+        if ($wmiParams->{host});
 
     my ($root, $keyName, $valueName);
     if ($params{path} =~ m{^(HKEY_\w+.*)/([^/]+)/([^/]+)} ) {
@@ -277,7 +252,6 @@ sub getRegistryValue {
 sub getRegistryValueFromWMI {
     my (%params) = @_;
 
-    print 'getRegistryValueFromWMI() now' . "\n";
     if (!$params{path}) {
         $params{logger}->error(
             "No registry key path provided"
@@ -347,7 +321,7 @@ sub _getRegistryValueFromWMI {
         return;
     }
 
-    my $WMIService = getWMIService(%params);
+    getWMIService(%params);
     if (!$WMIService) {
         return;
     }
@@ -356,25 +330,20 @@ sub _getRegistryValueFromWMI {
         return;
     }
 
-    my $func = sub {
-        print '_getRegistryValueFromWMI() eval crash' . "\n";
-    };
     my $value;
     $params{valueType} = REG_SZ() unless $params{valueType};
     eval {
-        print 'call of _retrieveRemoteRegistryValueByType()' . "\n";
         $value = _retrieveRemoteRegistryValueByType(
             %params,
             objReg => $objReg
         );
     };
-    &$func if $EVAL_ERROR;
 
     return $value;
 }
 
 sub isDefinedRemoteRegistryKey {
-    my (%params)  =@_;
+    my (%params) = @_;
 
     $params{logger}->debug2('isDefinedRemoteRegistryKey() ') if $params{logger};
 
@@ -384,7 +353,7 @@ sub isDefinedRemoteRegistryKey {
     return $defined if $defined;
 
     # has values ?
-     $defined = defined retrieveValuesNameAndType(@_);
+    $defined = defined retrieveValuesNameAndType(@_);
     return $defined if $defined;
 
     # is a value ?
@@ -422,15 +391,14 @@ sub getRegistryKey {
         return;
     }
 
-    if ($params{WMIService}) {
-        return getRegistryKeyFromWMI(
+    return _remoteWmi() ?
+    getRegistryKeyFromWMI(
             %params,
             root => $root,
             keyName => $keyName
-        );
-    }
-
-    return _getRegistryKey(
+        )
+    :
+    _getRegistryKey(
         logger  => $params{logger},
         root    => $root,
         keyName => $keyName
@@ -464,12 +432,6 @@ sub getRegistryKeyFromWMI {
         args  => \@_
     };
 
-    my $f = sub {
-        my ($str) = @_;
-        print 'getRegistryKeyFromWMI() eval crash' . "\n";
-        print $str . "\n";
-    };
-
     my $keyNames = _call_win32_ole_dependent_api($win32_ole_dependent_api);
 
     if ($params{retrieveValuesForAllKeys}) {
@@ -486,7 +448,6 @@ sub getRegistryKeyFromWMI {
                     path => $wantedKeyPath
                 );
             };
-            &$f($@) if $@;
             eval {
                 if ($params{retrieveSubKeysForAllKeys}) {
                     my $subKeys = getRegistryKeyFromWMI(
@@ -499,7 +460,6 @@ sub getRegistryKeyFromWMI {
                     @{$keyNames->{$wantedKey}}{ keys %$subKeys } = values %$subKeys;
                 }
             };
-            &$f($@) if $@;
         }
     }
     return $keyNames;
@@ -538,8 +498,6 @@ sub _getRegistryKeyFromWMI{
 sub _retrieveSubKeyList {
     my (%params) = @_;
 
-    print '_retrieveSubKeyList() now' . "\n";
-
     Win32::OLE->use('in');
 
     my $hkey;
@@ -571,7 +529,6 @@ sub _retrieveSubKeyList {
         }
     }
 
-    print '_retrieveSubKeyList() finished' . "\n";
     return $subKeys;
 }
 
@@ -631,10 +588,6 @@ sub _retrieveValuesNameAndType {
         $params{objReg} = $objReg;
     }
 
-    my $func1 = sub {
-        my $str = shift;
-        print 'eval crash: ' . $str . "\n";
-    };
     my $values;
     my $types;
     my $arrValueTypes = Win32::OLE::Variant->new( Win32::OLE::Variant::VT_ARRAY() | Win32::OLE::Variant::VT_VARIANT() | Win32::OLE::Variant::VT_BYREF() , [1,1] );
@@ -657,7 +610,6 @@ sub _retrieveValuesNameAndType {
 
                 } else {
                     $values->{$valueName} = eval {
-                        print 'call of _retrieveRemoteRegistryValueByType()' . "\n";
                         _retrieveRemoteRegistryValueByType(
                             valueType => $types->[$i],
                             keyName   => $params{keyName},
@@ -666,7 +618,6 @@ sub _retrieveValuesNameAndType {
                             hkey      => $hkey,
                         );
                     };
-                    &$func1($EVAL_ERROR) if $EVAL_ERROR;
                 }
                 $i++;
             }
@@ -698,11 +649,9 @@ sub _retrieveRemoteRegistryValueByType {
     }
 
     my $func1 = sub {
-        print 'SEGV catched' . "\n";
-        die('thread is dying now');
+        die "thread is dying now (SEGV cached)\n";
     };
     my $value;
-    print '_retrieveRemoteRegistryValueByType() now' . "\n";
     {
         $SIG{SEGV} = \&$func1;
 
@@ -732,10 +681,8 @@ sub _retrieveRemoteRegistryValueByType {
             $params{logger}->error('_retrieveRemoteRegistryValueByType() : wrong valueType !') if $params{logger};
         }
     }
-    $value = '' if !$value;
 
-    print '_retrieveRemoteRegistryValueByType() finished' . "\n";
-    return $value;
+    return $value || '';
 }
 
 sub getValueFromRemoteRegistryViaVbScript {
@@ -1161,7 +1108,8 @@ sub FreeAgentMem {
 my $worker ;
 my $worker_semaphore;
 my $wmiService;
-my %wmiParams;
+my $wmiLocator;
+my $wmiParams = {};
 
 my @win32_ole_calls : shared;
 
@@ -1185,10 +1133,6 @@ sub _win32_ole_worker {
     Win32::OLE->use('in');
 
     local $SIG{SEGV} = 'DEFAULT';
-
-    my $evalHandler = sub {
-        print '_win32_ole_worker() eval crash' . "\n";
-    };
 
     while (1) {
         # Always block until semaphore is made available by main thread
@@ -1218,7 +1162,6 @@ sub _win32_ole_worker {
                     $result = &{$funct}(@{$call->{'args'}});
                 }
             };
-            &$evalHandler if $@;
 
             # Share back the result
             $call->{'result'} = shared_clone($result);
@@ -1291,12 +1234,10 @@ sub getUsersFromRegistry {
     my (%params) = @_;
 
     $params{pathToUserList} = 'SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList';
-    my $userList;
-    if ($params{WMIService}) {
-        $userList = _getUsersFromRemoteRegistry(%params);
-    } else {
-        $userList = _getUsersFromLocalRegistry(%params);
-    }
+    return remoteWmi() ?
+        _getUsersFromRemoteRegistry(%params)
+        :
+        _getUsersFromLocalRegistry(%params);
 }
 
 sub _getUsersFromRemoteRegistry {
@@ -1364,70 +1305,67 @@ sub _getUsersFromLocalRegistry {
     return $userList;
 }
 
+sub _remoteWmi {
+    return $wmiParams->{host} ? 1 : 0;
+}
+
 sub _connectToService {
-    my ( $params ) = @_;
+    my (%params) = @_;
 
-    for my $key ( qw/ hostname user pass root / ) {
-        return unless $params->{$key};
+    # Be sure to reset known access params in threaded version so
+    # getWMIService won't reset when called from right thread
+    foreach my $param (qw( host user pass root locale)) {
+        $wmiParams->{$param} = $params{$param};
     }
-    return unless defined $params->{locale};
 
-    Win32::OLE->require() or warn;
-    my $locator = Win32::OLE->CreateObject('WbemScripting.SWbemLocator')
-        or warn;
-    print 'Remote connection: '
-        . "$params->{hostname}, $params->{root}, domain\\"
-        . "$params->{user}, ********, "
-        . ($params->{locale} || '')
-        . "\n";
-    my $service =
-        $locator->ConnectServer( $params->{hostname}, $params->{root}, "domain\\" . $params->{user},
-            $params->{pass}, $params->{locale} || '' )
-        or warn("can't connect to $params->{hostname} with user $params->{user} and locale " . ($params->{locale} || ''));
+    Win32::OLE->require() or return;
 
-    return $service;
+    $wmiLocator = Win32::OLE->CreateObject('WbemScripting.SWbemLocator')
+        or return;
+
+    $wmiService = $wmiLocator->ConnectServer(
+        $params{host}, $params{root},
+        "domain\\" . $params{user}, $params{pass},
+        $params{locale}
+    );
+
+    return defined $wmiService;
 }
 
 sub getWMIService {
     my (%params) = @_;
 
-    return unless $params{WMIService}
-        && $params{WMIService}->{hostname}
-        && $params{WMIService}->{user}
-        && $params{WMIService}->{pass};
+    my $host   = $params{host} || $wmiParams->{host} || '127.0.0.1';
+    my $user   = $params{user} || $wmiParams->{user} || '';
+    my $pass   = $params{pass} || $wmiParams->{pass} || '';
+    my $root   = $params{root} || $wmiParams->{root} || 'root\\default';
+    my $locale = $params{locale} || $wmiParams->{locale} || '';
 
-    if (!($params{WMIService}->{root})) {
-        $params{WMIService}->{root} = "root\\default";
+    # check if the connection is right otherwise reset it
+    if (!$wmiService || $wmiParams
+                && $wmiParams->{host} eq $host
+                && $wmiParams->{user} eq $user
+                && $wmiParams->{pass} eq $pass
+                && $wmiParams->{root} eq $root
+                && $wmiParams->{locale} eq $locale);
+
+        $wmiParams = {
+            host    => $host,
+            user    => $user,
+            pass    => $pass,
+            root    => $root,
+            locale  => $locale
+        };
+
+        my $win32_ole_dependent_api = {
+            funct => '_connectToService',
+            args  => [ %{$wmiParams} ]
+        };
+
+        _call_win32_ole_dependent_api($win32_ole_dependent_api);
     }
 
-    if ($wmiService) {
-        # check if the connection is right
-        # if not right, the connection is reset to undef
-        if (%wmiParams
-            && $wmiParams{hostname} eq $params{WMIService}->{hostname}
-            && $wmiParams{user} eq $params{WMIService}->{user}
-            && $wmiParams{pass} eq $params{WMIService}->{pass}
-            && $wmiParams{root} eq $params{WMIService}->{root}
-            && ($wmiParams{locale} || '') eq ($params{WMIService}->{locale} || '')
-        ) {
-            return $wmiService;
-        } else {
-            $wmiService = undef;
-        }
-    }
-
-    # if the connection is undef, we initiate the connection
-    if (!$wmiService) {
-        $wmiService = _connectToService($params{WMIService});
-        %wmiParams = ();
-        $wmiParams{hostname} = $params{WMIService}->{hostname};
-        $wmiParams{user} = $params{WMIService}->{user};
-        $wmiParams{pass} = $params{WMIService}->{pass};
-        $wmiParams{root} = $params{WMIService}->{root};
-        $wmiParams{locale} = $params{WMIService}->{locale};
-    }
-
-    return $wmiService;
+    return defined $wmiService;
 }
 
 sub getRemoteLocaleFromWMI {

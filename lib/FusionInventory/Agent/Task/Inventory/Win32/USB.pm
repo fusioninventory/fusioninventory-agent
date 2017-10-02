@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Win32::USB;
 use strict;
 use warnings;
 
-use Storable 'dclone';
-
 use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Win32;
 
@@ -18,9 +16,8 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $wmiParams = {};
-    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
-    foreach my $device (_getDevices(logger => $params{logger}, datadir => $params{datadir}, %$wmiParams)) {
+
+    foreach my $device (_getDevices(logger => $params{logger}, datadir => $params{datadir})) {
         $inventory->addEntry(
             section => 'USBDEVICES',
             entry   => $device
@@ -62,7 +59,6 @@ sub _getDevicesFromWMI {
     my @devices;
 
     foreach my $object (getWMIObjects(
-        @_,
         class      => 'CIM_LogicalDevice',
         properties => [ qw/Caption DeviceID Name/ ]
     )) {
