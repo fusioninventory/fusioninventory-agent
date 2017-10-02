@@ -65,7 +65,7 @@ sub connect {
     my $host   = $params{host} || '127.0.0.1';
     my $user   = $params{user} || '';
     my $pass   = $params{pass} || '';
-    my $locale = $params[locale} || '';
+    my $locale = $params{locale} || '';
 
     $self->{logger}->debug2('connect to Wmi: $user@$host') if $self->{logger};
 
