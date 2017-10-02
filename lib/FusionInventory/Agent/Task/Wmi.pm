@@ -84,7 +84,9 @@ sub connect {
     # Only for advanced debugging
     if (!$locale) {
         $locale = getRemoteLocaleFromWMI() unless $locale;
-        $self->{logger}->debug2("found remote locale: $locale");
+        $self->{logger}->debug2(
+            $locale ? "found remote locale: $locale" : "No remote locale found"
+        );
     }
 }
 
