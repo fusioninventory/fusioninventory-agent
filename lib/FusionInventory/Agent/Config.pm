@@ -328,7 +328,7 @@ sub isParamArrayAndFilled {
 }
 
 sub getTargets {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     my @targets = ();
 
