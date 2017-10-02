@@ -116,17 +116,21 @@ sub _getWMIObjects {
         @_
     );
 
+    my $wmiService;
     if (_remoteWmi()) {
-        getWMIService(
-            root => $params{root} || "root\\cimv2"
+        $wmiService = getWMIService(
+            root => $params{root} || "root\\cimv2",
+            @_
         );
+        # Support alternate moniker if provided and main failed to open
+        if (!defined($wmiService) && $params{altmoniker}) {
+            $wmiService = getWMIService( moniker => $params{altmoniker} );
+        }
     } else {
         $wmiService = Win32::OLE->GetObject($params{moniker});
         # Support alternate moniker if provided and main failed to open
-        unless (defined($wmiService)) {
-            if ($params{altmoniker}) {
-                $wmiService = Win32::OLE->GetObject($params{altmoniker});
-            }
+        if (!defined($wmiService) && $params{altmoniker}) {
+            $wmiService = Win32::OLE->GetObject($params{altmoniker});
         }
     }
 
@@ -215,7 +219,7 @@ sub getRegistryValue {
     }
 
     return getRegistryValueFromWMI(%params)
-        if ($wmiParams->{host});
+        if (_remoteWmi());
 
     my ($root, $keyName, $valueName);
     if ($params{path} =~ m{^(HKEY_\w+.*)/([^/]+)/([^/]+)} ) {
@@ -321,14 +325,10 @@ sub _getRegistryValueFromWMI {
         return;
     }
 
-    getWMIService(%params);
-    if (!$WMIService) {
-        return;
-    }
-    my $objReg = $WMIService->Get("StdRegProv");
-    if (!$objReg) {
-        return;
-    }
+    my $WMIService = getWMIService(%params)
+        or return;
+    my $objReg = $WMIService->Get("StdRegProv")
+        or return;
 
     my $value;
     $params{valueType} = REG_SZ() unless $params{valueType};
@@ -344,8 +344,6 @@ sub _getRegistryValueFromWMI {
 
 sub isDefinedRemoteRegistryKey {
     my (%params) = @_;
-
-    $params{logger}->debug2('isDefinedRemoteRegistryKey() ') if $params{logger};
 
     my $defined = 0;
     # has subKeys ?
@@ -780,7 +778,6 @@ sub getInterfaces {
                 && ref($params{list}->{Win32_NetworkAdapterConfiguration}) eq 'ARRAY' ?
         @{$params{list}->{Win32_NetworkAdapterConfiguration}} :
         getWMIObjects(
-            @_,
             class      => 'Win32_NetworkAdapterConfiguration',
             properties => \@properties
         );
@@ -836,7 +833,6 @@ sub getInterfaces {
             $params{list} && $params{list}->{Win32_NetworkAdapter} ?
         @{$params{list}->{Win32_NetworkAdapter}} :
         getWMIObjects(
-            @_,
             class      => 'Win32_NetworkAdapter',
             properties => \@properties
         );
@@ -1341,13 +1337,18 @@ sub getWMIService {
     my $root   = $params{root} || $wmiParams->{root} || 'root\\default';
     my $locale = $params{locale} || $wmiParams->{locale} || '';
 
+    # Reset root if found in moniker moniker
+    if ($params{moniker} && $params{moniker} =~ /root\\(.*)$/i) {
+        $root = "root\\" . lc($1);
+    }
+
     # check if the connection is right otherwise reset it
     if (!$wmiService || $wmiParams
                 && $wmiParams->{host} eq $host
                 && $wmiParams->{user} eq $user
                 && $wmiParams->{pass} eq $pass
                 && $wmiParams->{root} eq $root
-                && $wmiParams->{locale} eq $locale);
+                && $wmiParams->{locale} eq $locale) {
 
         $wmiParams = {
             host    => $host,
@@ -1365,12 +1366,11 @@ sub getWMIService {
         _call_win32_ole_dependent_api($win32_ole_dependent_api);
     }
 
-    return defined $wmiService;
+    return $wmiService;
 }
 
 sub getRemoteLocaleFromWMI {
     my ($obj) = getWMIObjects(
-        @_,
         class      => "Win32_OperatingSystem",
         properties => [ qw/ Locale / ]
     );
