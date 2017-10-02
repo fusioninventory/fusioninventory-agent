@@ -37,6 +37,10 @@ sub isEnabled {
     return 1;
 }
 
+sub isWmi {
+    0;
+}
+
 sub run {
     my ($self, %params) = @_;
 
@@ -58,8 +62,6 @@ sub run {
         $inventory->{WMIService} = $params{WMIService};
     }
 
-    $inventory->isWmi($params{WMIService}) if ($params{WMIService});
-
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
         $ENV{PATH} =
@@ -75,7 +77,7 @@ sub run {
     $self->_feedInventory($inventory, \%disabled);
 
     # for remote WMI inventory, we should reset deviceid in inventory
-    $inventory->resetDeviceId() if ($params{WMIService} || !$inventory->getDeviceId());
+    $inventory->resetDeviceId() if ($self->isWmi() || !$inventory->getDeviceId());
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();
@@ -306,9 +308,6 @@ sub _runModule {
 
 sub _feedInventory {
     my ($self, $inventory, $disabled) = @_;
-
-    my $hasWmi = $inventory->{WMIService} ? 'remote inventory' : 'local inventory';
-    $self->{logger}->debug2('Has inventory wmiParams ? ' . $hasWmi);
 
     my $begin = time();
     my @modules =

@@ -10,7 +10,8 @@ use English qw(-no_match_vars) ;
 use Getopt::Long;
 use Pod::Usage;
 
-use FusionInventory::Agent;
+use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Task::Wmi;
 
 Getopt::Long::Configure( "no_ignorecase" );
 
@@ -36,6 +37,9 @@ GetOptions(
     'version'
 ) or pod2usage(-verbose => 0);
 
+die "fusioninventory-wmi only supported under win32\n"
+    unless ($OSNAME eq 'MSWin32');
+
 pod2usage(-verbose => 0, -exitstatus => 0)
     if $options->{help}
         || (!$options->{host} || !$options->{user} || !$options->{pass});
@@ -43,7 +47,7 @@ pod2usage(-verbose => 0, -exitstatus => 0)
 if ($options->{version}) {
     my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
     map { print $_."\n" }
-        "fusioninventory-wmi $FusionInventory::Agent::Task::Wmi::VERSION",
+        "fusioninventory-wmi $FusionInventory::Agent::Task::Wmi::Version::VERSION",
         "based on $PROVIDER Agent v$FusionInventory::Agent::Version::VERSION",
         @{$FusionInventory::Agent::Version::COMMENTS};
     exit 0;
@@ -61,33 +65,45 @@ if ($options->{'conf-file'}) {
     }
 }
 
-if ($OSNAME eq 'MSWin32' && ! $options->{'no-win32-ole-workaround'}) {
+unless ($options->{'no-win32-ole-workaround'}) {
     # From here we may need to avoid crashes due to not thread-safe Win32::OLE
     FusionInventory::Agent::Tools::Win32->require();
     FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
 }
 
-my $agent = FusionInventory::Agent->new(%setup);
+my $config = FusionInventory::Agent::Config->new(
+    options => $options,
+);
 
-$options->{tasks} = 'wmi';
+my $verbosity =
+    $options->{debug} == 0 ? LOG_INFO   :
+    $options->{debug} == 1 ? LOG_DEBUG  :
+    $options->{debug} == 2 ? LOG_DEBUG2 :
+                             LOG_DEBUG2 ;
 
-$options->{wmi_hostname} = $options->{host};
-delete $options->{host};
-$options->{wmi_user} = $options->{user};
-delete $options->{user};
-$options->{wmi_pass} = $options->{pass};
-delete $options->{pass};
+my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
 
-eval {
+# Get targets
+my @targets = $config->getTargets(
+    logger      => $logger,
+    deviceid    => $self->{deviceid},
+    vardir      => $setup{vardir}
+);
 
-    $agent->init(options => $options);
-    $agent->run();
-};
+die "No target defined, aborting\n"
+    unless @targets;
 
-if ($EVAL_ERROR) {
-    print STDERR "Execution failure:.\n";
-    print STDERR $EVAL_ERROR;
-    exit 1;
+foreach my $target (@targets) {
+    my $wmitask = FusionInventory::Agent::Task::Wmi->new(
+        target  => $target,
+        logger  => $logger,
+        datadir => $setup{datadir},
+        confdir => $setup{confdir},
+        config  => $config
+    );
+
+    $wmitask->connect(%options);
+    $wmitask->run();
 }
 
 exit(0);
