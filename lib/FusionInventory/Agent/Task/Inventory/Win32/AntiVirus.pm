@@ -6,6 +6,8 @@ use Storable 'dclone';
 
 use FusionInventory::Agent::Tools::Win32;
 
+my $seen;
+
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{antivirus};
@@ -15,10 +17,9 @@ sub isEnabled {
 sub doInventory {
     my (%params) = @_;
 
-    my $logger    = $params{logger};
-    my $inventory = $params{inventory};
-    my $seen;
+    my $logger = $params{logger};
 
+    my $inventory = $params{inventory};
     my $wmiParams = {};
     $wmiParams->{WMIService} = dclone($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
 
