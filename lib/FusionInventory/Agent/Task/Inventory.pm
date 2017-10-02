@@ -58,9 +58,6 @@ sub run {
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
-    if ($params{WMIService}) {
-        $inventory->{WMIService} = $params{WMIService};
-    }
 
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
@@ -73,7 +70,7 @@ sub run {
 
     my %disabled = map { $_ => 1 } @{$self->{config}->{'no-category'}};
 
-    $self->_initModulesList(\%disabled, $params{enabledModules});
+    $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
     # for remote WMI inventory, we should reset deviceid in inventory
@@ -153,17 +150,12 @@ sub run {
 }
 
 sub _initModulesList {
-    my ($self, $disabled, $enabledModules) = @_;
+    my ($self, $disabled) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    my @modules;
-    if ($enabledModules && scalar (@$enabledModules) > 1) {
-        @modules = @$enabledModules;
-    } else {
-        @modules = __PACKAGE__->getModules('');
-    }
+    my @modules = __PACKAGE__->getModules('');
     die "no inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
