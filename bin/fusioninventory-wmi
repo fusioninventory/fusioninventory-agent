@@ -16,7 +16,9 @@ use FusionInventory::Agent::Task::Wmi;
 
 Getopt::Long::Configure( "no_ignorecase" );
 
-my $options = {};
+my $options = {
+    debug => 0
+};
 
 GetOptions(
     $options,
