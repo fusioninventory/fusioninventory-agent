@@ -44,7 +44,6 @@ our @EXPORT = qw(
     KEY_WOW64_32
     getInterfaces
     getRegistryValue
-    getRegistryValueFromWMI
     getRegistryKey
     getWMIObjects
     getLocalCodepage
@@ -218,8 +217,15 @@ sub getRegistryValue {
         return;
     }
 
-    return getRegistryValueFromWMI(%params)
-        if (_remoteWmi());
+    # Shortcut call in remote wmi case
+    if (_remoteWmi()) {
+        my $win32_ole_dependent_api = {
+            funct => '_getRegistryValueFromWMI',
+            args  => \@_
+        };
+
+        return _call_win32_ole_dependent_api($win32_ole_dependent_api);
+    }
 
     my ($root, $keyName, $valueName);
     if ($params{path} =~ m{^(HKEY_\w+.*)/([^/]+)/([^/]+)} ) {
@@ -251,24 +257,6 @@ sub getRegistryValue {
     } else {
         return $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
     }
-}
-
-sub getRegistryValueFromWMI {
-    my (%params) = @_;
-
-    if (!$params{path}) {
-        $params{logger}->error(
-            "No registry key path provided"
-        ) if $params{logger};
-        return;
-    }
-
-    my $win32_ole_dependent_api = {
-        funct => '_getRegistryValueFromWMI',
-        args  => \@_
-    };
-
-    return _call_win32_ole_dependent_api($win32_ole_dependent_api);
 }
 
 sub getRegistryValuesFromWMI {
