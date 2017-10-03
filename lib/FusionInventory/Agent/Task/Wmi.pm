@@ -61,7 +61,7 @@ sub isWmi {
 sub connect {
     my ( $self, %params ) = @_;
 
-    my $logger = $params{logger};
+    my $logger = $self->{logger} || $params{logger};
     my $host   = $params{host} || '127.0.0.1';
     my $user   = $params{user} || '';
     my $pass   = $params{pass} || '';
