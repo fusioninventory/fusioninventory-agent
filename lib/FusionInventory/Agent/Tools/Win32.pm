@@ -59,6 +59,7 @@ our @EXPORT = qw(
     FreeAgentMem
     getWMIService
     getRemoteLocaleFromWMI
+    getFormatedWMIDateTime
 );
 
 my $_is64bits = undef;
@@ -1339,6 +1340,17 @@ sub getRemoteLocaleFromWMI {
         properties => [ qw/ Locale / ]
     );
     return $obj->{Locale};
+}
+
+sub getFormatedWMIDateTime {
+    my ($datetime) = @_;
+
+    return unless $datetime &&
+        $datetime =~ /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\.\d{5}.(\d{3})$/;
+
+    # Timezone in $7 is ignored
+
+    return getFormatedDate($1, $2, $3, $4, $5, $6);
 }
 
 END {
