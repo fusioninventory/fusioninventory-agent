@@ -1229,57 +1229,30 @@ sub _call_win32_ole_dependent_api {
 sub getUsersFromRegistry {
     my (%params) = @_;
 
-    $params{pathToUserList} = 'SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList';
-    return remoteWmi() ?
-        _getUsersFromRemoteRegistry(%params)
-        :
-        _getUsersFromLocalRegistry(%params);
-}
-
-sub _getUsersFromRemoteRegistry {
-    my (%params) = @_;
-
-    my $dataFromRegistry = getRegistryKeyFromWMI(
-        %params,
-        path => 'HKEY_LOCAL_MACHINE/' . $params{pathToUserList},
-        retrieveValuesForAllKeys => 1
-    );
-    next unless $dataFromRegistry;
-
-    my $userList;
-    foreach my $profileName (keys %$dataFromRegistry) {
-        $params{logger}->debug2('profileName : ' . $profileName);
-        next unless length($profileName) > 10;
-        my $profilePath = $dataFromRegistry->{$profileName}->{'ProfileImagePath'};
-        my $sid = $dataFromRegistry->{$profileName}->{'Sid'};
-        next unless $sid;
-        next unless $profilePath;
-        my $user = basename($profilePath);
-        $userList->{$profileName} = $user;
-    }
-
-    if ($params{logger}) {
-        $params{logger}->debug2('getUsersFromRegistry() : retrieved ' . scalar(keys %$userList) . ' users');
-    }
-    return $userList;
-}
-
-sub _getUsersFromLocalRegistry {
-    my (%params) = @_;
-
     my $logger = $params{logger};
-    # ensure native registry access, not the 32 bit view
-    my $flags = is64bit() ? KEY_READ | KEY_WOW64_64 : KEY_READ;
-    my $machKey = $Registry->Open('LMachine', {
-            Access => $flags
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-    if (!$machKey) {
-        $logger->error("getUsersFromRegistry() : Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        return;
+
+    my $profileListKey = 'SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList';
+    my $profileList;
+
+    if (remoteWmi()) {
+        $profileList = getRegistryKeyFromWMI(
+            %params,
+            path => 'HKEY_LOCAL_MACHINE/' . $profileListKey,
+            retrieveValuesForAllKeys => 1
+        );
+    } else {
+        # ensure native registry access, not the 32 bit view
+        my $flags = is64bit() ? KEY_READ | KEY_WOW64_64 : KEY_READ;
+        my $machKey = $Registry->Open('LMachine', {
+                Access => $flags
+            }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        if (!$machKey) {
+            $logger->error("getUsersFromRegistry() : Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+            return;
+        }
+        $logger->debug2('getUsersFromRegistry() : opened LMachine registry key');
+        my $profileList = $machKey->{$profileListKey};
     }
-    $logger->debug2('getUsersFromRegistry() : opened LMachine registry key');
-    my $profileList =
-        $machKey->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
     next unless $profileList;
 
     my $userList;
