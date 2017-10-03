@@ -42,8 +42,7 @@ die "fusioninventory-wmi only supported under win32\n"
     unless ($OSNAME eq 'MSWin32');
 
 pod2usage(-verbose => 0, -exitstatus => 0)
-    if $options->{help}
-        || (!$options->{host} || !$options->{user} || !$options->{pass});
+    if ($options->{help} || !$options->{host});
 
 if ($options->{version}) {
     my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
@@ -117,16 +116,16 @@ fusioninventory-wmi - Win32 remote inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-wmi --host <host> --user <user> --pass <pass> [--server server|--local path]
+fusioninventory-wmi [options] --host <host> [--user <user>] [--pass <pass>] [--server server|--local path]
 
   General options:
     --help                 this menu
-    --tag tag              tag for the inventoried machine
+    -t --tag tag           tag for the inventoried machine
 
   Remote machine options:
-    --host hostname        hostname
-    --user username        user name
-    --pass xxxx            user password
+    -h --host hostname     hostname - mandatory option
+    -u --user username     user name
+    -p --pass xxxx         user password
 
   Target definition options:
     -s --server=URI                send tasks result to a server
