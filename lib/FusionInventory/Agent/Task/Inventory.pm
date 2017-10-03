@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::Inventory;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task';
+use parent 'FusionInventory::Agent::Task';
 
 use Config;
 use English qw(-no_match_vars);
@@ -155,7 +155,7 @@ sub _initModulesList {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    my @modules = __PACKAGE__->getModules('');
+    my @modules = $self->getModules('');
     die "no inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
