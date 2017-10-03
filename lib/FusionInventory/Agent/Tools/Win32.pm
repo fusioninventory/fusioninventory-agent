@@ -1337,7 +1337,7 @@ sub getWMIService {
     my $root   = $params{root} || $wmiParams->{root} || 'root\\default';
     my $locale = $params{locale} || $wmiParams->{locale} || '';
 
-    # Reset root if found in moniker moniker
+    # Reset root if found in moniker params
     if ($params{moniker} && $params{moniker} =~ /root\\(.*)$/i) {
         $root = "root\\" . lc($1);
     }
