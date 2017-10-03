@@ -1282,7 +1282,7 @@ sub _connectToService {
 
     $wmiService = $wmiLocator->ConnectServer(
         $params{host}, $params{root},
-        "domain\\" . $params{user}, $params{pass},
+        $params{user}, $params{pass},
         $params{locale}
     );
 
