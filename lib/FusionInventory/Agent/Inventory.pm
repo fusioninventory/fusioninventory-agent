@@ -27,7 +27,7 @@ my %fields = (
                              LASTLOGGEDUSER USERDOMAIN DATELASTLOGGEDUSER
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE
-                             VMNAME VMHOSTSERIAL/ ],
+                             VMNAME VMHOSTSERIAL ARCHNAME/],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME
                              SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN HOSTID
                              SSH_KEY ARCH BOOT_TIME TIMEZONE/ ],
