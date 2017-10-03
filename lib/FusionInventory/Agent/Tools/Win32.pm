@@ -1324,7 +1324,10 @@ sub getWMIService {
             args  => [ %{$wmiParams} ]
         };
 
-        _call_win32_ole_dependent_api($win32_ole_dependent_api);
+        my $connected = _call_win32_ole_dependent_api($win32_ole_dependent_api);
+
+        # Only set $wmiService as connected status in main thread only if worker is active
+        $wmiService = $connected if (defined($worker));
     }
 
     return $wmiService;
