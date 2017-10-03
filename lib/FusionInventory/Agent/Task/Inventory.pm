@@ -59,6 +59,9 @@ sub run {
         tag      => $self->{config}->{'tag'}
     );
 
+    # Reset ARCHNAME to remote if running wmi inventory
+    $inventory->setHardware({ ARCHNAME => 'remote' }) if $self->isWmi();
+
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
         $ENV{PATH} =
