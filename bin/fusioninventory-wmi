@@ -126,7 +126,7 @@ fusioninventory-wmi --host <host> --user <user> --pass <pass> [--server server|-
   Remote machine options:
     --host hostname        hostname
     --user username        user name
-    --password xxxx        user password
+    --pass xxxx            user password
 
   Target definition options:
     -s --server=URI                send tasks result to a server
