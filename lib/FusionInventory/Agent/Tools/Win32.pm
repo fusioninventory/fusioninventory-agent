@@ -116,34 +116,34 @@ sub _getWMIObjects {
         @_
     );
 
-    my $wmiService;
+    my $WMIService;
     if (_remoteWmi()) {
-        $wmiService = getWMIService(
+        $WMIService = getWMIService(
             root => $params{root} || "root\\cimv2",
             @_
         );
         # Support alternate moniker if provided and main failed to open
-        if (!defined($wmiService) && $params{altmoniker}) {
-            $wmiService = getWMIService( moniker => $params{altmoniker} );
+        if (!defined($WMIService) && $params{altmoniker}) {
+            $WMIService = getWMIService( moniker => $params{altmoniker} );
         }
     } else {
-        $wmiService = Win32::OLE->GetObject($params{moniker});
+        $WMIService = Win32::OLE->GetObject($params{moniker});
         # Support alternate moniker if provided and main failed to open
-        if (!defined($wmiService) && $params{altmoniker}) {
-            $wmiService = Win32::OLE->GetObject($params{altmoniker});
+        if (!defined($WMIService) && $params{altmoniker}) {
+            $WMIService = Win32::OLE->GetObject($params{altmoniker});
         }
     }
 
-    return unless (defined($wmiService));
+    return unless (defined($WMIService));
 
     Win32::OLE->use('in');
 
     my @objects;
     foreach my $instance (in(
         $params{query} ?
-        $wmiService->ExecQuery(@{$params{query}})
+        $WMIService->ExecQuery(@{$params{query}})
         :
-        $wmiService->InstancesOf($params{class})
+        $WMIService->InstancesOf($params{class})
     )) {
         my $object;
         # Handle Win32::OLE object method, see _getLoggedUsers() method in
