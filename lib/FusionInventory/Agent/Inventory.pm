@@ -7,6 +7,7 @@ use Config;
 use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
@@ -152,7 +153,10 @@ sub new {
 sub resetDeviceId {
     my ($self) = @_;
 
-    my $hostname = $self->getHardware('NAME') || getHostname();
+    FusionInventory::Agent::Tools::Hostname->require();
+
+    my $hostname = $self->getHardware('NAME') ||
+        FusionInventory::Agent::Tools::Hostname::getHostname();
 
     my ($year, $month , $day, $hour, $min, $sec) =
         (localtime (time))[5, 4, 3, 2, 1, 0];
