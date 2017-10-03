@@ -7,7 +7,6 @@ use parent 'FusionInventory::Agent::Task::Inventory';
 use constant SUPPORTED => map {
     "FusionInventory::Agent::Task::Inventory::$_"
 } qw(
-        Generic
         Generic::Screen
         Virtualization
         Virtualization::HyperV

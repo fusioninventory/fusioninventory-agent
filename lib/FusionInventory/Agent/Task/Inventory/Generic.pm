@@ -15,15 +15,10 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $wmiParams = {};
-    $wmiParams->{WMIService} = $params{inventory}->{WMIService} ? $params{inventory}->{WMIService} : undef;
-
-    my $fqdn = $wmiParams->{WMIService} ? '' : hostfqdn();
-    my $dnsDomain = $wmiParams->{WMIService} ? '' : hostdomain();
     $inventory->setOperatingSystem({
             KERNEL_NAME => $OSNAME,
-            FQDN => $fqdn,
-            DNS_DOMAIN => $dnsDomain
+            FQDN => hostfqdn(),
+            DNS_DOMAIN => hostdomain()
     });
 }
 
