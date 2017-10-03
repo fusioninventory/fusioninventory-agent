@@ -11,6 +11,7 @@ use Getopt::Long;
 use Pod::Usage;
 
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Wmi;
 
 Getopt::Long::Configure( "no_ignorecase" );
@@ -86,7 +87,6 @@ my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
 # Get targets
 my @targets = $config->getTargets(
     logger      => $logger,
-    deviceid    => $self->{deviceid},
     vardir      => $setup{vardir}
 );
 
@@ -102,7 +102,7 @@ foreach my $target (@targets) {
         config  => $config
     );
 
-    $wmitask->connect(%options);
+    $wmitask->connect(%{$options});
     $wmitask->run();
 }
 

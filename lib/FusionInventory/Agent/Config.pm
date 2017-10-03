@@ -340,7 +340,6 @@ sub getTargets {
             push @targets,
                 FusionInventory::Agent::Target::Local->new(
                     logger     => $params{logger},
-                    deviceid   => $params{deviceid},
                     delaytime  => $self->{delaytime},
                     basevardir => $params{vardir},
                     path       => $path,
@@ -356,7 +355,6 @@ sub getTargets {
             push @targets,
                 FusionInventory::Agent::Target::Server->new(
                     logger     => $params{logger},
-                    deviceid   => $params{deviceid},
                     delaytime  => $self->{delaytime},
                     basevardir => $params{vardir},
                     url        => $url,
