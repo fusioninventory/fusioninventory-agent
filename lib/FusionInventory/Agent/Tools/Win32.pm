@@ -1296,7 +1296,7 @@ sub getWMIService {
     my $host   = $params{host} || $wmiParams->{host} || '127.0.0.1';
     my $user   = $params{user} || $wmiParams->{user} || '';
     my $pass   = $params{pass} || $wmiParams->{pass} || '';
-    my $root   = $params{root} || $wmiParams->{root} || 'root\\default';
+    my $root   = $params{root} || $wmiParams->{root} || 'root\\cimv2';
     my $locale = $params{locale} || $wmiParams->{locale} || '';
 
     # Reset root if found in moniker params
