@@ -1346,7 +1346,7 @@ sub getFormatedWMIDateTime {
     my ($datetime) = @_;
 
     return unless $datetime &&
-        $datetime =~ /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\.\d{5}.(\d{3})$/;
+        $datetime =~ /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\.\d{6}.(\d{3})$/;
 
     # Timezone in $7 is ignored
 
