@@ -2,11 +2,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::AntiVirus;
 
 use strict;
 use warnings;
-use Storable 'dclone';
 
 use FusionInventory::Agent::Tools::Win32;
-
-my $seen;
 
 sub isEnabled {
     my (%params) = @_;
@@ -17,44 +14,23 @@ sub isEnabled {
 sub doInventory {
     my (%params) = @_;
 
-    my $logger = $params{logger};
-
+    my $logger    = $params{logger};
     my $inventory = $params{inventory};
-    my $wmiParams = {};
-    $wmiParams->{WMIService} = dclone($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
+    my $seen;
 
-    my @antiviruses = getAntivirusesFromWMI(%$wmiParams);
-    foreach my $antivirus (@antiviruses) {
-        # McAfee data
-        if ($antivirus->{NAME} =~ /McAfee/i) {
-            my $info = _getMcAfeeInfo(logger => $logger);
-            $antivirus->{$_} = $info->{$_} foreach keys %$info;
-        }
-
-        $inventory->addEntry(
-            section => 'ANTIVIRUS',
-            entry   => $antivirus
-        );
-    }
-}
-
-sub getAntivirusesFromWMI {
-    my @antiviruses;
-# Doesn't works on Win2003 Server
-# On Win7, we need to use SecurityCenter2
+    # Doesn't works on Win2003 Server
+    # On Win7, we need to use SecurityCenter2
     foreach my $instance (qw/SecurityCenter SecurityCenter2/) {
         my $moniker = "winmgmts:{impersonationLevel=impersonate,(security)}!//./root/$instance";
 
         foreach my $object (getWMIObjects(
-            @_,
-            moniker    => $moniker,
-            class      => "AntiVirusProduct",
-            properties => [ qw/
-                companyName displayName instanceGuid onAccessScanningEnabled
-                productUptoDate versionNumber productState
-                / ]
+                moniker    => $moniker,
+                class      => "AntiVirusProduct",
+                properties => [ qw/
+                    companyName displayName instanceGuid onAccessScanningEnabled
+                    productUptoDate versionNumber productState
+               / ]
         )) {
-
             next unless $object;
 
             my $antivirus = {
@@ -76,33 +52,30 @@ sub getAntivirusesFromWMI {
             }
 
             # avoid duplicates
-            next if $seen->{$antivirus->{NAME}}->{$antivirus->{VERSION} || '_undef_'}++;
+            next if $seen->{$antivirus->{NAME}}->{$antivirus->{VERSION}||'_undef_'}++;
 
-            push @antiviruses, $antivirus;
+            # McAfee data
+            if ($antivirus->{NAME} =~ /McAfee/i) {
+                my $info = _getMcAfeeInfo($logger);
+                $antivirus->{$_} = $info->{$_} foreach keys %$info;
+            }
+
+            $inventory->addEntry(
+                section => 'ANTIVIRUS',
+                entry   => $antivirus
+            );
         }
     }
-
-    return @antiviruses;
 }
 
 sub _getMcAfeeInfo {
-    my (%params) = @_;
+    my ($logger) = @_;
 
     my $path;
-    if (is64bit(%params)) {
+    if (is64bit() && defined getRegistryKey(path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/McAfee/AVEngine')) {
         $path = 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/McAfee/AVEngine';
     } else {
         $path = 'HKEY_LOCAL_MACHINE/SOFTWARE/McAfee/AVEngine';
-    }
-
-    if ($params{WMIService}) {
-
-        return unless (isDefinedRemoteRegistryKey(
-            %params,
-            path => $path
-        ));
-    } else {
-        return unless (defined getRegistryKey(path => $path));
     }
 
     my %properties = (
@@ -116,24 +89,15 @@ sub _getMcAfeeInfo {
     # major.minor versions properties
     foreach my $property (keys %properties) {
         my $keys = $properties{$property};
-        my $major = getRegistryValue(
-            %params,
-            path => $path . '/' . $keys->[0]
-        );
-        my $minor = getRegistryValue(
-            %params,
-            path => $path . '/' . $keys->[1],
-        );
+        my $major = getRegistryValue(path => $path . '/' . $keys->[0]);
+        my $minor = getRegistryValue(path => $path . '/' . $keys->[1]);
         $info->{$property} = sprintf("%04d.%04d", hex($major), hex($minor))
             if defined $major && defined $major;
     }
 
     # file creation date property
     my $avDatDate            =
-        getRegistryValue(
-            %params,
-            path => $path . '/AVDatDate'
-        );
+        getRegistryValue(path => $path . '/AVDatDate');
 
     if (defined $avDatDate) {
         my $datFileCreation = encodeFromRegistry( $avDatDate );
