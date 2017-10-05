@@ -11,6 +11,7 @@ use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Parallels;
+use FusionInventory::Agent::Tools::Virtualization;
 
 my %tests = (
     sample1 => [
@@ -18,7 +19,7 @@ my %tests = (
             VMTYPE    => 'Parallels',
             NAME      => 'Ubuntu Linux',
             SUBSYSTEM => 'Parallels',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             UUID      => 'bc993872-c70f-40bf-b2e2-94d9f080eb55'
         }
     ]
