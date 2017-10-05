@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
     return canRun('lxd');
@@ -46,9 +47,9 @@ sub  _getVirtualMachineState {
     $state->{VMID} = $info{pid};
 
     $state->{STATUS} =
-        $info{status} eq 'Running' ? 'running' :
-        $info{status} eq 'FROZEN'  ? 'paused'  :
-        $info{status} eq 'Stopped' ? 'off'     :
+        $info{status} eq 'Running' ? STATUS_RUNNING :
+        $info{status} eq 'FROZEN'  ? STATUS_PAUSED  :
+        $info{status} eq 'Stopped' ? STATUS_OFF     :
         $info{status};
 
     return $state;

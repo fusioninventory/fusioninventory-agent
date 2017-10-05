@@ -6,6 +6,7 @@ use warnings;
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
     return canRun('hpvmstatus');
@@ -40,9 +41,9 @@ sub _getMachines {
     );
 
     my %status = (
-        'On' => 'running',
-        'Off' => 'off',
-        'Invalid' => 'crashed',
+        'On'        => STATUS_RUNNING,
+        'Off'       => STATUS_OFF,
+        'Invalid'   => STATUS_CRASHED,
     );
 
     my @machines;
