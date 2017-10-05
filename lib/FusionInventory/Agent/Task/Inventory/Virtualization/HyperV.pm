@@ -5,10 +5,11 @@ use warnings;
 
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
-use Storable 'dclone';
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Hostname;
+
+# Run after Win32::OS so hostname is still decided and set in inventory
+our $runAfter = ["FusionInventory::Agent::Task::Inventory::Win32::OS"];
 
 sub isEnabled {
     return $OSNAME eq 'MSWin32';
@@ -18,12 +19,9 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
-    my $wmiParams = {};
-    $wmiParams->{WMIService} = dclone($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
-    $wmiParams->{WMIService}->{root} = "root\\virtualization";
+    my $hostname  = $inventory->getHardware('NAME');
 
-    foreach my $machine (_getVirtualMachines(%$wmiParams, logger => $logger)) {
+    foreach my $machine (_getVirtualMachines($hostname)) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $machine
         );
@@ -31,18 +29,15 @@ sub doInventory {
 }
 
 sub _getVirtualMachines {
-    my (%params) = @_;
+    my ($hostname) = @_;
 
     FusionInventory::Agent::Tools::Win32->require();
-
-    my $hostname = $params{WMIService} ? getHostname(short => 1) : undef;
 
     my @machines;
 
     # index memory, cpu and BIOS UUID information
     my %memory;
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
-        %params,
         moniker    => 'winmgmts://./root/virtualization/v2',
         altmoniker => 'winmgmts://./root/virtualization',
         class      => 'MSVM_MemorySettingData',
@@ -55,7 +50,6 @@ sub _getVirtualMachines {
 
     my %vcpu;
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
-        %params,
         moniker    => 'winmgmts://./root/virtualization/v2',
         altmoniker => 'winmgmts://./root/virtualization',
         class      => 'MSVM_ProcessorSettingData',
@@ -68,7 +62,6 @@ sub _getVirtualMachines {
 
     my %biosguid;
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
-        %params,
         moniker    => 'winmgmts://./root/virtualization/v2',
         altmoniker => 'winmgmts://./root/virtualization',
         class      => 'MSVM_VirtualSystemSettingData',
@@ -81,7 +74,6 @@ sub _getVirtualMachines {
     }
 
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
-        %params,
         moniker    => 'winmgmts://./root/virtualization/v2',
         altmoniker => 'winmgmts://./root/virtualization',
         class      => 'MSVM_ComputerSystem',
