@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
     return canRun('vserver');
@@ -48,9 +49,9 @@ sub _getMachines {
 
         my $line = getFirstLine(command => "vserver $name status");
         my $status =
-            $line =~ /is stopped/ ? 'off'     :
-            $line =~ /is running/ ? 'running' :
-                                    undef     ;
+            $line =~ /is stopped/ ? STATUS_OFF     :
+            $line =~ /is running/ ? STATUS_RUNNING :
+                                    undef ;
 
         my $machine = {
             NAME      => $name,

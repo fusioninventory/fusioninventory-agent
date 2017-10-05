@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
     my (%params) = @_;
@@ -61,13 +62,13 @@ sub _parsePrlctlA {
     return unless $handle;
 
     my %status_list = (
-        'running'   => 'running',
-        'blocked'   => 'blocked',
-        'paused'    => 'paused',
-        'suspended' => 'suspended',
-        'crashed'   => 'crashed',
-        'dying'     => 'dying',
-        'stopped'   => 'off',
+        'running'   => STATUS_RUNNING,
+        'blocked'   => STATUS_BLOCKED,
+        'paused'    => STATUS_PAUSED,
+        'suspended' => STATUS_PAUSED,
+        'crashed'   => STATUS_CRASHED,
+        'dying'     => STATUS_DYING,
+        'stopped'   => STATUS_OFF
     );
 
 

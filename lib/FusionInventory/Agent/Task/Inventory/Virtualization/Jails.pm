@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
     return canRun('jls');
@@ -43,7 +44,7 @@ sub  _getVirtualMachines {
         my $machine = {
             VMTYPE    => 'jail',
             NAME      => $info->{'host.hostname'},
-            STATUS    => 'running'
+            STATUS    => STATUS_RUNNING
         };
 
         push @machines, $machine;
