@@ -5,9 +5,8 @@ use warnings;
 
 use JSON::PP;
 
-use FusionInventory::Agent::Task::Inventory::Virtualization;
 use FusionInventory::Agent::Tools;
-
+use FusionInventory::Agent::Tools::Virtualization;
 
 # wanted info fields for each container
 my @wantedInfos = qw/ID Image Ports Names/;
@@ -88,8 +87,7 @@ sub _getStatus {
         $status =
             ((ref $containerData eq 'ARRAY' && $containerData->[0]->{State}->{Running})
                     || (ref $containerData eq 'HASH' && $containerData->{State}->{Running})) ?
-            FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_RUNNING :
-            FusionInventory::Agent::Task::Inventory::Virtualization::STATUS_OFF;
+            STATUS_RUNNING : STATUS_OFF;
     };
 
     return $status;
