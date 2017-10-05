@@ -11,27 +11,28 @@ use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Jails;
+use FusionInventory::Agent::Tools::Virtualization;
 
 my %tests = (
     sample1 => [
         {
             NAME      => 'xmpp-test3',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             VMTYPE    => 'jail',
         },
         {
             NAME      => 'xmpp-test2',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             VMTYPE    => 'jail',
         },
         {
             NAME      => 'xmpp-test1',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             VMTYPE    => 'jail',
         },
         {
             NAME      => 'noname.local',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             VMTYPE    => 'jail',
         },
     ]

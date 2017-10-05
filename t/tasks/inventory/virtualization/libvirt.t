@@ -11,65 +11,66 @@ use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt;
+use FusionInventory::Agent::Tools::Virtualization;
 
 my %list_tests = (
     list1 => [
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm1',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm2',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm-ad',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm-ts',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm3',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm4',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm5',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm6-ws1',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vml3',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
         },
         {
             VMTYPE    => 'libvirt',
             NAME      => 'vm-srv-net1',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
         }
     ],
     list2 => [
         {
             VMTYPE    => 'libvirt',
             NAME      => 'Debian_Squeeze_64_bits',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
         }
     ],
 );
