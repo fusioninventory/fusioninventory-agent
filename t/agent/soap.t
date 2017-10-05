@@ -13,6 +13,7 @@ use Test::MockObject::Extends;
 use Test::MockModule;
 
 use FusionInventory::Agent::SOAP::VMware;
+use FusionInventory::Agent::Tools::Virtualization;
 
 my %tests = (
     'esx-4.1.0-1' => {
@@ -402,7 +403,7 @@ my %tests = (
        'getVirtualMachines' => [
           {
             'NAME' => 'ubuntu',
-            'STATUS' => 'running',
+            'STATUS' => STATUS_RUNNING,
             'COMMENT' => '',
             'MAC' => '00:0c:29:06:42:d8',
             'VMTYPE' => 'VMware',
@@ -412,7 +413,7 @@ my %tests = (
           },
           {
             'NAME' => 'windows',
-            'STATUS' => 'running',
+            'STATUS' => STATUS_RUNNING,
             'COMMENT' => '',
             'MAC' => '00:0c:29:58:44:c8',
             'VMTYPE' => 'VMware',
@@ -422,7 +423,7 @@ my %tests = (
           },
           {
             'NAME' => 'solaris',
-            'STATUS' => 'running',
+            'STATUS' => STATUS_RUNNING,
             'COMMENT' => '',
             'MAC' => '00:0c:29:5f:64:60',
             'VMTYPE' => 'VMware',
@@ -432,7 +433,7 @@ my %tests = (
           },
           {
             'NAME' => 'Nouvelle machine virtuelle',
-            'STATUS' => 'off',
+            'STATUS' => STATUS_OFF,
             'COMMENT' => '',
             'MAC' => '',
             'VMTYPE' => 'VMware',
