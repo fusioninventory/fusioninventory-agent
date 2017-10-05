@@ -5,7 +5,6 @@ use warnings;
 use integer;
 
 use English qw(-no_match_vars);
-use Storable 'dclone';
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
@@ -20,10 +19,9 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $wmiParams = {};
-    $wmiParams->{WMIService} = dclone ($params{inventory}->{WMIService}) if $params{inventory}->{WMIService};
+    my $remotewmi = $inventory->getHardware('ARCHNAME') eq 'remote';
+
     my ($operatingSystem) = getWMIObjects(
-        %$wmiParams,
         class      => 'Win32_OperatingSystem',
         properties => [ qw/
             OSLanguage Caption Version SerialNumber Organization RegisteredUser
@@ -32,39 +30,25 @@ sub doInventory {
     );
 
     my ($computerSystem) = getWMIObjects(
-        %$wmiParams,
         class      => 'Win32_ComputerSystem',
         properties => [ qw/
-            Name Domain Workgroup PrimaryOwnerName TotalPhysicalMemory
+            Name DNSHostName Domain Workgroup PrimaryOwnerName TotalPhysicalMemory
         / ]
     );
 
     my ($computerSystemProduct) = getWMIObjects(
-        %$wmiParams,
         class      => 'Win32_ComputerSystemProduct',
         properties => [ qw/UUID/ ]
     );
 
-    my $wantedValues = [
-        'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId',
-        'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId4',
-        'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment'
-    ];
-    my $values = getRegistryValuesFromWMI(
-        path => $wantedValues,
-        logger => $params{logger},
-        %$wmiParams
-    );
-    my $raw1 = $values->{$wantedValues->[0]};
-    my $raw2 = $values->{$wantedValues->[1]};
-    my $raw3 = $values->{$wantedValues->[2]};
-
     my $key =
-        decodeMicrosoftKey($raw1) ||
-        decodeMicrosoftKey($raw2);
-    my $description = '';
-    $description = encodeFromRegistry($raw3) if $raw3;
-    my $arch = is64bit(%$wmiParams) ? '64-bit' : '32-bit';
+        decodeMicrosoftKey(getRegistryValue(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId')) ||
+        decodeMicrosoftKey(getRegistryValue(path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/DigitalProductId4'));
+
+    my $description =
+        encodeFromRegistry(getRegistryValue(path => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Services/lanmanserver/Parameters/srvcomment'));
+
+    my $arch = is64bit() ? '64-bit' : '32-bit';
 
     my $swap = $operatingSystem->{TotalSwapSpaceSize} ?
         int($operatingSystem->{TotalSwapSpaceSize} / (1024 * 1024)) : undef;
@@ -75,32 +59,35 @@ sub doInventory {
     my $uuid = ($computerSystemProduct->{UUID} && $computerSystemProduct->{UUID} !~ /^[0-]+$/) ?
         $computerSystemProduct->{UUID} : undef;
 
-    my $boottime;
-    if ($operatingSystem->{LastBootUpTime}
-        && $operatingSystem->{LastBootUpTime} =~
-            /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/) {
-        $boottime = getFormatedDate($1, $2, $3, $4, $5, $6);
+    my $boottime = getFormatedWMIDateTime($operatingSystem->{LastBootUpTime});
+
+    my $installDate = getFormatedWMIDateTime($operatingSystem->{InstallDate});
+    $installDate = _getInstallDate() unless ($installDate || $remotewmi);
+
+    # Finally get the name through native Win32::API if local inventory and as
+    # WMI DB is sometimes broken
+    my $hostname = $computerSystem->{DNSHostName} || $computerSystem->{Name};
+    $hostname = getHostname(short => 1) unless ($hostname || $remotewmi);
+
+    # We want to always reset FQDN on remote wmi inventory as it was set to local
+    # agent fqdn in Generic module
+    my $fqdn;
+    if ($remotewmi) {
+        $fqdn = $hostname ? lc($hostname) : '';
+        $fqdn .= lc('.'.$computerSystem->{Domain})
+            if $computerSystem->{Domain};
     }
 
-    # get the name through native Win32::API, as WMI DB is sometimes broken
-    my $hostname = $wmiParams->{WMIService} ? $computerSystem->{Name} : getHostname(short => 1);
-    my $installDate;
-    if ($operatingSystem->{InstallDate}) {
-        $installDate = $operatingSystem->{InstallDate};
-        if ($installDate =~ /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/) {
-            $installDate = getFormatedDate($1, $2, $3, $4, $5, $6);
-        }
-    } else {
-        $installDate = _getInstallDate(%$wmiParams, logger => $params{logger});
-    }
     $inventory->setOperatingSystem({
         NAME           => "Windows",
         ARCH           => $arch,
         INSTALL_DATE   => $installDate,
-        BOOT_TIME      => $boottime || '',
+        BOOT_TIME      => $boottime,
         KERNEL_VERSION => $operatingSystem->{Version},
         FULL_NAME      => $operatingSystem->{Caption},
         SERVICE_PACK   => $operatingSystem->{CSDVersion},
+        DNS_DOMAIN     => $computerSystem->{Domain},
+        FQDN           => $fqdn
     });
 
     $inventory->setHardware({
@@ -124,12 +111,8 @@ sub doInventory {
 }
 
 sub _getInstallDate {
-    my (%params) = @_;
-
     my $installDate = getRegistryValue(
-        %params,
-        path   => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/InstallDate',
-        valueType => FusionInventory::Agent::Tools::Win32::REG_DWORD
+        path   => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/InstallDate'
     );
     return unless $installDate;
 
