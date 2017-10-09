@@ -265,7 +265,7 @@ sub _getRegistryValueFromWMI {
     Win32API::Registry->require();
 
     Win32::OLE::Variant->require();
-    Win32::OLE::Variant->use(qw/VT_BYREF VT_BSTR VT_ARRAY VT_VARIANT/);
+    Win32::OLE::Variant->use(qw/VT_BYREF VT_ARRAY VT_VARIANT/);
 
     # Using a hashref here is just a convenient way for debugging and keep
     # computed values between evals
@@ -327,7 +327,7 @@ sub getRegistryKey {
         my $win32_ole_dependent_api = {
             funct => '_getRegistryKeyFromWMI',
             args  => [
-                path    => $path,
+                path    => $root,
                 keyName => $keyName
             ]
         };
@@ -393,7 +393,7 @@ sub _getRegistryKeyFromWMI{
     };
 
     eval {
-        # Get expected hKey valeur from registry constants
+        # Get expected hKey value from registry constants
         $ret->{hKey} = Win32API::Registry::regConstant($hKey);
 
         # Uses registry enumeration to list values and their type
@@ -401,7 +401,7 @@ sub _getRegistryKeyFromWMI{
         my $subs  = Win32::OLE::Variant->new($type,[1,1]);
         $ret->{err} = $registry->EnumKey($ret->{hKey}, $ret->{path}, $subs);
 
-        # Find expected key in the list
+        # Find expected key in the list if some found
         $ret->{keys} = [ in( $subs->Copy->Value() ) ]
             if ($ret->{err} == 0 && $subs->Dim());
     };
@@ -1040,7 +1040,7 @@ sub _connectToService {
 sub _getWMIRegistry {
     my (%params) = @_;
 
-    my $WMIService = getWMIService()
+    my $WMIService = getWMIService(root => 'root\\default')
         or return;
 
     # If missing on a computer, go in C:\Windows\System32\wbem and run "mofcomp regevent.mof"
