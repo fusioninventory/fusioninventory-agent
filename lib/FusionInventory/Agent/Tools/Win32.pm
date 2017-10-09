@@ -897,6 +897,7 @@ my $worker ;
 my $worker_semaphore;
 my $wmiService;
 my $wmiLocator;
+my $wmiRegistry;
 my $wmiParams = {};
 
 my @win32_ole_calls : shared;
