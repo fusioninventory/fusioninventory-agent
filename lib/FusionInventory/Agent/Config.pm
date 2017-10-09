@@ -10,8 +10,6 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::Version;
 
-require FusionInventory::Agent::Tools;
-
 my $default = {
     'additional-content'      => undef,
     'backend-collect-timeout' => 180,
@@ -324,7 +322,11 @@ sub _checkContent {
 sub isParamArrayAndFilled {
     my ($self, $paramName) = @_;
 
-    return FusionInventory::Agent::Tools::isParamArrayAndFilled($self, $paramName);
+    return unless defined($self->{$paramName});
+
+    return unless ref($self->{$paramName}) eq 'ARRAY';
+
+    return scalar(@{$self->{$paramName}}) > 0;
 }
 
 sub getTargets {
