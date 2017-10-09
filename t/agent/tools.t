@@ -134,6 +134,23 @@ my @dec2hex_tests = (
     [ '0x41', '0x41' ],
 );
 
+my %first_tests = (
+    get_ident   => [
+        sub { shift; },
+        [ 1, 2, 3, 4, 5 ],
+        1
+    ],
+    get_two   => [
+        sub { shift; },
+        [ 0, 2, 3, 4, 5 ],
+        2
+    ],
+    get_five   => [
+        sub { $_ > 4; },
+        [ 0, 2, 3, 4, 5 ],
+        5
+    ],);
+
 plan tests =>
     (scalar @size_tests_ok) +
     (scalar @size_1024_tests_ok) +
@@ -149,6 +166,7 @@ plan tests =>
     (scalar @hex2char_tests) +
     (scalar @hex2dec_tests) +
     (scalar @dec2hex_tests) +
+    (scalar keys %first_tests) +
     17;
 
 foreach my $test (@size_tests_nok) {
@@ -258,6 +276,16 @@ foreach my $test (@dec2hex_tests) {
         dec2hex($test->[0]),
         $test->[1],
         "conversion: $test->[0] to hexadecimal"
+    );
+}
+
+foreach my $name (keys %first_tests) {
+    my $test = $first_tests{$name};
+    my $found = first { &{$test->[0]}($_) } @{$test->[1]};
+    is(
+        $found,
+        $test->[2],
+        "first: '$name' first element"
     );
 }
 
