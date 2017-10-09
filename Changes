@@ -4,6 +4,7 @@ Revision history for FusionInventory agent
 core:
 * Cleanup confdir use in task so using deprecated etc/softwares folder is no more
   logged in journal
+* Get rid of confdir setup in setup.pm
 * Update syslog name to fullname agent
 * Get rid of List::Util module dependency
 * Try to load more recent IDS database files if found in well-known places
