@@ -1,5 +1,10 @@
 Revision history for FusionInventory agent
 
+2.4 not released yet
+core:
+* Cleanup confdir use in task so using deprecated etc/softwares folder is no more
+  logged in journal
+
 2.3.21 Mon, 31 Jul 2017
 core:
 * Service/daemon refactoring:
