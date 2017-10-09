@@ -420,7 +420,7 @@ sub _getRegistryKeyFromWMI{
 
         # Find expected value in the list and keep its type but skip when
         # no values are found to avoid crashing
-        if ($vars->Dim()){
+        if ($vars->Dim()) {
             my @types = in( $types->Copy->Value() );
             foreach my $value ( in( $vars->Copy->Value() ) ) {
                 my $type = shift @types;
