@@ -55,10 +55,6 @@ sub getModules {
     return (SUPPORTED);
 }
 
-sub isWmi {
-    1;
-}
-
 sub connect {
     my ( $self, %params ) = @_;
 
@@ -79,6 +75,9 @@ sub connect {
 
     die "can't connect to host $host with '$user' user and locale '$locale'\n"
         unless $self->{service};
+
+    # Set now we are remote
+    $self->isRemote('wmi');
 
     return unless $logger;
 

@@ -37,10 +37,6 @@ sub isEnabled {
     return 1;
 }
 
-sub isWmi {
-    0;
-}
-
 sub run {
     my ($self, %params) = @_;
 
@@ -59,8 +55,8 @@ sub run {
         tag      => $self->{config}->{'tag'}
     );
 
-    # Reset ARCHNAME to remote if running wmi inventory
-    $inventory->setHardware({ ARCHNAME => 'remote' }) if $self->isWmi();
+    # Reset ARCHNAME to remote if running remote inventory like in wmi task
+    $inventory->setHardware({ ARCHNAME => 'remote' }) if $self->isRemote();
 
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
@@ -76,8 +72,8 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    # for remote WMI inventory, we should reset deviceid in inventory
-    $inventory->resetDeviceId() if ($self->isWmi() || !$inventory->getDeviceId());
+    # for remote inventory, we should reset deviceid in prepared inventory
+    $inventory->resetDeviceId() if ($self->isRemote() || !$inventory->getDeviceId());
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();
