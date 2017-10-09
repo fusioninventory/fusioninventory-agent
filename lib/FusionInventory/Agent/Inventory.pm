@@ -153,10 +153,17 @@ sub new {
 sub resetDeviceId {
     my ($self) = @_;
 
-    FusionInventory::Agent::Tools::Hostname->require();
+    my $hostname = $self->getHardware('NAME');
+    if ($hostname) {
+        my $workgroup = $self->getHardware('WORKGROUP');
+        $hostname .= "." . $workgroup if $workgroup;
+    } else {
+        FusionInventory::Agent::Tools::Hostname->require();
 
-    my $hostname = $self->getHardware('NAME') ||
-        FusionInventory::Agent::Tools::Hostname::getHostname();
+        eval {
+            $hostname = FusionInventory::Agent::Tools::Hostname::getHostname();
+        };
+    }
 
     my ($year, $month , $day, $hour, $min, $sec) =
         (localtime (time))[5, 4, 3, 2, 1, 0];
