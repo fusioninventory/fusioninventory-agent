@@ -490,7 +490,7 @@ sub _getRegistryKeyValueFromWMI {
             my $type = VT_BYREF()|VT_ARRAY()|VT_VARIANT();
             my $var  = Win32::OLE::Variant->new($type,[1,1]);
             $err = $registry->GetMultiStringValue($params{hKey}, $params{path}, $params{value}, $var);
-            $value = $var->Copy->Value();
+            $value = $var->Dim() ? $var->Copy->Value() : [];
         }
     };
 
