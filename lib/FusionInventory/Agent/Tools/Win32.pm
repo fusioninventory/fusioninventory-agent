@@ -204,16 +204,6 @@ sub getRegistryValue {
         return;
     }
 
-    # Shortcut call in remote wmi case
-    if (_remoteWmi()) {
-        my $win32_ole_dependent_api = {
-            funct => '_getRegistryValueFromWMI',
-            args  => \@_
-        };
-
-        return _call_win32_ole_dependent_api($win32_ole_dependent_api);
-    }
-
     my ($root, $keyName, $valueName);
     if ($params{path} =~ m{^(HKEY_\w+.*)/([^/]+)/([^/]+)} ) {
         $root      = $1;
@@ -224,6 +214,19 @@ sub getRegistryValue {
             "Failed to parse '$params{path}'. Does it start with HKEY_?"
         ) if $params{logger};
         return;
+    }
+
+    # Shortcut call in remote wmi case
+    if (_remoteWmi()) {
+        my $win32_ole_dependent_api = {
+            funct => '_getRegistryValueFromWMI',
+            args  => [
+                key     => "$root/$keyName",
+                value   => $valueName
+            ]
+        };
+
+        return _call_win32_ole_dependent_api($win32_ole_dependent_api);
     }
 
     my $key = _getRegistryKey(
