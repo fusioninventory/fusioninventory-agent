@@ -66,7 +66,6 @@ my $inventory = FusionInventory::Agent::Task::Inventory->new(
     ),
     logger  => FusionInventory::Agent::Logger->new(verbosity => $verbosity),
     datadir => $setup{datadir},
-    confdir => $setup{confdir},
     config  => $config
 );
 

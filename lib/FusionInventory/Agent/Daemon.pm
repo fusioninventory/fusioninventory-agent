@@ -44,7 +44,7 @@ sub reinit {
 
     $self->{lastConfigLoad} = time;
 
-    $self->{config}->reloadFromInputAndBackend($self->{confdir});
+    $self->{config}->reloadFromInputAndBackend();
 
     # Reload init from parent class
     $self->SUPER::init();

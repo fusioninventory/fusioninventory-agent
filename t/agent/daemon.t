@@ -81,11 +81,7 @@ cmp_deeply (
     "multiple tasks"
 );
 
-$agent->{config} = FusionInventory::Agent::Config->new(
-    (
-        confdir => 'etc'
-    )
-);
+$agent->{config} = FusionInventory::Agent::Config->new();
 $agent->{config}->{'no-task'} = ['Task5'];
 $agent->{config}->{'tasks'} = ['Task1', 'Task5', 'Task1', 'Task5', 'Task5', 'Task2', 'Task1'];
 my %availableTasks = $agent->getAvailableTasks(disabledTasks => $agent->{config}->{'no-task'});
@@ -245,7 +241,6 @@ ok (
     || ($tasksExecutionPlan[7] eq 'taskwithoutanumber' && $tasksExecutionPlan[6] eq 'task345')
 );
 
-$agent->{confdir} = './etc';
 $agent->{datadir} = './share';
 $agent->{vardir}  = './var',
 

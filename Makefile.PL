@@ -229,6 +229,9 @@ config_install :
 	else \
 	    install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg; \
 	fi
+	$(ABSPERLRUN) -pi \
+	    -e "s|=> undef, # SYSCONFDIR.*|=> '$(SYSCONFDIR)',|;" \
+	        $(DESTDIR)$(DATADIR)/lib/FusionInventory/Agent/Config.pm
 
 data_install :
 	install -d -m 755 $(DESTDIR)$(DATADIR)
@@ -241,11 +244,10 @@ data_install :
 
 setup_install :
 	$(ABSPERLRUN) -pi \
-	-e 's|confdir => .*|confdir => "$(SYSCONFDIR)",|;' \
-	-e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
-	-e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
-	-e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
-	$(DESTDIR)$(DATADIR)/lib/setup.pm
+	    -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
+	    -e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
+	    -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
+	        $(DESTDIR)$(DATADIR)/lib/setup.pm
 EOF
     return $install;
 }
