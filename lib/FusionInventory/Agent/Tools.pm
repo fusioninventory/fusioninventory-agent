@@ -52,7 +52,6 @@ our @EXPORT = qw(
     runFunction
     delay
     slurp
-    isParamArrayAndFilled
 );
 
 my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
@@ -561,14 +560,6 @@ sub slurp {
     my $content = <$handler>;
     close $handler;
     return $content;
-}
-
-sub isParamArrayAndFilled {
-    my ($hash, $paramName) = @_;
-    
-    return (defined ($hash->{$paramName}))
-            && UNIVERSAL::isa($hash->{$paramName}, 'ARRAY')
-            && (scalar(@{$hash->{$paramName}}) > 0);
 }
 
 1;
