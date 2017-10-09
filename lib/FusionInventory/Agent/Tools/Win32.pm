@@ -9,15 +9,10 @@ use threads;
 use threads 'exit' => 'threads_only';
 use threads::shared;
 
-use sigtrap qw(handler errorHandler untrapped);
-
 use UNIVERSAL::require();
-use UNIVERSAL;
 
 use constant KEY_WOW64_64 => 0x100;
 use constant KEY_WOW64_32 => 0x200;
-use constant HKEY_LOCAL_MACHINE => 0x80000002;
-use constant HKEY_USERS => 0x80000003;
 
 use Cwd;
 use Encode;
@@ -28,7 +23,7 @@ use Win32::Job;
 use Win32::TieRegistry (
     Delimiter   => '/',
     ArrayValues => 0,
-    qw/KEY_READ REG_SZ REG_EXPAND_SZ REG_DWORD REG_BINARY REG_MULTI_SZ/
+    qw/KEY_READ/
 );
 
 use FusionInventory::Agent::Tools;
@@ -49,12 +44,6 @@ our @EXPORT = qw(
     getLocalCodepage
     runCommand
     FileTimeToSystemTime
-    getUsersFromRegistry
-    isDefinedRemoteRegistryKey
-    getRegistryKeyFromWMI
-    getRegistryValuesFromWMI
-    retrieveValuesNameAndType
-    retrieveKeyValuesFromRemote
     getAgentMemorySize
     FreeAgentMem
     getWMIService
@@ -63,9 +52,6 @@ our @EXPORT = qw(
 );
 
 my $_is64bits = undef;
-
-sub errorHandler {}
-
 sub is64bit {
     # Cache is64bit() result in a private module variable to avoid a lot of wmi
     # calls and as this value won't change during the service/task lifetime
@@ -260,110 +246,69 @@ sub getRegistryValue {
     }
 }
 
-sub getRegistryValuesFromWMI {
-    my $win32_ole_dependent_api = {
-        funct => '_getRegistryValuesFromWMI',
-        args  => \@_
-    };
-
-    return _call_win32_ole_dependent_api($win32_ole_dependent_api);
-}
-
-sub _getRegistryValuesFromWMI {
-    my (%params) = @_;
-
-    return unless ref($params{path}) eq 'ARRAY' || ref($params{path}) eq 'HASH';
-
-    my $WMIService = getWMIService(%params);
-    return unless $WMIService;
-    my $objReg = $WMIService->Get("StdRegProv");
-    return unless $objReg;
-
-    if (ref($params{path}) eq 'ARRAY') {
-        my %hash = ();
-        %hash = map { $_ => 1 } @{$params{path}};
-        $params{path} = \%hash;
-    }
-
-    my $values = {};
-    for my $path (keys %{$params{path}}) {
-        next unless $path =~ m{^(HKEY_\S+)/(.+)/([ ^ /]+)};
-        my $root = $1;
-        my $keyName = $2;
-        my $valueName = $3;
-        $values->{$path} = _retrieveRemoteRegistryValueByType(
-            %params,
-            root => $root,
-            keyName => $keyName,
-            valueName => $valueName,
-            objReg => $objReg,
-            valueType => $params{path}->{$path}
-        );
-    }
-    return $values;
-}
-
 sub _getRegistryValueFromWMI {
     my (%params) = @_;
 
-    if ($params{path} =~ m{^(HKEY_\S+)/(.+)/([^/]+)} ) {
-        $params{root}      = $1;
-        $params{keyName}   = $2;
-        $params{valueName} = $3;
-    } else {
-        return;
-    }
-
-    my $WMIService = getWMIService(%params)
+    my $value = $params{value}
         or return;
-    my $objReg = $WMIService->Get("StdRegProv")
+    my $registry = _getWMIRegistry()
         or return;
 
-    my $value;
-    $params{valueType} = REG_SZ() unless $params{valueType};
-    eval {
-        $value = _retrieveRemoteRegistryValueByType(
-            %params,
-            objReg => $objReg
-        );
+    my ($hKey, $subKey) = $params{key} =~ m{^(HKEY_[^/]+)/(.+)$};
+    return unless $hKey && $subKey;
+
+    # subkey path must be win32 conform
+    $subKey =~ s|/|\\|g;
+
+    Win32::OLE->use('in');
+
+    Win32API::Registry->require();
+
+    Win32::OLE::Variant->require();
+    Win32::OLE::Variant->use(qw/VT_BYREF VT_BSTR VT_ARRAY VT_VARIANT/);
+
+    # Using a hashref here is just a convenient way for debugging and keep
+    # computed values between evals
+    my $ret = {
+        path => $subKey
     };
 
-    return $value;
-}
+    eval {
+        # Get expected hKey valeur from registry constants
+        $ret->{hKey} = Win32API::Registry::regConstant($hKey);
 
-sub isDefinedRemoteRegistryKey {
-    my (%params) = @_;
+        # Uses registry enumeration to list values and their type
+        my $type  = VT_BYREF()|VT_ARRAY()|VT_VARIANT();
+        my $vars  = Win32::OLE::Variant->new($type,[1,1]);
+        my $types = Win32::OLE::Variant->new($type,[1,1]);
+        $ret->{err} = $registry->EnumValues($ret->{hKey}, $subKey, $vars, $types);
 
-    my $defined = 0;
-    # has subKeys ?
-    $defined = defined getRegistryKeyFromWMI(@_);
-    return $defined if $defined;
+        # Find expected value in the list and keep its type but skip when
+        # no values are found to avoid crashing
+        if ($vars->Dim()){
+            my @types = in( $types->Copy->Value() );
+            foreach my $var ( in( $vars->Copy->Value() ) ) {
+                my $type = shift @types;
+                next unless $var && $var eq $value;
+                $ret->{value} = $var;
+                $ret->{type}  = $type;
+                last;
+            }
+        }
+    };
 
-    # has values ?
-    $defined = defined retrieveValuesNameAndType(@_);
-    return $defined if $defined;
+    return unless $ret->{err} == 0 && $ret->{value};
 
-    # is a value ?
-    # we have to look at value type, so we use the value's parent path
-    return $defined unless ($params{path} =~ /(HKEY.*)\/([^\/]+)/);
-    my $parentPath = $1;
-    my $valueName = $2;
-    my $values = retrieveValuesNameAndType(
-        %params,
-        path => $parentPath
-    );
-    $defined = defined $values && defined $values->{$valueName};
-
-    return $defined;
+    return _getRegistryKeyValueFromWMI(%{$ret});
 }
 
 sub getRegistryKey {
     my (%params) = @_;
 
+    my $logger = $params{logger};
+
     if (!$params{path}) {
-        $params{logger}->error(
-            "No registry key path provided"
-        ) if $params{logger};
+        $logger->error("No registry key path provided") if $logger;
         return;
     }
 
@@ -372,21 +317,26 @@ sub getRegistryKey {
         $root      = $1;
         $keyName   = $2;
     } else {
-        $params{logger}->error(
-            "Failed to parse '$params{path}'. Does it start with HKEY_?"
-        ) if $params{logger};
+        $logger->error("Failed to parse '$params{path}'. Does it start with HKEY_?")
+            if $logger;
         return;
     }
 
-    return _remoteWmi() ?
-    getRegistryKeyFromWMI(
-            %params,
-            root => $root,
-            keyName => $keyName
-        )
-    :
-    _getRegistryKey(
-        logger  => $params{logger},
+    # Shortcut call in remote wmi case
+    if (_remoteWmi()) {
+        my $win32_ole_dependent_api = {
+            funct => '_getRegistryKeyFromWMI',
+            args  => [
+                path    => $path,
+                keyName => $keyName
+            ]
+        };
+
+        return _call_win32_ole_dependent_api($win32_ole_dependent_api);
+    }
+
+    return _getRegistryKey(
+        logger  => $logger,
         root    => $root,
         keyName => $keyName
     );
@@ -411,287 +361,137 @@ sub _getRegistryKey {
     return $key;
 }
 
-sub getRegistryKeyFromWMI {
-    my (%params) = @_;
-
-    my $win32_ole_dependent_api = {
-        funct => '_getRegistryKeyFromWMI',
-        args  => \@_
-    };
-
-    my $keyNames = _call_win32_ole_dependent_api($win32_ole_dependent_api);
-
-    if ($params{retrieveValuesForAllKeys}) {
-        my %hash = map { $_ => 1 } @$keyNames;
-        $keyNames = \%hash;
-        for my $wantedKey (keys %$keyNames) {
-            next if ($params{keysToKeep} && !($params{keysToKeep}->{$wantedKey}));
-            my $wantedKeyPath = $params{path} . '/' . $wantedKey;
-            eval {
-                $keyNames->{$wantedKey} = retrieveValuesNameAndType(
-                    @_,
-                    # overwrite 'root' to force use of 'path'
-                    root => 0,
-                    path => $wantedKeyPath
-                );
-            };
-            eval {
-                if ($params{retrieveSubKeysForAllKeys}) {
-                    my $subKeys = getRegistryKeyFromWMI(
-                        @_,
-                        # overwrite 'root' to force use of 'path'
-                        root => 0,
-                        path                     => $wantedKeyPath,
-                        retrieveValuesForAllKeys => 1,
-                    );
-                    @{$keyNames->{$wantedKey}}{ keys %$subKeys } = values %$subKeys;
-                }
-            };
-        }
-    }
-    return $keyNames;
-}
-
 sub _getRegistryKeyFromWMI{
     my (%params) = @_;
 
-    return unless $params{WMIService};
+    my $keyName = defined $params{keyName} ? $params{keyName} : '';
 
-    my $WMIService = getWMIService(%params);
-    if (!$WMIService) {
-        return;
-    }
-    my $objReg = $WMIService->Get("StdRegProv");
-    if (!$objReg) {
-        return;
-    }
+    my $registry = _getWMIRegistry()
+        or return;
 
-    if ($params{path} eq 'HKEY_USERS') {
-        $params{root}      = $params{path};
-        $params{keyName}   = "";
-    } elsif ($params{path} =~ m{^(HKEY_\S+)/(.+)} ) {
-        $params{root}      = $1;
-        $params{keyName}   = $2;
-    } else {
-        return;
-    }
+    my ($hKey, $subKey) = $params{path} =~ m{^(HKEY_[^/]+)/?(.*)$};
+    $subKey = "" unless defined $subKey;
+    $subKey .= "/" .$keyName if length $keyName;
 
-    return _retrieveSubKeyList(
-        %params,
-        objReg => $objReg
-    );
-}
+    return unless $hKey;
 
-sub _retrieveSubKeyList {
-    my (%params) = @_;
+    # subkey path must be win32 conform
+    $subKey =~ s|/|\\|g if $subKey;
 
     Win32::OLE->use('in');
 
-    my $hkey;
-    if ($params{root} =~ /^HKEY_LOCAL_MACHINE(?:\\|\/)(.*)$/) {
-        $hkey = $Win32::Registry::HKEY_LOCAL_MACHINE;
-        my $keyName = $1 . '/' . $params{keyName};
-        $keyName =~ tr#/#\\#;
-        $params{keyName} = $keyName;
-    } elsif ($params{root} =~ /^HKEY_USERS(?:\\|\/)(.*)$/) {
-        $hkey = HKEY_USERS;
-        my $keyName = $1 . '/' . $params{keyName};
-        $keyName =~ tr#/#\\#;
-        $params{keyName} = $keyName;
-    } elsif ($params{root} eq 'HKEY_USERS') {
-        $hkey = HKEY_USERS;
-    } else {
-        return;
-    }
+    Win32API::Registry->require();
 
-    my $arr = Win32::OLE::Variant->new( Win32::OLE::Variant::VT_ARRAY() | Win32::OLE::Variant::VT_VARIANT() | Win32::OLE::Variant::VT_BYREF()  , [1,1] );
-    # Do not use Die for this method
+    Win32::OLE::Variant->require();
+    Win32::OLE::Variant->use(qw/VT_BYREF VT_ARRAY VT_VARIANT/);
 
-    my $return = $params{objReg}->EnumKey($hkey, $params{keyName}, $arr);
-    my $subKeys;
-    if (defined $return && $return == 0 && $arr->Value) {
-        $subKeys = [ ];
-        foreach my $item (in( $arr->Value )) {
-            push @$subKeys, $item;
-        }
-    }
-
-    return $subKeys;
-}
-
-sub retrieveValuesNameAndType {
-    my $win32_ole_dependent_api = {
-        funct => '_retrieveValuesNameAndType',
-        args  => \@_
+    # Using a hashref here is just a convenient way for debugging and keep
+    # computed values between evals
+    my $ret = {
+        path   => $subKey,
+        result => {}
     };
 
-    return _call_win32_ole_dependent_api($win32_ole_dependent_api);
-}
+    eval {
+        # Get expected hKey valeur from registry constants
+        $ret->{hKey} = Win32API::Registry::regConstant($hKey);
 
-sub _retrieveValuesNameAndType {
-    my (%params) = @_;
+        # Uses registry enumeration to list values and their type
+        my $type  = VT_BYREF()|VT_ARRAY()|VT_VARIANT();
+        my $subs  = Win32::OLE::Variant->new($type,[1,1]);
+        $ret->{err} = $registry->EnumKey($ret->{hKey}, $ret->{path}, $subs);
 
-    unless ($params{root}) {
-        if ($params{path} && $params{path} =~ m{^(HKEY_\S+)/(.+)}) {
-            $params{root} = $1;
-            $params{keyName} = $2;
-        } elsif (!($params{keyName})) {
-            return;
-        }
-    }
+        # Find expected key in the list
+        $ret->{keys} = [ in( $subs->Copy->Value() ) ]
+            if ($ret->{err} == 0 && $subs->Dim());
+    };
 
-    my $hkey;
-    if ($params{root} && $params{root} =~ /^HKEY_LOCAL_MACHINE(?:\\|\/)(.*)$/) {
-        $hkey = $Win32::Registry::HKEY_LOCAL_MACHINE;
-        my $keyName = $1 . '/' . $params{keyName};
-        $keyName =~ tr#/#\\#;
-        $params{keyName} = $keyName;
-    } elsif ($params{root} && $params{root} =~ /^HKEY_USERS(?:\\|\/)(.*)$/) {
-        $hkey = HKEY_USERS;
-        my $keyName = $1 . '/' . $params{keyName};
-        $keyName =~ tr#/#\\#;
-        $params{keyName} = $keyName;
-    } elsif ($params{hkey} && $params{hkey} eq 'HKEY_LOCAL_MACHINE') {
-        $hkey = $Win32::Registry::HKEY_LOCAL_MACHINE;
-    } elsif ($params{hkey} && $params{hkey} eq 'HKEY_USERS') {
-        $hkey = HKEY_USERS;
-    } else {
-        $params{logger}->error(
-            "Failed to parse '$params{path}'. Does it start with HKEY_?"
-        ) if $params{logger};
-        return;
-    }
+    return unless $ret->{err} == 0;
 
-    unless ($params{objReg}) {
-        return unless $params{WMIService};
-        my $WMIService = getWMIService(%params);
-        if (!$WMIService) {
-            return;
-        }
-        my $objReg = $WMIService->Get("StdRegProv");
-        if (!$objReg) {
-            return;
-        }
-        $params{objReg} = $objReg;
-    }
+    eval {
+        # Uses registry enumeration to list values and their type
+        my $type  = VT_BYREF()|VT_ARRAY()|VT_VARIANT();
+        my $vars  = Win32::OLE::Variant->new($type,[1,1]);
+        my $types = Win32::OLE::Variant->new($type,[1,1]);
+        $ret->{err} = $registry->EnumValues($ret->{hKey}, $ret->{path}, $vars, $types);
 
-    my $values;
-    my $types;
-    my $arrValueTypes = Win32::OLE::Variant->new( Win32::OLE::Variant::VT_ARRAY() | Win32::OLE::Variant::VT_VARIANT() | Win32::OLE::Variant::VT_BYREF() , [1,1] );
-    my $arrValueNames = Win32::OLE::Variant->new( Win32::OLE::Variant::VT_ARRAY() | Win32::OLE::Variant::VT_VARIANT() | Win32::OLE::Variant::VT_BYREF() , [1,1] );
-    my $return = $params{objReg}->EnumValues($hkey, $params{keyName}, $arrValueNames, $arrValueTypes);
-
-    if (defined $return && $return == 0) {
-        $types = [ ];
-        foreach my $item (in( $arrValueTypes->Value )) {
-            next unless $item;
-            push @$types, sprintf $item;
-        }
-        if (scalar (@$types) > 0) {
-                my $i = 0;
-            $values = { };
-            foreach my $item (in( $arrValueNames->Value )) {
-                next unless $item;
-                my $valueName = sprintf $item;
-                if ($params{fields} && !$params{fields}->{$valueName}) {
-
-                } else {
-                    $values->{$valueName} = eval {
-                        _retrieveRemoteRegistryValueByType(
-                            valueType => $types->[$i],
-                            keyName   => $params{keyName},
-                            valueName => $valueName,
-                            objReg    => $params{objReg},
-                            hkey      => $hkey,
-                        );
-                    };
-                }
-                $i++;
+        # Find expected value in the list and keep its type but skip when
+        # no values are found to avoid crashing
+        if ($vars->Dim()){
+            my @types = in( $types->Copy->Value() );
+            foreach my $value ( in( $vars->Copy->Value() ) ) {
+                my $type = shift @types;
+                next unless $value && $type;
+                $ret->{result}{"/$value"} = _getRegistryKeyValueFromWMI(
+                    hKey    => $ret->{hKey},
+                    path    => $ret->{path},
+                    value   => $value,
+                    type    => $type
+                );
             }
         }
-    }
 
-    return $values;
-}
-
-sub _retrieveRemoteRegistryValueByType {
-    my (%params) = @_;
-
-    return unless $params{valueType} && $params{objReg} && $params{keyName};
-
-    if ($params{root} && $params{root} =~ /^HKEY_LOCAL_MACHINE(?:\\|\/)(.*)$/) {
-        $params{hkey} = $Win32::Registry::HKEY_LOCAL_MACHINE;
-        my $keyName = $1 . '/' . $params{keyName};
-        $keyName =~ tr#/#\\#;
-        $params{keyName} = $keyName;
-    } elsif ($params{root} && $params{root} =~ /^HKEY_USERS(?:\\|\/)(.*)$/) {
-        $params{hkey} = HKEY_USERS;
-        my $keyName = $1 . '/' . $params{keyName};
-        $keyName =~ tr#/#\\#;
-        $params{keyName} = $keyName;
-    } elsif ($params{hkey} && $params{hkey} eq 'HKEY_LOCAL_MACHINE') {
-        $params{hkey} = $Win32::Registry::HKEY_LOCAL_MACHINE;
-    } elsif ($params{hkey} && $params{hkey} eq 'HKEY_USERS') {
-        $params{hkey} = HKEY_USERS;
-    }
-
-    my $func1 = sub {
-        die "thread is dying now (SEGV cached)\n";
+        # Populate leafs with recurse calling
+        foreach my $subkey (@{$ret->{keys}}) {
+            $ret->{result}{"$subkey/"} = _getRegistryKeyFromWMI(
+                path    => $params{path}."/".$keyName,
+                keyName => $subkey
+            );
+        }
     };
-    my $value;
-    {
-        $SIG{SEGV} = \&$func1;
 
-        my $result = Win32::OLE::Variant->new(Win32::OLE::Variant::VT_BYREF() | Win32::OLE::Variant::VT_BSTR(), 0);
-        if ($params{valueType} == REG_BINARY()) {
-            $params{objReg}->GetBinaryValue($params{hkey}, $params{keyName}, $params{valueName}, $result);
-            $value = sprintf($result) if (defined $result);
-        }
-        elsif ($params{valueType} == REG_DWORD()) {
-            $result = Win32::OLE::Variant->new(Win32::OLE::Variant::VT_BYREF() | Win32::OLE::Variant::VT_VARIANT(), '');
-            $params{objReg}->GetDWORDValue($params{hkey}, $params{keyName}, $params{valueName}, $result);
-            $value = sprintf($result) || $result->Value() if (defined $result);
-        }
-        elsif ($params{valueType} == REG_EXPAND_SZ()) {
-            $params{objReg}->GetExpandedStringValue($params{hkey}, $params{keyName}, $params{valueName}, $result);
-            $value = sprintf($result) if (defined $result);
-        }
-        elsif ($params{valueType} == REG_MULTI_SZ()) {
-            $params{objReg}->GetMultiStringValue($params{hkey}, $params{keyName}, $params{valueName}, $result);
-            $value = sprintf($result) if (defined $result);
-        }
-        elsif ($params{valueType} == REG_SZ()) {
-            $value = $params{objReg}->GetStringValue($params{hkey}, $params{keyName}, $params{valueName}, $result);
-            $value = $result->Value() || sprintf($result) if (defined $result);
-        }
-        else {
-            $params{logger}->error('_retrieveRemoteRegistryValueByType() : wrong valueType !') if $params{logger};
-        }
-    }
-
-    return $value || '';
+    return $ret->{result};
 }
 
-sub getValueFromRemoteRegistryViaVbScript {
+sub _getRegistryKeyValueFromWMI {
     my (%params) = @_;
 
-    my @values = (
-        'cscript',
-        $params{WMIService}->{toolsdir} . '/' . 'getValueRemote.vbs',
-        '"' . $params{WMIService}->{hostname} . '"',
-        '"' . $params{WMIService}->{user} . '"',
-        '"' . $params{WMIService}->{pass} . '"',
-        '"' . $params{keyName} . '"',
-        '"' . $params{valueName} . '"'
-    );
-    my $command .= join(' ', @values);
-    my @lines = getAllLines(
-        command => $command
-    );
+    my $registry = _getWMIRegistry()
+        or return;
 
-    my $value = '';
-    $value = $lines[3] if scalar @lines >= 3;
-    $value = '' if !(defined $value);
+    Win32API::Registry->require();
+    Win32API::Registry->use(qw/REG_SZ REG_EXPAND_SZ REG_BINARY REG_DWORD REG_MULTI_SZ/);
+
+    Win32::OLE::Variant->require();
+    Win32::OLE::Variant->use(qw/VT_BYREF VT_BSTR VT_I4 VT_ARRAY VT_VARIANT/);
+
+    my $err = 0;
+    my $value;
+    eval {
+        # Retrieve the value for supported types
+        if ($params{type} == REG_SZ()) {                         # REG_SZ
+            my $type = VT_BYREF()|VT_BSTR();
+            my $var  = Win32::OLE::Variant->new($type);
+            $err = $registry->GetStringValue($params{hKey}, $params{path}, $params{value}, $var);
+            $value = $var->Copy->Value();
+
+        } elsif ($params{type} == REG_EXPAND_SZ()) {             # REG_EXPAND_SZ
+            my $type = VT_BYREF()|VT_BSTR();
+            my $var  = Win32::OLE::Variant->new($type);
+            $err = $registry->GetExpandedStringValue($params{hKey}, $params{path}, $params{value}, $var);
+            $value = $var->Copy->Value();
+
+        } elsif ($params{type} == REG_BINARY()) {                # REG_BINARY
+            my $type = VT_BYREF()|VT_ARRAY()|VT_VARIANT();
+            my $var  = Win32::OLE::Variant->new($type,[1,1]);
+            $err = $registry->GetBinaryValue($params{hKey}, $params{path}, $params{value}, $var);
+            $value = join('', map { chr } @{$var->Copy->Value()});
+
+        } elsif ($params{type} == REG_DWORD()) {                 # REG_DWORD
+            my $type = VT_BYREF()|VT_I4();
+            my $var  = Win32::OLE::Variant->new($type,0);
+            $err = $registry->GetDWORDValue($params{hKey}, $params{path}, $params{value}, $var);
+            $value = $var->Copy->Value();
+
+        } elsif ($params{type} == REG_MULTI_SZ()) {              # REG_MULTI_SZ
+            my $type = VT_BYREF()|VT_ARRAY()|VT_VARIANT();
+            my $var  = Win32::OLE::Variant->new($type,[1,1]);
+            $err = $registry->GetMultiStringValue($params{hKey}, $params{path}, $params{value}, $var);
+            $value = $var->Copy->Value();
+        }
+    };
+
+    return unless $err == 0;
 
     return $value;
 }
@@ -1115,9 +915,6 @@ sub _win32_ole_worker {
     Win32::OLE->require() or return;
     Win32::OLE::Variant->require() or return;
     Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
-    Win32::OLE->use('in');
-
-    local $SIG{SEGV} = 'DEFAULT';
 
     while (1) {
         # Always block until semaphore is made available by main thread
@@ -1139,14 +936,12 @@ sub _win32_ole_worker {
                 no strict 'refs'; ## no critic (ProhibitNoStrict)
                 $funct = \&{$call->{'funct'}};
             };
-            eval {
-                if (exists($call->{'array'}) && $call->{'array'}) {
-                    my @results = &{$funct}(@{$call->{'args'}});
-                    $result = \@results;
-                } else {
-                    $result = &{$funct}(@{$call->{'args'}});
-                }
-            };
+            if (exists($call->{'array'}) && $call->{'array'}) {
+                my @results = &{$funct}(@{$call->{'args'}});
+                $result = \@results;
+            } else {
+                $result = &{$funct}(@{$call->{'args'}});
+            }
 
             # Share back the result
             $call->{'result'} = shared_clone($result);
@@ -1215,54 +1010,6 @@ sub _call_win32_ole_dependent_api {
     }
 }
 
-sub getUsersFromRegistry {
-    my (%params) = @_;
-
-    my $logger = $params{logger};
-
-    my $profileListKey = 'SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList';
-    my $profileList;
-
-    if (remoteWmi()) {
-        $profileList = getRegistryKeyFromWMI(
-            %params,
-            path => 'HKEY_LOCAL_MACHINE/' . $profileListKey,
-            retrieveValuesForAllKeys => 1
-        );
-    } else {
-        # ensure native registry access, not the 32 bit view
-        my $flags = is64bit() ? KEY_READ | KEY_WOW64_64 : KEY_READ;
-        my $machKey = $Registry->Open('LMachine', {
-                Access => $flags
-            }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        if (!$machKey) {
-            $logger->error("getUsersFromRegistry() : Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-            return;
-        }
-        $logger->debug2('getUsersFromRegistry() : opened LMachine registry key');
-        my $profileList = $machKey->{$profileListKey};
-    }
-    next unless $profileList;
-
-    my $userList;
-    foreach my $profileName (keys %$profileList) {
-        $params{logger}->debug2('profileName : ' . $profileName);
-        next unless $profileName =~ m{/$};
-        next unless length($profileName) > 10;
-        my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};
-        my $sid = $profileList->{$profileName}{'/Sid'};
-        next unless $sid;
-        next unless $profilePath;
-        my $user = basename($profilePath);
-        $userList->{$profileName} = $user;
-    }
-
-    if ($params{logger}) {
-        $params{logger}->debug2('getUsersFromRegistry() : retrieved ' . scalar(keys %$userList) . ' users');
-    }
-    return $userList;
-}
-
 sub _remoteWmi {
     return $wmiParams->{host} ? 1 : 0;
 }
@@ -1288,6 +1035,19 @@ sub _connectToService {
     );
 
     return defined $wmiService;
+}
+
+sub _getWMIRegistry {
+    my (%params) = @_;
+
+    my $WMIService = getWMIService()
+        or return;
+
+    # If missing on a computer, go in C:\Windows\System32\wbem and run "mofcomp regevent.mof"
+    $wmiRegistry = $WMIService->Get("StdRegProv")
+        unless $wmiRegistry;
+
+    return $wmiRegistry;
 }
 
 sub getWMIService {
