@@ -562,46 +562,26 @@ sub runCommand {
 sub getInterfaces {
     my (%params) = @_;
 
-    my @properties = qw/Index Description IPEnabled DHCPServer MACAddress
-                           MTU DefaultIPGateway DNSServerSearchOrder IPAddress
-                           IPSubnet/;
-    if ($params{additionalProperties}
-        && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-        if (ref($params{additionalProperties}->{NetWorkAdapterConfiguration}) eq 'ARRAY') {
-            push @properties, @{$params{additionalProperties}->{NetWorkAdapterConfiguration}};
-        } else {
-            delete $params{additionalProperties}->{NetWorkAdapterConfiguration};
-        }
-    }
-    
     my @configurations;
-    my @wmiResult =
-            $params{list}
-                && $params{list}->{Win32_NetworkAdapterConfiguration}
-                && ref($params{list}->{Win32_NetworkAdapterConfiguration}) eq 'ARRAY' ?
-        @{$params{list}->{Win32_NetworkAdapterConfiguration}} :
-        getWMIObjects(
+
+    foreach my $object (getWMIObjects(
             class      => 'Win32_NetworkAdapterConfiguration',
-            properties => \@properties
-        );
-    foreach my $object (@wmiResult) {
+            properties => [ qw/
+                Index Description IPEnabled DHCPServer MACAddress MTU
+                DefaultIPGateway DNSServerSearchOrder IPAddress IPSubnet
+                DNSDomain
+                /
+            ]
+    )) {
 
         my $configuration = {
             DESCRIPTION => $object->{Description},
             STATUS      => $object->{IPEnabled} ? "Up" : "Down",
             IPDHCP      => $object->{DHCPServer},
             MACADDR     => $object->{MACAddress},
-            MTU         => $object->{MTU}
+            MTU         => $object->{MTU},
+            DNSDomain   => $object->{DNSDomain}
         };
-
-        if ($params{additionalProperties}
-            && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-            for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
-                if (defined $object->{$prop}) {
-                    $configuration->{$prop} = $object->{$prop};
-                }
-            }
-        }
 
         if ($object->{DefaultIPGateway}) {
             $configuration->{IPGATEWAY} = $object->{DefaultIPGateway}->[0];
@@ -623,23 +603,10 @@ sub getInterfaces {
 
     my @interfaces;
 
-    @properties = qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId/;
-    if ($params{additionalProperties}
-        && $params{additionalProperties}->{NetWorkAdapter}) {
-        if (ref($params{additionalProperties}->{NetWorkAdapter}) eq 'ARRAY') {
-            push @properties, @{$params{additionalProperties}->{NetWorkAdapter}};
-        } else {
-            delete $params{additionalProperties}->{NetWorkAdapter};
-        }
-    }
-    @wmiResult =
-            $params{list} && $params{list}->{Win32_NetworkAdapter} ?
-        @{$params{list}->{Win32_NetworkAdapter}} :
-        getWMIObjects(
-            class      => 'Win32_NetworkAdapter',
-            properties => \@properties
-        );
-    foreach my $object (@wmiResult) {
+    foreach my $object (getWMIObjects(
+        class      => 'Win32_NetworkAdapter',
+        properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId GUID/ ]
+    )) {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $object->{PNPDeviceID};
 
@@ -660,25 +627,8 @@ sub getInterfaces {
                     DESCRIPTION => $configuration->{DESCRIPTION},
                     STATUS      => $configuration->{STATUS},
                     MTU         => $configuration->{MTU},
-                    dns         => $configuration->{dns},
+                    dns         => $configuration->{dns}
                 };
-
-                if ($params{additionalProperties}
-                    && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-                    for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
-                        if ($configuration->{$prop}) {
-                            $interface->{$prop} = $configuration->{$prop};
-                        }
-                    }
-                }
-                if ($params{additionalProperties}
-                    && $params{additionalProperties}->{NetWorkAdapter}) {
-                    for my $prop (@{$params{additionalProperties}->{NetWorkAdapter}}) {
-                        if ($object->{$prop}) {
-                            $interface->{$prop} = $object->{$prop};
-                        }
-                    }
-                }
 
                 if ($address->[0] =~ /$ip_address_pattern/) {
                     $interface->{IPADDRESS} = $address->[0];
@@ -697,6 +647,11 @@ sub getInterfaces {
                         $interface->{IPMASK6}
                     );
                 }
+
+                $interface->{GUID} = $object->{GUID}
+                    if $object->{GUID};
+                $interface->{DNSDomain} = $configuration->{DNSDomain}
+                    if $configuration->{DNSDomain};
 
                 $interface->{SPEED}      = $object->{Speed} / 1_000_000
                     if $object->{Speed};
@@ -717,26 +672,14 @@ sub getInterfaces {
                 dns         => $configuration->{dns}
             };
 
+            $interface->{GUID} = $object->{GUID}
+                if $object->{GUID};
+            $interface->{DNSDomain} = $configuration->{DNSDomain}
+                if $configuration->{DNSDomain};
+
             $interface->{SPEED}      = $object->{Speed} / 1_000_000
                 if $object->{Speed};
             $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
-
-            if ($params{additionalProperties}
-                && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-                for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
-                    if ($configuration->{$prop}) {
-                        $interface->{$prop} = $configuration->{$prop};
-                    }
-                }
-            }
-            if ($params{additionalProperties}
-                && $params{additionalProperties}->{NetWorkAdapter}) {
-                for my $prop (@{$params{additionalProperties}->{NetWorkAdapter}}) {
-                    if ($configuration->{$prop}) {
-                        $interface->{$prop} = $configuration->{$prop};
-                    }
-                }
-            }
 
             push @interfaces, $interface;
         }

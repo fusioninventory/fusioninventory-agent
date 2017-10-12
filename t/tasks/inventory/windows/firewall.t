@@ -7,6 +7,7 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use Test::More;
 use Test::Deep;
+use Test::MockModule;
 use UNIVERSAL::require;
 use FusionInventory::Test::Utils;
 use FusionInventory::Agent::Tools::Constants;
@@ -25,8 +26,8 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
 Test::NoWarnings->use();
 FusionInventory::Agent::Task::Inventory::Win32::Firewall->require();
 
-my $expectedFirewallProfiles = {
-    '7' => {
+my %expectedFirewallProfiles = (
+    '7_firewall' => {
         domain   => {
             STATUS  => STATUS_OFF,
             PROFILE => 'DomainProfile'
@@ -54,23 +55,10 @@ my $expectedFirewallProfiles = {
             PROFILE => 'StandardProfile'
         }
     }
-};
+);
 
-my $testFiles = {
-    '7' => {
-        NetworkAdapter => '7-Win32_NetworkAdapter_2.wmi',
-        NetworkAdapterConfiguration => '7-Win32_NetworkAdapterConfiguration_2.wmi',
-        DNSRegisteredAdapters => '7-DNSRegisteredAdapters.reg'
-    },
-    '10' => {
-        NetworkAdapter => '10-Win32_NetworkAdapter.wmi',
-        NetworkAdapterConfiguration => '10-Win32_NetworkAdapterConfiguration.wmi',
-        DNSRegisteredAdapters => '10-DNSRegisteredAdapters.reg'
-    }
-};
-
-my $expectedProfilesForInventory = {
-    '7' => [
+my %expectedProfilesForInventory = (
+    '7_firewall' => [
         {
             STATUS  => STATUS_OFF,
             PROFILE => 'DomainProfile',
@@ -114,69 +102,36 @@ my $expectedProfilesForInventory = {
             IPADDRESS6 => 'fe82::fe82:fe82:fe82:fe82'
         }
     ]
-};
+);
 
 plan tests => 1
-        + scalar (keys %$expectedFirewallProfiles)
-        + scalar (keys %$expectedProfilesForInventory);
+        + scalar (keys %expectedFirewallProfiles)
+        + scalar (keys %expectedProfilesForInventory);
 
-my $testFilesPathRegistry = 'resources/win32/registry/';
-my $testFirewallProfilesFilePattern = 'FirewallPolicy.reg';
-for my $testKey (keys %$expectedFirewallProfiles) {
-    my $expected = $expectedFirewallProfiles->{$testKey};
-    my $loadedKey = loadRegistryDump($testFilesPathRegistry . $testKey . '-' . $testFirewallProfilesFilePattern);
-    my $firewallProfiles = FusionInventory::Agent::Task::Inventory::Win32::Firewall::_extractFirewallProfilesFromRegistryKey(
-        key => $loadedKey
+my $module = Test::MockModule->new(
+    'FusionInventory::Agent::Tools::Win32'
+);
+
+for my $testKey (keys %expectedFirewallProfiles) {
+
+    $module->mock(
+        '_getRegistryKey',
+        _mockGetRegistryKey($testKey)
     );
+
+    my $firewallProfiles = FusionInventory::Agent::Task::Inventory::Win32::Firewall::_getFirewallProfiles();
     cmp_deeply (
         $firewallProfiles,
-        $expected,
-        'test windows ' . $testKey . ' ' . $testFirewallProfilesFilePattern . ' extract firewall profiles from registry'
-    );
-}
-
-my $testFilesPathWmi = 'resources/win32/wmi/';
-my $networkListDumpFilePattern = 'NetworkList.reg';
-for my $testKey (keys %$expectedProfilesForInventory) {
-    my $loadedKey = loadRegistryDump($testFilesPathRegistry . $testKey . '-' . $testFirewallProfilesFilePattern);
-    my $firewallProfiles = FusionInventory::Agent::Task::Inventory::Win32::Firewall::_extractFirewallProfilesFromRegistryKey(
-        key => $loadedKey
+        $expectedFirewallProfiles{$testKey},
+        'test windows ' . $testKey . ' FirewallPolicy: extract firewall profiles from registry'
     );
 
-    my $networkAdapterConfigurationFile = $testFilesPathWmi . $testFiles->{$testKey}->{NetworkAdapterConfiguration};
-    my @networkAdapterConfigurationObjects = loadWMIDump(
-        $networkAdapterConfigurationFile,
-        [ qw/Index Description IPEnabled DHCPServer MACAddress
-            MTU DefaultIPGateway DNSServerSearchOrder IPAddress
-            IPSubnet DNSDomain/ ]
+    $module->mock(
+        'getWMIObjects',
+        mockGetWMIObjects($testKey)
     );
-    fail("can't load WMI objects from file " . $networkAdapterConfigurationFile . ' : ' . $!) unless @networkAdapterConfigurationObjects;
 
-    my $networkAdapterFile = $testFilesPathWmi . $testFiles->{$testKey}->{NetworkAdapter};
-    my @networkAdapterObjects = loadWMIDump(
-        $networkAdapterFile,
-        [ qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId GUID/ ]
-    );
-    fail("can't load WMI objects from file " . $networkAdapterFile . ' : ' . $!) unless @networkAdapterObjects;
-
-    my $networkListFile = $testFilesPathRegistry . $testKey . '-' . $networkListDumpFilePattern;
-    my $loadedKeyNetworkList = loadRegistryDump($networkListFile);
-    fail("can't load registry key from file " . $networkListFile . ' : ' . $!)
-        unless $loadedKeyNetworkList && $loadedKeyNetworkList->{'Profiles/'} && $loadedKeyNetworkList->{'Signatures/'};
-
-    my $dnsRegisteredAdaptersFile = $testFilesPathRegistry . $testFiles->{$testKey}->{DNSRegisteredAdapters};
-    my $dnsRegisteredAdaptersKey = loadRegistryDump($dnsRegisteredAdaptersFile);
-
-    my @profiles = FusionInventory::Agent::Task::Inventory::Win32::Firewall::_makeProfileAndConnectionsAssociation(
-        firewallProfiles => $firewallProfiles,
-        list => {
-            Win32_NetworkAdapterConfiguration => \@networkAdapterConfigurationObjects,
-            Win32_NetworkAdapter => \@networkAdapterObjects
-        },
-        profilesKey => $loadedKeyNetworkList->{'Profiles/'},
-        signaturesKey => $loadedKeyNetworkList->{'Signatures/'},
-        dnsRegisteredAdaptersKey => $dnsRegisteredAdaptersKey
-    );
+    my @profiles =  FusionInventory::Agent::Task::Inventory::Win32::Firewall::_makeProfileAndConnectionsAssociation();
 
     # we must sort values before compare it
     my $sortingSub = sub {
@@ -187,11 +142,32 @@ for my $testKey (keys %$expectedProfilesForInventory) {
         } @$list;
     };
     @profiles = &$sortingSub(\@profiles);
-    my @expectedProfiles = &$sortingSub($expectedProfilesForInventory->{$testKey});
+    my @expectedProfiles = &$sortingSub($expectedProfilesForInventory{$testKey});
     cmp_deeply (
         \@profiles,
         \@expectedProfiles,
-        'test windows ' . $testKey . ' _extractFirewallProfilesFromRegistryKey()'
+        'test windows ' . $testKey . ' _getFirewallProfiles()'
     );
 }
 
+# Adapted from FusionInventory::Test::Utils mockGetRegistryKey() to support
+# shared subkey from NetworkList registry dumps
+sub _mockGetRegistryKey {
+    my ($test) = @_;
+
+    return sub {
+        my (%params) = @_;
+
+        # We can mock getRegistryKey or better _getRegistryKey to cover getRegistryValue
+        my $path = $params{path} || $params{keyName};
+        my $last_elt = (split(/\//, $path))[-1];
+        my $file = "resources/win32/registry/";
+        if ($last_elt eq 'Profiles' || $last_elt eq 'Signatures') {;
+            $file .= "$test-NetworkList.reg";
+            return loadRegistryDump($file)->{$last_elt.'/'};
+        } else {
+            $file .= "$test-$last_elt.reg";
+            return loadRegistryDump($file);
+        }
+    };
+}

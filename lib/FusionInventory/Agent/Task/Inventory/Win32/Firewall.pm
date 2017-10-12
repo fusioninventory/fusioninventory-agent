@@ -22,33 +22,25 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $profiles = _getFirewallProfiles();
-    my @profiles = _makeProfileAndConnectionsAssociation(firewallProfiles => $profiles);
-    for my $profile (@profiles) {
+    for my $profile (_makeProfileAndConnectionsAssociation()) {
         $inventory->addEntry(
             section => 'FIREWALL',
             entry   => $profile
         );
     }
-
 }
 
 sub _getFirewallProfiles {
-    my $key = getRegistryKey( path =>
-        "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/SharedAccess/Parameters/FirewallPolicy"
-    );
-    return unless $key;
-
-    return _extractFirewallProfilesFromRegistryKey(
-        key => $key
-    );
-}
-
-sub _extractFirewallProfilesFromRegistryKey {
     my (%params) = @_;
 
-    return unless $params{key};
-    my $key = $params{key};
+    my $key = $params{key} || getRegistryKey(
+        path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/SharedAccess/Parameters/FirewallPolicy",
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/EnableFirewall/ ]
+        }
+    );
+
+    return unless $key;
 
     my $subKeys = {
         domain   => 'DomainProfile',
@@ -74,31 +66,41 @@ sub _extractFirewallProfilesFromRegistryKey {
 sub _makeProfileAndConnectionsAssociation {
     my (%params) = @_;
 
-    return unless $params{firewallProfiles};
+    my $firewallProfiles = _getFirewallProfiles()
+        or return;
 
-    my ($profilesKey, $signaturesKey) = $params{profilesKey} && $params{signaturesKey} ?
-        ($params{profilesKey}, $params{signaturesKey}) :
-        _retrieveProfilesAndSignaturesKey();
-    return unless $profilesKey && $signaturesKey;
-
-    my %funcParams = (
-        additionalProperties => {
-            NetWorkAdapterConfiguration        => [ qw/DNSDomain/ ],
-            NetWorkAdapter => [ qw/GUID/ ]
-        },
-        list => $params{list} ? $params{list} : {}
+    my $profilesKey = $params{profilesKey} || getRegistryKey(
+        path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/NetworkList/Profiles',
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/ProfileName Category/ ]
+        }
     );
 
-    foreach my $interface (getInterfaces(
-        %funcParams
-    )) {
+    return unless $profilesKey;
+
+    my $signaturesKey = $params{signaturesKey} || getRegistryKey(
+        path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/NetworkList/Signatures',
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/ProfileGuid FirstNetwork/ ]
+        }
+    );
+
+    return unless $signaturesKey;
+
+    my $DNSRegisteredAdapters = getRegistryKey(
+        path => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/Tcpip/Parameters/DNSRegisteredAdapters',
+            wmiopts => { # Only used for remote WMI optimization
+                values  => [ qw/PrimaryDomainName/ ]
+            }
+    );
+
+    return unless $DNSRegisteredAdapters;
+
+    foreach my $interface (getInterfaces()) {
         next if ($interface->{STATUS} ne 'Up');
 
         my $profile;
-        my $domainSettings = _getConnectionDomainSettings(
-            guid => $interface->{GUID},
-            key => $params{dnsRegisteredAdaptersKey} || undef
-        );
+        my $domainSettings = $DNSRegisteredAdapters->{$interface->{GUID}.'/'};
         # check if connection with domain
         if ($domainSettings) {
             $profile = _retrieveFirewallProfileWithdomain(
@@ -116,17 +118,17 @@ sub _makeProfileAndConnectionsAssociation {
         next unless $profile;
 
         my $category = hex2dec($profile->{'/Category'});
-        unless (defined $params{firewallProfiles}->{$mappingFirewallProfiles[$category]}->{CONNECTIONS}) {
-            $params{firewallProfiles}->{$mappingFirewallProfiles[$category]}->{CONNECTIONS} = [];
+        unless (defined $firewallProfiles->{$mappingFirewallProfiles[$category]}->{CONNECTIONS}) {
+            $firewallProfiles->{$mappingFirewallProfiles[$category]}->{CONNECTIONS} = [];
         }
         my $connection = {DESCRIPTION => $interface->{DESCRIPTION}};
         $connection->{IPADDRESS} = $interface->{IPADDRESS} if ($interface->{IPADDRESS});
         $connection->{IPADDRESS6} = $interface->{IPADDRESS6} if ($interface->{IPADDRESS6});
-        push @{$params{firewallProfiles}->{$mappingFirewallProfiles[$category]}->{CONNECTIONS}}, $connection;
+        push @{$firewallProfiles->{$mappingFirewallProfiles[$category]}->{CONNECTIONS}}, $connection;
     }
 
     my @profiles = ();
-    for my $p (values %{$params{firewallProfiles}}) {
+    for my $p (values %{$firewallProfiles}) {
         my @p;
         if ($p->{CONNECTIONS} && ref($p->{CONNECTIONS}) eq 'ARRAY') {
             my @conns = @{$p->{CONNECTIONS}};
@@ -145,22 +147,6 @@ sub _makeProfileAndConnectionsAssociation {
     }
 
     return @profiles;
-}
-
-sub _getConnectionDomainSettings {
-    my (%params) = @_;
-
-    return unless $params{guid};
-
-    my $registeredAdapter = $params{key} ?
-        $params{key}->{$params{guid} . '/'} :
-        getRegistryKey(
-            path => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/Tcpip/Parameters/DNSRegisteredAdapters/' . $params{guid}
-        );
-    if ($registeredAdapter && $registeredAdapter->{'/PrimaryDomainName'}) {
-        return $registeredAdapter;
-    }
-    return;
 }
 
 sub _retrieveFirewallProfileWithoutDomain {
@@ -182,20 +168,6 @@ sub _retrieveFirewallProfileWithoutDomain {
     return unless $profileGuid && $profilesKey->{$profileGuid . '/'};
 
     return $profilesKey->{$profileGuid . '/'};
-}
-
-sub _retrieveProfilesAndSignaturesKey {
-    my (%params) = @_;
-
-    my $networkListKey = getRegistryKey(
-        path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/NetworkList'
-    );
-    return unless $networkListKey;
-
-    if ($networkListKey->{'Profiles/'} && $networkListKey->{'Signatures/'}) {
-        return ($networkListKey->{'Profiles/'}, $networkListKey->{'Signatures/'});
-    }
-    return;
 }
 
 sub _retrieveFirewallProfileWithdomain {
