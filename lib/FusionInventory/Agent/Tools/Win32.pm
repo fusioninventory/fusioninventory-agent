@@ -1044,12 +1044,13 @@ sub _connectToService {
 sub _getWMIRegistry {
     my (%params) = @_;
 
-    my $WMIService = getWMIService(root => 'root\\default')
-        or return;
+    unless ($wmiRegistry) {
+        my $WMIService = getWMIService(root => 'root\\default')
+            or return;
 
-    # If missing on a computer, go in C:\Windows\System32\wbem and run "mofcomp regevent.mof"
-    $wmiRegistry = $WMIService->Get("StdRegProv")
-        unless $wmiRegistry;
+        # If missing on a computer, go in C:\Windows\System32\wbem and run "mofcomp regevent.mof"
+        $wmiRegistry = $WMIService->Get("StdRegProv");
+    }
 
     return $wmiRegistry;
 }
