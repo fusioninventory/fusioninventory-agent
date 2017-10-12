@@ -9,10 +9,13 @@ use setup;
 use English qw(-no_match_vars) ;
 use Getopt::Long;
 use Pod::Usage;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Task::Wmi;
+use FusionInventory::Agent::Inventory;
+use FusionInventory::Agent::Task::Wmi::Version;
 
 Getopt::Long::Configure( "no_ignorecase" );
 
@@ -40,20 +43,30 @@ GetOptions(
     'version'
 ) or pod2usage(-verbose => 0);
 
-die "fusioninventory-wmi only supported under win32\n"
-    unless ($OSNAME eq 'MSWin32');
+my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
+my $VERSION  = FusionInventory::Agent::Task::Wmi::Version::VERSION;
 
-pod2usage(-verbose => 0, -exitstatus => 0)
-    if ($options->{help} || !$options->{host});
+# Set AGENT_STRING to be included in inventory as VERSIONCLIENT
+$FusionInventory::Agent::AGENT_STRING   = "$PROVIDER-WMI-Inventory_v$VERSION";
+$FusionInventory::Agent::VERSION_STRING = "$PROVIDER WMI Inventory ($VERSION)";
+
+unshift @{$FusionInventory::Agent::Version::COMMENTS},
+    "** THIS IS A DEVELOPMENT RELEASE **"
+    if ($FusionInventory::Agent::Version::VERSION =~ /^\d+\.\d+\.(99\d\d|\d+-dev)$/);
 
 if ($options->{version}) {
-    my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
     map { print $_."\n" }
-        "fusioninventory-wmi $FusionInventory::Agent::Task::Wmi::Version::VERSION",
+        lc($PROVIDER) . "-wmi $VERSION",
         "based on $PROVIDER Agent v$FusionInventory::Agent::Version::VERSION",
         @{$FusionInventory::Agent::Version::COMMENTS};
     exit 0;
 }
+
+die lc($PROVIDER) . "-wmi only supported under win32 platform\n"
+    unless ($OSNAME eq 'MSWin32');
+
+pod2usage(-verbose => 0, -exitstatus => 0)
+    if ($options->{help} || !$options->{host});
 
 if ($options->{'conf-file'}) {
     if ($options->{config}) {
@@ -93,6 +106,8 @@ my @targets = $config->getTargets(
 
 die "No target defined, aborting\n"
     unless @targets;
+
+FusionInventory::Agent::Task::Wmi->require();
 
 foreach my $target (@targets) {
     my $wmitask = FusionInventory::Agent::Task::Wmi->new(
