@@ -73,8 +73,8 @@ sub doInventory {
     # agent fqdn in Generic module
     my $fqdn;
     if ($remotewmi) {
-        $fqdn = $hostname ? lc($hostname) : '';
-        $fqdn .= lc('.'.$computerSystem->{Domain})
+        $fqdn = $hostname || '';
+        $fqdn .= '.'.$computerSystem->{Domain}
             if $computerSystem->{Domain};
     }
 
