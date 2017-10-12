@@ -82,7 +82,7 @@ sub _getID {
             }
         }
 
-        return $clientid ? hex($clientid) || $clientid : undef ;
+        return hex2dec($clientid);
     }
 
     if ($OSNAME eq 'darwin') {
