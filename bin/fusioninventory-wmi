@@ -36,7 +36,7 @@ GetOptions(
     'logfile=s',
     'pass|p=s',
     'scan-homedirs',
-    'scan_profiles',
+    'scan-profiles',
     'server|s=s',
     'tag|t=s',
     'user|u=s',
