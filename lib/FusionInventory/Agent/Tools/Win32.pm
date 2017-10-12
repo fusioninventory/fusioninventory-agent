@@ -1064,8 +1064,11 @@ sub getWMIService {
     my $locale = $params{locale} || $wmiParams->{locale} || '';
 
     # Reset root if found in moniker params
-    if ($params{moniker} && $params{moniker} =~ /root\\(.*)$/i) {
-        $root = "root\\" . lc($1);
+    if ($params{moniker}) {
+        $params{moniker} =~ s{/}{\\}g;
+        if ($params{moniker} =~ /\\root\\(.*)$/i) {
+            $root = "root\\" . lc($1);
+        }
     }
 
     # check if the connection is right otherwise reset it
