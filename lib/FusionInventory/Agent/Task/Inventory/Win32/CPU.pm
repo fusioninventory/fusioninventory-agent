@@ -47,7 +47,7 @@ sub _getCPUs {
 
     # the CPU description in WMI is false, we use the registry instead
     my $registryInfos = getRegistryKey(
-        path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor"
+        path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor",
         wmiopts => { # Only used for remote WMI optimization
             values  => [ qw/Identifier ProcessorNameString VendorIdentifier/ ]
         }

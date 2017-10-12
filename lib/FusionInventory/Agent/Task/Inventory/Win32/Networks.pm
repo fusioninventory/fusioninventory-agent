@@ -56,6 +56,9 @@ sub _getMediaType {
 
     my $key = getRegistryKey(
         path   => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Network/{4D36E972-E325-11CE-BFC1-08002BE10318}",
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/PnpInstanceID MediaSubType/ ]
+        }
     );
 
     foreach my $subkey_name (keys %$key) {
