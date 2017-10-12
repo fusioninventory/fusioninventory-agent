@@ -1072,12 +1072,12 @@ sub getWMIService {
     }
 
     # check if the connection is right otherwise reset it
-    if (!$wmiService || $wmiParams
-                && $wmiParams->{host} eq $host
-                && $wmiParams->{user} eq $user
-                && $wmiParams->{pass} eq $pass
-                && $wmiParams->{root} eq $root
-                && $wmiParams->{locale} eq $locale) {
+    if (!$wmiService || $wmiParams && (
+                $wmiParams->{host} ne $host ||
+                $wmiParams->{user} ne $user ||
+                $wmiParams->{pass} ne $pass ||
+                $wmiParams->{root} ne $root ||
+                $wmiParams->{locale} ne $locale)) {
 
         $wmiParams = {
             host    => $host,
