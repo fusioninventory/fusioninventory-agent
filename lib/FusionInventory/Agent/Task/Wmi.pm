@@ -7,8 +7,12 @@ use parent 'FusionInventory::Agent::Task::Inventory';
 use constant SUPPORTED => map {
     "FusionInventory::Agent::Task::Inventory::$_"
 } qw(
+        AccessLog
         Generic
+        Generic::Remote_Mgmt
+        Generic::Remote_Mgmt::TeamViewer
         Generic::Screen
+        Provider
         Virtualization
         Virtualization::HyperV
         Win32
