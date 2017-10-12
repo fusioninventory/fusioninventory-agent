@@ -26,13 +26,7 @@ sub doInventory {
 
     my $is64bit = is64bit();
 
-    my $softwaresKey = getRegistryKey(
-        path => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall"
-    );
-    foreach my $software (_getSoftwaresList(
-        softwares => $softwaresKey,
-        is64bit   => $is64bit,
-    )) {
+    foreach my $software (_getSoftwaresList( is64bit => $is64bit )) {
         _addSoftware(inventory => $inventory, entry => $software);
     }
 
@@ -55,12 +49,9 @@ sub doInventory {
     }
 
     if ($is64bit) {
-        my $softwaresKey32 = getRegistryKey(
-            path => "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall"
-        );
         foreach my $software (_getSoftwaresList(
-            softwares => $softwaresKey32,
-            is64bit   => 0
+            path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall",
+            is64bit => 0
         )) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
@@ -107,11 +98,9 @@ sub _loadUserSoftware {
         $profileSoft .= is64bit() && !$is64bit ?
                 "Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall" :
                 "Microsoft/Windows/CurrentVersion/Uninstall";
-        my $softwaresKey = getRegistryKey( path => $profileSoft );
-        next unless $softwaresKey;
 
         my @softwares = _getSoftwaresList(
-            softwares => $softwaresKey,
+            path      => $profileSoft,
             is64bit   => $is64bit,
             userid    => $profileName,
             username  => $userName
@@ -129,7 +118,10 @@ sub _getUsersFromRegistry {
     my (%params) = @_;
 
     my $profileList = getRegistryKey(
-        path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList'
+        path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList',
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/ProfileImagePath Sid/ ],
+        }
     );
 
     next unless $profileList;
@@ -190,7 +182,17 @@ sub _keyLastWriteDateString {
 sub _getSoftwaresList {
     my (%params) = @_;
 
-    my $softwares = $params{softwares};
+    my $softwares = getRegistryKey(
+        path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall",
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/
+                DisplayName Comments HelpLink ReleaseType DisplayVersion
+                Publisher URLInfoAbout UninstallString InstallDate MinorVersion
+                MajorVersion NoRemove SystemComponent
+                / ]
+        },
+        %params
+    );
 
     my @list;
 
@@ -300,7 +302,11 @@ sub _processMSIE {
     my $installedkey = getRegistryKey(
         path   => is64bit() && !$params{is64bit} ?
             "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Internet Explorer" :
-            "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Internet Explorer"
+            "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Internet Explorer",
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/svcVersion Version/ ],
+            subkeys => 0
+        }
     );
 
     my $version = $installedkey->{"/svcVersion"} || $installedkey->{"/Version"};

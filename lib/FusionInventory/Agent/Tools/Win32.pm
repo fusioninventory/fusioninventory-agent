@@ -331,7 +331,8 @@ sub getRegistryKey {
             funct => '_getRegistryKeyFromWMI',
             args  => [
                 path    => $root,
-                keyName => $keyName
+                keyName => $keyName,
+                wmiopts => $params{wmiopts}
             ]
         };
 
@@ -378,6 +379,8 @@ sub _getRegistryKeyFromWMI{
 
     return unless $hKey;
 
+    my %wmiopts = $params{wmiopts} ? %{$params{wmiopts}} : ();
+
     # subkey path must be win32 conform
     $subKey =~ s|/|\\|g if $subKey;
 
@@ -395,21 +398,24 @@ sub _getRegistryKeyFromWMI{
         result => {}
     };
 
-    eval {
-        # Get expected hKey value from registry constants
-        $ret->{hKey} = Win32API::Registry::regConstant($hKey);
+    # We will try to get all the registry tree by default
+    if (!exists($wmiopts{subkeys}) || $wmiopts{subkeys}) {
+        eval {
+            # Get expected hKey value from registry constants
+            $ret->{hKey} = Win32API::Registry::regConstant($hKey);
 
-        # Uses registry enumeration to list values and their type
-        my $type  = VT_BYREF()|VT_ARRAY()|VT_VARIANT();
-        my $subs  = Win32::OLE::Variant->new($type,[1,1]);
-        $ret->{err} = $registry->EnumKey($ret->{hKey}, $ret->{path}, $subs);
+            # Uses registry enumeration to list values and their type
+            my $type  = VT_BYREF()|VT_ARRAY()|VT_VARIANT();
+            my $subs  = Win32::OLE::Variant->new($type,[1,1]);
+            $ret->{err} = $registry->EnumKey($ret->{hKey}, $ret->{path}, $subs);
 
-        # Find expected key in the list if some found
-        $ret->{keys} = [ in( $subs->Copy->Value() ) ]
-            if ($ret->{err} == 0 && $subs->Dim());
-    };
+            # Find expected key in the list if some found
+            $ret->{keys} = [ in( $subs->Copy->Value() ) ]
+                if ($ret->{err} == 0 && $subs->Dim());
+        };
 
-    return unless $ret->{err} == 0;
+        return unless $ret->{err} == 0;
+    }
 
     eval {
         # Uses registry enumeration to list values and their type
@@ -425,6 +431,7 @@ sub _getRegistryKeyFromWMI{
             foreach my $value ( in( $vars->Copy->Value() ) ) {
                 my $type = shift @types;
                 next unless $value && $type;
+                next if ($wmiopts{values} && ! first { $_ eq $value } @{$wmiopts{values}});
                 $ret->{result}{"/$value"} = _getRegistryKeyValueFromWMI(
                     hKey    => $ret->{hKey},
                     path    => $ret->{path},
