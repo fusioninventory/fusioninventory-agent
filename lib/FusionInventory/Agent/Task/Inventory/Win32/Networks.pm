@@ -28,7 +28,11 @@ sub doInventory {
         push @ips, $interface->{IPADDRESS}
             if $interface->{IPADDRESS};
 
+        # Cleanup not necessary values
         delete $interface->{dns};
+        delete $interface->{DNSDomain};
+        delete $interface->{GUID};
+
         $interface->{TYPE} = _getMediaType($interface->{PNPDEVICEID});
 
         $inventory->addEntry(
