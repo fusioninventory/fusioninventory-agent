@@ -398,12 +398,16 @@ sub _getRegistryKeyFromWMI{
         result => {}
     };
 
+    eval {
+        # Get expected hKey value from registry constants
+        $ret->{hKey} = Win32API::Registry::regConstant($hKey);
+    };
+
+    return unless $ret->{hKey};
+
     # We will try to get all the registry tree by default
     if (!exists($wmiopts{subkeys}) || $wmiopts{subkeys}) {
         eval {
-            # Get expected hKey value from registry constants
-            $ret->{hKey} = Win32API::Registry::regConstant($hKey);
-
             # Uses registry enumeration to list values and their type
             my $type  = VT_BYREF()|VT_ARRAY()|VT_VARIANT();
             my $subs  = Win32::OLE::Variant->new($type,[1,1]);
