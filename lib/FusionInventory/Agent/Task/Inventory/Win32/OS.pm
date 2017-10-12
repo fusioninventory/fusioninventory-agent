@@ -69,26 +69,25 @@ sub doInventory {
     my $hostname = $computerSystem->{DNSHostName} || $computerSystem->{Name};
     $hostname = getHostname(short => 1) unless ($hostname || $remotewmi);
 
-    # We want to always reset FQDN on remote wmi inventory as it was set to local
-    # agent fqdn in Generic module
-    my $fqdn;
-    if ($remotewmi) {
-        $fqdn = $hostname || '';
-        $fqdn .= '.'.$computerSystem->{Domain}
-            if $computerSystem->{Domain};
-    }
-
-    $inventory->setOperatingSystem({
+    my $os = {
         NAME           => "Windows",
         ARCH           => $arch,
         INSTALL_DATE   => $installDate,
         BOOT_TIME      => $boottime,
         KERNEL_VERSION => $operatingSystem->{Version},
         FULL_NAME      => $operatingSystem->{Caption},
-        SERVICE_PACK   => $operatingSystem->{CSDVersion},
-        DNS_DOMAIN     => $computerSystem->{Domain},
-        FQDN           => $fqdn
-    });
+        SERVICE_PACK   => $operatingSystem->{CSDVersion}
+    };
+
+    # We want to always reset FQDN on remote wmi inventory as it was set to local
+    # agent fqdn in Generic module
+    $os->{FQDN} = $hostname if ($remotewmi);
+    if ($computerSystem->{Domain}) {
+        $os->{FQDN} .= '.'.$computerSystem->{Domain} if ($remotewmi);
+        $os->{DNS_DOMAIN} = $computerSystem->{Domain};
+    }
+
+    $inventory->setOperatingSystem($os);
 
     $inventory->setHardware({
         NAME        => $hostname,
