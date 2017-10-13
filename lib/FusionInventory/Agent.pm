@@ -97,6 +97,10 @@ sub init {
         exit 1;
     }
 
+    # Keep program name for Provider inventory as it will be reset in setStatus()
+    FusionInventory::Agent::Task::Inventory::Provider->require();
+    $FusionInventory::Agent::Task::Inventory::Provider::PROGRAM = "$PROGRAM_NAME";
+
     # compute list of allowed tasks
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
     my @tasks = keys %available;
