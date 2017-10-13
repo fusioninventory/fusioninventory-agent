@@ -271,7 +271,7 @@ my $snmp3 = FusionInventory::Agent::SNMP::Mock->new(
         '.1.3.6.1.2.1.1.2.0'        => [ 'STRING', '.1.3.6.1.4.1.1663.1.1.1.1.24' ],
     }
 );
-my $device4 = getDeviceInfo(snmp => $snmp3, confdir => './share');
+my $device4 = getDeviceInfo(snmp => $snmp3, datadir => './share');
 cmp_deeply(
     $device4,
     {

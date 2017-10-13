@@ -43,7 +43,6 @@ sub new {
 
     my $self = {
         status  => 'unknown',
-        confdir => $params{confdir},
         datadir => $params{datadir},
         libdir  => $params{libdir},
         vardir  => $params{vardir},
@@ -60,7 +59,6 @@ sub init {
 
     # Skip create object if still defined (re-init case)
     my $config = $self->{config} || FusionInventory::Agent::Config->new(
-        confdir => $self->{confdir},
         options => $params{options},
     );
     $self->{config} = $config;
@@ -76,7 +74,7 @@ sub init {
     );
     $self->{logger} = $logger;
 
-    $logger->debug("Configuration directory: $self->{confdir}");
+    $logger->debug("Configuration directory: ".$config->confdir());
     $logger->debug("Data directory: $self->{datadir}");
     $logger->debug("Storage directory: $self->{vardir}");
     $logger->debug("Lib directory: $self->{libdir}");
@@ -252,7 +250,6 @@ sub runTaskReal {
 
     my $task = $class->new(
         config       => $self->{config},
-        confdir      => $self->{confdir},
         datadir      => $self->{datadir},
         logger       => $self->{logger},
         target       => $target,
@@ -543,10 +540,6 @@ The constructor. The following parameters are allowed, as keys of the %params
 hash:
 
 =over
-
-=item I<confdir>
-
-the configuration directory.
 
 =item I<datadir>
 

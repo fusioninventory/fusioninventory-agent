@@ -5,10 +5,13 @@ use warnings;
 
 use English qw(-no_match_vars);
 use File::Spec;
+use Cwd qw(abs_path);
 use Getopt::Long;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Version;
+
+use FusionInventory::Agent::Tools;
 
 my $default = {
     'additional-content'      => undef,
@@ -61,35 +64,33 @@ my $confReloadIntervalMinValue = 60;
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {};
+    my $self = {
+        '_confdir' => undef, # SYSCONFDIR replaced here from Makefile
+    };
     bless $self, $class;
     $self->_loadDefaults();
 
-    $self->_loadFromBackend($params{options}->{'conf-file'}, $params{options}->{config}, $params{confdir});
+    $self->_loadFromBackend($params{options}->{'conf-file'}, $params{options}->{config});
 
     $self->_loadUserParams($params{options});
 
     $self->_checkContent();
 
-    if (defined($params{options}->{'conf-file'})) {
-        $self->{'conf-file'} = $params{options}->{'conf-file'}
-    }
-
     return $self;
 }
 
 sub reloadFromInputAndBackend {
-    my ($self, $confDir) = @_;
+    my ($self) = @_;
 
     $self->_loadDefaults;
 
-    $self->_loadFromBackend($self->{'conf-file'}, $self->{config}, $confDir);
+    $self->_loadFromBackend($self->{'conf-file'}, $self->{config});
 
     $self->_checkContent();
 }
 
 sub _loadFromBackend {
-    my ($self, $confFile, $config, $confdir) = @_;
+    my ($self, $confFile, $config) = @_;
 
     my $backend =
         $confFile            ? 'file'      :
@@ -107,8 +108,7 @@ sub _loadFromBackend {
 
         if ($backend eq 'file') {
             $self->_loadFromFile({
-                file      => $confFile,
-                directory => $confdir,
+                file => $confFile
             });
             last SWITCH;
         }
@@ -127,6 +127,12 @@ sub _loadDefaults {
     foreach my $key (keys %$default) {
         $self->{$key} = $default->{$key};
     }
+
+    # Set absolute confdir from default if replaced by Makefile otherwise search
+    # from current path, mostly useful while running from source
+    $self->{_confdir} = abs_path(File::Spec->rel2abs(
+        $self->{_confdir} || first { -d $_ } qw{ ./etc  ../etc }
+    ));
 }
 
 sub _loadFromRegistry {
@@ -164,10 +170,16 @@ sub _loadFromRegistry {
     }
 }
 
+sub confdir {
+    my ($self) = @_;
+
+    return $self->{_confdir};
+}
+
 sub _loadFromFile {
     my ($self, $params) = @_;
     my $file = $params->{file} ?
-        $params->{file} : $params->{directory} . '/agent.cfg';
+        $params->{file} : $self->{_confdir} . '/agent.cfg';
 
     if ($file) {
         die "non-existing file $file" unless -f $file;
@@ -348,10 +360,6 @@ The constructor. The following parameters are allowed, as keys of the %params
 hash:
 
 =over
-
-=item I<confdir>
-
-the configuration directory.
 
 =item I<options>
 
