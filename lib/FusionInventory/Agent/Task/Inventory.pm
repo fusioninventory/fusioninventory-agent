@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::Inventory;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task';
+use parent 'FusionInventory::Agent::Task';
 
 use Config;
 use English qw(-no_match_vars);
@@ -50,9 +50,13 @@ sub run {
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         statedir => $self->{target}->getStorage()->getDirectory(),
+        deviceid => $self->{deviceid},
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
+
+    # Reset ARCHNAME to remote if running remote inventory like in wmi task
+    $inventory->setHardware({ ARCHNAME => 'remote' }) if $self->isRemote();
 
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
@@ -68,6 +72,9 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
+    # for remote inventory, we should reset deviceid in prepared inventory
+    $inventory->resetDeviceId() if ($self->isRemote() || !$inventory->getDeviceId());
+
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();
         my $format = $self->{target}->{format};
@@ -81,7 +88,7 @@ sub run {
 
             if (-d $path) {
                 $file =
-                    $path . "/" . $self->{deviceid} .
+                    $path . "/" . $inventory->getDeviceId() .
                     ($format eq 'xml' ? '.ocs' : '.html');
                 last SWITCH;
             }
@@ -125,7 +132,7 @@ sub run {
         );
 
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-            deviceid => $self->{deviceid},
+            deviceid => $inventory->getDeviceId(),
             content  => $inventory->getContent()
         );
 
@@ -147,7 +154,7 @@ sub _initModulesList {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    my @modules = __PACKAGE__->getModules('');
+    my @modules = $self->getModules('');
     die "no inventory module found" if !@modules;
 
     # first pass: compute all relevant modules
@@ -355,9 +362,9 @@ sub _printInventory {
             );
             print {$params{handle}} $tpp->write({
                 REQUEST => {
-                    CONTENT => $params{inventory}->{content},
-                    DEVICEID => $self->{deviceid},
-                    QUERY => "INVENTORY",
+                    CONTENT  => $params{inventory}->getContent(),
+                    DEVICEID => $params{inventory}->getDeviceId(),
+                    QUERY    => "INVENTORY",
                 }
             });
 
@@ -372,9 +379,9 @@ sub _printInventory {
 
              my $hash = {
                 version  => $FusionInventory::Agent::Version::VERSION,
-                deviceid => $params{inventory}->{deviceid},
-                data     => $params{inventory}->{content},
-                fields   => $params{inventory}->{fields},
+                deviceid => $params{inventory}->getDeviceId(),
+                data     => $params{inventory}->getContent(),
+                fields   => $params{inventory}->getFields()
             };
 
             print {$params{handle}} $template->fill_in(HASH => $hash);

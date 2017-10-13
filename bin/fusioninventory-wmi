@@ -1,0 +1,158 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use lib './lib';
+use setup;
+
+use English qw(-no_match_vars) ;
+use Getopt::Long;
+use Pod::Usage;
+use UNIVERSAL::require;
+
+use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Version;
+use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Inventory;
+use FusionInventory::Agent::Task::Wmi::Version;
+
+Getopt::Long::Configure( "no_ignorecase" );
+
+my $options = {
+    debug => 0
+};
+
+GetOptions(
+    $options,
+    'backend-collect-timeout=s',
+    'conf-file=s',
+    'config=s',
+    'debug+',
+    'help',
+    'host|h=s',
+    'local|l=s',
+    'logger=s',
+    'logfile=s',
+    'pass|p=s',
+    'scan-homedirs',
+    'scan-profiles',
+    'server|s=s',
+    'tag|t=s',
+    'user|u=s',
+    'version'
+) or pod2usage(-verbose => 0);
+
+my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
+my $VERSION  = FusionInventory::Agent::Task::Wmi::Version::VERSION;
+
+# Set AGENT_STRING to be included in inventory as VERSIONCLIENT
+$FusionInventory::Agent::AGENT_STRING   = "$PROVIDER-WMI-Inventory_v$VERSION";
+$FusionInventory::Agent::VERSION_STRING = "$PROVIDER WMI Inventory ($VERSION)";
+
+unshift @{$FusionInventory::Agent::Version::COMMENTS},
+    "** THIS IS A DEVELOPMENT RELEASE **"
+    if ($FusionInventory::Agent::Version::VERSION =~ /^\d+\.\d+\.(99\d\d|\d+-dev)$/);
+
+if ($options->{version}) {
+    map { print $_."\n" }
+        lc($PROVIDER) . "-wmi $VERSION",
+        "based on $PROVIDER Agent v$FusionInventory::Agent::Version::VERSION",
+        @{$FusionInventory::Agent::Version::COMMENTS};
+    exit 0;
+}
+
+die lc($PROVIDER) . "-wmi only supported under win32 platform\n"
+    unless ($OSNAME eq 'MSWin32');
+
+pod2usage(-verbose => 0, -exitstatus => 0)
+    if ($options->{help} || !$options->{host});
+
+if ($options->{'conf-file'}) {
+    if ($options->{config}) {
+        if ($options->{config} ne 'file') {
+            print STDERR
+                "don't use --conf-file with $options->{config} backend";
+            exit 1;
+        }
+    } else {
+        $options->{config} = 'file';
+    }
+}
+
+unless ($options->{'no-win32-ole-workaround'}) {
+    # From here we may need to avoid crashes due to not thread-safe Win32::OLE
+    FusionInventory::Agent::Tools::Win32->require();
+    FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+}
+
+my $config = FusionInventory::Agent::Config->new(
+    options => $options,
+);
+
+my $verbosity =
+    $options->{debug} == 0 ? LOG_INFO   :
+    $options->{debug} == 1 ? LOG_DEBUG  :
+    $options->{debug} == 2 ? LOG_DEBUG2 :
+                             LOG_DEBUG2 ;
+
+my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
+
+# Get targets
+my @targets = $config->getTargets(
+    logger      => $logger,
+    vardir      => $setup{vardir}
+);
+
+die "No target defined, aborting\n"
+    unless @targets;
+
+FusionInventory::Agent::Task::Wmi->require();
+
+foreach my $target (@targets) {
+    my $wmitask = FusionInventory::Agent::Task::Wmi->new(
+        target  => $target,
+        logger  => $logger,
+        datadir => $setup{datadir},
+        confdir => $setup{confdir},
+        config  => $config
+    );
+
+    $wmitask->connect(%{$options});
+    $wmitask->run();
+}
+
+exit(0);
+
+
+__END__
+
+=head1 NAME
+
+fusioninventory-wmi - Win32 remote inventory
+
+=head1 SYNOPSIS
+
+fusioninventory-wmi [options] --host <host> [--user <user>] [--pass <pass>] [--server server|--local path]
+
+  General options:
+    --help                 this menu
+    -t --tag tag           tag for the inventoried machine
+
+  Remote machine options:
+    -h --host hostname     hostname - mandatory option
+    -u --user username     user name
+    -p --pass xxxx         user password
+
+  Target definition options:
+    -s --server=URI                send tasks result to a server
+    -l --local=PATH                write tasks results locally
+
+=head1 EXAMPLES
+
+    % fusioninventory-wmi --host 172.xx.xxx.xxx --user foo --password bar --local=.
+
+=head1 DESCRIPTION
+
+F<fusioninventory-wmi> creates inventory of remote Win32 machine.
+It uses the WMI interface of the remote server.

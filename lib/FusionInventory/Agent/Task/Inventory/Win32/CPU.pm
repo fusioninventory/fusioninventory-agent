@@ -20,9 +20,8 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
-    my @cpus = _getCPUs($logger);
+    my @cpus = _getCPUs(%params);
 
     foreach my $cpu (@cpus) {
         $inventory->addEntry(
@@ -39,15 +38,19 @@ sub doInventory {
 }
 
 sub _getCPUs {
-    my ($logger) = @_;
+    my (%params) = @_;
 
-    my @dmidecodeInfos = Win32::GetOSName() eq 'Win2003' ?
+    my $remotewmi = $params{inventory}->getHardware('ARCHNAME') eq 'remote';
+
+    my @dmidecodeInfos = $remotewmi || Win32::GetOSName() eq 'Win2003' ?
         () : getCpusFromDmidecode();
 
     # the CPU description in WMI is false, we use the registry instead
     my $registryInfos = getRegistryKey(
         path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor",
-        logger => $logger
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/Identifier ProcessorNameString VendorIdentifier/ ]
+        }
     );
 
     my $cpuId = 0;
@@ -55,7 +58,10 @@ sub _getCPUs {
 
     foreach my $object (getWMIObjects(
         class      => 'Win32_Processor',
-        properties => [ qw/NumberOfCores NumberOfLogicalProcessors ProcessorId MaxClockSpeed/ ]
+        properties => [ qw/
+            NumberOfCores NumberOfLogicalProcessors ProcessorId MaxClockSpeed
+            SerialNumber Name Description Manufacturer
+            / ]
     )) {
 
         my $dmidecodeInfo = $dmidecodeInfos[$cpuId];
@@ -65,15 +71,15 @@ sub _getCPUs {
         my $wmi_threads   = !$dmidecodeInfo->{THREAD} && $object->{NumberOfCores} ? $object->{NumberOfLogicalProcessors}/$object->{NumberOfCores} : undef;
 
         # Split CPUID from its value inside registry
-        my @splitted_identifier = split(/ |\n/ ,$registryInfo->{'/Identifier'});
+        my @splitted_identifier = split(/ |\n/, $registryInfo->{'/Identifier'} || $object->{Manufacturer});
 
         my $cpu = {
             CORE         => $dmidecodeInfo->{CORE} || $object->{NumberOfCores},
             THREAD       => $dmidecodeInfo->{THREAD} || $wmi_threads,
-            DESCRIPTION  => $registryInfo->{'/Identifier'},
-            NAME         => trimWhitespace($registryInfo->{'/ProcessorNameString'}),
-            MANUFACTURER => getCanonicalManufacturer($registryInfo->{'/VendorIdentifier'}),
-            SERIAL       => $dmidecodeInfo->{SERIAL},
+            DESCRIPTION  => $registryInfo->{'/Identifier'} || $object->{Description},
+            NAME         => trimWhitespace($registryInfo->{'/ProcessorNameString'} || $object->{Name}),
+            MANUFACTURER => getCanonicalManufacturer($registryInfo->{'/VendorIdentifier'} || $object->{Manufacturer}),
+            SERIAL       => $dmidecodeInfo->{SERIAL} || $object->{SerialNumber},
             SPEED        => $dmidecodeInfo->{SPEED} || $object->{MaxClockSpeed},
             FAMILYNUMBER => $splitted_identifier[2],
             MODEL        => $splitted_identifier[4],
@@ -82,7 +88,7 @@ sub _getCPUs {
         };
 
         # Some information are missing on Win2000
-        if (!$cpu->{NAME}) {
+        if (!$cpu->{NAME} && !$remotewmi) {
             $cpu->{NAME} = $ENV{PROCESSOR_IDENTIFIER};
             if ($cpu->{NAME} =~ s/,\s(\S+)$//) {
                 $cpu->{MANUFACTURER} = $1;
@@ -93,7 +99,7 @@ sub _getCPUs {
             $cpu->{SERIAL} =~ s/\s//g;
         }
 
-        if ($cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
+        if (!$cpu->{SPEED} && $cpu->{NAME} =~ /([\d\.]+)s*(GHZ)/i) {
             $cpu->{SPEED} = {
                 ghz => 1000,
                 mhz => 1,

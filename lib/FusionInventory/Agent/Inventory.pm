@@ -7,6 +7,7 @@ use Config;
 use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
@@ -27,7 +28,7 @@ my %fields = (
                              LASTLOGGEDUSER USERDOMAIN DATELASTLOGGEDUSER
                              DEFAULTGATEWAY VMSYSTEM WINOWNER WINPRODID
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE
-                             VMNAME VMHOSTSERIAL/ ],
+                             VMNAME VMHOSTSERIAL ARCHNAME/],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME
                              SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN HOSTID
                              SSH_KEY ARCH BOOT_TIME TIMEZONE/ ],
@@ -127,6 +128,7 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
+        deviceid       => $params{deviceid},
         logger         => $params{logger} || FusionInventory::Agent::Logger->new(),
         fields         => \%fields,
         content        => {
@@ -145,6 +147,41 @@ sub new {
         if $params{statedir};
 
     return $self;
+}
+
+# compute an unique agent identifier, based on inventory host name and current time
+sub resetDeviceId {
+    my ($self) = @_;
+
+    my $hostname = $self->getHardware('NAME');
+    if ($hostname) {
+        my $workgroup = $self->getHardware('WORKGROUP');
+        $hostname .= "." . $workgroup if $workgroup;
+    } else {
+        FusionInventory::Agent::Tools::Hostname->require();
+
+        eval {
+            $hostname = FusionInventory::Agent::Tools::Hostname::getHostname();
+        };
+    }
+
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (localtime (time))[5, 4, 3, 2, 1, 0];
+
+    $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
+}
+
+sub getDeviceId {
+    my ($self) = @_;
+
+    return $self->{deviceid};
+}
+
+sub getFields {
+    my ($self) = @_;
+
+    return $self->{fields};
 }
 
 sub getContent {

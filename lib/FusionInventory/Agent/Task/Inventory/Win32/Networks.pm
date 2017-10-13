@@ -28,7 +28,11 @@ sub doInventory {
         push @ips, $interface->{IPADDRESS}
             if $interface->{IPADDRESS};
 
+        # Cleanup not necessary values
         delete $interface->{dns};
+        delete $interface->{DNSDomain};
+        delete $interface->{GUID};
+
         $interface->{TYPE} = _getMediaType($interface->{PNPDEVICEID});
 
         $inventory->addEntry(
@@ -46,13 +50,15 @@ sub doInventory {
 }
 
 sub _getMediaType {
-    my ($deviceId, $logger) = @_;
+    my ($deviceId) = @_;
 
     return unless defined $deviceId;
 
     my $key = getRegistryKey(
         path   => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Network/{4D36E972-E325-11CE-BFC1-08002BE10318}",
-        logger => $logger
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/PnpInstanceID MediaSubType/ ]
+        }
     );
 
     foreach my $subkey_name (keys %$key) {

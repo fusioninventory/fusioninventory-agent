@@ -63,7 +63,9 @@ sub _getID {
             path   => is64bit() ?
                 "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer/ClientID" :
                 "HKEY_LOCAL_MACHINE/Software/TeamViewer/ClientID",
-            %params
+                wmiopts => { # Only used for remote WMI optimization
+                    values  => [ qw/ClientID/ ]
+                }
         );
 
         unless ($clientid) {
@@ -71,7 +73,9 @@ sub _getID {
                 path => is64bit() ?
                     "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer" :
                     "HKEY_LOCAL_MACHINE/SOFTWARE/TeamViewer",
-                logger => $params{logger}
+                wmiopts => { # Only used for remote WMI optimization
+                    values  => [ qw/ClientID/ ]
+                }
             );
 
             # Look for subkey beginning with Version
@@ -82,7 +86,7 @@ sub _getID {
             }
         }
 
-        return $clientid ? hex($clientid) || $clientid : undef ;
+        return hex2dec($clientid);
     }
 
     if ($OSNAME eq 'darwin') {

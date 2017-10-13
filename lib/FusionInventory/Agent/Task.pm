@@ -21,6 +21,7 @@ sub new {
         datadir      => $params{datadir},
         target       => $params{target},
         deviceid     => $params{deviceid},
+        _is_remote   => 0
     };
     bless $self, $class;
 
@@ -57,6 +58,14 @@ sub getModules {
     };
     File::Find::find($wanted, $rootdir);
     return @modules
+}
+
+sub isRemote {
+    my ($self, $remotetask) = @_;
+
+    $self->{_is_remote} = 1 if $remotetask;
+
+    return $self->{_is_remote} != 0;
 }
 
 1;

@@ -9210,21 +9210,27 @@ $module->mock(
     }
 );
 
+my $tools_module = Test::MockModule->new(
+    'FusionInventory::Agent::Tools::Win32'
+);
+
 foreach my $test (keys %softwares_tests) {
-    my $softwaresKey = FusionInventory::Test::Utils::loadRegistryDump(
-        "resources/win32/registry/$test-uninstall.reg"
+
+    $tools_module->mock(
+        '_getRegistryKey',
+        mockGetRegistryKey($test)
     );
 
-    my $softwares = FusionInventory::Agent::Task::Inventory::Win32::Softwares::_getSoftwaresList(softwares => $softwaresKey);
+    my @softwares = FusionInventory::Agent::Task::Inventory::Win32::Softwares::_getSoftwaresList();
 
     cmp_deeply(
-        [ sort { compare() } @$softwares ],
+        [ sort { compare() } @softwares ],
         [ sort { compare() } @{$softwares_tests{$test}} ],
         "$test: parsing"
     );
     lives_ok {
         $inventory->addEntry(section => 'SOFTWARES', entry => $_)
-            foreach @$softwares;
+            foreach @softwares;
     } "$test: registering";
 }
 

@@ -47,7 +47,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
     foreach my $object (getWMIObjects(
         class      => 'Win32_Printer',
@@ -72,7 +71,7 @@ sub doInventory {
                 $object->{VerticalResolution};
         }
 
-        $object->{Serial} = _getUSBPrinterSerial($object->{PortName}, $logger)
+        $object->{Serial} = _getUSBPrinterSerial($object->{PortName})
             if $object->{PortName} && $object->{PortName} =~ /USB/;
 
         $inventory->addEntry(
@@ -99,7 +98,7 @@ sub doInventory {
 }
 
 sub _getUSBPrinterSerial {
-    my ($portName, $logger) = @_;
+    my ($portName) = @_;
 
     # the serial number can be extracted from the USB registry key, containing
     # all USB devices, but we only know the USB port identifier, meaning we
@@ -107,12 +106,16 @@ sub _getUSBPrinterSerial {
     # and find some way to correlate entries
     my $usbprint_key = getRegistryKey(
         path   => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/USBPRINT",
-        logger => $logger
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/PortName ContainerID/ ]
+        }
     );
 
     my $usb_key = getRegistryKey(
         path   => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/USB",
-        logger => $logger
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/ParentIdPrefix ContainerID/ ]
+        }
     );
 
     # the ContainerID variable seems more reliable, but is not always available
