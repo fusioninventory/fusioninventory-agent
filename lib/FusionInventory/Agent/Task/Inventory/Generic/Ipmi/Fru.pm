@@ -44,7 +44,7 @@ sub doInventory {
         };
 
         $inventory->addEntry(
-            section => 'PSUS',
+            section => 'POWERSUPPLIES',
             entry   => $psu
         );
 
