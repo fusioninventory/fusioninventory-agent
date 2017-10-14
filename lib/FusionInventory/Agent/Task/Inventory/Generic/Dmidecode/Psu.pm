@@ -27,10 +27,11 @@ sub doInventory {
             PARTNUM => $info->{'Model Part Number'},
             SERIAL  => $info->{'Serial Number'},
             VENDOR  => $info->{'Manufacturer'},
+            IS_ATX  => 0,
         };
         
         $inventory->addEntry(
-            section => 'PSU',
+            section => 'PSUS',
             entry   => $psu
         );
     }

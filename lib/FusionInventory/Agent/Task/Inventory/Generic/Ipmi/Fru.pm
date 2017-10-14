@@ -36,14 +36,15 @@ sub doInventory {
         next unless $descr =~ /^PS(\d+)/;
 
         $psu = {
-            PARTNUM     => $fru->{$descr}->{data}->{'Board Part Number'},
-            SERIAL      => $fru->{$descr}->{data}->{'Board Serial'},
-            DESCRIPTION => $fru->{$descr}->{data}->{'Board Product'},
-            VENDOR      => $fru->{$descr}->{data}->{'Board Mfg'},
+            PARTNUM => $fru->{$descr}->{data}->{'Board Part Number'},
+            SERIAL  => $fru->{$descr}->{data}->{'Board Serial'},
+            POWER   => $fru->{$descr}->{data}->{'Max Power Capacity'},
+            VENDOR  => $fru->{$descr}->{data}->{'Board Mfg'},
+            IS_ATX  => 0,
         };
 
         $inventory->addEntry(
-            section => 'PSU',
+            section => 'PSUS',
             entry   => $psu
         );
 
