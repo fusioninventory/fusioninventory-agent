@@ -10,7 +10,7 @@ use FusionInventory::Agent::Tools::Linux;
 
 my %udev_tests = (
     'ssd' => {
-        NAME         => 'sda',
+        NAME         => 'sdaa',
         FIRMWARE     => 'VBM24DQ1',
         SCSI_UNID    => '0',
         SERIALNUMBER => 'DFW1W11002SE002B3117',
@@ -556,7 +556,7 @@ my %cpuinfo_tests = (
 my %hal_tests = (
     'dell-xt2' => [
         {
-            NAME         => 'sda',
+            NAME         => 'sdaa',
             FIRMWARE     => 'VBM24DQ1',
             DISKSIZE     => 122104,
             MANUFACTURER => 'ATA',
@@ -995,7 +995,7 @@ plan tests =>
 foreach my $test (keys %udev_tests) {
     my $file = "resources/linux/udev/$test";
     my $result = FusionInventory::Agent::Tools::Linux::_parseUdevEntry(
-        file => $file, device => 'sda'
+        file => $file, device => 'sdaa'
     );
     cmp_deeply($result, $udev_tests{$test}, "$test udev parsing");
 }

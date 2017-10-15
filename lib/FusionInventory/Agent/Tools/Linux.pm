@@ -41,7 +41,7 @@ sub getDevicesFromUdev {
             pattern => qr/^N:(\S+)/
         );
         next unless $device;
-        next unless $device =~ /([hsv]d[a-z]|sr\d+)$/;
+        next unless $device =~ /([hsv]d[a-z]+|sr\d+)$/;
         push (@devices, _parseUdevEntry(
                 logger => $params{logger}, file => $file, device => $device
             ));
@@ -183,7 +183,7 @@ sub getDevicesFromProc {
     my @names;
 
     foreach my $file (glob ("/sys/block/*")) {
-        next unless $file =~ /([shv]d[a-z]|fd\d)$/;
+        next unless $file =~ /([shv]d[a-z]+|fd\d)$/;
         push @names, $1;
     }
 
@@ -205,7 +205,7 @@ sub getDevicesFromProc {
 
     if ($handle) {
         while (my $line = <$handle>) {
-            next unless $line =~ m{^/dev/([shv]d[a-z])};
+            next unless $line =~ m{^/dev/([shv]d[a-z]+)};
             push @names, $1;
         }
         close $handle;
