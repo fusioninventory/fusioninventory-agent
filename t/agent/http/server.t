@@ -6,7 +6,6 @@ use lib 't/lib';
 
 use Config;
 use English qw(-no_match_vars);
-use List::Util qw(first);
 use LWP::UserAgent;
 use Socket;
 use Test::More;
@@ -50,7 +49,7 @@ if (my $pid = fork()) {
 }
 
 # find an available port
-my $port = first { test_port($_) } 8080 .. 8090;
+my $port = FusionInventory::Agent::Tools::first { test_port($_) } 8080 .. 8090;
 
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
@@ -91,7 +90,7 @@ ok (
 );
 
 # find an available port
-$port = first { test_port($_) } 8080 .. 8090;
+$port = FusionInventory::Agent::Tools::first { test_port($_) } 8080 .. 8090;
 
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(

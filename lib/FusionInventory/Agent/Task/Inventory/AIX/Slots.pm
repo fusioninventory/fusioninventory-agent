@@ -3,8 +3,6 @@ package FusionInventory::Agent::Task::Inventory::AIX::Slots;
 use strict;
 use warnings;
 
-use List::Util qw(first);
-
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::AIX;
 
@@ -43,8 +41,8 @@ sub doInventory {
 
 sub _getSlots {
     my $handle = getFileHandle(@_);
-    return unless $handle;
 
+    return unless $handle;
 
     my @slots;
     while (my $line = <$handle>) {

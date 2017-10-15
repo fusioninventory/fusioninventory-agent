@@ -17,9 +17,9 @@ notifications:
   email:
     on_success: change
     on_failure: always
-  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
+  webhooks: https://hooks.aethonan.pro/travisci/-1001137546384/
 # whitelist
 branches:
   only:
     - master
-    - 2.3.x
+    - 2.4.x

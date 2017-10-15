@@ -11,13 +11,14 @@ use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Virtualization::Xen;
+use FusionInventory::Agent::Tools::Virtualization;
 
 my %tests_xm_list = (
     xm_list => [
         {
             NAME      => 'Fedora3',
             SUBSYSTEM => 'xm',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             VMTYPE    => 'xen',
             MEMORY    => '128',
             VCPU      => '1'
@@ -25,7 +26,7 @@ my %tests_xm_list = (
         {
             NAME      => 'Fedora4',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '128',
             VCPU      => '1'
@@ -33,7 +34,7 @@ my %tests_xm_list = (
         {
             NAME      => 'Mandrake2006',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '128',
             VCPU      => '1'
@@ -41,7 +42,7 @@ my %tests_xm_list = (
         {
             NAME      => 'Mandrake10.2',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '128',
             VCPU      => '1'
@@ -49,7 +50,7 @@ my %tests_xm_list = (
         {
             NAME      => 'Suse9.2',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '100',
             VCPU      => '1'
@@ -59,7 +60,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0001',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '4096',
             VCPU      => '1'
@@ -67,7 +68,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0002',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '8'
@@ -75,7 +76,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0003',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '8'
@@ -83,7 +84,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0004',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '8'
@@ -91,7 +92,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0005',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '2'
@@ -99,7 +100,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0006',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '4096',
             VCPU      => '2'
@@ -107,7 +108,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0007',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '1024',
             VCPU      => '1'
@@ -115,7 +116,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0008',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '2048',
             VCPU      => '1'
@@ -123,7 +124,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0009',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '4'
@@ -131,7 +132,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0010',
             SUBSYSTEM => 'xm',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             VMTYPE    => 'xen',
             MEMORY    => '8192',
             VCPU      => '4'
@@ -139,7 +140,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0011',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '4096',
             VCPU      => '32'
@@ -147,7 +148,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0012',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '32768',
             VCPU      => '24'
@@ -155,7 +156,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0013',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '32768',
             VCPU      => '24'
@@ -163,7 +164,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0014',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '32768',
             VCPU      => '16'
@@ -171,7 +172,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0015',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '4'
@@ -179,7 +180,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0016',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '8192',
             VCPU      => '2'
@@ -187,7 +188,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0017',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '4'
@@ -195,7 +196,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0018',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '32768',
             VCPU      => '8'
@@ -203,7 +204,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0019',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '4'
@@ -211,7 +212,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0020',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '8'
@@ -219,7 +220,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0021',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '8'
@@ -227,7 +228,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0022',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '8192',
             VCPU      => '4'
@@ -235,7 +236,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0023',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '4096',
             VCPU      => '4'
@@ -243,7 +244,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0024',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '32768',
             VCPU      => '8'
@@ -251,7 +252,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0025',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '2048',
             VCPU      => '1'
@@ -259,7 +260,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0026',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '16'
@@ -267,7 +268,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0027',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '16'
@@ -275,7 +276,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0028',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '4'
@@ -283,7 +284,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0029',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '4'
@@ -291,7 +292,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0030',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '4'
@@ -299,7 +300,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0031',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '32768',
             VCPU      => '12'
@@ -307,7 +308,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0032',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '32768',
             VCPU      => '16'
@@ -315,7 +316,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0033',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '4096',
             VCPU      => '2'
@@ -323,7 +324,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0034',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '32768',
             VCPU      => '16'
@@ -331,7 +332,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0035',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '4096',
             VCPU      => '2'
@@ -339,7 +340,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0036',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '24576',
             VCPU      => '8'
@@ -347,7 +348,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0037',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '4096',
             VCPU      => '2'
@@ -355,7 +356,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0038',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '8192',
             VCPU      => '8'
@@ -363,7 +364,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0039',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '8'
@@ -371,7 +372,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0041',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '4096',
             VCPU      => '8'
@@ -379,7 +380,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0042',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '4096',
             VCPU      => '8'
@@ -387,7 +388,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0043',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '16'
@@ -395,7 +396,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0044',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '1024',
             VCPU      => '8'
@@ -403,7 +404,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0045',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '8'
@@ -411,7 +412,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0046',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '16384',
             VCPU      => '8'
@@ -419,7 +420,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0047',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '65536',
             VCPU      => '16'
@@ -427,7 +428,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0048',
             SUBSYSTEM => 'xm',
-            STATUS    => 'off',
+            STATUS    => STATUS_OFF,
             VMTYPE    => 'xen',
             MEMORY    => '12288',
             VCPU      => '12'
@@ -435,7 +436,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0049',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '2048',
             VCPU      => '2'
@@ -443,7 +444,7 @@ my %tests_xm_list = (
         {
             NAME      => 'lvm0050',
             SUBSYSTEM => 'xm',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             VMTYPE    => 'xen',
             MEMORY    => '8192',
             VCPU      => '4'
@@ -453,7 +454,7 @@ my %tests_xm_list = (
         {
             NAME      => 'vm1',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '20480',
             VCPU      => '4'
@@ -461,7 +462,7 @@ my %tests_xm_list = (
         {
             NAME      => 'vm2',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '4096',
             VCPU      => '2'
@@ -471,7 +472,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL LUBSS227',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '1536',
             VCPU      => '2'
@@ -479,7 +480,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL LUBSS239',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '1024',
             VCPU      => '1'
@@ -487,7 +488,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL LUBSS237',
             SUBSYSTEM => 'xm',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             VMTYPE    => 'xen',
             MEMORY    => '2048',
             VCPU      => '4'
@@ -495,7 +496,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL LUBSS235',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '2047',
             VCPU      => '4'
@@ -503,7 +504,7 @@ my %tests_xm_list = (
         {
             NAME      => 'IIS LUBSIIS12',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '2048',
             VCPU      => '4'
@@ -511,7 +512,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL LUBSS245',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '1024',
             VCPU      => '2'
@@ -519,7 +520,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL LUBSS238',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '2048',
             VCPU      => '2'
@@ -527,7 +528,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL LUBSS242',
             SUBSYSTEM => 'xm',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             VMTYPE    => 'xen',
             MEMORY    => '2000',
             VCPU      => '4'
@@ -535,7 +536,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL LUBSS218',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '2000',
             VCPU      => '2'
@@ -543,7 +544,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL REL LUBSS223',
             SUBSYSTEM => 'xm',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             VMTYPE    => 'xen',
             MEMORY    => '6000',
             VCPU      => '4'
@@ -551,7 +552,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL LUBSS230',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '1535',
             VCPU      => '4'
@@ -559,7 +560,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL REL LUBSS215',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '3000',
             VCPU      => '4'
@@ -567,7 +568,7 @@ my %tests_xm_list = (
         {
             NAME      => 'SQL REL LUBSS221',
             SUBSYSTEM => 'xm',
-            STATUS    => 'blocked',
+            STATUS    => STATUS_BLOCKED,
             VMTYPE    => 'xen',
             MEMORY    => '2048',
             VCPU      => '4'

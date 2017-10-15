@@ -179,7 +179,7 @@ sub createDaemon {
     $logger->info("$PROVIDER Agent starting");
 
     my $pidfile = $config->{pidfile} ||
-        $self->{vardir} . '/'.lc($PROVIDER).'.pid';
+        $self->{vardir} . '/'.lc($PROVIDER).'-agent.pid';
 
     if ($self->isAlreadyRunning($pidfile)) {
         $logger->error("$PROVIDER Agent is already running, exiting...") if $logger;

@@ -8,10 +8,11 @@ use Test::More;
 use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::Virtualization::Lxc;
+use FusionInventory::Agent::Tools::Virtualization;
 
 my %result_lxc_info = (
-    'lxc-info_-n_name1' => 'running',
-    'lxc-info_-n_name2' => 'running',
+    'lxc-info_-n_name1' => STATUS_RUNNING,
+    'lxc-info_-n_name2' => STATUS_RUNNING,
 );
 
 my $result_config = {

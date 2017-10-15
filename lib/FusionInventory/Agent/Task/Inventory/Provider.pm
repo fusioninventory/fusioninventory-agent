@@ -11,6 +11,9 @@ use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
 
+# Agent should set this shared variable with early $PROGRAM_NAME content
+our $PROGRAM;
+
 sub isEnabled {
     return 1;
 }
@@ -24,7 +27,7 @@ sub doInventory {
     my $provider = {
         NAME            => $FusionInventory::Agent::Version::PROVIDER,
         VERSION         => $FusionInventory::Agent::Version::VERSION,
-        PROGRAM         => "$PROGRAM_NAME",
+        PROGRAM         => $PROGRAM || "$PROGRAM_NAME",
         PERL_EXE        => "$EXECUTABLE_NAME",
         PERL_VERSION    => "$PERL_VERSION"
     };

@@ -1231,7 +1231,7 @@ sub _getKnownMacAddresses {
         next unless defined $interface_id;
 
         my @bytes = split(/\./, $suffix);
-        shift @bytes if @bytes > 6;
+        shift @bytes while @bytes > 6;
 
         push @{$results->{$interface_id}},
             sprintf "%02x:%02x:%02x:%02x:%02x:%02x", @bytes;

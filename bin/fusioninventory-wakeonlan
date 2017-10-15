@@ -88,5 +88,5 @@ fusioninventory-wakeonlan [options]
 
 =head1 DESCRIPTION
 
-F<fusioninventory-wakeonlan> allows to run a wakeonlan task without a GLPI
+F<fusioninventory-wakeonlan> can be used to run a wakeonlan task without a GLPI
 server.

@@ -6,6 +6,8 @@ use base 'FusionInventory::Agent::Logger::Backend';
 
 use Sys::Syslog qw(:standard :macros);
 
+use FusionInventory::Agent::Version;
+
 my %syslog_levels = (
     error   => LOG_ERR,
     warning => LOG_WARNING,
@@ -14,13 +16,15 @@ my %syslog_levels = (
     debug2   => LOG_DEBUG
 );
 
+my $syslog_name = lc($FusionInventory::Agent::Version::PROVIDER)."-agent";
+
 sub new {
     my ($class, %params) = @_;
 
     my $self = {};
     bless $self, $class;
 
-    openlog("fusinv-agent", 'cons,pid', $params{config}->{logfacility});
+    openlog($syslog_name, 'cons,pid', $params{config}->{logfacility});
 
     return $self;
 }

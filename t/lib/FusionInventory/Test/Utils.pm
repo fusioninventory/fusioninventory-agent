@@ -48,7 +48,13 @@ sub mockGetWMIObjects {
     return sub {
         my (%params) = @_;
 
-        my $file = "resources/win32/wmi/$test-$params{class}.wmi";
+        my $class = $params{class};
+        if (!$class) {
+            my $query = $params{query};
+            $query = shift @{$query} if ref($query) eq 'ARRAY';
+            ($class) = $query =~ /FROM\s+(\w+)/i ;
+        }
+        my $file = "resources/win32/wmi/$test-$class.wmi";
         return loadWMIDump($file, $params{properties});
     };
 }
@@ -69,6 +75,7 @@ sub loadWMIDump {
     my $object;
     while (my $line = <$handle>) {
         chomp $line;
+        next if $line =~ /^#/;
 
         if ($line =~ /^ (\w+) = (.+) $/x) {
             my $key = $1;
@@ -106,7 +113,9 @@ sub mockGetRegistryKey {
     return sub {
         my (%params) = @_;
 
-        my $last_elt = (split(/\//, $params{path}))[-1];
+        # We can mock getRegistryKey or better _getRegistryKey to cover getRegistryValue
+        my $path = $params{path} || $params{keyName};
+        my $last_elt = (split(/\//, $path))[-1];
         my $file = "resources/win32/registry/$test-$last_elt.reg";
         return loadRegistryDump($file);
     };
