@@ -118,7 +118,8 @@ foreach my $target (@targets) {
         config  => $config
     );
 
-    $wmitask->connect(%{$options});
+    die "Connection failure\n"
+        unless $wmitask->connect(%{$options});
     $wmitask->run();
 }
 
