@@ -2,7 +2,8 @@ package FusionInventory::Agent::Target::Server;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Target';
+
+use parent 'FusionInventory::Agent::Target';
 
 use English qw(-no_match_vars);
 use URI;

@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::WakeOnLan;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task';
+use parent 'FusionInventory::Agent::Task';
 
 use English qw(-no_match_vars);
 use Socket;

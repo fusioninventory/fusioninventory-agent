@@ -2,7 +2,8 @@ package FusionInventory::Agent::Logger::Test;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Logger::Backend';
+
+use parent 'FusionInventory::Agent::Logger::Backend';
 
 use English qw(-no_match_vars);
 

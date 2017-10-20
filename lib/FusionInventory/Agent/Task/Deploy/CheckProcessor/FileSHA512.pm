@@ -7,7 +7,7 @@ use Digest::SHA;
 
 use English qw(-no_match_vars);
 
-use base "FusionInventory::Agent::Task::Deploy::CheckProcessor";
+use parent "FusionInventory::Agent::Task::Deploy::CheckProcessor";
 
 sub prepare {
     my ($self) = @_;

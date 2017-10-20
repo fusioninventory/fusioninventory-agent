@@ -2,7 +2,8 @@ package FusionInventory::Agent::Target::Local;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Target';
+
+use parent 'FusionInventory::Agent::Target';
 
 my $count = 0;
 

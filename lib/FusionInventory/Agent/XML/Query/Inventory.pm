@@ -2,7 +2,7 @@ package FusionInventory::Agent::XML::Query::Inventory;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::XML::Query';
+use parent 'FusionInventory::Agent::XML::Query';
 
 sub new {
     my ($class, %params) = @_;

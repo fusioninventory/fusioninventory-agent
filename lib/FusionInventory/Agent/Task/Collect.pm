@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::Collect;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task';
+use parent 'FusionInventory::Agent::Task';
 
 use Digest::SHA;
 use English qw(-no_match_vars);

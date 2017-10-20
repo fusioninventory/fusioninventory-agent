@@ -2,7 +2,7 @@ package FusionInventory::Agent::SNMP::Live;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::SNMP';
+use parent 'FusionInventory::Agent::SNMP';
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
