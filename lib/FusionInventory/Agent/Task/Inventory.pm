@@ -308,13 +308,6 @@ sub _feedInventory {
         $self->_runModule($module, $inventory, $disabled);
     }
 
-    if (-d $self->{confdir} . '/softwares') {
-        $self->{logger}->info(
-            "using custom scripts for adding softwares to inventory is " .
-            "deprecated, use --additional-content option instead"
-        );
-    }
-
     if ($self->{config}->{'additional-content'} && -f $self->{config}->{'additional-content'}) {
         $self->_injectContent($self->{config}->{'additional-content'}, $inventory)
     }
