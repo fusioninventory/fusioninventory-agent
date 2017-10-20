@@ -116,7 +116,7 @@ my %find_tests = (
 plan tests => scalar @tests + keys(%find_tests);
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends  => [ 'Test' ]
+    logger => [ 'Test' ]
 );
 
 my $p2p = FusionInventory::Agent::Task::Deploy::P2P->new(

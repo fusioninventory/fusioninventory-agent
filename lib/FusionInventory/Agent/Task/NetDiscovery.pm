@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::NetDiscovery;
 use strict;
 use warnings;
 use threads;
-use base 'FusionInventory::Agent::Task';
+use parent 'FusionInventory::Agent::Task';
 
 use constant DEVICE_PER_MESSAGE => 4;
 

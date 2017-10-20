@@ -38,7 +38,7 @@ sub doInventory {
     }
 
     # Add extra informations in debug level
-    if ($logger->{verbosity} > LOG_INFO) {
+    if ($logger && $logger->debug_level()) {
         my @uses = ();
         foreach (grep { /^use/ && $Config{$_} } keys(%Config)) {
             push @uses, $Config{$_} =~ /^define|true/ ? $_ : "$_=$Config{$_}";

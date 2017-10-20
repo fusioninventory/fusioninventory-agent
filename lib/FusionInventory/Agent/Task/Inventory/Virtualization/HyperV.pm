@@ -69,7 +69,7 @@ sub _getVirtualMachines {
         properties => [ qw/InstanceID BIOSGUID/ ]
     )) {
         my $id = $object->{InstanceID};
-        next unless $id =~ /^Microsoft:([^\\]+)/;
+        next unless $object->{BIOSGUID} && $id =~ /^Microsoft:([^\\]+)/;
         $biosguid{$1} = $object->{BIOSGUID};
         $biosguid{$1} =~ tr/{}//d;
     }

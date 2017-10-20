@@ -2,7 +2,7 @@ package FusionInventory::Agent::Tools::Hostname;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 
 use UNIVERSAL::require();
 use Encode;

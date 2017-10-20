@@ -176,7 +176,7 @@ sub _setSSLOptions {
         my $DEBUG_SSL = 0;
         $DEBUG_SSL = grep { ref($_) =~/Stderr$/ } @{$self->{logger}{backends}}
             if (ref($self->{logger}{backends}) eq 'ARRAY');
-        if ( $DEBUG_SSL && $self->{logger}{verbosity} >= LOG_DEBUG2 ) {
+        if ( $DEBUG_SSL && $self->{logger}->debug_level() >= 2 ) {
             $Net::SSLeay::trace = 3;
         }
 

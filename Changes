@@ -1,5 +1,22 @@
 Revision history for FusionInventory agent
 
+2.4 not released yet
+core:
+* Update syslog name to fullname agent
+* Get rid of List::Util module dependency
+* Try to load more recent IDS database files if found in well-known places
+* Fixed daemon pid filename
+* Class refactoring: Get rid of discouraged 'use base' syntax in favor of lighter
+  'use parent' and as fields pragma is not used (see 'base' man)
+* Logger refactoring: no more an Exporter based class to simplify its usage and
+  as Logger object should be commonly shared everywhere it is used.
+* Few code refactoring
+
+inventory:
+* Fixed Provider program name in agent context
+* Fixed HyperV VM issue while BIOSGUID is not defined
+* Fix #349: Include last logged user as usual computer user on win32 platform
+
 2.3.21 Mon, 31 Jul 2017
 core:
 * Service/daemon refactoring:

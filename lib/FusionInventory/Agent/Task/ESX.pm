@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::ESX;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task';
+use parent 'FusionInventory::Agent::Task';
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::HTTP::Client::Fusion;

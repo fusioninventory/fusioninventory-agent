@@ -2,7 +2,7 @@ package FusionInventory::Agent::Tools::Unix;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 
 use English qw(-no_match_vars);
 use File::stat;

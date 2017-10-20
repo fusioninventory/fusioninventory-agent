@@ -52,16 +52,10 @@ pod2usage(
     -message => "no last address, aborting\n", -verbose => 0
 ) unless $options->{last};
 
-my $verbosity =
-    $options->{debug} == 0 ? LOG_INFO   :
-    $options->{debug} == 1 ? LOG_DEBUG  :
-    $options->{debug} == 2 ? LOG_DEBUG2 :
-                             LOG_DEBUG2 ;
-
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
     %setup,
     target => FusionInventory::Agent::Task::NetInventory::Target->new(),
-    logger => FusionInventory::Agent::Logger->new(verbosity => $verbosity)
+    logger => FusionInventory::Agent::Logger->new(config => $options)
 );
 
 my $credentials_id = 1;

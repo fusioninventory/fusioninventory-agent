@@ -6,7 +6,7 @@ use warnings;
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
-use base "FusionInventory::Agent::Task::Deploy::CheckProcessor";
+use parent "FusionInventory::Agent::Task::Deploy::CheckProcessor";
 
 # No perl Win32API returns the string type from the value, here is the
 # official ordered list interpreted from winnt.h

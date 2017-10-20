@@ -33,7 +33,7 @@ my $ok = sub {
 };
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ]
+    logger => [ 'Test' ]
 );
 
 unless (-e "resources/ssl/crt/ca.pem") {

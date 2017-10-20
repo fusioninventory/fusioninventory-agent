@@ -11,14 +11,12 @@ use Storable 'dclone';
 
 use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
-use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = $FusionInventory::Agent::Version::VERSION;
 my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
@@ -65,15 +63,7 @@ sub init {
     );
     $self->{config} = $config;
 
-    my $verbosity = $config->{debug} && $config->{debug} == 1 ? LOG_DEBUG  :
-                    $config->{debug} && $config->{debug} == 2 ? LOG_DEBUG2 :
-                                                                LOG_INFO   ;
-
-    my $logger = FusionInventory::Agent::Logger->new(
-        config    => $config,
-        backends  => $config->{logger},
-        verbosity => $verbosity
-    );
+    my $logger = FusionInventory::Agent::Logger->new(config => $config);
     $self->{logger} = $logger;
 
     $logger->debug("Configuration directory: $self->{confdir}");
@@ -190,6 +180,9 @@ sub runTarget {
     # but only for server targets
     my $response;
     if ($target->isa('FusionInventory::Agent::Target::Server')) {
+
+        return unless FusionInventory::Agent::HTTP::Client::OCS->require();
+
         my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             timeout      => $self->{timeout},
@@ -201,6 +194,8 @@ sub runTarget {
             no_ssl_check => $self->{config}->{'no-ssl-check'},
             no_compress  => $self->{config}->{'no-compression'},
         );
+
+        return unless FusionInventory::Agent::XML::Query::Prolog->require();
 
         my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
             deviceid => $self->{deviceid},

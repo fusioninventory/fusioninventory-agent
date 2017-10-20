@@ -11,7 +11,7 @@ use FusionInventory::Agent::Storage;
 sub new {
     my ($class, %params) = @_;
 
-    die 'no basevardir parameter' unless $params{basevardir};
+    die "no basevardir parameter for target\n" unless $params{basevardir};
 
     my $self = {
         logger       => $params{logger} ||

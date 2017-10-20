@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::Deploy::DiskFree;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 
 use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;

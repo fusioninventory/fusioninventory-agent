@@ -368,6 +368,15 @@ sub getTargets {
     return @targets;
 }
 
+sub logger {
+    my ($self) = @_;
+
+    return {
+        map { $_ => $self->{$_} }
+            qw/debug logger logfacility logfile logfile-maxsize color/
+    };
+}
+
 1;
 __END__
 
@@ -397,3 +406,7 @@ the configuration directory.
 additional options override.
 
 =back
+
+=head2 logger()
+
+Get logger only configuration.

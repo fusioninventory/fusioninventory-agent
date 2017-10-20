@@ -2,12 +2,13 @@ package FusionInventory::Agent::XML::Query::Inventory;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::XML::Query';
+
+use parent 'FusionInventory::Agent::XML::Query';
 
 sub new {
     my ($class, %params) = @_;
 
-    die "no content parameter" unless $params{content};
+    die "no content parameter for XML query\n" unless $params{content};
 
     return $class->SUPER::new(
         query => 'INVENTORY',
