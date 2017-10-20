@@ -2,12 +2,13 @@ package FusionInventory::Agent::XML::Query::Prolog;
 
 use strict;
 use warnings;
+
 use parent 'FusionInventory::Agent::XML::Query';
 
 sub new {
     my ($class, %params) = @_;
 
-    die "no deviceid parameter" unless $params{deviceid};
+    die "no deviceid parameter for Prolog XML query\n" unless $params{deviceid};
 
     return $class->SUPER::new(
         query => 'PROLOG',
