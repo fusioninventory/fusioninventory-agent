@@ -28,7 +28,7 @@ if (!$port) {
 }
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ]
+    logger => [ 'Test' ]
 );
 
 my $message = FusionInventory::Agent::XML::Query->new(
