@@ -63,10 +63,10 @@ my @distributions = (
 );
 
 our $runMeIfTheseChecksFailed =
-    ["FusionInventory::Agent::Task::Inventory::Linux::Distro::LSB"];
+    ["FusionInventory::Agent::Task::Inventory::Linux::Distro::OSRelease"];
 
 sub isEnabled {
-    return !canRun('lsb_release') && !(-r '/etc/os-release');
+    return !(-r '/etc/os-release');
 }
 
 sub doInventory {

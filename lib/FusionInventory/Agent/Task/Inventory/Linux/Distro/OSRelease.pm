@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-  return !canRun('lsb_release') && -r '/etc/os-release';
+  return -r '/etc/os-release';
 }
 
 sub doInventory {
