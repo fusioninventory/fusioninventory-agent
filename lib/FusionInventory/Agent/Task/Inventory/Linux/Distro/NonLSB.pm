@@ -66,7 +66,7 @@ our $runMeIfTheseChecksFailed =
     ["FusionInventory::Agent::Task::Inventory::Linux::Distro::LSB"];
 
 sub isEnabled {
-    return !canRun('lsb_release');
+    return !canRun('lsb_release') && !(-r '/etc/os-release');
 }
 
 sub doInventory {
