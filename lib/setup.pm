@@ -3,7 +3,7 @@ package
 
 use strict;
 use warnings;
-use base qw(Exporter);
+use parent qw(Exporter);
 
 use File::Spec;
 use Cwd qw(abs_path);

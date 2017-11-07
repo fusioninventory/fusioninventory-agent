@@ -12,6 +12,7 @@ use Test::More;
 
 use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Daemon;
 
 plan tests => 34;
@@ -81,15 +82,17 @@ cmp_deeply (
     "multiple tasks"
 );
 
-$agent->{config} = FusionInventory::Agent::Config->new();
+$agent->{config} = FusionInventory::Agent::Config->new(
+    options => {
+        config  => 'none',
+        debug   => 1,
+        logger  => 'Test'
+    }
+);
 $agent->{config}->{'no-task'} = ['Task5'];
 $agent->{config}->{'tasks'} = ['Task1', 'Task5', 'Task1', 'Task5', 'Task5', 'Task2', 'Task1'];
 my %availableTasks = $agent->getAvailableTasks(disabledTasks => $agent->{config}->{'no-task'});
-my $logger = FusionInventory::Agent::Logger->new(
-    backends  => [ 'Test' ],
-    verbosity => FusionInventory::Agent::LOG_DEBUG,
-);
-$agent->{logger} = $logger;
+$agent->{logger} = FusionInventory::Agent::Logger->new(config => $agent->{config});
 my @availableTasks = keys %availableTasks;
 my @plan = $agent->computeTaskExecutionPlan(\@availableTasks);
 my $expectedPlan = [

@@ -10,7 +10,6 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
-use FusionInventory::Agent::XML::Query::Inventory;
 
 use FusionInventory::Agent::Task::Inventory::Version;
 
@@ -120,6 +119,10 @@ sub run {
         }
 
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+
+        return $self->{logger}->error("Can't load OCS client API")
+            unless FusionInventory::Agent::HTTP::Client::OCS->require();
+
         my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             user         => $params{user},
@@ -130,6 +133,9 @@ sub run {
             no_ssl_check => $params{no_ssl_check},
             no_compress  => $params{no_compress},
         );
+
+        return $self->{logger}->error("Can't load Inventory XML Query API")
+            unless FusionInventory::Agent::XML::Query::Inventory->require();
 
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
             deviceid => $inventory->getDeviceId(),

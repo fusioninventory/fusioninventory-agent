@@ -2,7 +2,7 @@ package FusionInventory::Agent::HTTP::Protocol::https;
 
 use strict;
 use warnings;
-use base qw(LWP::Protocol::https);
+use parent qw(LWP::Protocol::https);
 
 use IO::Socket::SSL qw(SSL_VERIFY_NONE SSL_VERIFY_PEER);
 
@@ -30,7 +30,7 @@ sub _extra_sock_opts {
 ## no critic (ProhibitMultiplePackages)
 package FusionInventory::Agent::HTTP::Protocol::https::Socket;
 
-use base qw(Net::HTTPS LWP::Protocol::http::SocketMethods);
+our @ISA = qw(Net::HTTPS LWP::Protocol::http::SocketMethods);
 
 1;
 __END__

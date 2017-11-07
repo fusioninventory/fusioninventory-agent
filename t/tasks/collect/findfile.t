@@ -14,8 +14,9 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Task::Collect;
 use FusionInventory::Agent::Target::Server;
 
+# Setup a target with a Fatal logger and no debug
 my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Fatal' ]
+    logger => [ 'Fatal' ]
 );
 
 my $target = FusionInventory::Agent::Target::Server->new(
@@ -191,17 +192,14 @@ sub _send {
 my $module = Test::MockModule->new('FusionInventory::Agent::HTTP::Client::Fusion');
 $module->mock('send',\&_send);
 
-# Set greater verbosity to trigger tests on expected debug message
-$logger->{verbosity} = LOG_DEBUG;
-
 plan tests => 1 + scalar(keys(%tests)) + 2*scalar(grep { $_->{OK} eq 'yes' } values(%tests));
 
 my $task = undef ;
 lives_ok {
     $task = FusionInventory::Agent::Task::Collect->new(
         target => $target,
-        logger => $logger,
-        debug  => 1,
+        # Still use Collect logger with Fatal logger, but now using debug level
+        logger => FusionInventory::Agent::Logger->new( 'debug' => 1 ),
         config => {
             jobs => []
         }

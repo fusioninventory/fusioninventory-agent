@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use POSIX ":sys_wait_h"; # WNOHANG
 
-use base 'FusionInventory::Agent';
+use parent 'FusionInventory::Agent';
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Version;

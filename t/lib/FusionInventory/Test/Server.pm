@@ -2,7 +2,7 @@ package FusionInventory::Test::Server;
 
 use warnings;
 use strict;
-use base qw(HTTP::Server::Simple::CGI HTTP::Server::Simple::Authen);
+use parent qw(HTTP::Server::Simple::CGI HTTP::Server::Simple::Authen);
 
 use English qw(-no_match_vars);
 use IO::Socket::SSL;

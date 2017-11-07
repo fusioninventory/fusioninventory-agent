@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::NetInventory;
 use strict;
 use warnings;
 use threads;
-use base 'FusionInventory::Agent::Task';
+use parent 'FusionInventory::Agent::Task';
 
 use Encode qw(encode);
 use English qw(-no_match_vars);

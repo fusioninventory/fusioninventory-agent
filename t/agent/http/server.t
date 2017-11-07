@@ -20,7 +20,7 @@ use FusionInventory::Test::Utils;
 plan tests => 12;
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ]
+    logger => [ 'Test' ]
 );
 
 my $server;

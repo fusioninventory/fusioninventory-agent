@@ -297,7 +297,7 @@ sub Pause {
 
     $self->setStatus('paused');
 
-    $self->{logger}->info("$PROVIDER Agent paused");
+    $self->{logger}->info("$PROVIDER Agent paused") if $self->{logger};
 }
 
 sub Continue {
@@ -309,7 +309,7 @@ sub Continue {
         $target->continue();
     }
 
-    $self->{logger}->info("$PROVIDER Agent resumed");
+    $self->{logger}->info("$PROVIDER Agent resumed") if $self->{logger};
 }
 
 sub ApplyServiceOptimizations {
@@ -330,7 +330,7 @@ sub RunningServiceOptimization {
     my ($self) = @_;
 
     # win32 platform needs optimization
-    if ($self->{logger}->{verbosity} >= LOG_DEBUG) {
+    if ($self->{logger} && $self->{logger}->debug_level()) {
         my $runmem = getAgentMemorySize();
         $self->{logger}->debug("Agent memory usage before freeing memory: $runmem");
     }
@@ -338,8 +338,10 @@ sub RunningServiceOptimization {
     # Free some memory
     FreeAgentMem();
 
-    my $current_mem = getAgentMemorySize();
-    $self->{logger}->info("$PROVIDER Agent memory usage: $current_mem");
+    if ($self->{logger}) {
+        my $current_mem = getAgentMemorySize();
+        $self->{logger}->info("$PROVIDER Agent memory usage: $current_mem");
+    }
 }
 
 sub terminate {

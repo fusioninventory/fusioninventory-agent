@@ -8,7 +8,7 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools::Win32::WTS;
 
-use base "FusionInventory::Agent::Task::Deploy::UserCheck";
+use parent "FusionInventory::Agent::Task::Deploy::UserCheck";
 
 my %supported_events = (
     &IDOK       => 'ok',

@@ -66,7 +66,7 @@ our $OSNAME;
 my $RealOSNAME = $OSNAME;
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends => [ 'Test' ]
+    logger => [ 'Test' ]
 );
 
 my %checkcb = (

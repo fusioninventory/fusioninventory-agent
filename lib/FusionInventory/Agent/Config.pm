@@ -341,6 +341,15 @@ sub isParamArrayAndFilled {
     return scalar(@{$self->{$paramName}}) > 0;
 }
 
+sub logger {
+    my ($self) = @_;
+
+    return {
+        map { $_ => $self->{$_} }
+            qw/debug logger logfacility logfile logfile-maxsize color/
+    };
+}
+
 sub getTargets {
     my ($self, %params) = @_;
 
@@ -405,3 +414,7 @@ hash:
 additional options override.
 
 =back
+
+=head2 logger()
+
+Get logger only configuration.

@@ -2,7 +2,7 @@ package FusionInventory::Agent::Tools::Linux;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 
 # Constant for ethtool system call
 use constant SIOCETHTOOL   =>     0x8946 ; # See linux/sockios.h

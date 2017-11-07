@@ -2,7 +2,7 @@ package FusionInventory::Agent::SNMP::Mock;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::SNMP';
+use parent 'FusionInventory::Agent::SNMP';
 
 use FusionInventory::Agent::Tools;
 

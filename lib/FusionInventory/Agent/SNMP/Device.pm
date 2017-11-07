@@ -1,5 +1,5 @@
 package FusionInventory::Agent::SNMP::Device;
- 
+
 use strict;
 use warnings;
 

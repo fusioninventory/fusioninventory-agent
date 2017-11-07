@@ -2,7 +2,7 @@ package FusionInventory::Agent::Tools::Unix;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 
 use English qw(-no_match_vars);
 use File::stat;
@@ -165,18 +165,23 @@ sub getFilesystemsFromDf {
         # depending on the df implementation, and how it is called
         # the filesystem type may appear as second colum, or be missing
         # in the second case, it has to be given by caller
-        my ($filesystem, $total, $free, $type);
+        my ($filesystem, $total, $used, $free, $type);
         if ($headers[1] eq 'Type') {
             $filesystem = $infos[1];
             $total      = $infos[2];
+            $used       = $infos[3];
             $free       = $infos[4];
             $type       = $infos[6];
         } else {
             $filesystem = $params{type};
             $total      = $infos[1];
+            $used       = $infos[2];
             $free       = $infos[3];
             $type       = $infos[5];
         }
+
+        # Fix total for zfs under Solaris
+        $total = $used + $free if (!$total && ($used || $free));
 
         # skip some virtual filesystems
         next if $total !~ /^\d+$/ || $total == 0;

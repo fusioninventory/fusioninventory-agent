@@ -2,7 +2,7 @@ package FusionInventory::Agent::Tools::Win32;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 use utf8;
 
 use threads;

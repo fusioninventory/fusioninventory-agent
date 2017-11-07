@@ -8,7 +8,7 @@ use XML::TreePP;
 sub new {
     my ($class, %params) = @_;
 
-    die "no query parameter" unless $params{query};
+    die "no query parameter for XML query\n" unless $params{query};
 
     my $self = {};
     bless $self, $class;
