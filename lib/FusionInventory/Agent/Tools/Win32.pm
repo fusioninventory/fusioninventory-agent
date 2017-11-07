@@ -47,7 +47,6 @@ our @EXPORT = qw(
     getAgentMemorySize
     FreeAgentMem
     getWMIService
-    getRemoteLocaleFromWMI
     getFormatedWMIDateTime
 );
 
@@ -977,7 +976,7 @@ sub _connectToService {
 
     # Be sure to reset known access params in threaded version so
     # getWMIService won't reset when called from right thread
-    foreach my $param (qw( host user pass root locale)) {
+    foreach my $param (qw( host user pass root)) {
         $wmiParams->{$param} = $params{$param};
     }
 
@@ -986,10 +985,10 @@ sub _connectToService {
     $wmiLocator = Win32::OLE->CreateObject('WbemScripting.SWbemLocator')
         or return;
 
+    # Always use en-US (MS_409) locale to avoid localized response
     $wmiService = $wmiLocator->ConnectServer(
         $params{host}, $params{root},
-        $params{user}, $params{pass},
-        $params{locale}
+        $params{user}, $params{pass}, 'MS_409'
     );
 
     return defined $wmiService;
@@ -1016,7 +1015,6 @@ sub getWMIService {
     my $user   = $params{user} || $wmiParams->{user} || '';
     my $pass   = $params{pass} || $wmiParams->{pass} || '';
     my $root   = $params{root} || $wmiParams->{root} || 'root\\cimv2';
-    my $locale = $params{locale} || $wmiParams->{locale} || '';
 
     # Reset root if found in moniker params
     if ($params{moniker}) {
@@ -1031,15 +1029,13 @@ sub getWMIService {
                 $wmiParams->{host} ne $host ||
                 $wmiParams->{user} ne $user ||
                 $wmiParams->{pass} ne $pass ||
-                $wmiParams->{root} ne $root ||
-                $wmiParams->{locale} ne $locale)) {
+                $wmiParams->{root} ne $root)) {
 
         $wmiParams = {
             host    => $host,
             user    => $user,
             pass    => $pass,
-            root    => $root,
-            locale  => $locale
+            root    => $root
         };
 
         my $win32_ole_dependent_api = {
@@ -1057,14 +1053,6 @@ sub getWMIService {
     }
 
     return $wmiService;
-}
-
-sub getRemoteLocaleFromWMI {
-    my ($obj) = getWMIObjects(
-        class      => "Win32_OperatingSystem",
-        properties => [ qw/ Locale / ]
-    );
-    return $obj->{Locale};
 }
 
 sub getFormatedWMIDateTime {

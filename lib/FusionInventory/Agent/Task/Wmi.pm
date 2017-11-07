@@ -66,29 +66,25 @@ sub connect {
     my $host   = $params{host} || '127.0.0.1';
     my $user   = $params{user} || '';
     my $pass   = $params{pass} || '';
-    my $locale = $params{locale} || '';
 
-    $logger->debug2("connect via Wmi: ".($user?"$user@":"").$host) if $logger;
+    $logger->debug2("Connecting via wmi to ".($user?"$user@":"").$host) if $logger;
 
     $self->{service} = getWMIService(
         host    => $host,
         user    => $user,
-        pass    => $pass,
-        locale  => $locale
+        pass    => $pass
     );
 
-    die "can't connect to host $host with '$user' user and locale '$locale'\n"
-        unless $self->{service};
+    if ($self->{service}) {
+        $logger->debug2("Connected via wmi to host $host") if $logger;
 
-    # Set now we are remote
-    $self->isRemote('wmi');
+        # Set now we are remote
+        $self->isRemote('wmi');
 
-    return unless $logger;
-
-    # Only for advanced debugging
-    if (!$locale) {
-        $locale = getRemoteLocaleFromWMI() unless $locale;
-        $logger->debug2($locale ? "found remote locale: $locale" : "No remote locale found");
+        return 1
+    } else {
+        $logger->error("can't connect to host $host with '$user' user") if $logger;
+        return 0;
     }
 }
 
