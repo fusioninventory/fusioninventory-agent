@@ -8,6 +8,8 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::SNMP;
+use FusionInventory::Agent::SNMP::Device;
 
 our @EXPORT = qw(
     getDeviceInfo
@@ -266,14 +268,17 @@ my %printer_pagecounters_variables = (
     }
 );
 
-sub getDeviceInfo {
+sub _getDevice {
     my (%params) = @_;
 
     my $snmp    = $params{snmp};
     my $datadir = $params{datadir};
     my $logger  = $params{logger};
 
-    my $device;
+    my $device = FusionInventory::Agent::SNMP::Device->new(
+        snmp   => $snmp,
+        logger => $logger
+    );
 
     # manufacturer, type and model identification attempt, using sysObjectID
     my $sysobjectid = $snmp->get('.1.3.6.1.2.1.1.2.0');
@@ -294,7 +299,7 @@ sub getDeviceInfo {
     # if one of them is missing
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
     if ($sysdescr) {
-        $device->{DESCRIPTION} = _getCanonicalString($sysdescr);
+        $device->{DESCRIPTION} = getCanonicalString($sysdescr);
 
         if (!exists $device->{MANUFACTURER} || !exists $device->{TYPE}) {
             # first word
@@ -320,6 +325,11 @@ sub getDeviceInfo {
         }
     }
 
+    # load supported mibs regarding sysORID list as this list permits to
+    # identify device supported MIBs. But mib supported can also be tested
+    # regarding sysobjectid in some case, so we pass it as argument
+    $device->loadMibSupport($sysobjectid);
+
     # fallback type identification attempt, using type-specific OID presence
     if (!exists $device->{TYPE}) {
          if (
@@ -337,7 +347,7 @@ sub getDeviceInfo {
             exists $device->{TYPE} && $device->{TYPE} eq 'POWER' ?
             $snmp->get('.1.3.6.1.2.1.33.1.1.5.0')      : # UPS-MIB
             $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') ;
-        $device->{MODEL} = _getCanonicalString($model) if $model;
+        $device->{MODEL} = getCanonicalString($model) if $model;
     }
 
     # fallback manufacturer identification attempt, using type-agnostic OID
@@ -373,7 +383,7 @@ sub getDeviceInfo {
         my $type = $variable->{type};
         my $value =
             $type eq 'memory' ? _getCanonicalMemory($raw_value) :
-            $type eq 'string' ? _getCanonicalString($raw_value) :
+            $type eq 'string' ? getCanonicalString($raw_value) :
             $type eq 'count'  ? _getCanonicalCount($raw_value)  :
                                 $raw_value;
 
@@ -388,21 +398,27 @@ sub getDeviceInfo {
         delete $device->{$key} if $device->{$key} eq '';
     }
 
-    my $mac = _getMacAddress($snmp);
-    $device->{MAC} = $mac if $mac;
+    # Find and set Mac address
+    $device->setMacAddress();
 
-    my $serial = _getSerial($snmp, $device->{TYPE});
-    $device->{SERIAL} = $serial if $serial;
+    # Find device serial number
+    $device->setSerial();
 
-    my $firmware = _getFirmware($snmp, $device->{TYPE});
-    $device->{FIRMWARE} = $firmware if $firmware;
+    # Find device firmware
+    $device->setFirmware();
 
-    my $results = $snmp->walk('.1.3.6.1.2.1.4.20.1.1');
-    $device->{IPS}->{IP} =  [
-        sort values %{$results}
-    ] if $results;
+    # Find ip
+    $device->setIp();
 
     return $device;
+}
+
+sub getDeviceInfo {
+    my (%params) = @_;
+
+    my $device = _getDevice(%params);
+
+    return $device->getDiscoveryInfo();
 }
 
 sub _getSysObjectIDInfo {
@@ -487,133 +503,6 @@ sub _loadSysObjectIDDatabase {
     close $handle;
 }
 
-sub _getSerial {
-    my ($snmp, $type) = @_;
-
-    # Entity-MIB::entPhysicalSerialNum
-    my $entPhysicalSerialNum = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.11');
-    return _getCanonicalSerialNumber($entPhysicalSerialNum)
-        if $entPhysicalSerialNum;
-
-    # Printer-MIB::prtGeneralSerialNumber
-    my $prtGeneralSerialNumber = $snmp->get_first('.1.3.6.1.2.1.43.5.1.1.17');
-    return _getCanonicalSerialNumber($prtGeneralSerialNumber)
-        if $prtGeneralSerialNumber;
-
-    # vendor specific OIDs
-    my @oids = (
-        '.1.3.6.1.4.1.2636.3.1.3.0',             # Juniper-MIB
-        '.1.3.6.1.4.1.248.14.1.1.9.1.10.1',      # Hirschman MIB
-        '.1.3.6.1.4.1.253.8.53.3.2.1.3.1',       # Xerox-MIB
-        '.1.3.6.1.4.1.367.3.2.1.2.1.4.0',        # Ricoh-MIB
-        '.1.3.6.1.4.1.641.2.1.2.1.6.1',          # Lexmark-MIB
-        '.1.3.6.1.4.1.1602.1.2.1.4.0',           # Canon-MIB
-        '.1.3.6.1.4.1.2435.2.3.9.4.2.1.5.5.1.0', # Brother-MIB
-        '.1.3.6.1.4.1.318.1.1.4.1.5.0',          # MasterSwitch-MIB
-        '.1.3.6.1.4.1.6027.3.8.1.1.5.0',         # F10-C-SERIES-CHASSIS-MIB
-        '.1.3.6.1.4.1.6027.3.10.1.2.2.1.12.1',   # FORCE10-SMI
-        '.1.3.6.1.4.1.16378.10000.3.15.0',       # DIGI-Sarian-Monitor
-    );
-    foreach my $oid (@oids) {
-        my $value = $snmp->get($oid);
-        next unless $value;
-        return _getCanonicalSerialNumber($value);
-    }
-
-    return;
-}
-
-sub _getFirmware {
-    my ($snmp, $type) = @_;
-
-    my $entPhysicalSoftwareRev = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.10');
-    return $entPhysicalSoftwareRev if $entPhysicalSoftwareRev;
-
-    my $entPhysicalFirmwareRev = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.9');
-    return $entPhysicalFirmwareRev if $entPhysicalFirmwareRev;
-
-    # vendor specific OIDs
-    my @oids = (
-        '.1.3.6.1.4.1.9.9.25.1.1.1.2.5',         # Cisco / IOS
-        '.1.3.6.1.4.1.248.14.1.1.2.0',           # Hirschman MIB
-        '.1.3.6.1.4.1.2636.3.40.1.4.1.1.1.5.0',  # Juniper-MIB
-    );
-    foreach my $oid (@oids) {
-        my $value = $snmp->get($oid);
-        next unless $value;
-        return _getCanonicalString($value);
-    }
-
-    return;
-}
-
-sub _getMacAddress {
-    my ($snmp) = @_;
-
-    # use BRIDGE-MIB::dot1dBaseBridgeAddress if available
-    my $address_oid = ".1.3.6.1.2.1.17.1.1.0";
-    my $address = _getCanonicalMacAddress($snmp->get($address_oid));
-
-    return $address if $address && $address =~ /^$mac_address_pattern$/;
-
-    # fallback on ports addresses (IF-MIB::ifPhysAddress) if unique
-    my $addresses_oid = ".1.3.6.1.2.1.2.2.1.6";
-    my $addresses = $snmp->walk($addresses_oid);
-
-    # interfaces list with defined ip to use as filter to select shorter mac address list
-    my $ips = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');
-
-    my @all_mac_addresses = ();
-
-    # Try first to obtain shorter mac address list using ip interface list filter
-    @all_mac_addresses = grep { defined } map { $addresses->{$_} } values %{$ips}
-        if (keys(%{$ips}));
-
-    # Finally get all defined mac adresses if ip filtered related list remains empty
-    @all_mac_addresses = grep { defined } values %{$addresses}
-        unless @all_mac_addresses;
-
-    my @valid_mac_addresses =
-        uniq
-        grep { /^$mac_address_pattern$/ }
-        grep { $_ ne '00:00:00:00:00:00' }
-        grep { $_ }
-        map  { _getCanonicalMacAddress($_) }
-        @all_mac_addresses;
-
-    if (@valid_mac_addresses) {
-        return $valid_mac_addresses[0] if @valid_mac_addresses == 1;
-
-        # Compute mac addresses as number and sort them
-        my %macs = map { $_ => _numericMac($_) } @valid_mac_addresses;
-        my @sortedMac = sort { $macs{$a} <=> $macs{$b} } @valid_mac_addresses;
-
-        # Then find first couple of consecutive mac and return first one as this
-        # seems to be the first manufacturer defined mac address
-        while (@sortedMac > 1) {
-            my $currentMac = shift @sortedMac;
-            return $currentMac if ($macs{$currentMac} == $macs{$sortedMac[0]} - 1);
-        }
-    }
-
-    return;
-}
-
-sub _numericMac {
-    my ($mac) = @_;
-
-    my $number = 0;
-    my $multiplicator = 1;
-
-    my @parts = split(':', $mac);
-    while (@parts) {
-        $number += hex(pop(@parts))*$multiplicator;
-        $multiplicator <<= 8 ;
-    }
-
-    return $number;
-}
-
 sub getDeviceFullInfo {
     my (%params) = @_;
 
@@ -621,8 +510,10 @@ sub getDeviceFullInfo {
     my $logger = $params{logger};
 
     # first, let's retrieve basic device informations
-    my $info = getDeviceInfo(%params);
-    return unless $info;
+    my $device = _getDevice(%params);
+    return unless $device;
+
+    my $info = $device->getDiscoveryInfo();
 
     # description is defined as DESCRIPTION for discovery
     # and COMMENTS for inventory
@@ -647,7 +538,7 @@ sub getDeviceFullInfo {
     $info->{TYPE} = $params{type} || $info->{TYPE};
 
     # second, use results to build the object
-    my $device = { INFO => $info };
+    $device->{INFO} = $info ;
 
     _setGenericProperties(
         device => $device,
@@ -670,9 +561,9 @@ sub getDeviceFullInfo {
     ) if $info->{TYPE} && $info->{TYPE} eq 'NETWORKING';
 
     # external processing for the $device
-    if ($device->{INFO}->{EXTMOD}) {
+    if ($device->{EXTMOD}) {
         runFunction(
-            module   => "FusionInventory::Agent::Tools::Hardware::" . $device->{INFO}->{EXTMOD},
+            module   => __PACKAGE__ . "::" . $device->{EXTMOD},
             function => "run",
             logger   => $logger,
             params   => {
@@ -682,10 +573,10 @@ sub getDeviceFullInfo {
             },
             load     => 1
         );
-
-        # no need to send this to the server
-        delete $device->{INFO}->{EXTMOD};
     }
+
+    # Run any detected mib support
+    $device->runMibSupport();
 
     # convert ports hashref to an arrayref, sorted by interface number
     my $ports = $device->{PORTS}->{PORT};
@@ -699,7 +590,7 @@ sub getDeviceFullInfo {
         delete $device->{PORTS};
     }
 
-    return $device;
+    return $device->getInventory();
 }
 
 sub _setGenericProperties {
@@ -733,9 +624,9 @@ sub _setGenericProperties {
         # $prefix.$i = $value, with $i as port id
         while (my ($suffix, $raw_value) = each %{$results}) {
             my $value =
-                $type eq 'mac'      ? _getCanonicalMacAddress($raw_value) :
-                $type eq 'constant' ? _getCanonicalConstant($raw_value)   :
-                $type eq 'string'   ? _getCanonicalString($raw_value)     :
+                $type eq 'mac'      ? getCanonicalMacAddress($raw_value) :
+                $type eq 'constant' ? getCanonicalConstant($raw_value)   :
+                $type eq 'string'   ? getCanonicalString($raw_value)     :
                 $type eq 'count'    ? _getCanonicalCount($raw_value)      :
                                       $raw_value;
             $ports->{$suffix}->{$key} = $value
@@ -826,7 +717,7 @@ sub _setPrinterProperties {
         if ($type eq 'TONER' || $type eq 'DRUM' || $type eq 'CARTRIDGE' || $type eq 'DEVELOPER') {
             my $color;
             if ($color_id) {
-                $color = _getCanonicalString($colors->{$color_id});
+                $color = getCanonicalString($colors->{$color_id});
                 if (!$color) {
                     $logger->debug("invalid color ID $color_id") if $logger;
                     next;
@@ -890,7 +781,7 @@ sub _setPrinterProperties {
             $value = $snmp->get($oid);
         }
         next unless defined $value;
-        if (!_isInteger($value)) {
+        if (!isInteger($value)) {
             $logger->error("incorrect counter value $value, check $variable->{mapping} mapping") if $logger;
             next;
         }
@@ -942,98 +833,13 @@ sub _setNetworkingProperties {
 sub _getPercentValue {
     my ($value1, $value2) = @_;
 
-    return unless defined $value1 && _isInteger($value1);
-    return unless defined $value2 && _isInteger($value2);
+    return unless defined $value1 && isInteger($value1);
+    return unless defined $value2 && isInteger($value2);
     return if $value1 == 0;
 
     return int(
         ( 100 * $value2 ) / $value1
     );
-}
-
-sub _isInteger {
-    $_[0] =~ /^[+-]?\d+$/;
-}
-
-sub _getCanonicalMacAddress {
-    my ($value) = @_;
-
-    return unless $value;
-
-    my $result;
-    my @bytes;
-
-    # packed value, convert from binary to hexadecimal
-    if ($value =~ m/\A [[:ascii:]] \Z/xms) {
-        $value = unpack 'H*', $value;
-    }
-
-    # Check if it's a hex value
-    if ($value =~ /^(?:0x)?([0-9A-F]+)$/i) {
-        @bytes = unpack("(A2)*", $1);
-    } else {
-        @bytes = split(':', $value);
-        # return if bytes are not hex
-        return if grep(!/^[0-9A-F]{1,2}$/i, @bytes);
-    }
-
-    if (scalar(@bytes) == 6) {
-        # it's a MAC
-    } elsif (scalar(@bytes) == 8 &&
-        (($bytes[0] eq '10' && $bytes[1] =~ /^0+/) # WWN 10:00:...
-            || $bytes[0] =~ /^2/)) {               # WWN 2X:XX:...
-    } elsif (scalar(@bytes) < 6) {
-        # make a WWN. prepend "10" and zeroes as necessary
-        while (scalar(@bytes) < 7) { unshift @bytes, '00' }
-        unshift @bytes, '10';
-    } elsif (scalar(@bytes) > 6) {
-        # make a MAC. take 6 bytes from the right
-        @bytes = @bytes[-6 .. -1];
-    }
-
-    $result = join ":", map { sprintf("%02x", hex($_)) } @bytes;
-
-    return if $result eq '00:00:00:00:00:00';
-    return lc($result);
-}
-
-sub _getCanonicalString {
-    my ($value) = @_;
-
-    $value = hex2char($value);
-    return unless defined $value;
-
-    # unquote string
-    $value =~ s/^\\?["']//;
-    $value =~ s/\\?["']$//;
-
-    return unless defined $value;
-
-    # Be sure to work on utf-8 string
-    $value = getUtf8String($value);
-
-    # reduce linefeeds which can be found in descriptions or comments
-    $value =~ s/\p{Control}+\n/\n/g;
-
-    # truncate after first invalid character but keep newline as valid
-    $value =~ s/[^\p{Print}\n].*$//;
-
-    return $value;
-}
-
-sub _getCanonicalSerialNumber {
-    my ($value) = @_;
-
-    $value = hex2char($value);
-    return unless $value;
-
-    $value =~ s/[[:^print:]]//g;
-    $value =~ s/^\s+//;
-    $value =~ s/\s+$//;
-    $value =~ s/\.{2,}//g;
-    return unless $value;
-
-    return $value;
 }
 
 sub _getCanonicalMemory {
@@ -1046,17 +852,10 @@ sub _getCanonicalMemory {
     }
 }
 
-sub _getCanonicalConstant {
-    my ($value) = @_;
-
-    return $value if _isInteger($value);
-    return $1 if $value =~ /\((\d+)\)$/;
-}
-
 sub _getCanonicalCount {
     my ($value) = @_;
 
-    return _isInteger($value) ? $value  : undef;
+    return isInteger($value) ? $value  : undef;
 }
 
 sub _getElement {
@@ -1254,9 +1053,9 @@ sub _getKnownMacAddressesDeprecatedOids {
         next unless defined $interface_id;
  
         push @{$results->{$interface_id}},
-            _getCanonicalMacAddress($address2mac->{$suffix});
+            getCanonicalMacAddress($address2mac->{$suffix});
     }
-   
+
     return $results;
 }
 
@@ -1388,8 +1187,8 @@ sub _getLLDPInfo {
     # whereas y is either a port or an interface id
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
-        my $sysdescr = _getCanonicalString($lldpRemSysDesc->{$suffix});
-        my $sysname = _getCanonicalString($lldpRemSysName->{$suffix});
+        my $sysdescr = getCanonicalString($lldpRemSysDesc->{$suffix});
+        my $sysname = getCanonicalString($lldpRemSysName->{$suffix});
         next unless ($sysdescr || $sysname);
 
         # We only support macAddress as LldpChassisIdSubtype at the moment
@@ -1415,7 +1214,7 @@ sub _getLLDPInfo {
             $connection->{IFNUMBER} = $portId;
         }
 
-        my $ifdescr = _getCanonicalString($lldpRemPortDesc->{$suffix});
+        my $ifdescr = getCanonicalString($lldpRemPortDesc->{$suffix});
         $connection->{IFDESCR} = $ifdescr if $ifdescr;
 
         my $id           = _getElement($suffix, -2);
@@ -1452,8 +1251,8 @@ sub _getCDPInfo {
         $ip = hex2canonical($ip);
         next if $ip eq '0.0.0.0';
 
-        my $sysdescr = _getCanonicalString($cdpCacheVersion->{$suffix});
-        my $model    = _getCanonicalString($cdpCachePlatform->{$suffix});
+        my $sysdescr = getCanonicalString($cdpCacheVersion->{$suffix});
+        my $model    = getCanonicalString($cdpCachePlatform->{$suffix});
         next unless $sysdescr && $model;
 
         my $connection = {
@@ -1478,7 +1277,7 @@ sub _getCDPInfo {
                 $connection->{SYSMAC} = lc(alt2canonical($deviceId));
             } else {
                 # otherwise it's an hex-encode hostname
-                $connection->{SYSNAME} = _getCanonicalString($deviceId);
+                $connection->{SYSNAME} = getCanonicalString($deviceId);
             }
         } else {
             $connection->{SYSNAME} = $deviceId;
