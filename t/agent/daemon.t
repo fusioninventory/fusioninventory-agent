@@ -83,7 +83,6 @@ cmp_deeply (
 );
 
 $agent->{config} = FusionInventory::Agent::Config->new(
-    confdir => 'etc',
     options => {
         config  => 'none',
         debug   => 1,
@@ -245,7 +244,6 @@ ok (
     || ($tasksExecutionPlan[7] eq 'taskwithoutanumber' && $tasksExecutionPlan[6] eq 'task345')
 );
 
-$agent->{confdir} = './etc';
 $agent->{datadir} = './share';
 $agent->{vardir}  = './var',
 

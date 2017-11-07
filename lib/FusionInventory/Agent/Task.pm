@@ -18,7 +18,6 @@ sub new {
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->new(),
         config       => $params{config},
-        confdir      => $params{confdir},
         datadir      => $params{datadir},
         target       => $params{target},
         deviceid     => $params{deviceid},

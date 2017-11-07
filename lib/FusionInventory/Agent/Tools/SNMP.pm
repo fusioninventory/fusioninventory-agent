@@ -1,0 +1,142 @@
+package FusionInventory::Agent::Tools::SNMP;
+
+use strict;
+use warnings;
+use base 'Exporter';
+
+use FusionInventory::Agent::Tools;
+
+our @EXPORT = qw(
+    getCanonicalSerialNumber
+    getCanonicalString
+    getCanonicalMacAddress
+    getCanonicalConstant
+    isInteger
+);
+
+sub getCanonicalSerialNumber {
+    my ($value) = @_;
+
+    $value = hex2char($value);
+    return unless $value;
+
+    $value =~ s/[[:^print:]]//g;
+    $value =~ s/^\s+//;
+    $value =~ s/\s+$//;
+    $value =~ s/\.{2,}//g;
+    return unless $value;
+
+    return $value;
+}
+
+sub getCanonicalString {
+    my ($value) = @_;
+
+    $value = hex2char($value);
+    return unless defined $value;
+
+    # unquote string
+    $value =~ s/^\\?["']//;
+    $value =~ s/\\?["']$//;
+
+    return unless defined $value;
+
+    # Be sure to work on utf-8 string
+    $value = getUtf8String($value);
+
+    # reduce linefeeds which can be found in descriptions or comments
+    $value =~ s/\p{Control}+\n/\n/g;
+
+    # truncate after first invalid character but keep newline as valid
+    $value =~ s/[^\p{Print}\n].*$//;
+
+    return $value;
+}
+
+sub getCanonicalMacAddress {
+    my ($value) = @_;
+
+    return unless $value;
+
+    my $result;
+    my @bytes;
+
+    # packed value, convert from binary to hexadecimal
+    if ($value =~ m/\A [[:ascii:]] \Z/xms) {
+        $value = unpack 'H*', $value;
+    }
+
+    # Check if it's a hex value
+    if ($value =~ /^(?:0x)?([0-9A-F]+)$/i) {
+        @bytes = unpack("(A2)*", $1);
+    } else {
+        @bytes = split(':', $value);
+        # return if bytes are not hex
+        return if grep(!/^[0-9A-F]{1,2}$/i, @bytes);
+    }
+
+    if (scalar(@bytes) == 6) {
+        # it's a MAC
+    } elsif (scalar(@bytes) == 8 &&
+        (($bytes[0] eq '10' && $bytes[1] =~ /^0+/) # WWN 10:00:...
+            || $bytes[0] =~ /^2/)) {               # WWN 2X:XX:...
+    } elsif (scalar(@bytes) < 6) {
+        # make a WWN. prepend "10" and zeroes as necessary
+        while (scalar(@bytes) < 7) { unshift @bytes, '00' }
+        unshift @bytes, '10';
+    } elsif (scalar(@bytes) > 6) {
+        # make a MAC. take 6 bytes from the right
+        @bytes = @bytes[-6 .. -1];
+    }
+
+    $result = join ":", map { sprintf("%02x", hex($_)) } @bytes;
+
+    return if $result eq '00:00:00:00:00:00';
+    return lc($result);
+}
+
+sub isInteger {
+    my ($value) = @_;
+
+    return $value =~ /^[+-]?\d+$/;
+}
+
+sub getCanonicalConstant {
+    my ($value) = @_;
+
+    return $value if isInteger($value);
+    return $1 if $value =~ /\((\d+)\)$/;
+}
+
+1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Tools::SNMP - SNMP Hardware-related functions
+
+=head1 DESCRIPTION
+
+This module provides some hardware-related functions for SNMP devices.
+
+=head1 FUNCTIONS
+
+=head2 getCanonicalSerialNumber($serial)
+
+return a clean serial number string.
+
+=head2 getCanonicalString($string)
+
+return a clean generic string.
+
+=head2 getCanonicalMacAddress($mac)
+
+return a clean mac string.
+
+=head2 getCanonicalConstant($value)
+
+return a clean integer value.
+
+=head2 isInteger($value)
+
+return true if value is an integer.

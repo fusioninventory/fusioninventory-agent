@@ -95,6 +95,7 @@ recommends 'Net::Write::Layer2' => '0';
 
 install_script 'bin/fusioninventory-agent';
 install_script 'bin/fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
+install_script 'bin/fusioninventory-wmi' if $OSNAME eq 'MSWin32';
 install_script 'bin/fusioninventory-injector';
 install_script 'bin/fusioninventory-inventory';
 install_script 'bin/fusioninventory-wakeonlan';
@@ -107,10 +108,6 @@ resources
     bugtracker  => "https://github.com/fusioninventory/fusioninventory-agent/issues",
     repository  => "https://github.com/fusioninventory/fusioninventory-agent/",
     IRC         => "irc://irc.freenode.net/#fusioninventory";
-
-# Not indexing application setup
-no_index
-    file        => 'bin/setup.pm';
 
 makemaker_args(
     test => {
@@ -229,6 +226,9 @@ config_install :
 	else \
 	    install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg; \
 	fi
+	$(ABSPERLRUN) -pi \
+	    -e "s|=> undef, # SYSCONFDIR.*|=> '$(SYSCONFDIR)',|;" \
+	        $(DESTDIR)$(DATADIR)/lib/FusionInventory/Agent/Config.pm
 
 data_install :
 	install -d -m 755 $(DESTDIR)$(DATADIR)
@@ -241,11 +241,10 @@ data_install :
 
 setup_install :
 	$(ABSPERLRUN) -pi \
-	-e 's|confdir => .*|confdir => "$(SYSCONFDIR)",|;' \
-	-e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
-	-e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
-	-e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
-	$(DESTDIR)$(DATADIR)/lib/setup.pm
+	    -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
+	    -e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
+	    -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
+	        $(DESTDIR)$(DATADIR)/lib/setup.pm
 EOF
     return $install;
 }

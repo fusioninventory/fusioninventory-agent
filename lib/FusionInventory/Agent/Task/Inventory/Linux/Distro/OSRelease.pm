@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Linux::Distro::LSB;
+package FusionInventory::Agent::Task::Inventory::Linux::Distro::OSRelease;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ use warnings;
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
-    return canRun('lsb_release');
+  return -r '/etc/os-release';
 }
 
 sub doInventory {
@@ -15,21 +15,15 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $handle = getFileHandle(
-        logger  => $logger,
-        command => 'lsb_release -a',
-    );
+    my $handle = getFileHandle(file => '/etc/os-release');
 
     my ($name, $version, $description);
     while (my $line = <$handle>) {
-        $name        = $1 if $line =~ /^Distributor ID:\s+(.+)/;
-        $version     = $1 if $line =~ /^Release:\s+(.+)/;
-        $description = $1 if $line =~ /^Description:\s+(.+)/;
+        $name        = $1 if $line =~ /^NAME="?([^"]+)"?/;
+        $version     = $1 if $line =~ /^VERSION="?([^"]+)"?/;
+        $description = $1 if $line =~ /^PRETTY_NAME="?([^"]+)"?/;
     }
     close $handle;
-
-    # See: #1262
-    $description =~ s/^Enterprise Linux Enterprise Linux/Oracle Linux/;
 
     $inventory->setHardware({
         OSNAME => $description,

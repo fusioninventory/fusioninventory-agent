@@ -11,7 +11,6 @@ use Cwd qw(abs_path);
 our @EXPORT = ('%setup');
 
 our %setup = (
-    confdir => './etc',
     datadir => './share',
     libdir  => './lib',
     vardir  => './var',
@@ -25,9 +24,9 @@ eval {
 
     # If run from sources, we can try to rebase setup keys to absolute folders related to libdir
     if (File::Spec->file_name_is_absolute($setup{libdir})) {
-        foreach my $key (qw(confdir datadir vardir)) {
-            # Anyway don't update if target folder exists
-            next if ($setup{$key} && -d $setup{$key});
+        foreach my $key (qw(datadir vardir)) {
+            # Anyway don't update if target still absolute
+            next if ($setup{$key} && File::Spec->file_name_is_absolute($setup{$key}));
 
             my $folder = abs_path(File::Spec->rel2abs('../'.$setup{$key}, $setup{libdir}));
             $setup{$key} = $folder if -d $folder;
