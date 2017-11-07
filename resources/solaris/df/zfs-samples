@@ -1,0 +1,14 @@
+Filesystem            kbytes    used   avail capacity  Mounted on
+/                          0 6939073 15641400    31%    /
+/dev                 22580473 6939073 15641400    31%    /dev
+Z_FS_DATAPOOL/Z_FS_LV_DUMP       0   23468 471381611     1%    /dump
+Z_FS_DATAPOOL/lv_kba       0      43  524244     1%    /kba
+Z_FS_DATAPOOL/Z_FS_LV_ORACLE       0    5123 471381611     1%    /oracle
+proc                       0       0       0     0%    /proc
+ctfs                       0       0       0     0%    /system/contract
+mnttab                     0       0       0     0%    /etc/mnttab
+objfs                      0       0       0     0%    /system/object
+swap                 65666032     368 65665664     1%    /etc/svc/volatile
+fd                         0       0       0     0%    /dev/fd
+swap                 65666400     736 65665664     1%    /tmp
+swap                 65665736      72 65665664     1%    /var/run
