@@ -54,8 +54,6 @@ our @EXPORT = qw(
     slurp
 );
 
-my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
-
 # this trigger some errors under win32:
 # Anonymous function called in forbidden scalar context
 if ($OSNAME ne 'MSWin32') {
@@ -296,6 +294,7 @@ sub getDirectoryHandle {
     return $handle;
 }
 
+my $cmdtemplate = $OSNAME eq 'MSWin32' ? "%s 2>nul" : "exec %s 2>/dev/null";
 sub getFileHandle {
     my (%params) = @_;
 
@@ -320,12 +319,16 @@ sub getFileHandle {
             local $ENV{LANG} = 'C';
             # Ignore 'Broken Pipe' warnings on Solaris
             local $SIG{PIPE} = 'IGNORE' if $OSNAME eq 'solaris';
-            if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
+            my $command = sprintf($cmdtemplate, $params{command});
+            my $cmdpid  = open($handle, '-|', $command);
+            if (!$cmdpid) {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
                 ) if $params{logger};
                 return;
             }
+            # Kill command if a timeout was set
+            $SIG{ALRM} = sub { kill 'KILL', $cmdpid ; die "alarm\n"; } if $SIG{ALRM};
             last SWITCH;
         }
         if ($params{string}) {
