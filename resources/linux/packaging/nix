@@ -1,6 +1,7 @@
 /nix/store/000dszhb0lb3a1n6iznrz1szcdbv2lcf-etc-ssh_config
 /nix/store/000ylflpapn3kdn5d1p9hsza9ib32y50-alsa-lib-1.0.29.tar.bz2.drv
 /nix/store/001ciw23lic5m5lx4a08bprvmixr75qy-newt-0.52.15
+/nix/store/001sadfg5ic5m5lx4a08bprvmixr75qz-newt-0.52.14
 /nix/store/001csk35nh5yddvqvjl07kwv56n8wg1a-hook.drv
 /nix/store/0026y7bcykf3f6fb71lwqk826bql049k-xkb-layouts-exist.drv
 /nix/store/00283mxalvigry6gp3ll1qiplblc60rf-python3.5-pycairo-1.10.0
@@ -9,6 +10,7 @@
 /nix/store/0038dzsag93x0nj9ki4k1a9anrpfr8jj-fc-52-nixos-default-fonts.conf
 /nix/store/006r5xdpvy9phchl8f3jvaj60sjw9hnc-libical-1.0.1.drv
 /nix/store/0074315j15flbd6cjz11zdly9a584iwq-mmorph-1.0.9
+/nix/store/007dfgds15flbd6cjz11zdly9a584iwz-mmorph-1.0.9
 /nix/store/007di227ww2x9n80wrvgc0m6zjqkfyrp-texinfo-5.2.tar.xz.drv
 /nix/store/007i5s1cnlhqdhndn76s3v9r2lfviyf8-grilo-plugins-0.2.13
 /nix/store/007i6l83qp4j5vjz5j36kn3rbx4vk948-dbus-1.10.14-dev

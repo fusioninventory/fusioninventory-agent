@@ -262,6 +262,11 @@ my $nix_packages = [
     },
     {
         FROM     => 'nix',
+        NAME     => 'newt',
+        VERSION  => '0.52.14'
+    },
+    {
+        FROM     => 'nix',
         NAME     => 'python3.5-pycairo',
         VERSION  => '1.10.0'
     },
