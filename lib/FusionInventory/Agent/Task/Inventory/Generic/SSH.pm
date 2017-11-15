@@ -22,7 +22,7 @@ sub doInventory {
 
     $inventory->setOperatingSystem({
         SSH_KEY => $ssh_key
-    });
+    }) if $ssh_key;
 }
 
 1;
