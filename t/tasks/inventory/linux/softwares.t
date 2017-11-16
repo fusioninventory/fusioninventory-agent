@@ -17,6 +17,7 @@ use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::RPM;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Deb;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Gentoo;
+use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Nix;
 
 my $rpm_packages = [
     {
@@ -253,7 +254,45 @@ my $deb_packages = [
     }
 ];
 
-plan tests => 7;
+my $nix_packages = [
+    {
+        FROM     => 'nix',
+        NAME     => 'newt',
+        VERSION  => '0.52.15'
+    },
+    {
+        FROM     => 'nix',
+        NAME     => 'newt',
+        VERSION  => '0.52.14'
+    },
+    {
+        FROM     => 'nix',
+        NAME     => 'python3.5-pycairo',
+        VERSION  => '1.10.0'
+    },
+    {
+        FROM     => 'nix',
+        NAME     => 'mmorph',
+        VERSION  => '1.0.9'
+    },
+    {
+        FROM     => 'nix',
+        NAME     => 'grilo-plugins',
+        VERSION  => '0.2.13'
+    },
+    {
+        FROM     => 'nix',
+        NAME     => 'python3.6-decorator',
+        VERSION  => '4.0.11'
+    },
+    {
+        FROM     => 'nix',
+        NAME     => 'xf86miscproto',
+        VERSION  => '0.9.3'
+    }
+];
+
+plan tests => 9;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
@@ -279,6 +318,15 @@ lives_ok {
     $inventory->addEntry(section => 'SOFTWARES', entry => $_)
         foreach @$packages;
 } 'dpkg: registering';
+
+$packages = FusionInventory::Agent::Task::Inventory::Generic::Softwares::Nix::_getPackagesList(
+    file => "resources/linux/packaging/nix"
+);
+cmp_deeply($packages, $nix_packages, 'nix: parsing');
+lives_ok {
+    $inventory->addEntry(section => 'SOFTWARES', entry => $_)
+        foreach @$packages;
+} 'nix: registering';
 
 ok(
     !FusionInventory::Agent::Task::Inventory::Generic::Softwares::Gentoo::_equeryNeedsWildcard(
