@@ -14,8 +14,10 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    # Use a 1 second timeout instead of default 5 seconds as this is still
+    # large enough for loopback ssh pubkey scan.
     my $ssh_key = getFirstMatch(
-        command => 'ssh-keyscan 127.0.0.1',
+        command => 'ssh-keyscan -T 1 127.0.0.1',
         pattern => qr/^[^#]\S+\s(ssh.*)/,
         @_,
     );
