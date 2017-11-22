@@ -99,7 +99,7 @@ sub download {
 
         # try to download from the same peer as last part, if defined
         if ($lastPeer) {
-            my $success = $self->_download($lastPeer, $sha512, $path);
+            my $success = $self->_downloadPeer($lastPeer, $sha512, $path);
             next PART if $success;
         }
 
