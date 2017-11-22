@@ -4,11 +4,6 @@ use strict;
 use warnings;
 
 use English qw(-no_match_vars);
-use Win32::TieRegistry (
-    Delimiter   => '/',
-    ArrayValues => 0,
-    qw/KEY_READ/
-);
 
 use FusionInventory::Agent::Tools::License;
 use FusionInventory::Agent::Tools::Win32;
@@ -23,33 +18,19 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
-    my $is64bit = is64bit();
     my @licenses;
 
-    if ($is64bit) {
-        my $machKey64 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_64 ## no critic (ProhibitBitwise)
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        my $officeKey64 = $machKey64->{"SOFTWARE/Microsoft/Office"};
-        push @licenses, _scanOfficeLicences($officeKey64 ) if $officeKey64;
+    my $officeKey = getRegistryKey(
+        path => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Office"
+    );
+    push @licenses, _scanOfficeLicences($officeKey) if $officeKey;
 
-        my $machKey32 = $Registry->Open('LMachine', {
-            Access => KEY_READ | KEY_WOW64_32 ## no critic (ProhibitBitwise)
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-
-        my $officeKey32 = $machKey32->{"SOFTWARE/Microsoft/Office"};
-        push @licenses, _scanOfficeLicences($officeKey32) if $officeKey32;
-    } else {
-        my $machKey = $Registry->Open('LMachine', {
-            Access => KEY_READ ## no critic (ProhibitBitwise)
-        }) or $logger->error(
-            "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR"
+    if (is64bit()) {
+        my $officeKey32 = getRegistryKey(
+            path => "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Office"
         );
-
-        my $officeKey = $machKey->{"SOFTWARE/Microsoft/Office"};
-        push @licenses, _scanOfficeLicences($officeKey) if $officeKey;
+        push @licenses, _scanOfficeLicences($officeKey32) if $officeKey32;
     }
 
     foreach my $license (@licenses) {
