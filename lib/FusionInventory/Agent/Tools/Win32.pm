@@ -807,7 +807,7 @@ sub _call_win32_ole_dependent_api {
                 $result = $call->{'result'};
             } elsif ($timeout > 0) {
                 # Worker is failing: get back to mono-thread and pray
-                $worker->detach();
+                $worker->detach() if (defined($worker) && !$worker->is_detached());
                 $worker = undef;
                 return _call_win32_ole_dependent_api(@_);
             }
