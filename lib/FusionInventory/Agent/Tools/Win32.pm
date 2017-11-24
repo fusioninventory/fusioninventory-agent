@@ -100,15 +100,7 @@ sub _getWMIObjects {
         @_
     );
 
-    my $now = time;
-    my $expiration = getExpirationTime() || $now + 180;
-
-    # Reduce expiration time by 10% of the remaining time to leave a chance to
-    # the caller to compute any result. By default, the reducing should be 2 seconds.
-    $expiration -= int(($expiration - $now) * 0.01) + 1;
-
-    # Be sure expiration is kept in the future by 10 seconds
-    $expiration = $now + 10 unless $expiration > $now;
+    my $expiration = _getExpirationTime();
 
     # We must re-initialize Win32::OLE to support Events
     Win32::OLE->Uninitialize();
@@ -707,6 +699,7 @@ my $worker ;
 my $worker_semaphore;
 
 my @win32_ole_calls : shared;
+my $_expirationTime : shared;
 
 sub start_Win32_OLE_Worker {
 
@@ -718,6 +711,10 @@ sub start_Win32_OLE_Worker {
         # Start a worker thread
         $worker = threads->create( \&_win32_ole_worker );
     }
+}
+
+sub _getExpirationTime {
+    return $_expirationTime;
 }
 
 sub _win32_ole_worker {
@@ -766,6 +763,17 @@ sub _call_win32_ole_dependent_api {
     my ($call) = @_
         or return;
 
+    # Reset timeout as shared between threads
+    my $now = time;
+    $_expirationTime = getExpirationTime() || $now + 180;
+
+    # Reduce expiration time by 10% of the remaining time to leave a chance to
+    # the caller to compute any result. By default, the reducing should be 2 seconds.
+    $_expirationTime -= int(($_expirationTime - $now) * 0.01) + 1;
+
+    # Be sure expiration is kept in the future by 10 seconds
+    $_expirationTime = $now + 10 unless $_expirationTime > $now;
+
     if (defined($worker)) {
         # Share the expect call
         my $call = shared_clone($call);
@@ -783,10 +791,13 @@ sub _call_win32_ole_dependent_api {
             # Release semaphore so the worker can continue its job
             $worker_semaphore->up();
 
-            # Now, wait for worker result with one minute timeout
-            my $timeout = time + 60;
+            # Now, wait for worker result, leaving a 2 seconds grace delay in case of timeout
+            my $timeout = $_expirationTime + 2 ;
             while (!exists($call->{'result'})) {
-                last if (!cond_timedwait($call, $timeout, @win32_ole_calls));
+                if (!cond_timedwait($call, $timeout, @win32_ole_calls)) {
+                    $timeout = -1;
+                    last;
+                }
             }
 
             # Be sure to always block worker on semaphore from now
@@ -794,7 +805,7 @@ sub _call_win32_ole_dependent_api {
 
             if (exists($call->{'result'})) {
                 $result = $call->{'result'};
-            } else {
+            } elsif ($timeout > 0) {
                 # Worker is failing: get back to mono-thread and pray
                 $worker->detach();
                 $worker = undef;
