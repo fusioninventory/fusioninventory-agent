@@ -100,7 +100,15 @@ sub _getWMIObjects {
         @_
     );
 
-    my $timeout = time + 180;
+    my $now = time;
+    my $expiration = getExpirationTime() || $now + 180;
+
+    # Reduce expiration time by 10% of the remaining time to leave a chance to
+    # the caller to compute any result. By default, the reducing should be 2 seconds.
+    $expiration -= int(($expiration - $now) * 0.01) + 1;
+
+    # Be sure expiration is kept in the future by 10 seconds
+    $expiration = $now + 10 unless $expiration > $now;
 
     # We must re-initialize Win32::OLE to support Events
     Win32::OLE->Uninitialize();
@@ -132,9 +140,16 @@ sub _getWMIObjects {
         my $object;
         my $nextevent = shift @events;
         if (!$nextevent) {
-            last if time >= $timeout;
+            if (time >= $expiration) {
+                FusionInventory::Agent::Logger->require();
+                my $logger = $params{logger} || FusionInventory::Agent::Logger->new();
+                $logger->info ("Timeout reached during WMI " .
+                    ($params{query} ? "query" : "request")
+                );
+                last;
+            }
             Win32::OLE->SpinMessageLoop();
-            delay(0.1);
+            delay(0.2);
             next;
         }
         my ( $event, $instance ) = @{$nextevent};

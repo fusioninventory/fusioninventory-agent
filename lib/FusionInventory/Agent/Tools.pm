@@ -50,6 +50,7 @@ our @EXPORT = qw(
     file2module
     module2file
     runFunction
+    getExpirationTime
     delay
     slurp
 );
@@ -500,6 +501,7 @@ sub module2file {
     return $module;
 }
 
+my $_expirationTime;
 sub runFunction {
     my (%params) = @_;
 
@@ -518,8 +520,12 @@ sub runFunction {
     my $result;
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" };
+
         # set a timeout if needed
-        alarm $params{timeout} if $params{timeout};
+        if ($params{timeout}) {
+            $_expirationTime = time + $params{timeout};
+            alarm $params{timeout};
+        }
 
         no strict 'refs'; ## no critic (ProhibitNoStrict)
         $result = &{$params{module} . '::' . $params{function}}(
@@ -528,6 +534,7 @@ sub runFunction {
                                                $params{params}
         );
         alarm 0;
+        undef $_expirationTime;
     };
 
     if ($EVAL_ERROR) {
@@ -538,6 +545,10 @@ sub runFunction {
     }
 
     return $result;
+}
+
+sub getExpirationTime {
+    return $_expirationTime;
 }
 
 sub delay {
@@ -802,6 +813,12 @@ Run a function whose name is computed at runtime and return its result.
 =item load enforce module loading first
 
 =back
+
+=head2 getExpirationTime()
+
+Returns the expiration time set from runFunction() called with timeout parameter
+defined.
+Remark: Needed to cleanly expire series of WMI calls under win32 platform.
 
 =head2 delay($second)
 
