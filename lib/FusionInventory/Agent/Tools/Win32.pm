@@ -791,13 +791,11 @@ sub _call_win32_ole_dependent_api {
             # Release semaphore so the worker can continue its job
             $worker_semaphore->up();
 
-            # Now, wait for worker result, leaving a 2 seconds grace delay in case of timeout
-            my $timeout = $_expirationTime + 2 ;
+            # Now, wait for worker result, leaving a 1 second grace delay to
+            # leave worker a chance to itself handle the timeout
+            my $timeout = $_expirationTime + 1 ;
             while (!exists($call->{'result'})) {
-                if (!cond_timedwait($call, $timeout, @win32_ole_calls)) {
-                    $timeout = -1;
-                    last;
-                }
+                last if (!cond_timedwait($call, $timeout, @win32_ole_calls));
             }
 
             # Be sure to always block worker on semaphore from now
@@ -805,7 +803,7 @@ sub _call_win32_ole_dependent_api {
 
             if (exists($call->{'result'})) {
                 $result = $call->{'result'};
-            } elsif ($timeout > 0) {
+            } elsif (time < $timeout) {
                 # Worker is failing: get back to mono-thread and pray
                 $worker->detach() if (defined($worker) && !$worker->is_detached());
                 $worker = undef;
