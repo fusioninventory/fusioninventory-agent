@@ -101,6 +101,11 @@ sub _getWMIObjects {
         @_
     );
 
+    FusionInventory::Agent::Logger->require();
+
+    my $logthat = "";
+    my $logger  = $params{logger} || FusionInventory::Agent::Logger->new();
+
     my $expiration = _getExpirationTime();
 
     # We must re-initialize Win32::OLE to support Events
@@ -133,8 +138,12 @@ sub _getWMIObjects {
     Win32::OLE->WithEvents($WMISink, sub { shift; push @events, \@_; });
 
     if ($params{query}) {
+        $logthat = "WMI query: $params{query}";
+        $logger->debug2("Doing WMI $logthat") if $logger;
         $WMIService->ExecQueryAsync($WMISink, $params{query});
     } else {
+        $logthat = "$params{class} class WMI objects";
+        $logger->debug2("Looking for $logthat") if $logger;
         $WMIService->InstancesOfAsync($WMISink, $params{class});
     }
 
@@ -144,11 +153,7 @@ sub _getWMIObjects {
         my $nextevent = shift @events;
         if (!$nextevent) {
             if (time >= $expiration) {
-                FusionInventory::Agent::Logger->require();
-                my $logger = $params{logger} || FusionInventory::Agent::Logger->new();
-                $logger->info ("Timeout reached during WMI " .
-                    ($params{query} ? "query" : "request")
-                );
+                $logger->info("Timeout reached on $logthat") if $logger;
                 last;
             }
             Win32::OLE->SpinMessageLoop();
