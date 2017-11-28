@@ -108,10 +108,6 @@ sub _getWMIObjects {
 
     my $expiration = _getExpirationTime();
 
-    # We must re-initialize Win32::OLE to support Events
-    Win32::OLE->Uninitialize();
-    Win32::OLE->Initialize(Win32::OLE::COINIT_OLEINITIALIZE());
-
     my $WMIService;
     if (_remoteWmi()) {
         $WMIService = getWMIService(
@@ -123,6 +119,10 @@ sub _getWMIObjects {
             $WMIService = getWMIService( moniker => $params{altmoniker} );
         }
     } else {
+        # We must re-initialize Win32::OLE to support Events
+        Win32::OLE->Uninitialize();
+        Win32::OLE->Initialize(Win32::OLE::COINIT_OLEINITIALIZE());
+
         $WMIService = Win32::OLE->GetObject($params{moniker});
         # Support alternate moniker if provided and main failed to open
         if (!defined($WMIService) && $params{altmoniker}) {
@@ -910,6 +910,9 @@ sub _getExpirationTime {
 sub _win32_ole_worker {
     # Load Win32::OLE as late as possible in a dedicated worker
     Win32::OLE->require() or return;
+    # We re-initialize Win32::OLE to later support Events (needed for remote WMI)
+    Win32::OLE->Uninitialize();
+    Win32::OLE->Initialize(Win32::OLE::COINIT_OLEINITIALIZE());
     Win32::OLE::Variant->require() or return;
     Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
