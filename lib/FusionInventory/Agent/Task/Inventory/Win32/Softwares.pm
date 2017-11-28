@@ -186,7 +186,6 @@ sub _getSoftwaresList {
 
     my $softwares = getRegistryKey(
         path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall",
-<<<<<<< HEAD
         wmiopts => { # Only used for remote WMI optimization
             values  => [ qw/
                 DisplayName Comments HelpLink ReleaseType DisplayVersion
@@ -194,8 +193,6 @@ sub _getSoftwaresList {
                 MajorVersion NoRemove SystemComponent
                 / ]
         },
-=======
->>>>>>> 2.4.x+backport-win32-registry-access-normalization-refacto
         %params
     );
 
