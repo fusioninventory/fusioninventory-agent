@@ -25,6 +25,7 @@ inventory:
 * Linux distro: Add support for reading os-release file and removing LSB support
 * Fix Solaris drives df output parsing adding better zfs handling
 * Make backend-collect-timeout working even while waiting on command output
+* Fix #161: Support retrieving License software via WMI, including Office 2016
 
 netdiscovery/netinventory:
 * Bump NetDiscovery & NetInventory task version to 2.4

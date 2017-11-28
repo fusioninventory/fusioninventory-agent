@@ -26,7 +26,8 @@ sub doInventory {
 
     my $is64bit = is64bit();
 
-    foreach my $software (_getSoftwaresList( is64bit => $is64bit )) {
+    my $softwares64 = _getSoftwaresList( is64bit => $is64bit ) || [];
+    foreach my $software (@$softwares64) {
         _addSoftware(inventory => $inventory, entry => $software);
     }
 
@@ -49,10 +50,11 @@ sub doInventory {
     }
 
     if ($is64bit) {
-        foreach my $software (_getSoftwaresList(
+        my $softwares32 = _getSoftwaresList(
             path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall",
             is64bit => 0
-        )) {
+        ) || [];
+        foreach my $software (@$softwares32) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
 
@@ -99,16 +101,16 @@ sub _loadUserSoftware {
                 "Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall" :
                 "Microsoft/Windows/CurrentVersion/Uninstall";
 
-        my @softwares = _getSoftwaresList(
+        my $softwares = _getSoftwaresList(
             path      => $profileSoft,
             is64bit   => $is64bit,
             userid    => $profileName,
             username  => $userName
-        );
-        next unless @softwares;
-        my $nbUsers = scalar(@softwares);
+        ) || [];
+        next unless @$softwares;
+        my $nbUsers = scalar(@$softwares);
         $logger->debug2('_loadUserSoftwareFromHKey_Users() : add of ' . $nbUsers . ' softwares in inventory');
-        foreach my $software (@softwares) {
+        foreach my $software (@$softwares) {
             _addSoftware(inventory => $inventory, entry => $software);
         }
     }
@@ -184,6 +186,7 @@ sub _getSoftwaresList {
 
     my $softwares = getRegistryKey(
         path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall",
+<<<<<<< HEAD
         wmiopts => { # Only used for remote WMI optimization
             values  => [ qw/
                 DisplayName Comments HelpLink ReleaseType DisplayVersion
@@ -191,6 +194,8 @@ sub _getSoftwaresList {
                 MajorVersion NoRemove SystemComponent
                 / ]
         },
+=======
+>>>>>>> 2.4.x+backport-win32-registry-access-normalization-refacto
         %params
     );
 
@@ -243,7 +248,8 @@ sub _getSoftwaresList {
         push @list, $software;
     }
 
-    return @list;
+    # It's better to return ref here as the array can be really large
+    return \@list;
 }
 
 sub _getHotfixesList {
