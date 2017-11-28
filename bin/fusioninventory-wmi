@@ -28,12 +28,17 @@ GetOptions(
     'backend-collect-timeout=s',
     'conf-file=s',
     'config=s',
+    'ca-cert-dir=s',
+    'ca-cert-file=s',
     'debug+',
     'help',
     'host|h=s',
     'local|l=s',
     'logger=s',
     'logfile=s',
+    'no-category=s',
+    'no-ssl-check',
+    'no-compression|C',
     'pass|p=s',
     'scan-homedirs',
     'scan-profiles',
@@ -90,13 +95,7 @@ my $config = FusionInventory::Agent::Config->new(
     options => $options,
 );
 
-my $verbosity =
-    $options->{debug} == 0 ? LOG_INFO   :
-    $options->{debug} == 1 ? LOG_DEBUG  :
-    $options->{debug} == 2 ? LOG_DEBUG2 :
-                             LOG_DEBUG2 ;
-
-my $logger = FusionInventory::Agent::Logger->new(verbosity => $verbosity);
+my $logger = FusionInventory::Agent::Logger->new(config => $config);
 
 # Get targets
 my @targets = $config->getTargets(
@@ -114,7 +113,6 @@ foreach my $target (@targets) {
         target  => $target,
         logger  => $logger,
         datadir => $setup{datadir},
-        confdir => $setup{confdir},
         config  => $config
     );
 
@@ -137,17 +135,40 @@ fusioninventory-wmi - Win32 remote inventory
 fusioninventory-wmi [options] --host <host> [--user <user>] [--pass <pass>] [--server server|--local path]
 
   General options:
-    --help                 this menu
-    -t --tag tag           tag for the inventoried machine
+    --help                         this menu
+    -t --tag tag                   tag for the inventoried machine
 
   Remote machine options:
-    -h --host hostname     hostname - mandatory option
-    -u --user username     user name
-    -p --pass xxxx         user password
+    -h --host hostname             hostname - mandatory option
+    -u --user username             user name
+    -p --pass xxxx                 user password
 
   Target definition options:
     -s --server=URI                send tasks result to a server
     -l --local=PATH                write tasks results locally
+
+  Inventory task options:
+    --backend-collect-timeout=TIME timeout for inventory modules execution
+                                   (default: 180s)
+    --no-category=CATEGORY         do not list given category items
+    --scan-homedirs                scan user home directories (false)
+    --scan-profiles                scan user profiles (false)
+
+  Network options:
+    --ca-cert-dir=DIRECTORY        CA certificates directory
+    --ca-cert-file=FILE            CA certificates file
+    --no-ssl-check                 do not check server SSL certificate
+                                     (false)
+    -C --no-compression            do not compress communication with server
+                                     (false)
+
+  Logging options:
+    --logger=BACKEND               logger backend (stderr)
+    --logfile=FILE                 log file
+
+  Configuration options:
+    --config=BACKEND               configuration backend
+    --conf-file=FILE               configuration file
 
 =head1 EXAMPLES
 
