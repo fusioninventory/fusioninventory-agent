@@ -85,6 +85,12 @@ if ($options->{'conf-file'}) {
     }
 }
 
+# Under win32, registry config is automatically loaded and may populate server target
+# So we prefer to explicitly unset server target if only local is wanted without config defined
+if ($options->{'local'} && !$options->{'server'} && !$options->{'config'}) {
+    $options->{'server'} = "";
+}
+
 unless ($options->{'no-win32-ole-workaround'}) {
     # From here we may need to avoid crashes due to not thread-safe Win32::OLE
     FusionInventory::Agent::Tools::Win32->require();
