@@ -3,9 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Win32::Users;
 use strict;
 use warnings;
 
-use constant wbemFlagReturnImmediately => 0x10;
-use constant wbemFlagForwardOnly => 0x20;
-
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
@@ -183,7 +180,7 @@ sub _getLocalUser {
 
     my @local_users = getWMIObjects(
         moniker    => 'winmgmts:\\\\.\\root\\CIMV2',
-        query      => [ $query ],
+        query      => $query,
         properties => [ qw/Name Domain/ ]
     );
 
