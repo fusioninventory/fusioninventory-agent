@@ -89,9 +89,9 @@ sub _makeProfileAndConnectionsAssociation {
 
     my $DNSRegisteredAdapters = getRegistryKey(
         path => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/Tcpip/Parameters/DNSRegisteredAdapters',
-            wmiopts => { # Only used for remote WMI optimization
-                values  => [ qw/PrimaryDomainName/ ]
-            }
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/PrimaryDomainName/ ]
+        }
     );
 
     return unless $DNSRegisteredAdapters;

@@ -9221,16 +9221,16 @@ foreach my $test (keys %softwares_tests) {
         mockGetRegistryKey($test)
     );
 
-    my @softwares = FusionInventory::Agent::Task::Inventory::Win32::Softwares::_getSoftwaresList();
+    my $softwares = FusionInventory::Agent::Task::Inventory::Win32::Softwares::_getSoftwaresList();
 
     cmp_deeply(
-        [ sort { compare() } @softwares ],
+        [ sort { compare() } @$softwares ],
         [ sort { compare() } @{$softwares_tests{$test}} ],
         "$test: parsing"
     );
     lives_ok {
         $inventory->addEntry(section => 'SOFTWARES', entry => $_)
-            foreach @softwares;
+            foreach @$softwares;
     } "$test: registering";
 }
 

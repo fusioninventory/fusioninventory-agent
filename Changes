@@ -14,6 +14,7 @@ core:
 * Logger refactoring: no more an Exporter based class to simplify its usage and
   as Logger object should be commonly shared everywhere it is used.
 * Fix command run to also time out while an alarm has been set
+* Fix WMI calls to also time out under win32
 * Few code refactoring
 
 inventory:

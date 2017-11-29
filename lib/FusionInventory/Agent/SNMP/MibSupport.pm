@@ -6,6 +6,7 @@ use warnings;
 # Extracted from SNMPv2-MIB standard
 use constant    sysORID => '.1.3.6.1.2.1.1.9.1.2';
 
+use English qw(-no_match_vars);
 use File::Glob;
 use UNIVERSAL::require;
 
@@ -33,6 +34,10 @@ sub new {
     my ($sub_modules_path) = $INC{module2file(__PACKAGE__)} =~ /(.*)\.pm/;
     my %available_mib_support = ();
     foreach my $file (File::Glob::bsd_glob("$sub_modules_path/*.pm")) {
+        if ($OSNAME eq 'MSWin32') {
+            $file =~ s{\\}{/}g;
+            $sub_modules_path =~ s{\\}{/}g;
+        }
         next unless $file =~ m{$sub_modules_path/(\S+)\.pm$};
 
         my $module = __PACKAGE__ . "::" . $1;
