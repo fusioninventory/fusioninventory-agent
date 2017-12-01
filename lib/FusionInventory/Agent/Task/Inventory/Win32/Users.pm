@@ -7,11 +7,6 @@ use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly => 0x20;
 
 use English qw(-no_match_vars);
-use Win32::TieRegistry (
-    Delimiter   => '/',
-    ArrayValues => 0,
-    qw/KEY_READ/
-);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;

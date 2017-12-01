@@ -45,6 +45,7 @@ my %tests = (
             SPEED       => 100,
             PNPDEVICEID => 'PCI\VEN_10EC&DEV_8168&SUBSYS_84321043&REV_06\4&87D54EE&0&00E5',
             PCIID       => '10EC:8168:8432:1043',
+            GUID        => '{442CDFAD-10E9-45B6-8CF9-C829034793B0}',
         },
         {
             dns         => '192.168.0.254',
@@ -59,6 +60,7 @@ my %tests = (
             SPEED       => 100,
             PNPDEVICEID => 'PCI\VEN_10EC&DEV_8168&SUBSYS_84321043&REV_06\4&87D54EE&0&00E5',
             PCIID       => '10EC:8168:8432:1043',
+            GUID        => '{442CDFAD-10E9-45B6-8CF9-C829034793B0}',
         },
         {
             dns         => undef,
@@ -69,6 +71,7 @@ my %tests = (
             VIRTUALDEV  => 0,
             PNPDEVICEID => 'BTH\MS_BTHPAN\7&42D85A8&0&2',
             PCIID       => undef,
+            GUID        => '{DDE01862-B0C0-4715-AF6C-51D31172EBF9}',
         },
     ],
     xp => [
@@ -116,6 +119,7 @@ my %tests = (
             MTU         => undef,
             DESCRIPTION => 'Broadcom NetXtreme Gigabit Ethernet - Teefer2 Miniport',
             IPADDRESS   => '10.36.6.30',
+            DNSDomain   => 'sociedad.imaginaria.es',
         },
         {
             dns         => undef,
