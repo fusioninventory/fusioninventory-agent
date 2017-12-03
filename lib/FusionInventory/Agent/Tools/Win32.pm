@@ -45,7 +45,6 @@ our @EXPORT = qw(
     getLocalCodepage
     runCommand
     FileTimeToSystemTime
-    getUsersFromRegistry
     getAgentMemorySize
     FreeAgentMem
 );
@@ -258,10 +257,10 @@ sub getRegistryValue {
 sub getRegistryKey {
     my (%params) = @_;
 
+    my $logger = $params{logger};
+
     if (!$params{path}) {
-        $params{logger}->error(
-            "No registry key path provided"
-        ) if $params{logger};
+        $logger->error("No registry key path provided") if $logger;
         return;
     }
 
@@ -270,14 +269,13 @@ sub getRegistryKey {
         $root      = $1;
         $keyName   = $2;
     } else {
-        $params{logger}->error(
-            "Failed to parse '$params{path}'. Does it start with HKEY_?"
-        ) if $params{logger};
+        $logger->error("Failed to parse '$params{path}'. Does it start with HKEY_?")
+            if $logger;
         return;
     }
 
     return _getRegistryKey(
-        logger  => $params{logger},
+        logger  => $logger,
         root    => $root,
         keyName => $keyName
     );
@@ -354,46 +352,26 @@ sub runCommand {
 sub getInterfaces {
     my (%params) = @_;
 
-    my @properties = qw/Index Description IPEnabled DHCPServer MACAddress
-                           MTU DefaultIPGateway DNSServerSearchOrder IPAddress
-                           IPSubnet/;
-    if ($params{additionalProperties}
-        && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-        if (ref($params{additionalProperties}->{NetWorkAdapterConfiguration}) eq 'ARRAY') {
-            push @properties, @{$params{additionalProperties}->{NetWorkAdapterConfiguration}};
-        } else {
-            delete $params{additionalProperties}->{NetWorkAdapterConfiguration};
-        }
-    }
-    
     my @configurations;
-    my @wmiResult =
-            $params{list}
-                && $params{list}->{Win32_NetworkAdapterConfiguration}
-                && ref($params{list}->{Win32_NetworkAdapterConfiguration}) eq 'ARRAY' ?
-        @{$params{list}->{Win32_NetworkAdapterConfiguration}} :
-        getWMIObjects(
+
+    foreach my $object (getWMIObjects(
             class      => 'Win32_NetworkAdapterConfiguration',
-            properties => \@properties
-        );
-    foreach my $object (@wmiResult) {
+            properties => [ qw/
+                Index Description IPEnabled DHCPServer MACAddress MTU
+                DefaultIPGateway DNSServerSearchOrder IPAddress IPSubnet
+                DNSDomain
+                /
+            ]
+    )) {
 
         my $configuration = {
             DESCRIPTION => $object->{Description},
             STATUS      => $object->{IPEnabled} ? "Up" : "Down",
             IPDHCP      => $object->{DHCPServer},
             MACADDR     => $object->{MACAddress},
-            MTU         => $object->{MTU}
+            MTU         => $object->{MTU},
+            DNSDomain   => $object->{DNSDomain}
         };
-
-        if ($params{additionalProperties}
-            && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-            for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
-                if (defined $object->{$prop}) {
-                    $configuration->{$prop} = $object->{$prop};
-                }
-            }
-        }
 
         if ($object->{DefaultIPGateway}) {
             $configuration->{IPGATEWAY} = $object->{DefaultIPGateway}->[0];
@@ -415,23 +393,10 @@ sub getInterfaces {
 
     my @interfaces;
 
-    @properties = qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId/;
-    if ($params{additionalProperties}
-        && $params{additionalProperties}->{NetWorkAdapter}) {
-        if (ref($params{additionalProperties}->{NetWorkAdapter}) eq 'ARRAY') {
-            push @properties, @{$params{additionalProperties}->{NetWorkAdapter}};
-        } else {
-            delete $params{additionalProperties}->{NetWorkAdapter};
-        }
-    }
-    @wmiResult =
-            $params{list} && $params{list}->{Win32_NetworkAdapter} ?
-        @{$params{list}->{Win32_NetworkAdapter}} :
-        getWMIObjects(
-            class      => 'Win32_NetworkAdapter',
-            properties => \@properties
-        );
-    foreach my $object (@wmiResult) {
+    foreach my $object (getWMIObjects(
+        class      => 'Win32_NetworkAdapter',
+        properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId GUID/ ]
+    )) {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $object->{PNPDeviceID};
 
@@ -452,25 +417,8 @@ sub getInterfaces {
                     DESCRIPTION => $configuration->{DESCRIPTION},
                     STATUS      => $configuration->{STATUS},
                     MTU         => $configuration->{MTU},
-                    dns         => $configuration->{dns},
+                    dns         => $configuration->{dns}
                 };
-
-                if ($params{additionalProperties}
-                    && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-                    for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
-                        if ($configuration->{$prop}) {
-                            $interface->{$prop} = $configuration->{$prop};
-                        }
-                    }
-                }
-                if ($params{additionalProperties}
-                    && $params{additionalProperties}->{NetWorkAdapter}) {
-                    for my $prop (@{$params{additionalProperties}->{NetWorkAdapter}}) {
-                        if ($object->{$prop}) {
-                            $interface->{$prop} = $object->{$prop};
-                        }
-                    }
-                }
 
                 if ($address->[0] =~ /$ip_address_pattern/) {
                     $interface->{IPADDRESS} = $address->[0];
@@ -489,6 +437,11 @@ sub getInterfaces {
                         $interface->{IPMASK6}
                     );
                 }
+
+                $interface->{GUID} = $object->{GUID}
+                    if $object->{GUID};
+                $interface->{DNSDomain} = $configuration->{DNSDomain}
+                    if $configuration->{DNSDomain};
 
                 $interface->{SPEED}      = $object->{Speed} / 1_000_000
                     if $object->{Speed};
@@ -509,26 +462,14 @@ sub getInterfaces {
                 dns         => $configuration->{dns}
             };
 
+            $interface->{GUID} = $object->{GUID}
+                if $object->{GUID};
+            $interface->{DNSDomain} = $configuration->{DNSDomain}
+                if $configuration->{DNSDomain};
+
             $interface->{SPEED}      = $object->{Speed} / 1_000_000
                 if $object->{Speed};
             $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
-
-            if ($params{additionalProperties}
-                && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-                for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
-                    if ($configuration->{$prop}) {
-                        $interface->{$prop} = $configuration->{$prop};
-                    }
-                }
-            }
-            if ($params{additionalProperties}
-                && $params{additionalProperties}->{NetWorkAdapter}) {
-                for my $prop (@{$params{additionalProperties}->{NetWorkAdapter}}) {
-                    if ($configuration->{$prop}) {
-                        $interface->{$prop} = $configuration->{$prop};
-                    }
-                }
-            }
 
             push @interfaces, $interface;
         }
@@ -830,43 +771,6 @@ sub _call_win32_ole_dependent_api {
         };
         return &{$funct}(@{$call->{'args'}});
     }
-}
-
-sub getUsersFromRegistry {
-    my (%params) = @_;
-
-    my $logger = $params{logger};
-    # ensure native registry access, not the 32 bit view
-    my $flags = is64bit() ? KEY_READ | KEY_WOW64_64 : KEY_READ;
-    my $machKey = $Registry->Open('LMachine', {
-            Access => $flags
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-    if (!$machKey) {
-        $logger->error("getUsersFromRegistry() : Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        return;
-    }
-    $logger->debug2('getUsersFromRegistry() : opened LMachine registry key');
-    my $profileList =
-        $machKey->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
-    next unless $profileList;
-
-    my $userList;
-    foreach my $profileName (keys %$profileList) {
-        $params{logger}->debug2('profileName : ' . $profileName);
-        next unless $profileName =~ m{/$};
-        next unless length($profileName) > 10;
-        my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};
-        my $sid = $profileList->{$profileName}{'/Sid'};
-        next unless $sid;
-        next unless $profilePath;
-        my $user = basename($profilePath);
-        $userList->{$profileName} = $user;
-    }
-
-    if ($params{logger}) {
-        $params{logger}->debug2('getUsersFromRegistry() : retrieved ' . scalar(keys %$userList) . ' users');
-    }
-    return $userList;
 }
 
 END {

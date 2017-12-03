@@ -108,10 +108,6 @@ resources
     repository  => "https://github.com/fusioninventory/fusioninventory-agent/",
     IRC         => "irc://irc.freenode.net/#fusioninventory";
 
-# Not indexing application setup
-no_index
-    file        => 'bin/setup.pm';
-
 makemaker_args(
     test => {
         TESTS => join ' ', map { glob } qw(
