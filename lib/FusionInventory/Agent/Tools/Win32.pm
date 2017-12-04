@@ -694,7 +694,7 @@ sub _win32_ole_worker {
             $call->{'result'} = shared_clone($result);
 
             # Reset expiration
-            setExpiration();
+            setExpirationTime();
 
             # Signal main thread result is available
             cond_signal($call);
