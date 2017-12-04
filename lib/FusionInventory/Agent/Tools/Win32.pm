@@ -763,13 +763,27 @@ sub _call_win32_ole_dependent_api {
         Win32::OLE::Variant->require() or return;
         Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
+        # Handle call expiration
+        setExpirationTime(%$call);
+
         # We come here from worker or if we failed to start worker
         my $funct;
         eval {
             no strict 'refs'; ## no critic (ProhibitNoStrict)
             $funct = \&{$call->{'funct'}};
         };
-        return &{$funct}(@{$call->{'args'}});
+
+        if (exists($call->{'array'}) && $call->{'array'}) {
+            my @results = &{$funct}(@{$call->{'args'}});
+            # Reset expiration
+            setExpirationTime();
+            return @results;
+        } else {
+            my $result = &{$funct}(@{$call->{'args'}});
+            # Reset expiration
+            setExpirationTime();
+            return $result;
+        }
     }
 }
 
