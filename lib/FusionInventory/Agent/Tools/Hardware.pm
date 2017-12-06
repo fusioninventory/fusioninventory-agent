@@ -722,6 +722,8 @@ sub _setPrinterProperties {
                     $logger->debug("invalid color ID $color_id") if $logger;
                     next;
                 }
+                # remove space and following char, XML tag does not accept space
+                $color =~ s/\s.*$//;
             } else {
                 # fallback on description
                 my $description = $descriptions->{$consumable_id};
