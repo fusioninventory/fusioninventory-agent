@@ -49,6 +49,7 @@ sub run {
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         statedir => $self->{target}->getStorage()->getDirectory(),
+        deviceid => $self->{deviceid},
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
@@ -67,6 +68,8 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
+    $inventory->resetDeviceId() if (!$inventory->getDeviceId());
+
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();
         my $format = $self->{target}->{format};
@@ -80,7 +83,7 @@ sub run {
 
             if (-d $path) {
                 $file =
-                    $path . "/" . $self->{deviceid} .
+                    $path . "/" . $inventory->getDeviceId() .
                     ($format eq 'xml' ? '.ocs' : '.html');
                 last SWITCH;
             }
@@ -131,7 +134,7 @@ sub run {
             unless FusionInventory::Agent::XML::Query::Inventory->require();
 
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-            deviceid => $self->{deviceid},
+            deviceid => $inventory->getDeviceId(),
             content  => $inventory->getContent()
         );
 
@@ -361,9 +364,9 @@ sub _printInventory {
             );
             print {$params{handle}} $tpp->write({
                 REQUEST => {
-                    CONTENT => $params{inventory}->{content},
-                    DEVICEID => $self->{deviceid},
-                    QUERY => "INVENTORY",
+                    CONTENT  => $params{inventory}->getContent(),
+                    DEVICEID => $params{inventory}->getDeviceId(),
+                    QUERY    => "INVENTORY",
                 }
             });
 
@@ -378,9 +381,9 @@ sub _printInventory {
 
              my $hash = {
                 version  => $FusionInventory::Agent::Version::VERSION,
-                deviceid => $params{inventory}->{deviceid},
-                data     => $params{inventory}->{content},
-                fields   => $params{inventory}->{fields},
+                deviceid => $params{inventory}->getDeviceId(),
+                data     => $params{inventory}->getContent(),
+                fields   => $params{inventory}->getFields()
             };
 
             print {$params{handle}} $template->fill_in(HASH => $hash);
