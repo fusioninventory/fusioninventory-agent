@@ -71,7 +71,12 @@ sub init {
 
     $self->_handlePersistentState();
 
-    $self->_createTargets();
+    # Always reset targets to handle re-init case
+    $self->{targets} = $config->getTargets(
+        logger      => $self->{logger},
+        deviceid    => $self->{deviceid},
+        vardir      => $self->{vardir}
+    );
 
     if (!$self->getTargets()) {
         $logger->error("No target defined, aborting");
@@ -476,44 +481,6 @@ sub getTasksExecutionPlan {
     my ($self) = @_;
 
     return $self->{tasksExecutionPlan};
-}
-
-sub _createTargets {
-    my ($self) = @_;
-
-    my $config = $self->{config};
-
-    # Always reset targets to handle re-init case
-    $self->{targets} = [];
-
-    # create target list
-    if ($config->{local}) {
-        foreach my $path (@{$config->{local}}) {
-            push @{$self->{targets}},
-                FusionInventory::Agent::Target::Local->new(
-                    logger     => $self->{logger},
-                    deviceid   => $self->{deviceid},
-                    delaytime  => $config->{delaytime},
-                    basevardir => $self->{vardir},
-                    path       => $path,
-                    html       => $config->{html},
-                );
-        }
-    }
-
-    if ($config->{server}) {
-        foreach my $url (@{$config->{server}}) {
-            push @{$self->{targets}},
-                FusionInventory::Agent::Target::Server->new(
-                    logger     => $self->{logger},
-                    deviceid   => $self->{deviceid},
-                    delaytime  => $config->{delaytime},
-                    basevardir => $self->{vardir},
-                    url        => $url,
-                    tag        => $config->{tag},
-                );
-        }
-    }
 }
 
 1;
