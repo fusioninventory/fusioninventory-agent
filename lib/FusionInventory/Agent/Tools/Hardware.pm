@@ -718,12 +718,12 @@ sub _setPrinterProperties {
             my $color;
             if ($color_id) {
                 $color = getCanonicalString($colors->{$color_id});
-                # remove space and following char, XML tag does not accept space
-                $color =~ s/\s.*$//;
                 if (!$color) {
                     $logger->debug("invalid color ID $color_id") if $logger;
                     next;
                 }
+                # remove space and following char, XML tag does not accept space
+                $color =~ s/\s.*$//;
             } else {
                 # fallback on description
                 my $description = $descriptions->{$consumable_id};
