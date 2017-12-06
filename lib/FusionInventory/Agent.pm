@@ -72,13 +72,11 @@ sub init {
     $self->_handlePersistentState();
 
     # Always reset targets to handle re-init case
-    $self->{targets} = [
-        $config->getTargets(
-            logger      => $self->{logger},
-            deviceid    => $self->{deviceid},
-            vardir      => $self->{vardir}
-        )
-    ];
+    $self->{targets} = $config->getTargets(
+        logger      => $self->{logger},
+        deviceid    => $self->{deviceid},
+        vardir      => $self->{vardir}
+    );
 
     if (!$self->getTargets()) {
         $logger->error("No target defined, aborting");

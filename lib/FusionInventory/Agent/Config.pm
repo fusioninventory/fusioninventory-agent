@@ -386,7 +386,7 @@ sub getTargets {
         }
     }
 
-    return @targets;
+    return \@targets;
 }
 
 1;
