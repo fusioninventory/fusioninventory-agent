@@ -1328,6 +1328,50 @@ my %tests = (
             CAPACITY         => '2048'
         }
     ],
+    'dell-fx170' => [
+        {
+            NUMSLOTS         => 1,
+            SERIALNUMBER     => 'None',
+            DESCRIPTION      => 'DIMM',
+            TYPE             => 'DDR2',
+            SPEED            => undef,
+            CAPACITY         => '2048',
+            CAPTION          => 'A0',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'None'
+
+        },{
+            NUMSLOTS         => 2,
+            SERIALNUMBER     => 'None',
+            DESCRIPTION      => 'DIMM',
+            TYPE             => undef,
+            SPEED            => undef,
+            CAPTION          => 'A1',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'None'
+
+        },{
+            NUMSLOTS         => 3,
+            SERIALNUMBER     => 'None',
+            DESCRIPTION      => 'DIMM',
+            TYPE             => undef,
+            SPEED            => undef,
+            CAPTION          => 'A2',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'None'
+
+        },{
+            NUMSLOTS         => 4,
+            SERIALNUMBER     => 'None',
+            DESCRIPTION      => 'DIMM',
+            TYPE             => undef,
+            SPEED            => undef,
+            CAPTION          => 'A3',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'None'
+
+        }
+    ],
     'windows-hyperV' => [
         {
             NUMSLOTS         => 1,
