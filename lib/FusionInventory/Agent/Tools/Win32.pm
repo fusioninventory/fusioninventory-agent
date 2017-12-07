@@ -28,6 +28,7 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Expiration;
 use FusionInventory::Agent::Version;
 
 my $localCodepage;
@@ -99,6 +100,12 @@ sub _getWMIObjects {
         @_
     );
 
+    my $expiration = getExpirationTime();
+
+    # We must re-initialize Win32::OLE to support Events
+    Win32::OLE->Uninitialize();
+    Win32::OLE->Initialize(Win32::OLE::COINIT_OLEINITIALIZE());
+
     my $WMIService = Win32::OLE->GetObject($params{moniker});
 
     # Support alternate moniker if provided and main failed to open
@@ -109,16 +116,37 @@ sub _getWMIObjects {
         return unless (defined($WMIService));
     }
 
-    Win32::OLE->use('in');
+    my @events = ();
+    # Prepare events sink
+    my $WMISink = Win32::OLE->CreateObject("WbemScripting.SWbemSink");
+    Win32::OLE->WithEvents($WMISink, sub { shift; push @events, \@_; });
+
+    if ($params{query}) {
+        $WMIService->ExecQueryAsync($WMISink, $params{query});
+    } else {
+        $WMIService->InstancesOfAsync($WMISink, $params{class});
+    }
 
     my @objects;
-    foreach my $instance (in(
-        $params{query} ?
-        $WMIService->ExecQuery(@{$params{query}})
-        :
-        $WMIService->InstancesOf($params{class})
-    )) {
+    while (1) {
         my $object;
+        my $nextevent = shift @events;
+        if (!$nextevent) {
+            if (time >= $expiration) {
+                FusionInventory::Agent::Logger->require();
+                my $logger = $params{logger} || FusionInventory::Agent::Logger->new();
+                $logger->info ("Timeout reached during WMI " .
+                    ($params{query} ? "query" : "request")
+                );
+                last;
+            }
+            Win32::OLE->SpinMessageLoop();
+            delay(0.2);
+            next;
+        }
+        my ( $event, $instance ) = @{$nextevent};
+        last if $event eq 'OnCompleted';
+        next unless ($event eq 'OnObjectReady' && $instance);
         # Handle Win32::OLE object method, see _getLoggedUsers() method in
         # FusionInventory::Agent::Task::Inventory::Win32::Users as example to
         # use or enhance this feature
@@ -177,6 +205,9 @@ sub _getWMIObjects {
         }
         push @objects, $object;
     }
+
+    # Reset event sink
+    Win32::OLE->WithEvents($WMISink);
 
     return @objects;
 }
@@ -643,6 +674,9 @@ sub _win32_ole_worker {
         if (defined($call)) {
             lock($call);
 
+            # Handle call expiration
+            setExpirationTime(%$call);
+
             # Found requested private function and call it as expected
             my $funct;
             eval {
@@ -659,6 +693,9 @@ sub _win32_ole_worker {
             # Share back the result
             $call->{'result'} = shared_clone($result);
 
+            # Reset expiration
+            setExpirationTime();
+
             # Signal main thread result is available
             cond_signal($call);
         }
@@ -668,6 +705,18 @@ sub _win32_ole_worker {
 sub _call_win32_ole_dependent_api {
     my ($call) = @_
         or return;
+
+    # Reset timeout as shared between threads
+    my $now = time;
+    my $expiration = getExpirationTime() || $now + 180;
+
+    # Reduce expiration time by 10% of the remaining time to leave a chance to
+    # the caller to compute any result. By default, the reducing should be 2 seconds.
+    $expiration -= int(($expiration - $now) * 0.01) + 1;
+
+    # Be sure expiration is kept in the future by 10 seconds
+    $expiration = $now + 10 unless $expiration > $now;
+    $call->{expiration} = $expiration;
 
     if (defined($worker)) {
         # Share the expect call
@@ -686,10 +735,11 @@ sub _call_win32_ole_dependent_api {
             # Release semaphore so the worker can continue its job
             $worker_semaphore->up();
 
-            # Now, wait for worker result with one minute timeout
-            my $timeout = time + 60;
+            # Now, wait for worker result, leaving a 1 second grace delay to
+            # give worker a chance to handle the timeout by itself
+            $expiration ++ ;
             while (!exists($call->{'result'})) {
-                last if (!cond_timedwait($call, $timeout, @win32_ole_calls));
+                last if (!cond_timedwait($call, $expiration, @win32_ole_calls));
             }
 
             # Be sure to always block worker on semaphore from now
@@ -697,9 +747,9 @@ sub _call_win32_ole_dependent_api {
 
             if (exists($call->{'result'})) {
                 $result = $call->{'result'};
-            } else {
+            } elsif (time < $expiration) {
                 # Worker is failing: get back to mono-thread and pray
-                $worker->detach();
+                $worker->detach() if (defined($worker) && !$worker->is_detached());
                 $worker = undef;
                 return _call_win32_ole_dependent_api(@_);
             }
@@ -713,13 +763,27 @@ sub _call_win32_ole_dependent_api {
         Win32::OLE::Variant->require() or return;
         Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
+        # Handle call expiration
+        setExpirationTime(%$call);
+
         # We come here from worker or if we failed to start worker
         my $funct;
         eval {
             no strict 'refs'; ## no critic (ProhibitNoStrict)
             $funct = \&{$call->{'funct'}};
         };
-        return &{$funct}(@{$call->{'args'}});
+
+        if (exists($call->{'array'}) && $call->{'array'}) {
+            my @results = &{$funct}(@{$call->{'args'}});
+            # Reset expiration
+            setExpirationTime();
+            return @results;
+        } else {
+            my $result = &{$funct}(@{$call->{'args'}});
+            # Reset expiration
+            setExpirationTime();
+            return $result;
+        }
     }
 }
 
