@@ -14,6 +14,7 @@ core:
 * Logger refactoring: no more an Exporter based class to simplify its usage and
   as Logger object should be commonly shared everywhere it is used.
 * Fix command run to also time out while an alarm has been set
+* Fix WMI calls to also time out under win32
 * Few code refactoring
 
 inventory:
@@ -39,6 +40,9 @@ deploy:
 * Bump Deploy task version to 2.5
 * ddurieux fixed a regression introduced in 2.3.18 preventing to re-use known
   good peer to download file parts.
+
+injector:
+* Support --no-ssl-check option to avoid checking server SSL certificate
 
 2.3.21 Mon, 31 Jul 2017
 core:
