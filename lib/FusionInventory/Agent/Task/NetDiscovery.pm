@@ -322,30 +322,40 @@ sub _scanAddress {
     my $id     = threads->tid();
     $logger->debug("[thread $id] scanning $params{ip}:");
 
-    my %device = (
-        $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : (),
-        $INC{'Net/NBName.pm'}    ? $self->_scanAddressByNetbios(%params) : (),
-        $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP(%params)    : ()
-    );
+    my $device = $self->_scanAddressByNmap(%params) || {};
+
+    foreach my $scannedDevice (
+        $self->_scanAddressByNetbios(%params),
+        $self->_scanAddressBySNMP(%params)
+    ) {
+        next unless $scannedDevice;
+        foreach my $key (keys(%{$scannedDevice})) {
+            # Don't override MAC if still set
+            next if ($key eq 'MAC' && $device->{MAC});
+            $device->{$key} = $scannedDevice->{$key};
+        }
+    }
 
     # don't report anything without a minimal amount of information
     return unless
-        $device{MAC}          ||
-        $device{SNMPHOSTNAME} ||
-        $device{DNSHOSTNAME}  ||
-        $device{NETBIOSNAME};
+        $device->{MAC}          ||
+        $device->{SNMPHOSTNAME} ||
+        $device->{DNSHOSTNAME}  ||
+        $device->{NETBIOSNAME};
 
-    $device{IP} = $params{ip};
+    $device->{IP} = $params{ip};
 
-    if ($device{MAC}) {
-        $device{MAC} =~ tr/A-F/a-f/;
+    if ($device->{MAC}) {
+        $device->{MAC} =~ tr/A-F/a-f/;
     }
 
-    return \%device;
+    return $device;
 }
 
 sub _scanAddressByNmap {
     my ($self, %params) = @_;
+
+    return unless $params{nmap_parameters};
 
     my $device = _parseNmap(
         command => "nmap $params{nmap_parameters} $params{ip} -oX -"
@@ -358,11 +368,13 @@ sub _scanAddressByNmap {
         $device ? 'success' : 'no result'
     );
 
-    return $device ? %$device : ();
+    return $device;
 }
 
 sub _scanAddressByNetbios {
     my ($self, %params) = @_;
+
+    return unless $INC{'Net/NBName.pm'};
 
     my $nb = Net::NBName->new();
 
@@ -376,31 +388,33 @@ sub _scanAddressByNetbios {
     );
     return unless $ns;
 
-    my %device;
+    my $device = {};
     foreach my $rr ($ns->names()) {
         my $suffix = $rr->suffix();
         my $G      = $rr->G();
         my $name   = $rr->name();
         if ($suffix == 0 && $G eq 'GROUP') {
-            $device{WORKGROUP} = getSanitizedString($name);
+            $device->{WORKGROUP} = getSanitizedString($name);
         }
         if ($suffix == 3 && $G eq 'UNIQUE') {
-            $device{USERSESSION} = getSanitizedString($name);
+            $device->{USERSESSION} = getSanitizedString($name);
         }
         if ($suffix == 0 && $G eq 'UNIQUE') {
-            $device{NETBIOSNAME} = getSanitizedString($name)
+            $device->{NETBIOSNAME} = getSanitizedString($name)
                 unless $name =~ /^IS~/;
         }
     }
 
-    $device{MAC} = $ns->mac_address();
-    $device{MAC} =~ tr/-/:/;
+    $device->{MAC} = $ns->mac_address();
+    $device->{MAC} =~ tr/-/:/;
 
-    return %device;
+    return $device;
 }
 
 sub _scanAddressBySNMP {
     my ($self, %params) = @_;
+
+    return unless $INC{'Net/SNMP.pm'};
 
     foreach my $credential (@{$params{snmp_credentials}}) {
         my $device = $self->_scanAddressBySNMPReal(
@@ -421,7 +435,7 @@ sub _scanAddressBySNMP {
 
         if (ref $device eq 'HASH') {
             $device->{AUTHSNMP} = $credential->{ID};
-            return %{$device};
+            return $device;
         }
     }
 
