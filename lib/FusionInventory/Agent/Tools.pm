@@ -525,7 +525,10 @@ sub runFunction {
         local $SIG{ALRM} = sub { die "alarm\n" };
 
         # set a timeout if needed
-        alarm $params{timeout} if setExpirationTime(%params);
+        if ($params{timeout}) {
+            alarm $params{timeout};
+            setExpirationTime(timeout => $params{timeout});
+        }
 
         no strict 'refs'; ## no critic (ProhibitNoStrict)
         $result = &{$params{module} . '::' . $params{function}}(
