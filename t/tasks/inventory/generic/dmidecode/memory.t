@@ -1328,6 +1328,28 @@ my %tests = (
             CAPACITY         => '2048'
         }
     ],
+    'dell-fx160' => [
+        {
+            NUMSLOTS         => 1,
+            SERIALNUMBER     => '3B085E1E',
+            DESCRIPTION      => 'DIMM',
+            TYPE             => 'DDR2',
+            SPEED            => '800',
+            CAPACITY         => '1024',
+            CAPTION          => 'DIMM_1',
+            MANUFACTURER     => 'Nanya',
+            MEMORYCORRECTION => 'None'
+        },{
+            NUMSLOTS         => 2,
+            SERIALNUMBER     => 'SerNum01',
+            DESCRIPTION      => 'Other',
+            TYPE             => undef,
+            SPEED            => undef,
+            CAPTION          => 'DIMM_2',
+            MANUFACTURER     => undef,
+            MEMORYCORRECTION => 'None'
+        }
+    ],
     'dell-fx170' => [
         {
             NUMSLOTS         => 1,

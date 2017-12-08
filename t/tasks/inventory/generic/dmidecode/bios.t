@@ -428,6 +428,25 @@ my %tests = (
             UUID          => '3445DEE7-45D0-1244-95DD-34FAA067C1BE33E',
         }
     },
+    'dell-fx160' => {
+        bios => {
+            BMANUFACTURER => 'Dell Inc.',
+            MSN           => '..CN701638BM00EW.',
+            BDATE         => '01/19/2012',
+            SMODEL        => 'OptiPlex FX160',
+            MMANUFACTURER => 'Dell Inc.',
+            SMANUFACTURER => 'Dell Inc.',
+            SKUNUMBER     => undef,
+            BVERSION      => 'A13',
+            MMODEL        => '0F259F',
+            SSN           => 'C83T54J',
+            ASSETTAG      => undef
+        },
+        hardware => {
+            CHASSIS_TYPE  => 'Desktop',
+            UUID          => '44454C4C-3800-1033-8054-C3C04F35344A'
+        }
+    },
     'dell-fx170' => {
         bios => {
             BMANUFACTURER => 'Phoenix Technologies, LTD',
