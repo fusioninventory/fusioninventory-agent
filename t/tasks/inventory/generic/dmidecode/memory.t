@@ -1361,7 +1361,6 @@ my %tests = (
             CAPTION          => 'A0',
             MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
-
         },{
             NUMSLOTS         => 2,
             SERIALNUMBER     => 'None',
@@ -1371,7 +1370,6 @@ my %tests = (
             CAPTION          => 'A1',
             MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
-
         },{
             NUMSLOTS         => 3,
             SERIALNUMBER     => 'None',
@@ -1381,7 +1379,6 @@ my %tests = (
             CAPTION          => 'A2',
             MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
-
         },{
             NUMSLOTS         => 4,
             SERIALNUMBER     => 'None',
@@ -1391,7 +1388,6 @@ my %tests = (
             CAPTION          => 'A3',
             MANUFACTURER     => undef,
             MEMORYCORRECTION => 'None'
-
         }
     ],
     'windows-hyperV' => [
@@ -1405,7 +1401,6 @@ my %tests = (
             CAPTION          => 'M0',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 2,
@@ -1416,7 +1411,6 @@ my %tests = (
             CAPTION          => 'M1',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 3,
@@ -1427,7 +1421,6 @@ my %tests = (
             CAPTION          => 'M2',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 4,
@@ -1438,7 +1431,6 @@ my %tests = (
             CAPTION          => 'M3',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 5,
@@ -1449,7 +1441,6 @@ my %tests = (
             CAPTION          => 'M4',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 6,
@@ -1460,7 +1451,6 @@ my %tests = (
             CAPTION          => 'M5',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 7,
@@ -1471,7 +1461,6 @@ my %tests = (
             CAPTION          => 'M6',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 8,
@@ -1482,7 +1471,6 @@ my %tests = (
             CAPTION          => 'M7',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 9,
@@ -1493,7 +1481,6 @@ my %tests = (
             CAPTION          => 'M8',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 10,
@@ -1504,7 +1491,6 @@ my %tests = (
             CAPTION          => 'M9',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 11,
@@ -1515,7 +1501,6 @@ my %tests = (
             CAPTION          => 'M10',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 12,
@@ -1526,7 +1511,6 @@ my %tests = (
             CAPTION          => 'M11',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 13,
@@ -1537,7 +1521,6 @@ my %tests = (
             CAPTION          => 'M12',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 14,
@@ -1548,7 +1531,6 @@ my %tests = (
             CAPTION          => 'M13',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 15,
@@ -1559,7 +1541,6 @@ my %tests = (
             CAPTION          => 'M14',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 16,
@@ -1570,7 +1551,6 @@ my %tests = (
             CAPTION          => 'M15',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 17,
@@ -1581,7 +1561,6 @@ my %tests = (
             CAPTION          => 'M16',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 18,
@@ -1592,7 +1571,6 @@ my %tests = (
             CAPTION          => 'M17',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 19,
@@ -1603,7 +1581,6 @@ my %tests = (
             CAPTION          => 'M18',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 20,
@@ -1614,7 +1591,6 @@ my %tests = (
             CAPTION          => 'M19',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 21,
@@ -1625,7 +1601,6 @@ my %tests = (
             CAPTION          => 'M20',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 22,
@@ -1636,7 +1611,6 @@ my %tests = (
             CAPTION          => 'M21',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 23,
@@ -1647,7 +1621,6 @@ my %tests = (
             CAPTION          => 'M22',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 24,
@@ -1658,7 +1631,6 @@ my %tests = (
             CAPTION          => 'M23',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 25,
@@ -1669,7 +1641,6 @@ my %tests = (
             CAPTION          => 'M24',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 26,
@@ -1680,7 +1651,6 @@ my %tests = (
             CAPTION          => 'M25',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 27,
@@ -1691,7 +1661,6 @@ my %tests = (
             CAPTION          => 'M26',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 28,
@@ -1702,7 +1671,6 @@ my %tests = (
             CAPTION          => 'M27',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 29,
@@ -1713,7 +1681,6 @@ my %tests = (
             CAPTION          => 'M28',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 30,
@@ -1724,7 +1691,6 @@ my %tests = (
             CAPTION          => 'M29',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 31,
@@ -1735,7 +1701,6 @@ my %tests = (
             CAPTION          => 'M30',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 32,
@@ -1746,7 +1711,6 @@ my %tests = (
             CAPTION          => 'M31',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 33,
@@ -1757,7 +1721,6 @@ my %tests = (
             CAPTION          => 'M32',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 34,
@@ -1768,7 +1731,6 @@ my %tests = (
             CAPTION          => 'M33',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 35,
@@ -1779,7 +1741,6 @@ my %tests = (
             CAPTION          => 'M34',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 36,
@@ -1790,7 +1751,6 @@ my %tests = (
             CAPTION          => 'M35',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 37,
@@ -1801,7 +1761,6 @@ my %tests = (
             CAPTION          => 'M36',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 38,
@@ -1812,7 +1771,6 @@ my %tests = (
             CAPTION          => 'M37',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 39,
@@ -1823,7 +1781,6 @@ my %tests = (
             CAPTION          => 'M38',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 40,
@@ -1834,7 +1791,6 @@ my %tests = (
             CAPTION          => 'M39',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 41,
@@ -1845,7 +1801,6 @@ my %tests = (
             CAPTION          => 'M40',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 42,
@@ -1856,7 +1811,6 @@ my %tests = (
             CAPTION          => 'M41',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 43,
@@ -1867,7 +1821,6 @@ my %tests = (
             CAPTION          => 'M42',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 44,
@@ -1878,7 +1831,6 @@ my %tests = (
             CAPTION          => 'M43',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 45,
@@ -1889,7 +1841,6 @@ my %tests = (
             CAPTION          => 'M44',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 46,
@@ -1900,7 +1851,6 @@ my %tests = (
             CAPTION          => 'M45',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 47,
@@ -1911,7 +1861,6 @@ my %tests = (
             CAPTION          => 'M46',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 48,
@@ -1922,7 +1871,6 @@ my %tests = (
             CAPTION          => 'M47',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 49,
@@ -1933,7 +1881,6 @@ my %tests = (
             CAPTION          => 'M48',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 50,
@@ -1944,7 +1891,6 @@ my %tests = (
             CAPTION          => 'M49',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 51,
@@ -1955,7 +1901,6 @@ my %tests = (
             CAPTION          => 'M50',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 52,
@@ -1966,7 +1911,6 @@ my %tests = (
             CAPTION          => 'M51',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 53,
@@ -1977,7 +1921,6 @@ my %tests = (
             CAPTION          => 'M52',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 54,
@@ -1988,7 +1931,6 @@ my %tests = (
             CAPTION          => 'M53',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 55,
@@ -1999,7 +1941,6 @@ my %tests = (
             CAPTION          => 'M54',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 56,
@@ -2010,7 +1951,6 @@ my %tests = (
             CAPTION          => 'M55',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 57,
@@ -2021,7 +1961,6 @@ my %tests = (
             CAPTION          => 'M56',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 58,
@@ -2032,7 +1971,6 @@ my %tests = (
             CAPTION          => 'M57',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 59,
@@ -2043,7 +1981,6 @@ my %tests = (
             CAPTION          => 'M58',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 60,
@@ -2054,7 +1991,6 @@ my %tests = (
             CAPTION          => 'M59',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 61,
@@ -2065,7 +2001,6 @@ my %tests = (
             CAPTION          => 'M60',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 62,
@@ -2076,7 +2011,6 @@ my %tests = (
             CAPTION          => 'M61',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 63,
@@ -2087,7 +2021,6 @@ my %tests = (
             CAPTION          => 'M62',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         },
         {
             NUMSLOTS         => 64,
@@ -2098,7 +2031,6 @@ my %tests = (
             CAPTION          => 'M63',
             MANUFACTURER     => 'Microsoft',
             MEMORYCORRECTION => 'None'
-
         }
     ]
 );
