@@ -257,6 +257,25 @@ my %tests = (
             CHASSIS_TYPE  => 'Rack Mount Chassis'
         },
     },
+    'oracle-server-x5-2' => {
+        bios => {
+            MMANUFACTURER => 'Oracle Corporation',
+            SSN           => '1634NM1107',
+            SKUNUMBER     => '7092459',
+            ASSETTAG      => '7092459',
+            BMANUFACTURER => 'American Megatrends Inc.',
+            MSN           => '489089M+16324B2191',
+            SMODEL        => 'ORACLE SERVER X5-2',
+            SMANUFACTURER => 'Oracle Corporation',
+            BDATE         => '05/26/2016',
+            MMODEL        => 'ASM,MOTHERBOARD,1U',
+            BVERSION      => '30080300'
+        },
+        hardware => {
+            UUID          => '080020FF-FFFF-FFFF-FFFF-0010E0BCCBBC',
+            CHASSIS_TYPE  => 'Main Server Chassis'
+        },
+    },
     'S3000AHLX' => {
         bios => {
             MMANUFACTURER => 'Intel Corporation',
@@ -407,6 +426,25 @@ my %tests = (
         hardware => {
             CHASSIS_TYPE  => 'Desktop',
             UUID          => '3445DEE7-45D0-1244-95DD-34FAA067C1BE33E',
+        }
+    },
+    'lenovo-thinkpad' => {
+        bios => {
+            BMANUFACTURER => 'LENOVO',
+            MSN           => '1ZJJC21G0N6',
+            BDATE         => '12/01/2011',
+            SMODEL        => 'ThinkPad Edge E320',
+            SMANUFACTURER => 'LENOVO',
+            SKUNUMBER     => 'ThinkPad Edge E320',
+            MMANUFACTURER => 'LENOVO',
+            BVERSION      => '8NET32WW (1.16 )',
+            MMODEL        => '1298A8G',
+            SSN           => 'LR9NKZ7',
+            ASSETTAG      => 'No Asset Information'
+        },
+        hardware => {
+            CHASSIS_TYPE  => 'Notebook',
+            UUID          => '725BA801-507B-11CB-95E6-C66052AAC597'
         }
     }
 );

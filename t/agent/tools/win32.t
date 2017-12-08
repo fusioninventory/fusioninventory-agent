@@ -24,6 +24,10 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
     plan skip_all => 'thread support required';
 }
 
+# REG_SZ & REG_DWORD provided by even faked Win32::TieRegistry module
+Win32::TieRegistry->require();
+Win32::TieRegistry->import('REG_DWORD', 'REG_SZ');
+
 my %tests = (
     7 => [
         {
@@ -146,10 +150,115 @@ my %tests = (
     ]
 );
 
+# Emulated registry
+my %register = (
+    'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node' => {
+        'TeamViewer' => {
+            # Values key begins with a slash
+            '/ClientID' => '0x12345678',
+            '/Version'  => '12.0.72365',
+            # Subkey ends with a slash
+            'subkey/'   => {
+                '/value' => ''
+            }
+        }
+    },
+    'HKEY_LOCAL_MACHINE/CurrentControlSet/Control/Session Manager' => {
+        'Environment' => {
+            '/TEMP' => '%SystemRoot%\\TEMP',
+            '/OS'   => 'Windows_NT',
+        }
+    }
+);
+
+my %regkey_tests = (
+    'nopath' => {
+        _expected => undef
+    },
+    'undef-path' => {
+        path      => undef,
+        _expected => undef
+    },
+    'emptypath' => {
+        path      => '',
+        _expected => undef
+    },
+    'badroot' => {
+        path      => 'HKEY_NOT_A_ROOT/Not_existing_Key_path',
+        _expected => undef
+    },
+    'teamviewer' => {
+        path      => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer',
+        _expected => bless({
+            '/ClientID' => '0x12345678',
+            '/Version'  => '12.0.72365',
+            'subkey/'    => bless({
+                '/value' => ''
+            }, 'Win32::TieRegistry')
+        }, 'Win32::TieRegistry')
+    },
+    'environment' => {
+        path      => 'HKEY_LOCAL_MACHINE/CurrentControlSet/Control/Session Manager/Environment',
+        _expected => bless({
+            '/TEMP' => '%SystemRoot%\\TEMP',
+            '/OS'   => 'Windows_NT'
+        }, 'Win32::TieRegistry')
+    }
+);
+
+my %regval_tests = (
+    'nopath' => {
+        _expected => undef
+    },
+    'undef-path' => {
+        path      => undef,
+        _expected => undef
+    },
+    'emptypath' => {
+        path      => '',
+        _expected => undef
+    },
+    'badroot' => {
+        path      => 'HKEY_NOT_A_ROOT/Not_existing_Key_path',
+        _expected => undef
+    },
+    'teamviewerid' => {
+        path      => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer/ClientID',
+        _expected => '0x12345678'
+    },
+    'teamviewer-all' => {
+        path      => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer/*',
+        _expected => {
+            'ClientID' => '0x12345678',
+            'Version'  => '12.0.72365',
+            'subkey/'   => undef
+        }
+    },
+    'teamviewerid-withtype' => {
+        path      => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer/ClientID',
+        withtype  => 1,
+        _expected => [ '0x12345678', REG_DWORD() ]
+    },
+    'teamviewer-all-withtype' => {
+        path      => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer/*',
+        withtype  => 1,
+        _expected => {
+            'ClientID' => [ '0x12345678', REG_DWORD() ],
+            'Version'  => [ '12.0.72365', REG_SZ() ],
+            'subkey/'   => []
+        }
+    },
+    'temp-env' => {
+        path      => 'HKEY_LOCAL_MACHINE/CurrentControlSet/Control/Session Manager/Environment/TEMP',
+        _expected => '%SystemRoot%\\TEMP'
+    }
+);
+
 my $win32_only_test_count = 7;
 
 plan tests =>
-    (scalar keys %tests) + $win32_only_test_count;
+    (scalar keys %tests) + $win32_only_test_count +
+    (scalar keys %regkey_tests) + (scalar keys %regval_tests);
 
 FusionInventory::Agent::Tools::Win32->require();
 FusionInventory::Agent::Tools::Win32->use('getInterfaces');
@@ -170,6 +279,51 @@ foreach my $test (keys %tests) {
         $tests{$test},
         "$test sample"
     );
+}
+
+SKIP: {
+    skip 'Avoid windows-emulation based tests on win32',
+        (scalar keys %regkey_tests) + (scalar keys %regval_tests)
+            if $OSNAME eq 'MSWin32';
+
+    $module->mock(
+        '_getRegistryKey',
+        sub {
+            my (%params) = @_;
+            return unless ($params{root} && $params{keyName});
+            return unless exists($register{$params{root}});
+            my $root = $register{$params{root}};
+            return unless exists($root->{$params{keyName}});
+            my $key = { %{$root->{$params{keyName}}} };
+            # Bless leaf as expected
+            map { bless $key->{$_}, 'Win32::TieRegistry' }
+                grep { ref($key->{$_}) eq 'HASH' } keys %{$key};
+            bless $key, 'Win32::TieRegistry';
+            return $key;
+        }
+    );
+
+    FusionInventory::Agent::Tools::Win32->use('getRegistryKey');
+    foreach my $test (keys %regkey_tests) {
+
+        my $regkey = getRegistryKey( %{$regkey_tests{$test}} );
+        cmp_deeply(
+            $regkey,
+            $regkey_tests{$test}->{_expected},
+            "$test regkey"
+        );
+    }
+
+    FusionInventory::Agent::Tools::Win32->use('getRegistryValue');
+    foreach my $test (keys %regval_tests) {
+
+        my $regval = getRegistryValue( %{$regval_tests{$test}} );
+        cmp_deeply(
+            $regval,
+            $regval_tests{$test}->{_expected},
+            "$test regval"
+        );
+    }
 }
 
 SKIP: {
@@ -195,7 +349,7 @@ SKIP: {
     );
     ok(defined(<$fd>), "no_stderr=0: catch STDERR output");
 
-    # From here we need to avoid crashes dur to not thread-safe Win32::OLE
+    # From here we need to avoid crashes due to not thread-safe Win32::OLE
     FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
 
     FusionInventory::Agent::Tools::Win32->use('is64bit');

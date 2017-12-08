@@ -25,7 +25,7 @@ sub new {
         requests_redirectable => ['POST', 'GET', 'HEAD'],
         agent                 => $FusionInventory::Agent::AGENT_STRING,
         timeout               => $params{timeout} || 180,
-        ssl_opts              => { verify_hostname => 0 },
+        ssl_opts              => { verify_hostname => 0, SSL_verify_mode => 0 },
         cookie_jar            => HTTP::Cookies->new(ignore_discard => 1),
     );
 

@@ -12,6 +12,7 @@ use Text::Template;
 use File::Glob;
 use URI;
 
+use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools::Network;
 
@@ -30,6 +31,14 @@ sub new {
     };
     bless $self, $class;
 
+    $self->setTrustedAddresses(%params);
+
+    return $self;
+}
+
+sub setTrustedAddresses {
+    my ($self, %params) = @_;
+
     # compute addresses allowed for push requests
     foreach my $target ($self->{agent}->getTargets()) {
         next unless $target->isa('FusionInventory::Agent::Target::Server');
@@ -44,8 +53,6 @@ sub new {
             $self->{trust}->{$string} = \@addresses if @addresses;
         }
     }
-
-    return $self;
 }
 
 sub _handle {
@@ -147,7 +154,7 @@ sub _handle_root {
         $self->{agent}->getTargets();
 
     my $hash = {
-        version        => $FusionInventory::Agent::VERSION,
+        version        => $FusionInventory::Agent::Version::VERSION,
         trust          => $self->_isTrusted($clientIp),
         status         => $self->{agent}->getStatus(),
         server_targets => \@server_targets,
@@ -183,7 +190,7 @@ sub _handle_deploy {
 
     my $path;
     LOOP: foreach my $target ($self->{agent}->getTargets()) {
-        foreach (File::Glob::glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
+        foreach (File::Glob::bsd_glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
 
             my $sha = Digest::SHA->new('512');
@@ -216,7 +223,7 @@ sub _handle_now {
             my $url       = $target->getUrl();
             my $addresses = $self->{trust}->{$url};
             next unless isPartOf($clientIp, $addresses, $logger);
-            $target->setNextRunDate(1);
+            $target->setNextRunDateFromNow();
             $code    = 200;
             $message = "OK";
             $trace   = "rescheduling next contact for target $url right now";
@@ -225,7 +232,7 @@ sub _handle_now {
 
         if ($self->_isTrusted($clientIp)) {
             foreach my $target ($self->{agent}->getTargets()) {
-                $target->setNextRunDate(1);
+                $target->setNextRunDateFromNow();
             }
             $code    = 200;
             $message = "OK";
@@ -296,7 +303,7 @@ sub init {
         LocalAddr => $self->{ip},
         LocalPort => $self->{port},
         Reuse     => 1,
-        Timeout   => 5,
+        Timeout   => 1,
         Blocking  => 0
     );
 
@@ -310,6 +317,41 @@ sub init {
     );
 
     return 1;
+}
+
+sub needToRestart {
+    my ($self, %params) = @_;
+
+    # If no httpd daemon was started, we need to really start it
+    return 1 unless $self->{listener};
+
+    # Restart httpd daemon if ip or port changed
+    return 1 if ($params{ip} && (!$self->{ip} || $params{ip} ne $self->{ip}));
+    return 1 if ($params{port} && (!$self->{port} || $params{port} ne $self->{port}));
+
+    # Logger may have changed, but then resetting logger ref is sufficient
+    $self->{logger} = $params{logger};
+    $self->{logger}->debug2(
+        $log_prefix . "HTTPD service still listening on port $self->{port}"
+    );
+
+    # Be sure to reset computed trusted addresses
+    delete $self->{trust};
+    $self->setTrustedAddresses(%params);
+
+    return 0;
+}
+
+sub stop {
+    my ($self) = @_;
+
+    return unless $self->{listener};
+
+    $self->{listener}->shutdown(2);
+
+    $self->{logger}->debug($log_prefix . "HTTPD service stopped");
+
+    delete $self->{listener};
 }
 
 sub handleRequests {

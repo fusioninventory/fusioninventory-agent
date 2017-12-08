@@ -15,6 +15,8 @@ my $options = {
     useragent => 'FusionInventory-Injector'
 };
 
+my @failedFiles;
+
 GetOptions(
     $options,
     'help|h',
@@ -27,6 +29,7 @@ GetOptions(
     'verbose|v',
     'stdin',
     'xml-ua|x',
+    'no-compression|C',
 );
 
 $OUTPUT_AUTOFLUSH = 1;
@@ -41,14 +44,19 @@ if ($options->{stdin}) {
 } else {
     pod2usage();
 }
+if (scalar @failedFiles > 0) {
+    my $message = 'These elements were not sent:' . "\n";
+    $message .= join "\n", @failedFiles;
+    die($message . "\n");
+}
 
 exit(0);
 
 sub loadfile {
     my ($file) = @_;
 
-    die "file $file does not exist" unless -f $file;
-    die "file $file is not readable" unless -r $file;
+    die "file $file does not exist\n" unless -f $file;
+    die "file $file is not readable\n" unless -r $file;
 
     print "Loading $file..." if $options->{verbose};
 
@@ -63,13 +71,15 @@ sub loadfile {
     if ($success && $options->{remove}) {
         unlink $file or warn "Can't remove $file: $ERRNO\n"
     }
+
+    push @failedFiles, $file unless $success;
 }
 
 sub loaddirectory {
     my ($directory) = @_;
 
-    die "directory $directory does not exist" unless -d $directory;
-    die "directory $directory is not readable" unless -r $directory;
+    die "directory $directory does not exist\n" unless -d $directory;
+    die "directory $directory is not readable\n" unless -r $directory;
 
     opendir (my $handle, $directory)
         or die "can't open directory $directory: $ERRNO\n";
@@ -78,7 +88,7 @@ sub loaddirectory {
         if (-d "$directory/$file") {
             loaddirectory("$directory/$file") if ($options->{recursive});
         } else {
-            loadfile("$directory/$file") if $file =~ /\.ocs$/;
+            loadfile("$directory/$file") if $file =~ /\.(?:ocs|xml)$/;
         }
     }
     closedir $handle;
@@ -88,7 +98,7 @@ sub loadstdin {
     my $content;
     undef $RS;
     $content = <STDIN>;
-    sendContent($content);
+    push @failedFiles, 'STDIN DATA' unless sendContent($content);
 }
 
 sub sendContent {
@@ -115,9 +125,9 @@ sub sendContent {
     my $request = HTTP::Request->new( POST => $options->{url} );
     $request->header(
         'Pragma' => 'no-cache',
-        'Content-type', 'Application/x-compress'
+        'Content-type', $options->{"no-compression"} ? 'Application/xml' : 'Application/x-compress'
     );
-    $request->content(compress($content));
+    $request->content($options->{"no-compression"} ? $content : compress($content));
     my $res = $ua->request($request);
 
     if ($options->{verbose}) {
@@ -149,6 +159,7 @@ fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdi
     --stdin        read data from STDIN
     --useragent    set used HTTP User-Agent for POST
     -x --xml-ua    use Client version found in XML as User-Agent for POST
+    -C --no-compression don't compress sent XML inventories
 
   Examples:
     fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/ocsinventory

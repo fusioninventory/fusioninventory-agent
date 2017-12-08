@@ -466,6 +466,112 @@ my %tests_xm_list = (
             MEMORY    => '4096',
             VCPU      => '2'
         }
+    ],
+    xl_list2 => [
+        {
+            NAME      => 'SQL LUBSS227',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '1536',
+            VCPU      => '2'
+        },
+        {
+            NAME      => 'SQL LUBSS239',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '1024',
+            VCPU      => '1'
+        },
+        {
+            NAME      => 'SQL LUBSS237',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'running',
+            VMTYPE    => 'xen',
+            MEMORY    => '2048',
+            VCPU      => '4'
+        },
+        {
+            NAME      => 'SQL LUBSS235',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '2047',
+            VCPU      => '4'
+        },
+        {
+            NAME      => 'IIS LUBSIIS12',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '2048',
+            VCPU      => '4'
+        },
+        {
+            NAME      => 'SQL LUBSS245',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '1024',
+            VCPU      => '2'
+        },
+        {
+            NAME      => 'SQL LUBSS238',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '2048',
+            VCPU      => '2'
+        },
+        {
+            NAME      => 'SQL LUBSS242',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'running',
+            VMTYPE    => 'xen',
+            MEMORY    => '2000',
+            VCPU      => '4'
+        },
+        {
+            NAME      => 'SQL LUBSS218',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '2000',
+            VCPU      => '2'
+        },
+        {
+            NAME      => 'SQL REL LUBSS223',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'running',
+            VMTYPE    => 'xen',
+            MEMORY    => '6000',
+            VCPU      => '4'
+        },
+        {
+            NAME      => 'SQL LUBSS230',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '1535',
+            VCPU      => '4'
+        },
+        {
+            NAME      => 'SQL REL LUBSS215',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '3000',
+            VCPU      => '4'
+        },
+        {
+            NAME      => 'SQL REL LUBSS221',
+            SUBSYSTEM => 'xm',
+            STATUS    => 'blocked',
+            VMTYPE    => 'xen',
+            MEMORY    => '2048',
+            VCPU      => '4'
+        }
     ]
 );
 

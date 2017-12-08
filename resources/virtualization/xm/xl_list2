@@ -1,0 +1,16 @@
+Name                                        ID   Mem VCPUs  State   Time(s)   UUID                            Reason-Code   Security Label
+Domain-0                                     0   738     4     r-----  3438256.3 8f778ca0-54be-4542-9116-c4218b5f210a        -                -
+SQL LUBSS227                                 5  1536     2     -b----  2772491.0 388b226f-c388-143b-df2e-ad33492c1540        -                -
+SQL LUBSS239                                 7  1024     1     -b----  580091.4 827414a9-b4fb-3e8a-fbc3-6fa58c3284e1        -                -
+SQL LUBSS237                                16  2048     4     r-----  5301766.1 ce821f07-fa63-adba-8af7-267abf28eb62        -                -
+SQL LUBSS235                                19  2047     4     -b----  1471086.6 e51451ee-03ca-bc20-86e9-90b505a6aab3        -                -
+IIS LUBSIIS12                               20  2048     4     -b----  173538.5 b2afd223-feab-d776-a6b4-dad4eb86e8cc        -                -
+SQL LUBSS245                                39  1024     2     -b----  483318.9 02ac72e2-480c-15a6-0408-684ed5282718        -                -
+SQL LUBSS238                                40  2048     2     -b----  2110749.7 2aba2946-1d3b-6454-49bf-c28f53609ede        -                -
+SQL LUBSS242                                41  2000     4     r-----  1278597.0 5a2cd34b-dd62-c866-85a6-3977b68ec835        -                -
+SQL LUBSS218                                42  2000     2     -b----  859175.2 c510954a-988b-fdbb-aaee-0c40246c17fe        -                -
+SQL REL LUBSS223                            56  6000     4     r-----  858397.7 2c0e4bf8-ed7f-562d-ca58-ccd6de1ed180        -                -
+SQL LUBSS230                                59  1535     4     -b----  312675.3 7f1baf17-15e8-e671-c9e0-0dbdf29b83e4        -                -
+SQL REL LUBSS215                            60  3000     4     -b----   36118.3 dcc99669-6a11-1e57-c84e-cf11f00eb7ae        -                -
+SQL REL LUBSS221                            61  2048     4     -b----   58178.9 9b9a08ca-37d7-1c81-199a-ac9ebb43c3c0        -                -
+

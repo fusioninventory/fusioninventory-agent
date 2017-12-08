@@ -60,8 +60,9 @@ sub _getUUID {
 }
 
 sub  _getVirtualMachines {
+    my (%params) = @_;
 
-    my $handle = getFileHandle(@_);
+    my $handle = getFileHandle(%params);
 
     return unless $handle;
 
@@ -79,18 +80,30 @@ sub  _getVirtualMachines {
     my $line  = <$handle>;
 
     my @machines;
-    while (my $line = <$handle>) {
+    while ($line = <$handle>) {
         chomp $line;
+        next if $line =~ /^\s*$/;
         my ($name, $vmid, $memory, $vcpu, $status);
         my @fields = split(' ', $line);
         if (@fields == 4) {
-                ($name, $memory, $vcpu) = @fields;
-                $status = 'off';
+            ($name, $memory, $vcpu) = @fields;
+            $status = 'off';
         } else {
-                ($name, $vmid, $memory, $vcpu, $status) = @fields;
-                $status =~ s/-//g;
-                $status = $status ? $status_list{$status} : 'off';
-               next if $vmid == 0;
+            if ($line =~ /^(.*\S) \s+ (\d+) \s+ (\d+) \s+ (\d+) \s+ ([a-z-]{5,6}) \s/x) {
+                ($name, $vmid, $memory, $vcpu, $status) = ($1, $2, $3, $4, $5);
+            } else {
+                if ($params{logger}) {
+                    # message in log to easily detect matching errors
+                    my $message = '_getVirtualMachines(): unrecognized output';
+                    $message .= " for command '" . $params{command} . "'";
+                    $message .= ': ' . $line;
+                    $params{logger}->error($message);
+                }
+                next;
+            }
+            $status =~ s/-//g;
+            $status = $status ? $status_list{$status} : 'off';
+            next if $vmid == 0;
         }
         next if $name eq 'Domain-0';
 

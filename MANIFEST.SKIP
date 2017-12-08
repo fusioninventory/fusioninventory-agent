@@ -5,6 +5,8 @@ CVS/
 ^.gitignore$
 ^.cvsignore$
 ^.travis.yml$
+^appveyor.yml$
+^circle.yml$
 .svn
 .merge
 

@@ -828,6 +828,92 @@ my %tests = (
             CAPTION     => 'None'
         }
     ],
+    'oracle-server-x5-2' => [
+        {
+            'CAPTION' => 'Access Bus (USB)',
+            'NAME' => 'J2803',
+            'TYPE' => 'USB',
+            'DESCRIPTION' => 'None'
+        },
+        {
+            'CAPTION' => 'Access Bus (USB)',
+            'NAME' => 'J2803',
+            'TYPE' => 'USB',
+            'DESCRIPTION' => 'None'
+        },
+        {
+            'CAPTION' => 'DB-15 female',
+            'NAME' => 'J2901',
+            'DESCRIPTION' => 'None',
+            'TYPE' => 'Video Port'
+        },
+        {
+            'TYPE' => 'USB',
+            'DESCRIPTION' => 'None',
+            'NAME' => 'J2801',
+            'CAPTION' => 'Access Bus (USB)'
+        },
+        {
+            'NAME' => 'J2802',
+            'DESCRIPTION' => 'None',
+            'TYPE' => 'USB',
+            'CAPTION' => 'Access Bus (USB)'
+        },
+        {
+            'CAPTION' => 'Access Bus (USB)',
+            'NAME' => 'None',
+            'DESCRIPTION' => 'None',
+            'TYPE' => 'USB'
+        },
+        {
+            'NAME' => 'None',
+            'DESCRIPTION' => 'None',
+            'TYPE' => 'USB',
+            'CAPTION' => 'Access Bus (USB)'
+        },
+        {
+            'NAME' => 'J2903',
+            'DESCRIPTION' => 'None',
+            'TYPE' => 'Serial Port 16550 Compatible',
+            'CAPTION' => 'RJ-45'
+        },
+        {
+            'CAPTION' => 'RJ-45',
+            'NAME' => 'J2902',
+            'DESCRIPTION' => 'None',
+            'TYPE' => 'Network Port'
+        },
+        {
+            'CAPTION' => 'RJ-45',
+            'NAME' => 'J3502',
+            'DESCRIPTION' => 'None',
+            'TYPE' => 'Network Port'
+        },
+        {
+            'TYPE' => 'Network Port',
+            'DESCRIPTION' => 'None',
+            'NAME' => 'J3501',
+            'CAPTION' => 'RJ-45'
+        },
+        {
+            'NAME' => 'J3802',
+            'TYPE' => 'Network Port',
+            'DESCRIPTION' => 'None',
+            'CAPTION' => 'RJ-45'
+        },
+        {
+            'DESCRIPTION' => 'None',
+            'TYPE' => 'Network Port',
+            'NAME' => 'J3801',
+            'CAPTION' => 'RJ-45'
+        },
+        {
+            'CAPTION' => 'SAS/SATA Plug Receptacle',
+            'TYPE' => 'SATA',
+            'DESCRIPTION' => 'None',
+            'NAME' => 'J2003'
+        }
+    ],
     'S3000AHLX' => [
         {
             NAME        => 'J9A1',

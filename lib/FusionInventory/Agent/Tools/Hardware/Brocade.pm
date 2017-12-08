@@ -13,7 +13,7 @@ sub run {
     my $ports = $device->{PORTS}->{PORT};
 
     my $wwns = getConnectedWWNs(
-        snmp  => $params{snmp},
+        snmp  => $snmp,
     );
     return unless $wwns;
 

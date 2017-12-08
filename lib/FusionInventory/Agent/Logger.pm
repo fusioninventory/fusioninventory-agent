@@ -124,7 +124,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Logger - Fusion Inventory logger
+FusionInventory::Agent::Logger - FusionInventory logger
 
 =head1 DESCRIPTION
 

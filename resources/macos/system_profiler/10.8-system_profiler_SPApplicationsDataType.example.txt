@@ -1,0 +1,2451 @@
+Applications:
+
+    Programme d’installation:
+
+      Version: 4.0
+      Last Modified: 6/27/09 8:18 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved
+      Location: /System/Library/CoreServices/Installer.app
+
+    Utilitaire d’archive:
+
+      Version: 10.6
+      Last Modified: 6/18/09 7:01 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Archive Utility.app
+
+    Terminal:
+
+      Version: 2.1.2
+      Last Modified: 7/6/09 8:18 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 2.1.2, © 1995-2010 Apple Inc. All Rights Reserved.
+      Location: /Applications/Utilities/Terminal.app
+
+    Google Chrome:
+
+      Version: 49.0.2623.112
+      Last Modified: 4/6/16 2:48 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Google Chrome.app
+
+    Préférences Système:
+
+      Version: 7.0
+      Last Modified: 6/27/09 8:09 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Applications/System Preferences.app
+
+    TextEdit:
+
+      Version: 1.6
+      Last Modified: 6/27/09 8:06 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/TextEdit.app
+
+    Skype:
+
+      Version: 6.15
+      Last Modified: 8/19/14 3:16 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Applications/Skype.app
+
+    Informations Système:
+
+      Version: 10.6.0
+      Last Modified: 5/19/09 7:53 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 10.6.0, Copyright 1997-2009 Apple, Inc.
+      Location: /Applications/Utilities/System Profiler.app
+
+    Utilitaire de disque:
+
+      Version: 11.5.2
+      Last Modified: 8/1/09 8:05 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Version 11.5.2, Copyright © 1999-2010 Apple Inc. All rights reserved.
+      Location: /Applications/Utilities/Disk Utility.app
+
+    Paiements via le Chrome Web Store:
+
+      Version: 1.0.0.0
+      Last Modified: 4/25/16 5:01 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_nmmhkkegccagdldgiimedpiccmgmieda/Default nmmhkkegccagdldgiimedpiccmgmieda.app
+
+    Deskjet 2540 series [CE35D9]:
+
+      Version: 6.6
+      Last Modified: 7/24/09 2:09 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Library/Printers/Deskjet 2540 series [CE35D9].app
+
+    Aperçu:
+
+      Version: 5.0.3
+      Last Modified: 7/15/09 7:51 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 5.0.1, Copyright 2002-2009 Apple Inc.
+      Location: /Applications/Preview.app
+
+    Recherche Google:
+
+      Version: 0.0.0.60
+      Last Modified: 3/2/16 4:32 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_coobgpohoikkiipiblmjeljniedjpjpf/Default coobgpohoikkiipiblmjeljniedjpjpf.app
+
+    Recherche Google:
+
+      Version: 0.0.0.60
+      Last Modified: 3/2/16 4:32 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Applications/Chrome Apps.localized/Default coobgpohoikkiipiblmjeljniedjpjpf.app
+
+    Gmail:
+
+      Version: 8.1
+      Last Modified: 3/2/16 4:32 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_pjkljhegncpnkpknbcohdijeoejaedia/Default pjkljhegncpnkpknbcohdijeoejaedia.app
+
+    Gmail:
+
+      Version: 8.1
+      Last Modified: 3/2/16 4:32 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Applications/Chrome Apps.localized/Default pjkljhegncpnkpknbcohdijeoejaedia.app
+
+    YouTube:
+
+      Version: 4.2.8
+      Last Modified: 3/2/16 4:32 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_blpcfgokakmgnkcojhhkbfbldkacnbeo/Default blpcfgokakmgnkcojhhkbfbldkacnbeo.app
+
+    YouTube:
+
+      Version: 4.2.8
+      Last Modified: 3/2/16 4:32 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Applications/Chrome Apps.localized/Default blpcfgokakmgnkcojhhkbfbldkacnbeo.app
+
+    Google Drive:
+
+      Version: 14.1
+      Last Modified: 3/2/16 4:32 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_apdfllckaahabafndbhieahigkjlhalf/Default apdfllckaahabafndbhieahigkjlhalf.app
+
+    Google Drive:
+
+      Version: 14.1
+      Last Modified: 3/2/16 4:32 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Applications/Chrome Apps.localized/Default apdfllckaahabafndbhieahigkjlhalf.app
+
+    Updated:
+
+      Version: 43.0.4
+      Last Modified: 1/18/16 8:33 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Firefox 43.0.4
+      Location: /Users/teclib/Library/Caches/Mozilla/updates/Applications/Firefox/updates/0/Updated.app
+
+    updater:
+
+      Version: 1.0
+      Last Modified: 1/18/16 8:33 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Library/Caches/Mozilla/updates/Applications/Firefox/updates/0/updater.app
+
+    Firefox:
+
+      Version: 37.0.2
+      Last Modified: 1/18/16 8:33 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Firefox 37.0.2
+      Location: /Applications/Firefox.app
+
+    App Store:
+
+      Version: 1.0.2
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/App Store.app
+
+    HP Scan:
+
+      Version: 4.4.1
+      Last Modified: 11/23/15 5:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Copyright © 2010-2013, Hewlett-Packard Development Company, L.P.
+      Location: /Applications/Hewlett-Packard/HP Scan 3.app
+
+    Mise à jour de logiciels:
+
+      Version: 4.0.6
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: Software Update version 4.0, Copyright © 2000-2009, Apple Inc. All rights reserved.
+      Location: /System/Library/CoreServices/Software Update.app
+
+    HP Utility:
+
+      Version: 5.21.2
+      Last Modified: 11/23/15 5:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: HP Utility 5.21.2, Copyright (c) 2005-2013 Hewlett-Packard Development Company, L.P.
+      Location: /Library/Printers/hp/Utilities/HP Utility.app
+
+    Programme de désinstallation HP:
+
+      Version: 5.2.0.13
+      Last Modified: 11/23/15 5:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 5.2.0.13
+      Location: /Applications/Hewlett-Packard/HP Uninstaller.app
+
+    ScanEventHandler:
+
+      Version: 1.0.0
+      Last Modified: 11/23/15 5:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Copyright (c) 2013 Hewlett-Packard Development Company, L.P.
+      Location: /Library/Printers/hp/Utilities/Handlers/ScanEventHandler.app
+
+    HP Scanner 3:
+
+      Version: 4.5.0
+      Last Modified: 11/23/15 5:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Copyright © 2011-2013, Hewlett-Packard Development Company, L.P.
+      Location: /Library/Image Capture/Devices/HP Scanner 3.app
+
+    hpdot4d:
+
+      Version: 4.8.3
+      Last Modified: 11/23/15 5:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: hpdot4d 4.8.3, Copyright (c) 2005-2013 Hewlett-Packard Development Company, L.P.
+      Location: /Library/Printers/hp/Frameworks/HPDeviceModel.framework/Versions/4.0/Runtime/hpdot4d.app
+
+    Inkjet9:
+
+      Version: 2.3.1
+      Last Modified: 8/19/13 2:54 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: HP Inkjet 9 Driver 2.3.1, Copyright (c) 1994-2013 Hewlett-Packard Development Company, L.P.
+      Location: /Library/Printers/hp/cups/Inkjet9.driver
+
+    rastertofax:
+
+      Version: 5.11.0
+      Last Modified: 8/14/13 3:13 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: HP Fax 5.11.0, Copyright (c) 2009-2013 Hewlett-Packard Development Company, L.P.
+      Location: /Library/Printers/hp/Fax/rastertofax.filter
+
+    fax:
+
+      Version: 5.11.0
+      Last Modified: 8/14/13 3:13 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: HP Fax 5.11.0, Copyright (c) 2009-2013 Hewlett-Packard Development Company, L.P.
+      Location: /Library/Printers/hp/Fax/fax.backend
+
+    autosetup:
+
+      Last Modified: 8/14/13 3:08 PM
+      Location: /Library/Printers/hp/cups/tools/autosetup.tool
+
+    pdftopdf:
+
+      Version: 2.5.2
+      Last Modified: 8/14/13 3:25 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: HP PDF Filter 2.5.2, Copyright (c) 2001-2013 Hewlett-Packard Development Company, L.P.
+      Location: /Library/Printers/hp/cups/filters/pdftopdf.filter
+
+    commandtohp:
+
+      Version: 2.2.1
+      Last Modified: 8/14/13 3:24 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: HP Command File Filter 2.2.1, Copyright (c) 2006-2013 Hewlett-Packard Development Company, L.P.
+      Location: /Library/Printers/hp/cups/filters/commandtohp.filter
+
+    Default nmmhkkegccagdldgiimedpiccmgmieda:
+
+      Version: 0.1.2.0
+      Last Modified: 7/29/15 6:16 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/walid/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_nmmhkkegccagdldgiimedpiccmgmieda/Default nmmhkkegccagdldgiimedpiccmgmieda.app
+
+    Default apdfllckaahabafndbhieahigkjlhalf:
+
+      Version: 14.0
+      Last Modified: 7/29/15 6:16 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/walid/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_apdfllckaahabafndbhieahigkjlhalf/Default apdfllckaahabafndbhieahigkjlhalf.app
+
+    Default apdfllckaahabafndbhieahigkjlhalf:
+
+      Version: 14.0
+      Last Modified: 7/29/15 6:16 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/walid/Applications/Chrome Apps.localized/Default apdfllckaahabafndbhieahigkjlhalf.app
+
+    AppleMobileDeviceHelper:
+
+      Version: 5.0
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/AppleMobileDeviceHelper.app
+
+    AppleMobileSync:
+
+      Version: 5.0
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/AppleMobileSync.app
+
+    iTunes:
+
+      Version: 11.4
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: iTunes 11.4, © 2000–2014 Apple Inc. All rights reserved.
+      Location: /Applications/iTunes.app
+
+    Language Chooser:
+
+      Version: 20
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: System Language Initializer
+      Location: /System/Library/CoreServices/Language Chooser.app
+
+    QuickTime Player:
+
+      Version: 10.0
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 10.0, Copyright © 2010-2011 Apple Inc. All Rights Reserved.
+      Location: /Applications/QuickTime Player.app
+
+    MiniTerm:
+
+      Version: 1.5
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: Terminal window application for PPP
+      Location: /usr/libexec/MiniTerm.app
+
+    loginwindow:
+
+      Version: 6.1.2
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/loginwindow.app
+
+    AppleFileServer:
+
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/AppleFileServer.app
+
+    quicklookd32:
+
+      Version: 2.3
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): No
+      Get Info String: 1.0, Copyright Apple Inc. 2007
+      Location: /System/Library/Frameworks/QuickLook.framework/Versions/A/Resources/quicklookd32.app
+
+    webdav_cert_ui:
+
+      Version: 1.8.3
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/Filesystems/webdav.fs/Support/webdav_cert_ui.app
+
+    MRTAgent:
+
+      Version: 1.2
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/MRTAgent.app
+
+    Mail:
+
+      Version: 4.6
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Mail.app
+
+    quicklookd:
+
+      Version: 2.3
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 1.0, Copyright Apple Inc. 2007
+      Location: /System/Library/Frameworks/QuickLook.framework/Versions/A/Resources/quicklookd.app
+
+    Assistant migration:
+
+      Version: 3.0.4
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Utilities/Migration Assistant.app
+
+    PubSubAgent:
+
+      Version: 1.0.5
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/PubSub.framework/Versions/A/Resources/PubSubAgent.app
+
+    PluginProcess:
+
+      Version: 6534.59
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 6534.59.10, Copyright 2003-2013 Apple Inc.
+      Location: /System/Library/PrivateFrameworks/WebKit2.framework/PluginProcess.app
+
+    WebKitPluginHost:
+
+      Version: 6534
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/WebKit.framework/WebKitPluginHost.app
+
+    Safari:
+
+      Version: 5.1.10
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 5.1.10, Copyright © 2003-2013 Apple Inc.
+      Location: /Applications/Safari.app
+
+    WebProcess:
+
+      Version: 6534.59
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 6534.59.10, Copyright 2003-2013 Apple Inc.
+      Location: /System/Library/PrivateFrameworks/WebKit2.framework/WebProcess.app
+
+    Jar Bundler:
+
+      Version: 13.9.8
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /usr/share/java/Tools/Jar Bundler.app
+
+    Java Web Start:
+
+      Version: 13.9.8
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Java Web Start.app
+
+    Lanceur d’applets:
+
+      Version: 13.9.8
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /usr/share/java/Tools/Applet Launcher.app
+
+    Java VisualVM:
+
+      Version: 13.9.8
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /usr/share/java/Tools/Java VisualVM.app
+
+    Préférences Java:
+
+      Version: 13.9.8
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Applications/Utilities/Java Preferences.app
+
+    Jar Launcher:
+
+      Version: 13.9.8
+      Last Modified: 7/8/15 11:11 PM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Jar Launcher.app
+
+    Spotlight:
+
+      Version: 2.0
+      Last Modified: 7/24/09 4:18 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/Services/Spotlight.service
+
+    Default aohghmighlieiainnegkcijnfilokake:
+
+      Version: 42.0.2311.135
+      Last Modified: 5/3/15 10:57 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/teclib/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_aohghmighlieiainnegkcijnfilokake/Default aohghmighlieiainnegkcijnfilokake.app
+
+    Default pjkljhegncpnkpknbcohdijeoejaedia:
+
+      Version: 42.0.2311.135
+      Last Modified: 5/3/15 10:54 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/walid/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_pjkljhegncpnkpknbcohdijeoejaedia/Default pjkljhegncpnkpknbcohdijeoejaedia.app
+
+    Default pjkljhegncpnkpknbcohdijeoejaedia:
+
+      Version: 42.0.2311.135
+      Last Modified: 5/3/15 10:54 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/walid/Applications/Chrome Apps.localized/Default pjkljhegncpnkpknbcohdijeoejaedia.app
+
+    Default coobgpohoikkiipiblmjeljniedjpjpf:
+
+      Version: 42.0.2311.135
+      Last Modified: 5/3/15 10:54 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/walid/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_coobgpohoikkiipiblmjeljniedjpjpf/Default coobgpohoikkiipiblmjeljniedjpjpf.app
+
+    Default coobgpohoikkiipiblmjeljniedjpjpf:
+
+      Version: 42.0.2311.135
+      Last Modified: 5/3/15 10:54 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/walid/Applications/Chrome Apps.localized/Default coobgpohoikkiipiblmjeljniedjpjpf.app
+
+    Default aohghmighlieiainnegkcijnfilokake:
+
+      Version: 42.0.2311.135
+      Last Modified: 5/3/15 10:54 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/walid/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_aohghmighlieiainnegkcijnfilokake/Default aohghmighlieiainnegkcijnfilokake.app
+
+    Default blpcfgokakmgnkcojhhkbfbldkacnbeo:
+
+      Version: 42.0.2311.135
+      Last Modified: 5/3/15 10:54 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/walid/Library/Application Support/Google/Chrome/Default/Web Applications/_crx_blpcfgokakmgnkcojhhkbfbldkacnbeo/Default blpcfgokakmgnkcojhhkbfbldkacnbeo.app
+
+    Default blpcfgokakmgnkcojhhkbfbldkacnbeo:
+
+      Version: 42.0.2311.135
+      Last Modified: 5/3/15 10:54 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Users/walid/Applications/Chrome Apps.localized/Default blpcfgokakmgnkcojhhkbfbldkacnbeo.app
+
+    Assistant réglages de réseau:
+
+      Version: 1.6
+      Last Modified: 5/19/09 11:15 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 1.6
+      Location: /System/Library/CoreServices/Network Setup Assistant.app
+
+    Assistant réglages Bluetooth:
+
+      Version: 2.4.5
+      Last Modified: 8/1/09 8:05 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.4.5, Copyright (c) 2011 Apple Inc. All rights reserved.
+      Location: /System/Library/CoreServices/Bluetooth Setup Assistant.app
+
+    ImageCaptureService:
+
+      Version: 6.0.1
+      Last Modified: 6/20/09 8:56 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2003-2009 Apple Inc., all rights reserved.
+      Location: /System/Library/Services/ImageCaptureService.app
+
+    Keychain Scripting:
+
+      Version: 4.0.2
+      Last Modified: 7/3/09 2:57 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Location: /System/Library/ScriptingAdditions/Keychain Scripting.app
+
+    IncompatibleAppDisplay:
+
+      Version: 305
+      Last Modified: 8/1/09 8:05 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/PrivateFrameworks/SystemMigration.framework/Versions/A/Resources/IncompatibleAppDisplay.app
+
+    syncuid:
+
+      Version: 5.2
+      Last Modified: 7/18/09 8:22 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 4.0, Copyright Apple Computer Inc. 2004
+      Location: /System/Library/PrivateFrameworks/SyncServicesUI.framework/Versions/A/Resources/syncuid.app
+
+    Résolution des conflits:
+
+      Version: 5.2
+      Last Modified: 7/18/09 8:22 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 1.0, Copyright Apple Computer Inc. 2004
+      Location: /System/Library/PrivateFrameworks/SyncServicesUI.framework/Versions/A/Resources/Conflict Resolver.app
+
+    VoiceOver Quickstart:
+
+      Version: 3.5.0
+      Last Modified: 7/18/09 8:58 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/PrivateFrameworks/ScreenReader.framework/Versions/A/Resources/VoiceOver Quickstart.app
+
+    ScreenReaderUIServer:
+
+      Version: 3.5.0
+      Last Modified: 7/18/09 8:59 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/PrivateFrameworks/ScreenReader.framework/Versions/A/Resources/ScreenReaderUIServer.app
+
+    ParentalControls:
+
+      Version: 2.0
+      Last Modified: 8/1/09 8:04 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.0, Copyright Apple Inc. 2007-2009
+      Location: /System/Library/PrivateFrameworks/FamilyControls.framework/Versions/A/Resources/ParentalControls.app
+
+    DiskImages UI Agent:
+
+      Version: 289.1
+      Last Modified: 7/11/09 9:58 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/PrivateFrameworks/DiskImages.framework/Versions/A/Resources/DiskImages UI Agent.app
+
+    store_helper:
+
+      Version: 1.0
+      Last Modified: 6/2/11 9:05 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/store_helper.app
+
+    VietnameseIM:
+
+      Version: 1.1.1
+      Last Modified: 5/19/09 8:12 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Input Methods/VietnameseIM.app
+
+    TCIM:
+
+      Version: 6.3
+      Last Modified: 7/7/09 8:48 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.2, Copyright © 1997-2006 Apple Computer Inc., All Rights Reserved
+      Location: /System/Library/Input Methods/TCIM.app
+
+    SCIM:
+
+      Version: 4.3
+      Last Modified: 5/19/09 7:35 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 4.0, Copyright © 1997-2009 Apple Inc., All Rights Reserved
+      Location: /System/Library/Input Methods/SCIM.app
+
+    Kotoeri:
+
+      Version: 4.2.1
+      Last Modified: 6/11/09 4:33 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Input Methods/Kotoeri.app
+
+    ChineseHandwriting:
+
+      Version: 1.0.1
+      Last Modified: 7/17/09 7:28 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /System/Library/Input Methods/ChineseHandwriting.app
+
+    Image Capture Web Server:
+
+      Version: 6.0
+      Last Modified: 7/16/09 9:40 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2003-2009 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Support/Image Capture Web Server.app
+
+    Image Capture Extension:
+
+      Version: 6.1
+      Last Modified: 7/16/09 9:39 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.1, © Copyright 2000-2011 Apple Inc. All rights reserved.
+      Location: /System/Library/Image Capture/Support/Image Capture Extension.app
+
+    AutoImporter:
+
+      Version: 6.0.1
+      Last Modified: 6/20/09 8:56 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2000-2009 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Support/Application/AutoImporter.app
+
+    Type8Camera:
+
+      Version: 6.1
+      Last Modified: 7/16/09 9:40 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.1, © Copyright 2002-2011 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Devices/Type8Camera.app
+
+    Type7Camera:
+
+      Version: 6.0
+      Last Modified: 7/16/09 9:40 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2002-2009 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Devices/Type7Camera.app
+
+    Type6Camera:
+
+      Version: 6.0
+      Last Modified: 7/16/09 9:40 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2002-2009 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Devices/Type6Camera.app
+
+    Type5Camera:
+
+      Version: 6.1
+      Last Modified: 7/16/09 9:40 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.1, © Copyright 2001-2011 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Devices/Type5Camera.app
+
+    Type4Camera:
+
+      Version: 6.1
+      Last Modified: 7/16/09 9:39 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.1, © Copyright 2001-2011 Apple Inc. All rights reserved.
+      Location: /System/Library/Image Capture/Devices/Type4Camera.app
+
+    Type3Camera:
+
+      Version: 6.0
+      Last Modified: 7/16/09 9:39 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2001-2009 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Devices/Type3Camera.app
+
+    Type2Camera:
+
+      Version: 6.0
+      Last Modified: 7/16/09 9:39 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2000-2009 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Devices/Type2Camera.app
+
+    Type1Camera:
+
+      Version: 6.0
+      Last Modified: 7/16/09 9:39 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2000-2009 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Devices/Type1Camera.app
+
+    TWAINBridge:
+
+      Version: 6.0.1
+      Last Modified: 7/16/09 9:40 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0.1, © Copyright 2000-2010 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Devices/TWAINBridge.app
+
+    PTPCamera:
+
+      Version: 6.1
+      Last Modified: 7/16/09 9:39 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.1, © Copyright 2004-2011 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Devices/PTPCamera.app
+
+    MassStorageCamera:
+
+      Version: 6.1
+      Last Modified: 7/16/09 9:39 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.1, © Copyright 2000-2011 Apple Inc. All rights reserved.
+      Location: /System/Library/Image Capture/Devices/MassStorageCamera.app
+
+    BluetoothCamera:
+
+      Version: 6.0.1
+      Last Modified: 7/16/09 9:39 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0.1, © Copyright 2004-2011 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Devices/BluetoothCamera.app
+
+    MakePDF:
+
+      Version: 6.0
+      Last Modified: 7/16/09 9:40 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2003-2009 Apple Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Automatic Tasks/MakePDF.app
+
+    Création de page Web:
+
+      Version: 6.0
+      Last Modified: 7/16/09 9:40 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2003-2009 Apple  Inc., all rights reserved.
+      Location: /System/Library/Image Capture/Automatic Tasks/Build Web Page.app
+
+    SyncServer:
+
+      Version: 5.2
+      Last Modified: 7/18/09 8:22 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: © 2002-2003 Apple
+      Location: /System/Library/Frameworks/SyncServices.framework/Versions/A/Resources/SyncServer.app
+
+    SyncDiagnostics:
+
+      Version: 5.2
+      Last Modified: 7/18/09 8:23 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/SyncServices.framework/Versions/A/Resources/SyncDiagnostics.app
+
+    kcSync:
+
+      Version: 3.0.1
+      Last Modified: 6/26/09 2:51 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/SecurityFoundation.framework/Versions/A/kcSync.app
+
+    dotmacfx:
+
+      Version: 3.0
+      Last Modified: 6/26/09 2:51 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/SecurityFoundation.framework/Versions/A/dotmacfx.app
+
+    ScreenSaverEngine:
+
+      Version: 3.0.3
+      Last Modified: 6/24/09 5:20 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app
+
+    Python:
+
+      Version: 2.6
+      Last Modified: 7/8/09 8:56 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.6, (c) 2004 Python Software Foundation.
+      Location: /System/Library/Frameworks/Python.framework/Versions/2.6/Resources/Python.app
+
+    Python Launcher:
+
+      Version: 2.6.1
+      Last Modified: 7/8/09 8:56 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.6.1, © 001-2006 Python Software Foundation
+      Location: /System/Library/Frameworks/Python.framework/Versions/2.6/Resources/Python Launcher.app
+
+    Python:
+
+      Version: 2.5.4
+      Last Modified: 7/8/09 8:55 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Get Info String: 2.5.4a0, (c) 2004 Python Software Foundation.
+      Location: /System/Library/Frameworks/Python.framework/Versions/2.5/Resources/Python.app
+
+    Python Launcher:
+
+      Version: 2.5.4
+      Last Modified: 7/8/09 8:56 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Get Info String: 2.5.4, © 001-2006 Python Software Foundation
+      Location: /System/Library/Frameworks/Python.framework/Versions/2.5/Resources/Python Launcher.app
+
+    iChatAgent:
+
+      Version: 5.0.3
+      Last Modified: 7/29/09 7:26 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/IMCore.framework/iChatAgent.app
+
+    SpeechRecognitionServer:
+
+      Version: 3.11.1
+      Last Modified: 5/29/09 2:37 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/Resources/SpeechRecognitionServer.app
+
+    SpeechFeedbackWindow:
+
+      Version: 3.8.1
+      Last Modified: 5/29/09 2:38 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/Resources/SpeechFeedbackWindow.app
+
+    Speech Startup:
+
+      Version: 3.8.1
+      Last Modified: 5/29/09 2:38 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/Resources/Speech Startup.app
+
+    PrinterProxy:
+
+      Version: 6.6
+      Last Modified: 7/24/09 2:09 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Print.framework/Versions/A/Plugins/PrinterProxy.app
+
+    iCal Helper:
+
+      Version: 4.0.4
+      Last Modified: 7/16/09 9:38 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/CalendarStore.framework/Versions/A/Resources/iCal Helper.app
+
+    FontRegistryUIAgent:
+
+      Version: 33.12
+      Last Modified: 7/26/09 7:36 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Copyright © 2011 Apple Inc.
+      Location: /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/FontRegistryUIAgent.app
+
+    AddressBookSync:
+
+      Version: 2.0.4
+      Last Modified: 7/25/09 7:35 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/AddressBook.framework/Versions/A/Resources/AddressBookSync.app
+
+    AddressBookManager:
+
+      Version: 2.0.4
+      Last Modified: 7/25/09 7:36 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/AddressBook.framework/Versions/A/Resources/AddressBookManager.app
+
+    check_afp:
+
+      Version: 2.1
+      Last Modified: 7/3/09 2:46 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: AFP Client Session Monitor, Copyright © 2000 - 2010, Apple Inc.
+      Location: /System/Library/Filesystems/AppleShare/check_afp.app
+
+    VoiceOver:
+
+      Version: 3.5.0
+      Last Modified: 7/18/09 8:58 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/VoiceOver.app
+
+    SystemUIServer:
+
+      Version: 1.6
+      Last Modified: 7/22/09 10:48 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: SystemUIServer version 1.6, Copyright 2000-2009 Apple Computer, Inc.
+      Location: /System/Library/CoreServices/SystemUIServer.app
+
+    System Events:
+
+      Version: 1.3.4
+      Last Modified: 5/19/09 11:07 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/System Events.app
+
+    ServerJoiner:
+
+      Version: 10.6.3
+      Last Modified: 7/19/09 9:18 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/ServerJoiner.app
+
+    Partage d’écran:
+
+      Version: 1.1.1
+      Last Modified: 7/2/09 8:11 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 1.1.1, Copyright © 2007-2009 Apple Inc., All Rights Reserved.
+      Location: /System/Library/CoreServices/Screen Sharing.app
+
+    ARDAgent:
+
+      Version: 3.5.4
+      Last Modified: 5/22/09 9:54 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/RemoteManagement/ARDAgent.app
+
+    rcd:
+
+      Version: 2.6
+      Last Modified: 8/1/09 8:01 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 2.6
+      Location: /System/Library/CoreServices/rcd.app
+
+    Problem Reporter:
+
+      Version: 10.6.7
+      Last Modified: 8/1/09 7:59 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Problem Reporter.app
+
+    Printer Setup Utility:
+
+      Version: 6.6
+      Last Modified: 7/24/09 2:10 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Location: /System/Library/CoreServices/Printer Setup Utility.app
+
+    ODSAgent:
+
+      Version: 1.4.1
+      Last Modified: 5/19/09 3:07 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 1.4.1 (141.6), Copyright © 2007-2009 Apple Inc. All Rights Reserved.
+      Location: /System/Library/CoreServices/ODSAgent.app
+
+    OBEXAgent:
+
+      Version: 2.4.5
+      Last Modified: 8/1/09 8:04 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.4.5, Copyright (c) 2011 Apple Inc. All rights reserved.
+      Location: /System/Library/CoreServices/OBEXAgent.app
+
+    Diagnostic réseau:
+
+      Version: 1.1.3
+      Last Modified: 5/20/09 10:47 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Network Diagnostics.app
+
+    NetAuthAgent:
+
+      Version: 2.1
+      Last Modified: 6/23/09 9:33 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/NetAuthAgent.app
+
+    Utilitaire d’emplacement de mémoire:
+
+      Version: 1.4.1
+      Last Modified: 5/19/09 4:17 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Memory Slot Utility.app
+
+    ManagedClient:
+
+      Version: 2.5
+      Last Modified: 7/24/09 7:15 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/ManagedClient.app
+
+    KerberosAgent:
+
+      Version: 6.5.11
+      Last Modified: 5/29/09 2:37 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/KerberosAgent.app
+
+    Image Events:
+
+      Version: 1.1.4
+      Last Modified: 5/19/09 11:07 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Image Events.app
+
+    HelpViewer:
+
+      Version: 5.0.4
+      Last Modified: 7/14/09 7:54 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/HelpViewer.app
+
+    Front Row:
+
+      Version: 2.2.1
+      Last Modified: 7/22/09 10:50 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Location: /System/Library/CoreServices/Front Row.app
+
+    Configuration actions de dossier:
+
+      Version: 1.1.4
+      Last Modified: 5/19/09 11:07 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Folder Actions Setup.app
+
+    Folder Actions Dispatcher:
+
+      Version: 1.0.2
+      Last Modified: 5/19/09 11:07 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Folder Actions Dispatcher.app
+
+    Finder:
+
+      Version: 10.6.8
+      Last Modified: 7/31/09 9:21 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Mac OS X Finder 10.6.8
+      Location: /System/Library/CoreServices/Finder.app
+
+    FileSyncAgent:
+
+      Version: 5.0.3
+      Last Modified: 7/23/09 8:55 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: © Copyright 2009 Apple Inc., all rights reserved.
+      Location: /System/Library/CoreServices/FileSyncAgent.app
+
+    File Sync:
+
+      Version: 5.0.3
+      Last Modified: 7/23/09 8:56 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: © Copyright 2009 Apple Inc., all rights reserved.
+      Location: /System/Library/CoreServices/File Sync.app
+
+    Utilitaire d’emplacement d’extension:
+
+      Version: 1.4.1
+      Last Modified: 5/19/09 4:17 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Expansion Slot Utility.app
+
+    Dock:
+
+      Version: 1.7
+      Last Modified: 7/31/09 9:20 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Dock 1.7
+      Location: /System/Library/CoreServices/Dock.app
+
+    DiskImageMounter:
+
+      Version: 10.6.8
+      Last Modified: 7/11/09 9:59 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/DiskImageMounter.app
+
+    Database Events:
+
+      Version: 1.0.4
+      Last Modified: 5/19/09 11:07 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Database Events.app
+
+    CoreServicesUIAgent:
+
+      Version: 41.5
+      Last Modified: 5/23/09 8:47 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Copyright © 2009 Apple Inc.
+      Location: /System/Library/CoreServices/CoreServicesUIAgent.app
+
+    CoreLocationAgent:
+
+      Version: 12.3
+      Last Modified: 7/20/09 7:08 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: Copyright © 2009 Apple Inc.
+      Location: /System/Library/CoreServices/CoreLocationAgent.app
+
+    Assistant de certification:
+
+      Version: 3.0
+      Last Modified: 7/2/09 8:27 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Certificate Assistant.app
+
+    CCacheServer:
+
+      Version: 6.5.11
+      Last Modified: 5/29/09 2:37 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.5 Copyright © 2008 Massachusetts Institute of Technology
+      Location: /System/Library/CoreServices/CCacheServer.app
+
+    BluetoothUIServer:
+
+      Version: 2.4.5
+      Last Modified: 8/1/09 8:03 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.4.5, Copyright (c) 2011 Apple Inc. All rights reserved.
+      Location: /System/Library/CoreServices/BluetoothUIServer.app
+
+    BluetoothAudioAgent:
+
+      Version: 2.4.5
+      Last Modified: 8/1/09 8:04 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.4.5, Copyright (c) 2011 Apple Inc. All rights reserved.
+      Location: /System/Library/CoreServices/BluetoothAudioAgent.app
+
+    AVRCPAgent:
+
+      Version: 2.4.5
+      Last Modified: 8/1/09 8:04 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.4.5, Copyright (c) 2011 Apple Inc. All rights reserved.
+      Location: /System/Library/CoreServices/AVRCPAgent.app
+
+    Automator Runner:
+
+      Version: 1.1
+      Last Modified: 7/11/09 9:09 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 1.1, Copyright © 2006-2009 Apple Inc. All rights reserved.
+      Location: /System/Library/CoreServices/Automator Runner.app
+
+    Automator Launcher:
+
+      Version: 1.2
+      Last Modified: 7/11/09 9:09 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 1.2, Copyright © 2004-2009 Apple Inc. All rights reserved.
+      Location: /System/Library/CoreServices/Automator Launcher.app
+
+    AppleScript Runner:
+
+      Version: 1.0.2
+      Last Modified: 5/19/09 11:07 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/AppleScript Runner.app
+
+    Apple80211Agent:
+
+      Version: 6.2.2
+      Last Modified: 7/21/09 9:41 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.2.2, Copyright © 2000–2009 Apple Inc. All rights reserved.
+      Location: /System/Library/CoreServices/Apple80211Agent.app
+
+    Agent de la borne d’accès AirPort:
+
+      Version: 1.5.4
+      Last Modified: 6/11/09 4:27 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 1.5.4 (154.2), Copyright © 2006-2009 Apple Inc. All Rights Reserved.
+      Location: /System/Library/CoreServices/AirPort Base Station Agent.app
+
+    AddPrinter:
+
+      Version: 6.6
+      Last Modified: 7/24/09 2:09 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /System/Library/CoreServices/AddPrinter.app
+
+    Outil d’étalonnage du moniteur:
+
+      Version: 4.6
+      Last Modified: 5/19/09 8:01 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 4.6, Copyright 2008 Apple Computer, Inc.
+      Location: /System/Library/ColorSync/Calibrators/Display Calibrator.app
+
+    Show Info:
+
+      Last Modified: 4/25/09 4:11 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Library/Scripts/ColorSync/Show Info.app
+
+    Set Info:
+
+      Last Modified: 4/25/09 4:11 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Library/Scripts/ColorSync/Set Info.app
+
+    Rename:
+
+      Last Modified: 4/25/09 4:11 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Library/Scripts/ColorSync/Rename.app
+
+    Remove:
+
+      Last Modified: 4/25/09 4:11 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Library/Scripts/ColorSync/Remove.app
+
+    Proof:
+
+      Last Modified: 4/25/09 4:11 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Library/Scripts/ColorSync/Proof.app
+
+    Match:
+
+      Last Modified: 4/25/09 4:11 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Library/Scripts/ColorSync/Match.app
+
+    Extract:
+
+      Last Modified: 4/25/09 4:11 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Library/Scripts/ColorSync/Extract.app
+
+    Embed:
+
+      Last Modified: 4/25/09 4:11 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Library/Scripts/ColorSync/Embed.app
+
+    Utilitaire VoiceOver:
+
+      Version: 3.5.0
+      Last Modified: 7/18/09 8:58 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Applications/Utilities/VoiceOver Utility.app
+
+    Spaces:
+
+      Version: 1.1
+      Last Modified: 7/31/09 9:18 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 1.1, Copyright 2007-2008 Apple Inc.
+      Location: /Applications/Utilities/Spaces.app
+
+    Installation à distance de Mac OS X:
+
+      Version: 1.1.1
+      Last Modified: 5/19/09 4:13 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Remote Install Mac OS X 1.1.1, Copyright © 2007-2009 Apple Inc. All rights reserved
+      Location: /Applications/Utilities/Remote Install Mac OS X.app
+
+    Utilitaire RAID:
+
+      Version: 1.2
+      Last Modified: 8/1/09 8:03 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: RAID Utility 1.0 (121), Copyright © 2007-2009 Apple Inc.
+      Location: /Applications/Utilities/RAID Utility.app
+
+    Transfert de podcast:
+
+      Version: 2.0.2
+      Last Modified: 7/21/09 7:31 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Get Info String: 2.0.1, Copyright © 2007-2009 Apple Inc.
+      Location: /Applications/Utilities/Podcast Capture.app
+
+    Trousseau d’accès:
+
+      Version: 4.1.1
+      Last Modified: 7/31/09 9:19 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Utilities/Keychain Access.app
+
+    Exposé:
+
+      Version: 1.1
+      Last Modified: 7/31/09 9:18 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 1.1, Copyright 2007-2008 Apple Inc.
+      Location: /Applications/Utilities/Expose.app
+
+    Console:
+
+      Version: 10.6.3
+      Last Modified: 4/7/09 2:42 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Utilities/Console.app
+
+    Utilitaire ColorSync:
+
+      Version: 4.6.2
+      Last Modified: 5/19/09 8:00 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 4.6.2, © Copyright 2009 Apple Inc.
+      Location: /Applications/Utilities/ColorSync Utility.app
+
+    Assistant Boot Camp:
+
+      Version: 3.0.4
+      Last Modified: 5/19/09 8:02 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Boot Camp Assistant 3.0.4, Copyright © 2010 Apple Inc. All rights reserved
+      Location: /Applications/Utilities/Boot Camp Assistant.app
+
+    Échange de fichiers Bluetooth:
+
+      Version: 2.4.5
+      Last Modified: 8/1/09 8:04 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.4.5, Copyright (c) 2011 Apple Inc. All rights reserved.
+      Location: /Applications/Utilities/Bluetooth File Exchange.app
+
+    Configuration audio et MIDI:
+
+      Version: 3.0.3
+      Last Modified: 7/11/09 12:40 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 3.0.3, Copyright 2002-2010 Apple, Inc.
+      Location: /Applications/Utilities/Audio MIDI Setup.app
+
+    Time Machine:
+
+      Version: 1.1
+      Last Modified: 7/31/09 9:18 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 1.1, Copyright 2007-2008 Apple Inc.
+      Location: /Applications/Time Machine.app
+
+    iSync:
+
+      Version: 3.1.2
+      Last Modified: 5/19/09 10:29 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 3.1.2, Copyright © 2003-2010 Apple Inc.
+      Location: /Applications/iSync.app
+
+    Transfert d’images:
+
+      Version: 6.0.1
+      Last Modified: 6/20/09 8:56 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, © Copyright 2000-2009 Apple Inc., all rights reserved.
+      Location: /Applications/Image Capture.app
+
+    iCal:
+
+      Version: 4.0.4
+      Last Modified: 7/16/09 9:42 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Applications/iCal.app
+
+    Livre des polices:
+
+      Version: 2.2.2
+      Last Modified: 5/5/09 8:04 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 2.2.2, Copyright © 2003-2010 Apple Inc.
+      Location: /Applications/Font Book.app
+
+    Lecteur DVD:
+
+      Version: 5.4
+      Last Modified: 7/14/09 11:05 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Get Info String: 5.4, Copyright © 2001-2010 by Apple Inc.  All Rights Reserved.
+      Location: /Applications/DVD Player.app
+
+    Dashboard:
+
+      Version: 1.7
+      Last Modified: 7/31/09 9:18 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 1.7, Copyright 2006-2008 Apple Inc.
+      Location: /Applications/Dashboard.app
+
+    Calculette:
+
+      Version: 4.5.3
+      Last Modified: 7/6/09 8:17 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Calculator.app
+
+    Automator:
+
+      Version: 2.1.1
+      Last Modified: 7/11/09 9:09 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 2.1.1, Copyright © 2004-2009 Apple Inc. All rights reserved.
+      Location: /Applications/Automator.app
+
+    Carnet d’adresses:
+
+      Version: 5.0.3
+      Last Modified: 7/25/09 7:36 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Address Book.app
+
+    Git Gui:
+
+      Version: 0.19.0.18.g4498b
+      Last Modified: 5/3/15 6:10 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Git Gui 0.19.0.18.g4498b © 2006-2007 Shawn Pearce, et. al.
+      Location: /usr/local/Cellar/git/2.4.0/share/git-gui/lib/Git Gui.app
+
+    SpeakableItems:
+
+      Version: 3.7.8
+      Last Modified: 5/19/09 10:45 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /System/Library/Speech/Recognizers/AppleSpeakableItems.SpeechRecognizer/Contents/Resources/SpeakableItems.app
+
+    Service de résumé:
+
+      Version: 2.0
+      Last Modified: 5/19/09 7:27 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Summary Service Version  2
+      Location: /System/Library/Services/SummaryService.app
+
+    SpeechService:
+
+      Version: 3.10.35
+      Last Modified: 7/12/09 7:23 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Services/SpeechService.service
+
+    ChineseTextConverterService:
+
+      Version: 1.2
+      Last Modified: 5/19/09 4:18 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Chinese Text Converter 1.1
+      Location: /System/Library/Services/ChineseTextConverterService.app
+
+    URL Access Scripting:
+
+      Version: 1.1.1
+      Last Modified: 5/19/09 7:34 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Get Info String: URL Access Scripting 1.1, Copyright © 2002-2004 Apple Computer, Inc.
+      Location: /System/Library/ScriptingAdditions/URL Access Scripting.app
+
+    FontSyncScripting:
+
+      Version: 2.0.6
+      Last Modified: 5/19/09 4:17 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Get Info String: FontSync Scripting 2.0. Copyright © 2000-2008 Apple Inc.
+      Location: /System/Library/ScriptingAdditions/FontSyncScripting.app
+
+    Yahoo! Sync:
+
+      Version: 1.3
+      Last Modified: 5/19/09 8:56 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/PrivateFrameworks/YahooSync.framework/Versions/A/Resources/Yahoo! Sync.app
+
+    eaptlstrust:
+
+      Version: 10.0
+      Last Modified: 5/19/09 7:34 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/PrivateFrameworks/EAP8021X.framework/Support/eaptlstrust.app
+
+    wxPerl:
+
+      Version: 1.0
+      Last Modified: 5/19/09 8:31 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Location: /System/Library/Perl/Extras/5.8.9/darwin-thread-multi-2level/auto/Wx/wxPerl.app
+
+    wxPerl:
+
+      Version: 1.0
+      Last Modified: 5/19/09 8:30 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Location: /System/Library/Perl/Extras/5.10.0/darwin-thread-multi-2level/auto/Wx/wxPerl.app
+
+    TamilIM:
+
+      Version: 1.3
+      Last Modified: 5/19/09 7:36 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Tamil Input Method 1.2
+      Location: /System/Library/Input Methods/TamilIM.app
+
+    PluginIM:
+
+      Version: 1.1
+      Last Modified: 5/19/09 7:36 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Input Methods/PluginIM.app
+
+    KoreanIM:
+
+      Version: 6.1
+      Last Modified: 5/5/09 6:41 PM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 6.0, Copyright © 1997-2006 Apple Computer Inc., All Rights Reserved
+      Location: /System/Library/Input Methods/KoreanIM.app
+
+    KeyboardViewer:
+
+      Version: 2.0
+      Last Modified: 6/11/09 8:11 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.0, Copyright © 2004-2009 Apple Inc., All Rights Reserved
+      Location: /System/Library/Input Methods/KeyboardViewer.app
+
+    InkServer:
+
+      Version: 1.0
+      Last Modified: 5/19/09 4:18 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Get Info String: 1.0, Copyright 2008 Apple Inc.
+      Location: /System/Library/Input Methods/InkServer.app
+
+    CharacterPalette:
+
+      Version: 1.0.4
+      Last Modified: 7/2/09 9:49 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Input Methods/CharacterPalette.app
+
+    50onPaletteServer:
+
+      Version: 1.0.3
+      Last Modified: 6/30/09 7:29 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Input Methods/50onPaletteServer.app
+
+    Wish:
+
+      Version: 8.5.7
+      Last Modified: 7/23/09 5:45 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Wish Shell 8.5.7,
+Copyright © 1989-2009 Tcl Core Team,
+Copyright © 2002-2009 Daniel A. Steffen,
+Copyright © 2001-2009 Apple Inc.,
+Copyright © 2001-2002 Jim Ingham & Ian Reid
+      Location: /System/Library/Frameworks/Tk.framework/Versions/8.5/Resources/Wish.app
+
+    Wish:
+
+      Version: 8.4.19
+      Last Modified: 7/23/09 5:18 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Get Info String: Wish Shell 8.4.19,
+Copyright © 2009 Tcl Core Team,
+Copyright © 2002-2009 Daniel A. Steffen,
+Initial MacOS X Port by Jim Ingham & Ian Reid,
+Copyright © 2001-2002, Apple Computer, Inc.
+      Location: /System/Library/Frameworks/Tk.framework/Versions/8.4/Resources/Wish.app
+
+    SpeechSynthesisServer:
+
+      Version: 3.10.35
+      Last Modified: 7/12/09 7:23 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/Resources/SpeechSynthesisServer.app
+
+    UserNotificationCenter:
+
+      Version: 3.1.0
+      Last Modified: 5/19/09 4:13 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/UserNotificationCenter.app
+
+    UnmountAssistantAgent:
+
+      Version: 1.0
+      Last Modified: 7/3/09 3:00 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/UnmountAssistantAgent.app
+
+    Ticket Viewer:
+
+      Version: 1.0
+      Last Modified: 5/19/09 7:28 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/Ticket Viewer.app
+
+    Assistant réglages:
+
+      Version: 10.6
+      Last Modified: 7/31/09 9:25 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 10.6
+      Location: /System/Library/CoreServices/Setup Assistant.app
+
+    SecurityProxy:
+
+      Version: 1.0
+      Last Modified: 5/21/09 4:37 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/SecurityProxy.app
+
+    SecurityFixer:
+
+      Version: 10.6
+      Last Modified: 5/19/09 4:17 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /System/Library/CoreServices/SecurityFixer.app
+
+    SecurityAgent:
+
+      Version: 5.2
+      Last Modified: 7/18/09 8:18 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/SecurityAgent.app
+
+    PreferenceSyncClient:
+
+      Version: 2.0
+      Last Modified: 7/2/09 8:17 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/PreferenceSyncClient.app
+
+    KeyboardSetupAssistant:
+
+      Version: 10.5.0
+      Last Modified: 5/19/09 7:45 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /System/Library/CoreServices/KeyboardSetupAssistant.app
+
+    Utilitaire d’annuaire:
+
+      Version: 2.2
+      Last Modified: 5/19/09 11:08 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 2.2, Copyright © 2001–2008 Apple Inc.
+      Location: /System/Library/CoreServices/Directory Utility.app
+
+    Utilitaire AppleScript:
+
+      Version: 1.1.1
+      Last Modified: 5/19/09 7:34 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /System/Library/CoreServices/AppleScript Utility.app
+
+    AppleGraphicsWarning:
+
+      Version: 2.0.3
+      Last Modified: 5/19/09 7:27 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Version 2.0.3, Copyright Apple Inc., 2008
+      Location: /System/Library/CoreServices/AppleGraphicsWarning.app
+
+    License:
+
+      Version: 11
+      Last Modified: 7/25/09 7:43 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Get Info String: License
+      Location: /Library/Documentation/License.app
+
+    PowerPC Help:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 9:39 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Library/Application Support/Shark/Helpers/PowerPC Help.app
+
+    IA32 Help:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 9:39 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Library/Application Support/Shark/Helpers/IA32 Help.app
+
+    EM64T Help:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 9:39 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Library/Application Support/Shark/Helpers/EM64T Help.app
+
+    ARM Help:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 9:39 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Library/Application Support/Shark/Helpers/ARM Help.app
+
+    CPUPalette:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 9:39 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Library/Application Support/HWPrefs/CPUPalette.app
+
+    WebKitPluginHost:
+
+      Last Modified: 7/11/09 12:04 PM
+      64-Bit (Intel): No
+      Location: /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/WebKit.framework/WebKitPluginHost.app
+
+    Python:
+
+      Last Modified: 5/13/09 2:36 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Location: /Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Python.framework/Versions/2.5/Resources/Python.app
+
+    Xcode:
+
+      Version: 3.2
+      Last Modified: 7/31/09 9:20 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: Xcode version 3.2
+      Location: /Developer/Applications/Xcode.app
+
+    USB Prober:
+
+      Version: 3.7.5
+      Last Modified: 8/1/09 7:59 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 3.7.5, Copyright © 2002-2007 Apple Inc. All Rights Reserved.
+      Location: /Developer/Applications/Utilities/USB Prober.app
+
+    Syncrospector:
+
+      Version: 4.0
+      Last Modified: 7/18/09 8:23 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: Syncrospector 3.0, © 2004 Apple Computer, Inc., All rights reserved.
+      Location: /Developer/Applications/Utilities/Syncrospector.app
+
+    SRLanguageModeler:
+
+      Version: 1.9
+      Last Modified: 5/19/09 4:18 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Developer/Applications/Utilities/Speech/SRLanguageModeler.app
+
+    Repeat After Me:
+
+      Version: 1.3
+      Last Modified: 5/19/09 8:08 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Get Info String: 1.3, Copyright © 2002-2005 Apple Computer, Inc.
+      Location: /Developer/Applications/Utilities/Speech/Repeat After Me.app
+
+    SleepX:
+
+      Version: 2.7
+      Last Modified: 5/19/09 8:05 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Utilities/SleepX.app
+
+    Build Applet:
+
+      Version: 2.6.0
+      Last Modified: 7/8/09 8:56 AM
+      64-Bit (Intel): No
+      Get Info String: 2.6.0a0, (c) 2004 Python Software Foundation.
+      Location: /Developer/Applications/Utilities/Python 2.6/Build Applet.app
+
+    Property List Editor:
+
+      Version: 3.2
+      Last Modified: 7/11/09 9:22 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Utilities/Property List Editor.app
+
+    PackageMaker:
+
+      Version: 3.0.4
+      Last Modified: 5/19/09 8:19 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Developer/Applications/Utilities/PackageMaker.app
+
+    Build Applet:
+
+      Version: 2.5.4
+      Last Modified: 7/8/09 8:55 AM
+      64-Bit (Intel): No
+      Get Info String: 2.5.4a0, (c) 2004 Python Software Foundation.
+      Location: /Developer/Applications/Utilities/MacPython 2.5/Build Applet.app
+
+    iSync Plug-in Maker:
+
+      Version: 3.1
+      Last Modified: 5/19/09 10:31 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Utilities/iSync Plug-in Maker.app
+
+    IORegistryExplorer:
+
+      Version: 2.1
+      Last Modified: 5/19/09 8:04 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Utilities/IORegistryExplorer.app
+
+    Icon Composer:
+
+      Version: 2.1
+      Last Modified: 5/19/09 7:41 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Utilities/Icon Composer.app
+
+    Help Indexer:
+
+      Version: 4.0
+      Last Modified: 5/19/09 7:29 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Utilities/Help Indexer.app
+
+    FileMerge:
+
+      Version: 2.4
+      Last Modified: 5/19/09 11:16 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Utilities/FileMerge.app
+
+    CrashReporterPrefs:
+
+      Version: 10.6
+      Last Modified: 8/1/09 7:59 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Utilities/CrashReporterPrefs.app
+
+    PacketLogger:
+
+      Version: 2.2
+      Last Modified: 8/1/09 8:05 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.2, Copyright (c) 2009 Apple Inc. All rights reserved.
+      Location: /Developer/Applications/Utilities/Bluetooth/PacketLogger.app
+
+    Bluetooth Explorer:
+
+      Version: 2.2
+      Last Modified: 8/1/09 8:06 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.2, Copyright (c) 2009 Apple Inc. All rights reserved.
+      Location: /Developer/Applications/Utilities/Bluetooth/Bluetooth Explorer.app
+
+    Bluetooth Diagnostics Utility:
+
+      Version: 2.2
+      Last Modified: 8/1/09 8:06 AM
+      Kind: Universal
+      64-Bit (Intel): Yes
+      Get Info String: 2.2, Copyright (c) 2009 Apple Inc. All rights reserved.
+      Location: /Developer/Applications/Utilities/Bluetooth/Bluetooth Diagnostics Utility.app
+
+    Accessibility Verifier:
+
+      Version: 1.2
+      Last Modified: 5/19/09 7:28 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Utilities/Accessibility Tools/Accessibility Verifier.app
+
+    Accessibility Inspector:
+
+      Version: 2.0
+      Last Modified: 5/19/09 4:18 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Accessibility Inspector 2.0, Copyright 2002-2009 Apple Inc.
+      Location: /Developer/Applications/Utilities/Accessibility Tools/Accessibility Inspector.app
+
+    Quartz Composer:
+
+      Version: 4.0
+      Last Modified: 5/28/09 7:08 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Quartz Composer.app
+
+    Spin Control:
+
+      Version: 0.9
+      Last Modified: 5/19/09 11:16 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Spin Control
+      Location: /Developer/Applications/Performance Tools/Spin Control.app
+
+    Shark:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 9:39 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Developer/Applications/Performance Tools/Shark.app
+
+    Quartz Debug:
+
+      Version: 4.0
+      Last Modified: 5/19/09 7:29 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Quartz Debug 4.0
+      Location: /Developer/Applications/Performance Tools/Quartz Debug.app
+
+    MallocDebug:
+
+      Version: 1.7.1
+      Last Modified: 5/19/09 11:16 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Location: /Developer/Applications/Performance Tools/MallocDebug.app
+
+    Saturn:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 9:40 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Developer/Applications/Performance Tools/CHUD/Saturn.app
+
+    SpindownHD:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 9:40 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Developer/Applications/Performance Tools/CHUD/Hardware Tools/SpindownHD.app
+
+    Reggie SE:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 9:39 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Developer/Applications/Performance Tools/CHUD/Hardware Tools/Reggie SE.app
+
+    CHUD Remover:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 8:53 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Developer/Applications/Performance Tools/CHUD/CHUD Remover.app
+
+    BigTop:
+
+      Version: 4.7.1
+      Last Modified: 7/8/09 9:39 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Developer/Applications/Performance Tools/BigTop.app
+
+    Interface Builder:
+
+      Version: 3.2
+      Last Modified: 7/11/09 11:52 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Interface Builder.app
+
+    Instruments:
+
+      Version: 2.0
+      Last Modified: 7/24/09 7:19 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Instruments.app
+
+    Quartz Composer Visualizer:
+
+      Version: 1.2
+      Last Modified: 5/19/09 8:18 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Developer/Applications/Graphics Tools/Quartz Composer Visualizer.app
+
+    Pixie:
+
+      Version: 2.3
+      Last Modified: 5/19/09 8:18 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Graphics Tools/Pixie.app
+
+    OpenGL Shader Builder:
+
+      Version: 2.1
+      Last Modified: 5/19/09 8:19 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Graphics Tools/OpenGL Shader Builder.app
+
+    OpenGL Profiler:
+
+      Version: 4.2
+      Last Modified: 5/19/09 4:20 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Get Info String: 4.2, Copyright 2003-2009 Apple, Inc.
+      Location: /Developer/Applications/Graphics Tools/OpenGL Profiler.app
+
+    OpenGL Driver Monitor:
+
+      Version: 1.5
+      Last Modified: 5/19/09 7:40 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 1.5, Copyright © 2009 Apple Inc.
+      Location: /Developer/Applications/Graphics Tools/OpenGL Driver Monitor.app
+
+    Core Image Fun House:
+
+      Version: 2.1.43
+      Last Modified: 5/19/09 8:20 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Graphics Tools/Core Image Fun House.app
+
+    Dashcode:
+
+      Version: 3.0
+      Last Modified: 7/31/09 9:23 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Dashcode.app
+
+    HALLab:
+
+      Version: 1.6
+      Last Modified: 5/19/09 7:53 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Developer/Applications/Audio/HALLab.app
+
+    AU Lab:
+
+      Version: 2.1
+      Last Modified: 6/25/09 7:57 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 2.1 ©2009, Apple, Inc
+      Location: /Developer/Applications/Audio/AU Lab.app
+
+    About Xcode:
+
+      Version: 159
+      Last Modified: 6/26/09 3:32 AM
+      Kind: Universal
+      64-Bit (Intel): No
+      Get Info String: About Xcode
+      Location: /Developer/About Xcode.app
+
+    Utilitaire de réseau:
+
+      Version: 1.4.6
+      Last Modified: 6/25/09 4:25 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: Version 1.4.6, Copyright © 2000-2009 Apple Inc. All rights reserved.
+      Location: /Applications/Utilities/Network Utility.app
+
+    Grapher:
+
+      Version: 2.1
+      Last Modified: 4/7/09 2:42 AM
+      Kind: Intel
+      64-Bit (Intel): No
+      Location: /Applications/Utilities/Grapher.app
+
+    Capture:
+
+      Version: 1.5
+      Last Modified: 5/19/09 4:12 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Utilities/Grab.app
+
+    Colorimètre numérique:
+
+      Version: 3.7.2
+      Last Modified: 5/28/09 7:06 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 3.7.2, Copyright 2001-2008 Apple Inc. All Rights Reserved.
+      Location: /Applications/Utilities/DigitalColor Meter.app
+
+    Éditeur AppleScript:
+
+      Version: 2.3
+      Last Modified: 4/24/09 3:41 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Utilities/AppleScript Editor.app
+
+    Utilitaire AirPort:
+
+      Version: 5.4.2
+      Last Modified: 4/27/09 11:06 PM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Get Info String: 5.4.2, Copyright 2001-2009 Apple Inc.
+      Location: /Applications/Utilities/AirPort Utility.app
+
+    Moniteur d’activité:
+
+      Version: 10.6
+      Last Modified: 7/31/09 9:18 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Utilities/Activity Monitor.app
+
+    Aide-mémoire:
+
+      Version: 7.0
+      Last Modified: 5/19/09 7:28 AM
+      Kind: Intel
+      64-Bit (Intel): Yes
+      Location: /Applications/Stickies.app
+

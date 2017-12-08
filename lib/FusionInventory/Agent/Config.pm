@@ -8,6 +8,8 @@ use File::Spec;
 use Getopt::Long;
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::Version;
+
 require FusionInventory::Agent::Tools;
 
 my $default = {
@@ -30,6 +32,7 @@ my $default = {
     'no-category'             => [],
     'no-httpd'                => undef,
     'no-ssl-check'            => undef,
+    'no-compression'          => undef,
     'no-task'                 => [],
     'no-p2p'                  => undef,
     'password'                => undef,
@@ -143,7 +146,8 @@ sub _loadFromRegistry {
         Access => Win32::TieRegistry::KEY_READ()
     }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
 
-    my $settings = $machKey->{"SOFTWARE/FusionInventory-Agent"};
+    my $provider = $FusionInventory::Agent::Version::PROVIDER;
+    my $settings = $machKey->{"SOFTWARE/$provider-Agent"};
 
     foreach my $rawKey (keys %$settings) {
         next unless $rawKey =~ /^\/(\S+)/;
@@ -181,15 +185,23 @@ sub _loadFromFile {
     }
 
     while (my $line = <$handle>) {
-        $line =~ s/#.+//;
-        if ($line =~ /([\w-]+)\s*=\s*(.+)/) {
+        if ($line =~ /^\s*([\w-]+)\s*=\s*(.+)$/) {
             my $key = $1;
             my $val = $2;
 
-            # Remove the quotes
+            # Cleanup value from ending spaces
             $val =~ s/\s+$//;
-            $val =~ s/^'(.*)'$/$1/;
-            $val =~ s/^"(.*)"$/$1/;
+
+            # Extract value from quotes or clean any comment including preceding spaces
+            if ($val =~ /^(['"])([^\1]*)\1/) {
+                my ($quote, $extract) = ( $1, $2 );
+                $val =~ s/\s*#.+$//;
+                warn "We may have been confused for $key quoted value, our extracted value: '$extract'"
+                    if ($val ne "$quote$extract$quote");
+                $val = $extract ;
+            } else {
+                $val =~ s/\s*#.+$//;
+            }
 
             if (exists $default->{$key}) {
                 $self->{$key} = $val;

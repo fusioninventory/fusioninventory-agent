@@ -1,10 +1,10 @@
-libpciaccess0	i586	0.12.1-1.mga1	1311080703	38452	Mageia.Org	Generic PCI access library (from X.org)
-firebird-devel	x86_64	2.5.1.26351.0-3.mga2	1326097440	351554	Mageia.Org	Development Libraries for Firebird SQL Database
-gjs	x86_64	1.32.0-1.mga2	1332868101	176167	Mageia.Org	JavaScript bindings based on gobject-introspection
-lib64nss3	x86_64	3.13.4-1.mga2	1334780473	3346040	Mageia.Org	Network Security Services (NSS)
-ruby-term-ansicolor	noarch	1.0.5-3.mga1	1311937930	7211	Mageia.Org	Ruby library that colors strings using ANSI escape sequences
-lib64tidy-devel	x86_64	20090904-3.mga1	1325506366	1930155	Mageia.Org	Headers for developing programs that will use tidy
-xfsprogs	x86_64	3.1.8-1.mga2	1332632724	3628382	Mageia.Org	Utilities for managing the XFS filesystem
-lib64swresample0	x86_64	0.10.2-2.mga2.tainted	1334217734	35016	Mageia.Org	Shared library part of ffmpeg
-lib64pyglib2.0_0	x86_64	2.28.6-6.mga2	1329989131	18672	Mageia.Org	Python Glib bindings shared library
-perl-Gtk2-ImageView	x86_64	0.50.0-4.mga2	1333463926	153539	Mageia	Perl bindings to the GtkImageView image viewer widget
+libpciaccess0	i586	0.12.1-1.mga1	1311080703	38452	Mageia.Org	Generic PCI access library (from X.org)	System Environment/Libraries
+firebird-devel	x86_64	2.5.1.26351.0-3.mga2	1326097440	351554	Mageia.Org	Development Libraries for Firebird SQL Database	Documentation
+gjs	x86_64	1.32.0-1.mga2	1332868101	176167	Mageia.Org	JavaScript bindings based on gobject-introspection	Unspecified
+lib64nss3	x86_64	3.13.4-1.mga2	1334780473	3346040	Mageia.Org	Network Security Services (NSS)	Unspecified
+ruby-term-ansicolor	noarch	1.0.5-3.mga1	1311937930	7211	Mageia.Org	Ruby library that colors strings using ANSI escape sequences	Libraries
+lib64tidy-devel	x86_64	20090904-3.mga1	1325506366	1930155	Mageia.Org	Headers for developing programs that will use tidy	Unspecified
+xfsprogs	x86_64	3.1.8-1.mga2	1332632724	3628382	Mageia.Org	Utilities for managing the XFS filesystem	System Environment/Base
+lib64swresample0	x86_64	0.10.2-2.mga2.tainted	1334217734	35016	Mageia.Org	Shared library part of ffmpeg	Unspecified
+lib64pyglib2.0_0	x86_64	2.28.6-6.mga2	1329989131	18672	Mageia.Org	Python Glib bindings shared library	Unspecified
+perl-Gtk2-ImageView	x86_64	0.50.0-4.mga2	1333463926	153539	Mageia	Perl bindings to the GtkImageView image viewer widget	Development/Libraries

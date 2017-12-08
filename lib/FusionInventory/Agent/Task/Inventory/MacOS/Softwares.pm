@@ -20,7 +20,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $softwares = _getSoftwaresList(logger => $params{logger});
+    my $softwares = _getSoftwaresList(logger => $params{logger}, format => 'xml');
     return unless $softwares;
 
     foreach my $software (@$softwares) {
@@ -35,14 +35,24 @@ sub _getSoftwaresList {
     my (%params) = @_;
     my $logger = $params{logger};
 
-    my $infos = getSystemProfilerInfos(
-        type => 'SPApplicationsDataType',
-        @_
+    my $infos;
+    my $datesAlreadyFormatted = 1;
+    # when format used is 'text', dates are not formatted
+    # they have to be formatted so we use this variable to format dates if needed
+    if (!$params{format} || $params{format} eq 'text') {
+        $datesAlreadyFormatted = 0;
+    }
+    my $localTimeOffset = FusionInventory::Agent::Tools::MacOS::detectLocalTimeOffset();
+    $infos = FusionInventory::Agent::Tools::MacOS::getSystemProfilerInfos(
+        %params,
+        type            => 'SPApplicationsDataType',
+        localTimeOffset => $localTimeOffset
     );
+
     my $info = $infos->{Applications};
 
     my @softwares;
-    foreach my $name (keys %$info) {
+    for my $name (keys %$info) {
         my $app = $info->{$name};
 
         # Windows application found by Parallels (issue #716)
@@ -50,17 +60,46 @@ sub _getSoftwaresList {
             $app->{'Get Info String'} &&
             $app->{'Get Info String'} =~ /^\S+, [A-Z]:\\/;
 
+        my $formattedDate = $app->{'Last Modified'};
+        if (!$datesAlreadyFormatted) {
+            $formattedDate = _formatDate($formattedDate, $logger)
+        }
+
+        my ($category, $userName) = _extractSoftwareSystemCategoryAndUserName($app->{'Location'});
         push @softwares, {
             NAME      => $name,
             VERSION   => $app->{'Version'},
             COMMENTS  => $app->{'Kind'} ? '[' . $app->{'Kind'} . ']' : undef,
             PUBLISHER => $app->{'Get Info String'},
             # extract date's data and format these data
-            INSTALLDATE => _formatDate($app->{'Last Modified'}, $logger)
+            INSTALLDATE => $formattedDate,
+            SYSTEM_CATEGORY => $category,
+            USERNAME => $userName
         };
     }
 
     return \@softwares;
+}
+
+sub _extractSoftwareSystemCategoryAndUserName {
+    my ($str) = @_;
+
+    my $category = '';
+    my $userName = '';
+    return ($category, $userName) unless $str;
+
+    if ($str =~ /^\/Users\/([^\/]+)\/([^\/]+\/[^\/]+)\//
+        || $str =~ /^\/Users\/([^\/]+)\/([^\/]+)\//) {
+        $userName = $1;
+        $category = $2 if $2 !~ /^Downloads|^Desktop/;
+    } elsif ($str =~ /^\/Volumes\/[^\/]+\/([^\/]+\/[^\/]+)\//
+        || $str =~ /^\/Volumes\/[^\/]+\/([^\/]+)\//
+        || $str =~ /^\/([^\/]+\/[^\/]+)\//
+        || $str =~ /^\/([^\/]+)\//) {
+        $category = $1;
+    }
+
+    return ($category, $userName);
 }
 
 sub _formatDate {
@@ -72,7 +111,7 @@ sub _formatDate {
     my $extractionPattern = "%m/%d/%y %H:%M";
     my $extractionPatternUsed = '';
 
-    my $outputFormat = "%Y-%m-%d %H:%M";
+    my $outputFormat = "%d/%m/%Y";
 
     # trim
     $dateStr =~ s/^\s+|\s+$//g;

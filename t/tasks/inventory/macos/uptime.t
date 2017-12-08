@@ -7,15 +7,18 @@ use Test::More;
 use Test::NoWarnings;
 
 use FusionInventory::Agent::Task::Inventory::MacOS::Uptime;
+use FusionInventory::Agent::Tools::MacOS;
 
 my %tests = (
-        '1325070226' => '1325070226',
-        'sec = 1325070226' => '1325070226'
+    '1325070226' => '1325070226',
+    'sec = 1325070226' => '1325070226',
+    '{ sec = 1476344326, usec = 0 } Thu Oct 13 09:38:46 2016' => '1476344326'
 );
 
-plan tests => (scalar keys %tests) + 1;
+plan tests => (scalar keys %tests) * 2 + 1;
 
 foreach my $test (keys %tests) {
- my $r = FusionInventory::Agent::Task::Inventory::MacOS::Uptime::_getBootTime(string => $test);
-    ok($r eq $tests{$test});
+    my $r = FusionInventory::Agent::Tools::MacOS::getBootTime(string => $test);
+    ok($r);
+    ok($r eq $tests{$test}, $r . ' eq ? ' . $tests{$test});
 }

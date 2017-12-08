@@ -27,8 +27,12 @@ my $USBVendors;
 my $USBClasses;
 my $EDIDVendors;
 
-memoize('getDmidecodeInfos');
-memoize('getPCIDevices');
+# this trigger some errors under Win32:
+# Anonymous function called in forbidden scalar context
+if ($OSNAME ne 'MSWin32') {
+    memoize('getDmidecodeInfos');
+    memoize('getPCIDevices');
+}
 
 sub getDmidecodeInfos {
     my (%params) = (
@@ -75,6 +79,11 @@ sub getDmidecodeInfos {
     }
     close $handle;
 
+    # push last block in list if still defined
+    if ($block) {
+        push(@{$info->{$type}}, $block);
+    }
+
     # do not return anything if dmidecode output is obviously truncated
     return if keys %$info < 2;
 
@@ -103,7 +112,7 @@ sub getCpusFromDmidecode {
         my $cpu = {
             SERIAL       => $info->{'Serial Number'},
             ID           => $info->{ID},
-            CORE         => $info->{'Core Count'} || $info->{'Core Enabled'},
+            CORE         => $info->{'Core Enabled'} || $info->{'Core Count'},
             THREAD       => $info->{'Thread Count'},
             FAMILYNAME   => $info->{'Family'},
             MANUFACTURER => $manufacturer
@@ -147,6 +156,12 @@ sub getCpusFromDmidecode {
             } elsif ($info->{'External Clock'} =~ /^\s*(\d+)\s*Ghz/i) {
                 $cpu->{EXTERNAL_CLOCK} = $1 * 1000;
             }
+        }
+
+        # Add CORECOUNT if we have less enabled cores than total count
+        if ($info->{'Core Enabled'} && $info->{'Core Count'}) {
+            $cpu->{CORECOUNT} = $info->{'Core Count'}
+                unless ($info->{'Core Enabled'} == $info->{'Core Count'});
         }
 
         push @cpus, $cpu;

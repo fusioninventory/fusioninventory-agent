@@ -5,9 +5,11 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Solaris;
+use FusionInventory::Agent::Tools::Virtualization;
 
 my @vmware_patterns = (
-    'VMware vmxnet virtual NIC driver',
+    'Hypervisor detected: VMware',
+    'VMware vmxnet3? virtual NIC driver',
     'Vendor: VMware\s+Model: Virtual disk',
     'Vendor: VMware,\s+Model: VMware Virtual ',
     ': VMware Virtual IDE CDROM Drive'
@@ -18,7 +20,10 @@ my @qemu_patterns = (
     ' QEMUAPIC ',
     'QEMU Virtual CPU',
     ': QEMU HARDDISK,',
-    ': QEMU CD-ROM,'
+    ': QEMU CD-ROM,',
+    ': QEMU Standard PC',
+    'Hypervisor detected: KVM',
+    'Booting paravirtualized kernel on KVM'
 );
 my $qemu_pattern = _assemblePatterns(@qemu_patterns);
 
@@ -79,6 +84,32 @@ sub doInventory {
             pattern => qr/^envID:\s*(\d+)/
         ) || '';
         $inventory->setHardware({ UUID => $hostID . '-' . $guestID });
+
+    } elsif ($type eq 'Docker') {
+        # In docker, dmidecode can be run and so UUID & SSN must be overided
+        my $containerid = getFirstMatch(
+            file    => '/proc/1/cgroup',
+            pattern => qr|/docker/([0-9a-f]{12})|,
+            logger  => $params{logger}
+        );
+
+        $inventory->setHardware({ UUID => $containerid || '' });
+        $inventory->setBios({ SSN  => '' });
+
+    } elsif ($type ne 'Physical' && !$inventory->getHardware('UUID') && -e '/etc/machine-id') {
+        # Set UUID from /etc/machine-id & /etc/hostname for container like lxc
+        my $machineid = getFirstLine(
+            file   => '/etc/machine-id',
+            logger => $params{logger}
+        );
+        my $hostname = getFirstLine(
+            file   => '/etc/hostname',
+            logger => $params{logger}
+        );
+
+        if ($machineid && $hostname) {
+            $inventory->setHardware({ UUID => getVirtualUUID($machineid, $hostname) });
+        }
     }
 
     $inventory->setHardware({
@@ -90,6 +121,7 @@ sub _getType {
     my ($bios, $logger) = @_;
 
     if ($bios->{SMANUFACTURER}) {
+        return 'QEMU'    if $bios->{SMANUFACTURER} =~ /QEMU/;
         return 'Hyper-V' if $bios->{SMANUFACTURER} =~ /Microsoft/;
         return 'VMware'  if $bios->{SMANUFACTURER} =~ /VMware/;
     }
@@ -101,12 +133,15 @@ sub _getType {
     if ($bios->{SMODEL}) {
         return 'VMware'          if $bios->{SMODEL} =~ /VMware/;
         return 'Virtual Machine' if $bios->{SMODEL} =~ /Virtual Machine/;
+        return 'QEMU'            if $bios->{SMODEL} =~ /KVM/;
     }
     if ($bios->{BVERSION}) {
         return 'VirtualBox'  if $bios->{BVERSION} =~ /VirtualBox/;
     }
 
-    if (-f '/.dockerinit') {
+    # Docker
+
+    if (-f '/.dockerinit' || -f '/.dockerenv') {
         return 'Docker';
     }
 
@@ -197,13 +232,18 @@ sub _getType {
     }
     return $result if $result;
 
-    if (getFirstMatch(
-        file    => '/proc/1/environ',
-        pattern => qr/container=lxc/
-    )) {
-        return 'lxc';
-    }
+    # systemd based container like lxc
 
+    my $init_env = slurp('/proc/1/environ');
+    if ($init_env) {
+	$init_env =~ s/\0/\n/g;
+	my $container_type = getFirstMatch(
+	    string  => $init_env,
+	    pattern => qr/^container=(\S+)/,
+	    logger  => $logger
+	);
+	return $container_type if $container_type;
+    }
     # OpenVZ
     if (-f '/proc/self/status') {
         my $handle = getFileHandle(

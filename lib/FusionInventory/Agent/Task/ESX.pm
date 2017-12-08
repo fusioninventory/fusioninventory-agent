@@ -11,7 +11,9 @@ use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::XML::Query::Inventory;
 use FusionInventory::Agent::SOAP::VMware;
 
-our $VERSION = "2.2.1";
+use FusionInventory::Agent::Task::ESX::Version;
+
+our $VERSION = FusionInventory::Agent::Task::ESX::Version::VERSION;
 
 sub isEnabled {
     my ($self) = @_;
@@ -190,15 +192,25 @@ sub run {
         }
     );
 
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
+    if (!$globalRemoteConfig->{schedule}) {
+        $self->{logger}->info("No job schedule returned from server at ".$self->{target}->{url});
+        return;
+    }
+    if (ref( $globalRemoteConfig->{schedule} ) ne 'ARRAY') {
+        $self->{logger}->info("Malformed schedule from server at ".$self->{target}->{url});
+        return;
+    }
+    if ( !@{$globalRemoteConfig->{schedule}} ) {
+        $self->{logger}->info("No ESX job enabled or ESX support disabled server side.");
+        return;
+    }
 
     foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
         next unless $job->{task} eq "ESX";
         $self->{esxRemote} = $job->{remote};
     }
     if ( !$self->{esxRemote} ) {
-        $self->{logger}->info("ESX support disabled server side.");
+        $self->{logger}->info("No ESX job found in server jobs list.");
         return;
     }
 
@@ -227,6 +239,7 @@ sub run {
         ca_cert_file => $params{ca_cert_file},
         ca_cert_dir  => $params{ca_cert_dir},
         no_ssl_check => $params{no_ssl_check},
+        no_compress  => $params{no_compress},
     );
 
     foreach my $job ( @{ $jobs->{jobs} } ) {

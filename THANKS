@@ -1,6 +1,8 @@
 If you think you should be in this list, please drop us a mail:
-  → goneri@rulezlan.org
   → guillomovitch@gmail.com
+  → gbougard@teclib.com
+
+or don't forget to update it while proposing a pull request on github
 
 Alexander Evseev
 Alex Mauer: PNP monitor IDs
@@ -22,7 +24,8 @@ Dmitry Ilyin: Patches
 DuyLong LE: Solaris testing/debug and much more
 Earl Flack: bug reports and testing
 Edouard Gamin: RAID devices support for Linux
-Egor Morozov: lxc-tools support, patches and bug reports
+Egor Morozov: lxc-tools support, patches and bug reports, LXD support
+Egor Shornikov: LXD support
 Emengao: Patch
 Eric Freyens: debuging
 Eric Meygret: AIX testing samples
@@ -31,6 +34,8 @@ Etienne Guillaumont: AIX4 CPU detection
 Fabrice Flore-Thebault: various important bug report and much more
 François Mermet: HP-UX support
 Girish Navuda: Patches
+Gonéri Le Bouder: Agent developper
+Guillaume Bougard: Agent developper
 Guillaume Garson: debuging
 Guillaume Rousse: Agent developper
 Igor Polovinkin: patch
@@ -44,6 +49,7 @@ Julien Safar: ArchLinux support
 Kevin Roy: patches
 Lucas Masse: Solaris Patches
 Ludovic Hutin: patch
+Marcin Kowalski: LXD support
 Mario Gzuk: helpful and friendly feedback
 Marty Riedling: HPUX corrections
 Matthieu Cerda: bug reports/prebuilts
@@ -71,6 +77,7 @@ Sofiane Marchoud: various bug fixes
 Stéphane Urbanovski: patchs
 Sylvain Luce: Sun M5000 and M4000 support
 Thierry Lacoste: BSD portage
+Thomas Lornet: Agent developper, MacOSX packaging update, doc and support
 Tomás Abad: testing/debug, patch, packaging, and much more
 Vincent Knecht: wording patch
 Vincent Membré: patches and bug reports

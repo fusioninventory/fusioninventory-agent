@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>_dataType</key>
+		<string>SPUSBDataType</string>
+		<key>_detailLevel</key>
+		<integer>-1</integer>
+		<key>_items</key>
+		<array>
+			<dict>
+				<key>_items</key>
+				<array>
+					<dict>
+						<key>_name</key>
+						<string>JumpDrive</string>
+						<key>a_product_id</key>
+						<string>0xa202</string>
+						<key>b_vendor_id</key>
+						<string>0x05dc  (Lexar Media, Inc.)</string>
+						<key>bsd_name</key>
+						<string>disk1</string>
+						<key>c_bcd_device</key>
+						<string>11.00</string>
+						<key>d_serial_num</key>
+						<string>AASOP1QMSZ0XG051</string>
+						<key>detachable_drive</key>
+						<string>yes</string>
+						<key>e_device_speed</key>
+						<string>high_speed</string>
+						<key>f_manufacturer</key>
+						<string>Lexar</string>
+						<key>g_location_id</key>
+						<string>0xfd500000</string>
+						<key>h_bus_power</key>
+						<string>500</string>
+						<key>j_bus_power_used</key>
+						<string>200</string>
+						<key>os9_drivers</key>
+						<string>no</string>
+						<key>partition_map_type</key>
+						<string>master_boot_record_partition_map_type</string>
+						<key>removable_media</key>
+						<string>yes</string>
+						<key>size</key>
+						<string>7,34 GB</string>
+						<key>smart_status</key>
+						<string>Not Supported</string>
+						<key>volumes</key>
+						<array>
+							<dict>
+								<key>_name</key>
+								<string>Windows USB</string>
+								<key>bsd_name</key>
+								<string>disk1s1</string>
+								<key>file_system</key>
+								<string>MS-DOS FAT32</string>
+								<key>free_space</key>
+								<string>3,2 GB</string>
+								<key>mount_point</key>
+								<string>/Volumes/Windows USB</string>
+								<key>size</key>
+								<string>7,33 GB</string>
+								<key>writable</key>
+								<string>yes</string>
+							</dict>
+						</array>
+						<key>volumes_anonymous</key>
+						<array>
+							<dict>
+								<key>_name</key>
+								<string>disk1s1</string>
+								<key>file_system</key>
+								<string>MS-DOS FAT32</string>
+								<key>free_space</key>
+								<string>3,2 GB</string>
+								<key>size</key>
+								<string>7,33 GB</string>
+								<key>writable</key>
+								<string>yes</string>
+							</dict>
+						</array>
+					</dict>
+					<dict>
+						<key>_name</key>
+						<string>Built-in iSight</string>
+						<key>a_product_id</key>
+						<string>0x8501</string>
+						<key>b_vendor_id</key>
+						<string>apple_vendor_id</string>
+						<key>c_bcd_device</key>
+						<string> 1.84</string>
+						<key>e_device_speed</key>
+						<string>high_speed</string>
+						<key>f_manufacturer</key>
+						<string>Micron</string>
+						<key>g_location_id</key>
+						<string>0xfd400000</string>
+						<key>h_bus_power</key>
+						<string>500</string>
+						<key>j_bus_power_used</key>
+						<string>100</string>
+					</dict>
+					<dict>
+						<key>_name</key>
+						<string>External USB 3.0</string>
+						<key>a_product_id</key>
+						<string>0xa00c</string>
+						<key>b_vendor_id</key>
+						<string>0x0480</string>
+						<key>bsd_name</key>
+						<string>disk3</string>
+						<key>c_bcd_device</key>
+						<string> 1.07</string>
+						<key>d_serial_num</key>
+						<string>20150123045944</string>
+						<key>detachable_drive</key>
+						<string>yes</string>
+						<key>e_device_speed</key>
+						<string>high_speed</string>
+						<key>f_manufacturer</key>
+						<string>TOSHIBA</string>
+						<key>g_location_id</key>
+						<string>0xfd300000</string>
+						<key>h_bus_power</key>
+						<string>500</string>
+						<key>j_bus_power_used</key>
+						<string>500</string>
+						<key>os9_drivers</key>
+						<string>no</string>
+						<key>partition_map_type</key>
+						<string>guid_partition_map_type</string>
+						<key>removable_media</key>
+						<string>yes</string>
+						<key>size</key>
+						<string>465,76 GB</string>
+						<key>smart_status</key>
+						<string>Not Supported</string>
+						<key>volumes</key>
+						<array>
+							<dict>
+								<key>_name</key>
+								<string>105</string>
+								<key>bsd_name</key>
+								<string>disk3s2</string>
+								<key>file_system</key>
+								<string>Journaled HFS+</string>
+								<key>free_space</key>
+								<string>3,41 GB</string>
+								<key>mount_point</key>
+								<string>/</string>
+								<key>size</key>
+								<string>30 GB</string>
+								<key>writable</key>
+								<string>yes</string>
+							</dict>
+							<dict>
+								<key>_name</key>
+								<string>osx106</string>
+								<key>bsd_name</key>
+								<string>disk3s3</string>
+								<key>file_system</key>
+								<string>Journaled HFS+</string>
+								<key>free_space</key>
+								<string>11,63 GB</string>
+								<key>mount_point</key>
+								<string>/Volumes/osx106</string>
+								<key>size</key>
+								<string>40 GB</string>
+								<key>writable</key>
+								<string>yes</string>
+							</dict>
+							<dict>
+								<key>_name</key>
+								<string>osx10.12</string>
+								<key>bsd_name</key>
+								<string>disk3s5</string>
+								<key>file_system</key>
+								<string>Journaled HFS+</string>
+								<key>free_space</key>
+								<string>83,57 GB</string>
+								<key>mount_point</key>
+								<string>/Volumes/osx10.12</string>
+								<key>size</key>
+								<string>97,34 GB</string>
+								<key>writable</key>
+								<string>yes</string>
+							</dict>
+							<dict>
+								<key>_name</key>
+								<string>Recovery HD</string>
+								<key>bsd_name</key>
+								<string>disk3s6</string>
+								<key>file_system</key>
+								<string>Journaled HFS+</string>
+								<key>mount_point</key>
+								<string></string>
+								<key>size</key>
+								<string>619,9 MB</string>
+								<key>writable</key>
+								<string>yes</string>
+							</dict>
+						</array>
+						<key>volumes_anonymous</key>
+						<array>
+							<dict>
+								<key>_name</key>
+								<string>disk3s2</string>
+								<key>file_system</key>
+								<string>Journaled HFS+</string>
+								<key>free_space</key>
+								<string>3,41 GB</string>
+								<key>size</key>
+								<string>30 GB</string>
+								<key>writable</key>
+								<string>yes</string>
+							</dict>
+							<dict>
+								<key>_name</key>
+								<string>disk3s3</string>
+								<key>file_system</key>
+								<string>Journaled HFS+</string>
+								<key>free_space</key>
+								<string>11,63 GB</string>
+								<key>size</key>
+								<string>40 GB</string>
+								<key>writable</key>
+								<string>yes</string>
+							</dict>
+							<dict>
+								<key>_name</key>
+								<string>disk3s5</string>
+								<key>file_system</key>
+								<string>Journaled HFS+</string>
+								<key>free_space</key>
+								<string>83,57 GB</string>
+								<key>size</key>
+								<string>97,34 GB</string>
+								<key>writable</key>
+								<string>yes</string>
+							</dict>
+							<dict>
+								<key>_name</key>
+								<string>disk3s6</string>
+								<key>file_system</key>
+								<string>Journaled HFS+</string>
+								<key>size</key>
+								<string>619,9 MB</string>
+								<key>writable</key>
+								<string>yes</string>
+							</dict>
+						</array>
+					</dict>
+				</array>
+				<key>_name</key>
+				<string>EHCI Root Hub Simulation</string>
+				<key>controller_location</key>
+				<string>Built-in</string>
+				<key>host_controller</key>
+				<string>AppleUSBEHCI</string>
+				<key>pci_device</key>
+				<string>0x27cc </string>
+				<key>pci_revision</key>
+				<string>0x0002 </string>
+				<key>pci_vendor</key>
+				<string>0x8086 </string>
+				<key>usb_bus_number</key>
+				<string>0xfd </string>
+			</dict>
+			<dict>
+				<key>_items</key>
+				<array>
+					<dict>
+						<key>_items</key>
+						<array>
+							<dict>
+								<key>_name</key>
+								<string>Apple Optical USB Mouse</string>
+								<key>a_product_id</key>
+								<string>0x0304</string>
+								<key>b_vendor_id</key>
+								<string>apple_vendor_id</string>
+								<key>c_bcd_device</key>
+								<string> 1.10</string>
+								<key>e_device_speed</key>
+								<string>low_speed</string>
+								<key>f_manufacturer</key>
+								<string>Primax Electronics</string>
+								<key>g_location_id</key>
+								<string>0x1d110000</string>
+								<key>h_bus_power</key>
+								<string>100</string>
+								<key>j_bus_power_used</key>
+								<string>100</string>
+							</dict>
+							<dict>
+								<key>_name</key>
+								<string>UDisk 2.0       </string>
+								<key>a_product_id</key>
+								<string>0x1234</string>
+								<key>b_vendor_id</key>
+								<string>0xabcd</string>
+								<key>bsd_name</key>
+								<string>disk2</string>
+								<key>c_bcd_device</key>
+								<string> 1.00</string>
+								<key>d_serial_num</key>
+								<string>1311141504461042257807</string>
+								<key>detachable_drive</key>
+								<string>yes</string>
+								<key>e_device_speed</key>
+								<string>full_speed</string>
+								<key>f_manufacturer</key>
+								<string>General </string>
+								<key>g_location_id</key>
+								<string>0x1d120000</string>
+								<key>h_bus_power</key>
+								<string>100</string>
+								<key>j_bus_power_used</key>
+								<string>100</string>
+								<key>os9_drivers</key>
+								<string>no</string>
+								<key>partition_map_type</key>
+								<string>apple_partition_map_type</string>
+								<key>removable_media</key>
+								<string>yes</string>
+								<key>size</key>
+								<string>1,88 GB</string>
+								<key>smart_status</key>
+								<string>Not Supported</string>
+							</dict>
+							<dict>
+								<key>_name</key>
+								<string>Apple Extended USB Keyboard</string>
+								<key>a_product_id</key>
+								<string>0x020c</string>
+								<key>b_vendor_id</key>
+								<string>apple_vendor_id</string>
+								<key>c_bcd_device</key>
+								<string> 4.10</string>
+								<key>e_device_speed</key>
+								<string>full_speed</string>
+								<key>f_manufacturer</key>
+								<string>Mitsumi Electric</string>
+								<key>g_location_id</key>
+								<string>0x1d130000</string>
+								<key>h_bus_power</key>
+								<string>250</string>
+								<key>j_bus_power_used</key>
+								<string>50</string>
+							</dict>
+						</array>
+						<key>_name</key>
+						<string>Hub in Apple Extended USB Keyboard</string>
+						<key>a_product_id</key>
+						<string>0x1003</string>
+						<key>b_vendor_id</key>
+						<string>apple_vendor_id</string>
+						<key>c_bcd_device</key>
+						<string> 4.10</string>
+						<key>e_device_speed</key>
+						<string>full_speed</string>
+						<key>f_manufacturer</key>
+						<string>Mitsumi Electric</string>
+						<key>g_location_id</key>
+						<string>0x1d100000</string>
+						<key>h_bus_power</key>
+						<string>500</string>
+						<key>j_bus_power_used</key>
+						<string>50</string>
+					</dict>
+				</array>
+				<key>_name</key>
+				<string>UHCI Root Hub Simulation</string>
+				<key>controller_location</key>
+				<string>Built-in</string>
+				<key>host_controller</key>
+				<string>AppleUSBUHCI</string>
+				<key>pci_device</key>
+				<string>0x27c8 </string>
+				<key>pci_revision</key>
+				<string>0x0002 </string>
+				<key>pci_vendor</key>
+				<string>0x8086 </string>
+				<key>usb_bus_number</key>
+				<string>0x1d </string>
+			</dict>
+			<dict>
+				<key>_name</key>
+				<string>UHCI Root Hub Simulation</string>
+				<key>controller_location</key>
+				<string>Built-in</string>
+				<key>host_controller</key>
+				<string>AppleUSBUHCI</string>
+				<key>pci_device</key>
+				<string>0x27c9 </string>
+				<key>pci_revision</key>
+				<string>0x0002 </string>
+				<key>pci_vendor</key>
+				<string>0x8086 </string>
+				<key>usb_bus_number</key>
+				<string>0x3d </string>
+			</dict>
+			<dict>
+				<key>_items</key>
+				<array>
+					<dict>
+						<key>_name</key>
+						<string>Bluetooth USB Host Controller</string>
+						<key>a_product_id</key>
+						<string>0x8206</string>
+						<key>b_vendor_id</key>
+						<string>apple_vendor_id</string>
+						<key>c_bcd_device</key>
+						<string>19.65</string>
+						<key>e_device_speed</key>
+						<string>full_speed</string>
+						<key>f_manufacturer</key>
+						<string>Apple Inc.</string>
+						<key>g_location_id</key>
+						<string>0x7d100000</string>
+						<key>h_bus_power</key>
+						<string>500</string>
+						<key>j_bus_power_used</key>
+						<string>0</string>
+					</dict>
+					<dict>
+						<key>_name</key>
+						<string>IR Receiver</string>
+						<key>a_product_id</key>
+						<string>0x8240</string>
+						<key>b_vendor_id</key>
+						<string>apple_vendor_id</string>
+						<key>c_bcd_device</key>
+						<string> 1.10</string>
+						<key>e_device_speed</key>
+						<string>full_speed</string>
+						<key>f_manufacturer</key>
+						<string>Apple Computer, Inc.</string>
+						<key>g_location_id</key>
+						<string>0x7d200000</string>
+						<key>h_bus_power</key>
+						<string>500</string>
+						<key>j_bus_power_used</key>
+						<string>100</string>
+					</dict>
+				</array>
+				<key>_name</key>
+				<string>UHCI Root Hub Simulation</string>
+				<key>controller_location</key>
+				<string>Built-in</string>
+				<key>host_controller</key>
+				<string>AppleUSBUHCI</string>
+				<key>pci_device</key>
+				<string>0x27cb </string>
+				<key>pci_revision</key>
+				<string>0x0002 </string>
+				<key>pci_vendor</key>
+				<string>0x8086 </string>
+				<key>usb_bus_number</key>
+				<string>0x7d </string>
+			</dict>
+			<dict>
+				<key>_name</key>
+				<string>UHCI Root Hub Simulation</string>
+				<key>controller_location</key>
+				<string>Built-in</string>
+				<key>host_controller</key>
+				<string>AppleUSBUHCI</string>
+				<key>pci_device</key>
+				<string>0x27ca </string>
+				<key>pci_revision</key>
+				<string>0x0002 </string>
+				<key>pci_vendor</key>
+				<string>0x8086 </string>
+				<key>usb_bus_number</key>
+				<string>0x5d </string>
+			</dict>
+		</array>
+		<key>_parentDataType</key>
+		<string>SPHardwareDataType</string>
+		<key>_properties</key>
+		<dict>
+			<key>_name</key>
+			<dict>
+				<key>_isColumn</key>
+				<string>YES</string>
+				<key>_isOutlineColumn</key>
+				<string>YES</string>
+				<key>_order</key>
+				<string>0</string>
+			</dict>
+			<key>bsd_name</key>
+			<dict>
+				<key>_order</key>
+				<string>42</string>
+			</dict>
+			<key>detachable_drive</key>
+			<dict>
+				<key>_order</key>
+				<string>39</string>
+			</dict>
+			<key>device_manufacturer</key>
+			<dict>
+				<key>_order</key>
+				<string>20</string>
+			</dict>
+			<key>device_model</key>
+			<dict>
+				<key>_order</key>
+				<string>22</string>
+			</dict>
+			<key>device_revision</key>
+			<dict>
+				<key>_order</key>
+				<string>24</string>
+			</dict>
+			<key>device_serial</key>
+			<dict>
+				<key>_order</key>
+				<string>26</string>
+			</dict>
+			<key>disc_burning</key>
+			<dict>
+				<key>_order</key>
+				<string>32</string>
+			</dict>
+			<key>file_system</key>
+			<dict>
+				<key>_order</key>
+				<string>40</string>
+			</dict>
+			<key>free_space</key>
+			<dict>
+				<key>_order</key>
+				<string>12</string>
+			</dict>
+			<key>mount_point</key>
+			<dict>
+				<key>_order</key>
+				<string>44</string>
+			</dict>
+			<key>optical_drive_type</key>
+			<dict>
+				<key>_order</key>
+				<string>30</string>
+			</dict>
+			<key>optical_media_type</key>
+			<dict>
+				<key>_order</key>
+				<string>31</string>
+			</dict>
+			<key>removable_media</key>
+			<dict>
+				<key>_order</key>
+				<string>34</string>
+			</dict>
+			<key>size</key>
+			<dict>
+				<key>_order</key>
+				<string>10</string>
+			</dict>
+			<key>volumes</key>
+			<dict>
+				<key>_detailLevel</key>
+				<string>0</string>
+			</dict>
+			<key>volumes_anonymous</key>
+			<dict>
+				<key>_detailLevel</key>
+				<string>-1</string>
+				<key>_maxDetailLevel</key>
+				<string>0</string>
+			</dict>
+			<key>writable</key>
+			<dict>
+				<key>_order</key>
+				<string>36</string>
+			</dict>
+		</dict>
+		<key>_timeStamp</key>
+		<date>2017-05-31T16:11:49Z</date>
+		<key>_versionInfo</key>
+		<dict>
+			<key>com.apple.SystemProfiler.SPUSBReporter</key>
+			<string>60</string>
+		</dict>
+	</dict>
+</array>
+</plist>

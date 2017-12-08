@@ -12,6 +12,13 @@ use File::stat;
 use File::Which;
 use Memoize;
 use UNIVERSAL::require;
+use List::Util qw(first);
+
+# Keep a copy of @ARGV, only for Provider inventory
+BEGIN {
+    our $ARGV = [ @ARGV ];
+}
+our $ARGV;
 
 our @EXPORT = qw(
     getDirectoryHandle
@@ -24,6 +31,7 @@ our @EXPORT = qw(
     getCanonicalInterfaceSpeed
     getCanonicalSize
     getSanitizedString
+    getUtf8String
     trimWhitespace
     getFirstLine
     getFirstMatch
@@ -49,7 +57,7 @@ our @EXPORT = qw(
 
 my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
 
-# this trigger some errors on Perl 5.12/Win32:
+# this trigger some errors under win32:
 # Anonymous function called in forbidden scalar context
 if ($OSNAME ne 'MSWin32') {
     memoize('canRun');
@@ -127,6 +135,10 @@ sub getCanonicalManufacturer {
         $manufacturer = "Seagate";
     } elsif ($manufacturer =~ /^(HD|IC|HU|HGST)/) {
         $manufacturer = "Hitachi";
+    } elsif ($manufacturer =~ /^APPLE/i) {
+        $manufacturer = "Apple";
+    } elsif ($manufacturer =~ /^OPTIARC/i) {
+        $manufacturer = "Sony";
     }
 
     return $manufacturer;
@@ -139,16 +151,21 @@ sub getCanonicalSpeed {
 
     return undef unless $speed;
 
+    return $speed if $speed =~ /^([,.\d]+)$/;
+
     return 400 if $speed =~ /^PC3200U/;
 
-    return undef unless $speed =~ /^([,.\d]+) \s? (\S+)$/x;
+    return undef unless $speed =~ /^([,.\d]+) \s? (\S+)/x;
     my $value = $1;
     my $unit = lc($2);
 
+    # Remark: we need to return speed in MHz. Even if MT/s is not accurately
+    # equivalent to MHz, we nned to return the value so server can extract it
     return
-        $unit eq 'ghz' ? $value * 1000 :
-        $unit eq 'mhz' ? $value        :
-                         undef         ;
+        $unit eq 'ghz'  ? $value * 1000 :
+        $unit eq 'mhz'  ? $value        :
+        $unit eq 'mt/s' ? $value        :
+                          undef         ;
 }
 
 sub getCanonicalInterfaceSpeed {
@@ -185,6 +202,7 @@ sub getCanonicalSize {
     return undef unless $size =~ /^([,.\d]+) (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);
+    $value =~ s/,/\./;
 
     return
         $unit eq 'tb'    ? $value * $base * $base        :
@@ -213,13 +231,10 @@ sub compareVersion {
         );
 }
 
-sub getSanitizedString {
+sub getUtf8String {
     my ($string) = @_;
 
     return unless defined $string;
-
-    # clean control caracters
-    $string =~ s/[[:cntrl:]]//g;
 
     # encode to utf-8 if needed
     if (!Encode::is_utf8($string) && $string !~ m/\A(
@@ -236,6 +251,17 @@ sub getSanitizedString {
     };
 
     return $string;
+}
+
+sub getSanitizedString {
+    my ($string) = @_;
+
+    return unless defined $string;
+
+    # clean control caracters
+    $string =~ s/[[:cntrl:]]//g;
+
+    return getUtf8String($string);
 }
 
 sub trimWhitespace {
@@ -347,7 +373,7 @@ sub getFirstMatch {
     }
     close $handle;
 
-    return wantarray ? @results : $results[0];
+    return wantarray ? @results : first { defined $_ } @results;
 }
 
 sub getAllLines {
@@ -395,7 +421,7 @@ sub hex2char {
     my ($value) = @_;
 
     ## no critic (ExplicitReturnUndef)
-    return undef unless $value;
+    return undef unless defined $value;
     return $value unless $value =~ /^0x/;
 
     $value =~ s/^0x//; # drop hex prefix
@@ -406,7 +432,7 @@ sub hex2dec {
     my ($value) = @_;
 
     ## no critic (ExplicitReturnUndef)
-    return undef unless $value;
+    return undef unless defined $value;
     return $value unless $value =~ /^0x/;
 
     return oct($value);
@@ -416,7 +442,7 @@ sub dec2hex {
     my ($value) = @_;
 
     ## no critic (ExplicitReturnUndef)
-    return undef unless $value;
+    return undef unless defined $value;
     return $value if $value =~ /^0x/;
 
     return sprintf("0x%x", $value);
@@ -581,6 +607,10 @@ Returns a normalized size value (in Mb) for given one.
 
 Returns the input stripped from any control character, properly encoded in
 UTF-8.
+
+=head2 getUtf8String($string)
+
+Returns the input properly encoded in UTF-8.
 
 =head2 trimWhitespace($string)
 

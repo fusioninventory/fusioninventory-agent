@@ -7,6 +7,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
     return canRun('lxc-ls');
@@ -45,9 +46,9 @@ sub  _getVirtualMachineState {
     close $handle;
 
     return
-        $info{state} eq 'RUNNING' ? 'running' :
-        $info{state} eq 'FROZEN'  ? 'paused'  :
-        $info{state} eq 'STOPPED' ? 'off'     :
+        $info{state} eq 'RUNNING' ? STATUS_RUNNING :
+        $info{state} eq 'FROZEN'  ? STATUS_PAUSED  :
+        $info{state} eq 'STOPPED' ? STATUS_OFF     :
         $info{state};
 }
 
@@ -101,16 +102,27 @@ sub  _getVirtualMachines {
 
     my @machines;
 
-    while(my $line = <$handle>) {
-        chomp $line;
-        next unless $line =~ m/^(\S+)$/;
-
-        my $name = $1;
+    while(my $name = <$handle>) {
+        # lxc-ls -1 shows one entry by line, just skip line if empty as name can contain space
+        chomp $name;
+        next unless length($name);
 
         my $status = _getVirtualMachineState(
-            command => "/usr/bin/lxc-info -n $name",
+            command => "/usr/bin/lxc-info -n '$name'",
             logger => $params{logger}
         );
+
+        my $machineid = ( $status && $status eq STATUS_RUNNING ) ?
+            getFirstLine(
+                command => "/usr/bin/lxc-attach -n '$name' -- cat /etc/machine-id",
+                logger => $params{logger}
+            )
+            :
+            _getVirtualMachineId(
+                command => "/usr/bin/lxc-info -n '$name' -c lxc.rootfs",
+                pattern => qr/^lxc.rootfs\s*=\s*(.+)$/,
+                logger  => $params{logger}
+            );
 
         my $config = _getVirtualMachineConfig(
             file => "/var/lib/lxc/$name/config",
@@ -119,15 +131,35 @@ sub  _getVirtualMachines {
 
         push @machines, {
             NAME   => $name,
-            VMTYPE => 'LXC',
+            VMTYPE => 'lxc',
             STATUS => $status,
             VCPU   => $config->{VCPU},
             MEMORY => $config->{MEMORY},
+            UUID   => getVirtualUUID($machineid, $name)
         };
     }
     close $handle;
 
     return @machines;
+}
+
+sub  _getVirtualMachineId {
+    my (%params) = @_;
+
+    my $rootfs = getFirstMatch(%params);
+    return unless $rootfs;
+
+    if ($rootfs =~ /^overlayfs:/) {
+        my @overlayfs = split(/:/,$rootfs);
+        $rootfs = $overlayfs[2];
+    }
+
+    return unless -e "$rootfs/etc/machine-id";
+
+    return  getFirstLine(
+        file   => "$rootfs/etc/machine-id",
+        logger => $params{logger}
+    );
 }
 
 1;

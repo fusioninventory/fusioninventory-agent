@@ -18,6 +18,7 @@ use Cwd;
 use Encode;
 use English qw(-no_match_vars);
 use File::Temp qw(:seekable tempfile);
+use File::Basename qw(basename);
 use Win32::Job;
 use Win32::TieRegistry (
     Delimiter   => '/',
@@ -42,10 +43,17 @@ our @EXPORT = qw(
     getLocalCodepage
     runCommand
     FileTimeToSystemTime
+    getUsersFromRegistry
+    getAgentMemorySize
+    FreeAgentMem
 );
 
+my $_is64bits = undef;
 sub is64bit {
-    return
+    # Cache is64bit() result in a private module variable to avoid a lot of wmi
+    # calls and as this value won't change during the service/task lifetime
+    return $_is64bits if $_is64bits;
+    return $_is64bits =
         any { $_->{AddressWidth} eq 64 }
         getWMIObjects(
             class => 'Win32_Processor', properties => [ qw/AddressWidth/ ]
@@ -91,16 +99,67 @@ sub _getWMIObjects {
         @_
     );
 
-    my $WMIService = Win32::OLE->GetObject($params{moniker})
-        or return;
+    my $WMIService = Win32::OLE->GetObject($params{moniker});
+
+    # Support alternate moniker if provided and main failed to open
+    unless (defined($WMIService)) {
+        if ($params{altmoniker}) {
+            $WMIService = Win32::OLE->GetObject($params{altmoniker});
+        }
+        return unless (defined($WMIService));
+    }
 
     Win32::OLE->use('in');
 
     my @objects;
     foreach my $instance (in(
+        $params{query} ?
+        $WMIService->ExecQuery(@{$params{query}})
+        :
         $WMIService->InstancesOf($params{class})
     )) {
         my $object;
+        # Handle Win32::OLE object method, see _getLoggedUsers() method in
+        # FusionInventory::Agent::Task::Inventory::Win32::Users as example to
+        # use or enhance this feature
+        if ($params{method}) {
+            my @invokes = ( $params{method} );
+            my %results = ();
+
+            # Prepare Invoke params for known requested types
+            foreach my $name (@{$params{params}}) {
+                my ($type, $default) = @{$params{$name}}
+                    or next;
+                my $variant;
+                if ($type eq 'string') {
+                    Win32::OLE::Variant->use(qw/VT_BYREF VT_BSTR/);
+                    eval {
+                        $variant = VT_BYREF()|VT_BSTR();
+                    };
+                }
+                eval {
+                    $results{$name} = Win32::OLE::Variant::Variant($variant, $default);
+                };
+                push @invokes, $results{$name};
+            }
+
+            # Invoke the method saving the result so we can also bind it
+            eval {
+                $results{$params{method}} = $instance->Invoke(@invokes);
+            };
+
+            # Bind results to object to return
+            foreach my $name (keys(%{$params{binds}})) {
+                next unless (defined($results{$name}));
+                my $bind = $params{binds}->{$name};
+                eval {
+                    $object->{$bind} = $results{$name}->Get();
+                };
+                if (defined $object->{$bind} && !ref($object->{$bind})) {
+                    utf8::upgrade($object->{$bind});
+                }
+            }
+        }
         foreach my $property (@{$params{properties}}) {
             if (defined $instance->{$property} && !ref($instance->{$property})) {
                 # string value
@@ -125,8 +184,15 @@ sub _getWMIObjects {
 sub getRegistryValue {
     my (%params) = @_;
 
+    if (!$params{path}) {
+        $params{logger}->error(
+            "No registry value path provided"
+        ) if $params{logger};
+        return;
+    }
+
     my ($root, $keyName, $valueName);
-    if ($params{path} =~ m{^(HKEY_\S+)/(.+)/([^/]+)} ) {
+    if ($params{path} =~ m{^(HKEY_\w+.*)/([^/]+)/([^/]+)} ) {
         $root      = $1;
         $keyName   = $2;
         $valueName = $3;
@@ -160,8 +226,15 @@ sub getRegistryValue {
 sub getRegistryKey {
     my (%params) = @_;
 
+    if (!$params{path}) {
+        $params{logger}->error(
+            "No registry key path provided"
+        ) if $params{logger};
+        return;
+    }
+
     my ($root, $keyName);
-    if ($params{path} =~ m{^(HKEY_\S+)/(.+)} ) {
+    if ($params{path} =~ m{^(HKEY_\w+.*)/([^/]+)} ) {
         $root      = $1;
         $keyName   = $2;
     } else {
@@ -245,15 +318,31 @@ sub runCommand {
 }
 
 sub getInterfaces {
+    my (%params) = @_;
 
-    my @configurations;
-
-    foreach my $object (getWMIObjects(
-        class      => 'Win32_NetworkAdapterConfiguration',
-        properties => [ qw/Index Description IPEnabled DHCPServer MACAddress
+    my @properties = qw/Index Description IPEnabled DHCPServer MACAddress
                            MTU DefaultIPGateway DNSServerSearchOrder IPAddress
-                           IPSubnet/  ]
-    )) {
+                           IPSubnet/;
+    if ($params{additionalProperties}
+        && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
+        if (ref($params{additionalProperties}->{NetWorkAdapterConfiguration}) eq 'ARRAY') {
+            push @properties, @{$params{additionalProperties}->{NetWorkAdapterConfiguration}};
+        } else {
+            delete $params{additionalProperties}->{NetWorkAdapterConfiguration};
+        }
+    }
+    
+    my @configurations;
+    my @wmiResult =
+            $params{list}
+                && $params{list}->{Win32_NetworkAdapterConfiguration}
+                && ref($params{list}->{Win32_NetworkAdapterConfiguration}) eq 'ARRAY' ?
+        @{$params{list}->{Win32_NetworkAdapterConfiguration}} :
+        getWMIObjects(
+            class      => 'Win32_NetworkAdapterConfiguration',
+            properties => \@properties
+        );
+    foreach my $object (@wmiResult) {
 
         my $configuration = {
             DESCRIPTION => $object->{Description},
@@ -262,6 +351,15 @@ sub getInterfaces {
             MACADDR     => $object->{MACAddress},
             MTU         => $object->{MTU}
         };
+
+        if ($params{additionalProperties}
+            && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
+            for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
+                if (defined $object->{$prop}) {
+                    $configuration->{$prop} = $object->{$prop};
+                }
+            }
+        }
 
         if ($object->{DefaultIPGateway}) {
             $configuration->{IPGATEWAY} = $object->{DefaultIPGateway}->[0];
@@ -283,11 +381,23 @@ sub getInterfaces {
 
     my @interfaces;
 
-    foreach my $object (getWMIObjects(
-        class      => 'Win32_NetworkAdapter',
-        properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter
-                           AdapterTypeId/  ]
-    )) {
+    @properties = qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId/;
+    if ($params{additionalProperties}
+        && $params{additionalProperties}->{NetWorkAdapter}) {
+        if (ref($params{additionalProperties}->{NetWorkAdapter}) eq 'ARRAY') {
+            push @properties, @{$params{additionalProperties}->{NetWorkAdapter}};
+        } else {
+            delete $params{additionalProperties}->{NetWorkAdapter};
+        }
+    }
+    @wmiResult =
+            $params{list} && $params{list}->{Win32_NetworkAdapter} ?
+        @{$params{list}->{Win32_NetworkAdapter}} :
+        getWMIObjects(
+            class      => 'Win32_NetworkAdapter',
+            properties => \@properties
+        );
+    foreach my $object (@wmiResult) {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $object->{PNPDeviceID};
 
@@ -310,6 +420,23 @@ sub getInterfaces {
                     MTU         => $configuration->{MTU},
                     dns         => $configuration->{dns},
                 };
+
+                if ($params{additionalProperties}
+                    && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
+                    for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
+                        if ($configuration->{$prop}) {
+                            $interface->{$prop} = $configuration->{$prop};
+                        }
+                    }
+                }
+                if ($params{additionalProperties}
+                    && $params{additionalProperties}->{NetWorkAdapter}) {
+                    for my $prop (@{$params{additionalProperties}->{NetWorkAdapter}}) {
+                        if ($object->{$prop}) {
+                            $interface->{$prop} = $object->{$prop};
+                        }
+                    }
+                }
 
                 if ($address->[0] =~ /$ip_address_pattern/) {
                     $interface->{IPADDRESS} = $address->[0];
@@ -345,20 +472,36 @@ sub getInterfaces {
                 DESCRIPTION => $configuration->{DESCRIPTION},
                 STATUS      => $configuration->{STATUS},
                 MTU         => $configuration->{MTU},
-                dns         => $configuration->{dns},
+                dns         => $configuration->{dns}
             };
 
             $interface->{SPEED}      = $object->{Speed} / 1_000_000
                 if $object->{Speed};
             $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
 
+            if ($params{additionalProperties}
+                && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
+                for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
+                    if ($configuration->{$prop}) {
+                        $interface->{$prop} = $configuration->{$prop};
+                    }
+                }
+            }
+            if ($params{additionalProperties}
+                && $params{additionalProperties}->{NetWorkAdapter}) {
+                for my $prop (@{$params{additionalProperties}->{NetWorkAdapter}}) {
+                    if ($configuration->{$prop}) {
+                        $interface->{$prop} = $configuration->{$prop};
+                    }
+                }
+            }
+
             push @interfaces, $interface;
         }
 
     }
 
-    return
-        @interfaces;
+    return @interfaces;
 
 }
 
@@ -385,6 +528,8 @@ sub FileTimeToSystemTime {
     # Inspired by Win32::FileTime module
     my $time = shift;
 
+    return unless defined($time);
+
     my $SystemTime = pack( 'SSSSSSSS', 0, 0, 0, 0, 0, 0, 0, 0 );
 
     # Load Win32::API as late as possible
@@ -404,6 +549,117 @@ sub FileTimeToSystemTime {
     };
 
     return @times;
+}
+
+sub getAgentMemorySize {
+
+    # Load Win32::API as late as possible
+    Win32::API->require() or return;
+
+    # Get current thread handle
+    my $thread;
+    eval {
+        my $apiGetCurrentThread = Win32::API->new(
+            'kernel32',
+            'GetCurrentThread',
+            [],
+            'I'
+        );
+        $thread = $apiGetCurrentThread->Call();
+    };
+    return -1 unless (defined($thread));
+
+    # Get system ProcessId for current thread
+    my $thread_pid;
+    eval {
+        my $apiGetProcessIdOfThread = Win32::API->new(
+            'kernel32',
+            'GetProcessIdOfThread',
+            [ 'I' ],
+            'I'
+        );
+        $thread_pid = $apiGetProcessIdOfThread->Call($thread);
+    };
+    return -1 unless (defined($thread_pid));
+
+    # Get Process Handle
+    my $ph;
+    eval {
+        my $apiOpenProcess = Win32::API->new(
+            'kernel32',
+            'OpenProcess',
+            [ 'I', 'I', 'I' ],
+            'I'
+        );
+        $ph = $apiOpenProcess->Call(0x400, 0, $thread_pid);
+    };
+    return -1 unless (defined($ph));
+
+    my $size = -1;
+    eval {
+        # memory usage is bundled up in ProcessMemoryCounters structure
+        # populated by GetProcessMemoryInfo() win32 call
+        Win32::API::Struct->typedef('PROCESS_MEMORY_COUNTERS', qw(
+            DWORD  cb;
+            DWORD  PageFaultCount;
+            SIZE_T PeakWorkingSetSize;
+            SIZE_T WorkingSetSize;
+            SIZE_T QuotaPeakPagedPoolUsage;
+            SIZE_T QuotaPagedPoolUsage;
+            SIZE_T QuotaPeakNonPagedPoolUsage;
+            SIZE_T QuotaNonPagedPoolUsage;
+            SIZE_T PagefileUsage;
+            SIZE_T PeakPagefileUsage;
+        ));
+
+        # initialize PROCESS_MEMORY_COUNTERS structure
+        my $mem_counters = Win32::API::Struct->new( 'PROCESS_MEMORY_COUNTERS' );
+        foreach my $key (qw/cb PageFaultCount PeakWorkingSetSize WorkingSetSize
+            QuotaPeakPagedPoolUsage QuotaPagedPoolUsage QuotaPeakNonPagedPoolUsage
+            QuotaNonPagedPoolUsage PagefileUsage PeakPagefileUsage/) {
+                 $mem_counters->{$key} = 0;
+        }
+        my $cb = $mem_counters->sizeof();
+
+        # Request GetProcessMemoryInfo API and call it to find current process memory
+        my $apiGetProcessMemoryInfo = Win32::API->new(
+            'psapi',
+            'BOOL GetProcessMemoryInfo(
+                HANDLE hProc,
+                LPPROCESS_MEMORY_COUNTERS ppsmemCounters, DWORD cb
+            )'
+        );
+        if ($apiGetProcessMemoryInfo->Call($ph, $mem_counters, $cb)) {
+            # Uses WorkingSetSize as process memory size
+            $size = $mem_counters->{WorkingSetSize};
+        }
+    };
+
+    return $size;
+}
+
+sub FreeAgentMem {
+
+    # Load Win32::API as late as possible
+    Win32::API->require() or return;
+
+    eval {
+        # Get current process handle
+        my $apiGetCurrentProcess = Win32::API->new(
+            'kernel32',
+            'HANDLE GetCurrentProcess()'
+        );
+        my $proc = $apiGetCurrentProcess->Call();
+
+        # Call SetProcessWorkingSetSize with magic parameters for freeing our memory
+        my $apiSetProcessWorkingSetSize = Win32::API->new(
+            'kernel32',
+            'SetProcessWorkingSetSize',
+            [ 'I', 'I', 'I' ],
+            'I'
+        );
+        $apiSetProcessWorkingSetSize->Call( $proc, -1, -1 );
+    };
 }
 
 my $worker ;
@@ -426,6 +682,7 @@ sub start_Win32_OLE_Worker {
 sub _win32_ole_worker {
     # Load Win32::OLE as late as possible in a dedicated worker
     Win32::OLE->require() or return;
+    Win32::OLE::Variant->require() or return;
     Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
     while (1) {
@@ -509,6 +766,7 @@ sub _call_win32_ole_dependent_api {
     } else {
         # Load Win32::OLE as late as possible
         Win32::OLE->require() or return;
+        Win32::OLE::Variant->require() or return;
         Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
         # We come here from worker or if we failed to start worker
@@ -519,6 +777,43 @@ sub _call_win32_ole_dependent_api {
         };
         return &{$funct}(@{$call->{'args'}});
     }
+}
+
+sub getUsersFromRegistry {
+    my (%params) = @_;
+
+    my $logger = $params{logger};
+    # ensure native registry access, not the 32 bit view
+    my $flags = is64bit() ? KEY_READ | KEY_WOW64_64 : KEY_READ;
+    my $machKey = $Registry->Open('LMachine', {
+            Access => $flags
+        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+    if (!$machKey) {
+        $logger->error("getUsersFromRegistry() : Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+        return;
+    }
+    $logger->debug2('getUsersFromRegistry() : opened LMachine registry key');
+    my $profileList =
+        $machKey->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
+    next unless $profileList;
+
+    my $userList;
+    foreach my $profileName (keys %$profileList) {
+        $params{logger}->debug2('profileName : ' . $profileName);
+        next unless $profileName =~ m{/$};
+        next unless length($profileName) > 10;
+        my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};
+        my $sid = $profileList->{$profileName}{'/Sid'};
+        next unless $sid;
+        next unless $profilePath;
+        my $user = basename($profilePath);
+        $userList->{$profileName} = $user;
+    }
+
+    if ($params{logger}) {
+        $params{logger}->debug2('getUsersFromRegistry() : retrieved ' . scalar(keys %$userList) . ' users');
+    }
+    return $userList;
 }
 
 END {
@@ -549,15 +844,30 @@ Returns the local codepage.
 
 =head2 getWMIObjects(%params)
 
-Returns the list of objects from given WMI class, with given properties, properly encoded.
+Returns the list of objects from given WMI class or from a query, with given
+properties, properly encoded.
 
 =over
 
 =item moniker a WMI moniker (default: winmgmts:{impersonationLevel=impersonate,(security)}!//./)
 
-=item class a WMI class
+=item altmoniker another WMI moniker to use if first failed (none by default)
+
+=item class a WMI class, not used if query parameter is also given
 
 =item properties a list of WMI properties
+
+=item query a WMI request to execute, if specified, class parameter is not used
+
+=item method an object method to call, in that case, you will also need the
+following parameters:
+
+=item params a list ref to the parameters to use fro the method. This list contains
+string as key to other parameters defining the call. The key names should not
+match any exiting parameter definition. Each parameter definition must be a list
+of the type and default value.
+
+=item binds a hash ref to the properties to bind to the returned object
 
 =back
 

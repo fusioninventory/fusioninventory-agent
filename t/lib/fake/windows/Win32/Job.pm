@@ -1,4 +1,4 @@
-package win32::Job;
+package Win32::Job;
 
 use strict;
 use warnings;

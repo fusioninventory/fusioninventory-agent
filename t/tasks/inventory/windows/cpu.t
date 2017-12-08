@@ -42,7 +42,8 @@ my %tests = (
             MODEL        => '42',
             SPEED        => '2800',
             THREAD       => '1',
-            CORE         => '4'
+            CORE         => '1',
+            CORECOUNT    => '4'
         }
     ],
     '2003' => [

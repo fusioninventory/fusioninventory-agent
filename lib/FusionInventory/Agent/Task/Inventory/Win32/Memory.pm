@@ -3,6 +3,7 @@ package FusionInventory::Agent::Task::Inventory::Win32::Memory;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
 our $runMeIfTheseChecksFailed =
@@ -117,7 +118,7 @@ sub _getMemories {
             DESCRIPTION  => $object->{Description},
             FORMFACTOR   => $formFactorVal[$object->{FormFactor}],
             REMOVABLE    => $object->{Removable} ? 1 : 0,
-            SPEED        => $object->{Speed},
+            SPEED        => getCanonicalSpeed($object->{Speed}),
             TYPE         => $memoryTypeVal[$object->{MemoryType}],
             NUMSLOTS     => $cpt++,
             SERIALNUMBER => $object->{SerialNumber}

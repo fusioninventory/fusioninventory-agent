@@ -2,7 +2,9 @@
 
 use strict;
 use warnings;
+
 use lib './lib';
+use setup;
 
 use English qw(-no_match_vars);
 use Getopt::Long;
@@ -12,6 +14,7 @@ use XML::TreePP;
 use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Version;
 
 my %types = (
     1 => 'COMPUTER',
@@ -28,19 +31,12 @@ my $options = {
     threads => 1
 };
 
-my %setup = (
-    confdir => './etc',
-    datadir => './share',
-    libdir  => './lib',
-    vardir  => './var',
-);
-
 GetOptions(
     $options,
     'model=s',
     'type=s',
     'host=s@',
-    'file=s',
+    'file=s@',
     'community=s',
     'credentials=s',
     'threads=i',
@@ -52,8 +48,13 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 if ($options->{version}) {
-  print "NetInventory task $FusionInventory::Agent::Task::NetInventory::VERSION\n";
-  exit 0;
+    my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
+    map { print $_."\n" }
+        "NetInventory task $FusionInventory::Agent::Task::NetInventory::VERSION",
+        "based on $PROVIDER Agent v$FusionInventory::Agent::Version::VERSION",
+        @{$FusionInventory::Agent::Version::COMMENTS}
+        ;
+    exit 0;
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
@@ -63,15 +64,30 @@ pod2usage(
 
 warn "deprecated option model, ignoring\n" if $options->{model};
 
-my @devices = map {
-        {
-            ID           => 0,
-            IP           => $_,
-            FILE         => $options->{file},
-            AUTHSNMP_ID  => 1,
-            MODELSNMP_ID => 1
-        }
-    } @{$options->{host}};
+# Add hosts if --host option is not listing as much host as --file option is providing snmpwalk files
+$options->{host} = [] unless $options->{host};
+while ($options->{file} && @{$options->{file}} > @{$options->{host}}) {
+    push @{$options->{host}}, $options->{host}[0] || '127.0.0.1';
+}
+
+my $id = 0;
+my @devices;
+
+if ($options->{file}) {
+    push @devices, {
+        ID           => $id++,
+        FILE         => $_,
+        AUTHSNMP_ID  => 1,
+        MODELSNMP_ID => 1
+    } foreach @{$options->{file}};
+} else {
+    push @devices, {
+        ID           => $id++,
+        IP           => $_,
+        AUTHSNMP_ID  => 1,
+        MODELSNMP_ID => 1
+    } foreach @{$options->{host}};
+}
 
 my $credentials = { ID => 1 };
 
@@ -177,18 +193,104 @@ fusioninventory-netinventory - Standalone network inventory
 fusioninventory-netinventory [options] [--host <host>|--file <file>]
 
   Options:
-    --host host    host to inventorize (use multiple time to inventorize more hosts)
-    --file         snmpwalk output file
-    --community    community string (default: public)
-    --credentials  SNMP credentials
-    --timeout val  SNMP timeout (default: 15s)
-    --threads nb   number of invenroty threads (default: 1)
-    --control      output control messages
-    --debug        debug output (execution traces)
-    -h --help      print this message and exit
-    --version      print the task version and exit
+    --host <HOST>          target host
+    --file <FILE>          snmpwalk output file
+    --community <STRING>   community string (public)
+    --credentials <STRING> SNMP credentials (version:1,community:public)
+    --timeout <TIME>       SNMP timeout, in seconds (15)
+    --type <TYPE>          force device type
+    --threads <COUNT>      number of inventory threads (1)
+    --control              output control messages
+    --debug                debug output
+    -h --help              print this message and exit
+    --version              print the task version and exit
 
 =head1 DESCRIPTION
 
 F<fusioninventory-netinventory> allows to run a network inventory task without
 a GLPI server.
+
+=head1 OPTIONS
+
+=over
+
+=item B<--host> I<HOST>
+
+Run an online inventory against given host. Multiple usage allowed, for
+multiple hosts.
+
+=item B<--file> I<FILE>
+
+Run an offline inventory against snmpwalk output, stored in given file. 
+Multiple usage allowed, for multiple files.
+
+=item B<--communty> I<STRING>
+
+Use given string as SNMP community (assume SNMPv1)
+
+=item B<--credentials> I<STRING>
+
+Use given string as SNMP credentials specification. This specification is a
+comma-separated list of key:value authentication parameters, such as:
+
+=over
+
+=item * version:2c,community:public
+
+=item * version:3,username:admin,authprotocol:sha,authpassword:s3cr3t
+
+=item * etc.
+
+=back
+
+=item B<--timeout> I<TIME>
+
+Set SNMP timeout, in seconds.
+
+=item B<--type> I<TYPE>
+
+Force device type, instead of relying on automatic identification. Currently
+allowed types:
+
+=over
+
+=item * COMPUTER
+
+=item * NETWORKING
+
+=item * PRINTER
+
+=item * STORAGE
+
+=item * POWER
+
+=item * PHONE
+
+=back
+
+=item B<--threads> I<count>
+
+Use given number of inventory threads.
+
+=item B<--control>
+
+Output server-agent control messages, in addition to inventory result itself.
+
+=item B<--debug>
+
+Turn the debug mode on. Multiple usage allowed, for additional verbosity.
+
+=back
+
+=head1 EXAMPLES
+
+Run an inventory against a network device, using SNMP version 2c authentication:
+
+    $> fusioninventory-netinventory --host 192.168.0.1
+    --credentials version:2c,community:public
+
+Run an inventory against a network device, using SNMP version 3 authentication
+and forcing its type:
+
+    $> fusioninventory-netinventory --host my.device --type NETWORKING
+    --credentials version:3,username:admin,authprotocol:sha,authpassword:s3cr3t

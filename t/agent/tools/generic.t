@@ -1150,6 +1150,12 @@ my %dmidecode_tests = (
                 'Current Interleave' => 'One-way Interleave',
                 'Memory Module Voltage' => '5.0 V 3.3 V'
             }
+        ],
+        13 => [
+            {
+                'Installable Languages' => '3',
+                'Currently Installed Language' => 'en|US|iso8859-1'
+            }
         ]
     },
     'openbsd-3.8' => {
@@ -1882,6 +1888,20 @@ my %dmidecode_tests = (
                  'Error Information Handle' => 'No Error',
                  'Locator' => 'DIMM 2',
                  'Form Factor' => 'DIMM'
+            },
+            {
+                'Array Handle' => '0x0022',
+                'Error Information Handle' => 'No Error',
+                'Total Width' => '72 bits',
+                'Data Width' => '64 bits',
+                'Size' => '512 MB',
+                'Form Factor' => 'DIMM',
+                'Set' => '2',
+                'Locator' => 'DIMM 3',
+                'Bank Locator' => 'BANK 2',
+                'Type' => 'DDR',
+                'Type Detail' => 'Synchronous',
+                'Speed' => '400 MHz (2.5 ns)',
             }
         ],
         12 => [
@@ -3112,6 +3132,1094 @@ my %dmidecode_tests = (
                 'Specification Version' => '2.0',
                 'Register Spacing' => '32-bit Boundaries',
                 'Interface Type' => 'KCS (Keyboard Control Style)'
+            }
+        ]
+    },
+    'oracle-server-x5-2' => {
+        2 => [
+            {
+                'Chassis Handle' => '0x0003',
+                'Contained Object Handles' => '0',
+                'Asset Tag' => '7317947',
+                'Manufacturer' => 'Oracle Corporation',
+                'Type' => 'Motherboard',
+                'Serial Number' => '489089M+16324B2191',
+                'Location In Chassis' => '/SYS/MB',
+                'Version' => 'Rev 04',
+                'Product Name' => 'ASM,MOTHERBOARD,1U'
+            }
+        ],
+        9 => [
+            {
+                'Bus Address' => '0000:80:03.0',
+                'Current Usage' => 'In Use',
+                'Length' => 'Long',
+                'Designation' => '/SYS/MB/RISER1/PCIE1',
+                'Type' => 'x16 PCI Express 3'
+            },
+            {
+                'Current Usage' => 'In Use',
+                'Bus Address' => '0000:00:02.0',
+                'Type' => 'x16 PCI Express 3',
+                'Length' => 'Long',
+                'Designation' => '/SYS/MB/RISER2/PCIE2'
+            },
+            {
+                'Current Usage' => 'In Use',
+                'Bus Address' => '0000:00:01.0',
+                'Type' => 'x8 PCI Express 3',
+                'Designation' => '/SYS/MB/RISER3/PCIE3',
+                'Length' => 'Short'
+            },
+            {
+                'Bus Address' => '0000:00:03.0',
+                'Current Usage' => 'In Use',
+                'Designation' => '/SYS/MB/RISER3/PCIE4',
+                'Length' => 'Short',
+                'Type' => 'x8 PCI Express 3'
+            }
+        ],
+        20 => [
+            {
+                'Memory Array Mapped Address Handle' => '0x0036',
+                'Starting Address' => '0x00000000000',
+                'Ending Address' => '0x007FFFFFFFF',
+                'Partition Row Position' => '1',
+                'Physical Device Handle' => '0x0037',
+                'Range Size' => '32 GB'
+            },
+            {
+                'Range Size' => '32 GB',
+                'Physical Device Handle' => '0x0039',
+                'Partition Row Position' => '1',
+                'Ending Address' => '0x00FFFFFFFFF',
+                'Starting Address' => '0x00800000000',
+                'Memory Array Mapped Address Handle' => '0x0036'
+            },
+            {
+                'Memory Array Mapped Address Handle' => '0x0036',
+                'Ending Address' => '0x017FFFFFFFF',
+                'Starting Address' => '0x01000000000',
+                'Physical Device Handle' => '0x003C',
+                'Range Size' => '32 GB',
+                'Partition Row Position' => '1'
+            },
+            {
+                'Memory Array Mapped Address Handle' => '0x0036',
+                'Starting Address' => '0x01800000000',
+                'Ending Address' => '0x01FFFFFFFFF',
+                'Partition Row Position' => '1',
+                'Physical Device Handle' => '0x003E',
+                'Range Size' => '32 GB'
+            },
+            {
+                'Physical Device Handle' => '0x0043',
+                'Range Size' => '32 GB',
+                'Partition Row Position' => '1',
+                'Memory Array Mapped Address Handle' => '0x0042',
+                'Ending Address' => '0x027FFFFFFFF',
+                'Starting Address' => '0x02000000000'
+            },
+            {
+                'Memory Array Mapped Address Handle' => '0x0042',
+                'Starting Address' => '0x02800000000',
+                'Ending Address' => '0x02FFFFFFFFF',
+                'Physical Device Handle' => '0x0045',
+                'Range Size' => '32 GB',
+                'Partition Row Position' => '1'
+            },
+            {
+                'Memory Array Mapped Address Handle' => '0x0042',
+                'Ending Address' => '0x037FFFFFFFF',
+                'Starting Address' => '0x03000000000',
+                'Partition Row Position' => '1',
+                'Physical Device Handle' => '0x0048',
+                'Range Size' => '32 GB'
+            },
+            {
+                'Ending Address' => '0x03FFFFFFFFF',
+                'Starting Address' => '0x03800000000',
+                'Memory Array Mapped Address Handle' => '0x0042',
+                'Partition Row Position' => '1',
+                'Range Size' => '32 GB',
+                'Physical Device Handle' => '0x004A'
+            },
+            {
+                'Range Size' => '32 GB',
+                'Physical Device Handle' => '0x004F',
+                'Partition Row Position' => '1',
+                'Starting Address' => '0x04000000000',
+                'Ending Address' => '0x047FFFFFFFF',
+                'Memory Array Mapped Address Handle' => '0x004E'
+            },
+            {
+                'Ending Address' => '0x04FFFFFFFFF',
+                'Starting Address' => '0x04800000000',
+                'Memory Array Mapped Address Handle' => '0x004E',
+                'Range Size' => '32 GB',
+                'Physical Device Handle' => '0x0051',
+                'Partition Row Position' => '1'
+            },
+            {
+                'Physical Device Handle' => '0x0054',
+                'Range Size' => '32 GB',
+                'Partition Row Position' => '1',
+                'Memory Array Mapped Address Handle' => '0x004E',
+                'Starting Address' => '0x05000000000',
+                'Ending Address' => '0x057FFFFFFFF'
+            },
+            {
+                'Range Size' => '32 GB',
+                'Physical Device Handle' => '0x0056',
+                'Partition Row Position' => '1',
+                'Starting Address' => '0x05800000000',
+                'Ending Address' => '0x05FFFFFFFFF',
+                'Memory Array Mapped Address Handle' => '0x004E'
+            },
+            {
+                'Partition Row Position' => '1',
+                'Range Size' => '32 GB',
+                'Physical Device Handle' => '0x005B',
+                'Starting Address' => '0x06000000000',
+                'Ending Address' => '0x067FFFFFFFF',
+                'Memory Array Mapped Address Handle' => '0x005A'
+            },
+            {
+                'Starting Address' => '0x06800000000',
+                'Ending Address' => '0x06FFFFFFFFF',
+                'Memory Array Mapped Address Handle' => '0x005A',
+                'Partition Row Position' => '1',
+                'Range Size' => '32 GB',
+                'Physical Device Handle' => '0x005D'
+            },
+            {
+                'Range Size' => '32 GB',
+                'Physical Device Handle' => '0x0060',
+                'Partition Row Position' => '1',
+                'Starting Address' => '0x07000000000',
+                'Ending Address' => '0x077FFFFFFFF',
+                'Memory Array Mapped Address Handle' => '0x005A'
+            },
+            {
+                'Range Size' => '32 GB',
+                'Physical Device Handle' => '0x0062',
+                'Partition Row Position' => '1',
+                'Starting Address' => '0x07800000000',
+                'Ending Address' => '0x07FFFFFFFFF',
+                'Memory Array Mapped Address Handle' => '0x005A'
+            }
+        ],
+        41 => [
+            {
+                'Type Instance' => '1',
+                'Status' => 'Enabled',
+                'Bus Address' => '0000:3d:00.0',
+                'Type' => 'Video',
+                'Reference Designation' => 'Onboard Video'
+            },
+            {
+                'Reference Designation' => 'X540 10GbE Controller',
+                'Type' => 'Ethernet',
+                'Bus Address' => '0000:82:00.0',
+                'Status' => 'Enabled',
+                'Type Instance' => '3'
+            },
+            {
+                'Status' => 'Enabled',
+                'Bus Address' => '0000:82:00.1',
+                'Type Instance' => '4',
+                'Reference Designation' => 'X540 10GbE Controller',
+                'Type' => 'Ethernet'
+            },
+            {
+                'Type' => 'Ethernet',
+                'Reference Designation' => 'X540 10GbE Controller',
+                'Type Instance' => '1',
+                'Bus Address' => '0000:3a:00.0',
+                'Status' => 'Enabled'
+            },
+            {
+                'Bus Address' => '0000:3a:00.1',
+                'Status' => 'Enabled',
+                'Type Instance' => '2',
+                'Reference Designation' => 'X540 10GbE Controller',
+                'Type' => 'Ethernet'
+            }
+        ],
+        13 => [
+            {
+                'Currently Installed Language' => 'en|US|iso8859-1',
+                'Installable Languages' => '1',
+                'Language Description Format' => 'Long'
+            }
+        ],
+        17 => [
+            {
+                'Configured Clock Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM',
+                'Speed' => '2133 MHz',
+                'Array Handle' => '0x0035',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Rank' => '4',
+                'Size' => '32 GB',
+                'Type' => 'DDR4',
+                'Data Width' => '64 bits',
+                'Bank Locator' => '/SYS/MB/P0',
+                'Asset Tag' => 'DIMM_A1_AssetTag',
+                'Locator' => 'D11',
+                'Serial Number' => '330DC586',
+                'Total Width' => '72 bits',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'Samsung'
+            },
+            {
+                'Rank' => '4',
+                'Size' => '32 GB',
+                'Type' => 'DDR4',
+                'Asset Tag' => 'DIMM_A2_AssetTag',
+                'Bank Locator' => '/SYS/MB/P0',
+                'Data Width' => '64 bits',
+                'Configured Clock Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM',
+                'Speed' => '2133 MHz',
+                'Array Handle' => '0x0035',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Set' => 'None',
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'Samsung',
+                'Locator' => 'D10',
+                'Serial Number' => '32A3A4FD',
+                'Type Detail' => 'Synchronous',
+                'Total Width' => '72 bits'
+            },
+            {
+                'Locator' => 'D9',
+                'Serial Number' => 'NO DIMM',
+                'Form Factor' => 'DIMM',
+                'Type Detail' => 'Synchronous',
+                'Part Number' => 'NO DIMM',
+                'Array Handle' => '0x0035',
+                'Set' => 'None',
+                'Size' => 'No Module Installed',
+                'Type' => 'DDR4',
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'NO DIMM',
+                'Asset Tag' => 'NO DIMM',
+                'Bank Locator' => '/SYS/MB/P0'
+                },
+            {
+                'Serial Number' => '330DC585',
+                'Locator' => 'D8',
+                'Type Detail' => 'Synchronous',
+                'Total Width' => '72 bits',
+                'Set' => 'None',
+                'Manufacturer' => 'Samsung',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'DIMM',
+                'Configured Clock Speed' => '2133 MHz',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Array Handle' => '0x0035',
+                'Speed' => '2133 MHz',
+                'Size' => '32 GB',
+                'Rank' => '4',
+                'Asset Tag' => 'DIMM_B1_AssetTag',
+                'Bank Locator' => '/SYS/MB/P0',
+                'Data Width' => '64 bits',
+                'Type' => 'DDR4'
+            },
+            {
+                'Set' => 'None',
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'Samsung',
+                'Locator' => 'D7',
+                'Serial Number' => '32A3A500',
+                'Total Width' => '72 bits',
+                'Type Detail' => 'Synchronous',
+                'Rank' => '4',
+                'Size' => '32 GB',
+                'Type' => 'DDR4',
+                'Bank Locator' => '/SYS/MB/P0',
+                'Data Width' => '64 bits',
+                'Asset Tag' => 'DIMM_B2_AssetTag',
+                'Configured Clock Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM',
+                'Speed' => '2133 MHz',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Array Handle' => '0x0035'
+            },
+            {
+                'Size' => 'No Module Installed',
+                'Set' => 'None',
+                'Manufacturer' => 'NO DIMM',
+                'Asset Tag' => 'NO DIMM',
+                'Bank Locator' => '/SYS/MB/P0',
+                'Type' => 'DDR4',
+                'Error Information Handle' => 'Not Provided',
+                'Serial Number' => 'NO DIMM',
+                'Form Factor' => 'DIMM',
+                'Locator' => 'D6',
+                'Array Handle' => '0x0035',
+                'Part Number' => 'NO DIMM',
+                'Type Detail' => 'Synchronous'
+            },
+            {
+                'Rank' => '4',
+                'Size' => '32 GB',
+                'Type' => 'DDR4',
+                'Bank Locator' => '/SYS/MB/P0',
+                'Data Width' => '64 bits',
+                'Asset Tag' => 'DIMM_C1_AssetTag',
+                'Configured Clock Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM',
+                'Speed' => '2133 MHz',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Array Handle' => '0x0041',
+                'Set' => 'None',
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'Samsung',
+                'Locator' => 'D0',
+                'Serial Number' => '330DC584',
+                'Total Width' => '72 bits',
+                'Type Detail' => 'Synchronous'
+            },
+            {
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'Samsung',
+                'Set' => 'None',
+                'Type Detail' => 'Synchronous',
+                'Total Width' => '72 bits',
+                'Locator' => 'D1',
+                'Serial Number' => '32A3A4BD',
+                'Type' => 'DDR4',
+                'Asset Tag' => 'DIMM_C2_AssetTag',
+                'Data Width' => '64 bits',
+                'Bank Locator' => '/SYS/MB/P0',
+                'Rank' => '4',
+                'Size' => '32 GB',
+                'Speed' => '2133 MHz',
+                'Array Handle' => '0x0041',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Configured Clock Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM'
+            },
+            {
+                'Locator' => 'D2',
+                'Serial Number' => 'NO DIMM',
+                'Form Factor' => 'DIMM',
+                'Type Detail' => 'Synchronous',
+                'Part Number' => 'NO DIMM',
+                'Array Handle' => '0x0041',
+                'Set' => 'None',
+                'Size' => 'No Module Installed',
+                'Type' => 'DDR4',
+                'Error Information Handle' => 'Not Provided',
+                'Asset Tag' => 'NO DIMM',
+                'Manufacturer' => 'NO DIMM',
+                'Bank Locator' => '/SYS/MB/P0'
+            },
+            {
+                'Manufacturer' => 'Samsung',
+                'Error Information Handle' => 'Not Provided',
+                'Set' => 'None',
+                'Type Detail' => 'Synchronous',
+                'Total Width' => '72 bits',
+                'Serial Number' => '330DC588',
+                'Locator' => 'D3',
+                'Asset Tag' => 'DIMM_D1_AssetTag',
+                'Bank Locator' => '/SYS/MB/P0',
+                'Data Width' => '64 bits',
+                'Type' => 'DDR4',
+                'Size' => '32 GB',
+                'Rank' => '4',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Array Handle' => '0x0041',
+                'Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM',
+                'Configured Clock Speed' => '2133 MHz'
+            },
+            {
+                'Speed' => '2133 MHz',
+                'Array Handle' => '0x0041',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Configured Clock Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM',
+                'Type' => 'DDR4',
+                'Asset Tag' => 'DIMM_D2_AssetTag',
+                'Bank Locator' => '/SYS/MB/P0',
+                'Data Width' => '64 bits',
+                'Rank' => '4',
+                'Size' => '32 GB',
+                'Type Detail' => 'Synchronous',
+                'Total Width' => '72 bits',
+                'Locator' => 'D4',
+                'Serial Number' => '32A3A50E',
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'Samsung',
+                'Set' => 'None'
+            },
+            {
+                'Locator' => 'D5',
+                'Form Factor' => 'DIMM',
+                'Serial Number' => 'NO DIMM',
+                'Type Detail' => 'Synchronous',
+                'Array Handle' => '0x0041',
+                'Part Number' => 'NO DIMM',
+                'Set' => 'None',
+                'Size' => 'No Module Installed',
+                'Error Information Handle' => 'Not Provided',
+                'Type' => 'DDR4',
+                'Bank Locator' => '/SYS/MB/P0',
+                'Manufacturer' => 'NO DIMM',
+                'Asset Tag' => 'NO DIMM'
+            },
+            {
+                'Serial Number' => '330DC582',
+                'Locator' => 'D11',
+                'Total Width' => '72 bits',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Manufacturer' => 'Samsung',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'DIMM',
+                'Configured Clock Speed' => '2133 MHz',
+                'Array Handle' => '0x004D',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Speed' => '2133 MHz',
+                'Size' => '32 GB',
+                'Rank' => '4',
+                'Bank Locator' => '/SYS/MB/P1',
+                'Data Width' => '64 bits',
+                'Asset Tag' => 'DIMM_E1_AssetTag',
+                'Type' => 'DDR4'
+            },
+            {
+                'Type Detail' => 'Synchronous',
+                'Total Width' => '72 bits',
+                'Locator' => 'D10',
+                'Serial Number' => '32A3A4CE',
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'Samsung',
+                'Set' => 'None',
+                'Speed' => '2133 MHz',
+                'Array Handle' => '0x004D',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Configured Clock Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM',
+                'Type' => 'DDR4',
+                'Asset Tag' => 'DIMM_E2_AssetTag',
+                'Bank Locator' => '/SYS/MB/P1',
+                'Data Width' => '64 bits',
+                'Rank' => '4',
+                'Size' => '32 GB'
+            },
+            {
+                'Bank Locator' => '/SYS/MB/P1',
+                'Asset Tag' => 'NO DIMM',
+                'Manufacturer' => 'NO DIMM',
+                'Error Information Handle' => 'Not Provided',
+                'Type' => 'DDR4',
+                'Size' => 'No Module Installed',
+                'Set' => 'None',
+                'Part Number' => 'NO DIMM',
+                'Array Handle' => '0x004D',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM',
+                'Serial Number' => 'NO DIMM',
+                'Locator' => 'D9'
+            },
+            {
+                'Speed' => '2133 MHz',
+                'Array Handle' => '0x004D',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Configured Clock Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM',
+                'Type' => 'DDR4',
+                'Asset Tag' => 'DIMM_F1_AssetTag',
+                'Bank Locator' => '/SYS/MB/P1',
+                'Data Width' => '64 bits',
+                'Rank' => '4',
+                'Size' => '32 GB',
+                'Type Detail' => 'Synchronous',
+                'Total Width' => '72 bits',
+                'Locator' => 'D8',
+                'Serial Number' => '330DCB4F',
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'Samsung',
+                'Set' => 'None'
+            },
+            {
+                'Speed' => '2133 MHz',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Array Handle' => '0x004D',
+                'Configured Clock Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM',
+                'Type' => 'DDR4',
+                'Bank Locator' => '/SYS/MB/P1',
+                'Data Width' => '64 bits',
+                'Asset Tag' => 'DIMM_F2_AssetTag',
+                'Rank' => '4',
+                'Size' => '32 GB',
+                'Total Width' => '72 bits',
+                'Type Detail' => 'Synchronous',
+                'Locator' => 'D7',
+                'Serial Number' => '32A3A4FC',
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'Samsung',
+                'Set' => 'None'
+            },
+            {
+                'Error Information Handle' => 'Not Provided',
+                'Type' => 'DDR4',
+                'Bank Locator' => '/SYS/MB/P1',
+                'Manufacturer' => 'NO DIMM',
+                'Asset Tag' => 'NO DIMM',
+                'Set' => 'None',
+                'Size' => 'No Module Installed',
+                'Type Detail' => 'Synchronous',
+                'Array Handle' => '0x004D',
+                'Part Number' => 'NO DIMM',
+                'Locator' => 'D6',
+                'Form Factor' => 'DIMM',
+                'Serial Number' => 'NO DIMM'
+            },
+            {
+                'Serial Number' => '330DC543',
+                'Locator' => 'D0',
+                'Type Detail' => 'Synchronous',
+                'Total Width' => '72 bits',
+                'Set' => 'None',
+                'Manufacturer' => 'Samsung',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'DIMM',
+                'Configured Clock Speed' => '2133 MHz',
+                'Array Handle' => '0x0059',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Speed' => '2133 MHz',
+                'Size' => '32 GB',
+                'Rank' => '4',
+                'Asset Tag' => 'DIMM_G1_AssetTag',
+                'Bank Locator' => '/SYS/MB/P1',
+                'Data Width' => '64 bits',
+                'Type' => 'DDR4'
+            },
+            {
+                'Size' => '32 GB',
+                'Rank' => '4',
+                'Bank Locator' => '/SYS/MB/P1',
+                'Data Width' => '64 bits',
+                'Asset Tag' => 'DIMM_G2_AssetTag',
+                'Type' => 'DDR4',
+                'Form Factor' => 'DIMM',
+                'Configured Clock Speed' => '2133 MHz',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Array Handle' => '0x0059',
+                'Speed' => '2133 MHz',
+                'Set' => 'None',
+                'Manufacturer' => 'Samsung',
+                'Error Information Handle' => 'Not Provided',
+                'Serial Number' => '32A3A4CC',
+                'Locator' => 'D1',
+                'Total Width' => '72 bits',
+                'Type Detail' => 'Synchronous'
+            },
+            {
+                'Array Handle' => '0x0059',
+                'Part Number' => 'NO DIMM',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM',
+                'Serial Number' => 'NO DIMM',
+                'Locator' => 'D2',
+                'Bank Locator' => '/SYS/MB/P1',
+                'Manufacturer' => 'NO DIMM',
+                'Asset Tag' => 'NO DIMM',
+                'Error Information Handle' => 'Not Provided',
+                'Type' => 'DDR4',
+                'Size' => 'No Module Installed',
+                'Set' => 'None'
+            },
+            {
+                'Serial Number' => '330DC52C',
+                'Locator' => 'D3',
+                'Total Width' => '72 bits',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Manufacturer' => 'Samsung',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'DIMM',
+                'Configured Clock Speed' => '2133 MHz',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Array Handle' => '0x0059',
+                'Speed' => '2133 MHz',
+                'Size' => '32 GB',
+                'Rank' => '4',
+                'Bank Locator' => '/SYS/MB/P1',
+                'Data Width' => '64 bits',
+                'Asset Tag' => 'DIMM_H1_AssetTag',
+                'Type' => 'DDR4'
+            },
+            {
+                'Configured Clock Speed' => '2133 MHz',
+                'Form Factor' => 'DIMM',
+                'Speed' => '2133 MHz',
+                'Part Number' => 'M386A4G40DM0-CPB',
+                'Array Handle' => '0x0059',
+                'Rank' => '4',
+                'Size' => '32 GB',
+                'Type' => 'DDR4',
+                'Bank Locator' => '/SYS/MB/P1',
+                'Data Width' => '64 bits',
+                'Asset Tag' => 'DIMM_H2_AssetTag',
+                'Locator' => 'D4',
+                'Serial Number' => '32A3A50D',
+                'Total Width' => '72 bits',
+                'Type Detail' => 'Synchronous',
+                'Set' => 'None',
+                'Error Information Handle' => 'Not Provided',
+                'Manufacturer' => 'Samsung'
+            },
+            {
+                'Bank Locator' => '/SYS/MB/P1',
+                'Manufacturer' => 'NO DIMM',
+                'Asset Tag' => 'NO DIMM',
+                'Error Information Handle' => 'Not Provided',
+                'Type' => 'DDR4',
+                'Size' => 'No Module Installed',
+                'Set' => 'None',
+                'Array Handle' => '0x0059',
+                'Part Number' => 'NO DIMM',
+                'Type Detail' => 'Synchronous',
+                'Form Factor' => 'DIMM',
+                'Serial Number' => 'NO DIMM',
+                'Locator' => 'D5'
+            }
+        ],
+        8 => [
+            {
+                'External Reference Designator' => 'USB Internal Connector - Bottom',
+                'Internal Connector Type' => 'None',
+                'Port Type' => 'USB',
+                'Internal Reference Designator' => 'J2803',
+                'External Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'External Reference Designator' => 'USB Internal Connector - Top',
+                'Internal Connector Type' => 'None',
+                'Port Type' => 'USB',
+                'Internal Reference Designator' => 'J2803',
+                'External Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Internal Reference Designator' => 'J2901',
+                'External Connector Type' => 'DB-15 female',
+                'External Reference Designator' => 'VGA Connector',
+                'Port Type' => 'Video Port',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'Internal Reference Designator' => 'J2801',
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB Rear Connector - Left',
+                'Internal Connector Type' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'Internal Reference Designator' => 'J2802',
+                'Internal Connector Type' => 'None',
+                'Port Type' => 'USB',
+                'External Reference Designator' => 'USB Rear Connector - Right'
+            },
+            {
+                'External Reference Designator' => 'USB Front Connector - Left',
+                'Port Type' => 'USB',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'External Connector Type' => 'Access Bus (USB)'
+            },
+            {
+                'Internal Connector Type' => 'None',
+                'Port Type' => 'USB',
+                'External Reference Designator' => 'USB Front Connector - Right',
+                'External Connector Type' => 'Access Bus (USB)',
+                'Internal Reference Designator' => 'None'
+            },
+            {
+                'Internal Reference Designator' => 'J2903',
+                'External Connector Type' => 'RJ-45',
+                'External Reference Designator' => 'SER MGT',
+                'Port Type' => 'Serial Port 16550 Compatible',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'External Reference Designator' => 'NET MGT',
+                'Internal Connector Type' => 'None',
+                'Port Type' => 'Network Port',
+                'Internal Reference Designator' => 'J2902',
+                'External Connector Type' => 'RJ-45'
+            },
+            {
+                'External Connector Type' => 'RJ-45',
+                'Internal Reference Designator' => 'J3502',
+                'Port Type' => 'Network Port',
+                'Internal Connector Type' => 'None',
+                'External Reference Designator' => 'NET 0'
+            },
+            {
+                'Internal Reference Designator' => 'J3501',
+                'External Connector Type' => 'RJ-45',
+                'External Reference Designator' => 'NET 1',
+                'Port Type' => 'Network Port',
+                'Internal Connector Type' => 'None'
+            },
+            {
+                'External Reference Designator' => 'NET 2',
+                'Port Type' => 'Network Port',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'J3802',
+                'External Connector Type' => 'RJ-45'
+            },
+            {
+                'Internal Reference Designator' => 'J3801',
+                'External Connector Type' => 'RJ-45',
+                'External Reference Designator' => 'NET 3',
+                'Internal Connector Type' => 'None',
+                'Port Type' => 'Network Port'
+            },
+            {
+                'External Reference Designator' => 'DVD',
+                'Port Type' => 'SATA',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'J2003',
+                'External Connector Type' => 'SAS/SATA Plug Receptacle'
+            }
+        ],
+        38 => [
+            {
+                'Interface Type' => 'KCS (Keyboard Control Style)',
+                'Base Address' => '0x0000000000000CA2 (I/O)',
+                'Specification Version' => '2.0',
+                'Register Spacing' => 'Successive Byte Boundaries',
+                'I2C Slave Address' => '0x10'
+            }
+        ],
+        4 => [
+            {
+                'Status' => 'Populated, Enabled',
+                'Voltage' => '1.8 V',
+                'Manufacturer' => 'Intel',
+                'Max Speed' => '4000 MHz',
+                'Version' => 'Intel(R) Xeon(R) CPU E5-2699 v3 @ 2.30GHz',
+                'Core Count' => '18',
+                'Current Speed' => '2300 MHz',
+                'Core Enabled' => '18',
+                'Family' => 'Xeon',
+                'Socket Designation' => 'P0',
+                'Upgrade' => 'Socket LGA2011-3',
+                'Type' => 'Central Processor',
+                'L3 Cache Handle' => '0x0067',
+                'L2 Cache Handle' => '0x0066',
+                'Signature' => 'Type 0, Family 6, Model 63, Stepping 2',
+                'Part Number' => '060F',
+                'L1 Cache Handle' => '0x0065',
+                'ID' => 'F2 06 03 00 FF FB EB BF',
+                'Thread Count' => '36',
+                'External Clock' => '100 MHz'
+            },
+            {
+                'Voltage' => '1.8 V',
+                'Status' => 'Populated, Enabled',
+                'Manufacturer' => 'Intel',
+                'Version' => 'Intel(R) Xeon(R) CPU E5-2699 v3 @ 2.30GHz',
+                'Max Speed' => '4000 MHz',
+                'Core Count' => '18',
+                'Core Enabled' => '18',
+                'Current Speed' => '2300 MHz',
+                'Type' => 'Central Processor',
+                'L3 Cache Handle' => '0x006B',
+                'Upgrade' => 'Socket LGA2011-3',
+                'Family' => 'Xeon',
+                'Socket Designation' => 'P1',
+                'L2 Cache Handle' => '0x006A',
+                'External Clock' => '100 MHz',
+                'ID' => 'F2 06 03 00 FF FB EB BF',
+                'Thread Count' => '36',
+                'Part Number' => '060F',
+                'Signature' => 'Type 0, Family 6, Model 63, Stepping 2',
+                'L1 Cache Handle' => '0x0069'
+            }
+        ],
+        19 => [
+            {
+                'Starting Address' => '0x00000000000',
+                'Partition Width' => '4',
+                'Ending Address' => '0x01FFFFFFFFF',
+                'Range Size' => '128 GB',
+                'Physical Array Handle' => '0x0035'
+            },
+            {
+                'Partition Width' => '4',
+                'Ending Address' => '0x03FFFFFFFFF',
+                'Starting Address' => '0x02000000000',
+                'Physical Array Handle' => '0x0041',
+                'Range Size' => '128 GB'
+            },
+            {
+                'Partition Width' => '4',
+                'Ending Address' => '0x05FFFFFFFFF',
+                'Starting Address' => '0x04000000000',
+                'Physical Array Handle' => '0x004D',
+                'Range Size' => '128 GB'
+            },
+            {
+                'Partition Width' => '4',
+                'Ending Address' => '0x07FFFFFFFFF',
+                'Starting Address' => '0x06000000000',
+                'Range Size' => '128 GB',
+                'Physical Array Handle' => '0x0059'
+            }
+        ],
+        7 => [
+            {
+                'System Type' => 'Other',
+                'Socket Designation' => 'CPU Internal L1',
+                'Associativity' => '8-way Set-associative',
+                'Maximum Size' => '1152 kB',
+                'Operational Mode' => 'Write Back',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Error Correction Type' => 'Parity',
+                'Location' => 'Internal',
+                'Installed Size' => '1152 kB'
+            },
+            {
+                'Socket Designation' => 'CPU Internal L2',
+                'System Type' => 'Unified',
+                'Configuration' => 'Enabled, Not Socketed, Level 2',
+                'Operational Mode' => 'Write Back',
+                'Associativity' => '8-way Set-associative',
+                'Maximum Size' => '4608 kB',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed Size' => '4608 kB',
+                'Location' => 'Internal'
+            },
+            {
+                'Socket Designation' => 'CPU Internal L3',
+                'System Type' => 'Unified',
+                'Operational Mode' => 'Write Back',
+                'Configuration' => 'Enabled, Not Socketed, Level 3',
+                'Associativity' => '20-way Set-associative',
+                'Maximum Size' => '46080 kB',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Location' => 'Internal',
+                'Installed Size' => '46080 kB'
+            },
+            {
+                'Installed Size' => '1152 kB',
+                'Location' => 'Internal',
+                'Error Correction Type' => 'Parity',
+                'Associativity' => '8-way Set-associative',
+                'Maximum Size' => '1152 kB',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Operational Mode' => 'Write Back',
+                'System Type' => 'Other',
+                'Socket Designation' => 'CPU Internal L1'
+            },
+            {
+                'Configuration' => 'Enabled, Not Socketed, Level 2',
+                'Operational Mode' => 'Write Back',
+                'Maximum Size' => '4608 kB',
+                'Associativity' => '8-way Set-associative',
+                'Socket Designation' => 'CPU Internal L2',
+                'System Type' => 'Unified',
+                'Installed Size' => '4608 kB',
+                'Location' => 'Internal',
+                'Error Correction Type' => 'Single-bit ECC'
+            },
+            {
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed Size' => '46080 kB',
+                'Location' => 'Internal',
+                'Socket Designation' => 'CPU Internal L3',
+                'System Type' => 'Unified',
+                'Configuration' => 'Enabled, Not Socketed, Level 3',
+                'Operational Mode' => 'Write Back',
+                'Maximum Size' => '46080 kB',
+                'Associativity' => '20-way Set-associative'
+            }
+        ],
+        11 => [
+            {
+                'String 3' => 'storage-variant:8dbp',
+                'String 1' => 'SUNW-PRMS-1'
+            }
+        ],
+        3 => [
+            {
+                'Security Status' => 'None',
+                'Power Supply State' => 'Safe',
+                'Type' => 'Main Server Chassis',
+                'Thermal State' => 'Safe',
+                'Boot-up State' => 'Safe',
+                'Asset Tag' => '7092459',
+                'Manufacturer' => 'Oracle Corporation',
+                'Height' => '1 U',
+                'Contained Elements' => '0',
+                'Number Of Power Cords' => '2',
+                'Serial Number' => '1634NM1107',
+                'Version' => 'ORACLE SERVER X5-2',
+                'OEM Information' => '0x00000000'
+            }
+        ],
+        37 => [
+            {
+                'Device 3 Handle' => '0x2500',
+                'Device 1 Handle' => '0x0039',
+                'Device 3 Load' => '0',
+                'Device 1 Load' => '4',
+                'Devices' => '3',
+                'Type' => 'RamBus',
+                'Device 2 Handle' => '0x003B',
+                'Device 2 Load' => '0',
+                'Maximal Load' => '8'
+            },
+            {
+                'Device 2 Load' => '0',
+                'Device 2 Handle' => '0x0040',
+                'Maximal Load' => '8',
+                'Type' => 'RamBus',
+                'Devices' => '3',
+                'Device 1 Load' => '4',
+                'Device 3 Load' => '0',
+                'Device 1 Handle' => '0x003E',
+                'Device 3 Handle' => '0x2500'
+            },
+            {
+                'Maximal Load' => '8',
+                'Device 2 Handle' => '0x0047',
+                'Device 2 Load' => '0',
+                'Type' => 'RamBus',
+                'Devices' => '3',
+                'Device 1 Load' => '4',
+                'Device 3 Load' => '0',
+                'Device 1 Handle' => '0x0045',
+                'Device 3 Handle' => '0x2500'
+            },
+            {
+                'Type' => 'RamBus',
+                'Device 2 Load' => '0',
+                'Device 2 Handle' => '0x004C',
+                'Maximal Load' => '8',
+                'Devices' => '3',
+                'Device 1 Handle' => '0x004A',
+                'Device 3 Load' => '0',
+                'Device 1 Load' => '4',
+                'Device 3 Handle' => '0x2500'
+            },
+            {
+                'Devices' => '3',
+                'Device 2 Handle' => '0x0053',
+                'Maximal Load' => '8',
+                'Device 2 Load' => '0',
+                'Type' => 'RamBus',
+                'Device 3 Handle' => '0x2500',
+                'Device 3 Load' => '0',
+                'Device 1 Load' => '4',
+                'Device 1 Handle' => '0x0051'
+            },
+            {
+                'Type' => 'RamBus',
+                'Device 2 Load' => '0',
+                'Device 2 Handle' => '0x0058',
+                'Maximal Load' => '8',
+                'Devices' => '3',
+                'Device 1 Handle' => '0x0056',
+                'Device 1 Load' => '4',
+                'Device 3 Load' => '0',
+                'Device 3 Handle' => '0x2500'
+            },
+            {
+                'Maximal Load' => '8',
+                'Device 2 Handle' => '0x005F',
+                'Device 2 Load' => '0',
+                'Type' => 'RamBus',
+                'Devices' => '3',
+                'Device 1 Load' => '4',
+                'Device 3 Load' => '0',
+                'Device 1 Handle' => '0x005D',
+                'Device 3 Handle' => '0x2500'
+            },
+            {
+                'Type' => 'RamBus',
+                'Device 2 Handle' => '0x0064',
+                'Device 2 Load' => '0',
+                'Maximal Load' => '8',
+                'Devices' => '3',
+                'Device 1 Handle' => '0x0062',
+                'Device 1 Load' => '4',
+                'Device 3 Load' => '0',
+                'Device 3 Handle' => '0x9000'
+            }
+        ],
+        32 => [
+            {
+                'Status' => 'No errors detected'
+            }
+        ],
+        1 => [
+            {
+                'Serial Number' => '1634NM1107',
+                'Product Name' => 'ORACLE SERVER X5-2',
+                'UUID' => '080020FF-FFFF-FFFF-FFFF-0010E0BCCBBC',
+                'Manufacturer' => 'Oracle Corporation',
+                'SKU Number' => '7092459',
+                'Wake-up Type' => 'Power Switch'
+            }
+        ],
+        16 => [
+            {
+                'Error Information Handle' => 'Not Provided',
+                'Maximum Capacity' => '192 GB',
+                'Error Correction Type' => 'Multi-bit ECC',
+                'Use' => 'System Memory',
+                'Location' => 'System Board Or Motherboard',
+                'Number Of Devices' => '6'
+            },
+            {
+                'Error Information Handle' => 'Not Provided',
+                'Error Correction Type' => 'Multi-bit ECC',
+                'Maximum Capacity' => '192 GB',
+                'Use' => 'System Memory',
+                'Number Of Devices' => '6',
+                'Location' => 'System Board Or Motherboard'
+            },
+            {
+                'Location' => 'System Board Or Motherboard',
+                'Number Of Devices' => '6',
+                'Use' => 'System Memory',
+                'Maximum Capacity' => '192 GB',
+                'Error Correction Type' => 'Multi-bit ECC',
+                'Error Information Handle' => 'Not Provided'
+            },
+            {
+                'Location' => 'System Board Or Motherboard',
+                'Number Of Devices' => '6',
+                'Error Information Handle' => 'Not Provided',
+                'Error Correction Type' => 'Multi-bit ECC',
+                'Maximum Capacity' => '192 GB',
+                'Use' => 'System Memory'
+            }
+        ],
+        0 => [
+            {
+                'Vendor' => 'American Megatrends Inc.',
+                'Release Date' => '05/26/2016',
+                'Runtime Size' => '64 kB',
+                'Firmware Revision' => '3.2',
+                'Address' => '0xF0000',
+                'BIOS Revision' => '8.3',
+                'Version' => '30080300',
+                'ROM Size' => '8192 kB'
             }
         ]
     },
@@ -6233,6 +7341,542 @@ my %dmidecode_tests = (
                 'Height' => 'Unspecified'
             }
         ]
+    },
+    'lenovo-thinkpad' =>     {
+        '0' => [
+            {
+                'Address' => '0xE0000',
+                'BIOS Revision' => '24.216',
+                'Firmware Revision' => '1.16',
+                'ROM Size' => '4096 kB',
+                'Release Date' => '12/01/2011',
+                'Runtime Size' => '128 kB',
+                'Vendor' => 'LENOVO',
+                'Version' => '8NET32WW (1.16 )'
+            }
+        ],
+        '1' => [
+            {
+                'Manufacturer' => 'LENOVO',
+                'Product Name' => '1298A8G',
+                'SKU Number' => 'ThinkPad Edge E320',
+                'Serial Number' => 'LR9NKZ7',
+                'UUID' => '725BA801-507B-11CB-95E6-C66052AAC597',
+                'Version' => 'ThinkPad Edge E320',
+                'Wake-up Type' => 'Power Switch'
+            }
+        ],
+        '10' => [
+            {
+                'Description' => 'Intel(R) Extreme Graphics 3 Controller',
+                'Status' => 'Enabled',
+                'Type' => 'Video'
+            },
+            {
+                'Description' => 'Intel(R) Azalia Audio Device',
+                'Status' => 'Enabled',
+                'Type' => 'Sound'
+            }
+        ],
+        '11' => [
+            {
+                'String 1' => 'This is the Intel HuronRiver CRB Platform'
+            }
+        ],
+        '13' => [
+            {
+                'Currently Installed Language' => 'en-US',
+                'Installable Languages' => '4',
+                'Language Description Format' => 'Abbreviated'
+            }
+        ],
+        '15' => [
+            {
+                'Access Address' => '0x00F0',
+                'Access Method' => 'General-purpose non-volatile data functions',
+                'Area Length' => '18 bytes',
+                'Change Token' => '0x00000000',
+                'Data Format 1' => 'POST results bitmap',
+                'Data Format 2' => 'Multiple-event',
+                'Data Format 3' => 'Multiple-event',
+                'Data Start Offset' => '0x0010',
+                'Descriptor 1' => 'POST error',
+                'Descriptor 2' => 'Single-bit ECC memory error',
+                'Descriptor 3' => 'Multi-bit ECC memory error',
+                'Header Format' => 'Type 1',
+                'Header Length' => '16 bytes',
+                'Header Start Offset' => '0x0000',
+                'Status' => 'Valid, Not Full',
+                'Supported Log Type Descriptors' => '3'
+            }
+        ],
+        '16' => [
+            {
+                'Error Correction Type' => 'None',
+                'Error Information Handle' => 'Not Provided',
+                'Location' => 'System Board Or Motherboard',
+                'Maximum Capacity' => '16 GB',
+                'Number Of Devices' => '4',
+                'Use' => 'System Memory'
+            }
+        ],
+        '17' => [
+            {
+                'Array Handle' => '0x0005',
+                'Asset Tag' => '9876543210',
+                'Bank Locator' => 'BANK 0',
+                'Data Width' => '64 bits',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'SODIMM',
+                'Locator' => 'ChannelA-DIMM0',
+                'Manufacturer' => 'Samsung',
+                'Part Number' => 'M471B5273CH0-CH9',
+                'Serial Number' => 'B52A5D9F',
+                'Set' => 'None',
+                'Size' => '4096 MB',
+                'Speed' => '1333 MHz',
+                'Total Width' => '64 bits',
+                'Type' => 'DDR3',
+                'Type Detail' => 'Synchronous'
+            },
+            {
+                'Array Handle' => '0x0005',
+                'Asset Tag' => '9876543210',
+                'Bank Locator' => 'BANK 1',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'DIMM',
+                'Locator' => 'ChannelA-DIMM1',
+                'Set' => 'None',
+                'Size' => 'No Module Installed',
+                'Type Detail' => 'None'
+            },
+            {
+                'Array Handle' => '0x0005',
+                'Asset Tag' => '9876543210',
+                'Bank Locator' => 'BANK 2',
+                'Data Width' => '64 bits',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'SODIMM',
+                'Locator' => 'ChannelB-DIMM0',
+                'Manufacturer' => 'Samsung',
+                'Part Number' => 'M471B5273DH0-CH9',
+                'Serial Number' => '947C2F3B',
+                'Set' => 'None',
+                'Size' => '4096 MB',
+                'Speed' => '1333 MHz',
+                'Total Width' => '64 bits',
+                'Type' => 'DDR3',
+                'Type Detail' => 'Synchronous'
+            },
+            {
+                'Array Handle' => '0x0005',
+                'Asset Tag' => '9876543210',
+                'Bank Locator' => 'BANK 3',
+                'Error Information Handle' => 'Not Provided',
+                'Form Factor' => 'DIMM',
+                'Locator' => 'ChannelB-DIMM1',
+                'Set' => 'None',
+                'Size' => 'No Module Installed',
+                'Type Detail' => 'None'
+            }
+        ],
+        '18' => [
+            {
+                'Type' => 'OK'
+            }
+        ],
+        '19' => [
+            {
+                'Ending Address' => '0x001FFFFFFFF',
+                'Partition Width' => '4',
+                'Physical Array Handle' => '0x0005',
+                'Range Size' => '8 GB',
+                'Starting Address' => '0x00000000000'
+            }
+        ],
+        '2' => [
+            {
+                'Asset Tag' => 'Not Available',
+                'Chassis Handle' => '0x0000',
+                'Contained Object Handles' => '0',
+                'Location In Chassis' => 'Not Available',
+                'Manufacturer' => 'LENOVO',
+                'Product Name' => '1298A8G',
+                'Serial Number' => '1ZJJC21G0N6',
+                'Version' => 'Not Available'
+            }
+        ],
+        '20' => [
+            {
+                'Ending Address' => '0x000FFFFFFFF',
+                'Interleave Position' => '1',
+                'Interleaved Data Depth' => '2',
+                'Memory Array Mapped Address Handle' => '0x000C',
+                'Physical Device Handle' => '0x0006',
+                'Range Size' => '4 GB',
+                'Starting Address' => '0x00000000000'
+            },
+            {
+                'Ending Address' => '0x001FFFFFFFF',
+                'Interleave Position' => '2',
+                'Interleaved Data Depth' => '2',
+                'Memory Array Mapped Address Handle' => '0x000C',
+                'Physical Device Handle' => '0x0009',
+                'Range Size' => '4 GB',
+                'Starting Address' => '0x00100000000'
+            }
+        ],
+        '21' => [
+            {
+                'Buttons' => '2',
+                'Interface' => 'PS/2',
+                'Type' => 'Mouse'
+            }
+        ],
+        '22' => [
+            {
+                'Location' => 'Rear',
+                'Manufacture Date' => '2008',
+                'Manufacturer' => 'Intel Corp.',
+                'Name' => 'Smart Battery',
+                'OEM-specific Information' => '0x00000000',
+                'SBDS Chemistry' => 'Lithium-Ion',
+                'SBDS Version' => 'V1.0',
+                'Serial Number' => '1.0'
+            }
+        ],
+        '23' => [
+            {
+                'Boot Option' => 'Do Not Reboot',
+                'Boot Option On Limit' => 'Do Not Reboot',
+                'Status' => 'Disabled',
+                'Watchdog Timer' => 'Present'
+            }
+        ],
+        '27' => [
+            {
+                'Nominal Speed' => 'Unknown Or Non-rotating',
+                'OEM-specific Information' => '0x00000090'
+            }
+        ],
+        '3' => [
+            {
+                'Asset Tag' => 'No Asset Information',
+                'Contained Elements' => '0',
+                'Height' => 'Unspecified',
+                'Manufacturer' => 'LENOVO',
+                'Number Of Power Cords' => 'Unspecified',
+                'OEM Information' => '0x00000000',
+                'Serial Number' => 'LR9NKZ7',
+                'Type' => 'Notebook',
+                'Version' => 'Not Available'
+            }
+        ],
+        '32' => [
+            {
+                'Status' => 'No errors detected'
+            }
+        ],
+        '39' => [
+            {
+                'Asset Tag' => 'TBD by ODM',
+                'Hot Replaceable' => 'Yes',
+                'Input Voltage Range Switching' => 'Other',
+                'Location' => 'TBD by ODM',
+                'Manufacturer' => 'TBD by ODM',
+                'Model Part Number' => 'TBD by ODM',
+                'Name' => 'TBD by ODM',
+                'Plugged' => 'Yes',
+                'Revision' => '1.0',
+                'Serial Number' => 'TBD by ODM',
+                'Status' => 'Present, OK',
+                'Type' => 'Battery'
+            }
+        ],
+        '4' => [
+            {
+                'Asset Tag' => 'TBD By OEM',
+                'Core Count' => '2',
+                'Core Enabled' => '2',
+                'Current Speed' => '2500 MHz',
+                'External Clock' => '100 MHz',
+                'Family' => 'Core i5',
+                'ID' => 'A7 06 02 00 FF FB EB BF',
+                'L1 Cache Handle' => '0x0002',
+                'L2 Cache Handle' => '0x0003',
+                'L3 Cache Handle' => '0x0004',
+                'Manufacturer' => 'Intel(R) Corporation',
+                'Max Speed' => '2500 MHz',
+                'Part Number' => 'TBD By OEM',
+                'Serial Number' => 'Not Supported by CPU',
+                'Signature' => 'Type 0, Family 6, Model 42, Stepping 7',
+                'Socket Designation' => 'CPU',
+                'Status' => 'Populated, Enabled',
+                'Thread Count' => '4',
+                'Type' => 'Central Processor',
+                'Upgrade' => 'ZIF Socket',
+                'Version' => 'Intel(R) Core(TM) i5-2450M CPU @ 2.50GHz',
+                'Voltage' => '1.2 V'
+            }
+        ],
+        '7' => [
+            {
+                'Associativity' => '8-way Set-associative',
+                'Configuration' => 'Enabled, Not Socketed, Level 1',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed SRAM Type' => 'Synchronous',
+                'Installed Size' => '64 kB',
+                'Location' => 'Internal',
+                'Maximum Size' => '64 kB',
+                'Operational Mode' => 'Write Through',
+                'Socket Designation' => 'L1-Cache',
+                'System Type' => 'Data'
+            },
+            {
+                'Associativity' => '8-way Set-associative',
+                'Configuration' => 'Enabled, Not Socketed, Level 2',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed SRAM Type' => 'Synchronous',
+                'Installed Size' => '256 kB',
+                'Location' => 'Internal',
+                'Maximum Size' => '256 kB',
+                'Operational Mode' => 'Write Through',
+                'Socket Designation' => 'L2-Cache',
+                'System Type' => 'Data'
+            },
+            {
+                'Associativity' => '12-way Set-associative',
+                'Configuration' => 'Enabled, Not Socketed, Level 3',
+                'Error Correction Type' => 'Single-bit ECC',
+                'Installed SRAM Type' => 'Synchronous',
+                'Installed Size' => '3072 kB',
+                'Location' => 'Internal',
+                'Maximum Size' => '3072 kB',
+                'Operational Mode' => 'Write Back',
+                'Socket Designation' => 'L3-Cache',
+                'System Type' => 'Unified'
+            }
+        ],
+        '8' => [
+            {
+                'External Connector Type' => 'PS/2',
+                'External Reference Designator' => 'Keyboard',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'Keyboard Port'
+            },
+            {
+                'External Connector Type' => 'PS/2',
+                'External Reference Designator' => 'Mouse',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'Mouse Port'
+            },
+            {
+                'External Connector Type' => 'None',
+                'External Reference Designator' => 'COM 1',
+                'Internal Connector Type' => 'Other',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'Serial Port 16550A Compatible'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 1#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 2#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 3#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 4#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 5#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 6#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 7#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 8#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 9#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 10#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 11#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 12#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 13#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'Access Bus (USB)',
+                'External Reference Designator' => 'USB2.0 - 14#',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'USB'
+            },
+            {
+                'External Connector Type' => 'RJ-45',
+                'External Reference Designator' => 'Ethernet',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'Network Port'
+            },
+            {
+                'External Connector Type' => 'None',
+                'External Reference Designator' => 'None',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle',
+                'Internal Reference Designator' => 'SATA Port 1 J8J1',
+                'Port Type' => 'SATA'
+            },
+            {
+                'External Connector Type' => 'None',
+                'External Reference Designator' => 'None',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle',
+                'Internal Reference Designator' => 'SATA Port 2 J7G1',
+                'Port Type' => 'SATA'
+            },
+            {
+                'External Connector Type' => 'None',
+                'External Reference Designator' => 'None',
+                'Internal Connector Type' => 'SAS/SATA Plug Receptacle',
+                'Internal Reference Designator' => 'SATA Port 3(ODD) J9E7',
+                'Port Type' => 'SATA'
+            },
+            {
+                'External Connector Type' => 'SAS/SATA Plug Receptacle',
+                'External Reference Designator' => 'eSATA Port 1 J6J1',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'SATA'
+            },
+            {
+                'External Connector Type' => 'SAS/SATA Plug Receptacle',
+                'External Reference Designator' => 'eSATA Port 2 J7J1',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'SATA'
+            },
+            {
+                'External Connector Type' => 'SAS/SATA Plug Receptacle',
+                'External Reference Designator' => 'SATA Port 6(Docking)',
+                'Internal Connector Type' => 'None',
+                'Internal Reference Designator' => 'None',
+                'Port Type' => 'SATA'
+            }
+        ],
+        '9' => [
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'In Use',
+                'Designation' => 'PEG Gen1/Gen2 X16',
+                'ID' => '0',
+                'Length' => 'Long',
+                'Type' => 'x16 PCI Express x16'
+            },
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'Available',
+                'Designation' => 'PCI-Express 1 X1',
+                'ID' => '1',
+                'Length' => 'Short',
+                'Type' => 'x1 PCI Express'
+            },
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'In Use',
+                'Designation' => 'PCI-Express 2 X1',
+                'ID' => '2',
+                'Length' => 'Short',
+                'Type' => 'x1 PCI Express'
+            },
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'In Use',
+                'Designation' => 'PCI-Express 3 X1',
+                'ID' => '3',
+                'Length' => 'Short',
+                'Type' => 'x1 PCI Express'
+            },
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'Available',
+                'Designation' => 'PCI-Express 4 X1',
+                'ID' => '4',
+                'Length' => 'Short',
+                'Type' => 'x1 PCI Express'
+            },
+            {
+                'Bus Address' => '0000:00:00.0',
+                'Current Usage' => 'Available',
+                'Designation' => 'PCI-Express 5 X1',
+                'ID' => '5',
+                'Length' => 'Short',
+                'Type' => 'x1 PCI Express'
+            }
+        ]
     }
 );
 
@@ -6467,6 +8111,36 @@ my %cpu_tests = (
             CORE           => undef
         }
     ],
+    'oracle-server-x5-2' => [
+        {
+            THREAD          => '36',
+            EXTERNAL_CLOCK  => '100',
+            CORE            => '18',
+            SPEED           => '2300',
+            MODEL           => 63,
+            MANUFACTURER    => 'Intel',
+            ID              => 'F2 06 03 00 FF FB EB BF',
+            NAME            => 'Xeon',
+            FAMILYNUMBER    => 6,
+            STEPPING        => 2,
+            SERIAL          => undef,
+            FAMILYNAME      => 'Xeon'
+        },
+        {
+            MANUFACTURER    => 'Intel',
+            MODEL           => 63,
+            ID              => 'F2 06 03 00 FF FB EB BF',
+            STEPPING        => 2,
+            FAMILYNUMBER    => 6,
+            NAME            => 'Xeon',
+            SERIAL          => undef,
+            FAMILYNAME      => 'Xeon',
+            THREAD          => '36',
+            CORE            => '18',
+            EXTERNAL_CLOCK  => '100',
+            SPEED           => '2300'
+        }
+    ],
     'S3000AHLX' => [
         {
             ID             => 'F6 06 00 00 FF FB EB BF',
@@ -6661,7 +8335,8 @@ my %cpu_tests = (
             MODEL          => '42',
             MANUFACTURER   => 'Intel',
             FAMILYNAME     => 'Core 2 Duo',
-            CORE           => '4'
+            CORE           => '1',
+            CORECOUNT      => '4'
         }
     ],
     'windows-7.2' => [
@@ -6678,6 +8353,22 @@ my %cpu_tests = (
             MANUFACTURER   => 'AMD',
             FAMILYNAME     => 'Athlon II',
             CORE           => '2'
+        }
+    ],
+    'lenovo-thinkpad' => [
+        {
+            CORE            => '2',
+            EXTERNAL_CLOCK  => '100',
+            FAMILYNAME      => 'Core i5',
+            FAMILYNUMBER    => '6',
+            ID              => 'A7 06 02 00 FF FB EB BF',
+            MANUFACTURER    => 'Intel(R) Corporation',
+            MODEL           => '42',
+            NAME            => 'Core i5',
+            SERIAL          => 'Not Supported by CPU',
+            SPEED           => '2500',
+            STEPPING        => '7',
+            THREAD          => '4'
         }
     ]
 );

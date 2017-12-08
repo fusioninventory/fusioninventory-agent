@@ -1,0 +1,37 @@
+branches:
+  only:
+    - 2.3.x
+
+notifications:
+  - provider: Email
+    to:
+    - fusioninventory-commit@lists.alioth.debian.org
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
+
+skip_tags: true
+shallow_clone: true
+
+cache:
+  - C:\strawberry
+
+install:
+  - if not exist "C:\strawberry" cinst strawberryperl
+  - set PATH=C:\strawberry\perl\bin;C:\strawberry\perl\site\bin;C:\strawberry\c\bin;%PATH%
+  - cd C:\projects\%APPVEYOR_PROJECT_NAME%
+  - echo %cd%
+  - cpan Module::Install
+  - cpanm -f --verbose --notest --installdeps .
+  - cpanm -f --verbose --notest Compress::Zlib IO::Socket::SSL LWP::Protocol::https
+  - cpanm -f --verbose --notest Win32::Daemon Win32::Unicode::File
+  - cpanm -f --verbose --notest Parse::EDID DateTime
+  - cpanm -f --verbose --notest Archive::Extract Digest::SHA File::Copy::Recursive
+  - cpanm -f --verbose --notest JSON::PP URI::Escape Net::Ping Parallel::ForkManager
+
+build_script:
+  - perl Makefile.PL
+  - dmake
+
+test_script:
+  - dmake test

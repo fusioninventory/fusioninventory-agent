@@ -13,7 +13,7 @@ use Test::More;
 use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
 
-plan tests => 5 + 19 + 11 + 1;
+plan tests => 30;
 
 my $libdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 push @INC, $libdir;
@@ -21,10 +21,10 @@ my $agent = FusionInventory::Agent->new(libdir => $libdir);
 
 my %tasks;
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task1.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task1;
-use base qw(FusionInventory::Agent::Task);
-our $VERSION = 42;
+create_file("$libdir/FusionInventory/Agent/Task/Task1", "Version.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task1::Version;
+use constant VERSION => 42;
+1;
 EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply (
@@ -33,10 +33,10 @@ cmp_deeply (
     "single task"
 );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task2.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task2;
-use base qw(FusionInventory::Agent::Task);
-our $VERSION = 42;
+create_file("$libdir/FusionInventory/Agent/Task/Task2", "Version.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task2::Version;
+use constant VERSION => 42;
+1;
 EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply (
@@ -48,11 +48,11 @@ cmp_deeply (
     "multiple tasks"
 );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task3.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task3;
-use base qw(FusionInventory::Agent::Task;
+create_file("$libdir/FusionInventory/Agent/Task/Task3", "Version.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task3::Version;
 use Does::Not::Exists;
-our $VERSION = 42;
+use constant VERSION => 42;
+1;
 EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply(
@@ -64,24 +64,10 @@ cmp_deeply(
     "wrong syntax"
 );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Test4.pm", <<'EOF');
-package FusionInventory::Agent::Task::Test4;
-our $VERSION = 42;
-EOF
-%tasks = $agent->getAvailableTasks();
-cmp_deeply(
-    \%tasks,
-    {
-        'Task1' => 42,
-        'Task2' => 42
-    },
-    "wrong class"
-);
-
-create_file("$libdir/FusionInventory/Agent/Task", "Task5.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task5;
-use base qw(FusionInventory::Agent::Task);
-our $VERSION = 42;
+create_file("$libdir/FusionInventory/Agent/Task/Task5", "Version.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task5::Version;
+use constant VERSION => 42;
+1;
 EOF
 %tasks = $agent->getAvailableTasks();
 cmp_deeply (
@@ -261,21 +247,21 @@ ok (
 $agent->{confdir} = 'etc';
 $agent->{datadir} = './share';
 $agent->{vardir}  = './var',
-    # just to be able to run init() method, we inject mandatory options
-    my $options = {
-        'local' => '.',
-        # we force config to be loaded from file
-        'config' => 'file'
-    };
+
+# Reset config to be able to run init() method with mandatory options
+delete $agent->{config};
+my $options = {
+    'local' => '.',
+    # Keep Test backend on logger as call to init() will reset logger
+    'logger' => 'Test',
+    # we force config to be loaded from file
+    'conf-file' => 'resources/config/sample1',
+    'config' => 'file'
+};
 $agent->init(options => $options);
 # after init call, the member 'config' is defined and well blessed
 ok (UNIVERSAL::isa($agent->{config}, 'FusionInventory::Agent::Config'));
-ok (! defined($agent->{'conf-file'}));
-# changing conf-file
-$agent->{config}->{'conf-file'} = 'resources/config/sample1';
-ok (scalar(@{$agent->{config}->{'no-task'}}) == 0);
-$agent->{config}->{server} = ['myserver.mywebextension'];
-$agent->reinit();
+ok (defined($agent->{config}->{'conf-file'}));
 ok (defined($agent->{config}->{'no-task'}));
 ok (scalar(@{$agent->{config}->{'no-task'}}) == 2);
 ok (
@@ -283,33 +269,6 @@ ok (
         || ($agent->{config}->{'no-task'}->[1] eq 'snmpquery' && $agent->{config}->{'no-task'}->[0] eq 'wakeonlan')
 );
 ok (scalar(@{$agent->{config}->{'server'}}) == 0);
-
-
-SKIP: {
-    skip ('test for Windows only and with config in registry', 4) if ($OSNAME ne 'MSWin32' || $agent->{config}->{config} ne 'registry');
-
-    my $testKey = 'tag';
-    my $testValue = 'TEST_REGISTRY_VALUE';
-    # change value in registry
-    my $settingsInRegistry = FusionInventory::Test::Utils::openWin32Registry();
-    $settingsInRegistry->{$testKey} = $testValue;
-
-    my $keyInitialValue = $agent->{config}->{$testKey};
-    $agent->{config}->{config} = 'registry';
-    $agent->{config}->{'conf-file'} = '';
-    ok ($agent->{config}->{config} eq 'registry');
-    $agent->reinit();
-    # key config must be set
-    ok (defined $agent->{config}->{$testKey});
-    # and must be the value set in registry
-    ok ($agent->{config}->{$testKey} eq $testValue);
-
-    # delete value in registry
-    delete $settingsInRegistry->{$testKey};
-    $agent->reinit();
-    # must have default value which is initial value
-    ok ($agent->{config}->{$testKey} eq $keyInitialValue);
-}
 
 
 @tasks = (

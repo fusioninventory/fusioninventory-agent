@@ -564,19 +564,19 @@ my %prtdiag_tests = (
         memories => [
             {
                 NUMSLOTS => 0,
-                CAPACITY => 1000
+                CAPACITY => 1024
             },
             {
                 NUMSLOTS => 1,
-                CAPACITY => 1000
+                CAPACITY => 1024
             },
             {
                 NUMSLOTS => 2,
-                CAPACITY => 1000
+                CAPACITY => 1024
             },
             {
                 NUMSLOTS => 3,
-                CAPACITY => 1000
+                CAPACITY => 1024
             }
         ],
         slots => [
@@ -1142,7 +1142,7 @@ my %prtdiag_tests = (
     sample7 => {
         memories => [
             {
-                CAPACITY => 2000,
+                CAPACITY => 2048,
                 NUMSLOTS => 0
             }
         ],

@@ -15,7 +15,7 @@ sub do {
 
     my $msg = [];
     my $status = 1;
-    foreach my $from (File::Glob::glob($params->{from})) {
+    foreach my $from (File::Glob::bsd_glob($params->{from})) {
 
         my $to = $params->{to};
 

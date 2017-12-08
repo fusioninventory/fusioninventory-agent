@@ -1,5 +1,160 @@
 Revision history for FusionInventory agent
 
+2.3.21 Mon, 31 Jul 2017
+core:
+* Service/daemon refactoring:
+ * Move all daemon method to dedicated FusionInventory::Agent::Daemon package
+ * Win32 service now based on private FusionInventory::Agent::Service inheriting
+   from FusionInventory::Agent::Daemon
+ * support configuration reloading on SIGHUP signal (unix)
+ * support pausing service under win32
+ * support run now on SIGUSR1 signal (unix)
+ * and a lot of daemon/service optimizations and enhancements
+ * daemon process renamed to provider derivated name under unix-like systems with
+   tag if defined. Example: "fusioniventory-agent (prod)"
+* Report http proxy error to help debug communication problems: #324
+* Prevent setup.pm indexing in CPAN as requested by CPAN admins
+* Other fixed issues: #321
+
+inventory:
+* Bump Inventory task version to 1.3
+* Fixed win32 softwares finally missing when 2 'inventory' are set in tasks
+* Fixed bug: last dmidecode block wasn't parsed
+* Updated pci.ids to 2017.07.27 version
+* Updated usb.ids to 2017.07.29 version
+* Updated storage inventory on MacOS supporting Firewire storages: #309 #310
+* Fixes on dmidecode memory inventory: #320
+* Update memory component capacity on virtual systems: #339
+* Fix lenovo system information product name read from dmidecode: fix #311
+* Include TL in AIX OS version: #328
+* Fix Xen vm with space in name not colleted: #176
+
+netdiscovery/netinventory:
+* Bump NetDiscovery & NetInventory task version to 2.3
+* Fix credentials option support
+* Fixed duplicated mac addresses: #315
+* Also accept LLDP notifications on sysName
+* Force MANUFACTURER to match real vendor, VENDOR inventory key removed
+* Better cleanup of canonical strings with invalid characters
+* Support more alternate mac address formats
+* Fix some string field encoding
+* Support Digi devices serial
+* Support ups model oid
+* Fixed Juniper serial retrieval
+* Enhanced Konica printer discovery
+* Enhanced mac address discovery
+* Fixed wrong result on snmp read case: #139
+* Enhanced error messages in netdiscovery task
+* Updated sysobject.ids
+
+deploy:
+* Bump Deploy task version to 2.4
+* Added new audit checks winkey not equals support
+* Support User Interaction under win32 using WTS API (need server-side plugin upgrade)
+
+injector:
+* Support xml file extension: #360
+* Fixed returns exit code 0 even on error: #329
+* Enhanced displayed error messages
+
+2.3.20 Thu, 1 Jun 2017
+core:
+* Fix #224, #254, #268
+* Fix 2.3.19 regression while installing from sources
+* Fix bad initialization while computing inventory checksum involving crash in rare case
+* Include new CONTRIB.md file to reference not mergeable contributions
+* Fix scheduling issue restarting tasks too early
+* Avoid a warning on Socket module version check, issue found on Debian and MacOS
+* Fix: Support SSL debugging at verbosity 2 on Stderr only
+
+inventory:
+* Bump Inventory task version to 1.2
+* Fixed Docker support
+* Added system software category support
+* Added firewall status innventory support
+* Fix last user computation on some unix systems
+* Add CPU CORECOUNT support based on dmidecode output
+* Fix STORAGES support on some platforms
+* MacOS: Refactoring to replace Tie::IxHash dependency with XML::XPath to better
+  parse system profiler output
+* Fix: block device inventory still possible even if fdisk command is missing on linux
+* Fix #289: Add ARM Board support
+* Support UUID for lxc containers
+
+netinventory:
+* Fix #221, #275
+* Command documentation updated
+* a lot more of additional devices in sysobject.ids
+* Fix Juniper new model and firmware detection
+
+deploy:
+* Bump Deploy task version to 2.3
+* Audit checks refactoring and fixes
+* Fix win32 registry key check
+* Added new audit checks like winkey values, needs a server plugin upgrade
+* Enhanced audit checks error reporting
+* Fix and enhanced command action to really report output, may require a server plugin upgrade
+* Fix command action exit code while target command is not found on unix
+
+wakeonlan:
+* Bump WakeOnLan task version to 2.2
+* Fix thanks to Ludovic Pouzenc: send magic packets to all non-loopback non-dumb interfaces
+
+2.3.19 Fri, 17 Feb 2017
+core:
+* Version & provider refactoring to simplify release process
+* Provided agent versions can now been commented by providers and  programs will
+  expose comments for --version argument
+* Tasks version is now read more efficiently and should reduce agent memory
+  footing while running under daemon or service mode
+* Bump tasks versions to reflect new way of reading task version
+* Support no-compression option: useful for debugging or while server do not
+  support compression
+* Replace JSON dependency with JSON::PP pure perl version
+* Fixed configuration parsing
+* Fix sigterm support on win32
+* Reduced agent memory footprint on win32
+* Service optimizations limiting inventory run time on win32
+* Fix service registration on win32 while requested from sources
+* Try to reschedule target sooner on network error
+* add Thomas Lornet aka devtom30 as maintainer
+
+inventory:
+* Fix VERSIONCLIENT not set
+* Screen inventory refactoring introducing ALTSERIAL inventory value which may
+  show a better serial number for some manufacturer. This will ease future
+  screen serial number fix integration: comparing expected S/N toward ALTSERIAL
+  will tell us we just need to update dedicated subclass for a given monitor.
+* Some portable computer screens are now recognized
+* Previously undefined screen caption may now contains additionnal informations,
+  mostly for lcd internal panel, like panel model. These are taken from EDID
+  "monitor_text" when found.
+* Few more Acer serial number are fixed
+* Fix some memory size read using canonical API
+* add --no-compression|-C option to disable compression of communication with server
+* Fix HOSTNAME for MacOS
+* Add docker container support for linux
+* Fix install date while using rpm packaging or for MacOS
+* solaris support update
+* macos support updates & fixes
+* rudder updates
+* virtualization/container detection updates (HyperV, VMWare, KVM, LXC/LXD, VirtualBox)
+* Added TeamviewerID support for win32 & MacOS
+* Fix win32 key registry reading while it contains white space
+* Add batteries support on MacOS
+* Add HOSTID support on linux & solaris
+
+deploy:
+* Bump Deploy task version to 2.2
+* Deploy task audit refactoring
+* Add support for fileSHA512mismatch check processor in audit
+* Fix #205 - Improve software package's audits
+* Support optional audit check name in reported status (needs server update)
+* Add checkprocessor unit tests
+
+injector:
+* add --no-compression|-C option to disable compression of uploaded files
+
 2.3.18 Thu, 16 Jun 2016
 core:
 * Many bug fixes

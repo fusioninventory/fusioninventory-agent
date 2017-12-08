@@ -9,7 +9,7 @@ use UNIVERSAL::require;
 
 use File::Find;
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Generic;
+use FusionInventory::Agent::Tools::Screen;
 
 sub isEnabled {
     my (%params) = @_;
@@ -46,53 +46,22 @@ sub _getEdidInfo {
     my $edid = Parse::EDID::parse_edid($params{edid});
     if (my $error = Parse::EDID::check_parsed_edid($edid)) {
         $params{logger}->debug("bad edid: $error") if $params{logger};
-        return;
+        # Don't return if edid is finally partially parsed
+        return unless ($edid->{monitor_name} && $edid->{week} &&
+            $edid->{year} && $edid->{serial_number});
     }
+
+    my $screen = FusionInventory::Agent::Tools::Screen->new( %params, edid => $edid );
 
     my $info = {
-        CAPTION      => $edid->{monitor_name},
-        DESCRIPTION  => $edid->{week} . "/" . $edid->{year},
-        MANUFACTURER => getEDIDVendor(
-                            id      => $edid->{manufacturer_name},
-                            datadir => $params{datadir}
-                        ) || $edid->{manufacturer_name}
+        CAPTION      => $screen->caption || undef,
+        DESCRIPTION  => $screen->week_year_manufacture,
+        MANUFACTURER => $screen->manufacturer,
+        SERIAL       => $screen->serial
     };
 
-    # they are two different serial numbers in EDID
-    # - a mandatory 4 bytes numeric value
-    # - an optional 13 bytes ASCII value
-    # we use the ASCII value if present, the numeric value as an hex string
-    # unless for a few list of known exceptions deserving specific handling
-    # References:
-    # http://forge.fusioninventory.org/issues/1607
-    # http://forge.fusioninventory.org/issues/1614
-    if (
-        $edid->{EISA_ID} &&
-        $edid->{EISA_ID} =~ /^ACR(0018|0020|0024|00A8|7883|ad49|adaf)$/
-    ) {
-        $info->{SERIAL} =
-            substr($edid->{serial_number2}->[0], 0, 8) .
-            sprintf("%08x", $edid->{serial_number})    .
-            substr($edid->{serial_number2}->[0], 8, 4) ;
-    } elsif (
-        $edid->{EISA_ID} &&
-        $edid->{EISA_ID} eq 'GSM4b21'
-    ) {
-        # split serial in two parts
-        my ($high, $low) = $edid->{serial_number} =~ /(\d+) (\d\d\d)$/x;
-
-        # translate the first part using a custom alphabet
-        my @alphabet = split(//, "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ");
-        my $base     = scalar @alphabet;
-
-        $info->{SERIAL} =
-            $alphabet[$high / $base] . $alphabet[$high % $base] .
-            $low;
-    } else {
-        $info->{SERIAL} = $edid->{serial_number2} ?
-            $edid->{serial_number2}->[0]           :
-            sprintf("%08x", $edid->{serial_number});
-    }
+    # Add ALTSERIAL if defined by Screen object
+    $info->{ALTSERIAL} = $screen->altserial if $screen->altserial;
 
     return $info;
 }
@@ -104,18 +73,49 @@ sub _getScreensFromWindows {
 
     my @screens;
 
+    # VideoOutputTechnology table, see ref:
+    # - https://msdn.microsoft.com/en-us/library/bb980612(v=vs.85).aspx
+    # - https://msdn.microsoft.com/en-us/library/ff546605.aspx
+    my %ports = qw(
+        -1      Other
+         0      VGA
+         1      S-Video
+         2      Composite
+         3      YUV
+         4      DVI
+         5      HDMI
+         6      LVDS
+         8      D-Jpn
+         9      SDI
+        10      DisplayPort
+        11      eDisplayPort
+        12      UDI
+        13      eUDI
+        14      SDTV
+        15      Miracast
+    );
+
     # Vista and upper, able to get the second screen
     foreach my $object (getWMIObjects(
         moniker    => 'winmgmts:{impersonationLevel=impersonate,authenticationLevel=Pkt}!//./root/wmi',
-        class      => 'WMIMonitorID',
-        properties => [ qw/InstanceName/ ]
+        class      => 'WMIMonitorConnectionParams',
+        properties => [ qw/Active InstanceName VideoOutputTechnology/ ]
     )) {
         next unless $object->{InstanceName};
+        next unless $object->{Active};
 
         $object->{InstanceName} =~ s/_\d+//;
-        push @screens, {
+        my $screen = {
             id => $object->{InstanceName}
         };
+
+        if (exists($object->{VideoOutputTechnology})) {
+            my $port = $object->{VideoOutputTechnology};
+            $screen->{PORT} = $ports{$port}
+                if (exists($ports{$port}));
+        }
+
+        push @screens, $screen;
     }
 
     # The generic Win32_DesktopMonitor class, the second screen will be missing
@@ -143,9 +143,10 @@ sub _getScreensFromWindows {
         $screen->{edid} = getRegistryValue(
             path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID",
             logger => $params{logger}
-        ) || '';
-        $screen->{edid} =~ s/^\s+$//;
+        );
+        $screen->{edid} =~ s/^\s+$// if $screen->{edid};
         delete $screen->{id};
+        $screen->{edid} or delete $screen->{edid};
     }
 
     return @screens;
@@ -234,6 +235,8 @@ sub _getScreensFromUnix {
 sub _getScreens {
     my (%params) = @_;
 
+    my %screens = ();
+
     my @screens = $OSNAME eq 'MSWin32' ?
         _getScreensFromWindows(%params) :
         _getScreensFromUnix(%params);
@@ -246,17 +249,38 @@ sub _getScreens {
             logger  => $params{logger},
             datadir => $params{datadir},
         );
-        $screen->{CAPTION}      = $info->{CAPTION};
-        $screen->{DESCRIPTION}  = $info->{DESCRIPTION};
-        $screen->{MANUFACTURER} = $info->{MANUFACTURER};
-        $screen->{SERIAL}       = $info->{SERIAL};
+        if ($info) {
+            $screen->{CAPTION}      = $info->{CAPTION};
+            $screen->{DESCRIPTION}  = $info->{DESCRIPTION};
+            $screen->{MANUFACTURER} = $info->{MANUFACTURER};
+            $screen->{SERIAL}       = $info->{SERIAL};
+            $screen->{ALTSERIAL}    = $info->{ALTSERIAL} if $info->{ALTSERIAL};
+        }
 
         $screen->{BASE64} = encode_base64($screen->{edid});
 
         delete $screen->{edid};
+
+        # Add or merge found values
+        my $serial = $info->{SERIAL} || $screen->{BASE64};
+        if (!exists($screens{$serial})) {
+            $screens{$serial} = $screen ;
+        } else {
+            foreach my $key (keys(%$screen)) {
+                if (exists($screens{$serial}->{$key})) {
+                    if ($screens{$serial}->{$key} ne $screen->{$key} && $params{logger}) {
+                        $params{logger}->warning(
+                            "Not merging not coherent $key value for screen associated to $serial serial number"
+                        );
+                    }
+                    next;
+                }
+                $screens{$serial}->{$key} = $screen->{$key};
+            }
+        }
     }
 
-    return @screens;
+    return values(%screens);
 }
 
 1;

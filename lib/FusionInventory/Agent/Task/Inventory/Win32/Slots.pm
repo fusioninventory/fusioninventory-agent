@@ -25,6 +25,11 @@ sub doInventory {
         class      => 'Win32_SystemSlot',
         properties => [ qw/Name Description SlotDesignation CurrentUsage/ ]
     )) {
+        if (!defined($object->{CurrentUsage})) {
+            $params{logger}->debug2("ignoring usage-less '$object->{Name}' slot")
+                if ($params{logger} && $object->{Name});
+            next;
+        }
 
         $inventory->addEntry(
             section => 'SLOTS',

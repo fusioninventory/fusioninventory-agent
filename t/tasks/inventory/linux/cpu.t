@@ -61,6 +61,65 @@ my %i386 = (
             ID             => 'C2 06 02 00 FF FB EB BF',
         }
     ],
+    # Physical server with 4/18 cores enabled in BIOS depending on Oracle license
+    'oracle-server-6.7-oda' => [
+        {
+            ARCH            => 'i386',
+            CORE            => '4',
+            CORECOUNT       => '18',
+            EXTERNAL_CLOCK  => '100',
+            FAMILYNAME      => 'Xeon',
+            FAMILYNUMBER    => '6',
+            ID              => 'F2 06 03 00 FF FB EB BF',
+            MANUFACTURER    => 'Intel',
+            MODEL           => '63',
+            NAME            => 'Intel(R) Xeon(R) CPU E5-2699 v3 @ 2.30GHz',
+            SPEED           => '2300',
+            STEPPING        => '2',
+            THREAD          => '8'
+        },
+        {
+            ARCH            => 'i386',
+            CORE            => '4',
+            CORECOUNT       => '18',
+            EXTERNAL_CLOCK  => '100',
+            FAMILYNAME      => 'Xeon',
+            FAMILYNUMBER    => '6',
+            ID              => 'F2 06 03 00 FF FB EB BF',
+            MANUFACTURER    => 'Intel',
+            MODEL           => '63',
+            NAME            => 'Intel(R) Xeon(R) CPU E5-2699 v3 @ 2.30GHz',
+            SPEED           => '2300',
+            STEPPING        => '2',
+            THREAD          => '8'
+        }
+    ],
+    'rhel-6.2-vmware-2vcpus' => [
+        {
+            NAME           => 'Intel(R) Xeon(R) CPU E7520 @ 1.87GHz',
+            MANUFACTURER   => 'Intel',
+            MODEL          => '42',
+            SPEED          => '1870',
+            THREAD         => '1',
+            ARCH           => 'i386',
+            CORE           => '1',
+            STEPPING       => '7',
+            FAMILYNUMBER   => '6',
+            ID             => 'A4 06 01 00 FF FB AB 0F',
+        },
+        {
+            NAME           => 'Intel(R) Xeon(R) CPU E7520 @ 1.87GHz',
+            MANUFACTURER   => 'Intel',
+            MODEL          => '42',
+            SPEED          => '1870',
+            THREAD         => '1',
+            ARCH           => 'i386',
+            CORE           => '1',
+            STEPPING       => '7',
+            FAMILYNUMBER   => '6',
+            ID             => 'A4 06 00 00 FF FB AB 0F',
+        }
+    ],
     'rhel-6.3-esx-1vcpu' => [
         {
             NAME           => 'Intel(R) Core(TM) i5-2500S CPU @ 2.70GHz',
@@ -173,6 +232,24 @@ my %arm = (
         {
             ARCH  => 'ARM',
             NAME  => 'ARMv6-compatible processor rev 7 (v6l)'
+        }
+    ],
+    'linux-raspberry-pi-3-model-b' => [
+        {
+            ARCH  => 'ARM',
+            NAME  => 'ARMv7 Processor rev 4 (v7l)'
+        },
+        {
+            ARCH  => 'ARM',
+            NAME  => 'ARMv7 Processor rev 4 (v7l)'
+        },
+        {
+            ARCH  => 'ARM',
+            NAME  => 'ARMv7 Processor rev 4 (v7l)'
+        },
+        {
+            ARCH  => 'ARM',
+            NAME  => 'ARMv7 Processor rev 4 (v7l)'
         }
     ],
 );

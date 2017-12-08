@@ -5,8 +5,11 @@ use warnings;
 
 use Test::Deep;
 use Test::More;
+use English;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools::MacOS;
+use FusionInventory::Agent::Task::Inventory::MacOS::Softwares;
 
 my %system_profiler_tests = (
     '10.4-powerpc' => {
@@ -3373,13 +3376,22 @@ my @ioreg_tests = (
     }
 );
 
+my $versionNumbersComparisons = [
+    ['10.8.0', '10.11'],
+    ['5.22', '5.22.1'],
+    ['5.8.9.2', '5.10.3'],
+    ['5.4.2', '10.2']
+];
+
 plan tests =>
     scalar (keys %system_profiler_tests) +
-    scalar @ioreg_tests;
+    scalar @ioreg_tests
+    + 11
+    + scalar (@$versionNumbersComparisons);
 
 foreach my $test (keys %system_profiler_tests) {
     my $file = "resources/macos/system_profiler/$test";
-    my $infos = getSystemProfilerInfos(file => $file);
+    my $infos = getSystemProfilerInfos(file => $file, format => 'text');
     cmp_deeply($infos, $system_profiler_tests{$test}, "$test system profiler parsing");
 }
 
@@ -3387,4 +3399,110 @@ foreach my $test (@ioreg_tests) {
     my $file = "resources/macos/ioreg/$test->{file}";
     my @devices = getIODevices(file => $file, class => $test->{class});
     cmp_deeply(\@devices, $test->{results}, "$test->{file} ioreg parsing");
+}
+
+my $type = 'SPApplicationsDataType';
+my $flatFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType.example.txt';
+my $softwaresFromFlatFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosText(file => $flatFile, type => $type);
+my $xmlFile = 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml';
+my $softwaresFromXmlFile = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosXML(file => $xmlFile, type => $type, localTimeOffset => 7200);
+
+XML::XPath->require();
+my $checkXmlXPath = $EVAL_ERROR ? 0 : 1;
+SKIP : {
+    skip 'test only if module XML::XPath available', 6 unless $checkXmlXPath;
+
+    ok (ref($softwaresFromFlatFile) eq 'HASH');
+    ok (ref($softwaresFromXmlFile) eq 'HASH');
+
+    # because existing function returns only first line of data
+    # and the new being tested here returns all lines
+    # just a few deletions that don't remove the sense of these tests
+    delete $softwaresFromFlatFile->{"Applications"}{"Wish"}{"Get\ Info\ String"};
+    delete $softwaresFromXmlFile->{"Applications"}{"Wish"}{"Get\ Info\ String"};
+    delete $softwaresFromFlatFile->{"Applications"}{"Wish_0"}{"Get\ Info\ String"};
+    delete $softwaresFromXmlFile->{"Applications"}{"Wish_0"}{"Get\ Info\ String"};
+
+    # before comparing, because with more recent method dates are already formatted,
+    # we format dates in the other hash as it's currently done
+    for my $soft (keys %{$softwaresFromFlatFile->{"Applications"}}) {
+        if (defined($softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'})) {
+            my $formattedDate = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_formatDate($softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'});
+            $softwaresFromFlatFile->{"Applications"}->{$soft}->{'Last Modified'} = $formattedDate;
+        }
+    }
+
+    cmp_deeply(
+        $softwaresFromFlatFile,
+        $softwaresFromXmlFile
+    );
+    my $softwaresFromFlatFileSize = scalar(keys %{$softwaresFromFlatFile->{'Applications'}});
+    my $softwaresFromXmlFileSize = scalar(keys %{$softwaresFromXmlFile->{'Applications'}});
+    ok ($softwaresFromFlatFileSize == $softwaresFromXmlFileSize,
+        $softwaresFromFlatFileSize.' from flat file and '.$softwaresFromXmlFileSize.' from XML file');
+
+    FusionInventory::Agent::Tools::MacOS::_initXmlParser(
+        file => 'resources/macos/system_profiler/10.8-system_profiler_SPApplicationsDataType_-xml.example.xml'
+    );
+    my $softs = FusionInventory::Agent::Tools::MacOS::_extractSoftwaresFromXml(
+        localTimeOffset => 7200
+    );
+    ok ($softs);
+    ok (scalar(keys %$softs) == 291, 'must be 291 and is ' . scalar(keys %$softs));
+}
+
+my $extractedHash = {
+    '_name' => "Programme d’installation",
+    "has64BitIntelCode" => "yes",
+    "info" => "3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved",
+    "lastModified" => "2009-06-27T06:18:49Z",
+    "path" => "/System/Library/CoreServices/Installer.app",
+    "runtime_environment" => "universal",
+    "version" => "4.0"
+};
+
+my $expectedHash = {
+    'Programme d’installation' => {
+        '64-Bit (Intel)' => 'yes',
+        'Get Info String'           => '3.0, Copyright © 2000-2006 Apple Computer Inc., All Rights Reserved',
+        'Last Modified'  => '2009-06-27T06:18:49Z',
+        'Location'       => '/System/Library/CoreServices/Installer.app',
+        'Kind'           => 'universal',
+        'Version'        => '4.0'
+    }
+};
+my $hashMapped = FusionInventory::Agent::Tools::MacOS::_mapApplicationDataKeys($extractedHash);
+cmp_deeply(
+    $expectedHash,
+    $hashMapped
+);
+
+
+my $dateStr = '2009-04-07T00:42:37Z';
+my $dateExpectedStr = '07/04/2009';
+my $offset = 7200;
+my $convertedDate = FusionInventory::Agent::Tools::MacOS::_convertDateFromApplicationDataXml($dateStr, $offset);
+ok ($dateExpectedStr eq $convertedDate, $dateExpectedStr . ' eq ' . $convertedDate . ' ?');
+
+$dateStr = '2009-04-06T23:42:37Z';
+$dateExpectedStr = '07/04/2009';
+$offset = 3600 * 3;
+$convertedDate = FusionInventory::Agent::Tools::MacOS::_convertDateFromApplicationDataXml($dateStr, $offset);
+ok ($dateExpectedStr eq $convertedDate, $dateExpectedStr . ' eq ' . $convertedDate . ' ?');
+
+for my $listVersionNumbers (@$versionNumbersComparisons) {
+    my $cmp0vs1 = FusionInventory::Agent::Tools::MacOS::cmpVersionNumbers($listVersionNumbers->[0], $listVersionNumbers->[1]);
+    my $cmp1vs0 = FusionInventory::Agent::Tools::MacOS::cmpVersionNumbers($listVersionNumbers->[1], $listVersionNumbers->[0]);
+    ok (
+        $cmp0vs1 == -1
+        && $cmp1vs0 == 1
+    );
+}
+ok (FusionInventory::Agent::Tools::MacOS::cmpVersionNumbers('5.34.54', '5.34.54') == 0);
+
+SKIP : {
+    skip 'MacOS specific test', 1 unless $OSNAME eq 'darwin';
+
+    my $boottime = getBootTime();
+    ok ($boottime);
 }

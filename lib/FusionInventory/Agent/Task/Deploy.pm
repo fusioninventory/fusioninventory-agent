@@ -1,25 +1,22 @@
 package FusionInventory::Agent::Task::Deploy;
 
 # Full protocol documentation available here:
-#  http://forge.fusioninventory.org/projects/fusioninventory-agent/wiki/API-REST-deploy
+#  http://fusioninventory.org/documentation/dev/spec/protocol/deploy.html
 
 use strict;
 use warnings;
 use base 'FusionInventory::Agent::Task';
 
-use JSON;
-use LWP;
-use URI::Escape;
-
 use FusionInventory::Agent::HTTP::Client::Fusion;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Task::Deploy::ActionProcessor;
-use FusionInventory::Agent::Task::Deploy::CheckProcessor;
 use FusionInventory::Agent::Task::Deploy::Datastore;
 use FusionInventory::Agent::Task::Deploy::File;
 use FusionInventory::Agent::Task::Deploy::Job;
 
-our $VERSION = '2.1.0';
+use FusionInventory::Agent::Task::Deploy::Version;
+
+our $VERSION = FusionInventory::Agent::Task::Deploy::Version::VERSION;
 
 sub isEnabled {
     my ($self) = @_;
@@ -84,13 +81,15 @@ sub _validateAnswer {
 sub processRemote {
     my ($self, $remoteUrl) = @_;
 
-    if ( !$remoteUrl ) {
-        return;
+    my $logger = $self->{logger};
+    unless ($remoteUrl) {
+        $logger->debug("No remote URL provided for processing");
+        return 0;
     }
 
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
         path => $self->{target}{storage}{directory}.'/deploy',
-        logger => $self->{logger}
+        logger => $logger
     );
     $datastore->cleanUp();
 
@@ -102,17 +101,19 @@ sub processRemote {
         args => {
             action    => "getJobs",
             machineid => $self->{deviceid},
+            version   => $VERSION
         }
     );
+
     if (ref($answer) eq 'HASH' && !keys %$answer) {
-        $self->{logger}->debug("Nothing to do");
-        return;
+        $logger->debug("Nothing to do");
+        return 0;
     }
 
     my $msg;
     if (!_validateAnswer(\$msg, $answer)) {
-        $self->{logger}->debug("bad JSON: ".$msg);
-        return;
+        $logger->debug("bad JSON: ".$msg);
+        return 0;
     }
 
     foreach my $sha512 ( keys %{ $answer->{associatedFiles} } ) {
@@ -121,98 +122,68 @@ sub processRemote {
             sha512    => $sha512,
             data      => $answer->{associatedFiles}{$sha512},
             datastore => $datastore,
-            logger    => $self->{logger}
+            logger    => $logger
         );
     }
 
-    foreach ( @{ $answer->{jobs} } ) {
+    foreach my $job ( @{ $answer->{jobs} } ) {
         my $associatedFiles = [];
-        if ( $_->{associatedFiles} ) {
-            foreach my $uuid ( @{ $_->{associatedFiles} } ) {
+        if ( $job->{associatedFiles} ) {
+            foreach my $uuid ( @{ $job->{associatedFiles} } ) {
                 if ( !$files->{$uuid} ) {
-                    die "unknow file: `" . $uuid
-                      . "'. Not found in JSON answer!";
+                    $logger->error("unknown file: '$uuid'. Not found in JSON answer!");
+                    next;
                 }
                 push @$associatedFiles, $files->{$uuid};
             }
+            if (@$associatedFiles != @{$job->{associatedFiles}}) {
+                $logger->error("Bad job definition in JSON answer!");
+                next;
+            }
         }
-        push @$jobList,
-          FusionInventory::Agent::Task::Deploy::Job->new(
-            data            => $_,
-            associatedFiles => $associatedFiles
-          );
+
+        push @$jobList, FusionInventory::Agent::Task::Deploy::Job->new(
+            remoteUrl       => $remoteUrl,
+            client          => $self->{client},
+            machineid       => $self->{deviceid},
+            data            => $job,
+            associatedFiles => $associatedFiles,
+            logger          => $logger
+        );
+
+        $logger->debug2("Deploy job $job->{uuid} in the list");
     }
 
   JOB: foreach my $job (@$jobList) {
 
+        $logger->debug2("Processing job $job->{uuid} from the list");
+
         # RECEIVED
-        $self->{client}->send(
-            url  => $remoteUrl,
-            args => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'checking',
-                msg         => 'starting'
-            }
+        $job->currentStep('checking');
+        $job->setStatus(
+            msg => 'starting'
         );
+
+        $logger->debug2("Checking job $job->{uuid}...");
 
         # CHECKING
-        if ( ref( $job->{checks} ) eq 'ARRAY' ) {
-            foreach my $checknum ( 0 .. @{ $job->{checks} } ) {
-                next unless $job->{checks}[$checknum];
-                my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
-                    check => $job->{checks}[$checknum],
-                    logger => $self->{logger}
-                );
-                next if $checkStatus eq "ok";
-                next if $checkStatus eq "ignore";
+        next if $job->skip_on_check_failure();
 
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action      => "setStatus",
-                        machineid   => $self->{deviceid},
-                        part        => 'job',
-                        uuid        => $job->{uuid},
-                        currentStep => 'checking',
-                        status      => 'ko',
-                        msg         => "failure of check #".($checknum+1)." ($checkStatus)",
-                        cheknum     => $checknum
-                    }
-                );
-
-                next JOB;
-            }
-        }
-
-        $self->{client}->send(
-            url  => $remoteUrl,
-            args => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'checking',
-                status      => 'ok',
-                msg         => 'all checks are ok'
-            }
+        $job->setStatus(
+            status => 'ok',
+            msg    => 'all checks are ok'
         );
 
+        # USER INTERACTION
+        next if $job->next_on_usercheck(type => 'before');
+
+        $logger->debug2("Downloading for job $job->{uuid}...");
 
         # DOWNLOADING
 
-        $self->{client}->send(
-            url  => $remoteUrl,
-            args => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'downloading',
-                msg         => 'downloading files'
-            }
+        $job->currentStep('downloading');
+        $job->setStatus(
+            msg => 'downloading files'
         );
 
         my $retry = 5;
@@ -221,18 +192,10 @@ sub processRemote {
 
             # File exists, no need to download
             if ( $file->filePartsExists() ) {
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action     => "setStatus",
-                        machineid  => $self->{deviceid},
-                        part       => 'file',
-                        uuid       => $job->{uuid},
-                        sha512     => $file->{sha512},
-                        status     => 'ok',
-                        currentStep=> 'downloading',
-                        msg        => $file->{name}.' already downloaded'
-                    }
+                $job->setStatus(
+                    file   => $file,
+                    status => 'ok',
+                    msg    => $file->{name}.' already downloaded'
                 );
 
                 $workdir->addFile($file);
@@ -240,17 +203,9 @@ sub processRemote {
             }
 
             # File doesn't exist, lets try or retry a download
-            $self->{client}->send(
-                url  => $remoteUrl,
-                args => {
-                    action      => "setStatus",
-                    machineid   => $self->{deviceid},
-                    part        => 'file',
-                    uuid        => $job->{uuid},
-                    sha512      => $file->{sha512},
-                    currentStep => 'downloading',
-                    msg         => 'fetching '.$file->{name}
-                }
+            $job->setStatus(
+                file => $file,
+                msg  => 'fetching '.$file->{name}
             );
 
             $file->download();
@@ -260,18 +215,10 @@ sub processRemote {
 
             if ( $downloadIsOK ) {
 
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action      => "setStatus",
-                        machineid   => $self->{deviceid},
-                        part        => 'file',
-                        uuid        => $job->{uuid},
-                        sha512      => $file->{sha512},
-                        currentStep => 'downloading',
-                        status      => 'ok',
-                        msg         => $file->{name}.' downloaded'
-                    }
+                $job->setStatus(
+                    file   => $file,
+                    status => 'ok',
+                    msg    => $file->{name}.' downloaded'
                 );
 
                 $workdir->addFile($file);
@@ -283,34 +230,21 @@ sub processRemote {
 
                 if ($retry--) { # Retry
 # OK, retry!
-                    $self->{client}->send(
-                        url  => $remoteUrl,
-                        args => {
-                            action      => "setStatus",
-                            machineid   => $self->{deviceid},
-                            part        => 'file',
-                            uuid        => $job->{uuid},
-                            sha512      => $file->{sha512},
-                            currentStep => 'downloading',
-                            msg         => 'retrying '.$file->{name}
-                        }
+                    $job->setStatus(
+                        file => $file,
+                        msg  => 'retrying '.$file->{name}
                     );
 
                     redo FETCHFILE;
                 } else { # Give up...
 
-                    $self->{client}->send(
-                        url  => $remoteUrl,
-                        args => {
-                            action      => "setStatus",
-                            machineid   => $self->{deviceid},
-                            part        => 'file',
-                            uuid        => $job->{uuid},
-                            sha512      => $file->{sha512},
-                            currentStep => 'downloading',
-                            status      => 'ko',
-                            msg         => $file->{name}.' download failed'
-                        }
+                    # USER INTERACTION after download failure
+                    $job->next_on_usercheck(type => 'after_download_failure');
+
+                    $job->setStatus(
+                        file   => $file,
+                        status => 'ko',
+                        msg    => $file->{name}.' download failed'
                     );
 
                     next JOB;
@@ -319,173 +253,123 @@ sub processRemote {
 
         }
 
-
-        $self->{client}->send(
-            url  => $remoteUrl,
-            args => {
-                action      => "setStatus",
-                machineid   => $self->{deviceid},
-                part        => 'job',
-                uuid        => $job->{uuid},
-                currentStep => 'downloading',
-                status      => 'ok',
-                msg         => 'success'
-            }
+        $job->setStatus(
+            status => 'ok',
+            msg    => 'success'
         );
 
-#        # CHECKING
-#         if (!$job->checkWinkey()) {
-#             $self->setStatus({ machineid => 'DEVICEID', part => 'job', uuid => $job->{uuid}, status => 'ko', msg => 'rejected because of a Windows registry check' });
-#             next JOB;
-#         } elsif (!$job->checkFreespace()) {
-#             $self->setStatus({ machineid => 'DEVICEID', part => 'job', uuid => $job->{uuid}, status => 'ko', msg => 'rejected because of harddrive free space' });
-#             next JOB;
-#         }
+        # USER INTERACTION after download
+        next if $job->next_on_usercheck(type => 'after_download');
 
+        $logger->debug2("Preparation for job $job->{uuid}...");
+
+        $job->currentStep('prepare');
         if (!$workdir->prepare()) {
-            $self->{client}->send(
-                url  => $remoteUrl,
-                args => {
-                    action      => "setStatus",
-                    machineid   => $self->{deviceid},
-                    part        => 'job',
-                    uuid        => $job->{uuid},
-                    currentStep => 'prepare',
-                    status      => 'ko',
-                    msg         => 'failed to prepare work dir'
-                }
+            # USER INTERACTION on preparation failure
+            $job->next_on_usercheck(type => 'after_failure');
+
+            $job->setStatus(
+                status => 'ko',
+                msg    => 'failed to prepare work dir'
             );
             next JOB;
         } else {
-            $self->{client}->send(
-                url  => $remoteUrl,
-                args => {
-                    action      => "setStatus",
-                    machineid   => $self->{deviceid},
-                    part        => 'job',
-                    uuid        => $job->{uuid},
-                    currentStep => 'prepare',
-                    status      => 'ok',
-                    msg         => 'success'
-                }
+            $job->setStatus(
+                status => 'ok',
+                msg    => 'success'
             );
         }
 
+        $logger->debug2("Processing for job $job->{uuid}...");
+
         # PROCESSING
-#        $self->{client}->send(
-#            url  => $remoteUrl,
-#            args => {
-#                action      => "setStatus",
-#                machineid   => 'DEVICEID',
-#                part        => 'job',
-#                uuid        => $job->{uuid},
-#                currentStep => 'processing'
-#            }
-#        );
         my $actionProcessor =
           FusionInventory::Agent::Task::Deploy::ActionProcessor->new(
             workdir => $workdir
         );
         my $actionnum = 0;
-        ACTION: while ( my $action = $job->getNextToProcess() ) {
-        my ($actionName, $params) = %$action;
+        while ( my $action = $job->getNextToProcess() ) {
+            my ($actionName, $params) = %$action;
             if ( $params && (ref( $params->{checks} ) eq 'ARRAY') ) {
-                foreach my $checknum ( 0 .. @{ $params->{checks} } ) {
-                    next unless $job->{checks}[$checknum];
-                    my $checkStatus = FusionInventory::Agent::Task::Deploy::CheckProcessor->process(
-                        check => $params->{checks}[$checknum],
-                        logger => $self->{logger}
 
-                    );
-                    if ( $checkStatus ne 'ok') {
+                $logger->debug2("Processing action check for job $job->{uuid}...");
+                $job->currentStep('checking');
 
-                        $self->{client}->send(
-                            url  => $remoteUrl,
-                            args => {
-                                action      => "setStatus",
-                                machineid   => $self->{deviceid},
-                                part        => 'job',
-                                uuid        => $job->{uuid},
-                                currentStep => 'checking',
-                                status      => $checkStatus,
-                                msg         => "failure of check #".($checknum+1)." ($checkStatus)",
-                                actionnum   => $actionnum,
-                                cheknum     => $checknum
-                            }
-                        );
-
-                        next ACTION;
-                    }
-                }
+                # CHECKING
+                next if $job->skip_on_check_failure(
+                    checks => $params->{checks},
+                    level  => 'action'
+                );
             }
 
+            $job->currentStep('processing');
 
             my $ret;
-            eval { $ret = $actionProcessor->process($actionName, $params, $self->{logger}); };
+            eval { $ret = $actionProcessor->process($actionName, $params, $logger); };
             $ret->{msg} = [] unless $ret->{msg};
             push @{$ret->{msg}}, $@ if $@;
-            if ( !$ret->{status} ) {
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action    => "setStatus",
-                        machineid => $self->{deviceid},
-                        uuid      => $job->{uuid},
-                        msg       => $ret->{msg},
-                        actionnum => $actionnum,
-                    }
-                );
 
-                $self->{client}->send(
-                    url  => $remoteUrl,
-                    args => {
-                        action      => "setStatus",
-                        machineid   => $self->{deviceid},
-                        part        => 'job',
-                        uuid        => $job->{uuid},
-                        currentStep => 'processing',
-                        status      => 'ko',
-                        actionnum   => $actionnum,
-                        msg         => "action #".($actionnum+1)." processing failure"
-                    }
+            my $name = $params->{name} || "action #".($actionnum+1);
+
+            # Log msg lines: can be heavy while running a command with high logLineLimit parameter
+            my $logLineLimit = defined($params->{logLineLimit}) ?
+                $params->{logLineLimit} : 10 ;
+
+            # Really report nothing to server if logLineLimit=0 & status is ok
+            $ret->{msg} = [] if (!$logLineLimit && $ret->{status});
+
+            # Add 7 to always output header & retCode analysis lines for cmd command, unless in nolimit (-1)
+            $logLineLimit += 7 unless ($logLineLimit < 0);
+
+            foreach my $line (@{$ret->{msg}}) {
+                next unless ($line);
+                $job->setStatus(
+                    msg       => "$name: $line",
+                    actionnum => $actionnum,
+                );
+                last unless --$logLineLimit;
+            }
+
+            if ( !$ret->{status} ) {
+
+                # USER INTERACTION after action failure
+                $job->next_on_usercheck(type => 'after_failure');
+
+                $job->setStatus(
+                    status    => 'ko',
+                    actionnum => $actionnum,
+                    msg       => "$name, processing failure"
                 );
 
                 next JOB;
             }
-            $self->{client}->send(
-                url  => $remoteUrl,
-                args => {
-                    action      => "setStatus",
-                    machineid   => $self->{deviceid},
-                    part        => 'job',
-                    uuid        => $job->{uuid},
-                    currentStep => 'processing',
-                    status      => 'ok',
-                    actionnum   => $actionnum,
-                    msg         => "action #".($actionnum+1)." processing success"
-                }
+            $job->setStatus(
+                status    => 'ok',
+                actionnum => $actionnum,
+                msg       => "$name, processing success"
             );
 
             $actionnum++;
         }
 
-        $self->{client}->send(
-            url  => $remoteUrl,
-            args => {
-                action    => "setStatus",
-                machineid => $self->{deviceid},
-                part      => 'job',
-                uuid      => $job->{uuid},
-                status    => 'ok',
-                msg       => "job successfully completed"
-            }
+        # USER INTERACTION
+        $job->next_on_usercheck(type => 'after');
+
+        $logger->debug2("Finished job $job->{uuid}...");
+
+        $job->currentStep('end');
+        $job->setStatus(
+            status => 'ok',
+            msg    => "job successfully completed"
         );
     }
 
-    $datastore->cleanUp();
-    1;
-}
+    $logger->debug2("All deploy jobs processed");
 
+    $datastore->cleanUp();
+
+    return @$jobList ? 1 : 0 ;
+}
 
 sub run {
     my ($self, %params) = @_;
@@ -514,12 +398,28 @@ sub run {
         }
     );
 
-    return unless $globalRemoteConfig->{schedule};
-    return unless ref( $globalRemoteConfig->{schedule} ) eq 'ARRAY';
+    if (!$globalRemoteConfig->{schedule}) {
+        $self->{logger}->info("No job schedule returned from server at ".$self->{target}->{url});
+        return;
+    }
+    if (ref( $globalRemoteConfig->{schedule} ) ne 'ARRAY') {
+        $self->{logger}->info("Malformed schedule from server at ".$self->{target}->{url});
+        return;
+    }
+    if ( !@{$globalRemoteConfig->{schedule}} ) {
+        $self->{logger}->info("No Deploy job enabled or Deploy support disabled server side.");
+        return;
+    }
 
+    my $run_jobs = 0;
     foreach my $job ( @{ $globalRemoteConfig->{schedule} } ) {
         next unless $job->{task} eq "Deploy";
-        $self->processRemote($job->{remote});
+        $run_jobs += $self->processRemote($job->{remote});
+    }
+
+    if ( !$run_jobs ) {
+        $self->{logger}->info("No Deploy job found in server jobs list.");
+        return;
     }
 
     return 1;

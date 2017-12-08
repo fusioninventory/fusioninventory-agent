@@ -12,11 +12,14 @@ use Thread::Queue v2.01;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::XML::Query;
+use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Network;
 
-our $VERSION = '2.2.1';
+use FusionInventory::Agent::Task::NetInventory::Version;
+
+our $VERSION = FusionInventory::Agent::Task::NetInventory::Version::VERSION;
 
 # list of devices properties, indexed by XML element name
 # the link to a specific OID is made by the model
@@ -86,6 +89,7 @@ sub run {
         ca_cert_file => $params{ca_cert_file},
         ca_cert_dir  => $params{ca_cert_dir},
         no_ssl_check => $params{no_ssl_check},
+        no_compress  => $params{no_compress},
     ) if !$self->{client};
 
     foreach my $job (@{$self->{jobs}}) {
@@ -141,7 +145,7 @@ sub run {
                             MESSAGE => $EVAL_ERROR
                         }
                     };
-                    $self->{logger}->error($EVAL_ERROR);
+                    $self->{logger}->error("[thread $id] $EVAL_ERROR");
                 }
 
                 $results->enqueue($result) if $result;
@@ -238,7 +242,7 @@ sub _sendStartMessage {
     $self->_sendMessage({
         AGENT => {
             START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
+            AGENTVERSION => $FusionInventory::Agent::Version::VERSION,
         },
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $self->{pid}

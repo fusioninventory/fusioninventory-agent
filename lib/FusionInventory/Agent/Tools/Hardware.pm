@@ -28,59 +28,59 @@ my %types = (
 my %sysobjectid;
 
 my %sysdescr_first_word = (
-    '3com'           => { vendor => '3Com',            type => 'NETWORKING' },
-    'alcatel-lucent' => { vendor => 'Alcatel-Lucent',  type => 'NETWORKING' },
-    'allied'         => { vendor => 'Allied',          type => 'NETWORKING' },
-    'alteon'         => { vendor => 'Alteon',          type => 'NETWORKING' },
-    'apc'            => { vendor => 'APC',             type => 'NETWORKING' },
-    'apple'          => { vendor => 'Apple',                                },
-    'avaya'          => { vendor => 'Avaya',           type => 'NETWORKING' },
-    'axis'           => { vendor => 'Axis',            type => 'NETWORKING' },
-    'baystack'       => { vendor => 'Nortel',          type => 'NETWORKING' },
-    'broadband'      => { vendor => 'Broadband',       type => 'NETWORKING' },
-    'brocade'        => { vendor => 'Brocade',         type => 'NETWORKING' },
-    'brother'        => { vendor => 'Brother',         type => 'PRINTER'    },
-    'canon'          => { vendor => 'Canon',           type => 'PRINTER'    },
-    'cisco'          => { vendor => 'Cisco',           type => 'NETWORKING' },
-    'dell'           => { vendor => 'Dell',                                 },
-    'designjet'      => { vendor => 'Hewlett-Packard', type => 'PRINTER'    },
-    'deskjet'        => { vendor => 'Hewlett-Packard', type => 'PRINTER'    },
-    'd-link'         => { vendor => 'D-Link',          type => 'NETWORKING' },
-    'eaton'          => { vendor => 'Eaton',           type => 'NETWORKING' },
-    'emc'            => { vendor => 'EMC',             type => 'STORAGE'    },
-    'enterasys'      => { vendor => 'Enterasys',       type => 'NETWORKING' },
-    'epson'          => { vendor => 'Epson',           type => 'PRINTER'    },
-    'extreme'        => { vendor => 'Extreme',         type => 'NETWORKING' },
-    'extremexos'     => { vendor => 'Extreme',         type => 'NETWORKING' },
-    'force10'        => { vendor => 'Force10',         type => 'NETWORKING' },
-    'foundry'        => { vendor => 'Foundry',         type => 'NETWORKING' },
-    'fuji'           => { vendor => 'Fuji',            type => 'NETWORKING' },
-    'h3c'            => { vendor => 'H3C',             type => 'NETWORKING' },
-    'hp'             => { vendor => 'Hewlett-Packard',                      },
-    'ibm'            => { vendor => 'IBM',             type => 'COMPUTER'   },
-    'juniper'        => { vendor => 'Juniper',         type => 'NETWORKING' },
-    'konica'         => { vendor => 'Konica',          type => 'PRINTER'    },
-    'kyocera'        => { vendor => 'Kyocera',         type => 'PRINTER'    },
-    'lexmark'        => { vendor => 'Lexmark',         type => 'PRINTER'    },
-    'netapp'         => { vendor => 'NetApp',          type => 'STORAGE'    },
-    'netgear'        => { vendor => 'NetGear',         type => 'NETWORKING' },
-    'nortel'         => { vendor => 'Nortel',          type => 'NETWORKING' },
-    'nrg'            => { vendor => 'NRG',             type => 'PRINTER'    },
-    'officejet'      => { vendor => 'Hewlett-Packard', type => 'PRINTER'    },
-    'oki'            => { vendor => 'OKI',             type => 'PRINTER'    },
-    'powerconnect'   => { vendor => 'PowerConnect',    type => 'NETWORKING' },
-    'procurve'       => { vendor => 'Hewlett-Packard', type => 'NETWORKING' },
-    'ricoh'          => { vendor => 'Ricoh',           type => 'PRINTER'    },
-    'sagem'          => { vendor => 'Sagem',           type => 'NETWORKING' },
-    'samsung'        => { vendor => 'Samsung',         type => 'PRINTER'    },
-    'sharp'          => { vendor => 'Sharp',           type => 'PRINTER'    },
-    'toshiba'        => { vendor => 'Toshiba',         type => 'PRINTER'    },
-    'wyse'           => { vendor => 'Wyse',            type => 'COMPUTER'   },
-    'xerox'          => { vendor => 'Xerox',           type => 'PRINTER'    },
-    'xirrus'         => { vendor => 'Xirrus',          type => 'NETWORKING' },
-    'zebranet'       => { vendor => 'Zebranet',        type => 'PRINTER'    },
-    'ztc'            => { vendor => 'ZTC',             type => 'NETWORKING' },
-    'zywall'         => { vendor => 'ZyWall',          type => 'NETWORKING' }
+    '3com'           => { manufacturer => '3Com',            type => 'NETWORKING' },
+    'alcatel-lucent' => { manufacturer => 'Alcatel-Lucent',  type => 'NETWORKING' },
+    'allied'         => { manufacturer => 'Allied',          type => 'NETWORKING' },
+    'alteon'         => { manufacturer => 'Alteon',          type => 'NETWORKING' },
+    'apc'            => { manufacturer => 'APC',             type => 'NETWORKING' },
+    'apple'          => { manufacturer => 'Apple',                                },
+    'avaya'          => { manufacturer => 'Avaya',                                },
+    'axis'           => { manufacturer => 'Axis',            type => 'NETWORKING' },
+    'baystack'       => { manufacturer => 'Nortel',          type => 'NETWORKING' },
+    'broadband'      => { manufacturer => 'Broadband',       type => 'NETWORKING' },
+    'brocade'        => { manufacturer => 'Brocade',         type => 'NETWORKING' },
+    'brother'        => { manufacturer => 'Brother',         type => 'PRINTER'    },
+    'canon'          => { manufacturer => 'Canon',           type => 'PRINTER'    },
+    'cisco'          => { manufacturer => 'Cisco',           type => 'NETWORKING' },
+    'dell'           => { manufacturer => 'Dell',                                 },
+    'designjet'      => { manufacturer => 'Hewlett-Packard', type => 'PRINTER'    },
+    'deskjet'        => { manufacturer => 'Hewlett-Packard', type => 'PRINTER'    },
+    'd-link'         => { manufacturer => 'D-Link',          type => 'NETWORKING' },
+    'eaton'          => { manufacturer => 'Eaton',           type => 'NETWORKING' },
+    'emc'            => { manufacturer => 'EMC',             type => 'STORAGE'    },
+    'enterasys'      => { manufacturer => 'Enterasys',       type => 'NETWORKING' },
+    'epson'          => { manufacturer => 'Epson',           type => 'PRINTER'    },
+    'extreme'        => { manufacturer => 'Extreme',         type => 'NETWORKING' },
+    'extremexos'     => { manufacturer => 'Extreme',         type => 'NETWORKING' },
+    'force10'        => { manufacturer => 'Force10',         type => 'NETWORKING' },
+    'foundry'        => { manufacturer => 'Foundry',         type => 'NETWORKING' },
+    'fuji'           => { manufacturer => 'Fuji',            type => 'NETWORKING' },
+    'h3c'            => { manufacturer => 'H3C',             type => 'NETWORKING' },
+    'hp'             => { manufacturer => 'Hewlett-Packard',                      },
+    'ibm'            => { manufacturer => 'IBM',             type => 'COMPUTER'   },
+    'juniper'        => { manufacturer => 'Juniper',         type => 'NETWORKING' },
+    'konica'         => { manufacturer => 'Konica',          type => 'PRINTER'    },
+    'kyocera'        => { manufacturer => 'Kyocera',         type => 'PRINTER'    },
+    'lexmark'        => { manufacturer => 'Lexmark',         type => 'PRINTER'    },
+    'netapp'         => { manufacturer => 'NetApp',          type => 'STORAGE'    },
+    'netgear'        => { manufacturer => 'NetGear',         type => 'NETWORKING' },
+    'nortel'         => { manufacturer => 'Nortel',          type => 'NETWORKING' },
+    'nrg'            => { manufacturer => 'NRG',             type => 'PRINTER'    },
+    'officejet'      => { manufacturer => 'Hewlett-Packard', type => 'PRINTER'    },
+    'oki'            => { manufacturer => 'OKI',             type => 'PRINTER'    },
+    'powerconnect'   => { manufacturer => 'PowerConnect',    type => 'NETWORKING' },
+    'procurve'       => { manufacturer => 'Hewlett-Packard', type => 'NETWORKING' },
+    'ricoh'          => { manufacturer => 'Ricoh',           type => 'PRINTER'    },
+    'sagem'          => { manufacturer => 'Sagem',           type => 'NETWORKING' },
+    'samsung'        => { manufacturer => 'Samsung',         type => 'PRINTER'    },
+    'sharp'          => { manufacturer => 'Sharp',           type => 'PRINTER'    },
+    'toshiba'        => { manufacturer => 'Toshiba',         type => 'PRINTER'    },
+    'wyse'           => { manufacturer => 'Wyse',            type => 'COMPUTER'   },
+    'xerox'          => { manufacturer => 'Xerox',           type => 'PRINTER'    },
+    'xirrus'         => { manufacturer => 'Xirrus',          type => 'NETWORKING' },
+    'zebranet'       => { manufacturer => 'Zebranet',        type => 'PRINTER'    },
+    'ztc'            => { manufacturer => 'ZTC',             type => 'NETWORKING' },
+    'zywall'         => { manufacturer => 'ZyWall',          type => 'NETWORKING' }
 );
 
 my @sysdescr_rules = (
@@ -95,8 +95,13 @@ my @sysdescr_rules = (
     {
         match  => qr/Linux TS-\d+/,
         type   => 'STORAGE',
-        vendor => 'Qnap'
+        manufacturer => 'Qnap'
     },
+);
+
+# rules on model name to reset manufacturer to real vendor
+my %sysmodel_first_word = (
+    'dell'           => { manufacturer => 'Dell', },
 );
 
 # common base variables
@@ -106,7 +111,10 @@ my %base_variables = (
         type => 'count',
     },
     SNMPHOSTNAME => {
-        oid  => '.1.3.6.1.2.1.1.5.0',
+        oid  => [
+            '.1.3.6.1.2.1.1.5.0',
+            '.1.3.6.1.4.1.2699.1.2.1.2.1.1.2.1', # PRINTER-PORT-MONITOR-MIB, ppmPrinterName
+        ],
         type => 'string',
     },
     LOCATION     => {
@@ -138,7 +146,7 @@ my %base_variables = (
 my %interface_variables = (
     IFNUMBER         => {
         oid  => '.1.3.6.1.2.1.2.2.1.1',
-        type => 'none'
+        type => 'constant'
     },
     IFDESCR          => {
         oid  => '.1.3.6.1.2.1.2.2.1.2',
@@ -169,7 +177,7 @@ my %interface_variables = (
     },
     IFLASTCHANGE     => {
         oid  => '.1.3.6.1.2.1.2.2.1.9',
-        type => 'none'
+        type => 'string'
     },
     IFINOCTETS       => {
         oid  => '.1.3.6.1.2.1.2.2.1.10',
@@ -282,27 +290,34 @@ sub getDeviceInfo {
         $device->{EXTMOD}       = $match->{module} if $match->{module};
     }
 
-    # vendor and type identification attempt, using sysDescr
+    # manufacturer and type identification attempt, using sysDescr,
+    # if one of them is missing
     my $sysdescr = $snmp->get('.1.3.6.1.2.1.1.1.0');
     if ($sysdescr) {
+        $device->{DESCRIPTION} = _getCanonicalString($sysdescr);
 
-        # first word
-        my ($first_word) = $sysdescr =~ /(\S+)/;
-        my $result = $sysdescr_first_word{lc($first_word)};
+        if (!exists $device->{MANUFACTURER} || !exists $device->{TYPE}) {
+            # first word
+            my ($first_word) = $sysdescr =~ /(\S+)/;
+            my $result = $sysdescr_first_word{lc($first_word)};
 
-        if ($result) {
-            $device->{VENDOR} = $result->{vendor} if $result->{vendor};
-            $device->{TYPE}   = $result->{type}   if $result->{type};
+            if ($result) {
+                $device->{MANUFACTURER} = $result->{manufacturer} if
+                    $result->{manufacturer} && !exists $device->{MANUFACTURER};
+                $device->{TYPE}   = $result->{type} if
+                    $result->{type}         && !exists $device->{TYPE};
+            }
+
+            # whole sysdescr value
+            foreach my $rule (@sysdescr_rules) {
+                next unless $sysdescr =~ $rule->{match};
+                $device->{MANUFACTURER} = $rule->{manufacturer} if
+                    $rule->{manufacturer} && !exists $device->{MANUFACTURER};
+                $device->{TYPE}   = $rule->{type} if
+                    $rule->{type}         && !exists $device->{TYPE};
+                last;
+            }
         }
-
-        # whole sysdescr value
-        foreach my $rule (@sysdescr_rules) {
-            next unless $sysdescr =~ $rule->{match};
-            $device->{VENDOR} = $rule->{vendor} if $rule->{vendor};
-            $device->{TYPE}   = $rule->{type}   if $rule->{type};
-            last;
-        }
-        $device->{DESCRIPTION} = $sysdescr;
     }
 
     # fallback type identification attempt, using type-specific OID presence
@@ -319,8 +334,10 @@ sub getDeviceInfo {
     if (!exists $device->{MODEL}) {
         my $model = exists $device->{TYPE} && $device->{TYPE} eq 'PRINTER' ?
             $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1')    :
+            exists $device->{TYPE} && $device->{TYPE} eq 'POWER' ?
+            $snmp->get('.1.3.6.1.2.1.33.1.1.5.0')      : # UPS-MIB
             $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') ;
-        $device->{MODEL} = $model if $model;
+        $device->{MODEL} = _getCanonicalString($model) if $model;
     }
 
     # fallback manufacturer identification attempt, using type-agnostic OID
@@ -329,9 +346,13 @@ sub getDeviceInfo {
         $device->{MANUFACTURER} = $manufacturer if $manufacturer;
     }
 
-    # fallback vendor, using manufacturer
-    if (!exists $device->{VENDOR} && exists $device->{MANUFACTURER}) {
-        $device->{VENDOR} = $device->{MANUFACTURER};
+    # reset manufacturer by rule as real vendor based on first model word
+    if (exists $device->{MODEL}) {
+        my ($first_word) = $device->{MODEL} =~ /(\S+)/;
+        my $result = $sysmodel_first_word{lc($first_word)};
+        if ($result && $result->{manufacturer}) {
+            $device->{MANUFACTURER} = $result->{manufacturer};
+        }
     }
 
     # remaining informations
@@ -357,6 +378,14 @@ sub getDeviceInfo {
                                 $raw_value;
 
         $device->{$key} = $value if defined $value;
+    }
+
+    # Cleanup some strings from whitespaces
+    foreach my $key (qw(MODEL SNMPHOSTNAME LOCATION CONTACT)) {
+        next unless defined $device->{$key};
+        $device->{$key} = trimWhitespace($device->{$key});
+        # Don't keep empty strings
+        delete $device->{$key} if $device->{$key} eq '';
     }
 
     my $mac = _getMacAddress($snmp);
@@ -483,6 +512,7 @@ sub _getSerial {
         '.1.3.6.1.4.1.318.1.1.4.1.5.0',          # MasterSwitch-MIB
         '.1.3.6.1.4.1.6027.3.8.1.1.5.0',         # F10-C-SERIES-CHASSIS-MIB
         '.1.3.6.1.4.1.6027.3.10.1.2.2.1.12.1',   # FORCE10-SMI
+        '.1.3.6.1.4.1.16378.10000.3.15.0',       # DIGI-Sarian-Monitor
     );
     foreach my $oid (@oids) {
         my $value = $snmp->get($oid);
@@ -502,11 +532,17 @@ sub _getFirmware {
     my $entPhysicalFirmwareRev = $snmp->get_first('.1.3.6.1.2.1.47.1.1.1.1.9');
     return $entPhysicalFirmwareRev if $entPhysicalFirmwareRev;
 
-    my $ios_version = $snmp->get('.1.3.6.1.4.1.9.9.25.1.1.1.2.5');
-    return $ios_version if $ios_version;
-
-    my $firmware = $snmp->get('.1.3.6.1.4.1.248.14.1.1.2.0');
-    return $firmware if $firmware;
+    # vendor specific OIDs
+    my @oids = (
+        '.1.3.6.1.4.1.9.9.25.1.1.1.2.5',         # Cisco / IOS
+        '.1.3.6.1.4.1.248.14.1.1.2.0',           # Hirschman MIB
+        '.1.3.6.1.4.1.2636.3.40.1.4.1.1.1.5.0',  # Juniper-MIB
+    );
+    foreach my $oid (@oids) {
+        my $value = $snmp->get($oid);
+        next unless $value;
+        return _getCanonicalString($value);
+    }
 
     return;
 }
@@ -523,16 +559,59 @@ sub _getMacAddress {
     # fallback on ports addresses (IF-MIB::ifPhysAddress) if unique
     my $addresses_oid = ".1.3.6.1.2.1.2.2.1.6";
     my $addresses = $snmp->walk($addresses_oid);
-    my @addresses =
+
+    # interfaces list with defined ip to use as filter to select shorter mac address list
+    my $ips = $snmp->walk('.1.3.6.1.2.1.4.20.1.2');
+
+    my @all_mac_addresses = ();
+
+    # Try first to obtain shorter mac address list using ip interface list filter
+    @all_mac_addresses = grep { defined } map { $addresses->{$_} } values %{$ips}
+        if (keys(%{$ips}));
+
+    # Finally get all defined mac adresses if ip filtered related list remains empty
+    @all_mac_addresses = grep { defined } values %{$addresses}
+        unless @all_mac_addresses;
+
+    my @valid_mac_addresses =
         uniq
+        grep { /^$mac_address_pattern$/ }
         grep { $_ ne '00:00:00:00:00:00' }
         grep { $_ }
         map  { _getCanonicalMacAddress($_) }
-        values %{$addresses};
+        @all_mac_addresses;
 
-    return $addresses[0] if @addresses && @addresses == 1;
+    if (@valid_mac_addresses) {
+        return $valid_mac_addresses[0] if @valid_mac_addresses == 1;
+
+        # Compute mac addresses as number and sort them
+        my %macs = map { $_ => _numericMac($_) } @valid_mac_addresses;
+        my @sortedMac = sort { $macs{$a} <=> $macs{$b} } @valid_mac_addresses;
+
+        # Then find first couple of consecutive mac and return first one as this
+        # seems to be the first manufacturer defined mac address
+        while (@sortedMac > 1) {
+            my $currentMac = shift @sortedMac;
+            return $currentMac if ($macs{$currentMac} == $macs{$sortedMac[0]} - 1);
+        }
+    }
 
     return;
+}
+
+sub _numericMac {
+    my ($mac) = @_;
+
+    my $number = 0;
+    my $multiplicator = 1;
+
+    my @parts = split(':', $mac);
+    while (@parts) {
+        $number += hex(pop(@parts))*$multiplicator;
+        $multiplicator <<= 8 ;
+    }
+
+    return $number;
 }
 
 sub getDeviceFullInfo {
@@ -659,7 +738,8 @@ sub _setGenericProperties {
                 $type eq 'string'   ? _getCanonicalString($raw_value)     :
                 $type eq 'count'    ? _getCanonicalCount($raw_value)      :
                                       $raw_value;
-            $ports->{$suffix}->{$key} = $value if defined $value;
+            $ports->{$suffix}->{$key} = $value
+                if defined $value && $value ne '';
         }
     }
 
@@ -921,16 +1001,22 @@ sub _getCanonicalString {
     my ($value) = @_;
 
     $value = hex2char($value);
-    return unless $value;
-
-    # truncate after first null-character
-    $value =~ s/\000.*$//;
+    return unless defined $value;
 
     # unquote string
     $value =~ s/^\\?["']//;
     $value =~ s/\\?["']$//;
 
-    return unless $value;
+    return unless defined $value;
+
+    # Be sure to work on utf-8 string
+    $value = getUtf8String($value);
+
+    # reduce linefeeds which can be found in descriptions or comments
+    $value =~ s/\p{Control}+\n/\n/g;
+
+    # truncate after first invalid character but keep newline as valid
+    $value =~ s/[^\p{Print}\n].*$//;
 
     return $value;
 }
@@ -1118,6 +1204,7 @@ sub _addKnownMacAddresses {
 
         # add remaining ones
         push @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}}, @adresses;
+        @{$port->{CONNECTIONS}->{CONNECTION}->{MAC}} = uniq(@{$port->{CONNECTIONS}->{CONNECTION}->{MAC}});
     }
 }
 
@@ -1281,8 +1368,10 @@ sub _getLLDPInfo {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
+    my $logger = $params{logger};
 
     my $results;
+    my $ChassisIdSubType = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.4');
     my $lldpRemChassisId = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.5');
     my $lldpRemPortId    = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.7');
     my $lldpRemPortDesc  = $snmp->walk('.1.0.8802.1.1.2.1.4.1.1.8');
@@ -1300,12 +1389,24 @@ sub _getLLDPInfo {
 
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
         my $sysdescr = _getCanonicalString($lldpRemSysDesc->{$suffix});
-        next unless $sysdescr;
+        my $sysname = _getCanonicalString($lldpRemSysName->{$suffix});
+        next unless ($sysdescr || $sysname);
+
+        # We only support macAddress as LldpChassisIdSubtype at the moment
+        my $subtype = $ChassisIdSubType->{$suffix} || "n/a";
+        unless ($subtype eq '4') {
+            $logger->debug(
+                "ChassisId subtype $subtype not supported for <$sysdescr>, value was " .
+                ($mac||"n/a") . ", please report this issue"
+            ) if $logger;
+            next;
+        }
 
         my $connection = {
-            SYSMAC   => lc(alt2canonical($mac)),
-            SYSDESCR => $sysdescr
+            SYSMAC => lc(alt2canonical($mac))
         };
+        $connection->{SYSDESCR} = $sysdescr if $sysdescr;
+        $connection->{SYSNAME} = $sysname if $sysname;
 
         # portId is either a port number or a port mac address,
         # duplicating chassiId
@@ -1316,9 +1417,6 @@ sub _getLLDPInfo {
 
         my $ifdescr = _getCanonicalString($lldpRemPortDesc->{$suffix});
         $connection->{IFDESCR} = $ifdescr if $ifdescr;
-
-        my $sysname = _getCanonicalString($lldpRemSysName->{$suffix});
-        $connection->{SYSNAME} = $sysname if $sysname;
 
         my $id           = _getElement($suffix, -2);
         my $interface_id =
@@ -1515,14 +1613,36 @@ sub _getVlans {
         }
     }
 
-    # For other switches, we use another method
-    my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
-    if($vlanId){
-        while (my ($port, $vlan) = each %{$vlanId}) {
-            push @{$results->{$port}}, {
-                NUMBER => $vlan,
-                NAME   => "VLAN " . $vlan
-            };
+    # For other switches, we use another methods
+    # used for Alcatel-Lucent and ExtremNetworks (and perhaps others)
+    my $vlanIdName = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.3.1.2');
+    my $portLink = $snmp->walk('.1.0.8802.1.1.2.1.3.7.1.3');
+    if($vlanIdName && $portLink){
+        foreach my $suffix (sort keys %{$vlanIdName}) {
+            my ($port, $vlan) = split(/\./, $suffix);
+            if ($portLink->{$port}) {
+                # case generic where $portLink = port number
+                my $portnumber = $portLink->{$port};
+                # case Cisco where $portLink = port name
+                unless ($portLink->{$port} =~ /^[0-9]+$/) {
+                    $portnumber = $port;
+                }
+                push @{$results->{$portnumber}}, {
+                    NUMBER => $vlan,
+                    NAME   => $vlanIdName->{$suffix}
+                };
+            }
+        }
+    } else {
+        # A last method
+        my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
+        if($vlanId){
+            foreach my $port (sort keys %{$vlanId}) {
+                push @{$results->{$port}}, {
+                    NUMBER => $vlanId->{$port},
+                    NAME   => "VLAN " . $vlanId->{$port}
+                };
+            }
         }
     }
 
@@ -1582,7 +1702,9 @@ sub _getTrunkPorts {
         my $port2interface = $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');
         while (my ($suffix, $value) = each %{$accessMode}) {
             my $port_id = _getElement($suffix, -1);
+            next unless defined($port_id);
             my $interface_id = $port2interface->{$port_id};
+            next unless defined($interface_id);
             $results->{$interface_id} = $value == 2 ? 1 : 0;
         }
         return $results;

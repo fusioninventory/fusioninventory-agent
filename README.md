@@ -1,5 +1,9 @@
 # FusionInventory Agent
 
+[![Travis Build Status](https://travis-ci.org/fusioninventory/fusioninventory-agent.svg?branch=master)](https://travis-ci.org/fusioninventory/fusioninventory-agent)
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/f2oh6p3qnr2bck1b?svg=true)](https://ci.appveyor.com/project/fusioninventory/fusioninventory-agent)
+[![CircleCI Build status](https://circleci.com/gh/fusioninventory/fusioninventory-agent.svg?style=svg)](https://circleci.com/gh/fusioninventory/fusioninventory-agent)
+
 ## Summary
 
 The FusionInventory agent is a generic management agent. It can perform a
@@ -8,7 +12,7 @@ GLPI server with fusioninventory plugin, acting as a control point.
 
 ## Description
 
-TODO.
+See [FusionInventory solution overview](http://fusioninventory.org/overview/)
 
 ## Dependencies
 
@@ -40,6 +44,7 @@ Optional Perl modules:
 
 * Net::CUPS, for printers detection
 * Parse::EDID, for EDID data parsing
+* DateTime, for reliable timezone name extraction
 
 Optional programs:
 
@@ -88,12 +93,16 @@ Mandatory Perl modules:
 * Archive::Extract
 * Digest::SHA
 * File::Copy::Recursive
-* JSON
+* JSON::PP
 * URI::Escape
 
 Mandatory Perl modules for P2P Support:
 * Net::Ping
 * Parallel::ForkManager
+
+## Related contribs
+
+See [CONTRIB](CONTRIB.md) to find references to FusionInventory Agent related scritps/files
 
 ## Contacts
 
@@ -113,15 +122,17 @@ Project IRC channel:
 
 Please report any issues on project forge bugtracker.
 
-## Authors 
+## Active authors
 
-* Gonéri Le Bouder <goneri@rulezlan.org>
 * Guillaume Rousse <guillomovitch@gmail.com>
 * Guillaume Bougard <gbougard@teclib.com>
+* Thomas Lornet <tlornet@teclib.com>
 
-Copyright 2006-2010 OCS Inventory contributors
-Copyright 2010-2012 FusionInventory Team
-Copyright 2011-2015 Teclib' ( http://www.teclib.com )
+Copyright 2006-2010 [OCS Inventory contributors](https://www.ocsinventory-ng.org/)
+
+Copyright 2010-2017 [FusionInventory Team](http://fusioninventory.org)
+
+Copyright 2011-2017 [Teclib Editions](http://www.teclib-edition.com/)
 
 ## License
 

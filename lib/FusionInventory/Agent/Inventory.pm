@@ -9,7 +9,12 @@ use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
 use XML::TreePP;
 
+use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Version;
+
+# Always sort keys in Dumper while computing checksum on HASH
+$Data::Dumper::Sortkeys = 1;
 
 my %fields = (
     BIOS             => [ qw/SMODEL SMANUFACTURER SSN BDATE BVERSION
@@ -24,8 +29,8 @@ my %fields = (
                              WINPRODKEY WINCOMPANY WINLANG CHASSIS_TYPE
                              VMNAME VMHOSTSERIAL/ ],
     OPERATINGSYSTEM  => [ qw/KERNEL_NAME KERNEL_VERSION NAME VERSION FULL_NAME
-                             SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN
-                             SSH_KEY ARCH BOOT_TIME/ ],
+                             SERVICE_PACK INSTALL_DATE FQDN DNS_DOMAIN HOSTID
+                             SSH_KEY ARCH BOOT_TIME TIMEZONE/ ],
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
 
     ANTIVIRUS        => [ qw/COMPANY ENABLED GUID NAME UPTODATE VERSION
@@ -37,12 +42,13 @@ my %fields = (
                              PRODUCTID PCISUBSYSTEMID PCISLOT TYPE REV/ ],
     CPUS             => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD
                              SERIAL STEPPING FAMILYNAME FAMILYNUMBER MODEL
-                             SPEED ID EXTERNAL_CLOCK ARCH/ ],
+                             SPEED ID EXTERNAL_CLOCK ARCH CORECOUNT/ ],
     DRIVES           => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL
                              LETTER SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
     ENVS             => [ qw/KEY VAL/ ],
     INPUTS           => [ qw/NAME MANUFACTURER CAPTION DESCRIPTION INTERFACE
                              LAYOUT POINTINGTYPE TYPE/ ],
+    FIREWALL         => [ qw/PROFILE STATUS DESCRIPTION IPADDRESS IPADDRESS6/ ],
     LICENSEINFOS     => [ qw/NAME FULLNAME KEY COMPONENTS TRIAL UPDATE OEM
                              ACTIVATION_DATE PRODUCTID/ ],
     LOCAL_GROUPS     => [ qw/ID MEMBER NAME/ ],
@@ -54,7 +60,7 @@ my %fields = (
                              MEMORYCORRECTION MANUFACTURER/ ],
     MODEMS           => [ qw/DESCRIPTION NAME TYPE MODEL/ ],
     MONITORS         => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
-                             UUENCODE NAME TYPE/ ],
+                             UUENCODE NAME TYPE ALTSERIAL PORT/ ],
     NETWORKS         => [ qw/DESCRIPTION MANUFACTURER MODEL MANAGEMENT TYPE
                              VIRTUALDEV MACADDR WWN DRIVER FIRMWARE PCIID
                              PCISLOT PNPDEVICEID MTU SPEED STATUS SLAVES BASE
@@ -71,13 +77,13 @@ my %fields = (
                              CMD/ ],
     REGISTRY         => [ qw/NAME REGVALUE HIVE/ ],
     REMOTE_MGMT      => [ qw/ID TYPE/ ],
-    RUDDER           => [ qw/AGENT UUID HOSTNAME/ ],
+    RUDDER           => [ qw/AGENT UUID HOSTNAME SERVER_ROLES AGENT_CAPABILITIES/ ],
     SLOTS            => [ qw/DESCRIPTION DESIGNATION NAME STATUS/ ],
     SOFTWARES        => [ qw/COMMENTS FILESIZE FOLDER FROM HELPLINK INSTALLDATE
                             NAME NO_REMOVE RELEASE_TYPE PUBLISHER
                             UNINSTALL_STRING URL_INFO_ABOUT VERSION
                             VERSION_MINOR VERSION_MAJOR GUID ARCH USERNAME
-                            USERID/ ],
+                            USERID SYSTEM_CATEGORY/ ],
     SOUNDS           => [ qw/CAPTION DESCRIPTION MANUFACTURER NAME/ ],
     STORAGES         => [ qw/DESCRIPTION DISKSIZE INTERFACE MANUFACTURER MODEL
                             NAME TYPE SERIAL SERIALNUMBER FIRMWARE SCSI_COID
@@ -87,9 +93,11 @@ my %fields = (
                             CLASS SUBCLASS NAME/ ],
     USERS            => [ qw/LOGIN DOMAIN/ ],
     VIRTUALMACHINES  => [ qw/MEMORY NAME UUID STATUS SUBSYSTEM VMTYPE VCPU
-                             MAC COMMENT OWNER SERIAL/ ],
+                             MAC COMMENT OWNER SERIAL IMAGE/ ],
     VOLUME_GROUPS    => [ qw/VG_NAME PV_COUNT LV_COUNT ATTR SIZE FREE VG_UUID
                              VG_EXTENT_SIZE/ ],
+    VERSIONPROVIDER  => [ qw/NAME VERSION COMMENTS PERL_EXE PERL_VERSION PERL_ARGS
+                             PROGRAM PERL_CONFIG PERL_INC PERL_MODULE/ ]
 );
 
 my %checks = (
@@ -119,14 +127,15 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
-        logger         => $params{logger},
+        logger         => $params{logger} || FusionInventory::Agent::Logger->new(),
         fields         => \%fields,
         content        => {
             HARDWARE => {
                 ARCHNAME => $Config{archname},
                 VMSYSTEM => "Physical" # Default value
             },
-            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING
+            VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING ||
+                $FusionInventory::Agent::Version::PROVIDER."-Inventory_v".$FusionInventory::Agent::Version::VERSION
         }
     };
     bless $self, $class;
@@ -414,7 +423,7 @@ sub computeChecksum {
                 );
             };
             if (ref($self->{last_state_content}) ne 'HASH') {
-                $self->{last_state_file} = {};
+                $self->{last_state_content} = {};
             }
         } else {
             $logger->debug(
@@ -452,7 +461,7 @@ sub saveLastState {
     my $logger = $self->{logger};
 
     if (!defined($self->{last_state_content})) {
-        $self->processChecksum();
+        $self->computeChecksum();
     }
     if ($self->{last_state_file}) {
         eval {

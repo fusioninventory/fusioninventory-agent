@@ -140,7 +140,7 @@ sub loadRegistryDump {
                     my $key_path = $element . '/';
 
                     if (!defined $current_key->{$key_path}) {
-                        my $new_key = {};
+                        my $new_key = bless( {}, "Win32::TieRegistry" );
                         $current_key->{$key_path} = $new_key;
                     }
 
@@ -165,10 +165,18 @@ sub loadRegistryDump {
             next;
         }
 
-        if ($line =~ /^ " ([^"]+) " = " ([^"]+) "/x) {
+        if ($line =~ /^ " ([^"]+) " = " ([^"]*) "/x) {
             my ($key, $value) = ($1, $2);
             $value =~ s{\\\\}{\\}g;
             $current_key->{'/' . $key} = $value;
+            next;
+        }
+
+        # Default key value
+        if ($line =~ /^ \@ = " ([^"]*) "/x) {
+            my $value = $1;
+            $value =~ s{\\\\}{\\}g;
+            $current_key->{'/'} = $value;
             next;
         }
 
@@ -182,6 +190,8 @@ sub loadRegistryDump {
 
     }
     close $handle;
+
+    bless( $root_key, "Win32::TieRegistry" );
 
     return $root_key;
 }
@@ -211,19 +221,22 @@ sub run_executable {
 sub openWin32Registry {
 
     my $Registry;
+    my ($norecursion) = @_;
     Win32::TieRegistry->require();
     Win32::TieRegistry->import(
         Delimiter   => '/',
         TiedRef     => \$Registry
     );
 
-    my $agentKey = 'FusionInventory-Agent';
+    my $agentKey = 'FusionInventory-Agent-unittest';
     my $machKey = $Registry->{'LMachine'};
     my $settings  = $machKey->Open('SOFTWARE/' . $agentKey, { 'Delimiter' => '/' });
     if (! defined($settings)) {
+        die "\nFailed to create HKEY_LOCAL_MACHINE/SOFTWARE/$agentKey key, be sure to run this win32 test with Administrator privileges"
+            if $norecursion;
         $settings = $machKey->Open('SOFTWARE', { 'Delimiter' => '/' });
         $settings->{$agentKey} = {};
-        $settings = openWin32Registry();
+        $settings = openWin32Registry('no-recursion');
     }
 
     return $settings;

@@ -15,12 +15,15 @@ use Thread::Queue v2.01;
 use UNIVERSAL::require;
 use XML::TreePP;
 
+use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::XML::Query;
 
-our $VERSION = '2.2.1';
+use FusionInventory::Agent::Task::NetDiscovery::Version;
+
+our $VERSION = FusionInventory::Agent::Task::NetDiscovery::Version::VERSION;
 
 sub isEnabled {
     my ($self, $response) = @_;
@@ -94,6 +97,7 @@ sub run {
         ca_cert_file => $params{ca_cert_file},
         ca_cert_dir  => $params{ca_cert_dir},
         no_ssl_check => $params{no_ssl_check},
+        no_compress  => $params{no_compress},
     ) if !$self->{client};
 
     # check discovery methods available
@@ -399,7 +403,7 @@ sub _scanAddressBySNMP {
     my ($self, %params) = @_;
 
     foreach my $credential (@{$params{snmp_credentials}}) {
-        my %device = $self->_scanAddressBySNMPReal(
+        my $device = $self->_scanAddressBySNMPReal(
             ip         => $params{ip},
             timeout    => $params{timeout},
             credential => $credential
@@ -411,12 +415,13 @@ sub _scanAddressBySNMP {
             threads->tid(),
             $params{ip},
             $credential->{ID},
-            %device ? 'success' : 'no result'
+            ref $device eq 'HASH' ? 'success' :
+                $device ? "no result, $device" : 'no result'
         );
 
-        if (%device) {
-            $device{AUTHSNMP} = $credential->{ID};
-            return %device;
+        if (ref $device eq 'HASH') {
+            $device->{AUTHSNMP} = $credential->{ID};
+            return %{$device};
         }
     }
 
@@ -440,8 +445,9 @@ sub _scanAddressBySNMPReal {
             privprotocol => $params{credential}->{PRIVPROTOCOL},
         );
     };
-    # an exception here just means no device,  or wrong credentials
-    return if $EVAL_ERROR;
+
+    # an exception here just means no device or wrong credentials
+    return $EVAL_ERROR if $EVAL_ERROR;
 
     my $info = getDeviceInfo(
         snmp    => $snmp,
@@ -450,7 +456,7 @@ sub _scanAddressBySNMPReal {
     );
     return unless $info;
 
-    return %$info;
+    return $info;
 }
 
 sub _parseNmap {
@@ -490,7 +496,7 @@ sub _sendStartMessage {
     $self->_sendMessage({
         AGENT => {
             START        => 1,
-            AGENTVERSION => $FusionInventory::Agent::VERSION,
+            AGENTVERSION => $FusionInventory::Agent::Version::VERSION,
         },
         MODULEVERSION => $VERSION,
         PROCESSNUMBER => $self->{pid}

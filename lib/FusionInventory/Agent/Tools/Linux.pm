@@ -187,6 +187,13 @@ sub getDevicesFromProc {
         push @names, $1;
     }
 
+    # add any block device identified as device by the kernel like SSD disks or
+    # removable disks (SD cards and others)
+    foreach my $file (glob ("/sys/block/*/device")) {
+        next unless $file =~ m|([^/]*)/device$|;
+        push @names, $1;
+    }
+
     my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
         "/sbin/fdisk -p -l" :
         "/sbin/fdisk -l"    ;
@@ -196,17 +203,19 @@ sub getDevicesFromProc {
         logger  => $logger
     );
 
-    return unless $handle;
-
-    while (my $line = <$handle>) {
-        next unless $line =~ m{^/dev/([shv]d[a-z])};
-        push @names, $1;
+    if ($handle) {
+        while (my $line = <$handle>) {
+            next unless $line =~ m{^/dev/([shv]d[a-z])};
+            push @names, $1;
+        }
+        close $handle;
     }
-    close $handle;
 
     # filter duplicates
     my %seen;
     @names = grep { !$seen{$_}++ } @names;
+
+    my $udisksctl = canRun('udisksctl');
 
     # extract information
     my @devices;
@@ -215,12 +224,32 @@ sub getDevicesFromProc {
             NAME         => $name,
             MANUFACTURER => _getValueFromSysProc($logger, $name, 'vendor'),
             MODEL        => _getValueFromSysProc($logger, $name, 'model'),
-            FIRMWARE     => _getValueFromSysProc($logger, $name, 'rev'),
+            FIRMWARE     => _getValueFromSysProc($logger, $name, 'rev')
+                || _getValueFromSysProc($logger, $name, 'firmware_rev'),
             SERIALNUMBER => _getValueFromSysProc($logger, $name, 'serial'),
             TYPE         =>
                 _getValueFromSysProc($logger, $name, 'removable') ?
                     'removable' : 'disk'
         };
+
+        # Support PCI or other bus case as description
+        foreach my $subsystem ("device/subsystem","device/device/subsystem") {
+            my $link = _readLinkFromSysFs($logger,"/sys/block/$name/$subsystem");
+            next unless ($link && $link =~ m|^/sys/bus/(\w+)$|);
+            $device->{DESCRIPTION} = uc($1);
+            last;
+        }
+
+        # Check removable capacity as HintAuto via udiskctl while available
+        if ($udisksctl && $device->{TYPE} eq 'disk') {
+            my $hintauto = getFirstMatch(
+                    command => "udisksctl info -b /dev/$name",
+                    pattern => qr/^\s+HintAuto:\s+(true|false)$/
+            );
+            $device->{TYPE} = 'removable'
+                if ( $hintauto && $hintauto eq 'true' );
+        }
+
         push @devices, $device;
     }
 
@@ -233,6 +262,7 @@ sub _getValueFromSysProc {
     ## no critic (ExplicitReturnUndef)
 
     my $file =
+        -f "/sys/block/$device/$key"        ? "/sys/block/$device/$key" :
         -f "/sys/block/$device/device/$key" ? "/sys/block/$device/device/$key" :
         -f "/proc/ide/$device/$key"         ? "/proc/ide/$device/$key" :
                                               undef;
@@ -245,10 +275,38 @@ sub _getValueFromSysProc {
     my $value = <$handle>;
     close $handle;
 
-    chomp $value;
+    return undef unless defined $value;
     $value =~ s/^(\w+)\W*/$1/;
 
-    return $value;
+    return trimWhitespace($value);
+}
+
+sub _readLinkFromSysFs {
+    my ($logger, $path) = @_;
+
+    ## no critic (ExplicitReturnUndef)
+
+    my @path = split('/', $path);
+
+    return undef unless (!shift(@path) && shift(@path) eq 'sys');
+
+    my @sys = ();
+
+    while (@path) {
+        push @sys, shift(@path);
+        my $link = readlink('/sys/'.join('/', @sys));
+        next unless $link;
+        pop @sys;
+        foreach my $sub (split('/',$link)) {
+            if ($sub eq '..') {
+                pop @sys;
+            } else {
+                push @sys, $sub;
+            }
+        }
+    }
+
+    return '/sys/'.join('/', @sys);
 }
 
 sub getInfoFromSmartctl {
@@ -426,8 +484,8 @@ sub getInterfacesInfosFromIoctl {
     # Forget speed value if got unknown speed special value
     if ($datas->{SPEED} == SPEED_UNKNOWN) {
         delete $datas->{SPEED};
-        $params{logger}->debug2("Unknown speed found on $params{interface}")
-            if $params{logger};
+        $logger->debug2("Unknown speed found on $params{interface}")
+            if $logger;
     }
 
     return $datas;

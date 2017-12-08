@@ -24,6 +24,7 @@ sub doInventory {
     my $kernelRelease = getFirstLine(command => 'uname -r');
 
     my $systemId  = _getRHNSystemId('/etc/sysconfig/rhn/systemid');
+    my $hostid = getFirstLine(command => 'hostid');
 
     my $boottime =
         time - getFirstMatch(file => '/proc/uptime', pattern => qr/^(\d+)/);
@@ -35,6 +36,7 @@ sub doInventory {
     });
 
     $inventory->setOperatingSystem({
+        HOSTID         => $hostid,
         KERNEL_VERSION => $kernelRelease,
         BOOT_TIME      => getFormatedLocalTime($boottime)
     });

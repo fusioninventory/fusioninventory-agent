@@ -35,9 +35,8 @@ like(
 );
 
 my $regconf = $OSNAME eq 'MSWin32' ? keys(%{FusionInventory::Test::Utils::openWin32Registry()}) : 0;
-SKIP: {
-skip 'failing while config exists in registry', 3 if $regconf;
-($out, $err, $rc) = run_executable('fusioninventory-agent', );
+
+($out, $err, $rc) = run_executable('fusioninventory-agent', $regconf ? '--config none' : undef);
 ok($rc == 1, 'no target exit status');
 like(
     $err,
@@ -45,7 +44,6 @@ like(
     'no target stderr'
 );
 is($out, '', 'no target stdout');
-};
 
 ($out, $err, $rc) = run_executable(
     'fusioninventory-agent',
@@ -60,6 +58,7 @@ like(
 is($out, '', 'incompatible options stdout');
 
 my $base_options = "--debug --no-task ocsdeploy,wakeonlan,snmpquery,netdiscovery";
+$base_options .= " --config none" if $regconf;
 
 # first inventory
 ($out, $err, $rc) = run_executable(

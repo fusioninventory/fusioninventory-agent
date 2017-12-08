@@ -17,7 +17,7 @@ my %tests = (
         {
             CORE         => '2',
             MANUFACTURER => 'Intel',
-            NAME         => 'Intel Core 2 Duo',
+            NAME         => 'Intel(R) Core(TM)2 Duo CPU P7550 @ 2.26GHz',
             THREAD       => 2,
             FAMILYNUMBER => '6',
             MODEL        => '23',

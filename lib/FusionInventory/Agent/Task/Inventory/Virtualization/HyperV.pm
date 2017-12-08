@@ -36,7 +36,8 @@ sub _getVirtualMachines {
     # index memory, cpu and BIOS UUID information
     my %memory;
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
-        moniker    => 'winmgmts://./root/virtualization',
+        moniker    => 'winmgmts://./root/virtualization/v2',
+        altmoniker => 'winmgmts://./root/virtualization',
         class      => 'MSVM_MemorySettingData',
         properties => [ qw/InstanceID VirtualQuantity/ ]
     )) {
@@ -47,7 +48,8 @@ sub _getVirtualMachines {
 
     my %vcpu;
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
-        moniker    => 'winmgmts://./root/virtualization',
+        moniker    => 'winmgmts://./root/virtualization/v2',
+        altmoniker => 'winmgmts://./root/virtualization',
         class      => 'MSVM_ProcessorSettingData',
         properties => [ qw/InstanceID VirtualQuantity/ ]
     )) {
@@ -58,8 +60,9 @@ sub _getVirtualMachines {
 
     my %biosguid;
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
-        moniker => 'winmgmts://./root/virtualization',
-        class => 'MSVM_VirtualSystemSettingData',
+        moniker    => 'winmgmts://./root/virtualization/v2',
+        altmoniker => 'winmgmts://./root/virtualization',
+        class      => 'MSVM_VirtualSystemSettingData',
         properties => [ qw/InstanceID BIOSGUID/ ]
     )) {
         my $id = $object->{InstanceID};
@@ -69,7 +72,8 @@ sub _getVirtualMachines {
     }
 
     foreach my $object (FusionInventory::Agent::Tools::Win32::getWMIObjects(
-        moniker    => 'winmgmts://./root/virtualization',
+        moniker    => 'winmgmts://./root/virtualization/v2',
+        altmoniker => 'winmgmts://./root/virtualization',
         class      => 'MSVM_ComputerSystem',
         properties => [ qw/ElementName EnabledState Name/ ]
     )) {
