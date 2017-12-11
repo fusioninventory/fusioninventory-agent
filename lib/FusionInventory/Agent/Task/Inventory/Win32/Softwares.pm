@@ -232,6 +232,25 @@ sub _getSoftwaresList {
             $software->{INSTALLDATE} = _dateFormat(_keyLastWriteDateString($data));
         }
 
+		#----- SQL Server -----
+		# Versions >= SQL Server 2008 (tested with 2008/R2/2012/2016) : "SQL Server xxxx Database Engine Services"
+		if ($software->{NAME} =~ /^(SQL Server.*)(\sDatabase Engine Services)/) {
+			my ($sqlEditionValue,$sqlVersionValue) = _getSqlInstancesList(
+				softwarename	=> $software->{NAME},
+				softwareversion	=> $software->{VERSION}
+			);
+			$software->{NAME} = "$1 " . $sqlEditionValue . "$2";
+		# Versions <= SQL Server 2005 : "Microsoft SQL Server xxxx"
+		# "Uninstall" registry key does not contains Version : use default named instance.
+		} elsif ($software->{NAME} =~ /^(Microsoft SQL Server 200[0-9])$/ and defined($software->{VERSION})) {
+			my ($sqlEditionValue,$sqlVersionValue) = _getSqlInstancesList(
+				softwarename	=> $software->{NAME},
+				softwareversion	=> $software->{VERSION}
+			);
+			$software->{NAME} = "$1 " . $sqlEditionValue;
+		}
+		#----------
+
         push @list, $software;
     }
 
@@ -314,6 +333,58 @@ sub _processMSIE {
         }
     );
 
+}
+
+# List of SQL Instances
+sub _getSqlInstancesList {
+    my (%params) = @_;
+    my $logger = $params{logger};
+	my $softwareName = $params{softwarename};
+	my $softwareVersion = $params{softwareversion};
+	
+	# Registry access for SQL Instances
+    my $machKey = $Registry->Open('LMachine', {Access => KEY_READ}) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+    my $sqlinstancesList = $machKey->{"SOFTWARE/Microsoft/Microsoft SQL Server/Instance Names/SQL"};
+
+	# List of SQL Instances
+	foreach my $sqlinstance (keys %$sqlinstancesList) {
+		my $sqlinstanceName = $sqlinstance;
+		my $sqlinstanceValue = $sqlinstancesList->{$sqlinstance};
+		# Get version and edition for each instance
+		my ($sqlinstanceEditionValue,$sqlinstanceVersionValue) = _getSqlInstancesVersions(
+			%params,
+			SOFTVERSION	=> $softwareVersion,
+			NAME		=> $sqlinstanceName,
+			VALUE		=> $sqlinstanceValue
+		);
+
+		if ($softwareVersion eq $sqlinstanceVersionValue) {
+			return ($sqlinstanceEditionValue,$sqlinstanceVersionValue);
+		} 
+	}
+}
+
+# SQL Instances versions
+# Return version and edition for each instance
+sub _getSqlInstancesVersions {
+    my (%params) = @_;
+    my $logger = $params{logger};
+
+	my $softwareVersion = $params{SOFTVERSION};	
+	my $sqlinstanceName = $params{NAME};
+	my $sqlinstanceValue = $params{VALUE};
+	
+	my $machKey = $Registry->Open('LMachine', {Access => KEY_READ}) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
+    my $sqlinstanceVersion = $machKey->{"SOFTWARE/Microsoft/Microsoft SQL Server/" . $sqlinstanceValue . "/Setup"};
+	my $sqlinstanceVersionValue = $sqlinstanceVersion->{'/Version'};
+	my $sqlinstanceEditionValue = $sqlinstanceVersion->{'/Edition'};	
+
+	# If software version match instance one
+	if ($softwareVersion eq $sqlinstanceVersionValue) {
+		return ($sqlinstanceEditionValue,$sqlinstanceVersionValue);
+	} else {
+		return (1,1); # Avoid untialized messages (entries without version).
+	}
 }
 
 1;
