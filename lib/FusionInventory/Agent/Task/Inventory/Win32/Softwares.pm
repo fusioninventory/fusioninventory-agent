@@ -250,6 +250,27 @@ sub _getSoftwaresList {
             $software->{INSTALLDATE} = _dateFormat(_keyLastWriteDateString($data));
         }
 
+        #----- SQL Server -----
+        # Versions >= SQL Server 2008 (tested with 2008/R2/2012/2016) : "SQL Server xxxx Database Engine Services"
+        if ($software->{NAME} =~ /^(SQL Server.*)(\sDatabase Engine Services)/) {
+            my $sqlEditionValue = _getSqlInstancesList(
+                softwarename    => $software->{NAME},
+                softwareversion => $software->{VERSION}
+            );
+            if (defined($sqlEditionValue)) {$software->{NAME} = "$1 " . $sqlEditionValue . "$2";}
+            $logger->info("-------------");
+        # Versions = SQL Server 2005 : "Microsoft SQL Server xxxx"
+        # "Uninstall" registry key does not contains Version : use default named instance.
+        } elsif ($software->{NAME} =~ /^(Microsoft SQL Server 200[0-9])$/ and defined($software->{VERSION})) {
+            my $sqlEditionValue = _getSqlInstancesList(
+                softwarename    => $software->{NAME},
+                softwareversion => $software->{VERSION}
+            );
+            if (defined($sqlEditionValue)) {$software->{NAME} = "$1 " . $sqlEditionValue;}
+            $logger->info("-------------");
+        }
+        #----------
+
         push @list, $software;
     }
 
@@ -336,6 +357,69 @@ sub _processMSIE {
         }
     );
 
+}
+
+# List of SQL Instances
+sub _getSqlInstancesList {
+    my (%params) = @_;
+
+    my $softwareName = $params{softwarename};
+    my $softwareVersion = $params{softwareversion};
+
+    # Registry access for SQL Instances
+    my $sqlinstancesList = getRegistryKey(
+        path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Microsoft SQL Server/Instance Names/SQL",
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/
+                DisplayName Comments HelpLink ReleaseType DisplayVersion
+                Publisher URLInfoAbout UninstallString InstallDate MinorVersion
+                MajorVersion NoRemove SystemComponent
+                / ]
+        },
+        %params
+    ) or return;
+
+    # List of SQL Instances
+    foreach my $sqlinstance (keys %$sqlinstancesList) {
+        my $sqlinstanceName = $sqlinstance;
+        my $sqlinstanceValue = $sqlinstancesList->{$sqlinstance};
+        # Get version and edition for each instance
+        my ($sqlinstanceEditionValue,$sqlinstanceVersionValue) = _getSqlInstancesVersions(
+            %params,
+            SOFTVERSION => $softwareVersion,
+            NAME        => $sqlinstanceName,
+            VALUE       => $sqlinstanceValue
+        );
+        next unless $sqlinstanceEditionValue && $sqlinstanceVersionValue;
+        if ($softwareVersion eq $sqlinstanceVersionValue) {return $sqlinstanceEditionValue;} 
+    }
+}
+
+# SQL Instances versions
+# Return version and edition for each instance
+sub _getSqlInstancesVersions {
+    my (%params) = @_;
+
+    my $softwareVersion = $params{SOFTVERSION};	
+    my $sqlinstanceName = $params{NAME};
+    my $sqlinstanceValue = $params{VALUE};
+
+    my $sqlinstanceVersions = getRegistryKey(
+        path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Microsoft SQL Server/" . $sqlinstanceValue . "/Setup",
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/
+                DisplayName Comments HelpLink ReleaseType DisplayVersion
+                Publisher URLInfoAbout UninstallString InstallDate MinorVersion
+                MajorVersion NoRemove SystemComponent
+                / ]
+        },
+        %params
+    );
+
+    my $sqlinstanceVersionValue = $sqlinstanceVersions->{'/Version'} or return;
+    my $sqlinstanceEditionValue = $sqlinstanceVersions->{'/Edition'};
+    # If software version match instance one
+    if ($softwareVersion eq $sqlinstanceVersionValue) {return ($sqlinstanceEditionValue,$sqlinstanceVersionValue);}
 }
 
 1;
