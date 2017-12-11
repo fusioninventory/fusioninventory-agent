@@ -3,7 +3,7 @@ package FusionInventory::Agent::Task::Deploy::CheckProcessor::FreeSpaceGreater;
 use strict;
 use warnings;
 
-use base "FusionInventory::Agent::Task::Deploy::CheckProcessor";
+use parent "FusionInventory::Agent::Task::Deploy::CheckProcessor";
 
 use FusionInventory::Agent::Task::Deploy::DiskFree;
 

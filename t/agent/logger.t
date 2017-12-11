@@ -2,6 +2,7 @@
 
 use strict;
 use warnings;
+use lib 't/lib';
 
 use English qw(-no_match_vars);
 use IO::Capture::Stderr;
@@ -10,9 +11,10 @@ use File::Temp qw(tempdir);
 use Fcntl qw(:seek);
 use Test::More;
 
+use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
 
-plan tests => 27;
+plan tests => 28;
 
 my $logger = FusionInventory::Agent::Logger->new();
 
@@ -37,9 +39,13 @@ isa_ok(
 if ($OSNAME eq 'MSWin32') {
 
     $logger = FusionInventory::Agent::Logger->new(
-        backends => [ qw/Stderr File/ ]
+        config => FusionInventory::Agent::Config->new(
+            options => {
+                config  => 'none',
+                logger  => 'stderr,Test'
+            }
+        )
     );
-
     is(
         @{$logger->{backends}},
         2,
@@ -56,13 +62,18 @@ if ($OSNAME eq 'MSWin32') {
 
         isa_ok(
             $logger->{backends}->[1],
-            'FusionInventory::Agent::Logger::File',
+            'FusionInventory::Agent::Logger::Test',
             'third backend class'
         );
     };
 } else {
     $logger = FusionInventory::Agent::Logger->new(
-        backends => [ qw/Stderr Syslog File/ ]
+        config => FusionInventory::Agent::Config->new(
+            options => {
+                config  => 'none',
+                logger  => 'Stderr,Syslog,Test'
+            }
+        )
     );
 
     is(
@@ -87,7 +98,7 @@ if ($OSNAME eq 'MSWin32') {
 
         isa_ok(
             $logger->{backends}->[2],
-            'FusionInventory::Agent::Logger::File',
+            'FusionInventory::Agent::Logger::Test',
             'third backend class'
         );
     };
@@ -96,7 +107,12 @@ if ($OSNAME eq 'MSWin32') {
 # stderr backend tests
 
 $logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/Stderr/ ]
+    config => FusionInventory::Agent::Config->new(
+        options => {
+            config  => 'none',
+            logger  => 'stderr'
+        }
+    )
 );
 
 ok(
@@ -109,9 +125,9 @@ ok(
     'debug message absence'
 );
 
+# Test just updating debug level
 $logger = FusionInventory::Agent::Logger->new(
-    backends  => [ qw/Stderr/ ],
-    verbosity => LOG_DEBUG
+    debug => 1
 );
 
 ok(
@@ -149,8 +165,13 @@ is(
 );
 
 $logger = FusionInventory::Agent::Logger->new(
-    backends  => [ qw/Stderr/ ],
-    verbosity => LOG_DEBUG2
+    config => FusionInventory::Agent::Config->new(
+        options => {
+            config  => 'none',
+            debug   => 2,
+            logger  => 'stderr'
+        }
+    )
 );
 
 ok(
@@ -164,9 +185,14 @@ ok(
 );
 
 $logger = FusionInventory::Agent::Logger->new(
-    backends  => [ qw/Stderr/ ],
-    config    => { color => 1 },
-    verbosity => LOG_DEBUG
+    config => FusionInventory::Agent::Config->new(
+        options => {
+            config  => 'none',
+            debug   => 1,
+            color   => 1,
+            logger  => 'stderr'
+        }
+    )
 );
 
 is(
@@ -193,14 +219,30 @@ is(
     'error message color formating'
 );
 
+# Test just updating color config
+$logger = FusionInventory::Agent::Logger->new(
+    color => 0
+);
+
+is(
+    getStderrOutput(sub { $logger->error('message'); }),
+    "[error] message",
+    'error message after color formating removed'
+);
+
 # file backend tests
 my $tmpdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 my $logfile;
 
 $logfile = "$tmpdir/test1";
 $logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/File/ ],
-    config   => { logfile => $logfile }
+    config => FusionInventory::Agent::Config->new(
+        options => {
+            config  => 'none',
+            logger  => 'file',
+            logfile => $logfile
+        }
+    )
 );
 
 $logger->debug('message');
@@ -212,9 +254,14 @@ ok(
 
 $logfile = "$tmpdir/test2";
 $logger = FusionInventory::Agent::Logger->new(
-    backends  => [ qw/File/ ],
-    config    => { logfile => $logfile },
-    verbosity => LOG_DEBUG
+    config => FusionInventory::Agent::Config->new(
+        options => {
+            config  => 'none',
+            debug   => 1,
+            logger  => 'file',
+            logfile => $logfile
+        }
+    )
 );
 $logger->debug('message');
 
@@ -249,8 +296,13 @@ is(
 
 $logfile = "$tmpdir/test3";
 $logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/File/ ],
-    config   => { logfile => $logfile },
+    config => FusionInventory::Agent::Config->new(
+        options => {
+            config  => 'none',
+            logger  => 'file',
+            logfile => $logfile
+        }
+    )
 );
 fillLogFile($logger);
 ok(
@@ -260,11 +312,14 @@ ok(
 
 $logfile = "$tmpdir/test4";
 $logger = FusionInventory::Agent::Logger->new(
-    backends => [ qw/File/ ],
-    config   => {
-        'logfile'         => $logfile,
-        'logfile-maxsize' => 1
-    }
+    config => FusionInventory::Agent::Config->new(
+        options => {
+            config  => 'none',
+            logger  => 'file',
+            logfile => $logfile,
+            'logfile-maxsize' => 1
+        }
+    )
 );
 fillLogFile($logger);
 ok(

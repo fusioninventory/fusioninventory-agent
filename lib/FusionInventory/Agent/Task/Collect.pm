@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::Collect;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task';
+use parent 'FusionInventory::Agent::Task';
 
 use Digest::SHA;
 use English qw(-no_match_vars);
@@ -22,8 +22,7 @@ our $VERSION = FusionInventory::Agent::Task::Collect::Version::VERSION;
 my %functions = (
     getFromRegistry => \&_getFromRegistry,
     findFile        => \&_findFile,
-# As decided by the FusInv-Agent developers, the runCommand function
-# is disabled for the moment.
+# As decided by developers team, the runCommand function is disabled for the moment.
 #    runCommand      => \&_runCommand,
     getFromWMI      => \&_getFromWMI
 );

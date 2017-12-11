@@ -11,6 +11,9 @@ use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
 
+# Agent should set this shared variable with early $PROGRAM_NAME content
+our $PROGRAM;
+
 sub isEnabled {
     return 1;
 }
@@ -24,7 +27,7 @@ sub doInventory {
     my $provider = {
         NAME            => $FusionInventory::Agent::Version::PROVIDER,
         VERSION         => $FusionInventory::Agent::Version::VERSION,
-        PROGRAM         => "$PROGRAM_NAME",
+        PROGRAM         => $PROGRAM || "$PROGRAM_NAME",
         PERL_EXE        => "$EXECUTABLE_NAME",
         PERL_VERSION    => "$PERL_VERSION"
     };
@@ -35,7 +38,7 @@ sub doInventory {
     }
 
     # Add extra informations in debug level
-    if ($logger->{verbosity} > LOG_INFO) {
+    if ($logger && $logger->debug_level()) {
         my @uses = ();
         foreach (grep { /^use/ && $Config{$_} } keys(%Config)) {
             push @uses, $Config{$_} =~ /^define|true/ ? $_ : "$_=$Config{$_}";

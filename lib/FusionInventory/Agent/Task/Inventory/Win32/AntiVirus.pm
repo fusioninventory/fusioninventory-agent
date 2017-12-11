@@ -3,9 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::AntiVirus;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
-
-my $seen;
 
 sub isEnabled {
     my (%params) = @_;
@@ -16,10 +15,9 @@ sub isEnabled {
 sub doInventory {
     my (%params) = @_;
 
-    my $logger;
-    $logger = $params{logger};
-
+    my $logger    = $params{logger};
     my $inventory = $params{inventory};
+    my $seen;
 
     # Doesn't works on Win2003 Server
     # On Win7, we need to use SecurityCenter2
@@ -59,7 +57,7 @@ sub doInventory {
 
             # McAfee data
             if ($antivirus->{NAME} =~ /McAfee/i) {
-                my $info = _getMcAfeeInfo($logger);
+                my $info = _getMcAfeeInfo();
                 $antivirus->{$_} = $info->{$_} foreach keys %$info;
             }
 
@@ -72,14 +70,6 @@ sub doInventory {
 }
 
 sub _getMcAfeeInfo {
-    my ($logger) = @_;
-
-    my $path;
-    if (is64bit() && defined getRegistryKey(path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/McAfee/AVEngine')) {
-        $path = 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/McAfee/AVEngine';
-    } else {
-        $path = 'HKEY_LOCAL_MACHINE/SOFTWARE/McAfee/AVEngine';
-    }
 
     my %properties = (
         DATFILEVERSION  => [ 'AVDatVersion',         'AVDatVersionMinor' ],
@@ -87,23 +77,36 @@ sub _getMcAfeeInfo {
         ENGINEVERSION64 => [ 'EngineVersionMajor',   'EngineVersionMinor' ],
     );
 
-    my $info;
+    my $regvalues = [ 'AVDatDate', map { @{$_} } values(%properties) ];
+
+    my ($info, $macafeeReg);
+
+    if (is64bit()) {
+        $macafeeReg = getRegistryKey(
+            path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/McAfee/AVEngine',
+        );
+    }
+
+    if (!$macafeeReg) {
+        $macafeeReg = getRegistryKey(
+            path => 'HKEY_LOCAL_MACHINE/SOFTWARE/McAfee/AVEngine',
+        );
+    }
+
+    return unless $macafeeReg;
 
     # major.minor versions properties
     foreach my $property (keys %properties) {
         my $keys = $properties{$property};
-        my $major = getRegistryValue(path => $path . '/' . $keys->[0]);
-        my $minor = getRegistryValue(path => $path . '/' . $keys->[1]);
-        $info->{$property} = sprintf("%04d.%04d", hex($major), hex($minor))
+        my $major = $macafeeReg->{'/' . $keys->[0]};
+        my $minor = $macafeeReg->{'/' . $keys->[1]};
+        $info->{$property} = sprintf("%04d.%04d", hex2dec($major), hex2dec($minor))
             if defined $major && defined $major;
     }
 
     # file creation date property
-    my $avDatDate            =
-        getRegistryValue(path => $path . '/AVDatDate');
-
-    if (defined $avDatDate) {
-        my $datFileCreation = encodeFromRegistry( $avDatDate );
+    if ($macafeeReg->{'/AVDatDate'}) {
+        my $datFileCreation = encodeFromRegistry($macafeeReg->{'/AVDatDate'});
         # from YYYY/MM/DD to DD/MM/YYYY
         if ($datFileCreation =~ /(\d\d\d\d)\/(\d\d)\/(\d\d)/) {
             $datFileCreation = join( '/', ($3, $2, $1) );

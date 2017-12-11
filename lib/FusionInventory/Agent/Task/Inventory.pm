@@ -2,7 +2,7 @@ package FusionInventory::Agent::Task::Inventory;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Task';
+use parent 'FusionInventory::Agent::Task';
 
 use Config;
 use English qw(-no_match_vars);
@@ -10,7 +10,6 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
-use FusionInventory::Agent::XML::Query::Inventory;
 
 use FusionInventory::Agent::Task::Inventory::Version;
 
@@ -113,6 +112,10 @@ sub run {
         }
 
     } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+
+        return $self->{logger}->error("Can't load OCS client API")
+            unless FusionInventory::Agent::HTTP::Client::OCS->require();
+
         my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             user         => $params{user},
@@ -123,6 +126,9 @@ sub run {
             no_ssl_check => $params{no_ssl_check},
             no_compress  => $params{no_compress},
         );
+
+        return $self->{logger}->error("Can't load Inventory XML Query API")
+            unless FusionInventory::Agent::XML::Query::Inventory->require();
 
         my $message = FusionInventory::Agent::XML::Query::Inventory->new(
             deviceid => $self->{deviceid},
@@ -300,13 +306,6 @@ sub _feedInventory {
 
     foreach my $module (sort @modules) {
         $self->_runModule($module, $inventory, $disabled);
-    }
-
-    if (-d $self->{confdir} . '/softwares') {
-        $self->{logger}->info(
-            "using custom scripts for adding softwares to inventory is " .
-            "deprecated, use --additional-content option instead"
-        );
     }
 
     if ($self->{config}->{'additional-content'} && -f $self->{config}->{'additional-content'}) {

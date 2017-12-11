@@ -2,14 +2,15 @@ package FusionInventory::Agent::Target::Local;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Target';
+
+use parent 'FusionInventory::Agent::Target';
 
 my $count = 0;
 
 sub new {
     my ($class, %params) = @_;
 
-    die "no path parameter" unless $params{path};
+    die "no path parameter for local target\n" unless $params{path};
 
     my $self = $class->SUPER::new(%params);
 

@@ -5,7 +5,6 @@ use warnings;
 use lib 't/lib';
 
 use English qw(-no_match_vars);
-use List::Util qw(first);
 use Test::Deep;
 use Test::More;
 
@@ -117,7 +116,7 @@ my %find_tests = (
 plan tests => scalar @tests + keys(%find_tests);
 
 my $logger = FusionInventory::Agent::Logger->new(
-    backends  => [ 'Test' ]
+    logger => [ 'Test' ]
 );
 
 my $p2p = FusionInventory::Agent::Task::Deploy::P2P->new(
@@ -134,7 +133,7 @@ SKIP: {
         unless Parallel::ForkManager->require();
 
     # find an available port on loopback
-    my $port = first { test_port($_) } 62354 .. 62400;
+    my $port = FusionInventory::Agent::Tools::first { test_port($_) } 62354 .. 62400;
 
     my $server = FusionInventory::Test::Server->new(
         port     => $port,

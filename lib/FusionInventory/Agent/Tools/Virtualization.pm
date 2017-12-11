@@ -2,7 +2,7 @@ package FusionInventory::Agent::Tools::Virtualization;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 
 use UNIVERSAL::require;
 

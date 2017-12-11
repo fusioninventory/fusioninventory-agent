@@ -11,14 +11,12 @@ use Storable 'dclone';
 
 use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Config;
-use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hostname;
-use FusionInventory::Agent::XML::Query::Prolog;
 
 our $VERSION = $FusionInventory::Agent::Version::VERSION;
 my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
@@ -31,7 +29,7 @@ sub _versionString {
     my ($VERSION) = @_;
 
     my $string = "$PROVIDER Agent ($VERSION)";
-    if ($VERSION =~ /^\d+\.\d+\.(99\d\d|\d+-dev)$/) {
+    if ($VERSION =~ /^\d+\.\d+\.(99\d\d|\d+-dev|.*-build-?\d+)$/) {
         unshift @{$COMMENTS}, "** THIS IS A DEVELOPMENT RELEASE **";
     }
 
@@ -43,7 +41,6 @@ sub new {
 
     my $self = {
         status  => 'unknown',
-        confdir => $params{confdir},
         datadir => $params{datadir},
         libdir  => $params{libdir},
         vardir  => $params{vardir},
@@ -60,23 +57,14 @@ sub init {
 
     # Skip create object if still defined (re-init case)
     my $config = $self->{config} || FusionInventory::Agent::Config->new(
-        confdir => $self->{confdir},
         options => $params{options},
     );
     $self->{config} = $config;
 
-    my $verbosity = $config->{debug} && $config->{debug} == 1 ? LOG_DEBUG  :
-                    $config->{debug} && $config->{debug} == 2 ? LOG_DEBUG2 :
-                                                                LOG_INFO   ;
-
-    my $logger = FusionInventory::Agent::Logger->new(
-        config    => $config,
-        backends  => $config->{logger},
-        verbosity => $verbosity
-    );
+    my $logger = FusionInventory::Agent::Logger->new(config => $config);
     $self->{logger} = $logger;
 
-    $logger->debug("Configuration directory: $self->{confdir}");
+    $logger->debug("Configuration directory: ".$config->confdir());
     $logger->debug("Data directory: $self->{datadir}");
     $logger->debug("Storage directory: $self->{vardir}");
     $logger->debug("Lib directory: $self->{libdir}");
@@ -89,6 +77,10 @@ sub init {
         $logger->error("No target defined, aborting");
         exit 1;
     }
+
+    # Keep program name for Provider inventory as it will be reset in setStatus()
+    FusionInventory::Agent::Task::Inventory::Provider->require();
+    $FusionInventory::Agent::Task::Inventory::Provider::PROGRAM = "$PROGRAM_NAME";
 
     # compute list of allowed tasks
     my %available = $self->getAvailableTasks(disabledTasks => $config->{'no-task'});
@@ -179,6 +171,9 @@ sub runTarget {
     # but only for server targets
     my $response;
     if ($target->isa('FusionInventory::Agent::Target::Server')) {
+
+        return unless FusionInventory::Agent::HTTP::Client::OCS->require();
+
         my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
             logger       => $self->{logger},
             timeout      => $self->{timeout},
@@ -190,6 +185,8 @@ sub runTarget {
             no_ssl_check => $self->{config}->{'no-ssl-check'},
             no_compress  => $self->{config}->{'no-compression'},
         );
+
+        return unless FusionInventory::Agent::XML::Query::Prolog->require();
 
         my $prolog = FusionInventory::Agent::XML::Query::Prolog->new(
             deviceid => $self->{deviceid},
@@ -248,7 +245,6 @@ sub runTaskReal {
 
     my $task = $class->new(
         config       => $self->{config},
-        confdir      => $self->{confdir},
         datadir      => $self->{datadir},
         logger       => $self->{logger},
         target       => $target,
@@ -539,10 +535,6 @@ The constructor. The following parameters are allowed, as keys of the %params
 hash:
 
 =over
-
-=item I<confdir>
-
-the configuration directory.
 
 =item I<datadir>
 

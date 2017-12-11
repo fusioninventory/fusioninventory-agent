@@ -3,7 +3,7 @@ package FusionInventory::Agent::Tools::Screen::Samsung;
 use strict;
 use warnings;
 
-use base 'FusionInventory::Agent::Tools::Screen';
+use parent 'FusionInventory::Agent::Tools::Screen';
 
 # Well-known eisa_id for which wee need to revert serial and altserial
 my $eisa_id_match = qr/09c6$/ ;

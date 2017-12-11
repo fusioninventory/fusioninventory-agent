@@ -108,10 +108,6 @@ resources
     repository  => "https://github.com/fusioninventory/fusioninventory-agent/",
     IRC         => "irc://irc.freenode.net/#fusioninventory";
 
-# Not indexing application setup
-no_index
-    file        => 'bin/setup.pm';
-
 makemaker_args(
     test => {
         TESTS => join ' ', map { glob } qw(
@@ -229,22 +225,25 @@ config_install :
 	else \
 	    install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg; \
 	fi
+	$(ABSPERLRUN) -pi \
+	    -e "s|=> undef, # SYSCONFDIR.*|=> '$(SYSCONFDIR)',|;" \
+	        $(DESTDIR)$(DATADIR)/lib/FusionInventory/Agent/Config.pm
 
 data_install :
 	install -d -m 755 $(DESTDIR)$(DATADIR)
 	install -m 644 share/pci.ids $(DESTDIR)$(DATADIR)/
 	install -m 644 share/usb.ids $(DESTDIR)$(DATADIR)/
 	install -m 644 share/sysobject.ids $(DESTDIR)$(DATADIR)/
+	install -m 644 share/edid.ids $(DESTDIR)$(DATADIR)/
 	install -d -m 755 $(DESTDIR)$(DATADIR)/html
 	install -m 644 share/html/* $(DESTDIR)$(DATADIR)/html
 
 setup_install :
 	$(ABSPERLRUN) -pi \
-	-e 's|confdir => .*|confdir => "$(SYSCONFDIR)",|;' \
-	-e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
-	-e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
-	-e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
-	$(DESTDIR)$(DATADIR)/lib/setup.pm
+	    -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
+	    -e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
+	    -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
+	        $(DESTDIR)$(DATADIR)/lib/setup.pm
 EOF
     return $install;
 }

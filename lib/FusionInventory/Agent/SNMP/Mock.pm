@@ -2,7 +2,7 @@ package FusionInventory::Agent::SNMP::Mock;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::SNMP';
+use parent 'FusionInventory::Agent::SNMP';
 
 use FusionInventory::Agent::Tools;
 
@@ -14,6 +14,7 @@ my %prefixes = (
     'SNMPv2-MIB::sysContact'            => '.1.3.6.1.2.1.1.4',
     'SNMPv2-MIB::sysName'               => '.1.3.6.1.2.1.1.5',
     'SNMPv2-MIB::sysLocation'           => '.1.3.6.1.2.1.1.6',
+    'SNMPv2-MIB::sysORID'               => '.1.3.6.1.2.1.1.9.1.2',
     'SNMPv2-SMI::mib-2'                 => '.1.3.6.1.2.1',
     'SNMPv2-SMI::enterprises'           => '.1.3.6.1.4.1',
     'IF-MIB::ifIndex'                   => '.1.3.6.1.2.1.2.2.1.1',

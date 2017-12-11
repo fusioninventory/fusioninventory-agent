@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Virtualization;
 
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt"];
 
@@ -68,12 +69,12 @@ sub  _getVirtualMachines {
 
     # xm status
     my %status_list = (
-        'r' => 'running',
-        'b' => 'blocked',
-        'p' => 'paused',
-        's' => 'shutdown',
-        'c' => 'crashed',
-        'd' => 'dying',
+        'r' => STATUS_RUNNING,
+        'b' => STATUS_BLOCKED,
+        'p' => STATUS_PAUSED,
+        's' => STATUS_SHUTDOWN,
+        'c' => STATUS_CRASHED,
+        'd' => STATUS_DYING
     );
 
     # drop headers
@@ -87,7 +88,7 @@ sub  _getVirtualMachines {
         my @fields = split(' ', $line);
         if (@fields == 4) {
             ($name, $memory, $vcpu) = @fields;
-            $status = 'off';
+            $status = STATUS_OFF;
         } else {
             if ($line =~ /^(.*\S) \s+ (\d+) \s+ (\d+) \s+ (\d+) \s+ ([a-z-]{5,6}) \s/x) {
                 ($name, $vmid, $memory, $vcpu, $status) = ($1, $2, $3, $4, $5);
@@ -102,7 +103,7 @@ sub  _getVirtualMachines {
                 next;
             }
             $status =~ s/-//g;
-            $status = $status ? $status_list{$status} : 'off';
+            $status = $status ? $status_list{$status} : STATUS_OFF;
             next if $vmid == 0;
         }
         next if $name eq 'Domain-0';

@@ -6,7 +6,6 @@ use warnings;
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
-use List::Util qw(first);
 
 # This array contains four items for each distribution:
 # - release file
@@ -63,10 +62,10 @@ my @distributions = (
 );
 
 our $runMeIfTheseChecksFailed =
-    ["FusionInventory::Agent::Task::Inventory::Linux::Distro::LSB"];
+    ["FusionInventory::Agent::Task::Inventory::Linux::Distro::OSRelease"];
 
 sub isEnabled {
-    return !canRun('lsb_release');
+    return !(-r '/etc/os-release');
 }
 
 sub doInventory {

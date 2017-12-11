@@ -52,21 +52,14 @@ my $config = FusionInventory::Agent::Config->new(
     options => $options,
 );
 
-my $verbosity =
-    $options->{debug} == 0 ? LOG_INFO   :
-    $options->{debug} == 1 ? LOG_DEBUG  :
-    $options->{debug} == 2 ? LOG_DEBUG2 :
-                             LOG_DEBUG2 ;
-
 my $inventory = FusionInventory::Agent::Task::Inventory->new(
     target => FusionInventory::Agent::Target::Local->new(
         path       => '-',
         html       => $options->{html},
         basevardir => File::Temp->newdir(CLEANUP => 1),
     ),
-    logger  => FusionInventory::Agent::Logger->new(verbosity => $verbosity),
+    logger  => FusionInventory::Agent::Logger->new(config => $config),
     datadir => $setup{datadir},
-    confdir => $setup{confdir},
     config  => $config
 );
 
@@ -98,5 +91,5 @@ fusioninventory-inventory [options]
 
 =head1 DESCRIPTION
 
-F<fusioninventory-inventory> allows to run an inventory task without a GLPI
+F<fusioninventory-inventory> can be used to run an inventory task without a GLPI
 server.

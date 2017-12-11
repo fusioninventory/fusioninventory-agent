@@ -1,7 +1,7 @@
 package FusionInventory::Test::Auth;
 
 use strict;
-use base 'Authen::Simple::Adapter';
+use parent 'Authen::Simple::Adapter';
 
 __PACKAGE__->options({
     user => {

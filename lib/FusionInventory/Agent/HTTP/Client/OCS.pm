@@ -2,7 +2,7 @@ package FusionInventory::Agent::HTTP::Client::OCS;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::HTTP::Client';
+use parent 'FusionInventory::Agent::HTTP::Client';
 
 use English qw(-no_match_vars);
 use HTTP::Request;

@@ -2,7 +2,7 @@ package FusionInventory::Agent::Tools::Network;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 
 use English qw(-no_match_vars);
 use Net::IP qw(:PROC);

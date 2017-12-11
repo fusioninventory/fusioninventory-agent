@@ -2,7 +2,7 @@ package FusionInventory::Agent::Tools::Win32;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 use utf8;
 
 use threads;
@@ -28,6 +28,8 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Expiration;
+use FusionInventory::Agent::Version;
 
 my $localCodepage;
 
@@ -43,7 +45,6 @@ our @EXPORT = qw(
     getLocalCodepage
     runCommand
     FileTimeToSystemTime
-    getUsersFromRegistry
     getAgentMemorySize
     FreeAgentMem
 );
@@ -99,6 +100,12 @@ sub _getWMIObjects {
         @_
     );
 
+    my $expiration = getExpirationTime();
+
+    # We must re-initialize Win32::OLE to support Events
+    Win32::OLE->Uninitialize();
+    Win32::OLE->Initialize(Win32::OLE::COINIT_OLEINITIALIZE());
+
     my $WMIService = Win32::OLE->GetObject($params{moniker});
 
     # Support alternate moniker if provided and main failed to open
@@ -109,16 +116,37 @@ sub _getWMIObjects {
         return unless (defined($WMIService));
     }
 
-    Win32::OLE->use('in');
+    my @events = ();
+    # Prepare events sink
+    my $WMISink = Win32::OLE->CreateObject("WbemScripting.SWbemSink");
+    Win32::OLE->WithEvents($WMISink, sub { shift; push @events, \@_; });
+
+    if ($params{query}) {
+        $WMIService->ExecQueryAsync($WMISink, $params{query});
+    } else {
+        $WMIService->InstancesOfAsync($WMISink, $params{class});
+    }
 
     my @objects;
-    foreach my $instance (in(
-        $params{query} ?
-        $WMIService->ExecQuery(@{$params{query}})
-        :
-        $WMIService->InstancesOf($params{class})
-    )) {
+    while (1) {
         my $object;
+        my $nextevent = shift @events;
+        if (!$nextevent) {
+            if (time >= $expiration) {
+                FusionInventory::Agent::Logger->require();
+                my $logger = $params{logger} || FusionInventory::Agent::Logger->new();
+                $logger->info ("Timeout reached during WMI " .
+                    ($params{query} ? "query" : "request")
+                );
+                last;
+            }
+            Win32::OLE->SpinMessageLoop();
+            delay(0.2);
+            next;
+        }
+        my ( $event, $instance ) = @{$nextevent};
+        last if $event eq 'OnCompleted';
+        next unless ($event eq 'OnObjectReady' && $instance);
         # Handle Win32::OLE object method, see _getLoggedUsers() method in
         # FusionInventory::Agent::Task::Inventory::Win32::Users as example to
         # use or enhance this feature
@@ -178,6 +206,9 @@ sub _getWMIObjects {
         push @objects, $object;
     }
 
+    # Reset event sink
+    Win32::OLE->WithEvents($WMISink);
+
     return @objects;
 }
 
@@ -226,10 +257,10 @@ sub getRegistryValue {
 sub getRegistryKey {
     my (%params) = @_;
 
+    my $logger = $params{logger};
+
     if (!$params{path}) {
-        $params{logger}->error(
-            "No registry key path provided"
-        ) if $params{logger};
+        $logger->error("No registry key path provided") if $logger;
         return;
     }
 
@@ -238,14 +269,13 @@ sub getRegistryKey {
         $root      = $1;
         $keyName   = $2;
     } else {
-        $params{logger}->error(
-            "Failed to parse '$params{path}'. Does it start with HKEY_?"
-        ) if $params{logger};
+        $logger->error("Failed to parse '$params{path}'. Does it start with HKEY_?")
+            if $logger;
         return;
     }
 
     return _getRegistryKey(
-        logger  => $params{logger},
+        logger  => $logger,
         root    => $root,
         keyName => $keyName
     );
@@ -283,7 +313,9 @@ sub runCommand {
     my $winCwd = Cwd::getcwd();
     $winCwd =~ s{/}{\\}g;
 
-    my ($fh, $filename) = File::Temp::tempfile( "$ENV{TEMP}\\fusinvXXXXXXXXXXX", SUFFIX => '.bat');
+    my $provider = lc($FusionInventory::Agent::Version::PROVIDER);
+    my $template = $ENV{TEMP}."\\".$provider."XXXXXXXXXXX";
+    my ($fh, $filename) = File::Temp::tempfile( $template, SUFFIX => '.bat');
     print $fh "cd \"".$winCwd."\"\r\n";
     print $fh $params{command}."\r\n";
     print $fh "exit %ERRORLEVEL%\r\n";
@@ -320,46 +352,26 @@ sub runCommand {
 sub getInterfaces {
     my (%params) = @_;
 
-    my @properties = qw/Index Description IPEnabled DHCPServer MACAddress
-                           MTU DefaultIPGateway DNSServerSearchOrder IPAddress
-                           IPSubnet/;
-    if ($params{additionalProperties}
-        && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-        if (ref($params{additionalProperties}->{NetWorkAdapterConfiguration}) eq 'ARRAY') {
-            push @properties, @{$params{additionalProperties}->{NetWorkAdapterConfiguration}};
-        } else {
-            delete $params{additionalProperties}->{NetWorkAdapterConfiguration};
-        }
-    }
-    
     my @configurations;
-    my @wmiResult =
-            $params{list}
-                && $params{list}->{Win32_NetworkAdapterConfiguration}
-                && ref($params{list}->{Win32_NetworkAdapterConfiguration}) eq 'ARRAY' ?
-        @{$params{list}->{Win32_NetworkAdapterConfiguration}} :
-        getWMIObjects(
+
+    foreach my $object (getWMIObjects(
             class      => 'Win32_NetworkAdapterConfiguration',
-            properties => \@properties
-        );
-    foreach my $object (@wmiResult) {
+            properties => [ qw/
+                Index Description IPEnabled DHCPServer MACAddress MTU
+                DefaultIPGateway DNSServerSearchOrder IPAddress IPSubnet
+                DNSDomain
+                /
+            ]
+    )) {
 
         my $configuration = {
             DESCRIPTION => $object->{Description},
             STATUS      => $object->{IPEnabled} ? "Up" : "Down",
             IPDHCP      => $object->{DHCPServer},
             MACADDR     => $object->{MACAddress},
-            MTU         => $object->{MTU}
+            MTU         => $object->{MTU},
+            DNSDomain   => $object->{DNSDomain}
         };
-
-        if ($params{additionalProperties}
-            && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-            for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
-                if (defined $object->{$prop}) {
-                    $configuration->{$prop} = $object->{$prop};
-                }
-            }
-        }
 
         if ($object->{DefaultIPGateway}) {
             $configuration->{IPGATEWAY} = $object->{DefaultIPGateway}->[0];
@@ -381,23 +393,10 @@ sub getInterfaces {
 
     my @interfaces;
 
-    @properties = qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId/;
-    if ($params{additionalProperties}
-        && $params{additionalProperties}->{NetWorkAdapter}) {
-        if (ref($params{additionalProperties}->{NetWorkAdapter}) eq 'ARRAY') {
-            push @properties, @{$params{additionalProperties}->{NetWorkAdapter}};
-        } else {
-            delete $params{additionalProperties}->{NetWorkAdapter};
-        }
-    }
-    @wmiResult =
-            $params{list} && $params{list}->{Win32_NetworkAdapter} ?
-        @{$params{list}->{Win32_NetworkAdapter}} :
-        getWMIObjects(
-            class      => 'Win32_NetworkAdapter',
-            properties => \@properties
-        );
-    foreach my $object (@wmiResult) {
+    foreach my $object (getWMIObjects(
+        class      => 'Win32_NetworkAdapter',
+        properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId GUID/ ]
+    )) {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $object->{PNPDeviceID};
 
@@ -418,25 +417,8 @@ sub getInterfaces {
                     DESCRIPTION => $configuration->{DESCRIPTION},
                     STATUS      => $configuration->{STATUS},
                     MTU         => $configuration->{MTU},
-                    dns         => $configuration->{dns},
+                    dns         => $configuration->{dns}
                 };
-
-                if ($params{additionalProperties}
-                    && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-                    for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
-                        if ($configuration->{$prop}) {
-                            $interface->{$prop} = $configuration->{$prop};
-                        }
-                    }
-                }
-                if ($params{additionalProperties}
-                    && $params{additionalProperties}->{NetWorkAdapter}) {
-                    for my $prop (@{$params{additionalProperties}->{NetWorkAdapter}}) {
-                        if ($object->{$prop}) {
-                            $interface->{$prop} = $object->{$prop};
-                        }
-                    }
-                }
 
                 if ($address->[0] =~ /$ip_address_pattern/) {
                     $interface->{IPADDRESS} = $address->[0];
@@ -455,6 +437,11 @@ sub getInterfaces {
                         $interface->{IPMASK6}
                     );
                 }
+
+                $interface->{GUID} = $object->{GUID}
+                    if $object->{GUID};
+                $interface->{DNSDomain} = $configuration->{DNSDomain}
+                    if $configuration->{DNSDomain};
 
                 $interface->{SPEED}      = $object->{Speed} / 1_000_000
                     if $object->{Speed};
@@ -475,26 +462,14 @@ sub getInterfaces {
                 dns         => $configuration->{dns}
             };
 
+            $interface->{GUID} = $object->{GUID}
+                if $object->{GUID};
+            $interface->{DNSDomain} = $configuration->{DNSDomain}
+                if $configuration->{DNSDomain};
+
             $interface->{SPEED}      = $object->{Speed} / 1_000_000
                 if $object->{Speed};
             $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
-
-            if ($params{additionalProperties}
-                && $params{additionalProperties}->{NetWorkAdapterConfiguration}) {
-                for my $prop (@{$params{additionalProperties}->{NetWorkAdapterConfiguration}}) {
-                    if ($configuration->{$prop}) {
-                        $interface->{$prop} = $configuration->{$prop};
-                    }
-                }
-            }
-            if ($params{additionalProperties}
-                && $params{additionalProperties}->{NetWorkAdapter}) {
-                for my $prop (@{$params{additionalProperties}->{NetWorkAdapter}}) {
-                    if ($configuration->{$prop}) {
-                        $interface->{$prop} = $configuration->{$prop};
-                    }
-                }
-            }
 
             push @interfaces, $interface;
         }
@@ -699,6 +674,9 @@ sub _win32_ole_worker {
         if (defined($call)) {
             lock($call);
 
+            # Handle call expiration
+            setExpirationTime(%$call);
+
             # Found requested private function and call it as expected
             my $funct;
             eval {
@@ -715,6 +693,9 @@ sub _win32_ole_worker {
             # Share back the result
             $call->{'result'} = shared_clone($result);
 
+            # Reset expiration
+            setExpirationTime();
+
             # Signal main thread result is available
             cond_signal($call);
         }
@@ -724,6 +705,18 @@ sub _win32_ole_worker {
 sub _call_win32_ole_dependent_api {
     my ($call) = @_
         or return;
+
+    # Reset timeout as shared between threads
+    my $now = time;
+    my $expiration = getExpirationTime() || $now + 180;
+
+    # Reduce expiration time by 10% of the remaining time to leave a chance to
+    # the caller to compute any result. By default, the reducing should be 2 seconds.
+    $expiration -= int(($expiration - $now) * 0.01) + 1;
+
+    # Be sure expiration is kept in the future by 10 seconds
+    $expiration = $now + 10 unless $expiration > $now;
+    $call->{expiration} = $expiration;
 
     if (defined($worker)) {
         # Share the expect call
@@ -742,10 +735,11 @@ sub _call_win32_ole_dependent_api {
             # Release semaphore so the worker can continue its job
             $worker_semaphore->up();
 
-            # Now, wait for worker result with one minute timeout
-            my $timeout = time + 60;
+            # Now, wait for worker result, leaving a 1 second grace delay to
+            # give worker a chance to handle the timeout by itself
+            $expiration ++ ;
             while (!exists($call->{'result'})) {
-                last if (!cond_timedwait($call, $timeout, @win32_ole_calls));
+                last if (!cond_timedwait($call, $expiration, @win32_ole_calls));
             }
 
             # Be sure to always block worker on semaphore from now
@@ -753,9 +747,9 @@ sub _call_win32_ole_dependent_api {
 
             if (exists($call->{'result'})) {
                 $result = $call->{'result'};
-            } else {
+            } elsif (time < $expiration) {
                 # Worker is failing: get back to mono-thread and pray
-                $worker->detach();
+                $worker->detach() if (defined($worker) && !$worker->is_detached());
                 $worker = undef;
                 return _call_win32_ole_dependent_api(@_);
             }
@@ -769,51 +763,28 @@ sub _call_win32_ole_dependent_api {
         Win32::OLE::Variant->require() or return;
         Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
+        # Handle call expiration
+        setExpirationTime(%$call);
+
         # We come here from worker or if we failed to start worker
         my $funct;
         eval {
             no strict 'refs'; ## no critic (ProhibitNoStrict)
             $funct = \&{$call->{'funct'}};
         };
-        return &{$funct}(@{$call->{'args'}});
-    }
-}
 
-sub getUsersFromRegistry {
-    my (%params) = @_;
-
-    my $logger = $params{logger};
-    # ensure native registry access, not the 32 bit view
-    my $flags = is64bit() ? KEY_READ | KEY_WOW64_64 : KEY_READ;
-    my $machKey = $Registry->Open('LMachine', {
-            Access => $flags
-        }) or $logger->error("Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-    if (!$machKey) {
-        $logger->error("getUsersFromRegistry() : Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR");
-        return;
+        if (exists($call->{'array'}) && $call->{'array'}) {
+            my @results = &{$funct}(@{$call->{'args'}});
+            # Reset expiration
+            setExpirationTime();
+            return @results;
+        } else {
+            my $result = &{$funct}(@{$call->{'args'}});
+            # Reset expiration
+            setExpirationTime();
+            return $result;
+        }
     }
-    $logger->debug2('getUsersFromRegistry() : opened LMachine registry key');
-    my $profileList =
-        $machKey->{"SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList"};
-    next unless $profileList;
-
-    my $userList;
-    foreach my $profileName (keys %$profileList) {
-        $params{logger}->debug2('profileName : ' . $profileName);
-        next unless $profileName =~ m{/$};
-        next unless length($profileName) > 10;
-        my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};
-        my $sid = $profileList->{$profileName}{'/Sid'};
-        next unless $sid;
-        next unless $profilePath;
-        my $user = basename($profilePath);
-        $userList->{$profileName} = $user;
-    }
-
-    if ($params{logger}) {
-        $params{logger}->debug2('getUsersFromRegistry() : retrieved ' . scalar(keys %$userList) . ' users');
-    }
-    return $userList;
 }
 
 END {

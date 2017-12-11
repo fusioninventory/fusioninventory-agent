@@ -2,7 +2,7 @@ package FusionInventory::Agent::Tools;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 
 use Encode qw(encode);
 use English qw(-no_match_vars);
@@ -12,7 +12,8 @@ use File::stat;
 use File::Which;
 use Memoize;
 use UNIVERSAL::require;
-use List::Util qw(first);
+
+use FusionInventory::Agent::Tools::Expiration;
 
 # Keep a copy of @ARGV, only for Provider inventory
 BEGIN {
@@ -21,6 +22,7 @@ BEGIN {
 our $ARGV;
 
 our @EXPORT = qw(
+    first
     getDirectoryHandle
     getFileHandle
     getFormatedLocalTime
@@ -52,15 +54,21 @@ our @EXPORT = qw(
     runFunction
     delay
     slurp
-    isParamArrayAndFilled
 );
-
-my $nowhere = $OSNAME eq 'MSWin32' ? 'nul' : '/dev/null';
 
 # this trigger some errors under win32:
 # Anonymous function called in forbidden scalar context
 if ($OSNAME ne 'MSWin32') {
     memoize('canRun');
+}
+
+# Avoid List::Util dependency re-using 'any' sub as template
+sub first (&@) { ## no critic (SubroutinePrototypes)
+    my $f = shift;
+    foreach ( @_ ) {
+        return $_ if $f->();
+    }
+    return undef;
 }
 
 sub getFormatedLocalTime {
@@ -288,6 +296,7 @@ sub getDirectoryHandle {
     return $handle;
 }
 
+my $cmdtemplate = $OSNAME eq 'MSWin32' ? "%s 2>nul" : "exec %s 2>/dev/null";
 sub getFileHandle {
     my (%params) = @_;
 
@@ -312,12 +321,16 @@ sub getFileHandle {
             local $ENV{LANG} = 'C';
             # Ignore 'Broken Pipe' warnings on Solaris
             local $SIG{PIPE} = 'IGNORE' if $OSNAME eq 'solaris';
-            if (!open $handle, '-|', $params{command} . " 2>$nowhere") {
+            my $command = sprintf($cmdtemplate, $params{command});
+            my $cmdpid  = open($handle, '-|', $command);
+            if (!$cmdpid) {
                 $params{logger}->error(
                     "Can't run command $params{command}: $ERRNO"
                 ) if $params{logger};
                 return;
             }
+            # Kill command if a timeout was set
+            $SIG{ALRM} = sub { kill 'KILL', $cmdpid ; die "alarm\n"; } if $SIG{ALRM};
             last SWITCH;
         }
         if ($params{string}) {
@@ -510,8 +523,12 @@ sub runFunction {
     my $result;
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" };
+
         # set a timeout if needed
-        alarm $params{timeout} if $params{timeout};
+        if ($params{timeout}) {
+            alarm $params{timeout};
+            setExpirationTime(timeout => $params{timeout});
+        }
 
         no strict 'refs'; ## no critic (ProhibitNoStrict)
         $result = &{$params{module} . '::' . $params{function}}(
@@ -519,7 +536,10 @@ sub runFunction {
             ref $params{params} eq 'ARRAY' ? @{$params{params}} :
                                                $params{params}
         );
+
+        # Reset timeout
         alarm 0;
+        setExpirationTime();
     };
 
     if ($EVAL_ERROR) {
@@ -552,14 +572,6 @@ sub slurp {
     my $content = <$handler>;
     close $handler;
     return $content;
-}
-
-sub isParamArrayAndFilled {
-    my ($hash, $paramName) = @_;
-    
-    return (defined ($hash->{$paramName}))
-            && UNIVERSAL::isa($hash->{$paramName}, 'ARRAY')
-            && (scalar(@{$hash->{$paramName}}) > 0);
 }
 
 1;
@@ -758,6 +770,11 @@ hexadecimal prefix, the unconverted value otherwise. Eg. 65 -> 0x41, 0x41 ->
 
 Returns a true value if any item in LIST meets the criterion given through
 BLOCK.
+
+=head2 first BLOCK LIST
+
+Returns the first value from LIST meeting the criterion given through BLOCK or
+undef.
 
 =head2 all BLOCK LIST
 

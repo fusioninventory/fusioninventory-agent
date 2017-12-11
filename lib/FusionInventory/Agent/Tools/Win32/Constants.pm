@@ -3,7 +3,7 @@ package FusionInventory::Agent::Tools::Win32::Constants;
 use warnings;
 use strict;
 
-use base 'Exporter';
+use parent 'Exporter';
 
 use constant CATEGORY_SYSTEM_COMPONENT => 'system_component';
 use constant CATEGORY_APPLICATION => 'application';

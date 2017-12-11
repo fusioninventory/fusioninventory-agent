@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Virtualization;
 
 our $runMeIfTheseChecksFailed = ["FusionInventory::Agent::Task::Inventory::Virtualization::Libvirt"];
 
@@ -68,8 +69,8 @@ sub  _getVirtualMachines {
 
     # xe status
     my %status_list = (
-        'running' => 'running',
-        'halted'  => 'shutdown',
+        'running' => STATUS_RUNNING,
+        'halted'  => STATUS_SHUTDOWN,
     );
 
     my $machine;
@@ -87,7 +88,7 @@ sub  _getVirtualMachines {
             next;
         }
         if ($extendedlabel =~ /power-state/) {
-            $machine->{STATUS} = $value ? $status_list{$value} : 'off';
+            $machine->{STATUS} = $value ? $status_list{$value} : STATUS_OFF;
             next;
         }
         if ($extendedlabel =~ /VCPUs-number/) {

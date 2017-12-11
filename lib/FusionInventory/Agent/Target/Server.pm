@@ -2,7 +2,8 @@ package FusionInventory::Agent::Target::Server;
 
 use strict;
 use warnings;
-use base 'FusionInventory::Agent::Target';
+
+use parent 'FusionInventory::Agent::Target';
 
 use English qw(-no_match_vars);
 use URI;
@@ -12,7 +13,7 @@ my $count = 0;
 sub new {
     my ($class, %params) = @_;
 
-    die "no url parameter" unless $params{url};
+    die "no url parameter for server target\n" unless $params{url};
 
     my $self = $class->SUPER::new(%params);
 

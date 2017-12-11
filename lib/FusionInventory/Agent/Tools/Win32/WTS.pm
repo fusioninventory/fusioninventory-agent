@@ -2,7 +2,7 @@ package FusionInventory::Agent::Tools::Win32::WTS;
 
 use strict;
 use warnings;
-use base 'Exporter';
+use parent 'Exporter';
 
 use UNIVERSAL::require();
 use English qw(-no_match_vars);

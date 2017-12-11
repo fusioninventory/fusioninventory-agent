@@ -14,6 +14,7 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Test::Utils;
+use FusionInventory::Agent::Tools::Virtualization;
 
 BEGIN {
     # use mock modules for non-available ones
@@ -36,7 +37,7 @@ my %tests = (
             VMTYPE    => 'HyperV',
             SUBSYSTEM => 'MS HyperV',
             NAME      => undef,
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             UUID      => undef,
             VCPU      => undef,
             MEMORY    => undef,
@@ -45,7 +46,7 @@ my %tests = (
             VMTYPE    => 'HyperV',
             SUBSYSTEM => 'MS HyperV',
             NAME      => 'vmw7cainf295537',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             UUID      => undef,
             VCPU      => undef,
             MEMORY    => undef,
@@ -54,7 +55,7 @@ my %tests = (
             VMTYPE    => 'HyperV',
             SUBSYSTEM => 'MS HyperV',
             NAME      => 'COLETA_FABIANO',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             UUID      => undef,
             VCPU      => undef,
             MEMORY    => undef,
@@ -63,7 +64,7 @@ my %tests = (
             SUBSYSTEM => 'MS HyperV',
             VMTYPE    => 'HyperV',
             NAME      => 'W2012',
-            STATUS    => 'shutdown',
+            STATUS    => STATUS_OFF,
             UUID      => undef,
             VCPU      => undef,
             MEMORY    => undef,
@@ -74,7 +75,7 @@ my %tests = (
             VMTYPE    => 'HyperV',
             SUBSYSTEM => 'MS HyperV',
             NAME      => 'SRV00093',
-            STATUS    => 'running',
+            STATUS    => STATUS_RUNNING,
             UUID      => undef,
             VCPU      => undef,
             MEMORY    => undef,
@@ -83,7 +84,7 @@ my %tests = (
             VMTYPE    => 'HyperV',
             SUBSYSTEM => 'MS HyperV',
             NAME      => 'vm-0450-glpi',
-            STATUS    => 'shutdown',
+            STATUS    => STATUS_OFF,
             UUID      => undef,
             VCPU      => 2,
             MEMORY    => 2048,

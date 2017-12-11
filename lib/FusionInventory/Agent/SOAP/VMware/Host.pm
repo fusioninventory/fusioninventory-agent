@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Virtualization;
 
 sub new {
     my ($class, %params) = @_;
@@ -306,10 +307,10 @@ sub getVirtualMachines {
     foreach my $vm (@{$self->{vms}}) {
         my $machine = $vm->[0];
         my $status =
-            $machine->{summary}{runtime}{powerState} eq 'poweredOn'  ? 'running' :
-            $machine->{summary}{runtime}{powerState} eq 'poweredOff' ? 'off'     :
-            $machine->{summary}{runtime}{powerState} eq 'suspended'  ? 'pause'   :
-                                                                    undef     ;
+            $machine->{summary}{runtime}{powerState} eq 'poweredOn'  ? STATUS_RUNNING :
+            $machine->{summary}{runtime}{powerState} eq 'poweredOff' ? STATUS_OFF     :
+            $machine->{summary}{runtime}{powerState} eq 'suspended'  ? STATUS_PAUSED  :
+                                                                       undef ;
         print "Unknown status (".$machine->{summary}{runtime}{powerState}.")\n" if !$status;
 
         my @mac;

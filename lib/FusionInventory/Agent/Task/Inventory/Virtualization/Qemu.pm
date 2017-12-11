@@ -6,6 +6,7 @@ use warnings;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
+use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
     # Avoid duplicated entry with libvirt
@@ -75,7 +76,7 @@ sub doInventory {
                 UUID      => $values->{uuid},
                 VCPU      => 1,
                 MEMORY    => $values->{mem},
-                STATUS    => "running",
+                STATUS    => STATUS_RUNNING,
                 SUBSYSTEM => $values->{vmtype},
                 VMTYPE    => $values->{vmtype},
                 SERIAL    => $values->{serial},

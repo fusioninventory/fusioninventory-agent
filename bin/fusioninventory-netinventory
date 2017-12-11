@@ -114,16 +114,10 @@ if ($options->{community}) {
     $credentials->{COMMUNITY} = 'public';
 }
 
-my $verbosity =
-    $options->{debug} == 0 ? LOG_INFO   :
-    $options->{debug} == 1 ? LOG_DEBUG  :
-    $options->{debug} == 2 ? LOG_DEBUG2 :
-                             LOG_DEBUG2 ;
-
 my $inventory = FusionInventory::Agent::Task::NetInventory->new(
     %setup,
     target => FusionInventory::Agent::Task::NetInventory::Target->new(),
-    logger => FusionInventory::Agent::Logger->new(verbosity => $verbosity)
+    logger => FusionInventory::Agent::Logger->new(config => $options)
 );
 
 $inventory->{jobs} = [
@@ -207,7 +201,7 @@ fusioninventory-netinventory [options] [--host <host>|--file <file>]
 
 =head1 DESCRIPTION
 
-F<fusioninventory-netinventory> allows to run a network inventory task without
+F<fusioninventory-netinventory> can be used to run a network inventory task without
 a GLPI server.
 
 =head1 OPTIONS

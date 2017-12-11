@@ -8,7 +8,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use POSIX ":sys_wait_h"; # WNOHANG
 
-use base 'FusionInventory::Agent';
+use parent 'FusionInventory::Agent';
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Version;
@@ -44,7 +44,7 @@ sub reinit {
 
     $self->{lastConfigLoad} = time;
 
-    $self->{config}->reloadFromInputAndBackend($self->{confdir});
+    $self->{config}->reloadFromInputAndBackend();
 
     # Reload init from parent class
     $self->SUPER::init();
@@ -179,7 +179,7 @@ sub createDaemon {
     $logger->info("$PROVIDER Agent starting");
 
     my $pidfile = $config->{pidfile} ||
-        $self->{vardir} . '/'.lc($PROVIDER).'.pid';
+        $self->{vardir} . '/'.lc($PROVIDER).'-agent.pid';
 
     if ($self->isAlreadyRunning($pidfile)) {
         $logger->error("$PROVIDER Agent is already running, exiting...") if $logger;

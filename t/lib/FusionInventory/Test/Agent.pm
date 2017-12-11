@@ -2,7 +2,7 @@ package FusionInventory::Test::Agent;
 
 use strict;
 use warnings;
-use base qw(FusionInventory::Agent);
+use parent qw(FusionInventory::Agent);
 
 sub new {
     my ($class) = @_;
