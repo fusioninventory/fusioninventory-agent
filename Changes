@@ -37,6 +37,7 @@ netdiscovery/netinventory:
 * Added support for Digi devices with enhanced MODEMS, SIMCARDS & FIRMWARES support
 * Updated sysobject.ids with a lot of new devices support
 * Keep first MAC address found while discovering
+* Try first to select MAC address from SNMP session during SNMP device scan
 
 deploy:
 * Bump Deploy task version to 2.5
