@@ -16,6 +16,7 @@ core:
 * Fix command run to also time out while an alarm has been set
 * Fix WMI calls to also time out under win32
 * Few code refactoring
+* remove devtom30 from maintainers
 
 inventory:
 * Bump Inventory task version to 1.4
