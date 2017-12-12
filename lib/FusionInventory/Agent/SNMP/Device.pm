@@ -289,6 +289,14 @@ sub setMacAddress {
     # interfaces list with defined ip to use as filter to select shorter mac address list
     my $ips = $self->walk('.1.3.6.1.2.1.4.20.1.2');
 
+    # If peer adress is known, get mac from it
+    my $peer = $self->{snmp}->peer_address();
+    if ($peer && $ips->{$peer} && $addresses->{$ips->{$peer}}) {
+        $address = getCanonicalMacAddress($addresses->{$ips->{$peer}});
+        return $self->{MAC} = $address
+            if $address && $address =~ /^$mac_address_pattern$/;
+    }
+
     my @all_mac_addresses = ();
 
     # Try first to obtain shorter mac address list using ip interface list filter
