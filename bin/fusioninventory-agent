@@ -47,7 +47,7 @@ GetOptions(
     'no-task=s',
     'no-p2p',
     'password|p=s',
-    'pidfile=s',
+    'pidfile:s',
     'proxy|P=s',
     'httpd-ip=s',
     'httpd-port=s',
@@ -637,11 +637,12 @@ Don't fork in background.
 
 This is only useful when running as a daemon.
 
-=item B<--pidfile>=I<FILE>
+=item B<--pidfile>[=I<FILE>]
 
-Store pid in I<FILE>.
+Store pid in I<FILE> or in default PID file.
 
-This is only useful when running as a daemon.
+This is only useful when running as a daemon and still not managed with a system
+service manager like systemd.
 
 =item B<--tag>=I<TAG>
 

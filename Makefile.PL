@@ -45,7 +45,6 @@ recommends 'LWP::Protocol::https' => '0';
 
 if ($OSNAME ne 'MSWin32') {
     recommends 'Proc::Daemon'         => '0';
-    recommends 'Proc::PID::File'      => '0';
 } else {
     recommends 'Win32::Daemon'        => '0';
     recommends 'Win32::Unicode::File' => '0';

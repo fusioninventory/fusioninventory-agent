@@ -40,6 +40,9 @@ sub init {
 sub reinit {
     my ($self) = @_;
 
+    # Update PID file modification time so we can expire it
+    utime undef,undef,$self->{pidfile} if $self->{pidfile};
+
     $self->{logger}->debug('agent reinit');
 
     $self->{lastConfigLoad} = time;
@@ -60,11 +63,26 @@ sub reinit {
 sub run {
     my ($self) = @_;
 
+    my $config = $self->{config};
+    my $logger = $self->{logger};
+
     $self->setStatus('waiting');
 
     my @targets = $self->getTargets();
 
-    $self->{logger}->debug("Running in background mode");
+    if ($logger) {
+        if ($config->{'no-fork'}) {
+            $logger->debug2("Waiting in mainloop");
+            foreach my $target (@targets) {
+                my $date = $target->getFormatedNextRunDate();
+                my $type = $target->_getType();
+                my $name = $target->_getName();
+                $logger->debug2("$type target next run: $date - $name");
+            }
+        } else {
+            $logger->debug("Running in background mode");
+        }
+    }
 
     # background mode: work on a targets list copy, but loop while
     # the list really exists so we can stop quickly when asked for
@@ -86,12 +104,18 @@ sub run {
             eval {
                 $net_error = $self->runTarget($target);
             };
-            $self->{logger}->error($EVAL_ERROR) if $EVAL_ERROR;
+            $logger->error($EVAL_ERROR) if ($EVAL_ERROR && $logger);
             if ($net_error) {
                 # Prefer to retry early on net error
                 $target->setNextRunDateFromNow(60);
             } else {
                 $target->resetNextRunDate();
+            }
+
+            if ($logger && $config->{'no-fork'}) {
+                my $date = $target->getFormatedNextRunDate();
+                my $type = $target->_getType();
+                $logger->debug2("$type target scheduled: $date");
             }
 
             # Leave immediately if we passed in terminate method
@@ -178,50 +202,87 @@ sub createDaemon {
 
     $logger->info("$PROVIDER Agent starting");
 
-    my $pidfile = $config->{pidfile} ||
-        $self->{vardir} . '/'.lc($PROVIDER).'-agent.pid';
+    my $pidfile = $config->{pidfile};
 
-    if ($self->isAlreadyRunning($pidfile)) {
-        $logger->error("$PROVIDER Agent is already running, exiting...") if $logger;
-        exit 1;
+    if (defined($pidfile) && $pidfile eq "") {
+        # Set to default pidfile only when needed
+        $pidfile = $self->{vardir} . '/'. lc($PROVIDER). '-agent.pid';
+        $logger->debug("Using $pidfile as default PID file") if $logger;
+    } elsif (!$pidfile) {
+        $logger->debug("Skipping running daemon control based on PID file checking") if $logger;
     }
 
-    if (!$config->{'no-fork'}) {
+    # Expire PID file if daemon is not running while conf-reload-interval is
+    # in use and PID file has not been update since, including a minute safety gap
+    if ($pidfile && -e $pidfile && $self->{config}->{'conf-reload-interval'}) {
+        my $mtime = (stat($pidfile))[9];
+        if ($mtime && $mtime < time - $self->{config}->{'conf-reload-interval'} - 60) {
+            $logger->info("$pidfile PID file expired") if $logger;
+            unlink $pidfile;
+        }
+    }
 
-        Proc::Daemon->require();
-        if ($EVAL_ERROR) {
-            $logger->error("Failed to load Proc::Daemon: $EVAL_ERROR") if $logger;
-            exit 1;
+    my $daemon;
+
+    Proc::Daemon->require();
+    if ($EVAL_ERROR) {
+        $logger->debug("Failed to load recommended Proc::Daemon library: $EVAL_ERROR") if $logger;
+
+        # Eventually check running process from pid found in pid file
+        if ($pidfile) {
+            my $pid = getFirstLine(file => $pidfile);
+
+            if ($pid && int($pid)) {
+                $logger->debug2("Last running daemon started with PID $pid") if $logger;
+                if ($pid != $$ && kill(0, $pid)) {
+                    $logger->error("$PROVIDER Agent is already running, exiting...") if $logger;
+                    exit 1;
+                }
+                $logger->debug("$PROVIDER Agent with PID $pid is dead") if $logger;
+            }
         }
 
+    } else {
         # If we use relative path, we must stay in the current directory
         my $workdir = substr($self->{libdir}, 0, 1) eq '/' ? '/' : getcwd();
 
-        Proc::Daemon::Init(
-            {
-                work_dir => $workdir,
-                pid_file => $pidfile
+        # Be sure to keep libdir in includes or we can fail to load need libraries
+        unshift @INC, $self->{libdir}
+            if ($workdir eq '/' && ! first { $_ eq $self->{libdir} } @INC);
+
+        $daemon = Proc::Daemon->new(
+            work_dir => $workdir,
+            pid_file => $pidfile
+        );
+
+        # Just is case Proc::PID::File is not installed, we should use Proc::Daemon
+        # API to check daemon status
+        if ($daemon->Status()) {
+            $logger->error("$PROVIDER Agent is already running, exiting...") if $logger;
+            exit 1;
+        }
+    }
+
+    if ($config->{'no-fork'} || !$daemon) {
+        # Still keep current PID in PID file to permit Proc::Daemon to check status
+        if ($pidfile) {
+            if (open(PID, ">", $pidfile)) {
+                print PID "$$\n";
+                close(PID);
+            } elsif ($logger) {
+                $logger->debug("Can't write PID file: $!");
+                undef $pidfile;
             }
-        );
+        }
+        $logger->debug("$PROVIDER Agent started in foreground") if $logger;
 
-        $logger->debug("$PROVIDER Agent daemonized") if $logger;
-    }
-}
-
-sub isAlreadyRunning {
-    my ($self, $pidfile) = @_;
-
-    Proc::PID::File->require();
-    if ($EVAL_ERROR) {
-        $self->{logger}->debug(
-            'Proc::PID::File unavailable, unable to check for running agent'
-        );
-        return 0;
+    } elsif (my $pid = $daemon->Init()) {
+        $logger->debug("$PROVIDER Agent daemonized with PID $pid") if $logger;
+        exit 0;
     }
 
-    my $pid = Proc::PID::File->new();
-    $pid->{path} = $pidfile;
-    return $pid->alive();
+    # From here we can enable our pidfile deletion on terminate
+    $self->{pidfile} = $pidfile;
 }
 
 sub sleep {
@@ -307,6 +368,9 @@ sub terminate {
         kill 'TERM', $self->{current_runtask};
         delete $self->{current_runtask};
     }
+
+    # Remove pidfile
+    unlink $self->{pidfile} if $self->{pidfile};
 }
 
 1;
