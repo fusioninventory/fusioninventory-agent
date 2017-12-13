@@ -255,8 +255,8 @@ sub createDaemon {
             pid_file => $pidfile
         );
 
-        # Just is case Proc::PID::File is not installed, we should use Proc::Daemon
-        # API to check daemon status
+        # Use Proc::Daemon API to check daemon status but it always return false
+        # if pidfile is not used
         if ($daemon->Status()) {
             $logger->error("$PROVIDER Agent is already running, exiting...") if $logger;
             exit 1;
