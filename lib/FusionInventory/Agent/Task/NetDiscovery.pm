@@ -323,9 +323,9 @@ sub _scanAddress {
     $logger->debug("[thread $id] scanning $params{ip}:");
 
     my %device = (
-        $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : (),
+        $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP(%params)    : (),
         $INC{'Net/NBName.pm'}    ? $self->_scanAddressByNetbios(%params) : (),
-        $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP(%params)    : ()
+        $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : ()
     );
 
     # don't report anything without a minimal amount of information

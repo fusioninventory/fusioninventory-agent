@@ -23,6 +23,7 @@ GetOptions(
     'directory|d=s',
     'recursive|R',
     'file|f=s',
+    'no-ssl-check',
     'url|u=s',
     'useragent=s',
     'remove|r',
@@ -123,6 +124,20 @@ sub sendContent {
         requests_redirectable => ['POST', 'GET', 'HEAD']
     );
     my $request = HTTP::Request->new( POST => $options->{url} );
+
+    my $info = "";
+    if ($options->{"no-ssl-check"}) {
+        my $url = $request->uri();
+        if ($url->scheme() eq 'https') {
+            if ($ua->can('ssl_opts')) {
+                $ua->ssl_opts(verify_hostname => 0, SSL_verify_mode => 0);
+                $info = " (ssl check disabled)";
+            } else {
+                $info = " (unsupported ssl options)";
+            }
+        }
+    }
+
     $request->header(
         'Pragma' => 'no-cache',
         'Content-type', $options->{"no-compression"} ? 'Application/xml' : 'Application/x-compress'
@@ -132,7 +147,7 @@ sub sendContent {
 
     if ($options->{verbose}) {
         print $res->is_success() ?
-            "OK\n" : "ERROR: " . $res->status_line() . "\n";
+            "OK" : "ERROR: " . $res->status_line(), "$info\n";
     }
 
     return $res->is_success();
@@ -159,10 +174,11 @@ fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdi
     --stdin        read data from STDIN
     --useragent    set used HTTP User-Agent for POST
     -x --xml-ua    use Client version found in XML as User-Agent for POST
+    --no-ssl-check do not check server SSL certificate
     -C --no-compression don't compress sent XML inventories
 
   Examples:
-    fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/ocsinventory
+    fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/plugins/fusioninventory/
     fusioninventory-injector -v -R -d /srv/ftp/fusion --url https://login:pw@glpi-server/plugins/fusioninventory/
 
 =head1 DESCRIPTION

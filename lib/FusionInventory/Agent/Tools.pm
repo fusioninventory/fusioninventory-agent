@@ -13,6 +13,8 @@ use File::Which;
 use Memoize;
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::Tools::Expiration;
+
 # Keep a copy of @ARGV, only for Provider inventory
 BEGIN {
     our $ARGV = [ @ARGV ];
@@ -50,7 +52,6 @@ our @EXPORT = qw(
     file2module
     module2file
     runFunction
-    getExpirationTime
     delay
     slurp
 );
@@ -504,7 +505,6 @@ sub module2file {
     return $module;
 }
 
-my $_expirationTime;
 sub runFunction {
     my (%params) = @_;
 
@@ -526,8 +526,8 @@ sub runFunction {
 
         # set a timeout if needed
         if ($params{timeout}) {
-            $_expirationTime = time + $params{timeout};
             alarm $params{timeout};
+            setExpirationTime(timeout => $params{timeout});
         }
 
         no strict 'refs'; ## no critic (ProhibitNoStrict)
@@ -536,8 +536,10 @@ sub runFunction {
             ref $params{params} eq 'ARRAY' ? @{$params{params}} :
                                                $params{params}
         );
+
+        # Reset timeout
         alarm 0;
-        undef $_expirationTime;
+        setExpirationTime();
     };
 
     if ($EVAL_ERROR) {
@@ -548,10 +550,6 @@ sub runFunction {
     }
 
     return $result;
-}
-
-sub getExpirationTime {
-    return $_expirationTime;
 }
 
 sub delay {
@@ -816,12 +814,6 @@ Run a function whose name is computed at runtime and return its result.
 =item load enforce module loading first
 
 =back
-
-=head2 getExpirationTime()
-
-Returns the expiration time set from runFunction() called with timeout parameter
-defined.
-Remark: Needed to cleanly expire series of WMI calls under win32 platform.
 
 =head2 delay($second)
 

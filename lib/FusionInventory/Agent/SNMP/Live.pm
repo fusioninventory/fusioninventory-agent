@@ -172,6 +172,16 @@ sub walk {
     return $values;
 }
 
+sub peer_address {
+    my ($self) = @_;
+
+    # transport() API is not documented in Net::SNMP
+    my $transport = $self->{session}->transport()
+        or return;
+
+    return $transport->peer_address();
+}
+
 1;
 __END__
 

@@ -79,7 +79,7 @@ fusioninventory-win32-service - FusionInventory Agent service for Windows
 
 =head1 SYNOPSIS
 
-B<fusioninventory-win32-service> [--register|--delete|--help] [options]
+fusioninventory-win32-service [--register|--delete|--help] [options]
 
   Options are only needed to register or delete the service. They are handy
   while using Fusioninventory agent from sources.

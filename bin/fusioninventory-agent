@@ -159,7 +159,7 @@ fusioninventory-agent - FusionInventory agent For Linux/UNIX, Windows and MacOSX
 
 =head1 SYNOPSIS
 
-B<fusioninventory-agent> [options] [--server server|--local path]
+fusioninventory-agent [options] [--server server|--local path]
 
   Target definition options:
     -s --server=URI                send tasks result to a server
@@ -347,6 +347,7 @@ all other available tasks are executed.
 See option I<--list-tasks> for the list of available tasks.
 
 Examples :
+
 * --tasks=inventory,deploy,inventory
   First task executed is 'inventory', second task is 'deploy', third and last
   task is 'inventory'.
@@ -651,7 +652,7 @@ Add the given tag to every inventory results.
 Turn the debug mode on. You can use the parameter up to 3 times in a row
 to increase the verbosity (e.g: B<--debug --debug>).
 
-Level 3 turns on the debug mode of some external libraries like Net::SSLeay.
+Level 3 turns on the debug mode of some external libraries like L<Net::SSLeay>.
 These messages will only be be printed on STDERR.
 
 =item B<--setup>

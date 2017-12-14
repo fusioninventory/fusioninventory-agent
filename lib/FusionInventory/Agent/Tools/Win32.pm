@@ -28,6 +28,7 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Expiration;
 use FusionInventory::Agent::Version;
 
 my $localCodepage;
@@ -106,7 +107,7 @@ sub _getWMIObjects {
     my $logthat = "";
     my $logger  = $params{logger} || FusionInventory::Agent::Logger->new();
 
-    my $expiration = _getExpirationTime();
+    my $expiration = getExpirationTime();
 
     my $WMIService;
     if (_remoteWmi()) {
@@ -889,7 +890,6 @@ my $wmiRegistry;
 my $wmiParams = {};
 
 my @win32_ole_calls : shared;
-my $_expirationTime : shared;
 
 sub start_Win32_OLE_Worker {
 
@@ -901,10 +901,6 @@ sub start_Win32_OLE_Worker {
         # Start a worker thread
         $worker = threads->create( \&_win32_ole_worker );
     }
-}
-
-sub _getExpirationTime {
-    return $_expirationTime;
 }
 
 sub _win32_ole_worker {
@@ -930,6 +926,9 @@ sub _win32_ole_worker {
         if (defined($call)) {
             lock($call);
 
+            # Handle call expiration
+            setExpirationTime(%$call);
+
             # Found requested private function and call it as expected
             my $funct;
             eval {
@@ -946,6 +945,9 @@ sub _win32_ole_worker {
             # Share back the result
             $call->{'result'} = shared_clone($result);
 
+            # Reset expiration
+            setExpirationTime();
+
             # Signal main thread result is available
             cond_signal($call);
         }
@@ -958,14 +960,15 @@ sub _call_win32_ole_dependent_api {
 
     # Reset timeout as shared between threads
     my $now = time;
-    $_expirationTime = getExpirationTime() || $now + 180;
+    my $expiration = getExpirationTime() || $now + 180;
 
     # Reduce expiration time by 10% of the remaining time to leave a chance to
     # the caller to compute any result. By default, the reducing should be 2 seconds.
-    $_expirationTime -= int(($_expirationTime - $now) * 0.01) + 1;
+    $expiration -= int(($expiration - $now) * 0.01) + 1;
 
     # Be sure expiration is kept in the future by 10 seconds
-    $_expirationTime = $now + 10 unless $_expirationTime > $now;
+    $expiration = $now + 10 unless $expiration > $now;
+    $call->{expiration} = $expiration;
 
     if (defined($worker)) {
         # Share the expect call
@@ -985,10 +988,10 @@ sub _call_win32_ole_dependent_api {
             $worker_semaphore->up();
 
             # Now, wait for worker result, leaving a 1 second grace delay to
-            # leave worker a chance to itself handle the timeout
-            my $timeout = $_expirationTime + 1 ;
+            # give worker a chance to handle the timeout by itself
+            $expiration ++ ;
             while (!exists($call->{'result'})) {
-                last if (!cond_timedwait($call, $timeout, @win32_ole_calls));
+                last if (!cond_timedwait($call, $expiration, @win32_ole_calls));
             }
 
             # Be sure to always block worker on semaphore from now
@@ -996,7 +999,7 @@ sub _call_win32_ole_dependent_api {
 
             if (exists($call->{'result'})) {
                 $result = $call->{'result'};
-            } elsif (time < $timeout) {
+            } elsif (time < $expiration) {
                 # Worker is failing: get back to mono-thread and pray
                 $worker->detach() if (defined($worker) && !$worker->is_detached());
                 $worker = undef;
@@ -1012,13 +1015,27 @@ sub _call_win32_ole_dependent_api {
         Win32::OLE::Variant->require() or return;
         Win32::OLE->Option(CP => Win32::OLE::CP_UTF8());
 
+        # Handle call expiration
+        setExpirationTime(%$call);
+
         # We come here from worker or if we failed to start worker
         my $funct;
         eval {
             no strict 'refs'; ## no critic (ProhibitNoStrict)
             $funct = \&{$call->{'funct'}};
         };
-        return &{$funct}(@{$call->{'args'}});
+
+        if (exists($call->{'array'}) && $call->{'array'}) {
+            my @results = &{$funct}(@{$call->{'args'}});
+            # Reset expiration
+            setExpirationTime();
+            return @results;
+        } else {
+            my $result = &{$funct}(@{$call->{'args'}});
+            # Reset expiration
+            setExpirationTime();
+            return $result;
+        }
     }
 }
 

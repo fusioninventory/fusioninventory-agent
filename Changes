@@ -16,6 +16,7 @@ core:
 * Fix command run to also time out while an alarm has been set
 * Fix WMI calls to also time out under win32
 * Few code refactoring
+* remove devtom30 from maintainers
 
 inventory:
 * Bump Inventory task version to 1.4
@@ -26,20 +27,26 @@ inventory:
 * Fix Solaris drives df output parsing adding better zfs handling
 * Make backend-collect-timeout working even while waiting on command output
 * Fix #161: Support retrieving License software via WMI, including Office 2016
+* Support ASM filesystems on Oracle Grid
 
 netdiscovery/netinventory:
-* Bump NetDiscovery & NetInventory task version to 2.4
+* Bump NetDiscovery & NetInventory task version to 2.5
 * Added section support for MODEMS, SIMCARDS & FIRMWARES
 * Added new detection algorithm based on exposed device supported MIB (sysORID list)
   and/or sysObjectID
 * Added support for HP iLO cards
 * Added support for Digi devices with enhanced MODEMS, SIMCARDS & FIRMWARES support
 * Updated sysobject.ids with a lot of new devices support
+* Keep first MAC address found while discovering
+* Try first to select MAC address from SNMP session during SNMP device scan
 
 deploy:
 * Bump Deploy task version to 2.5
 * ddurieux fixed a regression introduced in 2.3.18 preventing to re-use known
   good peer to download file parts.
+
+injector:
+* Support --no-ssl-check option to avoid checking server SSL certificate
 
 wmi-inventory:
 * Added new task and script to permit agent-less inventory on win32 platform based
