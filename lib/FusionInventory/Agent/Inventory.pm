@@ -175,7 +175,7 @@ sub getDeviceId {
     my ($year, $month , $day, $hour, $min, $sec) =
         (localtime (time))[5, 4, 3, 2, 1, 0];
 
-    $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+    return $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
         $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
 }
 
