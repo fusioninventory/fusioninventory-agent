@@ -77,6 +77,7 @@ if ($options->{file}) {
     push @devices, {
         ID           => $id++,
         FILE         => $_,
+        IP           => shift @{$options->{host}},
         AUTHSNMP_ID  => 1,
         MODELSNMP_ID => 1
     } foreach @{$options->{file}};
@@ -278,11 +279,11 @@ Turn the debug mode on. Multiple usage allowed, for additional verbosity.
 
 Run an inventory against a network device, using SNMP version 2c authentication:
 
-    $> fusioninventory-netinventory --host 192.168.0.1
+    $> fusioninventory-netinventory --host 192.168.0.1 \
     --credentials version:2c,community:public
 
 Run an inventory against a network device, using SNMP version 3 authentication
 and forcing its type:
 
-    $> fusioninventory-netinventory --host my.device --type NETWORKING
+    $> fusioninventory-netinventory --host my.device --type NETWORKING \
     --credentials version:3,username:admin,authprotocol:sha,authpassword:s3cr3t

@@ -36,7 +36,9 @@ my %prefixes = (
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {};
+    my $self = {
+        _ip => $params{ip}
+    };
     bless $self, $class;
 
     SWITCH: {
@@ -243,6 +245,12 @@ sub _getSanitizedValue {
     }
 
     return $value;
+}
+
+sub peer_address {
+    my ($self) = @_;
+
+    return $self->{_ip};
 }
 
 1;

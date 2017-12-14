@@ -227,11 +227,11 @@ Turn the debug mode on. Multiple usage allowed, for additional verbosity.
 
 Run a discovery against a network range, using SNMP version 1:
 
-    $> fusioninventory-netdiscovery --first 192.168.0.1 --last 192.168.0.254
+    $> fusioninventory-netdiscovery --first 192.168.0.1 --last 192.168.0.254 \
     --community public
 
 Run a discovery against a network range, using multiple SNMP credentials:
 
-    $> fusioninventory-netdiscovery --first 192.168.0.1 --last 192.168.0.254
-    --credentials version:2c,community:public
+    $> fusioninventory-netdiscovery --first 192.168.0.1 --last 192.168.0.254 \
+    --credentials version:2c,community:public \
     --credentials version:3,username:admin,authprotocol:sha,authpassword:s3cr3t

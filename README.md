@@ -126,7 +126,6 @@ Please report any issues on project forge bugtracker.
 
 * Guillaume Rousse <guillomovitch@gmail.com>
 * Guillaume Bougard <gbougard@teclib.com>
-* Thomas Lornet <tlornet@teclib.com>
 
 Copyright 2006-2010 [OCS Inventory contributors](https://www.ocsinventory-ng.org/)
 

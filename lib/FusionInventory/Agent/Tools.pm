@@ -13,6 +13,8 @@ use File::Which;
 use Memoize;
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::Tools::Expiration;
+
 # Keep a copy of @ARGV, only for Provider inventory
 BEGIN {
     our $ARGV = [ @ARGV ];
@@ -521,8 +523,12 @@ sub runFunction {
     my $result;
     eval {
         local $SIG{ALRM} = sub { die "alarm\n" };
+
         # set a timeout if needed
-        alarm $params{timeout} if $params{timeout};
+        if ($params{timeout}) {
+            alarm $params{timeout};
+            setExpirationTime(timeout => $params{timeout});
+        }
 
         no strict 'refs'; ## no critic (ProhibitNoStrict)
         $result = &{$params{module} . '::' . $params{function}}(
@@ -530,7 +536,10 @@ sub runFunction {
             ref $params{params} eq 'ARRAY' ? @{$params{params}} :
                                                $params{params}
         );
+
+        # Reset timeout
         alarm 0;
+        setExpirationTime();
     };
 
     if ($EVAL_ERROR) {

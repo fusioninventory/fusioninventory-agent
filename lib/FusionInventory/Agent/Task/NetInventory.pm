@@ -285,6 +285,7 @@ sub _queryDevice {
         FusionInventory::Agent::SNMP::Mock->require();
         eval {
             $snmp = FusionInventory::Agent::SNMP::Mock->new(
+                ip   => $device->{IP},
                 file => $device->{FILE}
             );
         };
