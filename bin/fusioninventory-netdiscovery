@@ -104,7 +104,6 @@ $discovery->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new(
         control => $options->{control}
     );
-$discovery->{deviceid} = 'foo';
 
 $discovery->run();
 

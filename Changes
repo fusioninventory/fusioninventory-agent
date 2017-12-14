@@ -28,6 +28,8 @@ inventory:
 * Make backend-collect-timeout working even while waiting on command output
 * Fix #161: Support retrieving License software via WMI, including Office 2016
 * Support ASM filesystems on Oracle Grid
+* Introduce getDeviceId() API on Inventory class so it returns task deviceid if set
+  or set a new deviceid (aka agentid or machineid) in case of remote inventory
 
 netdiscovery/netinventory:
 * Bump NetDiscovery & NetInventory task version to 2.5
@@ -44,6 +46,10 @@ deploy:
 * Bump Deploy task version to 2.5
 * ddurieux fixed a regression introduced in 2.3.18 preventing to re-use known
   good peer to download file parts.
+
+esx:
+* Bump ESX task version to 2.3
+* Removed no more needed createFakeDeviceid() API
 
 injector:
 * Support --no-ssl-check option to avoid checking server SSL certificate

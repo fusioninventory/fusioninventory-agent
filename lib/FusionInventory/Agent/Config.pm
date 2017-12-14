@@ -357,8 +357,7 @@ sub getTargets {
 
     # create target list
     if ($self->{local}) {
-        FusionInventory::Agent::Target::Local->require()
-            or die "Can't load local target library\n";
+        FusionInventory::Agent::Target::Local->require();
         foreach my $path (@{$self->{local}}) {
             push @targets,
                 FusionInventory::Agent::Target::Local->new(
@@ -372,9 +371,8 @@ sub getTargets {
     }
 
     if ($self->{server}) {
+        FusionInventory::Agent::Target::Server->require();
         foreach my $url (@{$self->{server}}) {
-            FusionInventory::Agent::Target::Server->require()
-                or die "Can't load server target library\n";
             push @targets,
                 FusionInventory::Agent::Target::Server->new(
                     logger     => $params{logger},

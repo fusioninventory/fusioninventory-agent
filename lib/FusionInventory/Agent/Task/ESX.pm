@@ -34,41 +34,11 @@ sub connect {
     my $vpbs =
       FusionInventory::Agent::SOAP::VMware->new(url => $url, vcenter => 1 );
     if ( !$vpbs->connect( $params{user}, $params{password} ) ) {
-        $self->{lastError} = $vpbs->{lastError};
+        $self->lastError($vpbs->{lastError});
         return;
     }
 
     $self->{vpbs} = $vpbs;
-}
-
-sub createFakeDeviceid {
-    my ( $self, $host ) = @_;
-
-    my $hostname = $host->getHostname();
-    my $bootTime = $host->getBootTime();
-    my ( $year, $month, $day, $hour, $min, $sec );
-    if ( $bootTime =~
-        /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})/ )
-    {
-        $year  = $1;
-        $month = $2;
-        $day   = $3;
-        $hour  = $4;
-        $min   = $5;
-        $sec   = $6;
-    }
-    else {
-        my $ty;
-        my $tm;
-        ( $ty, $tm, $day, $hour, $min, $sec ) =
-          ( localtime(time) )[ 5, 4, 3, 2, 1, 0 ];
-        $year  = $ty + 1900;
-        $month = $tm + 1;
-    }
-    my $deviceid = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-      $hostname, $year, $month, $day, $hour, $min, $sec;
-
-    return $deviceid;
 }
 
 sub createInventory {
@@ -78,17 +48,14 @@ sub createInventory {
 
     my $vpbs = $self->{vpbs};
 
-    my $host;
-    $host = $vpbs->getHostFullInfo($id);
+    my $host = $vpbs->getHostFullInfo($id);
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         logger => $self->{logger},
         tag    => $tag
     );
-    $inventory->{deviceid} = $self->createFakeDeviceid($host);
 
-    $inventory->{isInitialised} = 1;
-    $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME} = ['remote'];
+    $inventory->setHardware({ ARCHNAME => 'remote' });
 
     $inventory->setBios( $host->getBiosInfo() );
 
@@ -142,25 +109,6 @@ sub createInventory {
     return $inventory;
 
 }
-
-#sub getJobs {
-#    my ($self) = @_;
-#
-#    my $logger = $self->{logger};
-#    my $network = $self->{network};
-#
-#    my $jsonText = $network->get ({
-#        source => $self->{backendURL}.'/?a=getJobs&d=TODO',
-#        timeout => 60,
-#        });
-#    if (!defined($jsonText)) {
-#        $logger->debug("No answer from server for deployment job.");
-#        return;
-#    }
-#
-#
-#    return from_json( $jsonText, { utf8  => 1 } );
-#}
 
 sub getHostIds {
     my ($self) = @_;
@@ -227,10 +175,6 @@ sub run {
     $self->{logger}->info(
         "Got " . int( @{ $jobs->{jobs} } ) . " VMware host(s) to inventory." );
 
-    #    my $esx = FusionInventory::Agent::Task::ESX->new({
-    #            config => $config
-    #            });
-
     my $ocsClient = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
         user         => $params{user},
@@ -256,7 +200,7 @@ sub run {
                     machineid => $self->{deviceid},
                     part      => 'login',
                     uuid      => $job->{uuid},
-                    msg       => $self->{lastError},
+                    msg       => $self->lastError(),
                     code      => 'ko'
                 }
             );
@@ -295,15 +239,13 @@ sub run {
     return $self;
 }
 
-# Only used by the command line tool
-#sub new {
-#    my ( undef, $params ) = @_;
-#
-#    my $logger = FusionInventory::Agent::Logger->new();
-#
-#    my $self = { config => $params->{config}, logger => $logger };
-#    bless $self;
-#}
+sub lastError {
+    my ($self, $error) = @_;
+
+    $self->{lastError} = $error if $error;
+
+    return $self->{lastError} || "n/a";
+}
 
 1;
 
@@ -323,11 +265,6 @@ and _WITHOUT_ their Perl library.
 =head2 connect ( $self, %params )
 
 Connect the task to the VMware ESX, ESXi or vCenter.
-
-=head2 createFakeDeviceid ( $self, $host )
-
-Generate a fake deviceid based on the machine name and the
-boot date.
 
 =head2 createInventory ( $self, $id, $tag )
 
