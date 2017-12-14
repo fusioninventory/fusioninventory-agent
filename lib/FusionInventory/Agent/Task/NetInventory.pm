@@ -225,7 +225,7 @@ sub _sendMessage {
 
 
    my $message = FusionInventory::Agent::XML::Query->new(
-       deviceid => $self->{deviceid},
+       deviceid => $self->{deviceid} || 'foo',
        query    => 'SNMPQUERY',
        content  => $content
    );

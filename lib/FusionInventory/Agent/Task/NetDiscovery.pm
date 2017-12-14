@@ -304,7 +304,7 @@ sub _sendMessage {
     my ($self, $content) = @_;
 
     my $message = FusionInventory::Agent::XML::Query->new(
-        deviceid => $self->{deviceid},
+        deviceid => $self->{deviceid} || 'foo',
         query    => 'NETDISCOVERY',
         content  => $content
     );
