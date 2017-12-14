@@ -54,10 +54,8 @@ if (!$esx->connect(
     user     => $options->{user},
     password => $options->{password},
 )) {
-    exit 1;
+    die "Connection failure: ".$esx->lastError()."\n";
 }
-
-my $logger = FusionInventory::Agent::Logger->new();
 
 my $hasError = 0;
 my $hostIds = $esx->getHostIds();

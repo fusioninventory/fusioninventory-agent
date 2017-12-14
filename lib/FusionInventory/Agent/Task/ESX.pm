@@ -34,7 +34,7 @@ sub connect {
     my $vpbs =
       FusionInventory::Agent::SOAP::VMware->new(url => $url, vcenter => 1 );
     if ( !$vpbs->connect( $params{user}, $params{password} ) ) {
-        $self->{lastError} = $vpbs->{lastError};
+        $self->lastError($vpbs->{lastError});
         return;
     }
 
@@ -48,16 +48,14 @@ sub createInventory {
 
     my $vpbs = $self->{vpbs};
 
-    my $host;
-    $host = $vpbs->getHostFullInfo($id);
+    my $host = $vpbs->getHostFullInfo($id);
 
     my $inventory = FusionInventory::Agent::Inventory->new(
         logger => $self->{logger},
         tag    => $tag
     );
 
-    $inventory->{isInitialised} = 1;
-    $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME} = ['remote'];
+    $inventory->setHardware({ ARCHNAME => 'remote' });
 
     $inventory->setBios( $host->getBiosInfo() );
 
@@ -111,25 +109,6 @@ sub createInventory {
     return $inventory;
 
 }
-
-#sub getJobs {
-#    my ($self) = @_;
-#
-#    my $logger = $self->{logger};
-#    my $network = $self->{network};
-#
-#    my $jsonText = $network->get ({
-#        source => $self->{backendURL}.'/?a=getJobs&d=TODO',
-#        timeout => 60,
-#        });
-#    if (!defined($jsonText)) {
-#        $logger->debug("No answer from server for deployment job.");
-#        return;
-#    }
-#
-#
-#    return from_json( $jsonText, { utf8  => 1 } );
-#}
 
 sub getHostIds {
     my ($self) = @_;
@@ -196,10 +175,6 @@ sub run {
     $self->{logger}->info(
         "Got " . int( @{ $jobs->{jobs} } ) . " VMware host(s) to inventory." );
 
-    #    my $esx = FusionInventory::Agent::Task::ESX->new({
-    #            config => $config
-    #            });
-
     my $ocsClient = FusionInventory::Agent::HTTP::Client::OCS->new(
         logger       => $self->{logger},
         user         => $params{user},
@@ -225,7 +200,7 @@ sub run {
                     machineid => $self->{deviceid},
                     part      => 'login',
                     uuid      => $job->{uuid},
-                    msg       => $self->{lastError},
+                    msg       => $self->lastError(),
                     code      => 'ko'
                 }
             );
@@ -264,15 +239,13 @@ sub run {
     return $self;
 }
 
-# Only used by the command line tool
-#sub new {
-#    my ( undef, $params ) = @_;
-#
-#    my $logger = FusionInventory::Agent::Logger->new();
-#
-#    my $self = { config => $params->{config}, logger => $logger };
-#    bless $self;
-#}
+sub lastError {
+    my ($self, $error) = @_;
+
+    $self->{lastError} = $error if $error;
+
+    return $self->{lastError} || "n/a";
+}
 
 1;
 
