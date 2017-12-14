@@ -41,36 +41,6 @@ sub connect {
     $self->{vpbs} = $vpbs;
 }
 
-sub createFakeDeviceid {
-    my ( $self, $host ) = @_;
-
-    my $hostname = $host->getHostname();
-    my $bootTime = $host->getBootTime();
-    my ( $year, $month, $day, $hour, $min, $sec );
-    if ( $bootTime =~
-        /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})/ )
-    {
-        $year  = $1;
-        $month = $2;
-        $day   = $3;
-        $hour  = $4;
-        $min   = $5;
-        $sec   = $6;
-    }
-    else {
-        my $ty;
-        my $tm;
-        ( $ty, $tm, $day, $hour, $min, $sec ) =
-          ( localtime(time) )[ 5, 4, 3, 2, 1, 0 ];
-        $year  = $ty + 1900;
-        $month = $tm + 1;
-    }
-    my $deviceid = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
-      $hostname, $year, $month, $day, $hour, $min, $sec;
-
-    return $deviceid;
-}
-
 sub createInventory {
     my ( $self, $id, $tag ) = @_;
 
@@ -85,7 +55,6 @@ sub createInventory {
         logger => $self->{logger},
         tag    => $tag
     );
-    $inventory->{deviceid} = $self->createFakeDeviceid($host);
 
     $inventory->{isInitialised} = 1;
     $inventory->{h}{CONTENT}{HARDWARE}{ARCHNAME} = ['remote'];
@@ -323,11 +292,6 @@ and _WITHOUT_ their Perl library.
 =head2 connect ( $self, %params )
 
 Connect the task to the VMware ESX, ESXi or vCenter.
-
-=head2 createFakeDeviceid ( $self, $host )
-
-Generate a fake deviceid based on the machine name and the
-boot date.
 
 =head2 createInventory ( $self, $id, $tag )
 

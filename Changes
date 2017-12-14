@@ -24,6 +24,8 @@ inventory:
 * Linux distro: Add support for reading os-release file and removing LSB support
 * Fix Solaris drives df output parsing adding better zfs handling
 * Make backend-collect-timeout working even while waiting on command output
+* Introduce getDeviceId() API on Inventory class so it returns task deviceid if set
+  or set a new deviceid (aka agentid or machineid) in case of remote inventory
 
 netdiscovery/netinventory:
 * Bump NetDiscovery & NetInventory task version to 2.4
@@ -38,6 +40,10 @@ deploy:
 * Bump Deploy task version to 2.5
 * ddurieux fixed a regression introduced in 2.3.18 preventing to re-use known
   good peer to download file parts.
+
+esx:
+* Bump ESX task version to 2.3
+* Removed no more needed createFakeDeviceid() API
 
 2.3.21 Mon, 31 Jul 2017
 core:
