@@ -68,8 +68,6 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
 
-    $inventory->resetDeviceId() if (!$inventory->getDeviceId());
-
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();
         my $format = $self->{target}->{format};
