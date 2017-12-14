@@ -104,17 +104,17 @@ my $config = FusionInventory::Agent::Config->new(
 my $logger = FusionInventory::Agent::Logger->new(config => $config);
 
 # Get targets
-my @targets = $config->getTargets(
+my $targets = $config->getTargets(
     logger      => $logger,
     vardir      => $setup{vardir}
 );
 
 die "No target defined, aborting\n"
-    unless @targets;
+    unless $targets;
 
 FusionInventory::Agent::Task::Wmi->require();
 
-foreach my $target (@targets) {
+foreach my $target (@{$targets}) {
     my $wmitask = FusionInventory::Agent::Task::Wmi->new(
         target  => $target,
         logger  => $logger,
