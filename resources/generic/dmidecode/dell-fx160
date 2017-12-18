@@ -1,0 +1,461 @@
+# dmidecode 3.1
+Scanning memory for entry point.
+SMBIOS 2.5 present.
+36 structures occupying 1900 bytes.
+Table at 0x000FD5B0.
+
+Handle 0x0000, DMI type 218, 41 bytes
+OEM-specific Type
+    Header and Data:
+        DA 29 00 00 48 08 30 4B 0E 30 00 5C 00 00 00 01
+        00 5D 00 00 00 00 00 10 F5 01 00 00 00 11 F5 02
+        00 00 00 FF FF 00 00 00 00
+
+Handle 0x0001, DMI type 0, 24 bytes
+BIOS Information
+    Vendor: Dell Inc.
+    Version: A13
+    Release Date: 01/19/2012
+    Address: 0xF0000
+    Runtime Size: 64 kB
+    ROM Size: 1024 kB
+    Characteristics:
+        ISA is supported
+        PCI is supported
+        PNP is supported
+        APM is supported
+        BIOS is upgradeable
+        BIOS shadowing is allowed
+        ESCD support is available
+        Boot from CD is supported
+        Selectable boot is supported
+        BIOS ROM is socketed
+        EDD is supported
+        5.25"/1.2 MB floppy services are supported (int 13h)
+        3.5"/720 kB floppy services are supported (int 13h)
+        3.5"/2.88 MB floppy services are supported (int 13h)
+        Print screen service is supported (int 5h)
+        8042 keyboard services are supported (int 9h)
+        Serial services are supported (int 14h)
+        Printer services are supported (int 17h)
+        CGA/mono video services are supported (int 10h)
+        ACPI is supported
+        USB legacy is supported
+        ATAPI Zip drive boot is supported
+        BIOS boot specification is supported
+        Targeted content distribution is supported
+    BIOS Revision: 8.14
+
+Handle 0x0002, DMI type 1, 27 bytes
+System Information
+    Manufacturer: Dell Inc.
+    Product Name: OptiPlex FX160               
+    Version: Not Specified
+    Serial Number: C83T54J
+    UUID: 44454C4C-3800-1033-8054-C3C04F35344A
+    Wake-up Type: Power Switch
+    SKU Number:                       
+    Family:                       
+
+Handle 0x0003, DMI type 2, 15 bytes
+Base Board Information
+    Manufacturer: Dell Inc.
+    Product Name: 0F259F
+    Version: A00    
+    Serial Number: ..CN701638BM00EW.                  
+    Asset Tag:                       
+    Features:
+        Board is a hosting board
+        Board is replaceable
+    Location In Chassis: To Be Filled By O.E.M.
+    Chassis Handle: 0x0004
+    Type: Motherboard
+    Contained Object Handles: 0
+
+Handle 0x0004, DMI type 3, 21 bytes
+Chassis Information
+    Manufacturer: Dell Inc.
+    Type: Desktop
+    Lock: Not Present
+    Version: Not Specified
+    Serial Number: C83T54J
+    Asset Tag:                 
+    Boot-up State: Safe
+    Power Supply State: Safe
+    Thermal State: Safe
+    Security Status: None
+    OEM Information: 0x00000000
+    Height: Unspecified
+    Number Of Power Cords: 1
+    Contained Elements: 0
+
+Handle 0x0005, DMI type 4, 40 bytes
+Processor Information
+    Socket Designation: CPU 1
+    Type: Central Processor
+    Family: Atom
+    Manufacturer: Intel            
+    ID: C2 06 01 00 FF FB E9 BF
+    Signature: Type 0, Family 6, Model 28, Stepping 2
+    Flags:
+        FPU (Floating-point unit on-chip)
+        VME (Virtual mode extension)
+        DE (Debugging extension)
+        PSE (Page size extension)
+        TSC (Time stamp counter)
+        MSR (Model specific registers)
+        PAE (Physical address extension)
+        MCE (Machine check exception)
+        CX8 (CMPXCHG8 instruction supported)
+        APIC (On-chip APIC hardware supported)
+        SEP (Fast system call)
+        MTRR (Memory type range registers)
+        PGE (Page global enable)
+        MCA (Machine check architecture)
+        CMOV (Conditional move instruction supported)
+        PAT (Page attribute table)
+        CLFSH (CLFLUSH instruction supported)
+        DS (Debug store)
+        ACPI (ACPI supported)
+        MMX (MMX technology supported)
+        FXSR (FXSAVE and FXSTOR instructions supported)
+        SSE (Streaming SIMD extensions)
+        SSE2 (Streaming SIMD extensions 2)
+        SS (Self-snoop)
+        HTT (Multi-threading)
+        TM (Thermal monitor supported)
+        PBE (Pending break enabled)
+    Version: Intel(R) Atom(TM) CPU  230   @ 1.60GHz              
+    Voltage: 1.2 V
+    External Clock: 133 MHz
+    Max Speed: 1600 MHz
+    Current Speed: 1600 MHz
+    Status: Populated, Enabled
+    Upgrade: Socket 478
+    L1 Cache Handle: 0x0006
+    L2 Cache Handle: 0x0007
+    L3 Cache Handle: Not Provided
+    Serial Number:  
+    Asset Tag:  
+    Part Number:  
+    Core Count: 1
+    Core Enabled: 1
+    Thread Count: 2
+    Characteristics:
+        64-bit capable
+
+Handle 0x0006, DMI type 7, 19 bytes
+Cache Information
+    Socket Designation: L1-Cache
+    Configuration: Enabled, Not Socketed, Level 1
+    Operational Mode: Write Back
+    Location: Internal
+    Installed Size: 24 kB
+    Maximum Size: 24 kB
+    Supported SRAM Types:
+        Other
+    Installed SRAM Type: Other
+    Speed: Unknown
+    Error Correction Type: Parity
+    System Type: Data
+    Associativity: Other
+
+Handle 0x0007, DMI type 7, 19 bytes
+Cache Information
+    Socket Designation: L2-Cache
+    Configuration: Enabled, Not Socketed, Level 2
+    Operational Mode: Write Back
+    Location: Internal
+    Installed Size: 512 kB
+    Maximum Size: 512 kB
+    Supported SRAM Types:
+        Other
+    Installed SRAM Type: Other
+    Speed: Unknown
+    Error Correction Type: Single-bit ECC
+    System Type: Unified
+    Associativity: 8-way Set-associative
+
+Handle 0x0008, DMI type 9, 13 bytes
+System Slot Information
+    Designation: PCIe x1
+    Type: x1 PCI Express
+    Current Usage: In Use
+    Length: Short
+    ID: 0
+    Characteristics:
+        3.3 V is provided
+        Opening is shared
+        PME signal is supported
+
+Handle 0x0009, DMI type 10, 6 bytes
+On Board Device Information
+    Type: Video
+    Status: Enabled
+    Description: SiS Mirage 3 Graphic
+
+Handle 0x000A, DMI type 10, 6 bytes
+On Board Device Information
+    Type: Ethernet
+    Status: Enabled
+    Description: BCM5764M
+
+Handle 0x000B, DMI type 10, 6 bytes
+On Board Device Information
+    Type: Sound
+    Status: Enabled
+    Description: AD1984A
+
+Handle 0x000C, DMI type 11, 5 bytes
+OEM Strings
+    String 1: Dell System
+    String 2: 1[0281]
+    String 3: 2[A13]
+    String 4: 3[1.0]
+    String 5: 4[0003]
+    String 6: 6[D0, D4, D8, DA, DE]
+
+Handle 0x000D, DMI type 13, 22 bytes
+BIOS Language Information
+    Language Description Format: Abbreviated
+    Installable Languages: 1
+        en|US|iso8859-1
+    Currently Installed Language: en|US|iso8859-1
+
+Handle 0x000E, DMI type 15, 55 bytes
+System Event Log
+    Area Length: 1008 bytes
+    Header Start Offset: 0x0000
+    Data Start Offset: 0x0000
+    Access Method: General-purpose non-volatile data functions
+    Access Address: 0x0002
+    Status: Valid, Not Full
+    Change Token: 0x00000000
+    Header Format: No Header
+    Supported Log Type Descriptors: 10
+    Descriptor 1: Single-bit ECC memory error
+    Data Format 1: Multiple-event handle
+    Descriptor 2: Multi-bit ECC memory error
+    Data Format 2: Multiple-event handle
+    Descriptor 3: Parity memory error
+    Data Format 3: Multiple-event
+    Descriptor 4: I/O channel block
+    Data Format 4: Multiple-event
+    Descriptor 5: POST error
+    Data Format 5: POST results bitmap
+    Descriptor 6: PCI parity error
+    Data Format 6: Multiple-event handle
+    Descriptor 7: PCI system error
+    Data Format 7: Multiple-event handle
+    Descriptor 8: System limit exceeded
+    Data Format 8: Multiple-event system management
+    Descriptor 9: Log area reset/cleared
+    Data Format 9: POST results bitmap
+    Descriptor 10: OEM-specific
+    Data Format 10: POST results bitmap
+
+Handle 0x000F, DMI type 16, 15 bytes
+Physical Memory Array
+    Location: System Board Or Motherboard
+    Use: System Memory
+    Error Correction Type: None
+    Maximum Capacity: 4 GB
+    Error Information Handle: Not Provided
+    Number Of Devices: 2
+
+Handle 0x0010, DMI type 19, 15 bytes
+Memory Array Mapped Address
+    Starting Address: 0x00000000000
+    Ending Address: 0x0002FFFFFFF
+    Range Size: 768 MB
+    Physical Array Handle: 0x000F
+    Partition Width: 1
+
+Handle 0x0011, DMI type 17, 27 bytes
+Memory Device
+    Array Handle: 0x000F
+    Error Information Handle: Not Provided
+    Total Width: 64 bits
+    Data Width: 64 bits
+    Size: 1024 MB
+    Form Factor: DIMM
+    Set: None
+    Locator: DIMM_1
+    Bank Locator: <BAD INDEX>
+    Type: DDR2
+    Type Detail: Synchronous
+    Speed: 800 MT/s
+    Manufacturer: Nanya         
+    Serial Number: 3B085E1E
+    Asset Tag: AssetTagNum0
+    Part Number: NT1GT64U88D0BY-AD 
+
+Handle 0x0012, DMI type 20, 19 bytes
+Memory Device Mapped Address
+    Starting Address: 0x00000000000
+    Ending Address: 0x0002FFFFFFF
+    Range Size: 768 MB
+    Physical Device Handle: 0x0011
+    Memory Array Mapped Address Handle: 0x0010
+    Partition Row Position: 1
+    Interleave Position: 1
+    Interleaved Data Depth: 1
+
+Handle 0x0013, DMI type 17, 27 bytes
+Memory Device
+    Array Handle: 0x000F
+    Error Information Handle: Not Provided
+    Total Width: Unknown
+    Data Width: 64 bits
+    Size: No Module Installed
+    Form Factor: Other
+    Set: None
+    Locator: DIMM_2
+    Bank Locator: <BAD INDEX>
+    Type: Unknown
+    Type Detail: None
+    Speed: Unknown
+    Manufacturer: Manufacturer01
+    Serial Number: SerNum01
+    Asset Tag: AssetTagNum1
+    Part Number: ModulePartNumber01
+
+Handle 0x0014, DMI type 20, 19 bytes
+Memory Device Mapped Address
+    Starting Address: 0x00000000000
+    Ending Address: 0x0002FFFFFFF
+    Range Size: 768 MB
+    Physical Device Handle: 0x0013
+    Memory Array Mapped Address Handle: 0x0010
+    Partition Row Position: 1
+    Interleave Position: 2
+    Interleaved Data Depth: 1
+
+Handle 0x0015, DMI type 32, 20 bytes
+System Boot Information
+    Status: No errors detected
+
+Handle 0x0016, DMI type 26, 22 bytes
+Voltage Probe
+    Description: Voltage
+    Location: Processor
+    Status: OK
+    Maximum Value: Unknown
+    Minimum Value: Unknown
+    Resolution: Unknown
+    Tolerance: Unknown
+    Accuracy: Unknown
+    OEM-specific Information: 0x0000001F
+    Nominal Value: 0.001 V
+
+Handle 0x0017, DMI type 28, 22 bytes
+Temperature Probe
+    Description: Temperature
+    Location: Processor
+    Status: OK
+    Maximum Value: Unknown
+    Minimum Value: Unknown
+    Resolution: Unknown
+    Tolerance: Unknown
+    Accuracy: Unknown
+    OEM-specific Information: 0x00000020
+    Nominal Value: 0.1 deg C
+
+Handle 0x0018, DMI type 27, 14 bytes
+Cooling Device
+    Type: Fan
+    Status: OK
+    OEM-specific Information: 0x00000021
+    Nominal Speed: 1 rpm
+
+Handle 0x0019, DMI type 129, 8 bytes
+OEM-specific Type
+    Header and Data:
+        81 08 19 00 01 01 02 01
+    Strings:
+        Broadcom_ASF
+        Broadcom_ASF_001
+
+Handle 0x001A, DMI type 208, 12 bytes
+OEM-specific Type
+    Header and Data:
+        D0 0C 1A 00 01 01 FE 00 81 02 01 02
+    Strings:
+        Today
+
+Handle 0x001B, DMI type 210, 12 bytes
+OEM-specific Type
+    Header and Data:
+        D2 0C 1B 00 00 00 00 03 05 20 01 03
+
+Handle 0x001C, DMI type 212, 252 bytes
+OEM-specific Type
+    Header and Data:
+        D4 FC 1C 00 70 00 71 00 01 62 6B 61 D1 00 62 FE
+        01 D2 00 62 FE 00 6D 00 67 3F 40 55 00 67 3F 00
+        8E 00 67 3F 80 8F 00 67 3F 00 5C 00 62 FB 04 5D
+        00 62 FB 00 2E 00 62 E7 00 6E 00 62 E7 08 2D 00
+        62 E7 10 E0 01 62 E7 18 46 02 6A F0 0C 47 02 6A
+        F0 07 D4 01 6A F8 00 D5 01 6A FB 04 9D 00 62 7F
+        00 9E 00 62 7F 80 0F 00 63 F8 01 10 00 63 F8 02
+        11 00 63 F8 03 12 00 63 F8 04 22 00 63 F7 08 23
+        00 63 F7 00 42 00 63 EF 10 43 00 63 EF 00 8C 00
+        6A CF 10 8D 00 6A CF 00 09 01 6A CF 20 9F 00 63
+        7F 80 A0 00 63 7F 00 A1 00 64 FC 00 A2 00 64 FC
+        03 A3 00 64 FC 02 F5 00 64 FB 04 F6 00 64 FB 00
+        C9 01 64 1F 20 CA 01 64 1F 40 CB 01 64 1F 60 0E
+        02 64 1F 80 3F 40 5B FD 02 3E 40 5B FD 00 28 00
+        65 FC 00 29 00 65 FC 01 2A 00 65 FC 02 17 01 65
+        FB 00 18 01 65 FB 04 FF FF 00 00 00
+
+Handle 0x001D, DMI type 212, 217 bytes
+OEM-specific Type
+    Header and Data:
+        D4 D9 1D 00 70 00 71 00 01 62 6B 61 19 01 65 F7
+        00 1A 01 65 F7 08 37 01 65 8F 10 38 01 65 8F 30
+        40 01 65 7F 00 41 01 65 7F 80 68 01 66 FE 00 69
+        01 66 FE 01 4E 01 6A FE 00 4F 01 6A FE 01 68 01
+        66 FE 00 69 01 66 FE 01 7F 01 66 FB 00 80 01 66
+        FB 04 1F 02 56 DF 00 20 02 56 DF 20 05 01 66 E7
+        00 06 01 66 E7 08 5B 02 6A FC 00 5C 02 6A FD 02
+        E2 00 66 7F 00 E3 00 66 7F 80 E4 00 66 BF 00 E5
+        00 66 BF 40 EA 00 67 FE 01 EB 00 67 FE 00 D8 00
+        67 F7 08 D9 00 67 F7 00 2B 01 67 F9 04 2C 01 67
+        F9 02 2B 00 68 00 00 2C 00 69 00 00 89 01 6A F0
+        00 8A 01 6A F0 07 C2 01 62 DF 20 C1 01 62 DF 00
+        93 00 66 DF 20 94 00 66 DF 00 2D 01 66 FD 02 2E
+        01 66 FD 00 FF FF 00 00 00
+
+Handle 0x001E, DMI type 216, 9 bytes
+OEM-specific Type
+    Header and Data:
+        D8 09 1E 00 01 02 00 00 00
+    Strings:
+        SIS
+        3.72.00
+
+Handle 0x001F, DMI type 220, 22 bytes
+OEM-specific Type
+    Header and Data:
+        DC 16 1F 00 00 00 00 00 00 00 00 00 00 00 00 00
+        00 00 00 00 00 00
+
+Handle 0x0020, DMI type 220, 22 bytes
+OEM-specific Type
+    Header and Data:
+        DC 16 20 00 00 00 00 00 11 F5 00 00 00 00 00 00
+        00 00 00 00 00 00
+
+Handle 0x0021, DMI type 221, 19 bytes
+OEM-specific Type
+    Header and Data:
+        DD 13 21 00 00 00 00 00 00 10 F5 00 00 00 00 00
+        00 00 00
+
+Handle 0x0022, DMI type 222, 16 bytes
+OEM-specific Type
+    Header and Data:
+        DE 10 22 00 00 04 00 00 17 04 03 15 15 00 00 01
+
+Handle 0x0023, DMI type 127, 4 bytes
+End Of Table
