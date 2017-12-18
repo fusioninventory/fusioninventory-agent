@@ -10,6 +10,9 @@ use constant    sarianMonitor   => ".1.3.6.1.4.1.16378.10000" ;
 use constant    sarianGPRS      => sarianMonitor . ".2" ;
 use constant    sarianSystem    => sarianMonitor . ".3" ;
 
+use English qw(-no_match_vars);
+use UNIVERSAL::require;
+
 our $mibSupport = [
     {
         name    => "sarianMonitor",
@@ -55,8 +58,24 @@ sub run {
             my $simcard = {
                 IMSI    => $sarianGPRS->{'21.0'}, # gprsIMSI
                 ICCID   => $sarianGPRS->{'20.0'}, # gprsICCID
-                #STATE   => $sarianGPRS->{'26.0'}, # gprsSIMStatus
             };
+
+            my $operator = $sarianGPRS->{'22.0'}; # gprsNetwork
+            if ($operator) {
+                my ($name, $mcc, $mnc) = $operator =~ /^(.*),\s*(\d{3})(\d+)$/ ;
+                $simcard->{OPERATOR_NAME} = $name;
+                if ($mcc) {
+                    $simcard->{OPERATOR_CODE} = "$mcc.$mnc" if $mnc;
+                    $simcard->{COUNTRY} = getCountryMCC($mcc)
+                        if FusionInventory::Agent::Tools::Standards::MobileCountryCode->use();
+                }
+            }
+
+            # Include used SIM in STATE
+            my $sim_status = $sarianGPRS->{'26.0'}; # gprsSIMStatus
+            my $sim_number = $sarianGPRS->{'30.0'}; # gprsCurrentSIM
+            $simcard->{STATE} = ($sim_number ? "SIM$sim_number - " : "") .
+                ( $sim_status || "" );
 
             $device->addSimcard($simcard);
 
