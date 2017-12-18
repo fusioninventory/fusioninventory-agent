@@ -66,11 +66,8 @@ sub run {
                 $simcard->{OPERATOR_NAME} = $name;
                 if ($mcc) {
                     $simcard->{OPERATOR_CODE} = "$mcc.$mnc" if $mnc;
-                    FusionInventory::Agent::Tools::Standards::MobileCountryCode->require();
-                    unless ($EVAL_ERROR) {
-                        FusionInventory::Agent::Tools::Standards::MobileCountryCode->use('getCountryMCC');
-                        $simcard->{COUNTRY} = getCountryMCC($mcc);
-                    }
+                    $simcard->{COUNTRY} = getCountryMCC($mcc)
+                        if FusionInventory::Agent::Tools::Standards::MobileCountryCode->use();
                 }
             }
 
