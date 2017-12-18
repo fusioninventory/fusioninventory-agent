@@ -350,6 +350,43 @@ sub logger {
     };
 }
 
+sub getTargets {
+    my ($self, %params) = @_;
+
+    my @targets = ();
+
+    # create target list
+    if ($self->{local}) {
+        FusionInventory::Agent::Target::Local->require();
+        foreach my $path (@{$self->{local}}) {
+            push @targets,
+                FusionInventory::Agent::Target::Local->new(
+                    logger     => $params{logger},
+                    delaytime  => $self->{delaytime},
+                    basevardir => $params{vardir},
+                    path       => $path,
+                    html       => $self->{html},
+                );
+        }
+    }
+
+    if ($self->{server}) {
+        FusionInventory::Agent::Target::Server->require();
+        foreach my $url (@{$self->{server}}) {
+            push @targets,
+                FusionInventory::Agent::Target::Server->new(
+                    logger     => $params{logger},
+                    delaytime  => $self->{delaytime},
+                    basevardir => $params{vardir},
+                    url        => $url,
+                    tag        => $self->{tag},
+                );
+        }
+    }
+
+    return \@targets;
+}
+
 1;
 __END__
 

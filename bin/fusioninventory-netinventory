@@ -137,8 +137,6 @@ $inventory->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new(
         control => $options->{control}
     );
-# TODO: need to be dropped the day we will depend on agent >= 2.3.0
-$inventory->{deviceid} = 'foo';
 
 $inventory->run();
 

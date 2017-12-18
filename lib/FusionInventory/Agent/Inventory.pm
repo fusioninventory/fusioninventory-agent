@@ -7,6 +7,7 @@ use Config;
 use Data::Dumper;
 use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
+use UNIVERSAL::require;
 use XML::TreePP;
 
 use FusionInventory::Agent::Logger;
@@ -127,6 +128,7 @@ sub new {
     my ($class, %params) = @_;
 
     my $self = {
+        deviceid       => $params{deviceid},
         logger         => $params{logger} || FusionInventory::Agent::Logger->new(),
         fields         => \%fields,
         content        => {
@@ -145,6 +147,42 @@ sub new {
         if $params{statedir};
 
     return $self;
+}
+
+sub getDeviceId {
+    my ($self) = @_;
+
+    return $self->{deviceid} if $self->{deviceid};
+
+    # compute an unique agent identifier based on current time and inventory
+    # hostnale or provider name
+    my $hostname = $self->getHardware('NAME');
+    if ($hostname) {
+        my $workgroup = $self->getHardware('WORKGROUP');
+        $hostname .= "." . $workgroup if $workgroup;
+    } else {
+        FusionInventory::Agent::Tools::Hostname->require();
+
+        eval {
+            $hostname = FusionInventory::Agent::Tools::Hostname::getHostname();
+        };
+    }
+
+    # Fake hostname if no default found
+    $hostname = 'device-by-' . lc($FusionInventory::Agent::Version::PROVIDER) . '-agent'
+        unless $hostname;
+
+    my ($year, $month , $day, $hour, $min, $sec) =
+        (localtime (time))[5, 4, 3, 2, 1, 0];
+
+    return $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
+}
+
+sub getFields {
+    my ($self) = @_;
+
+    return $self->{fields};
 }
 
 sub getContent {

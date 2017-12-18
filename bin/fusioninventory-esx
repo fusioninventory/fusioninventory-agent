@@ -54,24 +54,22 @@ if (!$esx->connect(
     user     => $options->{user},
     password => $options->{password},
 )) {
-    exit 1;
+    die "Connection failure: ".$esx->lastError()."\n";
 }
-
-my $logger = FusionInventory::Agent::Logger->new();
 
 my $hasError = 0;
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
     my $inventory = $esx->createInventory($hostId, $options->{tag});
 
-    my $file =  $options->{directory} . '/' . $inventory->{deviceid} . ".ocs";
+    my $file =  $options->{directory} . '/' . $inventory->getDeviceId() . ".ocs";
 
     if (open my $handle, '>', $file) {
         my $tpp = XML::TreePP->new(indent => 2);
         print $handle $tpp->write({
             REQUEST  => {
-                CONTENT  => $inventory->{content},
-                DEVICEID => $inventory->{deviceid},
+                CONTENT  => $inventory->getContent(),
+                DEVICEID => $inventory->getDeviceId(),
                 QUERY    => "INVENTORY",
             }
         });
