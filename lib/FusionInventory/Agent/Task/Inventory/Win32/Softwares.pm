@@ -235,22 +235,22 @@ sub _getSoftwaresList {
         #----- SQL Server -----
         # Versions >= SQL Server 2008 (tested with 2008/R2/2012/2016) : "SQL Server xxxx Database Engine Services"
         if ($software->{NAME} =~ /^(SQL Server.*)(\sDatabase Engine Services)/) {
-            my $sqlEditionValue = _getSqlInstancesList(
+            my $sqlEditionValue = _getSqlEdition(
                 softwarename    => $software->{NAME},
                 softwareversion => $software->{VERSION}
             );
             if (defined($sqlEditionValue)) {
-                $software->{NAME} = "$1 " . $sqlEditionValue . "$2";
+                $software->{NAME} = $1." ".$sqlEditionValue.$2;
             }
         # Versions = SQL Server 2005 : "Microsoft SQL Server xxxx"
         # "Uninstall" registry key does not contains Version : use default named instance.
         } elsif ($software->{NAME} =~ /^(Microsoft SQL Server 200[0-9])$/ and defined($software->{VERSION})) {
-            my $sqlEditionValue = _getSqlInstancesList(
+            my $sqlEditionValue = _getSqlEdition(
                 softwarename    => $software->{NAME},
                 softwareversion => $software->{VERSION}
             );
             if (defined($sqlEditionValue)) {
-                $software->{NAME} = "$1 " . $sqlEditionValue;
+                $software->{NAME} = $1." ".$sqlEditionValue;
             }
         }
         #----------
@@ -340,7 +340,7 @@ sub _processMSIE {
 }
 
 # List of SQL Instances
-sub _getSqlInstancesList {
+sub _getSqlEdition {
     my (%params) = @_;
 
     my $softwareName = $params{softwarename};
@@ -348,9 +348,9 @@ sub _getSqlInstancesList {
 
     # Registry access for SQL Instances
     my $sqlinstancesList = getRegistryKey(
-        path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Microsoft SQL Server/Instance Names/SQL",
-        %params
-    ) or return;
+        path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Microsoft SQL Server/Instance Names/SQL"
+    );
+    return unless $sqlinstancesList;
 
     # List of SQL Instances
     foreach my $sqlinstance (keys %$sqlinstancesList) {
@@ -379,9 +379,9 @@ sub _getSqlInstancesVersions {
     my $sqlinstanceValue = $params{VALUE};
 
     my $sqlinstanceVersions = getRegistryKey(
-        path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Microsoft SQL Server/" . $sqlinstanceValue . "/Setup",
-        %params
+        path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Microsoft SQL Server/" . $sqlinstanceValue . "/Setup"
     );
+    return unless $sqlinstanceVersions;
 
     my $sqlinstanceVersionValue = $sqlinstanceVersions->{'/Version'} or return;
     my $sqlinstanceEditionValue = $sqlinstanceVersions->{'/Edition'};
