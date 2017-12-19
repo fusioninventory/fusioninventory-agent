@@ -563,18 +563,22 @@ my %prtdiag_tests = (
     sample1 => {
         memories => [
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 0,
                 CAPACITY => 1024
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 1,
                 CAPACITY => 1024
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 2,
                 CAPACITY => 1024
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 3,
                 CAPACITY => 1024
             }
@@ -630,258 +634,322 @@ my %prtdiag_tests = (
     sample2 => {
         memories => [
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 0,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 1,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 2
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 3
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 4,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 5,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 6
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 7
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 8,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 9,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 10,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 11
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 12,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 13,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 14
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 15
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 16,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 17
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 18,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 19,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 20,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 21,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 22,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 23,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 24,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 25
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 26,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 27,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 28
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 29,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 30,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 31
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 32,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 33,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 34
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 35
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 36,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 37,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 38
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 39
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 40,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 41,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 42,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 43
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 44,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 45,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 46
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 47
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 48,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 49
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 50,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 51,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 52,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 53,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 54,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 55,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 56,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 57
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 58,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 59,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 60
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 61,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 62,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 63
             }
@@ -937,66 +1005,82 @@ my %prtdiag_tests = (
         ],
         memories => [
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR2',
                 NUMSLOTS => 0
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 1,
                 TYPE => 'DDR2'
             },
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR2',
                 NUMSLOTS => 2
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 3,
                 TYPE => 'DDR2'
             },
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR2',
                 NUMSLOTS => 4
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 5,
                 TYPE => 'DDR2'
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 6,
                 TYPE => 'DDR2'
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 7,
                 TYPE => 'DDR2'
             },
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR2',
                 NUMSLOTS => 8
             },
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR2',
                 NUMSLOTS => 9
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 10,
                 TYPE => 'DDR2'
             },
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR2',
                 NUMSLOTS => 11
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 12,
                 TYPE => 'DDR2'
             },
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR2',
                 NUMSLOTS => 13
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 14,
                 TYPE => 'DDR2'
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 15,
                 TYPE => 'DDR2'
             }
@@ -1013,34 +1097,42 @@ my %prtdiag_tests = (
         ],
         memories => [
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 0,
                 TYPE => 'DDR'
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 1,
                 TYPE => 'DDR'
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 2,
                 TYPE => 'DDR'
             },
             {
+                DESCRIPTION => 'DIMM',
                 NUMSLOTS => 3,
                 TYPE => 'DDR'
             },
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR',
                 NUMSLOTS => 4
             },
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR',
                 NUMSLOTS => 5
             },
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR',
                 NUMSLOTS => 6
             },
             {
+                DESCRIPTION => 'DIMM',
                 TYPE => 'DDR',
                 NUMSLOTS => 7
             }
@@ -1049,10 +1141,12 @@ my %prtdiag_tests = (
     sample5 => {
         memories => [
             {
+                DESCRIPTION => 'RAM',
                 NUMSLOTS => 0,
                 TYPE => 'DRAM'
             },
             {
+                DESCRIPTION => 'RAM',
                 NUMSLOTS => 1,
                 TYPE => 'DRAM'
             }
@@ -1105,34 +1199,42 @@ my %prtdiag_tests = (
     sample6 => {
         memories => [
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 0,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 1
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 2,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 3,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 4
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 5,
                 CAPACITY => '512'
             },
             {
+                TYPE     => 'DIMM',
                 CAPACITY => '512',
                 NUMSLOTS => 6
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 7,
                 CAPACITY => '512'
             }
@@ -1142,6 +1244,7 @@ my %prtdiag_tests = (
     sample7 => {
         memories => [
             {
+                TYPE     => 'DIMM',
                 CAPACITY => 2048,
                 NUMSLOTS => 0
             }
@@ -1151,130 +1254,162 @@ my %prtdiag_tests = (
     sample8 => {
         memories => [
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 0,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 1,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 2,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 3,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 4,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 5,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 6,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 7,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 8,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 9,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 10,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 11,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 12,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 13,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 14,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 15,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 16,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 17,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 18,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 19,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 20,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 21,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 22,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 23,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 24,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 25,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 26,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 27,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 28,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 29,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 30,
                 CAPACITY => '2048'
             },
             {
+                TYPE     => 'DIMM',
                 NUMSLOTS => 31,
                 CAPACITY => '2048'
             }
