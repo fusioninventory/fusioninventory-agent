@@ -6,9 +6,13 @@ core:
   logged in journal
 * Get rid of confdir setup in setup.pm
 * Update syslog name to fullname agent
-* Get rid of List::Util module dependency
+* Get rid of List::Util & Proc::PID::File module dependencies
 * Try to load more recent IDS database files if found in well-known places
-* Fixed daemon pid filename
+* Fixed default daemon pid filename
+* When --pidfile is used, don't permit to manually start daemon even in foreground
+  unless --pidfile parameter is different
+* Makes --pidfile filename optional to compute a default one
+* Check if we need to include libdir while daemonize
 * Class refactoring: Get rid of discouraged 'use base' syntax in favor of lighter
   'use parent' and as fields pragma is not used (see 'base' man)
 * Logger refactoring: no more an Exporter based class to simplify its usage and
