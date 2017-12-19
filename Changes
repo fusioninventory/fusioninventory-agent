@@ -30,7 +30,6 @@ inventory:
 * Linux distro: Add support for reading os-release file and removing LSB support
 * Fix Solaris drives df output parsing adding better zfs handling
 * Make backend-collect-timeout working even while waiting on command output
-* Fix #161: Support retrieving License software via WMI, including Office 2016
 * Support ASM filesystems on Oracle Grid
 * Introduce getDeviceId() API on Inventory class so it returns task deviceid if set
   or set a new deviceid (aka agentid or machineid) in case of remote inventory
