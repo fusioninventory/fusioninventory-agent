@@ -353,12 +353,10 @@ sub _getSqlEdition {
     return unless $sqlinstancesList;
 
     # List of SQL Instances
-    foreach my $sqlinstance (keys %$sqlinstancesList) {
-        my $sqlinstanceName = $sqlinstance;
-        my $sqlinstanceValue = $sqlinstancesList->{$sqlinstance};
+    foreach my $sqlinstanceName (keys %$sqlinstancesList) {
+        my $sqlinstanceValue = $sqlinstancesList->{$sqlinstanceName};
         # Get version and edition for each instance
         my ($sqlinstanceEditionValue,$sqlinstanceVersionValue) = _getSqlInstancesVersions(
-            %params,
             SOFTVERSION => $softwareVersion,
             NAME        => $sqlinstanceName,
             VALUE       => $sqlinstanceValue
