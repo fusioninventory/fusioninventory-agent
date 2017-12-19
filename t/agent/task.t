@@ -41,26 +41,33 @@ ok(
     'modules list only contains inventory modules'
 );
 
-# WMI inventory as derivated Inventory task
-require_ok('FusionInventory::Agent::Task::Wmi');
+use Config;
+# check thread support availability
+SKIP: {
+    skip ('thread support required', 5)
+        if (!$Config{usethreads} || $Config{usethreads} ne 'define');
 
-lives_ok {
-    $task = FusionInventory::Agent::Task::Wmi->new(
-        target => FusionInventory::Agent::Target::Local->new(
-            path => tempdir(),
-            basevardir => tempdir()
-        )
+    # WMI inventory as derivated Inventory task
+    require_ok('FusionInventory::Agent::Task::Wmi');
+
+    lives_ok {
+        $task = FusionInventory::Agent::Task::Wmi->new(
+            target => FusionInventory::Agent::Target::Local->new(
+                path => tempdir(),
+                basevardir => tempdir()
+            )
+        );
+    } 'Wmi task instanciation: ok';
+
+    @modules = $task->getModules();
+    ok(@modules != 0, 'wmi modules list is not empty');
+    ok(
+        (all { $_ =~ /^FusionInventory::Agent::Task::Inventory::/ } @modules),
+        'modules list only contains inventory modules'
     );
-} 'Wmi task instanciation: ok';
-
-@modules = $task->getModules();
-ok(@modules != 0, 'wmi modules list is not empty');
-ok(
-    (all { $_ =~ /^FusionInventory::Agent::Task::Inventory::/ } @modules),
-    'modules list only contains inventory modules'
-);
-cmp_ok(
-    (all { $_ =~ /^FusionInventory::Agent::Task::Inventory::Generic::Software/ } @modules),
-    '==', 0,
-    'module list without inventory modules for generic softwares'
-);
+    cmp_ok(
+        (all { $_ =~ /^FusionInventory::Agent::Task::Inventory::Generic::Software/ } @modules),
+        '==', 0,
+        'module list without inventory modules for generic softwares'
+    );
+}
