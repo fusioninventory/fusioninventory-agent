@@ -16,6 +16,7 @@ use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Expiration;
 
 use FusionInventory::Agent::Task::NetInventory::Version;
 
@@ -121,6 +122,12 @@ sub run {
         # no need for more threads than devices to scan
         my $threads_count = $max_threads > $size ? $size : $max_threads;
 
+        # Define a job expiration: 15 minutes by device to scan is large enough
+        setExpirationTime(
+            timeout => $size * (!$timeout || $timeout < 900 ?  900 : $timeout)
+        );
+        my $expiration = getExpirationTime();
+
         my $sub = sub {
             my $id = threads->tid();
             $self->{logger}->debug("[thread $id] creation");
@@ -179,6 +186,17 @@ sub run {
                 $self->_sendResultMessage($result);
             }
 
+            if ($expiration && time > $expiration) {
+                $self->{logger}->warn("Aborting netinventory job as it reached expiration time");
+                # detach all our running worker
+                foreach my $tid (keys(%running_threads)) {
+                    $running_threads{$tid}->detach()
+                        if $running_threads{$tid}->is_running();
+                    delete $running_threads{$tid};
+                }
+                last;
+            }
+
             # wait for a little
             usleep(50000);
 
@@ -201,6 +219,9 @@ sub run {
                     unless $running_threads_checklist{$tid};
             }
         }
+
+        # Reset expiration
+        setExpirationTime();
 
         # purge remaining results
         while (my $result = $results->dequeue_nb()) {
