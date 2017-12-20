@@ -34,7 +34,6 @@ cmp_deeply(
     $inventory->{content},
     {
         HARDWARE => {
-            ARCHNAME => $Config{archname},
             VMSYSTEM => 'Physical'
         },
         VERSIONCLIENT => $FusionInventory::Agent::AGENT_STRING

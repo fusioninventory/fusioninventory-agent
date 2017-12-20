@@ -21,7 +21,6 @@ sub new {
         datadir      => $params{datadir},
         target       => $params{target},
         deviceid     => $params{deviceid},
-        _is_remote   => 0
     };
     bless $self, $class;
 
@@ -61,11 +60,11 @@ sub getModules {
 }
 
 sub isRemote {
-    my ($self, $remotetask) = @_;
+    my ($self, $task) = @_;
 
-    $self->{_is_remote} = 1 if $remotetask;
+    $self->{_remote} = $task if $task;
 
-    return $self->{_is_remote} != 0;
+    return $self->{_remote};
 }
 
 1;
@@ -124,3 +123,7 @@ Return a list of modules for this task. All modules installed at the same
 location than this package, belonging to __PACKAGE__ namespace, will be
 returned. If optional $prefix is given, base search namespace will be
 __PACKAGE__/$prefix instead.
+
+=head2 isRemote([$kind])
+
+Method to set or get the task remote status (undef by default).

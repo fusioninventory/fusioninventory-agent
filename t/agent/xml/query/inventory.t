@@ -41,7 +41,6 @@ cmp_deeply(
             QUERY    => 'INVENTORY',
             CONTENT  => {
                 HARDWARE => {
-                    ARCHNAME => $Config{archname},
                     VMSYSTEM => 'Physical'
                 },
                 VERSIONCLIENT => $AgentString,
@@ -71,7 +70,6 @@ cmp_deeply(
             QUERY => 'INVENTORY',
             CONTENT => {
                 HARDWARE => {
-                    ARCHNAME => $Config{archname},
                     VMSYSTEM => 'Physical'
                 },
                 VERSIONCLIENT => $AgentString,

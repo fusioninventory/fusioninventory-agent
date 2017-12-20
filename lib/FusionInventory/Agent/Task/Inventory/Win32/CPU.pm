@@ -40,7 +40,7 @@ sub doInventory {
 sub _getCPUs {
     my (%params) = @_;
 
-    my $remotewmi = $params{inventory}->getHardware('ARCHNAME') eq 'remote';
+    my $remotewmi = $params{inventory}->isRemote();
 
     my @dmidecodeInfos = $remotewmi || Win32::GetOSName() eq 'Win2003' ?
         () : getCpusFromDmidecode();

@@ -54,8 +54,8 @@ sub run {
         tag      => $self->{config}->{'tag'}
     );
 
-    # Reset ARCHNAME to remote if running remote inventory like in wmi task
-    $inventory->setHardware({ ARCHNAME => 'remote' }) if $self->isRemote();
+    # Set inventory as remote if running remote inventory like from wmi task
+    $inventory->isRemote($self->isRemote()) if $self->isRemote();
 
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
