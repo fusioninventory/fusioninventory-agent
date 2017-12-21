@@ -15,7 +15,7 @@ use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
-use FusionInventory::Agent::Task::Wmi::Version;
+use FusionInventory::Agent::Task::WMI::Version;
 
 Getopt::Long::Configure( "no_ignorecase" );
 
@@ -49,7 +49,7 @@ GetOptions(
 ) or pod2usage(-verbose => 0);
 
 my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
-my $VERSION  = FusionInventory::Agent::Task::Wmi::Version::VERSION;
+my $VERSION  = FusionInventory::Agent::Task::WMI::Version::VERSION;
 
 # Set AGENT_STRING to be included in inventory as VERSIONCLIENT
 $FusionInventory::Agent::AGENT_STRING   = "$PROVIDER-WMI-Inventory_v$VERSION";
@@ -112,10 +112,10 @@ my $targets = $config->getTargets(
 die "No target defined, aborting\n"
     unless $targets;
 
-FusionInventory::Agent::Task::Wmi->require();
+FusionInventory::Agent::Task::WMI->require();
 
 foreach my $target (@{$targets}) {
-    my $wmitask = FusionInventory::Agent::Task::Wmi->new(
+    my $wmitask = FusionInventory::Agent::Task::WMI->new(
         target  => $target,
         logger  => $logger,
         datadir => $setup{datadir},

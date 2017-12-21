@@ -48,16 +48,16 @@ SKIP: {
         if (!$Config{usethreads} || $Config{usethreads} ne 'define');
 
     # WMI inventory as derivated Inventory task
-    require_ok('FusionInventory::Agent::Task::Wmi');
+    require_ok('FusionInventory::Agent::Task::WMI');
 
     lives_ok {
-        $task = FusionInventory::Agent::Task::Wmi->new(
+        $task = FusionInventory::Agent::Task::WMI->new(
             target => FusionInventory::Agent::Target::Local->new(
                 path => tempdir(),
                 basevardir => tempdir()
             )
         );
-    } 'Wmi task instanciation: ok';
+    } 'WMI task instanciation: ok';
 
     @modules = $task->getModules();
     ok(@modules != 0, 'wmi modules list is not empty');

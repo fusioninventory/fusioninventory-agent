@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Wmi;
+package FusionInventory::Agent::Task::WMI;
 
 use strict;
 use warnings;

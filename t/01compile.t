@@ -30,7 +30,7 @@ sub filter {
     if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
         return 0 if $_ =~ m{FusionInventory/Agent/Task/NetInventory.pm};
         return 0 if $_ =~ m{FusionInventory/Agent/Task/NetDiscovery.pm};
-        return 0 if $_ =~ m{FusionInventory/Agent/Task/Wmi.pm};
+        return 0 if $_ =~ m{FusionInventory/Agent/Task/WMI.pm};
         return 0 if $_ =~ m{FusionInventory/Agent/Tools/Win32.pm};
         return 0 if $_ =~ m{FusionInventory/Agent/Task/Inventory/Win32};
         return 0 if $_ =~ m{FusionInventory/Agent/Tools/Win32/WTS.pm};
