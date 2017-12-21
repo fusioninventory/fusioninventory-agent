@@ -10,6 +10,7 @@ use Test::Exception;
 
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Task::Inventory;
+use FusionInventory::Agent::Task::Collect;
 use FusionInventory::Agent::Tools;
 
 BEGIN {
@@ -17,7 +18,7 @@ BEGIN {
     push @INC, 't/lib/fake/windows' if $OSNAME ne 'MSWin32';
 }
 
-plan tests => 9;
+plan tests => 13;
 
 my $task;
 throws_ok {
@@ -41,6 +42,20 @@ ok(
     'modules list only contains inventory modules'
 );
 
+@modules = $task->getModules('Inventory');
+ok(@modules != 0, 'inventory modules list is not empty');
+ok(
+    (all { $_ =~ /^FusionInventory::Agent::Task::Inventory::/ } @modules),
+    'inventory modules list only contains inventory modules'
+);
+
+@modules = $task->getModules('Collect');
+ok(@modules != 0, 'collect modules list is not empty');
+ok(
+    (all { $_ =~ /^FusionInventory::Agent::Task::Collect::/ } @modules),
+    'collect modules list only contains collect modules'
+);
+
 use Config;
 # check thread support availability
 SKIP: {
@@ -59,7 +74,7 @@ SKIP: {
         );
     } 'WMI task instanciation: ok';
 
-    @modules = $task->getModules();
+    @modules = $task->getModules('inventory');
     ok(@modules != 0, 'wmi modules list is not empty');
     ok(
         (all { $_ =~ /^FusionInventory::Agent::Task::Inventory::/ } @modules),

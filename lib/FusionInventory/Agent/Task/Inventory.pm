@@ -2,6 +2,7 @@ package FusionInventory::Agent::Task::Inventory;
 
 use strict;
 use warnings;
+
 use parent 'FusionInventory::Agent::Task';
 
 use Config;
@@ -160,8 +161,8 @@ sub _initModulesList {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    my @modules = $self->getModules('');
-    die "no inventory module found" if !@modules;
+    my @modules = $self->getModules('Inventory');
+    die "no inventory module found\n" if !@modules;
 
     # Select isEnabled function to test
     my $isEnabledFunction = "isEnabled" ;
