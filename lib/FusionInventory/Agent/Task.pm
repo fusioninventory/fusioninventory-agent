@@ -59,10 +59,16 @@ sub getModules {
     return @modules
 }
 
-sub isRemote {
+sub getRemote {
+    my ($self) = @_;
+
+    return $self->{_remote} || '';
+}
+
+sub setRemote {
     my ($self, $task) = @_;
 
-    $self->{_remote} = $task if $task;
+    $self->{_remote} = $task || '';
 
     return $self->{_remote};
 }
@@ -124,6 +130,14 @@ location than this package, belonging to __PACKAGE__ namespace, will be
 returned. If optional $prefix is given, base search namespace will be
 __PACKAGE__/$prefix instead.
 
-=head2 isRemote([$kind])
+=head2 getRemote()
 
-Method to set or get the task remote status (undef by default).
+Method to get the task remote status.
+
+Returns the string set by setRemote() API or an empty string.
+
+=head2 setRemote([$task])
+
+Method to set or reset the task remote status.
+
+Without $task parameter, the API resets the remote status to an empty string.

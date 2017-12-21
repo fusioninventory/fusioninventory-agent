@@ -55,7 +55,7 @@ sub createInventory {
         tag    => $tag
     );
 
-    $inventory->isRemote('esx');
+    $inventory->setRemote('esx');
 
     $inventory->setBios( $host->getBiosInfo() );
 

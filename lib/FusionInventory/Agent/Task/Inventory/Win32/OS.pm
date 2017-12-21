@@ -19,7 +19,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $remotewmi = $inventory->isRemote();
+    my $remotewmi = $inventory->getRemote();
 
     my ($operatingSystem) = getWMIObjects(
         class      => 'Win32_OperatingSystem',

@@ -148,10 +148,16 @@ sub new {
     return $self;
 }
 
-sub isRemote {
+sub getRemote {
+    my ($self) = @_;
+
+    return $self->{_remote} || '';
+}
+
+sub setRemote {
     my ($self, $task) = @_;
 
-    $self->{_remote} = $task if $task;
+    $self->{_remote} = $task || '';
 
     return $self->{_remote};
 }
@@ -638,6 +644,14 @@ compatibility.
 At the end of the process IF the inventory was saved
 correctly, the last_state is saved.
 
-=head2 isRemote([$kind])
+=head2 getRemote()
 
-Method to set or get the parent task remote status (undef by default).
+Method to get the parent task remote status.
+
+Returns the string set by setRemote() API or an empty string.
+
+=head2 setRemote([$task])
+
+Method to set or reset the parent task remote status.
+
+Without $task parameter, the API resets the parent remote status to an empty string.

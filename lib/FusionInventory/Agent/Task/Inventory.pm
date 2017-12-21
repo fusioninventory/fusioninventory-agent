@@ -55,7 +55,7 @@ sub run {
     );
 
     # Set inventory as remote if running remote inventory like from wmi task
-    $inventory->isRemote($self->isRemote()) if $self->isRemote();
+    $inventory->setRemote($self->getRemote()) if $self->getRemote();
 
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)

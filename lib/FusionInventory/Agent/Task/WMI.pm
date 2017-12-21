@@ -79,7 +79,7 @@ sub connect {
         $logger->debug2("Connected via wmi to host $host") if $logger;
 
         # Set now we are remote
-        $self->isRemote('wmi');
+        $self->setRemote('wmi');
 
         return 1
     } else {
