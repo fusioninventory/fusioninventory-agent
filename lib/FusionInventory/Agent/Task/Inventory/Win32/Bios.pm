@@ -17,6 +17,10 @@ sub isEnabled {
     return 1;
 }
 
+sub isEnabledForRemote {
+    return 1;
+}
+
 sub _dateFromIntString {
     my ($string) = @_;
 

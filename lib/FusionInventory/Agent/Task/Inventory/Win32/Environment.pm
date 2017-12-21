@@ -13,6 +13,12 @@ sub isEnabled {
     return !$params{no_category}->{environment};
 }
 
+sub isEnabledForRemote {
+    my (%params) = @_;
+
+    return !$params{no_category}->{environment};
+}
+
 sub doInventory {
     my (%params) = @_;
 

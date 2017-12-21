@@ -10,6 +10,11 @@ sub isEnabled {
     return !($params{no_category}->{remote_mgmt});
 }
 
+sub isEnabledForRemote {
+    my (%params) = @_;
+    return !($params{no_category}->{remote_mgmt});
+}
+
 sub doInventory {
 }
 

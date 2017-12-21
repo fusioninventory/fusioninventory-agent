@@ -45,6 +45,12 @@ sub isEnabled {
     return !$params{no_category}->{printer};
 }
 
+sub isEnabledForRemote {
+    my (%params) = @_;
+
+    return !$params{no_category}->{printer};
+}
+
 sub doInventory {
     my (%params) = @_;
 

@@ -163,6 +163,10 @@ sub _initModulesList {
     my @modules = $self->getModules('');
     die "no inventory module found" if !@modules;
 
+    # Select isEnabled function to test
+    my $isEnabledFunction = "isEnabled" ;
+    $isEnabledFunction .= "ForRemote" if $self->getRemote();
+
     # first pass: compute all relevant modules
     foreach my $module (sort @modules) {
         # compute parent module:
@@ -193,7 +197,7 @@ sub _initModulesList {
 
         my $enabled = runFunction(
             module   => $module,
-            function => "isEnabled",
+            function => $isEnabledFunction,
             logger => $logger,
             timeout  => $config->{'backend-collect-timeout'},
             params => {

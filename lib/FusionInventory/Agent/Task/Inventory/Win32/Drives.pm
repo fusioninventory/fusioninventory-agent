@@ -23,6 +23,12 @@ sub isEnabled {
     return 1;
 }
 
+sub isEnabledForRemote {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{drive};
+    return 1;
+}
+
 sub doInventory {
     my (%params) = @_;
 
