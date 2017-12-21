@@ -19,6 +19,11 @@ platform:
   - x86
   - x64
 
+skip_commits:
+  files:
+    - '**/*.md'
+    - 'contrib/*/*'
+
 # As of 2017/11, lastest strawberryperl based on perl 5.26 is failing on Win32::Daemon
 install:
   - cinst strawberryperl --version 5.24.2.1
