@@ -145,6 +145,7 @@ sub _parseMemorySection {
                     \S+
                 $/x;
                 return {
+                    TYPE     => 'DIMM',
                     NUMSLOTS => $i++,
                     CAPACITY => getCanonicalSize($1, 1024)
                 };
@@ -177,6 +178,7 @@ sub _parseMemorySection {
                         (\d+ [MG]B)
                     /x;
                     return {
+                        TYPE     => 'DIMM',
                         NUMSLOTS => $i++,
                         CAPACITY => getCanonicalSize($1, 1024)
                     };
@@ -194,6 +196,7 @@ sub _parseMemorySection {
                         (\d+)         \s+
                     /x;
                     return map { {
+                        TYPE     => 'DIMM',
                         NUMSLOTS => $i++,
                         CAPACITY => getCanonicalSize($1, 1024)
                     } } 1..$2;
@@ -216,6 +219,7 @@ sub _parseMemorySection {
                     my $dimmcount = ( $dimmsize && $dimmsize != $logicalsize ) ?
                         int($logicalsize/$dimmsize) : 1 ;
                     return map { {
+                        TYPE     => 'DIMM',
                         NUMSLOTS => $i++,
                         CAPACITY => $dimmsize
                     } } 1..$dimmcount;
@@ -234,9 +238,10 @@ sub _parseMemorySection {
                     (\w+)           \s+
                     in \s use       \s+
                     \d              \s+
-                    \w+ (?:\s \w+)*
+                    ([A-Za-z]+)\d* (?:\s \w+)*
                 /x;
                 return {
+                    DESCRIPTION => $2,
                     NUMSLOTS => $i++,
                     TYPE     => $1
                 };
