@@ -31,10 +31,13 @@ sub isEnabled {
     # TODO: This is only a POC as nothing is implemented server-side and we need
     # to safely pass credentials
     my %connection = (
-        host => $response->getOptionsInfoByName('REMOTEHOST'),
-        user => $response->getOptionsInfoByName('REMOTEUSER'),
-        pass => $response->getOptionsInfoByName('REMOTEPASS'),
+        host => $response->getOptionsInfoByName('REMOTEHOST') || '',
+        user => $response->getOptionsInfoByName('REMOTEUSER') || '',
+        pass => $response->getOptionsInfoByName('REMOTEPASS') || ''
     );
+
+    # 'host' parameter remains mandatory to enable any wmi inventory
+    return 0 unless $connection{host};
 
     $self->{registry} = [ $response->getOptionsInfoByName('REGISTRY') ];
 
