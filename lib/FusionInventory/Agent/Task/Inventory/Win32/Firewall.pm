@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Firewall;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools::Constants;

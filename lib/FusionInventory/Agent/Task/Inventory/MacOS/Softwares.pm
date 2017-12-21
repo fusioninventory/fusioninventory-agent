@@ -2,6 +2,9 @@ package FusionInventory::Agent::Task::Inventory::MacOS::Softwares;
 
 use strict;
 use warnings;
+
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use Time::Piece;
 
 use FusionInventory::Agent::Tools;

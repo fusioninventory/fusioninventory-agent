@@ -13,6 +13,9 @@ use FusionInventory::Agent::Inventory;
 
 use FusionInventory::Agent::Task::Inventory::Version;
 
+# Preload Module base class
+use FusionInventory::Agent::Task::Inventory::Module;
+
 our $VERSION = FusionInventory::Agent::Task::Inventory::Version::VERSION;
 
 sub isEnabled {
@@ -168,7 +171,8 @@ sub _initModulesList {
             join('::', @components[0 .. $#components -1]) : '';
 
         # Just skip Version package as not an inventory package module
-        if ($module =~ /FusionInventory::Agent::Task::Inventory::Version$/) {
+        # Also skip Module as not a real module but the base class for any module
+        if ($module =~ /FusionInventory::Agent::Task::Inventory::(Version|Module)$/) {
             $self->{modules}->{$module}->{enabled} = 0;
             next;
         }

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Videos;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {

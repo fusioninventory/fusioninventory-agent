@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Solaris::Controllers;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {

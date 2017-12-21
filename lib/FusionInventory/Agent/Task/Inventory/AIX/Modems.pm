@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::AIX::Modems;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::AIX;
 

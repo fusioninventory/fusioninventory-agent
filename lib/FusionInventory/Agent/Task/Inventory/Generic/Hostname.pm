@@ -5,6 +5,8 @@ use English qw(-no_match_vars);
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use Sys::Hostname;
 
 use FusionInventory::Agent::Tools;

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Ports;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 # Had never been tested.
 use FusionInventory::Agent::Tools::Win32;
 

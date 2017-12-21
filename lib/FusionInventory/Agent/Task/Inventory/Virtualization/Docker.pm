@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Docker;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use JSON::PP;
 
 use FusionInventory::Agent::Tools;

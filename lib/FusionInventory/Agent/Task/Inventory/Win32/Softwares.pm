@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Softwares;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use English qw(-no_match_vars);
 use File::Basename;
 
