@@ -260,7 +260,10 @@ sub _includeDirective {
         $path[2] = $include;
         $include = File::Spec->catpath(@path);
     }
-    $include = abs_path($include);
+    # abs_path makes call die under windows if file doen't exist, so we need to eval it
+    eval {
+        $include = abs_path($include);
+    };
     return unless $include;
 
     if (-d $include) {
