@@ -230,7 +230,7 @@ sub _loadFromFile {
             if (exists $default->{$key}) {
                 $self->{$key} = $val;
             } elsif (lc($key) eq 'include') {
-                $self->_includeDirective($val);
+                $self->_includeDirective($val, $file);
             } else {
                 warn "unknown configuration directive $key";
             }
@@ -245,33 +245,32 @@ sub _loadFromFile {
             } else {
                 $include =~ s/\s*#.+$//;
             }
-            $self->_includeDirective($include);
+            $self->_includeDirective($include, $file);
         }
     }
     close $handle;
 }
 
 sub _includeDirective {
-    my ($self, $include) = @_;
+    my ($self, $include, $currentconfig) = @_;
 
-    my $conf = first { $_ && -f $_ && -r $_ } (
-        abs_path(File::Spec->rel2abs($include)),
-        abs_path(File::Spec->rel2abs($include, $self->confdir()))
-    );
+    # Make include path absolute, relatively to current file basedir
+    unless (File::Spec->file_name_is_absolute($include)) {
+        my @path = File::Spec->splitpath($currentconfig);
+        $path[2] = $include;
+        $include = File::Spec->catpath(@path);
+    }
+    $include = abs_path($include);
+    return unless $include;
 
-    if ($conf) {
-        $self->_loadFromFile({ file => $conf });
-    } else {
-        my $confdir = first { $_ && -d $_ } (
-            abs_path(File::Spec->rel2abs($include)),
-            abs_path(File::Spec->rel2abs($include, $self->confdir()))
-        );
-        return unless $confdir;
-        foreach my $cfg ( sort glob("$confdir/*.cfg") ) {
+    if (-d $include) {
+        foreach my $cfg ( sort glob("$include/*.cfg") ) {
             # Skip missing or non-readable file
             next unless -f $cfg && -r $cfg;
             $self->_loadFromFile({ file => $cfg });
         }
+    } elsif ( -f $include && -r $include ) {
+        $self->_loadFromFile({ file => $include });
     }
 }
 

@@ -109,7 +109,6 @@ foreach my $test (keys %include) {
             'conf-file' => "resources/config/$test"
         }
     );
-    $cfg->{_confdir} = "resources/config";
     # Reload cfg to validate loadedConfs has been reset between loads
     $cfg->reloadFromInputAndBackend();
 
