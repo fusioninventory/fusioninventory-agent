@@ -107,9 +107,12 @@ sub _loadFromBackend {
         }
 
         if ($backend eq 'file') {
+            # Handle loadedConfs to avoid loops
+            $self->{loadedConfs} = {};
             $self->_loadFromFile({
                 file => $confFile
             });
+            delete $self->{loadedConfs};
             last SWITCH;
         }
 
@@ -127,6 +130,9 @@ sub _loadDefaults {
     foreach my $key (keys %$default) {
         $self->{$key} = $default->{$key};
     }
+
+    # No need to reset confdir at each call
+    return if $self->{_confdir} && -d $self->{_confdir};
 
     # Set absolute confdir from default if replaced by Makefile otherwise search
     # from current path, mostly useful while running from source
@@ -188,6 +194,14 @@ sub _loadFromFile {
         die "no configuration file";
     }
 
+    # Don't reload conf if still loaded avoiding loops due to include directive
+    if ($self->{loadedConfs}->{$file}) {
+        warn "$file configuration file still loaded\n"
+            if $self->{logger} && ucfirst($self->{logger}) eq 'Stderr';
+        return;
+    }
+    $self->{loadedConfs}->{$file} = 1;
+
     my $handle;
     if (!open $handle, '<', $file) {
         warn "Config: Failed to open $file: $ERRNO";
@@ -215,12 +229,52 @@ sub _loadFromFile {
 
             if (exists $default->{$key}) {
                 $self->{$key} = $val;
+            } elsif (lc($key) eq 'include') {
+                $self->_includeDirective($val, $file);
             } else {
                 warn "unknown configuration directive $key";
             }
+        } elsif ($line =~ /^\s*include\s+(.+)$/i) {
+            my $include = $1;
+            if ($include =~ /^(['"])([^\1]*)\1/) {
+                my ($quote, $extract) = ( $1, $2 );
+                $include =~ s/\s*#.+$//;
+                warn "We may have been confused for include quoted path, our extracted path: '$extract'"
+                    if ($include ne "$quote$extract$quote");
+                $include = $extract ;
+            } else {
+                $include =~ s/\s*#.+$//;
+            }
+            $self->_includeDirective($include, $file);
         }
     }
     close $handle;
+}
+
+sub _includeDirective {
+    my ($self, $include, $currentconfig) = @_;
+
+    # Make include path absolute, relatively to current file basedir
+    unless (File::Spec->file_name_is_absolute($include)) {
+        my @path = File::Spec->splitpath($currentconfig);
+        $path[2] = $include;
+        $include = File::Spec->catpath(@path);
+    }
+    # abs_path makes call die under windows if file doen't exist, so we need to eval it
+    eval {
+        $include = abs_path($include);
+    };
+    return unless $include;
+
+    if (-d $include) {
+        foreach my $cfg ( sort glob("$include/*.cfg") ) {
+            # Skip missing or non-readable file
+            next unless -f $cfg && -r $cfg;
+            $self->_loadFromFile({ file => $cfg });
+        }
+    } elsif ( -f $include && -r $include ) {
+        $self->_loadFromFile({ file => $include });
+    }
 }
 
 sub _loadUserParams {

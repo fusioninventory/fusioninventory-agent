@@ -1,7 +1,7 @@
 '
 '  ------------------------------------------------------------------------
 '  fusioninventory-agent-deployment.vbs
-'  Copyright (C) 2010-2013 by the FusionInventory Development Team.
+'  Copyright (C) 2010-2017 by the FusionInventory Development Team.
 '
 '  http://www.fusioninventory.org/ http://forge.fusioninventory.org/
 '  ------------------------------------------------------------------------
@@ -34,7 +34,8 @@
 '             Christophe Pujol <chpujol@gmail.com>
 '             Marc Caissial <marc.caissial@zenitique.fr>
 '             Tomas Abad <tabadgp@gmail.com>
-'  @copyright Copyright (c) 2010-2013 FusionInventory Team
+'             Guillaume Bougard <gbougard@teclib.com>
+'  @copyright Copyright (c) 2010-2017 FusionInventory Team
 '  @license   GNU GPL version 2 or (at your option) any later version
 '             http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html
 '  @link      http://www.fusioninventory.org/
@@ -64,7 +65,7 @@ Dim Setup, SetupArchitecture, SetupLocation, SetupOptions, SetupVersion
 ' SetupVersion
 '    Setup version with the pattern <major>.<minor>.<release>[-<package>]
 '
-SetupVersion = "2.3.18"
+SetupVersion = "2.4"
 
 ' SetupLocation
 '    Depending on your needs or your environment, you can use either a HTTP or
@@ -82,7 +83,9 @@ SetupVersion = "2.3.18"
 '       You also must be sure that you have removed the "Open File Security Warning"
 '       from programs accessed from that UNC.
 '
-SetupLocation = "https://github.com/tabad/fusioninventory-agent-windows-installer/releases/download/" & SetupVersion
+' Location for Release Candidates
+' SetupLocation = "https://github.com/TECLIB/fusioninventory-agent-windows-installer/releases/download/" & SetupVersion
+SetupLocation = "https://github.com/fusioninventory/fusioninventory-agent/releases/download/" & SetupVersion
 
 
 ' SetupArchitecture

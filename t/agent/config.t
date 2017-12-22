@@ -42,7 +42,34 @@ my %config = (
     }
 );
 
-plan tests => (scalar keys %config) * 4 + 16 + 18;
+my %include = (
+    include1 => {
+        'tag'       => 'include2',
+        'timeout'   => 12
+    },
+    include2 => {
+        'tag'       => 'txt-include',
+        'timeout'   => 99
+    },
+    include3 => {
+        'tag'       => 'include3',
+        'timeout'   => 15
+    },
+    include4 => {
+        'tag'       => 'loop',
+        'timeout'   => 77
+    },
+    include5 => {
+        'tag'       => 'include5',
+        'timeout'   => 1
+    },
+    include6 => {
+        'tag'       => 'include2',
+        'timeout'   => 16
+    }
+);
+
+plan tests => (scalar keys %config) * 4 + (scalar keys %include) * 2 + 16 + 18;
 
 foreach my $test (keys %config) {
     my $c = FusionInventory::Agent::Config->new(options => {
@@ -73,6 +100,20 @@ foreach my $test (keys %config) {
         ok (! $c->isParamArrayAndFilled('no-category'));
         ok (! $c->isParamArrayAndFilled('httpd-trust'));
         ok ($c->isParamArrayAndFilled('tasks'));
+    }
+}
+
+foreach my $test (keys %include) {
+    my $cfg = FusionInventory::Agent::Config->new(
+        options => {
+            'conf-file' => "resources/config/$test"
+        }
+    );
+    # Reload cfg to validate loadedConfs has been reset between loads
+    $cfg->reloadFromInputAndBackend();
+
+    foreach my $k (qw/ tag timeout /) {
+        is($cfg->{$k}, $include{$test}->{$k}, $test." ".$k);
     }
 }
 

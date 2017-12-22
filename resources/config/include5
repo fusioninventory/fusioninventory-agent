@@ -1,0 +1,8 @@
+logger = 
+timeout = 0
+tag = include55
+
+include 'conf.d/looping-cfg.txt'
+
+tag = include5
+timeout = 1

@@ -5,6 +5,8 @@ core:
 * Cleanup confdir use in task so using deprecated etc/softwares folder is no more
   logged in journal
 * Get rid of confdir setup in setup.pm
+* Added "include" directive support while reading configuration file to make
+  configuration maintenance easy
 * Update syslog name to fullname agent
 * Get rid of List::Util & Proc::PID::File module dependencies
 * Try to load more recent IDS database files if found in well-known places
@@ -33,6 +35,7 @@ inventory:
 * Support ASM filesystems on Oracle Grid
 * Introduce getDeviceId() API on Inventory class so it returns task deviceid if set
   or set a new deviceid (aka agentid or machineid) in case of remote inventory
+* Fix #161: Support retrieving License software via WMI, including Office 2016
 
 netdiscovery/netinventory:
 * Bump NetDiscovery & NetInventory task version to 2.5

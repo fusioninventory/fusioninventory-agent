@@ -1,0 +1,8 @@
+
+tag = include2
+
+# Include file: we don't care about extension
+   include "conf.d/no-include.txt"
+
+# Don't include when under comment
+#include conf.d
