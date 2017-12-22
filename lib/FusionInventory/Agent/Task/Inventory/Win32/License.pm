@@ -8,6 +8,8 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools::License;
 use FusionInventory::Agent::Tools::Win32;
 
+my $seenProducts;
+
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{licenseinfo};
@@ -41,6 +43,9 @@ sub doInventory {
             entry   => $license
         );
     }
+
+    # Reset seen products list
+    $seenProducts = {};
 }
 
 sub _getWmiSoftwareLicensingProducts {
@@ -51,7 +56,7 @@ sub _getWmiSoftwareLicensingProducts {
         moniker    => 'winmgmts:\\\\.\\root\\CIMV2',
         class      => 'SoftwareLicensingProduct',
         properties => [ qw/
-            Name Description LicenseStatus PartialProductKey
+            Name Description LicenseStatus PartialProductKey ID
             ProductKeyChannel ProductKeyID ProductKeyID2 ApplicationID
         / ]
     )) {
@@ -62,6 +67,17 @@ sub _getWmiSoftwareLicensingProducts {
 
         # Skip operating system license as still set from OS module
         next if ($object->{'Description'} && $object->{'Description'} =~ /Operating System/i);
+
+        my $seenKey;
+        if ($object->{'ID'} && $seenProducts->{lc($object->{'ID'})}) {
+            $seenKey = $seenProducts->{lc($object->{'ID'})};
+            # Skip if found License for related ProductCode
+            if ($seenKey->{'/ProductCode'}) {
+                my $ProductCodeUuid =  lc( $seenKey->{'/ProductCode'} =~ /([-\w]+)/ && $1 );
+                next if $seenProducts->{$ProductCodeUuid} &&
+                    $seenProducts->{$ProductCodeUuid}->{'/DigitalProductID'};
+            }
+        }
 
         if ($key && length($key) == 5) {
             $key = sprintf("XXXXX-XXXXX-XXXXX-XXXXX-%s", $key);
@@ -77,7 +93,13 @@ sub _getWmiSoftwareLicensingProducts {
             NAME      => $object->{'Name'}
         };
 
-        $license->{TRIAL} = 1 if ($channel && $channel =~ /TRIAL/i);
+        if ($seenKey) {
+            # Update FULLNAME if seen ProductName in registry
+            $license->{FULLNAME} = encodeFromRegistry($seenKey->{'/ProductName'})
+                if $seenKey->{'/ProductName'};
+            $license->{TRIAL} = 1
+                if ($seenKey->{'/ProductNameBrand'} && $seenKey->{'/ProductNameBrand'} =~ /trial/i);
+        }
 
         push @licences, $license;
     }
@@ -104,8 +126,17 @@ sub _scanOfficeLicences {
         next unless $registrationKey;
 
         foreach my $uuidKey (keys %{$registrationKey}) {
+
+            my $cleanUuidKey = lc( $uuidKey =~ /([-\w]+)/ && $1 );
+            # Keep in memory seen product with ProductCode value
+            $seenProducts->{$cleanUuidKey} = $registrationKey->{$uuidKey}
+                if ($registrationKey->{$uuidKey}->{'/ProductCode'});
+
             next unless $registrationKey->{$uuidKey}->{'/DigitalProductID'};
             push @licences, _getOfficeLicense($registrationKey->{$uuidKey});
+
+            # Keep seen product to not add again them in _getWmiSoftwareLicensingProducts()
+            $seenProducts->{$cleanUuidKey} = $registrationKey->{$uuidKey};
         }
     }
 
