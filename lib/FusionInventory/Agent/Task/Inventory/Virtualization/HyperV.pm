@@ -3,14 +3,22 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::HyperV;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Hostname;
 use FusionInventory::Agent::Tools::Virtualization;
 
+# Run after Win32::OS so hostname is still decided and set in inventory
+our $runAfter = ["FusionInventory::Agent::Task::Inventory::Win32::OS"];
+
 sub isEnabled {
+    return $OSNAME eq 'MSWin32';
+}
+
+sub isEnabledForRemote {
     return $OSNAME eq 'MSWin32';
 }
 
@@ -18,9 +26,9 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
+    my $hostname  = $inventory->getHardware('NAME');
 
-    foreach my $machine (_getVirtualMachines(logger => $logger)) {
+    foreach my $machine (_getVirtualMachines($hostname)) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $machine
         );
@@ -28,9 +36,9 @@ sub doInventory {
 }
 
 sub _getVirtualMachines {
-    FusionInventory::Agent::Tools::Win32->require();
+    my ($hostname) = @_;
 
-    my $hostname = getHostname(short => 1);
+    FusionInventory::Agent::Tools::Win32->require();
 
     my @machines;
 
@@ -79,7 +87,7 @@ sub _getVirtualMachines {
         properties => [ qw/ElementName EnabledState Name/ ]
     )) {
         # skip host
-        next if lc($object->{Name}) eq lc($hostname);
+        next if ($hostname && lc($object->{Name}) eq lc($hostname));
 
         my $status =
             $object->{EnabledState} == 2     ? STATUS_RUNNING  :

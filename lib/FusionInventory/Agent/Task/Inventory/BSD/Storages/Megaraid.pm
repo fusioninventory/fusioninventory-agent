@@ -6,6 +6,8 @@ package FusionInventory::Agent::Task::Inventory::BSD::Storages::Megaraid;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::BSD::Storages;
 

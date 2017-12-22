@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Drives;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools::Win32;
 
 my @type = (
@@ -16,6 +18,12 @@ my @type = (
 );
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{drive};
+    return 1;
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
     return 0 if $params{no_category}->{drive};
     return 1;

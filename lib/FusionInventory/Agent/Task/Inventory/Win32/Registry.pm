@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Registry;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
@@ -19,6 +21,12 @@ my @hives = qw/
 /;
 
 sub isEnabled {
+    my (%params) = @_;
+
+    return $params{registry} && @{$params{registry}};
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
 
     return $params{registry} && @{$params{registry}};

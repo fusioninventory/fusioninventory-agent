@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Ports;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 # Had never been tested.
 use FusionInventory::Agent::Tools::Win32;
 
@@ -136,6 +138,12 @@ my @portType = (
 );
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{port};
+    return 1;
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
     return 0 if $params{no_category}->{port};
     return 1;

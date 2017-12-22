@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Linux::Networks::FibreChannel;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Bios;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools::Win32;
@@ -12,6 +14,10 @@ our $runMeIfTheseChecksFailed =
     ["FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Bios"];
 
 sub isEnabled {
+    return 1;
+}
+
+sub isEnabledForRemote {
     return 1;
 }
 

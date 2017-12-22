@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Firewall;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools::Constants;
@@ -12,6 +14,12 @@ use Storable 'dclone';
 my @mappingFirewallProfiles = qw/public standard domain/;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{firewall};
+    return 1;
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
     return 0 if $params{no_category}->{firewall};
     return 1;
@@ -35,6 +43,9 @@ sub _getFirewallProfiles {
 
     my $key = $params{key} || getRegistryKey(
         path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/SharedAccess/Parameters/FirewallPolicy",
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/EnableFirewall/ ]
+        }
     );
 
     return unless $key;
@@ -68,18 +79,27 @@ sub _makeProfileAndConnectionsAssociation {
 
     my $profilesKey = $params{profilesKey} || getRegistryKey(
         path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/NetworkList/Profiles',
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/ProfileName Category/ ]
+        }
     );
 
     return unless $profilesKey;
 
     my $signaturesKey = $params{signaturesKey} || getRegistryKey(
         path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/NetworkList/Signatures',
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/ProfileGuid FirstNetwork/ ]
+        }
     );
 
     return unless $signaturesKey;
 
     my $DNSRegisteredAdapters = getRegistryKey(
         path => 'HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/services/Tcpip/Parameters/DNSRegisteredAdapters',
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/PrimaryDomainName/ ]
+        }
     );
 
     return unless $DNSRegisteredAdapters;

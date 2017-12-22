@@ -2,6 +2,7 @@ package FusionInventory::Agent::Task::Inventory;
 
 use strict;
 use warnings;
+
 use parent 'FusionInventory::Agent::Task';
 
 use Config;
@@ -12,6 +13,9 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Inventory;
 
 use FusionInventory::Agent::Task::Inventory::Version;
+
+# Preload Module base class
+use FusionInventory::Agent::Task::Inventory::Module;
 
 our $VERSION = FusionInventory::Agent::Task::Inventory::Version::VERSION;
 
@@ -53,6 +57,9 @@ sub run {
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
+
+    # Set inventory as remote if running remote inventory like from wmi task
+    $inventory->setRemote($self->getRemote()) if $self->getRemote();
 
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
@@ -154,8 +161,12 @@ sub _initModulesList {
     my $logger = $self->{logger};
     my $config = $self->{config};
 
-    my @modules = $self->getModules('');
-    die "no inventory module found" if !@modules;
+    my @modules = $self->getModules('Inventory');
+    die "no inventory module found\n" if !@modules;
+
+    # Select isEnabled function to test
+    my $isEnabledFunction = "isEnabled" ;
+    $isEnabledFunction .= "ForRemote" if $self->getRemote();
 
     # first pass: compute all relevant modules
     foreach my $module (sort @modules) {
@@ -165,7 +176,8 @@ sub _initModulesList {
             join('::', @components[0 .. $#components -1]) : '';
 
         # Just skip Version package as not an inventory package module
-        if ($module =~ /FusionInventory::Agent::Task::Inventory::Version$/) {
+        # Also skip Module as not a real module but the base class for any module
+        if ($module =~ /FusionInventory::Agent::Task::Inventory::(Version|Module)$/) {
             $self->{modules}->{$module}->{enabled} = 0;
             next;
         }
@@ -186,7 +198,7 @@ sub _initModulesList {
 
         my $enabled = runFunction(
             module   => $module,
-            function => "isEnabled",
+            function => $isEnabledFunction,
             logger => $logger,
             timeout  => $config->{'backend-collect-timeout'},
             params => {

@@ -3,9 +3,17 @@ package FusionInventory::Agent::Task::Inventory::Win32::Environment;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
+    my (%params) = @_;
+
+    return !$params{no_category}->{environment};
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
 
     return !$params{no_category}->{environment};

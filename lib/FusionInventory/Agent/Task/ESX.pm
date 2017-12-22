@@ -55,7 +55,7 @@ sub createInventory {
         tag    => $tag
     );
 
-    $inventory->setHardware({ ARCHNAME => 'remote' });
+    $inventory->setRemote('esx');
 
     $inventory->setBios( $host->getBiosInfo() );
 

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Generic::Screen;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use English qw(-no_match_vars);
 use MIME::Base64;
 use UNIVERSAL::require;
@@ -12,6 +14,12 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Screen;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{monitor};
+    return 1;
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
     return 0 if $params{no_category}->{monitor};
     return 1;

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Softwares;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use English qw(-no_match_vars);
 use File::Basename;
 
@@ -13,6 +15,12 @@ use FusionInventory::Agent::Tools::Win32::Constants;
 my $seen = {};
 
 sub isEnabled {
+    my (%params) = @_;
+
+    return !$params{no_category}->{software};
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
 
     return !$params{no_category}->{software};
@@ -121,6 +129,9 @@ sub _getUsersFromRegistry {
 
     my $profileList = getRegistryKey(
         path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList',
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/ProfileImagePath Sid/ ],
+        }
     );
 
     next unless $profileList;
@@ -183,6 +194,13 @@ sub _getSoftwaresList {
 
     my $softwares = getRegistryKey(
         path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall",
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/
+                DisplayName Comments HelpLink ReleaseType DisplayVersion
+                Publisher URLInfoAbout UninstallString InstallDate MinorVersion
+                MajorVersion NoRemove SystemComponent
+                / ]
+        },
         %params
     );
 
@@ -296,6 +314,10 @@ sub _processMSIE {
         path   => is64bit() && !$params{is64bit} ?
             "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Internet Explorer" :
             "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Internet Explorer",
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/svcVersion Version/ ],
+            subkeys => 0
+        }
     );
 
     my $version = $installedkey->{"/svcVersion"} || $installedkey->{"/Version"};

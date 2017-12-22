@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Solaris::Networks;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 #ce5: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 3
 #        inet 55.37.101.171 netmask fffffc00 broadcast 55.37.103.255
 #        ether 0:3:ba:24:9b:bf

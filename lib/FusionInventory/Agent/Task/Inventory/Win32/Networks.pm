@@ -3,11 +3,19 @@ package FusionInventory::Agent::Task::Inventory::Win32::Networks;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{network};
+    return 1;
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
     return 0 if $params{no_category}->{network};
     return 1;
@@ -28,7 +36,11 @@ sub doInventory {
         push @ips, $interface->{IPADDRESS}
             if $interface->{IPADDRESS};
 
+        # Cleanup not necessary values
         delete $interface->{dns};
+        delete $interface->{DNSDomain};
+        delete $interface->{GUID};
+
         $interface->{TYPE} = _getMediaType($interface->{PNPDEVICEID});
 
         $inventory->addEntry(
@@ -46,13 +58,15 @@ sub doInventory {
 }
 
 sub _getMediaType {
-    my ($deviceId, $logger) = @_;
+    my ($deviceId) = @_;
 
     return unless defined $deviceId;
 
     my $key = getRegistryKey(
         path   => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Network/{4D36E972-E325-11CE-BFC1-08002BE10318}",
-        logger => $logger
+        wmiopts => { # Only used for remote WMI optimization
+            values  => [ qw/PnpInstanceID MediaSubType/ ]
+        }
     );
 
     foreach my $subkey_name (keys %$key) {

@@ -94,6 +94,7 @@ recommends 'Net::Write::Layer2' => '0';
 
 install_script 'bin/fusioninventory-agent';
 install_script 'bin/fusioninventory-win32-service' if $OSNAME eq 'MSWin32';
+install_script 'bin/fusioninventory-wmi' if $OSNAME eq 'MSWin32';
 install_script 'bin/fusioninventory-injector';
 install_script 'bin/fusioninventory-inventory';
 install_script 'bin/fusioninventory-wakeonlan';

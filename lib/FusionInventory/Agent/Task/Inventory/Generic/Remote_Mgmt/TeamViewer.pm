@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Generic::Remote_Mgmt::TeamViewe
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
@@ -28,6 +30,25 @@ sub isEnabled {
     }
 
     return canRun('teamviewer');
+}
+
+sub isEnabledForRemote {
+    my (%params) = @_;
+
+    if ($OSNAME eq 'MSWin32') {
+
+        FusionInventory::Agent::Tools::Win32->use();
+
+        my $key = getRegistryKey(
+            path => is64bit() ?
+                "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer" :
+                "HKEY_LOCAL_MACHINE/SOFTWARE/TeamViewer",
+            logger => $params{logger}
+        );
+        return $key && (keys %$key);
+    }
+
+    return 0;
 }
 
 sub doInventory {
@@ -63,7 +84,9 @@ sub _getID {
             path   => is64bit() ?
                 "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer/ClientID" :
                 "HKEY_LOCAL_MACHINE/Software/TeamViewer/ClientID",
-            %params
+                wmiopts => { # Only used for remote WMI optimization
+                    values  => [ qw/ClientID/ ]
+                }
         );
 
         unless ($clientid) {
@@ -71,7 +94,9 @@ sub _getID {
                 path => is64bit() ?
                     "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/TeamViewer" :
                     "HKEY_LOCAL_MACHINE/SOFTWARE/TeamViewer",
-                logger => $params{logger}
+                wmiopts => { # Only used for remote WMI optimization
+                    values  => [ qw/ClientID/ ]
+                }
             );
 
             # Look for subkey beginning with Version
@@ -82,7 +107,7 @@ sub _getID {
             }
         }
 
-        return $clientid ? hex($clientid) || $clientid : undef ;
+        return hex2dec($clientid);
     }
 
     if ($OSNAME eq 'darwin') {

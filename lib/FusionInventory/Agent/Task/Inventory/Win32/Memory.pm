@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::Memory;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
@@ -73,6 +75,12 @@ my @memoryErrorProtection = (
 );
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{memory};
+    return 1;
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
     return 0 if $params{no_category}->{memory};
     return 1;

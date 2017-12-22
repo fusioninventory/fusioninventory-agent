@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Vmsystem;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;

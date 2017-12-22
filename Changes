@@ -62,6 +62,10 @@ esx:
 injector:
 * Support --no-ssl-check option to avoid checking server SSL certificate
 
+wmi-inventory:
+* Added new task and script to permit agent-less inventory on win32 platform based
+  on remote WMI support.
+
 2.3.21 Mon, 31 Jul 2017
 core:
 * Service/daemon refactoring:

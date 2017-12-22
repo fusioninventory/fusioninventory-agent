@@ -3,10 +3,18 @@ package FusionInventory::Agent::Task::Inventory::Win32::AntiVirus;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{antivirus};
+    return 1;
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
     return 0 if $params{no_category}->{antivirus};
     return 1;
@@ -135,12 +143,18 @@ sub _getMcAfeeInfo {
     if (is64bit()) {
         $macafeeReg = getRegistryKey(
             path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/McAfee/AVEngine',
+            wmiopts => { # Only used for remote WMI optimization
+                values  => $regvalues
+            }
         );
     }
 
     if (!$macafeeReg) {
         $macafeeReg = getRegistryKey(
             path => 'HKEY_LOCAL_MACHINE/SOFTWARE/McAfee/AVEngine',
+            wmiopts => { # Only used for remote WMI optimization
+                values  => $regvalues
+            }
         );
     }
 

@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Virtualization::Hpvm;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use XML::TreePP;
 
 use FusionInventory::Agent::Tools;

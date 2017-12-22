@@ -3,6 +3,8 @@ package FusionInventory::Agent::Task::Inventory::Win32::License;
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools::License;
@@ -11,6 +13,12 @@ use FusionInventory::Agent::Tools::Win32;
 my $seenProducts;
 
 sub isEnabled {
+    my (%params) = @_;
+    return 0 if $params{no_category}->{licenseinfo};
+    return 1;
+}
+
+sub isEnabledForRemote {
     my (%params) = @_;
     return 0 if $params{no_category}->{licenseinfo};
     return 1;

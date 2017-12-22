@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use integer;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
@@ -15,23 +17,28 @@ sub isEnabled {
     return 1;
 }
 
+sub isEnabledForRemote {
+    return 1;
+}
+
 sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $remotewmi = $inventory->getRemote();
 
     my ($operatingSystem) = getWMIObjects(
         class      => 'Win32_OperatingSystem',
         properties => [ qw/
             OSLanguage Caption Version SerialNumber Organization RegisteredUser
-            CSDVersion TotalSwapSpaceSize LastBootUpTime
+            CSDVersion TotalSwapSpaceSize LastBootUpTime InstallDate
         / ]
     );
 
     my ($computerSystem) = getWMIObjects(
         class      => 'Win32_ComputerSystem',
         properties => [ qw/
-            Name Domain Workgroup PrimaryOwnerName TotalPhysicalMemory
+            Name DNSHostName Domain Workgroup PrimaryOwnerName TotalPhysicalMemory
         / ]
     );
 
@@ -55,27 +62,38 @@ sub doInventory {
     my $memory = $computerSystem->{TotalPhysicalMemory} ?
         int($computerSystem->{TotalPhysicalMemory} / (1024 * 1024)) : undef;
 
-    my $uuid = $computerSystemProduct->{UUID} !~ /^[0-]+$/ ?
+    my $uuid = ($computerSystemProduct->{UUID} && $computerSystemProduct->{UUID} !~ /^[0-]+$/) ?
         $computerSystemProduct->{UUID} : undef;
 
-    my $boottime;
-    if ($operatingSystem->{LastBootUpTime} =~
-            /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/) {
-        $boottime = getFormatedDate($1, $2, $3, $4, $5, $6);
-    }
+    my $boottime = getFormatedWMIDateTime($operatingSystem->{LastBootUpTime});
 
-    # get the name through native Win32::API, as WMI DB is sometimes broken
-    my $hostname = getHostname(short => 1);
+    my $installDate = getFormatedWMIDateTime($operatingSystem->{InstallDate});
+    $installDate = _getInstallDate() unless ($installDate || $remotewmi);
 
-    $inventory->setOperatingSystem({
+    # Finally get the name through native Win32::API if local inventory and as
+    # WMI DB is sometimes broken
+    my $hostname = $computerSystem->{DNSHostName} || $computerSystem->{Name};
+    $hostname = getHostname(short => 1) unless ($hostname || $remotewmi);
+
+    my $os = {
         NAME           => "Windows",
         ARCH           => $arch,
-        INSTALL_DATE   => _getInstallDate(),
+        INSTALL_DATE   => $installDate,
         BOOT_TIME      => $boottime,
         KERNEL_VERSION => $operatingSystem->{Version},
         FULL_NAME      => $operatingSystem->{Caption},
-        SERVICE_PACK   => $operatingSystem->{CSDVersion},
-    });
+        SERVICE_PACK   => $operatingSystem->{CSDVersion}
+    };
+
+    # We want to always reset FQDN on remote wmi inventory as it was set to local
+    # agent fqdn in Generic module
+    $os->{FQDN} = $hostname if ($remotewmi);
+    if ($computerSystem->{Domain}) {
+        $os->{FQDN} .= '.'.$computerSystem->{Domain} if ($remotewmi);
+        $os->{DNS_DOMAIN} = $computerSystem->{Domain};
+    }
+
+    $inventory->setOperatingSystem($os);
 
     $inventory->setHardware({
         NAME        => $hostname,
