@@ -5,6 +5,8 @@ core:
 * Cleanup confdir use in task so using deprecated etc/softwares folder is no more
   logged in journal
 * Get rid of confdir setup in setup.pm
+* Added "include" directive support while reading configuration file to make
+  configuration maintenance easy
 * Update syslog name to fullname agent
 * Get rid of List::Util & Proc::PID::File module dependencies
 * Try to load more recent IDS database files if found in well-known places

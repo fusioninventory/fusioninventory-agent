@@ -1,0 +1,9 @@
+
+tag=txt-include
+
+include "../conf.d/looping-cfg.txt"
+
+timeout = 700
+
+include "../conf.d"
+include = ../loop.d

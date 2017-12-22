@@ -1,0 +1,10 @@
+
+tag = include3
+
+# useless include
+   include 'conf.d/not-existing'
+
+# Don't include when under comment
+# include conf.d
+
+timeout = 15

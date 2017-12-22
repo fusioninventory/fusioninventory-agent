@@ -1,0 +1,6 @@
+timeout = 0
+tag = include4
+
+logger = 
+
+include 'conf.d/looping-cfg.txt'

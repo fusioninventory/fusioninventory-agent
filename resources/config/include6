@@ -1,0 +1,6 @@
+timeout = 0
+tag = include6
+
+include conf.d
+
+include conf.d/timeout
