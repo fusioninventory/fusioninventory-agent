@@ -34,6 +34,8 @@ inventory:
 * Introduce getDeviceId() API on Inventory class so it returns task deviceid if set
   or set a new deviceid (aka agentid or machineid) in case of remote inventory
 * Fix #161: Support retrieving License software via WMI, including Office 2016
+* Fix #364: [win32] Get antivirus version from software installation and get
+  Windows Defender version via WMI
 
 netdiscovery/netinventory:
 * Bump NetDiscovery & NetInventory task version to 2.5

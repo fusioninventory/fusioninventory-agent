@@ -52,6 +52,29 @@ sub doInventory {
                 }
             }
 
+            # Also support WMI access to Windows Defender
+            if (!$antivirus->{VERSION} && $antivirus->{NAME} =~ /Windows Defender/i) {
+                my ($defender) = getWMIObjects(
+                    moniker    => 'winmgmts://./root/microsoft/windows/defender',
+                    class      => "MSFT_MpComputerStatus",
+                    properties => [ qw/AMProductVersion AntivirusEnabled/ ]
+                );
+                $antivirus->{VERSION} = $defender->{AMProductVersion}
+                    if ($defender && $defender->{AntivirusEnabled} && $defender->{AMProductVersion});
+                $antivirus->{COMPANY} = "Microsoft Corporation";
+            }
+
+            # Finally try to get version from software installation in registry
+            if (!$antivirus->{VERSION} || !$antivirus->{COMPANY}) {
+                my $registry = _getAntivirusUninstall($antivirus->{NAME});
+                if ($registry) {
+                    $antivirus->{VERSION} = encodeFromRegistry($registry->{"/DisplayVersion"})
+                        if (!$antivirus->{VERSION} && $registry->{"/DisplayVersion"});
+                    $antivirus->{COMPANY} = encodeFromRegistry($registry->{"/Publisher"})
+                        if (!$antivirus->{COMPANY} && $registry->{"/Publisher"});
+                }
+            }
+
             # avoid duplicates
             next if $seen->{$antivirus->{NAME}}->{$antivirus->{VERSION}||'_undef_'}++;
 
@@ -67,6 +90,34 @@ sub doInventory {
             );
         }
     }
+}
+
+sub _getAntivirusUninstall {
+    my ($name) = @_;
+
+    return unless $name;
+
+    my ($regUninstall, $AVRegUninstall);
+
+    if (is64bit()) {
+        $regUninstall = getRegistryKey(
+            path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall',
+        );
+        $AVRegUninstall = first {
+            $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ /$name/i;
+        } values(%{$regUninstall});
+    }
+
+    if (!$AVRegUninstall) {
+        $regUninstall = getRegistryKey(
+            path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall',
+        );
+        $AVRegUninstall = first {
+            $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ /$name/i;
+        } values(%{$regUninstall});
+    }
+
+    return $AVRegUninstall;
 }
 
 sub _getMcAfeeInfo {
