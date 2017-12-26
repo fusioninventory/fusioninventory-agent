@@ -266,9 +266,9 @@ sub createDaemon {
     if ($config->{'no-fork'} || !$daemon) {
         # Still keep current PID in PID file to permit Proc::Daemon to check status
         if ($pidfile) {
-            if (open(PID, ">", $pidfile)) {
-                print PID "$$\n";
-                close(PID);
+            if (open(my $pid, ">", $pidfile)) {
+                print $pid "$$\n";
+                close($pid);
             } elsif ($logger) {
                 $logger->debug("Can't write PID file: $!");
                 undef $pidfile;

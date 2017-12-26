@@ -65,6 +65,9 @@ if ($OSNAME ne 'MSWin32') {
 # Avoid List::Util dependency re-using 'any' sub as template
 sub first (&@) { ## no critic (SubroutinePrototypes)
     my $f = shift;
+
+    ## no critic (ExplicitReturnUndef)
+
     foreach ( @_ ) {
         return $_ if $f->();
     }
