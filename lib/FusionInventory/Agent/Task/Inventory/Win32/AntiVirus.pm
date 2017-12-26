@@ -23,7 +23,6 @@ sub isEnabledForRemote {
 sub doInventory {
     my (%params) = @_;
 
-    my $logger    = $params{logger};
     my $inventory = $params{inventory};
     my $seen;
 
