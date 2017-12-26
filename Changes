@@ -38,6 +38,7 @@ inventory:
 * Fix #161: Support retrieving License software via WMI, including Office 2016
 * Fix #364: [win32] Get antivirus version from software installation and get
   Windows Defender version via WMI
+* Added Windows 10 version support
 
 netdiscovery/netinventory:
 * Bump NetDiscovery & NetInventory task version to 2.5
