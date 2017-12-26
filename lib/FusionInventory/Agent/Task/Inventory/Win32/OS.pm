@@ -85,6 +85,12 @@ sub doInventory {
         SERVICE_PACK   => $operatingSystem->{CSDVersion}
     };
 
+    # Support ReleaseID as Operating system version for Windows 10
+    my $releaseid = getRegistryValue(
+        path => 'HKEY_LOCAL_MACHINE/Software/Microsoft/Windows NT/CurrentVersion/ReleaseId'
+    );
+    $os->{VERSION} = $releaseid if $releaseid;
+
     # We want to always reset FQDN on remote wmi inventory as it was set to local
     # agent fqdn in Generic module
     $os->{FQDN} = $hostname if ($remotewmi);
