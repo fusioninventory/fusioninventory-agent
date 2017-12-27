@@ -124,7 +124,8 @@ foreach my $target (@{$targets}) {
 
     die "Connection failure\n"
         unless $wmitask->connect(%{$options});
-    $wmitask->run();
+    warn "Failed to create inventory for ".$target->_getName()." ".$target->_getType()." target\n"
+        unless $wmitask->run();
 }
 
 exit(0);

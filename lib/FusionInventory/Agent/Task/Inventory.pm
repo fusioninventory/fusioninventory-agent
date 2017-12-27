@@ -74,6 +74,17 @@ sub run {
 
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
+    return unless $self->_validateInventory($inventory);
+    $self->_submitInventory( %params, inventory => $inventory );
+}
+
+# Method to override if inventory needs to be validate
+sub _validateInventory { 1 }
+
+sub _submitInventory {
+    my ($self, %params) = @_;
+
+    my $inventory = $params{inventory};
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();

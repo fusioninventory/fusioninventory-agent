@@ -76,4 +76,12 @@ sub connect {
     }
 }
 
+sub _validateInventory {
+    my ($self, $inventory) = @_;
+
+    # Hardware name is mandatory to compute deviceid, something surely goes wrong
+    # if its missing
+    return $inventory->getHardware('NAME') ? 1 : 0;
+}
+
 1;
