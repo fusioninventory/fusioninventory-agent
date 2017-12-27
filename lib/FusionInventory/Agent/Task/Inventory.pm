@@ -196,6 +196,13 @@ sub _initModulesList {
             next;
         }
 
+        # Simulate tested function inheritance as we test a module, not a class
+        unless (defined(*{$module."::".$isEnabledFunction})) {
+            no strict 'refs'; ## no critic (ProhibitNoStrict)
+            *{$module."::".$isEnabledFunction} =
+                \&{"FusionInventory::Agent::Task::Inventory::Module::$isEnabledFunction"};
+        }
+
         my $enabled = runFunction(
             module   => $module,
             function => $isEnabledFunction,
