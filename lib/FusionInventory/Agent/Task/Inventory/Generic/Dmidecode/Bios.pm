@@ -59,7 +59,8 @@ sub _getBiosHardware {
         $system_info->{'Vendor'};
     $bios->{MMANUFACTURER} = $base_info->{'Manufacturer'};
 
-    $bios->{SSN} = $system_info->{'Serial Number'} || $chassis_info->{'Serial Number'};
+    $bios->{SSN} = $system_info->{'Serial Number'};
+    $bios->{SSN} = $chassis_info->{'Serial Number'} if (!defined($bios->{SSN}));
     $bios->{MSN} = $base_info->{'Serial Number'};
 
     if ($bios->{MMODEL} && $bios->{MMODEL} eq "VirtualBox" &&
