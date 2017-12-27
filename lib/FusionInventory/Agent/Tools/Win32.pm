@@ -35,6 +35,7 @@ my $localCodepage;
 
 our @EXPORT = qw(
     is64bit
+    remoteIs64bits
     encodeFromRegistry
     KEY_WOW64_64
     KEY_WOW64_32
@@ -55,6 +56,7 @@ my $_is64bits = undef;
 sub is64bit {
     # Cache is64bit() result in a private module variable to avoid a lot of wmi
     # calls and as this value won't change during the service/task lifetime
+    return remoteIs64bits() if _remoteWmi();
     return $_is64bits if $_is64bits;
     return $_is64bits =
         any { $_->{AddressWidth} eq 64 }
@@ -1041,6 +1043,16 @@ sub _call_win32_ole_dependent_api {
 
 sub _remoteWmi {
     return $wmiParams->{host} ? 1 : 0;
+}
+
+sub remoteIs64bits {
+    return $wmiParams->{is64bits} if $wmiParams->{is64bits};
+    # Retrieve and save is64bit result
+    return $wmiParams->{is64bits} = any { $_->{AddressWidth} eq 64 }
+        getWMIObjects(
+            class       => 'Win32_Processor',
+            properties  => [ qw/AddressWidth/ ]
+        );
 }
 
 sub _connectToService {

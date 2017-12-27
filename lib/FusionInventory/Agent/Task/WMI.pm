@@ -69,7 +69,13 @@ sub connect {
         # Set now we are remote
         $self->setRemote('wmi');
 
+        # Preload remoteIs64bits()
+        setExpirationTime( timeout  => $config->{'backend-collect-timeout'} );
+        remoteIs64bits();
+        setExpirationTime();
+
         return 1
+
     } else {
         $logger->error("can't connect to host $host with '$user' user") if $logger;
         return 0;
