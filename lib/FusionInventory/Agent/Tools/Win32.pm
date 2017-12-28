@@ -141,8 +141,8 @@ sub _getWMIObjects {
     Win32::OLE->WithEvents($WMISink, sub { shift; push @events, \@_; });
 
     if ($params{query}) {
-        $logthat = "WMI query: $params{query}";
-        $logger->debug2("Doing WMI $logthat") if $logger;
+        $logthat = "$params{query} WMI query";
+        $logger->debug2("Doing $logthat") if $logger;
         $WMIService->ExecQueryAsync($WMISink, $params{query});
     } else {
         $logthat = "$params{class} class WMI objects";
