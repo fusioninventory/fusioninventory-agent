@@ -6,7 +6,6 @@ use lib 't/lib';
 
 use English qw(-no_match_vars);
 use Test::More;
-use Test::MockModule;
 use UNIVERSAL::require;
 
 use FusionInventory::Test::Utils;
@@ -43,19 +42,14 @@ foreach my $test (keys %tests) {
 }
 plan tests => $plan;
 
-my $module = Test::MockModule->new(
-    'FusionInventory::Agent::Task::Inventory::Win32::Networks'
-);
-
 foreach my $test (keys %tests) {
-    $module->mock(
-        'getRegistryKey',
-        mockGetRegistryKey($test)
-    );
+
+    my $file = "resources/win32/registry/$test-{4D36E972-E325-11CE-BFC1-08002BE10318}.reg";
+    my $keys = loadRegistryDump($file);
 
     foreach my $deviceId (keys %{$tests{$test}}) {
         is(
-            FusionInventory::Agent::Task::Inventory::Win32::Networks::_getMediaType($deviceId),
+            FusionInventory::Agent::Task::Inventory::Win32::Networks::_getMediaType($deviceId, $keys),
             $tests{$test}->{$deviceId},
             "$test sample, $deviceId device"
         );
