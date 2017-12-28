@@ -72,7 +72,7 @@ sub connect {
         $self->setRemote('wmi');
 
         # Preload remoteIs64bits()
-        setExpirationTime( timeout  => $config->{'backend-collect-timeout'} );
+        setExpirationTime( timeout  => $self->{config}->{'backend-collect-timeout'} );
         remoteIs64bits();
         setExpirationTime();
 
