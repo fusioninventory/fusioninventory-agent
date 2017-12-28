@@ -886,6 +886,7 @@ sub FreeAgentMem {
 
 my $worker ;
 my $worker_semaphore;
+my $worker_lasterror = [];
 my $wmiService;
 my $wmiLocator;
 my $wmiRegistry;
@@ -916,6 +917,41 @@ sub setupWorkerLogger {
         funct => 'setupWorkerLogger',
         args  => [ %params ]
     });
+}
+
+sub getLastError {
+
+    return @{$worker_lasterror}
+        unless (defined($worker));
+
+    return _call_win32_ole_dependent_api({
+        funct => 'getLastError',
+        array => 1,
+        args  => []
+    });
+}
+
+my %known_ole_errors = (
+    scalar(0x80041003)  => "Access denied as the current or specified user name and password were not valid or authorized to make the connection.",
+    scalar(0x80041064)  => "User credentials cannot be used for local connections",
+    scalar(0x80070005)  => "Access denied",
+    scalar(0x800706BA)  => "The RPC server is unavailable",
+);
+
+sub _keepOleLastError {
+
+    my $lasterror = Win32::OLE->LastError();
+    if ($lasterror) {
+        my $error = 0x80000000 | ($lasterror & 0x7fffffff);
+        # Don't report not accurate and not failure error
+        if ($error != 0x80004005) {
+            $worker_lasterror = [ $error, $known_ole_errors{$error} ];
+            my $logger = FusionInventory::Agent::Logger->new();
+            $logger->debug("Win32::OLE ERROR: $lasterror");
+        }
+    } else {
+        $worker_lasterror = [];
+    }
 }
 
 sub _win32_ole_worker {
@@ -956,6 +992,9 @@ sub _win32_ole_worker {
             } else {
                 $result = &{$funct}(@{$call->{'args'}});
             }
+
+            # Keep Win32::OLE error for later reporting
+            _keepOleLastError() unless $funct == \&getLastError;
 
             # Share back the result
             $call->{'result'} = shared_clone($result);
@@ -1042,11 +1081,19 @@ sub _call_win32_ole_dependent_api {
 
         if (exists($call->{'array'}) && $call->{'array'}) {
             my @results = &{$funct}(@{$call->{'args'}});
+            # Keep Win32::OLE error for later reporting
+
+            _keepOleLastError() unless $funct == \&getLastError;
             # Reset expiration
+
             setExpirationTime();
             return @results;
         } else {
             my $result = &{$funct}(@{$call->{'args'}});
+
+            # Keep Win32::OLE error for later reporting
+            _keepOleLastError() unless $funct == \&getLastError;
+
             # Reset expiration
             setExpirationTime();
             return $result;
