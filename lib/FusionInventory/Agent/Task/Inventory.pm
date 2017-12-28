@@ -76,6 +76,7 @@ sub run {
     $self->_feedInventory($inventory, \%disabled);
     return unless $self->_validateInventory($inventory);
     $self->_submitInventory( %params, inventory => $inventory );
+    return 1;
 }
 
 # Method to override if inventory needs to be validate
