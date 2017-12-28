@@ -1066,11 +1066,11 @@ sub _call_win32_ole_dependent_api {
 
         if (exists($call->{'array'}) && $call->{'array'}) {
             my @results = &{$funct}(@{$call->{'args'}});
+
             # Keep Win32::OLE error for later reporting
-
             _keepOleLastError() unless $funct == \&getLastError;
-            # Reset expiration
 
+            # Reset expiration
             setExpirationTime();
             return @results;
         } else {
