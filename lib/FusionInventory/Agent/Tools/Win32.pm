@@ -905,6 +905,19 @@ sub start_Win32_OLE_Worker {
     }
 }
 
+sub setupWorkerLogger {
+    my (%params) = @_;
+
+    # Just create a new Logger object in worker to update default module configuration
+    return defined(FusionInventory::Agent::Logger->new(%params))
+        unless (defined($worker));
+
+    return _call_win32_ole_dependent_api({
+        funct => 'setupWorkerLogger',
+        args  => [ %params ]
+    });
+}
+
 sub _win32_ole_worker {
     # Load Win32::OLE as late as possible in a dedicated worker
     Win32::OLE->require() or return;
