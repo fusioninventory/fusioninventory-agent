@@ -122,10 +122,6 @@ sub _getWMIObjects {
             $WMIService = getWMIService( moniker => $params{altmoniker} );
         }
     } else {
-        # We must re-initialize Win32::OLE to support Events
-        Win32::OLE->Uninitialize();
-        Win32::OLE->Initialize(Win32::OLE::COINIT_OLEINITIALIZE());
-
         $WMIService = Win32::OLE->GetObject($params{moniker});
         # Support alternate moniker if provided and main failed to open
         if (!defined($WMIService) && $params{altmoniker}) {
@@ -135,37 +131,28 @@ sub _getWMIObjects {
 
     return unless (defined($WMIService));
 
-    my @events = ();
-    # Prepare events sink
-    my $WMISink = Win32::OLE->CreateObject("WbemScripting.SWbemSink");
-    Win32::OLE->WithEvents($WMISink, sub { shift; push @events, \@_; });
-
+    my $Instances;
     if ($params{query}) {
         $logthat = "$params{query} WMI query";
         $logger->debug2("Doing $logthat") if $logger;
-        $WMIService->ExecQueryAsync($WMISink, $params{query});
+        $Instances = $WMIService->ExecQuery($params{query});
     } else {
         $logthat = "$params{class} class WMI objects";
         $logger->debug2("Looking for $logthat") if $logger;
-        $WMIService->InstancesOfAsync($WMISink, $params{class});
+        $Instances = $WMIService->InstancesOf($params{class});
     }
 
+    return unless $Instances;
+
     my @objects;
-    while (1) {
+    foreach my $instance ( in $Instances ) {
         my $object;
-        my $nextevent = shift @events;
-        if (!$nextevent) {
-            if (time >= $expiration) {
-                $logger->info("Timeout reached on $logthat") if $logger;
-                last;
-            }
-            Win32::OLE->SpinMessageLoop();
-            delay(0.2);
-            next;
+
+        if (time >= $expiration) {
+            $logger->info("Timeout reached on $logthat") if $logger;
+            last;
         }
-        my ( $event, $instance ) = @{$nextevent};
-        last if $event eq 'OnCompleted';
-        next unless ($event eq 'OnObjectReady' && $instance);
+
         # Handle Win32::OLE object method, see _getLoggedUsers() method in
         # FusionInventory::Agent::Task::Inventory::Win32::Users as example to
         # use or enhance this feature
@@ -224,9 +211,6 @@ sub _getWMIObjects {
         }
         push @objects, $object;
     }
-
-    # Reset event sink
-    Win32::OLE->WithEvents($WMISink);
 
     return @objects;
 }
