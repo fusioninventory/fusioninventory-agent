@@ -315,6 +315,9 @@ sub Continue {
 sub ApplyServiceOptimizations {
     my ($self) = @_;
 
+    # Setup worker Logger after service Logger
+    FusionInventory::Agent::Tools::Win32::setupWorkerLogger(config => $self->{config});
+
     $self->SUPER::ApplyServiceOptimizations();
 
     # Win32 only service optimization
