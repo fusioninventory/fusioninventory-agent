@@ -917,6 +917,7 @@ sub getLastError {
 
 my %known_ole_errors = (
     scalar(0x80041003)  => "Access denied as the current or specified user name and password were not valid or authorized to make the connection.",
+    scalar(0x8004100E)  => "Invalid namespace",
     scalar(0x80041064)  => "User credentials cannot be used for local connections",
     scalar(0x80070005)  => "Access denied",
     scalar(0x800706BA)  => "The RPC server is unavailable",
@@ -931,7 +932,7 @@ sub _keepOleLastError {
         if ($error != 0x80004005) {
             $worker_lasterror = [ $error, $known_ole_errors{$error} ];
             my $logger = FusionInventory::Agent::Logger->new();
-            $logger->debug("Win32::OLE ERROR: $lasterror");
+            $logger->debug("Win32::OLE ERROR: ".($known_ole_errors{$error}||$lasterror));
         }
     } else {
         $worker_lasterror = [];
