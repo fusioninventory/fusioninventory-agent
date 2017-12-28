@@ -8,6 +8,8 @@ use parent 'FusionInventory::Agent::Task::Inventory';
 use UNIVERSAL::require;
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools::Expiration;
+
 sub isEnabled {
     my ($self, $response) = @_;
 
