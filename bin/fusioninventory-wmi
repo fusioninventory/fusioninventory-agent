@@ -91,17 +91,17 @@ if ($options->{'local'} && !$options->{'server'} && !$options->{'config'}) {
     $options->{'server'} = "";
 }
 
-unless ($options->{'no-win32-ole-workaround'}) {
-    # From here we may need to avoid crashes due to not thread-safe Win32::OLE
-    FusionInventory::Agent::Tools::Win32->require();
-    FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
-}
 
 my $config = FusionInventory::Agent::Config->new(
     options => $options,
 );
 
 my $logger = FusionInventory::Agent::Logger->new(config => $config);
+
+# From here we may need to avoid crashes due to not thread-safe Win32::OLE
+FusionInventory::Agent::Tools::Win32->require();
+FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+FusionInventory::Agent::Tools::Win32::setupWorkerLogger(config => $config);
 
 # Get targets
 my $targets = $config->getTargets(
