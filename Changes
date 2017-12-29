@@ -39,6 +39,8 @@ inventory:
 * Fix #364: [win32] Get antivirus version from software installation and get
   Windows Defender version via WMI
 * Added Windows 10 version support
+* Updated pci.ids to 2017.12.20 version
+* Updated usb.ids to 2017.12.28 version
 
 netdiscovery/netinventory:
 * Bump NetDiscovery & NetInventory task version to 2.5
