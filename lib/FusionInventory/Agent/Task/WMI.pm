@@ -8,6 +8,8 @@ use parent 'FusionInventory::Agent::Task::Inventory';
 use UNIVERSAL::require;
 use English qw(-no_match_vars);
 
+use FusionInventory::Agent::Tools::Expiration;
+
 sub isEnabled {
     my ($self, $response) = @_;
 
@@ -69,11 +71,25 @@ sub connect {
         # Set now we are remote
         $self->setRemote('wmi');
 
+        # Preload remoteIs64bits()
+        setExpirationTime( timeout  => $self->{config}->{'backend-collect-timeout'} );
+        remoteIs64bits();
+        setExpirationTime();
+
         return 1
+
     } else {
         $logger->error("can't connect to host $host with '$user' user") if $logger;
         return 0;
     }
+}
+
+sub _validateInventory {
+    my ($self, $inventory) = @_;
+
+    # Hardware name is mandatory to compute deviceid, something surely goes wrong
+    # if its missing
+    return $inventory->getHardware('NAME') ? 1 : 0;
 }
 
 1;

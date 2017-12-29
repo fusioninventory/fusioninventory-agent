@@ -91,17 +91,17 @@ if ($options->{'local'} && !$options->{'server'} && !$options->{'config'}) {
     $options->{'server'} = "";
 }
 
-unless ($options->{'no-win32-ole-workaround'}) {
-    # From here we may need to avoid crashes due to not thread-safe Win32::OLE
-    FusionInventory::Agent::Tools::Win32->require();
-    FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
-}
 
 my $config = FusionInventory::Agent::Config->new(
     options => $options,
 );
 
 my $logger = FusionInventory::Agent::Logger->new(config => $config);
+
+# From here we may need to avoid crashes due to not thread-safe Win32::OLE
+FusionInventory::Agent::Tools::Win32->require();
+FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+FusionInventory::Agent::Tools::Win32::setupWorkerLogger(config => $config);
 
 # Get targets
 my $targets = $config->getTargets(
@@ -122,13 +122,23 @@ foreach my $target (@{$targets}) {
         config  => $config
     );
 
-    die "Connection failure\n"
+    die _error("Connection failure")
         unless $wmitask->connect(%{$options});
-    $wmitask->run();
+    warn _error("Failed to create inventory for ".$target->_getName()." ".$target->_getType()." target")
+        unless $wmitask->run();
 }
 
 exit(0);
 
+sub _error {
+    my ($failure) = @_;
+
+    my ($error, $message) = FusionInventory::Agent::Tools::Win32::getLastError();
+
+    return "$failure\n" unless $error && $message;
+
+    return sprintf("%s: Err=0x%08X\n%s\n", $failure, $error, $message);
+}
 
 __END__
 

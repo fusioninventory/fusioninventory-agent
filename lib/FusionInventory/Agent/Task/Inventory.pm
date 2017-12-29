@@ -74,6 +74,18 @@ sub run {
 
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
+    return unless $self->_validateInventory($inventory);
+    $self->_submitInventory( %params, inventory => $inventory );
+    return 1;
+}
+
+# Method to override if inventory needs to be validate
+sub _validateInventory { 1 }
+
+sub _submitInventory {
+    my ($self, %params) = @_;
+
+    my $inventory = $params{inventory};
 
     if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
         my $path   = $self->{target}->getPath();
@@ -194,6 +206,13 @@ sub _initModulesList {
             $logger->debug("module $module disabled: failure to load ($EVAL_ERROR)");
             $self->{modules}->{$module}->{enabled} = 0;
             next;
+        }
+
+        # Simulate tested function inheritance as we test a module, not a class
+        unless (defined(*{$module."::".$isEnabledFunction})) {
+            no strict 'refs'; ## no critic (ProhibitNoStrict)
+            *{$module."::".$isEnabledFunction} =
+                \&{"FusionInventory::Agent::Task::Inventory::Module::$isEnabledFunction"};
         }
 
         my $enabled = runFunction(

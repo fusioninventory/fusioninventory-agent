@@ -35,6 +35,7 @@ my $localCodepage;
 
 our @EXPORT = qw(
     is64bit
+    remoteIs64bits
     encodeFromRegistry
     KEY_WOW64_64
     KEY_WOW64_32
@@ -55,6 +56,7 @@ my $_is64bits = undef;
 sub is64bit {
     # Cache is64bit() result in a private module variable to avoid a lot of wmi
     # calls and as this value won't change during the service/task lifetime
+    return remoteIs64bits() if _remoteWmi();
     return $_is64bits if $_is64bits;
     return $_is64bits =
         any { $_->{AddressWidth} eq 64 }
@@ -120,10 +122,6 @@ sub _getWMIObjects {
             $WMIService = getWMIService( moniker => $params{altmoniker} );
         }
     } else {
-        # We must re-initialize Win32::OLE to support Events
-        Win32::OLE->Uninitialize();
-        Win32::OLE->Initialize(Win32::OLE::COINIT_OLEINITIALIZE());
-
         $WMIService = Win32::OLE->GetObject($params{moniker});
         # Support alternate moniker if provided and main failed to open
         if (!defined($WMIService) && $params{altmoniker}) {
@@ -133,37 +131,28 @@ sub _getWMIObjects {
 
     return unless (defined($WMIService));
 
-    my @events = ();
-    # Prepare events sink
-    my $WMISink = Win32::OLE->CreateObject("WbemScripting.SWbemSink");
-    Win32::OLE->WithEvents($WMISink, sub { shift; push @events, \@_; });
-
+    my $Instances;
     if ($params{query}) {
-        $logthat = "WMI query: $params{query}";
-        $logger->debug2("Doing WMI $logthat") if $logger;
-        $WMIService->ExecQueryAsync($WMISink, $params{query});
+        $logthat = "$params{query} WMI query";
+        $logger->debug2("Doing $logthat") if $logger;
+        $Instances = $WMIService->ExecQuery($params{query});
     } else {
         $logthat = "$params{class} class WMI objects";
         $logger->debug2("Looking for $logthat") if $logger;
-        $WMIService->InstancesOfAsync($WMISink, $params{class});
+        $Instances = $WMIService->InstancesOf($params{class});
     }
 
+    return unless $Instances;
+
     my @objects;
-    while (1) {
+    foreach my $instance ( in $Instances ) {
         my $object;
-        my $nextevent = shift @events;
-        if (!$nextevent) {
-            if (time >= $expiration) {
-                $logger->info("Timeout reached on $logthat") if $logger;
-                last;
-            }
-            Win32::OLE->SpinMessageLoop();
-            delay(0.2);
-            next;
+
+        if (time >= $expiration) {
+            $logger->info("Timeout reached on $logthat") if $logger;
+            last;
         }
-        my ( $event, $instance ) = @{$nextevent};
-        last if $event eq 'OnCompleted';
-        next unless ($event eq 'OnObjectReady' && $instance);
+
         # Handle Win32::OLE object method, see _getLoggedUsers() method in
         # FusionInventory::Agent::Task::Inventory::Win32::Users as example to
         # use or enhance this feature
@@ -222,9 +211,6 @@ sub _getWMIObjects {
         }
         push @objects, $object;
     }
-
-    # Reset event sink
-    Win32::OLE->WithEvents($WMISink);
 
     return @objects;
 }
@@ -884,6 +870,7 @@ sub FreeAgentMem {
 
 my $worker ;
 my $worker_semaphore;
+my $worker_lasterror = [];
 my $wmiService;
 my $wmiLocator;
 my $wmiRegistry;
@@ -900,6 +887,55 @@ sub start_Win32_OLE_Worker {
 
         # Start a worker thread
         $worker = threads->create( \&_win32_ole_worker );
+    }
+}
+
+sub setupWorkerLogger {
+    my (%params) = @_;
+
+    # Just create a new Logger object in worker to update default module configuration
+    return defined(FusionInventory::Agent::Logger->new(%params))
+        unless (defined($worker));
+
+    return _call_win32_ole_dependent_api({
+        funct => 'setupWorkerLogger',
+        args  => [ %params ]
+    });
+}
+
+sub getLastError {
+
+    return @{$worker_lasterror}
+        unless (defined($worker));
+
+    return _call_win32_ole_dependent_api({
+        funct => 'getLastError',
+        array => 1,
+        args  => []
+    });
+}
+
+my %known_ole_errors = (
+    scalar(0x80041003)  => "Access denied as the current or specified user name and password were not valid or authorized to make the connection.",
+    scalar(0x8004100E)  => "Invalid namespace",
+    scalar(0x80041064)  => "User credentials cannot be used for local connections",
+    scalar(0x80070005)  => "Access denied",
+    scalar(0x800706BA)  => "The RPC server is unavailable",
+);
+
+sub _keepOleLastError {
+
+    my $lasterror = Win32::OLE->LastError();
+    if ($lasterror) {
+        my $error = 0x80000000 | ($lasterror & 0x7fffffff);
+        # Don't report not accurate and not failure error
+        if ($error != 0x80004005) {
+            $worker_lasterror = [ $error, $known_ole_errors{$error} ];
+            my $logger = FusionInventory::Agent::Logger->new();
+            $logger->debug("Win32::OLE ERROR: ".($known_ole_errors{$error}||$lasterror));
+        }
+    } else {
+        $worker_lasterror = [];
     }
 }
 
@@ -941,6 +977,9 @@ sub _win32_ole_worker {
             } else {
                 $result = &{$funct}(@{$call->{'args'}});
             }
+
+            # Keep Win32::OLE error for later reporting
+            _keepOleLastError() unless $funct == \&getLastError;
 
             # Share back the result
             $call->{'result'} = shared_clone($result);
@@ -1027,11 +1066,19 @@ sub _call_win32_ole_dependent_api {
 
         if (exists($call->{'array'}) && $call->{'array'}) {
             my @results = &{$funct}(@{$call->{'args'}});
+
+            # Keep Win32::OLE error for later reporting
+            _keepOleLastError() unless $funct == \&getLastError;
+
             # Reset expiration
             setExpirationTime();
             return @results;
         } else {
             my $result = &{$funct}(@{$call->{'args'}});
+
+            # Keep Win32::OLE error for later reporting
+            _keepOleLastError() unless $funct == \&getLastError;
+
             # Reset expiration
             setExpirationTime();
             return $result;
@@ -1041,6 +1088,16 @@ sub _call_win32_ole_dependent_api {
 
 sub _remoteWmi {
     return $wmiParams->{host} ? 1 : 0;
+}
+
+sub remoteIs64bits {
+    return $wmiParams->{is64bits} if $wmiParams->{is64bits};
+    # Retrieve and save is64bit result
+    return $wmiParams->{is64bits} = any { $_->{AddressWidth} eq 64 }
+        getWMIObjects(
+            class       => 'Win32_Processor',
+            properties  => [ qw/AddressWidth/ ]
+        );
 }
 
 sub _connectToService {
