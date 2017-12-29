@@ -640,7 +640,7 @@ sub getInterfaces {
 
     foreach my $object (getWMIObjects(
         class      => 'Win32_NetworkAdapter',
-        properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter AdapterTypeId GUID/ ]
+        properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter GUID/ ]
     )) {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
         next unless $object->{PNPDeviceID};

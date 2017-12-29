@@ -27,6 +27,8 @@ sub doInventory {
     my $inventory = $params{inventory};
     my (@gateways, @dns, @ips);
 
+    my $keys;
+
     foreach my $interface (getInterfaces()) {
         push @gateways, $interface->{IPGATEWAY}
             if $interface->{IPGATEWAY};
@@ -41,7 +43,15 @@ sub doInventory {
         delete $interface->{DNSDomain};
         delete $interface->{GUID};
 
-        $interface->{TYPE} = _getMediaType($interface->{PNPDEVICEID});
+        # Don't reload registry keys between interfaces checks
+        $keys = getRegistryKey(
+            path   => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Network/{4D36E972-E325-11CE-BFC1-08002BE10318}",
+            wmiopts => { # Only used for remote WMI optimization
+                values  => [ qw/PnpInstanceID MediaSubType/ ]
+            }
+        ) unless $keys;
+
+        $interface->{TYPE} = _getMediaType($interface->{PNPDEVICEID}, $keys);
 
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -58,35 +68,33 @@ sub doInventory {
 }
 
 sub _getMediaType {
-    my ($deviceId) = @_;
+    my ($deviceid, $keys) = @_;
 
-    return unless defined $deviceId;
+    return unless defined $deviceid && $keys;
 
-    my $key = getRegistryKey(
-        path   => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Network/{4D36E972-E325-11CE-BFC1-08002BE10318}",
-        wmiopts => { # Only used for remote WMI optimization
-            values  => [ qw/PnpInstanceID MediaSubType/ ]
-        }
-    );
+    my $subtype;
 
-    foreach my $subkey_name (keys %$key) {
+    foreach my $subkey_name (keys %{$keys}) {
         # skip variables
         next if $subkey_name =~ m{^/};
-        my $subkey = $key->{$subkey_name};
-        next unless
-            $subkey->{'Connection/'}                     &&
-            $subkey->{'Connection/'}->{'/PnpInstanceID'} &&
-            $subkey->{'Connection/'}->{'/PnpInstanceID'} eq $deviceId;
-        my $subtype = $subkey->{'Connection/'}->{'/MediaSubType'};
-        return
-            !defined $subtype        ? 'ethernet' :
-            $subtype eq '0x00000001' ? 'ethernet' :
-            $subtype eq '0x00000002' ? 'wifi'     :
-                                       undef;
+        my $subkey_connection = $keys->{$subkey_name}->{'Connection/'}
+            or next;
+        my $subkey_deviceid   = $subkey_connection->{'/PnpInstanceID'}
+            or next;
+        # Normalize PnpInstanceID
+        $subkey_deviceid =~ s/\\\\/\\/g;
+        if (lc($subkey_deviceid) eq lc($deviceid)) {
+            $subtype = $subkey_connection->{'/MediaSubType'};
+            last;
+        }
     }
 
-    ## no critic (ExplicitReturnUndef)
-    return undef;
+    return unless defined $subtype;
+
+    return  $subtype eq '0x00000001' ? 'ethernet'  :
+            $subtype eq '0x00000002' ? 'wifi'      :
+            $subtype eq '0x00000007' ? 'bluetooth' :
+                                       undef;
 }
 
 1;
