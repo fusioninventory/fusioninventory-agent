@@ -674,7 +674,7 @@ sub getInterfaces {
                 $interface->{DNSDomain} = $configuration->{DNSDomain}
                     if $configuration->{DNSDomain};
 
-                $interface->{SPEED}      = $object->{Speed} / 1_000_000
+                $interface->{SPEED}      = int($object->{Speed} / 1_000_000)
                     if $object->{Speed};
                 $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
 
@@ -698,7 +698,7 @@ sub getInterfaces {
             $interface->{DNSDomain} = $configuration->{DNSDomain}
                 if $configuration->{DNSDomain};
 
-            $interface->{SPEED}      = $object->{Speed} / 1_000_000
+            $interface->{SPEED}      = int($object->{Speed} / 1_000_000)
                 if $object->{Speed};
             $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
 
