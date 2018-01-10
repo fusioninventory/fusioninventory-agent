@@ -1188,18 +1188,35 @@ sub _getLLDPInfo {
     # $prefix.x.y.z = $value
     # whereas y is either a port or an interface id
 
+    # See LldpChassisIdSubtype textual convention in lldp.mib RFC
+    # We only report macAddress='4' at the moment
+    my %not_supported_subtype = (
+        '1' => "chassis component",
+        '2' => "interface alias",
+        '3' => "port component",
+        '5' => "network address",
+        '6' => "interface name",
+        '7' => "local"
+    );
+
     while (my ($suffix, $mac) = each %{$lldpRemChassisId}) {
         my $sysdescr = getCanonicalString($lldpRemSysDesc->{$suffix});
         my $sysname = getCanonicalString($lldpRemSysName->{$suffix});
         next unless ($sysdescr || $sysname);
 
-        # We only support macAddress as LldpChassisIdSubtype at the moment
+        # Skip unsupported LldpChassisIdSubtype
         my $subtype = $ChassisIdSubType->{$suffix} || "n/a";
         unless ($subtype eq '4') {
-            $logger->debug(
-                "ChassisId subtype $subtype not supported for <$sysdescr>, value was " .
-                ($mac||"n/a") . ", please report this issue"
-            ) if $logger;
+            if ($logger) {
+                my $info = ($sysname || "no name") . ", " .
+                    (getCanonicalString($mac) || "no chassis id") . ", " .
+                    ($sysdescr || "no description");
+                if ($not_supported_subtype{$subtype}) {
+                    $logger->debug("LLDP info: skipping $not_supported_subtype{$subtype}: $info");
+                } else {
+                    $logger->debug("LLDP info: ChassisId subtype $subtype not supported for <$info>, please report this issue");
+                }
+            }
             next;
         }
 
