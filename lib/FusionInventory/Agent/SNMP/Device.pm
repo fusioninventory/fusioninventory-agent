@@ -254,8 +254,11 @@ sub setFirmware {
 
     return unless defined $firmware;
 
+    $firmware = getCanonicalString($firmware);
+    return unless $firmware;
+
     # Set device firmware
-    $self->{FIRMWARE} = getCanonicalString($firmware);
+    $self->{FIRMWARE} = $firmware;
 
     # Also add firmware as device FIRMWARES
     $self->addFirmware({
