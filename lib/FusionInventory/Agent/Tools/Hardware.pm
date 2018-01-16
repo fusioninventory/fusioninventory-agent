@@ -101,11 +101,6 @@ my @sysdescr_rules = (
     },
 );
 
-# rules on model name to reset manufacturer to real vendor
-my %sysmodel_first_word = (
-    'dell'           => { manufacturer => 'Dell', },
-);
-
 # common base variables
 my %base_variables = (
     CPU          => {
@@ -340,30 +335,8 @@ sub _getDevice {
         }
     }
 
-    # fallback model identification attempt, using type-specific OID value
-    if (!exists $device->{MODEL}) {
-        my $model = exists $device->{TYPE} && $device->{TYPE} eq 'PRINTER' ?
-            $snmp->get('.1.3.6.1.2.1.25.3.2.1.3.1')    :
-            exists $device->{TYPE} && $device->{TYPE} eq 'POWER' ?
-            $snmp->get('.1.3.6.1.2.1.33.1.1.5.0')      : # UPS-MIB
-            $snmp->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') ;
-        $device->{MODEL} = getCanonicalString($model) if $model;
-    }
-
-    # fallback manufacturer identification attempt, using type-agnostic OID
-    if (!exists $device->{MANUFACTURER}) {
-        my $manufacturer = $snmp->get('.1.3.6.1.2.1.43.8.2.1.14.1.1');
-        $device->{MANUFACTURER} = $manufacturer if $manufacturer;
-    }
-
-    # reset manufacturer by rule as real vendor based on first model word
-    if (exists $device->{MODEL}) {
-        my ($first_word) = $device->{MODEL} =~ /(\S+)/;
-        my $result = $sysmodel_first_word{lc($first_word)};
-        if ($result && $result->{manufacturer}) {
-            $device->{MANUFACTURER} = $result->{manufacturer};
-        }
-    }
+    # Find and set model
+    $device->setModel();
 
     # remaining informations
     foreach my $key (keys %base_variables) {

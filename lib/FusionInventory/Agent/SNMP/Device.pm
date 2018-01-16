@@ -333,6 +333,46 @@ sub setMacAddress {
     }
 }
 
+# rules on model name to reset manufacturer to real vendor
+my %sysmodel_first_word = (
+    'dell'           => { manufacturer => 'Dell', },
+);
+
+sub setModel {
+    my ($self) = @_;
+
+    # fallback model identification attempt, using type-specific OID value
+    if (!exists $self->{MODEL}) {
+        my $model = exists $self->{TYPE} && $self->{TYPE} eq 'PRINTER' ?
+            $self->get('.1.3.6.1.2.1.25.3.2.1.3.1')    :
+            exists $self->{TYPE} && $self->{TYPE} eq 'POWER' ?
+            $self->get('.1.3.6.1.2.1.33.1.1.5.0')      : # UPS-MIB
+            $self->get('.1.3.6.1.2.1.47.1.1.1.1.13.1') ;
+        $self->{MODEL} = getCanonicalString($model) if $model;
+    }
+
+    # fallback manufacturer identification attempt, using type-agnostic OID
+    if (!exists $self->{MANUFACTURER}) {
+        my $manufacturer = $self->get('.1.3.6.1.2.1.43.8.2.1.14.1.1');
+        $self->{MANUFACTURER} = $manufacturer if $manufacturer;
+    }
+
+    # reset manufacturer by rule as real vendor based on first model word
+    if (exists $self->{MODEL}) {
+        my ($first_word) = $self->{MODEL} =~ /(\S+)/;
+        my $result = $sysmodel_first_word{lc($first_word)};
+        if ($result && $result->{manufacturer}) {
+            $self->{MANUFACTURER} = $result->{manufacturer};
+        }
+    }
+
+    # Permit mib support to reset model
+    if ($self->{MIBSUPPORT}) {
+        my $model = $self->{MIBSUPPORT}->getMethod('getModel');
+        $self->{MODEL} = getCanonicalString($model) if $model;
+    }
+}
+
 sub _numericMac {
     my ($mac) = @_;
 
