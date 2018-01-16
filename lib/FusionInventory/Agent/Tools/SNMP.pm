@@ -12,6 +12,7 @@ our @EXPORT = qw(
     getCanonicalMacAddress
     getCanonicalConstant
     isInteger
+    getRegexpOidMatch
 );
 
 sub getCanonicalSerialNumber {
@@ -108,6 +109,17 @@ sub getCanonicalConstant {
     return $1 if $value =~ /\((\d+)\)$/;
 }
 
+sub getRegexpOidMatch {
+    my ($match) = @_;
+
+    return $match unless $match && $match =~ /^[0-9.]+$/;
+
+    # Protect dots for regexp compilation
+    $match =~ s/\./\\./g;
+
+    return qr/^$match/;
+}
+
 1;
 __END__
 
@@ -140,3 +152,7 @@ return a clean integer value.
 =head2 isInteger($value)
 
 return true if value is an integer.
+
+=head2 getRegexpOidMatch($oid)
+
+return compiled regexp to match given oid.
