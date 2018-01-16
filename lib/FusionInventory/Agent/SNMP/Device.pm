@@ -250,11 +250,11 @@ sub setFirmware {
             $firmware = $self->get($oid);
             last if defined $firmware;
         }
+        return unless defined $firmware;
     }
 
-    return unless defined $firmware;
-
     $firmware = getCanonicalString($firmware);
+
     return unless $firmware;
 
     # Set device firmware
