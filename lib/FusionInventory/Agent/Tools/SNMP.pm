@@ -39,10 +39,10 @@ sub getCanonicalString {
     $value =~ s/^\\?["']//;
     $value =~ s/\\?["']$//;
 
-    return unless defined $value;
-
     # Be sure to work on utf-8 string
     $value = getUtf8String($value);
+
+    return unless defined $value;
 
     # reduce linefeeds which can be found in descriptions or comments
     $value =~ s/\p{Control}+\n/\n/g;
