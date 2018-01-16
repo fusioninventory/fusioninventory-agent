@@ -223,9 +223,14 @@ sub setSerial {
         }
     }
 
+    $serial = getCanonicalSerialNumber($serial);
+
     return unless $serial;
 
-    $self->{SERIAL} = getCanonicalSerialNumber($serial);
+    # Skip well-known invalid serial number
+    return if $serial =~ /^X+$/;
+
+    $self->{SERIAL} = $serial;
 }
 
 sub setFirmware {
