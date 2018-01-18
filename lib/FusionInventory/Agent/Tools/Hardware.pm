@@ -626,13 +626,13 @@ sub _setGenericProperties {
         next unless $value;
         # safety checks
         if (! exists $ports->{$value}) {
-            $logger->warning(
+            $logger->debug(
                 "unknown interface $value for IP address $suffix, ignoring"
             ) if $logger;
             next;
         }
         if ($suffix !~ /^$ip_address_pattern$/) {
-            $logger->error("invalid IP address $suffix") if $logger;
+            $logger->debug("invalid IP address $suffix") if $logger;
             next;
         }
         $ports->{$value}->{IP} = $suffix;
@@ -757,7 +757,7 @@ sub _setPrinterProperties {
         }
         next unless defined $value;
         if (!isInteger($value)) {
-            $logger->error("incorrect counter value $value, check $variable->{mapping} mapping") if $logger;
+            $logger->debug("incorrect counter value $value, check $variable->{mapping} mapping") if $logger;
             next;
         }
         $device->{PAGECOUNTERS}->{$key} = $value;
@@ -947,7 +947,7 @@ sub _addKnownMacAddresses {
     foreach my $port_id (keys %$mac_addresses) {
         # safety check
         if (! exists $ports->{$port_id}) {
-            $logger->error(
+            $logger->debug(
                 "invalid interface ID $port_id while setting known mac " .
                 "addresses, aborting"
             ) if $logger;
@@ -1045,8 +1045,8 @@ sub _setConnectedDevices {
         foreach my $interface_id (keys %$lldp_info) {
             # safety check
             if (! exists $ports->{$interface_id}) {
-                $logger->warning(
-                    "unknown interface $interface_id in LLDP info, ignoring"
+                $logger->debug(
+                    "LLDP support: unknown interface $interface_id in LLDP info, ignoring"
                 ) if $logger;
                 next;
             }
@@ -1066,8 +1066,8 @@ sub _setConnectedDevices {
         foreach my $interface_id (keys %$cdp_info) {
             # safety check
             if (! exists $ports->{$interface_id}) {
-                $logger->warning(
-                    "unknown interface $interface_id in CDP info, ignoring"
+                $logger->debug(
+                    "CDP support: unknown interface $interface_id in CDP info, ignoring"
                 ) if $logger;
                 next;
             }
@@ -1084,8 +1084,8 @@ sub _setConnectedDevices {
                     }
                 } else {
                     # undecidable situation
-                    $logger->warning(
-                        "multiple neighbors found by LLDP and CDP for " .
+                    $logger->debug(
+                        "CDP support: multiple neighbors found by LLDP and CDP for " .
                         "interface $interface_id, ignoring"
                     );
                     delete $port->{CONNECTIONS};
@@ -1104,8 +1104,8 @@ sub _setConnectedDevices {
         foreach my $interface_id (keys %$edp_info) {
             # safety check
             if (! exists $ports->{$interface_id}) {
-                $logger->warning(
-                    "unknown interface $interface_id in EDP info, ignoring"
+                $logger->debug(
+                    "EDP support: unknown interface $interface_id in EDP info, ignoring"
                 ) if $logger;
                 next;
             }
@@ -1122,8 +1122,8 @@ sub _setConnectedDevices {
                     }
                 } else {
                     # undecidable situation
-                    $logger->warning(
-                        "multiple neighbors found by LLDP and EDP for " .
+                    $logger->debug(
+                        "EDP support: multiple neighbors found by LLDP and EDP for " .
                         "interface $interface_id, ignoring"
                     );
                     delete $port->{CONNECTIONS};
@@ -1290,8 +1290,8 @@ sub _getCDPInfo {
         # warning: multiple neighbors announcement for the same interface
         # usually means a non-CDP aware intermediate equipement
         if ($results->{$interface_id}) {
-            $logger->warning(
-                "multiple neighbors found by CDP for interface $interface_id," .
+            $logger->debug(
+                "CDP support: multiple neighbors found by CDP for interface $interface_id," .
                 " ignoring"
             );
             $blacklist->{$interface_id} = 1;
@@ -1345,8 +1345,8 @@ sub _getEDPInfo {
         # warning: multiple neighbors announcement for the same interface
         # usually means a non-EDP aware intermediate equipement
         if ($results->{$interface_id}) {
-            $logger->warning(
-                "multiple neighbors found by EDP for interface $interface_id," .
+            $logger->debug(
+                "EDP support: multiple neighbors found by EDP for interface $interface_id," .
                 " ignoring"
             );
             $blacklist->{$interface_id} = 1;
@@ -1376,7 +1376,7 @@ sub _setVlans {
     foreach my $port_id (keys %$vlans) {
         # safety check
         if (! exists $ports->{$port_id}) {
-            $logger->error(
+            $logger->debug(
                 "invalid interface ID $port_id while setting vlans, aborting"
             ) if $logger;
             last;
@@ -1461,7 +1461,7 @@ sub _setTrunkPorts {
     foreach my $port_id (keys %$trunk_ports) {
         # safety check
         if (! exists $ports->{$port_id}) {
-            $logger->error(
+            $logger->debug(
                 "invalid interface ID $port_id while setting trunk flag, " .
                 "aborting"
             ) if $logger;
@@ -1539,7 +1539,7 @@ sub _setAggregatePorts {
         foreach my $interface_id (keys %$lacp_info) {
             # safety check
             if (!$ports->{$interface_id}) {
-                $logger->warning(
+                $logger->debug(
                     "unknown interface $interface_id in LACP info, ignoring"
                 ) if $logger;
                 next;
@@ -1553,7 +1553,7 @@ sub _setAggregatePorts {
         foreach my $interface_id (keys %$pagp_info) {
             # safety check
             if (!$ports->{$interface_id}) {
-                $logger->error(
+                $logger->debug(
                     "unknown interface $interface_id in PAGP info, ignoring"
                 ) if $logger;
                 next;
