@@ -9,6 +9,7 @@ netdiscovery/netinventory:
  * Fix total printed pages counter in many case
  * Added total color pages counter support
 * Don't assume colors table was read: fixes black toner detection on many HP printers
+* Added Microtik devices support
 * Updated LLDP support
 
 2.4 Fri, 29 Dec 2017
