@@ -674,7 +674,7 @@ sub _setPrinterProperties {
             $type = $consumable_types{$type_id};
         } else {
             # fallback on description
-            my $description = $descriptions->{$consumable_id};
+            my $description = getCanonicalString($descriptions->{$consumable_id});
             $type =
                 $description =~ /maintenance/i ? 'MAINTENANCEKIT' :
                 $description =~ /fuser/i       ? 'FUSERKIT'       :
@@ -683,8 +683,8 @@ sub _setPrinterProperties {
         }
 
         if (!$type) {
-            $logger->debug("unknown consumable type $type_id: ".
-                ($descriptions->{$consumable_id} || "no description")
+            $logger->debug("unknown consumable type $type_id: " .
+                (getCanonicalString($descriptions->{$consumable_id}) || "no description")
             ) if $logger;
             next;
         }
@@ -694,14 +694,16 @@ sub _setPrinterProperties {
             if ($color_id) {
                 $color = getCanonicalString($colors->{$color_id});
                 if (!$color) {
-                    $logger->debug("invalid color ID $color_id") if $logger;
+                    $logger->debug("invalid consumable color ID $color_id for : " .
+                        (getCanonicalString($descriptions->{$consumable_id}) || "no description")
+                    ) if $logger;
                     next;
                 }
                 # remove space and following char, XML tag does not accept space
                 $color =~ s/\s.*$//;
             } else {
                 # fallback on description
-                my $description = $descriptions->{$consumable_id};
+                my $description = getCanonicalString($descriptions->{$consumable_id});
                 $color =
                     $description =~ /cyan/i           ? 'cyan'    :
                     $description =~ /magenta/i        ? 'magenta' :
