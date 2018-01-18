@@ -683,7 +683,9 @@ sub _setPrinterProperties {
         }
 
         if (!$type) {
-            $logger->debug("unknown consumable type $type_id") if $logger;
+            $logger->debug("unknown consumable type $type_id: ".
+                ($descriptions->{$consumable_id} || "no description")
+            ) if $logger;
             next;
         }
 
