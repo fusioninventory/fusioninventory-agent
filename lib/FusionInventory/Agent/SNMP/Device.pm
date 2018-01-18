@@ -196,12 +196,12 @@ sub setSerial {
     my ($self) = @_;
 
     my $serial =
+        # First try MIB Support mechanism
+        $self->getSerialByMibSupport()                         ||
         # Entity-MIB::entPhysicalSerialNum
         $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.11') ||
         # Printer-MIB::prtGeneralSerialNumber
-        $self->{snmp}->get_first('.1.3.6.1.2.1.43.5.1.1.17') ||
-        # Try MIB Support mechanism
-        $self->getSerialByMibSupport();
+        $self->{snmp}->get_first('.1.3.6.1.2.1.43.5.1.1.17');
 
     if ( not defined $serial ) {
         # vendor specific OIDs
@@ -237,12 +237,12 @@ sub setFirmware {
     my ($self) = @_;
 
     my $firmware =
+        # First try to get firmware from MIB Support mechanism
+        $self->getFirmwareByMibSupport()                       ||
         # entPhysicalSoftwareRev
         $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.10') ||
         # entPhysicalFirmwareRev
-        $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.9')  ||
-        # firmware from supported mib
-        $self->getFirmwareByMibSupport();
+        $self->{snmp}->get_first('.1.3.6.1.2.1.47.1.1.1.1.9');
 
     if ( not defined $firmware ) {
         # vendor specific OIDs
