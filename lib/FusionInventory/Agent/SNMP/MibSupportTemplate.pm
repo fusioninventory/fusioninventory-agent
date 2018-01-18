@@ -5,6 +5,8 @@ use warnings;
 
 #use parent 'FusionInventory::Agent::SNMP::MibSupportTemplate';
 
+#use FusionInventory::Agent::Tools::SNMP;
+
 # define here constants as defined in related mib
 use constant    enterprises     => '.1.3.6.1.4.1' ;
 #use constant   sectionOID      => enterprises . '.XYZ';
@@ -19,7 +21,7 @@ our $mibSupport = [
     #},
     #{
     #    name        => "mibName",
-    #    sysobjectid => first { qr/^$_/ } enterprises . '.ENTREPRISE.X.Y'
+    #    sysobjectid => getRegexpOidMatch(enterprises . '.ENTREPRISE.X.Y')
     #},
     # Example of mib support by checking snmp agent exposed mib support
     # via sysORID entries
