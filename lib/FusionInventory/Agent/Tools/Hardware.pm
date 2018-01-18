@@ -691,7 +691,7 @@ sub _setPrinterProperties {
 
         if ($type eq 'TONER' || $type eq 'DRUM' || $type eq 'CARTRIDGE' || $type eq 'DEVELOPER') {
             my $color;
-            if ($color_id) {
+            if ($colors && $color_id) {
                 $color = getCanonicalString($colors->{$color_id});
                 if (!$color) {
                     $logger->debug("invalid consumable color ID $color_id for : " .
