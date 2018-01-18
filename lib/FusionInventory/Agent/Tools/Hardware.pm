@@ -1210,7 +1210,7 @@ sub _getLLDPInfo {
         # duplicating chassiId
         my $portId = $lldpRemPortId->{$suffix};
         if ($portId !~ /^0x/ or length($portId) != 14) {
-            $connection->{IFNUMBER} = $portId;
+            $connection->{IFNUMBER} = getCanonicalString($portId);
         }
 
         my $ifdescr = getCanonicalString($lldpRemPortDesc->{$suffix});
@@ -1265,7 +1265,7 @@ sub _getCDPInfo {
         if ($devicePort =~ /^\d+$/) {
             $connection->{IFNUMBER} = $devicePort;
         } else {
-            $connection->{IFDESCR} = $devicePort;
+            $connection->{IFDESCR} = getCanonicalString($devicePort);
         }
 
         # cdpCacheDeviceId is either remote host name, either remote mac address
@@ -1337,8 +1337,8 @@ sub _getEDPInfo {
 
         my $connection = {
             IP       => $ip,
-            IFDESCR  => $edpNeighborPort->{$short_suffix},
-            SYSNAME  => $edpNeighborName->{$short_suffix},
+            IFDESCR  => getCanonicalString($edpNeighborPort->{$short_suffix}),
+            SYSNAME  => getCanonicalString($edpNeighborName->{$short_suffix}),
             SYSMAC   => sprintf "%02x:%02x:%02x:%02x:%02x:%02x", @mac_elements
         };
 
