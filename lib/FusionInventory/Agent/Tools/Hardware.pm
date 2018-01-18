@@ -1177,6 +1177,13 @@ sub _getLLDPInfo {
         my $sysname = getCanonicalString($lldpRemSysName->{$suffix});
         next unless ($sysdescr || $sysname);
 
+        # Skip unexpected suffix format (seen at least on mikrotik devices)
+        if ($suffix =~ /^\d+$/) {
+            $logger->debug2("LLDP support: skipping unsupported suffix interface $suffix")
+                if ($logger);
+            next;
+        }
+
         # Skip unsupported LldpChassisIdSubtype
         my $subtype = $ChassisIdSubType->{$suffix} || "n/a";
         unless ($subtype eq '4') {
