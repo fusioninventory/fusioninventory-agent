@@ -1185,9 +1185,9 @@ sub _getLLDPInfo {
                     (getCanonicalString($mac) || "no chassis id") . ", " .
                     ($sysdescr || "no description");
                 if ($not_supported_subtype{$subtype}) {
-                    $logger->debug("LLDP info: skipping $not_supported_subtype{$subtype}: $info");
+                    $logger->debug("LLDP support: skipping $not_supported_subtype{$subtype}: $info");
                 } else {
-                    $logger->debug("LLDP info: ChassisId subtype $subtype not supported for <$info>, please report this issue");
+                    $logger->debug("LLDP support: ChassisId subtype $subtype not supported for <$info>, please report this issue");
                 }
             }
             next;
