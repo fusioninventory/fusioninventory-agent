@@ -1,3 +1,10 @@
+fusioninventory-agent (1:2.4-1) unstable; urgency=low
+
+  * New upstream release
+  * Updated debian support
+
+ -- Guillaume Bougard <gbougard@teclib.com>  Thu, 25 Jan 2018 16:50:57 +0100
+
 fusioninventory-agent (1:2.3.21-2) unstable; urgency=low
 
   * Fixed debian support
