@@ -8,9 +8,6 @@ TEST_FILES = t/01compile.t t/agent/tools/linux.t \
 	dh $@ --with systemd
 
 override_dh_auto_configure:
-	sed -i -e "s|logger = .*|logger = syslog|"               etc/agent.cfg
-	sed -i -e "s|logfacility = .*|logfacility = LOG_DAEMON|" etc/agent.cfg
-	sed -i -e 's|#include "conf\.d/"|include "conf\.d/"|'    etc/agent.cfg
 	perl Makefile.PL -- PREFIX=/usr SYSCONFDIR=/etc/fusioninventory LOCALSTATEDIR=/var/lib/fusioninventory-agent
 
 override_dh_auto_test:
@@ -19,6 +16,9 @@ override_dh_auto_test:
 override_dh_auto_build:
 	dh_auto_build
 	perl debian/refresh-install-files
+	sed -i -e "s|logger = .*|logger = syslog|"               etc/agent.cfg
+	sed -i -e "s|logfacility = .*|logfacility = LOG_DAEMON|" etc/agent.cfg
+	sed -i -e 's|#include "conf\.d/"|include "conf\.d/"|'    etc/agent.cfg
 
 override_dh_auto_clean:
 	[ ! -d var ] || rm -r var
