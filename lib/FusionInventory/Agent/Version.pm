@@ -35,5 +35,3 @@ One very useful information should be first defined like in that example:
 our $COMMENTS = [
     "Based on FusionInventory Agent v2.4"
 ];
-
-1;
