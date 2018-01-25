@@ -36,17 +36,27 @@ rm -f MANIFEST META.yml
 perl Makefile.PL
 make manifest
 
-make dist
+DEBIAN_VERSION=$( dpkg-parsechangelog -S Version | cut -d':' -f2 )
+make dist DISTVNAME="FusionInventory-Agent-$DEBIAN_VERSION"
 
 # Extract version from Makefile
 VERSION=$( egrep '^VERSION = ' Makefile | cut -d'=' -f2 | tr -d ' ' )
+ORIG_VERSION="${DEBIAN_VERSION%-*}"
 
 # Move package to the expected place
 rm -f ../fusioninventory-agent_$VERSION*
-mv -vf FusionInventory-Agent-$VERSION.tar.gz ../fusioninventory-agent_$VERSION.orig.tar.gz
+mv -vf FusionInventory-Agent-$DEBIAN_VERSION.tar.gz ../fusioninventory-agent_$ORIG_VERSION.orig.tar.gz
 
 set +e
 echo "Building Debian package..."
 pdebuild --use-pdebuild-internal
 
 dh_clean
+
+# Fix modified files
+echo "Reverting files to cleanup sources"
+tar xvf ../fusioninventory-agent_$ORIG_VERSION.orig.tar.gz \
+	--strip-components=1 \
+	FusionInventory-Agent-$DEBIAN_VERSION/lib/setup.pm \
+	FusionInventory-Agent-$DEBIAN_VERSION/lib/FusionInventory/Agent/Version.pm \
+	FusionInventory-Agent-$DEBIAN_VERSION/etc/agent.cfg

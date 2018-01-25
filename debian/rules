@@ -14,6 +14,7 @@ override_dh_auto_test:
 	dh_auto_test -- TEST_FILES="$(TEST_FILES)"
 
 override_dh_auto_build:
+	debian/fix-sources.sh
 	dh_auto_build
 	perl debian/refresh-install-files
 	sed -i -e "s|logger = .*|logger = syslog|"               etc/agent.cfg
