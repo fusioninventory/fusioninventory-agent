@@ -6,6 +6,7 @@ set -e
 case "$1" in
   configure)
     [ -d "/etc/fusioninventory" ] || mkdir "/etc/fusioninventory"
+    [ -d "/etc/fusioninventory/conf.d" ] || mkdir "/etc/fusioninventory/conf.d"
     ucf /usr/share/fusioninventory/etc/agent.cfg /etc/fusioninventory/agent.cfg
     ucfr fusioninventory-agent /etc/fusioninventory/agent.cfg
     ;;
