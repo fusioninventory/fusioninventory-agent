@@ -2,7 +2,16 @@ Revision history for FusionInventory agent
 
 2.4.1 not released yet
 
-nothing changed yet
+netdiscovery/netinventory:
+* Bump NetDiscovery & NetInventory task version to 2.6
+* Added support for HP Net Peripheral, involving better HP printers inventory
+ * Get Serial number & firmware version
+ * Fix total printed pages counter in many case
+ * Added total color pages counter support
+* Don't assume colors table was read: fixes black toner detection on many HP printers
+* Added Microtik devices support
+* Enhanced Epson printers support, including model name, serial number and firmwares
+* Updated LLDP support
 
 2.4 Fri, 29 Dec 2017
 core:
