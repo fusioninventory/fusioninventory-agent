@@ -1,0 +1,16 @@
+
+Debian packaging only supports systemd service installation, and follows README.packaging
+recommendations.
+
+===
+
+The only installed crontab is now a weekly crontab intended to force system IDS
+file updates (pci.ids and usb.ids, provided by hwdata package). By default, no
+update is performed and if your system is always up-to-date, you don't need to
+enable this feature. Also these databases are intended to keep updated manufacturer
+informations for detected harware components, and so, don't enable it if you don't
+feel concerned.
+
+Then if you definitively need to force system IDS databases, you need to create
+the /etc/default/fusioninventory-agent file with just the following line:
+UPDATE_IDS=yes
