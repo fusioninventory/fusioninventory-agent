@@ -2,6 +2,10 @@
 
 DEBIAN_VERSION=$( dpkg-parsechangelog -S Version | cut -d':' -f2 )
 
+: ${SYSID:=$(uname -s)}
+: ${BUILDERID:=$(uname -r)}
+[ -e "/etc/debian_version" ] && SYSID="Debian $SYSID"
+
 cat >lib/FusionInventory/Agent/Version.pm <<-VERSION_MODULE
 	package FusionInventory::Agent::Version;
 	
@@ -11,7 +15,7 @@ cat >lib/FusionInventory/Agent/Version.pm <<-VERSION_MODULE
 	our \$VERSION = "$DEBIAN_VERSION";
 	our \$PROVIDER = "FusionInventory";
 	our \$COMMENTS = [
-	    "Build platform: $(uname -nrs)",
+	    "Build platform: $SYSID $(uname -n) $BUILDERID",
 	    "Build date: $(LANG=C date)"
 	];
 	

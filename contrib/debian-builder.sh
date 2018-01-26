@@ -47,8 +47,19 @@ ORIG_VERSION="${DEBIAN_VERSION%-*}"
 rm -f ../fusioninventory-agent_$VERSION*
 mv -vf FusionInventory-Agent-$DEBIAN_VERSION.tar.gz ../fusioninventory-agent_$ORIG_VERSION.orig.tar.gz
 
+# Set a builderid
+PBUILDER_BASE_SHA1=$( sha1sum /var/cache/pbuilder/base.tgz 2>/dev/null )
+if [ -n "$PBUILDER_BASE_SHA1" ]; then
+	BUILDERID=${PBUILDER_BASE_SHA1:0:8}
+else
+	UUID=$(uuidgen -t 2>/dev/null)
+	BUILDERID=${UUID%%-*}
+fi
+: ${BUILDERID:=$HOSTNAME}
+export BUILDERID
+
 set +e
-echo "Building Debian package..."
+echo "Building Debian package... BUILDERID=$BUILDERID"
 pdebuild --use-pdebuild-internal
 
 dh_clean
