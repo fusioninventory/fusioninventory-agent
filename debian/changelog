@@ -1,9 +1,16 @@
 fusioninventory-agent (1:2.4-1) unstable; urgency=low
 
   * New upstream release
-  * Updated debian support
+  * Updated debian support:
+    - Fix default configuration to make system logging the default with LOG_DAEMON
+      facility
+    - Fix default configuration to activate new "include" directive: users should
+      now create a .cfg file in /etc/fusioninventory/conf.d to tune agent
+      configuration to their needs, at least server option.
+    - Prox::PID::File dependency removed
+    - Removed mo more needed cron tasks
 
- -- Guillaume Bougard <gbougard@teclib.com>  Thu, 25 Jan 2018 16:50:57 +0100
+ -- Guillaume Bougard <gbougard@teclib.com>  Thu, 26 Jan 2018 09:53:26 +0100
 
 fusioninventory-agent (1:2.3.21-2) unstable; urgency=low
 
