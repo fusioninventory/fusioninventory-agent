@@ -1288,7 +1288,7 @@ sub _getCDPInfo {
 
         if ($connection->{SYSNAME} &&
             $connection->{SYSNAME} =~ /^SIP([A-F0-9a-f]*)$/) {
-            $connection->{MAC} = lc(alt2canonical("0x".$1));
+            $connection->{SYSMAC} = lc(alt2canonical("0x".$1));
         }
 
         # warning: multiple neighbors announcement for the same interface

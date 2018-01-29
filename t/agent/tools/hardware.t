@@ -37,7 +37,7 @@ my @cdp_info_extraction_tests = (
         },
         {
             24 => {
-                MAC      => 'e0:5f:b9:81:a7:a7',
+                SYSMAC   => 'e0:5f:b9:81:a7:a7',
                 SYSDESCR => '7.4.9c',
                 IFDESCR  => 'Port 1',
                 MODEL    => 'Cisco IP Phone SPA508G',
