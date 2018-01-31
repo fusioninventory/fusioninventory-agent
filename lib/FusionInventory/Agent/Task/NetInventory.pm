@@ -94,7 +94,6 @@ sub run {
     ) if !$self->{client};
 
     foreach my $job (@{$self->{jobs}}) {
-        my $pid         = $job->{params}->{PID};
         my $max_threads = $job->{params}->{THREADS_QUERY};
         my $timeout     = $job->{params}->{TIMEOUT};
 
@@ -102,7 +101,7 @@ sub run {
         my $credentials = _getIndexedCredentials($job->{credentials});
 
         # set internal state
-        $self->{pid} = $pid;
+        $self->{pid} = $job->{params}->{PID} || '';
 
         # send initial message to the server
         $self->_sendStartMessage();
@@ -152,6 +151,10 @@ sub run {
                             MESSAGE => $EVAL_ERROR
                         }
                     };
+
+                    # Inserted back device PID in result if set by server
+                    $result->{PID} = $device->{PID} if defined($device->{PID});
+
                     $self->{logger}->error("[thread $id] $EVAL_ERROR");
                 }
 
@@ -285,10 +288,17 @@ sub _sendStopMessage {
 sub _sendResultMessage {
     my ($self, $result) = @_;
 
+    my $pid = $self->{pid};
+    if (exists($result->{PID})) {
+        # Don't keep PID in result but we want to set it as parent PROCESSNUMBER
+        $pid = $result->{PID} if defined($result->{PID});
+        delete $result->{PID};
+    }
+
     $self->_sendMessage({
         DEVICE        => $result,
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid}
+        PROCESSNUMBER => $pid
     });
 }
 
@@ -337,6 +347,9 @@ sub _queryDevice {
          logger  => $self->{logger},
          datadir => $self->{datadir}
     );
+
+    # Inserted back device PID in result if set by server
+    $result->{PID} = $device->{PID} if defined($device->{PID});
 
     return $result;
 }
