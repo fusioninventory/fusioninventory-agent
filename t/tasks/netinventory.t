@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use lib 't/lib';
 use File::Temp qw(tempdir);
+use UNIVERSAL::require;
+use Config;
 
 use Test::Exception;
 use Test::More;
@@ -11,7 +13,6 @@ use Test::MockModule;
 use Test::Deep qw(cmp_deeply);
 
 use FusionInventory::Agent::Logger;
-use FusionInventory::Agent::Task::NetInventory;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::HTTP::Client::OCS;
 use FusionInventory::Agent::XML::Query::Prolog;
@@ -20,6 +21,8 @@ use FusionInventory::Agent::XML::Query::Prolog;
 if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
     plan skip_all => 'thread support required';
 }
+
+FusionInventory::Agent::Task::NetInventory->use();
 
 # Setup a target with a Test logger and debug
 my $logger = FusionInventory::Agent::Logger->new(
