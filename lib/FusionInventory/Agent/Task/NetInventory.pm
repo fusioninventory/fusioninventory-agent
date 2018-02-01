@@ -103,8 +103,11 @@ sub run {
         # set internal state
         $self->{pid} = $job->{params}->{PID} || '';
 
-        # send initial message to the server
-        $self->_sendStartMessage();
+        # newer server won't need START message if PID is provided on <DEVICE/>
+        my $skip_start_stop = any { defined($_->{PID}) } @{$job->{devices}};
+
+        # send initial message to server unless it supports newer protocol
+        $self->_sendStartMessage() unless $skip_start_stop;
 
         my ($debug_sent_count, $started_count) = ( 0, 0 );
         my %running_threads = ();
@@ -231,16 +234,16 @@ sub run {
             $self->_sendResultMessage($result);
         }
 
-        # send final message to the server before cleaning threads
-        $self->_sendStopMessage();
+        # send final message to the server before cleaning threads unless it supports newer protocol
+        $self->_sendStopMessage() unless $skip_start_stop;
 
         if ($started_count) {
             $self->{logger}->debug("cleaning $started_count worker threads");
             $_->join() foreach threads->list(threads::joinable);
         }
 
-        # send final message to the server
-        $self->_sendStopMessage();
+        # send final message to the server unless it supports newer protocol
+        $self->_sendStopMessage() unless $skip_start_stop;
     }
 }
 
