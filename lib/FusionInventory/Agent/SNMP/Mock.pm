@@ -242,6 +242,9 @@ sub _getSanitizedValue {
                 $prefixes{$prefix} . $suffix :
                 $prefix . $suffix;
         }
+    } elsif ($format =~ /timeticks/i) {
+        # Keep only string part as return by SNMP get API
+        $value = $1 if ($value =~ /^\s*\([\d.]+\)\s*(.*)$/x);
     }
 
     return $value;
