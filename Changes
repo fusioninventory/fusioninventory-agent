@@ -5,6 +5,7 @@ Revision history for FusionInventory agent
 netdiscovery/netinventory:
 * Bump NetDiscovery task version to 2.6
 * Bump NetInventory task version to 3.0
+* Fix RAM & CPU are missing from net inventory
 * Added support for HP Net Peripheral, involving better HP printers inventory
  * Get Serial number & firmware version
  * Fix total printed pages counter in many case
