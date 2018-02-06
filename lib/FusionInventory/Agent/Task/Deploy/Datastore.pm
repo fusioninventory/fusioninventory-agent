@@ -57,7 +57,9 @@ sub cleanUp {
 
         next unless $dir =~ /(\d+)$/;
 
-        if (time > $1 || $diskFull) {
+        # Check retention time using a one minute time frame
+        my $timeframe = time - time % 60 ;
+        if ($timeframe >= $1 || $diskFull) {
             remove_tree( $dir, {error => \my $err} );
         }
     }

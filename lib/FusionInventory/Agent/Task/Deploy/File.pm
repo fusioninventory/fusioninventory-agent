@@ -60,9 +60,10 @@ sub getPartFilePath {
 
 # Compute a directory name that will be used to know
 # if the file must be purge. We don't want a new directory
-# everytime, so we use a 10h frame
-    $filePath .= int(time/10000)*10000 + ($self->{retention_duration} * 60);
-    $filePath .= '/'.$subFilePath;
+# everytime, so we use a one minute time frame to follow the retention duration unit
+    my $expiration    = time + ($self->{retention_duration} * 60);
+    my $retentiontime = $expiration - $expiration % 60 ;
+    $filePath .= $retentiontime . '/' . $subFilePath;
 
     return $filePath;
 }
