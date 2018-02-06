@@ -11,6 +11,8 @@ our @EXPORT = qw(
     getCanonicalString
     getCanonicalMacAddress
     getCanonicalConstant
+    getCanonicalMemory
+    getCanonicalCount
     isInteger
     getRegexpOidMatch
 );
@@ -100,6 +102,22 @@ sub isInteger {
     my ($value) = @_;
 
     return $value =~ /^[+-]?\d+$/;
+}
+
+sub getCanonicalMemory {
+    my ($value) = @_;
+
+    if ($value =~ /^(\d+) KBytes$/) {
+        return int($1 / 1024);
+    } else {
+        return int($value / 1024 / 1024);
+    }
+}
+
+sub getCanonicalCount {
+    my ($value) = @_;
+
+    return isInteger($value) ? $value  : undef;
 }
 
 sub getCanonicalConstant {

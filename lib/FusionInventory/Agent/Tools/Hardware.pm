@@ -101,44 +101,6 @@ my @sysdescr_rules = (
     },
 );
 
-# common base variables
-my %base_variables = (
-    CPU          => {
-        oid  => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1',
-        type => 'count',
-    },
-    SNMPHOSTNAME => {
-        oid  => [
-            '.1.3.6.1.2.1.1.5.0',
-            '.1.3.6.1.4.1.2699.1.2.1.2.1.1.2.1', # PRINTER-PORT-MONITOR-MIB, ppmPrinterName
-        ],
-        type => 'string',
-    },
-    LOCATION     => {
-        oid  => '.1.3.6.1.2.1.1.6.0',
-        type => 'string',
-    },
-    CONTACT      => {
-        oid  => '.1.3.6.1.2.1.1.4.0',
-        type => 'string',
-    },
-    UPTIME       => {
-        oid  => '.1.3.6.1.2.1.1.3.0',
-        type => 'string',
-    },
-    MEMORY       => {
-        oid  => [
-            '.1.3.6.1.4.1.9.2.1.8.0',
-            '.1.3.6.1.2.1.25.2.3.1.5.1',
-        ],
-        type => 'memory',
-    },
-    RAM          => {
-        oid  => '.1.3.6.1.4.1.9.3.6.6.0',
-        type => 'memory',
-    },
-);
-
 # common interface variables
 my %interface_variables = (
     IFNUMBER         => {
@@ -338,30 +300,8 @@ sub _getDevice {
     # Find and set model
     $device->setModel();
 
-    # remaining informations
-    foreach my $key (keys %base_variables) {
-        my $variable = $base_variables{$key};
-
-        my $raw_value;
-        if (ref $variable->{oid} eq 'ARRAY') {
-            foreach my $oid (@{$variable->{oid}}) {
-                $raw_value = $snmp->get($oid);
-                last if defined $raw_value;
-            }
-        } else {
-            $raw_value = $snmp->get($variable->{oid});
-        }
-        next unless defined $raw_value;
-
-        my $type = $variable->{type};
-        my $value =
-            $type eq 'memory' ? _getCanonicalMemory($raw_value) :
-            $type eq 'string' ? getCanonicalString($raw_value) :
-            $type eq 'count'  ? _getCanonicalCount($raw_value)  :
-                                $raw_value;
-
-        $device->{$key} = $value if defined $value;
-    }
+    # Get some common informations like SNMPHOSTNAME, LOCATION, UPTIME and CONTACT
+    $device->setBaseInfos();
 
     # Cleanup some strings from whitespaces
     foreach my $key (qw(MODEL SNMPHOSTNAME LOCATION CONTACT)) {
@@ -513,6 +453,9 @@ sub getDeviceFullInfo {
     # second, use results to build the object
     $device->{INFO} = $info ;
 
+    # Set other requested infos
+    $device->setInventoryBaseInfos();
+
     _setGenericProperties(
         device => $device,
         snmp   => $snmp,
@@ -600,7 +543,7 @@ sub _setGenericProperties {
                 $type eq 'mac'      ? getCanonicalMacAddress($raw_value) :
                 $type eq 'constant' ? getCanonicalConstant($raw_value)   :
                 $type eq 'string'   ? getCanonicalString($raw_value)     :
-                $type eq 'count'    ? _getCanonicalCount($raw_value)      :
+                $type eq 'count'    ? getCanonicalCount($raw_value)      :
                                       $raw_value;
             $ports->{$suffix}->{$key} = $value
                 if defined $value && $value ne '';
@@ -819,22 +762,6 @@ sub _getPercentValue {
     return int(
         ( 100 * $value2 ) / $value1
     );
-}
-
-sub _getCanonicalMemory {
-    my ($value) = @_;
-
-    if ($value =~ /^(\d+) KBytes$/) {
-        return int($1 / 1024);
-    } else {
-        return int($value / 1024 / 1024);
-    }
-}
-
-sub _getCanonicalCount {
-    my ($value) = @_;
-
-    return isInteger($value) ? $value  : undef;
 }
 
 sub _getElement {
