@@ -299,7 +299,11 @@ sub _queryDevice {
     my $device      = $params{device};
     my $logger      = $self->{logger};
     my $id          = threads->tid();
-    $logger->debug("[thread $id] scanning $device->{ID}");
+    $logger->debug(
+        "[thread $id] scanning $device->{ID}: $device->{IP}" .
+        ( $device->{PORT} ? ' on port ' . $device->{PORT} : '' ) .
+        ( $device->{PROTOCOL} ? ' via ' . $device->{PROTOCOL} : '' )
+    );
 
     my $snmp;
     if ($device->{FILE}) {
@@ -317,6 +321,8 @@ sub _queryDevice {
             $snmp = FusionInventory::Agent::SNMP::Live->new(
                 version      => $credentials->{VERSION},
                 hostname     => $device->{IP},
+                port         => $device->{PORT},
+                domain       => $device->{PROTOCOL},
                 timeout      => $params{timeout} || 15,
                 community    => $credentials->{COMMUNITY},
                 username     => $credentials->{USERNAME},
