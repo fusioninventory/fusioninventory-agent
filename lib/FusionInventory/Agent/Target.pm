@@ -61,7 +61,6 @@ sub getStorage {
 sub setNextRunDate {
     my ($self, $nextRunDate) = @_;
 
-    lock($self->{nextRunDate}) if $self->{shared};
     $self->{nextRunDate} = $nextRunDate;
     $self->_saveState();
 }
@@ -69,7 +68,6 @@ sub setNextRunDate {
 sub setNextRunDateFromNow {
     my ($self, $nextRunDelay) = @_;
 
-    lock($self->{nextRunDate}) if $self->{shared};
     if ($nextRunDelay) {
         # While using nextRunDelay, we double it on each consecutive call until
         # delay reach target defined maxDelay. This is only used on network failure.
@@ -84,7 +82,6 @@ sub setNextRunDateFromNow {
 sub resetNextRunDate {
     my ($self) = @_;
 
-    lock($self->{nextRunDate}) if $self->{shared};
     $self->{_nextrundelay} = 0;
     $self->{nextRunDate} = $self->_computeNextRunDate();
     $self->_saveState();
