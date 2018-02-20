@@ -347,29 +347,6 @@ sub getAvailableTasks {
     return %tasks;
 }
 
-sub _getTaskVersion {
-    my ($self, $module) = @_;
-
-    my $logger = $self->{logger};
-
-    if (!$module->require()) {
-        $logger->debug2("module $module does not compile: $@") if $logger;
-
-        # Don't keep trace of module, only really needed to fix perl 5.8 issue
-        delete $INC{module2file($module)};
-
-        return;
-    }
-
-    my $version;
-    {
-        no strict 'refs';  ## no critic
-        $version = &{$module . '::VERSION'};
-    }
-
-    return $version;
-}
-
 sub _handlePersistentState {
     my ($self) = @_;
 
