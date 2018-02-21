@@ -23,6 +23,10 @@ my $agent = FusionInventory::Agent::Daemon->new(libdir => $libdir);
 
 my %tasks;
 
+create_file("$libdir/FusionInventory/Agent/Task", "Task1.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task1;
+1;
+EOF
 create_file("$libdir/FusionInventory/Agent/Task/Task1", "Version.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task1::Version;
 use constant VERSION => 42;
@@ -35,6 +39,10 @@ cmp_deeply (
     "single task"
 );
 
+create_file("$libdir/FusionInventory/Agent/Task", "Task2.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task1;
+1;
+EOF
 create_file("$libdir/FusionInventory/Agent/Task/Task2", "Version.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task2::Version;
 use constant VERSION => 42;
@@ -50,6 +58,10 @@ cmp_deeply (
     "multiple tasks"
 );
 
+create_file("$libdir/FusionInventory/Agent/Task", "Task3.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task1;
+1;
+EOF
 create_file("$libdir/FusionInventory/Agent/Task/Task3", "Version.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task3::Version;
 use Does::Not::Exists;
@@ -66,6 +78,10 @@ cmp_deeply(
     "wrong syntax"
 );
 
+create_file("$libdir/FusionInventory/Agent/Task", "Task5.pm", <<'EOF');
+package FusionInventory::Agent::Task::Task1;
+1;
+EOF
 create_file("$libdir/FusionInventory/Agent/Task/Task5", "Version.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task5::Version;
 use constant VERSION => 42;
