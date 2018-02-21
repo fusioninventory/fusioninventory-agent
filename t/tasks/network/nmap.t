@@ -31,6 +31,10 @@ my %tests = (
       NETPORTVENDOR => 'Cisco Systems',
       MAC           => '00:1A:A1:85:9A:BF'
     },
+    'google.com' => undef,
+    '11.52.5.241' => {
+      DNSHOSTNAME   => '11.52.5.241',
+    },
 );
 
 # check thread support availability
@@ -45,6 +49,7 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/nmap/$test";
     my $result = FusionInventory::Agent::Task::NetDiscovery::_parseNmap(
+        ip   => $test,
         file => $file
     );
     cmp_deeply($result, $tests{$test}, $test);
