@@ -35,7 +35,7 @@ sub new {
 }
 
 sub cleanUp {
-    my ($self) = @_;
+    my ($self, %params) = @_;
 
     return unless -d $self->{path};
 
@@ -43,11 +43,11 @@ sub cleanUp {
     push @storageDirs, File::Glob::bsd_glob($self->{path}.'/fileparts/private/*');
     push @storageDirs, File::Glob::bsd_glob($self->{path}.'/fileparts/shared/*');
 
-    my $diskFull=$self->diskIsFull();
     if (-d $self->{path}.'/workdir/') {
         remove_tree( $self->{path}.'/workdir/', {error => \my $err} );
     }
 
+    my $remaining = 0;
     foreach my $dir (@storageDirs) {
 
         if (!-d $dir) {
@@ -59,17 +59,18 @@ sub cleanUp {
 
         # Check retention time using a one minute time frame
         my $timeframe = time - time % 60 ;
-        if ($timeframe >= $1 || $diskFull) {
+        if ($timeframe >= $1 || $params{force}) {
             remove_tree( $dir, {error => \my $err} );
+        } else {
+            $remaining ++;
         }
     }
 
+    return $remaining;
 }
 
 sub createWorkDir {
     my ($self, $uuid) = @_;
-
-#    mkpath($filePath);
 
     my $path = $self->{path}.'/workdir/'.$uuid;
 

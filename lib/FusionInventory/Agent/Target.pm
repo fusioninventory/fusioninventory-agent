@@ -65,6 +65,49 @@ sub setNextRunDate {
     $self->_saveState();
 }
 
+sub registerInternalEvent {
+    my ($self, $delay, $task, $event) = @_;
+
+    # We accept null delay
+    return unless defined($delay) && $task && $event;
+
+    if ($delay) {
+        push @{$self->{nextInternalEvents}}, [ time() + $delay, $task, $event ];
+        $self->{logger}->debug2(
+            "[target $self->{id}] Registered $event event for $task in $delay second(s)"
+        ) if $self->{logger};
+    } else {
+        # Filter task internal event from list while delay is null
+        my @events = grep {
+            $_->[1] ne $task || $_->[2] ne $event
+        } @{$self->{nextInternalEvents}};
+        $self->{nextInternalEvents} = \@events;
+        $self->{logger}->debug2(
+            "[target $self->{id}] Unregistered $event event for $task"
+        ) if $self->{logger};
+    }
+
+    # Always sort by time to keep next event as first event
+    # We also prefer to avoid any duplicated event and reschedule the event
+    if (@{$self->{nextInternalEvents}} > 1) {
+        my @events = ();
+        my %uniqtaskevents = ();
+        foreach my $other (@{$self->{nextInternalEvents}}) {
+            if ($other->[1] eq $task) {
+                $uniqtaskevents{$other->[2]} = $other->[0];
+            } else {
+                push @events, $other;
+            }
+        }
+        # Be sure here to re-schedule this event
+        $uniqtaskevents{$event} = time() + $delay;
+        push @events, map { [ $uniqtaskevents{$_}, $task, $_ ] } keys(%uniqtaskevents);
+        my @sorted_events = sort { $a->[0] <=> $b->[0] } @events;
+        $self->{nextInternalEvents} = \@sorted_events;
+    }
+    $self->_saveState();
+}
+
 sub setNextRunDateFromNow {
     my ($self, $nextRunDelay) = @_;
 
@@ -91,6 +134,33 @@ sub getNextRunDate {
     my ($self) = @_;
 
     return $self->{nextRunDate};
+}
+
+sub getNextExpiredInternalEvent {
+    my ($self) = @_;
+
+    return unless $self->{nextInternalEvents};
+
+    return unless ref($self->{nextInternalEvents}) eq 'ARRAY';
+
+    return unless @{$self->{nextInternalEvents}} > 0;
+
+    # Just remove next event if not conform
+    my ($expiration, $task, $event);
+    while (@{$self->{nextInternalEvents}}) {
+        ($expiration, $task, $event) = @{$self->{nextInternalEvents}->[0]};
+        last if defined($expiration) && $task && $event;
+        shift @{$self->{nextInternalEvents}};
+    }
+    return unless defined($expiration) && $task && $event;
+
+    return if (scalar(time()) < $expiration);
+
+    shift @{$self->{nextInternalEvents}};
+
+    $self->_saveState();
+
+    return ($task , $event);
 }
 
 sub paused {
@@ -168,6 +238,8 @@ sub _loadState {
 
     $self->{maxDelay}    = $data->{maxDelay}    if $data->{maxDelay};
     $self->{nextRunDate} = $data->{nextRunDate} if $data->{nextRunDate};
+
+    $self->{nextInternalEvents} = $data->{nextInternalEvents} || [];
 }
 
 sub _saveState {
@@ -178,6 +250,8 @@ sub _saveState {
         data => {
             maxDelay    => $self->{maxDelay},
             nextRunDate => $self->{nextRunDate},
+
+            nextInternalEvents  => $self->{nextInternalEvents},
         }
     );
 }

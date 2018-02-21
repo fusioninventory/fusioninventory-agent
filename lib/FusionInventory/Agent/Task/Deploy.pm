@@ -18,6 +18,13 @@ use FusionInventory::Agent::Task::Deploy::Version;
 
 our $VERSION = FusionInventory::Agent::Task::Deploy::Version::VERSION;
 
+# TODO Also handle p2p peers discovery as internal task event and managing a
+# p2p peers storage while p2p is enabled
+our $TaskEvents = {
+    'cache-cleanup' => 60,
+    'disk-cleanup'  => 1800,
+};
+
 sub isEnabled {
     my ($self) = @_;
 
@@ -87,11 +94,12 @@ sub processRemote {
         return 0;
     }
 
+    my $folder = $self->{target}->getStorage()->getDirectory();
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
-        path => $self->{target}{storage}{directory}.'/deploy',
+        path   => $folder.'/deploy',
         logger => $logger
     );
-    $datastore->cleanUp();
+    $datastore->cleanUp( force => $datastore->diskIsFull() );
 
     my $jobList = [];
     my $files;
@@ -389,8 +397,9 @@ sub run {
         debug        => $self->{debug}
     );
 
+    my $url = $self->{target}->getUrl();
     my $globalRemoteConfig = $self->{client}->send(
-        url  => $self->{target}->{url},
+        url  => $url,
         args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
@@ -399,11 +408,11 @@ sub run {
     );
 
     if (!$globalRemoteConfig->{schedule}) {
-        $self->{logger}->info("No job schedule returned from server at ".$self->{target}->{url});
+        $self->{logger}->info("No job schedule returned from server at $url");
         return;
     }
     if (ref( $globalRemoteConfig->{schedule} ) ne 'ARRAY') {
-        $self->{logger}->info("Malformed schedule from server at ".$self->{target}->{url});
+        $self->{logger}->info("Malformed schedule from server at $url");
         return;
     }
     if ( !@{$globalRemoteConfig->{schedule}} ) {
@@ -425,7 +434,37 @@ sub run {
     return 1;
 }
 
-1;
+sub runInternalEvent {
+    my ($self, $event) = @_;
+
+    return unless ($event && $TaskEvents->{$event});
+
+    my $folder = $self->{target}->getStorage()->getDirectory();
+    my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
+        path   => $folder.'/deploy',
+        logger => $self->{logger}
+    );
+
+    my $next = {
+        name    => $event,
+        delay   => $TaskEvents->{$event}
+    };
+
+    if ($event eq 'disk-cleanup') {
+        # Reschedule unless files were purged
+        return $next
+            if $datastore->cleanUp( force => $datastore->diskIsFull() );
+    } else {
+        # Re-schedule cache-cleanup internal event if folders need to be purged later
+        return $next if $datastore->cleanUp( force => 0 );
+        # Finally abort disk-cleanup internal event re-scheduling when we
+        # have nothing more to purge
+        return {
+            name    => 'disk-cleanup',
+            delay   => 0
+        };
+    }
+}
 
 __END__
 

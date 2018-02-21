@@ -1,6 +1,9 @@
 Revision history for FusionInventory agent
 
 2.4.1 not released yet
+core:
+* Add task internal events support, used firstly by Deploy task to schedule
+  cache disk storage maintenance
 
 core:
 * Normalized Target class APIs
