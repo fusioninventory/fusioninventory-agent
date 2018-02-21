@@ -26,8 +26,6 @@ my %tests = (
     },
     '10.0.1.128' => {
       DNSHOSTNAME   => 'tosh-r630.local',
-      NETPORTVENDOR => 'Cisco-Linksys',
-      MAC           => '00:1D:7E:43:96:57'
     },
     '88.191.59.1' => {
       NETPORTVENDOR => 'Cisco Systems',
