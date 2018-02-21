@@ -187,7 +187,7 @@ sub run {
             }
 
             if ($expiration && time > $expiration) {
-                $self->{logger}->warn("Aborting netinventory job as it reached expiration time");
+                $self->{logger}->warning("Aborting netinventory job as it reached expiration time");
                 # detach all our running worker
                 foreach my $tid (keys(%running_threads)) {
                     $running_threads{$tid}->detach()

@@ -236,7 +236,7 @@ sub run {
                 }
 
                 if ($expiration && time > $expiration) {
-                    $self->{logger}->warn("Aborting block scan as it reached expiration time");
+                    $self->{logger}->warning("Aborting block scan as it reached expiration time");
                     # detach all our running worker
                     foreach my $tid (keys(%running_threads)) {
                         $running_threads{$tid}->detach()
