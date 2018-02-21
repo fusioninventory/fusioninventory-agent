@@ -373,6 +373,7 @@ sub _scanAddressByNmap {
     my ($self, %params) = @_;
 
     my $device = _parseNmap(
+        ip      => $params{ip},
         command => "nmap $params{nmap_parameters} $params{ip} -oX -"
     );
 
@@ -524,10 +525,19 @@ sub _parseNmap {
     my $result;
 
     foreach my $host (@{$tree->{nmaprun}[0]{host}}) {
+        # Verify nmap returned host is up, and than use ip as default hostname
+        foreach my $status (@{$host->{status}}) {
+            next unless $status->{'-state'} eq 'up';
+            $result = { DNSHOSTNAME => $params{ip} };
+            last;
+        }
+        next unless $result;
         foreach my $address (@{$host->{address}}) {
             next unless $address->{'-addrtype'} eq 'mac';
             $result->{MAC}           = $address->{'-addr'};
             $result->{NETPORTVENDOR} = $address->{'-vendor'};
+            # We can delete default DNSHOSTNAME when a MAC is found
+            delete $result->{DNSHOSTNAME};
             last;
         }
         foreach my $hostname (@{$host->{hostnames}}) {
