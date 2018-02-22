@@ -409,7 +409,7 @@ my %responses = (
         <MANUFACTURER>Epson</MANUFACTURER>
         <NAME>AL-CX11-CF9D9F</NAME>
         <TYPE>NETWORKING</TYPE>
-        <UPTIME>(102260032) 11 days, 20:03:20.32</UPTIME>
+        <UPTIME>11 days, 20:03:20.32</UPTIME>
       </INFO>
       <PORTS>
         <PORT>
