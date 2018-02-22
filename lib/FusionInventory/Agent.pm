@@ -246,7 +246,11 @@ sub runTaskReal {
 
     my $class = "FusionInventory::Agent::Task::$name";
 
-    $class->require();
+    if (!$class->require()) {
+        $self->{logger}->debug2("$name task module does not compile: $@")
+            if $self->{logger};
+        return;
+    }
 
     my $task = $class->new(
         config       => $self->{config},
