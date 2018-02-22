@@ -44,7 +44,7 @@ sub _retrieveStoragesFromSysCtl {
         storages => \@storages
     );
 
-    return @storages;
+    return \@storages;
 }
 
 sub _getDevicesFromSysCtl {
