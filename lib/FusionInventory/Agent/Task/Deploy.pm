@@ -18,8 +18,6 @@ use FusionInventory::Agent::Task::Deploy::Version;
 
 our $VERSION = FusionInventory::Agent::Task::Deploy::Version::VERSION;
 
-# TODO Also handle p2p peers discovery as internal task event and managing a
-# p2p peers storage while p2p is enabled
 our $TaskEvents = {
     'cache-cleanup' => 60,
     'disk-cleanup'  => 1800,
@@ -96,6 +94,7 @@ sub processRemote {
 
     my $folder = $self->{target}->getStorage()->getDirectory();
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
+        config => $self->{config},
         path   => $folder.'/deploy',
         logger => $logger
     );

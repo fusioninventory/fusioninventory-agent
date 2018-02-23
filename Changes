@@ -41,6 +41,10 @@ netdiscovery/netinventory:
 deploy:
 * Bump Deploy task version to 2.6
 * Fix file retention support
+* Add P2P peers caching to reduce peers discovery load in the meantime
+* For better P2P support, agent ajusts its 404 message to "Nothing found" when it
+  has nothing to share with other agents. So peers won't ask again and again for
+  any file part during 20 minutes by default.
 
 2.4 Fri, 29 Dec 2017
 core:
