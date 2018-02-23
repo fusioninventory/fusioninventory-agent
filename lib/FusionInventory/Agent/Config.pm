@@ -48,6 +48,7 @@ my $default = {
     'tasks'                   => undef,
     'timeout'                 => 180,
     'user'                    => undef,
+    'vardir'                  => undef,
     # deprecated options
     'stdout'                  => undef,
 };
@@ -73,6 +74,8 @@ sub new {
     $self->_loadFromBackend($params{options}->{'conf-file'}, $params{options}->{config});
 
     $self->_loadUserParams($params{options});
+
+    $self->{vardir} = $params{vardir};
 
     $self->_checkContent();
 
@@ -371,6 +374,8 @@ sub _checkContent {
         File::Spec->rel2abs($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
     $self->{'logfile'} =
         File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
+    $self->{'vardir'} =
+        File::Spec->rel2abs($self->{'vardir'}) if $self->{'vardir'};
 
     # conf-reload-interval option
     # If value is less than the required minimum, we force it to that
