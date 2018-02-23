@@ -61,7 +61,7 @@ sub getPartFilePath {
 # Compute a directory name that will be used to know
 # if the file must be purge. We don't want a new directory
 # everytime, so we use a one minute time frame to follow the retention duration unit
-    my $expiration    = time + ($self->{retention_duration} * 60);
+    my $expiration    = time + (($self->{retention_duration}+1) * 60);
     my $retentiontime = $expiration - $expiration % 60 ;
     $filePath .= $retentiontime . '/' . $subFilePath;
 
@@ -91,6 +91,7 @@ sub download {
     };
 
     my $lastPeer;
+    my $nextPathUpdate = _getNextPathUpdateTime();
     PART: foreach my $sha512 (@{$self->{multiparts}}) {
         my $path = $self->getPartFilePath($sha512);
         if (-f $path) {
@@ -111,14 +112,29 @@ sub download {
                 $lastPeer = $peer;
                 next PART;
             }
+            # Update filepath so retention is kept in the future on long search
+            if ( (time - $nextPathUpdate > 0 ) {
+                $path = $self->getPartFilePath($sha512);
+                $nextPathUpdate = _getNextPathUpdateTime();
+            }
         }
 
         # try to download from mirrors
         foreach my $mirror (@{$self->{mirrors}}) {
             my $success = $self->_download($mirror, $sha512, $path);
             next PART if $success;
+            # Update filepath so retention is kept in the future on long search
+            if ( time - $nextPathUpdate > 0 ) {
+                $path = $self->getPartFilePath($sha512);
+                $nextPathUpdate = _getNextPathUpdateTime();
+            }
         }
     }
+}
+
+sub _getNextPathUpdateTime {
+    my $time = time;
+    return $time + 60 - $time % 60;
 }
 
 sub _downloadPeer {
