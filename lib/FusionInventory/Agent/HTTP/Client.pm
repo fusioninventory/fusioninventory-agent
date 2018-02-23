@@ -55,7 +55,7 @@ sub new {
 }
 
 sub request {
-    my ($self, $request, $file) = @_;
+    my ($self, $request, $file, $no_proxy_host) = @_;
 
     my $logger = $self->{logger};
 
@@ -63,8 +63,11 @@ sub request {
     my $scheme = $url->scheme();
     $self->_setSSLOptions() if $scheme eq 'https' && !$self->{ssl_set};
 
-    # keep proxy trace if one may be used
-    if ($self->{ua}->proxy($scheme)) {
+    # Avoid to use proxy if requested
+    if ($no_proxy_host) {
+        $self->{ua}->no_proxy($no_proxy_host);
+    } elsif ($self->{ua}->proxy($scheme)) {
+        # keep proxy trace if one may be used
         my $proxy_uri = URI->new($self->{ua}->proxy($scheme));
         if ($proxy_uri->userinfo) {
             # Obfuscate proxy password if present

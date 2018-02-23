@@ -113,7 +113,7 @@ sub download {
                 next PART;
             }
             # Update filepath so retention is kept in the future on long search
-            if ( (time - $nextPathUpdate > 0 ) {
+            if ( time - $nextPathUpdate > 0 ) {
                 $path = $self->getPartFilePath($sha512);
                 $nextPathUpdate = _getNextPathUpdateTime();
             }
@@ -142,11 +142,11 @@ sub _downloadPeer {
 
     my $source = 'http://'.$peer.':62354/deploy/getFile/';
 
-    return $self->_download($source, $sha512, $path);
+    return $self->_download($source, $sha512, $path, $peer);
 }
 
 sub _download {
-    my ($self, $source, $sha512, $path) = @_;
+    my ($self, $source, $sha512, $path, $peer) = @_;
 
     return unless $sha512 =~ /^(.)(.)/;
     my $sha512dir = $1.'/'.$1.$2.'/';
@@ -155,7 +155,7 @@ sub _download {
     $self->{logger}->debug($url);
 
     my $request = HTTP::Request->new(GET => $url);
-    my $response = $self->{client}->request($request, $path);
+    my $response = $self->{client}->request($request, $path, $peer);
 
     return if $response->code != 200;
     return if ! -f $path;
