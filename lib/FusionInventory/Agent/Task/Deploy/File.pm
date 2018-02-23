@@ -84,6 +84,7 @@ sub download {
             );
             eval {
                 @peers = $p2p->findPeers(62354);
+                $self->{p2pnet} = $p2p;
             };
             $self->{logger}->debug("failed to enable P2P: $EVAL_ERROR")
                 if $EVAL_ERROR;
@@ -157,7 +158,13 @@ sub _download {
     my $request = HTTP::Request->new(GET => $url);
     my $response = $self->{client}->request($request, $path, $peer);
 
-    return if $response->code != 200;
+    if ($response->code != 200) {
+        if ($response->code != 404 || $response->status_line() =~ /Nothing found/) {
+            $self->{logger}->debug2("Remote peer $peer is useless, we should forget it out for a while");
+            #$self->{p2pnet}->forget($peer) if $self->{p2pnet};
+        }
+        return;
+    }
     return if ! -f $path;
 
     if ($self->_getSha512ByFile($path) ne $sha512) {
