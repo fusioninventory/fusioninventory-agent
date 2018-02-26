@@ -19,6 +19,48 @@ use constant inventory => [ qw(
         INFO PORTS MODEMS FIRMWARES SIMCARDS PAGECOUNTERS CARTRIDGES
     )];
 
+# common base variables
+my $base_variables = {
+    SNMPHOSTNAME => {
+        oid  => [
+            '.1.3.6.1.2.1.1.5.0',
+            '.1.3.6.1.4.1.2699.1.2.1.2.1.1.2.1', # PRINTER-PORT-MONITOR-MIB, ppmPrinterName
+        ],
+        type => 'string',
+    },
+    LOCATION     => {
+        oid  => '.1.3.6.1.2.1.1.6.0',
+        type => 'string',
+    },
+    CONTACT      => {
+        oid  => '.1.3.6.1.2.1.1.4.0',
+        type => 'string',
+    },
+    UPTIME       => {
+        oid  => '.1.3.6.1.2.1.1.3.0',
+        type => 'string',
+    },
+};
+
+# common base variables for inventory only
+my $inventory_only_base_variables = {
+    CPU          => {
+        oid  => '.1.3.6.1.4.1.9.9.109.1.1.1.1.3.1',
+        type => 'count',
+    },
+    MEMORY       => {
+        oid  => [
+            '.1.3.6.1.4.1.9.2.1.8.0',
+            '.1.3.6.1.2.1.25.2.3.1.5.1',
+        ],
+        type => 'memory',
+    },
+    RAM          => {
+        oid  => '.1.3.6.1.4.1.9.3.6.6.0',
+        type => 'memory',
+    },
+};
+
 sub new {
     my ($class, %params) = @_;
 
@@ -378,6 +420,44 @@ sub setModel {
     if ($self->{MIBSUPPORT}) {
         my $model = $self->{MIBSUPPORT}->getMethod('getModel');
         $self->{MODEL} = getCanonicalString($model) if $model;
+    }
+}
+
+sub setBaseInfos {
+    my ($self) = @_;
+    $self->_set_from_oid_list($base_variables, $self);
+}
+
+sub setInventoryBaseInfos {
+    my ($self) = @_;
+    $self->_set_from_oid_list($inventory_only_base_variables, $self->{INFO});
+}
+
+sub _set_from_oid_list {
+    my ($self, $list, $where) = @_;
+
+    foreach my $key (keys %{$list}) {
+        my $variable = $list->{$key};
+
+        my $raw_value;
+        if (ref $variable->{oid} eq 'ARRAY') {
+            foreach my $oid (@{$variable->{oid}}) {
+                $raw_value = $self->get($oid);
+                last if defined $raw_value;
+            }
+        } else {
+            $raw_value = $self->get($variable->{oid});
+        }
+        next unless defined $raw_value;
+
+        my $type = $variable->{type};
+        my $value =
+            $type eq 'memory' ? getCanonicalMemory($raw_value) :
+            $type eq 'string' ? getCanonicalString($raw_value) :
+            $type eq 'count'  ? getCanonicalCount($raw_value)  :
+                                $raw_value;
+
+        $where->{$key} = $value if defined $value;
     }
 }
 
