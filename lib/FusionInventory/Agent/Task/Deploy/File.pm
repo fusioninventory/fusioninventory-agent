@@ -158,7 +158,11 @@ sub _download {
     $self->{logger}->debug($url);
 
     my $request = HTTP::Request->new(GET => $url);
-    my $response = $self->{client}->request($request, $path, $peer);
+    # We want to try direct download without proxy if peer if defined and then
+    # we also prefer to use really short timeout to disqualify busy peers and
+    # also avoid to block for not responding peers while using P2P
+    my $timeout = $peer ? 1 : 180 ;
+    my $response = $self->{client}->request($request, $path, $peer, $timeout);
 
     if ($response->code != 200) {
         if ($response->code != 404 || $response->status_line() =~ /Nothing found/) {

@@ -42,6 +42,9 @@ deploy:
 * Bump Deploy task version to 2.6
 * Fix file retention support
 * Add P2P peers caching to reduce peers discovery load in the meantime
+* Reduced timeout for peer discovery and file parts downloading for P2P. This
+  efficiently limits the time passed to discover the local peers and disqualify
+  any busy or not responding peers in a more acceptable delay.
 * For better P2P support, agent ajusts its 404 message to "Nothing found" when it
   has nothing to share with other agents. So peers won't ask again and again for
   any file part during 20 minutes by default.

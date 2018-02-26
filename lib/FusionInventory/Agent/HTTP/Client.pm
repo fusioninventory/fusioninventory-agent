@@ -55,9 +55,13 @@ sub new {
 }
 
 sub request {
-    my ($self, $request, $file, $no_proxy_host) = @_;
+    my ($self, $request, $file, $no_proxy_host, $timeout) = @_;
 
     my $logger = $self->{logger};
+
+    # Save current timeout to restore it before leaving
+    my $current_timeout = $self->{ua}->timeout();
+    $self->{ua}->timeout($timeout);
 
     my $url = $request->uri();
     my $scheme = $url->scheme();
@@ -150,6 +154,9 @@ sub request {
             );
         }
     }
+
+    # Always restore timeout
+    $self->{ua}->timeout($current_timeout);
 
     return $result;
 }
