@@ -80,8 +80,9 @@ sub download {
             $self->{logger}->debug("can't enable P2P: $EVAL_ERROR")
         } else {
             my $p2p = FusionInventory::Agent::Task::Deploy::P2P->new(
-                datastore   => $self->{datastore},
-                logger      => $self->{logger}
+                scan_timeout    => 1,
+                datastore       => $self->{datastore},
+                logger          => $self->{logger}
             );
             eval {
                 @peers = $p2p->findPeers(62354);
