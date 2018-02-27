@@ -7,6 +7,7 @@ use parent 'FusionInventory::Agent::SNMP';
 use Encode qw(encode);
 use English qw(-no_match_vars);
 use Net::SNMP;
+use Net::SNMP qw/SNMP_PORT/;
 
 sub new {
     my ($class, %params) = @_;
@@ -29,6 +30,8 @@ sub new {
         -retries  => 0,
         -version  => $version,
         -hostname => $params{hostname},
+        -port     => $params{port}      || SNMP_PORT,
+        -domain   => $params{domain}    || 'udp/ipv4',
     );
     $options{'-timeout'} = $params{timeout} if $params{timeout};
 
@@ -221,6 +224,24 @@ Can be one of:
 The transport layer timeout
 
 =item hostname (mandatory)
+
+=item port
+
+=item domain
+
+Can be one of:
+
+=over
+
+=item 'udp/ipv4' (default)
+
+=item 'udp/ipv6'
+
+=item 'tcp/ipv4'
+
+=item 'tcp/ipv6'
+
+=back
 
 =item community
 

@@ -39,6 +39,8 @@ GetOptions(
     'file=s@',
     'community=s',
     'credentials=s',
+    'port=s@',
+    'protocol=s@',
     'threads=i',
     'timeout=i',
     'control',
@@ -64,10 +66,24 @@ pod2usage(
 
 warn "deprecated option model, ignoring\n" if $options->{model};
 
+# Split host, port and protocol options on comma
+foreach my $opt (qw(host port protocol)) {
+    $options->{$opt} = [ map { split(/\s*,\s*/, $_) } @{$options->{$opt} || []} ];
+}
+
 # Add hosts if --host option is not listing as much host as --file option is providing snmpwalk files
-$options->{host} = [] unless $options->{host};
 while ($options->{file} && @{$options->{file}} > @{$options->{host}}) {
     push @{$options->{host}}, $options->{host}[0] || '127.0.0.1';
+}
+
+# Add as ports as set hosts, setting 0 will force to select the default SNMP port
+while ($options->{host} && @{$options->{host}} > @{$options->{port}}) {
+    push @{$options->{port}}, $options->{port}[0] || 0;
+}
+
+# Add as protocols as set hosts, setting '' will force to select the default SNMP protocol
+while ($options->{host} && @{$options->{host}} > @{$options->{protocol}}) {
+    push @{$options->{protocol}}, $options->{protocol}[0] || '';
 }
 
 my $id = 0;
@@ -85,6 +101,8 @@ if ($options->{file}) {
     push @devices, {
         ID           => $id++,
         IP           => $_,
+        PORT         => shift @{$options->{port}},
+        PROTOCOL     => shift @{$options->{protocol}},
         AUTHSNMP_ID  => 1,
         MODELSNMP_ID => 1
     } foreach @{$options->{host}};
@@ -187,6 +205,8 @@ fusioninventory-netinventory [options] [--host <host>|--file <file>]
 
   Options:
     --host <HOST>          target host
+    --port <PORT[,PORT2]>  SNMP port (161)
+    --protocol <PROT[,P2]> SNMP protocol/domain (udp/ipv4)
     --file <FILE>          snmpwalk output file
     --community <STRING>   community string (public)
     --credentials <STRING> SNMP credentials (version:1,community:public)
@@ -211,6 +231,18 @@ a GLPI server.
 
 Run an online inventory against given host. Multiple usage allowed, for
 multiple hosts.
+
+=item B<--port> I<PORT[,PORT2]>
+
+List of ports to try, defaults to: 161
+
+Set it to 161,16100 to first try on default port and then on 16100.
+
+=item B<--protocol> I<PROTOCOL[,PROTOCOL2]>
+
+List of protocols to try, defaults to: udp/ipv4
+
+Possible values are: udp/ipv4,udp/ipv6,tcp/ipv4,tcp/ipv6
 
 =item B<--file> I<FILE>
 
