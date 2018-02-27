@@ -18,6 +18,8 @@ netdiscovery/netinventory:
   upgrades done server-side.
 * Fix discovery of devices with only ping responding and without found hostname. In
   that case, we default the DNSHOSTNAME to the scanned ip.
+* Update nmap options to also send a ICMP echo request, so devices not supporting
+  ICMP timestamp requests can also be discovered
 
 2.4 Fri, 29 Dec 2017
 core:
