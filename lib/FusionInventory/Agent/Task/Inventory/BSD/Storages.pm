@@ -21,10 +21,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $storages = _retrieveStoragesFromSysCtl(
-        logger => $logger
-    );
-    for my $storage (@$storages) {
+    foreach my $storage (_getStorages(logger => $logger)) {
         $inventory->addEntry(
             section => 'STORAGES',
             entry   => $storage
@@ -32,22 +29,7 @@ sub doInventory {
     }
 }
 
-sub _retrieveStoragesFromSysCtl {
-    my (%params) = @_;
-
-    my @storages = _getDevicesFromSysCtl(
-        %params,
-        file => $params{sysctlFile} ? $params{sysctlFile} : ''
-    );
-    _extractDataFromDmesg(
-        file => $params{dmesgFile} ? $params{dmesgFile} : '',
-        storages => \@storages
-    );
-
-    return \@storages;
-}
-
-sub _getDevicesFromSysCtl {
+sub _getStorages {
     my (%params) = @_;
 
     my $command = 'sysctl kern.geom.confxml';
@@ -59,7 +41,7 @@ sub _getDevicesFromSysCtl {
     my $tpp = XML::TreePP->new();
     my $tree = $tpp->parse($lines);
 
-    my @devices = ();
+    my @storages = ();
     for my $class (@{$tree->{mesh}->{class}}) {
         my $name = $class->{name} || $class->{'#name'} || '';
         next unless ($name && $name eq 'DISK');
@@ -74,11 +56,19 @@ sub _getDevicesFromSysCtl {
                 if ($geom->{provider}
                     && defined $geom->{provider}->{mediasize});
             $device->{TYPE} = _retrieveDeviceTypeFromName($device->{NAME});
-            push @devices, $device;
+            push @storages, $device;
         }
     }
 
-    return @devices;
+    # Unittest support
+    $params{file} = $params{dmesgFile} if ($params{dmesgFile});
+
+    _extractDataFromDmesg(
+        storages => \@storages,
+        %params
+    );
+
+    return @storages;
 }
 
 sub _retrieveDeviceTypeFromName {

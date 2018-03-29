@@ -132,11 +132,11 @@ foreach my $test (keys %tests_mfiutil) {
 
 my $pathToBSDFiles = 'resources/bsd/storages/';
 for my $test (keys %$tests_sysctl) {
-    my $results = FusionInventory::Agent::Task::Inventory::BSD::Storages::_retrieveStoragesFromSysCtl(
-        dmesgFile => $pathToBSDFiles . $tests_sysctl->{$test}->{dmesgFile},
-        sysctlFile => $pathToBSDFiles . $tests_sysctl->{$test}->{sysctlFile}
+    my %params = (
+        dmesgFile   => $pathToBSDFiles . $tests_sysctl->{$test}->{dmesgFile},
+        file        => $pathToBSDFiles . $tests_sysctl->{$test}->{sysctlFile}
     );
-    my @results = sort { $a->{NAME} cmp $b->{NAME} } @{$results};
+    my @results = sort { $a->{NAME} cmp $b->{NAME} } FusionInventory::Agent::Task::Inventory::BSD::Storages::_getStorages(%params);
     my @expected = sort { $a->{NAME} cmp $b->{NAME} } @{$tests_sysctl->{$test}->{content}};
     cmp_deeply(
         \@results,

@@ -2,6 +2,9 @@ Revision history for FusionInventory agent
 
 2.4.1 not released yet
 
+inventory:
+* Fix BSD Storages support
+
 netdiscovery/netinventory:
 * Bump NetDiscovery task version to 2.6
 * Bump NetInventory task version to 3.0
