@@ -3699,8 +3699,9 @@ for my $dateStr (keys %$datesStr) {
     ok ($formatted eq $datesStr->{$dateStr}, "'" . $datesStr->{$dateStr} ."' expected but got '" . $formatted . "'");
 }
 
-my $emptyString = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_formatDate("this string should be a date...");
-ok ($emptyString eq '');
+my $NotADate = "this string should be a date...";
+my $nothingdone = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_formatDate($NotADate);
+ok ($nothingdone eq $NotADate);
 
 my $inventory = FusionInventory::Test::Inventory->new();
 

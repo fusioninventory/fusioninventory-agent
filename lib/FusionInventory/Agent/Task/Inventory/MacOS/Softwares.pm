@@ -5,8 +5,6 @@ use warnings;
 
 use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
-use Time::Piece;
-
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
@@ -65,7 +63,7 @@ sub _getSoftwaresList {
 
         my $formattedDate = $app->{'Last Modified'};
         if (!$datesAlreadyFormatted) {
-            $formattedDate = _formatDate($formattedDate, $logger)
+            $formattedDate = _formatDate($formattedDate);
         }
 
         my ($category, $userName) = _extractSoftwareSystemCategoryAndUserName($app->{'Location'});
@@ -106,42 +104,13 @@ sub _extractSoftwareSystemCategoryAndUserName {
 }
 
 sub _formatDate {
-    my ($dateStr, $logger) = @_;
+    my ($dateStr) = @_;
 
-    my $formattedDate = '';
-
-    my $extractionPatternWithAmOrPm = "%m/%d/%y %l:%M %p";
-    my $extractionPattern = "%m/%d/%y %H:%M";
-    my $extractionPatternUsed = '';
-
-    my $outputFormat = "%d/%m/%Y";
-
-    # trim
-    $dateStr =~ s/^\s+|\s+$//g;
-    # AM or PM detection in end of string
-    if ($dateStr =~ /(?:AM|PM)$/) {
-        $extractionPatternUsed = $extractionPatternWithAmOrPm;
-    } else {
-        $extractionPatternUsed = $extractionPattern;
-    }
-
-    my $func = sub {
-        if (defined $logger) {
-            $logger->error("FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_formatDate() : can't parse string '$dateStr', returns empty string.\n");
-        }
-    };
-    eval {
-        my $extracted = Time::Piece->strptime(
-            $dateStr,
-            $extractionPatternUsed
-        );
-        $formattedDate = $extracted->strftime(
-            $outputFormat
-        );
-    };
-    &$func if $@;
-
-    return $formattedDate;
+    my @date = $dateStr =~ /^\s*(\d{1,2})\/(\d{1,2})\/(\d{2})\s*/;
+    return @date == 3 ?
+        sprintf("%02d/%02d/%d", $date[1], $date[0], 2000+$date[2])
+        :
+        $dateStr;
 }
 
 1;
