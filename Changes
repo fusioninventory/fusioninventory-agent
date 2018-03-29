@@ -16,6 +16,8 @@ netdiscovery/netinventory:
 * Updated LLDP support
 * NetInventory task protocol upgrade to fix multithreading scheduling according to
   upgrades done server-side.
+* Fix discovery of devices with only ping responding and without found hostname. In
+  that case, we default the DNSHOSTNAME to the scanned ip.
 
 2.4 Fri, 29 Dec 2017
 core:

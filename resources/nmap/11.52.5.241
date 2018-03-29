@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.40 scan initiated Tue Feb 20 11:51:52 2018 as: nmap -sP -PP -&#45;system-dns -&#45;max-retries 1 -&#45;max-rtt-timeout 1000ms -oX - 10.52.5.241 -->
+<nmaprun scanner="nmap" args="nmap -sP -PP -&#45;system-dns -&#45;max-retries 1 -&#45;max-rtt-timeout 1000ms -oX - 10.52.5.241" start="1519123912" startstr="Tue Feb 20 11:51:52 2018" version="7.40" xmloutputversion="1.04">
+<verbose level="0"/>
+<debugging level="0"/>
+<host><status state="up" reason="timestamp-reply" reason_ttl="63"/>
+<address addr="10.52.5.241" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<times srtt="811" rttvar="5000" to="100000"/>
+</host>
+<runstats><finished time="1519123912" timestr="Tue Feb 20 11:51:52 2018" elapsed="0.22" summary="Nmap done at Tue Feb 20 11:51:52 2018; 1 IP address (1 host up) scanned in 0.22 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

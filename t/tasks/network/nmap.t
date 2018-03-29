@@ -26,12 +26,14 @@ my %tests = (
     },
     '10.0.1.128' => {
       DNSHOSTNAME   => 'tosh-r630.local',
-      NETPORTVENDOR => 'Cisco-Linksys',
-      MAC           => '00:1D:7E:43:96:57'
     },
     '88.191.59.1' => {
       NETPORTVENDOR => 'Cisco Systems',
       MAC           => '00:1A:A1:85:9A:BF'
+    },
+    'google.com' => undef,
+    '11.52.5.241' => {
+      DNSHOSTNAME   => '11.52.5.241',
     },
 );
 
@@ -47,6 +49,7 @@ plan tests => scalar keys %tests;
 foreach my $test (keys %tests) {
     my $file = "resources/nmap/$test";
     my $result = FusionInventory::Agent::Task::NetDiscovery::_parseNmap(
+        ip   => $test,
         file => $file
     );
     cmp_deeply($result, $tests{$test}, $test);
