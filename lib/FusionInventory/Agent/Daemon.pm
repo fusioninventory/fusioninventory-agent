@@ -75,8 +75,8 @@ sub run {
             $logger->debug2("Waiting in mainloop");
             foreach my $target (@targets) {
                 my $date = $target->getFormatedNextRunDate();
-                my $type = $target->_getType();
-                my $name = $target->_getName();
+                my $type = $target->getType();
+                my $name = $target->getName();
                 $logger->debug2("$type target next run: $date - $name");
             }
         } else {
@@ -114,7 +114,7 @@ sub run {
 
             if ($logger && $config->{'no-fork'}) {
                 my $date = $target->getFormatedNextRunDate();
-                my $type = $target->_getType();
+                my $type = $target->getType();
                 $logger->debug2("$type target scheduled: $date");
             }
 
@@ -340,7 +340,8 @@ sub ApplyServiceOptimizations {
     my ($self) = @_;
 
     # Preload all IDS databases to avoid reload them all the time during inventory
-    if (grep { /^inventory$/i } @{$self->{tasksExecutionPlan}}) {
+    my @planned = map { $_->plannedTasks() } $self->getTargets();
+    if (grep { /^inventory$/i } @planned) {
         my %datadir = ( datadir => $self->{datadir} );
         getPCIDeviceVendor(%datadir);
         getUSBDeviceVendor(%datadir);

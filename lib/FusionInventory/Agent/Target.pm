@@ -131,6 +131,17 @@ sub setMaxDelay {
     $self->_saveState();
 }
 
+sub isType {
+    my ($self, $testtype) = @_;
+
+    return unless $testtype;
+
+    my $type = $self->getType()
+        or return;
+
+    return "$type" eq "$testtype";
+}
+
 # compute a run date, as current date and a random delay
 # between maxDelay / 2 and maxDelay
 sub _computeNextRunDate {

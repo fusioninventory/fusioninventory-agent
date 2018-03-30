@@ -115,12 +115,18 @@ if ($options->{'list-tasks'}) {
         print "$task (v$tasks{$task})\n";
     }
 
-    if ($options->{'tasks'}) {
-        $agent->init(options => $options);
-        my $tasksExecutionPlan = $agent->getTasksExecutionPlan();
-        print "\nTasks planned for execution : \n";
-        foreach my $task (@$tasksExecutionPlan) {
-            print "$task (v$tasks{$task})\n";
+    $options->{logger} = "Stderr";
+    $agent->init(options => $options);
+    foreach my $target ($agent->getTargets()) {
+        print "\n", $target->getType(), " target: ", $target->getName(), "\n";
+        my @planned = $target->plannedTasks();
+        if (@planned) {
+            print "Planned tasks:\n";
+            foreach my $task (@planned) {
+                print " - $task (v$tasks{$task})\n";
+            }
+        } else {
+            print "No planned task\n";
         }
     }
 

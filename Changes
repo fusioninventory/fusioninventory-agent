@@ -2,6 +2,11 @@ Revision history for FusionInventory agent
 
 2.4.1 not released yet
 
+core:
+* Normalized Target class APIs
+* Register planned tasks at target level so target class can filter out
+  unsupported tasks
+
 inventory:
 * Fix BSD Storages support
 
