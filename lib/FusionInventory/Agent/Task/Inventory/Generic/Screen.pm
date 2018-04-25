@@ -222,7 +222,7 @@ sub _getScreensFromUnix {
     if (canRun('get-edid')) {
         my $edid;
         foreach (1..5) { # Sometime get-edid return an empty string...
-            $edid = getFirstLine(command => 'get-edid');
+            $edid = getAllLines(command => 'get-edid');
             last if $edid;
         }
         $logger->debug_result(
