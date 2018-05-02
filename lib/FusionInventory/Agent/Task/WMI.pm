@@ -17,8 +17,7 @@ sub isEnabled {
     return 0 if $OSNAME ne 'MSWin32';
 
     # Enabled for local target only is still connected
-    return defined($self->{service}) unless
-        $self->{target}->isa('FusionInventory::Agent::Target::Server');
+    return defined($self->{service}) if $self->{target}->isType('local');
 
     my $content = $response->getContent();
     if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {

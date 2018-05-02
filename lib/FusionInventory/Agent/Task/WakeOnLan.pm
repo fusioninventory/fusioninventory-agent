@@ -18,7 +18,7 @@ our $VERSION = FusionInventory::Agent::Task::WakeOnLan::Version::VERSION;
 sub isEnabled {
     my ($self, $response) = @_;
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+    if (!$self->{target}->isType('server')) {
         $self->{logger}->debug("WakeOnLan task not compatible with local target");
         return;
     }

@@ -29,7 +29,7 @@ our $VERSION = FusionInventory::Agent::Task::NetInventory::Version::VERSION;
 sub isEnabled {
     my ($self, $response) = @_;
 
-    if (!$self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+    if (!$self->{target}->isType('server')) {
         $self->{logger}->debug("NetInventory task not compatible with local target");
         return;
     }

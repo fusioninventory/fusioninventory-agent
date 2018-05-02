@@ -60,16 +60,27 @@ sub getUrl {
     return $self->{url};
 }
 
-sub _getName {
+sub getName {
     my ($self) = @_;
 
     return $self->{url};
 }
 
-sub _getType {
+sub getType {
     my ($self) = @_;
 
     return 'server';
+}
+
+sub plannedTasks {
+    my $self = shift @_;
+
+    # Server can trigger any task
+    if (@_) {
+        $self->{tasks} = [ @_ ];
+    }
+
+    return @{$self->{tasks} || []};
 }
 
 1;
@@ -103,3 +114,17 @@ the server URL (mandatory)
 =head2 getUrl()
 
 Return the server URL for this target.
+
+=head2 getName()
+
+Return the target name
+
+=head2 getType()
+
+Return the target type
+
+=head2 plannedTasks([@tasks])
+
+Initializes target tasks with supported ones if a list of tasks is provided
+
+Return an array of planned tasks.

@@ -23,8 +23,7 @@ sub isEnabled {
     my ($self, $response) = @_;
 
     # always enabled for local target
-    return 1 unless
-        $self->{target}->isa('FusionInventory::Agent::Target::Server');
+    return 1 if $self->{target}->isType('local');
 
     my $content = $response->getContent();
     if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
@@ -87,7 +86,7 @@ sub _submitInventory {
 
     my $inventory = $params{inventory};
 
-    if ($self->{target}->isa('FusionInventory::Agent::Target::Local')) {
+    if ($self->{target}->isType('local')) {
         my $path   = $self->{target}->getPath();
         my $format = $self->{target}->{format};
         my ($file, $handle);
@@ -131,7 +130,7 @@ sub _submitInventory {
             close $handle;
         }
 
-    } elsif ($self->{target}->isa('FusionInventory::Agent::Target::Server')) {
+    } elsif ($self->{target}->isType('server')) {
 
         return $self->{logger}->error("Can't load OCS client API")
             unless FusionInventory::Agent::HTTP::Client::OCS->require();

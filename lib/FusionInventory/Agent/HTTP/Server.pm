@@ -41,7 +41,7 @@ sub setTrustedAddresses {
 
     # compute addresses allowed for push requests
     foreach my $target ($self->{agent}->getTargets()) {
-        next unless $target->isa('FusionInventory::Agent::Target::Server');
+        next unless $target->isType('server');
         my $url  = $target->getUrl();
         my $host = URI->new($url)->host();
         my @addresses = compile($host, $self->{logger});
@@ -145,12 +145,12 @@ sub _handle_root {
 
     my @server_targets =
         map { { name => $_->getUrl(), date => $_->getFormatedNextRunDate() } }
-        grep { $_->isa('FusionInventory::Agent::Target::Server') }
+        grep { $_->isType('server') }
         $self->{agent}->getTargets();
 
     my @local_targets =
         map { { name => $_->getPath(), date => $_->getFormatedNextRunDate() } }
-        grep { $_->isa('FusionInventory::Agent::Target::Local') }
+        grep { $_->isType('local') }
         $self->{agent}->getTargets();
 
     my $hash = {
@@ -219,7 +219,7 @@ sub _handle_now {
 
     BLOCK: {
         foreach my $target ($self->{agent}->getTargets()) {
-            next unless $target->isa('FusionInventory::Agent::Target::Server');
+            next unless $target->isType('server');
             my $url       = $target->getUrl();
             my $addresses = $self->{trust}->{$url};
             next unless isPartOf($clientIp, $addresses, $logger);
