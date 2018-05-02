@@ -1439,6 +1439,21 @@ sub _getTrunkPorts {
         return $results;
     }
 
+    # Juniper QFX use Q-BRIDGE-MIB::dot1qPortAcceptableFrameTypes,
+    # using the following schema:
+    # prefix.x = value
+    # x is dot1dBasePortIfIndex
+    # values are 1 for access, 2 for trunk (admitAll(1), admitOnlyVlanTagged(2))
+    my $PortAcceptable = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.5.1.2');
+    my @VlanTagged = grep {$PortAcceptable->{$_} == 2} keys %$PortAcceptable;
+    if (scalar @VlanTagged) {
+        my $dot1dBasePortIfIndex = $snmp->walk('.1.3.6.1.2.1.17.1.4.1.2');
+        foreach my $i (@VlanTagged) {
+            $results->{$dot1dBasePortIfIndex->{$i}} = 1
+                if exists $dot1dBasePortIfIndex->{$i};
+        }
+        return $results;
+    }
 
     # others use lldpXdot1LocPortVlanId
     # prefix.x = value
