@@ -73,95 +73,13 @@ sub run {
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($computer, \%disabled);
     return unless $self->_validateInventory($computer);
-    $self->_submitInventory( %params, inventory => $computer );
-    return 1;
+
+    binmode STDOUT, ':encoding(UTF-8)';
+    print $computer->as_xml();
 }
 
 # Method to override if inventory needs to be validate
 sub _validateInventory { 1 }
-
-sub _submitInventory {
-    my ($self, %params) = @_;
-
-    my $inventory = $params{inventory};
-
-    if ($self->{target}->isType('local')) {
-        my $path   = $self->{target}->getPath();
-        my $format = $self->{target}->{format};
-        my ($file, $handle);
-
-        SWITCH: {
-            if ($path eq '-') {
-                $handle = \*STDOUT;
-                last SWITCH;
-            }
-
-            if (-d $path) {
-                $file =
-                    $path . "/" . $inventory->getDeviceId() .
-                    ($format eq 'xml' ? '.ocs' : '.html');
-                last SWITCH;
-            }
-
-            $file = $path;
-        }
-
-        if ($file) {
-            if (Win32::Unicode::File->require()) {
-                $handle = Win32::Unicode::File->new('w', $file);
-            } else {
-                open($handle, '>', $file);
-            }
-            $self->{logger}->error("Can't write to $file: $ERRNO")
-                unless $handle;
-        }
-
-        binmode $handle, ':encoding(UTF-8)';
-
-        $self->_printInventory(
-            inventory => $inventory,
-            handle    => $handle,
-            format    => $format
-        );
-
-        if ($file) {
-            $self->{logger}->info("Inventory saved in $file");
-            close $handle;
-        }
-
-    } elsif ($self->{target}->isType('server')) {
-
-        return $self->{logger}->error("Can't load OCS client API")
-            unless FusionInventory::Agent::HTTP::Client::OCS->require();
-
-        my $client = FusionInventory::Agent::HTTP::Client::OCS->new(
-            logger       => $self->{logger},
-            user         => $params{user},
-            password     => $params{password},
-            proxy        => $params{proxy},
-            ca_cert_file => $params{ca_cert_file},
-            ca_cert_dir  => $params{ca_cert_dir},
-            no_ssl_check => $params{no_ssl_check},
-            no_compress  => $params{no_compress},
-        );
-
-        return $self->{logger}->error("Can't load Inventory XML Query API")
-            unless FusionInventory::Agent::XML::Query::Inventory->require();
-
-        my $message = FusionInventory::Agent::XML::Query::Inventory->new(
-            deviceid => $inventory->getDeviceId(),
-            content  => $inventory->getContent()
-        );
-
-        my $response = $client->send(
-            url     => $self->{target}->getUrl(),
-            message => $message
-        );
-
-        return unless $response;
-    }
-
-}
 
 sub _initModulesList {
     my ($self, $disabled) = @_;
@@ -371,50 +289,6 @@ sub _injectContent {
     }
 
     $inventory->mergeContent($content);
-}
-
-sub _printInventory {
-    my ($self, %params) = @_;
-
-    SWITCH: {
-        if ($params{format} eq 'xml') {
-
-            my $tpp = XML::TreePP->new(
-                indent          => 2,
-                utf8_flag       => 1,
-                output_encoding => 'UTF-8'
-            );
-            print {$params{handle}} $tpp->write({
-                REQUEST => {
-                    CONTENT  => $params{inventory}->getContent(),
-                    DEVICEID => $params{inventory}->getDeviceId(),
-                    QUERY    => "INVENTORY",
-                }
-            });
-
-            last SWITCH;
-        }
-
-        if ($params{format} eq 'html') {
-            Text::Template->require();
-            my $template = Text::Template->new(
-                TYPE => 'FILE', SOURCE => "$self->{datadir}/html/inventory.tpl"
-            );
-
-             my $hash = {
-                version  => $FusionInventory::Agent::Version::VERSION,
-                deviceid => $params{inventory}->getDeviceId(),
-                data     => $params{inventory}->getContent(),
-                fields   => $params{inventory}->getFields()
-            };
-
-            print {$params{handle}} $template->fill_in(HASH => $hash);
-
-            last SWITCH;
-        }
-
-        die "unknown format $params{format}";
-    }
 }
 
 1;
