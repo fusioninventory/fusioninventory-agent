@@ -160,8 +160,6 @@ sub _submitInventory {
         );
 
         return unless $response;
-        $inventory->saveLastState();
-
     }
 
 }
@@ -345,9 +343,6 @@ sub _feedInventory {
 
     # Execution time
     $inventory->setHardware({ETIME => time() - $begin});
-
-    $inventory->computeLegacyValues();
-    $inventory->computeChecksum();
 }
 
 sub _injectContent {

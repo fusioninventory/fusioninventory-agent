@@ -305,57 +305,6 @@ sub addEntry {
     push @{$self->{content}{$section}}, $entry;
 }
 
-sub computeLegacyValues {
-    my ($self) = @_;
-
-    # CPU-related values
-    my $cpus = $self->{content}->{CPUS};
-    if ($cpus) {
-        my $cpu = $cpus->[0];
-
-        $self->setHardware({
-            PROCESSORN => scalar @$cpus,
-            PROCESSORS => $cpu->{SPEED},
-            PROCESSORT => $cpu->{NAME},
-        });
-    }
-
-    # network related values
-    my $interfaces = $self->{content}->{NETWORKS};
-    if ($interfaces) {
-        my @ip_addresses =
-            grep { ! /^127/ }
-            grep { $_ }
-            map { $_->{IPADDRESS} }
-            @$interfaces;
-
-        $self->setHardware({
-            IPADDR => join('/', @ip_addresses),
-        });
-    }
-
-    # user-related values
-    my $users = $self->{content}->{USERS};
-    if ($users) {
-        my $user = $users->[-1];
-
-        my ($domain, $id);
-        if ($user->{LOGIN} =~ /(\S+)\\(\S+)/) {
-            # Windows fully qualified username: domain\user
-            $domain = $1;
-            $id = $2;
-        } else {
-            # simple username: user
-            $id = $user->{LOGIN};
-        }
-
-        $self->setHardware({
-            USERID     => $id,
-            USERDOMAIN => $domain,
-        });
-    }
-}
-
 sub getHardware {
     my ($self, $field) = @_;
     return $self->getField('HARDWARE', $field);
@@ -438,96 +387,6 @@ sub setTag {
         KEYVALUE => $tag
     }];
 
-}
-
-sub computeChecksum {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-
-    # to apply to $checksum with an OR
-    my %mask = (
-        HARDWARE      => 1,
-        BIOS          => 2,
-        MEMORIES      => 4,
-        SLOTS         => 8,
-        REGISTRY      => 16,
-        CONTROLLERS   => 32,
-        MONITORS      => 64,
-        PORTS         => 128,
-        STORAGES      => 256,
-        DRIVES        => 512,
-        INPUT         => 1024,
-        MODEMS        => 2048,
-        NETWORKS      => 4096,
-        PRINTERS      => 8192,
-        SOUNDS        => 16384,
-        VIDEOS        => 32768,
-        SOFTWARES     => 65536,
-    );
-    # TODO CPUS is not in the list
-
-    if ($self->{last_state_file}) {
-        if (-f $self->{last_state_file}) {
-            eval {
-                $self->{last_state_content} = XML::TreePP->new()->parsefile(
-                    $self->{last_state_file}
-                );
-            };
-            if (ref($self->{last_state_content}) ne 'HASH') {
-                $self->{last_state_content} = {};
-            }
-        } else {
-            $logger->debug(
-                "last state file '$self->{last_state_file}' doesn't exist"
-            );
-        }
-    }
-
-    my $checksum = 0;
-    foreach my $section (keys %mask) {
-        my $hash =
-            md5_base64(Dumper($self->{content}->{$section}));
-
-        # check if the section did change since the last run
-        next if
-            $self->{last_state_content}->{$section} &&
-            $self->{last_state_content}->{$section} eq $hash;
-
-        $logger->debug("Section $section has changed since last inventory");
-
-        # add the mask of the current section to the checksum
-        $checksum |= $mask{$section}; ## no critic (ProhibitBitwise)
-
-        # store the new value.
-        $self->{last_state_content}->{$section} = $hash;
-    }
-
-
-    $self->setHardware({CHECKSUM => $checksum});
-}
-
-sub saveLastState {
-    my ($self) = @_;
-
-    my $logger = $self->{logger};
-
-    if (!defined($self->{last_state_content})) {
-        $self->computeChecksum();
-    }
-    if ($self->{last_state_file}) {
-        eval {
-            XML::TreePP->new()->writefile(
-                $self->{last_state_file}, $self->{last_state_content}
-            );
-        }
-    } else {
-        $logger->debug(
-            "last state file is not defined, last state not saved"
-        );
-    }
-
-    my $tpp = XML::TreePP->new();
 }
 
 sub as_json {
@@ -644,22 +503,6 @@ Set BIOS information.
 =head2 setAccessLog()
 
 What is that for? :)
-
-=head2 computeChecksum()
-
-Compute the inventory checksum. This information is used by the server to
-know which parts of the inventory have changed since the last one.
-
-=head2 computeLegacyValues()
-
-Compute the inventory global values, meaning values in hardware section such as
-CPU number, speed and model, computed from other values, but needed for OCS
-compatibility.
-
-=head2 saveLastState()
-
-At the end of the process IF the inventory was saved
-correctly, the last_state is saved.
 
 =head2 getRemote()
 
