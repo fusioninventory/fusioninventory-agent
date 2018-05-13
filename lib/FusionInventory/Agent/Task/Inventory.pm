@@ -51,7 +51,6 @@ sub run {
     $self->{modules} = {};
 
     my $inventory = FusionInventory::Agent::Inventory->new(
-        statedir => $self->{target}->getStorage()->getDirectory(),
         deviceid => $self->{deviceid},
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}

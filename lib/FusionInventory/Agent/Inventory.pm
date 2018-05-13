@@ -143,8 +143,6 @@ sub new {
     bless $self, $class;
 
     $self->setTag($params{tag});
-    $self->{last_state_file} = $params{statedir} . '/last_state'
-        if $params{statedir};
 
     return $self;
 }
@@ -428,10 +426,6 @@ The constructor. The following parameters are allowed, as keys of the
 =item I<logger>
 
 a logger object
-
-=item I<statedir>
-
-a path to a writable directory containing the last serialized inventory
 
 =item I<tag>
 
