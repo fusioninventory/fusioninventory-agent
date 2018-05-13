@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Inventory;
+package FusionInventory::Device::Computer;
 
 use strict;
 use warnings;
@@ -408,11 +408,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Inventory - Inventory data structure
+FusionInventory::Device::Computer - Computer data structure
 
 =head1 DESCRIPTION
 
-This is a data structure corresponding to an hardware and software inventory.
+This is a data structure corresponding to a computer-type device.
 
 =head1 METHODS
 

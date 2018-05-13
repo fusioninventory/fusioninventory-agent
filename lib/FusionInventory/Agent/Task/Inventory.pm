@@ -10,7 +10,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Inventory;
+use FusionInventory::Device::Computer;
 
 use FusionInventory::Agent::Task::Inventory::Version;
 
@@ -50,14 +50,14 @@ sub run {
 
     $self->{modules} = {};
 
-    my $inventory = FusionInventory::Agent::Inventory->new(
+    my $computer = FusionInventory::Device::Computer->new(
         deviceid => $self->{deviceid},
         logger   => $self->{logger},
         tag      => $self->{config}->{'tag'}
     );
 
     # Set inventory as remote if running remote inventory like from wmi task
-    $inventory->setRemote($self->getRemote()) if $self->getRemote();
+    $computer->setRemote($self->getRemote()) if $self->getRemote();
 
     if (not $ENV{PATH}) {
         # set a minimal PATH if none is set (#1129, #1747)
@@ -71,9 +71,9 @@ sub run {
     my %disabled = map { $_ => 1 } @{$self->{config}->{'no-category'}};
 
     $self->_initModulesList(\%disabled);
-    $self->_feedInventory($inventory, \%disabled);
-    return unless $self->_validateInventory($inventory);
-    $self->_submitInventory( %params, inventory => $inventory );
+    $self->_feedInventory($computer, \%disabled);
+    return unless $self->_validateInventory($computer);
+    $self->_submitInventory( %params, inventory => $computer );
     return 1;
 }
 
