@@ -9,6 +9,7 @@ use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use XML::TreePP;
+use JSON::PP;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
@@ -527,6 +528,22 @@ sub saveLastState {
     }
 
     my $tpp = XML::TreePP->new();
+}
+
+sub as_json {
+    my ($self) = @_;
+
+    my $json = JSON::PP->new()->pretty();
+
+    return $json->encode( $self->{content} );
+}
+
+sub as_xml {
+    my ($self) = @_;
+
+    my $tpp = XML::TreePP->new(indent => 2);
+
+    return $tpp->write({ COMPUTER => $self->{content} });
 }
 
 1;
