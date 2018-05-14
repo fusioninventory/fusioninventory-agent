@@ -9,9 +9,7 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     my (%params) = @_;
-
-    return if $params{no_category}->{user};
-
+    return if !$params{category}->{user};
     return
         canRun('who')  ||
         canRun('last') ||
@@ -26,7 +24,7 @@ sub doInventory {
 
     my %users;
 
-    if (!$params{no_category}->{local_user}) {
+    if ($params{category}->{local_user}) {
         foreach my $user (_getLocalUsers(logger => $logger)) {
             # record user -> primary group relationship
             push @{$users{$user->{gid}}}, $user->{LOGIN};
@@ -39,7 +37,7 @@ sub doInventory {
         }
     }
 
-    if (!$params{no_category}->{local_group}) {
+    if ($params{category}->{local_group}) {
         foreach my $group (_getLocalGroups(logger => $logger)) {
             # add users having this group as primary group, if any
             push @{$group->{MEMBER}}, @{$users{$group->{ID}}}

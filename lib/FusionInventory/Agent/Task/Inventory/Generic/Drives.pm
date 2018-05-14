@@ -7,7 +7,7 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{drive};
+    return 0 if !$params{category}->{drive};
     return 1;
 }
 

@@ -11,7 +11,7 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{lvm};
+    return 0 if !$params{category}->{lvm};
     return canRun('lvs');
 }
 

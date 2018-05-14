@@ -36,7 +36,7 @@ sub doInventory {
     my $infos = getDmidecodeInfos(logger => $logger);
     return if $infos->{4};
 
-    return if $params{no_category}->{cpu};
+    return if !$params{category}->{cpu};
 
     while ($count--) {
         $inventory->addEntry(

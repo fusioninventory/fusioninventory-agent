@@ -9,10 +9,10 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     my (%params) = @_;
-
-    return if $params{no_category}->{software};
-
-    return canRun('pkg_info') || canRun('pkg');
+    return 0 if !$params{category}->{software};
+    return
+        canRun('pkg_info') ||
+        canRun('pkg');
 }
 
 sub doInventory {

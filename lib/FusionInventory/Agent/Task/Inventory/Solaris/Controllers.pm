@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     my (%params) = @_;
-    return if $params{no_category}->{controller};
+    return 0 if !$params{category}->{controller};
     return canRun('cfgadm');
 }
 

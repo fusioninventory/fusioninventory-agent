@@ -10,7 +10,7 @@ use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{cpu};
+    return 0 if !$params{category}->{cpu};
     return canRun('/usr/sbin/system_profiler');
 }
 

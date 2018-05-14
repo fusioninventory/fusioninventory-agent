@@ -10,7 +10,7 @@ use FusionInventory::Agent::Tools::AIX;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{storage};
+    return 0 if !$params{category}->{storage};
     return
         canRun('lsdev') &&
         canRun('lsattr');

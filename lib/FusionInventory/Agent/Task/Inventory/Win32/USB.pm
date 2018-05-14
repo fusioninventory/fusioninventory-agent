@@ -10,13 +10,13 @@ use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{usb};
+    return 0 if !$params{category}->{usb};
     return 1;
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-    return 0 if $params{no_category}->{usb};
+    return 0 if !$params{category}->{usb};
     return 1;
 }
 

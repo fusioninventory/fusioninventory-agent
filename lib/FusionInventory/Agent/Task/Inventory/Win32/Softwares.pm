@@ -16,14 +16,12 @@ my $seen = {};
 
 sub isEnabled {
     my (%params) = @_;
-
-    return !$params{no_category}->{software};
+    return 0 if !$params{category}->{software};
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-
-    return !$params{no_category}->{software};
+    return 0 if !$params{category}->{software};
 }
 
 sub doInventory {

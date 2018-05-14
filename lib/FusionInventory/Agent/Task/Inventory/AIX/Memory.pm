@@ -10,7 +10,7 @@ use FusionInventory::Agent::Tools::AIX;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{memory};
+    return 0 if !$params{category}->{memory};
     return 1;
 }
 

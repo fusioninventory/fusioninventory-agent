@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{slot};
+    return 0 if !$params{category}->{slot};
     return canRun('ioscan');
 }
 

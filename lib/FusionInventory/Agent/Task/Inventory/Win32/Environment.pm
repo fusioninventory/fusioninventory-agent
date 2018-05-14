@@ -9,14 +9,12 @@ use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
     my (%params) = @_;
-
-    return !$params{no_category}->{environment};
+    return 0 if !$params{category}->{environment};
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-
-    return !$params{no_category}->{environment};
+    return 0 if !$params{category}->{environment};
 }
 
 sub doInventory {

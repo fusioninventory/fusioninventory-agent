@@ -139,13 +139,13 @@ my @portType = (
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{port};
+    return 0 if !$params{category}->{port};
     return 1;
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-    return 0 if $params{no_category}->{port};
+    return 0 if !$params{category}->{port};
     return 1;
 }
 

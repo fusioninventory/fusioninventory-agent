@@ -7,12 +7,12 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 sub isEnabled {
     my (%params) = @_;
-    return !($params{no_category}->{remote_mgmt});
+    return 0 if !$params{category}->{remote_mgmt};
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-    return !($params{no_category}->{remote_mgmt});
+    return 0 if !$params{category}->{remote_mgmt};
 }
 
 sub doInventory {

@@ -24,13 +24,13 @@ my %mouseInterface = (
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{input};
+    return 0 if !$params{category}->{input};
     return 1;
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-    return 0 if $params{no_category}->{input};
+    return 0 if !$params{category}->{input};
     return 1;
 }
 

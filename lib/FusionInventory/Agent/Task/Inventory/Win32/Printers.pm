@@ -41,14 +41,12 @@ my @errStatus = (
 
 sub isEnabled {
     my (%params) = @_;
-
-    return !$params{no_category}->{printer};
+    return 0 if !$params{category}->{printer};
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-
-    return !$params{no_category}->{printer};
+    return 0 if !$params{category}->{printer};
 }
 
 sub doInventory {

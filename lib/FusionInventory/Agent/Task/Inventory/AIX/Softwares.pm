@@ -9,10 +9,8 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     my (%params) = @_;
-
-    return
-        !$params{no_category}->{software} &&
-        canRun('lslpp');
+    return 0 if !$params{category}->{software};
+    retturn canRun('lslpp');
 }
 
 sub doInventory {

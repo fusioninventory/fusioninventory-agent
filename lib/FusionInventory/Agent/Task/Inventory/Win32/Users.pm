@@ -12,13 +12,13 @@ use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{user};
+    return 0 if !$params{category}->{user};
     return 1;
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-    return 0 if $params{no_category}->{user};
+    return 0 if !$params{category}->{user};
     return 1;
 }
 
@@ -28,7 +28,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    if (!$params{no_category}->{local_user}) {
+    if ($params{category}->{local_user}) {
         foreach my $user (_getLocalUsers(logger => $logger)) {
             $inventory->addEntry(
                 section => 'LOCAL_USERS',
@@ -37,7 +37,7 @@ sub doInventory {
         }
     }
 
-    if (!$params{no_category}->{local_group}) {
+    if ($params{category}->{local_group}) {
         foreach my $group (_getLocalGroups(logger => $logger)) {
             $inventory->addEntry(
                 section => 'LOCAL_GROUPS',

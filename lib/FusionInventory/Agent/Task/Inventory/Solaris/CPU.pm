@@ -12,7 +12,7 @@ use FusionInventory::Agent::Tools::Solaris;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{cpu};
+    return 0 if !$params{category}->{cpu};
     return 1;
 }
 

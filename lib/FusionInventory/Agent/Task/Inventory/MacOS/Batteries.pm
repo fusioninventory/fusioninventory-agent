@@ -10,10 +10,8 @@ use FusionInventory::Agent::Tools::MacOS;
 
 sub isEnabled {
     my (%params) = @_;
-
-    return
-        !$params{no_category}->{batteries} &&
-        canRun('/usr/sbin/system_profiler');
+    return 0 if !$params{category}->{batteries};
+    return canRun('/usr/sbin/system_profiler');
 }
 
 sub doInventory {

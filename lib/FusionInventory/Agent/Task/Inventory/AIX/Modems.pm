@@ -10,7 +10,7 @@ use FusionInventory::Agent::Tools::AIX;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{modem};
+    return 0 if !$params{category}->{modem};
     return canRun('lsdev');
 }
 

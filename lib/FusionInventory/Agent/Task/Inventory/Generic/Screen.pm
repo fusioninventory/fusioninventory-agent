@@ -15,13 +15,13 @@ use FusionInventory::Agent::Tools::Screen;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{monitor};
+    return 0 if !$params{category}->{monitor};
     return 1;
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-    return 0 if $params{no_category}->{monitor};
+    return 0 if !$params{category}->{monitor};
     return 1;
 }
 

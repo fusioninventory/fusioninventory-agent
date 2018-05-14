@@ -10,7 +10,7 @@ use FusionInventory::Agent::Tools::Constants;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{firewall};
+    return 0 if !$params{category}->{firewall};
     return canRun('defaults') && canRun('launchctl');
 }
 

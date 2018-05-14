@@ -14,13 +14,13 @@ my $seenProducts;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{licenseinfo};
+    return 0 if !$params{category}->{licenseinfo};
     return 1;
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-    return 0 if $params{no_category}->{licenseinfo};
+    return 0 if !$params{category}->{licenseinfo};
     return 1;
 }
 

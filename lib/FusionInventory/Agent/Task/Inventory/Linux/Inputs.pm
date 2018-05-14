@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{input};
+    return 0 if !$params{category}->{input};
     return -r '/proc/bus/input/devices';
 }
 

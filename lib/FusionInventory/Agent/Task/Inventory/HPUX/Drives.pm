@@ -12,7 +12,7 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled  {
     my (%params) = @_;
-    return 0 if $params{no_category}->{drive};
+    return 0 if !$params{category}->{drive};
     return
         canRun('fstyp') &&
         canRun('bdf');

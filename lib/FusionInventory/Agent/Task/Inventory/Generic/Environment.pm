@@ -11,11 +11,10 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     my (%params) = @_;
-
+    return 0 if !$params{category}->{environment};
     return
         # We use WMI for Windows because of charset issue
-        $OSNAME ne 'MSWin32' &&
-        !$params{no_category}->{environment};
+        $OSNAME ne 'MSWin32';
 }
 
 sub doInventory {

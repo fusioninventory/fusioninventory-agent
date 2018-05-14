@@ -11,7 +11,7 @@ use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{video};
+    return if !$params{category}->{video};
     # both windows and linux have dedicated modules
     return
         $OSNAME ne 'MSWin32' &&

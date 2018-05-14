@@ -13,7 +13,7 @@ use FusionInventory::Agent::Tools;
 sub isEnabled {
     my (%params) = @_;
 
-    return 0 if $params{no_category}->{printer};
+    return 0 if !$params{category}->{printer};
 
     # we use system profiler on MacOS
     return 0 if $OSNAME eq 'darwin';

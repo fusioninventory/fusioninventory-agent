@@ -9,10 +9,8 @@ use FusionInventory::Agent::Tools;
 
 sub isEnabled  {
     my (%params) = @_;
-
-    return
-        !$params{no_category}->{software} &&
-        canRun('swlist');
+    return 0 if !$params{category}->{software};
+    return canRun('swlist');
 }
 
 sub doInventory {

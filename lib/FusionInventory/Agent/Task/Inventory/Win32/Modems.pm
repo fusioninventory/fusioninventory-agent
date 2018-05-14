@@ -9,13 +9,13 @@ use FusionInventory::Agent::Tools::Win32;
 
 sub isEnabled {
     my (%params) = @_;
-    return 0 if $params{no_category}->{modem};
+    return 0 if !$params{category}->{modem};
     return 1;
 }
 
 sub isEnabledForRemote {
     my (%params) = @_;
-    return 0 if $params{no_category}->{modem};
+    return 0 if !$params{category}->{modem};
     return 1;
 }
 

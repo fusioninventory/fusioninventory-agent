@@ -56,7 +56,7 @@ sub doInventory {
 
     $inventory->setBios($bios);
 
-    return if $params{no_category}->{cpu};
+    return if !$params{category}->{cpu};
 
     while ($count--) {
         $inventory->addEntry(
