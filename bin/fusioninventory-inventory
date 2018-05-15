@@ -10,6 +10,7 @@ use English qw(-no_match_vars);
 use Getopt::Long;
 use File::Temp;
 use Pod::Usage;
+use JSON::PP;
 
 use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::Target::Local;
@@ -17,22 +18,10 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Version;
 
-my $options = {
-    debug  => 0,
-    config => 'none'
-};
+my $options = {};
 
 GetOptions(
     $options,
-    'additional-content=s',
-    'backend-collect-timeout=s',
-    'html',
-    'no-category=s',
-    'scan-homedirs',
-    'scan-profiles',
-    'tag|t=s',
-    'verbose',
-    'debug+',
     'help',
     'version',
 ) or pod2usage(-verbose => 0);
@@ -48,22 +37,26 @@ if ($options->{version}) {
 }
 pod2usage(-verbose => 0, -exitval => 0) if $options->{help};
 
-my $config = FusionInventory::Agent::Config->new(
-    options => $options,
-);
+my $spec = {};
+if ($ARGV[0]) {
+    eval {
+        $spec = decode_json($ARGV[0]);
+    };
+    die "invalid task specification, invalid JSON syntax\n"
+        if $EVAL_ERROR;
+    die "invalid task specification, not an hashref\n"
+        if ref($spec) ne 'HASH';
+};
 
-my $inventory = FusionInventory::Agent::Task::Inventory->new(
-    target => FusionInventory::Agent::Target::Local->new(
-        path       => '-',
-        html       => $options->{html},
-        basevardir => File::Temp->newdir(CLEANUP => 1),
-    ),
+my $config = FusionInventory::Agent::Config->new();
+
+my $task = FusionInventory::Agent::Task::Inventory->new(
     logger  => FusionInventory::Agent::Logger->new(config => $config),
     datadir => $setup{datadir},
     config  => $config
 );
 
-$inventory->run();
+$task->run(%$spec);
 
 __END__
 
@@ -73,23 +66,12 @@ fusioninventory-inventory - Standalone inventory
 
 =head1 SYNOPSIS
 
-fusioninventory-inventory [options]
+fusioninventory-inventory [options] [specification]
 
   Options:
-    --scan-homedirs                scan use home directories (false)
-    --scan-profiles                scan user profiles (false)
-    --html                         save the inventory as HTML (false)
-    --no-category=CATEGORY         do not list given category items
-    -t --tag=TAG                   mark the machine with given tag
-    --backend-collect-timeout=TIME timeout for inventory modules
-                                     execution (30)
-    --additional-content=FILE      additional inventory content file
-    --verbose                      verbose output (control messages)
-    --debug                        debug output (execution traces)
-    -h --help                      print this message and exit
-    --version                      print the task version and exit
+    -h --help print this message and exit
+    --version print the task version and exit
 
 =head1 DESCRIPTION
 
-F<fusioninventory-inventory> can be used to run an inventory task without a GLPI
-server.
+F<fusioninventory-inventory> allows to run an inventory task from command-line.
