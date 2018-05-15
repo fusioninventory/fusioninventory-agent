@@ -19,26 +19,6 @@ use FusionInventory::Agent::Task::Inventory::Module;
 
 our $VERSION = FusionInventory::Agent::Task::Inventory::Version::VERSION;
 
-sub isEnabled {
-    my ($self, $response) = @_;
-
-    # always enabled for local target
-    return 1 if $self->{target}->isType('local');
-
-    my $content = $response->getContent();
-    if (!$content || !$content->{RESPONSE} || $content->{RESPONSE} ne 'SEND') {
-        if ($self->{config}->{force}) {
-            $self->{logger}->debug("Inventory task execution not requested, but execution forced");
-        } else {
-            $self->{logger}->debug("Inventory task execution not requested");
-            return;
-        }
-    }
-
-    $self->{registry} = [ $response->getOptionsInfoByName('REGISTRY') ];
-    return 1;
-}
-
 sub run {
     my ($self, %params) = @_;
 
@@ -68,10 +48,9 @@ sub run {
         );
     }
 
-    my %disabled = map { $_ => 1 } @{$self->{config}->{'no-category'}};
 
-    $self->_initModulesList(\%disabled);
-    $self->_feedInventory($computer, \%disabled);
+    $self->_initModulesList($params{categories});
+    $self->_feedInventory($computer, $params{categories});
     return unless $self->_validateInventory($computer);
 
     binmode STDOUT, ':encoding(UTF-8)';
@@ -82,7 +61,7 @@ sub run {
 sub _validateInventory { 1 }
 
 sub _initModulesList {
-    my ($self, $disabled) = @_;
+    my ($self, $categories) = @_;
 
     my $logger = $self->{logger};
     my $config = $self->{config};
@@ -132,10 +111,10 @@ sub _initModulesList {
         my $enabled = runFunction(
             module   => $module,
             function => $isEnabledFunction,
-            logger => $logger,
+            logger   => $logger,
             timeout  => $config->{'backend-collect-timeout'},
-            params => {
-                no_category   => $disabled,
+            params   => {
+                category      => $categories,
                 datadir       => $self->{datadir},
                 logger        => $self->{logger},
                 registry      => $self->{registry},
@@ -192,7 +171,7 @@ sub _initModulesList {
 }
 
 sub _runModule {
-    my ($self, $module, $inventory, $disabled) = @_;
+    my ($self, $module, $inventory, $categories) = @_;
 
     my $logger = $self->{logger};
 
@@ -218,7 +197,7 @@ sub _runModule {
         die "circular dependency between $module and $other_module"
             if $self->{modules}->{$other_module}->{used};
 
-        $self->_runModule($other_module, $inventory, $disabled);
+        $self->_runModule($other_module, $inventory, $categories);
     }
 
     $logger->debug("Running $module");
@@ -226,12 +205,12 @@ sub _runModule {
     runFunction(
         module   => $module,
         function => "doInventory",
-        logger => $logger,
+        logger   => $logger,
         timeout  => $self->{config}->{'backend-collect-timeout'},
-        params => {
+        params   => {
             datadir       => $self->{datadir},
             inventory     => $inventory,
-            no_category   => $disabled,
+            category      => $categories,
             logger        => $self->{logger},
             registry      => $self->{registry},
             scan_homedirs => $self->{config}->{'scan-homedirs'},
