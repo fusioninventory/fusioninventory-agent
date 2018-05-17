@@ -35,7 +35,7 @@ sub doInventory {
         # Skip the machine if Dom0
         next unless $machineextend;
 
-        foreach my $key ($machineextend) {
+        foreach my $key (keys(%{$machineextend})) {
             $machine->{$key} = $machineextend->{$key};
         }
 
