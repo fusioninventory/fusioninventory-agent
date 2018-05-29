@@ -9,6 +9,7 @@ use Digest::MD5 qw(md5_base64);
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use XML::TreePP;
+use List::Util qw(first);
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
@@ -528,6 +529,68 @@ sub saveLastState {
 
     my $tpp = XML::TreePP->new();
 }
+
+sub retrieveElementInSection {
+    my ($self, $sectionName, $fields) = @_;
+
+    my $section = $self->getSection($sectionName);
+    return unless $section;
+
+    return first { _isKeyValueListInHash($_, $fields) } @$section;
+}
+
+sub _isKeyValueListInHash {
+    my ($hash, $fields) = @_;
+
+    for my $field (keys %$fields) {
+        return unless (defined $hash->{$field} && ($hash->{$field} eq $fields->{$field}));
+    }
+    return 1;
+};
+
+sub retrieveElementIndexInSection {
+    my ($self, $sectionName, $fields) = @_;
+
+    my $section = $self->getSection($sectionName);
+    return unless $section;
+
+    my $i = -1;
+    my @indexes = ();
+    grep {
+        my $hash = $_;
+        $i++;
+        if (_isKeyValueListInHash($hash, $fields)) {
+            push @indexes, $i;
+        }
+    } @$section;
+    return shift @indexes;
+}
+
+sub getBattery {
+    my ($self, $fields) = @_;
+
+    return $self->retrieveElementInSection('BATTERIES', $fields);
+}
+
+sub setBattery {
+    my ($self, $fields, $newBattery) = @_;
+
+    my $index = $self->retrieveElementIndexInSection('BATTERIES', $fields);
+    return unless defined $index;
+
+    $self->{content}->{BATTERIES}->[$index] = $newBattery;
+}
+
+sub setBatteryUsingIndex {
+    my ($self, $newBattery, $index) = @_;
+
+    if (defined $index) {
+        $self->{content}->{BATTERIES}->[$index] = $newBattery;
+    } else {
+        push @{$self->{content}->{BATTERIES}}, $newBattery;
+    }
+}
+
 
 1;
 __END__

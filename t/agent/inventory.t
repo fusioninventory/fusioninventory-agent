@@ -13,7 +13,7 @@ use FusionInventory::Agent;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Inventory;
 
-plan tests => 26;
+plan tests => 29;
 
 my $logger = FusionInventory::Agent::Logger->new(
     logger => [ 'Test' ],
@@ -354,3 +354,61 @@ is(
     undef,
     'operatingsystem section merge not supported field'
 );
+
+my $inventorySample = FusionInventory::Agent::Inventory->new();
+$inventorySample->{content}->{section1} = [
+    {
+        field1 => 'v1.1',
+        field2 => 'v1.2',
+        field3 => 'v1.3',
+    },
+    {
+        field1 => 'v2.1',
+        field2 => 'v2.2',
+        field3 => 'v2.3',
+    },
+];
+
+$inventorySample->{content}->{section2} = [
+    {
+        field1 => 'v1.1',
+        field2 => 'v1.2',
+        field3 => 'v1.3',
+    },
+    {
+        field1 => 'v2.1',
+        field2 => 'v2.2',
+        field3 => 'v2.3',
+    },
+];
+
+ok (FusionInventory::Agent::Inventory::_isKeyValueListInHash(
+    $inventorySample->{content}->{section2}->[0],
+    {
+        field3 => 'v1.3'
+    }
+));
+
+my $indexElement = $inventorySample->retrieveElementIndexInSection(
+    'section2',
+    {
+        field3 => 'v1.3'
+    }
+);
+ok (
+    defined $indexElement && $indexElement == 0,
+    "test retrieveElementIndexInSection()"
+);
+
+my $extractedElement = $inventorySample->retrieveElementInSection(
+    'section2',
+    {
+        field3 => 'v1.3'
+    }
+);
+cmp_deeply (
+    $extractedElement,
+    $inventorySample->{content}->{section2}->[0],
+    "test retrieveElementInSection()"
+);
+
