@@ -1,0 +1,23 @@
+  native-path:          BAT0
+  vendor:               ASUSTeK
+  model:                G750-59
+  power supply:         yes
+  updated:              jeu. 31 mai 2018 15:37:07 CEST (103 seconds ago)
+  has history:          yes
+  has statistics:       yes
+  battery
+    present:             yes
+    rechargeable:        yes
+    state:               charging
+    warning-level:       none
+    energy:              67,011 Wh
+    energy-empty:        0 Wh
+    energy-full:         74,496 Wh
+    energy-full-design:  89,208 Wh
+    energy-rate:         0 W
+    voltage:             15,12 V
+    percentage:          89%
+    capacity:            83,5082%
+    technology:          lithium-ion
+    icon-name:          'battery-full-charging-symbolic'
+

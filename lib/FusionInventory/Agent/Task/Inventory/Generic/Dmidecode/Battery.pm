@@ -7,6 +7,7 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
+use FusionInventory::Agent::Tools::Batteries;
 
 sub isEnabled {
     my (%params) = @_;
@@ -20,11 +21,12 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $batteries = _getBatteries(logger => $logger);
-
-    return unless $batteries;
-
-    _mergeBatteries($inventory, $batteries);
+    foreach my $battery (_getBatteries(logger => $logger)) {
+        $inventory->addEntry(
+            section => 'BATTERIES',
+            entry   => $battery
+        );
+    }
 }
 
 sub _getBatteries {
@@ -32,13 +34,13 @@ sub _getBatteries {
 
     return unless $infos->{22};
 
-    my $batteries;
-    for my $info (@{$infos->{22}}) {
-        my $data = _extractBatteryData($info);
-        push @$batteries, $data if $data;
+    my @batteries = ();
+    foreach my $info (@{$infos->{22}}) {
+        my $battery = _extractBatteryData($info);
+        push @batteries, $battery if $battery;
     }
 
-    return $batteries ? $batteries : undef;
+    return @batteries;
 }
 
 sub _extractBatteryData {
@@ -47,8 +49,9 @@ sub _extractBatteryData {
     my $battery = {
         NAME         => $info->{'Name'},
         MANUFACTURER => getCanonicalManufacturer($info->{'Manufacturer'}),
-        SERIAL       => $info->{'Serial Number'} ||
-            $info->{'SBDS Serial Number'},
+        SERIAL       => sanitizeBatterySerial(
+            $info->{'Serial Number'} || $info->{'SBDS Serial Number'}
+        ),
         CHEMISTRY    => $info->{'Chemistry'} ||
             $info->{'SBDS Chemistry'},
     };
@@ -93,65 +96,6 @@ sub _parseDate {
         return "$day/$month/$year";
     }
     return;
-}
-
-sub _mergeBatteries {
-    my ($inventory, $batteries) = @_;
-
-    for my $batt (@$batteries) {
-        # retrieve if the battery is already in inventory
-        my $fields = {};
-        if (defined $batt->{SERIAL} && $batt->{SERIAL} =~ /^0+$/) {
-            $batt->{SERIAL} = 0;
-        }
-        $fields->{NAME} = $batt->{NAME} if $batt->{NAME};
-        my $battInInventory;
-        my $battindex;
-        # if we have some data to identify the battery already in inventory
-        if (scalar (keys %$fields) >  0) {
-            $battInInventory = $inventory->getBattery($fields);
-        }
-        # dmidecode sometimes returns hexadecimal values for Serial number
-        if (! $battInInventory && $fields->{SERIAL}) {
-            $fields->{SERIAL} = hex2dec($fields->{SERIAL});
-            $battInInventory = $inventory->getBattery($fields);
-        }
-        unless ($battInInventory) {
-            # looking if we are in this special context :
-            # we have one battery in inventory
-            # and we have one battery to merge
-            my $section = $inventory->getSection('BATTERIES');
-            if (defined $section
-                && (scalar @$section) == 1
-                && (scalar @$batteries) == 1) {
-                # in that special context, we take this unique battery found
-                $battInInventory = $section->[0];
-                # we also note the index
-                $battindex = 0;
-            }
-        }
-        my $newBatt;
-        # if the battery is already in inventory
-        if ($battInInventory) {
-            # Getting the battery's index in inventory BATTERY section
-            $battindex = $inventory->retrieveElementIndexInSection(
-                'BATTERIES',
-                {
-                    NAME => $battInInventory->{NAME},
-                    SERIAL => $battInInventory->{SERIAL}
-                }
-            ) if not defined $battindex;
-            # Selecting keys that are not already set in element from inventory
-            my @keysWithValueToInsert = grep { !$battInInventory->{$_} } keys %$batt;
-            # Merging values that are not already set in element from inventory
-            @$battInInventory{ @keysWithValueToInsert } = @$batt{ @keysWithValueToInsert };
-            $newBatt = $battInInventory;
-        } else {
-            $newBatt = $batt;
-        }
-        # insert battery at right index
-        $inventory->setBatteryUsingIndex($newBatt, $battindex);
-    }
 }
 
 1;
