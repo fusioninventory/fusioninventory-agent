@@ -7,6 +7,7 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
+use FusionInventory::Agent::Tools::Batteries;
 
 sub isEnabled {
     my (%params) = @_;
@@ -20,33 +21,42 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $battery = _getBattery(logger => $logger);
-
-    return unless $battery;
-
-    $inventory->addEntry(
-        section => 'BATTERIES',
-        entry   => $battery
-    );
+    foreach my $battery (_getBatteries(logger => $logger)) {
+        $inventory->addEntry(
+            section => 'BATTERIES',
+            entry   => $battery
+        );
+    }
 }
 
-sub _getBattery {
+sub _getBatteries {
     my $infos = getDmidecodeInfos(@_);
 
     return unless $infos->{22};
 
-    my $info    = $infos->{22}->[0];
+    my @batteries = ();
+    foreach my $info (@{$infos->{22}}) {
+        my $battery = _extractBatteryData($info);
+        push @batteries, $battery if $battery;
+    }
+
+    return @batteries;
+}
+
+sub _extractBatteryData {
+    my ($info) = @_;
 
     my $battery = {
         NAME         => $info->{'Name'},
-        MANUFACTURER => $info->{'Manufacturer'},
-        SERIAL       => $info->{'Serial Number'} ||
-                        $info->{'SBDS Serial Number'},
+        MANUFACTURER => getCanonicalManufacturer($info->{'Manufacturer'}),
+        SERIAL       => sanitizeBatterySerial(
+            $info->{'Serial Number'} || $info->{'SBDS Serial Number'}
+        ),
         CHEMISTRY    => $info->{'Chemistry'} ||
-                        $info->{'SBDS Chemistry'},
+            $info->{'SBDS Chemistry'},
     };
 
-    if      ($info->{'Manufacture Date'}) {
+    if ($info->{'Manufacture Date'}) {
         $battery->{DATE} = _parseDate($info->{'Manufacture Date'});
     } elsif ($info->{'SBDS Manufacture Date'}) {
         $battery->{DATE} = _parseDate($info->{'SBDS Manufacture Date'});
