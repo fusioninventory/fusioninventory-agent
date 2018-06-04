@@ -45,10 +45,10 @@ sub run {
         foreach my $index (keys(%{$firmwares})) {
             next unless $versions->{$index};
             my $firmware = {
-                NAME            => "Epson ".($names->{$index} || "printer"),
-                DESCRIPTION     => "Epson printer ".($names->{$index} || "firmware"),
+                NAME            => "Epson ".(hex2char($names->{$index}) || "printer"),
+                DESCRIPTION     => "Epson printer ".(hex2char($names->{$index}) || "firmware"),
                 TYPE            => "printer",
-                VERSION         => $versions->{$index},
+                VERSION         => hex2char($versions->{$index}),
                 MANUFACTURER    => "Epson"
             };
             $device->addFirmware($firmware);
