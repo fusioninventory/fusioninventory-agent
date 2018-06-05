@@ -14,7 +14,7 @@ use FusionInventory::Agent;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
 
-plan tests => 33;
+plan tests => 30;
 
 my $libdir = tempdir(CLEANUP => $ENV{TEST_DEBUG} ? 0 : 1);
 push @INC, $libdir;
@@ -22,10 +22,6 @@ my $agent = FusionInventory::Agent->new(libdir => $libdir);
 
 my %tasks;
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task1.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task1;
-1;
-EOF
 create_file("$libdir/FusionInventory/Agent/Task/Task1", "Version.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task1::Version;
 use constant VERSION => 42;
@@ -38,10 +34,6 @@ cmp_deeply (
     "single task"
 );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task2.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task2;
-1;
-EOF
 create_file("$libdir/FusionInventory/Agent/Task/Task2", "Version.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task2::Version;
 use constant VERSION => 42;
@@ -56,13 +48,7 @@ cmp_deeply (
     },
     "multiple tasks"
 );
-ok ( !defined( $agent->{_taskevents} ), "no-task2-internal-event" );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task3.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task3;
-our $TaskEvents = { 'task3-event' => 300 };
-1;
-EOF
 create_file("$libdir/FusionInventory/Agent/Task/Task3", "Version.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task3::Version;
 use Does::Not::Exists;
@@ -78,13 +64,7 @@ cmp_deeply(
     },
     "wrong syntax"
 );
-ok ( !defined( $agent->{_taskevents} ), "no-task3-internal-event" );
 
-create_file("$libdir/FusionInventory/Agent/Task", "Task5.pm", <<'EOF');
-package FusionInventory::Agent::Task::Task5;
-our $TaskEvents = { 'task5-event' => 60 };
-1;
-EOF
 create_file("$libdir/FusionInventory/Agent/Task/Task5", "Version.pm", <<'EOF');
 package FusionInventory::Agent::Task::Task5::Version;
 use constant VERSION => 42;
@@ -100,14 +80,6 @@ cmp_deeply (
     },
     "multiple tasks"
 );
-cmp_deeply(
-    $agent->{_taskevents},
-    {
-        'Task5' => { 'task5-event' => 60 }
-    },
-    "task5-internal-event"
-);
-
 
 $agent->{config} = FusionInventory::Agent::Config->new(
     options => {
