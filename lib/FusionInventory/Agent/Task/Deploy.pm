@@ -425,6 +425,8 @@ sub run {
     return 1;
 }
 
+1;
+
 __END__
 
 =head1 NAME
