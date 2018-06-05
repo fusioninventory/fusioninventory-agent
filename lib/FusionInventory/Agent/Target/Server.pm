@@ -75,9 +75,9 @@ sub getType {
 sub plannedTasks {
     my $self = shift @_;
 
-    # Server can trigger any task
+    # Server can trigger any task but Maintenance
     if (@_) {
-        $self->{tasks} = [ @_ ];
+        $self->{tasks} = [ grep { $_ !~ /^Maintenance$/i } @_ ];
     }
 
     return @{$self->{tasks} || []};

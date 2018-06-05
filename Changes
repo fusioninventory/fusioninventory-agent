@@ -6,6 +6,16 @@ core:
 * Normalized Target class APIs
 * Register planned tasks at target level so target class can filter out
   unsupported tasks
+* Add Scheduler target support to be used at the same time than Server target
+  but more often to make maintenance other server target storage
+* One scheduler target is created for each configured server target
+* Scheduler target will trigger between one to 2 minutes
+
+maintenance:
+* New Maintenance v1.0 task
+* Maintenance task handles quick server target storage cleanup to deploy
+  packages are really removed afetr their expiration time
+* Task only supported by Scheduler target
 
 inventory:
 * Fix BSD Storages support

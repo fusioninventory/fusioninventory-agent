@@ -431,15 +431,28 @@ sub getTargets {
 
     if ($self->{server}) {
         FusionInventory::Agent::Target::Server->require();
+        FusionInventory::Agent::Target::Scheduler->require();
         foreach my $url (@{$self->{server}}) {
-            push @targets,
-                FusionInventory::Agent::Target::Server->new(
-                    logger     => $params{logger},
-                    delaytime  => $self->{delaytime},
-                    basevardir => $params{vardir},
-                    url        => $url,
-                    tag        => $self->{tag},
-                );
+            my $server = FusionInventory::Agent::Target::Server->new(
+                logger     => $params{logger},
+                delaytime  => $self->{delaytime},
+                basevardir => $params{vardir},
+                url        => $url,
+                tag        => $self->{tag},
+            );
+
+            # Also setup one Scheduler target for each target, actually
+            # it only used by Maintenance task to cleanup storage from
+            # expired files
+            # Schedule it to run every 2 minutes max by default
+            my $scheduler = FusionInventory::Agent::Target::Scheduler->new(
+                logger      => $params{logger},
+                delaytime   => 60,
+                maxDelay    => 120,
+                basevardir  => $params{vardir},
+                storage     => $server->getStorage(),
+            );
+            push @targets, $server, $scheduler;
         }
     }
 
