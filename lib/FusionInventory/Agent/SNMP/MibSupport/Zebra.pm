@@ -12,12 +12,11 @@ use FusionInventory::Agent::Tools::SNMP;
 
 use constant    esi     => '.1.3.6.1.4.1.683' ;
 use constant    model2  => esi . '.6.2.3.2.1.15.1' ;
-use constant    serial2 => esi . '.1.5.0' ;
+use constant    serial  => esi . '.1.5.0' ;
 use constant    fw2     => esi . '.1.9.0' ;
 
 use constant    zebra   => '.1.3.6.1.4.1.10642' ;
 use constant    model1  => zebra . '.1.1.0' ;
-use constant    serial1 => zebra . '.1.4.0' ;
 use constant    fw1     => zebra . '.1.2.0' ;
 
 our $mibSupport = [
@@ -30,7 +29,7 @@ our $mibSupport = [
 sub getSerial {
     my ($self) = @_;
 
-    return hex2char($self->get(serial1) || $self->get(serial2));
+    return hex2char($self->get(serial));
 }
 
 sub getModel {
