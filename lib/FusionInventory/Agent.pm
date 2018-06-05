@@ -155,10 +155,6 @@ sub run {
                 "$target->{id} is not ready yet, next server contact " .
                 "planned for " . localtime($target->getNextRunDate())
             );
-
-            # Handle eventually registered and expiring target internal events
-            $self->runInternalEvents($target);
-
             next;
         }
 
@@ -181,27 +177,6 @@ sub terminate {
     # Abort realtask running in that forked process or thread
     $self->{current_task}->abort()
         if ($self->{current_task});
-}
-
-sub runInternalEvents {
-    my ($self, $target) = @_;
-
-    my $resetStatus = 0;
-    my ($task, $event, $next);
-    # Loop on all expired internal events
-    while (($task, $event) = $target->getNextExpiredInternalEvent()) {
-        $self->setStatus("running $task '$event' event");
-        $resetStatus++;
-        eval {
-            $next = $self->runInternalEventReal($target, $task, $event);
-        };
-        # Reschedule eventually returned next event
-        $target->registerInternalEvent($next->{delay}, $task, $next->{name})
-            if (ref($next) eq 'HASH' && $next->{name} && defined($next->{delay}));
-    }
-
-    # Reset status
-    $self->setStatus($target->paused() ? 'paused' : 'waiting') if $resetStatus;
 }
 
 sub runTarget {
@@ -260,17 +235,6 @@ sub runTarget {
         # Leave earlier while requested
         last unless $self->getTargets();
         last if $target->paused();
-
-        # Handle eventually still registered target internal events before next task
-        $self->runInternalEvents($target);
-
-        # Eventually register new target internal events for this task
-        if ($self->{_taskevents} && $self->{_taskevents}->{$name}) {
-            foreach my $event (keys(%{$self->{_taskevents}->{$name}})) {
-                my $delay = $self->{_taskevents}->{$name}->{$event};
-                $target->registerInternalEvent($delay, $name, $event);
-            }
-        }
     }
 
     return 0;
@@ -321,26 +285,6 @@ sub runTaskReal {
         no_compress  => $self->{config}->{'no-compression'},
     );
     delete $self->{current_task};
-}
-
-sub runInternalEventReal {
-    my ($self, $target, $name, $event) = @_;
-
-    my $class = "FusionInventory::Agent::Task::$name";
-
-    $class->require();
-
-    my $task = $class->new(
-        config       => $self->{config},
-        datadir      => $self->{datadir},
-        logger       => $self->{logger},
-        target       => $target,
-        deviceid     => $self->{deviceid},
-    );
-
-    $self->{logger}->debug("running $name '$event' event");
-
-    return $task->runInternalEvent($event);
 }
 
 sub getStatus {
@@ -409,30 +353,9 @@ sub getAvailableTasks {
         # no version means non-functionning task
         next unless $version;
 
-        # We also need to load task module to look for task internal events
-        $module =~ s/::Version$//;
-        if (!$module->require()) {
-            $logger->debug2("module $module does not compile: $@") if $logger;
-
-            # Don't keep trace of module, only really needed to fix perl 5.8 issue
-            delete $INC{module2file($module)};
-
-            next;
-        }
-
         $tasks{$name} = $version;
         $logger->debug2("getAvailableTasks() : add of task $name version $version")
             if $logger;
-
-        # Keep task internal events setup if defined
-        my $taskevents;
-        {
-            no strict 'refs';  ## no critic
-            $taskevents = ${$module . '::TaskEvents'};
-        }
-        if ($taskevents) {
-            $self->{_taskevents}->{$name} = $taskevents;
-        }
     }
 
     return %tasks;

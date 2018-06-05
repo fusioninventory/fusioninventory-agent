@@ -18,11 +18,6 @@ use FusionInventory::Agent::Task::Deploy::Version;
 
 our $VERSION = FusionInventory::Agent::Task::Deploy::Version::VERSION;
 
-our $TaskEvents = {
-    'cache-cleanup' => 60,
-    'disk-cleanup'  => 1800,
-};
-
 sub isEnabled {
     my ($self) = @_;
 
@@ -431,38 +426,6 @@ sub run {
     }
 
     return 1;
-}
-
-sub runInternalEvent {
-    my ($self, $event) = @_;
-
-    return unless ($event && $TaskEvents->{$event});
-
-    my $folder = $self->{target}->getStorage()->getDirectory();
-    my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
-        path   => $folder.'/deploy',
-        logger => $self->{logger}
-    );
-
-    my $next = {
-        name    => $event,
-        delay   => $TaskEvents->{$event}
-    };
-
-    if ($event eq 'disk-cleanup') {
-        # Reschedule unless files were purged
-        return $next
-            if $datastore->cleanUp( force => $datastore->diskIsFull() );
-    } else {
-        # Re-schedule cache-cleanup internal event if folders need to be purged later
-        return $next if $datastore->cleanUp( force => 0 );
-        # Finally abort disk-cleanup internal event re-scheduling when we
-        # have nothing more to purge
-        return {
-            name    => 'disk-cleanup',
-            delay   => 0
-        };
-    }
 }
 
 __END__

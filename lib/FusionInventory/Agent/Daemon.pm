@@ -125,9 +125,6 @@ sub run {
             $self->RunningServiceOptimization();
         }
 
-        # Handle eventually registered and expiring target internal events
-        $self->runInternalEvents($target);
-
         # This eventually check for http messages, default timeout is 1 second
         $self->sleep(1);
     }
