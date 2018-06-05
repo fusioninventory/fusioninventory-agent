@@ -90,13 +90,15 @@ sub diskIsFull {
 
     my $logger = $self->{logger};
 
+    return 0 unless -d $self->{path};
+
     my $freeSpace = getFreeSpace(
         path => $self->{path},
         logger => $logger
     );
 
-    if (!$freeSpace) {
-        $logger->debug('$spaceFree is undef!');
+    if (!defined($freeSpace)) {
+        $logger->debug2('$freeSpace is undef!');
         $freeSpace = 0;
     }
 
