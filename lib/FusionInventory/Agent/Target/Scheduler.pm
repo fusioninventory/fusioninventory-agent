@@ -95,12 +95,8 @@ hash:
 
 =over
 
-=item I<url>
+=item I<storage>
 
-the server URL (mandatory)
+the server target storage object (mandatory)
 
 =back
-
-=head2 getUrl()
-
-Return the server URL for this target.
