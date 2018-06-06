@@ -12,6 +12,7 @@ use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
     getDmidecodeInfos
+    getIpmiFru
     getCpusFromDmidecode
     getHdparmInfo
     getPCIDevices
@@ -89,6 +90,54 @@ sub getDmidecodeInfos {
     return if keys %$info < 2;
 
     return $info;
+}
+
+sub getIpmiFru {
+    my (%params) = (
+        command => 'ipmitool fru print',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+    my ($fru, $block, $id, $descr);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /^FRU Device Description : (\w+)(?: \(ID (\d+)\))?/) {
+            # start of block
+
+            # push previous block in list
+            if ($block) {
+                $fru->{$descr}->{id} = $id if $id;
+                $fru->{$descr}->{data} = $block;
+                undef $block;
+            }
+
+            $descr = $1;
+            $id    = $2 if $2;
+
+            next;
+        }
+
+        next unless defined $descr;
+        next unless $line =~ /^\s+([^:]+\w)\s+:\s(.+)$/;
+
+        $block->{$1} = trimWhitespace($2);
+    }
+
+    close $handle;
+
+    # push last block in list if still defined
+    if ($block) {
+        $fru->{$descr}->{data} = $block;
+    }
+
+    # do not return anything if dmidecode output is obviously truncated
+    return if keys %$fru < 2;
+
+    return $fru;
 }
 
 sub getCpusFromDmidecode {
