@@ -3,6 +3,8 @@ package FusionInventory::Agent::Tools::Hardware::Qlogic;
 use strict;
 use warnings;
 
+use FusionInventory::Agent::Tools::SNMP qw/getCanonicalMacAddress/;
+
 sub run {
    my (%params) = @_;
 
@@ -56,7 +58,7 @@ sub getFcPorts {
    #FIBRE-CHANNEL-FE-MIB::fcFxPortName.1.1 = Hex-STRING: 20 00 00 C0 DD 0C C5 27
    #FIBRE-CHANNEL-FE-MIB::fcFxPortName.1.2 = Hex-STRING: 20 01 00 C0 DD 0C C5 27
    while (my ($idx, $wwn) = each %$fcFxPortName) {
-       $wwn = FusionInventory::Agent::Tools::Hardware::_getCanonicalMacAddress($wwn);
+       $wwn = getCanonicalMacAddress($wwn);
        next unless $wwn;
 
        $fcPort{$idx} = $wwn;
@@ -86,7 +88,7 @@ sub getConnectedWWNs {
     # .1.3.6.1.2.1.75.1.2.3.1.10.1.1.1 = Hex-STRING: 21 00 00 24 FF 57 5D 9C
     # .1.3.6.1.2.1.75.1.2.3.1.10.1.2.1 = Hex-STRING: 21 00 00 24 FF 57 5F 18
     while (my ($suffix, $wwn) = each %$fcFxPortNxPortName) {
-        $wwn = FusionInventory::Agent::Tools::Hardware::_getCanonicalMacAddress($wwn);
+        $wwn = getCanonicalMacAddress($wwn);
         next unless $wwn;
 
         my $idx = FusionInventory::Agent::Tools::Hardware::_getElement($suffix, 0);
