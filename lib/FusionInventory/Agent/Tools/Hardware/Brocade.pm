@@ -3,7 +3,7 @@ package FusionInventory::Agent::Tools::Hardware::Brocade;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools::SNMP;
+use FusionInventory::Agent::Tools::SNMP qw/getCanonicalMacAddress/;
 
 sub run {
     my (%params) = @_;
