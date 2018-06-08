@@ -102,7 +102,7 @@ $discovery->{jobs} = [
     }
 ];
 if (defined($options->{entity})) {
-    $discovery->{options}->{RANGEIP}->[0]->{ENTITY} = $options->{entity};
+    $discovery->{jobs}->[0]->{ranges}->[0]->{ENTITY} = $options->{entity};
 }
 $discovery->{client} =
     FusionInventory::Agent::Task::NetInventory::Client->new(
