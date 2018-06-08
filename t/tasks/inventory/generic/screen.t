@@ -221,6 +221,13 @@ my %edid_tests = (
         ALTSERIAL    => 'LBZ081614233',
         DESCRIPTION  => '5/2010'
     },
+    'lcd.acer-ka240hq' => {
+        MANUFACTURER => 'Acer Technologies',
+        CAPTION      => 'Acer KA240HQ',
+        SERIAL       => 'T3SEE0058040f0164206',
+        ALTSERIAL    => 'T3SEE0054206',
+        DESCRIPTION  => '4/2018'
+    },
     'lcd.acer-x193hq' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'X193HQ',
