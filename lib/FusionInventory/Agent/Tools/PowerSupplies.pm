@@ -1,0 +1,224 @@
+package FusionInventory::Agent::Tools::PowerSupplies;
+
+use strict;
+use warnings;
+
+use parent 'Exporter';
+
+use FusionInventory::Agent::Inventory;
+use FusionInventory::Agent::Tools;
+
+our @EXPORT = qw(
+    powersupplyFields
+    getIpmiFru
+);
+
+my @fields = ();
+
+sub powersupplyFields {
+
+    unless  (@fields) {
+        # Initialize PowerSupplies expected fields from an Inventory object
+        my $inventory = FusionInventory::Agent::Inventory->new();
+        @fields = keys(%{$inventory->getFields()->{'POWERSUPPLIES'}});
+    }
+
+    return @fields;
+}
+
+sub getIpmiFru {
+    my (%params) = (
+        command => 'ipmitool fru print',
+        @_
+    );
+
+    my $handle = getFileHandle(%params);
+    return unless $handle;
+    my ($fru, $block, $id, $descr);
+
+    while (my $line = <$handle>) {
+        chomp $line;
+
+        if ($line =~ /^FRU Device Description : (\w+)(?: \(ID (\d+)\))?/) {
+            # start of block
+
+            # push previous block in list
+            if ($block) {
+                $fru->{$descr} = $block;
+                undef $block;
+            }
+
+            $descr = $1;
+
+            next;
+        }
+
+        next unless defined $descr;
+        next unless $line =~ /^\s+([^:]+\w)\s+:\s(.+)$/;
+
+        $block->{$1} = trimWhitespace($2);
+    }
+
+    close $handle;
+
+    # push last block in list if still defined
+    if ($block) {
+        $fru->{$descr} = $block;
+    }
+
+    return $fru;
+}
+
+# Also implement a powersupplies class, but split name on new line to not export it in CPAN
+package
+    Inventory::PowerSupplies;
+
+use FusionInventory::Agent::Logger;
+
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = {
+        logger  => $params{logger} || FusionInventory::Agent::Logger->new(),
+        list    => {},
+    };
+
+    bless $self, $class;
+
+    return $self;
+}
+
+sub add {
+    my ($self, $ref) = @_;
+
+    my $powersupply = PowerSupply->new($ref);
+
+    my $deviceid = $powersupply->deviceid;
+
+    $self->{logger}->debug(
+        "Replacing '$deviceid' powersupply"
+    ) if $self->{list}->{$deviceid};
+
+    $self->{list}->{$deviceid} = $powersupply;
+}
+
+sub merge {
+    my ($self, @powersupplies) = @_;
+
+    # Handle the case where only one powersupply is found and deviceid may not
+    # be complete in one case
+    if (scalar(keys(%{$self->{list}})) == 1 && scalar(@powersupplies) == 1) {
+        my $currentid = [ keys(%{$self->{list}}) ]->[0];
+        my $current = $self->{list}->{$currentid};
+        my $powersupply = PowerSupply->new($powersupplies[0]);
+        if ($currentid ne $powersupply->deviceid
+            && scalar($current->serial) eq scalar($powersupply->serial)
+        ) {
+            # Just rename key to permit the merge if serial match
+            $self->{list}->{$powersupply->deviceid} = $current;
+            delete $self->{list}->{$currentid};
+        }
+    }
+
+    foreach my $data (@powersupplies) {
+        my $powersupply = PowerSupply->new($data);
+
+        my $deviceid = $powersupply->deviceid;
+
+        # Just add powersupply if it doesn't exist in list
+        if ($self->{list}->{$deviceid}) {
+            $self->{list}->{$deviceid}->merge($powersupply);
+        } else {
+            $self->{list}->{$deviceid} = $powersupply;
+        }
+    }
+}
+
+sub list {
+    my ($self) = @_;
+    return map { $_->dump() } values(%{$self->{list}});
+}
+
+# Also implement a powersupply class, but split name on new line to not export it in CPAN
+package
+    PowerSupply;
+
+use FusionInventory::Agent::Logger;
+
+sub new {
+    my ($class, $powersupply) = @_;
+
+    return $powersupply if (ref($powersupply) eq $class);
+
+    return unless ref($powersupply) eq 'HASH';
+
+    $powersupply->{logger} = FusionInventory::Agent::Logger->new()
+        unless $powersupply->{logger};
+
+    bless $powersupply, $class;
+
+    return $powersupply;
+}
+
+sub deviceid {
+    my ($self) = @_;
+    return $self->vendor.$self->serial;
+}
+
+sub serial {
+    my ($self) = @_;
+    return $self->{SERIALNUMBER} || '0';
+}
+
+sub vendor {
+    my ($self) = @_;
+    return $self->{MANUFACTURER} || '';
+}
+
+sub merge {
+    my ($self, $powersupply) = @_;
+    foreach my $key (FusionInventory::Agent::Tools::PowerSupplies::powersupplyFields()) {
+        next unless $powersupply->{$key};
+        # Don't replace value is they are the same, case insensitive check
+        next if (defined($self->{$key}) && $powersupply->{$key} =~ /^$self->{$key}$/i);
+        $self->{logger}->debug(
+            "Replacing $key value '$self->{$key}' by '$powersupply->{$key}' on '".
+            $self->deviceid."' powersupply"
+        ) if $self->{$key};
+        $self->{$key} = $powersupply->{$key};
+    }
+}
+
+sub dump {
+    my ($self) = @_;
+
+    my $dump = {};
+
+    foreach my $key (FusionInventory::Agent::Tools::PowerSupplies::powersupplyFields()) {
+        next unless exists($self->{$key});
+        $dump->{$key} = $self->{$key};
+    }
+
+    return $dump;
+}
+
+1;
+__END__
+
+=head1 NAME
+
+FusionInventory::Agent::Tools::PowerSupplies
+
+=head1 DESCRIPTION
+
+This module provides functions to manage powersupplies informations
+
+=head1 FUNCTIONS
+
+=head2 getIpmiFru()
+
+Returns list of FRU entries
+
+=head2 powersupplyFields()
+
+Returns the list of supported/expected powersupply fields

@@ -1,0 +1,3 @@
+# dmidecode 2.12
+SMBIOS 2.7 present.
+

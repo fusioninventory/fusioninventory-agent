@@ -1,0 +1,13 @@
+FRU Device Description : PS1 (ID 1)
+ Board Mfg Date        : Tue Sep  3 19:44:00 2013
+ Board Mfg             : DELL
+ Board Product         : PWR SPLY,750WP,RDNT,DELTA     
+ Board Serial          : CN1797238QA8EI
+ Board Part Number     : 05NF18A01
+
+FRU Device Description : PS2 (ID 2)
+ Board Mfg Date        : Tue Sep  3 19:23:00 2013
+ Board Mfg             : DELL
+ Board Product         : PWR SPLY,750WP,RDNT,DELTA     
+ Board Serial          : CN1797238QA8B4
+ Board Part Number     : 05NF18A01
