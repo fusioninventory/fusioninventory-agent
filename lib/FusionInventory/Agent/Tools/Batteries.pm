@@ -101,10 +101,11 @@ sub merge {
         my $deviceid = $battery->deviceid;
 
         # Just add battery if it doesn't exist in list
-        return $self->{list}->{$deviceid} = $battery
-            unless $self->{list}->{$deviceid};
-
-        $self->{list}->{$deviceid}->merge($battery);
+        if ($self->{list}->{$deviceid}) {
+            $self->{list}->{$deviceid}->merge($battery);
+        } else {
+            $self->{list}->{$deviceid} = $battery;
+        }
     }
 }
 
