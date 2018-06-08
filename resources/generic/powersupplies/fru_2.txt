@@ -1,0 +1,11 @@
+FRU Device Description : Builtin FRU Device (ID 0)
+ Chassis Type          : Main Server Chassis
+ Board Mfg Date        : Tue Mar 20 16:00:00 2012
+ Board Serial          : 37030-1513-00248
+ Board Part Number     : B48-STI2F03G00C01A
+
+FRU Device Description : AST2300-1       
+ Chassis Type          : Main Server Chassis
+ Board Mfg Date        : Tue Mar 20 16:00:00 2012
+ Board Serial          : 37030-1513-00248
+ Board Part Number     : B48-STI2F03G00C01A

@@ -1,21 +1,17 @@
-#
-# OcsInventory agent - IPMI lan channel report
-#
-# Copyright (c) 2008 Jean Parpaillon <jean.parpaillon@kerlabs.com>
-#
-# The Intelligent Platform Management Interface (IPMI) specification
-# defines a set of common interfaces to a computer system which system
-# administrators can use to monitor system health and manage the
-# system. The IPMI consists of a main controller called the Baseboard
-# Management Controller (BMC) and other satellite controllers.
-#
 package FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru;
 
 use strict;
 use warnings;
 
+use parent 'FusionInventory::Agent::Task::Inventory::Module';
+
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::Generic;
+use FusionInventory::Agent::Tools::PowerSupplies;
+
+# Run after virtualization to decide if found component is virtual
+our $runAfterIfEnabled = [ qw(
+    FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Psu
+)];
 
 sub isEnabled {
     my (%params) = @_;
@@ -29,26 +25,40 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $fru = getIpmiFru(logger => $logger);
-    my $psu;
+    my $fru = getIpmiFru(%params)
+        or return;
 
-    foreach my $descr (keys %$fru) {
-        next unless $descr =~ /^PS(\d+)/;
+    my @fru_keys = grep { /^PS\d+/ } keys(%{$fru})
+        or return;
 
-        $psu = {
-            PARTNUM => $fru->{$descr}->{data}->{'Board Part Number'},
-            SERIAL  => $fru->{$descr}->{data}->{'Board Serial'},
-            POWER   => $fru->{$descr}->{data}->{'Max Power Capacity'},
-            VENDOR  => $fru->{$descr}->{data}->{'Board Mfg'},
-            IS_ATX  => 0,
+    # Empty current POWERSUPPLIES section into a new psu list
+    my $psulist = Inventory::PowerSupplies->new( logger => $logger );
+    my $section = $inventory->getSection('POWERSUPPLIES') || [];
+    while (@{$section}) {
+        my $powersupply = shift @{$section};
+        $psulist->add($powersupply);
+    }
+
+    # Merge powersupplies reported by ipmitool
+    my @fru = ();
+    foreach my $descr (sort @fru_keys) {
+        push @fru, {
+            NAME         => $fru->{$descr}->{'Board Product'},
+            PARTNUM      => $fru->{$descr}->{'Board Part Number'},
+            SERIALNUMBER => $fru->{$descr}->{'Board Serial'},
+            POWER_MAX    => $fru->{$descr}->{'Max Power Capacity'},
+            MANUFACTURER => $fru->{$descr}->{'Board Mfg'} ||
+                $fru->{$descr}->{'Product Manufacturer'},
         };
+    }
+    $psulist->merge(@fru);
 
+    # Add back merged powersupplies into inventory
+    foreach my $psu ($psulist->list()) {
         $inventory->addEntry(
             section => 'POWERSUPPLIES',
             entry   => $psu
         );
-
-        undef $psu;
     }
 }
 

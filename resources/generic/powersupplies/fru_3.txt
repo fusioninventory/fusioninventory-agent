@@ -1,0 +1,8 @@
+FRU Device Description : Builtin FRU Device (ID 0)
+ Board Mfg Date        : Wed May 22 05:50:00 2013
+ Board Mfg             : DELL
+ Board Product         : PowerEdge R210 II             
+ Board Serial          : CN7082135J3EYD
+ Board Part Number     : 03X6X0A05
+ Product Manufacturer  : DELL
+ Product Serial        : 6T7NZY1
