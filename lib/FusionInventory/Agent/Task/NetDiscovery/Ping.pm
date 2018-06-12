@@ -115,7 +115,7 @@ sub ping_icmp
                     $done = 1;
                 } elsif ($from_type == Net::Ping::ICMP_UNREACHABLE) {
                     $done = 1;
-                } elsif ($from_type == Net::Ping::ICMP_TIME_EXCEEDED) {
+                } elsif ($from_type == Net::Ping::ICMP_TIME_EXCEEDED()) {
                     $ret = 0;
                     $done = 1;
                 }
