@@ -39,7 +39,7 @@ sub getIpmiFru {
     while (my $line = <$handle>) {
         chomp $line;
 
-        if ($line =~ /^FRU Device Description : (\w+)(?: \(ID (\d+)\))?/) {
+        if ($line =~ /^FRU Device Description : (.*)(?: \(ID (\d+)\))?/) {
             # start of block
 
             # push previous block in list

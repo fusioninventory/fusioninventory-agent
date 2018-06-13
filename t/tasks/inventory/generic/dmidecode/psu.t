@@ -25,35 +25,13 @@ my %tests = (
             NAME           => 'Power Supply 1',
             PLUGGED        => 'Yes',
             STATUS         => 'Present, <OUT OF SPEC>',
-        },
-        {
-            MANUFACTURER   => 'HP',
-            HOTREPLACEABLE => 'No',
-            PLUGGED        => 'Yes',
-        },
+        }
     ],
     'lenovo-thinkpad' => [
         # Type 39 entry is a battery
     ],
     'windows-7' => [
-        {
-            PARTNUM        => 'To Be Filled By O.E.M.',
-            SERIALNUMBER   => 'To Be Filled By O.E.M.',
-            MANUFACTURER   => 'To Be Filled By O.E.M.',
-            HOTREPLACEABLE => 'No',
-            LOCATION       => 'To Be Filled By O.E.M.',
-            NAME           => 'To Be Filled By O.E.M.',
-            PLUGGED        => 'Yes',
-        },
-        {
-            PARTNUM        => 'To Be Filled By O.E.M.',
-            SERIALNUMBER   => 'To Be Filled By O.E.M.',
-            MANUFACTURER   => 'To Be Filled By O.E.M.',
-            HOTREPLACEABLE => 'No',
-            LOCATION       => 'To Be Filled By O.E.M.',
-            NAME           => 'To Be Filled By O.E.M.',
-            PLUGGED        => 'Yes',
-        }
+        # 2 powersupplies, but no serial number, no partnum and no name
     ],
 );
 

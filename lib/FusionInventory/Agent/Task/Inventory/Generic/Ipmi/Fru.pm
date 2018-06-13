@@ -28,7 +28,7 @@ sub doInventory {
     my $fru = getIpmiFru(%params)
         or return;
 
-    my @fru_keys = grep { /^PS\d+/ } keys(%{$fru})
+    my @fru_keys = grep { /^(PS|Pwr Supply )\d+/ } keys(%{$fru})
         or return;
 
     # Empty current POWERSUPPLIES section into a new psu list
@@ -43,9 +43,12 @@ sub doInventory {
     my @fru = ();
     foreach my $descr (sort @fru_keys) {
         push @fru, {
-            NAME         => $fru->{$descr}->{'Board Product'},
-            PARTNUM      => $fru->{$descr}->{'Board Part Number'},
-            SERIALNUMBER => $fru->{$descr}->{'Board Serial'},
+            NAME         => $fru->{$descr}->{'Board Product'} ||
+                $fru->{$descr}->{'Product Name'},
+            PARTNUM      => $fru->{$descr}->{'Board Part Number'} ||
+                $fru->{$descr}->{'Product Part Number'},
+            SERIALNUMBER => $fru->{$descr}->{'Board Serial'} ||
+                $fru->{$descr}->{'Product Serial'},
             POWER_MAX    => $fru->{$descr}->{'Max Power Capacity'},
             MANUFACTURER => $fru->{$descr}->{'Board Mfg'} ||
                 $fru->{$descr}->{'Product Manufacturer'},

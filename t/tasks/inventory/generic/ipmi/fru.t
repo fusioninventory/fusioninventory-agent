@@ -32,34 +32,29 @@ my %tests = (
         ]
     },
     '2' => {
-        dmidecode   => [
-            {
-                PARTNUM        => 'To Be Filled By O.E.M.',
-                SERIALNUMBER   => 'To Be Filled By O.E.M.',
-                MANUFACTURER   => 'To Be Filled By O.E.M.',
-                HOTREPLACEABLE => 'No',
-                LOCATION       => 'To Be Filled By O.E.M.',
-                NAME           => 'To Be Filled By O.E.M.',
-                PLUGGED        => 'Yes',
-                STATUS         => 'Present, OK',
-            },
-        ],
-        fru         => [
-            {
-                PARTNUM        => 'To Be Filled By O.E.M.',
-                SERIALNUMBER   => 'To Be Filled By O.E.M.',
-                MANUFACTURER   => 'To Be Filled By O.E.M.',
-                HOTREPLACEABLE => 'No',
-                LOCATION       => 'To Be Filled By O.E.M.',
-                NAME           => 'To Be Filled By O.E.M.',
-                PLUGGED        => 'Yes',
-                STATUS         => 'Present, OK',
-            },
-        ],
+        dmidecode   => [],
+        fru         => [],
     },
     '3' => {
         dmidecode   => [],
         fru         => [],
+    },
+    '4' => {
+        dmidecode   => [],
+        fru         => [
+            {
+                PARTNUM        => 'H66158-007',
+                SERIALNUMBER   => 'CNS2221A4SG7Q0942',
+                MANUFACTURER   => 'SAMSUNG ELECTRO-MECHANICS CO.,LTD',
+                NAME           => 'PSSF222201A',
+            },
+            {
+                PARTNUM        => 'H66158-007',
+                SERIALNUMBER   => 'CNS2221A4SG7Q0944',
+                MANUFACTURER   => 'SAMSUNG ELECTRO-MECHANICS CO.,LTD',
+                NAME           => 'PSSF222201A',
+            },
+        ],
     },
 );
 
@@ -77,7 +72,7 @@ foreach my $index (keys %tests) {
     } "test $index: dmidecode runInventory()";
 
     my $psu = $inventory->getSection('POWERSUPPLIES') || [];
-    my @psu = sort { $a->{SERIALNUMBER} cmp $b->{SERIALNUMBER} } @{$psu};
+    my @psu = sort { ($a->{SERIALNUMBER}||'') cmp ($b->{SERIALNUMBER}||'') } @{$psu};
     cmp_deeply(
         \@psu,
         $tests{$index}->{dmidecode},
@@ -93,7 +88,7 @@ foreach my $index (keys %tests) {
     } "test $index: runInventory(s)";
 
     $psu = $inventory->getSection('POWERSUPPLIES') || [];
-    @psu = sort { $a->{SERIALNUMBER} cmp $b->{SERIALNUMBER} } @{$psu};
+    @psu = sort { ($a->{SERIALNUMBER}||'') cmp ($b->{SERIALNUMBER}||'') } @{$psu};
     cmp_deeply(
         \@psu,
         $tests{$index}->{fru},

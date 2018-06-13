@@ -14,6 +14,18 @@ sub isEnabled {
     return 1;
 }
 
+my %fields = (
+    PARTNUM         => 'Model Part Number',
+    SERIALNUMBER    => 'Serial Number',
+    MANUFACTURER    => 'Manufacturer',
+    NAME            => 'Name',
+    STATUS          => 'Status',
+    PLUGGED         => 'Plugged',
+    LOCATION        => 'Location',
+    POWER_MAX       => 'Max Power Capacity',
+    HOTREPLACEABLE  => 'Hot Replaceable',
+);
+
 sub doInventory {
     my (%params) = @_;
 
@@ -27,25 +39,18 @@ sub doInventory {
         # Skip battery
         next if $info->{'Type'} && $info->{'Type'} eq 'Battery';
 
-        my $psu = {
-            PARTNUM      => $info->{'Model Part Number'},
-            SERIALNUMBER => $info->{'Serial Number'},
-            MANUFACTURER => $info->{'Manufacturer'},
-        };
+        my $psu;
 
-        # Add other informations if present
-        $psu->{'NAME'} = $info->{'Name'}
-            if $info->{'Name'};
-        $psu->{'STATUS'} = $info->{'Status'}
-            if $info->{'Status'};
-        $psu->{'PLUGGED'} = $info->{'Plugged'}
-            if $info->{'Plugged'};
-        $psu->{'LOCATION'} = $info->{'Location'}
-            if $info->{'Location'};
-        $psu->{'POWER_MAX'} = $info->{'Max Power Capacity'}
-            if $info->{'Max Power Capacity'};
-        $psu->{'HOTREPLACEABLE'} = $info->{'Hot Replaceable'}
-            if $info->{'Hot Replaceable'};
+        # Add available informations but filter out not filled values
+        foreach my $key (keys(%fields)) {
+            next unless defined($info->{$fields{$key}});
+            next if $info->{$fields{$key}} =~ /To Be Filled By O.?E.?M/i;
+            $psu->{$key} = $info->{$fields{$key}};
+        }
+
+        # Filter out PSU is nothing interesting is found
+        next unless $psu;
+        next unless ($psu->{'NAME'} || $psu->{'SERIALNUMBER'} || $psu->{'PARTNUM'});
 
         $inventory->addEntry(
             section => 'POWERSUPPLIES',
