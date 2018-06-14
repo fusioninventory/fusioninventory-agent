@@ -63,3 +63,8 @@ During packaging, it is also advised to override lib/setup.pm module so datadir,
 libdir and vardir perl variables match the system preferences for these folders.
 The default setup.pm is defined to compute most well-known case with a very light
 overhead.
+
+===
+
+Review our mandatory Linux packaging page:
+http://fusioninventory.org/documentation/packaging/linux.html
