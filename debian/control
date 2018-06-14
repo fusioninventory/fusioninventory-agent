@@ -1,7 +1,7 @@
 Source: fusioninventory-agent
 Section: net
 Priority: extra
-Maintainer: Gonéri Le Bouder <goneri@debian.org>
+Maintainer: Debian Perl Group <pkg-perl-maintainers@lists.alioth.debian.org>
 Uploaders: Guillaume Bougard <gbougard@teclib.com>
 Build-Depends:
  debhelper (>= 9),
