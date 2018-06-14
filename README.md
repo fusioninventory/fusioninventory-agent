@@ -67,7 +67,7 @@ Optional Perl modules:
 
 Optional programs:
 
-* nmap, for ICMP method support
+* arp, for arp table lookup method support
 
 ### Network inventory tasks
 

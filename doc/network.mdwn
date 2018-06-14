@@ -3,7 +3,7 @@
 ## Summary
 
 The NetDiscovery task allows the agent to scan the network to find remote
-devices, through nmap, NetBios or SNMP, and to identify them
+devices, through arp, ping, NetBios or SNMP, and to identify them
 
 The NetInventory task allows the agent to extract various informations from a
 remote device through SNMP protocol
@@ -12,7 +12,7 @@ remote device through SNMP protocol
 
 The NetDiscovery task uses the following methods to scan IP networks:
 
-* ICMP scan, using nmap external command
+* ICMP echo scan and arp table lookup
 * NetBIOS scan, using [[!cpan Net::NBName]] perl module
 * SNMP scan, using [[!Net::SNMP]] perl module
 

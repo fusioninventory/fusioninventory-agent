@@ -19,7 +19,7 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
 
 FusionInventory::Agent::Task::NetDiscovery->use();
 
-plan tests => 15;
+plan tests => 12;
 
 my ($out, $err, $rc);
 
@@ -58,21 +58,3 @@ like(
     'no target stderr'
 );
 is($out, '', 'no target stdout');
-
-SKIP: {
-    skip "nmap required", 3 unless canRun("nmap");
-
-    # Check multi-threading support
-    ($out, $err, $rc) = run_executable('fusioninventory-netdiscovery', '--first 127.0.0.1 --last 127.0.0.10 --debug --threads 10');
-    ok($rc == 0, '10 threads started to scan loopback');
-    like(
-        $out,
-        qr/QUERY.*NETDISCOVERY/,
-        'query output'
-    );
-    like(
-        $err,
-        qr/cleaning 10 worker threads/,
-        'cleaning threads reached'
-    );
-}

@@ -13,13 +13,13 @@ use Time::localtime;
 use Time::HiRes qw(usleep);
 use Thread::Queue v2.01;
 use UNIVERSAL::require;
-use XML::TreePP;
 
 use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::Expiration;
+use FusionInventory::Agent::Tools::SNMP;
 use FusionInventory::Agent::XML::Query;
 
 use FusionInventory::Agent::Task::NetDiscovery::Version;
@@ -102,19 +102,27 @@ sub run {
     ) if !$self->{client};
 
     # check discovery methods available
-    my $nmap_parameters;
+    my $arp;
 
-    if (canRun('nmap')) {
-       my ($major, $minor) = getFirstMatch(
-           command => 'nmap -V',
-           pattern => qr/Nmap version (\d+)\.(\d+)/
-       );
-       $nmap_parameters = compareVersion($major, $minor, 5, 29) ?
-           "-sP -PE -PP --system-dns --max-retries 1 --max-rtt-timeout 1000ms" :
-           "-sP --system-dns --max-retries 1 --max-rtt-timeout 1000ms"     ;
+    if (canRun('arp')) {
+       $arp = 'arp -a';
     } else {
         $self->{logger}->info(
-            "Can't run nmap, nmap detection can't be used"
+            "Can't run arp command, arp table detection can't be used"
+        );
+    }
+
+    Net::Ping->require();
+    if ($EVAL_ERROR) {
+        $self->{logger}->info(
+            "Can't load Net::Ping, echo ping can't be used"
+        );
+    }
+
+    FusionInventory::Agent::Task::NetDiscovery::Ping->require();
+    if ($EVAL_ERROR) {
+        $self->{logger}->info(
+            "Can't load Task::NetDiscovery::Ping, timestamp ping can't be used"
         );
     }
 
@@ -200,7 +208,7 @@ sub run {
                     my $result = $self->_scanAddress(
                         ip               => $address,
                         timeout          => $timeout,
-                        nmap_parameters  => $nmap_parameters,
+                        arp              => $arp,
                         snmp_credentials => $snmp_credentials,
                         snmp_ports       => $ports,
                         snmp_domains     => $proto,
@@ -350,7 +358,10 @@ sub _scanAddress {
     my %device = (
         $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP(%params)    : (),
         $INC{'Net/NBName.pm'}    ? $self->_scanAddressByNetbios(%params) : (),
-        $params{nmap_parameters} ? $self->_scanAddressByNmap(%params)    : ()
+        $INC{'FusionInventory/Agent/Task/NetDiscovery/Ping.pm'} ?
+                                   $self->_scanAddressByTSPing(%params)  : (),
+        $INC{'Net/Ping.pm'}      ? $self->_scanAddressByPing(%params)    : (),
+        $params{arp}             ? $self->_scanAddressByArp(%params)     : (),
     );
 
     # don't report anything without a minimal amount of information
@@ -369,22 +380,71 @@ sub _scanAddress {
     return \%device;
 }
 
-sub _scanAddressByNmap {
+sub _scanAddressByArp {
     my ($self, %params) = @_;
 
-    my $device = _parseNmap(
-        ip      => $params{ip},
-        command => "nmap $params{nmap_parameters} $params{ip} -oX -"
+    my $output = getFirstLine(
+        command => "arp -a " . $params{ip},
+        %params
     );
+
+    my %device = ();
+
+    if ($output =~ /^(\S+) \(\S+\) at (\S+) /) {
+        $device{DNSHOSTNAME} = $1 if $1 ne '?';
+        $device{MAC}         = getCanonicalMacAddress($2);
+    }
 
     $self->{logger}->debug(
-        sprintf "[thread %d] - scanning %s with nmap: %s",
+        sprintf "[thread %d] - scanning %s in arp table: %s",
         threads->tid(),
         $params{ip},
-        $device ? 'success' : 'no result'
+        $device{MAC} ? 'success' : 'no result'
     );
 
-    return $device ? %$device : ();
+    return %device;
+}
+
+sub _scanAddressByTSPing {
+    my ($self, %params) = @_;
+
+    my $np = Net::Ping::TimeStamp->new('icmp', 1);
+
+    my %device = ();
+
+    if ($np->ping($params{ip})) {
+        $device{DNSHOSTNAME} = $params{ip};
+    }
+
+    $self->{logger}->debug(
+        sprintf "[thread %d] - scanning %s with timestamp ping: %s",
+        threads->tid(),
+        $params{ip},
+        $device{DNSHOSTNAME} ? 'success' : 'no result'
+    );
+
+    return %device;
+}
+
+sub _scanAddressByPing {
+    my ($self, %params) = @_;
+
+    my $np = Net::Ping->new('icmp', 1);
+
+    my %device = ();
+
+    if ($np->ping($params{ip})) {
+        $device{DNSHOSTNAME} = $params{ip};
+    }
+
+    $self->{logger}->debug(
+        sprintf "[thread %d] - scanning %s with echo ping: %s",
+        threads->tid(),
+        $params{ip},
+        $device{DNSHOSTNAME} ? 'success' : 'no result'
+    );
+
+    return %device;
 }
 
 sub _scanAddressByNetbios {
@@ -510,46 +570,6 @@ sub _scanAddressBySNMPReal {
     return $info;
 }
 
-sub _parseNmap {
-    my (%params) = @_;
-
-    my $handle = getFileHandle(%params);
-    return unless $handle;
-
-    local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode
-    my $tpp  = XML::TreePP->new(force_array => '*');
-    my $tree = $tpp->parse(<$handle>);
-    close $handle;
-    return unless $tree;
-
-    my $result;
-
-    foreach my $host (@{$tree->{nmaprun}[0]{host}}) {
-        # Verify nmap returned host is up, and than use ip as default hostname
-        foreach my $status (@{$host->{status}}) {
-            next unless $status->{'-state'} eq 'up';
-            $result = { DNSHOSTNAME => $params{ip} };
-            last;
-        }
-        next unless $result;
-        foreach my $address (@{$host->{address}}) {
-            next unless $address->{'-addrtype'} eq 'mac';
-            $result->{MAC}           = $address->{'-addr'};
-            $result->{NETPORTVENDOR} = $address->{'-vendor'};
-            # We can delete default DNSHOSTNAME when a MAC is found
-            delete $result->{DNSHOSTNAME};
-            last;
-        }
-        foreach my $hostname (@{$host->{hostnames}}) {
-            my $name = eval {$hostname->{hostname}[0]{'-name'}};
-            next unless $name;
-            $result->{DNSHOSTNAME} = $name;
-        }
-    }
-
-    return $result;
-}
-
 sub _sendStartMessage {
     my ($self) = @_;
 
@@ -659,7 +679,7 @@ This tasks scans the network to find connected devices, allowing:
 
 =item *
 
-devices discovery within an IP range, through nmap, NetBios or SNMP
+devices discovery within an IP range, through arp, ping, NetBios or SNMP
 
 =item *
 
