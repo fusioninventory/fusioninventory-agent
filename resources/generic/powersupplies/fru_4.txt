@@ -1,0 +1,53 @@
+FRU Device Description : Builtin FRU Device (ID 0)
+ Chassis Type          : Rack Mount Chassis
+ Chassis Part Number   : ..................
+ Chassis Serial        : ..................
+ Chassis Extra         : ...............................
+ Chassis Extra         : ...............................
+ Board Mfg Date        : Wed Sep 20 03:14:00 2017
+ Board Mfg             : Intel Corporation
+ Board Product         : S7200AP
+ Board Serial          : QSAD73702029
+ Board Part Number     : G94286-351
+ Product Manufacturer  : Intel Corporation
+ Product Name          : S7200AP
+ Product Part Number   : ..........
+ Product Version       : ....................
+ Product Serial        : ............
+ Product Asset Tag     : ....................
+
+FRU Device Description : Pwr Supply 1 FRU (ID 2)
+ Product Manufacturer  : SAMSUNG ELECTRO-MECHANICS CO.,LTD
+ Product Name          : PSSF222201A
+ Product Part Number   : H66158-007
+ Product Version       : 01A
+ Product Serial        : CNS2221A4SG7Q0942
+
+FRU Device Description : Pwr Supply 2 FRU (ID 3)
+ Product Manufacturer  : SAMSUNG ELECTRO-MECHANICS CO.,LTD
+ Product Name          : PSSF222201A
+ Product Part Number   : H66158-007
+ Product Version       : 01A
+ Product Serial        : CNS2221A4SG7Q0944
+
+FRU Device Description : HS Backplane (ID 8)
+ Board Mfg Date        : Sat Oct 29 06:58:00 2016
+ Board Mfg             : Intel Corporation
+ Board Product         : FHW16X25HSBP12G
+ Board Serial          : BQKP64400804
+ Board Part Number     : H13900-471
+ Board Extra           : Field not present
+
+FRU Device Description : PCI Riser 1 (ID 11)
+ Board Mfg Date        : Tue Aug 29 01:02:00 2017
+ Board Mfg             : Intel Corporation
+ Board Product         : FHW1U16APRISER
+ Board Serial          : QSAD73401324
+ Board Part Number     : H43187-201
+
+FRU Device Description : PCI Riser 2 (ID 12)
+ Board Mfg Date        : Fri Sep  8 17:51:00 2017
+ Board Mfg             : Intel Corporation
+ Board Product         : FHW1U20APRISER
+ Board Serial          : QSAD73601396
+ Board Part Number     : H43188-201

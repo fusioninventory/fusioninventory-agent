@@ -1,0 +1,29 @@
+# dmidecode 3.0
+Getting SMBIOS data from sysfs.
+SMBIOS 3.0 present.
+
+# At least 2 different entry types are required for getDmidecodeInfos()
+Handle 0x0001, DMI type 0, 24 bytes
+BIOS Information
+    Vendor: unknown
+
+Handle 0x0041, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 1
+	Location: To Be Filled By O.E.M.
+	Name: To Be Filled By O.E.M.
+	Manufacturer: To Be Filled By O.E.M.
+	Serial Number: To Be Filled By O.E.M.
+	Asset Tag: To Be Filled By O.E.M.
+	Model Part Number: To Be Filled By O.E.M.
+	Revision: To Be Filled By O.E.M.
+	Max Power Capacity: Unknown
+	Status: Present, Unknown
+	Type: Unknown
+	Input Voltage Range Switching: Unknown
+	Plugged: Yes
+	Hot Replaceable: No
+	Input Voltage Probe Handle: 0x0000
+	Cooling Device Handle: 0x000A
+	Input Current Probe Handle: 0x0000
+
