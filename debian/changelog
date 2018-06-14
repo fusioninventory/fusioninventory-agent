@@ -1,0 +1,468 @@
+fusioninventory-agent (1:2.4-2) unstable; urgency=low
+
+  * Rebased sources on 2.4.1-dev / 00bb19f26 upstream github commit
+
+ -- Guillaume Bougard <gbougard@teclib.com>  Thu, 26 Jan 2018 15:05:16 +0100
+
+fusioninventory-agent (1:2.4-1) unstable; urgency=low
+
+  * New upstream release
+  * Updated debian support:
+    - Fix default configuration to make system logging the default with LOG_DAEMON
+      facility
+    - Fix default configuration to activate new "include" directive: users should
+      now create a .cfg file in /etc/fusioninventory/conf.d to tune agent
+      configuration to their needs, at least server option.
+    - Prox::PID::File dependency removed
+    - Removed mo more needed cron tasks
+
+ -- Guillaume Bougard <gbougard@teclib.com>  Thu, 26 Jan 2018 09:53:26 +0100
+
+fusioninventory-agent (1:2.3.21-2) unstable; urgency=low
+
+  * Fixed debian support
+
+ -- Guillaume Bougard <gbougard@teclib.com>  Fri, 04 Aug 2017 11:26:55 +0200
+
+fusioninventory-agent (1:2.3.21-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Guillaume Bougard <gbougard@teclib.com>  Thu, 03 Aug 2017 10:54:25 +0200
+
+fusioninventory-agent (1:2.3.18-1) unstable; urgency=low
+
+  * New upstream release (closes: #816754)
+  * Add Guillaume Bougard to Uploaders
+  * Fix some build dependencies that are now useless
+  * Update some dependencies
+  * Fix some lintian erros and warnings
+  * Update default mode to daemon handled by fixed systemd script (closes: 
+  * Include weekly crontab entry to update pci.ids & usb.ids files
+  * Still fixed in 2.3.15-1:
+    - fusioninventory-agent runs spuriously update /etc/blkid.tab
+      (closes: #756622)
+
+ -- Guillaume Bougard <gbougard@teclib.com>  Wed, 28 Dec 2016 18:54:17 +0100
+
+fusioninventory-agent (1:2.3.16-2) unstable; urgency=low
+
+  * Drop some build dependencies that are now useless
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Sun, 21 Jun 2015 23:03:14 +0200
+
+fusioninventory-agent (1:2.3.16-1) unstable; urgency=low
+
+  * New upstream release
+  * Bump Standard-version to 3.9.6
+  * Refresh the debian/changelog file
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Sat, 20 Jun 2015 01:10:40 +0200
+
+fusioninventory-agent (1:2.3.15-1) experimental; urgency=medium
+
+  * New upstream release
+    - Use experimental distribution because of Jessie freeze.
+  * fusioninventory-agent:
+    - sysobject.ids is not installed anymore
+    - Do not install pci.ids file, (see: #328318)
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Sat, 10 Jan 2015 00:31:04 +0100
+
+fusioninventory-agent (1:2.3.10.1-1) unstable; urgency=medium
+
+  * New upstream release (closes: #760641)
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Sat, 13 Sep 2014 09:58:09 +0200
+
+fusioninventory-agent (1:2.3.9.1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Sat, 26 Jul 2014 00:47:37 +0200
+
+fusioninventory-agent (1:2.3.8-2) unstable; urgency=medium
+
+  * Drop the systemd B-D since we don't use it for the moment.
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Tue, 03 Jun 2014 10:42:43 +0200
+
+fusioninventory-agent (1:2.3.8-1) unstable; urgency=medium
+
+  * New upstream release
+   - remove 0001-Linux-correctly-pass-the-logger-object-to-LVM-mod.patch and
+     0001-properly-pass-logger-object.patch, merged upstream
+  * indent debian/rules
+  * drop some trailing whitespaces in debian/control
+  * drop Kevin Roy from Uploaders
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Sun, 01 Jun 2014 21:26:49 +0200
+
+fusioninventory-agent (1:2.3.7.1-1) unstable; urgency=low
+
+  * new upstream release
+   - drop restore_lxc_info.diff, merged upstream
+  * backport the following patches:
+   - 0001-Linux-correctly-pass-the-logger-object-to-LVM-mod.patch
+   - 0001-properly-pass-logger-object.patch
+  * create the /etc/default/fusioninventory-agent, thanks
+    Gerard Bigot (LP: #1312728)
+  * disable ssl.t, this test is known for being fragile and there no
+    strong reason to run it on the buildd, thanks David Suárez
+    (Closes: #746115)
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Thu, 01 May 2014 16:43:36 +0200
+
+fusioninventory-agent (1:2.3.6-1) unstable; urgency=medium
+
+  * new upstream release
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Thu, 27 Mar 2014 11:00:23 +0100
+
+fusioninventory-agent (1:2.3.5.1-1) unstable; urgency=medium
+
+  * new upstream release
+   - drop -0001-test-fix-the-HTTPS-over-proxy-test.patch, merged upstream
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Sat, 01 Feb 2014 23:37:20 +0100
+
+fusioninventory-agent (1:2.3.4-1) unstable; urgency=low
+
+  * new upstream release
+  * fusioninventory-task-network: add nmap as a suggested package
+  * backport 0001-test-fix-the-HTTPS-over-proxy-test.patch from upstream
+    to be able to build the package with a libwww-perl that really support
+    HTTPS over proxy (>= 6.05-2)
+  * Bump standard version from 3.9.4 to 3.9.5: no changes
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Thu, 26 Dec 2013 00:51:12 +0100
+
+fusioninventory-agent (1:2.3.2-2) unstable; urgency=low
+
+  * Add a missing dependency on libsocket-getaddrinfo-perl,
+    thanks Raphaël Doursenaud
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Mon, 14 Oct 2013 14:41:59 +0200
+
+fusioninventory-agent (1:2.3.2-1) unstable; urgency=low
+
+  * New upstream release
+  * drop patches merged upstream
+   - avoid-warning-with-fakeroot.patch,
+   - screen.t-requires-Parse-EDID-1.0.4.patch,
+   - increase-the-timeout-for-slow-machine.patch
+  * move /usr/share/doc/fusioninventory-agent/agent.cfg to
+     /usr/share/fusioninventory/etc/agent.cfg because of policy 12.3
+     (Packages must not require the existence of any files in
+     `/usr/share/doc/' in order to function) (closes: #722620)
+  * clean up fusioninventory-agent.postrm
+  * Depends on libio-socket-ssl-perl instead of libnet-ssleay-perl
+    directly as advertised in 2.2.3-3
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Mon, 30 Sep 2013 14:29:12 +0200
+
+fusioninventory-agent (1:2.3.0-2) unstable; urgency=low
+
+  * Avoid a FTBFS on mips, cherry-pick commit 
+    ab7a555bc05e2b3560d165b13931d3e2dd2b6a0e from upstream
+  * fix some spelling issues in debian/control
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Sun, 08 Sep 2013 00:33:06 +0200
+
+fusioninventory-agent (1:2.3.0-1) unstable; urgency=low
+
+  * New upstream release (closes: #719868, #710415)
+   - add avoid-warning-with-fakeroot.patch patch
+   - screen.t-requires-Parse-EDID-1.0.4.patch
+   - upload to unstable since Wheezy is released
+  * Maintained in collab-maint svn repository now
+   - Vcs-{Svn,Browser} fields adjusted
+  * merged libfusioninventory-task-* in the main distribution to follow
+    decision
+   - use an epoch for the transition
+  * Indent the Build-Deps
+  * Refresh pciutils-pciids.diff
+  * libparse-edid-perl is a new dependency
+  * bump Standard-Version to 3.9.4
+  * Architecture: rename the arch wildcard:
+   - amd64-any -> am64-i386
+   - i386-any  -> any-i386
+  * drop the backport part from the debian/rules
+  * use my @debian.org address
+
+ -- Gonéri Le Bouder <goneri@debian.org>  Thu, 15 Aug 2013 01:25:16 +0200
+
+fusioninventory-agent (2.2.7-1) experimental; urgency=low
+
+  * New upstream release
+  * Add Kevin Roy to Uploaders
+
+ -- Kevin Roy <kiniou@gmail.com>  Wed, 19 Dec 2012 12:44:51 +0100
+
+fusioninventory-agent (2.2.6-1) experimental; urgency=low
+
+  * New upstream release
+    - drop ssl_cert_backport.diff
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Thu, 27 Sep 2012 15:57:19 +0200
+
+fusioninventory-agent (2.2.3-3) unstable; urgency=low
+
+  * Add a post{inst,rm} scripts to prepeare and clean up
+    the config file, thanks Andreas Beckmann (closes: #679299)
+  * Depends on libio-socket-ssl-perl instead of libnet-ssleay-perl
+    directly
+  * Migrate debian/copyright to Machine-readable format
+  * Add a B-D on libio-socket-ssl-perl
+  * Backport SSL cert from upstream, the ones from the archive were expired,
+    thanks Gregor Herrmann and Lucas Nussbaum (closes: #684855)
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Wed, 11 Jul 2012 12:11:55 -0300
+
+fusioninventory-agent (2.2.3-2) unstable; urgency=low
+
+  * Add a dependency on ucf (closes: #679299)
+  * Add a logrotate script (closes: #675254)
+  * Adjust the path to the GPL licence file (GPL-2)
+  * Clean up the dependency list
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Sat, 30 Jun 2012 00:04:37 +0200
+
+fusioninventory-agent (2.2.3-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Tue, 26 Jun 2012 16:45:48 +0200
+
+fusioninventory-agent (2.2.2-1) unstable; urgency=low
+
+  * New upstream release 
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Wed, 30 May 2012 18:01:10 +0200
+
+fusioninventory-agent (2.2.1-1) unstable; urgency=low
+
+  * New upstream release
+  * Only depend on hdparm on linux-any
+  * Simplify dmidecode to i386-any, amd64-any ia64
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Sat, 26 May 2012 16:05:58 +0200
+
+fusioninventory-agent (2.2.0-1) unstable; urgency=low
+
+  * New upstream release
+  * Bump Standards-Version
+  * new build-dep: libtest-mockmodule-perl
+  * use pciutils pci.ids file
+    add pciutils-pciids.diff 
+  * disable t/inventory/generic/lspci/controllers.t
+    http://forge.fusioninventory.org/issues/1548
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Sun, 08 Apr 2012 21:20:18 +0200
+
+fusioninventory-agent (2.1.9904-1) experimental; urgency=low
+
+  * New upstream beta release
+   - refresh the debian/rules to pass the location dir parameters
+     and so drop debian/patches/etc-location.diff
+   - just comment libcompress-zlib-perl dependency to be able to
+     turn it back for backport
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Fri, 13 Jan 2012 10:48:28 +0100
+
+fusioninventory-agent (2.1.9902-1) experimental; urgency=low
+
+  * New upstream beta release
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Fri, 21 Oct 2011 17:51:50 +0200
+
+fusioninventory-agent (2.1.9901-2) experimental; urgency=low
+
+  * Restore the B-D, sorry
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Tue, 20 Sep 2011 12:15:44 +0200
+
+fusioninventory-agent (2.1.9901-1) experimental; urgency=low
+
+  * New upstream beta release
+  * Drop the 2.1.x patches
+   - add etc-location.diff
+  * Refresh dependency
+   - drop nmap suggest, not used anymore
+  * use a debian/control
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Thu, 08 Sep 2011 17:30:04 +0200
+
+fusioninventory-agent (2.1.10-1) unstable; urgency=low
+
+  * New upstream release
+  * Install a copy of agent.cfg in doc
+    Closes: #638413
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Tue, 06 Sep 2011 11:31:38 +0200
+
+fusioninventory-agent (2.1.9-3) unstable; urgency=low
+
+  * Remplace cfg.diff with fix-sharedir
+  * Really remove inactive upload
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Thu, 30 Jun 2011 10:57:32 +0200
+
+fusioninventory-agent (2.1.9-2) unstable; urgency=low
+
+  * Fix the test-suite:
+    -add 0001-Fix-ignore-REST-build-in-the-test-suite.patch
+  * Remove inactive maintainer from the uploader
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Tue, 21 Jun 2011 10:09:59 +0200
+
+fusioninventory-agent (2.1.9-1) unstable; urgency=low
+
+  * New upstream release
+  * Standard-Version: 3.9.2
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Tue, 14 Jun 2011 21:35:30 +0200
+
+fusioninventory-agent (2.1.8-2) unstable; urgency=low
+
+  * Add the dependency on libproc-pid-file-perl
+  * Add a B-D on libhttp-daemon-perl and a recommends on this dependency
+    Closes: #620414
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Fri, 08 Apr 2011 12:31:03 +0200
+
+fusioninventory-agent (2.1.8-1) unstable; urgency=low
+
+  * New upstream release
+  * Remove Benoit Mortier from Uploaders
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Sun, 27 Mar 2011 14:52:46 +0200
+
+fusioninventory-agent (2.1.8~rc1-1) experimental; urgency=low
+
+  * New upstream release
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Sun, 20 Mar 2011 14:43:24 +0100
+
+fusioninventory-agent (2.1.7stable-2) experimental; urgency=low
+
+  * Recommends hdparm
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Thu, 13 Jan 2011 14:09:59 +0100
+
+fusioninventory-agent (2.1.7stable-1) experimental; urgency=low
+
+  * New upstream release
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Sun, 12 Dec 2010 20:37:27 +0100
+
+fusioninventory-agent (2.1.7beta1-1) experimental; urgency=low
+
+  * New upstream release
+  * Remove fix-pod.diff
+  * Add BD: libtest-compile-perl
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Fri, 19 Nov 2010 15:30:41 +0100
+
+fusioninventory-agent (2.1.6-1) experimental; urgency=low
+
+  * New upstream release
+  * add fix-pod.diff to fix a syntax error in fusioninventory-agent
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Sun, 10 Oct 2010 00:59:51 +0200
+
+fusioninventory-agent (2.1.5-1) experimental; urgency=low
+
+  * New upstream release
+  * refresh debian/patches/cfg.diff
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Thu, 16 Sep 2010 00:06:56 +0200
+
+fusioninventory-agent (2.1.3-1) experimental; urgency=low
+
+  * New upstream release
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Wed, 01 Sep 2010 22:08:08 +0200
+
+fusioninventory-agent (2.1.2-1) experimental; urgency=low
+
+  * New upstream release
+  * remove debian-changes-2.1.1-1
+  * Install README.html as documentation
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Tue, 31 Aug 2010 00:06:49 +0200
+
+fusioninventory-agent (2.1.1-1) experimental; urgency=low
+
+  * New upstream release
+  * Remove pod.diff, merged upstream
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Wed, 18 Aug 2010 21:55:04 +0200
+
+fusioninventory-agent (2.1-1) experimental; urgency=low
+
+  * New upstream release
+  * Upload in experimental because of the Squeeze freeze.
+  * Add dependency on libuniversal-require-perl
+  * Standard version 3.9.1
+  * fix various minor POD error
+  * Use upstream agent.cfg
+  * Add fix-share-dir-loc.diff to fix share-dir loc
+  * Disable daemon mode in agent.cfg
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Sun, 15 Aug 2010 23:13:13 +0200
+
+fusioninventory-agent (2.0.6-2) unstable; urgency=low
+
+  * Fix the init.d script so it can stop the service, thanks
+    David Hannequin
+  * Standard version 3.9.0
+  * remove the set -e from the init.d script
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Mon, 12 Jul 2010 15:26:47 +0200
+
+fusioninventory-agent (2.0.6-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Fri, 28 May 2010 16:24:54 +0200
+
+fusioninventory-agent (2.0.5-2) unstable; urgency=low
+
+  * Add an optional daemon mode
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Tue, 18 May 2010 00:28:22 +0200
+
+fusioninventory-agent (2.0.5-1) unstable; urgency=low
+
+  * New upstream release
+  * Drop debian/patches/debian-changes-2.0.3-2
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Fri, 14 May 2010 02:29:27 +0200
+
+fusioninventory-agent (2.0.3-2) unstable; urgency=low
+
+  * control: drop two duplicated spaces in description, thank you Rhonda.
+  * remove debian/patches/debian-changes-2.0-1
+  * changes Architecture: from all to any since dmidecode conditional
+    dependency is eval during build process, thanks Kibi :)
+  * remove tools/build-perl-tree.sh MANIFEST.SKIP from the git repository
+  * Create /etc/fusioninventory, thanks Fabrice Flore-Thebault
+    (Closes: #578400)
+  * drop the debconf menu and template
+  * install a template agent.cfg in /etc/fusioninventory
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Thu, 22 Apr 2010 10:31:15 +0200
+
+fusioninventory-agent (2.0.3-1) unstable; urgency=low
+
+  * New upstream release
+  * Fix the Vcs-Git URL and add a Vcs-Browser link
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Sun, 11 Apr 2010 00:19:27 +0200
+
+fusioninventory-agent (2.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #570768) 
+
+ -- Gonéri Le Bouder <goneri@rulezlan.org>  Sat, 20 Mar 2010 23:34:03 +0100

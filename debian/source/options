@@ -1,0 +1,1 @@
+extend-diff-ignore = "(.*\.yml|tools/.*|MANIFEST.SKIP)$"

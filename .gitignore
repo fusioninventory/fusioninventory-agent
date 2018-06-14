@@ -17,3 +17,4 @@ MYMETA.yml
 var/
 resources/ssl/*.log
 SIGNATURE
+debian/*.install
