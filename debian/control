@@ -132,6 +132,17 @@ Description: Software deployment support for FusionInventory
  If the P2P option is turned on, the agent will looks for peer in its
  network to reduce the bandwidth usage with the primary server.
 
+Package: fusioninventory-agent-task-collect
+Architecture: all
+Depends:
+ ${misc:Depends},
+ fusioninventory-agent (>= ${binary:Version}),
+Description: Collect support for FusionInventory
+ With this module, FusionInventory can collect desired datas, essentially
+ files under linux.
+ .
+ The plugin depends on FusionInventory for GLPI on server side.
+
 Package: fusioninventory-agent-task-network
 Architecture: all
 Depends:

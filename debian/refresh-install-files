@@ -9,6 +9,7 @@ open AGENT, ">debian/fusioninventory-agent.install";
 open AGENT_TASK_DEPLOY, ">debian/fusioninventory-agent-task-deploy.install";
 open AGENT_TASK_NETWORK, ">debian/fusioninventory-agent-task-network.install";
 open AGENT_TASK_ESX, ">debian/fusioninventory-agent-task-esx.install";
+open AGENT_TASK_COLLECT, ">debian/fusioninventory-agent-task-collect.install";
 
 find({ wanted => \&wanted, no_chdir=>1}, 'blib');
 sub wanted {
@@ -30,6 +31,8 @@ sub wanted {
         print AGENT_TASK_ESX "$t\n";
     } elsif ($t =~ /FusionInventory\/Agent\/Task\/Deploy/) {
         print AGENT_TASK_DEPLOY "$t\n";
+    } elsif ($t =~ /FusionInventory\/Agent\/Task\/Collect/) {
+        print AGENT_TASK_COLLECT "$t\n";
     } elsif ($t !~ m,/.exists,) {
         # Skip .exists files
         print AGENT "$t\n";
