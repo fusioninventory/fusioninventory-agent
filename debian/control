@@ -161,10 +161,9 @@ Replaces:
  libfusioninventory-agent-task-netdiscovery-perl (<< 1:2.3.0-1),
  libfusioninventory-agent-task-snmpquery-perl (<< 1:2.3.0-1),
  libfusioninventory-agent-task-network-perl (<< 1:2.3.0-1),
-Suggests: nmap
 Description: Network device discovery for FusionInventory Agent
  This module scans your networks to quickly identify its hosts with SNMP,
- Nmap and NetBIOS request:
+ Echo Ping, TimeStamp ping, arp table lookup and NetBIOS request:
   - networking devices discovery within an IP range
   - identify unknown MAC addresses
  .
