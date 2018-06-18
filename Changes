@@ -9,6 +9,8 @@ core:
 
 inventory:
 * Fix BSD Storages support
+* Don't try to run dmidecode inventories if it returns no output
+* Set Bios && Hardware from /sys/class/dmi on recent Linux when dmidecode is missing
 
 netdiscovery/netinventory:
 * Bump NetDiscovery task version to 2.6
