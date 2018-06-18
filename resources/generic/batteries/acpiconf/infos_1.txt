@@ -1,0 +1,17 @@
+Design capacity:        7236 mAh
+Last full capacity:     6880 mAh
+Technology:             secondary (rechargeable)
+Design voltage:         7600 mV
+Capacity (warn):        723 mAh
+Capacity (low):         219 mAh
+Low/warn granularity:   72 mAh
+Warn/full granularity:  72 mAh
+Model number:           DELL 242WD6B
+Serial number:          58167
+Type:                   LION
+OEM info:               LGC-LGC3.65
+State:                  high
+Remaining capacity:     100%
+Remaining time:         unknown
+Present rate:           1 mA (8 mW)
+Present voltage:        8655 mV
