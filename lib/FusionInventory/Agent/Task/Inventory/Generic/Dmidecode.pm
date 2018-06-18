@@ -9,6 +9,7 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic;
 
 sub isEnabled {
 
@@ -19,7 +20,7 @@ sub isEnabled {
         return if Win32::GetOSName() eq 'Win2003';
     }
 
-    return canRun('dmidecode');
+    return canRun('dmidecode') && getDmidecodeInfos();
 }
 
 sub doInventory {}
