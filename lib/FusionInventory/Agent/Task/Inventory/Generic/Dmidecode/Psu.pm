@@ -45,6 +45,7 @@ sub doInventory {
         foreach my $key (keys(%fields)) {
             next unless defined($info->{$fields{$key}});
             next if $info->{$fields{$key}} =~ /To Be Filled By O.?E.?M/i;
+            next if $info->{$fields{$key}} =~ /OEM Define/i;
             $psu->{$key} = $info->{$fields{$key}};
         }
 
