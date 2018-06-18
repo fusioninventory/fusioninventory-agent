@@ -1,0 +1,42 @@
+# dmidecode 3.0
+Getting SMBIOS data from sysfs.
+SMBIOS 2.8 present.
+
+# At least 2 different entry types are required for getDmidecodeInfos()
+Handle 0x0001, DMI type 0, 24 bytes
+BIOS Information
+    Vendor: unknown
+
+Handle 0x001D, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 1
+	Location: Not Specified
+	Name: Power Supply 1
+	Manufacturer: HPE
+	Serial Number: 5WBXU0ALL875XW
+	Asset Tag: Not Specified
+	Model Part Number: 865414-B21
+	Revision: Not Specified
+	Max Power Capacity: 800 W
+	Status: Present, OK
+	Type: Switching
+	Input Voltage Range Switching: Auto-switch
+	Plugged: Yes
+	Hot Replaceable: Yes
+
+Handle 0x001E, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 1
+	Location: Not Specified
+	Name: Power Supply 2
+	Manufacturer: HPE
+	Serial Number: 5WBXU0ALL873NT
+	Asset Tag: Not Specified
+	Model Part Number: 865414-B21
+	Revision: Not Specified
+	Max Power Capacity: 800 W
+	Status: Present, OK
+	Type: Switching
+	Input Voltage Range Switching: Auto-switch
+	Plugged: Yes
+	Hot Replaceable: Yes

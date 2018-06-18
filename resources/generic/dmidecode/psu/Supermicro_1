@@ -1,0 +1,43 @@
+# dmidecode 2.12
+SMBIOS 3.0 present.
+# SMBIOS implementations newer than version 2.8 are not
+# fully supported by this version of dmidecode.
+
+# At least 2 different entry types are required for getDmidecodeInfos()
+Handle 0x0001, DMI type 0, 24 bytes
+BIOS Information
+    Vendor: unknown
+
+Handle 0x0022, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 1
+	Location: PSU1
+	Name: PWS-406P-1R
+	Manufacturer: SUPERMICRO
+	Serial Number: P406PCG17LT2411
+	Asset Tag: N/A
+	Model Part Number: PWS-406P-1R
+	Revision: 1.3
+	Max Power Capacity: 400 W
+	Status: Present, OK
+	Type: Switching
+	Input Voltage Range Switching: Auto-switch
+	Plugged: Yes
+	Hot Replaceable: No
+
+Handle 0x0023, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 2
+	Location: PSU2
+	Name: PWS-406P-1R
+	Manufacturer: SUPERMICRO
+	Serial Number: P406PCG17LT2410
+	Asset Tag: N/A
+	Model Part Number: PWS-406P-1R
+	Revision: 1.3
+	Max Power Capacity: 400 W
+	Status: Present, OK
+	Type: Switching
+	Input Voltage Range Switching: Auto-switch
+	Plugged: Yes
+	Hot Replaceable: No

@@ -1,0 +1,28 @@
+# dmidecode 3.0
+Getting SMBIOS data from sysfs.
+SMBIOS 2.8 present.
+
+# At least 2 different entry types are required for getDmidecodeInfos()
+Handle 0x0001, DMI type 0, 24 bytes
+BIOS Information
+    Vendor: unknown
+
+Handle 0x0069, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 1
+	Location: To Be Filled By O.E.M.
+	Name: PWS-703P-1R
+	Manufacturer: SUPERMICRO
+	Serial Number: P7031CC16UT9413
+	Asset Tag: N/A
+	Model Part Number: PWS-703P-1R
+	Revision: 1.1
+	Max Power Capacity: 700 W
+	Status: Present, OK
+	Type: Switching
+	Input Voltage Range Switching: Auto-switch
+	Plugged: Yes
+	Hot Replaceable: No
+	Input Voltage Probe Handle: 0x00A3
+	Cooling Device Handle: 0x00A5
+	Input Current Probe Handle: 0x00A6

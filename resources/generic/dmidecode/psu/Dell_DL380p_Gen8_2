@@ -1,0 +1,42 @@
+# dmidecode 3.0
+Getting SMBIOS data from sysfs.
+SMBIOS 2.8 present.
+
+# At least 2 different entry types are required for getDmidecodeInfos()
+Handle 0x0001, DMI type 0, 24 bytes
+BIOS Information
+    Vendor: unknown
+
+Handle 0x2700, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 1
+	Location: Not Specified
+	Name: Power Supply 1
+	Manufacturer: HP
+	Serial Number: 5ANLD0C4D2T481
+	Asset Tag: Not Specified
+	Model Part Number: 503296-B21
+	Revision: Not Specified
+	Max Power Capacity: 460 W
+	Status: Present, Unknown
+	Type: Unknown
+	Input Voltage Range Switching: Unknown
+	Plugged: Yes
+	Hot Replaceable: Yes
+
+Handle 0x2701, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 1
+	Location: Not Specified
+	Name: Power Supply 2
+	Manufacturer: HP
+	Serial Number: 5ANLD0C4D2T459
+	Asset Tag: Not Specified
+	Model Part Number: 503296-B21
+	Revision: Not Specified
+	Max Power Capacity: 460 W
+	Status: Present, Unknown
+	Type: Unknown
+	Input Voltage Range Switching: Unknown
+	Plugged: Yes
+	Hot Replaceable: Yes

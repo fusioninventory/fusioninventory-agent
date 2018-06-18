@@ -1,0 +1,27 @@
+# dmidecode 2.12
+SMBIOS 2.7 present.
+
+# At least 2 different entry types are required for getDmidecodeInfos()
+Handle 0x0001, DMI type 0, 24 bytes
+BIOS Information
+    Vendor: unknown
+
+Handle 0x0017, DMI type 39, 22 bytes
+System Power Supply
+	Power Unit Group: 1
+	Location: PSU 1
+	Name: To Be Filled By O.E.M.
+	Manufacturer: To Be Filled By O.E.M.
+	Serial Number: To Be Filled By O.E.M.
+	Asset Tag: To Be Filled By O.E.M.
+	Model Part Number: To Be Filled By O.E.M.
+	Revision: To Be Filled By O.E.M.
+	Max Power Capacity: Unknown
+	Status: Not Present
+	Type: Switching
+	Input Voltage Range Switching: Auto-switch
+	Plugged: Yes
+	Hot Replaceable: No
+	Input Voltage Probe Handle: 0x0013
+	Cooling Device Handle: 0x0015
+	Input Current Probe Handle: 0x0016
