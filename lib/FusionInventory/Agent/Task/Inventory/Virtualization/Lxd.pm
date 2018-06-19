@@ -126,12 +126,18 @@ sub  _getVirtualMachines {
             logger  => $params{logger}
         );
 
+        my $machineid = getFirstLine(
+            command => "lxc file pull $name/etc/machine-id -",
+            logger  => $params{logger}
+        );
+
         push @machines, {
             NAME   => $name,
             VMTYPE => 'LXD',
             STATUS => $state->{STATUS},
             VCPU   => $config->{VCPU},
             MEMORY => $config->{MEMORY},
+            UUID   => getVirtualUUID($machineid, $name),
         };
     }
     close $handle;
