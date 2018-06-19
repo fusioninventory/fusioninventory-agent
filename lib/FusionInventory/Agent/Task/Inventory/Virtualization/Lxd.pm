@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
-    return canRun('lxd');
+    return canRun('lxd') && canRun('lxc');
 }
 
 sub doInventory {
@@ -19,7 +19,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my @machines = _getVirtualMachines(
-        command => '/usr/bin/lxc list',
+        command => 'lxc list',
         logger  => $logger
     );
 
@@ -117,7 +117,7 @@ sub  _getVirtualMachines {
         next unless $name;
 
         my $state = _getVirtualMachineState(
-            command => "/usr/bin/lxc info $name",
+            command => "lxc info $name",
             logger  => $params{logger}
         );
 
