@@ -257,7 +257,7 @@ sub _getSoftwaresList {
                 softwarename    => $software->{NAME},
                 softwareversion => $software->{VERSION}
             );
-            if (defined($sqlEditionValue)) {
+            if ($sqlEditionValue) {
                 $software->{NAME} = $1." ".$sqlEditionValue.$2;
             }
         # Versions = SQL Server 2005 : "Microsoft SQL Server xxxx"
@@ -267,7 +267,7 @@ sub _getSoftwaresList {
                 softwarename    => $software->{NAME},
                 softwareversion => $software->{VERSION}
             );
-            if (defined($sqlEditionValue)) {
+            if ($sqlEditionValue) {
                 $software->{NAME} = $1." ".$sqlEditionValue;
             }
         }
@@ -370,25 +370,22 @@ sub _getSqlEdition {
 
     # Registry access for SQL Instances
     my $sqlinstancesList = getRegistryKey(
-        path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Microsoft SQL Server/Instance Names/SQL"
+        path => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Microsoft SQL Server/Instance Names/SQL"
     );
     return unless $sqlinstancesList;
 
     # List of SQL Instances
-    foreach my $sqlinstance (keys %$sqlinstancesList) {
-        my $sqlinstanceName = $sqlinstance;
-        my $sqlinstanceValue = $sqlinstancesList->{$sqlinstance};
+    my $sqlinstanceEditionValue;
+    foreach my $sqlinstanceName (keys %$sqlinstancesList) {
+        my $sqlinstanceValue = $sqlinstancesList->{$sqlinstanceName};
         # Get version and edition for each instance
-        my ($sqlinstanceEditionValue,$sqlinstanceVersionValue) = _getSqlInstancesVersions(
-            %params,
+        $sqlinstanceEditionValue = _getSqlInstancesVersions(
             SOFTVERSION => $softwareVersion,
-            NAME        => $sqlinstanceName,
             VALUE       => $sqlinstanceValue
         );
-        next unless $sqlinstanceEditionValue && $sqlinstanceVersionValue;
-        return $sqlinstanceEditionValue
-            if ($softwareVersion eq $sqlinstanceVersionValue); 
+        last if $sqlinstanceEditionValue;
     }
+    return $sqlinstanceEditionValue;
 }
 
 # SQL Instances versions
@@ -396,20 +393,18 @@ sub _getSqlEdition {
 sub _getSqlInstancesVersions {
     my (%params) = @_;
 
-    my $softwareVersion = $params{SOFTVERSION};	
-    my $sqlinstanceName = $params{NAME};
+    my $softwareVersion  = $params{SOFTVERSION};
     my $sqlinstanceValue = $params{VALUE};
 
     my $sqlinstanceVersions = getRegistryKey(
-        path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Microsoft SQL Server/" . $sqlinstanceValue . "/Setup"
+        path => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Microsoft SQL Server/" . $sqlinstanceValue . "/Setup"
     );
-    return unless $sqlinstanceVersions;
+    return unless ($sqlinstanceVersions && $sqlinstanceVersions->{'/Version'});
 
-    my $sqlinstanceVersionValue = $sqlinstanceVersions->{'/Version'} or return;
-    my $sqlinstanceEditionValue = $sqlinstanceVersions->{'/Edition'};
+    return unless $sqlinstanceVersions->{'/Version'} eq $softwareVersion;
+
     # If software version match instance one
-    return ($sqlinstanceEditionValue,$sqlinstanceVersionValue)
-        if ($softwareVersion eq $sqlinstanceVersionValue);
+    return $sqlinstanceVersions->{'/Edition'};
 }
 
 1;
