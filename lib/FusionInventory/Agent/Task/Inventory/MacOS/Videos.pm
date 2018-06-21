@@ -73,10 +73,15 @@ sub _getDisplays {
                 PCISLOT    => $videoCardInfo->{Slot}
             };
 
-            push @monitors, {
+            my $monitor = {
                 CAPTION     => $displayName,
                 DESCRIPTION => $displayName,
-            }
+            };
+
+            my $serial = getSanitizedString($displayInfo->{'Display Serial Number'});
+            $monitor->{SERIAL} = $serial if $serial;
+
+            push @monitors, $monitor;
         }
     }
 
