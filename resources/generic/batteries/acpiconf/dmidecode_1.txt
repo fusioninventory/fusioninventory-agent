@@ -1,0 +1,23 @@
+# dmidecode 3.1
+Scanning /dev/mem for entry point.
+SMBIOS 2.8 present.
+105 structures occupying 5989 bytes.
+Table at 0x000EA8E0.
+
+# Next 2 lines have been added in order to permit function to return the data
+Handle 0x0014, DMI type 1, 26 bytes
+    key: value
+
+Handle 0x1600, DMI type 22, 26 bytes
+Portable Battery
+        Location: Sys. Battery Bay
+        Manufacturer: LG
+        Manufacture Date: 10/28/2016
+        Serial Number: E337
+        Name: DELL 242WD6B
+        Design Capacity: 54990 mWh
+        Design Voltage: 7600 mV
+        SBDS Version: 1.0
+        Maximum Error: 8%
+        SBDS Chemistry: LION
+        OEM-specific Information: 0x00000801
