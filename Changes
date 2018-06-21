@@ -30,6 +30,7 @@ netdiscovery/netinventory:
   that case, we default the DNSHOSTNAME to the scanned ip.
 * fix entity option in fusioninventory-netdiscovery script
 * Get rid of nmap support for NetDiscovery task
+* Add QuesCom Appliance detection
 
 2.4 Fri, 29 Dec 2017
 core:

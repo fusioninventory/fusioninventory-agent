@@ -427,9 +427,37 @@ sub setModel {
     }
 }
 
+sub setType {
+    my ($self) = @_;
+
+    # Permit mib support to reset type
+    if ($self->{MIBSUPPORT}) {
+        my $type = $self->{MIBSUPPORT}->getMethod('getType');
+        $self->{TYPE} = $type if $type;
+    }
+}
+
+sub setManufacturer {
+    my ($self) = @_;
+
+    # Permit mib support to reset type
+    if ($self->{MIBSUPPORT}) {
+        my $manufacturer = $self->{MIBSUPPORT}->getMethod('getManufacturer');
+        $self->{MANUFACTURER} = $manufacturer if $manufacturer;
+    }
+}
+
 sub setBaseInfos {
     my ($self) = @_;
     $self->_set_from_oid_list($base_variables, $self);
+
+    # Filter out LOCATION & CONTACT from unwanted values
+    if ($self->{LOCATION} && $self->{LOCATION} =~ /edit \/etc.*snmp.*\.conf/) {
+        delete $self->{LOCATION};
+    }
+    if ($self->{CONTACT} && $self->{CONTACT} =~ /configure \/etc.*snmp.*\.conf/) {
+        delete $self->{CONTACT};
+    }
 }
 
 sub setInventoryBaseInfos {

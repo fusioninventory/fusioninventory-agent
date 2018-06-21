@@ -287,6 +287,9 @@ sub _getDevice {
     # regarding sysobjectid in some case, so we pass it as argument
     $device->loadMibSupport($sysobjectid);
 
+    # Set type from MibSupport
+    $device->setType();
+
     # fallback type identification attempt, using type-specific OID presence
     if (!exists $device->{TYPE}) {
          if (
@@ -297,8 +300,9 @@ sub _getDevice {
         }
     }
 
-    # Find and set model
+    # Find and set model and manufacturer
     $device->setModel();
+    $device->setManufacturer();
 
     # Get some common informations like SNMPHOSTNAME, LOCATION, UPTIME and CONTACT
     $device->setBaseInfos();

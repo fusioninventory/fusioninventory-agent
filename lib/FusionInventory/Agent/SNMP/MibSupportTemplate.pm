@@ -115,6 +115,18 @@ sub getModel {
     #return $self->get(sectionOID . '.X.F');
 }
 
+sub getType {
+    #my ($self) = @_;
+
+    #return 'NETWORKING' if $self->get(sectionOID . '.X.G') eq 'XYZ';
+}
+
+sub getManufacturer {
+    #my ($self) = @_;
+
+    #return $self->get(sectionOID . '.X.H');
+}
+
 sub run {
     #my ($self) = @_;
 
