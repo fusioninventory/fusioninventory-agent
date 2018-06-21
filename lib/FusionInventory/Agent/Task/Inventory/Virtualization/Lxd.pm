@@ -9,7 +9,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
-    return canRun('lxd');
+    return canRun('lxd') && canRun('lxc');
 }
 
 sub doInventory {
@@ -19,7 +19,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my @machines = _getVirtualMachines(
-        command => '/usr/bin/lxc list',
+        command => 'lxc list',
         logger  => $logger
     );
 
@@ -117,12 +117,17 @@ sub  _getVirtualMachines {
         next unless $name;
 
         my $state = _getVirtualMachineState(
-            command => "/usr/bin/lxc info $name",
+            command => "lxc info $name",
             logger  => $params{logger}
         );
 
         my $config = _getVirtualMachineConfig(
             command => "lxc config show $name",
+            logger  => $params{logger}
+        );
+
+        my $machineid = getFirstLine(
+            command => "lxc file pull $name/etc/machine-id -",
             logger  => $params{logger}
         );
 
@@ -132,6 +137,7 @@ sub  _getVirtualMachines {
             STATUS => $state->{STATUS},
             VCPU   => $config->{VCPU},
             MEMORY => $config->{MEMORY},
+            UUID   => getVirtualUUID($machineid, $name),
         };
     }
     close $handle;
