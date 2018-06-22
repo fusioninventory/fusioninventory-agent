@@ -218,7 +218,7 @@ sub install {
     # add data and configuration installation targets
     $install .= <<'EOF';
 
-config_install :
+config_install : pure_install
 	install -d -m 755 $(DESTDIR)$(SYSCONFDIR)
 	if [ -f $(DESTDIR)/$(SYSCONFDIR)/agent.cfg ]; then \
 	    install -m 644 etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg.new; \
@@ -229,7 +229,7 @@ config_install :
 	    -e "s|=> undef, # SYSCONFDIR.*|=> '$(SYSCONFDIR)',|;" \
 	        $(DESTDIR)$(DATADIR)/lib/FusionInventory/Agent/Config.pm
 
-data_install :
+data_install : pure_install
 	install -d -m 755 $(DESTDIR)$(DATADIR)
 	install -m 644 share/pci.ids $(DESTDIR)$(DATADIR)/
 	install -m 644 share/usb.ids $(DESTDIR)$(DATADIR)/
@@ -238,7 +238,7 @@ data_install :
 	install -d -m 755 $(DESTDIR)$(DATADIR)/html
 	install -m 644 share/html/* $(DESTDIR)$(DATADIR)/html
 
-setup_install :
+setup_install : pure_install
 	$(ABSPERLRUN) -pi \
 	    -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
 	    -e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
