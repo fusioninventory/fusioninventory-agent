@@ -1,0 +1,24 @@
+Graphics/Displays:
+
+    Asus GeForce GT 730:
+
+      Chipset Model: Asus GeForce GT 730
+      Type: GPU
+      Bus: PCIe
+      PCIe Lane Width: x16
+      VRAM (Total): 1024 MB
+      Vendor: NVIDIA (0x10de)
+      Device ID: 0x0f02
+      Revision ID: 0x00a1
+      ROM Revision: 70.08.D5.00.05
+      Metal: Supported
+      Displays:
+        DELL SE2416H:
+          Resolution: 1920 x 1080 @ 60 Hz
+          Pixel Depth: 32-Bit Color (ARGB8888)
+          Display Serial Number: P7HT871G1H9L
+          Main Display: Yes
+          Mirror: Off
+          Online: Yes
+          Rotation: Supported
+          Automatically Adjust Brightness: No

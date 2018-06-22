@@ -37,6 +37,24 @@ my %tests = (
                 PCISLOT     => 'Slot-1'
             }
         ]
+    },
+    'asus-geforce-gt-730' => {
+        MONITORS => [
+            {
+                CAPTION     => 'DELL SE2416H',
+                DESCRIPTION => 'DELL SE2416H',
+                SERIAL      => 'P7HT871G1H9L'
+            }
+        ],
+        VIDEOS => [
+            {
+                MEMORY      => '1024',
+                PCISLOT     => undef,
+                RESOLUTION  => '1920x1080',
+                CHIPSET     => 'Asus GeForce GT 730',
+                NAME        => 'Asus GeForce GT 730'
+            }
+        ]
     }
 );
 
