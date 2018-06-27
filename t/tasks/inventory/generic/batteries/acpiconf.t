@@ -13,8 +13,8 @@ use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Battery;
 my %testAcpiconfInfos = (
     'infos_1.txt' => {
         NAME         => 'DELL 242WD6B',
-        CAPACITY     => '6880 mAh',
-        VOLTAGE      => '7600 mV',
+        CAPACITY     => '54993',
+        VOLTAGE      => '7600',
         CHEMISTRY    => 'LION',
         SERIAL       => 58167,
     },
@@ -38,8 +38,8 @@ my %testAcpiconfMerged = (
         merged => [
             {
                 NAME         => 'DELL 242WD6B',
-                CAPACITY     => '6880 mAh',
-                VOLTAGE      => '7600 mV',
+                CAPACITY     => '54993',
+                VOLTAGE      => '7600',
                 CHEMISTRY    => 'LION',
                 SERIAL       => 58167,
                 MANUFACTURER => 'Lg',
