@@ -161,7 +161,7 @@ sub constants {
     # for some reason, initialising variables from the global scope doesn't work
     %variables = (
         PREFIX               => '/usr/local',
-        VERSION              => '$(VERSION)',
+        VERSION              => '',
         COMMENTS             => "Platform  : $Config{myuname},Build date: ".gmtime()." (GMT)",
         RAWCOMMENTS          => '',
         INSTALLSCRIPT        => '$(PREFIX)/bin',
@@ -194,6 +194,9 @@ sub constants {
         # Skip everything which isn't a var assignment.
         next unless $line =~ /^([A-Z0-9_]+) =/;
         my $name = $1;
+        if ($name eq 'VERSION' && ! $variables{VERSION}) {
+            ( $variables{VERSION} ) = /=\s*(\S+)\s*$/;
+        }
         # skip variables we're not interested
         next unless $variables{$name};
 
