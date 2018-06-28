@@ -11,6 +11,8 @@ use FusionInventory::Agent::Tools;
 our @EXPORT = qw(
     batteryFields
     sanitizeBatterySerial
+    getCanonicalVoltage
+    getCanonicalCapacity
 );
 
 my @fields = ();
@@ -41,6 +43,42 @@ sub sanitizeBatterySerial {
 
     # Convert as decimal
     return hex2dec($serial);
+}
+
+sub getCanonicalVoltage {
+    my ($value) = @_;
+
+    return unless $value;
+
+    # We expect to return voltage in mV
+    if ($value =~ /^(\d+) mV$/i) {
+        return int($1);
+    } elsif ($value =~ /^(\d+) V$/i) {
+        return int($1) * 1000;
+    }
+
+    return $value;
+}
+
+sub getCanonicalCapacity {
+    my ($value, $voltage) = @_;
+
+    return unless $value;
+
+    # We expect to return capacity in mWh, $voltage is expected to be in mV
+    if ($value =~ /^(\d+) mWh$/i) {
+        return int($1);
+    } elsif ($value =~ /^(\d+) Wh$/i) {
+        return int($1) * 1000;
+    } elsif ($value =~ /^(\d+) mAh$/i) {
+        return unless $voltage;
+        return int($1 * $voltage / 1000);
+    } elsif ($value =~ /^(\d+) Ah$/i) {
+        return unless $voltage;
+        return int($1) * $voltage;
+    }
+
+    return $value;
 }
 
 # Also implement a batteries class, but split name on new line to not export it in CPAN
@@ -203,3 +241,14 @@ Returns clean battery serial.
 =head2 batteryFields()
 
 Returns the list of supported/expected battery fields
+
+=head2 getCanonicalVoltage($value)
+
+Returns the list of supported/expected battery fields
+
+=head2 getCanonicalCapacity($value,$voltage)
+
+Returns the canonical capacity in mWh
+
+Voltage should be provide in the case capacity is given in mAh or Ah and
+must be an number in mV as returned by getCanonicalVoltage().

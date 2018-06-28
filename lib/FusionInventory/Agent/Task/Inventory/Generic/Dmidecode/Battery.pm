@@ -62,15 +62,13 @@ sub _extractBatteryData {
         $battery->{DATE} = _parseDate($info->{'SBDS Manufacture Date'});
     }
 
-    if ($info->{'Design Capacity'} &&
-        $info->{'Design Capacity'} =~ /(\d+) \s m[WA]h$/x) {
-        $battery->{CAPACITY} = $1;
-    }
+    my $voltage  = getCanonicalVoltage($info->{'Design Voltage'});
+    $battery->{VOLTAGE} = $voltage
+        if $voltage;
 
-    if ($info->{'Design Voltage'} &&
-        $info->{'Design Voltage'} =~ /(\d+) \s mV$/x) {
-        $battery->{VOLTAGE} = $1;
-    }
+    my $capacity = getCanonicalCapacity($info->{'Design Capacity'}, $voltage);
+    $battery->{CAPACITY} = $capacity
+        if $capacity;
 
     return $battery;
 }

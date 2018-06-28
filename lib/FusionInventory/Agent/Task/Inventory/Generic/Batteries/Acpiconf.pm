@@ -84,11 +84,17 @@ sub _getBatteryFromAcpiconf {
 
     my $battery = {
         NAME            => $data->{'Model number'},
-        CAPACITY        => $data->{'Last full capacity'},
-        VOLTAGE         => $data->{'Design voltage'},
         CHEMISTRY       => $data->{'Type'},
         SERIAL          => sanitizeBatterySerial($data->{'Serial number'}),
     };
+
+    my $voltage  = getCanonicalVoltage($data->{'Design voltage'});
+    $battery->{VOLTAGE} = $voltage
+        if $voltage;
+
+    my $capacity = getCanonicalCapacity($data->{'Design capacity'}, $voltage);
+    $battery->{CAPACITY} = $capacity
+        if $capacity;
 
     return $battery;
 }

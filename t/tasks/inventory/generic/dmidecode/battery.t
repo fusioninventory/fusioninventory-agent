@@ -50,7 +50,6 @@ my %tests = (
             MANUFACTURER => 'Toshiba',
             CHEMISTRY    => 'Lithium Ion',
             VOLTAGE      => 10800,
-            CAPACITY     => 0
         }
     ],
     'windows-hyperV' => undef

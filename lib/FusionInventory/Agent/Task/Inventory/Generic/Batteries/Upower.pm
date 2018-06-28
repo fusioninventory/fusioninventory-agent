@@ -102,8 +102,6 @@ sub _getBatteryFromUpower {
 
     my $battery = {
         NAME            => $data->{'model'},
-        CAPACITY        => $data->{'energy-full'},
-        VOLTAGE         => $data->{'voltage'},
         CHEMISTRY       => $data->{'technology'},
         SERIAL          => sanitizeBatterySerial($data->{'serial'}),
     };
@@ -111,6 +109,14 @@ sub _getBatteryFromUpower {
     my $manufacturer = $data->{'vendor'} || $data->{'manufacturer'};
     $battery->{MANUFACTURER} = getCanonicalManufacturer($manufacturer)
         if $manufacturer;
+
+    my $voltage  = getCanonicalVoltage($data->{'voltage'});
+    $battery->{VOLTAGE} = $voltage
+        if $voltage;
+
+    my $capacity = getCanonicalCapacity($data->{'energy-full'}, $voltage);
+    $battery->{CAPACITY} = $capacity
+        if $capacity;
 
     return $battery;
 }
