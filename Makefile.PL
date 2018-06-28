@@ -137,16 +137,19 @@ print <<EOF;
 
 Installation summary
 --------------------
-prefix: $MY::variables{PREFIX}
-configuration installation directory: $MY::variables{SYSCONFDIR}
-constant data installation directory: $MY::variables{DATADIR}
-variable data installation directory: $MY::variables{LOCALSTATEDIR}
+version : '$MY::variables{VERSION}'
+comments: '$MY::variables{COMMENTS}'
+prefix  : '$MY::variables{PREFIX}'
+configuration installation directory: '$MY::variables{SYSCONFDIR}'
+constant data installation directory: '$MY::variables{DATADIR}'
+variable data installation directory: '$MY::variables{LOCALSTATEDIR}'
 
 $config_file_message
 EOF
 
 package MY;
 
+use Config;
 use English qw(-no_match_vars);
 
 our %variables;
@@ -158,6 +161,9 @@ sub constants {
     # for some reason, initialising variables from the global scope doesn't work
     %variables = (
         PREFIX               => '/usr/local',
+        VERSION              => '$(VERSION)',
+        COMMENTS             => "Platform  : $Config{myuname},Build date: ".gmtime()." (GMT)",
+        RAWCOMMENTS          => '',
         INSTALLSCRIPT        => '$(PREFIX)/bin',
         INSTALLSITESCRIPT    => '$(PREFIX)/bin',
         INSTALLVENDORSCRIPT  => '$(PREFIX)/bin',
@@ -194,8 +200,16 @@ sub constants {
         $line = "$name = $variables{$name}";
     }
 
+    # Fix COMMENTS and prepare it as a list of perl strings
+    if ($variables{COMMENTS}) {
+        $variables{COMMENTS} =~ s/[^a-zA-Z0-9 ,.:_-]//g;
+        $variables{RAWCOMMENTS} = "\\n    "
+            . join(",\\n    ",map { "\\\"$_\\\"" } split(/,/,$variables{COMMENTS}))
+            . "\\n";
+    }
+
     # add out own variables
-    foreach my $name (qw/SYSCONFDIR DATADIR LOCALSTATEDIR/) {
+    foreach my $name (qw/SYSCONFDIR DATADIR LOCALSTATEDIR COMMENTS RAWCOMMENTS/) {
         push @code, "$name = $variables{$name}";
     }
 
@@ -209,8 +223,8 @@ sub install {
     # add dependency on data and configuration installation targets, and remove
     # dependency on perlocal installation target
     # depending on MakeMaker version, the line to match changes
-    $install =~ s/install :: pure_install doc_install/install :: pure_install config_install data_install setup_install/;
-    $install =~ s/install :: all pure_install doc_install/install :: all pure_install config_install data_install setup_install/;
+    $install =~ s/install :: pure_install doc_install/install :: pure_install config_install data_install setup_install version_install/;
+    $install =~ s/install :: all pure_install doc_install/install :: all pure_install config_install data_install setup_install version_install/;
 
     # suppress all lines related to packlist file installation
     $install =~ s/.*\.packlist \\\n//g;
@@ -239,11 +253,22 @@ data_install : pure_install
 	install -m 644 share/html/* $(DESTDIR)$(DATADIR)/html
 
 setup_install : pure_install
+	# Cleanup setup file to only really needed hash during install
 	$(ABSPERLRUN) -pi \
+	    -e 'undef $$_ if m/^use (File::Spec|Cwd)/;' \
+	    -e 'if (m/# Compute/) { print "1;\n"; last; };' \
 	    -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
 	    -e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
 	    -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
 	        $(DESTDIR)$(DATADIR)/lib/setup.pm
+
+version_install : pure_install
+	# Cleanup and update Version module during install
+	$(ABSPERLRUN) -pi \
+	    -e 'last if m|^__END__|;' \
+	    -e 's|^our \$$VERSION =.*|our \$$VERSION = "$(VERSION)";|;' \
+	    -e 's|^our \$$COMMENTS =.*|our \$$COMMENTS = [$(RAWCOMMENTS)];|;' \
+	        $(DESTDIR)$(DATADIR)/lib/FusionInventory/Agent/Version.pm
 EOF
     return $install;
 }
