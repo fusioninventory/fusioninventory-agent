@@ -254,7 +254,6 @@ sub _getSoftwaresList {
         # Versions >= SQL Server 2008 (tested with 2008/R2/2012/2016) : "SQL Server xxxx Database Engine Services"
         if ($software->{NAME} =~ /^(SQL Server.*)(\sDatabase Engine Services)/) {
             my $sqlEditionValue = _getSqlEdition(
-                softwarename    => $software->{NAME},
                 softwareversion => $software->{VERSION}
             );
             if ($sqlEditionValue) {
@@ -264,7 +263,6 @@ sub _getSoftwaresList {
         # "Uninstall" registry key does not contains Version : use default named instance.
         } elsif ($software->{NAME} =~ /^(Microsoft SQL Server 200[0-9])$/ and defined($software->{VERSION})) {
             my $sqlEditionValue = _getSqlEdition(
-                softwarename    => $software->{NAME},
                 softwareversion => $software->{VERSION}
             );
             if ($sqlEditionValue) {
@@ -365,7 +363,6 @@ sub _processMSIE {
 sub _getSqlEdition {
     my (%params) = @_;
 
-    my $softwareName = $params{softwarename};
     my $softwareVersion = $params{softwareversion};
 
     # Registry access for SQL Instances

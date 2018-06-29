@@ -34,7 +34,7 @@ sub getIpmiFru {
 
     my $handle = getFileHandle(%params);
     return unless $handle;
-    my ($fru, $block, $id, $descr);
+    my ($fru, $block, $descr);
 
     while (my $line = <$handle>) {
         chomp $line;

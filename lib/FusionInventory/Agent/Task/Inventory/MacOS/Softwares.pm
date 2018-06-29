@@ -34,7 +34,6 @@ sub doInventory {
 
 sub _getSoftwaresList {
     my (%params) = @_;
-    my $logger = $params{logger};
 
     my $infos;
     my $datesAlreadyFormatted = 1;

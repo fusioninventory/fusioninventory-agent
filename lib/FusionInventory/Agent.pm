@@ -103,7 +103,6 @@ sub init {
         $logger->debug("- $task: $available{$task}");
     }
 
-    my %planned = ();
     foreach my $target ($self->getTargets()) {
         $logger->debug($target->getType() . " target: " . $target->getName());
 
