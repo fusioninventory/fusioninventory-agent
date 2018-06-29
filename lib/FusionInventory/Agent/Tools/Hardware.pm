@@ -1183,7 +1183,7 @@ sub _getCDPInfo {
     while (my ($suffix, $ip) = each %{$cdpCacheAddress}) {
         my $interface_id = _getElement($suffix, -2);
         $ip = hex2canonical($ip);
-        next if $ip eq '0.0.0.0';
+        next if (!defined($ip) || $ip eq '0.0.0.0');
 
         my $sysdescr = getCanonicalString($cdpCacheVersion->{$suffix});
         my $model    = getCanonicalString($cdpCachePlatform->{$suffix});
@@ -1264,7 +1264,7 @@ sub _getEDPInfo {
     # - z1.z2...zz: the vlan name in ASCII
 
     while (my ($suffix, $ip) = each %{$edpNeighborVlanIpAddress}) {
-        next if $ip eq '0.0.0.0';
+        next if (!defined($ip) || $ip eq '0.0.0.0');
 
         my $interface_id = _getElement($suffix, 0);
         my @mac_elements = _getElements($suffix, 3, 8);
