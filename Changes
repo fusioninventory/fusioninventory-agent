@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.4.1 not released yet
+2.4.1 Fri, 29 Jun 2018
 
 core:
 * Update setup & FusionInventory::Agent::Version modules during make install
