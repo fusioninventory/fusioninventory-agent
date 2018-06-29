@@ -63,6 +63,7 @@ netdiscovery/netinventory:
 * Add Linux Appliance template support
 * Closes: #441,#519
 * Update extmod function calls, thanks to Vadim Pisarev
+* Add custom OID for Canon printer counters
 
 deploy:
 * Bump Deploy task version to 2.6

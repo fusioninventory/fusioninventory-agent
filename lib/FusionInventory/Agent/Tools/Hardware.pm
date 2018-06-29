@@ -200,10 +200,16 @@ my %printer_pagecounters_variables = (
     },
     RECTOVERSO => { },
     SCANNED    => {
-        oid   => '.1.3.6.1.4.1.1347.46.10.1.1.5.3' #Kyocera specific counter ( total scan counter)
+        oid   => [
+            '.1.3.6.1.4.1.1347.46.10.1.1.5.3',    #Kyocera specific counter ( total scan counter)
+            '.1.3.6.1.4.1.1602.1.11.1.3.1.4.501'  #Canon specific counter
+        ]
     },
     PRINTTOTAL => {
-        oid   => '.1.3.6.1.4.1.1347.42.3.1.1.1.1.2' #Kyocera specific counter
+        oid   => [
+            '.1.3.6.1.4.1.1347.42.3.1.1.1.1.2',   #Kyocera specific counter
+            '.1.3.6.1.4.1.1602.1.11.1.3.1.4.301'  #Canon specific counter
+        ]
     },
     PRINTBLACK => {
         oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.1.1' #Kyocera specific counter
@@ -212,13 +218,28 @@ my %printer_pagecounters_variables = (
         oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.1.2' #Kyocera specific counter
     },
     COPYTOTAL  => {
-        oid   => '.1.3.6.1.4.1.1347.42.3.1.1.1.1.2' #Kyocera specific counter
+        oid   => [
+            '.1.3.6.1.4.1.1347.42.3.1.1.1.1.2',   #Kyocera specific counter
+            '.1.3.6.1.4.1.1602.1.11.1.3.1.4.101'  #Canon specific counter
+        ]
     },
     COPYBLACK  => {
-        oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.2.1' #Kyocera specific counter
+        oid   => [
+            '.1.3.6.1.4.1.1347.42.3.1.2.1.1.2.1', #Kyocera specific counter
+            '.1.3.6.1.4.1.1602.1.11.1.3.1.4.113'  #Canon specific counter
+        ]
+    },
+    COPYBLACK_A3  => {
+        oid   => '.1.3.6.1.4.1.1602.1.11.1.3.1.4.112' #Canon specific counter
     },
     COPYCOLOR  => {
-        oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.2.2' #Kyocera specific counter
+        oid   => [
+            '.1.3.6.1.4.1.1347.42.3.1.2.1.1.2.2', #Kyocera specific counter
+            '.1.3.6.1.4.1.1602.1.11.1.3.1.4.123'  #Canon specific counter
+        ]
+    },
+    COPYCOLOR_A3  => {
+        oid   => '.1.3.6.1.4.1.1602.1.11.1.3.1.4.122' #Canon specific counter
     },
     FAXTOTAL   => {
         oid   => '.1.3.6.1.4.1.1347.42.3.1.1.1.1.4'  #Kyocera specific counter
