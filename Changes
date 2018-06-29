@@ -66,6 +66,7 @@ netdiscovery/netinventory:
 * Closes: #441,#519
 * Update extmod function calls, thanks to Vadim Pisarev
 * Add custom OID for Canon printer counters
+* Updated sysobject.ids (tagged fia-2.4.1 tag on github repository)
 
 deploy:
 * Bump Deploy task version to 2.6
