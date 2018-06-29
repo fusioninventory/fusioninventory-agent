@@ -45,7 +45,7 @@ sub doInventory {
         my $filesystem = $filesystems{$device};
         next unless $filesystem;
 
-        if ($info->{'Total Size'} =~ /^([.\d]+ \s \S+)/x) {
+        if ($info->{'Total Size'} && $info->{'Total Size'} =~ /^([.\d]+ \s \S+)/x) {
             $filesystem->{TOTAL} = getCanonicalSize($1);
         }
         $filesystem->{SERIAL}     = $info->{'Volume UUID'} ||

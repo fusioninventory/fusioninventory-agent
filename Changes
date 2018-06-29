@@ -31,6 +31,7 @@ inventory:
 * Fix #439: Wrong network interface speed under win32
 * Fix #472: On MacOS, add monitors serial number when available
 * Fix #479: No virtual machine memory under Proxmox
+* Fix #485: Fix df output parsing under MacOS
 * Fix #500: Add Acer monitor EDID id match
 * Better SQL Server software inventory under win32
 * Update Xen Server support
