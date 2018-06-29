@@ -36,6 +36,8 @@ inventory:
 * Better SQL Server software inventory under win32
 * Update Xen Server support
 * Fix get-edid command output parsing, thanks to David Durieux
+* Updated pci.ids to 2018.06.29 version
+* Updated usb.ids to 2018.05.04 version
 
 netdiscovery/netinventory:
 * Bump NetDiscovery task version to 2.6
