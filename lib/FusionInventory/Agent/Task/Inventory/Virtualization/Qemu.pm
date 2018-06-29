@@ -33,8 +33,11 @@ sub _parseProcessList {
             $values->{name} = $1 if !$values->{name};
         } elsif ($option =~ m/^name (\S+)/) {
             $values->{name} = $1;
+        } elsif ($option =~ m/^m .*size=(\S+)/) {
+            my ($mem) = split(/,/,$1);
+            $values->{mem} = getCanonicalSize($mem);
         } elsif ($option =~ m/^m (\S+)/) {
-            $values->{mem} = $1;
+            $values->{mem} = getCanonicalSize($1);
         } elsif ($option =~ m/^uuid (\S+)/) {
             $values->{uuid} = $1;
         }
