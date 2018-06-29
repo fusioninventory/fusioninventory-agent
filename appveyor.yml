@@ -26,7 +26,7 @@ skip_commits:
 
 # As of 2017/11, lastest strawberryperl based on perl 5.26 is failing on Win32::Daemon
 install:
-  - cinst strawberryperl --version 5.24.2.1
+  - cinst strawberryperl --version 5.24.4.1
   - set PATH=C:\strawberry\perl\bin;C:\strawberry\perl\site\bin;C:\strawberry\c\bin;%PATH%
   - cd C:\projects\%APPVEYOR_PROJECT_NAME%
   - echo %cd%
