@@ -119,13 +119,6 @@ sub run {
         );
     }
 
-    FusionInventory::Agent::Task::NetDiscovery::Ping->require();
-    if ($EVAL_ERROR) {
-        $self->{logger}->info(
-            "Can't load Task::NetDiscovery::Ping, timestamp ping can't be used"
-        );
-    }
-
     Net::NBName->require();
     if ($EVAL_ERROR) {
         $self->{logger}->info(
@@ -358,8 +351,6 @@ sub _scanAddress {
     my %device = (
         $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP(%params)    : (),
         $INC{'Net/NBName.pm'}    ? $self->_scanAddressByNetbios(%params) : (),
-        $INC{'FusionInventory/Agent/Task/NetDiscovery/Ping.pm'} ?
-                                   $self->_scanAddressByTSPing(%params)  : (),
         $INC{'Net/Ping.pm'}      ? $self->_scanAddressByPing(%params)    : (),
         $params{arp}             ? $self->_scanAddressByArp(%params)     : (),
     );
@@ -405,40 +396,26 @@ sub _scanAddressByArp {
     return %device;
 }
 
-sub _scanAddressByTSPing {
-    my ($self, %params) = @_;
-
-    my $np = Net::Ping::TimeStamp->new('icmp', 1);
-
-    my %device = ();
-
-    if ($np->ping($params{ip})) {
-        $device{DNSHOSTNAME} = $params{ip};
-    }
-
-    $self->{logger}->debug(
-        sprintf "[thread %d] - scanning %s with timestamp ping: %s",
-        threads->tid(),
-        $params{ip},
-        $device{DNSHOSTNAME} ? 'success' : 'no result'
-    );
-
-    return %device;
-}
-
 sub _scanAddressByPing {
     my ($self, %params) = @_;
 
+    my $type = 'echo';
     my $np = Net::Ping->new('icmp', 1);
 
     my %device = ();
 
     if ($np->ping($params{ip})) {
         $device{DNSHOSTNAME} = $params{ip};
+    } elsif ($Net::Ping::VERSION >= 2.67) {
+        $type = 'timestamp';
+        $np->message_type($type);
+        if ($np->ping($params{ip})) {
+            $device{DNSHOSTNAME} = $params{ip};
+        }
     }
 
     $self->{logger}->debug(
-        sprintf "[thread %d] - scanning %s with echo ping: %s",
+        sprintf "[thread %d] - scanning %s with $type ping: %s",
         threads->tid(),
         $params{ip},
         $device{DNSHOSTNAME} ? 'success' : 'no result'
