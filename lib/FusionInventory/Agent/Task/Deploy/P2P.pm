@@ -11,6 +11,7 @@ use Parallel::ForkManager;
 use UNIVERSAL::require;
 
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Tools;
 
 sub new {
     my ($class, %params) = @_;
@@ -18,13 +19,13 @@ sub new {
     my $self = {
         logger        => $params{logger} ||
                          FusionInventory::Agent::Logger->new(),
+        datastore     => $params{datastore},
         max_workers   => $params{max_workers}   || 10,
-        cache_timeout => $params{cache_timeout} || 600,
+        cache_timeout => $params{cache_timeout} || 1200,
         scan_timeout  => $params{scan_timeout}  || 5,
         max_peers     => $params{max_peers}     || 512,
         max_size      => $params{max_size}      || 5000,
-        cache_time    => 0,
-        cache         => []
+        p2pnet        => {}
     };
 
     bless $self, $class;
@@ -35,10 +36,21 @@ sub new {
 sub findPeers {
     my ($self, $port) = @_;
 
-#    $self->{logger}->debug("cachedate: ".$cache{date});
     $self->{logger}->info("looking for a peer in the network");
-    return @{$self->{cache}}
-        if time - $self->{cache_time} < $self->{cache_timeout};
+
+    if ((!$self->{p2pnet} || !$self->{p2pnet}->{peers}) && $self->{datastore}) {
+        $self->{p2pnet} = $self->{datastore}->getP2PNet() || {};
+    }
+
+    # We don't want to update the peer list if some exist and none has expired
+    if ($self->{p2pnet} && $self->{p2pnet}->{peerscount}) {
+        my $now = time;
+        if (! any { $self->{p2pnet}->{$_}->{expires} < $now } @{$self->{p2pnet}->{peers}}) {
+            return grep {
+                $self->{p2pnet}->{$_}->{active}
+            } @{$self->{p2pnet}->{peers}};
+        }
+    }
 
     my @interfaces;
 
@@ -59,7 +71,7 @@ sub findPeers {
     my @addresses;
 
     foreach my $interface (@interfaces) {
-#if interface has both ip and netmask setup then push the address
+        #if interface has both ip and netmask setup then push the address
         next unless $interface->{IPADDRESS};
         next unless $interface->{IPMASK};
         next unless lc($interface->{STATUS}) eq 'up';
@@ -86,10 +98,67 @@ sub findPeers {
         return;
     }
 
-    $self->{cache_time} = time;
-    $self->{cache}      = [ $self->_scanPeers($port, @potential_peers) ];
+    my %peers;
+    # Keep previously known addresses only if still in potential peers
+    foreach my $peer (@potential_peers) {
+        if ($self->{p2pnet}->{$peer}) {
+            $peers{$peer} = $self->{p2pnet}->{$peer};
+        } else {
+            $peers{$peer} = {
+                expires => time + $self->{cache_timeout},
+                active  => 1
+            };
+        }
+    }
 
-    return @{$self->{cache}};
+    # Only keep active peers in the list
+    my @peers = grep {
+        $peers{$_}->{active}
+    } keys(%peers);
+
+    # Finally filter out the list from the ones not responding
+    my @active_peers = $self->_scanPeers( $port, @peers);
+
+    my %not_active = map { $_ => 0 } @peers;
+    foreach my $peer (@active_peers) {
+        delete $not_active{$peer};
+    }
+    foreach my $peer (keys(%not_active)) {
+        $peers{$peer} = {
+            expires => time + $self->{cache_timeout},
+            active  => 0
+        };
+    }
+
+    $self->{p2pnet} = \%peers;
+    $self->{p2pnet}->{peers} = \@peers;
+    $self->{p2pnet}->{peerscount} = @peers;
+
+    # Save peers list and status
+    $self->{datastore}->saveP2PNet($self->{p2pnet}) if ($self->{datastore});
+
+    return @peers;
+}
+
+sub forgetPeer {
+    my ($self, $peer) = @_;
+
+    return unless $self->{p2pnet} && $self->{p2pnet}->{$peer};
+
+    $self->{p2pnet}->{$peer} = {
+        expires => time + $self->{cache_timeout},
+        active  => 0
+    };
+
+    # Update active peers list
+    my @peers = grep {
+        $self->{p2pnet}->{$_}->{active}
+    } @{$self->{p2pnet}->{peers}};
+    $self->{p2pnet}->{peers} = \@peers;
+    $self->{p2pnet}->{peerscount} = @peers;
+
+    # Save peers list and status
+    $self->{datastore}->saveP2PNet($self->{p2pnet}) if ($self->{datastore});
 }
 
 sub _getPotentialPeers {
@@ -129,7 +198,7 @@ sub _getPotentialPeers {
     my $size = $ipIntervalBefore->size() + $ipIntervalAfter->size() - 1 ;
     if ($size > $self->{max_size}) {
         $self->{logger}->debug(
-            "Range too large: $size (max $self->{max_size})"
+            "Range too large: $size (max $self->{max_size}) from $ipStart to $ipEnd"
         );
         return;
     }

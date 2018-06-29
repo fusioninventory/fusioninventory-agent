@@ -87,11 +87,13 @@ sub processRemote {
         return 0;
     }
 
+    my $folder = $self->{target}->getStorage()->getDirectory();
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
-        path => $self->{target}{storage}{directory}.'/deploy',
+        config => $self->{config},
+        path   => $folder.'/deploy',
         logger => $logger
     );
-    $datastore->cleanUp();
+    $datastore->cleanUp( force => $datastore->diskIsFull() );
 
     my $jobList = [];
     my $files;
@@ -389,8 +391,9 @@ sub run {
         debug        => $self->{debug}
     );
 
+    my $url = $self->{target}->getUrl();
     my $globalRemoteConfig = $self->{client}->send(
-        url  => $self->{target}->{url},
+        url  => $url,
         args => {
             action    => "getConfig",
             machineid => $self->{deviceid},
@@ -399,11 +402,11 @@ sub run {
     );
 
     if (!$globalRemoteConfig->{schedule}) {
-        $self->{logger}->info("No job schedule returned from server at ".$self->{target}->{url});
+        $self->{logger}->info("No job schedule returned from server at $url");
         return;
     }
     if (ref( $globalRemoteConfig->{schedule} ) ne 'ARRAY') {
-        $self->{logger}->info("Malformed schedule from server at ".$self->{target}->{url});
+        $self->{logger}->info("Malformed schedule from server at $url");
         return;
     }
     if ( !@{$globalRemoteConfig->{schedule}} ) {

@@ -6,6 +6,16 @@ core:
 * Normalized Target class APIs
 * Register planned tasks at target level so target class can filter out
   unsupported tasks
+* Add Scheduler target support to be used at the same time than Server target
+  but more often to make maintenance other server target storage
+* One scheduler target is created for each configured server target
+* Scheduler target will trigger between one to 2 minutes
+
+maintenance:
+* New Maintenance v1.0 task
+* Maintenance task handles quick server target storage cleanup to deploy
+  packages are really removed afetr their expiration time
+* Task only supported by Scheduler target
 
 inventory:
 * Fix BSD Storages support
@@ -34,6 +44,17 @@ netdiscovery/netinventory:
 * fix entity option in fusioninventory-netdiscovery script
 * Get rid of nmap support for NetDiscovery task
 * Add QuesCom Appliance detection
+
+deploy:
+* Bump Deploy task version to 2.6
+* Fix file retention support
+* Add P2P peers caching to reduce peers discovery load in the meantime
+* Reduced timeout for peer discovery and file parts downloading for P2P. This
+  efficiently limits the time passed to discover the local peers and disqualify
+  any busy or not responding peers in a more acceptable delay.
+* For better P2P support, agent ajusts its 404 message to "Nothing found" when it
+  has nothing to share with other agents. So peers won't ask again and again for
+  any file part during 20 minutes by default.
 
 2.4 Fri, 29 Dec 2017
 core:

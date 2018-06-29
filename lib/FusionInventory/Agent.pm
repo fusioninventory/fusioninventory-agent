@@ -57,6 +57,7 @@ sub init {
     # Skip create object if still defined (re-init case)
     my $config = $self->{config} || FusionInventory::Agent::Config->new(
         options => $params{options},
+        vardir  => $self->{vardir},
     );
     $self->{config} = $config;
 

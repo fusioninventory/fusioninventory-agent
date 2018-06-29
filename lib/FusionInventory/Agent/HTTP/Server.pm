@@ -189,9 +189,12 @@ sub _handle_deploy {
     }
 
     my $path;
+    my $count = 0;
     LOOP: foreach my $target ($self->{agent}->getTargets()) {
         foreach (File::Glob::bsd_glob($target->{storage}->getDirectory() . "/deploy/fileparts/shared/*")) {
             next unless -f $_.'/'.$subFilePath;
+
+            $count ++;
 
             my $sha = Digest::SHA->new('512');
             $sha->addfile($_.'/'.$subFilePath, 'b');
@@ -205,7 +208,12 @@ sub _handle_deploy {
         $client->send_file_response($path);
         return 200;
     } else {
-        $client->send_error(404);
+        if ($count) {
+            $client->send_error(404);
+        } else {
+            # Report this agent as nothing to share
+            $client->send_error(404, 'Nothing found');
+        }
         return 404;
     }
 }

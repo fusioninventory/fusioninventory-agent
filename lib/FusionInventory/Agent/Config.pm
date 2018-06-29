@@ -48,6 +48,7 @@ my $default = {
     'tasks'                   => undef,
     'timeout'                 => 180,
     'user'                    => undef,
+    'vardir'                  => undef,
     # deprecated options
     'stdout'                  => undef,
 };
@@ -73,6 +74,8 @@ sub new {
     $self->_loadFromBackend($params{options}->{'conf-file'}, $params{options}->{config});
 
     $self->_loadUserParams($params{options});
+
+    $self->{vardir} = $params{vardir};
 
     $self->_checkContent();
 
@@ -371,6 +374,8 @@ sub _checkContent {
         File::Spec->rel2abs($self->{'ca-cert-dir'}) if $self->{'ca-cert-dir'};
     $self->{'logfile'} =
         File::Spec->rel2abs($self->{'logfile'}) if $self->{'logfile'};
+    $self->{'vardir'} =
+        File::Spec->rel2abs($self->{'vardir'}) if $self->{'vardir'};
 
     # conf-reload-interval option
     # If value is less than the required minimum, we force it to that
@@ -426,15 +431,28 @@ sub getTargets {
 
     if ($self->{server}) {
         FusionInventory::Agent::Target::Server->require();
+        FusionInventory::Agent::Target::Scheduler->require();
         foreach my $url (@{$self->{server}}) {
-            push @targets,
-                FusionInventory::Agent::Target::Server->new(
-                    logger     => $params{logger},
-                    delaytime  => $self->{delaytime},
-                    basevardir => $params{vardir},
-                    url        => $url,
-                    tag        => $self->{tag},
-                );
+            my $server = FusionInventory::Agent::Target::Server->new(
+                logger     => $params{logger},
+                delaytime  => $self->{delaytime},
+                basevardir => $params{vardir},
+                url        => $url,
+                tag        => $self->{tag},
+            );
+
+            # Also setup one Scheduler target for each target, actually
+            # it only used by Maintenance task to cleanup storage from
+            # expired files
+            # Schedule it to run every 2 minutes max by default
+            my $scheduler = FusionInventory::Agent::Target::Scheduler->new(
+                logger      => $params{logger},
+                delaytime   => 60,
+                maxDelay    => 120,
+                basevardir  => $params{vardir},
+                storage     => $server->getStorage(),
+            );
+            push @targets, $server, $scheduler;
         }
     }
 
