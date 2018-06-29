@@ -33,6 +33,15 @@ my @tests = (
             'uuid' => 'BB123450-C977-11DF-1234-B01234557082'
         }
     },
+    {
+        CMD =>
+"/usr/bin/kvm -id 108 -daemonize -smbios type=1,uuid=a61349d9-c2b8-4d6c-9539-e1c7af2136c5 -name Win2008x64 -nodefaults -vga vmware -no-hpet -m size=1024,slots=255,maxmem=4194304M -netdev type=tap,id=net0,ifname=tap108i0,script=/var/lib/qemu-server/pve-bridge,downscript=/var/lib/qemu-server/pve-bridgedown -device e1000,mac=92:AE:98:70:A0:99,netdev=net0,bus=pci.0,addr=0x12,id=net0,bootindex=300 -rtc driftfix=slew,base=localtime -global kvm-pit.lost_tick_policy=discard",
+        _result => {
+            'name' => 'Win2008x64',
+            'mem'  => 1024,
+            'uuid' => 'a61349d9-c2b8-4d6c-9539-e1c7af2136c5'
+        }
+    },
 );
 
 plan tests => (scalar @tests) + 1;
