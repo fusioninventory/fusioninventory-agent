@@ -1142,7 +1142,7 @@ sub _getLLDPInfo {
         $connection->{SYSNAME} = $sysname if $sysname;
 
         # portId is either a port number or a port mac address,
-        # duplicating chassiId
+        # duplicating chassisId
         my $portId = $lldpRemPortId->{$suffix};
         if ($portId !~ /^0x/ or length($portId) != 14) {
             $connection->{IFNUMBER} = getCanonicalString($portId);
