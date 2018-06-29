@@ -107,6 +107,9 @@ sub isInteger {
 sub getCanonicalMemory {
     my ($value) = @_;
 
+    # Don't try to analyse negative values
+    return if $value =~ /^-/;
+
     if ($value =~ /^(\d+) KBytes$/) {
         return int($1 / 1024);
     } else {
