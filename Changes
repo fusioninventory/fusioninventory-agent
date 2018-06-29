@@ -44,6 +44,7 @@ netdiscovery/netinventory:
 * fix entity option in fusioninventory-netdiscovery script
 * Get rid of nmap support for NetDiscovery task
 * Add QuesCom Appliance detection
+* Closes: #441,#519
 
 deploy:
 * Bump Deploy task version to 2.6
