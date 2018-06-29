@@ -3,6 +3,9 @@ Revision history for FusionInventory agent
 2.4.1 not released yet
 
 core:
+* Update setup & FusionInventory::Agent::Version modules during make install
+* Can set FusionInventory::Agent::Version module VERSION & COMMMENTS during
+  perl Makefile.PL configuration stage
 * Normalized Target class APIs
 * Register planned tasks at target level so target class can filter out
   unsupported tasks
@@ -10,6 +13,7 @@ core:
   but more often to make maintenance other server target storage
 * One scheduler target is created for each configured server target
 * Scheduler target will trigger between one to 2 minutes
+* Get rid of Time::Piece dependency
 
 maintenance:
 * New Maintenance v1.0 task
@@ -21,14 +25,24 @@ inventory:
 * Fix BSD Storages support
 * Don't try to run dmidecode inventories if it returns no output
 * Set Bios && Hardware from /sys/class/dmi on recent Linux when dmidecode is missing
+* Add PowerSupplies support
 * Add BSD batteries support
 * Add UUID to LXD containers under Linux
+* Fix #439: Wrong network interface speed under win32
 * Fix #472: On MacOS, add monitors serial number when available
+* Fix #479: No virtual machine memory under Proxmox
+* Fix #500: Add Acer monitor EDID id match
+* Better SQL Server software inventory under win32
+* Update Xen Server support
+* Fix get-edid command output parsing, thanks to David Durieux
 
 netdiscovery/netinventory:
 * Bump NetDiscovery task version to 2.6
 * Bump NetInventory task version to 3.0
+* fusioninventory-netdiscovery & fusioninventory-netinventory scripts
+  now support '--port' and '--protocol' options for not standard snmp support.
 * Fix RAM & CPU are missing from net inventory
+* Fix MEMORY/RAM OID support
 * Added support for HP Net Peripheral, involving better HP printers inventory
  * Get Serial number & firmware version
  * Fix total printed pages counter in many case
@@ -43,8 +57,11 @@ netdiscovery/netinventory:
   that case, we default the DNSHOSTNAME to the scanned ip.
 * fix entity option in fusioninventory-netdiscovery script
 * Get rid of nmap support for NetDiscovery task
+* Add Zebra printer support
 * Add QuesCom Appliance detection
+* Add Linux Appliance template support
 * Closes: #441,#519
+* Update extmod function calls, thanks to Vadim Pisarev
 
 deploy:
 * Bump Deploy task version to 2.6
