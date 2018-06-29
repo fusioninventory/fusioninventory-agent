@@ -102,7 +102,7 @@ my %tests = (
         },
         {
             CAPTION      => 'Printing Support',
-            MANUFACTURER => 'Hewlett-Packard',
+            MANUFACTURER => 'HP, Inc',
             NAME         => 'Printing Support',
             CAPTION      => 'Printing Support',
             SERIAL       => 'JV40VNJ',
@@ -120,7 +120,7 @@ my %tests = (
         },
         {
             CAPTION      => 'LaserJet P2015 series',
-            MANUFACTURER => 'Hewlett-Packard',
+            MANUFACTURER => 'HP, Inc',
             NAME         => 'LaserJet P2015 series',
             CAPTION      => 'LaserJet P2015 series',
             SERIAL       => '00CNBW86S20B',
