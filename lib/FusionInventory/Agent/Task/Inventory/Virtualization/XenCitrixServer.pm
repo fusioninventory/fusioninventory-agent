@@ -20,13 +20,22 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $command = 'xe vm-list';
-    foreach my $machine (_getUUID(command => $command, logger => $logger)) {
-        my $machineextend = _getVirtualMachines(
-            command => "xe vm-param-list uuid=$machine->{UUID}",
+    my @machines = _getVirtualMachines(
+        command => 'xe vm-list',
+        logger  => $logger
+    );
+
+    foreach my $machine (@machines) {
+
+        my $machineextend = _getVirtualMachine(
+            command => "xe vm-param-list uuid=".$machine->{UUID},
             logger  => $logger,
         );
-        foreach my $key ($machineextend) {
+
+        # Skip the machine if Dom0
+        next unless $machineextend;
+
+        foreach my $key (keys(%{$machineextend})) {
             $machine->{$key} = $machineextend->{$key};
         }
 
@@ -36,7 +45,7 @@ sub doInventory {
     }
 }
 
-sub _getUUID {
+sub _getVirtualMachines {
 
     my $handle = getFileHandle(@_);
 
@@ -44,10 +53,9 @@ sub _getUUID {
 
     my @machines;
     while (my $line = <$handle>) {
-        chomp $line;
-        next unless $line =~ /uuid \( RO\)/;
-        my (undef, $uuid) = split(':', $line);
-        chomp $uuid;
+
+        my ($uuid) = $line =~ /uuid *\( *RO\) *: *([-0-9a-f]+) *$/;
+        next unless $uuid;
 
         my $machine = {
             UUID      => $uuid,
@@ -63,24 +71,27 @@ sub _getUUID {
     return @machines;
 }
 
-sub  _getVirtualMachines {
+sub  _getVirtualMachine {
 
-    my $handle   = getFileHandle(@_);
+    my $handle = getFileHandle(@_);
 
     return unless $handle;
-
-    # xe status
-    my %status_list = (
-        'running' => STATUS_RUNNING,
-        'halted'  => STATUS_SHUTDOWN,
-    );
 
     my $machine;
 
     while (my $line = <$handle>) {
-        chomp $line;
-        my ($extendedlabel, $value) = split('\): ', $line);
-        chomp $value;
+
+        # Lines format: extended-label (...): value(s)
+        my ($extendedlabel, $value) =
+            $line =~ /^\s*(\S+)\s*\(...\)\s*:\s*(.*)$/ ;
+
+        next unless $extendedlabel;
+
+        # dom-id 0 is not a VM
+        if ($extendedlabel =~ /dom-id/ && !int($value)) {
+            undef $machine;
+            last;
+        }
         if ($extendedlabel =~ /name-label/) {
             $machine->{NAME} = $value;
             next;
@@ -90,7 +101,10 @@ sub  _getVirtualMachines {
             next;
         }
         if ($extendedlabel =~ /power-state/) {
-            $machine->{STATUS} = $value ? $status_list{$value} : STATUS_OFF;
+            $machine->{STATUS} =
+                $value eq 'running' ? 'running'  :
+                $value eq 'halted'  ? 'shutdown' :
+                'off';
             next;
         }
         if ($extendedlabel =~ /VCPUs-number/) {
@@ -103,6 +117,7 @@ sub  _getVirtualMachines {
             next;
         }
     }
+    close $handle;
 
     return $machine;
 }
