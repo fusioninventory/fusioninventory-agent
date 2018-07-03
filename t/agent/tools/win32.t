@@ -67,7 +67,7 @@ my %tests = (
             MTU         => undef,
             MACADDR     => '00:26:83:12:FB:0B',
             STATUS      => 'Up',
-            DESCRIPTION => "Périphérique Bluetooth (réseau personnel)",
+            DESCRIPTION => "P??riph??rique Bluetooth (r??seau personnel)",
             VIRTUALDEV  => 0,
             PNPDEVICEID => 'BTH\MS_BTHPAN\7&42D85A8&0&2',
             PCIID       => undef,
@@ -172,6 +172,16 @@ my %register = (
             '/TEMP' => '%SystemRoot%\\TEMP',
             '/OS'   => 'Windows_NT',
         }
+    },
+    'HKEY_USERS/HKEY_USERS/S-1-5-21-2246875202-1293753324-4206800371-500/Software/SimonTatham/PuTTY' => {
+        'SshHostKeys' => {
+            '/rsa2@22:192.168.20.32' => '76f523a6eec4ea6b'
+        }
+    },
+    'HKEY_USERS/S-1-5-21-2246875202-1293753324-4206800567-500/Software/SimonTatham/PuTTY' => {
+        'SshHostKeys' => {
+            '/rsa2@22:192.168.20.54' => 'fdfb3a2eeaa7'
+        }
     }
 );
 
@@ -206,6 +216,13 @@ my %regkey_tests = (
         _expected => bless({
             '/TEMP' => '%SystemRoot%\\TEMP',
             '/OS'   => 'Windows_NT'
+        }, 'Win32::TieRegistry')
+    },
+    'putty_keys' => {
+        path      => 'HKEY_USERS/**/Software/SimonTatham/PuTTY/SshHostKeys',
+        _expected => bless({
+            '/rsa2@22:192.168.20.32' => '76f523a6eec4ea6b',
+            '/rsa2@22:192.168.20.54' => 'fdfb3a2eeaa7'
         }, 'Win32::TieRegistry')
     }
 );
