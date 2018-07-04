@@ -16,7 +16,7 @@ sub new {
     my $self = $class->SUPER::new(%params);
 
     $self->{storage} = $params{storage};
-    $self->{name}    = 'scheduler' . $count++,
+    $self->{id}      = 'scheduler' . $count++;
 
     # handle persistent state
     $self->_loadState();
@@ -32,7 +32,7 @@ sub new {
 sub getName {
     my ($self) = @_;
 
-    return $self->{name};
+    return $self->{id};
 }
 
 sub getType {
