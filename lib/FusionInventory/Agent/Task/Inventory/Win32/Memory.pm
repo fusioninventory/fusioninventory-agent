@@ -136,7 +136,7 @@ sub _getMemories {
     foreach my $object (getWMIObjects(
         class      => 'Win32_PhysicalMemoryArray',
         properties => [ qw/
-            MemoryDevices SerialNumber PhysicalMemoryCorrection
+            MemoryDevices SerialNumber MemoryErrorCorrection
         / ]
     )) {
 
@@ -145,14 +145,14 @@ sub _getMemories {
             $memory->{SERIALNUMBER} = $object->{SerialNumber};
         }
 
-        if ($object->{PhysicalMemoryCorrection}) {
+        if ($object->{MemoryErrorCorrection}) {
             $memory->{MEMORYCORRECTION} =
                 $memoryErrorProtection[$object->{PhysicalMemoryCorrection}];
+            if ($memory->{MEMORYCORRECTION}) {
+                $memory->{DESCRIPTION} .= " (".$memory->{MEMORYCORRECTION}.")";
+            }
         }
 
-        if ($memory->{MEMORYCORRECTION}) {
-            $memory->{DESCRIPTION} .= " (".$memory->{MEMORYCORRECTION}.")";
-        }
     }
 
     return @memories;

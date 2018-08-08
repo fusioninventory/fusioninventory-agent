@@ -1,5 +1,10 @@
 Revision history for FusionInventory agent
 
+2.4.2 not released yet
+
+inventory:
+* Fix physical memory error correction detection via WMI under win32
+
 2.4.1 Fri, 29 Jun 2018
 
 core:
