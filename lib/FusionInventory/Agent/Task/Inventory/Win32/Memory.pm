@@ -147,7 +147,7 @@ sub _getMemories {
 
         if ($object->{MemoryErrorCorrection}) {
             $memory->{MEMORYCORRECTION} =
-                $memoryErrorProtection[$object->{PhysicalMemoryCorrection}];
+                $memoryErrorProtection[$object->{MemoryErrorCorrection}];
             if ($memory->{MEMORYCORRECTION}) {
                 $memory->{DESCRIPTION} .= " (".$memory->{MEMORYCORRECTION}.")";
             }
