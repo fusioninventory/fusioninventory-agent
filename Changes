@@ -5,6 +5,10 @@ Revision history for FusionInventory agent
 inventory:
 * Fix physical memory error correction detection via WMI under win32
 
+deploy:
+* Fix deployment of private packages: their downloaded parts were not
+  fully found when download were too long (closes: #542)
+
 2.4.1 Fri, 29 Jun 2018
 
 core:

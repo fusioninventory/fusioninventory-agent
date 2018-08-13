@@ -40,9 +40,10 @@ sub getPartFilePath {
     return unless $sha512 =~ /^(.)(.)(.{6})/;
     my $subFilePath = $1.'/'.$2.'/'.$3;
 
-    my @storageDirs =
+    my @storageDirs = (
         File::Glob::bsd_glob($self->{datastore}->{path}.'/fileparts/shared/*'),
-        File::Glob::bsd_glob($self->{datastore}->{path}.'/fileparts/private/*');
+        File::Glob::bsd_glob($self->{datastore}->{path}.'/fileparts/private/*')
+    );
 
     foreach my $dir (@storageDirs) {
         if (-f $dir.'/'.$subFilePath) {
