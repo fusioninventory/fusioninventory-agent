@@ -70,6 +70,7 @@ sub getIpmiFru {
 }
 
 # Also implement a powersupplies class, but split name on new line to not export it in CPAN
+## no critic (ProhibitMultiplePackages)
 package
     Inventory::PowerSupplies;
 

@@ -1,6 +1,7 @@
 package FusionInventory::Agent::Task::NetDiscovery::Ping;
 
 # Declare unofficial Net::Ping::TimeStamp package
+## no critic (ProhibitMultiplePackages)
 package
     Net::Ping::TimeStamp;
 

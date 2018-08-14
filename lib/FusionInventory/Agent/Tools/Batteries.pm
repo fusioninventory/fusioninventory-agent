@@ -82,6 +82,7 @@ sub getCanonicalCapacity {
 }
 
 # Also implement a batteries class, but split name on new line to not export it in CPAN
+## no critic (ProhibitMultiplePackages)
 package
     Inventory::Batteries;
 
