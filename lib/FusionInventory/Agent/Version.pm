@@ -3,7 +3,7 @@ package FusionInventory::Agent::Version;
 use strict;
 use warnings;
 
-our $VERSION = "2.4.1";
+our $VERSION = "2.4.2-dev";
 our $PROVIDER = "FusionInventory";
 our $COMMENTS = [];
 
