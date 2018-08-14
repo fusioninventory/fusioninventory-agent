@@ -1,1 +1,2 @@
 exclude   = ProhibitAccessOfPrivateData ProhibitThreeArgumentOpen
+include   = ProhibitCommaSeparatedStatements

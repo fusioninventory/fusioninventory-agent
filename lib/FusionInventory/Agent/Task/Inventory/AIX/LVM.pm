@@ -87,7 +87,7 @@ sub _getLogicalVolume {
             $volume->{SEG_COUNT} = $1;
         }
         if ($line =~ /^TYPE:\s+(\S+)/) {
-            $volume->{ATTR} = "Type $1",
+            $volume->{ATTR} = "Type $1";
         }
     }
     close $handle;

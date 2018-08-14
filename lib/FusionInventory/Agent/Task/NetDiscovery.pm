@@ -182,7 +182,7 @@ sub run {
             my $results   = Thread::Queue->new();
 
             do {
-                $addresses->enqueue($block->ip()),
+                $addresses->enqueue($block->ip());
             } while (++$block);
             my $size = $addresses->pending();
 
@@ -500,8 +500,10 @@ sub _scanAddressBySNMP {
     if ($params{snmp_domains} && @{$params{snmp_domains}}) {
         my @domtries = ();
         foreach my $domain (@{$params{snmp_domains}}) {
-            my @cases = map { { %{$_}, domain => $domain } } @{$tries};
-            push @domtries, @cases;
+            foreach my $try (@{$tries}) {
+                $try->{domain} = $domain;
+            }
+            push @domtries, @{$tries};
         }
         $tries = \@domtries;
     }

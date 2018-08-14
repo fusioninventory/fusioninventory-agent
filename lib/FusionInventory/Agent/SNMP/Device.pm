@@ -232,7 +232,7 @@ sub _cleanHash {
         $keys++;
         next if defined($hashref->{$key});
         delete $hashref->{$key};
-        $keys--,
+        $keys--;
     }
 
     return $keys;
