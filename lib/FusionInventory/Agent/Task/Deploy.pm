@@ -124,6 +124,7 @@ sub processRemote {
             sha512    => $sha512,
             data      => $answer->{associatedFiles}{$sha512},
             datastore => $datastore,
+            prolog    => $self->{target}->getMaxDelay(),
             logger    => $logger
         );
     }
@@ -200,6 +201,9 @@ sub processRemote {
                     msg    => $file->{name}.' already downloaded'
                 );
 
+                # Reset retention time for all still downloaded parts
+                $file->resetPartFilePaths();
+
                 $workdir->addFile($file);
                 next;
             }
@@ -211,6 +215,9 @@ sub processRemote {
             );
 
             $file->download();
+
+            # Reset retention time for all downloaded parts
+            $file->resetPartFilePaths();
 
             # Are all the fileparts here?
             my $downloadIsOK = $file->filePartsExists();
