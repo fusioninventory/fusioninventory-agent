@@ -75,6 +75,25 @@ sub normalizedPartFilePath {
     return $filePath;
 }
 
+sub cleanup_private {
+    my ($self) = @_;
+
+    # Don't cleanup for p2p shared parts
+    return if $self->{p2p};
+
+    # Only cleanup if no retention duration has been set
+    return if $self->{retention_duration};
+
+    # Cleanup all parts
+    foreach my $sha512 (@{$self->{multiparts}}) {
+        my $path = $self->getPartFilePath($sha512);
+        unlink $path if -f $path;
+    }
+
+    # This may leave an empty folder tree, but it will be cleaned by
+    # Maintenance task when convenient
+}
+
 sub resetPartFilePaths {
     my ($self) = @_;
 

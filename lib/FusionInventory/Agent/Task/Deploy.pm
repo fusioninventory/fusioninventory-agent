@@ -366,6 +366,12 @@ sub processRemote {
 
         $logger->debug2("Finished job $job->{uuid}...");
 
+        # When success and finished, we can still cleanup file in private
+        # cache when retention duration is not set
+        foreach my $file ( @{ $job->{associatedFiles} } ) {
+            $file->cleanup_private();
+        }
+
         $job->currentStep('end');
         $job->setStatus(
             status => 'ok',
