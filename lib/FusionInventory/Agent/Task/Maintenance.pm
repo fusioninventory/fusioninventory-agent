@@ -85,13 +85,13 @@ and safe.
 
 =head1 FUNCTIONS
 
-=head2 isEnabled ( $self )
+=head2 isEnabled()
 
 Lookup for a Maintenance module for each target enabled tasks.
 
 Returns true if the task should be finally enabled.
 
-=head2 run ( $self )
+=head2 run()
 
 Run the Maintenance task by calling each doMaintenance() API from each
 task Maintenance found modules.

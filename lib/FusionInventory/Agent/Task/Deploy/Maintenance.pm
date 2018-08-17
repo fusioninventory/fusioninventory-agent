@@ -51,6 +51,23 @@ This module provides the Maintenance run function to cleanup Deploy environment.
 
 =head1 FUNCTIONS
 
-=head2 doMaintenance ( $class,  %params )
+=head2 new(%params)
+
+The constructor. The following parameters are allowed, as keys of the %params
+hash:
+
+=over
+
+=item I<logger>
+
+the logger object to use (default: a new stderr logger)
+
+=item I<config>
+
+=item I<target>
+
+=back
+
+=head2 doMaintenance()
 
 Cleanup the deploy datastore associated with the target.
