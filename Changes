@@ -6,8 +6,20 @@ inventory:
 * Fix physical memory error correction detection via WMI under win32
 
 deploy:
+* Bump Deploy task version to 2.7
 * Fix deployment of private packages: their downloaded parts were not
   fully found when download were too long (closes: #542)
+* handle retention duration differently for p2p and not p2p files
+* p2p files have a default retention of 3 days by default
+* not p2p files have a default retention of 3 times the target prolog delay
+  after download, parts retention is reset to the same delay for all file parts,
+  so the retention duration applies at the time parts has been downloaded
+* not p2p file parts are now cleaned up after job success if retention duration
+  is null
+
+maintenance:
+* bump Maintenance task version to 1.1
+* disable Maintenance task if no maintenance module could be used
 
 2.4.1 Fri, 29 Jun 2018
 
