@@ -44,12 +44,19 @@ sub getType {
 sub plannedTasks {
     my $self = shift @_;
 
-    # Keep only Maintenance as local task
+    # Keep only Maintenance as local task, but keep others
     if (@_) {
         $self->{tasks} = [ grep { $_ =~ /^Maintenance$/i } @_ ];
+        $self->{others} = [ grep { $_ !~ /^Maintenance$/i } @_ ];
     }
 
     return @{$self->{tasks} || []};
+}
+
+sub otherTasks {
+    my $self = shift @_;
+
+    return @{$self->{others} || []};
 }
 
 sub _loadState {
