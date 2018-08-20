@@ -6,7 +6,7 @@ general:
       - develop
 
 jobs:
-  test:
+  build:
     macos:
       xcode: "9.0"
 
