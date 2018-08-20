@@ -18,7 +18,8 @@ sub new {
 
     my $self = {
         p2p                => $params{data}->{p2p},
-        retention_duration => $params{data}->{'p2p-retention-duration'} || 60 * 24 * 3,
+        retention_duration => $params{data}->{'p2p-retention-duration'},
+        prolog_delay       => $params{prolog} || 3600,
         uncompress         => $params{data}->{uncompress},
         mirrors            => $params{data}->{mirrors},
         multiparts         => $params{data}->{multiparts},
@@ -29,9 +30,92 @@ sub new {
         logger             => $params{logger}
     };
 
+    # p2p-retention-duration has a different meaning if not a p2p file
+    if (!$self->{retention_duration}) {
+        if ($self->{p2p}) {
+            # For p2p file, keep downloaded parts 3 days by default
+            $self->{retention_duration} = 60 * 24 * 3;
+        } else {
+            # For not p2p file, we will keep downloaded parts as long as
+            # we need them: 3 times the PROLOG delay to support download
+            # restart in case of network failure
+            $self->{retention_duration} = 0;
+        }
+    }
+
     bless $self, $class;
 
     return $self;
+}
+
+sub normalizedPartFilePath {
+    my ($self, $sha512) = @_;
+
+    return unless $sha512 =~ /^(.)(.)(.{6})/;
+    my $subFilePath = $1.'/'.$2.'/'.$3;
+
+    my $filePath = $self->{datastore}->{path}.'/fileparts/';
+    my $retention_duration;
+    if ($self->{p2p}) {
+        $filePath .= 'shared/';
+        $retention_duration = $self->{retention_duration} * 60;
+    } else {
+        $filePath .= 'private/';
+        $retention_duration = $self->{retention_duration} ?
+            $self->{retention_duration} * 60 : $self->{prolog_delay} * 3;
+    }
+
+    # Compute a directory name that will be used to know if the file must
+    # be purge. We don't want a new directory everytime, so we use a one
+    # minute time frame to follow the retention duration unit
+    my $expiration    = time + $retention_duration + 60;
+    my $retentiontime = $expiration - $expiration % 60 ;
+    $filePath .= $retentiontime . '/' . $subFilePath;
+
+    return $filePath;
+}
+
+sub cleanup_private {
+    my ($self) = @_;
+
+    # Don't cleanup for p2p shared parts
+    return if $self->{p2p};
+
+    # Only cleanup if no retention duration has been set
+    return if $self->{retention_duration};
+
+    # Cleanup all parts
+    foreach my $sha512 (@{$self->{multiparts}}) {
+        my $path = $self->getPartFilePath($sha512);
+        unlink $path if -f $path;
+    }
+
+    # This may leave an empty folder tree, but it will be cleaned by
+    # Maintenance task when convenient
+}
+
+sub resetPartFilePaths {
+    my ($self) = @_;
+
+    # move all Part files to respect retention duration from now
+    my %updates = ();
+
+    foreach my $sha512 (@{$self->{multiparts}}) {
+        my $path = $self->getPartFilePath($sha512);
+        if (-f $path) {
+            my $update = $self->normalizedPartFilePath($sha512);
+            next if $path eq $update;
+            $updates{$path} = $update ;
+        }
+    }
+
+    foreach my $path (keys(%updates)) {
+        File::Path::mkpath(dirname($updates{$path}));
+        rename $path, $updates{$path};
+    }
+
+    # This may leave an empty folder tree, but it will be cleaned by
+    # Maintenance task when convenient
 }
 
 sub getPartFilePath {
@@ -51,22 +135,7 @@ sub getPartFilePath {
         }
     }
 
-    my $filePath = $self->{datastore}->{path}.'/fileparts/';
-# filepart not found
-    if ($self->{p2p}) {
-        $filePath .= 'shared/';
-    } else {
-        $filePath .= 'private/';
-    }
-
-# Compute a directory name that will be used to know
-# if the file must be purge. We don't want a new directory
-# everytime, so we use a one minute time frame to follow the retention duration unit
-    my $expiration    = time + (($self->{retention_duration}+1) * 60);
-    my $retentiontime = $expiration - $expiration % 60 ;
-    $filePath .= $retentiontime . '/' . $subFilePath;
-
-    return $filePath;
+    return $self->normalizedPartFilePath($sha512);
 }
 
 sub download {
@@ -118,7 +187,7 @@ sub download {
             }
             # Update filepath so retention is kept in the future on long search
             if ( time - $nextPathUpdate > 0 ) {
-                $path = $self->getPartFilePath($sha512);
+                $path = $self->normalizedPartFilePath($sha512);
                 $nextPathUpdate = _getNextPathUpdateTime();
             }
         }
@@ -129,7 +198,7 @@ sub download {
             next PART if $success;
             # Update filepath so retention is kept in the future on long search
             if ( time - $nextPathUpdate > 0 ) {
-                $path = $self->getPartFilePath($sha512);
+                $path = $self->normalizedPartFilePath($sha512);
                 $nextPathUpdate = _getNextPathUpdateTime();
             }
         }
