@@ -9,6 +9,8 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use Sys::Hostname;
 
+use Net::Domain qw (hostname hostfqdn hostdomain);
+
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
@@ -21,8 +23,8 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    my $hostname = hostname();
-    $hostname =~ s/\..*//; # keep just the hostname
+    my $hostname = hostfqdn();
+    #$hostname =~ s/\..*//; # keep just the hostname
 
     $inventory->setHardware({NAME => $hostname});
 }

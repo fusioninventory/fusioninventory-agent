@@ -29,17 +29,12 @@ sub getHostname {
     my $hostname = $OSNAME eq 'MSWin32' ?
         _getHostnameWindows() :
         _getHostnameUnix()    ;
-
-    if ($params{short}) {
-        $hostname =~ s/\..*$//;
-    }
-
     return $hostname;
 }
 
 sub _getHostnameUnix {
-    Sys::Hostname->require();
-    return Sys::Hostname::hostname();
+    Net::Domain->require();
+    return Net::Domain::hostfqdn();
 }
 
 sub _getHostnameWindows {
@@ -59,17 +54,10 @@ sub _getHostnameWindows {
 
 1;
 __END__
-
 =head1 NAME
-
 FusionInventory::Agent::Tools::Hostname - OS-independent hostname computing
-
 =head1 DESCRIPTION
-
 This module provides a generic function to retrieve host name
-
 =head1 FUNCTIONS
-
 =head2 getHostname()
-
 Returns the host name.

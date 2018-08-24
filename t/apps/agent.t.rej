@@ -1,0 +1,72 @@
+***************
+*** 12,18 ****
+  use FusionInventory::Agent::Tools;
+  use FusionInventory::Test::Utils;
+  
+- plan tests => 34;
+  
+  my ($content, $out, $err, $rc);
+  
+--- 12,18 ----
+  use FusionInventory::Agent::Tools;
+  use FusionInventory::Test::Utils;
+  
++ plan tests => 36;
+  
+  my ($content, $out, $err, $rc);
+  
+***************
+*** 217,222 ****
+  };
+  ok(-f "$dir/foo", '--local <file> result file presence');
+  
+  sub check_execution_ok {
+      my ($err, $rc) = @_;
+  
+--- 217,241 ----
+  };
+  ok(-f "$dir/foo", '--local <file> result file presence');
+  
++ # consecutive lazy inventory with fake server target, no inventory and no failure
++ ($out, $err, $rc) = run_executable(
++     'fusioninventory-agent',
++     "$base_options --lazy --server=http://localhost/plugins/fusioninventory"
++ );
++ 
++ subtest "second inventory execution and content" => sub {
++     check_execution_ok($err, $rc);
++ };
++ 
++ ($out, $err, $rc) = run_executable(
++     'fusioninventory-agent',
++     "$base_options --lazy --server=http://localhost/plugins/fusioninventory"
++ );
++ 
++ subtest "second inventory execution and content" => sub {
++     check_execution_ok($err, $rc);
++ };
++ 
+  sub check_execution_ok {
+      my ($err, $rc) = @_;
+  
+***************
+*** 233,238 ****
+          qr/unexpected error in \S+/,
+          'no broken module (execution)'
+      );
+  }
+  
+  sub check_content_ok {
+--- 252,263 ----
+          qr/unexpected error in \S+/,
+          'no broken module (execution)'
+      );
++ 
++     unlike(
++         $err,
++         qr/Use of uninitialized value/,
++         'no failure on uninitialized value'
++     );
+  }
+  
+  sub check_content_ok {

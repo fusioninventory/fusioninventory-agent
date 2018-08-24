@@ -47,6 +47,7 @@ my %fields = (
     DRIVES           => [ qw/CREATEDATE DESCRIPTION FREE FILESYSTEM LABEL
                              LETTER SERIAL SYSTEMDRIVE TOTAL TYPE VOLUMN/ ],
     ENVS             => [ qw/KEY VAL/ ],
+    FRUS             => [ qw/DESCRIPTION NAME MANUFACTURER MANUFDATE MODEL SERIALNUMBER PARTNUMBER/ ],
     INPUTS           => [ qw/NAME MANUFACTURER CAPTION DESCRIPTION INTERFACE
                              LAYOUT POINTINGTYPE TYPE/ ],
     FIREWALL         => [ qw/PROFILE STATUS DESCRIPTION IPADDRESS IPADDRESS6/ ],
@@ -176,7 +177,6 @@ sub getDeviceId {
         my $workgroup = $self->getHardware('WORKGROUP');
         $hostname .= "." . $workgroup if $workgroup;
     } else {
-        FusionInventory::Agent::Tools::Hostname->require();
 
         eval {
             $hostname = FusionInventory::Agent::Tools::Hostname::getHostname();
