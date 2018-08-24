@@ -80,7 +80,10 @@ sub doInventory {
                     $model =~ s/\s+$//;
                 }
 
-                last;
+                # last;
+                # At one of servers this operator have any bad consequences.
+                # The list $sum->{slot} : $pd->{'Slot Number'} was not full.
+                # Comment operator fixed this problem
             }
 
             # When Product ID ($model) looks like 'INTEL SSDSC2CW24'
@@ -164,7 +167,13 @@ sub _getSummary {
                 slot     => $3,
             };
             $drive{$n}->{'encl_id'} += 0;  # drop leading zeroes
-        } elsif ($line =~ /^\s*(.+\S)\s*:\s*(.+\S)/) {
+        } elsif ($line =~ /Connector\s*:\s*Port\s(\d+).*(?:<Internal>)?<Encl Pos (\d+) >: Slot (\d+)/) {
+            $drive{$n} = {
+                encl_id  => $1,
+                encl_pos => $2,
+                slot     => $3,
+            };
+        }elsif ($line =~ /^\s*(.+\S)\s*:\s*(.+\S)/) {
             $drive{$n}->{$1} = $2;
         }
     }
@@ -190,7 +199,7 @@ sub _getPDlist {
     return unless $handle;
 
     my %pdlist;
-    my $n = 0;
+    my $n = -1;
     while (my $line = <$handle>) {
         chomp $line;
         next unless $line =~ /^([^:]+)\s*:\s*(.*\S)/;
