@@ -64,10 +64,16 @@ sub doInventory {
                 my ($defender) = getWMIObjects(
                     moniker    => 'winmgmts://./root/microsoft/windows/defender',
                     class      => "MSFT_MpComputerStatus",
-                    properties => [ qw/AMProductVersion AntivirusEnabled/ ]
+                    properties => [ qw/AMProductVersion AntivirusEnabled
+                        AntivirusSignatureVersion/ ]
                 );
-                $antivirus->{VERSION} = $defender->{AMProductVersion}
-                    if ($defender && $defender->{AntivirusEnabled} && $defender->{AMProductVersion});
+                if ($defender) {
+                    $antivirus->{VERSION} = $defender->{AMProductVersion}
+                        if $defender->{AMProductVersion};
+                    $antivirus->{ENABLED}  = $defender->{AntivirusEnabled} =~ /TRUE/i ? 1 : 0;
+                    $antivirus->{BASE_VERSION} = $defender->{AntivirusSignatureVersion}
+                        if $defender->{AntivirusSignatureVersion};
+                }
                 $antivirus->{COMPANY} = "Microsoft Corporation";
             }
 
