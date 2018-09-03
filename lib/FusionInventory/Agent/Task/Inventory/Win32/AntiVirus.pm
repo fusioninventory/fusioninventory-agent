@@ -51,11 +51,11 @@ sub doInventory {
             };
 
             if ($object->{productState}) {
-                my $bin = sprintf( "%b\n", $object->{productState});
-# http://blogs.msdn.com/b/alejacma/archive/2008/05/12/how-to-get-antivirus-information-with-wmi-vbscript.aspx?PageIndex=2#comments
-                if ($bin =~ /(\d)\d{5}(\d)\d{6}(\d)\d{5}$/) {
-                    $antivirus->{UPTODATE} = $1 || $2;
-                    $antivirus->{ENABLED}  = $3 ? 0 : 1;
+                my $hex = dec2hex($object->{productState});
+                # See http://neophob.com/2010/03/wmi-query-windows-securitycenter2/
+                if ($hex =~ /(.{2})(.{2})$/) {
+                    $antivirus->{UPTODATE} = $2 =~ /^00$/ ? 1 : 0;
+                    $antivirus->{ENABLED}  = $1 =~ /^1.$/ ? 1 : 0;
                 }
             }
 
