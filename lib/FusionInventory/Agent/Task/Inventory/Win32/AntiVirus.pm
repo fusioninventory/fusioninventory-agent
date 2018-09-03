@@ -130,9 +130,9 @@ sub _getAntivirusUninstall {
 sub _getMcAfeeInfo {
 
     my %properties = (
-        DATFILEVERSION  => [ 'AVDatVersion',         'AVDatVersionMinor' ],
-        ENGINEVERSION32 => [ 'EngineVersion32Major', 'EngineVersion32Minor' ],
-        ENGINEVERSION64 => [ 'EngineVersionMajor',   'EngineVersionMinor' ],
+        'BASE_VERSION'     => [ 'AVDatVersion',         'AVDatVersionMinor'    ],
+        '32ENGINE_VERSION' => [ 'EngineVersion32Major', 'EngineVersion32Minor' ],
+        '64ENGINE_VERSION' => [ 'EngineVersionMajor',   'EngineVersionMinor'   ],
     );
 
     my $regvalues = [ 'AVDatDate', map { @{$_} } values(%properties) ];
