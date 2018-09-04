@@ -53,9 +53,10 @@ sub doInventory {
             if ($object->{productState}) {
                 my $hex = dec2hex($object->{productState});
                 # See http://neophob.com/2010/03/wmi-query-windows-securitycenter2/
-                if ($hex =~ /(.{2})(.{2})$/) {
-                    $antivirus->{UPTODATE} = $2 =~ /^00$/ ? 1 : 0;
-                    $antivirus->{ENABLED}  = $1 =~ /^1.$/ ? 1 : 0;
+                my ($enabled, $uptodate) = $hex =~ /(.{2})(.{2})$/;
+                if (defined($enabled) && defined($uptodate)) {
+                    $antivirus->{ENABLED}  =  $enabled =~ /^1.$/ ? 1 : 0;
+                    $antivirus->{UPTODATE} = $uptodate =~ /^00$/ ? 1 : 0;
                 }
             }
 
