@@ -122,6 +122,9 @@ sub _getAntivirusUninstall {
     if (is64bit()) {
         $regUninstall = getRegistryKey(
             path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall',
+            wmiopts => { # Only used for remote WMI optimization
+                values  => [ 'DisplayName', 'DisplayVersion', 'Publisher' ]
+            }
         );
         $AVRegUninstall = first {
             $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ $match;
@@ -131,6 +134,9 @@ sub _getAntivirusUninstall {
     if (!$AVRegUninstall) {
         $regUninstall = getRegistryKey(
             path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall',
+            wmiopts => { # Only used for remote WMI optimization
+                values  => [ 'DisplayName', 'DisplayVersion', 'Publisher' ]
+            }
         );
         $AVRegUninstall = first {
             $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ $match;
