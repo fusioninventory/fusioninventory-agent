@@ -110,6 +110,13 @@ sub _getAntivirusUninstall {
 
     return unless $name;
 
+    # Cleanup name from localized chars to keep a clean regex pattern
+    my ($pattern) = $name =~ /^([a-zA-Z0-9 ._-]+)/
+        or return;
+    # Escape dot in pattern
+    $pattern =~ s/\./\\./g;
+    my $match = qr/^$pattern/i;
+
     my ($regUninstall, $AVRegUninstall);
 
     if (is64bit()) {
@@ -117,7 +124,7 @@ sub _getAntivirusUninstall {
             path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall',
         );
         $AVRegUninstall = first {
-            $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ /$name/i;
+            $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ $match;
         } values(%{$regUninstall});
     }
 
@@ -126,7 +133,7 @@ sub _getAntivirusUninstall {
             path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall',
         );
         $AVRegUninstall = first {
-            $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ /$name/i;
+            $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ $match;
         } values(%{$regUninstall});
     }
 
