@@ -178,7 +178,7 @@ sub _getMcAfeeInfo {
         my $major = $macafeeReg->{'/' . $keys->[0]};
         my $minor = $macafeeReg->{'/' . $keys->[1]};
         $info->{$property} = sprintf("%04d.%04d", hex2dec($major), hex2dec($minor))
-            if defined $major && defined $major;
+            if defined $major && defined $minor;
     }
 
     # file creation date property
