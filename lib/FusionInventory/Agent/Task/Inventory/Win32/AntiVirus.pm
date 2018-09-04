@@ -154,7 +154,7 @@ sub _getMcAfeeInfo {
         '64ENGINE_VERSION' => [ 'EngineVersionMajor',   'EngineVersionMinor'   ],
     );
 
-    my $regvalues = [ 'AVDatDate', map { @{$_} } values(%properties) ];
+    my $regvalues = [ map { @{$_} } values(%properties) ];
 
     my ($info, $macafeeReg);
 
@@ -185,16 +185,6 @@ sub _getMcAfeeInfo {
         my $minor = $macafeeReg->{'/' . $keys->[1]};
         $info->{$property} = sprintf("%04d.%04d", hex2dec($major), hex2dec($minor))
             if defined $major && defined $minor;
-    }
-
-    # file creation date property
-    if ($macafeeReg->{'/AVDatDate'}) {
-        my $datFileCreation = encodeFromRegistry($macafeeReg->{'/AVDatDate'});
-        # from YYYY/MM/DD to DD/MM/YYYY
-        if ($datFileCreation =~ /(\d\d\d\d)\/(\d\d)\/(\d\d)/) {
-            $datFileCreation = join( '/', ($3, $2, $1) );
-        }
-        $info->{DATFILECREATION} = $datFileCreation;
     }
 
     return $info;
