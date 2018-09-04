@@ -117,33 +117,16 @@ sub _getAntivirusUninstall {
     $pattern =~ s/\./\\./g;
     my $match = qr/^$pattern/i;
 
-    my ($regUninstall, $AVRegUninstall);
-
-    if (is64bit()) {
-        $regUninstall = getRegistryKey(
-            path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall',
-            wmiopts => { # Only used for remote WMI optimization
-                values  => [ 'DisplayName', 'DisplayVersion', 'Publisher' ]
-            }
-        );
-        $AVRegUninstall = first {
-            $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ $match;
-        } values(%{$regUninstall});
-    }
-
-    if (!$AVRegUninstall) {
-        $regUninstall = getRegistryKey(
-            path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall',
-            wmiopts => { # Only used for remote WMI optimization
-                values  => [ 'DisplayName', 'DisplayVersion', 'Publisher' ]
-            }
-        );
-        $AVRegUninstall = first {
-            $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ $match;
-        } values(%{$regUninstall});
-    }
-
-    return $AVRegUninstall;
+    return _getSoftwareRegistryKeys(
+        'Microsoft/Windows/CurrentVersion/Uninstall',
+        [ 'DisplayName', 'DisplayVersion', 'Publisher' ],
+        sub {
+            my ($registry) = @_;
+            return first {
+                $_->{"/DisplayName"} && $_->{"/DisplayName"} =~ $match;
+            } values(%{$registry});
+        }
+    );
 }
 
 sub _getMcAfeeInfo {
@@ -156,28 +139,10 @@ sub _getMcAfeeInfo {
 
     my $regvalues = [ map { @{$_} } values(%properties) ];
 
-    my ($info, $macafeeReg);
+    my $macafeeReg = _getSoftwareRegistryKeys('McAfee/AVEngine', $regvalues)
+        or return;
 
-    if (is64bit()) {
-        $macafeeReg = getRegistryKey(
-            path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/McAfee/AVEngine',
-            wmiopts => { # Only used for remote WMI optimization
-                values  => $regvalues
-            }
-        );
-    }
-
-    if (!$macafeeReg) {
-        $macafeeReg = getRegistryKey(
-            path => 'HKEY_LOCAL_MACHINE/SOFTWARE/McAfee/AVEngine',
-            wmiopts => { # Only used for remote WMI optimization
-                values  => $regvalues
-            }
-        );
-    }
-
-    return unless $macafeeReg;
-
+    my $info = {};
     # major.minor versions properties
     foreach my $property (keys %properties) {
         my $keys = $properties{$property};
@@ -188,6 +153,36 @@ sub _getMcAfeeInfo {
     }
 
     return $info;
+}
+
+sub _getSoftwareRegistryKeys {
+    my ($base, $values, $callback) = @_;
+
+    my $reg;
+    if (is64bit()) {
+        $reg = getRegistryKey(
+            path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/'.$base,
+            wmiopts => { # Only used for remote WMI optimization
+                values  => $values
+            }
+        );
+        if ($reg) {
+            if ($callback) {
+                my $filter = &{$callback}($reg);
+                return $filter if $filter;
+            } else {
+                return $reg;
+            }
+        }
+    }
+
+    $reg = getRegistryKey(
+        path => 'HKEY_LOCAL_MACHINE/SOFTWARE/'.$base,
+        wmiopts => { # Only used for remote WMI optimization
+            values  => $values
+        }
+    );
+    return $callback ? &{$callback}($reg) : $reg;
 }
 
 1;
