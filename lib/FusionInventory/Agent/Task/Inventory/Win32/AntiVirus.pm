@@ -92,10 +92,11 @@ sub doInventory {
             # avoid duplicates
             next if $seen->{$antivirus->{NAME}}->{$antivirus->{VERSION}||'_undef_'}++;
 
-            # McAfee data
+            # Check for other product datas for update
             if ($antivirus->{NAME} =~ /McAfee/i) {
-                my $info = _getMcAfeeInfo();
-                $antivirus->{$_} = $info->{$_} foreach keys %$info;
+                _setMcAfeeInfos($antivirus);
+            } elsif ($antivirus->{NAME} =~ /Kaspersky/i) {
+                _setKasperskyInfos($antivirus);
             }
 
             $inventory->addEntry(
@@ -130,7 +131,8 @@ sub _getAntivirusUninstall {
     );
 }
 
-sub _getMcAfeeInfo {
+sub _setMcAfeeInfos {
+    my ($antivirus) = @_;
 
     my %properties = (
         'BASE_VERSION'     => [ 'AVDatVersion',         'AVDatVersionMinor'    ],
@@ -143,17 +145,47 @@ sub _getMcAfeeInfo {
     my $macafeeReg = _getSoftwareRegistryKeys('McAfee/AVEngine', $regvalues)
         or return;
 
-    my $info = {};
     # major.minor versions properties
     foreach my $property (keys %properties) {
         my $keys = $properties{$property};
         my $major = $macafeeReg->{'/' . $keys->[0]};
         my $minor = $macafeeReg->{'/' . $keys->[1]};
-        $info->{$property} = sprintf("%04d.%04d", hex2dec($major), hex2dec($minor))
+        $antivirus->{$property} = sprintf("%04d.%04d", hex2dec($major), hex2dec($minor))
             if defined $major && defined $minor;
     }
+}
 
-    return $info;
+sub _setKasperskyInfos {
+    my ($antivirus) = @_;
+
+    my $regvalues = [ qw(LastSuccessfulUpdate LicKeyType LicDaysTillExpiration) ];
+
+    my $kasperskyReg = _getSoftwareRegistryKeys('KasperskyLab\protected', $regvalues)
+        or return;
+
+    my $found = first {
+        $_->{"Data/"} && $_->{"Data/"}->{"/LastSuccessfulUpdate"}
+    } values(%{$kasperskyReg});
+
+    if ($found) {
+        my $lastupdate = hex2dec($found->{"Data/"}->{"/LastSuccessfulUpdate"});
+        if ($lastupdate && $lastupdate != 0xFFFFFFFF) {
+            my @date = localtime($lastupdate);
+            # Format BASE_VERSION as YYYYMMDD
+            $antivirus->{BASE_VERSION} = sprintf(
+                "%04d%02d%02d",$date[5]+1900,$date[4]+1,$date[3]);
+        }
+        # Set expiration date only if we found a licence key type
+        my $keytype = hex2dec($found->{"Data/"}->{"/LicKeyType"});
+        if ($keytype) {
+            my $expiration = hex2dec($found->{"Data/"}->{"/LicDaysTillExpiration"});
+            if (defined($expiration)) {
+                my @date = localtime(time+86400*$expiration);
+                $antivirus->{EXPIRATION} = sprintf(
+                    "%02d/%02d/%04d",$date[3],$date[4]+1,$date[5]+1900);
+            }
+        }
+    }
 }
 
 sub _getSoftwareRegistryKeys {
