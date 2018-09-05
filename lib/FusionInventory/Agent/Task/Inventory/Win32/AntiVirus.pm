@@ -226,20 +226,14 @@ sub _setAviraInfos {
         }
     }
 
-    ($aviraInfos) = getWMIObjects(
-        moniker    => 'winmgmts://./root/CIMV2/Applications/Avira_AntiVir',
-        class      => "Product_Info",
-        properties => [ qw/Product_Version VDF_Version/ ]
+    my $aviraReg = _getSoftwareRegistryKeys(
+        'Avira/Antivirus',
+        [ qw(VdfVersion) ]
     );
-    return unless $aviraInfos;
+    return unless $aviraReg;
 
-    unless ($antivirus->{VERSION}) {
-        $antivirus->{VERSION} = $aviraInfos->{"Product_Version"}
-            if $aviraInfos->{"Product_Version"};
-    }
-
-    $antivirus->{BASE_VERSION} = $aviraInfos->{"VDF_Version"}
-        if $aviraInfos->{"VDF_Version"};
+    $antivirus->{BASE_VERSION} = $aviraReg->{"/VdfVersion"}
+        if $aviraReg->{"/VdfVersion"};
 }
 
 sub _getSoftwareRegistryKeys {
