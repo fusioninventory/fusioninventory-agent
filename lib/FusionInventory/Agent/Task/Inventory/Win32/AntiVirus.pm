@@ -99,6 +99,8 @@ sub doInventory {
                 _setKasperskyInfos($antivirus);
             } elsif ($antivirus->{NAME} =~ /ESET/i) {
                 _setESETInfos($antivirus);
+            } elsif ($antivirus->{NAME} =~ /Avira/i) {
+                _setAviraInfos($antivirus);
             }
 
             $inventory->addEntry(
@@ -206,6 +208,38 @@ sub _setESETInfos {
 
     $antivirus->{BASE_VERSION} = $esetReg->{"/ScannerVersion"}
         if $esetReg->{"/ScannerVersion"};
+}
+
+sub _setAviraInfos {
+    my ($antivirus) = @_;
+
+    my ($aviraInfos) = getWMIObjects(
+        moniker    => 'winmgmts://./root/CIMV2/Applications/Avira_AntiVir',
+        class      => "License_Info",
+        properties => [ qw/License_Expiration/ ]
+    );
+    if($aviraInfos && $aviraInfos->{License_Expiration}) {
+        my ($expiration) = $aviraInfos->{License_Expiration} =~ /^(\d+\.\d+\.\d+)/;
+        if ($expiration) {
+            $expiration =~ s/\./\//g;
+            $antivirus->{EXPIRATION} = $expiration;
+        }
+    }
+
+    ($aviraInfos) = getWMIObjects(
+        moniker    => 'winmgmts://./root/CIMV2/Applications/Avira_AntiVir',
+        class      => "Product_Info",
+        properties => [ qw/Product_Version VDF_Version/ ]
+    );
+    return unless $aviraInfos;
+
+    unless ($antivirus->{VERSION}) {
+        $antivirus->{VERSION} = $aviraInfos->{"Product_Version"}
+            if $aviraInfos->{"Product_Version"};
+    }
+
+    $antivirus->{BASE_VERSION} = $aviraInfos->{"VDF_Version"}
+        if $aviraInfos->{"VDF_Version"};
 }
 
 sub _getSoftwareRegistryKeys {
