@@ -183,7 +183,7 @@ sub _getSoftwareRegistryKeys {
             values  => $values
         }
     );
-    return $callback ? &{$callback}($reg) : $reg;
+    return ($callback && $reg) ? &{$callback}($reg) : $reg;
 }
 
 1;
