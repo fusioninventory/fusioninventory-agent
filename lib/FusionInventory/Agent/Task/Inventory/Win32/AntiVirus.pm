@@ -110,6 +110,8 @@ sub doInventory {
                 _setESETInfos($antivirus);
             } elsif ($antivirus->{NAME} =~ /Avira/i) {
                 _setAviraInfos($antivirus);
+            } elsif ($antivirus->{NAME} =~ /Security Essentials/i) {
+                _setMSEssentialsInfos($antivirus);
             }
 
             $inventory->addEntry(
@@ -243,6 +245,19 @@ sub _setAviraInfos {
 
     $antivirus->{BASE_VERSION} = $aviraReg->{"/VdfVersion"}
         if $aviraReg->{"/VdfVersion"};
+}
+
+sub _setMSEssentialsInfos {
+    my ($antivirus) = @_;
+
+    my $mseReg = _getSoftwareRegistryKeys(
+        'Microsoft\Microsoft Antimalware\Signature Updates',
+        [ 'AVSignatureVersion' ]
+    );
+    return unless $mseReg;
+
+    $antivirus->{BASE_VERSION} = $mseReg->{"/AVSignatureVersion"}
+        if $mseReg->{"/AVSignatureVersion"};
 }
 
 sub _getSoftwareRegistryKeys {
