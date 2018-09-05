@@ -97,6 +97,8 @@ sub doInventory {
                 _setMcAfeeInfos($antivirus);
             } elsif ($antivirus->{NAME} =~ /Kaspersky/i) {
                 _setKasperskyInfos($antivirus);
+            } elsif ($antivirus->{NAME} =~ /ESET/i) {
+                _setESETInfos($antivirus);
             }
 
             $inventory->addEntry(
@@ -186,6 +188,24 @@ sub _setKasperskyInfos {
             }
         }
     }
+}
+
+sub _setESETInfos {
+    my ($antivirus) = @_;
+
+    my $esetReg = _getSoftwareRegistryKeys(
+        'ESET\ESET Security\CurrentVersion\Info',
+        [ qw(ProductVersion ScannerVersion) ]
+    );
+    return unless $esetReg;
+
+    unless ($antivirus->{VERSION}) {
+        $antivirus->{VERSION} = $esetReg->{"/ProductVersion"}
+            if $esetReg->{"/ProductVersion"};
+    }
+
+    $antivirus->{BASE_VERSION} = $esetReg->{"/ScannerVersion"}
+        if $esetReg->{"/ScannerVersion"};
 }
 
 sub _getSoftwareRegistryKeys {
