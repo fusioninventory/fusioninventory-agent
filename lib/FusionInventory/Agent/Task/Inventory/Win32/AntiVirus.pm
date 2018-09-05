@@ -76,6 +76,15 @@ sub doInventory {
                         if $defender->{AntivirusSignatureVersion};
                 }
                 $antivirus->{COMPANY} = "Microsoft Corporation";
+                # Finally try registry for base version
+                if (!$antivirus->{BASE_VERSION}) {
+                    $defender = _getSoftwareRegistryKeys(
+                        'Microsoft/Windows Defender/Signature Updates',
+                        [ 'AVSignatureVersion' ]
+                    );
+                    $antivirus->{BASE_VERSION} = $defender->{'/AVSignatureVersion'}
+                        if $defender && $defender->{'/AVSignatureVersion'};
+                }
             }
 
             # Finally try to get version from software installation in registry
