@@ -7,6 +7,8 @@ use parent 'Exporter';
 
 use Encode qw(encode decode);
 
+use FusionInventory::Agent::Tools::Win32::API;
+
 # UTF-8 code page
 use constant CP_UTF8 => 65001;
 
@@ -23,18 +25,15 @@ sub MultiByteToWideChar {
 
     return unless $string;
 
-    # Load Win32::API as late as possible
-    Win32::API->require() or return;
-
     unless ($apiMultiByteToWideChar) {
-        eval {
-            $apiMultiByteToWideChar = Win32::API->new(
+        $apiMultiByteToWideChar = FusionInventory::Agent::Tools::Win32::API->new(
+            win32api => [
                 'kernel32',
                 'MultiByteToWideChar',
                 [ 'I', 'I', 'P', 'I', 'P', 'I' ],
                 'I'
-            );
-        };
+            ]
+        );
     }
 
     return unless $apiMultiByteToWideChar;
@@ -58,18 +57,15 @@ sub WideCharToMultiByte {
 
     return unless $string;
 
-    # Load Win32::API as late as possible
-    Win32::API->require() or return;
-
     unless ($apiWideCharToMultiByte) {
-        eval {
-            $apiWideCharToMultiByte = Win32::API->new(
+        $apiWideCharToMultiByte = FusionInventory::Agent::Tools::Win32::API->new(
+            win32api => [
                 'kernel32',
                 'WideCharToMultiByte',
                 [ 'I', 'I', 'P', 'I', 'P', 'I', 'P', 'P' ],
                 'I'
-            );
-        };
+            ]
+        );
     }
 
     return unless $apiWideCharToMultiByte;

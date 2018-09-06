@@ -5,6 +5,7 @@ use strict;
 
 use parent 'Exporter';
 
+use FusionInventory::Agent::Tools::Win32::API;
 use FusionInventory::Agent::Tools::Win32::WideChar;
 
 our @EXPORT = qw(
@@ -21,18 +22,15 @@ sub SHLoadIndirectString {
     my $wstring = MultiByteToWideChar($string)
         or return;
 
-    # Load Win32::API as late as possible
-    Win32::API->require() or return;
-
     unless ($apiSHLoadIndirectString) {
-        eval {
-            $apiSHLoadIndirectString = Win32::API->new(
+        $apiSHLoadIndirectString = FusionInventory::Agent::Tools::Win32::API->new(
+            win32api => [
                 'shlwapi',
                 'SHLoadIndirectString',
                 [ 'P', 'P', 'I', 'I' ],
                 'N'
-            );
-        };
+            ]
+        );
     }
 
     return unless $apiSHLoadIndirectString;
