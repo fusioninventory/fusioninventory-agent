@@ -516,7 +516,7 @@ sub _getAppxPackages {
             my $res = SHLoadIndirectString(_canonicalResourceURI(
                 $pkgname, $package->{FOLDER}, $dn
             ));
-            $logger->debug2("$name package name" . ($res ?
+            $logger->debug2("$name package name " . ($res ?
                     "resolved to '$res'" : "can't be resolved from '$dn'"))
                 if $logger;
             $dn = $res;
@@ -531,7 +531,7 @@ sub _getAppxPackages {
             my $res = SHLoadIndirectString(_canonicalResourceURI(
                 $pkgname, $package->{FOLDER}, $comments
             ));
-            $logger->debug2("$name package comments" . ($res ?
+            $logger->debug2("$name package comments " . ($res ?
                     "resolved to '$res'" : "can't be resolved from '$comments'"))
                 if $logger;
             $comments = $res;
