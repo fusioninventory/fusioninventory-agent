@@ -430,7 +430,7 @@ sub _getAppxPackages {
     {
         # Temp file will be deleted out of this scope
         my $fh = File::Temp->new(
-            TEMPLATE    => 'appx-getpackages-XXXXXX',
+            TEMPLATE    => 'get-appxpackage-XXXXXX',
             SUFFIX      => '.ps1'
         );
         print $fh <DATA>;
