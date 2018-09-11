@@ -4,6 +4,7 @@ Revision history for FusionInventory agent
 
 inventory:
 * Fix physical memory error correction detection via WMI under win32
+* Fix #299: Added UWP/APPX/Windows Store software inventory
 
 deploy:
 * Bump Deploy task version to 2.7
