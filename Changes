@@ -7,8 +7,8 @@ inventory:
 * Fix #299: Added UWP/APPX/Windows Store software inventory
 * win32 antivirus detection enhanced support:
   - add support for few antivirus base versions (defender, kaspersky,
-    EST, avira, MSE, McAfee)
-  - try to set license expiration date for kaspersky & avira
+    EST, avira, MSE, McAfee, F-Secure)
+  - try to set license expiration date for F-Secure, kaspersky & avira
 * Fix #442: kaspersky not fully recognized in russia
 * Fix #501: wrong status was reported when windows defender was disabled
 

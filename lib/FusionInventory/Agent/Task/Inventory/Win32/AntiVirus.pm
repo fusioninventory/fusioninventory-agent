@@ -5,6 +5,8 @@ use warnings;
 
 use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
+use UNIVERSAL::require;
+
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
@@ -113,6 +115,8 @@ sub doInventory {
                 _setAviraInfos($antivirus);
             } elsif ($antivirus->{NAME} =~ /Security Essentials/i) {
                 _setMSEssentialsInfos($antivirus);
+            } elsif ($antivirus->{NAME} =~ /F-Secure/i) {
+                _setFSecureInfos($antivirus);
             }
 
             $inventory->addEntry(
@@ -259,6 +263,58 @@ sub _setMSEssentialsInfos {
 
     $antivirus->{BASE_VERSION} = $mseReg->{"/AVSignatureVersion"}
         if $mseReg->{"/AVSignatureVersion"};
+}
+
+sub _setFSecureInfos {
+    my ($antivirus) = @_;
+
+    my $fsecReg = _getSoftwareRegistryKeys(
+        'F-Secure\Ultralight\Updates\aquarius',
+        [ qw(file_set_visible_version) ]
+    );
+    return unless $fsecReg;
+
+    my $found = first { $_->{"/file_set_visible_version"} } values(%{$fsecReg});
+
+    $antivirus->{BASE_VERSION} = $found->{"/file_set_visible_version"}
+        if $found->{"/file_set_visible_version"};
+
+    # Try to find license "expiry_date" from a specific json file
+    $fsecReg = _getSoftwareRegistryKeys(
+        'F-Secure\CCF\DLLHoster\100\Plugins\CosmosService',
+        [ qw(DataPath) ]
+    );
+    return unless $fsecReg;
+
+    my $path = $fsecReg->{"/DataPath"};
+    return unless $path && -d $path;
+
+    # This is the full path for the expected json file
+    $path .= "\\safe.S-1-5-18.local.cosmos";
+    return unless -f $path;
+
+    my $infos = getAllLines(file => $path);
+    return unless $infos;
+
+    JSON::PP->require();
+    my @licenses;
+    eval {
+        $infos = JSON::PP::decode_json($infos);
+        @licenses = @{$infos->{local}->{windows}->{secl}->{subscription}->{license_table}};
+    };
+    return unless @licenses;
+
+    my $expiry_date;
+    # In the case more than one license is found, assume we need the one with appid=2
+    foreach my $license (@licenses) {
+        $expiry_date = $license->{expiry_date}
+            if $license->{expiry_date};
+        last if $expiry_date && $license->{appid} && $license->{appid} == 2;
+    }
+    return unless $expiry_date;
+
+    my @date = localtime($expiry_date);
+    $antivirus->{EXPIRATION} = sprintf("%02d/%02d/%04d",$date[3],$date[4]+1,$date[5]+1900);
 }
 
 sub _getSoftwareRegistryKeys {
