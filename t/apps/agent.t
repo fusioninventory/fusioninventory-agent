@@ -236,6 +236,25 @@ subtest "second inventory execution and content" => sub {
     check_execution_ok($err, $rc);
 };
 
+# consecutive lazy inventory with fake server target, no inventory and no failure
+($out, $err, $rc) = run_executable(
+    'fusioninventory-agent',
+    "$base_options --lazy --server=http://localhost/plugins/fusioninventory"
+);
+
+subtest "second inventory execution and content" => sub {
+    check_execution_ok($err, $rc);
+};
+
+($out, $err, $rc) = run_executable(
+    'fusioninventory-agent',
+    "$base_options --lazy --server=http://localhost/plugins/fusioninventory"
+);
+
+subtest "second inventory execution and content" => sub {
+    check_execution_ok($err, $rc);
+};
+
 sub check_execution_ok {
     my ($err, $rc) = @_;
 
@@ -251,6 +270,12 @@ sub check_execution_ok {
         $err,
         qr/unexpected error in \S+/,
         'no broken module (execution)'
+    );
+
+    unlike(
+        $err,
+        qr/Use of uninitialized value/,
+        'no failure on uninitialized value'
     );
 
     unlike(
