@@ -35,8 +35,8 @@ my %fields = (
     ACCESSLOG        => [ qw/USERID LOGDATE/ ],
 
     ANTIVIRUS        => [ qw/COMPANY ENABLED GUID NAME UPTODATE VERSION
-                             DATFILECREATION DATFILEVERSION ENGINEVERSION32
-                             ENGINEVERSION64/ ],
+                             EXPIRATION BASE_CREATION BASE_VERSION
+                             32ENGINE_VERSION 64ENGINE_VERSION/ ],
     BATTERIES        => [ qw/CAPACITY CHEMISTRY DATE NAME SERIAL MANUFACTURER
                              VOLTAGE/ ],
     CONTROLLERS      => [ qw/CAPTION DRIVER NAME MANUFACTURER PCICLASS VENDORID

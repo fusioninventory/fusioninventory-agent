@@ -5,6 +5,12 @@ Revision history for FusionInventory agent
 inventory:
 * Fix physical memory error correction detection via WMI under win32
 * Fix #299: Added UWP/APPX/Windows Store software inventory
+* win32 antivirus detection enhanced support:
+  - add support for few antivirus base versions (defender, kaspersky,
+    EST, avira, MSE, McAfee, F-Secure)
+  - try to set license expiration date for F-Secure, kaspersky & avira
+* Fix #442: kaspersky not fully recognized in russia
+* Fix #501: wrong status was reported when windows defender was disabled
 
 deploy:
 * Bump Deploy task version to 2.7
