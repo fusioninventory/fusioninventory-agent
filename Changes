@@ -24,6 +24,10 @@ deploy:
 * not p2p file parts are now cleaned up after job success if retention duration
   is null
 
+esx:
+* Support 2 ServiceTags case to cover chassis & lame board S/N inventory
+* Updated AssetTag support
+
 maintenance:
 * bump Maintenance task version to 1.1
 * disable Maintenance task if no maintenance module could be used
