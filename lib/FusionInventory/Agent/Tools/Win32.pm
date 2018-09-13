@@ -258,23 +258,25 @@ sub getRegistryValue {
             valueName => $valueName,
             withtype  => $params{withtype}
         );
-    } else {
-        my $key = _getRegistryKey(
-            logger  => $params{logger},
-            root    => $root,
-            keyName => $keyName
-        );
-        return unless (defined($key));
-        if ($valueName eq '*') {
-            my %ret;
-            foreach (keys %$key) {
-                s{^/}{};
-                $ret{$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
-            }
-            return \%ret;
-        } else {
-            return $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
+    }
+
+    my $key = _getRegistryKey(
+        logger  => $params{logger},
+        root    => $root,
+        keyName => $keyName
+    );
+
+    return unless (defined($key));
+
+    if ($valueName eq '*') {
+        my %ret;
+        foreach (keys %$key) {
+            s{^/}{};
+            $ret{$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
         }
+        return \%ret;
+    } else {
+        return $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
     }
 }
 
@@ -396,7 +398,7 @@ sub _getRegistryKey {
 
 sub _getRegistryDynamic {
     my (%params) = @_;
-       
+
     my %ret;
     my $valueName = $params{valueName};
 
@@ -406,7 +408,7 @@ sub _getRegistryDynamic {
 
     my $rootSub = is64bit() ?
         $Registry->Open($first, { Access=> KEY_READ | KEY_WOW64_64 } ) :
-        $Registry->Open($first, { Access=> KEY_READ } )                ;               
+        $Registry->Open($first, { Access=> KEY_READ } )                ;
 
     foreach my $sub ($rootSub->SubKeyNames) {
         if ($second =~ m/\*\*/) {
@@ -417,42 +419,42 @@ sub _getRegistryDynamic {
                 valueName => $valueName,
                 withtype  => $params{withtype}
             );
+            next unless defined($subret);
             foreach my $subretkey (keys %$subret) {
                 $ret{$subretkey} = $subret->{$subretkey};
             }
         } else {
             my $rootKey = is64bit() ?
                 $Registry->Open($first.$sub.$second, { Access=> KEY_READ | KEY_WOW64_64 } ) :
-                $Registry->Open($first.$sub.$second, { Access=> KEY_READ } )                ;          
-            if ($rootKey) {
-                if ($params{keyName} eq "**") {
-                    foreach my $subkeyname ($rootKey->SubKeyNames) {
-                        my $key = $rootKey->Open($subkeyname);
-
-                        next unless (defined($key));
-
-                        if ($valueName eq '*') {
-                            foreach (keys %$key) {
-                                s{^/}{};
-                                $ret{$sub."/".$subkeyname."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
-                            }
-                        } else {
-                            $ret{$sub."/".$subkeyname."/".$valueName} = $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
-                        }
-                    }
-                } else {
-                    my $key = $rootKey->Open($params{keyName});
+                $Registry->Open($first.$sub.$second, { Access=> KEY_READ } )                ;
+            next unless defined($rootKey);
+            if ($params{keyName} eq "**") {
+                foreach my $subkeyname ($rootKey->SubKeyNames) {
+                    my $key = $rootKey->Open($subkeyname);
 
                     next unless (defined($key));
 
                     if ($valueName eq '*') {
                         foreach (keys %$key) {
                             s{^/}{};
-                            $ret{$sub."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
+                            $ret{$sub."/".$subkeyname."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
                         }
                     } else {
-                        $ret{$sub."/".$valueName} = $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
+                        $ret{$sub."/".$subkeyname."/".$valueName} = $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
                     }
+                }
+            } else {
+                my $key = $rootKey->Open($params{keyName});
+
+                next unless (defined($key));
+
+                if ($valueName eq '*') {
+                    foreach (keys %$key) {
+                        s{^/}{};
+                        $ret{$sub."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
+                    }
+                } else {
+                    $ret{$sub."/".$valueName} = $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
                 }
             }
         }
