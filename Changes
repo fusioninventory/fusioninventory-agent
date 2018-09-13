@@ -4,10 +4,37 @@ Revision history for FusionInventory agent
 
 inventory:
 * Fix physical memory error correction detection via WMI under win32
+* Fix #299: Added UWP/APPX/Windows Store software inventory
+* win32 antivirus detection enhanced support:
+  - add support for few antivirus base versions (defender, kaspersky,
+    EST, avira, MSE, McAfee, F-Secure)
+  - try to set license expiration date for F-Secure, kaspersky & avira
+* Fix #442: kaspersky not fully recognized in russia
+* Fix #501: wrong status was reported when windows defender was disabled
 
 deploy:
+* Bump Deploy task version to 2.7
 * Fix deployment of private packages: their downloaded parts were not
   fully found when download were too long (closes: #542)
+* handle retention duration differently for p2p and not p2p files
+* p2p files have a default retention of 3 days by default
+* not p2p files have a default retention of 3 times the target prolog delay
+  after download, parts retention is reset to the same delay for all file parts,
+  so the retention duration applies at the time parts has been downloaded
+* not p2p file parts are now cleaned up after job success if retention duration
+  is null
+
+esx:
+* Support 2 ServiceTags case to cover chassis & lame board S/N inventory
+* Updated AssetTag support
+
+netdiscovery/netinventory:
+* Thanks to @QuickNerd357, Brocade devices will now show serial number and
+  firmware informations.
+
+maintenance:
+* bump Maintenance task version to 1.1
+* disable Maintenance task if no maintenance module could be used
 
 2.4.1 Fri, 29 Jun 2018
 

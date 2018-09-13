@@ -1,6 +1,6 @@
 # FusionInventory Agent
 
-[![Travis Build Status](https://travis-ci.org/fusioninventory/fusioninventory-agent.svg?branch=master)](https://travis-ci.org/fusioninventory/fusioninventory-agent)
+[![Travis Build Status](https://travis-ci.org/fusioninventory/fusioninventory-agent.svg?branch=develop)](https://travis-ci.org/fusioninventory/fusioninventory-agent)
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/f2oh6p3qnr2bck1b?svg=true)](https://ci.appveyor.com/project/fusioninventory/fusioninventory-agent)
 [![CircleCI Build status](https://circleci.com/gh/fusioninventory/fusioninventory-agent.svg?style=svg)](https://circleci.com/gh/fusioninventory/fusioninventory-agent)
 
