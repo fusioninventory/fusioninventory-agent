@@ -451,7 +451,7 @@ sub _getRegistryDynamic {
                             s{^/}{};
                             $ret{$sub."/".$subkeyname."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
                         }
-                    } else {
+                    } elsif (exists($key->{"/$valueName"})) {
                         $ret{$sub."/".$subkeyname."/".$valueName} = $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
                     }
                 }
@@ -465,7 +465,7 @@ sub _getRegistryDynamic {
                         s{^/}{};
                         $ret{$sub."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
                     }
-                } else {
+                } elsif (exists($key->{"/$valueName"})) {
                     $ret{$sub."/".$valueName} = $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
                 }
             }
