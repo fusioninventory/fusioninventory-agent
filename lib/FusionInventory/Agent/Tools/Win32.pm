@@ -377,7 +377,7 @@ sub getRegistryKey {
     );
 }
 
-sub _getRegistryKey {
+sub _getRegistryRoot {
     my (%params) = @_;
 
     ## no critic (ProhibitBitwise)
@@ -391,6 +391,15 @@ sub _getRegistryKey {
         ) if $params{logger};
         return;
     }
+    return $rootKey;
+}
+
+sub _getRegistryKey {
+    my (%params) = @_;
+
+    my $rootKey = _getRegistryRoot(%params)
+        or return;
+
     my $key = $rootKey->Open($params{keyName});
 
     return $key;
@@ -406,9 +415,11 @@ sub _getRegistryDynamic {
     my $first = shift(@rootparts);
     my $second = shift(@rootparts);
 
-    my $rootSub = is64bit() ?
-        $Registry->Open($first, { Access=> KEY_READ | KEY_WOW64_64 } ) :
-        $Registry->Open($first, { Access=> KEY_READ } )                ;
+    my $rootSub = _getRegistryRoot(
+        root    => $first,
+        logger  => $params{logger}
+    );
+    return unless defined($rootSub);
 
     foreach my $sub ($rootSub->SubKeyNames) {
         if ($second =~ m/\*\*/) {
@@ -424,9 +435,10 @@ sub _getRegistryDynamic {
                 $ret{$subretkey} = $subret->{$subretkey};
             }
         } else {
-            my $rootKey = is64bit() ?
-                $Registry->Open($first.$sub.$second, { Access=> KEY_READ | KEY_WOW64_64 } ) :
-                $Registry->Open($first.$sub.$second, { Access=> KEY_READ } )                ;
+            my $rootKey = _getRegistryRoot(
+                root    => $first.$sub.$second,
+                logger  => $params{logger}
+            );
             next unless defined($rootKey);
             if ($params{keyName} eq "**") {
                 foreach my $subkeyname ($rootKey->SubKeyNames) {
