@@ -270,7 +270,7 @@ sub getRegistryValue {
 
     if ($valueName eq '*') {
         my %ret;
-        foreach (keys %$key) {
+        foreach (grep { m|^/| } keys %$key) {
             s{^/}{};
             $ret{$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
         }
@@ -447,7 +447,7 @@ sub _getRegistryDynamic {
                     next unless (defined($key));
 
                     if ($valueName eq '*') {
-                        foreach (keys %$key) {
+                        foreach (grep { m|^/| } keys %$key) {
                             s{^/}{};
                             $ret{$sub."/".$subkeyname."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
                         }
@@ -461,7 +461,7 @@ sub _getRegistryDynamic {
                 next unless (defined($key));
 
                 if ($valueName eq '*') {
-                    foreach (keys %$key) {
+                    foreach (grep { m|^/| } keys %$key) {
                         s{^/}{};
                         $ret{$sub."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
                     }
