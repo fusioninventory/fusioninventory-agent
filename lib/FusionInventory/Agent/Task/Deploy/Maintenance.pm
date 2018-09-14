@@ -27,10 +27,15 @@ sub new {
 sub doMaintenance {
     my ($self) = @_;
 
-    my $folder = $self->{target}->getStorage()->getDirectory();
+    my $folder = $self->{target}->getStorage()->getDirectory()
+        or return;
+
+    $folder .= '/deploy';
+    return unless -d $folder;
+
     my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
         config => $self->{config},
-        path   => $folder.'/deploy',
+        path   => $folder,
         logger => $self->{logger}
     );
 
