@@ -432,7 +432,7 @@ sub _getRegistryDynamic {
             );
             next unless defined($subret);
             foreach my $subretkey (keys %$subret) {
-                $ret{$subretkey} = $subret->{$subretkey};
+                $ret{$sub."/".$subretkey} = $subret->{$subretkey};
             }
         } else {
             my $rootKey = _getRegistryRoot(
