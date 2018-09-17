@@ -112,12 +112,14 @@ sub getCPUs {
     my $totalCore   = $hardware->{cpuInfo}{numCpuCores};
     my $totalThread = $hardware->{cpuInfo}{numCpuThreads};
     my $cpuEntries  = $hardware->{cpuPkg};
+    my $cpuPackages = $hardware->{cpuInfo}{numCpuPackages} ||
+        scalar(_asArray($cpuEntries));
 
     my @cpus;
     foreach (_asArray($cpuEntries)) {
         push @cpus,
           {
-            CORE         => $totalCore / _asArray($cpuEntries),
+            CORE         => eval { $totalCore / $cpuPackages },
             MANUFACTURER => $cpuManufacturor{ $_->{vendor} } || $_->{vendor},
             NAME         => $_->{description},
             SPEED        => int( $_->{hz} / ( 1000 * 1000 ) ),
