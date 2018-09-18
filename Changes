@@ -11,6 +11,7 @@ inventory:
   - try to set license expiration date for F-Secure, kaspersky & avira
 * Fix #442: kaspersky not fully recognized in russia
 * Fix #501: wrong status was reported when windows defender was disabled
+* Enhanced software inventory under Arch Linux
 
 deploy:
 * Bump Deploy task version to 2.7

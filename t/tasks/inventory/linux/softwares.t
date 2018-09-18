@@ -18,6 +18,7 @@ use FusionInventory::Agent::Task::Inventory::Generic::Softwares::RPM;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Deb;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Gentoo;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Nix;
+use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Pacman;
 
 my $rpm_packages = [
     {
@@ -292,7 +293,102 @@ my $nix_packages = [
     }
 ];
 
-plan tests => 9;
+my $pacman_packages = [
+    {
+        COMMENTS    => 'Common CA certificates (default providers)',
+        ARCH        => 'any',
+        VERSION     => '20180821-1',
+        NAME        => 'ca-certificates',
+        INSTALLDATE => '12/09/2018',
+        FILESIZE    => 1024
+    },
+    {
+        NAME        => 'filesystem',
+        INSTALLDATE => '12/09/2018',
+        FILESIZE    => 12288,
+        COMMENTS    => 'Base Arch Linux files',
+        SYSTEM_CATEGORY => 'base',
+        ARCH        => 'x86_64',
+        VERSION     => '2018.8-1'
+    },
+    {
+        VERSION     => '20180912-1',
+        ARCH        => 'any',
+        COMMENTS    => 'Arch Linux mirror list for use by pacman',
+        FILESIZE    => 26624,
+        INSTALLDATE => '12/09/2018',
+        NAME        => 'pacman-mirrorlist'
+    },
+    {
+        FILESIZE    => 60261662,
+        INSTALLDATE => '12/09/2018',
+        NAME        => 'perl',
+        VERSION     => '5.28.0-1',
+        ARCH        => 'x86_64',
+        SYSTEM_CATEGORY => 'base',
+        COMMENTS    => 'A highly capable, feature-rich programming language'
+    },
+    {
+        ARCH        => 'x86_64',
+        COMMENTS    => 'system and service manager',
+        SYSTEM_CATEGORY => 'base-devel',
+        VERSION     => '239.0-2',
+        INSTALLDATE => '12/09/2018',
+        NAME        => 'systemd',
+        FILESIZE    => 19881000
+    },
+    {
+        FILESIZE    => 3544186,
+        INSTALLDATE => '12/09/2018',
+        NAME        => 'vim',
+        VERSION     => '8.1.0333-1',
+        ARCH        => 'x86_64',
+        COMMENTS    => 'Vi Improved, a highly configurable, improved version of the vi text editor'
+    },
+    {
+        VERSION     => '8.1.0333-1',
+        ARCH        => 'x86_64',
+        COMMENTS    => 'Vi Improved, a highly configurable, improved version of the vi text editor (shared runtime)',
+        FILESIZE    => 29674700,
+        INSTALLDATE => '12/09/2018',
+        NAME        => 'vim-runtime'
+    },
+    {
+        VERSION     => '2.21-2',
+        COMMENTS    => 'A utility to show the full path of commands',
+        SYSTEM_CATEGORY => 'base,base-devel',
+        ARCH        => 'x86_64',
+        FILESIZE    => 27648,
+        NAME        => 'which',
+        INSTALLDATE => '12/09/2018'
+    },
+    {
+        ARCH        => 'x86_64',
+        COMMENTS    => 'Library and command line tools for XZ and LZMA compressed files',
+        VERSION     => '5.2.4-1',
+        INSTALLDATE => '12/09/2018',
+        NAME        => 'xz',
+        FILESIZE    => 775168
+    },
+    {
+        FILESIZE    => 334848,
+        NAME        => 'zlib',
+        INSTALLDATE => '12/09/2018',
+        VERSION     => '1.2.11-3',
+        COMMENTS    => 'Compression library implementing the deflate compression method found in gzip and PKZIP',
+        ARCH        => 'x86_64'
+    },
+    {
+        VERSION     => '1.3.5-1',
+        COMMENTS    => 'Zstandard - Fast real-time compression algorithm',
+        ARCH        => 'x86_64',
+        FILESIZE    => 2768240,
+        NAME        => 'zstd',
+        INSTALLDATE => '12/09/2018'
+    }
+];
+
+plan tests => 11;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
@@ -327,6 +423,15 @@ lives_ok {
     $inventory->addEntry(section => 'SOFTWARES', entry => $_)
         foreach @$packages;
 } 'nix: registering';
+
+$packages = FusionInventory::Agent::Task::Inventory::Generic::Softwares::Pacman::_getPackagesList(
+    file => "resources/linux/packaging/pacman"
+);
+cmp_deeply($packages, $pacman_packages, 'pacman: parsing');
+lives_ok {
+    $inventory->addEntry(section => 'SOFTWARES', entry => $_)
+        foreach @$packages;
+} 'pacman: registering';
 
 ok(
     !FusionInventory::Agent::Task::Inventory::Generic::Softwares::Gentoo::_equeryNeedsWildcard(
