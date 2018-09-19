@@ -47,8 +47,8 @@ sub new {
                 unless -f $params{file};
             die "unreadable file '$params{file}'\n"
                 unless -r $params{file};
-            $self->{values} = _getIndexedValues($params{file});
             $self->{file}   = $params{file};
+            $self->_setIndexedValues();
             last SWITCH;
         }
 
@@ -68,7 +68,7 @@ sub switch_vlan_context {
 
     my $file = $self->{file} . '@' . $vlan_id;
     if (-r $file && -f $file) {
-        $self->{values} = _getIndexedValues($file);
+        $self->_setIndexedValues($file);
     } else {
         delete $self->{values};
     }
@@ -81,10 +81,10 @@ sub reset_original_context {
     delete $self->{oldvalues};
 }
 
-sub _getIndexedValues {
-    my ($file) = @_;
+sub _setIndexedValues {
+    my ($self, $file) = @_;
 
-    my $handle = getFileHandle(file => $file);
+    my $handle = getFileHandle(file => $file || $self->{file});
 
     # check first line
     my $first_line = <$handle>;
@@ -93,119 +93,147 @@ sub _getIndexedValues {
     # check first line for safety
     die "invalid file format\n" unless $first_line =~ /^(\S+) = .*/;
 
-    my $values = substr($first_line, 0, 1) eq '.' ?
-        _readNumericalOids($handle) :
-        _readSymbolicOids($handle)  ;
+    my $numerical = substr($first_line, 0, 1) eq '.' ? 1 : 0 ;
+    my $last_value;
+    $self->{_walk} = [ [], undef, undef, {} ];
+
+    while (my $line = <$handle>) {
+
+        if ($numerical) {
+            if ($line =~ /^
+               (\S+) \s
+               = \s
+               (?:Wrong \s Type \s \(should \s be \s [^:]+\): \s)?
+               ([^:]+): \s
+               (.*)
+               /x
+            ) {
+                my ($oid, $type, $value) = ($1, $2, $3);
+                $last_value = [ $type, $value ];
+                $self->_setOid($oid, $last_value);
+                next;
+            }
+        } else {
+            if ($line =~ /^
+               ([^.]+) \. ([\d.]+) \s
+               = \s
+               (?:Wrong \s Type \s \(should \s be \s [^:]+\): \s)?
+               ([^:]+): \s
+               (.*)
+               /x
+            ) {
+                my ($mib, $suffix, $type, $value) = ($1, $2, $3, $4);
+
+                if ($prefixes{$mib}) {
+                    my $oid = $prefixes{$mib} . '.' . $suffix;
+                    $last_value = [ $type, $value ];
+                    $self->_setOid($oid, $last_value);
+                } else {
+                    # irrelevant OID
+                    $last_value = undef;
+                }
+
+                next;
+            }
+        }
+
+        last if $line =~ /No more variables left in this MIB View/;
+
+        # potential continuation
+        if ($line !~ /^$/ && $line !~ /= ""$/ && $last_value) {
+            if ($last_value->[0] eq 'STRING' &&
+                $last_value->[1] !~ /"$/
+            ) {
+                chomp $line;
+                $last_value->[1] .= "\n" . $line;
+                next;
+            }
+            if ($last_value->[0] eq 'Hex-STRING') {
+                chomp $line;
+                $last_value->[1] .= $line;
+                next;
+            }
+        }
+
+        $last_value = undef;
+    }
+
     close ($handle);
-
-    return $values;
 }
 
-sub _readNumericalOids {
-    my ($handle) = @_;
+sub _setOid {
+    my ($self, $oid, $value) = @_;
 
-    my ($values, $last_oid);
-    while (my $line = <$handle>) {
+    my @oid = split(/\./, $oid);
+    shift @oid;
 
-        if ($line =~ /^
-           (\S+) \s
-           = \s
-           (?:Wrong \s Type \s \(should \s be \s [^:]+\): \s)?
-           ([^:]+): \s
-           (.*)
-           /x
-        ) {
-            my ($oid, $type, $value) = ($1, $2, $3);
-            $values->{$oid} = [ $type, $value ];
-            $last_oid = $oid;
-            next;
+    my $base = $self->{_walk};
+    my ($num, $ref);
+    while (@oid) {
+        $num = shift @oid;
+        $ref = $base->[2]->{$num} if $base->[2];
+        unless ($ref) {
+            $ref = [undef, $num, {}];
+            $base->[0] = [] unless $base->[0];
+            push @{$base->[0]}, $ref;
+            $base->[2]->{$num} = $ref;
         }
-
-        # potential continuation
-        if ($line !~ /^$/ && $line !~ /= ""$/ && $last_oid) {
-            if ($values->{$last_oid}->[0] eq 'STRING' &&
-                $values->{$last_oid}->[1] !~ /"$/
-            ) {
-                chomp $line;
-                $values->{$last_oid}->[1] .= "\n" . $line;
-                next;
-            }
-            if ($values->{$last_oid}->[0] eq 'Hex-STRING') {
-                chomp $line;
-                $values->{$last_oid}->[1] .= $line;
-                next;
-            }
-        }
-
-        $last_oid = undef;
+        $base = $ref;
     }
-
-    return $values;
+    $ref->[2] = undef;
+    $ref->[3] = $value;
 }
 
-sub _readSymbolicOids {
-    my ($handle) = @_;
+sub _getOid {
+    my ($self, $oid, $walk) = @_;
 
+    my @oid = split(/\./, $oid);
+    shift @oid;
 
-    my ($values, $last_oid);
-    while (my $line = <$handle>) {
-
-        if ($line =~ /^
-           ([^.]+) \. ([\d.]+) \s
-           = \s
-           (?:Wrong \s Type \s \(should \s be \s [^:]+\): \s)?
-           ([^:]+): \s
-           (.*)
-           /x
-        ) {
-            my ($mib, $suffix, $type, $value) = ($1, $2, $3, $4);
-
-            if ($prefixes{$mib}) {
-                my $oid = $prefixes{$mib} . '.' . $suffix;
-                $values->{$oid} = [ $type, $value ];
-                $last_oid = $oid;
-            } else {
-                # irrelevant OID
-                $last_oid = undef;
-            }
-
-            next;
-        }
-
-        # potential continuation
-        if ($line !~ /^$/ && $line !~ /= ""$/ && $last_oid) {
-            if ($values->{$last_oid}->[0] eq 'STRING' &&
-                $values->{$last_oid}->[1] !~ /"$/
-            ) {
-                chomp $line;
-                $values->{$last_oid}->[1] .= "\n" . $line;
-                next
-            }
-            if ($values->{$last_oid}->[0] eq 'Hex-STRING' &&
-                $line =~ /^([A-F0-9]{2})( [A-F0-9]{2})?/
-            ) {
-                chomp $line;
-                $values->{$last_oid}->[1] .= $line;
-                next
-            }
-        }
-
-        $last_oid = undef;
+    my $base = $self->{_walk};
+    my ($num, $ref);
+    while (@oid) {
+        $num = shift @oid;
+        return unless $ref = $base->[2];
+        $ref = $base->[2]->{$num};
+        return unless $ref;
+        $base = $ref;
     }
 
-    return $values;
+    return $walk ? $ref : $ref->[3];
 }
 
 sub get {
     my ($self, $oid) = @_;
 
     return unless $oid;
-    return unless $self->{values}->{$oid};
+    my $value = $self->_getOid($oid)
+        or return;
 
     return _getSanitizedValue(
-        $self->{values}->{$oid}->[0],
-        $self->{values}->{$oid}->[1],
+        $value->[0],
+        $value->[1],
     );
+}
+
+sub _deepwalk {
+    my ($base) = @_;
+
+    my $array = [];
+
+    foreach my $ref (@{$base->[0]}) {
+        my $key = $ref->[1];
+        if (defined($ref->[3])) {
+            push @{$array}, [ $key, _getSanitizedValue(@{$ref->[3]}) ];
+        } else {
+            my $subkeys = _deepwalk($ref);
+            foreach my $subkey (@{$subkeys}) {
+                push @{$array}, [ $key.".".($subkey->[0]), $subkey->[1] ];
+            }
+        }
+    }
+
+    return $array;
 }
 
 sub walk {
@@ -213,16 +241,12 @@ sub walk {
 
     return unless $oid;
 
-    my $values;
-    foreach my $key (keys %{$self->{values}}) {
-       next unless $key =~ /^$oid\.(.+)/;
-       $values->{$1} = _getSanitizedValue(
-           $self->{values}->{$key}->[0],
-           $self->{values}->{$key}->[1]
-       );
-    }
+    my $base = $self->_getOid($oid, 1)
+        or return;
 
-    return $values;
+    my $walk = _deepwalk($base);
+
+    return { map { $_->[0] => $_->[1] } @{$walk} };
 }
 
 sub _getSanitizedValue {
