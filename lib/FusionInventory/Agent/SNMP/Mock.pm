@@ -53,7 +53,10 @@ sub new {
         }
 
         if ($params{hash}) {
-            $self->{values} = $params{hash};
+            $self->{_walk} = [ [], undef, undef, {} ];
+            foreach my $oid (keys(%{$params{hash}})) {
+                $self->_setOid($oid, $params{hash}->{$oid});
+            }
             last SWITCH;
         }
     }
@@ -138,6 +141,7 @@ sub _setIndexedValues {
         }
 
         last if $line =~ /No more variables left in this MIB View/;
+        last if $line =~ /^End of MIB$/;
 
         # potential continuation
         if ($line !~ /^$/ && $line !~ /= ""$/ && $last_value) {
