@@ -202,22 +202,15 @@ sub _setValue {
 sub _getValue {
     my ($self, $oid, $walk) = @_;
 
-    my @oid = split(/\./, $oid);
-    shift @oid;
-
     my $base = $self->{_walk};
-    my ($num, $ref);
-    while (@oid) {
-        $num = shift @oid;
+    foreach my $num (split(/\./, substr($oid,1))) {
         # No value if no subnode indexed
-        return unless $ref = $base->[2];
-        $ref = $base->[2]->{$num};
-        # No value if requested subnode is not indexed
-        return unless $ref;
-        $base = $ref;
+        # Also no value if requested subnode is not indexed
+        return unless $base->[2] && $base->[2]->{$num};
+        $base = $base->[2]->{$num};
     }
 
-    return $walk ? $ref : $ref->[3];
+    return $walk ? $base : $base->[3];
 }
 
 sub get {
