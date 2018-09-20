@@ -260,6 +260,9 @@ sub walk {
     my $base = $self->_getValue($oid, 1)
         or return;
 
+    # Don't walk unless subnodes exist
+    return unless $base->[0];
+
     return _deepwalk($base);
 }
 
