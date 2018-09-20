@@ -176,31 +176,27 @@ sub _setIndexedValues {
 sub _setValue {
     my ($self, $oid, $value) = @_;
 
-    my @oid = split(/\./, $oid);
-    shift @oid;
-
     my $base = $self->{_walk};
-    my ($num, $ref);
-    while (@oid) {
-        $num = shift @oid;
-        # Get node ref if indexed
-        $ref = $base->[2]->{$num} if $base->[2];
-        # Otherwise initialize a new node
-        unless ($ref) {
-            $ref = [undef, $num, {}];
+    foreach my $num (split(/\./, substr($oid,1))) {
+        # Get subnode ref if indexed
+        if ($base->[2] && $base->[2]->{$num}) {
+            $base = $base->[2]->{$num};
+        # Otherwise initialize a new subnode
+        } else {
+            my $ref = [undef, $num, {}];
             # Initialize an array ref as subnode if necessary
             $base->[0] = [] unless $base->[0];
             # Push new sub-node in list
             push @{$base->[0]}, $ref;
             # Index sub-node
             $base->[2]->{$num} = $ref;
+            # New subnode becomes the base node
+            $base = $ref;
         }
-        # subnode becomes the base node
-        $base = $ref;
     }
     # Keep value in leaf
-    $ref->[2] = undef;
-    $ref->[3] = $value;
+    $base->[2] = undef;
+    $base->[3] = $value;
 }
 
 sub _getValue {
