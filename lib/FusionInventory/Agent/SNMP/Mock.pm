@@ -47,15 +47,15 @@ sub new {
                 unless -f $params{file};
             die "unreadable file '$params{file}'\n"
                 unless -r $params{file};
-            $self->{file}   = $params{file};
+            $self->{_file} = $params{file};
             $self->_setIndexedValues();
             last SWITCH;
         }
 
         if ($params{hash}) {
-            $self->{_walk} = [ [], undef, undef, {} ];
+            $self->{_walk} = [ [], undef, {}, undef ];
             foreach my $oid (keys(%{$params{hash}})) {
-                $self->_setOid($oid, $params{hash}->{$oid});
+                $self->_setValue($oid, $params{hash}->{$oid});
             }
             last SWITCH;
         }
@@ -69,7 +69,7 @@ sub switch_vlan_context {
 
     $self->{_oldwalk} = $self->{_walk} unless $self->{_oldwalk};
 
-    my $file = $self->{file} . '@' . $vlan_id;
+    my $file = $self->{_file} . '@' . $vlan_id;
     if (-r $file && -f $file) {
         $self->_setIndexedValues($file);
     } else {
@@ -87,7 +87,7 @@ sub reset_original_context {
 sub _setIndexedValues {
     my ($self, $file) = @_;
 
-    my $handle = getFileHandle(file => $file || $self->{file});
+    my $handle = getFileHandle(file => $file || $self->{_file});
 
     # check first line
     my $first_line = <$handle>;
@@ -98,10 +98,18 @@ sub _setIndexedValues {
 
     my $numerical = substr($first_line, 0, 1) eq '.' ? 1 : 0 ;
     my $last_value;
-    $self->{_walk} = [ [], undef, undef, {} ];
+
+    # Prepare walk tree root with an empty node
+    # 1st value node will contain sub-nodes
+    # 2nd value will be the numder index
+    # 3rd value will be a hash of sub-index -> sub-node ref in 1st values
+    # 4th value will be a SNMP value array ref like [ TYPE, VALUE ] when
+    #     a value should be stored
+    $self->{_walk} = [ [], undef, {}, undef ];
 
     while (my $line = <$handle>) {
 
+        # Use different regex if walk contains numérical or symbolic oids
         if ($numerical) {
             if ($line =~ /^
                (\S+) \s
@@ -113,7 +121,7 @@ sub _setIndexedValues {
             ) {
                 my ($oid, $type, $value) = ($1, $2, $3);
                 $last_value = [ $type, $value ];
-                $self->_setOid($oid, $last_value);
+                $self->_setValue($oid, $last_value);
                 next;
             }
         } else {
@@ -130,7 +138,7 @@ sub _setIndexedValues {
                 if ($prefixes{$mib}) {
                     my $oid = $prefixes{$mib} . '.' . $suffix;
                     $last_value = [ $type, $value ];
-                    $self->_setOid($oid, $last_value);
+                    $self->_setValue($oid, $last_value);
                 } else {
                     # irrelevant OID
                     $last_value = undef;
@@ -140,6 +148,7 @@ sub _setIndexedValues {
             }
         }
 
+        # Don't merge end of walk delimiter in last value
         last if $line =~ /No more variables left in this MIB View/;
         last if $line =~ /^End of MIB$/;
 
@@ -151,8 +160,7 @@ sub _setIndexedValues {
                 chomp $line;
                 $last_value->[1] .= "\n" . $line;
                 next;
-            }
-            if ($last_value->[0] eq 'Hex-STRING') {
+            } elsif ($last_value->[0] eq 'Hex-STRING') {
                 chomp $line;
                 $last_value->[1] .= $line;
                 next;
@@ -165,7 +173,7 @@ sub _setIndexedValues {
     close ($handle);
 }
 
-sub _setOid {
+sub _setValue {
     my ($self, $oid, $value) = @_;
 
     my @oid = split(/\./, $oid);
@@ -175,20 +183,27 @@ sub _setOid {
     my ($num, $ref);
     while (@oid) {
         $num = shift @oid;
+        # Get node ref if indexed
         $ref = $base->[2]->{$num} if $base->[2];
+        # Otherwise initialize a new node
         unless ($ref) {
             $ref = [undef, $num, {}];
+            # Initialize an array ref as subnode if necessary
             $base->[0] = [] unless $base->[0];
+            # Push new sub-node in list
             push @{$base->[0]}, $ref;
+            # Index sub-node
             $base->[2]->{$num} = $ref;
         }
+        # subnode becomes the base node
         $base = $ref;
     }
+    # Keep value in leaf
     $ref->[2] = undef;
     $ref->[3] = $value;
 }
 
-sub _getOid {
+sub _getValue {
     my ($self, $oid, $walk) = @_;
 
     my @oid = split(/\./, $oid);
@@ -198,8 +213,10 @@ sub _getOid {
     my ($num, $ref);
     while (@oid) {
         $num = shift @oid;
+        # No value if no subnode indexed
         return unless $ref = $base->[2];
         $ref = $base->[2]->{$num};
+        # No value if requested subnode is not indexed
         return unless $ref;
         $base = $ref;
     }
@@ -211,7 +228,7 @@ sub get {
     my ($self, $oid) = @_;
 
     return unless $oid;
-    my $value = $self->_getOid($oid)
+    my $value = $self->_getValue($oid)
         or return;
 
     return _getSanitizedValue(
@@ -225,14 +242,19 @@ sub _deepwalk {
 
     my $hash = {};
 
+    # Lookup all current base subnodes
     foreach my $ref (@{$base->[0]}) {
+        # We need the subnode key as hash key
         my $key = $ref->[1];
+        # Keep the value is one is available
         if (defined($ref->[3])) {
             $hash->{$key} = _getSanitizedValue(@{$ref->[3]});
         }
+        # walk subnodes subnode
         if ($ref->[0]) {
             my $subkeys = _deepwalk($ref);
             foreach my $subkey (keys(%{$subkeys})) {
+                # Keep subkey values
                 $hash->{$key.".".$subkey} = $subkeys->{$subkey};
             }
         }
@@ -246,7 +268,7 @@ sub walk {
 
     return unless $oid;
 
-    my $base = $self->_getOid($oid, 1)
+    my $base = $self->_getValue($oid, 1)
         or return;
 
     return _deepwalk($base);
