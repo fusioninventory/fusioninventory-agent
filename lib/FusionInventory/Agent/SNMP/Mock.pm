@@ -223,21 +223,22 @@ sub get {
 sub _deepwalk {
     my ($base) = @_;
 
-    my $array = [];
+    my $hash = {};
 
     foreach my $ref (@{$base->[0]}) {
         my $key = $ref->[1];
         if (defined($ref->[3])) {
-            push @{$array}, [ $key, _getSanitizedValue(@{$ref->[3]}) ];
-        } else {
+            $hash->{$key} = _getSanitizedValue(@{$ref->[3]});
+        }
+        if ($ref->[0]) {
             my $subkeys = _deepwalk($ref);
-            foreach my $subkey (@{$subkeys}) {
-                push @{$array}, [ $key.".".($subkey->[0]), $subkey->[1] ];
+            foreach my $subkey (keys(%{$subkeys})) {
+                $hash->{$key.".".$subkey} = $subkeys->{$subkey};
             }
         }
     }
 
-    return $array;
+    return $hash;
 }
 
 sub walk {
@@ -248,9 +249,7 @@ sub walk {
     my $base = $self->_getOid($oid, 1)
         or return;
 
-    my $walk = _deepwalk($base);
-
-    return { map { $_->[0] => $_->[1] } @{$walk} };
+    return _deepwalk($base);
 }
 
 sub _getSanitizedValue {
