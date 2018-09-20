@@ -67,21 +67,21 @@ sub new {
 sub switch_vlan_context {
     my ($self, $vlan_id) = @_;
 
-    $self->{oldvalues} = $self->{values} unless $self->{oldvalues};
+    $self->{_oldwalk} = $self->{_walk} unless $self->{_oldwalk};
 
     my $file = $self->{file} . '@' . $vlan_id;
     if (-r $file && -f $file) {
         $self->_setIndexedValues($file);
     } else {
-        delete $self->{values};
+        delete $self->{_walk};
     }
 }
 
 sub reset_original_context {
     my ($self) = @_;
 
-    $self->{values} = $self->{oldvalues};
-    delete $self->{oldvalues};
+    $self->{_walk} = $self->{_oldwalk} if $self->{_oldwalk};
+    delete $self->{_oldwalk};
 }
 
 sub _setIndexedValues {
