@@ -53,7 +53,7 @@ sub new {
         }
 
         if ($params{hash}) {
-            $self->{_walk} = [ [], undef, {}, undef ];
+            $self->{_walk} = {};
             foreach my $oid (keys(%{$params{hash}})) {
                 $self->_setValue($oid, $params{hash}->{$oid});
             }
@@ -105,7 +105,7 @@ sub _setIndexedValues {
     # 3rd value will be a hash of sub-index -> sub-node ref in 1st values
     # 4th value will be a SNMP value array ref like [ TYPE, VALUE ] when
     #     a value should be stored
-    $self->{_walk} = [ [], undef, {}, undef ];
+    $self->{_walk} = {};
 
     while (my $line = <$handle>) {
 
@@ -176,7 +176,13 @@ sub _setIndexedValues {
 sub _setValue {
     my ($self, $oid, $value) = @_;
 
-    my $base = $self->{_walk};
+    # Optimization: use 6 first oid digits as tree root key as they don't often change
+    my ($root, $nextoidpart) = $oid =~ /^(\.\d+\.\d+\.\d+\.\d+\.\d+\.\d+)(.*)$/
+        or return;
+    $self->{_walk}->{$root} = [ [], undef, {}, undef ] unless exists($self->{_walk}->{$root});
+    $oid = $nextoidpart;
+
+    my $base = $self->{_walk}->{$root};
     foreach my $num (split(/\./, substr($oid,1))) {
         # Get subnode ref if indexed
         if ($base->[2] && $base->[2]->{$num}) {
@@ -202,7 +208,12 @@ sub _setValue {
 sub _getValue {
     my ($self, $oid, $walk) = @_;
 
-    my $base = $self->{_walk};
+    my ($root, $nextoidpart) = $oid =~ /^(\.\d+\.\d+\.\d+\.\d+\.\d+\.\d+)(.*)$/
+        or return;
+    return unless exists($self->{_walk}->{$root});
+    $oid = $nextoidpart;
+
+    my $base = $self->{_walk}->{$root};
     foreach my $num (split(/\./, substr($oid,1))) {
         # No value if no subnode indexed
         # Also no value if requested subnode is not indexed
