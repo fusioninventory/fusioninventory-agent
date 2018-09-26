@@ -37,6 +37,9 @@ maintenance:
 * bump Maintenance task version to 1.1
 * disable Maintenance task if no maintenance module could be used
 
+test suite:
+* make snmp walk tests faster
+
 2.4.1 Fri, 29 Jun 2018
 
 core:
