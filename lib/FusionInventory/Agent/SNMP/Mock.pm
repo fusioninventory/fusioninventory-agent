@@ -99,12 +99,6 @@ sub _setIndexedValues {
     my $numerical = substr($first_line, 0, 1) eq '.' ? 1 : 0 ;
     my $last_value;
 
-    # Prepare walk tree root with an empty node
-    # 1st value node will contain sub-nodes
-    # 2nd value will be the numder index
-    # 3rd value will be a hash of sub-index -> sub-node ref in 1st values
-    # 4th value will be a SNMP value array ref like [ TYPE, VALUE ] when
-    #     a value should be stored
     $self->{_walk} = {};
 
     while (my $line = <$handle>) {
@@ -179,6 +173,12 @@ sub _setValue {
     # Optimization: use 6 first oid digits as tree root key as they don't often change
     my ($root, $nextoidpart) = $oid =~ /^(\.\d+\.\d+\.\d+\.\d+\.\d+\.\d+)(.*)$/
         or return;
+    # Prepare walk tree roots with empty node while not exist
+    # 1st value node will contain sub-nodes
+    # 2nd value will be the numder index
+    # 3rd value will be a hash of sub-index -> sub-node ref in 1st values
+    # 4th value will be a SNMP value array ref like [ TYPE, VALUE ] when
+    #     a value should be stored
     $self->{_walk}->{$root} = [ [], undef, {}, undef ] unless exists($self->{_walk}->{$root});
     $oid = $nextoidpart;
 
