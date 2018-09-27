@@ -1,0 +1,41 @@
+Graphics/Displays:
+
+    Intel HD Graphics 530:
+
+      Chipset Model: Intel HD Graphics 530
+      Type: GPU
+      Bus: Built-In
+      VRAM (Dynamic, Max): 1536 MB
+      Vendor: Intel
+      Device ID: 0x191b
+      Revision ID: 0x0006
+      Automatic Graphics Switching: Supported
+      gMux Version: 4.0.29 [3.2.8]
+      Metal: Supported, feature set macOS GPUFamily1 v3
+
+    Radeon Pro 450:
+
+      Chipset Model: AMD Radeon Pro 450
+      Type: GPU
+      Bus: PCIe
+      PCIe Lane Width: x8
+      VRAM (Dynamic, Max): 2048 MB
+      Vendor: AMD (0x1002)
+      Device ID: 0x67ef
+      Revision ID: 0x00ef
+      ROM Revision: 113-C980AF-908
+      VBIOS Version: 113-C9801AL-028
+      EFI Driver Version: 01.00.908
+      Automatic Graphics Switching: Supported
+      gMux Version: 4.0.29 [3.2.8]
+      Metal: Supported, feature set macOS GPUFamily1 v3
+      Displays:
+        Color LCD:
+          Display Type: Built-In Retina LCD
+          Resolution: 2880 x 1800 Retina
+          Framebuffer Depth: 24-Bit Color (ARGB8888)
+          Main Display: Yes
+          Mirror: Off
+          Online: Yes
+          Rotation: Supported
+          Automatically Adjust Brightness: No
