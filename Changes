@@ -2,6 +2,10 @@ Revision history for FusionInventory agent
 
 2.4.2 not released yet
 
+core:
+* linux: fix agent not listening on http port when syslog logger is active
+  and Sys::Sylog module is too old
+
 inventory:
 * Fix physical memory error correction detection via WMI under win32
 * Fix #299: Added UWP/APPX/Windows Store software inventory
