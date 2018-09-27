@@ -46,6 +46,10 @@ sub _initXmlParser {
     } elsif ($params{file}) {
         $xmlParser = XML::XPath->new(filename => $params{file});
     }
+
+    # Don't validate XML against DTD, parsing may fail if a proxy is active
+    $XML::XPath::ParseParamEnt = 0;
+
     return $xmlParser;
 }
 

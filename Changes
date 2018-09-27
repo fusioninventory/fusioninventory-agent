@@ -12,6 +12,8 @@ inventory:
 * Fix #442: kaspersky not fully recognized in russia
 * Fix #501: wrong status was reported when windows defender was disabled
 * Enhanced software inventory under Arch Linux
+* Fix #453: under MacOS, skip XML DTD validation for software inventory as
+  parsing may fail if a proxy is enabled
 
 deploy:
 * Bump Deploy task version to 2.7
