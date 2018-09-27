@@ -250,11 +250,11 @@ sub getRegistryValue {
         return _call_win32_ole_dependent_api($win32_ole_dependent_api);
     }
 
-    if ($root =~ m/\*\*/) {
+    # Handle differently paths including /**/ pattern
+    if ($root =~ m/\/\*\*(?:\/.*|)$/ || $keyName eq '**') {
         return _getRegistryDynamic(
             logger    => $params{logger},
-            root      => $root,
-            keyName   => $keyName,
+            path      => "$root/$keyName",
             valueName => $valueName,
             withtype  => $params{withtype}
         );
@@ -411,9 +411,12 @@ sub _getRegistryDynamic {
     my %ret;
     my $valueName = $params{valueName};
 
-    my @rootparts = split(/\*\*/, $params{root}, 2);
+    my @rootparts = split(/\/+\*\*\/+/, $params{path}.'/', 2);
     my $first = shift(@rootparts);
-    my $second = shift(@rootparts);
+    my $second = shift(@rootparts) || '';
+    $first .= '/';
+    $second = '/'.$second;
+    $second =~ s|/*$||;
 
     my $rootSub = _getRegistryRoot(
         root    => $first,
@@ -422,52 +425,32 @@ sub _getRegistryDynamic {
     return unless defined($rootSub);
 
     foreach my $sub ($rootSub->SubKeyNames) {
-        if ($second =~ m/\*\*/) {
+        if ($second =~ m/\/+\*\*(?:\/.*|)/) {
             my $subret = _getRegistryDynamic(
                 logger    => $params{logger},
-                root      => $first.$sub.$second,
-                keyName   => $params{keyName},
+                path      => $first.$sub.$second,
                 valueName => $valueName,
                 withtype  => $params{withtype}
             );
             next unless defined($subret);
+            my ($subkey) = $second =~ /^([^*]+)\*\*(?:\/.*|)$/;
             foreach my $subretkey (keys %$subret) {
-                $ret{$sub."/".$subretkey} = $subret->{$subretkey};
+                $ret{$sub.$subkey.$subretkey} = $subret->{$subretkey};
             }
         } else {
-            my $rootKey = _getRegistryRoot(
+            my $key = _getRegistryRoot(
                 root    => $first.$sub.$second,
                 logger  => $params{logger}
             );
-            next unless defined($rootKey);
-            if ($params{keyName} eq "**") {
-                foreach my $subkeyname ($rootKey->SubKeyNames) {
-                    my $key = $rootKey->Open($subkeyname);
+            next unless defined($key);
 
-                    next unless (defined($key));
-
-                    if ($valueName eq '*') {
-                        foreach (grep { m|^/| } keys %$key) {
-                            s{^/}{};
-                            $ret{$sub."/".$subkeyname."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
-                        }
-                    } elsif (exists($key->{"/$valueName"})) {
-                        $ret{$sub."/".$subkeyname."/".$valueName} = $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
-                    }
+            if ($valueName eq '*') {
+                foreach (grep { m|^/| } keys %$key) {
+                    s{^/}{};
+                    $ret{$sub.$second."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
                 }
-            } else {
-                my $key = $rootKey->Open($params{keyName});
-
-                next unless (defined($key));
-
-                if ($valueName eq '*') {
-                    foreach (grep { m|^/| } keys %$key) {
-                        s{^/}{};
-                        $ret{$sub."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
-                    }
-                } elsif (exists($key->{"/$valueName"})) {
-                    $ret{$sub."/".$valueName} = $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
-                }
+            } elsif (exists($key->{"/$valueName"})) {
+                $ret{$sub.$second."/".$valueName} = $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
             }
         }
     }
