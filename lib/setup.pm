@@ -29,7 +29,7 @@ eval {
             next if ($setup{$key} && File::Spec->file_name_is_absolute($setup{$key}));
 
             my $folder = abs_path(File::Spec->rel2abs('../'.$setup{$key}, $setup{libdir}));
-            $setup{$key} = $folder if -d $folder;
+            $setup{$key} = $folder if $folder && -d $folder;
         }
     }
 };
