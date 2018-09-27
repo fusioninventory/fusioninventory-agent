@@ -10,6 +10,8 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
+our $runAfter = ["FusionInventory::Agent::Task::Inventory::Generic"];
+
 sub isEnabled {
     return $OSNAME eq 'darwin';
 }
@@ -23,6 +25,7 @@ sub doInventory {
     # basic operating system informations
     my $kernelVersion = getFirstLine(command => 'uname -v');
     my $kernelRelease = getFirstLine(command => 'uname -r');
+    my $kernelArch    = getFirstLine(command => 'uname -m');
 
     my ($name, $version);
     my $infos = getSystemProfilerInfos(type => 'SPSoftwareDataType', logger => $logger);
@@ -48,6 +51,7 @@ sub doInventory {
         FULL_NAME      => $name,
         VERSION        => $version,
         KERNEL_VERSION => $kernelRelease,
+        ARCH           => $kernelArch,
         BOOT_TIME      => getFormatedLocalTime($boottime)
     });
 }

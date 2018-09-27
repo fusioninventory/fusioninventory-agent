@@ -18,6 +18,7 @@ inventory:
 * Enhanced software inventory under Arch Linux
 * Fix #453: under MacOS, skip XML DTD validation for software inventory as
   parsing may fail if a proxy is enabled
+* Fix #473: fix arch detection under MacOS
 
 deploy:
 * Bump Deploy task version to 2.7
