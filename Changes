@@ -33,6 +33,11 @@ netdiscovery/netinventory:
 * Thanks to @QuickNerd357, Brocade devices will now show serial number and
   firmware informations.
 
+collect:
+* Thanks to David Durieux, add support for dynamic pattern in registry key
+  collect under win32. The dynamic pattern is '**' to glob subkeys like in:
+   HKEY_USERS/**/Software/**/**/CurrentVersion
+
 maintenance:
 * bump Maintenance task version to 1.1
 * disable Maintenance task if no maintenance module could be used

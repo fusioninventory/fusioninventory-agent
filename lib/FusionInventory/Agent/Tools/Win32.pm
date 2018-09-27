@@ -250,6 +250,16 @@ sub getRegistryValue {
         return _call_win32_ole_dependent_api($win32_ole_dependent_api);
     }
 
+    # Handle differently paths including /**/ pattern
+    if ($root =~ m/\/\*\*(?:\/.*|)$/ || $keyName eq '**') {
+        return _getRegistryDynamic(
+            logger    => $params{logger},
+            path      => "$root/$keyName",
+            valueName => $valueName,
+            withtype  => $params{withtype}
+        );
+    }
+
     my $key = _getRegistryKey(
         logger  => $params{logger},
         root    => $root,
@@ -260,7 +270,7 @@ sub getRegistryValue {
 
     if ($valueName eq '*') {
         my %ret;
-        foreach (keys %$key) {
+        foreach (grep { m|^/| } keys %$key) {
             s{^/}{};
             $ret{$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
         }
@@ -367,7 +377,7 @@ sub getRegistryKey {
     );
 }
 
-sub _getRegistryKey {
+sub _getRegistryRoot {
     my (%params) = @_;
 
     ## no critic (ProhibitBitwise)
@@ -381,9 +391,70 @@ sub _getRegistryKey {
         ) if $params{logger};
         return;
     }
+    return $rootKey;
+}
+
+sub _getRegistryKey {
+    my (%params) = @_;
+
+    my $rootKey = _getRegistryRoot(%params)
+        or return;
+
     my $key = $rootKey->Open($params{keyName});
 
     return $key;
+}
+
+sub _getRegistryDynamic {
+    my (%params) = @_;
+
+    my %ret;
+    my $valueName = $params{valueName};
+
+    my @rootparts = split(/\/+\*\*\/+/, $params{path}.'/', 2);
+    my $first = shift(@rootparts);
+    my $second = shift(@rootparts) || '';
+    $first .= '/';
+    $second = '/'.$second;
+    $second =~ s|/*$||;
+
+    my $rootSub = _getRegistryRoot(
+        root    => $first,
+        logger  => $params{logger}
+    );
+    return unless defined($rootSub);
+
+    foreach my $sub ($rootSub->SubKeyNames) {
+        if ($second =~ m/\/+\*\*(?:\/.*|)/) {
+            my $subret = _getRegistryDynamic(
+                logger    => $params{logger},
+                path      => $first.$sub.$second,
+                valueName => $valueName,
+                withtype  => $params{withtype}
+            );
+            next unless defined($subret);
+            my ($subkey) = $second =~ /^([^*]+)\*\*(?:\/.*|)$/;
+            foreach my $subretkey (keys %$subret) {
+                $ret{$sub.$subkey.$subretkey} = $subret->{$subretkey};
+            }
+        } else {
+            my $key = _getRegistryRoot(
+                root    => $first.$sub.$second,
+                logger  => $params{logger}
+            );
+            next unless defined($key);
+
+            if ($valueName eq '*') {
+                foreach (grep { m|^/| } keys %$key) {
+                    s{^/}{};
+                    $ret{$sub.$second."/".$_} = $params{withtype} ? [$key->GetValue($_)] : $key->{"/$_"} ;
+                }
+            } elsif (exists($key->{"/$valueName"})) {
+                $ret{$sub.$second."/".$valueName} = $params{withtype} ? [$key->GetValue($valueName)] : $key->{"/$valueName"} ;
+            }
+        }
+    }
+    return \%ret;
 }
 
 sub _getRegistryKeyFromWMI{

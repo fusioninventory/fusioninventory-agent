@@ -32,4 +32,10 @@ sub GetValue {
         : $self->{$value} ;
 }
 
+sub SubKeyNames {
+    my ($self, $key) = @_ ;
+    my @keys = map { s|/$|| && $_ } grep { m|/$| } keys(%{$self});
+    return @keys;
+}
+
 1;
