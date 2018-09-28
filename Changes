@@ -42,6 +42,9 @@ netdiscovery/netinventory:
 * Thanks to @QuickNerd357, Brocade devices will now show serial number and
   firmware informations.
 * Sanitize VLAN names. This fixes an issue with Cisco Small Business Switches.
+* Get rid of unofficial Net::Ping::TimeStamp support to only use official
+  support if available. You'll need at least Net::Ping v2.67 to discover
+  devices thanks to timestamp ping.
 
 collect:
 * Thanks to David Durieux, add support for dynamic pattern in registry key
