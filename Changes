@@ -36,6 +36,7 @@ deploy:
 esx:
 * Support 2 ServiceTags case to cover chassis & lame board S/N inventory
 * Updated AssetTag support
+* fix wrong cpu core computation when only one package is available
 
 netdiscovery/netinventory:
 * Thanks to @QuickNerd357, Brocade devices will now show serial number and
