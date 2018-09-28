@@ -28,13 +28,13 @@ sub test_port {
     my $paddr = sockaddr_in($port, $iaddr);
     my $proto = getprotobyname('tcp');
     if (socket(my $socket, PF_INET, SOCK_STREAM, $proto)) {
-        if (connect($socket, $paddr)) {
+        if (bind($socket, $paddr)) {
             close $socket;
-            return 0;
+            return 1;
         }
     }
 
-    return 1;
+    return 0;
 }
 
 sub test_localhost {
