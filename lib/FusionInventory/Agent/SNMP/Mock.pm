@@ -103,7 +103,7 @@ sub _setIndexedValues {
 
     while (my $line = <$handle>) {
 
-        # Use different regex if walk contains numérical or symbolic oids
+        # Use different regex if walk contains numerical or symbolic oids
         if ($numerical) {
             if ($line =~ /^
                (\S+) \s
