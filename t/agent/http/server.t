@@ -87,7 +87,7 @@ ok (
 );
 
 # find an available port
-my $port = FusionInventory::Agent::Tools::first { test_port($_) } 8080 .. 8090;
+my $port = FusionInventory::Agent::Tools::first { test_port($_) } 8080 .. 8180;
 
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
