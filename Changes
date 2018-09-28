@@ -34,6 +34,8 @@ deploy:
   is null
 * Fix WinKeyNotEquals audit check to also be true when the registry key is
   simply missing
+* Add support to "startjob" key for failing deploy audit check to permit
+  to skip remaining checks when a failing condition makes them obsolete.
 
 esx:
 * Support 2 ServiceTags case to cover chassis & lame board S/N inventory

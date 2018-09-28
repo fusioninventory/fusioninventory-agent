@@ -103,7 +103,7 @@ sub skip_on_check_failure {
             my $name = $check->name();
             my $checkStatus = $check->process();
 
-            if ($checkStatus =~ /^abort|error|ko|skip$/) {
+            if ($checkStatus =~ /^abort|error|ko|skip|startnow$/) {
                 $logger->info("Skipping $level because $name check #$checknum failed") if $logger;
 
                 if ($check->is("skip")) {
@@ -117,6 +117,19 @@ sub skip_on_check_failure {
                         status   => 'ok',
                         msg      => "$level skipped",
                     );
+                } elsif ($check->is("startnow")) {
+                    $self->setStatus(
+                        status   => 'ok',
+                        msg      => "check #$checknum, $name not successful then start $level now",
+                        checknum => $checknum-1
+                    );
+
+                    $self->setStatus(
+                        status   => 'ok',
+                        msg      => "$level started now",
+                    );
+                    # Shortcut other checks telling the job is not to be skipped
+                    return 0;
                 } else {
                     $self->setStatus(
                         status   => 'ko',
