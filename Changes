@@ -51,6 +51,7 @@ netdiscovery/netinventory:
   devices thanks to timestamp ping.
 * Fix #481: Add Synology NAS support
 * Fix #480: Add CheckPoint support
+* Fix #488: Update HP Printers support
 
 collect:
 * Thanks to David Durieux, add support for dynamic pattern in registry key

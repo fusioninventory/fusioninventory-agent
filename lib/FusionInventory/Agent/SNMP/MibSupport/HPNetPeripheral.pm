@@ -11,7 +11,8 @@ use FusionInventory::Agent::Tools::SNMP;
 # See HP-LASERJET-COMMON-MIB / JETDIRECT3-MIB
 use constant    hpPeripheral    => '.1.3.6.1.4.1.11.2.3.9' ; # hp.nm.system.net-peripheral
 use constant    hpOfficePrinter => '.1.3.6.1.4.1.29999' ;
-use constant    hpNetPrinter    => hpPeripheral  .'.1' ;
+use constant    hpSystem        => '.1.3.6.1.4.1.11.1' ;
+use constant    hpNetPrinter    => hpPeripheral . '.1' ;
 use constant    hpDevice        => hpPeripheral . '.4.2.1' ; # + netPML.netPMLmgmt.device
 
 use constant    gdStatusId      => hpNetPrinter . '.1.7.0' ;
@@ -43,6 +44,10 @@ our $mibSupport = [
     {
         name        => "hp-office",
         sysobjectid => getRegexpOidMatch(hpOfficePrinter)
+    },
+    {
+        name        => "hp-system",
+        sysobjectid => getRegexpOidMatch(hpSystem)
     }
 ];
 
