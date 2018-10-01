@@ -50,6 +50,7 @@ netdiscovery/netinventory:
   support if available. You'll need at least Net::Ping v2.67 to discover
   devices thanks to timestamp ping.
 * Fix #481: Add Synology NAS support
+* Fix #480: Add CheckPoint support
 
 collect:
 * Thanks to David Durieux, add support for dynamic pattern in registry key
