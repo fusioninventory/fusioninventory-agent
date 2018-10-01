@@ -11,14 +11,14 @@ use FusionInventory::Agent::Tools::SNMP;
 use constant    enterprises => '.1.3.6.1.4.1' ;
 use constant    linux       => enterprises . '.8072.3.2.10' ;
 
-use constant    ucddavis    => enterprises  .'.2021' ;
+use constant    ucddavis    => enterprises . '.2021' ;
 
-use constant    ucdExperimental => ucddavis  .'.13' ;
+use constant    ucdExperimental => ucddavis . '.13' ;
 
 # UCD-DLMOD-MIB DEFINITIONS
-use constant    ucdDlmodMIB => ucdExperimental .'.14' ;
-use constant    dlmodEntry  => ucdDlmodMIB .'.2.1' ;
-use constant    dlmodName   => dlmodEntry .'.2.1' ;
+use constant    ucdDlmodMIB => ucdExperimental . '.14' ;
+use constant    dlmodEntry  => ucdDlmodMIB . '.2.1' ;
+use constant    dlmodName   => dlmodEntry . '.2.1' ;
 
 our $mibSupport = [
     {
