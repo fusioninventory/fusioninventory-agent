@@ -351,9 +351,12 @@ sub _getDevice {
     # SNMPHOSTNAME should be mandatory for server-side import. Many devices
     # badly implemented won't provide any usable hostname when not fully
     # configured. Then it's definitively better to compute one from serial
-    # or set a default one while none is found.
-    $device->{SNMPHOSTNAME} = $device->{SERIAL} ? 'device-'.$device->{SERIAL} : 'noname-device'
-        unless defined($device->{SNMPHOSTNAME});
+    # when one is found.
+    if (!defined($device->{SNMPHOSTNAME}) && $device->{SERIAL}) {
+        my $sn = $device->{SERIAL};
+        $sn =~ s/\s+/_/g;
+        $device->{SNMPHOSTNAME} = 'noname_'.$sn;
+    }
 
     return $device;
 }
