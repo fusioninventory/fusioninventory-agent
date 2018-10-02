@@ -16,10 +16,21 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    my $port;
+    my $command = "ssh-keyscan";
+    if (-e '/etc/ssh/sshd_config') {
+        foreach my $line (getAllLines( file => '/etc/ssh/sshd_config' )) {
+            next unless $line =~ /^Port\s+(\d+)/;
+            $port = $1;
+        }
+    }
+    $command .= " -p $port" if $port;
+
     # Use a 1 second timeout instead of default 5 seconds as this is still
     # large enough for loopback ssh pubkey scan.
+    $command .= ' -T 1 127.0.0.1';
     my $ssh_key = getFirstMatch(
-        command => 'ssh-keyscan -T 1 127.0.0.1',
+        command => $command,
         pattern => qr/^[^#]\S+\s(ssh.*)/,
         @_,
     );

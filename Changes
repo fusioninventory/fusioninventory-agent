@@ -20,6 +20,7 @@ inventory:
   parsing may fail if a proxy is enabled
 * Fix #473: fix arch detection under MacOS
 * Fix #475: fix video cards support under MacOS
+* Fix #504: support non-standard ssh port to report local ssh server pubkey
 
 deploy:
 * Bump Deploy task version to 2.7
