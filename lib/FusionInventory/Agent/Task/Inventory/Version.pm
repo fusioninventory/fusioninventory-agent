@@ -3,6 +3,6 @@ package FusionInventory::Agent::Task::Inventory::Version;
 use strict;
 use warnings;
 
-use constant VERSION => "1.4";
+use constant VERSION => "1.5";
 
 1;

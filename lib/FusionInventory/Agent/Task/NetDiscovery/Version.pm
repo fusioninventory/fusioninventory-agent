@@ -3,6 +3,6 @@ package FusionInventory::Agent::Task::NetDiscovery::Version;
 use strict;
 use warnings;
 
-use constant VERSION => "2.6";
+use constant VERSION => "2.7";
 
 1;
