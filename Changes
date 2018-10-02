@@ -22,6 +22,8 @@ inventory:
 * Fix #473: fix arch detection under MacOS
 * Fix #475: fix video cards support under MacOS
 * Fix #504: support non-standard ssh port to report local ssh server pubkey
+* Updated pci.ids to 2018.10.02 version
+* Updated usb.ids to 2018.08.15 version
 
 deploy:
 * Bump Deploy task version to 2.7
