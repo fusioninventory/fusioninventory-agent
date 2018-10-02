@@ -348,8 +348,10 @@ sub _getDevice {
     # Find ip
     $device->setIp();
 
-    # SNMPHOSTNAME is mandatory for server-side import, compute one from serial
-    # or set a default one for the rare case it is not set
+    # SNMPHOSTNAME should be mandatory for server-side import. Many devices
+    # badly implemented won't provide any usable hostname when not fully
+    # configured. Then it's definitively better to compute one from serial
+    # or set a default one while none is found.
     $device->{SNMPHOSTNAME} = $device->{SERIAL} ? 'device-'.$device->{SERIAL} : 'noname-device'
         unless defined($device->{SNMPHOSTNAME});
 
