@@ -237,7 +237,10 @@ my $snmp1 = FusionInventory::Agent::SNMP::Mock->new(
 my $device1 = getDeviceInfo(snmp => $snmp1);
 cmp_deeply(
     $device1,
-    { DESCRIPTION => 'foo' },
+    {
+        DESCRIPTION  => 'foo',
+        SNMPHOSTNAME => 'noname-device',
+    },
     'getDeviceInfo() with no sysobjectid'
 );
 
@@ -253,6 +256,7 @@ cmp_deeply(
     $device2,
     {
         DESCRIPTION  => 'foo',
+        SNMPHOSTNAME => 'noname-device',
     },
     'getDeviceInfo() with sysobjectid'
 );
@@ -264,6 +268,7 @@ cmp_deeply(
         DESCRIPTION  => 'foo',
         TYPE         => 'NETWORKING',
         MANUFACTURER => 'Nortel',
+        SNMPHOSTNAME => 'noname-device',
     },
     'getDeviceInfo() with sysobjectid'
 );
@@ -280,6 +285,7 @@ cmp_deeply(
         TYPE         => 'NETWORKING',
         MANUFACTURER => 'Qlogic',
         MODEL        => 'SANbox 5602 FC Switch',
+        SNMPHOSTNAME => 'noname-device',
     },
     'getDeviceInfo() with sysobjectid and extmod'
 );
