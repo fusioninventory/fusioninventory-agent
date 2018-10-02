@@ -60,6 +60,7 @@ netdiscovery/netinventory:
 * Fix #480: Add CheckPoint support
 * Fix #488: Update HP Printers support
 * Updated LLDP/CDP connection match checks
+* Updated sysobject.ids (tagged fia-2.4.2 tag on github repository)
 
 collect:
 * Bump Collect task version to 2.5
