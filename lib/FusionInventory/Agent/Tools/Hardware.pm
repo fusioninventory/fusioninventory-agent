@@ -1372,7 +1372,7 @@ sub _getVlans {
         foreach my $suffix (sort keys %{$vmPortStatus}) {
             my $port_id = _getElement($suffix, -1);
             my $vlan_id = $vmPortStatus->{$suffix};
-            my $name    = getSanitizedString($vtpVlanName->{$vlan_id});
+            my $name    = getCanonicalString($vtpVlanName->{$vlan_id});
 
             push @{$results->{$port_id}}, {
                 NUMBER => $vlan_id,
@@ -1397,7 +1397,7 @@ sub _getVlans {
                 }
                 push @{$results->{$portnumber}}, {
                     NUMBER => $vlan,
-                    NAME   => getSanitizedString($vlanIdName->{$suffix})
+                    NAME   => getCanonicalString($vlanIdName->{$suffix})
                 };
             }
         }
