@@ -1,12 +1,13 @@
 Revision history for FusionInventory agent
 
-2.4.2 not released yet
+2.4.2 Tue, 02 Oct 2018
 
 core:
-* linux: fix agent not listening on http port when syslog logger is active
+* Linux: fix agent not listening on http port when syslog logger is active
   and Sys::Sylog module is too old
 
 inventory:
+* Bump Inventory task version to 1.5
 * Fix physical memory error correction detection via WMI under win32
 * Fix #299: Added UWP/APPX/Windows Store software inventory
 * win32 antivirus detection enhanced support:
@@ -26,12 +27,12 @@ deploy:
 * Bump Deploy task version to 2.7
 * Fix deployment of private packages: their downloaded parts were not
   fully found when download were too long (closes: #542)
-* handle retention duration differently for p2p and not p2p files
-* p2p files have a default retention of 3 days by default
-* not p2p files have a default retention of 3 times the target prolog delay
+* Handle retention duration differently for p2p and not p2p files
+* P2p files have a default retention of 3 days by default
+* P2p files have a default retention of 3 times the target prolog delay
   after download, parts retention is reset to the same delay for all file parts,
   so the retention duration applies at the time parts has been downloaded
-* not p2p file parts are now cleaned up after job success if retention duration
+* P2p file parts are now cleaned up after job success if retention duration
   is null
 * Fix WinKeyNotEquals audit check to also be true when the registry key is
   simply missing
@@ -39,16 +40,19 @@ deploy:
   to skip remaining checks when a failing condition makes them obsolete.
 
 esx:
+* Bump ESX task version to 2.4
 * Support 2 ServiceTags case to cover chassis & lame board S/N inventory
 * Updated AssetTag support
 * fix wrong cpu core computation when only one package is available
 
 netdiscovery/netinventory:
+* Bump NetDiscovery task version to 2.7
+* Bump NetInventory task version to 3.1
 * Thanks to @QuickNerd357, Brocade devices will now show serial number and
   firmware informations.
 * Sanitize VLAN names. This fixes an issue with Cisco Small Business Switches.
 * Get rid of unofficial Net::Ping::TimeStamp support to only use official
-  support if available. You'll need at least Net::Ping v2.67 to discover
+  support if available. Net::Ping v2.67 is now mandatory to discover
   devices thanks to timestamp ping.
 * Fix #481: Add Synology NAS support
 * Fix #480: Add CheckPoint support
@@ -56,16 +60,17 @@ netdiscovery/netinventory:
 * Updated LLDP/CDP connection match checks
 
 collect:
+* Bump Collect task version to 2.5
 * Thanks to David Durieux, add support for dynamic pattern in registry key
   collect under win32. The dynamic pattern is '**' to glob subkeys like in:
    HKEY_USERS/**/Software/**/**/CurrentVersion
 
 maintenance:
-* bump Maintenance task version to 1.1
-* disable Maintenance task if no maintenance module could be used
+* Bump Maintenance task version to 1.1
+* Disable Maintenance task if no maintenance module could be used
 
 test suite:
-* make snmp walk tests faster
+* Make snmp walk tests faster
 
 2.4.1 Fri, 29 Jun 2018
 
