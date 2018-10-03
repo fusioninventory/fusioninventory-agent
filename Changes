@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.4.2 Tue, 02 Oct 2018
+2.4.2 Wed, 03 Oct 2018
 
 core:
 * Linux: fix agent not listening on http port when syslog logger is active
