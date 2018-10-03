@@ -17,6 +17,7 @@ use FusionInventory::Agent::Task::Maintenance;
 use FusionInventory::Agent::Target::Local;
 use FusionInventory::Agent::Target::Server;
 use FusionInventory::Agent::Target::Scheduler;
+use FusionInventory::Agent::Task::Deploy::Datastore;
 
 plan tests => 22;
 
@@ -91,21 +92,31 @@ lives_ok {
 
 # Test Deploy maintenance module
 my $folder = $scheduler->getStorage()->getDirectory().'/deploy/fileparts/private';
-my @files = map { $folder.'/'.$_.'/test' } (0,time-60,time+3600);
-foreach my $file (@files) {
-    File::Path::mkpath(dirname($file));
-    open FILE, ">$file" or die "Can't create tmp file: $!\n";
-    print FILE "TEST\n";
-    close(FILE);
+SKIP: {
+    my $datastore = FusionInventory::Agent::Task::Deploy::Datastore->new(
+        config => {},
+        path   => $scheduler->getStorage()->getDirectory(),
+        logger => $logger
+    );
+    skip 'disk is still full', 7
+        if $datastore->diskIsFull();
+
+    my @files = map { $folder.'/'.$_.'/test' } (0,time-60,time+3600);
+    foreach my $file (@files) {
+        File::Path::mkpath(dirname($file));
+        open FILE, ">$file" or die "Can't create tmp file: $!\n";
+        print FILE "TEST\n";
+        close(FILE);
+    }
+    ok( -f $files[0], "File exists in folder 0");
+    ok( -f $files[1], "File exists in past folder");
+    ok( -f $files[2], "File exists in future folder");
+
+    lives_ok {
+        $task->run();
+    } "Doing Deploy maintenance";
+
+    ok( ! -f $files[0], "File removed in folder 0");
+    ok( ! -f $files[1], "File removed in past folder");
+    ok( -f $files[2], "File exists in future folder");
 }
-ok( -f $files[0], "File exists in folder 0");
-ok( -f $files[1], "File exists in past folder");
-ok( -f $files[2], "File exists in future folder");
-
-lives_ok {
-    $task->run();
-} "Doing Deploy maintenance";
-
-ok( ! -f $files[0], "File removed in folder 0");
-ok( ! -f $files[1], "File removed in past folder");
-ok( -f $files[2], "File exists in future folder");

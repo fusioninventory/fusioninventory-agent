@@ -129,9 +129,9 @@ Please report any issues on project forge bugtracker.
 
 Copyright 2006-2010 [OCS Inventory contributors](https://www.ocsinventory-ng.org/)
 
-Copyright 2010-2017 [FusionInventory Team](http://fusioninventory.org)
+Copyright 2010-2018 [FusionInventory Team](http://fusioninventory.org)
 
-Copyright 2011-2017 [Teclib Editions](http://www.teclib-edition.com/)
+Copyright 2011-2018 [Teclib Editions](http://www.teclib-edition.com/)
 
 ## License
 
