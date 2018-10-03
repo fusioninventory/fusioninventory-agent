@@ -1,0 +1,251 @@
+Name            : ca-certificates
+Version         : 20180821-1
+Description     : Common CA certificates (default providers)
+Architecture    : any
+URL             : https://src.fedoraproject.org/rpms/ca-certificates
+Licenses        : GPL2
+Groups          : None
+Provides        : None
+Depends On      : ca-certificates-mozilla
+Optional Deps   : None
+Required By     : curl
+Optional For    : openssl
+Conflicts With  : ca-certificates-cacert<=20140824-4
+Replaces        : ca-certificates-cacert<=20140824-4
+Installed Size  : 1024.00 B
+Packager        : Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+Build Date      : Tue Aug 21 18:39:16 2018
+Install Date    : Wed Sep 12 10:55:23 2018
+Install Reason  : Installed as a dependency for another package
+Install Script  : No
+Validated By    : Signature
+
+Name            : filesystem
+Version         : 2018.8-1
+Description     : Base Arch Linux files
+Architecture    : x86_64
+URL             : https://www.archlinux.org
+Licenses        : GPL
+Groups          : base
+Provides        : None
+Depends On      : iana-etc
+Optional Deps   : None
+Required By     : glibc
+Optional For    : None
+Conflicts With  : None
+Replaces        : None
+Installed Size  : 12.00 KiB
+Packager        : Jan Alexander Steffens (heftig) <jan.steffens@gmail.com>
+Build Date      : Tue Aug 21 14:21:42 2018
+Install Date    : Wed Sep 12 10:54:35 2018
+Install Reason  : Explicitly installed
+Install Script  : No
+Validated By    : Signature
+
+Name            : pacman-mirrorlist
+Version         : 20180912-1
+Description     : Arch Linux mirror list for use by pacman
+Architecture    : any
+URL             : https://www.archlinux.org/mirrorlist/
+Licenses        : GPL
+Groups          : None
+Provides        : None
+Depends On      : None
+Optional Deps   : None
+Required By     : pacman
+Optional For    : None
+Conflicts With  : None
+Replaces        : None
+Installed Size  : 26.00 KiB
+Packager        : Florian Pritz <bluewind@xinu.at>
+Build Date      : Wed Sep 12 07:46:50 2018
+Install Date    : Wed Sep 12 10:55:27 2018
+Install Reason  : Installed as a dependency for another package
+Install Script  : No
+Validated By    : Signature
+
+Name            : perl
+Version         : 5.28.0-1
+Description     : A highly capable, feature-rich programming language
+Architecture    : x86_64
+URL             : http://www.perl.org
+Licenses        : GPL  PerlArtistic
+Groups          : base
+Provides        : perl-archive-tar=2.30  perl-attribute-handlers=1.01  perl-autodie=2.29  perl-autoloader=5.74  perl-autouse=1.11  perl-b-debug=1.26  perl-base=2.27  perl-bignum=0.49  perl-carp=1.50  perl-compress-raw-bzip2=2.074  perl-compress-raw-zlib=2.076  perl-config-perl-v=0.29  perl-constant=1.33  perl-cpan-meta-requirements=2.140  perl-cpan-meta-yaml=0.018  perl-cpan-meta=2.150010  perl-cpan=2.20  perl-data-dumper=2.170  perl-db_file=1.840  perl-devel-ppport=3.40  perl-devel-selfstubber=1.06  perl-digest-md5=2.55  perl-digest-sha=6.01  perl-digest=1.17_01  perl-dumpvalue=1.18  perl-encode=2.97  perl-encoding-warnings=0.13  perl-env=1.04  perl-experimental=0.019  perl-exporter=5.73  perl-extutils-cbuilder=0.280230  perl-extutils-constant=0.25  perl-extutils-install=2.14  perl-extutils-makemaker=7.34  perl-extutils-manifest=1.70  perl-extutils-parsexs=3.39  perl-file-fetch=0.56  perl-file-path=2.15  perl-file-temp=0.2304  perl-filter-simple=0.95  perl-filter-util-call=1.58  perl-getopt-long=2.5  perl-http-tiny=0.070  perl-i18n-collate=1.02  perl-i18n-langtags=0.43  perl-if=0.0608  perl-io-compress=2.074  perl-io-socket-ip=0.39  perl-io-zlib=1.10  perl-io=1.39  perl-ipc-cmd=1.00  perl-ipc-sysv=2.07  perl-json-pp=2.97001  perl-lib=0.64  perl-libnet=3.11  perl-locale-codes=3.56  perl-locale-maketext-simple=0.21_01  perl-locale-maketext=1.29  perl-math-bigint-fastcalc=0.5006  perl-math-bigint=1.999811  perl-math-bigrat=0.2613  perl-math-complex=1.5901  perl-memoize=1.03_01  perl-mime-base64=3.15  perl-module-corelist=5.20180622  perl-module-load-conditional=0.68  perl-module-load=0.32  perl-module-loaded=0.08  perl-module-metadata=1.000033  perl-net-ping=2.62  perl-params-check=0.38  perl-parent=0.236  perl-pathtools=3.74  perl-perl-ostype=1.010  perl-perlfaq=5.021011  perl-perlio-via-quotedprint=0.08  perl-pod-checker=1.73  perl-pod-escapes=1.07  perl-pod-parser=1.63  perl-pod-perldoc=3.2801  perl-pod-simple=3.35  perl-pod-usage=1.69  perl-podlators=5.006  perl-safe=2.40  perl-scalar-list-utils=1.50  perl-search-dict=1.07  perl-selfloader=1.25  perl-socket=2.027  perl-storable=3.08  perl-sys-syslog=0.35  perl-term-ansicolor=4.06  perl-term-cap=1.17  perl-term-complete=1.403  perl-term-readline=1.17  perl-test-harness=3.42  perl-test-simple=1.302133  perl-test=1.31  perl-text-abbrev=1.02  perl-text-balanced=2.03  perl-text-parsewords=3.30  perl-text-tabs=2013.0523  perl-thread-queue=3.12  perl-thread-semaphore=2.13  perl-threads-shared=1.58  perl-threads=2.22  perl-tie-file=1.02  perl-tie-refhash=1.39  perl-time-hires=1.9759  perl-time-local=1.25  perl-time-piece=1.3204  perl-unicode-collate=1.25  perl-unicode-normalize=1.26  perl-version=0.9923  perl-xsloader=0.30
+Depends On      : gdbm  db  glibc
+Optional Deps   : None
+Required By     : groff  openssl  texinfo
+Optional For    : vim
+Conflicts With  : None
+Replaces        : None
+Installed Size  : 57.47 MiB
+Packager        : Florian Pritz <bluewind@xinu.at>
+Build Date      : Wed Aug  1 08:43:05 2018
+Install Date    : Wed Sep 12 10:54:57 2018
+Install Reason  : Explicitly installed
+Install Script  : No
+Validated By    : Signature
+
+Name            : systemd
+Version         : 239.0-2
+Description     : system and service manager
+Architecture    : x86_64
+URL             : https://www.github.com/systemd/systemd
+Licenses        : GPL2  LGPL2.1
+Groups          : base-devel
+Provides        : nss-myhostname  systemd-tools=239.0  udev=239.0
+Depends On      : acl  bash  cryptsetup  dbus  iptables  kbd  kmod  hwids  libcap  libgcrypt  libsystemd  libidn  lz4  pam  libelf  libseccomp  util-linux  xz  pcre2
+Optional Deps   : libmicrohttpd: remote journald capabilities
+                  quota-tools: kernel-level quota management
+                  systemd-sysvcompat: symlink package to provide sysvinit binaries [installed]
+                  polkit: allow administration as unprivileged user
+Required By     : dhcpcd  netctl  systemd-sysvcompat
+Optional For    : None
+Conflicts With  : nss-myhostname  systemd-tools  udev
+Replaces        : nss-myhostname  systemd-tools  udev
+Installed Size  : 18.96 MiB
+Packager        : Christian Hesse <arch@eworm.de>
+Build Date      : Fri Jun 22 15:04:34 2018
+Install Date    : Wed Sep 12 10:55:12 2018
+Install Reason  : Installed as a dependency for another package
+Install Script  : Yes
+Validated By    : Signature
+
+Name            : vim
+Version         : 8.1.0333-1
+Description     : Vi Improved, a highly configurable, improved version of the vi text editor
+Architecture    : x86_64
+URL             : https://www.vim.org
+Licenses        : custom:vim
+Groups          : None
+Provides        : xxd  vim-minimal  vim-python3
+Depends On      : vim-runtime=8.1.0333-1  gpm  acl  glibc  libgcrypt  pcre  zlib  libffi
+Optional Deps   : python2: Python 2 language support
+                  python: Python 3 language support
+                  ruby: Ruby language support
+                  lua: Lua language support
+                  perl: Perl language support [installed]
+                  tcl: Tcl language support
+Required By     : None
+Optional For    : None
+Conflicts With  : gvim  vim-minimal  vim-python3
+Replaces        : vim-python3  vim-minimal
+Installed Size  : 3.38 MiB
+Packager        : Levente Polyak <anthraxx@archlinux.org>
+Build Date      : Wed Aug 29 20:42:12 2018
+Install Date    : Wed Sep 12 13:00:05 2018
+Install Reason  : Explicitly installed
+Install Script  : No
+Validated By    : Signature
+
+Name            : vim-runtime
+Version         : 8.1.0333-1
+Description     : Vi Improved, a highly configurable, improved version of the vi text editor (shared runtime)
+Architecture    : x86_64
+URL             : https://www.vim.org
+Licenses        : custom:vim
+Groups          : None
+Provides        : None
+Depends On      : None
+Optional Deps   : sh: support for some tools and macros [installed]
+                  python: demoserver example tool
+                  gawk: mve tools upport [installed]
+Required By     : vim
+Optional For    : None
+Conflicts With  : None
+Replaces        : None
+Installed Size  : 28.30 MiB
+Packager        : Levente Polyak <anthraxx@archlinux.org>
+Build Date      : Wed Aug 29 20:42:12 2018
+Install Date    : Wed Sep 12 13:00:04 2018
+Install Reason  : Installed as a dependency for another package
+Install Script  : No
+Validated By    : Signature
+
+Name            : which
+Version         : 2.21-2
+Description     : A utility to show the full path of commands
+Architecture    : x86_64
+URL             : http://savannah.gnu.org/projects/which
+Licenses        : GPL3
+Groups          : base  base-devel
+Provides        : None
+Depends On      : glibc  bash
+Optional Deps   : None
+Required By     : None
+Optional For    : None
+Conflicts With  : None
+Replaces        : None
+Installed Size  : 27.00 KiB
+Packager        : Sébastien Luttringer <seblu@seblu.net>
+Build Date      : Sat May 14 13:11:33 2016
+Install Date    : Wed Sep 12 10:55:29 2018
+Install Reason  : Explicitly installed
+Install Script  : No
+Validated By    : Signature
+
+Name            : xz
+Version         : 5.2.4-1
+Description     : Library and command line tools for XZ and LZMA compressed files
+Architecture    : x86_64
+URL             : https://tukaani.org/xz/
+Licenses        : GPL  LGPL  custom
+Groups          : None
+Provides        : None
+Depends On      : sh
+Optional Deps   : None
+Required By     : kmod  libarchive  libelf  libsystemd  systemd  zstd
+Optional For    : None
+Conflicts With  : None
+Replaces        : None
+Installed Size  : 757.00 KiB
+Packager        : Pierre Schmitz <pierre@archlinux.de>
+Build Date      : Mon Apr 30 03:18:54 2018
+Install Date    : Wed Sep 12 10:55:01 2018
+Install Reason  : Installed as a dependency for another package
+Install Script  : No
+Validated By    : Signature
+
+Name            : zlib
+Version         : 1:1.2.11-3
+Description     : Compression library implementing the deflate compression method found in gzip and PKZIP
+Architecture    : x86_64
+URL             : https://www.zlib.net/
+Licenses        : custom
+Groups          : None
+Provides        : None
+Depends On      : glibc
+Optional Deps   : None
+Required By     : cracklib  curl  file  glib2  gnutls  kmod  libarchive  libelf  man-db  pcre  pcre2  sqlite  vim  zstd
+Optional For    : None
+Conflicts With  : None
+Replaces        : None
+Installed Size  : 327.00 KiB
+Packager        : Evangelos Foutras <evangelos@foutrelis.com>
+Build Date      : Mon Jul 23 07:01:05 2018
+Install Date    : Wed Sep 12 10:55:02 2018
+Install Reason  : Installed as a dependency for another package
+Install Script  : No
+Validated By    : Signature
+
+Name            : zstd
+Version         : 1.3.5-1
+Description     : Zstandard - Fast real-time compression algorithm
+Architecture    : x86_64
+URL             : http://www.zstd.net/
+Licenses        : BSD  GPL2
+Groups          : None
+Provides        : None
+Depends On      : zlib  xz  lz4
+Optional Deps   : None
+Required By     : libarchive
+Optional For    : None
+Conflicts With  : None
+Replaces        : None
+Installed Size  : 2.64 MiB
+Packager        : Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+Build Date      : Tue Jul  3 10:19:18 2018
+Install Date    : Wed Sep 12 10:55:22 2018
+Install Reason  : Installed as a dependency for another package
+Install Script  : No
+Validated By    : Signature

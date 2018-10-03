@@ -16,7 +16,7 @@ sub new {
     my $self = $class->SUPER::new(%params);
 
     $self->{storage} = $params{storage};
-    $self->{name}    = 'scheduler' . $count++,
+    $self->{id}      = 'scheduler' . $count++;
 
     # handle persistent state
     $self->_loadState();
@@ -32,7 +32,7 @@ sub new {
 sub getName {
     my ($self) = @_;
 
-    return $self->{name};
+    return $self->{id};
 }
 
 sub getType {
@@ -44,12 +44,19 @@ sub getType {
 sub plannedTasks {
     my $self = shift @_;
 
-    # Keep only Maintenance as local task
+    # Keep only Maintenance as local task, but keep others
     if (@_) {
         $self->{tasks} = [ grep { $_ =~ /^Maintenance$/i } @_ ];
+        $self->{others} = [ grep { $_ !~ /^Maintenance$/i } @_ ];
     }
 
     return @{$self->{tasks} || []};
+}
+
+sub otherTasks {
+    my $self = shift @_;
+
+    return @{$self->{others} || []};
 }
 
 sub _loadState {

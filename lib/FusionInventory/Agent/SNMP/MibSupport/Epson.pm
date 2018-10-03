@@ -9,8 +9,8 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::SNMP;
 
 use constant    epson   => '.1.3.6.1.4.1.1248' ;
-use constant    model   => epson  .'.1.2.2.1.1.1.2.1' ;
-use constant    serial  => epson  .'.1.2.2.1.1.1.5.1' ;
+use constant    model   => epson . '.1.2.2.1.1.1.2.1' ;
+use constant    serial  => epson . '.1.2.2.1.1.1.5.1' ;
 use constant    fw_base => epson . '.1.2.2.2.1.1' ;
 
 our $mibSupport = [

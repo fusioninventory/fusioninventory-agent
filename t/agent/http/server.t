@@ -48,9 +48,6 @@ if (my $pid = fork()) {
     exit $client->get('http://127.0.0.1:62354')->is_success();
 }
 
-# find an available port
-my $port = FusionInventory::Agent::Tools::first { test_port($_) } 8080 .. 8090;
-
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(
         agent     => FusionInventory::Test::Agent->new(),
@@ -90,7 +87,7 @@ ok (
 );
 
 # find an available port
-$port = FusionInventory::Agent::Tools::first { test_port($_) } 8080 .. 8090;
+my $port = FusionInventory::Agent::Tools::first { test_port($_) } 8080 .. 8180;
 
 lives_ok {
     $server = FusionInventory::Agent::HTTP::Server->new(

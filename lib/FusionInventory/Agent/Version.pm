@@ -3,7 +3,7 @@ package FusionInventory::Agent::Version;
 use strict;
 use warnings;
 
-our $VERSION = "2.4.1";
+our $VERSION = "2.4.2";
 our $PROVIDER = "FusionInventory";
 our $COMMENTS = [];
 
@@ -33,5 +33,5 @@ agent issue is reported.
 One very useful information should be first defined like in that example:
 
 our $COMMENTS = [
-    "Based on FusionInventory Agent v2.4"
+    "Based on FusionInventory Agent v2.4.2"
 ];

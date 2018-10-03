@@ -232,7 +232,7 @@ sub _cleanHash {
         $keys++;
         next if defined($hashref->{$key});
         delete $hashref->{$key};
-        $keys--,
+        $keys--;
     }
 
     return $keys;
@@ -440,7 +440,7 @@ sub setType {
 sub setManufacturer {
     my ($self) = @_;
 
-    # Permit mib support to reset type
+    # Permit mib support to reset manufacturer
     if ($self->{MIBSUPPORT}) {
         my $manufacturer = $self->{MIBSUPPORT}->getMethod('getManufacturer');
         $self->{MANUFACTURER} = $manufacturer if $manufacturer;

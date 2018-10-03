@@ -76,6 +76,7 @@ my %tests = (
             CAPTION      => 'Physical Memory',
             REMOVABLE    => 0,
             DESCRIPTION  => 'Physical Memory',
+            MEMORYCORRECTION => 'None',
             CAPACITY     => '2048'
         }
       ],

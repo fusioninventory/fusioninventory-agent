@@ -1,6 +1,6 @@
 branches:
   only:
-    - 2.4.x
+    - develop
 
 notifications:
   - provider: Email

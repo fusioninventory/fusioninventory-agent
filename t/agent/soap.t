@@ -35,8 +35,7 @@ my %tests = (
               'SMODEL' => 'Sun Fire X2200 M2 with Dual Core Processor',
               'BDATE' => '2009-02-04T00:00:00Z',
               'ASSETTAG' => ' To Be Filled By O.E.M.',
-              'BVERSION' => 'S39_3B27',
-              'SSN' => undef
+              'BVERSION' => 'S39_3B27'
             }
         ],
         'getHardwareInfo' => [

@@ -1033,7 +1033,21 @@ sub _setConnectedDevices {
             my $cdp_connection  = $cdp_info->{$interface_id};
 
             if ($lldp_connection) {
-                if ($cdp_connection->{SYSDESCR} eq $lldp_connection->{SYSDESCR}) {
+                my $match = 0;
+
+                # Try different case to find LLDP/CDP connection match
+                if ($lldp_connection->{SYSDESCR} && $cdp_connection->{SYSDESCR} eq $lldp_connection->{SYSDESCR}) {
+                    $match ++;
+                } elsif ($lldp_connection->{SYSNAME} && $cdp_connection->{SYSNAME}) {
+                    my $cdp_test = getCanonicalMacAddress($cdp_connection->{SYSNAME});
+                    if ($cdp_connection->{SYSNAME} eq $lldp_connection->{SYSNAME}) {
+                        $match ++;
+                    } elsif ($lldp_connection->{SYSMAC} && $cdp_test && $lldp_connection->{SYSMAC} eq $cdp_test) {
+                        $match ++;
+                    }
+                }
+
+                if ($match) {
                     # same device, everything OK
                     foreach my $key (qw/IP MODEL/) {
                         $lldp_connection->{$key} = $cdp_connection->{$key};
@@ -1358,7 +1372,7 @@ sub _getVlans {
         foreach my $suffix (sort keys %{$vmPortStatus}) {
             my $port_id = _getElement($suffix, -1);
             my $vlan_id = $vmPortStatus->{$suffix};
-            my $name    = $vtpVlanName->{$vlan_id};
+            my $name    = getCanonicalString($vtpVlanName->{$vlan_id});
 
             push @{$results->{$port_id}}, {
                 NUMBER => $vlan_id,
@@ -1383,7 +1397,7 @@ sub _getVlans {
                 }
                 push @{$results->{$portnumber}}, {
                     NUMBER => $vlan,
-                    NAME   => $vlanIdName->{$suffix}
+                    NAME   => getCanonicalString($vlanIdName->{$suffix})
                 };
             }
         }

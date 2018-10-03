@@ -178,6 +178,7 @@ sub send {
     print $params{message}->getContent();
 }
 
+## no critic (ProhibitMultiplePackages)
 package FusionInventory::Agent::Task::NetInventory::Target;
 
 sub new {

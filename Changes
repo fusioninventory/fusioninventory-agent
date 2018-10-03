@@ -1,5 +1,80 @@
 Revision history for FusionInventory agent
 
+2.4.2 Wed, 03 Oct 2018
+
+core:
+* Linux: fix agent not listening on http port when syslog logger is active
+  and Sys::Sylog module is too old
+
+inventory:
+* Bump Inventory task version to 1.5
+* Fix physical memory error correction detection via WMI under win32
+* Fix #299: Added UWP/APPX/Windows Store software inventory
+* win32 antivirus detection enhanced support:
+  - add support for few antivirus base versions (defender, kaspersky,
+    EST, avira, MSE, McAfee, F-Secure)
+  - try to set license expiration date for F-Secure, kaspersky & avira
+* Fix #442: kaspersky not fully recognized in russia
+* Fix #501: wrong status was reported when windows defender was disabled
+* Enhanced software inventory under Arch Linux
+* Fix #453: under MacOS, skip XML DTD validation for software inventory as
+  parsing may fail if a proxy is enabled
+* Fix #473: fix arch detection under MacOS
+* Fix #475: fix video cards support under MacOS
+* Fix #504: support non-standard ssh port to report local ssh server pubkey
+* Updated pci.ids to 2018.10.02 version
+* Updated usb.ids to 2018.08.15 version
+
+deploy:
+* Bump Deploy task version to 2.7
+* Fix deployment of private packages: their downloaded parts were not
+  fully found when download were too long (closes: #542)
+* Handle retention duration differently for p2p and not p2p files
+* P2p files have a default retention of 3 days by default
+* P2p files have a default retention of 3 times the target prolog delay
+  after download, parts retention is reset to the same delay for all file parts,
+  so the retention duration applies at the time parts has been downloaded
+* P2p file parts are now cleaned up after job success if retention duration
+  is null
+* Fix WinKeyNotEquals audit check to also be true when the registry key is
+  simply missing
+* Add support to "startjob" key for failing deploy audit check to permit
+  to skip remaining checks when a failing condition makes them obsolete.
+
+esx:
+* Bump ESX task version to 2.4
+* Support 2 ServiceTags case to cover chassis & lame board S/N inventory
+* Updated AssetTag support
+* fix wrong cpu core computation when only one package is available
+
+netdiscovery/netinventory:
+* Bump NetDiscovery task version to 2.7
+* Bump NetInventory task version to 3.1
+* Thanks to @QuickNerd357, Brocade devices will now show serial number and
+  firmware informations.
+* Sanitize VLAN names. This fixes an issue with Cisco Small Business Switches.
+* Get rid of unofficial Net::Ping::TimeStamp support to only use official
+  support if available. Net::Ping v2.67 is now mandatory to discover
+  devices thanks to timestamp ping.
+* Fix #481: Add Synology NAS support
+* Fix #480: Add CheckPoint support
+* Fix #488: Update HP Printers support
+* Updated LLDP/CDP connection match checks
+* Updated sysobject.ids (tagged fia-2.4.2 tag on github repository)
+
+collect:
+* Bump Collect task version to 2.5
+* Thanks to David Durieux, add support for dynamic pattern in registry key
+  collect under win32. The dynamic pattern is '**' to glob subkeys like in:
+   HKEY_USERS/**/Software/**/**/CurrentVersion
+
+maintenance:
+* Bump Maintenance task version to 1.1
+* Disable Maintenance task if no maintenance module could be used
+
+test suite:
+* Make snmp walk tests faster
+
 2.4.1 Fri, 29 Jun 2018
 
 core:

@@ -47,7 +47,7 @@ sub success {
     my $parent_key = FusionInventory::Agent::Tools::Win32::getRegistryKey(
         path => $parent
     );
-    return 0 unless (defined($parent_key));
+    return 1 unless (defined($parent_key));
 
     my @regValue = $parent_key->GetValue($key);
 
@@ -56,7 +56,7 @@ sub success {
     } else {
         $self->on_failure("missing registry value: ".$self->{path});
     }
-    return 0 unless (@regValue);
+    return 1 unless (@regValue);
 
     # We need to convert values as string while checking a DWORD value
     my ($regValue, $regType ) = @regValue;

@@ -51,7 +51,7 @@ package FusionInventory::Agent::Version;
 use strict;
 use warnings;
 
-our $VERSION = "2.4-1";
+our $VERSION = "2.4.2-1";
 our $PROVIDER = "FusionInventory";
 our $COMMENTS = [ "My distro package built on some computer", "Built on that date" ];
 

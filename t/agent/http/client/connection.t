@@ -18,7 +18,7 @@ use FusionInventory::Test::Utils;
 unsetProxyEnvVar();
 
 # find an available port
-my $port = FusionInventory::Agent::Tools::first { test_port($_) } 8080 .. 8090;
+my $port = FusionInventory::Agent::Tools::first { test_port($_) } 8080 .. 8180;
 
 if (!$port) {
     plan skip_all => 'no port available';

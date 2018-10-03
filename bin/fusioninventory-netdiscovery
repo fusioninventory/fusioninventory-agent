@@ -111,6 +111,7 @@ $discovery->{client} =
 
 $discovery->run();
 
+## no critic (ProhibitMultiplePackages)
 package FusionInventory::Agent::Task::NetInventory::Client;
 
 sub new {

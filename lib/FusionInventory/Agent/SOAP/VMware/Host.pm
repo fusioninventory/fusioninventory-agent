@@ -47,31 +47,36 @@ sub getBiosInfo {
     my $hardware   = $self->{hash}[0]{hardware};
     my $biosInfo   = $hardware->{biosInfo};
     my $systemInfo = $hardware->{systemInfo};
-    my $ssn;
 
     return unless ref($biosInfo) eq 'HASH';
 
-    my $identifierValue;
+    my $bios = {
+        BDATE         => $biosInfo->{releaseDate},
+        BVERSION      => $biosInfo->{biosVersion},
+        SMODEL        => $systemInfo->{model},
+        SMANUFACTURER => $systemInfo->{vendor}
+    };
+
     if (ref($systemInfo->{otherIdentifyingInfo}) eq 'HASH') {
-        $identifierValue = $systemInfo->{otherIdentifyingInfo}->{identifierValue};
+        $bios->{ASSETTAG} = $systemInfo->{otherIdentifyingInfo}->{identifierValue};
     }
     elsif (ref($systemInfo->{otherIdentifyingInfo}) eq 'ARRAY') {
         foreach (@{$systemInfo->{otherIdentifyingInfo}}) {
             if ($_->{identifierType}->{key} eq 'ServiceTag') {
-                $ssn = $_->{identifierValue};
-                last;
+                # In the case we found more than one ServiceTag, assume there will be
+                # only two, the first being the chassis S/N, the second the system S/N
+                # This cover the case where the second is the lame board S/N
+                if ($bios->{SSN}) {
+                    $bios->{MSN} = $bios->{SSN};
+                }
+                $bios->{SSN} = $_->{identifierValue};
+            } elsif ($_->{identifierType}->{key} eq 'AssetTag') {
+                $bios->{ASSETTAG} = $_->{identifierValue};
             }
         }
     }
 
-    return {
-        BDATE         => $biosInfo->{releaseDate},
-        BVERSION      => $biosInfo->{biosVersion},
-        SMODEL        => $systemInfo->{model},
-        SMANUFACTURER => $systemInfo->{vendor},
-        ASSETTAG      => $identifierValue,
-        SSN           => $ssn
-    };
+    return $bios;
 }
 
 sub getHardwareInfo {
@@ -107,12 +112,14 @@ sub getCPUs {
     my $totalCore   = $hardware->{cpuInfo}{numCpuCores};
     my $totalThread = $hardware->{cpuInfo}{numCpuThreads};
     my $cpuEntries  = $hardware->{cpuPkg};
+    my $cpuPackages = $hardware->{cpuInfo}{numCpuPackages} ||
+        scalar(_asArray($cpuEntries));
 
     my @cpus;
     foreach (_asArray($cpuEntries)) {
         push @cpus,
           {
-            CORE         => $totalCore / _asArray($cpuEntries),
+            CORE         => eval { $totalCore / $cpuPackages },
             MANUFACTURER => $cpuManufacturor{ $_->{vendor} } || $_->{vendor},
             NAME         => $_->{description},
             SPEED        => int( $_->{hz} / ( 1000 * 1000 ) ),

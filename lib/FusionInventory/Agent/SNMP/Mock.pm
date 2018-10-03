@@ -47,13 +47,16 @@ sub new {
                 unless -f $params{file};
             die "unreadable file '$params{file}'\n"
                 unless -r $params{file};
-            $self->{values} = _getIndexedValues($params{file});
-            $self->{file}   = $params{file};
+            $self->{_file} = $params{file};
+            $self->_setIndexedValues();
             last SWITCH;
         }
 
         if ($params{hash}) {
-            $self->{values} = $params{hash};
+            $self->{_walk} = {};
+            foreach my $oid (keys(%{$params{hash}})) {
+                $self->_setValue($oid, $params{hash}->{$oid});
+            }
             last SWITCH;
         }
     }
@@ -64,27 +67,27 @@ sub new {
 sub switch_vlan_context {
     my ($self, $vlan_id) = @_;
 
-    $self->{oldvalues} = $self->{values} unless $self->{oldvalues};
+    $self->{_oldwalk} = $self->{_walk} unless $self->{_oldwalk};
 
-    my $file = $self->{file} . '@' . $vlan_id;
+    my $file = $self->{_file} . '@' . $vlan_id;
     if (-r $file && -f $file) {
-        $self->{values} = _getIndexedValues($file);
+        $self->_setIndexedValues($file);
     } else {
-        delete $self->{values};
+        delete $self->{_walk};
     }
 }
 
 sub reset_original_context {
     my ($self) = @_;
 
-    $self->{values} = $self->{oldvalues};
-    delete $self->{oldvalues};
+    $self->{_walk} = $self->{_oldwalk} if $self->{_oldwalk};
+    delete $self->{_oldwalk};
 }
 
-sub _getIndexedValues {
-    my ($file) = @_;
+sub _setIndexedValues {
+    my ($self, $file) = @_;
 
-    my $handle = getFileHandle(file => $file);
+    my $handle = getFileHandle(file => $file || $self->{_file});
 
     # check first line
     my $first_line = <$handle>;
@@ -93,119 +96,171 @@ sub _getIndexedValues {
     # check first line for safety
     die "invalid file format\n" unless $first_line =~ /^(\S+) = .*/;
 
-    my $values = substr($first_line, 0, 1) eq '.' ?
-        _readNumericalOids($handle) :
-        _readSymbolicOids($handle)  ;
+    my $numerical = substr($first_line, 0, 1) eq '.' ? 1 : 0 ;
+    my $last_value;
+
+    $self->{_walk} = {};
+
+    while (my $line = <$handle>) {
+
+        # Use different regex if walk contains numerical or symbolic oids
+        if ($numerical) {
+            if ($line =~ /^
+               (\S+) \s
+               = \s
+               (?:Wrong \s Type \s \(should \s be \s [^:]+\): \s)?
+               ([^:]+): \s
+               (.*)
+               /x
+            ) {
+                my ($oid, $type, $value) = ($1, $2, $3);
+                $last_value = [ $type, $value ];
+                $self->_setValue($oid, $last_value);
+                next;
+            }
+        } else {
+            if ($line =~ /^
+               ([^.]+) \. ([\d.]+) \s
+               = \s
+               (?:Wrong \s Type \s \(should \s be \s [^:]+\): \s)?
+               ([^:]+): \s
+               (.*)
+               /x
+            ) {
+                my ($mib, $suffix, $type, $value) = ($1, $2, $3, $4);
+
+                if ($prefixes{$mib}) {
+                    my $oid = $prefixes{$mib} . '.' . $suffix;
+                    $last_value = [ $type, $value ];
+                    $self->_setValue($oid, $last_value);
+                } else {
+                    # irrelevant OID
+                    $last_value = undef;
+                }
+
+                next;
+            }
+        }
+
+        # Don't merge end of walk delimiter in last value
+        last if $line =~ /No more variables left in this MIB View/;
+        last if $line =~ /^End of MIB$/;
+
+        # potential continuation
+        if ($line !~ /^$/ && $line !~ /= ""$/ && $last_value) {
+            if ($last_value->[0] eq 'STRING' &&
+                $last_value->[1] !~ /"$/
+            ) {
+                chomp $line;
+                $last_value->[1] .= "\n" . $line;
+                next;
+            } elsif ($last_value->[0] eq 'Hex-STRING') {
+                chomp $line;
+                $last_value->[1] .= $line;
+                next;
+            }
+        }
+
+        $last_value = undef;
+    }
+
     close ($handle);
-
-    return $values;
 }
 
-sub _readNumericalOids {
-    my ($handle) = @_;
+sub _setValue {
+    my ($self, $oid, $value) = @_;
 
-    my ($values, $last_oid);
-    while (my $line = <$handle>) {
+    # Optimization: use 6 first oid digits as tree root key as they don't often change
+    my ($root, $nextoidpart) = $oid =~ /^(\.\d+\.\d+\.\d+\.\d+\.\d+\.\d+)(.*)$/
+        or return;
+    # Prepare walk tree roots with empty node while not exist
+    # 1st value node will contain sub-nodes
+    # 2nd value will be the numder index
+    # 3rd value will be a hash of sub-index -> sub-node ref in 1st values
+    # 4th value will be a SNMP value array ref like [ TYPE, VALUE ] when
+    #     a value should be stored
+    $self->{_walk}->{$root} = [ [], undef, {}, undef ] unless exists($self->{_walk}->{$root});
+    $oid = $nextoidpart;
 
-        if ($line =~ /^
-           (\S+) \s
-           = \s
-           (?:Wrong \s Type \s \(should \s be \s [^:]+\): \s)?
-           ([^:]+): \s
-           (.*)
-           /x
-        ) {
-            my ($oid, $type, $value) = ($1, $2, $3);
-            $values->{$oid} = [ $type, $value ];
-            $last_oid = $oid;
-            next;
+    my $base = $self->{_walk}->{$root};
+    foreach my $num (split(/\./, substr($oid,1))) {
+        # Get subnode ref if indexed
+        if ($base->[2] && $base->[2]->{$num}) {
+            $base = $base->[2]->{$num};
+        # Otherwise initialize a new subnode
+        } else {
+            my $ref = [undef, $num, {}];
+            # Initialize an array ref as subnode if necessary
+            $base->[0] = [] unless $base->[0];
+            # Push new sub-node in list
+            push @{$base->[0]}, $ref;
+            # Index sub-node
+            $base->[2]->{$num} = $ref;
+            # New subnode becomes the base node
+            $base = $ref;
         }
-
-        # potential continuation
-        if ($line !~ /^$/ && $line !~ /= ""$/ && $last_oid) {
-            if ($values->{$last_oid}->[0] eq 'STRING' &&
-                $values->{$last_oid}->[1] !~ /"$/
-            ) {
-                chomp $line;
-                $values->{$last_oid}->[1] .= "\n" . $line;
-                next;
-            }
-            if ($values->{$last_oid}->[0] eq 'Hex-STRING') {
-                chomp $line;
-                $values->{$last_oid}->[1] .= $line;
-                next;
-            }
-        }
-
-        $last_oid = undef;
     }
-
-    return $values;
+    # Keep value in leaf
+    $base->[2] = undef;
+    $base->[3] = $value;
 }
 
-sub _readSymbolicOids {
-    my ($handle) = @_;
+sub _getValue {
+    my ($self, $oid, $walk) = @_;
 
+    my ($root, $nextoidpart) = $oid =~ /^(\.\d+\.\d+\.\d+\.\d+\.\d+\.\d+)(.*)$/
+        or return;
+    return unless exists($self->{_walk}->{$root});
+    $oid = $nextoidpart;
 
-    my ($values, $last_oid);
-    while (my $line = <$handle>) {
-
-        if ($line =~ /^
-           ([^.]+) \. ([\d.]+) \s
-           = \s
-           (?:Wrong \s Type \s \(should \s be \s [^:]+\): \s)?
-           ([^:]+): \s
-           (.*)
-           /x
-        ) {
-            my ($mib, $suffix, $type, $value) = ($1, $2, $3, $4);
-
-            if ($prefixes{$mib}) {
-                my $oid = $prefixes{$mib} . '.' . $suffix;
-                $values->{$oid} = [ $type, $value ];
-                $last_oid = $oid;
-            } else {
-                # irrelevant OID
-                $last_oid = undef;
-            }
-
-            next;
-        }
-
-        # potential continuation
-        if ($line !~ /^$/ && $line !~ /= ""$/ && $last_oid) {
-            if ($values->{$last_oid}->[0] eq 'STRING' &&
-                $values->{$last_oid}->[1] !~ /"$/
-            ) {
-                chomp $line;
-                $values->{$last_oid}->[1] .= "\n" . $line;
-                next
-            }
-            if ($values->{$last_oid}->[0] eq 'Hex-STRING' &&
-                $line =~ /^([A-F0-9]{2})( [A-F0-9]{2})?/
-            ) {
-                chomp $line;
-                $values->{$last_oid}->[1] .= $line;
-                next
-            }
-        }
-
-        $last_oid = undef;
+    my $base = $self->{_walk}->{$root};
+    foreach my $num (split(/\./, substr($oid,1))) {
+        # No value if no subnode indexed
+        # Also no value if requested subnode is not indexed
+        return unless $base->[2] && $base->[2]->{$num};
+        $base = $base->[2]->{$num};
     }
 
-    return $values;
+    return $walk ? $base : $base->[3];
 }
 
 sub get {
     my ($self, $oid) = @_;
 
     return unless $oid;
-    return unless $self->{values}->{$oid};
+    my $value = $self->_getValue($oid)
+        or return;
 
     return _getSanitizedValue(
-        $self->{values}->{$oid}->[0],
-        $self->{values}->{$oid}->[1],
+        $value->[0],
+        $value->[1],
     );
+}
+
+sub _deepwalk {
+    my ($base) = @_;
+
+    my $hash = {};
+
+    # Lookup all current base subnodes
+    foreach my $ref (@{$base->[0]}) {
+        # We need the subnode key as hash key
+        my $key = $ref->[1];
+        # Keep the value is one is available
+        if (defined($ref->[3])) {
+            $hash->{$key} = _getSanitizedValue(@{$ref->[3]});
+        }
+        # walk subnodes subnode
+        if ($ref->[0]) {
+            my $subkeys = _deepwalk($ref);
+            foreach my $subkey (keys(%{$subkeys})) {
+                # Keep subkey values
+                $hash->{$key.".".$subkey} = $subkeys->{$subkey};
+            }
+        }
+    }
+
+    return $hash;
 }
 
 sub walk {
@@ -213,16 +268,13 @@ sub walk {
 
     return unless $oid;
 
-    my $values;
-    foreach my $key (keys %{$self->{values}}) {
-       next unless $key =~ /^$oid\.(.+)/;
-       $values->{$1} = _getSanitizedValue(
-           $self->{values}->{$key}->[0],
-           $self->{values}->{$key}->[1]
-       );
-    }
+    my $base = $self->_getValue($oid, 1)
+        or return;
 
-    return $values;
+    # Don't walk unless subnodes exist
+    return unless $base->[0];
+
+    return _deepwalk($base);
 }
 
 sub _getSanitizedValue {

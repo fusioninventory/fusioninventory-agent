@@ -30,7 +30,8 @@ sub _extra_sock_opts {
 ## no critic (ProhibitMultiplePackages)
 package FusionInventory::Agent::HTTP::Protocol::https::Socket;
 
-our @ISA = qw(Net::HTTPS LWP::Protocol::http::SocketMethods);
+use parent qw(Net::HTTPS);
+use parent -norequire, qw(LWP::Protocol::http::SocketMethods);
 
 1;
 __END__

@@ -53,6 +53,9 @@ sub getCanonicalString {
     # truncate after first invalid character but keep newline as valid
     $value =~ s/[^\p{Print}\n].*$//;
 
+    # Finally cleanup EOL if some is remaining at the end
+    chomp($value);
+
     return $value;
 }
 

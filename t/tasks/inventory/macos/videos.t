@@ -13,11 +13,9 @@ my %tests = (
     '10.6.5-dual-monitor' => {
         MONITORS => [
             {
-                DESCRIPTION => 'E2441',
                 CAPTION     => 'E2441'
             },
             {
-                DESCRIPTION => 'E2441_0',
                 CAPTION     => 'E2441_0'
             }
         ],
@@ -28,13 +26,29 @@ my %tests = (
                 CHIPSET     => 'ATI Radeon HD 5770',
                 MEMORY      => '1024',
                 PCISLOT     => 'Slot-1'
+            }
+        ]
+    },
+    'dual-display-#475' => {
+        MONITORS => [
+            {
+                DESCRIPTION => 'Built-In Retina LCD',
+                CAPTION     => 'Color LCD'
+            }
+        ],
+        VIDEOS => [
+            {
+                NAME        => 'Intel HD Graphics 530',
+                CHIPSET     => 'Intel HD Graphics 530',
+                MEMORY      => '1536',
+                PCISLOT     => 'Built-In'
             },
             {
-                NAME        => 'ATI Radeon HD 5770',
-                RESOLUTION  => '1920x1080',
-                CHIPSET     => 'ATI Radeon HD 5770',
-                MEMORY      => '1024',
-                PCISLOT     => 'Slot-1'
+                NAME        => 'Radeon Pro 450',
+                RESOLUTION  => '2880x1800',
+                CHIPSET     => 'AMD Radeon Pro 450',
+                MEMORY      => '2048',
+                PCISLOT     => 'PCIe'
             }
         ]
     },
@@ -42,14 +56,13 @@ my %tests = (
         MONITORS => [
             {
                 CAPTION     => 'DELL SE2416H',
-                DESCRIPTION => 'DELL SE2416H',
                 SERIAL      => 'P7HT871G1H9L'
             }
         ],
         VIDEOS => [
             {
                 MEMORY      => '1024',
-                PCISLOT     => undef,
+                PCISLOT     => 'PCIe',
                 RESOLUTION  => '1920x1080',
                 CHIPSET     => 'Asus GeForce GT 730',
                 NAME        => 'Asus GeForce GT 730'

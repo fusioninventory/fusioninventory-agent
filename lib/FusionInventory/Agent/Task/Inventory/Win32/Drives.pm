@@ -47,7 +47,7 @@ sub doInventory {
 sub _getDrives {
     my (%params) = @_;
 
-    my $systemDrive;
+    my $systemDrive = "C:";
     foreach my $object (getWMIObjects(
         class      => 'Win32_OperatingSystem',
         properties => [ qw/SystemDrive/ ]
