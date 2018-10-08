@@ -156,8 +156,6 @@ sub _setMcAfeeInfos {
 
     my %properties = (
         'BASE_VERSION'     => [ 'AVDatVersion',         'AVDatVersionMinor'    ],
-        '32ENGINE_VERSION' => [ 'EngineVersion32Major', 'EngineVersion32Minor' ],
-        '64ENGINE_VERSION' => [ 'EngineVersionMajor',   'EngineVersionMinor'   ],
     );
 
     my $regvalues = [ map { @{$_} } values(%properties) ];
