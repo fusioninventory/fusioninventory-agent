@@ -537,5 +537,8 @@ pairs:
 
 =head1 LICENSE
 
-This software is licensed under the terms of GPLv2+, see LICENSE file for
-details.
+This is free software, licensed under:
+
+  The GNU General Public License, Version 2, June 1991
+
+See LICENSE file for details.
