@@ -19,7 +19,10 @@ perl_version '5.008';
 authors 'FusionInventory Team';
 
 provides
-    'FusionInventory::Agent'     => $FusionInventory::Agent::Version::VERSION;
+    'FusionInventory::Agent' => {
+        file    => 'lib/FusionInventory/Agent.pm',
+        version => $FusionInventory::Agent::Version::VERSION
+    };
 
 # mandatory dependencies
 requires 'File::Which'        => '0';
