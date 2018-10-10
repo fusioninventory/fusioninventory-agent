@@ -1,31 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<policyDefinitionResources xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" revision="1.0" schemaVersion="1.0" xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions">
-  <displayName>entrer le nom complet ici</displayName>
-  <description>entrer la description ici</description>
+<policyDefinitionResources xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" revision="1.2" schemaVersion="1.0" xmlns="http://schemas.microsoft.com/GroupPolicy/2006/07/PolicyDefinitions">
+  <displayName>FusionInventory Agent GPO configuration</displayName>
+  <description>FusionInventory Agent GPO configuration</description>
   <resources>
     <stringTable>
-      <string id="FusionInventory_ROOT">Agent Fusion Inventory</string>
-      <string id="FusionInventory_CONFIGURE64">Configurer l'agent (64 bits)</string>
-      <string id="FusionInventory_CONFIGURE32">Configurer l'agent (32 bits)</string>
-      <string id="FusionInventory_CONFIGURE_EXPLAIN">Spécifie un jeu de paramètres pour l'agent Fusion Inventory.</string>
+      <string id="FusionInventory_ROOT">FusionInventory Agent</string>
+      <string id="FusionInventory_CONFIGURE64">Configure the agent (64 bits)</string>
+      <string id="FusionInventory_CONFIGURE32">Configure the agent (32 bits)</string>
+      <string id="FusionInventory_CONFIGURE_EXPLAIN">Specify the paramaters for The FusionInventory Agent.</string>
     </stringTable>
     <presentationTable>
       <presentation id="FusionInventory_CONFIGURE">
         <textBox refId="FusionInventory_Server">
           <label>Server</label>
+          <defaultValue></defaultValue>
         </textBox>
         <textBox refId="FusionInventory_User">
           <label>User</label>
+          <defaultValue></defaultValue>
         </textBox>
         <textBox refId="FusionInventory_Password">
           <label>Password</label>
+          <defaultValue></defaultValue>
         </textBox>
         <textBox refId="FusionInventory_Realm">
           <label>Realm</label>
+          <defaultValue></defaultValue>
         </textBox>
         <textBox refId="FusionInventory_Tag">
           <label>Tag</label>
+          <defaultValue></defaultValue>
         </textBox>
+        <textBox refId="FusionInventory_ca-cert-dir">
+          <label>CA-cert-dir</label>
+          <defaultValue></defaultValue>
+        </textBox>
+        <textBox refId="FusionInventory_ca-cert-file">
+          <label>CA-cert-file</label>
+          <defaultValue></defaultValue>
+        </textBox>
+        <textBox refId="FusionInventory_httpd-ip">
+          <label>httpd-ip</label>
+          <defaultValue></defaultValue>
+        </textBox>
+        <textBox refId="FusionInventory_httpd-port">
+          <label>httpd-port</label>
+          <defaultValue>62354</defaultValue>
+        </textBox>
+        <textBox refId="FusionInventory_httpd-trust">
+          <label>httpd-trust</label>
+          <defaultValue>127.0.0.1/32</defaultValue>
+        </textBox>
+        <textBox refId="FusionInventory_no-category">
+          <label>no-category</label>
+          <defaultValue></defaultValue>
+        </textBox>
+        <decimalTextBox refId="DXT_9F1637AA_9DC6_4642_B986_E17709212459" defaultValue="3600">Delaytime</decimalTextBox>
+        <decimalTextBox refId="DXT_FCAD5C50_5A36_4390_9342_97F88FFC3D7E" defaultValue="180">Timeout</decimalTextBox>
+        <decimalTextBox refId="DXT_75779EA7_02CB_4AA9_B112_4AE05C925472" defaultValue="180">backend-collect-timeout</decimalTextBox>
+        <checkBox refId="FusionInventory_no-ssl-check">no-ssl-check</checkBox>
+        <checkBox refId="FusionInventory_no-p2p">no-p2p</checkBox>
+        <checkBox refId="FusionInventory_scan-homedirs" defaultChecked="true">scan-homedirs</checkBox>
+        <checkBox refId="FusionInventory_no-httpd">no-httpd</checkBox>
       </presentation>
     </presentationTable>
   </resources>
