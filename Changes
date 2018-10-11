@@ -7,6 +7,8 @@ core:
 * win32: fix a handle leak case when agent was running as service
 * Fix #637: Don't depend on GNU install during "make install" to support
   more Unix systems
+* daemon/service: reload target when the stat file has been updated by
+  another script to use the updated next run timeout
 
 inventory:
 * win32 antivirus support update:

@@ -6,6 +6,7 @@ use warnings;
 use Config;
 use English qw(-no_match_vars);
 use File::Path qw(mkpath);
+use File::stat;
 use Storable;
 
 use FusionInventory::Agent::Logger;
@@ -31,6 +32,7 @@ sub new {
     my $self = {
         logger    => $params{logger} ||
                      FusionInventory::Agent::Logger->new(),
+        _mtime    => {},
         directory => $params{directory}
     };
 
@@ -61,12 +63,35 @@ sub has {
     return -f $file;
 }
 
+sub _cache_mtime {
+    my ($self, $file) = @_;
+
+    my $st = stat($file)
+        or return;
+
+    $self->{_mtime}->{$file} = $st->mtime;
+}
+
+sub modified {
+    my ($self, %params) = @_;
+
+    my $file = $self->_getFilePath(%params);
+
+    return unless $self->{_mtime}->{$file};
+
+    my $st = stat($file);
+
+    return $st && $st->mtime > $self->{_mtime}->{$file} ? 1 : 0;
+}
+
 sub save {
     my ($self, %params) = @_;
 
     my $file = $self->_getFilePath(%params);
 
     store($params{data}, $file) or warn;
+
+    $self->_cache_mtime($file);
 }
 
 sub restore {
@@ -85,6 +110,8 @@ sub restore {
         unlink $file;
     }
 
+    $self->_cache_mtime($file);
+
     return $result;
 }
 
@@ -94,6 +121,8 @@ sub remove {
     my $file = $self->_getFilePath(%params);
 
     unlink $file or $self->{logger}->error("can't unlink $file");
+
+    delete $self->{_mtime}->{$file};
 }
 
 1;
