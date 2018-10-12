@@ -374,16 +374,29 @@ sub _scanAddress {
 sub _scanAddressByArp {
     my ($self, %params) = @_;
 
-    my $output = getFirstLine(
+    return unless $params{ip};
+
+    # We want to match the ip including non digit character around
+    my $ip_match = '\D' . $params{ip} . '\D';
+    # We want to match dot on dots
+    $ip_match =~ s/\./\\./g;
+
+    my $output = getFirstMatch(
         command => "arp -a " . $params{ip},
+        pattern => qr/^(.*$ip_match.*)$/,
         %params
     );
 
     my %device = ();
 
-    if ($output =~ /^(\S+) \(\S+\) at (\S+) /) {
+    if ($output && $output =~ /^(\S+) \(\S+\) at (\S+) /) {
         $device{DNSHOSTNAME} = $1 if $1 ne '?';
         $device{MAC}         = getCanonicalMacAddress($2);
+    } elsif ($output && $output =~ /^\s+\S+\s+([:a-zA-Z0-9-]+)\s/) {
+        # Under win32, mac address separators are minus signs
+        my $mac_address = $1;
+        $mac_address =~ s/-/:/g;
+        $device{MAC} = getCanonicalMacAddress($mac_address);
     }
 
     $self->{logger}->debug(

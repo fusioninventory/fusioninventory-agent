@@ -4,6 +4,7 @@ Revision history for FusionInventory agent
 
 netdiscovery/netinventory:
 * Add BlueCoat proxy appliance serialnumber support
+* win32: Support arp table check for NetDiscovery task
 
 2.4.2 Wed, 03 Oct 2018
 
