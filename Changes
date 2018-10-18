@@ -2,6 +2,11 @@ Revision history for FusionInventory agent
 
 2.4.3 not released yet
 
+inventory:
+* win32 antivirus support update:
+ - nicer product name report for ESET
+ - report expiration date for ESET
+
 netdiscovery/netinventory:
 * Add BlueCoat proxy appliance serialnumber support
 * win32: Support arp table check for NetDiscovery task

@@ -211,7 +211,7 @@ sub _setESETInfos {
 
     my $esetReg = _getSoftwareRegistryKeys(
         'ESET\ESET Security\CurrentVersion\Info',
-        [ qw(ProductVersion ScannerVersion) ]
+        [ qw(ProductVersion ScannerVersion ProductName AppDataDir) ]
     );
     return unless $esetReg;
 
@@ -222,6 +222,32 @@ sub _setESETInfos {
 
     $antivirus->{BASE_VERSION} = $esetReg->{"/ScannerVersion"}
         if $esetReg->{"/ScannerVersion"};
+    $antivirus->{NAME} = $esetReg->{"/ProductName"}
+        if $esetReg->{"/ProductName"};
+
+    # Look at license file
+    if ($esetReg->{"/AppDataDir"} && -d $esetReg->{"/AppDataDir"}.'\License') {
+        my $license = $esetReg->{"/AppDataDir"}.'\License\license.lf';
+        my @content = getAllLines( file => $license );
+        my $string = join('', map { getSanitizedString($_) } @content);
+        # License.lf file seems to be a signed UTF-16 XML. As getSanitizedString()
+        # calls should have transform UTF-16 as UTF-8, we should extract
+        # wanted node and parse it as XML
+        my ($xml) = $string =~ /(<ESET\s.*<\/ESET>)/;
+        if ($xml) {
+            XML::TreePP->require();
+            my $expiration;
+            eval {
+                my $tpp = XML::TreePP->new();
+                my $tree = $tpp->parse($xml);
+                $expiration = $tree->{ESET}->{PRODUCT_LICENSE_FILE}->{LICENSE}->{ACTIVE_PRODUCT}->{-EXPIRATION_DATE};
+            };
+            # Extracted expiration is like: 2018-11-17T12:00:00Z
+            if ($expiration && $expiration =~ /^(\d{4})-(\d{2})-(\d{2})T/) {
+                $antivirus->{EXPIRATION} = sprintf("%02d/%02d/%04d",$3,$2,$1);
+            }
+        }
+    }
 }
 
 sub _setAviraInfos {

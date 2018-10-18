@@ -11,6 +11,7 @@ use FusionInventory::Agent::Tools::Hardware;
 use FusionInventory::Agent::Tools::SNMP;
 
 my @mac_tests = (
+    [ '\TmGnn'            , '5c:54:6d:47:6e:6e' ],
     [ 'd2:05:a8:6c:26:d5' , 'd2:05:a8:6c:26:d5' ],
     [ 'd2:5:a8:6c:26:d5'  , 'd2:05:a8:6c:26:d5' ],
     [ '0xD205A86C26D5'    , 'd2:05:a8:6c:26:d5' ],
