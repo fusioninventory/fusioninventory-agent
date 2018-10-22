@@ -16,7 +16,7 @@ use constant discovery => [ qw(
     )];
 # http://fusioninventory.org/documentation/dev/spec/protocol/netinventory.html
 use constant inventory => [ qw(
-        INFO PORTS MODEMS FIRMWARES SIMCARDS PAGECOUNTERS CARTRIDGES
+        INFO PORTS MODEMS FIRMWARES SIMCARDS PAGECOUNTERS CARTRIDGES COMPONENTS
     )];
 
 # common base variables

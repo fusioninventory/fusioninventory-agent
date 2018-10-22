@@ -246,6 +246,58 @@ my %printer_pagecounters_variables = (
     }
 );
 
+# common interface variables
+my %physical_components_variables = (
+    INDEX            => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.1',
+        type => 'constant'
+    },
+    NAME             => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.7',
+        type => 'string'
+    },
+    DESCRIPTION      => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.2',
+        type => 'string'
+    },
+    SERIAL           => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.11',
+        type => 'string'
+    },
+    MODEL            => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.13',
+        type => 'string'
+    },
+    TYPE             => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.5',
+        type => 'string'
+    },
+    FRU              => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.16',
+        type => 'constant'
+    },
+    MANUFACTURER     => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.12',
+        type => 'string'
+    },
+    FIRMWARE         => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.9',
+        type => 'string'
+    },
+    REVISION         => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.8',
+        type => 'string'
+    },
+    VERSION          => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.10',
+        type => 'string'
+    },
+    CONTAINEDININDEX => {
+        oid  => '.1.3.6.1.2.1.47.1.1.1.1.4',
+        type => 'constant'
+    }
+);
+
 sub _getDevice {
     my (%params) = @_;
 
@@ -531,6 +583,18 @@ sub getDeviceFullInfo {
         delete $device->{PORTS};
     }
 
+    # convert components hashref to an arrayref, sorted by index
+    my $components = $device->{COMPONENTS}->{COMPONENT};
+    if ($components && %$components) {
+        $device->{COMPONENTS}->{COMPONENT} = [
+            map { $components->{$_} }
+            sort { $a <=> $b }
+            keys %{$components}
+        ];
+    } else {
+        delete $device->{COMPONENTS};
+    }
+
     return $device->getInventory();
 }
 
@@ -773,6 +837,12 @@ sub _setNetworkingProperties {
     _setAggregatePorts(
         snmp   => $snmp,
         ports  => $ports,
+        logger => $logger
+    );
+    
+    _setPhysicalComponents(
+        device => $device,
+        snmp   => $snmp,
         logger => $logger
     );
 }
@@ -1567,6 +1637,95 @@ sub _getPAGPInfo {
     }
 
     return $results;
+}
+
+sub _setPhysicalComponents {
+    my (%params) = @_;
+
+    my $device = $params{device};
+    my $snmp   = $params{snmp};
+    my $logger = $params{logger};
+
+    # try get MAC address
+    my $indexes = $snmp->walk('.1.3.6.1.4.1.9.9.513.1.1.1.1.4');
+    my $macaddresses = $snmp->walk('.1.3.6.1.4.1.9.9.513.1.1.1.1.2');
+
+    # try get IP address
+    my $ipaddresses = $snmp->walk('.1.3.6.1.4.1.14179.2.2.1.1.19');
+
+    my %types = (
+       'other(1)'       => 'other',
+       1                => 'other',
+       'unknown(2)'     => 'unknown',
+       2                => 'unknown',
+       'chassis(3)'     => 'chassis',
+       3                => 'chassis',
+       'backplane(4)'   => 'backplane',
+       4                => 'backplane',
+       'container(5)'   => 'container',
+       5                => 'container',
+       'powerSupply(6)' => 'powerSupply',
+       6                => 'powerSupply',
+       'fan(7)'         => 'fan',
+       7                => 'fan',
+       'sensor(8)'      => 'sensor',
+       8                => 'sensor',
+       'module(9)'      => 'module',
+       9                => 'module',
+       'port(10)'       => 'port',
+       10               => 'port',
+       'stack(11)'      => 'stack',
+       11               => 'stack'
+    );
+       
+    # $components is a sparse hash of physical components, indexed by identifier
+    # (entPhysicalIndex)
+    my $components;
+
+    foreach my $key (keys %physical_components_variables) {
+        my $variable = $physical_components_variables{$key};
+        next unless $variable->{oid};
+        
+        my $results;
+        if (ref $variable->{oid} eq 'ARRAY') {
+            foreach my $oid (@{$variable->{oid}}) {
+                $results = $snmp->walk($oid);
+                last if $results;
+            }
+        } else {
+            $results = $snmp->walk($variable->{oid});
+        }
+        
+        if ($key eq 'TYPE') {
+            while (my ($suffix, $raw_value) = each %{$results}) {
+                my $value = $types{$raw_value} || '';
+                $components->{$suffix}->{$key} = $value
+                    if $value;
+            }
+        } else {
+            while (my ($suffix, $value) = each %{$results}) {
+                if ($key eq 'SERIAL') {
+                    $value = trimWhitespace($value);
+                }
+                $components->{$suffix}->{$key} = $value
+                    if $value; 
+            }
+        }
+    }
+    # Add INDEX if the oid not present
+    while (my ($suffix, $values) = each %{$components}) {
+        $components->{$suffix}->{INDEX} = $suffix
+            if not $components->{$suffix}->{INDEX};
+    }
+    # Manage MAC address / IP address
+    while (my ($suffix, $index) = each %{$indexes}) {
+        $components->{$index}->{MAC} = getCanonicalMacAddress($macaddresses->{$suffix})
+            if $macaddresses->{$suffix};
+        
+        $components->{$index}->{IP} = $ipaddresses->{$suffix}
+            if $ipaddresses->{$suffix};
+    }
+    $device->{COMPONENTS}->{COMPONENT} = $components;
 }
 
 1;
