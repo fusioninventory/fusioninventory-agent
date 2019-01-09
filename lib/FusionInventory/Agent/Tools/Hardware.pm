@@ -1696,6 +1696,8 @@ sub _setPhysicalComponents {
             $results = $snmp->walk($variable->{oid});
         }
         
+        my $type = $variable->{type};
+
         if ($key eq 'TYPE') {
             while (my ($suffix, $raw_value) = each %{$results}) {
                 my $value = $types{$raw_value} || '';
@@ -1703,10 +1705,13 @@ sub _setPhysicalComponents {
                     if $value;
             }
         } else {
-            while (my ($suffix, $value) = each %{$results}) {
-                if ($key eq 'SERIAL') {
-                    $value = trimWhitespace($value);
-                }
+            while (my ($suffix, $raw_value) = each %{$results}) {
+                my $value =
+                    $type eq 'mac'      ? getCanonicalMacAddress($raw_value) :
+                    $type eq 'constant' ? getCanonicalConstant($raw_value)   :
+                    $type eq 'string'   ? getCanonicalString($raw_value)     :
+                    $type eq 'count'    ? getCanonicalCount($raw_value)      :
+                                          $raw_value;
                 $components->{$suffix}->{$key} = $value
                     if $value; 
             }
