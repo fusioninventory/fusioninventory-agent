@@ -10,6 +10,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::SNMP;
 use FusionInventory::Agent::SNMP::Device;
+use Data::Dumper;
 
 our @EXPORT = qw(
     getDeviceInfo
@@ -1646,11 +1647,10 @@ sub _setPhysicalComponents {
     my $snmp   = $params{snmp};
     my $logger = $params{logger};
 
-    # try get MAC address
+    # Get MAC address
     my $indexes = $snmp->walk('.1.3.6.1.4.1.9.9.513.1.1.1.1.4');
     my $macaddresses = $snmp->walk('.1.3.6.1.4.1.9.9.513.1.1.1.1.2');
-
-    # try get IP address
+    # Get IP address
     my $ipaddresses = $snmp->walk('.1.3.6.1.4.1.14179.2.2.1.1.19');
 
     my %types = (
@@ -1709,7 +1709,7 @@ sub _setPhysicalComponents {
                 my $value =
                     $type eq 'mac'      ? getCanonicalMacAddress($raw_value) :
                     $type eq 'constant' ? getCanonicalConstant($raw_value)   :
-                    $type eq 'string'   ? getCanonicalString($raw_value)     :
+                    $type eq 'string'   ? getCanonicalString(trimWhitespace($raw_value)) :
                     $type eq 'count'    ? getCanonicalCount($raw_value)      :
                                           $raw_value;
                 $components->{$suffix}->{$key} = $value
